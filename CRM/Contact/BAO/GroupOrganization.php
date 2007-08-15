@@ -53,45 +53,43 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-    
-  static function add( $groupId, $groupTitle = null ) {
-      require_once('CRM/Contact/BAO/Organization.php');
-      $countObj =& new CRM_Contact_BAO_Contact();
-      $count = $countObj->count();
-      $params = array('organization_name' => $groupTitle, 'contact_type' => 'Organization');
-      $ids = array();
-      require_once ( 'CRM/Contact/BAO/Organization.php' ) ;
-      require_once ( 'CRM/Contact/BAO/Contact.php' );
-      require_once ( 'CRM/Contact/DAO/Organization.php' ); 
-      require_once ( 'CRM/Contact/DAO/Contact.php' );
-      $dao = new CRM_Contact_DAO_Contact( );
-      $query = "SELECT contact_id, id FROM civicrm_organization WHERE organization_name = \"$groupTitle\"";
-      $dao->query($query);
-      if ( $dao->fetch() ) {
-          $contactId = $dao->contact_id;
-	  $orgId = $dao->id;
-      }
+    static function add( $groupId, $groupTitle = null ) {
+        require_once('CRM/Contact/BAO/Organization.php');
+        $countObj =& new CRM_Contact_BAO_Contact();
+        $count = $countObj->count();
+        $params = array('organization_name' => $groupTitle, 'contact_type' => 'Organization');
+        $ids = array();
+        require_once ( 'CRM/Contact/BAO/Organization.php' ) ;
+        require_once ( 'CRM/Contact/BAO/Contact.php' );
+        require_once ( 'CRM/Contact/DAO/Organization.php' ); 
+        require_once ( 'CRM/Contact/DAO/Contact.php' );
+        $dao = new CRM_Contact_DAO_Contact( );
+        $query = "SELECT contact_id, id FROM civicrm_organization WHERE organization_name = \"$groupTitle\"";
+        $dao->query($query);
+        if ( $dao->fetch() ) {
+            $contactId = $dao->contact_id;
+	        $orgId = $dao->id;
+        }
 
-      if ( isset ($contactId) ) {
-	  $params['contact_id'] = $contactId;
-	  $ids['contact'] = $contactId;
-	  CRM_Contact_BAO_Contact::add($params, $ids);
-	  //CRM_Core_Error::debug('calling add', $params);
-      } else {
-	  CRM_Core_Error::debug('calling create', $params);
-	  CRM_Contact_BAO_Contact::create($params, $ids, 1);
-      }
-      //      CRM_Core_Error::debug('p', $params);
-      if ( ! isset ($contactId) ) {
-	  $orgCount =& new  CRM_Contact_BAO_Organization();
-	  $count = $orgCount->count();
-	  $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $count";
-      } else {
-	  $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $orgId";
-      }
-      $dao = new CRM_Contact_DAO_GroupOrganization( );
-      $dao->query($query);
-	  
+        if ( isset ($contactId) ) {
+	        $params['contact_id'] = $contactId;
+	        $ids['contact'] = $contactId;
+	        CRM_Contact_BAO_Contact::add($params, $ids);
+	        //CRM_Core_Error::debug('calling add', $params);
+        } else {
+	        CRM_Core_Error::debug('calling create', $params);
+	        CRM_Contact_BAO_Contact::create($params, $ids, 1);
+        }
+        //      CRM_Core_Error::debug('p', $params);
+        if ( ! isset ($contactId) ) {
+	        $orgCount =& new  CRM_Contact_BAO_Organization();
+	        $count = $orgCount->count();
+	        $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $count";
+        } else {
+	        $query = "REPLACE INTO civicrm_group_organization SET group_id = $groupId, organization_id = $orgId";
+        }
+        $dao = new CRM_Contact_DAO_GroupOrganization( );
+        $dao->query($query);
     }
 
 
@@ -105,7 +103,6 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-
     static function exists( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
 	    $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
@@ -129,19 +126,15 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @return         $groupId              
      *
      */
-
     static function getGroupIds( $orgId ) {
         $groupIds = array( );
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-	$query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
-	$dao->query($query);
-	while ( $dao->fetch() ) {
-	    $groupIds[] = $dao->group_id;
-	}
-
-	return $groupIds;
-
-
+	    $query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
+	    $dao->query($query);
+	    while ( $dao->fetch() ) {
+	        $groupIds[] = $dao->group_id;
+	    }
+	    return $groupIds;
     }
 
     /**
@@ -154,20 +147,17 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      *
      */
-
-
     static function getAllOrgs( $groupIds ) {
         require_once 'CRM/Contact/BAO/GroupNesting.php';
-	$ancestorIds = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds($groupIds, true);
-	$orgIds = array( );
-	foreach( $ancestorIds as $ancestorId ) {
-	    $id = self::getOrganizationId( $ancestorId );
-	    if ( ! empty( $id  )) {
-	        $orgIds[] = $id;
+	    $ancestorIds = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds($groupIds, true);
+	    $orgIds = array( );
+	    foreach( $ancestorIds as $ancestorId ) {
+	        $id = self::getOrganizationId( $ancestorId );
+	        if ( ! empty( $id  )) {
+	            $orgIds[] = $id;
+	        }
 	    }
-	}
-	return $orgIds;
-
+	    return $orgIds;
     }
 
 
@@ -184,21 +174,17 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-
-
     static function getOrgFromContact( $contactId ) {
         require_once 'CRM/Contact/DAO/Organization.php';
         $dao = new CRM_Contact_DAO_Organization( );
-	$query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
-	$dao->query($query);
-	if ( $dao->fetch() ) {
-	    $orgId = $dao->id;
-	} else {
-	    $orgId = null;
-	}
-
-	return $orgId;
-	
+	    $query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
+	    $dao->query($query);
+	    if ( $dao->fetch( ) ) {
+	        $orgId = $dao->id;
+	    } else {
+	        $orgId = null;
+	    }
+	    return $orgId;
     }
 
 
@@ -215,18 +201,16 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-
     static function getOrganizationId( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
         $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
-        $dao->query($query);
-        if ($dao->fetch()){
+        $dao->query( $query );
+        if ( $dao->fetch( ) ) {
             $orgId = $dao->organization_id;
-	}
-	else{
-	    $orgId = null;
-	}
-	return $orgId;
+	    } else {
+	        $orgId = null;
+	    }
+	    return $orgId;
     }
 
     /**
@@ -242,7 +226,6 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-
     static function getOrganizationContactId( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
         $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
@@ -275,7 +258,6 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      *
      * @access public
      */
-
     static function remove( $groupId ) {
       $dao = new CRM_Contact_DAO_GroupOrganization( );
       $query = "DELETE FROM civicrm_group_organization WHERE group_id = $groupId";
