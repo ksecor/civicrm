@@ -7272,14 +7272,12 @@ msgstr ""
 "abzumelden."
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "re-subscribe"
 msgstr "Abbestellen"
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "(re-subscribe: %1)"
-msgstr "Abbestellen"
+msgstr "(Abbestellen: %1)"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
@@ -7310,9 +7308,8 @@ msgid "-sec-"
 msgstr "-sekunde-"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "New ACL"
-msgstr "Vorschau %1"
+msgstr "Neue ACL"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
