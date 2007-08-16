@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-13 06:28+0200\n"
-"PO-Revision-Date: 2007-06-07 03:08-0700\n"
-"Last-Translator: Michael Beurskens <beursken@uni-duesseldorf.de>\n"
+"PO-Revision-Date: 2007-08-15 12:58-0700\n"
+"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -221,9 +221,8 @@ msgid "Custom Group"
 msgstr "Eigene Gruppe"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
-#, fuzzy
 msgid "Activity Entity Table"
-msgstr "Datentabelle"
+msgstr "Aktivitätsdatentabelle"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/DAO/Meeting.php CRM/Activity/DAO/Phonecall.php
@@ -7273,14 +7272,12 @@ msgstr ""
 "abzumelden."
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "re-subscribe"
 msgstr "Abbestellen"
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "(re-subscribe: %1)"
-msgstr "Abbestellen"
+msgstr "(Abbestellen: %1)"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
@@ -7311,9 +7308,8 @@ msgid "-sec-"
 msgstr "-sekunde-"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "New ACL"
-msgstr "Vorschau %1"
+msgstr "Neue ACL"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Form/EntityRole.tpl
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl

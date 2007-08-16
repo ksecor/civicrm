@@ -315,8 +315,10 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         }
 
         $this->_done = true;
-
-        $this->_formValues = $this->controller->exportValues($this->_name);
+        
+        if ( ! empty( $_POST ) ) { 
+            $this->_formValues = $this->controller->exportValues($this->_name);
+        }
 
         $this->fixFormValues( );
 

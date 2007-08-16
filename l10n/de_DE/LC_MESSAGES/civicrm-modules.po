@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-05-27 00:57-0700\n"
-"Last-Translator: Michael Beurskens <beursken@uni-duesseldorf.de>\n"
+"PO-Revision-Date: 2007-08-15 13:17-0700\n"
+"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/Form/Offline.php
@@ -5879,9 +5879,8 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "New Membership Status"
-msgstr "Neue Gruppenmitgliedschaft"
+msgstr "Neuer Status der Mitgliedschafts"
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6001,19 +6000,20 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid "New Membership Type"
-msgstr "Neue Gruppenmitgliedschaft"
+msgstr "Neuer Mitgliedschaftstyp"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this type."
 msgstr ""
+"WARNUNG: Löschen dieser Option führt zum Verlust aller "
+"MitgliedschaftsDatensätze von diesem Typ."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "e.g. \"Student\", \"Senior\", \"Honor Society\"..."
-msgstr ""
+msgstr "z.B.\"Student\", \"Senior\", \"Ehrenmitglied\",..."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6104,9 +6104,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid "Renewal Reminders"
-msgstr "Eingangsdatum"
+msgstr "Erneuerte Erinnerung"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6136,7 +6135,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "By Relationship"
-msgstr ""
+msgstr "Nach Beziehung"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
@@ -6155,9 +6154,8 @@ msgid "Reminder date"
 msgstr "Erinnerungsdatum"
 
 #: templates/CRM/Member/Form/Search/Common.tpl
-#, fuzzy
 msgid "Membership Type(s)"
-msgstr "Letzte Mitgliedschaften"
+msgstr "Art der Mitgliedschaft(en)"
 
 #: templates/CRM/Member/Form/Search/EmptyResults.tpl
 msgid "if you are searching by member name, check your spelling"
@@ -6199,11 +6197,10 @@ msgstr ""
 "Löschvorgang kann nicht rückgängig gemacht werden."
 
 #: templates/CRM/Member/Form/Task/Export.tpl
-#, fuzzy
 msgid "One membership record selected for export."
 msgid_plural "%count membership records selected for export."
-msgstr[0] "Es wurden keine Datensätze zum Drucken ausgewählt."
-msgstr[1] "Es wurden keine Datensätze zum Drucken ausgewählt."
+msgstr[0] "Ein Datensatze wurde zum Export ausgewählt."
+msgstr[1] "%count Datensätze wurden zum Export ausgewählt."
 
 #: templates/CRM/Member/Form/Task/Export.tpl
 msgid ""
@@ -6213,14 +6210,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Start/Renew Date"
-msgstr "Startdatum"
+msgstr "Start-/Aktualisierungsdatum"
 
 #: templates/CRM/Member/Form/Task.tpl
-#, fuzzy
 msgid "Number of selected members: %1"
-msgstr "Zahl der ausgewählten Kontakte: %1"
+msgstr "Anzahl der ausgewählten Mitglieder: %1"
 
 #: templates/CRM/Member/Import/Form/Preview.tpl
 #: templates/CRM/Member/Import/Form/Summary.tpl
@@ -6308,6 +6303,8 @@ msgid ""
 "The Membership Import Wizard allows you to easily upload memberships from "
 "other applications into CiviCRM."
 msgstr ""
+"Die Funktion Mitgliedschafts-Import erlaubt einen einfachen Import von "
+"Mitgliedschaften aus anderen Anwendungen ins CiviCRM."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
@@ -6319,13 +6316,15 @@ msgstr ""
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Individual' if you are importing memberships for individual persons."
-msgstr ""
+msgstr "Wähle 'Person', wenn Du Mitgliedschaften für Individuen importierst."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
 "Select 'Organization' or 'Household' if you are importing memberships made "
 "by contacts of that type."
 msgstr ""
+"Wähle 'Organisation' oder 'Haushalt', wenn Du Mitgliedschaften importierst, "
+"die sich auf Kontakte dieses Typs beziehen."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -6347,9 +6346,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Membership Summary"
-msgstr "Aktivitätszusammenfassung"
+msgstr "Übersicht der Mitgliedschaften"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -6361,9 +6359,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Members by Type"
-msgstr "Gruppenmitglieder"
+msgstr "Mitglieder nach Typ"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy

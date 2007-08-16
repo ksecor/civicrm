@@ -117,6 +117,30 @@ function crm_get_option_values($customField)
     return CRM_Core_BAO_CustomOption::getCustomOption($fieldId);
 }
 
+/**
+ * Retrieves an array of valid custom values for given parameters
+ *
+ * @param $params  Array  Associative array of property name/value pairs to get custom values.
+ *
+ * @return array of custom values. 
+ *
+ * @access public 
+ *
+ */
+function crm_get_custom_value( $params ) {
+    _crm_initialize( );
+
+    if(! is_array($params) ) {
+        return _crm_error("params is not an array ");
+    }
+    if( !isset($params['id']) &&
+        !isset($params['custom_field_id'], $params['entity_id'], $params['entity_table']) ) {
+        return _crm_error( "required parameters missing" );
+    }
+    
+    require_once 'CRM/Core/BAO/CustomValue.php';
+    return CRM_Core_BAO_CustomValue::getCustomValue( $params );
+}
 
 /**
  *
