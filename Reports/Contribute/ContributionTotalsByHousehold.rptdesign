@@ -8,6 +8,7 @@
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
         <parameter-group name="DateGroup" id="169">
+            <text-property name="displayName">Include contributions within this date range:</text-property>
             <parameters>
                 <scalar-parameter name="startDate" id="170">
                     <text-property name="helpText">enter date in dd/mm/yy format</text-property>
@@ -285,7 +286,7 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">center</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Contact Contribution Totals By Date Range]]></text-property>
+                            <text-property name="content"><![CDATA[Cumulative Contributions By Household]]></text-property>
                         </text>
                     </cell>
                 </row>

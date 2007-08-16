@@ -5,13 +5,13 @@
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
         <parameter-group name="dateGroup" id="115">
-            <text-property name="displayName">date group</text-property>
+            <text-property name="displayName">Include contributions within this date range:</text-property>
             <parameters>
                 <scalar-parameter name="startDate" id="116">
                     <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
-                    <text-property name="promptText">Enter Start Date of Contribution :</text-property>
+                    <text-property name="promptText">From</text-property>
                     <property name="concealValue">false</property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">01/01/06</property>
@@ -24,7 +24,7 @@
                     <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
-                    <text-property name="promptText">Enter End Date of Contribution :</text-property>
+                    <text-property name="promptText">Through</text-property>
                     <property name="concealValue">false</property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">31/12/07</property>
@@ -407,7 +407,7 @@ GROUP BY typeName</property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Contribution By Type</Value>
+          <Value>Contributions By Type</Value>
           <Font>
             <Name>SansSerif</Name>
             <Size>10.0</Size>
@@ -610,8 +610,8 @@ GROUP BY typeName</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>423.4736842105263</Width>
-      <Height>226.42105263157896</Height>
+      <Width>424.0</Width>
+      <Height>227.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>

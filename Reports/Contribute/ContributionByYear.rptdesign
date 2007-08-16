@@ -8,26 +8,25 @@
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
         <parameter-group name="DateGroup" id="169">
+            <text-property name="displayName">Include contributions within this date range:</text-property>
             <parameters>
                 <scalar-parameter name="startDate" id="170">
-                    <text-property name="helpText">enter date in dd/mm/yy format</text-property>
+                    <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
-                    <text-property name="promptText">Enter Start Date of Contribution</text-property>
+                    <text-property name="promptText">From</text-property>
                     <property name="controlType">text-box</property>
-                    <property name="defaultValue">01/01/06</property>
                     <structure name="format">
                         <property name="category">Short Date</property>
                         <property name="pattern">Short Date</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="EndDate" id="171">
-                    <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
+                    <text-property name="helpText">Enter date in dd/mm/yy format.</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
-                    <text-property name="promptText">Enter End Date of Contribution</text-property>
+                    <text-property name="promptText">To</text-property>
                     <property name="controlType">text-box</property>
-                    <property name="defaultValue">31/12/07</property>
                     <structure name="format">
                         <property name="category">Short Date</property>
                         <property name="pattern">Short Date</property>
@@ -260,7 +259,7 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">center</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Contact Contribution Totals By Date Range]]></text-property>
+                            <text-property name="content"><![CDATA[Cumulative Contributions By Date Range]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -271,10 +270,10 @@ GROUP BY contact.id</property>
                         <property name="colSpan">4</property>
                         <property name="rowSpan">1</property>
                         <text-data id="216">
-                            <property name="fontSize">smaller</property>
+                            <property name="fontSize">small</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">left</property>
-                            <expression name="valueExpr">"&lt;br>&lt;strong>Contribution between - " + params["startDate"] + " &amp; " + params["EndDate"] + "&lt;/strong>&lt;br>"</expression>
+                            <expression name="valueExpr">"&lt;strong>Contributions from " + params["startDate"] + "  through " + params["EndDate"] + "&lt;/strong>"</expression>
                             <property name="contentType">html</property>
                         </text-data>
                     </cell>
@@ -299,6 +298,7 @@ GROUP BY contact.id</property>
                             <property name="fontSize">smaller</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[No of Contributions]]></text-property>
                         </text>
@@ -308,6 +308,7 @@ GROUP BY contact.id</property>
                             <property name="fontSize">smaller</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Avg Contribution]]></text-property>
                         </text>
@@ -315,8 +316,9 @@ GROUP BY contact.id</property>
                     <cell id="156">
                         <text id="160">
                             <property name="fontSize">smaller</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Total Contributuion]]></text-property>
+                            <text-property name="content"><![CDATA[Cumulative Total]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -335,16 +337,19 @@ GROUP BY contact.id</property>
                     </cell>
                     <cell id="13">
                         <data id="213">
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctNum</property>
                         </data>
                     </cell>
                     <cell id="14">
                         <data id="214">
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAvg</property>
                         </data>
                     </cell>
                     <cell id="157">
                         <data id="215">
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAmt</property>
                         </data>
                     </cell>
@@ -368,6 +373,7 @@ GROUP BY contact.id</property>
                     <cell id="196">
                         <data id="190">
                             <property name="marginTop">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">numContributions</property>
                         </data>
                     </cell>
@@ -376,13 +382,19 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">###0.00</property>
+                                <property name="pattern">#,##0.00</property>
                             </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">avgContributions</property>
                         </data>
                     </cell>
                     <cell id="198">
                         <data id="175">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">totalContributions</property>
                         </data>
                     </cell>
