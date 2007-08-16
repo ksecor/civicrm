@@ -60,7 +60,7 @@
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {ts}Transaction #{/ts}    : {$trxn_id}
-{if $contributeMode ne 'notify' and $is_monetary}
+{if $contributeMode ne 'notify'}
 ===========================================================
 {ts}Billing Name and Address{/ts}
 

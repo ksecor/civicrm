@@ -37,6 +37,7 @@ require_once 'CRM/Core/I18n.php';
 require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Utils/Array.php';
+require_once 'CRM/Utils/String.php';
 require_once 'CRM/Core/DAO/OptionGroup.php';
 require_once 'CRM/Core/DAO/OptionValue.php';
 

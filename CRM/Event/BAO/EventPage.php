@@ -207,11 +207,17 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                 unset( $values[$fields['participant_id']['title']] );
 
                 foreach( $fields as $v  ) {
-                    $groupTitle = $v["groupTitle"];
+                    if ( ! $groupTitle ) {
+                        $groupTitle = $v["groupTitle"];
+                    } else {
+                        break;
+                    }
                 }
+
                 if ( $groupTitle ) {
                     $template->assign( $name."_grouptitle", $groupTitle );
                 }
+
                 if ( count( $values ) ) {
                     $template->assign( $name, $values );
                 }
