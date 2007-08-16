@@ -349,6 +349,37 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
     }
     
     /**
+     * Find the custom values for the given paramater.
+     *
+     * @param Array $params Associative array of property name/value pairs to get custom values.
+     *
+     * @return Array of values
+     * @access public
+     */
+    static public function getCustomValue( $params ) 
+    { 
+        $customValues = array();
+        $fields       = array('id', 'custom_field_id', 'entity_table', 'entity_id');
+        $fieldData    = array('int_data', 'float_data', 'decimal_data', 'char_data', 'date_data', 'memo_data');
+        
+        $dao = new CRM_Core_DAO_CustomValue();
+        $dao->copyValues( $params );
+        
+        if ($dao->find(true)) {
+            $customValues[$dao->id] = array();
+            foreach ( $fields as $fld ) {
+                $customValues[$fld] = $dao->$fld;
+            }
+            foreach ( $fieldData as $data ) {
+                if (! is_null($dao->$data)) {
+                    $customValues['value'] = $dao->$data;
+                }
+            }
+        }
+        return $customValues;
+    }
+
+    /**
      * Find all the custom values for a given contact.
      *
      * @param int $contactId  the id of the contact

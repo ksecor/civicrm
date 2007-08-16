@@ -15,7 +15,7 @@
         <tr id='rowid{$row.participant_id}' class="{cycle values="odd-row,even-row"}{if $row.status eq Cancelled} disabled{/if}">
            <td><a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$row.event_id`&context=dashboard"}">{$row.event_title}</a></td>
            <td>
-                {$row.start_date|crmDate}
+                {$row.event_start_date|crmDate}
                 {if $row.event_end_date}
                     &nbsp; - &nbsp;
                     {* Only show end time if end date = start date *}

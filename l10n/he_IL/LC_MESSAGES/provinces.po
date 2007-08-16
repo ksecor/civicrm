@@ -6,107 +6,108 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2002-01-05 14:25+0000\n"
-"Last-Translator: Meni Livne <livne@kde.org>\n"
+"PO-Revision-Date: 2007-08-15 04:44-0700\n"
+"Last-Translator: naomi grossman <writer06@netvision.net.il>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 msgid "Alabama"
-msgstr ""
+msgstr "אלבמה"
 
 msgid "Alaska"
-msgstr ""
+msgstr "אלסקה"
 
 msgid "Arizona"
-msgstr ""
+msgstr "אריזונה"
 
 msgid "Arkansas"
-msgstr ""
+msgstr "ארקנסו"
 
 msgid "California"
-msgstr ""
+msgstr "קליפורניה"
 
 msgid "Colorado"
-msgstr ""
+msgstr "קולורדו"
 
 msgid "Connecticut"
-msgstr ""
+msgstr "קונטיקט"
 
 msgid "Delaware"
-msgstr ""
+msgstr "דלור"
 
 msgid "Florida"
-msgstr ""
+msgstr "פלורידה"
 
 msgid "Georgia"
-msgstr ""
+msgstr "ג'יורג'יה"
 
 msgid "Hawaii"
-msgstr ""
+msgstr "הואי"
 
 msgid "Idaho"
-msgstr ""
+msgstr "אידהו"
 
 msgid "Illinois"
-msgstr ""
+msgstr "אילינוי"
 
 msgid "Indiana"
-msgstr ""
+msgstr "אינדיאנה"
 
 msgid "Iowa"
-msgstr ""
+msgstr "איווה"
 
 msgid "Kansas"
-msgstr ""
+msgstr "קנזס"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "קנטקי"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "לואיזיאנה"
 
 msgid "Maine"
-msgstr ""
+msgstr " מין"
 
 msgid "Maryland"
-msgstr ""
+msgstr "מרילנד"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "מסצ'וסטס"
 
 msgid "Michigan"
-msgstr ""
+msgstr "מישיגן"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "מינסוטה"
 
 msgid "Mississippi"
-msgstr ""
+msgstr "מיסיסיפי"
 
 msgid "Missouri"
-msgstr ""
+msgstr "מיזורי"
 
 msgid "Montana"
-msgstr ""
+msgstr "מונטנה"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "נברסקה"
 
 msgid "Nevada"
-msgstr ""
+msgstr "נבדה"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "ניו המפשיר"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "ניו ג'רזי"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "ניו מקסיקו"
 
 msgid "New York"
-msgstr ""
+msgstr "ניו יורק"
 
 msgid "North Carolina"
 msgstr ""
@@ -115,16 +116,16 @@ msgid "North Dakota"
 msgstr ""
 
 msgid "Ohio"
-msgstr ""
+msgstr "אוהיו"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "אוקלהומה"
 
 msgid "Oregon"
-msgstr ""
+msgstr "אורגון"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "פנסילבניה"
 
 msgid "Rhode Island"
 msgstr ""
@@ -136,31 +137,31 @@ msgid "South Dakota"
 msgstr ""
 
 msgid "Tennessee"
-msgstr ""
+msgstr "טנסי"
 
 msgid "Texas"
-msgstr ""
+msgstr "טקסס"
 
 msgid "Utah"
-msgstr ""
+msgstr "ייוטה"
 
 msgid "Vermont"
-msgstr ""
+msgstr "ורמונט"
 
 msgid "Virginia"
-msgstr ""
+msgstr "ווירג'יניה"
 
 msgid "Washington"
-msgstr ""
+msgstr "ווושינגטון"
 
 msgid "West Virginia"
 msgstr ""
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "ויסקונסין"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "ויומינג"
 
 msgid "District of Columbia"
 msgstr ""

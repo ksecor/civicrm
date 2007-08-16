@@ -352,7 +352,7 @@ function crm_create_contact_membership($params, $contactID)
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
     }
-    
+   
     if ( !isset($params['membership_type_id']) || !isset($params['status_id']) || empty($contactID)) {
         return _crm_error( 'Required parameter missing' );
     }
@@ -368,7 +368,7 @@ function crm_create_contact_membership($params, $contactID)
     require_once 'CRM/Member/BAO/Membership.php';
     $ids = array();
     $membershipBAO = CRM_Member_BAO_Membership::create($params, $ids);
-    
+  
     if ( ! is_a( $membershipBAO, 'CRM_Core_Error') ) {
         $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
                                                             $membershipBAO->id,
@@ -381,7 +381,7 @@ function crm_create_contact_membership($params, $contactID)
         $params['contact_id'         ] = $contactId;
         $params['owner_membership_id'] = $membershipBAO->id;
         unset( $params['id'] );
-        
+       
         CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
     }
     
@@ -402,7 +402,7 @@ function crm_create_contact_membership($params, $contactID)
  * @access public
  */
 function crm_update_contact_membership($params)
-{
+{  
     _crm_initialize();
     if ( !is_array( $params ) ) {
         return _crm_error( 'Params is not an array' );
@@ -458,16 +458,66 @@ function crm_update_contact_membership($params)
     CRM_Member_BAO_Membership::deleteRelatedMemberships( $membershipBAO->id );
     
     $params['membership_type_id'] = $membershipBAO->membership_type_id;
-    
+ 
     foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
         if ( $relationshipStatus & CRM_Contact_BAO_Relationship::CURRENT ) {
             $params['contact_id'         ] = $contactId;
             $params['owner_membership_id'] = $membershipBAO->id;
             unset( $params['id'] );
-            
+           
             CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
         }
     }
+   
+    // Create activity history record.
+    require_once "CRM/Member/PseudoConstant.php";
+    $membershipType = CRM_Member_PseudoConstant::membershipType( $membershipBAO->membership_type_id );
+    
+    if ( ! $membershipType ) {
+        $membershipType = ts('Membership');
+    }
+
+    $activitySummary = $membershipType;
+    
+    if ( $membershipBAO->source != 'null' ) {
+        $activitySummary .= " - {$membershipBAO->source}";
+    }
+    
+    if ( $membership->owner_membership_id ) {
+        $cid         = CRM_Core_DAO::getFieldValue(
+                                                   'CRM_Member_DAO_Membership',
+                                                   $membershipBAO->owner_membership_id,
+                                                   'contact_id' );
+        $displayName = CRM_Core_DAO::getFieldValue(
+                                                   'CRM_Contact_DAO_Contact',
+                                                   $cid, 'display_name' );
+        
+        $activitySummary .= " (by $displayName)";
+        
+    }
+    
+    require_once 'CRM/Member/DAO/MembershipStatus.php';
+    $activityType = "Membership - " . CRM_Core_DAO::getFieldValue(
+                                                                  'CRM_Member_DAO_MembershipStatus',
+                                                                  $membershipBAO->status_id
+                                                                  );
+    
+    $historyParams = array(
+                           'entity_table'     => 'civicrm_contact',
+                           'entity_id'        => $membershipBAO->contact_id,
+                           'activity_type'    => $activityType,
+                           'module'           => 'CiviMember',
+                           'callback'         => 'CRM_Member_Page_Membership::details',
+                           'activity_id'      => $membershipBAO->id,
+                           'activity_summary' => $activitySummary,
+                           'activity_date'    => $params['join_date'],
+                           );
+    require_once "api/History.php";
+    $error = crm_create_activity_history( $historyParams );
+    if ( is_a( $error, 'CRM_Core_Error' ) ) {
+        return $error;
+    }    
+    
     
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );

@@ -112,7 +112,8 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             
         case CRM_Event_Task::BATCH_EVENTS:
             $task   = array( 'CRM_Event_Form_Task_PickProfile',
-                             'CRM_Event_Form_Task_Batch' );
+                             'CRM_Event_Form_Task_Batch',
+                             'CRM_Event_Form_Task_Result' );
             break;
 
         case CRM_Event_Task::CANCEL_REGISTRATION:
@@ -120,7 +121,8 @@ class CRM_Event_StateMachine_Search extends CRM_Core_StateMachine
             break;
 
         case CRM_Event_Task::EMAIL_CONTACTS:
-            $task   = 'CRM_Event_Form_Task_Email';
+            $task   = array('CRM_Event_Form_Task_Email',
+                            'CRM_Event_Form_Task_Result');
             break;
 
         case CRM_Event_Task::SAVE_SEARCH:
