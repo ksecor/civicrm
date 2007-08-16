@@ -2,18 +2,19 @@
 
 require_once 'api/crm.php';
 
-class TestOfUpdateContactMembership extends UnitTestCase 
+class TestOfCRM2187 extends UnitTestCase 
 {
     protected $_membership   = array();
            
-    function setUp() 
+    function setUp( ) 
     {
     }
     
-    function tearDown() 
+    function tearDown( ) 
     {
     }
-    function testCreateMembership()
+    
+    function testCreateMembership( )
     {
         $params = array(
                         'membership_type_id' => '1',
@@ -24,14 +25,14 @@ class TestOfUpdateContactMembership extends UnitTestCase
                         'is_override'        => '1', 
                         'status_id'          => '2'                       
                         );
-	
-        $this->_membership = & crm_create_contact_membership($params,'102');    
+        
+        $this->_membership = & crm_create_contact_membership( $params, '102' );    
     }
-
-    function testUpdateMembership()
+    
+    function testUpdateMembership( )
     {
         $params = array(
-                        'id'                 =>  $this->_membership['id'],
+                        'id'                 => $this->_membership['id'],
                         'membership_type_id' => '2',
                         'join_date'          => '2007-01-30',
                         'start_date'         => '2007-01-30',
@@ -39,17 +40,12 @@ class TestOfUpdateContactMembership extends UnitTestCase
                         'source'             => 'Donation',
                         'status_id'          => '2'                       
                         );	
-        $membership = & crm_update_contact_membership($params);        
-        $this->assertEqual($membership['id'],$this->_membership['id']);
-        $this->assertEqual($membership['membership_type_id'],'2');
-        $this->assertEqual($membership['join_date'],'20070130');
-        $this->assertEqual($membership['status_id' ],'2');                          
+        $membership = & crm_update_contact_membership( $params );        
+        $this->assertEqual( $membership['id'],$this->_membership['id'] );
+        $this->assertEqual( $membership['membership_type_id'],'2' );
+        $this->assertEqual( $membership['join_date'],'20070130' );
+        $this->assertEqual( $membership['status_id' ],'2' );       
         $this->_membership = $membership ;
     }
-    
-    function testDeleteMembership()
-    {
-        $val = &crm_delete_membership($this->_membership['id']);
-        $this->assertNull($val);
-    }   
 }
+?>
