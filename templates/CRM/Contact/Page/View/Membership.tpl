@@ -86,6 +86,39 @@
 </div>
 {/if}
 
+{if $membershipTypes}
+<div id="memberships">
+    <div><label>{ts}Membership Types{/ts}</label></div>
+    <div class="form-item">
+        {strip}
+        <table>
+        <tr class="columnheader">
+            <th>{ts}Name{/ts}</th>
+            <th>{ts}Period{/ts}</th>
+	    <th>{ts}Fixed Start{/ts}</th>		
+            <th>{ts}Minimum Fee{/ts}</th>
+            <th>{ts}Duration{/ts}</th>            
+            <th>{ts}Visibility{/ts}</th>
+            <th></th>
+        </tr>
+        {foreach from=$membershipTypes item=membershipType}
+        <tr class="{cycle values="odd-row,even-row"} {$membershipType.class}">
+	        <td>{$membershipType.name}</td>
+		<td>{$membershipType.period_type}</td>
+		<td>{$membershipType.fixed_period_start_day}</td>
+	        <td>{$membershipType.minimum_fee}</td>
+	        <td>{$membershipType.duration_unit}</td>	        
+	        <td>{$membershipType.visibility}</td>
+	        <td>{$membershipType.action}</td>
+        </tr>
+        {/foreach}
+        </table>
+        {/strip}
+
+    </div>
+</div>
+{/if}
+
 {if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4}
    <div class="messages status">
        <dl>

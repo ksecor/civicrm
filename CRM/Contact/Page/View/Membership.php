@@ -45,6 +45,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * @static
      */
     static $_links = null;
+    static $_membershipTypesLinks = null;
 
    /**
      * This function is called when action is browse
@@ -105,10 +106,23 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             }
         }
     
+        //Below code gives list of all Membership Types associated
+        //with an Organization(CRM-2016)
+        include_once 'CRM/Member/BAO/MembershipType.php';
+        $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypesByOrg( $this->_contactId );        
+        foreach ( $membershipTypes as $key => $value ) {   
+            $membershipTypes[$key]['action'] = CRM_Core_Action::formLink( self::membershipTypeslinks(),
+                                                                          $mask, 
+                                                                          array('id' => $value['id'], 
+                                                                                'cid'=> $this->_contactId));
+            
+        }
+
         $activeMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership );
         $inActiveMembers = CRM_Member_BAO_Membership::activeMembers($this->_contactId, $membership, 'inactive');
-        $this->assign('activeMembers', $activeMembers);
+        $this->assign('activeMembers',   $activeMembers);
         $this->assign('inActiveMembers', $inActiveMembers);
+        $this->assign('membershipTypes', $membershipTypes);
     }
 
     /** 
@@ -249,6 +263,36 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         
         return self::$_links[$status];
     }
+    
+    /**
+     * Function to define action links for membership types of related organization
+     *
+     * @return array self::$_membershipTypesLinks array of action links
+     * @access public
+     */
+    static function &membershipTypesLinks( ) 
+    {
+        if ( ! self::$_membershipTypesLinks ) {
+            self::$_membershipTypesLinks =
+                array(
+                      CRM_Core_Action::VIEW   => array(
+                                                       'name'  => ts('Members'),
+                                                       'url'   => 'civicrm/member/search/',
+                                                       'qs'    => 'reset=1&force=1&id=%%id%%',
+                                                       'title' => ts('Search')
+                                                       ),
+                      CRM_Core_Action::UPDATE => array(
+                                                       'name'  => ts('Edit'),
+                                                       'url'   => 'civicrm/admin/member/membershipType',
+                                                       'qs'    => 'action=update&id=%%id%%&reset=1',
+                                                       'title' => ts('Edit Membership Type') 
+                                                       ),
+                      );
+        }
+        return self::$_membershipTypesLinks;
+    }
+
+
     
     /**
      * Get BAO Name

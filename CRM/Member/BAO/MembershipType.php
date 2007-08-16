@@ -574,6 +574,28 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
         
         return $membershipDates;
     }
+
+    /**
+     * Function to retrieve all Membership Types associated
+     * with an Organization
+     * 
+     * @param int $orgID  Id of Organization 
+     *
+     * @return Array array of the details of membership types
+     * @static
+     */
+    static function getMembershipTypesByOrg( $orgID )
+    {
+        $membershipTypes = array();
+        $dao =& new CRM_Member_DAO_MembershipType();
+        $dao->member_of_contact_id = $orgID;
+        $dao->find();
+        while($dao->fetch()) {
+            $membershipTypes[$dao->id] = array();
+            CRM_Core_DAO::storeValues( $dao, $membershipTypes[$dao->id] ); 
+        } 
+        return $membershipTypes;
+    }
 }
 
 ?>
