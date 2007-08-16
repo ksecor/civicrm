@@ -270,7 +270,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         // now sort the tabs based on weight
         usort( $allTabs, array( 'CRM_Contact_Page_View_Tabbed', 'cmpFunc' ) );
 
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
+        $this->assign( 'dojoIncludes', "dojo.require('dijit.layout.TabContainer');dojo.require('dijit.layout.ContentPane');dojo.require('dijit.layout.LinkPane'); dojo.require('dojo.parser');");
 
         $this->assign( 'allTabs'     , $allTabs     );
      
