@@ -278,7 +278,7 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                       CRM_Core_Action::VIEW   => array(
                                                        'name'  => ts('Members'),
                                                        'url'   => 'civicrm/member/search/',
-                                                       'qs'    => 'reset=1&force=1&id=%%id%%',
+                                                       'qs'    => 'reset=1&force=1&type=%%id%%',
                                                        'title' => ts('Search')
                                                        ),
                       CRM_Core_Action::UPDATE => array(
