@@ -1,90 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.2" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
         <scalar-parameter name="status" id="131">
-            <property name="valueType">static</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Select Participant status</text-property>
-            <property name="allowBlank">true</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="dataSetName">StatusDataSet</property>
+            <expression name="valueExpr">dataSetRow["name"]</expression>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="defaultValue">Registered</property>
+            <property name="defaultValue"></property>
+            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
-            <list-property name="selectionList">
-                <structure>
-                    <property name="value">Registered</property>
-                </structure>
-                <structure>
-                    <property name="value">Attended</property>
-                </structure>
-                <structure>
-                    <property name="value">No-show</property>
-                </structure>
-                <structure>
-                    <property name="value">Cancelled</property>
-                </structure>
-            </list-property>
         </scalar-parameter>
         <scalar-parameter name="eventName" id="132">
-            <property name="valueType">static</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Select Event Name</text-property>
-            <property name="allowNull">false</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="dataSetName">EventTitleDataSet</property>
+            <expression name="valueExpr">dataSetRow["title"]</expression>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="defaultValue">Fall Fundraiser Dinner</property>
+            <property name="defaultValue"></property>
+            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
-            <list-property name="selectionList">
-                <structure>
-                    <property name="value">Fall Fundraiser Dinner</property>
-                </structure>
-                <structure>
-                    <property name="value">Summer Solstice Festival Day Concert</property>
-                </structure>
-                <structure>
-                    <property name="value">Rain-forest Cup Youth Soccer Tournament</property>
-                </structure>
-            </list-property>
         </scalar-parameter>
         <scalar-parameter name="eventType" id="133">
-            <property name="valueType">static</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Select Type of Event</text-property>
-            <property name="allowBlank">true</property>
+            <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="dataSetName">EventTypeDataSet</property>
+            <expression name="valueExpr">dataSetRow["name"]</expression>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
-            <property name="defaultValue">Conference</property>
+            <property name="defaultValue"></property>
+            <property name="distinct">false</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
-            <list-property name="selectionList">
-                <structure>
-                    <property name="value">Conference</property>
-                </structure>
-                <structure>
-                    <property name="value">Exhibition</property>
-                </structure>
-                <structure>
-                    <property name="value">Fundraiser</property>
-                </structure>
-            </list-property>
         </scalar-parameter>
         <scalar-parameter name="fromDate" id="139">
             <text-property name="helpText">Enter date in mmddyyyy format</text-property>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Enter Date of Registration</text-property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">01012005</property>
             <structure name="format">
@@ -96,6 +69,7 @@
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <text-property name="promptText">Enter Date of Registration</text-property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">12312006</property>
             <structure name="format">
@@ -104,14 +78,12 @@
         </scalar-parameter>
         <scalar-parameter name="isTest" id="140">
             <property name="valueType">static</property>
-            <property name="dataType">decimal</property>
+            <property name="dataType">boolean</property>
             <text-property name="promptText">Is Test Participant ?</text-property>
-            <property name="allowBlank">false</property>
-            <property name="controlType">text-box</property>
+            <property name="isRequired">false</property>
+            <property name="controlType">check-box</property>
             <property name="defaultValue">0</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
+            <structure name="format"/>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -120,144 +92,14 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybTEyMzQ1</encrypted-property>
+            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="findParticipantData" id="11">
             <text-property name="displayName">findParticipantData</text-property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">contact_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">event_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">status_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">role_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">source</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">event_level</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">statusName</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">typeName</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">display_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">register_date</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">title</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">14</property>
-                    <property name="name">value</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">15</property>
-                    <property name="name">event_start_date</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">16</property>
-                    <property name="name">event_end_date</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
-                    <property name="name">id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">18</property>
-                    <property name="name">value</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">19</property>
-                    <property name="name">is_test</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">-6</property>
-                </structure>
-            </list-property>
-            <list-property name="resultSetHints">
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">id_13</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
-                    <property name="name">id_17</property>
-                </structure>
-                <structure>
-                    <property name="position">18</property>
-                    <property name="name">value_18</property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
+            <structure name="cachedMetaData">op1.name = '" + params["status"] +"'
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
@@ -321,49 +163,137 @@
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">id_13</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">value</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">15</property>
                         <property name="name">event_start_date</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">14</property>
                         <property name="name">event_end_date</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
-                        <property name="name">id_17</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">18</property>
-                        <property name="name">value_18</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">19</property>
+                        <property name="position">15</property>
                         <property name="name">is_test</property>
                         <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
-            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " where date_format(p.register_date,'%c%d%Y') >= " + params["fromDate"] + " and date_format(p.register_date,'%c%d%Y') <= " + params["toDate"] + " and op1.name = '" + params["status"] +"' and op2.name = '" + params["eventType"] +"' and e.title= '" + params["eventName"] +"' and p.is_test = " + params["isTest"] +"";]]></method>
+            <method name="beforeOpen"><![CDATA[this.queryText = this.queryText + " where ( date_format(p.register_date,'%c%d%Y') >= '" + params["fromDate"] + "%' and date_format(p.register_date,'%c%d%Y') <= '" + params["toDate"] + "%') or op1.name = '" + params["status"] +"' or e.title = '" + params["eventName"] +"%' or p.is_test = " + params["isTest"] + "";]]></method>
+            <list-property name="resultSet"> 
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">contact_id</property>
+                    <property name="nativeName">contact_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">event_id</property>
+                    <property name="nativeName">event_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">status_id</property>
+                    <property name="nativeName">status_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">role_id</property>
+                    <property name="nativeName">role_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">source</property>
+                    <property name="nativeName">source</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">event_level</property>
+                    <property name="nativeName">event_level</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">statusName</property>
+                    <property name="nativeName">statusName</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">typeName</property>
+                    <property name="nativeName">typeName</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">display_name</property>
+                    <property name="nativeName">display_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">register_date</property>
+                    <property name="nativeName">register_date</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">event_start_date</property>
+                    <property name="nativeName">event_start_date</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">event_end_date</property>
+                    <property name="nativeName">event_end_date</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">is_test</property>
+                    <property name="nativeName">is_test</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">-6</property>
+                </structure>
+            </list-property>
             <property name="queryText">SELECT p.contact_id, p.event_id, p.status_id, 
 p.role_id, p.source, p.event_level, op1.name AS statusName,
 op2.name AS typeName , c.display_name, c.id, 
-date_format(p.register_date,'%c/%d/%Y') as register_date, e.title, op1.id, op1.value, 
-date_format(e.start_date,'%c/%d/%Y') as event_start_date, date_format(e.end_date, '%c/%d/%Y') as event_end_date,
-op2.id, op2.value, p.is_test
+date_format(p.register_date,'%c/%d/%Y') as register_date, 
+e.title, date_format(e.start_date,'%c/%d/%Y') as event_start_date,
+date_format(e.end_date, '%c/%d/%Y') as event_end_date,
+p.is_test
 FROM civicrm_participant AS p
 LEFT JOIN (
 civicrm_contact AS c, 
@@ -380,6 +310,159 @@ AND op1.value = p.status_id
 AND grp2.name = "event_type"
 AND op2.option_group_id = grp2.id
 AND op2.value = p.event_id) </property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EventTitleDataSet" id="141">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select title 
+from civicrm_event</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="StatusDataSet" id="142">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select optVal.name
+from civicrm_option_value as optVal,
+civicrm_option_group as grp
+Where optVal.option_group_id = grp.id
+AND grp.name = "participant_status"</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>name</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>64</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>name</design:label>
+            <design:formattingHints>
+              <design:displaySize>64</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="EventTypeDataSet" id="143">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">civicrm</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select optVal.name
+from civicrm_option_value as optVal,
+civicrm_option_group as grp
+Where optVal.option_group_id = grp.id
+AND grp.name = "event_type"</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>name</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>64</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>name</design:label>
+            <design:formattingHints>
+              <design:displaySize>64</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
@@ -412,16 +495,6 @@ AND op2.value = p.event_id) </property>
                 <structure>
                     <property name="name">register_date</property>
                     <expression name="expression">dataSetRow["register_date"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">start_date</property>
-                    <expression name="expression">dataSetRow["start_date"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">end_date</property>
-                    <expression name="expression">dataSetRow["end_date"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -468,8 +541,6 @@ AND op2.value = p.event_id) </property>
             <column id="35"/>
             <column id="36"/>
             <column id="37"/>
-            <column id="89"/>
-            <column id="84"/>
             <column id="38"/>
             <column id="39"/>
             <column id="99"/>
@@ -479,7 +550,7 @@ AND op2.value = p.event_id) </property>
                 <row id="41">
                     <property name="backgroundColor">#8FCBD8</property>
                     <cell id="42">
-                        <property name="colSpan">10</property>
+                        <property name="colSpan">8</property>
                         <property name="rowSpan">1</property>
                         <text id="48">
                             <property name="fontFamily">sans-serif</property>
@@ -513,16 +584,6 @@ AND op2.value = p.event_id) </property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Register Date]]></text-property>
                         </text>
-                    </cell>
-                    <cell id="86">
-                        <label id="90">
-                            <text-property name="text">Event Start Date</text-property>
-                        </label>
-                    </cell>
-                    <cell id="81">
-                        <label id="91">
-                            <text-property name="text">Event End Date</text-property>
-                        </label>
                     </cell>
                     <cell id="18">
                         <text id="64">
@@ -582,18 +643,6 @@ AND op2.value = p.event_id) </property>
                             <property name="resultSetColumn">register_date</property>
                         </data>
                     </cell>
-                    <cell id="87">
-                        <data id="136">
-                            <property name="marginLeft">5pt</property>
-                            <property name="resultSetColumn">event_start_date</property>
-                        </data>
-                    </cell>
-                    <cell id="82">
-                        <data id="137">
-                            <property name="marginLeft">5pt</property>
-                            <property name="resultSetColumn">event_end_date</property>
-                        </data>
-                    </cell>
                     <cell id="25">
                         <data id="126">
                             <property name="marginLeft">5pt</property>
@@ -633,8 +682,6 @@ AND op2.value = p.event_id) </property>
                     <cell id="29"/>
                     <cell id="30"/>
                     <cell id="31"/>
-                    <cell id="88"/>
-                    <cell id="83"/>
                     <cell id="32"/>
                     <cell id="33"/>
                     <cell id="98"/>

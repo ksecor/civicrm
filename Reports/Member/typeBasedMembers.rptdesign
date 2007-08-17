@@ -7,12 +7,12 @@
         <scalar-parameter name="Membership Type" id="121">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
-            <text-property name="promptText">Enter Membership Type :</text-property>
+            <text-property name="promptText">Membership Type :</text-property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">membershipType</property>
             <expression name="valueExpr">dataSetRow["name"]</expression>
             <expression name="labelExpr">dataSetRow["name"]</expression>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">Student</property>
             <property name="distinct">false</property>
@@ -184,8 +184,7 @@ from civicrm_membership_type </property>
       </design:resultSetColumns>
     </design:resultSetDefinitions>
   </design:ResultSets>
-</model:DesignValues>
-]]></xml-property>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>

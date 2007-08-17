@@ -5,16 +5,18 @@
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
         <parameter-group name="contactGroup" id="127">
-            <text-property name="displayName">Parameter group for contact Type and Group name</text-property>
+            <text-property name="displayName">Select Contact Type and Group</text-property>
             <parameters>
                 <scalar-parameter name="RP_contactType" id="128">
                     <property name="valueType">static</property>
                     <property name="dataType">string</property>
-                    <text-property name="promptText">Enter Contact Type</text-property>
+                    <text-property name="promptText">Contact Type</text-property>
                     <property name="isRequired">true</property>
                     <property name="controlType">list-box</property>
-                    <property name="mustMatch">false</property>
+                    <property name="mustMatch">true</property>
+                    <property name="fixedOrder">true</property>
                     <property name="defaultValue">Individual</property>
+                    <property name="distinct">false</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -36,15 +38,18 @@
                 <scalar-parameter name="RP_group" id="129">
                     <property name="valueType">dynamic</property>
                     <property name="dataType">integer</property>
-                    <text-property name="promptText">Select a Group</text-property>
+                    <text-property name="promptText">Group</text-property>
                     <property name="isRequired">true</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">DS_groupId</property>
                     <expression name="valueExpr">dataSetRow["id"]</expression>
                     <expression name="labelExpr">dataSetRow["name"]</expression>
-                    <property name="mustMatch">false</property>
+                    <property name="mustMatch">true</property>
                     <property name="fixedOrder">false</property>
                     <property name="defaultValue">2</property>
+                    <property name="distinct">true</property>
+                    <property name="sortBy">label</property>
+                    <property name="sortDirection">asc</property>
                     <structure name="format">
                         <property name="category">Unformatted</property>
                     </structure>
@@ -755,7 +760,7 @@ order by name;</property>
                         <property name="textAlign">left</property>
                         <text-data id="150">
                             <property name="fontSize">small</property>
-                            <expression name="valueExpr">"&lt;strong>&lt;ul>&lt;li>Contact Type - " + params["RP_contactType"] + "&lt;/li>&lt;li>Group -" + params["RP_group"] + "&lt;/li>&lt;/ul>&lt;/strong>"</expression>
+                            <expression name="valueExpr">"&lt;strong>&lt;ul>&lt;li>Contact Type - " + params["RP_contactType"] + "&lt;/li>&lt;li>Group - " + params["RP_group"] + "&lt;/li>&lt;/ul>&lt;/strong>"</expression>
                             <property name="contentType">html</property>
                         </text-data>
                     </cell>
