@@ -13,12 +13,12 @@
         <scalar-parameter name="MembershipStatus" id="46">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
-            <text-property name="promptText">Enter Membership Status</text-property>
+            <text-property name="promptText">Membership Status</text-property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">status</property>
             <expression name="valueExpr">dataSetRow["name"]</expression>
             <expression name="labelExpr">dataSetRow["name"]</expression>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
             <property name="defaultValue">Current</property>
             <property name="distinct">false</property>
@@ -203,8 +203,7 @@ from civicrm_membership_status</property>
       </design:resultSetColumns>
     </design:resultSetDefinitions>
   </design:ResultSets>
-</model:DesignValues>
-]]></xml-property>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <page-setup>
