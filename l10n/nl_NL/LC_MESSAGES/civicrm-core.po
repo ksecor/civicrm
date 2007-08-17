@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-13 06:28+0200\n"
-"PO-Revision-Date: 2007-07-03 13:40+0100\n"
-"Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
+"PO-Revision-Date: 2007-08-17 04:30-0700\n"
+"Last-Translator: Pascal D'Eer <pascaldeer@hotmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -12517,23 +12517,23 @@ msgstr "Bedrijf"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "For-profit organization."
-msgstr "commerciele organisatie"
+msgstr "Commerciële organisatie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
-msgstr "overheids instelling"
+msgstr "Overheidsinstelling"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any governmental entity."
-msgstr "elke overheids instelling"
+msgstr "Elke overheidsinstelling"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Major Donor"
-msgstr "Hoofd sponsor"
+msgstr "Hoofdsponsor"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "High-value supporter of our organization."
-msgstr "Hoog gewaardeerd supporter van onze organisatie"
+msgstr "Erg gewaardeerde steun aan onze organisatie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer"
@@ -12557,7 +12557,7 @@ msgstr "HTML inhoud van de koptekst"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Body of Header"
-msgstr "Kale tekst inhoud van de koptekst"
+msgstr "Inhoud van de koptekst"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
@@ -12573,15 +12573,15 @@ msgstr "HTML inhoud van de voettekst"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Text Body of Footer"
-msgstr "Kale tekst inhoud van de voettekst"
+msgstr "Inhoud van de voettekst"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Subscribe Message"
-msgstr "Bericht aanmelding"
+msgstr "Bericht bij aanmelding"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Subscription confirmation request"
-msgstr "Aanvraag bevestinging aanmelding"
+msgstr "Bevestiging bij aanmelding vragen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Welcome"
@@ -12589,23 +12589,23 @@ msgstr "Welkom"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Unsubscribe Message"
-msgstr "Bericht opzeggen"
+msgstr "Bericht bij opzegging"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Unsubscribe results"
-msgstr "Reultaten opzeggen"
+msgstr "Resultaten bij opzegging"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Goodbye"
-msgstr "Goedendag"
+msgstr "Tot ziens"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
-msgstr "Automatisch reageren"
+msgstr "Automatische beantwoorder"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Automated response"
-msgstr "Automatische reactie"
+msgstr "Automatisch antwoord"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Thank you for your reply."
@@ -12661,9 +12661,8 @@ msgid "Postal Mail"
 msgstr "Per post"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Schedule a meeting"
-msgstr "Bijeenkomst plannen"
+msgstr "Vergadering plannen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
@@ -12739,7 +12738,7 @@ msgstr "Mislukt"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr "In bewerking"
+msgstr "Wordt verwerkt"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Registered"
@@ -12755,11 +12754,11 @@ msgstr "Niet getoond"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
-msgstr "Begeleider"
+msgstr "Aanwezige"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr "Host"
+msgstr "Gastheer"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Speaker"
@@ -12775,7 +12774,7 @@ msgstr "Tentoonstelling"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr "Fundraiser"
+msgstr "Fondsenophaler"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Performance"
@@ -12801,41 +12800,38 @@ msgstr "Gunst"
 msgid "Expired"
 msgstr "Vervallen"
 
+# Niet zeker van correctheid
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Dummy Payment Processor"
-msgstr "Payment Processor"
+msgstr "Vervangende betalingsverwerking"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
-msgstr ""
+msgstr "E-mail van de Verkoper"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Merchant ID"
-msgstr "Merchant ID - LIVE"
+msgstr "Verkoper ID"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Key"
-msgstr ""
+msgstr "Sleutel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Store ID"
-msgstr ""
+msgstr "Identificatienummer Winkel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "API Login"
-msgstr ""
+msgstr "API Login"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Payment Key"
-msgstr "Payment Processor"
+msgstr "Betalingssleutel"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "MD5 Hash"
-msgstr "MD5 Hash Key"
+msgstr "MD5 Hash Key (versleutelingscode)"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
