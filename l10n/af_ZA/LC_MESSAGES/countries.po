@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-18 07:35+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2002-01-05 14:20+0000\n"
+"Last-Translator: Frikkie Thirion <frix@engineer.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,10 +37,10 @@ msgid "Antarctica"
 msgstr ""
 
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "antigue en barbuda"
 
 msgid "Argentina"
-msgstr ""
+msgstr "argentinië"
 
 msgid "Armenia"
 msgstr ""
@@ -49,13 +49,13 @@ msgid "Aruba"
 msgstr ""
 
 msgid "Australia"
-msgstr ""
+msgstr "australië"
 
 msgid "Austria"
-msgstr ""
+msgstr "oostenryk"
 
 msgid "Azerbaijan"
-msgstr ""
+msgstr "azerbaijan"
 
 msgid "Bahrain"
 msgstr ""
@@ -64,7 +64,7 @@ msgid "Bangladesh"
 msgstr ""
 
 msgid "Barbados"
-msgstr ""
+msgstr "barbados"
 
 msgid "Belarus"
 msgstr ""
@@ -85,7 +85,7 @@ msgid "Bhutan"
 msgstr ""
 
 msgid "Bolivia"
-msgstr ""
+msgstr "bolivië"
 
 msgid "Bosnia and Herzegovina"
 msgstr ""
@@ -97,7 +97,7 @@ msgid "Bouvet Island"
 msgstr ""
 
 msgid "Brazil"
-msgstr ""
+msgstr "brazilië"
 
 msgid "British Indian Ocean Territory"
 msgstr ""
@@ -109,7 +109,7 @@ msgid "Brunei Darussalam"
 msgstr ""
 
 msgid "Bulgaria"
-msgstr ""
+msgstr "bulgarye"
 
 msgid "Burkina Faso"
 msgstr ""
@@ -127,7 +127,7 @@ msgid "Cameroon"
 msgstr ""
 
 msgid "Canada"
-msgstr ""
+msgstr "kanada"
 
 msgid "Cape Verde"
 msgstr ""
@@ -142,10 +142,10 @@ msgid "Chad"
 msgstr ""
 
 msgid "Chile"
-msgstr ""
+msgstr "chilië"
 
 msgid "China"
-msgstr ""
+msgstr "sjina"
 
 msgid "Christmas Island"
 msgstr ""
@@ -175,7 +175,7 @@ msgid "Côte d'Ivoire"
 msgstr ""
 
 msgid "Croatia"
-msgstr ""
+msgstr "kroatië"
 
 msgid "Cuba"
 msgstr ""
@@ -187,7 +187,7 @@ msgid "Czech Republic"
 msgstr ""
 
 msgid "Denmark"
-msgstr ""
+msgstr "denemarke"
 
 msgid "Djibouti"
 msgstr ""
@@ -196,7 +196,7 @@ msgid "Dominica"
 msgstr ""
 
 msgid "Dominican Republic"
-msgstr ""
+msgstr "dominikiese republiek"
 
 msgid "Timor-Leste"
 msgstr ""
@@ -208,7 +208,7 @@ msgid "Egypt"
 msgstr ""
 
 msgid "El Salvador"
-msgstr ""
+msgstr "el salvador"
 
 msgid "Equatorial Guinea"
 msgstr ""
@@ -217,7 +217,7 @@ msgid "Eritrea"
 msgstr ""
 
 msgid "Estonia"
-msgstr ""
+msgstr "estlandies"
 
 msgid "Ethiopia"
 msgstr ""
@@ -232,10 +232,10 @@ msgid "Fiji"
 msgstr ""
 
 msgid "Finland"
-msgstr ""
+msgstr "finland"
 
 msgid "France"
-msgstr ""
+msgstr "frankryk"
 
 msgid "French Guiana"
 msgstr ""
@@ -253,7 +253,7 @@ msgid "Georgia"
 msgstr ""
 
 msgid "Germany"
-msgstr ""
+msgstr "duitsland"
 
 msgid "Ghana"
 msgstr ""
@@ -262,13 +262,13 @@ msgid "Gibraltar"
 msgstr ""
 
 msgid "Greece"
-msgstr ""
+msgstr "griekeland"
 
 msgid "Greenland"
 msgstr ""
 
 msgid "Grenada"
-msgstr ""
+msgstr "grenada"
 
 msgid "Guadeloupe"
 msgstr ""
@@ -277,7 +277,7 @@ msgid "Guam"
 msgstr ""
 
 msgid "Guatemala"
-msgstr ""
+msgstr "gautemala"
 
 msgid "Guinea"
 msgstr ""
@@ -298,16 +298,16 @@ msgid "Holy See (Vatican City State)"
 msgstr ""
 
 msgid "Honduras"
-msgstr ""
+msgstr "honduras"
 
 msgid "Hong Kong"
 msgstr ""
 
 msgid "Hungary"
-msgstr ""
+msgstr "hongarye"
 
 msgid "Iceland"
-msgstr ""
+msgstr "ysland"
 
 msgid "India"
 msgstr ""
@@ -322,19 +322,19 @@ msgid "Iraq"
 msgstr ""
 
 msgid "Ireland"
-msgstr ""
+msgstr "ierland"
 
 msgid "Israel"
-msgstr ""
+msgstr "israel"
 
 msgid "Italy"
-msgstr ""
+msgstr "italië"
 
 msgid "Jamaica"
 msgstr ""
 
 msgid "Japan"
-msgstr ""
+msgstr "japan"
 
 msgid "Jordan"
 msgstr ""
@@ -364,7 +364,7 @@ msgid "Lao People's Democratic Republic"
 msgstr ""
 
 msgid "Latvia"
-msgstr ""
+msgstr "latvia"
 
 msgid "Lebanon"
 msgstr ""
@@ -382,10 +382,10 @@ msgid "Liechtenstein"
 msgstr ""
 
 msgid "Lithuania"
-msgstr ""
+msgstr "lithuanië"
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "luxenburg"
 
 msgid "Macao"
 msgstr ""
@@ -409,7 +409,7 @@ msgid "Mali"
 msgstr ""
 
 msgid "Malta"
-msgstr ""
+msgstr "malta"
 
 msgid "Marshall Islands"
 msgstr ""
@@ -427,7 +427,7 @@ msgid "Mayotte"
 msgstr ""
 
 msgid "Mexico"
-msgstr ""
+msgstr "meksiko"
 
 msgid "Micronesia, Federated States of"
 msgstr ""
@@ -463,13 +463,13 @@ msgid "Netherlands Antilles"
 msgstr ""
 
 msgid "Netherlands"
-msgstr ""
+msgstr "nederland"
 
 msgid "New Caledonia"
 msgstr ""
 
 msgid "New Zealand"
-msgstr ""
+msgstr "nuwe seeland"
 
 msgid "Nicaragua"
 msgstr ""
@@ -490,7 +490,7 @@ msgid "Northern Mariana Islands"
 msgstr ""
 
 msgid "Norway"
-msgstr ""
+msgstr "noorweë"
 
 msgid "Oman"
 msgstr ""
@@ -505,16 +505,16 @@ msgid "Palestinian Territory, Occupied"
 msgstr ""
 
 msgid "Panama"
-msgstr ""
+msgstr "panama"
 
 msgid "Papua New Guinea"
 msgstr ""
 
 msgid "Paraguay"
-msgstr ""
+msgstr "paraguaai"
 
 msgid "Peru"
-msgstr ""
+msgstr "peru"
 
 msgid "Philippines"
 msgstr ""
@@ -523,10 +523,10 @@ msgid "Pitcairn"
 msgstr ""
 
 msgid "Poland"
-msgstr ""
+msgstr "poolland"
 
 msgid "Portugal"
-msgstr ""
+msgstr "portugal"
 
 msgid "Puerto Rico"
 msgstr ""
@@ -535,7 +535,7 @@ msgid "Qatar"
 msgstr ""
 
 msgid "Romania"
-msgstr ""
+msgstr "romenië"
 
 msgid "Russian Federation"
 msgstr ""
@@ -586,7 +586,7 @@ msgid "Slovakia"
 msgstr ""
 
 msgid "Slovenia"
-msgstr ""
+msgstr "slovenië"
 
 msgid "Solomon Islands"
 msgstr ""
@@ -595,13 +595,13 @@ msgid "Somalia"
 msgstr ""
 
 msgid "South Africa"
-msgstr ""
+msgstr "suid afrika"
 
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
 msgid "Spain"
-msgstr ""
+msgstr "spanje"
 
 msgid "Sri Lanka"
 msgstr ""
@@ -619,10 +619,10 @@ msgid "Swaziland"
 msgstr ""
 
 msgid "Sweden"
-msgstr ""
+msgstr "swede"
 
 msgid "Switzerland"
-msgstr ""
+msgstr "switserland"
 
 msgid "Syrian Arab Republic"
 msgstr ""
@@ -631,7 +631,7 @@ msgid "Sao Tome and Principe"
 msgstr ""
 
 msgid "Taiwan"
-msgstr ""
+msgstr "taiwan"
 
 msgid "Tajikistan"
 msgstr ""
@@ -640,7 +640,7 @@ msgid "Tanzania, United Republic of"
 msgstr ""
 
 msgid "Thailand"
-msgstr ""
+msgstr "thailand"
 
 msgid "Bahamas"
 msgstr ""
@@ -658,13 +658,13 @@ msgid "Tonga"
 msgstr ""
 
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "trinidad en tobago"
 
 msgid "Tunisia"
 msgstr ""
 
 msgid "Turkey"
-msgstr ""
+msgstr "turkeye"
 
 msgid "Turkmenistan"
 msgstr ""
@@ -679,7 +679,7 @@ msgid "Uganda"
 msgstr ""
 
 msgid "Ukraine"
-msgstr ""
+msgstr "ukraïne"
 
 msgid "United Arab Emirates"
 msgstr ""
@@ -694,7 +694,7 @@ msgid "United States"
 msgstr ""
 
 msgid "Uruguay"
-msgstr ""
+msgstr "uruguay"
 
 msgid "Uzbekistan"
 msgstr ""
@@ -703,7 +703,7 @@ msgid "Vanuatu"
 msgstr ""
 
 msgid "Venezuela"
-msgstr ""
+msgstr "venezuela"
 
 msgid "Viet Nam"
 msgstr ""
