@@ -471,7 +471,7 @@
 
 .tundra .dijitTab {
 	line-height:normal;
-	margin-right:5px;	/* space between one tab and the next in top/bottom mode */
+	margin-right:0px;	/* space between one tab and the next in top/bottom mode */
 	padding:0px;
 	border:1px solid #ccc;
 	background:#e2e2e2 url("images/tabEnabled.png") repeat-x;
