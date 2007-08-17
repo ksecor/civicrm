@@ -58,43 +58,43 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "hou vir keuselys"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "Vorige jaar"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "Vorige maand"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "Gaan na vandag"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "Volgende maand"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "Volgende jaar"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "Kies datum"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "Sleep om te skuif"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "vandag"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr ""
+msgstr "Vertoon %s eerste"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
