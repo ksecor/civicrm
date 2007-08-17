@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-13 06:28+0200\n"
+"POT-Creation-Date: 2007-08-17 21:12+0200\n"
 "PO-Revision-Date: 2007-08-15 12:55-0700\n"
 "Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
@@ -268,6 +268,27 @@ msgid ""
 "valid security certificate - then you can change this setting to "
 "<strong>Yes</strong> and CiviCRM will automatically redirect requests for "
 "all online contribution pages to the corresponding SSL secured URLs."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
+"Configure up to five fields to evaluate when searching for 'suspected' "
+"duplicate contact records. For each field, set a numeric <strong>Weight</"
+"strong> which determines the relative importance of a match on that field."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
+"You can also set a <strong>Length</strong> value which determines how many "
+"characters in the field should be compared."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.hlp
+msgid ""
+"EXAMPLE: If you set a length of 8 on 'Street Address', then '101 Delaplane "
+"Ave.' would match '101 Delaplain St.' because the first 8 characters are the "
+"same. If Length is left blank, then the comparison is done on the entire "
+"field value (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
