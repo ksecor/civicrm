@@ -102,6 +102,30 @@
             </structure>
             <property name="rowFetchLimit">100</property>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">startDate</property>
+                    <property name="paramName">startDate</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <property name="paramName">EndDate</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -170,9 +194,71 @@ FROM civicrm_contribution AS contrib,
 civicrm_contact AS contact_a, civicrm_relationship r,
 civicrm_contact AS contact_b
 WHERE contrib.contact_id = contact_a.id AND
-contrib.is_test = 0 AND (contact_a.id = r.contact_id_a  OR contact_a.id = r.contact_id_b)
-AND r.relationship_type_id = 7 AND contact_b.id = r.contact_id_b
+contrib.is_test = 0 
+AND (contact_a.id = r.contact_id_a 
+OR contact_a.id = r.contact_id_b)
+AND r.relationship_type_id IN (6, 7) 
+AND contact_b.id = r.contact_id_b
+AND (contrib.receive_date >= ? AND contrib.receive_date &lt;= ?)
 GROUP BY contact_b.id</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:DataSetParameters>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>1</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:nullability>Unknown</design:nullability>
+        <design:uiHints>
+          <design:displayName>Enter Start Date of Contribution</design:displayName>
+          <design:description>enter date in dd/mm/yy format</design:description>
+        </design:uiHints>
+      </design:attributes>
+      <design:inputAttributes>
+        <design:elementAttributes>
+          <design:defaultScalarValue>01/01/06</design:defaultScalarValue>
+          <design:optional>false</design:optional>
+          <design:masksValue>false</design:masksValue>
+          <design:uiHints>
+            <design:promptStyle>TextField</design:promptStyle>
+          </design:uiHints>
+        </design:elementAttributes>
+        <design:uiHints>
+          <design:groupPromptDisplayName>Include contributions within this date range:</design:groupPromptDisplayName>
+        </design:uiHints>
+      </design:inputAttributes>
+    </design:parameterDefinitions>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>2</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:nullability>Unknown</design:nullability>
+        <design:uiHints>
+          <design:displayName>Enter End Date of Contribution</design:displayName>
+          <design:description>Enter date in dd/mm/yy format</design:description>
+        </design:uiHints>
+      </design:attributes>
+      <design:inputAttributes>
+        <design:elementAttributes>
+          <design:defaultScalarValue>31/12/07</design:defaultScalarValue>
+          <design:optional>false</design:optional>
+          <design:masksValue>false</design:masksValue>
+          <design:uiHints>
+            <design:promptStyle>TextField</design:promptStyle>
+          </design:uiHints>
+        </design:elementAttributes>
+        <design:uiHints>
+          <design:groupPromptDisplayName>Include contributions within this date range:</design:groupPromptDisplayName>
+        </design:uiHints>
+      </design:inputAttributes>
+    </design:parameterDefinitions>
+  </design:DataSetParameters>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -230,17 +316,17 @@ GROUP BY contact_b.id</property>
                 </structure>
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Total.ave(dataSetRow["contrib_total"])</expression>
+                    <expression name="expression">Total.sum(row["ctAvg"])</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">totalContributions</property>
-                    <expression name="expression">Total.sum(dataSetRow["contrib_total"])</expression>
+                    <expression name="expression">Total.sum(row["ctAmt"])</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">numContributions</property>
-                    <expression name="expression">Total.count(row["ctNum"])</expression>
+                    <expression name="expression">Total.sum(row["ctNum"])</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
@@ -258,8 +344,14 @@ GROUP BY contact_b.id</property>
                     <expression name="expression">dataSetRow["ctAmt"]</expression>
                     <property name="dataType">decimal</property>
                 </structure>
+                <structure>
+                    <property name="name">rDate</property>
+                    <expression name="expression">dataSetRow["rDate"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <column id="19"/>
+            <column id="238"/>
             <column id="20"/>
             <column id="21"/>
             <column id="159"/>
@@ -267,7 +359,7 @@ GROUP BY contact_b.id</property>
                 <row id="22">
                     <property name="backgroundColor">#8FCBD8</property>
                     <cell id="23">
-                        <property name="colSpan">4</property>
+                        <property name="colSpan">5</property>
                         <property name="rowSpan">1</property>
                         <text id="27">
                             <property name="fontFamily">sans-serif</property>
@@ -284,7 +376,7 @@ GROUP BY contact_b.id</property>
                     <property name="backgroundColor">#8FCBD8</property>
                     <property name="fontSize">smaller</property>
                     <cell id="8">
-                        <property name="colSpan">4</property>
+                        <property name="colSpan">5</property>
                         <property name="rowSpan">1</property>
                         <text-data id="216">
                             <property name="fontSize">smaller</property>
@@ -310,11 +402,18 @@ GROUP BY contact_b.id</property>
                             <text-property name="content"><![CDATA[Contributor Name ]]></text-property>
                         </text>
                     </cell>
+                    <cell id="235">
+                        <text id="239">
+                            <property name="contentType">auto</property>
+                            <text-property name="content"><![CDATA[Receive Date]]></text-property>
+                        </text>
+                    </cell>
                     <cell id="33">
                         <text id="152">
                             <property name="fontSize">smaller</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[No of Contributions]]></text-property>
                         </text>
@@ -324,6 +423,7 @@ GROUP BY contact_b.id</property>
                             <property name="fontSize">smaller</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Avg Contribution]]></text-property>
                         </text>
@@ -331,6 +431,7 @@ GROUP BY contact_b.id</property>
                     <cell id="156">
                         <text id="160">
                             <property name="fontSize">smaller</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Total Contributuion]]></text-property>
                         </text>
@@ -347,18 +448,34 @@ GROUP BY contact_b.id</property>
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
+                    <cell id="236">
+                        <data id="240">
+                            <property name="resultSetColumn">rDate</property>
+                        </data>
+                    </cell>
                     <cell id="13">
                         <data id="230">
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctNum</property>
                         </data>
                     </cell>
                     <cell id="14">
                         <data id="231">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$###0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAvg</property>
                         </data>
                     </cell>
                     <cell id="157">
                         <data id="232">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$###0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAmt</property>
                         </data>
                     </cell>
@@ -368,7 +485,7 @@ GROUP BY contact_b.id</property>
                 <row id="15">
                     <property name="backgroundColor">#8FCBD8</property>
                     <cell id="16">
-                        <property name="colSpan">1</property>
+                        <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <text id="195">
                             <property name="fontSize">smaller</property>
@@ -382,6 +499,7 @@ GROUP BY contact_b.id</property>
                     <cell id="196">
                         <data id="190">
                             <property name="marginTop">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">numContributions</property>
                         </data>
                     </cell>
@@ -390,13 +508,19 @@ GROUP BY contact_b.id</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">###0.00</property>
+                                <property name="pattern">$###0.00</property>
                             </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">avgContributions</property>
                         </data>
                     </cell>
                     <cell id="198">
                         <data id="175">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$###0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">totalContributions</property>
                         </data>
                     </cell>
