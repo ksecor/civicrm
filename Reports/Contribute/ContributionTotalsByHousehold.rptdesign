@@ -8,6 +8,7 @@
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
         <parameter-group name="DateGroup" id="169">
+            <text-property name="displayName">Include contributions within this date range:</text-property>
             <parameters>
                 <scalar-parameter name="startDate" id="170">
                     <text-property name="helpText">enter date in dd/mm/yy format</text-property>
@@ -59,129 +60,142 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">cid</property>
+                        <property name="name">id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
+                        <property name="name">rid</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
                         <property name="name">display_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                         <property name="name">contriID</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
+                        <property name="position">5</property>
                         <property name="name">contrib_total</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">6</property>
                         <property name="name">ctAmt</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">7</property>
                         <property name="name">ctNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">8</property>
                         <property name="name">contact_type</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">8</property>
+                        <property name="position">9</property>
                         <property name="name">ctAvg</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
+                        <property name="position">10</property>
                         <property name="name">rDate</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
+            <property name="rowFetchLimit">100</property>
             <property name="dataSource">civicrm</property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">cid</property>
-                    <property name="nativeName">cid</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
+                    <property name="name">rid</property>
+                    <property name="nativeName">rid</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
                     <property name="name">display_name</property>
                     <property name="nativeName">display_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                     <property name="name">contriID</property>
                     <property name="nativeName">contriID</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">contrib_total</property>
                     <property name="nativeName">contrib_total</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">ctAmt</property>
                     <property name="nativeName">ctAmt</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">ctNum</property>
                     <property name="nativeName">ctNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">contact_type</property>
                     <property name="nativeName">contact_type</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">ctAvg</property>
                     <property name="nativeName">ctAvg</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">rDate</property>
                     <property name="nativeName">rDate</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT contact.id as cid,contact.display_name,contrib.id AS contriID, 
+            <property name="queryText">SELECT contact.id, r.id as rid,contact.display_name,contrib.id AS contriID, 
 contrib.total_amount AS contrib_total,
 sum(contrib.total_amount) AS ctAmt,
 count(contrib.id) AS ctNum,contact.contact_type,
 avg(contrib.total_amount) AS ctAvg,
 date_format(contrib.receive_date,'%d/%m/%y') AS rDate
 FROM civicrm_contribution AS contrib,
-civicrm_contact AS contact
+civicrm_contact AS contact, civicrm_relationship r
 WHERE contrib.contact_id = contact.id AND
-contrib.is_test = 0 AND 
-contact.contact_type="Household"
-GROUP BY contact.id</property>
+contrib.is_test = 0 AND (contact.id = r.contact_id_a OR contact.id = r.contact_id_b)
+AND r.relationship_type_id = 7
+GROUP BY r.id HAVING contact.contact_type = 'Household'</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -285,7 +299,7 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">center</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Contact Contribution Totals By Date Range]]></text-property>
+                            <text-property name="content"><![CDATA[Cumulative Contributions By Household]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -352,24 +366,22 @@ GROUP BY contact.id</property>
                     <property name="fontSize">x-small</property>
                     <property name="color">#1B3337</property>
                     <cell id="12">
-                        <data id="172">
-                            <property name="marginTop">0pt</property>
-                            <property name="marginLeft">0pt</property>
+                        <data id="229">
                             <property name="resultSetColumn">display_name</property>
                         </data>
                     </cell>
                     <cell id="13">
-                        <data id="213">
+                        <data id="230">
                             <property name="resultSetColumn">ctNum</property>
                         </data>
                     </cell>
                     <cell id="14">
-                        <data id="214">
+                        <data id="231">
                             <property name="resultSetColumn">ctAvg</property>
                         </data>
                     </cell>
                     <cell id="157">
-                        <data id="215">
+                        <data id="232">
                             <property name="resultSetColumn">ctAmt</property>
                         </data>
                     </cell>
