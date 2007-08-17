@@ -625,8 +625,8 @@ GROUP BY typeName</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>423.4736842105263</Width>
-      <Height>226.42105263157896</Height>
+      <Width>423.9183673469388</Width>
+      <Height>227.0204081632653</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -881,11 +881,17 @@ GROUP BY typeName</property>
           <SeriesIdentifier></SeriesIdentifier>
           <DataPoint>
             <Components>
-              <Type>Orthogonal_Value</Type>
-            </Components>
-            <Components>
               <Type>Base_Value</Type>
             </Components>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+              <FormatSpecifier xsi:type="attribute:NumberFormatSpecifier">
+                <Prefix>$</Prefix>
+                <Suffix></Suffix>
+                <FractionDigits>2</FractionDigits>
+              </FormatSpecifier>
+            </Components>
+            <Prefix></Prefix>
             <Separator>, </Separator>
           </DataPoint>
           <LabelPosition>Outside</LabelPosition>
