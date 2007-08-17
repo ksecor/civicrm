@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-08-17 04:30-0700\n"
 "Last-Translator: Pascal D'Eer <pascaldeer@hotmail.com>\n"
 "Language-Team: \n"
@@ -966,12 +966,13 @@ msgstr "De naam bestaat al in de database."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "lEr werd één overeenkomstig contact gevonden. Je kan het hier bewerken: %1 "
 "of klik op de 'bewaar dubbel contact' knop onderaan."
@@ -3225,8 +3226,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Controleer op overeenkomstige contacten"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Bewaar dubbel contact"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Kaart contact"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12923,6 +12925,9 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Bewaar dubbel contact"
 
 #~ msgid ""
 #~ "CiviCRM uses a configurable Duplicate Matching Rule to determine when a "

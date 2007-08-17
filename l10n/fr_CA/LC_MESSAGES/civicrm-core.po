@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-07-24 14:30-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
@@ -969,12 +969,13 @@ msgstr "Le nom existe déjà dans la base de données."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "Un contact trouvé. Vous pouvez le modifier ici: %1 ou cliquer sur le bouton "
 "'Enregistrer un double du contact' ci-dessous."
@@ -3309,8 +3310,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Rechercher les contacts correspondants"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Enregistrer un double du contact"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Repérer le contact"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12605,6 +12607,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Enregistrer un double du contact"
 
 #~ msgid "Setup"
 #~ msgstr "Configuration"

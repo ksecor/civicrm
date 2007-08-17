@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-07-26 15:38-0700\n"
 "Last-Translator: Matthieu Martin <matthieu.martin@nootix.com>\n"
 "MIME-Version: 1.0\n"
@@ -971,12 +971,13 @@ msgstr "Nom déjà existant dans la base de donnée."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "Un contact trouvé. Vous pouvez l'éditer ici : %1, ou utiliser le bouton "
 "\"Copier ce contact\" ci-dessous."
@@ -3277,8 +3278,9 @@ msgid "Check for Matching Contact(s)"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr ""
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Carte du Contact"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save With Duplicate Household"

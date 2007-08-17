@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-03-12 08:15-0800\n"
 "Last-Translator: Atilla Gökhan Uz <atilla.uz@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -969,12 +969,13 @@ msgstr "Bu Ad, Veritabanında kayıtlı."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] "Aranan irtibat bulundı. Buradan güncelleyebilirsiniz: %1"
 msgstr[1] "% adet irtibat bulundu. Buradan güncelleyebilirsiniz: %1"
 
@@ -3232,8 +3233,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Check for Matching Contact(s)"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Save Duplicate Contact"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "İrtibatı Eşle"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12637,6 +12639,9 @@ msgstr "İleti bir içerik süzgeci tarafından engellendi."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "SMTP işleminde Hata"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Save Duplicate Contact"
 
 #~ msgid "Email address conflicts with record %1"
 #~ msgstr "Email address conflicts with record %1"

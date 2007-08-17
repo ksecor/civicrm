@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-07-25 01:37+0200\n"
 "Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
 "MIME-Version: 1.0\n"
@@ -966,12 +966,13 @@ msgstr "Numele există în baza de date."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "A fost găsit un contact potrivit. Puteţi să-l editaţi aici: %1, sau apăsaţi "
 "butonul Salvează Contact Duplicat de mai jos."
@@ -3228,8 +3229,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Caută Contacte Potrivite"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Salvează contact duplicat"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Contact Map"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12197,6 +12199,9 @@ msgstr "Mesaj creat de un filtru de conţinut"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Eroare în tranzacţia SMTP"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Salvează contact duplicat"
 
 #~ msgid "Setup"
 #~ msgstr "Configurare"

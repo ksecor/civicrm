@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "MIME-Version: 1.0\n"
@@ -991,10 +991,10 @@ msgstr "ឈ្មោះ​មាន​រួច​ហើយ​ក្នុង​
 #: CRM/Contact/Form/Organization.php
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
@@ -3350,8 +3350,8 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
-msgid "Save Duplicate Contact"
-msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
+msgid "Save Matching Contact"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12423,6 +12423,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "លុប​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #~ msgid "Email address conflicts with record %1"
 #~ msgstr "អាសយដ្ឋាន​អ៊ីម៉ែលប៉ះពាល់​នឹង​កំណត់ត្រា%1"

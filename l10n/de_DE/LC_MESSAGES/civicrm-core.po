@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-08-15 12:58-0700\n"
 "Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
@@ -964,12 +964,13 @@ msgstr "Dieser Name ist bereits in der Datenbank vorhanden."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "Ein zutreffender Kontakt gefunden. Sie können ihn hier bearbeiten: %1"
 msgstr[1] ""
@@ -3239,8 +3240,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Suche nach zutreffenden Kontakten"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Duplikat des Kontakts speichern"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Kontakt auf der Karte zeigen"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12707,6 +12709,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Duplikat des Kontakts speichern"
 
 #~ msgid "Email address conflicts with record %1"
 #~ msgstr "Emailadresse steht im Konflikt mit dem Datensatz %1"

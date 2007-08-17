@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-07-27 01:10-0700\n"
 "Last-Translator: Alex Tsipiniuk <tsipiniuk@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -986,10 +986,10 @@ msgstr "Имя уже существует в базе данных"
 #: CRM/Contact/Form/Organization.php
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
@@ -3364,8 +3364,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Проверить на повторение контактов"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Сохранить повтаряющийся контакт"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Разметить контакт"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12716,6 +12717,9 @@ msgstr "Сообщение отобрано фильтром контента"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Ошибка в транзакции SMTP"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Сохранить повтаряющийся контакт"
 
 #~ msgid "Email address conflicts with record %1"
 #~ msgstr "Конфликт электронного адреса с записью %1"

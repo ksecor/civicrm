@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "MIME-Version: 1.0\n"
@@ -981,12 +981,13 @@ msgstr "Antamasi nimi löytyy entuudestaan tietokannasta."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "Yksi samanlainen yhteystieto tieto on löytynyt. Voit muokata sitä täällä: %1 "
 "tai paina \"Tallenna  kaksoiskappale\" -painiketta alla"
@@ -3379,8 +3380,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Tarkista yhteyksien yhteensopivuus"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Tallenna kaksoiskappale yhteyksiin"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Määrittele yhteys"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12725,6 +12727,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Tallenna kaksoiskappale yhteyksiin"
 
 #~ msgid "Email address conflicts with record %1"
 #~ msgstr "Sähköpostiosoite eroaa tiedosta %1"

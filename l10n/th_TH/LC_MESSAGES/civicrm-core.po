@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2006-11-19 07:18-0800\n"
 "Last-Translator: Akarawuth Tamrareang <akarawuth@joomlacorner.com>\n"
 "MIME-Version: 1.0\n"
@@ -991,10 +991,10 @@ msgstr "มีชื่อนี้อนู่ในฐานข้อมูล
 #, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] "พบที่ติดต่อที่เหมือนกัน คุณสามารถแก้ไขได้ที่นี่:%1"
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
@@ -3386,8 +3386,8 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
-msgid "Save Duplicate Contact"
-msgstr "ลบที่ติดต่อ"
+msgid "Save Matching Contact"
+msgstr "ประเภทของการติดต่อ"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12491,6 +12491,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "ลบที่ติดต่อ"
 
 #, fuzzy
 #~ msgid "Duplicate Matching"

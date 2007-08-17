@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-04-18 12:01-0700\n"
 "Last-Translator: Michal Mach <mover@artnet.org>\n"
 "MIME-Version: 1.0\n"
@@ -971,12 +971,13 @@ msgstr "Nazwa już występuje w bazie danych."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "Znaleziono jeden pasujący kontakt. Można go edytować tu: %1, lub wybrać "
 "„Zapisz powtarzający się kontakt”."
@@ -3319,8 +3320,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Sprawdź pasujące kontakty"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Zapisz powtarzający się kontakt"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Pokaż na mapie"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -12941,6 +12943,9 @@ msgstr "Wiadomość złapana w filtr treści"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Błąd w transakcji SMTP"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Zapisz powtarzający się kontakt"
 
 #~ msgid ""
 #~ "CiviCRM uses a configurable Duplicate Matching Rule to determine when a "

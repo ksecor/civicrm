@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-06-06 12:08-0700\n"
 "Last-Translator: Olle Zettergren <admin@zolutions.eu>\n"
 "MIME-Version: 1.0\n"
@@ -971,12 +971,13 @@ msgstr "Namnet finns redan i databasen"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "En matchande kontakt hittades. Du kan ändra den här: %1, eller klicka på "
 "spara kontaktdublett nedan"
@@ -3247,8 +3248,9 @@ msgid "Check for Matching Contact(s)"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr ""
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Kartlägg kontakt"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save With Duplicate Household"
