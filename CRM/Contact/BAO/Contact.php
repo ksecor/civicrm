@@ -946,16 +946,17 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
+        
+        //DO TO: commented because of schema change
+//         $activityParam         =  array('entity_id' => $params['contact_id']);
+//         require_once 'CRM/Core/BAO/History.php';
+//         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
 
-        $activityParam         =  array('entity_id' => $params['contact_id']);
-        require_once 'CRM/Core/BAO/History.php';
-        $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
-
-        $activityParam            =  array('contact_id' => $params['contact_id']);
-        $defaults['openActivity'] = array(
-                                          'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
-                                          'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
-                                          );
+//         $activityParam            =  array('contact_id' => $params['contact_id']);
+//         $defaults['openActivity'] = array(
+//                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
+//                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
+//                                           );
         
         return $contact;
     }
