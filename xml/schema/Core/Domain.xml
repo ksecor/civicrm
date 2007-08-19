@@ -76,4 +76,10 @@
        <cols>80</cols>
        <add>1.6</add>
   </field>
+  <field>
+       <name>version</name>
+       <type>float</type>
+       <comment>The civicrm version this instance is running</comment>
+       <add>2.0</add>
+  </field>
 </table>

@@ -131,7 +131,15 @@ class CRM_Utils_Sunlight {
         $reps = self::getRepresentativeInfo( $city, $state );
         $sens = self::getSenatorInfo( $state );
 
-        return array_merge( $sens, $reps );
+        $result = array( );
+        if ( is_array( $reps ) ) {
+            $result = array_merge( $result, $reps );
+        }
+        if ( is_array( $sens ) ) {
+            $result = array_merge( $result, $sens );
+        }
+
+        return $result;
     }
 }
 
