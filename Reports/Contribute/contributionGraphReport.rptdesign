@@ -198,7 +198,7 @@
             </list-property>
             <property name="queryText">SELECT c.id,
 c.contact_id,
-date_format(c.receive_date,'%d/%m/%y') as rdate, 
+date_format(c.receive_date,'%m/%d/%y') as rdate, 
 contact.display_name, 
 c.contribution_type_id,
 contriType.name as type,
@@ -625,8 +625,8 @@ GROUP BY typeName</property>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>423.9183673469388</Width>
-      <Height>227.0204081632653</Height>
+      <Width>424.0</Width>
+      <Height>227.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -880,9 +880,6 @@ GROUP BY typeName</property>
           </DataDefinition>
           <SeriesIdentifier></SeriesIdentifier>
           <DataPoint>
-            <Components>
-              <Type>Base_Value</Type>
-            </Components>
             <Components>
               <Type>Orthogonal_Value</Type>
               <FormatSpecifier xsi:type="attribute:NumberFormatSpecifier">
@@ -1424,7 +1421,7 @@ GROUP BY typeName</property>
                 <structure>
                     <property name="name">rdate</property>
                     <expression name="expression">dataSetRow["rdate"]</expression>
-                    <property name="dataType">string</property>
+                    <property name="dataType">date</property>
                 </structure>
                 <structure>
                     <property name="name">amt</property>
@@ -1595,7 +1592,7 @@ GROUP BY typeName</property>
                                 <property name="marginLeft">0pt</property>
                                 <structure name="numberFormat">
                                     <property name="category">Currency</property>
-                                    <property name="pattern">$###0.00</property>
+                                    <property name="pattern">$#,##0.00</property>
                                 </structure>
                                 <property name="textAlign">right</property>
                                 <property name="resultSetColumn">grpTotal</property>
@@ -1631,7 +1628,7 @@ GROUP BY typeName</property>
                             <property name="marginLeft">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">$###0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">amt</property>
@@ -1641,6 +1638,10 @@ GROUP BY typeName</property>
                         <data id="131">
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">3pt</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
                             <property name="resultSetColumn">rdate</property>
                         </data>
                     </cell>
@@ -1667,6 +1668,7 @@ GROUP BY typeName</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <text id="96">
+                            <property name="fontSize">small</property>
                             <property name="fontWeight">bold</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">3pt</property>
@@ -1677,11 +1679,12 @@ GROUP BY typeName</property>
                     </cell>
                     <cell id="93">
                         <data id="97">
+                            <property name="fontSize">small</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">$###0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">ct</property>

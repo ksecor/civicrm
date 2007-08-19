@@ -7,7 +7,7 @@
         <scalar-parameter name="status" id="131">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
-            <text-property name="promptText">Select Participant status</text-property>
+            <text-property name="promptText">Participant Status</text-property>
             <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">StatusDataSet</property>
@@ -22,7 +22,7 @@
         <scalar-parameter name="eventName" id="132">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
-            <text-property name="promptText">Select Event Name</text-property>
+            <text-property name="promptText">Event Name</text-property>
             <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">EventTitleDataSet</property>
@@ -38,7 +38,7 @@
             <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
-            <text-property name="promptText">Enter Date of Registration</text-property>
+            <text-property name="promptText">Registration Date FROM</text-property>
             <property name="concealValue">false</property>
             <property name="isRequired">true</property>
             <property name="controlType">text-box</property>
@@ -52,7 +52,7 @@
             <text-property name="helpText">Enter date in dd/mm/yy Format</text-property>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
-            <text-property name="promptText">Enter Date of Registration</text-property>
+            <text-property name="promptText">Registration Date TO</text-property>
             <property name="concealValue">false</property>
             <property name="isRequired">true</property>
             <property name="controlType">text-box</property>
@@ -65,7 +65,7 @@
         <scalar-parameter name="isTest" id="140">
             <property name="valueType">static</property>
             <property name="dataType">boolean</property>
-            <text-property name="promptText">Is Test Participant ?</text-property>
+            <text-property name="promptText">Find Test Participants Only?</text-property>
             <property name="isRequired">true</property>
             <property name="controlType">check-box</property>
             <property name="defaultValue">0</property>
@@ -711,13 +711,15 @@ AND grp.name = "participant_status"</property>
                     <cell id="15">
                         <text id="61">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Name]]></text-property>
+                            <text-property name="content"><![CDATA[Participant]]></text-property>
                         </text>
                     </cell>
                     <cell id="16">
                         <text id="62">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Event Name]]></text-property>
                         </text>
@@ -725,6 +727,7 @@ AND grp.name = "participant_status"</property>
                     <cell id="17">
                         <text id="63">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Register Date]]></text-property>
                         </text>
@@ -732,6 +735,7 @@ AND grp.name = "participant_status"</property>
                     <cell id="18">
                         <text id="64">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Event Type]]></text-property>
                         </text>
@@ -739,6 +743,7 @@ AND grp.name = "participant_status"</property>
                     <cell id="19">
                         <text id="65">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Event Status]]></text-property>
                         </text>
@@ -746,12 +751,14 @@ AND grp.name = "participant_status"</property>
                     <cell id="96">
                         <label id="100">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <text-property name="text">Event Level</text-property>
                         </label>
                     </cell>
                     <cell id="56">
                         <text id="67">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">left</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Source]]></text-property>
                         </text>
@@ -759,8 +766,9 @@ AND grp.name = "participant_status"</property>
                     <cell id="20">
                         <text id="78">
                             <property name="marginLeft">5pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Is Test Participant]]></text-property>
+                            <text-property name="content"><![CDATA[Test Participant?]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -814,6 +822,24 @@ AND grp.name = "participant_status"</property>
                     <cell id="27">
                         <data id="130">
                             <property name="marginLeft">5pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Unformatted</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <list-property name="mapRules">
+                                <structure>
+                                    <expression name="testExpr">row["is_test"]</expression>
+                                    <property name="operator">eq</property>
+                                    <expression name="value1">0</expression>
+                                    <text-property name="display">No</text-property>
+                                </structure>
+                                <structure>
+                                    <expression name="testExpr">row["is_test"]</expression>
+                                    <property name="operator">eq</property>
+                                    <expression name="value1">1</expression>
+                                    <text-property name="display">Yes</text-property>
+                                </structure>
+                            </list-property>
                             <property name="resultSetColumn">is_test</property>
                         </data>
                     </cell>
