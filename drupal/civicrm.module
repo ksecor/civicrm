@@ -303,7 +303,9 @@ function civicrm_invoke( )
     if ( ! civicrm_initialize( ) ) {
         return drupal_not_found( );
     }
-    
+
+    civicrm_cache_disable( );
+
     require_once 'CRM/Core/Error.php';
     
     // synchronize the drupal uid with the contacts db
@@ -467,6 +469,9 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
     require_once 'CRM/Core/BAO/UFGroup.php';
     require_once 'CRM/Core/Action.php';
 
+    // lets suppress key generation for all registration forms
+    civicrm_key_disable( );
+
     $ctype = civicrm_get_ctype( 'Individual' );
     if ( $user->uid ) {
         CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Drupal', $ctype );
@@ -506,6 +511,9 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
 {
     require_once 'CRM/Core/BAO/UFMatch.php';
     require_once 'CRM/Core/BAO/UFGroup.php';
+
+    // lets suppress key generation for all CMS forms
+    civicrm_key_disable( );
 
     $output = array( );
 
@@ -613,6 +621,9 @@ function civicrm_validate_data($edit, &$user, $title)
         return;
     }
 
+    // lets suppress key generation for all validation also
+    civicrm_key_disable( );
+
     $validated = true;
 
     require_once 'CRM/Utils/Array.php';
@@ -640,6 +651,24 @@ function civicrm_validate_data($edit, &$user, $title)
         return false;
     }
     return true;
+}
+
+/**
+* Disable the drupal cache for all civicrm pages which should not be cached
+*/
+function civicrm_cache_disable( ) {
+	global $conf;
+    $conf['cache'] = false;
+}
+
+/**
+ * Disable civicrm key for all forms that interact with the CMS
+ * We do not control the CMS form generation and hence should suppress
+ * qfKey
+ */
+function civicrm_key_disable( ) {
+    $config =& CRM_Core_Config::singleton( );
+    $config->formKeyDisable = true;
 }
 
 ?>

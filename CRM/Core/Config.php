@@ -440,6 +440,13 @@ class CRM_Core_Config
     public $includeDojo              = 1;
 
     /**
+     * should we disbable key generation for forms
+     *
+     * @var boolean
+     */
+    public $formKeyDisable = false;
+
+    /**
      * to determine wether the call is from cms or civicrm 
      */
     public $cmsCall  = false;
