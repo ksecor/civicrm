@@ -29,16 +29,17 @@
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
+ * @copyright David Strauss <david@fourkitchens.com> (c) 2007
  * $Id$
  *
- * This file has its origins in my conversation with David Strauss over IRC and the transaction
- * function in DAO.php
+ * This file has its origins in Donald Lobo's conversation with David 
+ * Strauss over IRC and the CRM_Core_DAO::transaction() function.
  *
- * Strauss went on and abstraced this into a class which can be used in PHP5 (since destructors
- * are called automagically at the end of the script. I've modified the code and used CiviCRM
- * coding standards. You can search for 'pressflow_transaction' on drupal modules for Strauss's
- * code
- *
+ * David went on and abstracted this into a class which can be used in PHP 5 
+ * (since destructors are called automagically at the end of the script). 
+ * Lobo modified the code and used CiviCRM coding standards. David's 
+ * PressFlow Translaction module is available at 
+ * http://drupal.org/project/pressflow_transaction
  */
 
 class CRM_Core_Transaction {
