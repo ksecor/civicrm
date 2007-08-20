@@ -59,8 +59,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
         $config =& CRM_Core_Config::singleton();
-        $mailer =& $config->getMailer();
-
+        
         /* FIXME: we might want to go to a progress table.. */
         $query = "  SELECT      *
                     FROM        $jobTable
@@ -70,12 +69,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                     OR          (status = 'Running'
                         AND         end_date IS null)
                     ORDER BY    scheduled_date, start_date";
-
+        
         $job->query($query);
-
+        
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-
+            
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
@@ -90,7 +89,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
                 CRM_Core_DAO::transaction('COMMIT');
             }
             
-        
+            $mailingSize = $job->getMailingSize();
+            $mailer =& $config->getMailer($mailingSize);
+
             /* Compose and deliver */
             $job->deliver($mailer);
 
@@ -135,6 +136,29 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             );
             CRM_Mailing_Event_BAO_Queue::create($params);
         }
+    }
+
+    /**
+     * Number of mailings of a job.
+     *
+     * @return int
+     * @access public
+     */
+    public function getMailingSize() {
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $this->mailing_id;
+        
+        if ($this->is_retry) {
+            $recipients =& $mailing->retryRecipients($this->id);
+        } else {
+            $recipients =& $mailing->getRecipients($this->id);
+        }
+        $mailingSize = 0;
+        while ($recipients->fetch()) {
+            $mailingSize ++;
+        }
+        return $mailingSize;
     }
 
     /**
@@ -205,10 +229,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
             // CRM_Utils_System::xMemory( "$mailsProcessed: " );
             // }
-
-            if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit) {
-                exit;
-            }
+            
+            //if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit ) {
+            //    exit;
+            //}
             $mailsProcessed++;
             
             /* Compose the mailing */
@@ -216,7 +240,7 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $message =& $mailing->compose(   $this->id, $eq->id, $eq->hash,
                                              $eq->contact_id, $eq->email,
                                              $recipient);
-
+            
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();
@@ -226,14 +250,14 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             
             PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                     array('CRM_Mailing_BAO_Mailing', 
-                                    'catchSMTP'));
-            $result = $mailer->send($recipient, $headers, $body);
+                                          'catchSMTP'));
+            $result = $mailer->send($recipient, $headers, $body, $this->id);
             CRM_Core_Error::setCallback();
-
+            
             $params = array('event_queue_id' => $eq->id,
                             'job_id' => $this->id,
                             'hash' => $eq->hash);
-
+            
             if (is_a($result, 'PEAR_Error')) {
                 /* Register the bounce event */
                 require_once 'CRM/Mailing/BAO/BouncePattern.php';
