@@ -1,5 +1,8 @@
 <div class="form-item">
   <h2>{ts 1=$contact_type}Matching Rules for %1 Contacts{/ts}</h2>
+    <div id="help">
+        {ts}Configure up to five fields to evaluate when searching for 'suspected' duplicate contact records.{/ts} {help id="id-rules"}
+    </div>
   <table style="width: auto;">
     <tr class="columnheader"><th>{ts}Field{/ts}</th><th>{ts}Length{/ts}</th><th>{ts}Weight{/ts}</th></tr>
     {section name=count loop=5}

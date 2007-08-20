@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-13 06:28+0200\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
 "PO-Revision-Date: 2007-05-28 06:52-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: \n"
@@ -968,12 +968,13 @@ msgstr "Il Nome specificato è già presente nel database"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
+#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
-"Duplicate Contact button below."
+"Matching Contact button below."
 msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
-"Save Duplicate Contact button below."
+"Save Matching Contact button below."
 msgstr[0] ""
 "E' stato trovato un contatto corrispondente. Lo puoi modificare qui: %1, o "
 "cliccare Salva contatto duplicato sotto."
@@ -3235,8 +3236,9 @@ msgid "Check for Matching Contact(s)"
 msgstr "Controlla contatti corrispondenti"
 
 #: CRM/Contact/Form/Edit.php
-msgid "Save Duplicate Contact"
-msgstr "Salva contatto duplicato"
+#, fuzzy
+msgid "Save Matching Contact"
+msgstr "Mappa dei Contatti"
 
 #: CRM/Contact/Form/Edit.php
 #, fuzzy
@@ -7486,9 +7488,12 @@ msgstr ""
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
-#: templates/CRM/Admin/Page/Access.tpl
+#: templates/CRM/Admin/Page/Access.tpl templates/CRM/Admin/Page/DedupeFind.tpl
+#: templates/CRM/Admin/Page/DedupeRules.tpl
+#: templates/CRM/Admin/Page/DupeMatch.tpl
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
 #: templates/CRM/Admin/Page/Options.tpl
+#: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 #: templates/CRM/Admin/Page/Setting.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Contact/Form/Address/geo_code.tpl
@@ -7701,6 +7706,12 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Matching Rules for %1 Contacts"
+msgstr ""
+
+#: templates/CRM/Admin/Form/DedupeRules.tpl
+msgid ""
+"Configure up to five fields to evaluate when searching for 'suspected' "
+"duplicate contact records."
 msgstr ""
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
@@ -8390,15 +8401,53 @@ msgid ""
 "\">download it here</a>."
 msgstr ""
 
+#: templates/CRM/Admin/Page/DedupeFind.tpl
+msgid ""
+"<strong>Find Duplicate Contacts</strong> searches through your existing "
+"contacts to identify 'suspected' duplicate records - using the <strong><a "
+"href='%3'>Duplicate Contact Rules</a></strong> which you've configured for "
+"your site (<a href='%1' target='_blank' title='%2'>read more...</a>)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeFind.tpl
+msgid ""
+"Click <strong>Use Rule</strong> next to the type of contact for which you "
+"want to look for duplicates."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.tpl
+msgid ""
+"<strong>Duplicate Contact Rules</strong> are used by the <strong><a href='%"
+"3'>Find Duplicate Contact</a></strong> feature - which searches through your "
+"existing contacts and identifies 'suspected' duplicate contact records. "
+"Click <strong>Edit Rule</strong> to review or modify the rules for each type "
+"of contact (<a href='%1' target='_blank' title='%2'>read more...</a>)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DedupeRules.tpl
+msgid ""
+"NOTE: These rules are NOT used for matching and synchronizing %1 users to "
+"CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</a>."
+msgstr ""
+
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
-"CiviCRM uses a configurable Duplicate Matching Rule to determine when a new "
-"Individual contact should be flagged as a potential duplicate of an existing "
-"record. The default configuration compares email address AND first name AND "
-"last name. This rule is used when entering a new individual contact, "
-"updating an existing contact, and importing contacts with the Import Wizard. "
-"Click <a href=\"%1\">Edit Rule</a> to modify the set of contact fields used "
-"for identifying duplicate contacts."
+"The <strong>Contact Matching Rule</strong> is used to determine when a new %"
+"2 User record should be matched and linked to an existing CiviCRM contact "
+"record. It is also used to alert you of a matching Individual contact record "
+"when you create a new Individual. Finally, contact <strong>Import</strong> "
+"uses this rule to determine whether a row in your import file is a duplicate "
+"of an existing record. The default rule compares email address AND first "
+"name AND last name. Click <a href='%1'>Edit Rule</a> to modify the set of "
+"contact fields used for matching (<a href='%3' target='_blank' title='%"
+"4'>read more...</a>)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/DupeMatch.tpl
+msgid ""
+"NOTE: These rules are NOT used to <strong>Find Duplicate Contacts</strong>. "
+"That feature searches your existing contact records, and identifies "
+"'suspected' duplicates. It uses <a href='%1'>Duplicate Contact Rules</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
@@ -8607,10 +8656,11 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
-#: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid ""
-"Payment Processor configurations for all payment processors that can be used "
-"in this install of CiviCRM."
+"You can configure one or more Payment Processors for your CiviCRM "
+"installation. You must then assign an active Payment Processor to each "
+"<strong>Online Contribution Page</strong> and each paid <strong>Event</"
+"strong> (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -8626,6 +8676,12 @@ msgid ""
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
+
+#: templates/CRM/Admin/Page/PaymentProcessorType.tpl
+msgid ""
+"Payment Processor configurations for all payment processors that can be used "
+"in this install of CiviCRM."
+msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -12192,6 +12248,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#~ msgid "Save Duplicate Contact"
+#~ msgstr "Salva contatto duplicato"
 
 #~ msgid "Setup"
 #~ msgstr "Installa"
