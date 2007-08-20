@@ -89,7 +89,7 @@ class CRM_Core_Block {
                                                                    'active'   => true ),
                                        self::MENU        => array( 'template' => 'Menu.tpl',
                                                                    'info'     => ts('CiviCRM Menu'),
-                                                                   'subject'  => ts('Front Line DB'),
+                                                                   'subject'  => ts('CiviCRM'),
                                                                    'active'   => true ),
                                        self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
                                                                    'info'     => ts( 'CiviContribute Progress Meter' ),
@@ -237,7 +237,7 @@ class CRM_Core_Block {
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                               'reset=1' ),
                 'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                              "d={$domainID}&s=%{searchString}" ),
+                                                              "d={$domainID}&s=" ),
             );
             // add the drupal form token hidden value to allow form submits to work
             $config =& CRM_Core_Config::singleton( );

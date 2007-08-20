@@ -133,29 +133,30 @@ AND civicrm_location.is_primary=1
 AND civicrm_location.entity_table='civicrm_contact'
 LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
 where household_name LIKE '$name%'
-ORDER BY household_name LIMIT 6";
+ORDER BY household_name ";
         } else {
             $query = "
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name%'
 AND domain_id = $domainID
-ORDER BY sort_name LIMIT 6";
+ORDER BY sort_name ";
         }
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        $count = 0;
+        //$count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->sort_name, $dao->id );
-            $count++;
+        //while ( $dao->fetch( ) && $count < 5 ) {
+        while ( $dao->fetch( ) ) {
+            $elements[] = array( 'name' => $dao->sort_name,
+                                 'id'    => $dao->id );
+            //$count++;
         }
         
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements );
     }
 
     /**
