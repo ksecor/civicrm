@@ -38,7 +38,7 @@
  * David went on and abstracted this into a class which can be used in PHP 5 
  * (since destructors are called automagically at the end of the script). 
  * Lobo modified the code and used CiviCRM coding standards. David's 
- * PressFlow Translaction module is available at 
+ * PressFlow Transaction module is available at 
  * http://drupal.org/project/pressflow_transaction
  */
 
