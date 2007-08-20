@@ -173,7 +173,7 @@ class CRM_Utils_Date {
         } 
         
         if( strlen( $day ) > 2 ) {
-            if( CRM_Utils_String::compareSubString( $day,':', 3 ) ) {
+            if( substr_compare( $day,':', 3 ) ) {
                 $time = substr( $day, 3, 8 );
                 $day  = substr( $day, 0, 2 );
                 list( $hr, $min, $sec ) = explode( ':', $time, 3 );

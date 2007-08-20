@@ -67,8 +67,6 @@ class CRM_Core_Selector_Base {
     function getActionAttribute( $match, $attribute = 'name' ) {
         $links =& $this->links();
 
-        // does not work for php4 .. pls revert when done with php4
-        //foreach ( $link as $action => &$item ) {
         foreach ( $link as $action => $item ) {
             if ( $match & $action ) {
                 return $item[$attribute];

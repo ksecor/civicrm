@@ -443,7 +443,6 @@ abstract class CRM_History_Import_Parser {
     }*/
     
 
-    //function setActiveFieldValues( $elements, &$erroneousField = null ) {// fixed for php4 compatibility Issue
     function setActiveFieldValues( $elements, &$erroneousField ) {    
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
         for ( $i = 0; $i < $maxCount; $i++ ) {
