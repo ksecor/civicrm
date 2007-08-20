@@ -13,11 +13,12 @@
                     <property name="dataType">date</property>
                     <text-property name="promptText">From</text-property>
                     <property name="concealValue">false</property>
+                    <property name="isRequired">true</property>
                     <property name="controlType">text-box</property>
-                    <property name="defaultValue">01/01/06</property>
+                    <property name="defaultValue">01/01/07</property>
                     <structure name="format">
-                        <property name="category">Short Date</property>
-                        <property name="pattern">Short Date</property>
+                        <property name="category">Custom</property>
+                        <property name="pattern">dd/MM/yy</property>
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="endDate" id="117">
@@ -26,11 +27,12 @@
                     <property name="dataType">date</property>
                     <text-property name="promptText">Through</text-property>
                     <property name="concealValue">false</property>
+                    <property name="isRequired">true</property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">31/12/07</property>
                     <structure name="format">
-                        <property name="category">Short Date</property>
-                        <property name="pattern">Short Date</property>
+                        <property name="category">Custom</property>
+                        <property name="pattern">dd/MM/yy</property>
                     </structure>
                 </scalar-parameter>
             </parameters>
@@ -49,14 +51,6 @@
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ContributionDataSet" id="38">
             <text-property name="displayName">ContributionDataSet</text-property>
-            <list-property name="filter">
-                <structure>
-                    <property name="operator">between</property>
-                    <expression name="expr">row["rdate"]</expression>
-                    <expression name="value1">params["startDate"]</expression>
-                    <expression name="value2">params["endDate"]</expression>
-                </structure>
-            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -112,6 +106,24 @@
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">startDate</property>
+                    <property name="paramName">startDate</property>
+                    <property name="dataType">date</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <property name="paramName">endDate</property>
+                    <property name="dataType">date</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
@@ -184,19 +196,22 @@
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT c.id,c.contact_id,date_format(c.receive_date,'%d/%m/%y') as rdate, 
+            <property name="queryText">SELECT c.id,
+c.contact_id,
+date_format(c.receive_date,'%m/%d/%y') as rdate, 
 contact.display_name, 
 c.contribution_type_id,
-type.name as type,
+contriType.name as type,
 c.total_amount as amt,
 c.source,c.contribution_status_id,
 contact.contact_type as contactType
 FROM civicrm_contribution as c
-LEFT JOIN (civicrm_contact as contact 
-,civicrm_contribution_type as type)
-ON (contact.id=c.contact_id
-AND type.id=c.contribution_type_id)
-GROUP BY c.contact_id</property>
+,civicrm_contact as contact 
+,civicrm_contribution_type as contriType
+WHERE contact.id=c.contact_id
+AND c.contribution_type_id=contriType.id
+AND (c.receive_date >= ? AND c.receive_date &lt;= ?)
+GROUP BY c.id</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="ContriGraphDataset" id="82">
             <text-property name="displayName">ContriGraphDataset</text-property>
@@ -323,7 +338,7 @@ FROM civicrm_contribution as c
 LEFT JOIN (civicrm_contact as contact 
 ,civicrm_contribution_type as type)
 ON (contact.id=c.contact_id
-AND type.id=c.contribution_type_id
+AND c.contribution_type_id=type.id
 )
 GROUP BY typeName</property>
         </oda-data-set>
@@ -867,10 +882,13 @@ GROUP BY typeName</property>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
+              <FormatSpecifier xsi:type="attribute:NumberFormatSpecifier">
+                <Prefix>$</Prefix>
+                <Suffix></Suffix>
+                <FractionDigits>2</FractionDigits>
+              </FormatSpecifier>
             </Components>
-            <Components>
-              <Type>Base_Value</Type>
-            </Components>
+            <Prefix></Prefix>
             <Separator>, </Separator>
           </DataPoint>
           <LabelPosition>Outside</LabelPosition>
@@ -1403,7 +1421,7 @@ GROUP BY typeName</property>
                 <structure>
                     <property name="name">rdate</property>
                     <expression name="expression">dataSetRow["rdate"]</expression>
-                    <property name="dataType">string</property>
+                    <property name="dataType">date</property>
                 </structure>
                 <structure>
                     <property name="name">amt</property>
@@ -1454,6 +1472,7 @@ GROUP BY typeName</property>
                 </row>
                 <row id="39">
                     <property name="backgroundColor">#BAE0E8</property>
+                    <property name="textAlign">left</property>
                     <cell id="40">
                         <text id="44">
                             <property name="marginTop">0pt</property>
@@ -1474,6 +1493,7 @@ GROUP BY typeName</property>
                         <text id="46">
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Total]]></text-property>
                         </text>
@@ -1481,7 +1501,7 @@ GROUP BY typeName</property>
                     <cell id="120">
                         <text id="126">
                             <property name="marginTop">0pt</property>
-                            <property name="marginLeft">0pt</property>
+                            <property name="marginLeft">3pt</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Receive Date]]></text-property>
                         </text>
@@ -1561,7 +1581,7 @@ GROUP BY typeName</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="marginLeft">3pt</property>
                                 <property name="paddingTop">1pt</property>
-                                <property name="textAlign">center</property>
+                                <property name="textAlign">right</property>
                                 <property name="contentType">plain</property>
                                 <text-property name="content"><![CDATA[Group Total]]></text-property>
                             </text>
@@ -1570,6 +1590,11 @@ GROUP BY typeName</property>
                             <data id="135">
                                 <property name="marginTop">0pt</property>
                                 <property name="marginLeft">0pt</property>
+                                <structure name="numberFormat">
+                                    <property name="category">Currency</property>
+                                    <property name="pattern">$#,##0.00</property>
+                                </structure>
+                                <property name="textAlign">right</property>
                                 <property name="resultSetColumn">grpTotal</property>
                             </data>
                         </cell>
@@ -1601,13 +1626,22 @@ GROUP BY typeName</property>
                         <data id="133">
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">amt</property>
                         </data>
                     </cell>
                     <cell id="122">
                         <data id="131">
                             <property name="marginTop">0pt</property>
-                            <property name="marginLeft">0pt</property>
+                            <property name="marginLeft">3pt</property>
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
                             <property name="resultSetColumn">rdate</property>
                         </data>
                     </cell>
@@ -1634,18 +1668,25 @@ GROUP BY typeName</property>
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <text id="96">
+                            <property name="fontSize">small</property>
                             <property name="fontWeight">bold</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">3pt</property>
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
                             <text-property name="content"><![CDATA[Grand Total]]></text-property>
                         </text>
                     </cell>
                     <cell id="93">
                         <data id="97">
+                            <property name="fontSize">small</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">0pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">ct</property>
                         </data>
                     </cell>

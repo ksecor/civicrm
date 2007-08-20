@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-08-15 13:17-0700\n"
+"PO-Revision-Date: 2007-08-16 14:17-0700\n"
 "Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,12 +149,12 @@ msgstr "Fester Zeitraum: Starttag"
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
 msgid "Duration Unit"
-msgstr "-Dauer?-"
+msgstr "Zeiteinheit"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
 msgid "Duration Interval"
-msgstr "Dauer-Intervall"
+msgstr "Zeitintervall"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -238,14 +238,12 @@ msgid "Thank-you Sent"
 msgstr "\"Dankeschön\" gesendet"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Send Receipt?"
-msgstr "Cc: Empfänger"
+msgstr "Quittung gesendet?"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Contribution Receipt"
-msgstr "Zuwendungsquelle"
+msgstr "Zuwendungsbestätigung"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -273,9 +271,8 @@ msgid "DashBoard"
 msgstr "Instrumentenbrett"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Pages"
-msgstr "Neue Spendenseite"
+msgstr "Bearbeite Spendenseiten"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -286,11 +283,11 @@ msgstr "Testlauf"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "Live Page"
-msgstr "Website"
+msgstr "aktuelle Webseite"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr "Nachbereitung (FollowUp)"
+msgstr "Nachbereitung"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -306,9 +303,8 @@ msgid "Disable Premium"
 msgstr "Premium ausschalten"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Participant Source"
-msgstr "Kontaktsuche"
+msgstr "Quelle/ Grund für die Teilnahme"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
 msgid "Event ID"
@@ -332,20 +328,17 @@ msgid "Event Summary"
 msgstr "Zusammenfassung der Veranstaltung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Start Date"
-msgstr "Gültigkeit bis:"
+msgstr "Registrierung: Startdatum"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration End Date"
-msgstr "Gültigkeit bis:"
+msgstr "Registrierung: Enddatum"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "Fee Label"
-msgstr "Feldname"
+msgstr "Bezeichnung der Gebühr"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
@@ -362,9 +355,8 @@ msgstr "Veranstaltung löschen"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid start date."
-msgstr "Bitte geben Sie einen gültigen Betrag ein."
+msgstr "Bitte wählen Sie ein gültiges Startdatum."
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
@@ -599,9 +591,8 @@ msgid "Honor name like - \"%1\""
 msgstr "Ehrenname wie - \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Status %1"
-msgstr "Status der Zuwendung - \"%1\""
+msgstr "Status der Zuwendung \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
@@ -616,9 +607,8 @@ msgid "Thank-you date not set?"
 msgstr "\"Dankeschön\"-Datum noch nicht gesetzt?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Receipt not sent?"
-msgstr "Quittung nicht gesetzt?"
+msgstr "Quittung nicht gesendet?"
 
 #: CRM/Contribute/BAO/Query.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -680,14 +670,12 @@ msgid "Honor Block Text"
 msgstr "Ehrungstext"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "Zuwendungsseite - %1"
+msgstr "Startdatum der Zuwendungsseite"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page End Date"
-msgstr "Zuwendungsseite - %1"
+msgstr "Enddatum der Zuwendungsseite"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
@@ -707,7 +695,7 @@ msgstr "\"Dankschön\"-Datum"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Amount Label"
-msgstr "-Spendenzweck?-"
+msgstr "Bezeichung des Betrags"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Product Option"
@@ -739,7 +727,7 @@ msgstr "Status wiederkehrender Zuwendungen"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
-msgstr "-Tag der Abbuchung?-"
+msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Next Sched Contribution"
@@ -779,7 +767,7 @@ msgstr "Haben (Credit)"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Active"
-msgstr ""
+msgstr "aktive Premiums"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
@@ -838,8 +826,8 @@ msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
 msgstr ""
-"Diese Zuwendung wurde bereits übermittelt. <a href=\"%1\">Klicken Sie hier "
-"wenn Sie einen weitere Spende tätigen möchten.</a> "
+"Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</a> "
+"wenn Sie einen weitere Spende tätigen möchten. "
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1016,9 +1004,8 @@ msgid "Add Premium to Contribution Page"
 msgstr "Neue Spendenseite"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Allow other amounts"
-msgstr "Andere Beräge erlauben?"
+msgstr "Erlaube andere Beträge"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -1070,18 +1057,16 @@ msgid "Delete Page - %1"
 msgstr "Lösche - %1"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Premiums (%1)"
-msgstr "Vorheriges"
+msgstr "Premiums (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Please enter a valid email address for Contact Email"
-msgstr "Bitte geben Sie einen gültigen Namen ein."
+msgstr "Bitte geben Sie eine gültigen Email-Adresse des Kontakts ein."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Contact Phone"
@@ -1206,7 +1191,7 @@ msgstr "Grund der Stornierung"
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Contribution is In Honor Of"
-msgstr ""
+msgstr "Spende zu Ehren von"
 
 #: CRM/Contribute/Form/Contribution.php
 msgid " First Name"
@@ -1219,9 +1204,8 @@ msgstr ""
 "angegeben sein."
 
 #: CRM/Contribute/Form/Contribution.php
-#, fuzzy
 msgid "The contribution record has been saved."
-msgstr "Die Zuwendungsart \"%1\" wurde gespeichert."
+msgstr "Die Zuwendung wurde gespeichert."
 
 #: CRM/Contribute/Form/Contribution.php
 msgid " A receipt has been emailed to the contributor."
