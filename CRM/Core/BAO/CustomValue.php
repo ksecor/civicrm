@@ -356,7 +356,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
      * @return Array of values
      * @access public
      */
-    static public function getCustomValue( $params ) 
+    public static function getCustomValue( $params ) 
     { 
         $customValues = array();
         $fields       = array('id', 'custom_field_id', 'entity_table', 'entity_id');

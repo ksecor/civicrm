@@ -144,6 +144,14 @@ function civicrm_drupal_base( ) {
         $baseURL = dirname( $baseURL );
     }
 
+    // remove the last directory separator string from the directory
+    if ( substr( $baseURL, -1, 1 ) == DIRECTORY_SEPARATOR ) {
+        $baseURL = substr( $baseURL, 0, -1 );
+    }
+
+    // also convert all DIRECTORY_SEPARATOR to the forward slash for windoze
+    $baseURL = str_replace( DIRECTORY_SEPARATOR, '/', $baseURL );
+
     if ( $baseURL != '/' ) {
         $baseURL .= '/';
     }

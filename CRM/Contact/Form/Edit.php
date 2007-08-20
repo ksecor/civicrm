@@ -532,7 +532,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                           ts( 'Check for Matching Contact(s)' ) );
         $this->addElement('submit', 
                           $this->_duplicateButtonName,
-                          ts( 'Save Duplicate Contact' ) );
+                          ts( 'Save Matching Contact' ) );
         $this->addElement('submit', 
                           $this->getButtonName( 'next'   , 'sharedHouseholdDuplicate' ),
                           ts( 'Save With Duplicate Household' ) );

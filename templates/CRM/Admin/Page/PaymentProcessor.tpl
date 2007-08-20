@@ -1,5 +1,6 @@
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    {ts}Payment Processor configurations for all payment processors that can be used in this install of CiviCRM.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}You can configure one or more Payment Processors for your CiviCRM installation. You must then assign an active Payment Processor to each <strong>Online Contribution Page</strong> and each paid <strong>Event</strong> (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}

@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-06-23 07:44-0700\n"
-"Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
+"PO-Revision-Date: 2007-08-17 04:07-0700\n"
+"Last-Translator: Pascal D'Eer <pascaldeer@hotmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -185,13 +185,14 @@ msgid "United States Minor Outlying Islands"
 msgstr "Verenigde Staten Kleine Uitliggende Eilanden"
 
 msgid "Armed Forces Europe"
-msgstr "Gewapende troepen Europa"
+msgstr "Gewapende troepen van Europa"
 
+# of "Amerika's" vooraan zetten, of 'van' ertussen zonder 'accent s'
 msgid "Armed Forces Americas"
-msgstr "Gewapende troepen Amerika's"
+msgstr "Gewapende troepen van Amerika"
 
 msgid "Armed Forces Pacific"
-msgstr "Gewapende troepen Stille Oceaan"
+msgstr "Gewapende troepen uit de Stille Oceaan"
 
 msgid "Alberta"
 msgstr "Alberta"
@@ -11443,7 +11444,7 @@ msgid "Tyne and Wear"
 msgstr "Tyne and Wear"
 
 msgid "Isle of Man"
-msgstr "Isle of Man"
+msgstr "Eiland Man"
 
 msgid "Greater Manchester"
 msgstr "Greater Manchester"
@@ -11455,7 +11456,7 @@ msgid "West Yorkshire"
 msgstr "West Yorkshire"
 
 msgid "South Yorkshire"
-msgstr "South Yorkshire"
+msgstr "Zuid Yorkshire"
 
 msgid "Merseyside"
 msgstr "Merseyside"

@@ -108,7 +108,7 @@ class CRM_Contact_Form_Household
             }
             if (!empty($dupeIDs)) {
                 $url = implode( ', ',  $urls );
-                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1, or click Save Duplicate Contact button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can edit them here: %1, or click Save Duplicate Contact button below.' ) );
+                $errors['_qf_default'] = ts( 'One matching contact was found. You can edit it here: %1, or click Save Matching Contact button below.', array( 1 => $url, 'count' => count( $urls ), 'plural' => '%count matching contacts were found. You can edit them here: %1, or click Save Matching Contact button below.' ) );
                 $template =& CRM_Core_Smarty::singleton( );
                 $template->assign( 'isDuplicate', 1 );
             } else if ( CRM_Utils_Array::value( '_qf_Edit_refresh_dedupe', $fields ) ) {

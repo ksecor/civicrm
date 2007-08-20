@@ -3,8 +3,11 @@
    {include file="CRM/Admin/Form/DupeMatch.tpl"}
 {else}
     <div id="help">
+    {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
     {capture assign=crmURL}{crmURL q="action=update&reset=1&advance=0"}{/capture}
-        <p>{ts 1=$crmURL}CiviCRM uses a configurable Duplicate Matching Rule to determine when a new Individual contact should be flagged as a potential duplicate of an existing record. The default configuration compares email address AND first name AND last name. This rule is used when entering a new individual contact, updating an existing contact, and importing contacts with the Import Wizard. Click <a href="%1">Edit Rule</a> to modify the set of contact fields used for identifying duplicate contacts.{/ts}</p>
+    {capture assign="rulesURL"}{crmURL p='civicrm/admin/deduperules' q="reset=1"}{/capture}
+        <p>{ts 1=$crmURL 2=$config->userFramework 3="http://wiki.civicrm.org/confluence//x/9Cc" 4=$docURLTitle}The <strong>Contact Matching Rule</strong> is used to determine when a new %2 User record should be matched and linked to an existing CiviCRM contact record. It is also used to alert you of a matching Individual contact record when you create a new Individual. Finally, contact <strong>Import</strong> uses this rule to determine whether a row in your import file is a duplicate of an existing record. The default rule compares email address AND first name AND last name. Click <a href='%1'>Edit Rule</a> to modify the set of contact fields used for matching (<a href='%3' target='_blank' title='%4'>read more...</a>).{/ts}</p>
+        <p>{ts 1=$rulesURL}NOTE: These rules are NOT used to <strong>Find Duplicate Contacts</strong>. That feature searches your existing contact records, and identifies 'suspected' duplicates. It uses <a href='%1'>Duplicate Contact Rules</a>.{/ts}</p>
     </div>
 {/if}
 

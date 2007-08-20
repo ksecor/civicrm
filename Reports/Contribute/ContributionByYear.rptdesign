@@ -11,10 +11,11 @@
             <text-property name="displayName">Include contributions within this date range:</text-property>
             <parameters>
                 <scalar-parameter name="startDate" id="170">
-                    <text-property name="helpText">Enter date in dd/mm/yy format</text-property>
+                    <text-property name="helpText">Enter date in yyyy-mm-dd format</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
                     <text-property name="promptText">From</text-property>
+                    <property name="concealValue">false</property>
                     <property name="controlType">text-box</property>
                     <structure name="format">
                         <property name="category">Short Date</property>
@@ -22,14 +23,46 @@
                     </structure>
                 </scalar-parameter>
                 <scalar-parameter name="EndDate" id="171">
-                    <text-property name="helpText">Enter date in dd/mm/yy format.</text-property>
+                    <text-property name="helpText">Enter date in yyyy-mm-dd format.</text-property>
                     <property name="valueType">static</property>
                     <property name="dataType">date</property>
                     <text-property name="promptText">To</text-property>
+                    <property name="concealValue">false</property>
                     <property name="controlType">text-box</property>
                     <structure name="format">
                         <property name="category">Short Date</property>
                         <property name="pattern">Short Date</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </parameter-group>
+        <parameter-group name="givingRange" id="217">
+            <text-property name="displayName">Include contributors with cumulative totals in this range:</text-property>
+            <parameters>
+                <scalar-parameter name="Minimum" id="218">
+                    <property name="valueType">static</property>
+                    <property name="dataType">integer</property>
+                    <text-property name="promptText">Minimum Cumulative Amount</text-property>
+                    <property name="concealValue">false</property>
+                    <property name="isRequired">true</property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">0</property>
+                    <structure name="format">
+                        <property name="category">Currency</property>
+                        <property name="pattern">###0.00</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="Maximum" id="219">
+                    <property name="valueType">static</property>
+                    <property name="dataType">integer</property>
+                    <text-property name="promptText">Maximum Cumulative Amount</text-property>
+                    <property name="concealValue">false</property>
+                    <property name="isRequired">true</property>
+                    <property name="controlType">text-box</property>
+                    <property name="defaultValue">10000</property>
+                    <structure name="format">
+                        <property name="category">Currency</property>
+                        <property name="pattern">###0.00</property>
                     </structure>
                 </scalar-parameter>
             </parameters>
@@ -46,116 +79,182 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="yearlyContributionDataSet" id="162">
-            <list-property name="filter">
-                <structure>
-                    <property name="operator">between</property>
-                    <expression name="expr">row["rDate"]</expression>
-                    <expression name="value1">params["startDate"]</expression>
-                    <expression name="value2">params["EndDate"]</expression>
-                </structure>
-            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
                         <property name="name">display_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">2</property>
-                        <property name="name">contriID</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
                         <property name="position">3</property>
-                        <property name="name">contrib_total</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
                         <property name="name">ctAmt</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">5</property>
+                        <property name="position">4</property>
                         <property name="name">ctNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">5</property>
                         <property name="name">ctAvg</property>
                         <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">rDate</property>
-                        <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
             <property name="dataSource">civicrm</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">startDate</property>
+                    <property name="paramName">startDate</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">endDate</property>
+                    <property name="paramName">EndDate</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">2</property>
+                    <property name="isOptional">false</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">Minimum</property>
+                    <property name="paramName">Minimum</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">Maximum</property>
+                    <property name="paramName">Maximum</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">4</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
                     <property name="name">display_name</property>
                     <property name="nativeName">display_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">2</property>
-                    <property name="name">contriID</property>
-                    <property name="nativeName">contriID</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
                     <property name="position">3</property>
-                    <property name="name">contrib_total</property>
-                    <property name="nativeName">contrib_total</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
                     <property name="name">ctAmt</property>
                     <property name="nativeName">ctAmt</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                     <property name="name">ctNum</property>
                     <property name="nativeName">ctNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">5</property>
                     <property name="name">ctAvg</property>
                     <property name="nativeName">ctAvg</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">rDate</property>
-                    <property name="nativeName">rDate</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
             </list-property>
-            <property name="queryText">SELECT contact.display_name,contrib.id AS contriID, 
-contrib.total_amount AS contrib_total,
+            <property name="queryText">SELECT distinct(contact.id),
+contact.display_name,
 sum(contrib.total_amount) AS ctAmt,
 count(contrib.id) AS ctNum,
-avg(contrib.total_amount) AS ctAvg,
-date_format(contrib.receive_date,'%d/%m/%y') AS rDate
+avg(contrib.total_amount) AS ctAvg
 FROM civicrm_contribution AS contrib,
 civicrm_contact AS contact
-WHERE contrib.contact_id = contact.id AND
-contrib.is_test = 0
-GROUP BY contact.id</property>
+WHERE contrib.contact_id = contact.id 
+AND ( contrib.receive_date >= ? AND contrib.receive_date &lt;= ? )
+GROUP BY contact.id
+HAVING (sum(contrib.total_amount) >= ? AND sum(contrib.total_amount) &lt;= ?)
+ORDER BY ctAmt desc
+</property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:DataSetParameters>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>1</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:nullability>Unknown</design:nullability>
+        <design:uiHints>
+          <design:displayName>From</design:displayName>
+          <design:description>Enter date in dd/mm/yy format</design:description>
+        </design:uiHints>
+      </design:attributes>
+      <design:inputAttributes>
+        <design:elementAttributes>
+          <design:optional>false</design:optional>
+          <design:masksValue>false</design:masksValue>
+          <design:uiHints>
+            <design:promptStyle>TextField</design:promptStyle>
+          </design:uiHints>
+        </design:elementAttributes>
+        <design:uiHints>
+          <design:groupPromptDisplayName>Include contributions within this date range:</design:groupPromptDisplayName>
+        </design:uiHints>
+      </design:inputAttributes>
+    </design:parameterDefinitions>
+    <design:parameterDefinitions>
+      <design:inOutMode>In</design:inOutMode>
+      <design:attributes>
+        <design:name></design:name>
+        <design:position>2</design:position>
+        <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+        <design:nullability>Unknown</design:nullability>
+        <design:uiHints>
+          <design:displayName>To</design:displayName>
+          <design:description>Enter date in dd/mm/yy format.</design:description>
+        </design:uiHints>
+      </design:attributes>
+      <design:inputAttributes>
+        <design:elementAttributes>
+          <design:optional>false</design:optional>
+          <design:masksValue>false</design:masksValue>
+          <design:uiHints>
+            <design:promptStyle>TextField</design:promptStyle>
+          </design:uiHints>
+        </design:elementAttributes>
+        <design:uiHints>
+          <design:groupPromptDisplayName>Include contributions within this date range:</design:groupPromptDisplayName>
+        </design:uiHints>
+      </design:inputAttributes>
+    </design:parameterDefinitions>
+  </design:DataSetParameters>
+</model:DesignValues>]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -213,17 +312,17 @@ GROUP BY contact.id</property>
                 </structure>
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Total.ave(dataSetRow["contrib_total"])</expression>
+                    <expression name="expression">Total.sum(dataSetRow["ctAmt"])/Total.sum(dataSetRow["ctNum"])</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">totalContributions</property>
-                    <expression name="expression">Total.sum(dataSetRow["contrib_total"])</expression>
+                    <expression name="expression">Total.sum(dataSetRow["ctAmt"])</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="name">numContributions</property>
-                    <expression name="expression">Total.count(dataSetRow["contriID"])</expression>
+                    <expression name="expression">Total.count(dataSetRow["ctNum"])</expression>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
@@ -240,6 +339,11 @@ GROUP BY contact.id</property>
                     <property name="name">ctAmt</property>
                     <expression name="expression">dataSetRow["ctAmt"]</expression>
                     <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <expression name="expression">dataSetRow["id"]</expression>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <column id="19"/>
@@ -259,7 +363,7 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">center</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Cumulative Contributions By Date Range]]></text-property>
+                            <text-property name="content"><![CDATA[Cumulative Contributions By Range]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -273,7 +377,8 @@ GROUP BY contact.id</property>
                             <property name="fontSize">small</property>
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">left</property>
-                            <expression name="valueExpr">"&lt;strong>Contributions from " + params["startDate"] + "  through " + params["EndDate"] + "&lt;/strong>"</expression>
+                            <expression name="valueExpr">"&lt;strong>&lt;ul>&lt;li>Contributions from " + params["startDate"] + "  through " + params["EndDate"] + 
+"&lt;/li>&lt;li>  Contribution Range  between $" + params["Minimum"] + " and  $"+ params["Maximum"] + "&lt;/li>&lt;/ul>&lt;/strong>"</expression>
                             <property name="contentType">html</property>
                         </text-data>
                     </cell>
@@ -318,7 +423,7 @@ GROUP BY contact.id</property>
                             <property name="fontSize">smaller</property>
                             <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Cumulative Total]]></text-property>
+                            <text-property name="content"><![CDATA[Total Contributed]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -343,12 +448,20 @@ GROUP BY contact.id</property>
                     </cell>
                     <cell id="14">
                         <data id="214">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$###0.00</property>
+                            </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAvg</property>
                         </data>
                     </cell>
                     <cell id="157">
-                        <data id="215">
+                        <data id="236">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$###0.00</property>
+                            </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">ctAmt</property>
                         </data>
@@ -374,6 +487,14 @@ GROUP BY contact.id</property>
                         <data id="190">
                             <property name="marginTop">0pt</property>
                             <property name="textAlign">right</property>
+                            <property name="dataSet">yearlyContributionDataSet</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">numContributions</property>
+                                    <expression name="expression">Total.sum(dataSetRow["ctNum"])</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                            </list-property>
                             <property name="resultSetColumn">numContributions</property>
                         </data>
                     </cell>
@@ -382,7 +503,7 @@ GROUP BY contact.id</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">avgContributions</property>
@@ -392,7 +513,7 @@ GROUP BY contact.id</property>
                         <data id="175">
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">totalContributions</property>

@@ -77,7 +77,14 @@ class CRM_Core_Smarty extends Smarty {
             $this->template_dir = $config->templateDir;
         }
         $this->compile_dir  = $config->templateCompileDir;
-        $this->use_sub_dirs = true;
+        
+        //Check for safe mode CRM-2207
+        if ( ini_get('safe_mode') ) {
+            $this->use_sub_dirs = false;
+        } else {
+            $this->use_sub_dirs = true;
+        }
+
         $this->plugins_dir  = array ( $config->smartyDir . 'plugins', $config->pluginsDir );
 
         // add the session and the config here
