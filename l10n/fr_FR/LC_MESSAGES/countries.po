@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-06-27 09:20-0700\n"
-"Last-Translator: Eric Leclerc <eric.leclerc@gmail.com>\n"
+"PO-Revision-Date: 2007-08-17 16:03-0700\n"
+"Last-Translator: Matthieu Martin <matthieu.martin@nootix.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.1\n"
 
 # AF
 msgid "Afghanistan"
@@ -419,7 +419,7 @@ msgstr "Indonésie"
 
 # KR
 msgid "Iran, Islamic Republic of"
-msgstr "République Islamique d'Iran"
+msgstr "Iran, République Islamique d'"
 
 # IQ
 msgid "Iraq"
@@ -463,11 +463,11 @@ msgstr "Kiribati"
 
 # KP
 msgid "Korea, Democratic People's Republic of"
-msgstr "République Populaire Démocratique de Corée"
+msgstr "Corée, République Populaire Démocratique de"
 
 # KR
 msgid "Korea, Republic of"
-msgstr "République de Corée"
+msgstr "Corée, République de"
 
 # KW
 msgid "Kuwait"
@@ -479,7 +479,7 @@ msgstr "Kirghizistan"
 
 # CD
 msgid "Lao People's Democratic Republic"
-msgstr "République Populaire Démocratique du Lao"
+msgstr "Laos, République Populaire Démocratique du"
 
 # LV
 msgid "Latvia"
@@ -571,11 +571,11 @@ msgstr "Mexique"
 
 # name for FSM
 msgid "Micronesia, Federated States of"
-msgstr "États Fédérés de Micronésie"
+msgstr "Micronésie, États Fédérés de "
 
 # KR
 msgid "Moldova, Republic of"
-msgstr "République de Moldavie"
+msgstr "Moldavie, République de"
 
 # MC
 msgid "Monaco"
@@ -611,7 +611,7 @@ msgstr "Népal"
 
 # AN
 msgid "Netherlands Antilles"
-msgstr "Antilles néerlandaises"
+msgstr "Antilles Néerlandaises"
 
 # NL
 msgid "Netherlands"
@@ -667,7 +667,7 @@ msgstr "Palaos"
 
 # name for PSE
 msgid "Palestinian Territory, Occupied"
-msgstr "Territoire Occupé Palestinien"
+msgstr "Territoire Palestinien, Occupé"
 
 # PA
 msgid "Panama"
@@ -715,7 +715,7 @@ msgstr "Roumanie"
 
 # RU
 msgid "Russian Federation"
-msgstr "Fédération de Russie"
+msgstr "Russie, Fédération de"
 
 # RW
 msgid "Rwanda"
@@ -980,10 +980,10 @@ msgid "Montenegro"
 msgstr "Monténégro"
 
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernesey"
 
 msgid "Isle of Man"
-msgstr ""
+msgstr "Ile de Man"

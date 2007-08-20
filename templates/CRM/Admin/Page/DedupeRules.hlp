@@ -1,0 +1,6 @@
+{htxt id="id-rules"}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+<p>{ts}Configure up to five fields to evaluate when searching for 'suspected' duplicate contact records. For each field, set a numeric <strong>Weight</strong> which determines the relative importance of a match on that field.{/ts}</p>
+<p>{ts}You can also set a <strong>Length</strong> value which determines how many characters in the field should be compared.{/ts}</p>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/xis" 2=$docURLTitle}EXAMPLE: If you set a length of 8 on 'Street Address', then '101 Delaplane Ave.' would match '101 Delaplain St.' because the first 8 characters are the same. If Length is left blank, then the comparison is done on the entire field value (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}</p>
+{/htxt}

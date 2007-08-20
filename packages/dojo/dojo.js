@@ -9766,7 +9766,8 @@ this.setAllValues("","");
 return;
 }
 if(!_904){
-this.setSelectedValue("");
+//console.log('2'); this commented because on tab null values were submitted
+//this.setSelectedValue("");
 }
 }
 },_selectOption:function(evt){
