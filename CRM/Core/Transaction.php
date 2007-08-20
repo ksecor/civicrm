@@ -97,7 +97,7 @@ class CRM_Core_Transaction {
         }
     }
 
-    static public function rollback( ) {
+    public function rollback( ) {
         self::$_doCommit = false;
     }
     
