@@ -315,7 +315,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->assign('noSearchable', $noSearchable);
 
         require_once 'CRM/Core/BAO/LocationType.php';
-        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();
+        $this->_location_types  =& CRM_Core_PseudoConstant::locationType();        
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
         
        /* FIXME: dirty hack to make the default option show up first.  This
@@ -360,11 +360,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             if ($key) {
                 $sel2[$key] = $this->_mapperFields[$key];
             }
-        }
-        
+        } 
         $sel3[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
-     
+        asort($phoneTypes);
+             
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
                 foreach ($this->_location_types as $key => $value) {                        
@@ -372,7 +372,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 }
             }
         } 
-         
+        
         foreach ($sel1 as $k=>$sel ) {
             if ($k) {
                 if (is_array($this->_mapperFields[$k])) {
@@ -386,7 +386,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                 }
             }
         }
-
+       
         $this->_defaults = array();
         $js = "<script type='text/javascript'>\n";
         $formName = "document.{$this->_name}";
@@ -422,6 +422,12 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             } 
         }
         
+        foreach ( $sel2 as $k => $v ) {
+            if ( is_array($sel2[$k]) ) {
+             asort($sel2[$k]);              
+            } 
+        }
+
         $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
         
         $js .= "</script>\n";

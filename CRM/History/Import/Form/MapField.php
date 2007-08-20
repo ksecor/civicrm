@@ -171,6 +171,7 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
+        asort($this->_mapperFields);
         
         $this->_columnCount = $this->get( 'columnCount' );
         $this->assign( 'columnCount' , $this->_columnCount );

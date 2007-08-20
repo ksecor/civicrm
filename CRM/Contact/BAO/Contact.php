@@ -1417,7 +1417,7 @@ WHERE civicrm_contact.id IN $idString ";
             } else {
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
-
+           
             if ( $contactType != 'All' ) {
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
                 eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::import( ));');
@@ -1429,7 +1429,7 @@ WHERE civicrm_contact.id IN $idString ";
                     $fields = array_merge( $fields, $tmpFields );
                 }
             }
-
+             
             require_once "CRM/Core/OptionValue.php";
             // the fields are only meant for Individual contact type
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {
@@ -1447,8 +1447,8 @@ WHERE civicrm_contact.id IN $idString ";
                 $locationFields[$key]['hasLocationType'] = true;
             }
 
-            $fields = array_merge($fields, $locationFields);
-
+            $fields = array_merge($fields, $locationFields); 
+     
             $fields = array_merge($fields,
                                   CRM_Contact_DAO_Contact::import( ) );
             $fields = array_merge($fields,
@@ -1462,6 +1462,13 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
 
+            //Sorting fields in alphabetical order(CRM-1507)
+            foreach ( $fields as $k=>$v ) {
+                $sortArray[$k] = $v['title'];
+            }
+            asort($sortArray);
+            $fields = array_merge( $sortArray, $fields );
+            
             self::$_importableFields[$contactType] = $fields;
         }
         return self::$_importableFields[$contactType];
@@ -1780,6 +1787,13 @@ WHERE civicrm_contact.id IN $idString ";
                                                         'tag'    => array( 'title'  => ts( 'Tag(s)'  ) ),
                                                         'note'   => array( 'title'  => ts( 'Note(s)' ) ) ) );
             }
+            
+            //Sorting fields in alphabetical order(CRM-1507)
+            foreach ( $fields as $k=>$v ) {
+                $sortArray[$k] = $v['title'];
+            }
+            asort($sortArray);
+            $fields = array_merge( $sortArray, $fields );
             
             self::$_exportableFields[$contactType] = $fields;
         }

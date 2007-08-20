@@ -113,7 +113,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
 
         //Relationship importables
         $relations = CRM_Contact_BAO_Relationship::getContactRelationshipType( null, null, null, $this->_contactType );
-        
+        asort($relations);
+
         foreach ($relations as $key => $var) {
             list( $type ) = explode( '_', $key );
             $relationshipType[$key]['title'] = $var;

@@ -393,7 +393,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mapperKeys      = array_keys( $mapperFields );
         
         $locationTypes  =& CRM_Core_PseudoConstant::locationType();
-                
+               
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
             
         /* FIXME: dirty hack to make the default option show up first.  This
@@ -410,7 +410,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $locationTypes = array (' ' => ts('Primary')) + $locationTypes;
 
-
         $sel1 = array('' => '-select record type-') + CRM_Core_SelectValues::contactType() + $compArray;
         
         foreach($sel1 as $key=>$sel ) {
@@ -421,7 +420,8 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         
         $sel3[''] = null;
         $phoneTypes = CRM_Core_SelectValues::phoneType();
-        
+        asort($phoneTypes);
+
         foreach($sel1 as $k=>$sel ) {
             if($k) {
                 foreach ($locationTypes as $key => $value) {                        
