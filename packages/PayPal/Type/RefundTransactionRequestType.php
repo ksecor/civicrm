@@ -50,7 +50,7 @@ class RefundTransactionRequestType extends AbstractRequestType
               'RefundType' => 
               array (
                 'required' => false,
-                'type' => 'RefundPurposeTypeCodeType',
+                'type' => 'RefundType',
                 'namespace' => 'urn:ebay:api:PayPalAPI',
               ),
               'Amount' => 

@@ -22,7 +22,7 @@
  * Needed Classes
  */
 require_once 'PayPal/SOAP/Base.php';
-
+require_once 'PayPal/SDKProxyProperties.php';
 /**
  *  HTTP Transport for SOAP
  *
@@ -328,6 +328,19 @@ class SOAP_Transport_HTTP extends SOAP_Base
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $this->incoming_payload, $match)) {
             #$this->response = preg_replace("/[\r|\n]/", '', $match[2]);
+
+// find the response error, some servers response with 500 for soap faults
+            //Check if proxy headers are found
+            //If found, ignore those headers
+            if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $match[2], $match1))
+            {
+                if($match1[2] != '')
+                {
+                    $match[1] = $match1[1];
+                    $match[2] = $match1[2];
+                }
+            }
+
             $this->response =& $match[2];
             // find the response error, some servers response with 500 for soap faults
             $this->_parseHeaders($match[1]);
@@ -477,7 +490,8 @@ class SOAP_Transport_HTTP extends SOAP_Base
      */
     function &_sendHTTP(&$msg, $options)
     {
-        $this->incoming_payload = '';
+        		
+		$this->incoming_payload = '';
         $this->_getRequest($msg, $options);
         $host = $this->urlparts['host'];
         $port = $this->urlparts['port'];
@@ -536,6 +550,17 @@ class SOAP_Transport_HTTP extends SOAP_Base
         /* NOTE This function uses the CURL functions
          *  Your php must be compiled with CURL
          */
+
+		//adding proxy supprt for HTTPS connections.
+	   //if USE_PROXY set to TRUE in SDKProxyProperties.php(php-sdk\lib\PayPal),
+	  //then only proxy is setted.
+		if(USE_PROXY){
+				$options['proxy_host'] = PROXY_HOST;
+				$options['proxy_port']=  PROXY_PORT;
+				$options['proxy_user'] = PROXY_USER;
+				$options['proxy_pass']=  PROXY_PASSWORD;
+		}
+
         if (!extension_loaded('curl')) {
             return $this->_raiseSoapFault('CURL Extension is required for HTTPS');
         }

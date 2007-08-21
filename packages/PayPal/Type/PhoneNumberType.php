@@ -21,7 +21,7 @@ class PhoneNumberType extends XSDType
     var $CountryCode;
 
     /**
-     * Phone number associated with this phone .
+     * Phone number associated with this phone.
      */
     var $PhoneNumber;
 

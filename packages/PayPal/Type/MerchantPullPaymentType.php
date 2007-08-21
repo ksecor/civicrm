@@ -84,6 +84,11 @@ class MerchantPullPaymentType extends XSDType
      */
     var $ButtonSource;
 
+    /**
+     * Passed in soft descriptor string to be appended.
+     */
+    var $SoftDescriptor;
+
     function MerchantPullPaymentType()
     {
         parent::XSDType();
@@ -163,6 +168,12 @@ class MerchantPullPaymentType extends XSDType
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'ButtonSource' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'SoftDescriptor' => 
               array (
                 'required' => false,
                 'type' => 'string',
@@ -287,5 +298,14 @@ class MerchantPullPaymentType extends XSDType
     {
         $this->ButtonSource = $ButtonSource;
         $this->_elements['ButtonSource']['charset'] = $charset;
+    }
+    function getSoftDescriptor()
+    {
+        return $this->SoftDescriptor;
+    }
+    function setSoftDescriptor($SoftDescriptor, $charset = 'iso-8859-1')
+    {
+        $this->SoftDescriptor = $SoftDescriptor;
+        $this->_elements['SoftDescriptor']['charset'] = $charset;
     }
 }

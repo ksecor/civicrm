@@ -8,7 +8,7 @@ $PayPalEndpoints = array (
   0 =>
   array (
     'min' => '1.00',
-    'max' => '2.20',
+    'max' => '3.20',
     'environments' =>
     array (
       'live' =>

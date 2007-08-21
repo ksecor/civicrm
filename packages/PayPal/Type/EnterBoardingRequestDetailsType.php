@@ -53,7 +53,7 @@ class EnterBoardingRequestDetailsType extends XSDType
     var $OwnerInfo;
 
     /**
-     * Information about the merchant ’s bank account
+     * Information about the merchant's bank account
      */
     var $BankAccount;
 

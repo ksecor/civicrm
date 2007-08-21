@@ -48,6 +48,12 @@ class PaymentDetailsItemType extends XSDType
      */
     var $EbayItemPaymentDetailsItem;
 
+    /**
+     * Promotional financing code for item. Part of the Merchant Services Promotion
+     * Financing feature.
+     */
+    var $PromoCode;
+
     function PaymentDetailsItemType()
     {
         parent::XSDType();
@@ -88,6 +94,12 @@ class PaymentDetailsItemType extends XSDType
               array (
                 'required' => false,
                 'type' => 'EbayItemPaymentDetailsItemType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'PromoCode' => 
+              array (
+                'required' => false,
+                'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
@@ -146,5 +158,14 @@ class PaymentDetailsItemType extends XSDType
     {
         $this->EbayItemPaymentDetailsItem = $EbayItemPaymentDetailsItem;
         $this->_elements['EbayItemPaymentDetailsItem']['charset'] = $charset;
+    }
+    function getPromoCode()
+    {
+        return $this->PromoCode;
+    }
+    function setPromoCode($PromoCode, $charset = 'iso-8859-1')
+    {
+        $this->PromoCode = $PromoCode;
+        $this->_elements['PromoCode']['charset'] = $charset;
     }
 }

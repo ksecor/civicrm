@@ -18,12 +18,12 @@ require_once 'Log.php';
 /**
  * The WSDL version the SDK is built against.
  */
-define('PAYPAL_WSDL_VERSION', 2.3);
+define('PAYPAL_WSDL_VERSION', 3.2);
 
 /**
  * The WSDL version the SDK is built against.
  */
-define('PAYPAL_WSDL_METHODS', 'a:19:{s:17:"RefundTransaction";a:2:{s:5:"param";s:28:"RefundTransactionRequestType";s:6:"result";s:29:"RefundTransactionResponseType";}s:21:"GetTransactionDetails";a:2:{s:5:"param";s:32:"GetTransactionDetailsRequestType";s:6:"result";s:33:"GetTransactionDetailsResponseType";}s:8:"BillUser";a:2:{s:5:"param";s:19:"BillUserRequestType";s:6:"result";s:20:"BillUserResponseType";}s:17:"TransactionSearch";a:2:{s:5:"param";s:28:"TransactionSearchRequestType";s:6:"result";s:29:"TransactionSearchResponseType";}s:7:"MassPay";a:2:{s:5:"param";s:18:"MassPayRequestType";s:6:"result";s:19:"MassPayResponseType";}s:19:"BillAgreementUpdate";a:2:{s:5:"param";s:19:"BAUpdateRequestType";s:6:"result";s:20:"BAUpdateResponseType";}s:13:"AddressVerify";a:2:{s:5:"param";s:24:"AddressVerifyRequestType";s:6:"result";s:25:"AddressVerifyResponseType";}s:13:"EnterBoarding";a:2:{s:5:"param";s:24:"EnterBoardingRequestType";s:6:"result";s:25:"EnterBoardingResponseType";}s:18:"GetBoardingDetails";a:2:{s:5:"param";s:29:"GetBoardingDetailsRequestType";s:6:"result";s:30:"GetBoardingDetailsResponseType";}s:19:"CreateMobilePayment";a:2:{s:5:"param";s:30:"CreateMobilePaymentRequestType";s:6:"result";s:31:"CreateMobilePaymentResponseType";}s:15:"GetMobileStatus";a:2:{s:5:"param";s:26:"GetMobileStatusRequestType";s:6:"result";s:27:"GetMobileStatusResponseType";}s:24:"DoExpressCheckoutPayment";a:2:{s:5:"param";s:35:"DoExpressCheckoutPaymentRequestType";s:6:"result";s:36:"DoExpressCheckoutPaymentResponseType";}s:18:"SetExpressCheckout";a:2:{s:5:"param";s:29:"SetExpressCheckoutRequestType";s:6:"result";s:30:"SetExpressCheckoutResponseType";}s:25:"GetExpressCheckoutDetails";a:2:{s:5:"param";s:36:"GetExpressCheckoutDetailsRequestType";s:6:"result";s:37:"GetExpressCheckoutDetailsResponseType";}s:15:"DoDirectPayment";a:2:{s:5:"param";s:26:"DoDirectPaymentRequestType";s:6:"result";s:27:"DoDirectPaymentResponseType";}s:9:"DoCapture";a:2:{s:5:"param";s:20:"DoCaptureRequestType";s:6:"result";s:21:"DoCaptureResponseType";}s:17:"DoReauthorization";a:2:{s:5:"param";s:28:"DoReauthorizationRequestType";s:6:"result";s:29:"DoReauthorizationResponseType";}s:6:"DoVoid";a:2:{s:5:"param";s:17:"DoVoidRequestType";s:6:"result";s:18:"DoVoidResponseType";}s:15:"DoAuthorization";a:2:{s:5:"param";s:26:"DoAuthorizationRequestType";s:6:"result";s:27:"DoAuthorizationResponseType";}}');
+define('PAYPAL_WSDL_METHODS', 'a:29:{s:17:"RefundTransaction";a:2:{s:5:"param";s:28:"RefundTransactionRequestType";s:6:"result";s:29:"RefundTransactionResponseType";}s:21:"GetTransactionDetails";a:2:{s:5:"param";s:32:"GetTransactionDetailsRequestType";s:6:"result";s:33:"GetTransactionDetailsResponseType";}s:8:"BillUser";a:2:{s:5:"param";s:19:"BillUserRequestType";s:6:"result";s:20:"BillUserResponseType";}s:17:"TransactionSearch";a:2:{s:5:"param";s:28:"TransactionSearchRequestType";s:6:"result";s:29:"TransactionSearchResponseType";}s:7:"MassPay";a:2:{s:5:"param";s:18:"MassPayRequestType";s:6:"result";s:19:"MassPayResponseType";}s:19:"BillAgreementUpdate";a:2:{s:5:"param";s:19:"BAUpdateRequestType";s:6:"result";s:20:"BAUpdateResponseType";}s:13:"AddressVerify";a:2:{s:5:"param";s:24:"AddressVerifyRequestType";s:6:"result";s:25:"AddressVerifyResponseType";}s:13:"EnterBoarding";a:2:{s:5:"param";s:24:"EnterBoardingRequestType";s:6:"result";s:25:"EnterBoardingResponseType";}s:18:"GetBoardingDetails";a:2:{s:5:"param";s:29:"GetBoardingDetailsRequestType";s:6:"result";s:30:"GetBoardingDetailsResponseType";}s:19:"CreateMobilePayment";a:2:{s:5:"param";s:30:"CreateMobilePaymentRequestType";s:6:"result";s:31:"CreateMobilePaymentResponseType";}s:15:"GetMobileStatus";a:2:{s:5:"param";s:26:"GetMobileStatusRequestType";s:6:"result";s:27:"GetMobileStatusResponseType";}s:17:"SetMobileCheckout";a:2:{s:5:"param";s:28:"SetMobileCheckoutRequestType";s:6:"result";s:29:"SetMobileCheckoutResponseType";}s:23:"DoMobileCheckoutPayment";a:2:{s:5:"param";s:34:"DoMobileCheckoutPaymentRequestType";s:6:"result";s:35:"DoMobileCheckoutPaymentResponseType";}s:10:"GetBalance";a:2:{s:5:"param";s:21:"GetBalanceRequestType";s:6:"result";s:22:"GetBalanceResponseType";}s:24:"DoExpressCheckoutPayment";a:2:{s:5:"param";s:35:"DoExpressCheckoutPaymentRequestType";s:6:"result";s:36:"DoExpressCheckoutPaymentResponseType";}s:28:"DoUATPExpressCheckoutPayment";a:2:{s:5:"param";s:39:"DoUATPExpressCheckoutPaymentRequestType";s:6:"result";s:40:"DoUATPExpressCheckoutPaymentResponseType";}s:18:"SetExpressCheckout";a:2:{s:5:"param";s:29:"SetExpressCheckoutRequestType";s:6:"result";s:30:"SetExpressCheckoutResponseType";}s:25:"GetExpressCheckoutDetails";a:2:{s:5:"param";s:36:"GetExpressCheckoutDetailsRequestType";s:6:"result";s:37:"GetExpressCheckoutDetailsResponseType";}s:15:"DoDirectPayment";a:2:{s:5:"param";s:26:"DoDirectPaymentRequestType";s:6:"result";s:27:"DoDirectPaymentResponseType";}s:9:"DoCapture";a:2:{s:5:"param";s:20:"DoCaptureRequestType";s:6:"result";s:21:"DoCaptureResponseType";}s:17:"DoReauthorization";a:2:{s:5:"param";s:28:"DoReauthorizationRequestType";s:6:"result";s:29:"DoReauthorizationResponseType";}s:6:"DoVoid";a:2:{s:5:"param";s:17:"DoVoidRequestType";s:6:"result";s:18:"DoVoidResponseType";}s:15:"DoAuthorization";a:2:{s:5:"param";s:26:"DoAuthorizationRequestType";s:6:"result";s:27:"DoAuthorizationResponseType";}s:27:"SetCustomerBillingAgreement";a:2:{s:5:"param";s:38:"SetCustomerBillingAgreementRequestType";s:6:"result";s:39:"SetCustomerBillingAgreementResponseType";}s:34:"GetBillingAgreementCustomerDetails";a:2:{s:5:"param";s:45:"GetBillingAgreementCustomerDetailsRequestType";s:6:"result";s:46:"GetBillingAgreementCustomerDetailsResponseType";}s:22:"CreateBillingAgreement";a:2:{s:5:"param";s:33:"CreateBillingAgreementRequestType";s:6:"result";s:34:"CreateBillingAgreementResponseType";}s:22:"DoReferenceTransaction";a:2:{s:5:"param";s:33:"DoReferenceTransactionRequestType";s:6:"result";s:34:"DoReferenceTransactionResponseType";}s:19:"DoUATPAuthorization";a:2:{s:5:"param";s:30:"DoUATPAuthorizationRequestType";s:6:"result";s:31:"DoUATPAuthorizationResponseType";}s:30:"CreateRecurringPaymentsProfile";a:2:{s:5:"param";s:41:"CreateRecurringPaymentsProfileRequestType";s:6:"result";s:42:"CreateRecurringPaymentsProfileResponseType";}}');
 
 /**
  * Interface class that wraps all WSDL ports into a unified API for
@@ -750,6 +750,102 @@ class CallerServices extends SOAP_Client
         return $response;
     }
 
+    function &SetMobileCheckout($SetMobileCheckoutReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($SetMobileCheckoutReq, 'XSDType')) {
+            $SetMobileCheckoutReq->setVersion(PAYPAL_WSDL_VERSION);
+            $SetMobileCheckoutReq = $SetMobileCheckoutReq->getSoapValue('SetMobileCheckoutRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPI', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('SetMobileCheckout', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // SetMobileCheckoutReq is a ComplexType, refer to the WSDL for more info.
+        $SetMobileCheckoutReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $SetMobileCheckoutReq =& new SOAP_Value('SetMobileCheckoutReq', false, $SetMobileCheckoutReq, $SetMobileCheckoutReq_attr);
+        $result = $this->call('SetMobileCheckout',
+                              $v = array("SetMobileCheckoutReq" => $SetMobileCheckoutReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'SetMobileCheckoutResponseType');
+        $this->_logTransaction('SetMobileCheckout', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &DoMobileCheckoutPayment($DoMobileCheckoutPaymentReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($DoMobileCheckoutPaymentReq, 'XSDType')) {
+            $DoMobileCheckoutPaymentReq->setVersion(PAYPAL_WSDL_VERSION);
+            $DoMobileCheckoutPaymentReq = $DoMobileCheckoutPaymentReq->getSoapValue('DoMobileCheckoutPaymentRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPI', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('DoMobileCheckoutPayment', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // DoMobileCheckoutPaymentReq is a ComplexType, refer to the WSDL for more info.
+        $DoMobileCheckoutPaymentReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $DoMobileCheckoutPaymentReq =& new SOAP_Value('DoMobileCheckoutPaymentReq', false, $DoMobileCheckoutPaymentReq, $DoMobileCheckoutPaymentReq_attr);
+        $result = $this->call('DoMobileCheckoutPayment',
+                              $v = array("DoMobileCheckoutPaymentReq" => $DoMobileCheckoutPaymentReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'DoMobileCheckoutPaymentResponseType');
+        $this->_logTransaction('DoMobileCheckoutPayment', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &GetBalance($GetBalanceReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($GetBalanceReq, 'XSDType')) {
+            $GetBalanceReq->setVersion(PAYPAL_WSDL_VERSION);
+            $GetBalanceReq = $GetBalanceReq->getSoapValue('GetBalanceRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPI', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('GetBalance', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // GetBalanceReq is a ComplexType, refer to the WSDL for more info.
+        $GetBalanceReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $GetBalanceReq =& new SOAP_Value('GetBalanceReq', false, $GetBalanceReq, $GetBalanceReq_attr);
+        $result = $this->call('GetBalance',
+                              $v = array("GetBalanceReq" => $GetBalanceReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'GetBalanceResponseType');
+        $this->_logTransaction('GetBalance', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
     function &DoExpressCheckoutPayment($DoExpressCheckoutPaymentReq)
     {
         $start = $this->_getMicroseconds();
@@ -779,6 +875,38 @@ class CallerServices extends SOAP_Client
 
         $response = $this->getResponseObject($result, 'DoExpressCheckoutPaymentResponseType');
         $this->_logTransaction('DoExpressCheckoutPayment', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &DoUATPExpressCheckoutPayment($DoUATPExpressCheckoutPaymentReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($DoUATPExpressCheckoutPaymentReq, 'XSDType')) {
+            $DoUATPExpressCheckoutPaymentReq->setVersion(PAYPAL_WSDL_VERSION);
+            $DoUATPExpressCheckoutPaymentReq = $DoUATPExpressCheckoutPaymentReq->getSoapValue('DoUATPExpressCheckoutPaymentRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('DoUATPExpressCheckoutPayment', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // DoUATPExpressCheckoutPaymentReq is a ComplexType, refer to the WSDL for more info.
+        $DoUATPExpressCheckoutPaymentReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $DoUATPExpressCheckoutPaymentReq =& new SOAP_Value('DoUATPExpressCheckoutPaymentReq', false, $DoUATPExpressCheckoutPaymentReq, $DoUATPExpressCheckoutPaymentReq_attr);
+        $result = $this->call('DoUATPExpressCheckoutPayment',
+                              $v = array("DoUATPExpressCheckoutPaymentReq" => $DoUATPExpressCheckoutPaymentReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'DoUATPExpressCheckoutPaymentResponseType');
+        $this->_logTransaction('DoUATPExpressCheckoutPayment', $this->_getElapsed($start), $response);
         return $response;
     }
 
@@ -1003,6 +1131,198 @@ class CallerServices extends SOAP_Client
 
         $response = $this->getResponseObject($result, 'DoAuthorizationResponseType');
         $this->_logTransaction('DoAuthorization', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &SetCustomerBillingAgreement($SetCustomerBillingAgreementReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($SetCustomerBillingAgreementReq, 'XSDType')) {
+            $SetCustomerBillingAgreementReq->setVersion(PAYPAL_WSDL_VERSION);
+            $SetCustomerBillingAgreementReq = $SetCustomerBillingAgreementReq->getSoapValue('SetCustomerBillingAgreementRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('SetCustomerBillingAgreement', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // SetCustomerBillingAgreementReq is a ComplexType, refer to the WSDL for more info.
+        $SetCustomerBillingAgreementReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $SetCustomerBillingAgreementReq =& new SOAP_Value('SetCustomerBillingAgreementReq', false, $SetCustomerBillingAgreementReq, $SetCustomerBillingAgreementReq_attr);
+        $result = $this->call('SetCustomerBillingAgreement',
+                              $v = array("SetCustomerBillingAgreementReq" => $SetCustomerBillingAgreementReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'SetCustomerBillingAgreementResponseType');
+        $this->_logTransaction('SetCustomerBillingAgreement', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &GetBillingAgreementCustomerDetails($GetBillingAgreementCustomerDetailsReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($GetBillingAgreementCustomerDetailsReq, 'XSDType')) {
+            $GetBillingAgreementCustomerDetailsReq->setVersion(PAYPAL_WSDL_VERSION);
+            $GetBillingAgreementCustomerDetailsReq = $GetBillingAgreementCustomerDetailsReq->getSoapValue('GetBillingAgreementCustomerDetailsRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('GetBillingAgreementCustomerDetails', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // GetBillingAgreementCustomerDetailsReq is a ComplexType, refer to the WSDL for more info.
+        $GetBillingAgreementCustomerDetailsReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $GetBillingAgreementCustomerDetailsReq =& new SOAP_Value('GetBillingAgreementCustomerDetailsReq', false, $GetBillingAgreementCustomerDetailsReq, $GetBillingAgreementCustomerDetailsReq_attr);
+        $result = $this->call('GetBillingAgreementCustomerDetails',
+                              $v = array("GetBillingAgreementCustomerDetailsReq" => $GetBillingAgreementCustomerDetailsReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'GetBillingAgreementCustomerDetailsResponseType');
+        $this->_logTransaction('GetBillingAgreementCustomerDetails', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &CreateBillingAgreement($CreateBillingAgreementReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($CreateBillingAgreementReq, 'XSDType')) {
+            $CreateBillingAgreementReq->setVersion(PAYPAL_WSDL_VERSION);
+            $CreateBillingAgreementReq = $CreateBillingAgreementReq->getSoapValue('CreateBillingAgreementRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('CreateBillingAgreement', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // CreateBillingAgreementReq is a ComplexType, refer to the WSDL for more info.
+        $CreateBillingAgreementReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $CreateBillingAgreementReq =& new SOAP_Value('CreateBillingAgreementReq', false, $CreateBillingAgreementReq, $CreateBillingAgreementReq_attr);
+        $result = $this->call('CreateBillingAgreement',
+                              $v = array("CreateBillingAgreementReq" => $CreateBillingAgreementReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'CreateBillingAgreementResponseType');
+        $this->_logTransaction('CreateBillingAgreement', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &DoReferenceTransaction($DoReferenceTransactionReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($DoReferenceTransactionReq, 'XSDType')) {
+            $DoReferenceTransactionReq->setVersion(PAYPAL_WSDL_VERSION);
+            $DoReferenceTransactionReq = $DoReferenceTransactionReq->getSoapValue('DoReferenceTransactionRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('DoReferenceTransaction', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // DoReferenceTransactionReq is a ComplexType, refer to the WSDL for more info.
+        $DoReferenceTransactionReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $DoReferenceTransactionReq =& new SOAP_Value('DoReferenceTransactionReq', false, $DoReferenceTransactionReq, $DoReferenceTransactionReq_attr);
+        $result = $this->call('DoReferenceTransaction',
+                              $v = array("DoReferenceTransactionReq" => $DoReferenceTransactionReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'DoReferenceTransactionResponseType');
+        $this->_logTransaction('DoReferenceTransaction', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &DoUATPAuthorization($DoUATPAuthorizationReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($DoUATPAuthorizationReq, 'XSDType')) {
+            $DoUATPAuthorizationReq->setVersion(PAYPAL_WSDL_VERSION);
+            $DoUATPAuthorizationReq = $DoUATPAuthorizationReq->getSoapValue('DoUATPAuthorizationRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('DoUATPAuthorization', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // DoUATPAuthorizationReq is a ComplexType, refer to the WSDL for more info.
+        $DoUATPAuthorizationReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $DoUATPAuthorizationReq =& new SOAP_Value('DoUATPAuthorizationReq', false, $DoUATPAuthorizationReq, $DoUATPAuthorizationReq_attr);
+        $result = $this->call('DoUATPAuthorization',
+                              $v = array("DoUATPAuthorizationReq" => $DoUATPAuthorizationReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'DoUATPAuthorizationResponseType');
+        $this->_logTransaction('DoUATPAuthorization', $this->_getElapsed($start), $response);
+        return $response;
+    }
+
+    function &CreateRecurringPaymentsProfile($CreateRecurringPaymentsProfileReq)
+    {
+        $start = $this->_getMicroseconds();
+
+        // Handle type objects.
+        if (is_a($CreateRecurringPaymentsProfileReq, 'XSDType')) {
+            $CreateRecurringPaymentsProfileReq->setVersion(PAYPAL_WSDL_VERSION);
+            $CreateRecurringPaymentsProfileReq = $CreateRecurringPaymentsProfileReq->getSoapValue('CreateRecurringPaymentsProfileRequest', 'urn:ebay:api:PayPalAPI');
+        }
+
+        // Make sure we can find a valid WSDL endpoint for this method.
+        $res = $this->setEndpoint('PayPalAPIAA', PAYPAL_WSDL_VERSION);
+        if (PayPal::isError($res)) {
+            $this->_logTransaction('CreateRecurringPaymentsProfile', $this->_getElapsed($start), $res);
+            return $res;
+        }
+
+        // CreateRecurringPaymentsProfileReq is a ComplexType, refer to the WSDL for more info.
+        $CreateRecurringPaymentsProfileReq_attr['xmlns'] = 'urn:ebay:api:PayPalAPI';
+        $CreateRecurringPaymentsProfileReq =& new SOAP_Value('CreateRecurringPaymentsProfileReq', false, $CreateRecurringPaymentsProfileReq, $CreateRecurringPaymentsProfileReq_attr);
+        $result = $this->call('CreateRecurringPaymentsProfile',
+                              $v = array("CreateRecurringPaymentsProfileReq" => $CreateRecurringPaymentsProfileReq),
+                              array('namespace' => 'urn:ebay:api:PayPalAPI',
+                                    'soapaction' => '',
+                                    'style' => 'document',
+                                    'use' => 'literal'));
+
+        $response = $this->getResponseObject($result, 'CreateRecurringPaymentsProfileResponseType');
+        $this->_logTransaction('CreateRecurringPaymentsProfile', $this->_getElapsed($start), $response);
         return $response;
     }
 }

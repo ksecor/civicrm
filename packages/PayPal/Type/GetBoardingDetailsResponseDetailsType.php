@@ -68,6 +68,21 @@ class GetBoardingDetailsResponseDetailsType extends XSDType
      */
     var $ConfigureAPIs;
 
+    /**
+     * Primary email verification status. Confirmed, Unconfirmed
+     */
+    var $EmailVerificationStatus;
+
+    /**
+     * Gives VettingStatus - Pending, Cancelled, Approved, UnderReview
+     */
+    var $VettingStatus;
+
+    /**
+     * Gives BankAccountVerificationStatus - Added, Confirmed
+     */
+    var $BankAccountVerificationStatus;
+
     function GetBoardingDetailsResponseDetailsType()
     {
         parent::XSDType();
@@ -141,6 +156,24 @@ class GetBoardingDetailsResponseDetailsType extends XSDType
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'ConfigureAPIs' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'EmailVerificationStatus' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'VettingStatus' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BankAccountVerificationStatus' => 
               array (
                 'required' => false,
                 'type' => 'string',
@@ -256,5 +289,32 @@ class GetBoardingDetailsResponseDetailsType extends XSDType
     {
         $this->ConfigureAPIs = $ConfigureAPIs;
         $this->_elements['ConfigureAPIs']['charset'] = $charset;
+    }
+    function getEmailVerificationStatus()
+    {
+        return $this->EmailVerificationStatus;
+    }
+    function setEmailVerificationStatus($EmailVerificationStatus, $charset = 'iso-8859-1')
+    {
+        $this->EmailVerificationStatus = $EmailVerificationStatus;
+        $this->_elements['EmailVerificationStatus']['charset'] = $charset;
+    }
+    function getVettingStatus()
+    {
+        return $this->VettingStatus;
+    }
+    function setVettingStatus($VettingStatus, $charset = 'iso-8859-1')
+    {
+        $this->VettingStatus = $VettingStatus;
+        $this->_elements['VettingStatus']['charset'] = $charset;
+    }
+    function getBankAccountVerificationStatus()
+    {
+        return $this->BankAccountVerificationStatus;
+    }
+    function setBankAccountVerificationStatus($BankAccountVerificationStatus, $charset = 'iso-8859-1')
+    {
+        $this->BankAccountVerificationStatus = $BankAccountVerificationStatus;
+        $this->_elements['BankAccountVerificationStatus']['charset'] = $charset;
     }
 }

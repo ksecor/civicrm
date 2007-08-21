@@ -74,6 +74,12 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
     var $ReqConfirmShipping;
 
     /**
+     * The value 1 indicates that you require that the customer's billing address on
+     * file. Setting this element overrides the setting you have specified in Admin.
+     */
+    var $ReqBillingAddress;
+
+    /**
      * The value 1 indicates that on the PayPal pages, no shipping address fields
      * should be displayed whatsoever.
      */
@@ -154,6 +160,13 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
 
     var $ChannelType;
 
+    var $BillingAgreementDetails;
+
+    /**
+     * Promo Code
+     */
+    var $PromoCodes;
+
     function SetExpressCheckoutRequestDetailsType()
     {
         parent::XSDType();
@@ -209,6 +222,12 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'ReqConfirmShipping' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'ReqBillingAddress' => 
               array (
                 'required' => false,
                 'type' => 'string',
@@ -298,6 +317,18 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
                 'type' => 'ChannelType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
+              'BillingAgreementDetails' => 
+              array (
+                'required' => false,
+                'type' => 'BillingAgreementDetailsType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'PromoCodes' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
             ));
     }
 
@@ -381,6 +412,15 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
     {
         $this->ReqConfirmShipping = $ReqConfirmShipping;
         $this->_elements['ReqConfirmShipping']['charset'] = $charset;
+    }
+    function getReqBillingAddress()
+    {
+        return $this->ReqBillingAddress;
+    }
+    function setReqBillingAddress($ReqBillingAddress, $charset = 'iso-8859-1')
+    {
+        $this->ReqBillingAddress = $ReqBillingAddress;
+        $this->_elements['ReqBillingAddress']['charset'] = $charset;
     }
     function getNoShipping()
     {
@@ -507,5 +547,23 @@ class SetExpressCheckoutRequestDetailsType extends XSDType
     {
         $this->ChannelType = $ChannelType;
         $this->_elements['ChannelType']['charset'] = $charset;
+    }
+    function getBillingAgreementDetails()
+    {
+        return $this->BillingAgreementDetails;
+    }
+    function setBillingAgreementDetails($BillingAgreementDetails, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementDetails = $BillingAgreementDetails;
+        $this->_elements['BillingAgreementDetails']['charset'] = $charset;
+    }
+    function getPromoCodes()
+    {
+        return $this->PromoCodes;
+    }
+    function setPromoCodes($PromoCodes, $charset = 'iso-8859-1')
+    {
+        $this->PromoCodes = $PromoCodes;
+        $this->_elements['PromoCodes']['charset'] = $charset;
     }
 }

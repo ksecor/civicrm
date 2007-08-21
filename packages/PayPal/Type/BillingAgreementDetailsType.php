@@ -6,64 +6,70 @@
 /**
  * Make sure our parent class is defined.
  */
-require_once 'PayPal/Type/AbstractRequestType.php';
+require_once 'PayPal/Type/XSDType.php';
 
 /**
- * BAUpdateRequestType
+ * BillingAgreementDetailsType
  *
  * @package PayPal
  */
-class BAUpdateRequestType extends AbstractRequestType
+class BillingAgreementDetailsType extends XSDType
 {
-    var $ReferenceID;
+    var $BillingType;
 
+    /**
+     * Only needed for AutoBill billinng type.
+     */
     var $BillingAgreementDescription;
 
-    var $BillingAgreementStatus;
+    var $PaymentType;
 
+    /**
+     * Custom annotation field for your exclusive use.
+     */
     var $BillingAgreementCustom;
 
-    function BAUpdateRequestType()
+    function BillingAgreementDetailsType()
     {
-        parent::AbstractRequestType();
-        $this->_namespace = 'urn:ebay:api:PayPalAPI';
+        parent::XSDType();
+        $this->_namespace = 'urn:ebay:apis:eBLBaseComponents';
         $this->_elements = array_merge($this->_elements,
             array (
-              'ReferenceID' => 
+              'BillingType' => 
               array (
                 'required' => true,
-                'type' => 'string',
-                'namespace' => 'urn:ebay:api:PayPalAPI',
+                'type' => 'BillingCodeType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'BillingAgreementDescription' => 
               array (
                 'required' => false,
                 'type' => 'string',
-                'namespace' => 'urn:ebay:api:PayPalAPI',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'BillingAgreementStatus' => 
+              'PaymentType' => 
               array (
                 'required' => false,
-                'type' => 'MerchantPullStatusCodeType',
-                'namespace' => 'urn:ebay:api:PayPalAPI',
+                'type' => 'MerchantPullPaymentCodeType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'BillingAgreementCustom' => 
               array (
                 'required' => false,
                 'type' => 'string',
-                'namespace' => 'urn:ebay:api:PayPalAPI',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
     }
 
-    function getReferenceID()
+    function getBillingType()
     {
-        return $this->ReferenceID;
+        return $this->BillingType;
     }
-    function setReferenceID($ReferenceID, $charset = 'iso-8859-1')
+    function setBillingType($BillingType, $charset = 'iso-8859-1')
     {
-        $this->ReferenceID = $ReferenceID;
-        $this->_elements['ReferenceID']['charset'] = $charset;
+        $this->BillingType = $BillingType;
+        $this->_elements['BillingType']['charset'] = $charset;
     }
     function getBillingAgreementDescription()
     {
@@ -74,14 +80,14 @@ class BAUpdateRequestType extends AbstractRequestType
         $this->BillingAgreementDescription = $BillingAgreementDescription;
         $this->_elements['BillingAgreementDescription']['charset'] = $charset;
     }
-    function getBillingAgreementStatus()
+    function getPaymentType()
     {
-        return $this->BillingAgreementStatus;
+        return $this->PaymentType;
     }
-    function setBillingAgreementStatus($BillingAgreementStatus, $charset = 'iso-8859-1')
+    function setPaymentType($PaymentType, $charset = 'iso-8859-1')
     {
-        $this->BillingAgreementStatus = $BillingAgreementStatus;
-        $this->_elements['BillingAgreementStatus']['charset'] = $charset;
+        $this->PaymentType = $PaymentType;
+        $this->_elements['PaymentType']['charset'] = $charset;
     }
     function getBillingAgreementCustom()
     {

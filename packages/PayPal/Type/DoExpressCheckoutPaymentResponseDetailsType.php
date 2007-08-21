@@ -26,6 +26,8 @@ class DoExpressCheckoutPaymentResponseDetailsType extends XSDType
      */
     var $PaymentInfo;
 
+    var $BillingAgreementID;
+
     function DoExpressCheckoutPaymentResponseDetailsType()
     {
         parent::XSDType();
@@ -42,6 +44,12 @@ class DoExpressCheckoutPaymentResponseDetailsType extends XSDType
               array (
                 'required' => true,
                 'type' => 'PaymentInfoType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAgreementID' => 
+              array (
+                'required' => false,
+                'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
@@ -64,5 +72,14 @@ class DoExpressCheckoutPaymentResponseDetailsType extends XSDType
     {
         $this->PaymentInfo = $PaymentInfo;
         $this->_elements['PaymentInfo']['charset'] = $charset;
+    }
+    function getBillingAgreementID()
+    {
+        return $this->BillingAgreementID;
+    }
+    function setBillingAgreementID($BillingAgreementID, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementID = $BillingAgreementID;
+        $this->_elements['BillingAgreementID']['charset'] = $charset;
     }
 }

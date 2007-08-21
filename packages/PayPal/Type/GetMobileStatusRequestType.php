@@ -15,10 +15,7 @@ require_once 'PayPal/Type/AbstractRequestType.php';
  */
 class GetMobileStatusRequestType extends AbstractRequestType
 {
-    /**
-     * Phone number for status inquiry
-     */
-    var $Phone;
+    var $GetMobileStatusRequestDetails;
 
     function GetMobileStatusRequestType()
     {
@@ -26,22 +23,22 @@ class GetMobileStatusRequestType extends AbstractRequestType
         $this->_namespace = 'urn:ebay:api:PayPalAPI';
         $this->_elements = array_merge($this->_elements,
             array (
-              'Phone' => 
+              'GetMobileStatusRequestDetails' => 
               array (
                 'required' => true,
-                'type' => 'PhoneNumberType',
-                'namespace' => 'urn:ebay:api:PayPalAPI',
+                'type' => 'GetMobileStatusRequestDetailsType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
     }
 
-    function getPhone()
+    function getGetMobileStatusRequestDetails()
     {
-        return $this->Phone;
+        return $this->GetMobileStatusRequestDetails;
     }
-    function setPhone($Phone, $charset = 'iso-8859-1')
+    function setGetMobileStatusRequestDetails($GetMobileStatusRequestDetails, $charset = 'iso-8859-1')
     {
-        $this->Phone = $Phone;
-        $this->_elements['Phone']['charset'] = $charset;
+        $this->GetMobileStatusRequestDetails = $GetMobileStatusRequestDetails;
+        $this->_elements['GetMobileStatusRequestDetails']['charset'] = $charset;
     }
 }

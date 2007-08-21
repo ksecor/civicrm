@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions ns:version="2.3" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns="urn:ebay:api:PayPalAPI" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ebl="urn:ebay:apis:eBLBaseComponents" xmlns:cc="urn:ebay:apis:CoreComponentTypes" targetNamespace="urn:ebay:api:PayPalAPI">
+<wsdl:definitions
+	ns:version="3.2"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:ns="urn:ebay:api:PayPalAPI"
+	xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ebl="urn:ebay:apis:eBLBaseComponents"
+	xmlns:cc="urn:ebay:apis:CoreComponentTypes"
+	targetNamespace="urn:ebay:api:PayPalAPI">
 	<wsdl:types>
 		<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ebay:api:PayPalAPI" elementFormDefault="qualified" attributeFormDefault="unqualified">
 			<import namespace="urn:ebay:apis:CoreComponentTypes" schemaLocation="CoreComponentTypes.xsd"/>
@@ -22,7 +33,7 @@
 						<xs:sequence>
 							<xs:element name="TransactionID" type="ebl:TransactionId">
 								<annotation>
-									<documentation>Unique identifier of the  transaction you are refunding.
+									<documentation>Unique identifier of the transaction you are refunding.
 <br/>
 										<br/>
 										<b>Required</b>
@@ -32,7 +43,7 @@ Character length and limitations: 17 single-byte alphanumeric characters
 </documentation>
 								</annotation>
 							</xs:element>
-							<xs:element name="RefundType" type="ebl:RefundPurposeTypeCodeType" minOccurs="0" maxOccurs="1">
+							<xs:element name="RefundType" type="ebl:RefundType" minOccurs="0" maxOccurs="1">
 								<annotation>
 									<documentation>Type of refund you are making
 <br/>
@@ -498,32 +509,29 @@ Character length and limitations: 4,000 single-byte alphanumeric characters
 				<xs:complexContent>
 					<xs:extension base="ebl:AbstractRequestType">
 						<xs:sequence>
-							<xs:element name="MpID" type="ebl:MerchantPullIDType" minOccurs="1" maxOccurs="1">
-								<annotation><documentation>Preapproved Payments billing agreement identification number. Corresponds to the FORM variable mp_id. 
-<br/><br/>
-<b>Required</b>
-<br/><br/>
-Character limit: 19 single-byte alphanumeric characters.
-The format of a billing agreement identification number is the single-character prefix B, followed by a hyphen and an alphanumeric character string: <br/><br/>B-unique_alphanumeric_string 
-</documentation></annotation>
+							<xs:element name="ReferenceID" type="xs:string" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
 							</xs:element>
-							<xs:element name="Custom" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation><documentation>Custom annotation field for your exclusive use 
-<br/><br/>
-Optional
-</documentation></annotation>
+							<xs:element name="BillingAgreementDescription" type="xs:string" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
 							</xs:element>
-							<xs:element name="Desc" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation><documentation>Description of goods or services associated with the billing agreement 
-<br/><br/>
-Optional
-</documentation></annotation>
+							<xs:element name="BillingAgreementStatus" type="ebl:MerchantPullStatusCodeType" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
 							</xs:element>
-							<xs:element name="MpStatus" type="ebl:MerchantPullStatusCodeType" minOccurs="0" maxOccurs="1">
-								<annotation><documentation>The current status of the billing agreement
-								<br/><br/>
-Optional</documentation>
-</annotation>
+							<xs:element name="BillingAgreementCustom" type="xs:string" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
 							</xs:element>
 						</xs:sequence>
 					</xs:extension>
@@ -823,6 +831,30 @@ Character length and limitations: 20 single-byte characters
 					<xs:extension base="ebl:AbstractResponseType">
 						<xs:sequence>
 							<xs:element ref="ebl:DoExpressCheckoutPaymentResponseDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:element name="DoUATPExpressCheckoutPaymentRequest" type="ns:DoUATPExpressCheckoutPaymentRequestType"/>
+			<xs:element name="DoUATPExpressCheckoutPaymentResponse" type="ns:DoUATPExpressCheckoutPaymentResponseType"/>
+			<xs:element name="DoUATPExpressCheckoutPaymentReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:DoUATPExpressCheckoutPaymentRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="DoUATPExpressCheckoutPaymentRequestType">
+				<xs:complexContent>
+					<xs:extension base="ns:DoExpressCheckoutPaymentRequestType">
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="DoUATPExpressCheckoutPaymentResponseType">
+				<xs:complexContent>
+					<xs:extension base="ns:DoExpressCheckoutPaymentResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:UATPDetails" minOccurs="1" maxOccurs="1"/>
 						</xs:sequence>
 					</xs:extension>
 				</xs:complexContent>
@@ -1185,6 +1217,81 @@ Character length and limits: 19 single-byte characters
 					</xs:extension>
 				</xs:complexContent>
 			</xs:complexType>
+			<xs:element name="DoUATPAuthorizationRequest" type="ns:DoUATPAuthorizationRequestType"/>
+			<xs:element name="DoUATPAuthorizationResponse" type="ns:DoUATPAuthorizationResponseType"/>
+			<xs:element name="DoUATPAuthorizationReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:DoUATPAuthorizationRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="DoUATPAuthorizationRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element ref="ebl:UATPDetails" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>UATP card details
+<br/>
+										<br/>
+										<b>Required</b>
+										<br/>
+									</documentation>
+								</annotation>
+							</xs:element>
+							<xs:element name="TransactionEntity" type="ebl:TransactionEntityType" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation>Type of transaction to authorize. The only allowable value is <b>Order</b>, which means that the transaction represents a customer order that can be fulfilled over 29 days. 
+<br/>
+										<br/>
+Optional
+</documentation>
+								</annotation>
+							</xs:element>
+							<xs:element name="Amount" type="cc:BasicAmountType" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>Amount to authorize. 
+<br/>
+										<br/>
+										<b>Required</b>
+										<br/>
+										<br/>
+Limitations: Must not exceed $10,000 USD in any currency. No currency symbol. Decimal separator must be a period (.), and the thousands separator must be a comma (,).
+</documentation>
+								</annotation>
+							</xs:element>
+							<xs:element name="InvoiceID" type="xs:string" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation> Invoice ID. A pass through.
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="DoUATPAuthorizationResponseType">
+				<xs:complexContent>
+					<xs:extension base="ns:DoAuthorizationResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:UATPDetails" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="AuthorizationCode" type="xs:string" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation> Auth Authorization Code.
+									</documentation>
+								</annotation>
+							</xs:element>
+							<xs:element name="InvoiceID" type="xs:string" minOccurs="0" maxOccurs="1">
+								<annotation>
+									<documentation> Invoice ID. A pass through.
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
 			<xs:element name="CreateMobilePaymentRequest" type="ns:CreateMobilePaymentRequestType"/>
 			<xs:element name="CreateMobilePaymentResponse" type="ns:CreateMobilePaymentResponseType"/>
 			<xs:element name="CreateMobilePaymentReq">
@@ -1198,167 +1305,7 @@ Character length and limits: 19 single-byte characters
 				<xs:complexContent>
 					<xs:extension base="ebl:AbstractRequestType">
 						<xs:sequence>
-							<xs:element name="PaymentType" type="ebl:MobilePaymentCodeType" minOccurs="1" maxOccurs="1">
-								<annotation>
-									<documentation>Type of the payment
-<br/>
-										<br/>
-										<b>Required</b>
-									</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="PaymentAction" type="ebl:PaymentActionCodeType">
-								<annotation>
-									<documentation>
-										How you want to obtain payment.  Defaults to Sale.
-<br/>
-										<br/>
-										<b>Optional</b>
-										<br/>
-										<br/>
-Authorization indicates that this payment is a basic authorization subject to settlement with PayPal Authorization and Capture.
-<br/>
-						<br/>
-Sale indicates that this is a final sale for which you are requesting payment.
-<br/>
-						<br/>
-									</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="SenderPhone" type="ebl:PhoneNumberType" minOccurs="1" maxOccurs="1">
-								<annotation>
-									<documentation>Phone number of the user making the payment.
-<br/>
-										<br/>
-										<b>Required</b>
-										<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="RecipientType" type="ebl:MobileRecipientCodeType" minOccurs="1" maxOccurs="1">
-								<annotation>
-									<documentation>Type of recipient specified, i.e., phone number or email address
-<br/>
-										<br/>
-										<b>Required</b>
-									</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="RecipientEmail" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Email address of the recipient
-								<br/>
-										<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="RecipientPhone" type="ebl:PhoneNumberType" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Phone number of the recipipent
-<br/>
-										<br/>
-										<b>Required</b>
-										<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="ItemAmount" type="cc:BasicAmountType" minOccurs="1" maxOccurs="1">
-								<annotation>
-									<documentation>Amount of item before tax and shipping
-<br/>
-										<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="Tax" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>The tax charged on the transaction
-Tax
-<br/>
-										<br/>
-Optional
-<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="Shipping" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Per-transaction shipping charge
-<br/>
-										<br/>
-Optional
-<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="ItemName" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Name of the item being ordered
-<br/>
-										<br/>
-Optional
-<br/>
-										<br/>
-Character length and limitations: 255 single-byte alphanumeric characters
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="ItemNumber" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>SKU of the item being ordered
-<br/>
-										<br/>
-Optional
-<br/>
-										<br/>
-Character length and limitations: 255 single-byte alphanumeric characters
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Memo entered by sender in PayPal Website Payments note field.
-<br/>
-										<br/>
-Optional
-<br/>
-										<br/>
-Character length and limitations: 255 single-byte alphanumeric characters
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="CustomID" type="xs:string" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Unique ID for the order.  Required for non-P2P transactions
-<br/>
-										<br/>
-Optional
-<br/>
-										<br/>
-Character length and limitations: 255 single-byte alphanumeric characters
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="SharePhoneNumber" type="xs:integer" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Indicates whether the sender's phone number will be shared with recipient
-<br/>
-										<br/>
-Optional
-<br/>
-</documentation>
-								</annotation>
-							</xs:element>
-							<xs:element name="ShareHomeAddress" type="xs:integer" minOccurs="0" maxOccurs="1">
-								<annotation>
-									<documentation>Indicates whether the sender's home address will be shared with recipient
-<br/>
-										<br/>
-Optional
-<br/>
-</documentation>
-								</annotation>
-							</xs:element>
+							<xs:element ref="ebl:CreateMobilePaymentRequestDetails" minOccurs="1" maxOccurs="1"/>
 						</xs:sequence>
 					</xs:extension>
 				</xs:complexContent>
@@ -1384,16 +1331,7 @@ Optional
 				<xs:complexContent>
 					<xs:extension base="ebl:AbstractRequestType">
 						<xs:sequence>
-							<xs:element name="Phone" type="ebl:PhoneNumberType" minOccurs="1" maxOccurs="1">
-								<annotation>
-									<documentation>Phone number for status inquiry
-<br/>
-										<br/>
-										<b>Required</b>
-										<br/>
-</documentation>
-								</annotation>
-							</xs:element>
+							<xs:element ref="ebl:GetMobileStatusRequestDetails" minOccurs="1" maxOccurs="1"/>
 						</xs:sequence>
 					</xs:extension>
 				</xs:complexContent>
@@ -1422,6 +1360,259 @@ Optional
 					</xs:extension>
 				</xs:complexContent>
 			</xs:complexType>
+			<xs:element name="SetMobileCheckoutRequest" type="ns:SetMobileCheckoutRequestType"/>
+			<xs:element name="SetMobileCheckoutResponse" type="ns:SetMobileCheckoutResponseType"/>
+			<xs:element name="SetMobileCheckoutReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:SetMobileCheckoutRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="SetMobileCheckoutRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element ref="ebl:SetMobileCheckoutRequestDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="SetMobileCheckoutResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element name="Token" type="xs:string" minOccurs="1" maxOccurs="1">
+								<annotation><documentation>A timestamped token by which you identify to PayPal that you are processing this payment with Mobile Checkout. The token expires after three hours.
+								<br/><br/>
+Character length and limitations: 20 single-byte characters
+</documentation></annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:element name="DoMobileCheckoutPaymentRequest" type="ns:DoMobileCheckoutPaymentRequestType"/>
+			<xs:element name="DoMobileCheckoutPaymentResponse" type="ns:DoMobileCheckoutPaymentResponseType"/>
+			<xs:element name="DoMobileCheckoutPaymentReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:DoMobileCheckoutPaymentRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="DoMobileCheckoutPaymentRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element name="Token" type="xs:string" minOccurs="1" maxOccurs="1">
+								<annotation><documentation>A timestamped token, the value of which was returned by SetMobileCheckoutResponse. 
+<br/><br/>
+<b>Required</b>
+<br/><br/>
+Character length and limitations: 20 single-byte characters
+</documentation></annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="DoMobileCheckoutPaymentResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:DoMobileCheckoutPaymentResponseDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+                        <xs:element name="GetBalanceRequest"  type="ns:GetBalanceRequestType"/>
+                        <xs:element name="GetBalanceResponse" type="ns:GetBalanceResponseType"/>
+                        <xs:element name="GetBalanceReq">
+                                <xs:complexType>
+                                        <xs:sequence>
+                                                <xs:element ref="ns:GetBalanceRequest"/>
+                                        </xs:sequence>
+                                </xs:complexType>
+                        </xs:element>
+                        <xs:complexType name="GetBalanceRequestType">
+                                <xs:complexContent>
+                                     <xs:extension base="ebl:AbstractRequestType">                                        
+                                     </xs:extension>
+                                </xs:complexContent>
+                        </xs:complexType>
+                        <xs:complexType name="GetBalanceResponseType">
+                                <xs:complexContent>
+                                        <xs:extension base="ebl:AbstractResponseType">
+                                                <xs:sequence>
+                                                        <xs:element name="Balance" type="cc:BasicAmountType" minOccurs="1" maxOccurs="1" />
+                                                        <xs:element name="BalanceTimeStamp" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+                                                </xs:sequence>
+                                        </xs:extension>
+                                </xs:complexContent>
+                        </xs:complexType>
+
+			<xs:element name="SetCustomerBillingAgreementRequest" type="ns:SetCustomerBillingAgreementRequestType"/>
+			<xs:element name="SetCustomerBillingAgreementResponse" type="ns:SetCustomerBillingAgreementResponseType"/>
+			<xs:element name="SetCustomerBillingAgreementReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:SetCustomerBillingAgreementRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="SetCustomerBillingAgreementRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element ref="ebl:SetCustomerBillingAgreementRequestDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="SetCustomerBillingAgreementResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element name="Token" type="ebl:ExpressCheckoutTokenType" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
+			<xs:element name="GetBillingAgreementCustomerDetailsRequest" type="ns:GetBillingAgreementCustomerDetailsRequestType"/>
+			<xs:element name="GetBillingAgreementCustomerDetailsResponse" type="ns:GetBillingAgreementCustomerDetailsResponseType"/>
+			<xs:element name="GetBillingAgreementCustomerDetailsReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:GetBillingAgreementCustomerDetailsRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="GetBillingAgreementCustomerDetailsRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element name="Token" type="ebl:ExpressCheckoutTokenType" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="GetBillingAgreementCustomerDetailsResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:GetBillingAgreementCustomerDetailsResponseDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:element name="CreateBillingAgreementRequest" type="ns:CreateBillingAgreementRequestType"/>
+			<xs:element name="CreateBillingAgreementResponse" type="ns:CreateBillingAgreementResponseType"/>
+			<xs:element name="CreateBillingAgreementReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:CreateBillingAgreementRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="CreateBillingAgreementRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element name="Token" type="ebl:ExpressCheckoutTokenType" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="CreateBillingAgreementResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element name="BillingAgreementID" type="xs:string" minOccurs="1" maxOccurs="1">
+								<annotation>
+									<documentation>
+									</documentation>
+								</annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
+			<xs:element name="DoReferenceTransactionRequest" type="ns:DoReferenceTransactionRequestType"/>
+			<xs:element name="DoReferenceTransactionResponse" type="ns:DoReferenceTransactionResponseType"/>
+			<xs:element name="DoReferenceTransactionReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:DoReferenceTransactionRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="DoReferenceTransactionRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element ref="ebl:DoReferenceTransactionRequestDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="DoReferenceTransactionResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:DoReferenceTransactionResponseDetails" minOccurs="1" maxOccurs="1"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
+			<xs:element name="CreateRecurringPaymentsProfileRequest" type="ns:CreateRecurringPaymentsProfileRequestType"/>
+			<xs:element name="CreateRecurringPaymentsProfileResponse" type="ns:CreateRecurringPaymentsProfileResponseType"/>
+			<xs:element name="CreateRecurringPaymentsProfileReq">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="ns:CreateRecurringPaymentsProfileRequest"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:complexType name="CreateRecurringPaymentsProfileRequestType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractRequestType">
+						<xs:sequence>
+							<xs:element ref="ebl:CreateRecurringPaymentsProfileRequestDetails"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
+			<xs:complexType name="CreateRecurringPaymentsProfileResponseType">
+				<xs:complexContent>
+					<xs:extension base="ebl:AbstractResponseType">
+						<xs:sequence>
+							<xs:element ref="ebl:CreateRecurringPaymentsProfileResponseDetails"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+
 		</schema>
 	</wsdl:types>
 	<wsdl:message name="RequesterCredentials">
@@ -1487,6 +1678,12 @@ Optional
 	<wsdl:message name="DoExpressCheckoutPaymentResponse">
 		<wsdl:part name="DoExpressCheckoutPaymentResponse" element="ns:DoExpressCheckoutPaymentResponse"/>
 	</wsdl:message>
+	<wsdl:message name="DoUATPExpressCheckoutPaymentRequest">
+		<wsdl:part name="DoUATPExpressCheckoutPaymentRequest" element="ns:DoUATPExpressCheckoutPaymentReq"/>
+	</wsdl:message>
+	<wsdl:message name="DoUATPExpressCheckoutPaymentResponse">
+		<wsdl:part name="DoUATPExpressCheckoutPaymentResponse" element="ns:DoUATPExpressCheckoutPaymentResponse"/>
+	</wsdl:message>
 	<wsdl:message name="SetExpressCheckoutRequest">
 		<wsdl:part name="SetExpressCheckoutRequest" element="ns:SetExpressCheckoutReq"/>
 	</wsdl:message>
@@ -1529,6 +1726,12 @@ Optional
 	<wsdl:message name="DoAuthorizationResponse">
 		<wsdl:part name="DoAuthorizationResponse" element="ns:DoAuthorizationResponse"/>
 	</wsdl:message>
+	<wsdl:message name="DoUATPAuthorizationRequest">
+		<wsdl:part name="DoUATPAuthorizationRequest" element="ns:DoUATPAuthorizationReq"/>
+	</wsdl:message>
+	<wsdl:message name="DoUATPAuthorizationResponse">
+		<wsdl:part name="DoUATPAuthorizationResponse" element="ns:DoUATPAuthorizationResponse"/>
+	</wsdl:message>
 	<wsdl:message name="CreateMobilePaymentRequest">
 		<wsdl:part name="CreateMobilePaymentRequest" element="ns:CreateMobilePaymentReq"/>
 	</wsdl:message>
@@ -1540,7 +1743,57 @@ Optional
 	</wsdl:message>
 	<wsdl:message name="GetMobileStatusResponse">
 		<wsdl:part name="GetMobileStatusResponse" element="ns:GetMobileStatusResponse"/>
-	</wsdl:message>	
+	</wsdl:message>
+	<wsdl:message name="SetCustomerBillingAgreementRequest">
+		<wsdl:part name="SetCustomerBillingAgreementRequest" element="ns:SetCustomerBillingAgreementReq"/>
+	</wsdl:message>
+	<wsdl:message name="SetCustomerBillingAgreementResponse">
+		<wsdl:part name="SetCustomerBillingAgreementResponse" element="ns:SetCustomerBillingAgreementResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetBillingAgreementCustomerDetailsRequest">
+		<wsdl:part name="GetBillingAgreementCustomerDetailsRequest" element="ns:GetBillingAgreementCustomerDetailsReq"/>
+	</wsdl:message>
+	<wsdl:message name="GetBillingAgreementCustomerDetailsResponse">
+		<wsdl:part name="GetBillingAgreementCustomerDetailsResponse" element="ns:GetBillingAgreementCustomerDetailsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CreateBillingAgreementRequest">
+		<wsdl:part name="CreateBillingAgreementRequest" element="ns:CreateBillingAgreementReq"/>
+	</wsdl:message>
+	<wsdl:message name="CreateBillingAgreementResponse">
+		<wsdl:part name="CreateBillingAgreementResponse" element="ns:CreateBillingAgreementResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DoReferenceTransactionRequest">
+		<wsdl:part name="DoReferenceTransactionRequest" element="ns:DoReferenceTransactionReq"/>
+	</wsdl:message>
+	<wsdl:message name="DoReferenceTransactionResponse">
+		<wsdl:part name="DoReferenceTransactionResponse" element="ns:DoReferenceTransactionResponse"/>
+	</wsdl:message>
+
+	<wsdl:message name="SetMobileCheckoutRequest">
+		<wsdl:part name="SetMobileCheckoutRequest" element="ns:SetMobileCheckoutReq"/>
+	</wsdl:message>
+	<wsdl:message name="SetMobileCheckoutResponse">
+		<wsdl:part name="SetMobileCheckoutResponse" element="ns:SetMobileCheckoutResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DoMobileCheckoutPaymentRequest">
+		<wsdl:part name="DoMobileCheckoutPaymentRequest" element="ns:DoMobileCheckoutPaymentReq"/>
+	</wsdl:message>
+	<wsdl:message name="DoMobileCheckoutPaymentResponse">
+		<wsdl:part name="DoMobileCheckoutPaymentResponse" element="ns:DoMobileCheckoutPaymentResponse"/>
+	</wsdl:message>
+        <wsdl:message name="GetBalanceRequest">
+                <wsdl:part name="GetBalanceRequest" element="ns:GetBalanceReq"/>
+        </wsdl:message>
+        <wsdl:message name="GetBalanceResponse">
+                <wsdl:part name="GetBalanceResponse" element="ns:GetBalanceResponse"/>
+        </wsdl:message>
+	<wsdl:message name="CreateRecurringPaymentsProfileRequest">
+		<wsdl:part name="CreateRecurringPaymentsProfileRequest" element="ns:CreateRecurringPaymentsProfileReq"/>
+	</wsdl:message>
+	<wsdl:message name="CreateRecurringPaymentsProfileResponse">
+		<wsdl:part name="CreateRecurringPaymentsProfileResponse" element="ns:CreateRecurringPaymentsProfileResponse"/>
+	</wsdl:message>
+
 	<wsdl:portType name="PayPalAPIInterface">
 		<wsdl:operation name="RefundTransaction">
 			<wsdl:input message="ns:RefundTransactionRequest"/>
@@ -1586,11 +1839,27 @@ Optional
 			<wsdl:input message="ns:GetMobileStatusRequest"/>
 			<wsdl:output message="ns:GetMobileStatusResponse"/>
 		</wsdl:operation>
+		<wsdl:operation name="SetMobileCheckout">
+			<wsdl:input message="ns:SetMobileCheckoutRequest"/>
+			<wsdl:output message="ns:SetMobileCheckoutResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DoMobileCheckoutPayment">
+			<wsdl:input message="ns:DoMobileCheckoutPaymentRequest"/>
+			<wsdl:output message="ns:DoMobileCheckoutPaymentResponse"/>
+		</wsdl:operation>
+                <wsdl:operation name="GetBalance">
+                        <wsdl:input  message="ns:GetBalanceRequest"/>
+                        <wsdl:output message="ns:GetBalanceResponse"/>
+                </wsdl:operation>
 	</wsdl:portType>
 	<wsdl:portType name="PayPalAPIAAInterface">
 		<wsdl:operation name="DoExpressCheckoutPayment">
 			<wsdl:input message="ns:DoExpressCheckoutPaymentRequest"/>
 			<wsdl:output message="ns:DoExpressCheckoutPaymentResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DoUATPExpressCheckoutPayment">
+			<wsdl:input message="ns:DoUATPExpressCheckoutPaymentRequest"/>
+			<wsdl:output message="ns:DoUATPExpressCheckoutPaymentResponse"/>
 		</wsdl:operation>
 		<wsdl:operation name="SetExpressCheckout">
 			<wsdl:input message="ns:SetExpressCheckoutRequest"/>
@@ -1619,6 +1888,30 @@ Optional
 		<wsdl:operation name="DoAuthorization">
 			<wsdl:input message="ns:DoAuthorizationRequest"/>
 			<wsdl:output message="ns:DoAuthorizationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="SetCustomerBillingAgreement">
+			<wsdl:input message="ns:SetCustomerBillingAgreementRequest"/>
+			<wsdl:output message="ns:SetCustomerBillingAgreementResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetBillingAgreementCustomerDetails">
+			<wsdl:input message="ns:GetBillingAgreementCustomerDetailsRequest"/>
+			<wsdl:output message="ns:GetBillingAgreementCustomerDetailsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="CreateBillingAgreement">
+			<wsdl:input message="ns:CreateBillingAgreementRequest"/>
+			<wsdl:output message="ns:CreateBillingAgreementResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DoReferenceTransaction">
+			<wsdl:input message="ns:DoReferenceTransactionRequest"/>
+			<wsdl:output message="ns:DoReferenceTransactionResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DoUATPAuthorization">
+			<wsdl:input message="ns:DoUATPAuthorizationRequest"/>
+			<wsdl:output message="ns:DoUATPAuthorizationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="CreateRecurringPaymentsProfile">
+			<wsdl:input message="ns:CreateRecurringPaymentsProfileRequest"/>
+			<wsdl:output message="ns:CreateRecurringPaymentsProfileResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="PayPalAPISoapBinding" type="ns:PayPalAPIInterface">
@@ -1744,10 +2037,54 @@ Optional
 				<wsdlsoap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
+		<wsdl:operation name="SetMobileCheckout">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoMobileCheckoutPayment">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+                <wsdl:operation name="GetBalance">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header use="literal" message="ns:RequesterCredentials" part="RequesterCredentials"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header use="literal" message="ns:RequesterCredentials" part="RequesterCredentials"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:binding name="PayPalAPIAASoapBinding" type="ns:PayPalAPIAAInterface">
 		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="DoExpressCheckoutPayment">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoUATPExpressCheckoutPayment">
 			<wsdlsoap:operation/>
 			<wsdl:input>
 				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
@@ -1835,6 +2172,72 @@ Optional
 				<wsdlsoap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
+		<wsdl:operation name="DoUATPAuthorization">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SetCustomerBillingAgreement">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetBillingAgreementCustomerDetails">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateBillingAgreement">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DoReferenceTransaction">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="CreateRecurringPaymentsProfile">
+			<wsdlsoap:operation/>
+			<wsdl:input>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<wsdlsoap:header message="ns:RequesterCredentials" part="RequesterCredentials" use="literal"/>
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="PayPalAPIInterfaceService">
 		<wsdl:port name="PayPalAPI" binding="ns:PayPalAPISoapBinding">
@@ -1845,3 +2248,4 @@ Optional
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
+

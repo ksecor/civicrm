@@ -91,6 +91,11 @@ class PaymentInfoType extends XSDType
      */
     var $ReasonCode;
 
+    /**
+     * Shipping method selected by the user during check-out.
+     */
+    var $ShippingMethod;
+
     function PaymentInfoType()
     {
         parent::XSDType();
@@ -179,6 +184,12 @@ class PaymentInfoType extends XSDType
               array (
                 'required' => false,
                 'type' => 'ReversalReasonCodeType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'ShippingMethod' => 
+              array (
+                'required' => false,
+                'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
@@ -309,5 +320,14 @@ class PaymentInfoType extends XSDType
     {
         $this->ReasonCode = $ReasonCode;
         $this->_elements['ReasonCode']['charset'] = $charset;
+    }
+    function getShippingMethod()
+    {
+        return $this->ShippingMethod;
+    }
+    function setShippingMethod($ShippingMethod, $charset = 'iso-8859-1')
+    {
+        $this->ShippingMethod = $ShippingMethod;
+        $this->_elements['ShippingMethod']['charset'] = $charset;
     }
 }

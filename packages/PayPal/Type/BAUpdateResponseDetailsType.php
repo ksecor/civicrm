@@ -15,15 +15,17 @@ require_once 'PayPal/Type/XSDType.php';
  */
 class BAUpdateResponseDetailsType extends XSDType
 {
-    /**
-     * Preapproved Payments billing agreement identification number. Corresponds to the
-     * FORM variable mp_id.
-     */
-    var $MpID;
+    var $BillingAgreementID;
+
+    var $BillingAgreementDescription;
+
+    var $BillingAgreementStatus;
+
+    var $BillingAgreementCustom;
 
     var $PayerInfo;
 
-    var $MerchantPullInfo;
+    var $BillingAgreementMax;
 
     function BAUpdateResponseDetailsType()
     {
@@ -31,10 +33,28 @@ class BAUpdateResponseDetailsType extends XSDType
         $this->_namespace = 'urn:ebay:apis:eBLBaseComponents';
         $this->_elements = array_merge($this->_elements,
             array (
-              'MpID' => 
+              'BillingAgreementID' => 
               array (
                 'required' => true,
-                'type' => 'MerchantPullIDType',
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAgreementDescription' => 
+              array (
+                'required' => false,
+                'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAgreementStatus' => 
+              array (
+                'required' => true,
+                'type' => 'MerchantPullStatusCodeType',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAgreementCustom' => 
+              array (
+                'required' => false,
+                'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'PayerInfo' => 
@@ -43,23 +63,50 @@ class BAUpdateResponseDetailsType extends XSDType
                 'type' => 'PayerInfoType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'MerchantPullInfo' => 
+              'BillingAgreementMax' => 
               array (
-                'required' => true,
-                'type' => 'MerchantPullInfoType',
+                'required' => false,
+                'type' => 'BasicAmountType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
     }
 
-    function getMpID()
+    function getBillingAgreementID()
     {
-        return $this->MpID;
+        return $this->BillingAgreementID;
     }
-    function setMpID($MpID, $charset = 'iso-8859-1')
+    function setBillingAgreementID($BillingAgreementID, $charset = 'iso-8859-1')
     {
-        $this->MpID = $MpID;
-        $this->_elements['MpID']['charset'] = $charset;
+        $this->BillingAgreementID = $BillingAgreementID;
+        $this->_elements['BillingAgreementID']['charset'] = $charset;
+    }
+    function getBillingAgreementDescription()
+    {
+        return $this->BillingAgreementDescription;
+    }
+    function setBillingAgreementDescription($BillingAgreementDescription, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementDescription = $BillingAgreementDescription;
+        $this->_elements['BillingAgreementDescription']['charset'] = $charset;
+    }
+    function getBillingAgreementStatus()
+    {
+        return $this->BillingAgreementStatus;
+    }
+    function setBillingAgreementStatus($BillingAgreementStatus, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementStatus = $BillingAgreementStatus;
+        $this->_elements['BillingAgreementStatus']['charset'] = $charset;
+    }
+    function getBillingAgreementCustom()
+    {
+        return $this->BillingAgreementCustom;
+    }
+    function setBillingAgreementCustom($BillingAgreementCustom, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementCustom = $BillingAgreementCustom;
+        $this->_elements['BillingAgreementCustom']['charset'] = $charset;
     }
     function getPayerInfo()
     {
@@ -70,13 +117,13 @@ class BAUpdateResponseDetailsType extends XSDType
         $this->PayerInfo = $PayerInfo;
         $this->_elements['PayerInfo']['charset'] = $charset;
     }
-    function getMerchantPullInfo()
+    function getBillingAgreementMax()
     {
-        return $this->MerchantPullInfo;
+        return $this->BillingAgreementMax;
     }
-    function setMerchantPullInfo($MerchantPullInfo, $charset = 'iso-8859-1')
+    function setBillingAgreementMax($BillingAgreementMax, $charset = 'iso-8859-1')
     {
-        $this->MerchantPullInfo = $MerchantPullInfo;
-        $this->_elements['MerchantPullInfo']['charset'] = $charset;
+        $this->BillingAgreementMax = $BillingAgreementMax;
+        $this->_elements['BillingAgreementMax']['charset'] = $charset;
     }
 }

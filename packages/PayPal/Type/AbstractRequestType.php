@@ -32,12 +32,6 @@ class AbstractRequestType extends XSDType
     var $ErrorLanguage;
 
     /**
-     * The MessageID is used to correlate (i.e., reference) the response message to a
-     * specific request message.
-     */
-    var $MessageID;
-
-    /**
      * This refers to the version of the request payload schema.
      */
     var $Version;
@@ -55,12 +49,6 @@ class AbstractRequestType extends XSDType
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
               'ErrorLanguage' => 
-              array (
-                'required' => false,
-                'type' => 'string',
-                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
-              ),
-              'MessageID' => 
               array (
                 'required' => false,
                 'type' => 'string',
@@ -92,15 +80,6 @@ class AbstractRequestType extends XSDType
     {
         $this->ErrorLanguage = $ErrorLanguage;
         $this->_elements['ErrorLanguage']['charset'] = $charset;
-    }
-    function getMessageID()
-    {
-        return $this->MessageID;
-    }
-    function setMessageID($MessageID, $charset = 'iso-8859-1')
-    {
-        $this->MessageID = $MessageID;
-        $this->_elements['MessageID']['charset'] = $charset;
     }
     function getVersion()
     {

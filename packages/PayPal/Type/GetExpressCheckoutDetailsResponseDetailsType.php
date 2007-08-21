@@ -44,6 +44,13 @@ class GetExpressCheckoutDetailsResponseDetailsType extends XSDType
      */
     var $ContactPhone;
 
+    var $BillingAgreementAcceptedStatus;
+
+    /**
+     * Customer's billing address.
+     */
+    var $BillingAddress;
+
     function GetExpressCheckoutDetailsResponseDetailsType()
     {
         parent::XSDType();
@@ -78,6 +85,18 @@ class GetExpressCheckoutDetailsResponseDetailsType extends XSDType
               array (
                 'required' => false,
                 'type' => 'string',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAgreementAcceptedStatus' => 
+              array (
+                'required' => false,
+                'type' => 'boolean',
+                'namespace' => 'urn:ebay:apis:eBLBaseComponents',
+              ),
+              'BillingAddress' => 
+              array (
+                'required' => false,
+                'type' => 'AddressType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
             ));
@@ -127,5 +146,23 @@ class GetExpressCheckoutDetailsResponseDetailsType extends XSDType
     {
         $this->ContactPhone = $ContactPhone;
         $this->_elements['ContactPhone']['charset'] = $charset;
+    }
+    function getBillingAgreementAcceptedStatus()
+    {
+        return $this->BillingAgreementAcceptedStatus;
+    }
+    function setBillingAgreementAcceptedStatus($BillingAgreementAcceptedStatus, $charset = 'iso-8859-1')
+    {
+        $this->BillingAgreementAcceptedStatus = $BillingAgreementAcceptedStatus;
+        $this->_elements['BillingAgreementAcceptedStatus']['charset'] = $charset;
+    }
+    function getBillingAddress()
+    {
+        return $this->BillingAddress;
+    }
+    function setBillingAddress($BillingAddress, $charset = 'iso-8859-1')
+    {
+        $this->BillingAddress = $BillingAddress;
+        $this->_elements['BillingAddress']['charset'] = $charset;
     }
 }

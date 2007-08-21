@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="urn:ebay:apis:eBLBaseComponents" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:ns="urn:ebay:apis:eBLBaseComponents" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cc="urn:ebay:apis:CoreComponentTypes" xmlns:ns="urn:ebay:apis:eBLBaseComponents" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ebay:apis:eBLBaseComponents" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<import namespace="urn:ebay:apis:CoreComponentTypes" schemaLocation="CoreComponentTypes.xsd"/>
 	<simpleType name="AccountStateCodeType">
 		<annotation>
@@ -805,6 +805,56 @@ The following currencies are supported by PayPal.
 						<td> U.S. Dollar</td>
 						<td>10,000 USD</td>
 					</tr>
+					<tr>
+						<td>CHF</td>
+						<td> Czech Koruna</td>
+						<td>70,000 CHF</td>
+					</tr>
+					<tr>
+						<td>SEK</td>
+						<td> Swedish Krona</td>
+						<td>3,50,000 SEK</td>
+					</tr>
+					<tr>
+						<td>NOK</td>
+						<td> Norwegian Krone</td>
+						<td>4,00,000 NOK</td>
+					</tr>
+					<tr>
+						<td>DKK</td>
+						<td> Danish Krone</td>
+						<td>3,00,000 DKK</td>
+					</tr>
+					<tr>
+						<td>PLN</td>
+						<td> Poland Zloty</td>
+						<td>1,60,000 PLN</td>
+					</tr>
+					<tr>
+						<td>HUF</td>
+						<td> Hungary Forint</td>
+						<td>110,00,000 HUF</td>
+					</tr>
+					<tr>
+						<td>SGD</td>
+						<td> Singapore Dollar</td>
+						<td>80,000 SGD</td>
+					</tr>
+					<tr>
+						<td>HKD</td>
+						<td> HongKong Dollar</td>
+						<td>3,80,000 HKD</td>
+					</tr>
+					<tr>
+						<td>NZD</td>
+						<td> New Zealand Dollar</td>
+						<td>77,000 NZD</td>
+					</tr>
+					<tr>
+						<td>CZK</td>
+						<td> Czech Koruna</td>
+						<td>1,20,000 CZK</td>
+					</tr>
 				</table>
 			</documentation>
 		</annotation>
@@ -1165,7 +1215,7 @@ The following currencies are supported by PayPal.
 			<documentation>
 				Merchandizing info for an Item. This contains a list of crosssell
 				or upsell items.
-	        </documentation>
+			</documentation>
 		</annotation>
 		<sequence>
 			<element name="ItemID" type="ns:ItemIDType">
@@ -1174,22 +1224,22 @@ The following currencies are supported by PayPal.
 						Item ID for the base item. Based on this item other items are 
 						promoted. it is teh only tag that would show up in all calls that use promoted item type. 
 						some are not in soap yet, such as get and ser promotion rules
-                 	</documentation>
+					</documentation>
 				</annotation>
 			</element>
 			<element name="PictureURL" type="xs:string" minOccurs="0">
 				<annotation>
 					<documentation>
-                    	URL for the picture of the promoted item.           
-                    </documentation>
+						URL for the picture of the promoted item.           
+					</documentation>
 				</annotation>
 			</element>
 			<element name="position" type="xs:int" minOccurs="0">
 				<annotation>
 					<documentation>
-                    	Where to display in the list of items.currentl y even forget and set does not have to be minoccur =0 
-                    	but if we ever were to do revise promotion tems, it can be omitted
-                    </documentation>
+						Where to display in the list of items.currentl y even forget and set does not have to be minoccur =0 
+						but if we ever were to do revise promotion tems, it can be omitted
+					</documentation>
 				</annotation>
 			</element>
 			<element name="PromotionPrice" type="cc:AmountType" minOccurs="0">
@@ -3155,14 +3205,6 @@ The following currencies are supported by PayPal.
                             </documentation>
 				</annotation>
 			</element>
-			<element name="MessageID" type="xs:string" minOccurs="0">
-				<annotation>
-					<documentation> 
-                                 The MessageID is used to correlate (i.e., reference) the response message  
-                                 to a specific request message.
-                            </documentation>
-				</annotation>
-			</element>
 			<element name="Version" type="xs:string">
 				<annotation>
 					<documentation> 
@@ -3239,7 +3281,7 @@ The following currencies are supported by PayPal.
 			<element name="PhoneNumber" type="xs:string" minOccurs="0">
 				<annotation>
 					<documentation>
-			Phone number associated with this phone .  
+			Phone number associated with this phone.  
 					</documentation>
 				</annotation>
 			</element>
@@ -5544,11 +5586,11 @@ Only applicable to SellerPaymentAddress today. Seller's international street add
 		<restriction base="xs:string"/>
 	</simpleType>
 	<!-- put this in eBLPaymentPP -->
-	<element name="RefundType" type="ns:RefundPurposeTypeCodeType"/>
-	<simpleType name="RefundPurposeTypeCodeType">
+	<element name="RefundType" type="ns:RefundType"/>
+	<simpleType name="RefundType">
 		<annotation>
 			<documentation>
-				RefundPurposeTypeCodeType - Type declaration to be used by other 
+				RefundType - Type declaration to be used by other 
 				schema. This code identifies the types of refund transactions 
 				supported.
 			</documentation>
@@ -5643,6 +5685,15 @@ Only applicable to SellerPaymentAddress today. Seller's international street add
 	<element name="DoExpressCheckoutPaymentRequestDetails" type="ns:DoExpressCheckoutPaymentRequestDetailsType"/>
 	<element name="DoCaptureResponseDetails" type="ns:DoCaptureResponseDetailsType"/>
 	<element name="DoDirectPaymentRequestDetails" type="ns:DoDirectPaymentRequestDetailsType"/>
+	<element name="CreateMobilePaymentRequestDetails" type="ns:CreateMobilePaymentRequestDetailsType"/>
+	<element name="GetMobileStatusRequestDetails" type="ns:GetMobileStatusRequestDetailsType"/>
+	<element name="SetCustomerBillingAgreementRequestDetails" type="ns:SetCustomerBillingAgreementRequestDetailsType"/>
+	<element name="GetBillingAgreementCustomerDetailsResponseDetails" type="ns:GetBillingAgreementCustomerDetailsResponseDetailsType"/>
+	<element name="DoReferenceTransactionRequestDetails" type="ns:DoReferenceTransactionRequestDetailsType"/>
+	<element name="DoReferenceTransactionResponseDetails" type="ns:DoReferenceTransactionResponseDetailsType"/>
+	<element name="UATPDetails" type="ns:UATPDetailsType"/>
+	<element name="CreateRecurringPaymentsProfileResponseDetails" type="ns:CreateRecurringPaymentsProfileResponseDetailsType"/>
+	<element name="CreateRecurringPaymentsProfileRequestDetails" type="ns:CreateRecurringPaymentsProfileRequestDetailsType"/>
 	<complexType name="SetExpressCheckoutRequestDetailsType">
 		<sequence>
 			<element name="OrderTotal" type="cc:BasicAmountType">
@@ -5757,6 +5808,17 @@ Optional
 </documentation>
 				</annotation>
 			</element>
+			<element name="ReqBillingAddress" type="xs:string" minOccurs="0">
+                                <annotation>
+                                        <documentation>The value 1 indicates that you require that the customer's billing address on file. Setting this element overrides the setting you have specified in Admin.
+<br/>
+                                                <br/>
+Optional
+<br/>
+                                                <br/>Character length and limitations: One single-byte numeric character.
+</documentation>
+                                </annotation>
+                        </element>
 			<element name="NoShipping" type="xs:string" minOccurs="0">
 				<annotation>
 					<documentation>The value 1 indicates that on the PayPal pages, no shipping address fields should be displayed whatsoever. 
@@ -5918,16 +5980,14 @@ Optional
 						<br/>
 None
 <br/>
-
 						<br/>
 Sole indicates that you are in the ExpressO flow
 <br/>
-
 						<br/>
 Mark indicates that you are in the old express flow.
 <br/>
-<br/>
-</documentation>
+						<br/>
+					</documentation>
 				</annotation>
 			</element>
 			<element name="LandingPage" type="ns:LandingPageType" minOccurs="0">
@@ -5944,11 +6004,10 @@ None
 						<br/>
 Billing indicates that you are not a paypal account holder
 <br/>
-
 						<br/>
 Login indicates that you are a paypal account holder
 <br/>
-<br/>
+						<br/>
 					</documentation>
 				</annotation>
 			</element>
@@ -5964,7 +6023,49 @@ Optional
 </documentation>
 				</annotation>
 			</element>
-			<element name="ChannelType" type="ns:ChannelType" minOccurs="0" maxOccurs="1"/>
+			<element name="ChannelType" type="ns:ChannelType" minOccurs="0"/>
+			<element name="BillingAgreementDetails" type="ns:BillingAgreementDetailsType" minOccurs="0" maxOccurs="1"/>
+ 			<element name="PromoCodes" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<annotation>
+					<documentation>
+						Promo Code<br/>
+						<br/>
+						Optional<br/>
+						<br/>
+						List of promo codes supplied by merchant. These promo codes enable the Merchant Services Promotion Financing feature.
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="BillingAgreementDetailsType">
+		<sequence>
+			<element name="BillingType" type="ns:BillingCodeType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementDescription" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Only needed for AutoBill billinng type.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentType" type="ns:MerchantPullPaymentCodeType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementCustom" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Custom annotation field for your exclusive use.
+					</documentation>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 	<complexType name="GetExpressCheckoutDetailsResponseDetailsType">
@@ -6006,6 +6107,24 @@ Optional
 			Payer's contact telephone number. PayPal returns a contact telephone number only if your Merchant account profile settings require that the buyer enter one.</documentation>
 				</annotation>
 			</element>
+			<element name="BillingAgreementAcceptedStatus" type="xs:boolean" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAddress" type="ns:AddressType" minOccurs="0">
+                                <annotation>
+                                        <documentation>Customer's billing address.
+<br/>
+                                                <br/>
+Optional
+<br/>
+                                                <br/>
+If you have credit card mapped in your account then billing address of the credit card is returned otherwise your primary address is returned , PayPal returns this address in GetExpressCheckoutDetailsResponse.
+</documentation>
+                                </annotation>
+                        </element>
 		</sequence>
 	</complexType>
 	<complexType name="DoExpressCheckoutPaymentRequestDetailsType">
@@ -6087,6 +6206,12 @@ Character length and limitations:20 single-byte characters
 			<element name="PaymentInfo" type="ns:PaymentInfoType">
 				<annotation>
 					<documentation>Information about the transaction </documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementID" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
 				</annotation>
 			</element>
 		</sequence>
@@ -6179,23 +6304,218 @@ Optional
 			</element>
 		</sequence>
 	</complexType>
-	<complexType name="BAUpdateResponseDetailsType">
+	<complexType name="CreateMobilePaymentRequestDetailsType">
 		<sequence>
-			<element name="MpID" type="ns:MerchantPullIDType">
+			<element name="PaymentType" type="ns:MobilePaymentCodeType">
 				<annotation>
-					<documentation>Preapproved Payments billing agreement identification number. Corresponds to the FORM variable mp_id. 
+					<documentation>Type of the payment
+<br/>
+						<br/>
+						<b>Required</b>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentAction" type="ns:PaymentActionCodeType">
+				<annotation>
+					<documentation>
+						How you want to obtain payment.  Defaults to Sale.
+<br/>
+						<br/>
+						<b>Optional</b>
+						<br/>
+						<br/>
+Authorization indicates that this payment is a basic authorization subject to settlement with PayPal Authorization and Capture.
+<br/>
+						<br/>
+Sale indicates that this is a final sale for which you are requesting payment.
+<br/>
+						<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="SenderPhone" type="ns:PhoneNumberType">
+				<annotation>
+					<documentation>Phone number of the user making the payment.
 <br/>
 						<br/>
 						<b>Required</b>
 						<br/>
-						<br/>
-Character limit: 19 single-byte alphanumeric characters.
-The format of a billing agreement identification number is the single-character prefix B, followed by a hyphen and an alphanumeric character string: <br/>
-						<br/>B-unique_alphanumeric_string </documentation>
+					</documentation>
 				</annotation>
 			</element>
-			<element name="PayerInfo" type="ns:PayerInfoType"/>
-			<element name="MerchantPullInfo" type="ns:MerchantPullInfoType"/>
+			<element name="RecipientType" type="ns:MobileRecipientCodeType">
+				<annotation>
+					<documentation>Type of recipient specified, i.e., phone number or email address
+<br/>
+						<br/>
+						<b>Required</b>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="RecipientEmail" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Email address of the recipient
+<br/>
+						<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="RecipientPhone" type="ns:PhoneNumberType" minOccurs="0">
+				<annotation>
+					<documentation>Phone number of the recipipent
+<br/>
+						<br/>
+						<b>Required</b>
+						<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ItemAmount" type="cc:BasicAmountType">
+				<annotation>
+					<documentation>Amount of item before tax and shipping
+<br/>
+						<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="Tax" type="cc:BasicAmountType" minOccurs="0">
+				<annotation>
+					<documentation>The tax charged on the transaction
+Tax
+<br/>
+						<br/>
+Optional
+<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="Shipping" type="cc:BasicAmountType" minOccurs="0">
+				<annotation>
+					<documentation>Per-transaction shipping charge
+<br/>
+						<br/>
+Optional
+<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ItemName" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Name of the item being ordered
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>
+Character length and limitations: 255 single-byte alphanumeric characters
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ItemNumber" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>SKU of the item being ordered
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>
+Character length and limitations: 255 single-byte alphanumeric characters
+					</documentation>
+				</annotation>
+			</element>
+			<element name="Note" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Memo entered by sender in PayPal Website Payments note field.
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>
+Character length and limitations: 255 single-byte alphanumeric characters
+					</documentation>
+				</annotation>
+			</element>
+			<element name="CustomID" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Unique ID for the order.  Required for non-P2P transactions
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>
+Character length and limitations: 255 single-byte alphanumeric characters
+					</documentation>
+				</annotation>
+			</element>
+			<element name="SharePhoneNumber" type="xs:integer" minOccurs="0">
+				<annotation>
+					<documentation>Indicates whether the sender's phone number will be shared with recipient
+<br/>
+						<br/>
+Optional
+<br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ShareHomeAddress" type="xs:integer" minOccurs="0">
+				<annotation>
+					<documentation>Indicates whether the sender's home address will be shared with recipient
+<br/>
+						<br/>
+Optional
+<br/>
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="GetMobileStatusRequestDetailsType">
+		<sequence>
+			<element name="Phone" type="ns:PhoneNumberType">
+				<annotation>
+					<documentation>Phone number for status inquiry </documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="BAUpdateResponseDetailsType">
+		<sequence>
+			<element name="BillingAgreementID" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementDescription" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementStatus" type="ns:MerchantPullStatusCodeType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementCustom" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PayerInfo" type="ns:PayerInfoType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAgreementMax" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 	<complexType name="MerchantPullPaymentResponseType">
@@ -6493,6 +6813,18 @@ Optional
 <br/>
 						<br/>
 Character length and limitations: 32 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="SoftDescriptor" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Passed in soft descriptor string to be appended. 
+	<br/>
+						<br/>
+Optional
+<br/>
+						<br/>
+Character length and limitations: single-byte alphanumeric characters
 </documentation>
 				</annotation>
 			</element>
@@ -6847,6 +7179,13 @@ other: A reversal has occurred on this transaction due to a reason not listed ab
 </documentation>
 				</annotation>
 			</element>
+			<element name="ShippingMethod" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>
+						Shipping method selected by the user during check-out.	
+					</documentation>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 	<complexType name="SubscriptionTermsType">
@@ -6966,7 +7305,7 @@ Character length and limitations: no limit</documentation>
 				EbayItemPaymentDetailsItemType - Type declaration to be used by other schemas.
 				Information about an Ebay Payment Item.
 			</documentation>
-				<!-- add more documentation here -->
+			<!-- add more documentation here -->
 		</annotation>
 		<sequence>
 			<element name="ItemNumber" type="xs:string" minOccurs="0">
@@ -7010,7 +7349,6 @@ Character length and limitations: 64 single-byte characters
 			</element>
 		</sequence>
 	</complexType>
-
 	<complexType name="PaymentDetailsItemType">
 		<annotation>
 			<documentation>
@@ -7091,6 +7429,13 @@ Optional
 						<br/>
 Optional
 <br/>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PromoCode" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Promotional financing code for item. Part of the Merchant Services Promotion Financing feature.
 					</documentation>
 				</annotation>
 			</element>
@@ -7393,6 +7738,35 @@ CountryCode
 			<element name="ExpYear" type="xs:int"/>
 			<element name="CardOwner" type="ns:PayerInfoType"/>
 			<element name="CVV2" type="xs:string" minOccurs="0"/>
+			<element name="StartMonth" type="xs:int" minOccurs="0"/>
+			<element name="StartYear" type="xs:int" minOccurs="0"/>
+			<element name="IssueNumber" type="xs:string" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CreditCardNumberTypeType">
+		<annotation>
+			<documentation>
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="CreditCardType" type="ns:CreditCardTypeType" minOccurs="1" maxOccurs="1"/>
+			<element name="CreditCardNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="ReferenceCreditCardDetailsType">
+		<annotation>
+			<documentation>
+				CreditCardDetailsType for DCC Reference Transaction
+				Information about a Credit Card.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="CreditCardNumberType" type="ns:CreditCardNumberTypeType" minOccurs="0" maxOccurs="1"/>
+			<element name="ExpMonth" type="xs:int" minOccurs="0" maxOccurs="1"/>
+			<element name="ExpYear" type="xs:int" minOccurs="0" maxOccurs="1"/>
+			<element name="CardOwnerName" type="ns:PersonNameType" minOccurs="0" maxOccurs="1"/>
+			<element name="BillingAddress" type="ns:AddressType" minOccurs="0" maxOccurs="1"/>
+			<element name="CVV2" type="xs:string" minOccurs="0" maxOccurs="1"/>
 			<element name="StartMonth" type="xs:int" minOccurs="0" maxOccurs="1"/>
 			<element name="StartYear" type="xs:int" minOccurs="0" maxOccurs="1"/>
 			<element name="IssueNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -7508,6 +7882,17 @@ CountryCode
 			<enumeration value="None"/>
 			<enumeration value="Login"/>
 			<enumeration value="Billing"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="BillingCodeType">
+		<annotation>
+			<documentation>
+			</documentation>
+		</annotation>
+		<restriction base="xs:token">
+			<enumeration value="None"/>
+			<enumeration value="MerchantInitiatedBilling"/>
+			<enumeration value="RecurringPayments"/>
 		</restriction>
 	</simpleType>
 	<simpleType name="PendingStatusCodeType">
@@ -7772,6 +8157,195 @@ CountryCode
 			</element>
 		</sequence>
 	</complexType>
+	<complexType name="SetCustomerBillingAgreementRequestDetailsType">
+		<sequence>
+			<element name="BillingAgreementDetails" type="ns:BillingAgreementDetailsType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ReturnURL" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="CancelURL" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="LocaleCode" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PageStyle" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="cpp-header-image" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="cpp-header-border-color" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="cpp-header-back-color" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="cpp-payflow-color" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BuyerEmail" type="ns:EmailAddressType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ReqBillingAddress" type="xs:string" minOccurs="0">
+                                <annotation>
+                                        <documentation>The value 1 indicates that you require that the customer's billing address on file. Setting this element overrides the setting you have specified in Admin.
+<br/>
+                                                <br/>
+Optional
+<br/>
+                                                <br/>Character length and limitations: One single-byte numeric character.
+</documentation>
+                                </annotation>
+                        </element>
+		</sequence>
+	</complexType>
+	<complexType name="GetBillingAgreementCustomerDetailsResponseDetailsType">
+		<sequence>
+			<element name="PayerInfo" type="ns:PayerInfoType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingAddress" type="ns:AddressType" minOccurs="0">
+                                <annotation>
+                                        <documentation>Customer's billing address.
+<br/>
+                                                <br/>
+Optional
+<br/>
+                                                <br/>
+If you have a credit card mapped in your PayPal account, PayPal returns the billing address of the credit billing address otherwise your primary address as billing address in GetBillingAgreementCustomerDetails.
+</documentation>
+                                </annotation>
+                        </element>
+		</sequence>
+	</complexType>
+	<complexType name="DoReferenceTransactionRequestDetailsType">
+		<sequence>
+			<element name="ReferenceID" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentAction" type="ns:PaymentActionCodeType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentType" type="ns:MerchantPullPaymentCodeType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentDetails" type="ns:PaymentDetailsType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="CreditCard" type="ns:ReferenceCreditCardDetailsType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="IPAddress" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="MerchantSessionId" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ReqConfirmShipping" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="DoReferenceTransactionResponseDetailsType">
+		<sequence>
+			<element name="BillingAgreementID" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentInfo" type="ns:PaymentInfoType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="Amount" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="AVSCode" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="CVV2Code" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="TransactionID" type="ns:TransactionId" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 	<!-- BOARDING DATA TYPES -->
 	<element name="EnterBoardingRequestDetails" type="ns:EnterBoardingRequestDetailsType"/>
 	<element name="GetBoardingDetailsResponseDetails" type="ns:GetBoardingDetailsResponseDetailsType"/>
@@ -7858,41 +8432,41 @@ Character length and limitations: 2,048 alphanumeric characters</documentation>
 			<element name="BankAccount" type="ns:BankAccountDetailsType" minOccurs="0">
 				<annotation>
 					<documentation>
-			Information about the merchant’s bank account</documentation>
+			Information about the merchant's bank account</documentation>
 				</annotation>
 			</element>
 		</sequence>
 	</complexType>
 	<simpleType name="MarketingCategoryType">
-            <annotation>
-                  <documentation>
+		<annotation>
+			<documentation>
                         MarketingCategoryType 
-                  </documentation>
-            </annotation>
-            <restriction base="xs:token">
-                  <enumeration value="Marketing-Category-Default"/>
-                  <enumeration value="Marketing-Category1"/>
-                  <enumeration value="Marketing-Category2"/>
-                  <enumeration value="Marketing-Category3"/>
-                  <enumeration value="Marketing-Category4"/>
-                  <enumeration value="Marketing-Category5"/>
-                  <enumeration value="Marketing-Category6"/>
-                  <enumeration value="Marketing-Category7"/>
-                  <enumeration value="Marketing-Category8"/>
-                  <enumeration value="Marketing-Category9"/>
-                  <enumeration value="Marketing-Category10"/>
-                  <enumeration value="Marketing-Category11"/>
-                  <enumeration value="Marketing-Category12"/>
-                  <enumeration value="Marketing-Category13"/>
-                  <enumeration value="Marketing-Category14"/>
-                  <enumeration value="Marketing-Category15"/>
-                  <enumeration value="Marketing-Category16"/>
-                  <enumeration value="Marketing-Category17"/>
-                  <enumeration value="Marketing-Category18"/>
-                  <enumeration value="Marketing-Category19"/>
-                  <enumeration value="Marketing-Category20"/>
-            </restriction>
-      </simpleType>
+			</documentation>
+		</annotation>
+		<restriction base="xs:token">
+			<enumeration value="Marketing-Category-Default"/>
+			<enumeration value="Marketing-Category1"/>
+			<enumeration value="Marketing-Category2"/>
+			<enumeration value="Marketing-Category3"/>
+			<enumeration value="Marketing-Category4"/>
+			<enumeration value="Marketing-Category5"/>
+			<enumeration value="Marketing-Category6"/>
+			<enumeration value="Marketing-Category7"/>
+			<enumeration value="Marketing-Category8"/>
+			<enumeration value="Marketing-Category9"/>
+			<enumeration value="Marketing-Category10"/>
+			<enumeration value="Marketing-Category11"/>
+			<enumeration value="Marketing-Category12"/>
+			<enumeration value="Marketing-Category13"/>
+			<enumeration value="Marketing-Category14"/>
+			<enumeration value="Marketing-Category15"/>
+			<enumeration value="Marketing-Category16"/>
+			<enumeration value="Marketing-Category17"/>
+			<enumeration value="Marketing-Category18"/>
+			<enumeration value="Marketing-Category19"/>
+			<enumeration value="Marketing-Category20"/>
+		</restriction>
+	</simpleType>
 	<complexType name="BusinessInfoType">
 		<annotation>
 			<documentation>
@@ -8281,6 +8855,7 @@ Character length and limitations: 127 alphanumeric characters</documentation>
 			<enumeration value="COMPUTERHARDWAREANDSOFTWARE-Academic-Software"/>
 			<enumeration value="COMPUTERHARDWAREANDSOFTWARE-Beta-Software"/>
 			<enumeration value="COMPUTERHARDWAREANDSOFTWARE-Game-Software"/>
+            <enumeration value="COMPUTERHARDWAREANDSOFTWARE-Data-Processing-Svc"/>
 			<enumeration value="CULTUREANDRELIGION-General"/>
 			<enumeration value="CULTUREANDRELIGION-Christianity"/>
 			<enumeration value="CULTUREANDRELIGION-Metaphysical"/>
@@ -8797,6 +9372,28 @@ SetExpressCheckout,GetExpressCheckoutDetails,DoExpressCheckoutPayment
 </documentation>
 				</annotation>
 			</element>
+			<element name="EmailVerificationStatus" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>
+			Primary email verification status. Confirmed, Unconfirmed</documentation>
+				</annotation>
+			</element>
+			<element name="VettingStatus" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>
+			Gives VettingStatus - Pending, Cancelled, Approved, UnderReview
+<br/>
+						<br/>Character length and limitations: 256 alphanumeric characters</documentation>
+				</annotation>
+			</element>
+			<element name="BankAccountVerificationStatus" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>
+			Gives BankAccountVerificationStatus - Added, Confirmed
+<br/>
+						<br/>Character length and limitations: 256 alphanumeric characters</documentation>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 	<simpleType name="BoardingStatusType">
@@ -8857,9 +9454,11 @@ Character length and limitations: 40 alphanumeric characters</documentation>
 				<annotation>
 					<documentation>
 			Merchant’s PayPal API certificate in PEM format, if one exists
-			<br/><br/>
+			<br/>
+						<br/>
 			The certificate consists of two parts: the private key (2,048 bytes) and the certificate proper (4,000 bytes).
-<br/><br/>
+<br/>
+						<br/>
 						<br/>Character length and limitations: 6,048 alphanumeric characters</documentation>
 				</annotation>
 			</element>
@@ -8892,4 +9491,390 @@ Auth-None: no authentication mechanism on file
 			<enumeration value="Sign"/>
 		</restriction>
 	</simpleType>
+
+	<element name="SetMobileCheckoutRequestDetails" type="ns:SetMobileCheckoutRequestDetailsType"/>
+	<complexType name="SetMobileCheckoutRequestDetailsType">
+		<sequence>
+			<element name="BuyerPhone" type="ns:PhoneNumberType" minOccurs="0">
+				<annotation>
+					<documentation>The phone number of the buyer's mobile device, if available.
+<br/>
+						<br/>
+						<b>Optional</b>
+						<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="ItemAmount" type="cc:BasicAmountType" minOccurs="1">
+				<annotation>
+					<documentation>
+			Cost of this item before tax and shipping.
+You must set the currencyID attribute to one of the three-character currency codes for any of the supported PayPal currencies.
+<br/>
+						<br/>
+Required
+<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="Tax" type="cc:BasicAmountType" minOccurs="0">
+				<annotation>
+					<documentation>
+			Tax amount for this item.
+You must set the currencyID attribute to one of the three-character currency codes for any of the supported PayPal currencies.
+<br/>
+						<br/>
+Optional
+<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="Shipping" type="cc:BasicAmountType" minOccurs="0">
+				<annotation>
+					<documentation>
+			Shipping amount for this item.
+You must set the currencyID attribute to one of the three-character currency codes for any of the supported PayPal currencies.
+<br/>
+						<br/>
+Optional
+<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="ItemName" type="xs:string" minOccurs="1">
+				<annotation>
+					<documentation>Description of the item that the customer is purchasing. 
+<br/>
+						<br/>
+Required
+<br/>
+						<br/>Character length and limitations: 127 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="ItemNumber" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Reference number of the item that the customer is purchasing. 
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limitations: 127 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="Custom" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>A free-form field for your own use, such as a tracking number or other value you want returned to you in IPN.
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limitations: 256 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="InvoiceID" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Your own unique invoice or tracking number.
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limitations: 127 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="ReturnURL" type="xs:string" minOccurs="1">
+				<annotation>
+					<documentation>URL to which the customer's browser is returned after choosing to pay with PayPal. PayPal recommends that the value of ReturnURL be the final review page on which the customer confirms the order and payment. 
+<br/>
+						<br/>
+						<b>Required</b>
+						<br/>
+						<br/>
+Character length and limitations: no limit. </documentation>
+				</annotation>
+			</element>
+			<element name="CancelURL" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>URL to which the customer is returned if he does not approve the use of PayPal to pay you. PayPal recommends that the value of CancelURL be the original page on which the customer chose to pay with PayPal. 
+<br/>
+						<br/>
+						<b>Optional</b>
+						<br/>
+						<br/>
+Character length and limitations: no limit
+</documentation>
+				</annotation>
+			</element>
+			<element name="AddressDisplayOptions" type="xs:int" minOccurs="0">
+				<annotation>
+					<documentation>The value 1 indicates that you require that the customer's shipping address on file with PayPal be a confirmed address. Setting this element overrides the setting you have specified in your Merchant Account Profile. 
+<br/>
+						<br/>
+Optional
+<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="SharePhone" type="xs:int" minOccurs="0">
+				<annotation>
+					<documentation>The value 1 indicates that you require that the customer specifies a contact phone for the transactxion.  Default is 0 / none required.
+<br/>
+						<br/>
+Optional
+</documentation>
+				</annotation>
+			</element>
+			<element name="ShipToAddress" type="ns:AddressType" minOccurs="0">
+				<annotation>
+					<documentation>Customer's shipping address. 
+<br/>
+						<br/>
+Optional
+<br/>
+</documentation>
+				</annotation>
+			</element>
+			<element name="BuyerEmail" type="ns:EmailAddressType" minOccurs="0">
+				<annotation>
+					<documentation>
+			Email address of the buyer as entered during checkout. PayPal uses this value to pre-fill the login portion of the PayPal login page. 
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limit: 127 single-byte alphanumeric characters 
+</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<element name="DoMobileCheckoutPaymentResponseDetails" type="ns:DoMobileCheckoutPaymentResponseDetailsType"/>
+	<complexType name="DoMobileCheckoutPaymentResponseDetailsType">
+		<sequence>
+			<element name="Custom" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>A free-form field for your own use, such as a tracking number or other value you want returned to you in IPN.
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limitations: 256 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="InvoiceID" type="xs:string" minOccurs="0">
+				<annotation>
+					<documentation>Your own unique invoice or tracking number.
+<br/>
+						<br/>
+Optional
+<br/>
+						<br/>Character length and limitations: 127 single-byte alphanumeric characters
+</documentation>
+				</annotation>
+			</element>
+			<element name="PayerInfo" type="ns:PayerInfoType">
+				<annotation>
+					<documentation>Information about the payer</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentInfo" type="ns:PaymentInfoType">
+				<annotation>
+					<documentation>Information about the transaction</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="UATPDetailsType">
+		<annotation>
+			<documentation>
+				UATP Card Details Type 
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="UATPNumber" type="xs:string">
+				<annotation>
+					<documentation>UATP Card Number</documentation>
+				</annotation>
+			</element>
+			<element name="ExpMonth" type="xs:int">
+				<annotation>
+					<documentation>  UATP Card expirty month</documentation>
+				</annotation>
+			</element>
+			<element name="ExpYear" type="xs:int">
+				<annotation>
+					<documentation>  UATP Card expirty year</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<simpleType name="BillingPeriodType">
+		<annotation>
+			<documentation>
+			</documentation>
+		</annotation>
+		<restriction base="xs:token">
+			<enumeration value="None"/>
+			<enumeration value="Day"/>
+			<enumeration value="Week"/>
+			<enumeration value="SemiMonth"/>
+			<enumeration value="Month"/>
+			<enumeration value="Year"/>
+		</restriction>
+	</simpleType>
+	<complexType name="BillingPeriodDetailsType">
+		<sequence>
+			<element name="BillingPeriod" type="ns:BillingPeriodType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Unit of meausre for billing cycle
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingFrequency" type="xs:int" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Number of BillingPeriod that make up one billing cycle
+					</documentation>
+				</annotation>
+			</element>
+			<element name="TotalBillingCycles" type="xs:int" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Total billing cycles in this portion of the schedule
+					</documentation>
+				</annotation>
+			</element>
+
+			<element name="Amount" type="cc:BasicAmountType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Amount to charge
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ShippingAmount" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Additional shipping amount to charge
+					</documentation>
+				</annotation>
+			</element>
+			<element name="TaxAmount" type="cc:BasicAmountType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Additional tax amount to charge
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="ScheduleDetailsType">
+		<sequence>
+			<element name="Description" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Schedule details for the Recurring Payment
+					</documentation>
+				</annotation>
+			</element>
+			<element name="TrialPeriod" type="ns:BillingPeriodDetailsType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Trial period of this schedule
+					</documentation>
+				</annotation>
+			</element>
+			<element name="PaymentPeriod" type="ns:BillingPeriodDetailsType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					</documentation>
+				</annotation>
+			</element>
+			<element name="MaxFailedPayments" type="xs:int" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						The max number of payments the buyer can fail before this Recurring Payments profile is cancelled
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="RecurringPaymentsProfileDetailsType">
+		<sequence>
+			<element name="SubscriberName" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Subscriber name - if missing, will use name in buyer's account 
+					</documentation>
+				</annotation>
+			</element>
+			<element name="SubscriberShippingAddress" type="ns:AddressType" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Subscriber address - if missing, will use address in buyer's account
+					</documentation>
+				</annotation>
+			</element>
+			<element name="BillingStartDate" type="xs:dateTime" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						When does this Profile begin billing?
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ProfileReference" type="xs:string" minOccurs="0" maxOccurs="1">
+				<annotation>
+				<documentation>Your own unique invoice or tracking number.
+					<br/>
+					<br/>
+					Optional
+					<br/>
+					<br/>Character length and limitations: 127 single-byte alphanumeric characters
+				</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+       <complexType name="CreateRecurringPaymentsProfileRequestDetailsType">
+		<sequence>
+			<element name="Token" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Billing Agreement token
+					</documentation>
+				</annotation>
+			</element>
+			<element name="RecurringPaymentsProfileDetails" type="ns:RecurringPaymentsProfileDetailsType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Customer Information for this Recurring Payments
+					</documentation>
+				</annotation>
+			</element>
+			<element name="ScheduleDetails" type="ns:ScheduleDetailsType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Schedule Information for this Recurring Payments
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="CreateRecurringPaymentsProfileResponseDetailsType">
+		<sequence>
+			<element name="ProfileID" type="xs:string" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+					Recurring Billing Profile ID
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 </schema>
+

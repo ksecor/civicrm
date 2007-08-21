@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoints>
-	<wsdl min-version="2.00" max-version="2.3">
+	<wsdl min-version="2.00" max-version="3.2">
 		<environment name="live">
 			<port name="PayPalAPI">https://api.paypal.com/2.0/</port>
 			<port name="PayPalAPIAA">https://api-aa.paypal.com/2.0/</port>

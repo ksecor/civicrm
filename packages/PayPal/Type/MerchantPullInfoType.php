@@ -10,7 +10,7 @@ require_once 'PayPal/Type/XSDType.php';
 
 /**
  * MerchantPullInfoType
- *
+ * 
  * MerchantPullInfoType Information about the merchant pull.
  *
  * @package PayPal
@@ -49,10 +49,9 @@ class MerchantPullInfoType extends XSDType
      */
     var $Custom;
 
-	/**
-	 * Note: This field is no longer used and is always empty.
-	 */
-
+    /**
+     * Note: This field is no longer used and is always empty.
+     */
     var $PaymentSourceID;
 
     function MerchantPullInfoType()
@@ -61,43 +60,43 @@ class MerchantPullInfoType extends XSDType
         $this->_namespace = 'urn:ebay:apis:eBLBaseComponents';
         $this->_elements = array_merge($this->_elements,
             array (
-              'MpStatus' =>
+              'MpStatus' => 
               array (
                 'required' => true,
                 'type' => 'MerchantPullStatusCodeType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'MpMax' =>
+              'MpMax' => 
               array (
                 'required' => true,
                 'type' => 'BasicAmountType',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'MpCustom' =>
+              'MpCustom' => 
               array (
                 'required' => false,
                 'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'Desc' =>
+              'Desc' => 
               array (
                 'required' => false,
                 'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'Invoice' =>
+              'Invoice' => 
               array (
                 'required' => false,
                 'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'Custom' =>
+              'Custom' => 
               array (
                 'required' => false,
                 'type' => 'string',
                 'namespace' => 'urn:ebay:apis:eBLBaseComponents',
               ),
-              'PaymentSourceID' =>
+              'PaymentSourceID' => 
               array (
                 'required' => false,
                 'type' => 'string',
