@@ -70,6 +70,7 @@
   <table class="form-layout">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
+  <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
   {if $report.mailing.open_tracking}
     <tr><td class="label"><a href="{$report.event_totals.links.opened}">{ts}Tracked Opens{/ts}</a></td><td>{$report.jobs.0.opened}</td></tr>
   {/if}

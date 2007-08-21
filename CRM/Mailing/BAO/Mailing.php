@@ -47,6 +47,7 @@ require_once 'CRM/Mailing/Event/BAO/Delivered.php';
 require_once 'CRM/Mailing/Event/BAO/Bounce.php';
 require_once 'CRM/Mailing/BAO/TrackableURL.php';
 require_once 'CRM/Mailing/BAO/Component.php';
+require_once 'CRM/Mailing/BAO/Spool.php';
 
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
@@ -793,6 +794,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
         require_once 'CRM/Mailing/Event/BAO/Forward.php';
         require_once 'CRM/Mailing/Event/BAO/TrackableURLOpen.php';
+        require_once 'CRM/Mailing/BAO/Spool.php';
         $t = array(
                 'mailing'   => self::getTableName(),
                 'mailing_group'  => CRM_Mailing_DAO_Group::getTableName(),
@@ -809,7 +811,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'url'       => CRM_Mailing_BAO_TrackableURL::getTableName(),
                 'urlopen'   =>
                     CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
-                'component' =>  CRM_Mailing_BAO_Component::getTableName()
+                'component' =>  CRM_Mailing_BAO_Component::getTableName(),
+                'spool'     => CRM_Mailing_BAO_Spool::getTableName() 
             );
         
         
@@ -916,7 +919,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             COUNT(DISTINCT {$t['reply']}.id) as reply,
                             COUNT(DISTINCT {$t['forward']}.id) as forward,
                             COUNT(DISTINCT {$t['bounce']}.id) as bounce,
-                            COUNT(DISTINCT {$t['urlopen']}.id) as url
+                            COUNT(DISTINCT {$t['urlopen']}.id) as url,
+                            COUNT(DISTINCT {$t['spool']}.id) as spool
             FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
@@ -931,7 +935,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND     {$t['bounce']}.id IS null
             LEFT JOIN       {$t['urlopen']}
                     ON      {$t['urlopen']}.event_queue_id = {$t['queue']}.id
-                    
+            LEFT JOIN       {$t['spool']}
+                    ON      {$t['spool']}.job_id = {$t['job']}.id
             WHERE           {$t['job']}.mailing_id = $mailing_id
             GROUP BY        {$t['job']}.id");
         
@@ -940,7 +945,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         while ($mailing->fetch()) {
             $row = array();
             foreach(array(  'queue', 'delivered', 'url', 'forward',
-                            'reply', 'unsubscribe', 'bounce') as $field) {
+                            'reply', 'unsubscribe', 'bounce', 'spool') as $field) {
                 if (isset( $mailing->$field )){
                     $row[$field] = $mailing->$field;
                 }
@@ -1228,6 +1233,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             if ( $className == 'CRM_Mailing_DAO_Job' ) {
                 $dao->find(true);
                 if ( $dao->status == 'Complete') {
+                    $daoSpool = new CRM_Mailing_BAO_Spool();
+                    $daoSpool->job_id = $dao->id;
+                    if ( $daoSpool->find() ) {
+                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                        return;
+                    }
                     $daoQueue = new CRM_Mailing_Event_BAO_Queue();
                     $daoQueue->deleteEventQueue( $dao->id, 'job');
                 }

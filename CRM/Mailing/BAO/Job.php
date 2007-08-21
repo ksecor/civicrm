@@ -93,7 +93,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $mailer =& $config->getMailer($mailingSize);
 
             /* Compose and deliver */
-            $job->deliver($mailer);
+            $flag = $job->deliver($mailer);
+
+            require_once 'CRM/Utils/Hook.php';
+            CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $flag);
 
             /* Finish the job */
             CRM_Core_DAO::transaction('BEGIN');
@@ -290,11 +293,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
                 return false;
             }
-           
+            
             unset( $result );
         }
+        return true;
     }
-
+    
     /**
      * cancel a mailing
      *

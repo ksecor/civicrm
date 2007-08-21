@@ -86,8 +86,6 @@ class CRM_Mailing_BAO_Spool extends CRM_Mailing_DAO_Spool {
         $spoolMail->copyValues($params);
         $spoolMail->save();
         
-        require_once 'CRM/Utils/Hook.php';
-        CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job_id );
         return true;
     }
     
