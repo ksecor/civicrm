@@ -48,7 +48,6 @@ function run( ) {
     $config =& CRM_Core_Config::singleton(); 
 
     // this does not return on failure
-    // require_once 'CRM/Utils/System.php';
     CRM_Utils_System::authenticateScript( true );
 
     $config->userFramework      = 'Soap'; 
