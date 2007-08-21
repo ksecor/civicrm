@@ -37,6 +37,10 @@ require_once 'CRM/Contact/BAO/Group.php';
 require_once 'CRM/Contact/DAO/Contact.php';
 require_once 'CRM/Dedupe/Criterion.php';
 
+/**
+ * The CiviCRM duplicate discovery engine is based on an
+ * algorithm designed by David Strauss <david@fourkitchens.com>.
+ */
 class CRM_Dedupe_Finder
 {
     /**

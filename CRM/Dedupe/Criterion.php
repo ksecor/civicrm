@@ -34,6 +34,10 @@
 
 require_once 'CRM/Utils/Type.php';
 
+/**
+ * The CiviCRM duplicate discovery engine is based on an
+ * algorithm designed by David Strauss <david@fourkitchens.com>.
+ */
 class CRM_Dedupe_Criterion
 {
     /**
