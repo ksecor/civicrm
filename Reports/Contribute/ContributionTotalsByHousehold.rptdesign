@@ -52,36 +52,21 @@
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">rid</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
                         <property name="name">display_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
-                        <property name="name">contrib_total</property>
-                        <property name="dataType">decimal</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
+                        <property name="position">2</property>
                         <property name="name">ctAmt</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">6</property>
+                        <property name="position">3</property>
                         <property name="name">ctNum</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
-                        <property name="position">7</property>
+                        <property name="position">4</property>
                         <property name="name">ctAvg</property>
                         <property name="dataType">decimal</property>
                     </structure>
@@ -116,70 +101,53 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">id</property>
-                    <property name="nativeName">id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">rid</property>
-                    <property name="nativeName">rid</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
                     <property name="name">display_name</property>
                     <property name="nativeName">display_name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
-                    <property name="name">contrib_total</property>
-                    <property name="nativeName">contrib_total</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">3</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
+                    <property name="position">2</property>
                     <property name="name">ctAmt</property>
                     <property name="nativeName">ctAmt</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">3</property>
                     <property name="name">ctNum</property>
                     <property name="nativeName">ctNum</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">-5</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">4</property>
                     <property name="name">ctAvg</property>
                     <property name="nativeName">ctAvg</property>
                     <property name="dataType">decimal</property>
                     <property name="nativeDataType">3</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT distinct(contrib.id), r.id as rid,contact_b.display_name,
-contrib.total_amount AS contrib_total,
-sum(contrib.total_amount) AS ctAmt,
-count(contrib.id) AS ctNum,
-avg(contrib.total_amount) AS ctAvg
+            <property name="queryText">SELECT contact_b.display_name,
+sum( contrib.total_amount ) AS ctAmt,
+count( contrib.id ) AS ctNum,
+avg( contrib.total_amount ) AS ctAvg
 FROM civicrm_contribution AS contrib,
-civicrm_contact AS contact_a, civicrm_relationship r,
+civicrm_contact AS contact_a,
+civicrm_relationship r,
 civicrm_contact AS contact_b
-WHERE contrib.contact_id = contact_a.id AND
-contrib.is_test = 0 
-AND (contact_a.id = r.contact_id_a 
-OR contact_a.id = r.contact_id_b)
-AND r.relationship_type_id IN (6, 7) 
+WHERE contrib.contact_id = contact_a.id
+AND contrib.is_test =0
+AND contact_a.id = r.contact_id_a
+AND r.relationship_type_id
+IN ( 6, 7 )
 AND contact_b.id = r.contact_id_b
-AND (contrib.receive_date >= ? AND contrib.receive_date &lt;= ?)
-GROUP BY contact_b.id</property>
+AND (
+contrib.receive_date >= ?
+AND contrib.receive_date &lt;= ?
+)
+GROUP BY contact_b.id
+ORDER BY ctAmt DESC</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>1.0</Version>
@@ -295,7 +263,7 @@ GROUP BY contact_b.id</property>
                 </structure>
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Total.sum(row["ctAvg"])</expression>
+                    <expression name="expression">Total.sum(row["ctAmt"])/Total.count()</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -372,7 +340,7 @@ GROUP BY contact_b.id</property>
                             <property name="marginLeft">0pt</property>
                             <property name="paddingTop">1pt</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Contributor Name ]]></text-property>
+                            <text-property name="content"><![CDATA[Household Name]]></text-property>
                         </text>
                     </cell>
                     <cell id="33">
@@ -400,7 +368,7 @@ GROUP BY contact_b.id</property>
                             <property name="fontSize">smaller</property>
                             <property name="textAlign">right</property>
                             <property name="contentType">plain</property>
-                            <text-property name="content"><![CDATA[Total Contributuion]]></text-property>
+                            <text-property name="content"><![CDATA[Total Contributions]]></text-property>
                         </text>
                     </cell>
                 </row>
@@ -470,7 +438,7 @@ GROUP BY contact_b.id</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">$###0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">avgContributions</property>
@@ -480,7 +448,7 @@ GROUP BY contact_b.id</property>
                         <data id="175">
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">$###0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">totalContributions</property>

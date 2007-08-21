@@ -660,10 +660,10 @@ function _crm_format_custom_params( &$params, &$values, $extends )
     $values['custom'] = array();
     
     $customFields = CRM_Core_BAO_CustomField::getFields( $extends );
-    
+
     foreach ($params as $key => $value) {
         if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-            
+
             /* check if it's a valid custom field id */
             if ( !array_key_exists($customFieldID, $customFields)) {
                 return _crm_error('Invalid custom field ID');
@@ -677,14 +677,18 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             if( ( $customFields[$customFieldID][2] == "Int")    ||
                 ( $customFields[$customFieldID][2] == "Float" ) ||
                 ( $customFields[$customFieldID][2] == "Money" ) ) { 
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
-                foreach( $customOption as $v1 ) {
-                    
-                    //check wether $value is label or value
-                    if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
-                        $fieldType = "String";
-                    } else if ( ( strtolower($v1['value']) == strtolower( trim( $value ) ) ) ) {
-                        $fieldType = $customFields[$customFieldID][2];
+                if ( $customFields[$customFieldID][3] == "Text" ) {
+                    $fieldType = $customFields[$customFieldID][2];
+                } else {
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID);
+                    foreach( $customOption as $v1 ) {
+                        
+                        //check wether $value is label or value
+                        if ( ( strtolower($v1['label']) == strtolower( trim( $value ) ) ) ) {
+                            $fieldType = "String";
+                        } else if ( ( strtolower($v1['value']) == strtolower( trim( $value ) ) ) ) {
+                            $fieldType = $customFields[$customFieldID][2];
+                        }
                     }
                 }
             } else {
@@ -696,7 +700,7 @@ function _crm_format_custom_params( &$params, &$values, $extends )
             
             //Validate the datatype of $value
             $valid = CRM_Core_BAO_CustomValue::typecheck( $fieldType, $value);
-            
+
             //return error, if not valid custom field
             if ( ! $valid ) {
                 return _crm_error('Invalid value for custom field ' .
@@ -1118,7 +1122,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             }
         }
     }
-    
+
     /* Custom data */
     if (is_array($values['custom'])) {
         
@@ -1143,17 +1147,20 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             $match = false;
             
             foreach ($contact->custom_values as $cv) {
-                if ($cv->custom_field_id == $customValue['custom_field_id']) {
+                if ($cv['custom_field_id'] == $customValue['custom_field_id']) {
                     /* match */
                     $match = true;
                     if ($overwrite) {
-                        $cv->$field = $value;
-                        $cv->save();
+                        $customVal  =& new CRM_Core_DAO_CustomValue();
+                        $customVal->copyValues($cv);
+                        $customVal->find( true );
+                        $customVal->$field = $value;
+                        $customVal->save();
                         break;
                     }
                 }
             }
-            
+
             if (! $match) {
                 /* no match, so create a new CustomValue */
                 $cvParams = array(
