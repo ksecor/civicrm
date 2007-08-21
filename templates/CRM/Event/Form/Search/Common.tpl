@@ -3,20 +3,27 @@
 {if $event_title_value}
 <script type="text/javascript">
   dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'event_title' ).setAllValues( '{$event_title_value}', '{$event_title_value}' )
+    dijit.byId( 'event_title' ).setValue( '{$event_title_value}', '{$event_title_value}' )
   {rdelim} );
 </script>
 {/if}
-    <td>{$form.event_title.html}</td>
+    
+<td>{$form.event_title.html}
+   <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" class ="tundra">
+   </div>
+</td>
 
     <td class="label">{$form.event_type.label}</td> 
 {if $event_type_value}
 <script type="text/javascript">
   dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'event_type' ).setAllValues( '{$event_type_value}', '{$event_type_value}' )
+    dijit.byId( 'event_type' ).setValue( '{$event_type_value}', '{$event_type_value}' )
   {rdelim} );
 </script>
 {/if}
+
+<div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" class ="tundra">
+</div>
     <td>{$form.event_type.html}</td>
 
  </tr>     

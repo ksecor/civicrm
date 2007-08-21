@@ -174,21 +174,19 @@ SELECT title
  WHERE domain_id = $domainID
    AND title LIKE '$name%'
 ORDER BY title
-LIMIT 6";
+";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        $count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->title, $dao->title );
-            $count++;
+        while ( $dao->fetch( ) ) {
+            $elements[] = array( 'name' => $dao->title,
+                                 'title'=> $dao->title );
         }
-
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'title');
     }
 
     /**
@@ -207,21 +205,19 @@ FROM   civicrm_option_value v,
 WHERE  v.option_group_id = g.id 
 AND  g.name = 'event_type'
 AND v.label  LIKE '$name%' 
-LIMIT 5";
+";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        $count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->label, $dao->label );
-            $count++;
+        while ( $dao->fetch( ) ) {
+            $elements[] = array( 'name'  => $dao->label, 
+                                 'label' => $dao->label );
         }
 
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'label');
     }
 
     /**
