@@ -263,7 +263,7 @@ ORDER BY ctAmt DESC</property>
                 </structure>
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Total.sum(row["ctAmt"])/Total.count()</expression>
+                    <expression name="expression">Math.abs((Total.sum(row["ctAmt"])/Total.count() + "").replace("NaN",""))</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -414,6 +414,7 @@ ORDER BY ctAmt DESC</property>
             <footer>
                 <row id="15">
                     <property name="backgroundColor">#8FCBD8</property>
+                    <property name="fontSize">small</property>
                     <cell id="16">
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
