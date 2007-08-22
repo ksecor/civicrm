@@ -27,29 +27,27 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $contributionTypeID = $this->contributionTypeCreate();
         
         //Create Contribution & get entity ID
-        $entityID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
+        $contributionID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
         
         //WithoutParticipantId
         $params = array(
-                        'payment_entity_table' => 'civicrm_contribute',
-                        'payment_entity_id'    => $entityID
+                        'contribution_id'    => $contributionID
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
         
         //delete created contribution
-        $this->contributionDelete( $entityID );
+        $this->contributionDelete( $contributionID );
         
         // delete created contribution type
         $this->contributionTypeDelete( $contributionTypeID );
     }
     
-    function testParticipantPaymentCreateMissingPaymentEntityId( )
+    function testParticipantPaymentCreateMissingContributionId( )
     {
         //Without Payment EntityID
         $params = array(
                         'participant_id'       => $this->_participantID,
-                        'payment_entity_table' => 'civicrm_contribute'                
                         );        
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
@@ -61,14 +59,13 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         //Create contribution type & get contribution Type ID
         $contributionTypeID = $this->contributionTypeCreate();
         
-        //Create Contribution & get entity ID
-        $entityID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
+        //Create Contribution & get contribution ID
+        $contributionID = $this->contributionCreate( $this->_contactID , $contributionTypeID );
         
         //Create Participant Payment record With Values
         $params = array(
-                        'participant_id'       => $this->_participantID,
-                        'payment_entity_table' => 'civicrm_contribute',           
-                        'payment_entity_id'    => $entityID
+                        'participant_id'  => $this->_participantID,
+                        'contribution_id' => $contributionID
                         );
         
         $participantPayment = & civicrm_participant_payment_create( $params );

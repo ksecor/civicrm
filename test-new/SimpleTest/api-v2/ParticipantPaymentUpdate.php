@@ -26,18 +26,16 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     {
         //WithoutParticipantId
         $params = array(
-                        'payment_entity_table' => 'civicrm_contribute',
-                        'payment_entity_id'    => '3'
+                        'contribution_id'    => '3'
                         );        
         $participantPayment = & civicrm_participant_payment_update( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
 
-    function testParticipantPaymentUpdateMissingPaymentEntityId()
+    function testParticipantPaymentUpdateMissingContributionId()
     {
         $params = array(
                         'participant_id'       => $this->_participantID,
-                        'payment_entity_table' => 'civicrm_contribute'                
                         );        
         $participantPayment = & civicrm_participant_payment_update( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
@@ -48,10 +46,9 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         //Do payment
         $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID );
         $params = array(
-                        'id'                   => $this->_participantPaymentID,
-                        'participant_id'       => $this->_participantID,
-                        'payment_entity_table' => 'civicrm_event',           
-                        'payment_entity_id'    => 3
+                        'id'              => $this->_participantPaymentID,
+                        'participant_id'  => $this->_participantID,
+                        'contribution_id' => 3
                         );
         
         // Update Payment
@@ -59,8 +56,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
        
         $this->assertEqual($participantPayment['id'],$this->_participantPaymentID );
         $this->assertEqual($participantPayment['participant_id'],$this->_participantID );
-        $this->assertEqual($participantPayment['payment_entity_table'],'civicrm_event' );
-        $this->assertEqual($participantPayment['payment_entity_id'],3 );
+        $this->assertEqual($participantPayment['contribution_id'],3 );
         
     }
     

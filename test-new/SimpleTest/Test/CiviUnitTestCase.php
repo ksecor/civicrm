@@ -453,8 +453,7 @@ class CiviUnitTestCase extends UnitTestCase {
         //Create Participant Payment record With Values
         $params = array(
                         'participant_id'       => $participantID,
-                        'payment_entity_table' => 'civicrm_contribute',           
-                        'payment_entity_id'    => 5
+                        'contribution_id'    => 5
                         );
         
         $participantPayment = & civicrm_participant_payment_create( $params );

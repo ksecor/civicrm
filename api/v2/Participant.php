@@ -309,7 +309,7 @@ function &civicrm_participant_payment_create(&$params)
         return $error;
     }
     
-    if ( !isset($params['participant_id']) || !isset($params['payment_entity_id']) ) {
+    if ( !isset($params['participant_id']) || !isset($params['contribution_id']) ) {
         $error = civicrm_create_error( 'Required parameter missing' );
         return $error;
     }

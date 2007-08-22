@@ -42,7 +42,7 @@ function civicrm_entity_tag_get( &$params ) {
     }
 
     require_once 'CRM/Core/BAO/EntityTag.php';
-    $values =& CRM_Core_BAO_EntityTag::getTag( 'civicrm_contact', $params['contact_id'] );
+    $values =& CRM_Core_BAO_EntityTag::getTag( $params['contact_id'] );
     $result = array( );
     foreach ( $values as $v ) {
         $result[] = array( 'tag_id' => $v );
