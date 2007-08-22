@@ -12,8 +12,9 @@
             <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
 	        <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd> 
             <dt>{$form.details.label}</dt><dd>{$form.details.html}</dd>         	 
-            <dt></dt><dd>{$form.buttons.html} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="button" value="{ts}Edit{/ts}" name="edit_case" onclick="window.location='{crmURL p='civicrm/contact/view/case' q="reset=1&action=update&cid=`$contactId`&id=`$id`&selectedChild=case"}';"/></dd> 
+            <dt></dt><dd>{$form.buttons.html}</dd>
+            <dd><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&action=update&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}" ">{ts}Edit Case{/ts}</a></dd>
+ 
     </dl>
     <div class="spacer"> </div>
        <dl><dd>{include file="CRM/History/Selector/Activity.tpl" caseview=1}</dd></dl>
