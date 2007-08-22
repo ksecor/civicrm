@@ -68,6 +68,9 @@
      {/if}
 	
         <dt></dt><dd>{$form.buttons.html}</dd>
+     {if $action eq 4 }
+    <dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="{ts}Edit{/ts}" name="edit_activity" onclick="window.location='{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=update&reset=1&id=`$id`&cid=`$contactId`&context=activity&subType=2"}';"/></dd>
+    {/if} 
       </dl>
     </fieldset>
     </div>
