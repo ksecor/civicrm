@@ -143,8 +143,7 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     function run( $sort = '' )
     {
         // what action do we want to perform ? (store it for smarty too.. :) 
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
-
+     
         $action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                $this, false, 'browse' );
         $this->assign( 'action', $action );

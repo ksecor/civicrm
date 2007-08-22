@@ -11,7 +11,7 @@
 <p></p>
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
    {strip}
-   <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+   <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>  
      <tr class="columnheader">
       <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>

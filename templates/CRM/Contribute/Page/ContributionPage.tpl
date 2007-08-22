@@ -17,7 +17,7 @@
 {if $rows}
     <div class="form-item" id="configure_contribution_page">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table  headClass="fixedHeader" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
          <thead> 
           <tr class="columnheader">
             <th field="Title" dataType="String" >{ts}Title{/ts}</th>

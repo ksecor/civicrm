@@ -124,8 +124,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function run()
     {
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );        
-        
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
