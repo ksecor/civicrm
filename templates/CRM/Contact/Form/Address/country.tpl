@@ -9,51 +9,32 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     // get the typed value
     var value = obj.getValue( );
 
-    //data url for state
-    var res = {/literal}"{$stateURL}"{literal};
+    //load state province only if couuntry value exits
+    if ( value ) {
+       //get state province id
+       var widget = dojo.widget.byId('location_' + lno + '_address_state_province_id');
+
+       //enable state province only if country value exists
+       widget.enable( );
     
-    //get state province id
-    var widget = dojo.widget.byId('location_' + lno + '_address_state_province_id');
-    
-    //enable state province
-    widget.enable( );
-    //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
+       //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
 
-    //check if state exist for country
-    var stateExist = false;
-    
-    //translate select
-    var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal};
+       //translate select
+       var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal};
 
-    //set state province combo if it is not set
-    if ( !widget.getValue( ) ) {
-        widget.setAllValues( sel,'' );
-    }
+       //set state province combo if it is not set
+       if ( !widget.getValue( ) ) {
+           widget.setAllValues( sel,'' );
+       }
 
-    //clear state province combo list
-    widget._clearResultList();
+       //clear state province combo list
+       widget._clearResultList( );
 
-    var bindArgs = {
-        url: res,
-        method: 'GET',
-        type: "text/json",
-        load: function(type, data)
-        {          
-            stateExist = true;
-            eval("var decoded_data = "+data);            
-            if ( data.length > 2) {
-               widget.dataProvider.searchUrl = res + '&node=' + value + '&sc=child';
-            }
-        }            
-    };            
-  
-    //if state exits then add data to combo
-    if ( stateExist ) {
-       bindArgs.content = { node: value };
-    } 
+       //data url for state
+       var res = {/literal}"{$stateURL}"{literal};
 
-    // Get all preparations
-    dojo.io.bind(bindArgs);        
+       widget.dataProvider.searchUrl = res + '&node=' + value;
+   } 
 }
 
 </script>

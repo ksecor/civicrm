@@ -96,6 +96,8 @@ class CRM_Core_Block {
                                                                    'subject'  => ts( 'CiviContribute Progress Meter' ),
                                                                    'active'   => true )
                                        );
+            // seems like this is needed for drupal 4.7, have not tested
+            require_once 'CRM/Core/Permission.php';
             if ( CRM_Core_Permission::access( 'Gcc' ) ) {
                 self::$_properties += array( 
                                             self::GCC         => array( 'template' => 'Gcc.tpl',
