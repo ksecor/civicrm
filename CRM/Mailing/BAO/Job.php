@@ -93,12 +93,12 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $mailer =& $config->getMailer($mailingSize);
 
             /* Compose and deliver */
-            $flag = $job->deliver($mailer);
+            $isComplete = $job->deliver($mailer);
 
             require_once 'CRM/Utils/Hook.php';
-            CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $flag);
+            CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
             
-            if (!$flag){
+            if (!$isComplete){
                 return;
             }
             /* Finish the job */

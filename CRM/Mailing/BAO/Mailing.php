@@ -88,11 +88,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     /**
      * Find all intended recipients of a mailing
      *
-     * @param int $job_id       Job ID
-     * @return object           A DAO loaded with results of the form
-     *                              (email_id, contact_id)
+     * @param int  $job_id            Job ID
+     * @param bool $includeDelivered  Whether to include the recipients who already got the mailing
+     * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
-    function &getRecipients($job_id, $flag = false) {
+    function &getRecipients($job_id, $includeDelivered = false) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -148,7 +148,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         /* Add all the succesful deliveries of this mailing (but any job/retry)
          * to the exclude temp table */
-        if (! $flag ) {
+        if (! $includeDelivered ) {
             $excludeRetry =
                 "INSERT IGNORE INTO X_$job_id (contact_id)
                         SELECT              $eq.contact_id
