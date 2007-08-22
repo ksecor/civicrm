@@ -11,6 +11,7 @@
     <th>{ts}End Date{/ts}</th>
     <th>{ts}Queued{/ts}</th>
     <th>{ts}Delivered{/ts}</th>
+    <th>{ts}Spooled Mails{/ts}</th>
     <th>{ts}Bounces{/ts}</th>
     <th>{ts}Unsubscribe Requests{/ts}</th>
     <th>{ts}Forwards{/ts}</th>
@@ -30,6 +31,7 @@
     <td>{$job.end_date|date_format}</td>
     <td><a href="{$job.links.queue}">{$job.queue}</a></td>
     <td><a href="{$job.links.delivered}">{$job.delivered}</a></td>
+    <td>{$job.spool}</td>
     <td><a href="{$job.links.bounce}">{$job.bounce}</a></td>
     <td><a href="{$job.links.unsubscribe}">{$job.unsubscribe}</a></td>
     <td><a href="{$job.links.forward}">{$job.forward}</a></td>

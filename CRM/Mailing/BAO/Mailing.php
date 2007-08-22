@@ -92,7 +92,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return object           A DAO loaded with results of the form
      *                              (email_id, contact_id)
      */
-    function &getRecipients($job_id) {
+    function &getRecipients($job_id, $flag = false) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -148,21 +148,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         /* Add all the succesful deliveries of this mailing (but any job/retry)
          * to the exclude temp table */
-        $excludeRetry =
-                    "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              $eq.contact_id
-                    FROM                $eq
-                    INNER JOIN          $job
-                            ON          $eq.job_id = $job.id
-                    INNER JOIN          $ed
-                            ON          $eq.id = $ed.event_queue_id
-                    LEFT JOIN           $eb
-                            ON          $eq.id = $eb.event_queue_id
-                    WHERE
-                                        $job.mailing_id = {$this->id}
-                        AND             $eb.id IS null";
-        $mailingGroup->query($excludeRetry);
-        
+        if (! $flag ) {
+            $excludeRetry =
+                "INSERT IGNORE INTO X_$job_id (contact_id)
+                        SELECT              $eq.contact_id
+                        FROM                $eq
+                        INNER JOIN          $job
+                                ON          $eq.job_id = $job.id
+                        INNER JOIN          $ed
+                                ON          $eq.id = $ed.event_queue_id
+                        LEFT JOIN           $eb
+                                ON          $eq.id = $eb.event_queue_id
+                        WHERE
+                                            $job.mailing_id = {$this->id}
+                            AND             $eb.id IS null";
+            $mailingGroup->query($excludeRetry);
+        }
         $ss =& new CRM_Core_DAO();
         $ss->query(
                 "SELECT             $group.saved_search_id as saved_search_id
@@ -1224,7 +1225,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
     public static function del($id) {
         
-        $dependencies = array( 'CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_Job', 'CRM_Mailing_DAO_TrackableURL');
+        $dependencies = array( 'CRM_Mailing_DAO_Job','CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_TrackableURL');
         
         foreach ($dependencies as $className) {
             eval('$dao = & new ' . $className . '();');
@@ -1241,6 +1242,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     }
                     $daoQueue = new CRM_Mailing_Event_BAO_Queue();
                     $daoQueue->deleteEventQueue( $dao->id, 'job');
+                } elseif ( $dao->status == 'Running' ) {
+                    CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
+                    return;
                 }
             }
             
@@ -1252,7 +1256,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $dao->delete();
         
         CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
-   }
+    }
 }
 
 ?>

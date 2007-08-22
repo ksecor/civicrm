@@ -97,7 +97,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $flag);
-
+            
+            if (!$flag){
+                return;
+            }
             /* Finish the job */
             CRM_Core_DAO::transaction('BEGIN');
             $job->end_date = date('YmdHis');
@@ -151,12 +154,8 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
-        
-        if ($this->is_retry) {
-            $recipients =& $mailing->retryRecipients($this->id);
-        } else {
-            $recipients =& $mailing->getRecipients($this->id);
-        }
+
+        $recipients =& $mailing->getRecipients($this->id, true);
         $mailingSize = 0;
         while ($recipients->fetch()) {
             $mailingSize ++;
@@ -232,10 +231,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
             // CRM_Utils_System::xMemory( "$mailsProcessed: " );
             // }
-            
-            //if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit ) {
-            //    exit;
-            //}
+
+            if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit ) {
+               return false;
+            }
             $mailsProcessed++;
             
             /* Compose the mailing */

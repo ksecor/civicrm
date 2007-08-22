@@ -892,7 +892,7 @@ class CRM_Core_Config
     {
         if ( ! isset( self::$_mail ) ) {
             $config =& CRM_Core_Config::singleton();
-            if ( $mailingSize && ($mailingSize > $config->mailerBatchLimit) ) {
+            if ( $mailingSize && ($mailingSize > $config->mailerSpoolLimit) ) {
                 require_once 'CRM/Mailing/BAO/Spool.php';
                 self::$_mail = & new CRM_Mailing_BAO_Spool();
             } else {
