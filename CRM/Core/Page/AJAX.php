@@ -289,11 +289,6 @@ LIMIT 6";
             $stateName    = trim (CRM_Utils_Type::escape( $_GET['s']   , 'String') );
         }
 
-        $includeState = null;
-        if ( isset($_GET['sc']) ) {
-            $includeState = trim (CRM_Utils_Type::escape( $_GET['sc'], 'String') );
-        }
-
         //temporary fix to handle locales other than default US,
         //trying to emulate anti ts() function, will make it cleaner
         //in v2.0
@@ -316,14 +311,13 @@ ORDER BY name";
             $countryName = array_search( $countryName, $countries );
         }
 
-
         $query = "
 SELECT civicrm_state_province.name name, civicrm_state_province.id id
   FROM civicrm_state_province, civicrm_country
  WHERE civicrm_state_province.country_id = civicrm_country.id
-  AND  civicrm_country.name LIKE LOWER('$countryName%')";
+  AND  LOWER(civicrm_country.name) = LOWER('$countryName')";
 
-        if ( $includeState ) {
+        if ( isset( $_GET['s'] ) ) {
             $query .= " AND  civicrm_state_province.name LIKE LOWER('$stateName%') ";
         }
 

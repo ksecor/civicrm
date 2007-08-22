@@ -867,7 +867,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * the api needs the name => value conversion, also the view layer typically
      * requires value => name conversion
      */
-    static function lookupValue( &$defaults, $property, &$lookup, $reverse ) 
+    static function lookupValue( &$defaults, $property, $lookup, $reverse ) 
     {
         $id = $property . '_id';
 
