@@ -148,9 +148,8 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         foreach ( $contactIds as $contactId ) {
             $tag =& new CRM_Core_DAO_EntityTag( );
             
-            $tag->entity_id    = $contactId;
-            $tag->entity_table = 'civicrm_contact';
-            $tag->tag_id  = $tagId;
+            $tag->contact_id = $contactId;
+            $tag->tag_id     = $tagId;
             if ( ! $tag->find( ) ) {
                 $tag->save( );
                 $numContactsAdded++;
@@ -178,9 +177,8 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
         $numContactsNotRemoved = 0;
         foreach ( $contactIds as $contactId ) {
             $tag =& new CRM_Core_DAO_EntityTag( );
-            $tag->entity_id    = $contactId;
-            $tag->entity_table = 'civicrm_contact';
-            $tag->tag_id       = $tagId;
+            $tag->contact_id = $contactId;
+            $tag->tag_id     = $tagId;
             if (  $tag->find( ) ) {
                 $tag->delete( );
                 $numContactsRemoved++;
@@ -224,8 +222,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
 
         // check which values has to be inserted/deleted for contact
         foreach ($allTag as $key => $varValue) {
-            $tagParams['entity_id'] = $contactId;
-            $tagParams['entity_table'] = 'civicrm_contact';
+            $tagParams['contact_id'] = $contactId;            
             $tagParams['tag_id'] = $key;
             
             if (array_key_exists($key, $params) && !array_key_exists($key, $entityTag) ) {
@@ -250,11 +247,10 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
     {
         $contactIds = array();
         $entityTagDAO = & new CRM_Core_DAO_EntityTag();
-        $entityTagDAO->tag_id       = $tag->id;
-        $entityTagDAO->entity_table = 'civicrm_contact'; 
+        $entityTagDAO->tag_id = $tag->id;
         $entityTagDAO->find();
         while($entityTagDAO->fetch()) {
-            $contactIds[] = $entityTagDAO->entity_id;
+            $contactIds[] = $entityTagDAO->contact_id;
         }
         return $contactIds;
     }

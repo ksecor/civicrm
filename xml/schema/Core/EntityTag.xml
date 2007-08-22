@@ -17,25 +17,18 @@
        <autoincrement>true</autoincrement>
   </primaryKey>
   <field>
-       <name>entity_table</name>
-       <type>varchar</type>
-       <length>64</length>
-       <comment>physical tablename for entity being tagged, e.g. civicrm_contact</comment>
-       <add>1.1</add>
-  </field>
-  <field>
-      <name>entity_id</name>
+      <name>contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>FK to entity table specified in entity_table column.</comment>
-       <add>1.1</add>
+      <comment>FK to contact table.</comment>
+       <add>2.0</add>
   </field>
-  <index>
-       <name>index_entity</name>
-       <fieldName>entity_table</fieldName>
-       <fieldName>entity_id</fieldName>
-       <add>1.1</add>
-  </index>
+  <foreignKey>
+       <name>contact_id</name>
+       <table>civicrm_contact</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey> 
   <field>
       <name>tag_id</name>
       <type>int unsigned</type>

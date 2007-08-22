@@ -149,8 +149,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         if ( $this->_id ) {
             require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
             $trxn =& new CRM_Contribute_DAO_FinancialTrxn( );
-            $trxn->entity_table = 'civicrm_contribution';
-            $trxn->entity_id    = $this->_id;
+            $trxn->contribution_id = $this->_id;
             if ( $trxn->find( true ) ) {
                 $this->_online = true;
             }

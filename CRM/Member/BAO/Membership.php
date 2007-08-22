@@ -883,9 +883,8 @@ civicrm_membership_status.is_current_member =1";
             //insert payment record
             require_once 'CRM/Member/DAO/MembershipPayment.php';
             $dao =& new CRM_Member_DAO_MembershipPayment();    
-            $dao->membership_id         = $membership->id;
-            $dao->payment_entity_table  = 'civicrm_contribute';
-            $dao->payment_entity_id     = $contribution[$index]->id;
+            $dao->membership_id   = $membership->id;
+            $dao->contribition_id = $contribution[$index]->id;
             $dao->save();
         }
         

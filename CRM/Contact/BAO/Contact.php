@@ -1319,8 +1319,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         require_once 'CRM/Core/DAO/EntityTag.php';
         $eTag=& new CRM_Core_DAO_EntityTag();
-        $eTag->entity_id    = $id;
-        $eTag->entity_table = 'civicrm_contact';
+        $eTag->contact_id = $id;
         $eTag->delete();
 
         // fix household and org primary contact ids

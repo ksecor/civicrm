@@ -30,19 +30,18 @@
        <table>civicrm_participant</table> 
        <key>id</key> 
   </foreignKey>
-  <field>        
-      <name>payment_entity_table</name>
-      <type>varchar</type>     
-      <length>128</length>  
-      <comment>Table being referenced for payment entity (expected usage is civicrm_contribution).</comment>
-      <add>1.7</add>     
-  </field>    
   <field> 
-      <name>payment_entity_id</name> 
+      <name>contribution_id</name> 
       <type>int unsigned</type> 
       <required>true</required> 
-      <comment>FK to table with payment record (e.g. civicrm_contribution.id).</comment> 
-       <add>1.7</add> 
+      <comment>FK to contribution table.</comment> 
+      <add>2.0</add> 
   </field>
+  <foreignKey> 
+       <name>contribution_id</name> 
+       <table>civicrm_contribution</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+  </foreignKey>
 </table>
 

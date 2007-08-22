@@ -571,8 +571,7 @@ WHERE  honor_contact_id = {$contactId}";
     {
         require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
         $trxn =& new CRM_Contribute_DAO_FinancialTrxn();
-        $trxn->entity_table = 'civicrm_contribution';
-        $trxn->entity_id    = $contribId;
+        $trxn->contribution_id = $contribId;
         if ($trxn->find(true)) {
             $trxn->delete();
         }
