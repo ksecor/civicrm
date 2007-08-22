@@ -32,7 +32,7 @@
                  <td>
                    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.targetID`"}">{$row.targetName}</a>
                  </td>
-                 <td>{$row.to_contact}</td>
+                 <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.to_contact_id`"}">{$row.to_contact}</a></td>
                  <td>{$row.date|crmDate}</td>
                  <td>{$row.status_display}{if $row.overdue}<br />({ts}Overdue{/ts}){/if}</td>
                  <td>{$row.action}</td>

@@ -71,7 +71,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller->set( 'cid', $this->_contactId );
         
         $controller->run();
-        $session =& CRM_Core_Session::singleton();
+        
         $this->assign( 'totalCountOpenActivity',
                        CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
         $this->assign( 'caseId',$this->_id);
@@ -141,7 +141,13 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                  $this);
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
+        $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
+        
+        if ( $edit ) {
+            $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
+        }
         $session->pushUserContext( $url );
         
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
