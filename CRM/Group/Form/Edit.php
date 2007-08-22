@@ -331,7 +331,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $contactGroup = $contactTag = array( );
             if ($this->_contactId) {
                 $contactGroup =& CRM_Contact_BAO_GroupContact::getContactGroup( $this->_contactId, 'Added' );
-                $contactTag   =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+                $contactTag   =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
             }
             
             if ( empty($contactGroup) || empty($contactTag) ) {

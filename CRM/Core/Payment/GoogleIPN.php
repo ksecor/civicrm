@@ -302,9 +302,8 @@ class CRM_Core_Payment_GoogleIPN {
         $config =& CRM_Core_Config::singleton( );
         
         // next create the transaction record
-        $trxnParams = array(
-                            'entity_table'      => 'civicrm_contribution',
-                            'entity_id'         => $contribution->id,
+        $trxnParams = array(                            
+                            'contribution_id'   => $contribution->id,
                             'trxn_date'         => $now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $amount,

@@ -131,7 +131,7 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         $tag =& CRM_Core_PseudoConstant::tag();
         // get categories for the contact id
         require_once 'CRM/Core/BAO/EntityTag.php';
-        $entityTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+        $entityTag =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
 
         if ( $entityTag ) {
             $categories = array( );

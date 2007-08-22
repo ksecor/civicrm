@@ -588,7 +588,6 @@ WHERE  civicrm_participant.id = {$participantId}
                         'CRM_Event_BAO_ParticipantPayment' => array(
                                                       'deleteParticipantPayment' => array (
                                                               'params' => array (
-                                                                          'entity_table'   => 'civicrm_contribution',
                                                                           'participant_id' => $id
                                                                           ) 
                                                               ) 

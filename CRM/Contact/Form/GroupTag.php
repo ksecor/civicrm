@@ -168,7 +168,7 @@ class CRM_Contact_Form_GroupTag
             }
             
             require_once 'CRM/Core/BAO/EntityTag.php';
-            $contactTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $id);  
+            $contactTag =& CRM_Core_BAO_EntityTag::getTag($id);  
             if ( $contactTag ) {  
                 foreach ( $contactTag as $tag ) {  
                     $defaults[$fName ."[" . $tag . "]" ] = 1;  

@@ -687,7 +687,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $params[$index] = implode( ',' , $ids   );
                 } else if ( $name == 'tag' ) {
                     require_once 'CRM/Core/BAO/EntityTag.php';
-                    $entityTags =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $cid );
+                    $entityTags =& CRM_Core_BAO_EntityTag::getTag( $cid );
                     $allTags    =& CRM_Core_PseudoConstant::tag();
                     $title = array( );
                     foreach ( $entityTags as $tagId ) { 

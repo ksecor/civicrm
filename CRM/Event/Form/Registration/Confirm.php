@@ -338,8 +338,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
       
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
         $paymentParams = array('participant_id'       => $participant->id,
-                               'payment_entity_id'    => $contribution->id,
-                               'payment_entity_table' => 'civicrm_contribution'
+                               'contribution_id'    => $contribution->id,                              
                                ); 
         $ids = array();       
 
@@ -476,9 +475,8 @@ WHERE  v.option_group_id = g.id
         }
         
         // next create the transaction record
-        $trxnParams = array(
-                            'entity_table'      => 'civicrm_contribution',
-                            'entity_id'         => $contribution->id,
+        $trxnParams = array(                            
+                            'contribution_id'   => $contribution->id,
                             'trxn_date'         => $now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $params['amount'],

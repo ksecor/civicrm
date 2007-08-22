@@ -65,7 +65,7 @@ class CRM_Tag_Form_Tag extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // get categories for the contact id
-        $entityTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $this->_contactId);
+        $entityTag =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
         
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();

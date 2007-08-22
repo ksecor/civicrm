@@ -310,8 +310,7 @@ class CRM_Core_Payment_PayPalIPN {
         
         // next create the transaction record
         $trxnParams = array(
-                            'entity_table'      => 'civicrm_contribution',
-                            'entity_id'         => $contribution->id,
+                            'contribution_id'   => $contribution->id,
                             'trxn_date'         => $now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $amount,
@@ -391,9 +390,8 @@ WHERE  v.option_group_id = g.id
             $participant = CRM_Event_BAO_Participant::add($participantParams, CRM_Core_DAO::$_nullArray);
 
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentParams = array('participant_id'       => $participant->id,
-                                   'payment_entity_id'    => $contribution->id,
-                                   'payment_entity_table' => 'civicrm_contribution'
+            $paymentParams = array('participant_id'  => $participant->id,
+                                   'contribution_id' => $contribution->id,                                   
                                    );   
 
             $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, CRM_Core_DAO::$_nullArray);

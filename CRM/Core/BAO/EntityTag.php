@@ -51,13 +51,12 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
      * @access public
      * @static
      */
-    static function &getTag($entityTable = 'civicrm_contact', $entityID) 
+    static function &getTag($contactID) 
     {
         $tag = array();
         
         $entityTag =& new CRM_Core_BAO_EntityTag();
-        $entityTag->entity_table = $entityTable;
-        $entityTag->entity_id = $entityID;
+        $entityTag->contact_id = $contactID;
         $entityTag->find();
         
         while ($entityTag->fetch()) {
@@ -205,7 +204,7 @@ class CRM_Core_BAO_EntityTag extends CRM_Core_DAO_EntityTag
     static function create( &$params, $contactId ) 
     {
         // get categories for the contact id
-        $entityTag =& CRM_Core_BAO_EntityTag::getTag('civicrm_contact', $contactId);
+        $entityTag =& CRM_Core_BAO_EntityTag::getTag($contactId);
         
         // get the list of all the categories
         $allTag =& CRM_Core_PseudoConstant::tag();

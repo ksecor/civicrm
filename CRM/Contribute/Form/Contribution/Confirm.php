@@ -612,8 +612,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         // next create the transaction record
         if ( ( ! $online || $form->_values['is_monetary'] ) && $result['trxn_id'] ) {
             $trxnParams = array(
-                                'entity_table'      => 'civicrm_contribution',
-                                'entity_id'         => $contribution->id,
+                                'contribution_id'   => $contribution->id,
                                 'trxn_date'         => $now,
                                 'trxn_type'         => 'Debit',
                                 'total_amount'      => $params['amount'],
