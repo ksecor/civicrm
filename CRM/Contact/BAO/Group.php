@@ -401,6 +401,10 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
     }
     
+    public function __tostring( ) {
+        return $this->title;
+    }
+    
 }
 
 ?>

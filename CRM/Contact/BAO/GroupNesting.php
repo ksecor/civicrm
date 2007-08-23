@@ -35,7 +35,200 @@
  
 require_once 'CRM/Contact/DAO/GroupNesting.php';
 
-class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
+class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implements Iterator {
+    
+    static $_sortOrder = 'ASC';
+    
+    private $_current;
+    
+    private $_parentStack = array( );
+    
+    private $_lastParentlessGroup;
+    
+    /**
+     * class constructor
+     */
+    function __construct( ) {
+        parent::__construct( );
+        $counter = 0;
+    }
+    
+    function setSortOrder( $sortOrder ) {
+        switch ( $sortOrder ) {
+        case 'ASC':
+        case 'DESC':
+            if ( $sortOrder != self::$_sortOrder ) {
+                self::$_sortOrder = $sortOrder;
+                $this->rewind( );
+            }
+            break;
+        default:
+            // spit out some error, someday
+        }
+    }
+    
+    function getSortOrder( ) {
+        return self::$_sortOrder;
+    }
+    
+    function getCurrentNestingLevel( ) {
+        return count( $this->_parentStack );
+    }
+    
+    /**
+     * Go back to the first element in the group nesting graph,
+     * which is the first group (according to _sortOrder) that
+     * has no parent groups
+     */
+    function rewind( ) {
+        $this->_parentStack = array( );
+        // calling _getNextParentlessGroup w/ no arguments
+        // makes it return the first parentless group
+        $firstGroup = $this->_getNextParentlessGroup( );
+        $this->_current = $firstGroup;
+        $this->_lastParentlessGroup = $firstGroup;
+    }
+    
+    function current( ) {
+        return $this->_current;
+    }
+    
+    function key( ) {
+        $group =& $this->_current;
+        $ids = array( );
+        foreach ( $this->_parentStack as $parentGroup ) {
+            $ids[] = $parentGroup->id;
+        }
+        $key = implode( '-', $ids );
+        if ( strlen( $key ) > 0 ) {
+            $key .= "-";
+        }
+        $key .= $group->id;
+        return $key;
+    }
+    
+    function next( ) {
+        $currentGroup =& $this->_current;
+        //print "Calling getNextChild for $currentGroup<br/><br/>";
+        $childGroup = $this->_getNextChildGroup( $currentGroup );
+        if ( $childGroup ) {
+            $nextGroup =& $childGroup;
+            $this->_parentStack[] =& $this->_current;
+        } else {
+            // group has no children, see if there's a sibling to return
+            $nextGroup = $this->_getNextSiblingGroup( $currentGroup );
+            if ( ! $nextGroup ) {
+                // no sibling, find an ancestor w/ a sibling
+                #$i = 0;
+                for ( ;; ) {
+                    $ancestor = array_pop( $this->_parentStack );
+                    if ( $ancestor == null ) {
+                        //print "Ancestor is null<br/>";
+                        break;
+                    }
+                    //print "Calling getNextSibling for $ancestor<br/><br/>";
+                    $nextGroup = $this->_getNextSiblingGroup( $ancestor );
+                    if ( $nextGroup ) {
+                        //print "Found the next group: $nextGroup<br/>";
+                        break;
+                    }
+                    // either way, let's pop the array here so we don't
+                    // have an infinite loop
+                    #array_pop( $this->_parentStack );
+                    #if ( $i++ > 100 ) {
+                    #    break;
+                    #}
+                }
+            }
+        }
+        $this->_current =& $nextGroup;
+        return $nextGroup;
+    }
+    
+    function valid( ) {
+        if ( $this->_current ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function _getNextParentlessGroup( &$group = null ) {
+        global $counter;
+        #$counter++;
+        require_once 'CRM/Contact/BAO/Group.php';
+        $lastParentlessGroup = $this->_lastParentlessGroup;
+        //print "Last parentless group was $lastParentlessGroup<br/>";
+        $nextGroup =& new CRM_Contact_BAO_Group( );
+        $nextGroup->order_by = "title " . self::$_sortOrder;
+        $nextGroup->find( );
+        if ( $group == null ) {
+            $sawLast = true;
+        } else {
+            $sawLast = false;
+        }
+        while ( $nextGroup->fetch( ) ) {
+            //print "<br/>Just fetched $nextGroup and sawLast is $sawLast<br/><br/>";
+            if ( ! self::hasParentGroups( $nextGroup->id ) && $sawLast ) {
+                //print "Starting from $group, found next parentless group $nextGroup<br/>";
+                if ( $counter > 4 ) {
+                    exit;
+                }
+                return $nextGroup;
+            } else if ( $lastParentlessGroup->id == $nextGroup->id ) {
+                $sawLast = true;
+            }
+        }
+        return null;
+    }
+    
+    function _getNextChildGroup( &$parentGroup, &$group = null ) {
+        $children = self::getChildGroupIds( $parentGroup->id );
+        if ( count( $children ) > 0 ) {
+            // we have child groups, so get the first one based on _sortOrder
+            require_once 'CRM/Contact/BAO/Group.php';
+            $childGroup =& new CRM_Contact_BAO_Group( );
+            $cgQuery = "SELECT * FROM civicrm_group WHERE id IN (" .
+                implode( ',', $children ) . ") ORDER BY title " .
+                self::$_sortOrder;
+            $childGroup->query( $cgQuery );
+            $currentGroup =& $this->_current;
+            if ( $group == null ) {
+                $sawLast = true;
+            } else {
+                $sawLast = false;
+            }
+            while ( $childGroup->fetch( ) ) {
+                if ( $sawLast ) {
+                    return $childGroup;
+                } else if ( $currentGroup == $childGroup ) {
+                    $sawLast = true;
+                }
+            }
+        }
+        return null;
+    }
+    
+    function _getNextSiblingGroup( &$group ) {
+        $parentGroup = end( $this->_parentStack );
+        //print "$parentGroup is the parent of $group<br/><br/>";
+        if ( $parentGroup ) {
+            $nextGroup = $this->_getNextChildGroup( $parentGroup, $group );
+            return $nextGroup;
+        } else {
+            /* if we get here, it could be because we're out of siblings
+             * (in which case we return null) or because we're at the
+             * top level groups which do not have parents but may still
+             * have siblings, so check for that first.
+             */
+            $nextGroup = $this->_getNextParentlessGroup( $group );
+            if ( $nextGroup ) {
+                $this->_lastParentlessGroup = $nextGroup;
+                return $nextGroup;
+            }
+            return null;
+        }
+    }
     
     /**
      * Adds a new child group identified by $childGroupId to the group
@@ -110,8 +303,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasParentGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
-	//print $query . "\n<br><br>";
-	$dao->query( $query );
+        $dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
         }

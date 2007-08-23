@@ -118,7 +118,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * (Re)set the default callback method
      *
      * @return void
-     * @access publiic
+     * @access public
      * @static
      */
     public static function setCallback() {
