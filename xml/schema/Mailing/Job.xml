@@ -43,7 +43,7 @@
   <field>
       <name>status</name>
       <type>enum</type>
-      <values>Scheduled, Running, Complete, Paused, Canceled</values>
+      <values>Scheduled, Running, Complete, Paused, Canceled, Testing</values>
       <comment>The state of this job</comment>
   </field>
   <field>

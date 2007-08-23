@@ -140,25 +140,48 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
     public function postProcess() 
     {
-        foreach (array( 'from_name', 'from_email','subject', 
-                        'forward_reply', 'track_urls', 'track_opens',
-                        'header_id', 'footer_id', 'reply_id', 'unsubscribe_id',
-                        'optout_id', 'auto_responder') 
-                    as $key) 
-        {
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        $params = array();
+        foreach (array( 
+                       'template', 'header_id', 'footer_id',
+                       'reply_id', 'unsubscribe_id', 'optout_id',
+                       'textFile', 'htmlFile', 'subject',
+                       'from_name', 'from_email', 'forward_reply', 'track_urls',
+                       'track_opens', 'auto_responder'
+                       ) as $key) 
+            {
+                $params[$key] = $this->controller->exportvalue($this->_name, $key);
+                $this->set($key, $this->controller->exportvalue($this->_name, $key));
+            }
+        foreach (array( 'mailing_name', 'groups', 'mailings') as $key) {
+            $params[$key] = $this->get($key);
         }
-
+        
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id'] = $session->get('domainID');
+        $params['contact_id'] = $session->get('userID');
+        
         if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
             $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
         }
-
+        
         if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
             $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
         }
 
+        $params['test'] = true;
+        /* Build the mailing object */
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = CRM_Mailing_BAO_Mailing::create($params);
+        $this->set('mailing_id', $mailing->id);
+        
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $mailing->id;
+        if ($job->find(true)) {
+            $this->set('job_id',$job->id);
+        } 
+        
     }
-
+    
     /**
      * Function for validation
      *
