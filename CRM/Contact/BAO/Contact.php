@@ -1639,6 +1639,7 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_phonecall.subject as subject,
     civicrm_phonecall.scheduled_date_time as date,
     civicrm_phonecall.status as status,
+    civicrm_phonecall.activity_tag1_id as case_activity,
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
@@ -1667,6 +1668,7 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_meeting.subject as subject,
     civicrm_meeting.scheduled_date_time as date,
     civicrm_meeting.status as status,
+    civicrm_meeting.activity_tag1_id as case_activity,
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
@@ -1693,6 +1695,7 @@ WHERE civicrm_contact.id IN $idString ";
     civicrm_activity.subject as subject,
     civicrm_activity.scheduled_date_time as date,
     civicrm_activity.status as status,
+    civicrm_activity.activity_tag1_id as case_activity,
     source.display_name as sourceName,
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
@@ -1748,6 +1751,7 @@ WHERE civicrm_contact.id IN $idString ";
                 $values[$rowCnt]['sourceID'] = $dao->source_contact_id;
                 $values[$rowCnt]['targetID'] = $dao->target_contact_id;
                 $values[$rowCnt]['case_id']  = $dao->case_id;
+                $values[$rowCnt]['case_activity'] = $dao->case_activity;
                 $rowCnt++;
             }
         }

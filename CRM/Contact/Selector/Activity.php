@@ -311,21 +311,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
+                                          array('name'      => ts('Type')),
+                                          array('name'      => ts('Case')),
                                           array('name'      => ts('Activity'),
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Case')),
                                           array('name' => ts('From Contact')),
                                           array('name' => ts('Regarding Contact')),
                                           array('name' => ts('To Contact')),
                                           array(
-                                                'name'      => ts('Scheduled'),
+                                                'name'      => ts('Date'),
                                                 'sort'      => 'date',
                                                 'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
-                                          array('name'      => ts('Status')),
-
                                           array('desc' => ts('Actions')),
                                           );
         }
