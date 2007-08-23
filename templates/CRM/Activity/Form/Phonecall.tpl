@@ -58,8 +58,8 @@
     <div class="status">{ts} Are you sure you want to delete "{$delName}" ?{/ts}</div>
     {/if}	
     <dt></dt><dd>{$form.buttons.html}</dd>
-    {if $action eq 4 }
-    <dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=update&reset=1&id=`$id`&cid=`$contactId`&context=activity&subType=2&edit=1"}" ">{ts}Edit PhoneCall{/ts}</a></dd>
+    {if $action eq 4 and !$history }
+    <dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=2&edit=1&caseid=`$caseid`"}" ">{ts}Edit PhoneCall{/ts}</a></dd>
     {/if}    
   </dl>
 </fieldset>
