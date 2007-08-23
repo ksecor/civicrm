@@ -228,7 +228,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 $row['case_subjectID'] = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
                 $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$row['case_subjectID'],'subject'); 
             }
-
+            $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
+            $row['case_activity'] = $caseActivity[$row['case_activity']];
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
             $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
