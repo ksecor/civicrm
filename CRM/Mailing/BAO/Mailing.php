@@ -204,6 +204,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          * exclusion temp table */
 
         /* Get the emails with no override */
+        
         $mailingGroup->query(
                     "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
@@ -229,7 +230,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
-                        AND             $email.is_primary = 1
+                        AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$this->id}
                         AND             X_$job_id.contact_id IS null");

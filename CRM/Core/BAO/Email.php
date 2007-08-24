@@ -80,7 +80,9 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         } else {
             $email->is_primary     = $params['location'][$locationId]['email'][$emailId]['is_primary'];
         }
-        
+
+        $email->is_bulkmail     = $params['location'][$locationId]['email'][$emailId]['is_bulkmail'];
+
         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
             $values = array(
                       'location' => array( $locationId => $params['location'][$locationId]['id'] ),

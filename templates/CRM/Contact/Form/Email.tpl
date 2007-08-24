@@ -36,6 +36,7 @@
               {if $hold neq 1}
         	      <span>{$form.location.$index.email.$innerIndex.on_hold.html}</span>
               {/if}
+                  <span>{$form.location.$index.email.$innerIndex.is_bulkmail.html}</span> 
               {* Link to hide this field *}
               <span id="id_location_{$index}_email_{$innerIndex}_hide" class="add-remove-link element-right">
               {$form.location.$index.email.$innerIndex.hide.html}
