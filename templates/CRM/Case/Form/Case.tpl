@@ -4,9 +4,15 @@
     <legend>{ts}New Case Registration{/ts}</legend>
 {elseif $action eq 2}
     <legend>{ts}Edit Case Registration{/ts}</legend>
+{elseif $action eq 8}
+    <legend>{ts}Delete Case Registration{/ts}</legend>
 {/if}
     <div class="form-item">
         <table class="form-layout-compressed"> 
+          
+    {if $action eq 8 }
+        <div class="status">{ts}Are you sure you want to detach this activity from case?{/ts}</div>
+    {else}
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject {/ts}</td></tr>
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
@@ -28,6 +34,7 @@
                 </td>
             </tr>
           <tr><td class="label">{$form.details.label}</td><td>{$form.details.html|crmReplace:class:huge}</td></tr>
+     {/if}
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
     	    </tr>

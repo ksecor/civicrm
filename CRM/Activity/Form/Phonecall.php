@@ -95,7 +95,7 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
             return;
         }
         if ($this->_action & CRM_Core_Action::DELETE ) { 
-            CRM_Activity_BAO_Activity::del( $this->_id, $this->_activityType);
+            CRM_Activity_BAO_Activity::del( $this->_id, 'Phonecall');
             CRM_Core_Session::setStatus( ts("Selected Phone Call is deleted sucessfully."));
             return;
         }

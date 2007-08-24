@@ -59,7 +59,16 @@
     {/if}	
     <dt></dt><dd>{$form.buttons.html}</dd>
     {if $action eq 4 and !$history }
-    <dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=2&edit=1&caseid=`$caseid`"}" ">{ts}Edit PhoneCall{/ts}</a></dd>
+    <dl><dt></dt> <dd>&nbsp;&nbsp;</dd>&nbsp;<dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=2&edit=1&caseid=`$caseid`"}" ">{ts}Edit Phone Call{/ts}</a>{ts} | {/ts}
+   <a href="{crmURL p='civicrm/contact/view/activity'
+     q="activity_id=2&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=2&caseid=`$caseid`"}" ">{ts}  Delete PhoneCall {/ts}</a>{ts} | {/ts}
+        
+        {if $subject_value}  
+           <a href="{crmURL p='civicrm/contact/view/case'
+     q="activity_id=2&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=2&caseid=`$caseid`"}" ">{ts}  Detach Phone from Case {/ts}</a>
+        {/if}
+        </dd>
+    </dl>
     {/if}    
   </dl>
 </fieldset>
