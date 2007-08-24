@@ -110,35 +110,35 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
         }
 
 
-	//get the group to exclude for the contact, if it exists.	
-	require_once 'CRM/Contact/DAO/Organization.php';
-	require_once 'CRM/Contact/DAO/GroupOrganization.php';
-	require_once 'CRM/Contact/BAO/GroupOrganization.php';
-	$dao = new CRM_Contact_DAO_Organization();
-	$query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
-	$dao->query($query);
-	if ( $dao->fetch() ) {
-	    $orgId = $dao->id;
-	}
-	$excludeGroupIds = CRM_Contact_BAO_GroupOrganization::getGroupIds($orgId);
-	$excludeGroups = array( );
-	foreach ( $excludeGroupIds as $excludeGroupId ) {
-	    $dao = new CRM_Contact_DAO_Group();
-	    $query = "SELECT title FROM civicrm_group WHERE id = $excludeGroupId";
-	    $dao->query($query);
-	    if ( $dao->fetch() ) {
-	        $excludeGroups[] = $dao->title;
-	    }
-	}
+	    //get the group to exclude for the contact, if it exists.	
+    	require_once 'CRM/Contact/DAO/Organization.php';
+    	require_once 'CRM/Contact/DAO/GroupOrganization.php';
+    	require_once 'CRM/Contact/BAO/GroupOrganization.php';
+    	$dao = new CRM_Contact_DAO_Organization();
+    	$query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
+    	$dao->query( $query );
+    	if ( $dao->fetch( ) ) {
+    	    $orgId = $dao->id;
+    	}
+    	$excludeGroupIds = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+    	$excludeGroups = array( );
+    	foreach ( $excludeGroupIds as $excludeGroupId ) {
+    	    $dao = new CRM_Contact_DAO_Group( );
+    	    $query = "SELECT title FROM civicrm_group WHERE id = $excludeGroupId";
+    	    $dao->query( $query );
+    	    if ( $dao->fetch( ) ) {
+    	        $excludeGroups[] = $dao->title;
+    	    }
+    	}
 	
 	
         // get the list of groups for the contact
         $currentGroups = CRM_Contact_BAO_GroupContact::getGroupList($this->_contactId);
-	foreach ($excludeGroups as $excludeGroup) {
+	    foreach ($excludeGroups as $excludeGroup) {
 	  
-	    $currentGroups[] = $excludeGroup;
-	}
-	//CRM_Core_Error::debug('current', $currentGroups);
+	        $currentGroups[] = $excludeGroup;
+	    }
+	    //CRM_Core_Error::debug('current', $currentGroups);
 	
         if ( is_array( $currentGroups ) ) {
             $groupList = array_diff( $allGroups, $currentGroups );
@@ -164,8 +164,8 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
                                      array ( 'type'      => 'next',
                                              'name'      => ts('Add'),
                                              'isDefault' => true   ),
-                                     )
-                               );
+                                    )
+                             );
         }
     }
 
