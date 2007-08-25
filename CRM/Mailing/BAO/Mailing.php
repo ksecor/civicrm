@@ -52,6 +52,11 @@ require_once 'CRM/Mailing/BAO/Spool.php';
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
     /**
+     * An array that holds the tokens that are specifically found in our text and html bodies
+     */
+    private $tokens = null;
+
+    /**
      * The header associated with this mailing
      */
     private $header = null;
@@ -379,6 +384,73 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
+     * 
+     *  Retrieve a ref to an array that holds all of the tokens in the email body
+     *  where the keys are the type of token and the values are ordinal arrays
+     *  that hold the token names (even repeated tokens) in the order in which
+     *  they appear in the body of the email.
+     *  
+     *  note: the real work is done in the _getTokens() function
+     *  
+     *  this function needs to have some sort of a body assigned
+     *  either text or html for this to have any meaningful impact
+     *  
+     * @return array               reference to an assoc array
+     * @access public
+     * 
+     **/
+    public function &getTokens(){
+      if(!$this->tokens){
+
+        $htmlKey = 'body_html';
+        $textKey = 'body_text';
+
+        $this->tokens = array( $htmlKey => array(), $textKey => array() );
+
+        if($this->$textKey){
+          $this->_getTokens($textKey);
+        }
+  
+        if($this->$htmlKey){
+          $this->_getTokens($htmlKey);
+        }
+      }
+      return $this->tokens;      
+    }
+    
+    /**
+     *
+     *  _getTokens parses out all of the tokens that have been
+     *  included in the html and text bodies of the email
+     *  we get the tokens and then separate them into an
+     *  internal structure named tokens that has the same
+     *  form as the static tokens property(?) of the CRM_Utils_Token class.
+     *  The difference is that there might be repeated token names as we want the
+     *  structures to represent the order in which tokens were found from left to right, top to bottom.
+     *
+     *  
+     * @param str $prop     name of the property that holds the text that we want to scan for tokens (body_html, body_text)
+     * @access private
+     * @return void
+     */
+
+    private function _getTokens($prop){
+      $matches = array();
+      preg_match_all('/\{(.+?)\}/m',$this->$prop,$matches,PREG_PATTERN_ORDER);
+      if($matches[1]){
+        foreach($matches[1] as $token){
+          list($type,$name) = split('\.',$token,2);
+          if($name){
+            if(!$this->tokens[$prop][$type]){
+               $this->tokens[$prop][$type] = array();
+            }
+            $this->tokens[$prop][$type][] = $name;
+          }
+        }
+      }
+    }
+
+    /**
      * Generate an event queue for a retry job (ie the contacts who bounced)
      *
      * @param int $job_id       The job marked retry
@@ -465,6 +537,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
                              $email, &$recipient, $test = false) 
     {
+        
         $domain_id = $this->domain_id;
 
         if ($this->_domain == null) {
@@ -482,7 +555,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  optOut:         contact unsubscribes from the domain
          */
         $config =& CRM_Core_Config::singleton( );
-        
+
         $verp = array( );
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) {
             $verp[$key] = implode($config->verpSeparator,
@@ -495,7 +568,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         )
                                   ) . '@' . $this->_domain->email_domain;
         }
-                
+
         $urls = array(
                       'forward'         => CRM_Utils_System::url('civicrm/mailing/forward', 
                                                          "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
@@ -516,9 +589,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                          );
 
         require_once 'CRM/Utils/Token.php';
+
+
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
 
+            $knownTokens = $this->getTokens();
             if ($this->body_html) {
                 $this->html = null;
                 if ( $this->header ) {
@@ -529,10 +605,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     $this->html = $this->html . $this->footer->body_html;
                 }
 
-                $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
-                                $this->_domain, true);
-                $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
-                                $this, true);
+                $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,$this->_domain, true);
+                $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,$this, true, $knownTokens['body_html']);
             }
 
             if (!$this->body_text) {
@@ -548,10 +622,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $this->text = $this->text . $this->footer->body_text;
             }
 
-            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                                                               $this->_domain, false);
-            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                                                                $this, true);
+            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,$this->_domain, false);
+            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,$this, true, $knownTokens['body_text']);
         }
         
         $html = $this->html;
@@ -570,10 +642,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both') 
         {
-            $text = CRM_Utils_Token::replaceContactTokens(
-                                        $text, $contact, false);
-            $text = CRM_Utils_Token::replaceActionTokens( $text,
-                                        $verp, $urls, false);
+            $knownTokens =& $this->getTokens();
+            $text = CRM_Utils_Token::replaceContactTokens($text, $contact, false, $knownTokens['body_text']);
+            $text = CRM_Utils_Token::replaceActionTokens( $text, $verp, $urls, false,$knownTokens['body_text']);
             // render the &amp; entities in text mode, so that the links work
             $text = str_replace('&amp;', '&', $text);
         }
@@ -585,10 +656,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
             $contact['preferred_mail_format'] == 'Both'))
         {
-            $html = CRM_Utils_Token::replaceContactTokens(
-                                        $html, $contact, true);
-            
-            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
+            $knownTokens =& $this->getTokens();
+            $html = CRM_Utils_Token::replaceContactTokens($html, $contact, true, $knownTokens['body_html']);
+            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true, $knownTokens['body_html']);
             
             if ($this->open_tracking) {
                 $html .= '<img src="' . $config->userFrameworkResourceURL . 
@@ -599,6 +669,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
                                 $this->id, $event_queue_id);
+
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
                                 $this->id, $event_queue_id);
         }
