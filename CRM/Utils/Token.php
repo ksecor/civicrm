@@ -145,7 +145,8 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null)
+
+    public static function &replaceDomainTokens2($str, &$domain, $html = false, $knownTokens = null)
     {
         require_once 'CRM/Utils/Address.php';
         $loc =& $domain->getLocationValues();
@@ -180,6 +181,52 @@ class CRM_Utils_Token {
         }
         return $str;
     }
+    
+    public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null)
+    {
+
+        if(!$knownTokens || !$knownTokens['domain']) return $str;
+        $knownTokens = $knownTokens['domain'];
+
+        require_once 'CRM/Utils/Address.php';
+        
+        $patterns = array();
+        $replacements = array();
+        
+        foreach($knownTokens as $token){
+          if ($token == 'address') {
+              $loc =& $domain->getLocationValues();
+              $value = null;
+              /* Construct the address token */
+              if ( CRM_Utils_Array::value( 'address', $loc ) ) {
+                  $value = CRM_Utils_Address::format($loc['address']);
+                  if ($html) $value = str_replace("\n", '<br />', $value);
+              }
+          }
+          
+          else if ( $token == 'name') {
+            $value = $domain->name;
+          }
+         
+          else if($token == 'phone' || $token == 'email'){
+            /* Construct the phone and email tokens */
+            $value = null;
+            if ( CRM_Utils_Array::value( $token, $loc ) ) {
+              foreach ($loc[$token] as $index => $entity) {
+                if ($entity->is_primary) {
+                  $value = $entity->$token;
+                  break;
+                }
+              }
+            }
+          }
+
+          $patterns[] = '/\{domain\.'.$token.'\}/';
+          $replacements[] = $value;
+        }
+        $str = preg_replace($patterns,$replacements,$str,1);
+        return $str;
+    }
 
     /**
      * Replace all mailing tokens in $str
@@ -193,8 +240,9 @@ class CRM_Utils_Token {
      */
      public static function &replaceMailingTokens($str, &$mailing, $html = false, $knownTokens = null) {
 
-        if(!$knownTokens) $knownTokens['mailing'] = array();
-
+        if(!$knownTokens || !$knownTokens['mailing']) return $str;
+        $knownTokens = $knownTokens['mailing'];
+  
         $replacements = array();
         $patterns = array();
         foreach($knownTokens as $token){
@@ -203,7 +251,7 @@ class CRM_Utils_Token {
               array_push($replacements,$value);
               array_push($patterns,'/\{mailing\.name\}/');
           }
-          if ($token == 'group') {
+          else if ($token == 'group') {
               $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
               $value = implode(', ', $groups);
               array_push($replacements,$value);
