@@ -145,42 +145,6 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-
-    public static function &replaceDomainTokens2($str, &$domain, $html = false, $knownTokens = null)
-    {
-        require_once 'CRM/Utils/Address.php';
-        $loc =& $domain->getLocationValues();
-        if (self::token_match('domain', 'address', $str)) {
-            $value = null;
-            /* Construct the address token */
-            if ( CRM_Utils_Array::value( 'address', $loc ) ) {
-                $value = CRM_Utils_Address::format($loc['address']);
-                if ($html) $value = str_replace("\n", '<br />', $value);
-            }
-            self::token_replace('domain', 'address', $value, $str);
-        }
-        
-        if (self::token_match('domain', 'name', $str)) {
-            self::token_replace('domain', 'name', $domain->name, $str);
-        }
-        
-        /* Construct the phone and email tokens */
-        foreach (array('phone', 'email') as $key) {
-            if (self::token_match('domain', $key, $str)) {
-                $value = null;
-                if ( CRM_Utils_Array::value( $key, $loc ) ) {
-                    foreach ($loc[$key] as $index => $entity) {
-                        if ($entity->is_primary) {
-                            $value = $entity->$key;
-                            break;
-                        }
-                    }
-                }
-                self::token_replace('domain', $key, $value, $str);
-            }
-        }
-        return $str;
-    }
     
     public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null)
     {
