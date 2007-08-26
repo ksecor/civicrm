@@ -192,18 +192,23 @@ class CRM_Utils_Token {
      * @static
      */
      public static function &replaceMailingTokens($str, &$mailing, $html = false, $knownTokens = null) {
+
+        if(!$knownTokens) $knownTokens['mailing'] = array();
+
         $replacements = array();
         $patterns = array();
-        if ($knownTokens['mailing']['name']) {
-            $value = $mailing ? $mailing->name : 'Mailing Name';
-            array_push($replacements,$value);
-            array_push($patterns,'/\{mailing\.name\}/');
-        }
-        if ($knownTokens['mailing']['group']) {
-            $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
-            $value = implode(', ', $groups);
-            array_push($replacements,$value);
-            array_push($patterns,'/\{mailing\.group\}/');
+        foreach($knownTokens as $token){
+          if ($token == 'name') {
+              $value = $mailing ? $mailing->name : 'Mailing Name';
+              array_push($replacements,$value);
+              array_push($patterns,'/\{mailing\.name\}/');
+          }
+          if ($token == 'group') {
+              $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
+              $value = implode(', ', $groups);
+              array_push($replacements,$value);
+              array_push($patterns,'/\{mailing\.group\}/');
+          }
         }
         $str = preg_replace($patterns,$replacements,$str,1);
         return $str;
