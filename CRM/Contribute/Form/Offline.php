@@ -55,7 +55,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
         $this->_action    = CRM_Utils_Request::retrieve( 'action', 'String',
-                                                         $this, false, 'preview' );
+                                                         $this, false, '' );
         $this->assign( 'action'  , $this->_action   ); 
 
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
