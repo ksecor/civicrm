@@ -105,7 +105,8 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                 $stateProvinces =& CRM_Core_PseudoConstant::stateProvince( false, false );
                 
                 foreach ( $defaults['location'] as $key => $value ) {
-                    $countryValue = null;
+		  // hack, check if we have created a country element
+		  if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
                     $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
                     
                     if ( $countryValue ) {
@@ -125,8 +126,9 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                             $this->assign( "country_{$key}_id"   ,  $countryId );
                         }
                     }
+		  }
                     
-                    $stateValue = null;
+		if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
                     $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
                     
                     if ( $stateValue ) {
@@ -146,6 +148,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
                             $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
                         }
                     }
+		}
                 }
             }
         }
