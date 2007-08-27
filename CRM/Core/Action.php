@@ -241,7 +241,7 @@ class CRM_Core_Action {
      */
     static function mask( $permission ) {
         if ( $permission == CRM_Core_Permission::VIEW ) {
-            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP;
+            return self::VIEW | self::EXPORT | self::BASIC | self::ADVANCED | self::BROWSE | self::MAP | self::PROFILE;
         } else if ( $permission == CRM_Core_Permission::EDIT ) {
             return self::MAX_ACTION;  // make sure we make this 2^(n+1) -1 if we add more actions;
         } else {
