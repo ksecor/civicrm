@@ -99,6 +99,12 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String',$this );
+                
+        if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
+            $caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );
+            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $caseID,'subject' );
+        }
         require_once 'CRM/Core/BAO/OptionValue.php';        
         if ( $this->_activityType > 4 ) {
             $ActivityTypeDescription = CRM_Core_BAO_OptionValue::getActivityDescription();
@@ -121,24 +127,26 @@ class CRM_Activity_Form extends CRM_Core_Form
     {
         $defaults = array( );
         $params   = array( );
-
+        
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
-           
+            
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
             $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             
-            require_once "CRM/Case/BAO/Case.php";
-            $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
-            if ($subjectID){
-            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
+            if (! $this->_subject){
+                require_once "CRM/Case/BAO/Case.php";
+                $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
+                if ($subjectID){
+                    $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
+                }
+                
             }
-        
             if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
                 $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
             }
-
+            
             // change _contactId to be the target of the activity
             $this->_sourceCID = $defaults['source_contact_id'];
             $this->_targetCID = $defaults['target_entity_id'];
@@ -146,7 +154,7 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->_sourceCID = $this->_userId;
             $this->_targetCID = $this->_contactId;
         }
-
+        
         if ($this->_action == CRM_Core_Action::DELETE) {
             $this->assign( 'delName', $defaults['subject'] );
         }

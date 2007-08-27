@@ -109,16 +109,18 @@
     
     function reload(refresh) {
         var activityType = document.getElementById("activity_type_id");
+        var context = {/literal}"{$context}"{literal} 
+        var caseid = {/literal}"{$caseid}"{literal}
         var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&subType=" + activityType.value;
+        var post = url + "&subType=" + activityType.value + "&context=" + context + "&caseid=" + caseid
         if( refresh ) {
             window.location= post; 
         }
     }
-    
+        
     {/literal}
-    </script>
-{/if}
+    </script >
+{/if}       
 
  <script type="text/javascript" >
       activity_get_description( );
