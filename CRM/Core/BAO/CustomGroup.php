@@ -143,7 +143,8 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                         'options_per_line',
                         'start_date_years',
                         'end_date_years',
-                        'date_parts'),
+                        'date_parts',
+                        'option_group_id' ),
                   'civicrm_custom_group' =>
                   array('id',
                         'name',
@@ -311,13 +312,13 @@ SELECT $select
 ";
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             if ( $dao->fetch( ) ) {
-                foreach ( $groupTree as $groupID => $fields ) {
+                foreach ( $groupTree as $groupID => $group ) {
                     if ( $groupID == 'info' ) {
                         continue;
                     }
-                    $table = $groupTree[$groupID]['civicrm_custom_group_table_name'];
-                    foreach ( $fields as $fieldID => $dontCare ) {
-                        $column    = $groupTree[$groupID]['fields'][$fieldID]['civicrm_custom_field_column_name'];
+                    $table = $groupTree[$groupID]['table_name'];
+                    foreach ( $group['fields'] as $fieldID => $dontCare ) {
+                        $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                         $idName    = "{$table}_id";
                         $fieldName = "{$table}_{$column}";
                         if ( ! empty( $dao->$fieldName ) ) {
@@ -374,8 +375,6 @@ SELECT $select
 
         $tableName = self::_getTableName($entityType);
 
-        CRM_Core_Error::debug( 'c', $groupTree );
-
         $update = array( );
         foreach ( $groupTree as $groupID => $fields ) {
             if ( $groupID == 'info' ) {
@@ -405,11 +404,9 @@ $sqlOP $tables
    SET $update
 $where       
 ";
-                CRM_Core_Error::debug( 'a', $query );
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             }
         }
-        exit( );
     }
 
 
@@ -1097,13 +1094,17 @@ $where
                                 $customData[] = $field['customValue']['data'];
                             }
                         }
-                        
-                        $coDAO =& new CRM_Core_DAO_CustomOption();
-                        $coDAO->entity_id  = $field['id'];
-                        $coDAO->entity_table = 'civicrm_custom_field';
-                        $coDAO->orderBy('weight ASC, label ASC');
-                        $coDAO->find( );                    
-                        
+
+                        $query = "
+SELECT   v.label as label, v.value as value;
+  FROM   civicrm_option_value v,
+         civicrm_option_group g
+ WHERE   v.option_group_id = g.id
+   AND   g.id = %1
+ORDER BY weight ASC, label ASC";
+                        $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
+                        $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
+
                         $counter = 1;
                         while($coDAO->fetch()) {
                             //to show only values that are checked
@@ -1120,11 +1121,15 @@ $where
                         }
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
-                            $coDAO =& new CRM_Core_DAO_CustomOption();
-                            $coDAO->entity_id    = $field['id'];
-                            $coDAO->entity_table = 'civicrm_custom_field';
-                            $coDAO->orderBy('weight ASC, label ASC');
-                            $coDAO->find( );
+                            $query = "
+SELECT   v.label as label, v.value as value;
+  FROM   civicrm_option_value v,
+         civicrm_option_group g
+ WHERE   v.option_group_id = g.id
+   AND   g.id = %1
+ORDER BY weight ASC, label ASC";
+                            $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
+                            $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
                             
                             while($coDAO->fetch()) {
                                 if ( isset( $field['customValue'] ) &&
