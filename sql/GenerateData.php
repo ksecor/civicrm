@@ -1010,17 +1010,15 @@ class CRM_GCD {
         for ($i=0; $i<$this->numOrganization; $i+=2) {
             $org_id = $this->organization[$i];
             // echo "org_id = $org_id\n";
-            $entity_tag->entity_table = 'civicrm_contact';
-            $entity_tag->entity_id = $this->organization[$i];
+            $entity_tag->contact_id = $this->organization[$i];
             $entity_tag->tag_id = mt_rand(1, 3);
             $this->_insert($entity_tag);
         }
 
         // add categories 4,5 for Individuals.        
         for ($i=0; $i<$this->numIndividual; $i+=2) {
-            $entity_tag->entity_table = 'civicrm_contact';
-            $entity_tag->entity_id = $this->individual[$i];
-            if(($entity_tag->entity_id)%3) {
+            $entity_tag->contact_id = $this->individual[$i];
+            if(($entity_tag->contact_id)%3) {
                 $entity_tag->tag_id = mt_rand(4, 5);
                 $this->_insert($entity_tag);
             } else {
@@ -1312,10 +1310,10 @@ VALUES
             $ids[]=$membership->id;
             //update the status ids
             $status = crm_calc_membership_status($membership->id);
-            if ($status) {
+            /*if ($status) {
                 crm_update_contact_membership( array('id'        => $membership->id,
                                                      'status_id' => $status['id']) );
-            }
+            }*/
         }
     }
 
@@ -1571,9 +1569,9 @@ $obj1->addLocation();
 $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
-$obj1->addActivityHistory();
+//$obj1->addActivityHistory();
 $obj1->addMembership();
-$obj1->addMembershipLog();
+//$obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
 $obj1->addEventLocationAddress();
