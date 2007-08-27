@@ -51,10 +51,20 @@
     {if $action eq 8 }
     <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
     {/if}
-    <dt></dt><dd>{$form.buttons.html}
-    {if $action eq 4 }
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="{ts}Edit{/ts}" name="edit_activity" onclick="window.location='{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=update&reset=1&id=`$id`&cid=`$contactId`&context=activity&subType=1"}';"/></dd> 
-    {/if}  
+    <dt></dt><dd>{$form.buttons.html}</dd>
+    {if $action eq 4 and !$history}
+   <dl> <dt></dt><dd>&nbsp;&nbsp;</dd>&nbsp;<dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=1&edit=1&caseid=`$caseid`"}" ">{ts}Edit Meeting{/ts}</a>{ts} | {/ts}
+   <a href="{crmURL p='civicrm/contact/view/activity'
+     q="activity_id=1&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=1&caseid=`$caseid`"}" ">{ts}  Delete Meeting {/ts}</a>{ts} | {/ts}
+        
+        {if $subject_value}  
+           <a href="{crmURL p='civicrm/contact/view/case'
+     q="activity_id=1&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=1&caseid=`$caseid`"}" ">{ts}  Detach Meeting from Case {/ts}</a>
+        {/if}
+        </dd>
+    </dl>
+    {/if}
+        
 </dl>
 </fieldset>
 </div>

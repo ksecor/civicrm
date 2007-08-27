@@ -84,9 +84,11 @@
             {else}
                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
             {/if}
-            <td><a href="{$viewURL}">{$row.activity_type|mb_truncate:33:"...":true}</td>
-            <td>{$row.case}</a>
-             </td>
+       
+            <td>{$row.case_activity}</td>
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=1&cid=`$row.sourceID`"}">{$row.case}</a> </td>
+            <td><a href="{$viewURL}">{$row.subject}</td></a>
+      
              <td>
              {if $contactId  NEQ $row.sourceID} 
                 <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">{$row.sourceName}</a>
@@ -103,7 +105,6 @@
              </td>
              <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.to_contact_id`"}">{$row.to_contact}</a></td>
              <td>{$row.date|crmDate}</td>
-             <td>{$row.status_display}</td>
              {if $caseActivity}
              <td>{$caseAction}</td>
             {else}

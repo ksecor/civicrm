@@ -198,6 +198,18 @@ class CRM_Activity_Form extends CRM_Core_Form
      
         $config =& CRM_Core_Config::singleton( );
         $contactID = $this->_contactId;
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
         $fromName = CRM_Contact_BAO_Contact::sortName( $this->_sourceCID );
         $regardName = CRM_Contact_BAO_Contact::sortName( $this->_targetCID );
         $toname     = CRM_Contact_BAO_Contact::sortName( $this->_assignCID );
@@ -294,18 +306,6 @@ class CRM_Activity_Form extends CRM_Core_Form
                                );
         }
 
-
-        if($this->_action & CRM_Core_Action::DELETE) {
-            $this->addButtons(array(
-                                    array ('type'      => 'next',
-                                           'name'      => ts('Delete'),
-                                           'isDefault' => true),
-                                    array ('type'      => 'cancel',
-                                           'name'      => ts('Cancel')),
-                                    )
-                              );
-        }
-
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {
@@ -327,18 +327,21 @@ class CRM_Activity_Form extends CRM_Core_Form
      */  
     static function formRule( &$fields ) 
     {  
+        if  ( ($fields['_qf_Meeting_next_'] == 'Delete') ||($fields['_qf_Phonecall_next_'] == 'Delete') || ($fields['_qf_Activity_next_'] == 'Delete')  ) {
+            return true;
+        }
         $errors = array( ); 
         require_once 'CRM/Case/BAO/Case.php';
         $sourceCID = CRM_Case_BAO_Case::retrieveCid($fields['from_contact']);
         $targetCID = CRM_Case_BAO_Case::retrieveCid($fields['regarding_contact']);
         $toCID     = CRM_Case_BAO_Case::retrieveCid($fields['to_contact']);
-    
+        
         if(!$sourceCID){
             $errors['from_contact'] = ts('Invalid From Contact');
         }
         if(!$targetCID){
             $errors['regarding_contact'] = ts('Invalid Regarding Contact');
-        }
+            }
         if(!$toCID){
             $errors['to_contact'] = ts('Invalid To Contact');
         }

@@ -114,7 +114,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
         // helper variable for nicer formatting
         $deleteExtra = ts('Are you sure you want to delete this activity record?');
-
+        
         self::$_actionLinks = array(
                                    
                                     CRM_Core_Action::UPDATE => array(
@@ -232,7 +232,9 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 $row['case_subjectID'] = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
                 $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$row['case_subjectID'],'subject'); 
             }
-
+            require_once "CRM/Core/OptionGroup.php";
+            $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
+            $row['case_activity'] = $caseActivity[$row['case_activity']];
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
             $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
@@ -315,21 +317,20 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
+                                          array('name'      => ts('Type')),
+                                          array('name'      => ts('Case')),
                                           array('name'      => ts('Activity'),
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('Case')),
                                           array('name' => ts('From Contact')),
                                           array('name' => ts('Regarding Contact')),
                                           array('name' => ts('To Contact')),
                                           array(
-                                                'name'      => ts('Scheduled'),
+                                                'name'      => ts('Date'),
                                                 'sort'      => 'date',
                                                 'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
-                                          array('name'      => ts('Status')),
-
                                           array('desc' => ts('Actions')),
                                           );
         }

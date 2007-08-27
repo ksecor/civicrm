@@ -70,6 +70,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
+        $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
+        $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
     }
 
     function setDefaultValues( ) 
@@ -94,7 +97,19 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */ 
     public function buildQuickForm( )
     {
-
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel') ), 
+                                    ) 
+                              );
+            return;
+        }
+        
         $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
                     $caseStatus , true  );
@@ -157,9 +172,9 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      *  
      * @return true if no errors, else array of errors  
      * @access public  
-     * @static  
+     * @static  s
      */  
-    static function formRule( &$fields, &$files, $self ) {  
+    static function formRule( &$fields, &$files, $self ) {
         $errors = array( ); 
         return $errors;
     }
@@ -176,21 +191,47 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if( $this->_action & CRM_Core_Action::VIEW ) {
             return;
         }
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            $session =& CRM_Core_Session::singleton();
+            require_once 'CRM/Case/BAO/Case.php';
+            if ($this->_activityID == 1){
+                $entityTable = 'civicrm_meeting';
+            } else if ($this->_activityID == 2){
+                $entityTable = 'civicrm_phonecall';
+            } else {
+                $entityTable = 'civicrm_activity';
+            }
+            
+            require_once 'CRM/Case/DAO/CaseActivity.php';
+            $caseActivity = new CRM_Case_DAO_CaseActivity();
+            $caseActivity->activity_entity_table = $entityTable;
+            $caseActivity->activity_entity_id = $this->_id;
+            $caseActivity->find(true);
+                        
+            $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id={$this->_activityID}&action=view&reset=1&selectedChild=activity&id={$this->_id}&cid=". $this->_contactID ."&history=0&subType={$this->_activityID}&context={$this->_context}&caseid={$this->_caseid}");
+            
+             $session->pushUserContext( $url );
+             
+             CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
+             CRM_Core_Session::setStatus( ts("Selected Activity has been detached from case."));
+             CRM_Utils_System::redirect($url);
+             return;
+        }
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['case'] = $this->_id ;
         }
-       
+        
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         $formValues['contact_id'] = $this->_contactID;
         $formValues['start_date'] = CRM_Utils_Date::format($formValues['start_date']);
         $formValues['end_date']   = CRM_Utils_Date::format($formValues['end_date']);
-
-
+        
+        
         for($i=1;$i<4;$i++) {
             $formValues['casetag' . $i . '_id']   = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $formValues['casetag' . $i . '_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
         }
-
+        
         require_once 'CRM/Case/BAO/Case.php';
         $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
     }
