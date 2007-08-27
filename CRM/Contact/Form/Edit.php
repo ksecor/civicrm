@@ -398,7 +398,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
 
         //DO TO: comment because of schema changes
-        //CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }
 

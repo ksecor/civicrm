@@ -118,6 +118,10 @@ class CRM_Core_BAO_SchemaHandler
             $sql .= " NOT NULL";
         }
 
+        if ( CRM_Utils_Array::value( 'attributes', $params ) ) {
+            $sql .= " {$params['attributes']}";
+        }
+
         if ( CRM_Utils_Array::value( 'default', $params ) ) {
             $sql .= " DEFAULT {$params['default']}";
         }

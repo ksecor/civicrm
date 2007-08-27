@@ -768,7 +768,11 @@ $where
     }
 
     static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) {
-        foreach ( $groupTree as $group ) {
+        foreach ( $groupTree as $id => $group ) {
+            if ( $id == 'info' ) {
+                continue;
+            }
+
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {

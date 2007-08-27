@@ -1048,6 +1048,7 @@ SELECT id
                                                      'type'          => 'int unsigned',
                                                      'primary'       => true,
                                                      'required'      => true,
+                                                     'attributes'    => 'AUTO_INCREMENT',
                                                      'comment'       => 'Default MySQL primary key' ),
                                               array( 'name'          => 'domain_id',
                                                      'type'          => 'int unsigned',

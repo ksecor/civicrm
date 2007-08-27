@@ -52,7 +52,7 @@ class CRM_Core_BAO_CustomValueTable {
                     if ( array_key_exists( 'id', $field ) ) {
                         $sqlOP = "UPDATE $tableName ";
                         $where = " WHERE  id = %{$count}";
-                        $params[$count] = array( $value, $type );
+                        $params[$count] = array( $field['id'], 'Integer' );
                         $count++;
                     } else {
                         $sqlOP = "INSERT INTO $tableName ";
