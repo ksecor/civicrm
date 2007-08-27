@@ -654,17 +654,20 @@ class CRM_Utils_Date {
      * Example: $dayParams = array( 'day' => '25', 'month' => '10',
      *                              'year' => '2007' ); 
      * 
-     * @param  Array $dayParams   Array of the day, month, year values.
+     * @param  Array  $dayParams   Array of the day, month, year
+     *                             values.
+     * @param  string $format      expected date format( default
+     *                             format is 2007-12-21 )
      * 
      * @return string  Return the customized todays date (Y-m-d)
      * @static
      */
-    static function getToday( $dayParams = null )
+    static function getToday( $dayParams = null, $format = "Y-m-d" )
     {
         if ( is_null( $dayParams ) || empty( $dayParams ) ) {
-            $today = date( "Y-m-d" );
+            $today = date( $format );
         } else {
-            $today = date( "Y-m-d", mktime( 0, 0, 0, 
+            $today = date( $format, mktime( 0, 0, 0, 
                                             $dayParams['month'], 
                                             $dayParams['day'], 
                                             $dayParams['year'] ) );

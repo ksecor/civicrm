@@ -66,7 +66,8 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      * @access public
      */
     static function &buildLocationBlock( &$form, $maxLocationBlocks, $locationType = true, 
-                                         $locationCompoments = null, $addressOnly  = false ) 
+                                         $locationCompoments = null, $addressOnly  = false,
+                                         $geoCode = true ) 
     {
         $location = array();
         
@@ -88,7 +89,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                                            ts('Location Name'),
                                                            CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
             
-            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId);
+            CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId, $geoCode );
             
             require_once 'CRM/Core/ShowHideBlocks.php';
             CRM_Core_ShowHideBlocks::linksForArray( $form, $locationId, $maxLocationBlocks, "location", '', '' );
