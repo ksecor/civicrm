@@ -48,7 +48,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      * @static
      */
     static $_links = null;
-
+    
     /**
      * View details of a case
      *
@@ -192,6 +192,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function run( ) 
     {
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
         $this->preProcess( );
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
@@ -260,9 +261,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         }
         return self::$_links;
     }
-    
-
-
+  
 }
 
 ?>

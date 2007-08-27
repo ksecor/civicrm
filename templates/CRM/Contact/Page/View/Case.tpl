@@ -13,13 +13,13 @@
 </div>
 
 {if $cases}
-<div id="case">
-    <div class="form-item" id=case_id>
+
+    <div class="form-item" id=case_page>
 
     {strip}
        
-        <table  dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">   
-       <thread> 
+        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">  
+       <thead> 
         <tr class="columnheader">
             <th field="Status" dataType="String">{ts}Case Status{/ts}</th>
             <th field="Type" dataType="String">{ts}Case Type{/ts}</th>
@@ -29,7 +29,7 @@
 
 	        <th scope="col" title="Action Links"></th>
         </tr>
-       </thread>
+       </thead>
        <tbody> 
         {foreach from=$cases item=case}
         <tr class="{cycle values="odd-row,even-row"}">
@@ -49,7 +49,7 @@
 
 
     </div>
- </div>
+
 {else}
    <div class="messages status">
        <dl>
