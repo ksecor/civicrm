@@ -230,7 +230,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @static
      * @acess public
      */
-    static function fatal($message, $code = null, $email = null) {
+    static function fatal($message = null, $code = null, $email = null) {
         if ( ! $message ) {
             $message = ts( 'We experienced an unexpected error. Please file an issue with the backtrace' );
         }

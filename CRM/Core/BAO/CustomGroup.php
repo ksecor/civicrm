@@ -117,7 +117,10 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
      * @static
      *
      */
-    public static function &getTree($entityType, $entityId=null, $groupId=0, $subType = null)
+    public static function &getTree( $entityType,
+                                     $entityID = null,
+                                     $groupID  = null,
+                                     $subType  = null )
     {
         // create a new tree
         $groupTree = array();
@@ -130,6 +133,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                   'civicrm_custom_field' =>
                   array('id',
                         'label',
+                        'column_name',
                         'data_type',
                         'html_type',
                         'default_value',
@@ -143,34 +147,22 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
                   'civicrm_custom_group' =>
                   array('id',
                         'name',
+                        'table_name',
                         'title',
                         'help_pre',
                         'help_post',
-                        'collapse_display'),
+                        'collapse_display', ),
                   );
 
-        // since we have an entity id, lets get it's custom values too.
-        if ($entityId) {
-            $tableData['civicrm_custom_value'] =
-                array('id',
-                      'int_data',
-                      'float_data',
-                      'decimal_data',
-                      'char_data',
-                      'date_data',
-                      'memo_data',
-                      'file_id');
-        }
-
         // create select
-        $strSelect = "SELECT"; 
+        $select = array( );
         foreach ($tableData as $tableName => $tableColumn) {
             foreach ($tableColumn as $columnName) {
                 $alias = $tableName . "_" . $columnName;
-                $strSelect .= " $tableName.$columnName as $alias,";
+                $select[] = "{$tableName}.{$columnName} as {$tableName}_{$columnName}";
             }
         }
-        $strSelect = rtrim($strSelect, ',');
+        $strSelect = "SELECT " . implode( ', ', $select );
 
         // from, where, order by
         $strFrom = "
@@ -178,27 +170,6 @@ FROM     civicrm_custom_group
 LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicrm_custom_group.id)
 ";
 
-        if ($entityId) {
-            if ($entityType == "Activity") {
-                if ( $subType == 1) {
-                    $activityType = "Meeting";
-                } else if($subType == 2) {
-                    $activityType = "Phonecall";
-                } else {
-                    $activityType = "Activity";
-                }
-                $tableName = self::_getTableName($activityType);
-            } else {
-                $tableName = self::_getTableName($entityType);
-            }
-            $strFrom .= "
-LEFT JOIN civicrm_custom_value
-       ON ( civicrm_custom_value.custom_field_id = civicrm_custom_field.id 
-      AND   civicrm_custom_value.entity_table = '$tableName' 
-      AND   civicrm_custom_value.entity_id = $entityId )
-";
-        }
-        
         // if entity is either individual, organization or household pls get custom groups for 'contact' too.
         if ($entityType == "Individual" || $entityType == 'Organization' || $entityType == 'Household') {
             $in = "'$entityType', 'Contact'";
@@ -227,158 +198,148 @@ WHERE civicrm_custom_group.domain_id = $domainID
         }
 
         $params = array( );
-        if ($groupId > 0) {
+        if ( $groupID > 0 ) {
             // since we want a specific group id we add it to the where clause
             $strWhere .= " AND civicrm_custom_group.style = 'Tab' AND civicrm_custom_group.id = %1";
-            $params[1] = array( $groupId, 'Integer' );
-        } else if ($groupId == 0){
-            // since groupId is 0 we need to show all Inline groups
+            $params[1] = array( $groupID, 'Integer' );
+        } else if ( ! $groupID ){
+            // since groupID is false we need to show all Inline groups
             $strWhere .= " AND civicrm_custom_group.style = 'Inline'";
         }
 
-	require_once 'CRM/Core/Permission.php';
+        require_once 'CRM/Core/Permission.php';
         // ensure that the user has access to these custom groups
         $strWhere .= 
             " AND " .
             CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
                                                     'civicrm_custom_group.' );
-
+        
         $orderBy = "
 ORDER BY civicrm_custom_group.weight,
          civicrm_custom_group.title,
          civicrm_custom_field.weight,
-          civicrm_custom_field.label
+         civicrm_custom_field.label
 ";
 
         // final query string
-        $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
+        $queryString = "$strSelect $strFrom $strWhere $orderBy";
 
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
+        $customValueTables = array( );
+
         // process records
-        while($crmDAO->fetch()) {
+        while( $crmDAO->fetch( ) ) {
 
             // get the id's 
-            $groupId = $crmDAO->civicrm_custom_group_id;
+            $groupID = $crmDAO->civicrm_custom_group_id;
             $fieldId = $crmDAO->civicrm_custom_field_id;
 
             // create an array for groups if it does not exist
-            if (!array_key_exists($groupId, $groupTree)) {
-                $groupTree[$groupId] = array();
-                $groupTree[$groupId]['id'] = $groupId;
+            if ( ! array_key_exists( $groupID, $groupTree ) ) {
+                $groupTree[$groupID]       = array();
+                $groupTree[$groupID]['id'] = $groupID;
 
                 // populate the group information
-                foreach ($tableData['civicrm_custom_group'] as $fieldName) {
-                    $fullFieldName = 'civicrm_custom_group_' . $fieldName;
-                    if ($fieldName == 'id' || is_null($crmDAO->$fullFieldName)) {
+                foreach ( $tableData['civicrm_custom_group'] as $fieldName ) {
+                    $fullFieldName = "civicrm_custom_group_$fieldName";
+                    if ( $fieldName == 'id' ||
+                         is_null( $crmDAO->$fullFieldName ) ) {
                         continue;
                     }
-                    $groupTree[$groupId][$fieldName] = $crmDAO->$fullFieldName;
+                    $groupTree[$groupID][$fieldName] = $crmDAO->$fullFieldName;
                 }
-                $groupTree[$groupId]['fields'] = array();
+                $groupTree[$groupID]['fields'] = array();
+
+                $customValueTables[$crmDAO->civicrm_custom_group_table_name] = array( );
             }
 
             // add the fields now (note - the query row will always contain a field)
             // we only reset this once, since multiple values come is as multiple rows
-            if ( ! array_key_exists( $fieldId, $groupTree[$groupId]['fields'] ) ) {
-                $groupTree[$groupId]['fields'][$fieldId] = array();
+            if ( ! array_key_exists( $fieldId, $groupTree[$groupID]['fields'] ) ) {
+                $groupTree[$groupID]['fields'][$fieldId] = array();
             }
-            $groupTree[$groupId]['fields'][$fieldId]['id'] = $fieldId;
+            $customValueTables[$crmDAO->civicrm_custom_group_table_name][$crmDAO->civicrm_custom_field_column_name] = 1;
+            $groupTree[$groupID]['fields'][$fieldId]['id'] = $fieldId;
             // populate information for a custom field
             foreach ($tableData['civicrm_custom_field'] as $fieldName) {
-                $fullFieldName = "civicrm_custom_field_" . $fieldName;
-                if ($fieldName == 'id' || is_null($crmDAO->$fullFieldName)) {
-                        continue;
+                $fullFieldName = "civicrm_custom_field_$fieldName";
+                if ( $fieldName == 'id' ||
+                     is_null( $crmDAO->$fullFieldName ) ) {
+                    continue;
                 } 
-                $groupTree[$groupId]['fields'][$fieldId][$fieldName] = $crmDAO->$fullFieldName;                    
-            }
-
-            // check for custom values please
-            if ( isset( $crmDAO->civicrm_custom_value_id ) && $crmDAO->civicrm_custom_value_id ) {
-                $valueId = $crmDAO->civicrm_custom_value_id;
-
-                // create an array for storing custom values for that field
-                $customValue = array();
-                $customValue['id'] = $valueId;
-                
-                $dataType = $groupTree[$groupId]['fields'][$fieldId]['data_type'];
-                
-                switch ($dataType) {
-                case 'String':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_char_data;
-                    break;
-                case 'Int':
-                case 'Boolean':
-                case 'StateProvince':
-                case 'Country':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_int_data;
-                    break;
-                case 'Float':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_float_data;
-                    break;
-                case 'Money':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_decimal_data;
-                    break;
-                case 'Memo':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_memo_data;
-                    break;
-                case 'Date':
-                    $customValue['data'] = $crmDAO->civicrm_custom_value_date_data;
-                    break;
-                case 'File':
-                    require_once 'CRM/Core/DAO/File.php';
-                    $config =& CRM_Core_Config::singleton( );
-                    $fileDAO =& new CRM_Core_DAO_File();
-                    $fileDAO->id = $crmDAO->civicrm_custom_value_file_id;
-                    if ( $fileDAO->find(true) ) {
-                        $customValue['data']       = $fileDAO->uri;
-                        $customValue['fid']        = $fileDAO->id;
-                        $customValue['fileURL']    = 
-                            CRM_Utils_System::url( 'civicrm/file', "reset=1&id={$fileDAO->id}&eid=$entityId" );
-                        $customValue['displayURL'] = null;
-                        $deleteExtra = ts('Are you sure you want to delete attached file.');
-                        $deleteURL = array(CRM_Core_Action::DELETE  =>
-                                           array(
-                                                 'name'  => ts('Delete Attached File'),
-                                                 'url'   => 'civicrm/file',
-                                                 'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&action=delete',
-                                                 'extra' => 
-'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
-                                                 ) 
-                                           );
-                        $customValue['deleteURL'] = 
-                            CRM_Core_Action::formLink($deleteURL, CRM_Core_Action::DELETE, array('id' => $fileDAO->id,'eid' => $entityId ));
-                        $customValue['fileName']   = basename( $fileDAO->uri );
-                        if ( $fileDAO->mime_type =="image/jpeg" ||
-                             $fileDAO->mime_type =="image/gif"  ||
-                             $fileDAO->mime_type =="image/png" ) {
-                            $customValue['displayURL'] = 
-                                $customValue['fileURL'];
-                        }
-                    }
-                    
-                    break;
-
-                case 'Link':
-                    $customValue['data'] =  $crmDAO->civicrm_custom_value_char_data;
-                    break;
-                }
-                
-                if ( ! empty( $customValue ) ) {
-                    $groupTree[$groupId]['fields'][$fieldId]['customValue'] = $customValue;
-                }
-
+                $groupTree[$groupID]['fields'][$fieldId][$fieldName] = $crmDAO->$fullFieldName;                    
             }
         }
 
+        // add info to groupTree
+        $groupTree['info'] = array( 'tables' => $customValueTables );
+
+        // now that we have all the groups and fields, lets get the values
+        // since we need to know the table and field names
+        if ( $entityID ) {
+            $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
+        }
+
+        $select = $from = $where = array( );
+        foreach ( $groupTree['info']['tables'] as $table => $fields ) {
+            $from[]   = $table;
+            $select[] = "{$table}.id as {$table}_id";
+            $select[] = "{$table}.entity_id as {$table}_entity_id";
+            foreach ( $fields as $column => $dontCare ) {
+                $select[] = "{$table}.{$column} as {$table}_{$column}";
+            }
+            if ( $entityID ) {
+                $where[]  = "{$table}.entity_id = $entityID";
+            }
+        }
+
+        $groupTree['info']['select'] = $select;
+        $groupTree['info']['from'  ] = $from  ;
+        $groupTree['info']['where' ] = null   ;
+
+        if ( $entityID ) {
+            $groupTree['info']['where' ] = $where ;
+            $from   = implode( ', '   , $from   );
+            $select = implode( ', '   , $select );
+            $where  = implode( ' AND ', $where  );
+        $query = "
+SELECT $select
+  FROM $from
+ WHERE $where
+";
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            if ( $dao->fetch( ) ) {
+                foreach ( $groupTree as $groupID => $fields ) {
+                    if ( $groupID == 'info' ) {
+                        continue;
+                    }
+                    $table = $groupTree[$groupID]['civicrm_custom_group_table_name'];
+                    foreach ( $fields as $fieldID => $dontCare ) {
+                        $column    = $groupTree[$groupID]['fields'][$fieldID]['civicrm_custom_field_column_name'];
+                        $idName    = "{$table}_id";
+                        $fieldName = "{$table}_{$column}";
+                        if ( ! empty( $dao->$fieldName ) ) {
+                            $customValue = array( 'id'   => $dao->$idName,
+                                                  'data' => $dao->$fieldName );
+                            $groupTree[$groupID]['fields'][$fieldID]['customValue'] = $customValue;
+                        }
+                    }
+                }
+            }
+        }
         
         $uploadNames = array();
         foreach ($groupTree as $key1 => $group) { 
-            foreach ($group['fields'] as $key2 => $field) {
+            if ( $key1 == 'info' ) {
+                continue;
+            }
+
+            foreach ( $group['fields'] as $key2 => $field ) {
                 if ( $field['data_type'] == 'File' ) {
                     $fieldId          = $field['id'];                 
-                    $elementName      = 'custom_' . $fieldId;
+                    $elementName      = "custom_$fieldId";
                     $uploadNames[]    = $elementName; 
                 }
             }
@@ -413,126 +374,42 @@ ORDER BY civicrm_custom_group.weight,
 
         $tableName = self::_getTableName($entityType);
 
-        // traverse the group tree
-        foreach ($groupTree as $group) {
-            $groupId = $group['id'];
+        CRM_Core_Error::debug( 'c', $groupTree );
 
-            // traverse fields
-            foreach ($group['fields'] as $field) {
-                $fieldId = $field['id'];
-
-                /**
-                 * $field['customValue'] is set in the tree in the following cases
-                 *     - data existed in db for that field
-                 *     - new data was entered in the "form" for that field
-                */
-                if (isset($field['customValue'])) {
-                    // customValue exists hence we need a DAO.
-                    require_once "CRM/Core/DAO/CustomValue.php";
-                    $customValueDAO =& new CRM_Core_DAO_CustomValue();
-                    $customValueDAO->entity_table = $tableName;
-                    $customValueDAO->custom_field_id = $fieldId;
-                    $customValueDAO->entity_id = $entityId;
-                    
-                    // check if it's an update or new one
-                    if (isset($field['customValue']['id'])) {
-                        // get the id of row in civicrm_custom_value
-                        $customValueDAO->id = $field['customValue']['id'];
-                    }
-
-                    $data = $field['customValue']['data'];
-
-                    // since custom data is empty, delete it from db.
-                    // note we cannot use a plain if($data) since data could have a value "0"
-                    // which will result in a !false expression
-                    // and accidental deletion of data.
-                    // especially true in the case of radio buttons where we are using the values
-                    // 1 - true and 0 for false.
-                    if (! strlen(trim($data) ) ) {
-                        if($field['data_type'] != 'File') {
-                            $customValueDAO->delete();
-                        } 
-                        continue;
-                    }
-                    
-                    // data is not empty
-                    switch ($field['data_type']) {
-                    case 'String':
-                        $customValueDAO->char_data = $data;
-                        break;
-                    case 'Int':
-                    case 'Boolean':
-                    case 'StateProvince':
-                    case 'Country':
-                        $customValueDAO->int_data = $data;
-                        break;
-                    case 'Float':
-                        $customValueDAO->float_data = $data;
-                        break;
-                    case 'Money':
-                        $customValueDAO->decimal_data = CRM_Utils_Rule::cleanMoney( $data );
-                        //$customValueDAO->decimal_data = number_format( $data, 2, '.', '' ); 
-                        break;
-                    case 'Memo':
-                        $customValueDAO->memo_data = $data;
-                        break;
-                    case 'Date':
-                        $customValueDAO->date_data = $data;
-                        break;
-                    case 'File':
-                        require_once 'CRM/Core/DAO/File.php';
-                        $config = & CRM_Core_Config::singleton();
-                        
-                        $path = explode( '/', $data );
-                        $filename = $path[count($path) - 1];
-
-                        // rename this file to go into the secure directory
-                        if ( ! rename( $data, $config->customFileUploadDir . $filename ) ) {
-                            CRM_Core_Error::statusBounce( ts( 'Could not move custom file to custom upload directory' ) );
-                            break;
-                        }
-                        
-                        //$customValueDAO->char_data = $config->customFileUploadDir . $filename;
-                        $customValueDAO->char_data =  $filename;
-                        $mimeType = $_FILES['custom_'.$field['id']]['type'];
-                        
-                        $fileDAO =& new CRM_Core_DAO_File();
-                        if (isset($field['customValue']['fid'])) {
-                            $fileDAO->id = $field['customValue']['fid'];
-                        }
-                       
-                        $fileDAO->uri               = $filename;
-                        $fileDAO->mime_type         = $mimeType; 
-                        $fileDAO->upload_date       = date('Ymdhis'); 
-                        $fileDAO->save();
-                        
-                        $customValueDAO->file_id    = $fileDAO->id;
-
-                        // need to add/update civicrm_entity_file
-                        require_once 'CRM/Core/DAO/EntityFile.php'; 
-                        $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-                        
-                        if ( isset($field['customValue']['fid'] )) {
-                            $entityFileDAO->file_id = $field['customValue']['fid'];
-                            $entityFileDAO->find(true);
-                        }
-                        
-                        $entityFileDAO->entity_table = $tableName;
-                        $entityFileDAO->entity_id    = $entityId;
-                        $entityFileDAO->file_id      = $fileDAO->id;
-                        $entityFileDAO->save();
-                        
-                        break;
-                    case 'Link':
-                        $customValueDAO->char_data = $data;
-                        break;                                    
-                    }
-
-                    // insert/update of custom value
-                    $customValueDAO->save();
+        $update = array( );
+        foreach ( $groupTree as $groupID => $fields ) {
+            if ( $groupID == 'info' ) {
+                continue;
+            }
+            $table = $groupTree[$groupID]['civicrm_custom_group_table_name'];
+            foreach ( $fields as $fieldID => $field ) {
+                if ( isset( $field['customValue'] ) ) {
+                    $column    = $groupTree[$groupID]['fields'][$fieldID]['civicrm_custom_field_column_name'];
+                    $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
+
+            if ( ! empty( $update ) ) {
+                $tables = implode( ', ', $groupTree['info']['from'  ] );
+                if ( $groupTree['info']['where' ] ) {
+                    $sqlOP = 'UPDATE';
+                    $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
+                } else {
+                    $sqlOP  = 'SELECT';
+                    $where  = null;
+                }
+                $update = implode( ', ', $groupTree['info']['update'] );
+                                   
+                $query = "
+$sqlOP $tables
+   SET $update
+$where       
+";
+                CRM_Core_Error::debug( 'a', $query );
+                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            }
         }
+        exit( );
     }
 
 
@@ -1106,6 +983,10 @@ ORDER BY civicrm_custom_group.weight,
 
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
+            if ( $key1 == 'info' ) {
+                continue;
+            }
+
             foreach ($group['fields'] as $key2 => $field) {
                 if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
                     $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
@@ -1125,7 +1006,11 @@ ORDER BY civicrm_custom_group.weight,
         $form->assign('currentYear',date('Y'));
        
         require_once 'CRM/Core/ShowHideBlocks.php'; 
-        foreach ($groupTree as $group) { 
+        foreach ($groupTree as $id => $group) { 
+            if ( $id == 'info' ) {
+                continue;
+            }
+
             CRM_Core_ShowHideBlocks::links( $form, $group['title'], '', ''); 
                  
             $groupId = $group['id']; 
@@ -1181,7 +1066,11 @@ ORDER BY civicrm_custom_group.weight,
         $hBlocks = array();
         $form = array();
 
-        foreach ($groupTree as $group) {          
+        foreach ($groupTree as $key => $group) {
+            if ( $key == 'info' ) {
+                continue;
+            }
+
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                

@@ -903,14 +903,14 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @param array  $customFormatted     formatted array
      * @param mix    $value               value of custom field
      * @param string $customFieldExtend   custom field extends
-     * @param int    $customOptionValueId custom option value id
+     * @param int    $customValueId custom option value id
      * @param int    $entityId            entity id (contribution, membership...)
      *
      * @return array $customFormatted formatted custom field array
      * @static
      */
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
-                                       $customFieldExtend, $customOptionValueId = null, $entityId = null ) 
+                                       $customFieldExtend, $customValueId = null, $entityId = null ) 
     {
         //special case for activities
         if ( in_array( $customFieldExtend, array('Meeting', 'Phonecall') ) ) {
@@ -926,24 +926,42 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             return;
         }
 
-        //get the $customOptionValueId if entity id is passed
-        if ( !$customOptionValueId && $entityId ) {
+        // get the table and column name for the custom field
+        $query = "
+SELECT cg.table_name, cf.column_name
+  FROM civicrm_custom_group cg,
+       civicrm_custom_field cf
+ WHERE cf.custom_group_id = cg.id
+   AND cf.id = %1";
+        $params = array( 1 => array( $customFieldId, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( ! $dao->fetch( ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        $tableName  = $dao->table_name;
+        $columnName = $dao->column_name;
+        
+        if ( ! $customValueId && $entityId ) {
             //get the entity table for the custom field
             require_once "CRM/Core/BAO/CustomQuery.php";
             $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$customFieldExtend];
 
             $query = "
 SELECT id 
-FROM civicrm_custom_value 
-WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND entity_id={$entityId}";
+  FROM $tableName
+ WHERE entity_id={$entityId}";
 
-            $customOptionValueId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            $customValueId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
         //fix checkbox
         if ( $customFields[$customFieldId][3] == 'CheckBox' ) {
             if ( $value ) {
-                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                $value =
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                             array_keys( $value ) ) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
                 $value = '';
             }
@@ -951,7 +969,11 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
         
         if ( $customFields[$customFieldId][3] == 'Multi-Select' ) {
             if ( $value ) {
-                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                $value = 
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
+                    implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
+                             array_keys( $value ) ) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
                 $value = '';
             }
@@ -959,14 +981,14 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
 
         // fix the date field 
         if ( $customFields[$customFieldId][2] == 'Date' ) {
-            $date =CRM_Utils_Date::format( $value );
+            $date = CRM_Utils_Date::format( $value );
             if ( ! $date ) {
                 $date = '';
             }
             $value = $date;
         }
         
-        if ( $customFields[$customFieldId][2] == 'File' ) { 
+        if ( $customFields[$customFieldId][2] == 'File' ) {
             if ( empty($value) ) {
                 return;
             }
@@ -986,9 +1008,9 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
                 break;
             }
             
-            if ( $customOptionValueId ) {
+            if ( $customValueId ) {
                 $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', 
-                                                       $customOptionValueId, 'file_id', 'id' );
+                                                       $customValueId, 'file_id', 'id' );
             }
             
             $fileDAO =& new CRM_Core_DAO_File();
@@ -1006,10 +1028,12 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
             $value =  $filename;
         }
         
-        $customFormatted[$customFieldId] = array('id'              => $customOptionValueId,
+        $customFormatted[$customFieldId] = array('id'              => $customValueId,
                                                  'value'           => $value,
                                                  'type'            => $customFields[$customFieldId][2],
                                                  'custom_field_id' => $customFieldId,
+                                                 'table_name'      => $tableName,
+                                                 'column_name'     => $columnName,
                                                  'file_id'         => $fileId
                                                  );
         return $customFormatted;
@@ -1058,8 +1082,11 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
                          'type'       => CRM_Core_BAO_CustomValue::fieldToSQLType( $field->data_type ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
-                         'default'    => "'{$field->default_value}'",
                          );
+
+        if ( $field->default_value ) {
+            $params['default'] = "'{$field->default_value}'";
+        }
 
         require_once 'CRM/Core/BAO/SchemaHandler.php';
         CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params );

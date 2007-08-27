@@ -541,24 +541,34 @@ ORDER BY
         //DO TO: comment because of schema changes
         //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
-//         // add custom field values
-//         if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-//             foreach ($params['custom'] as $customValue) {
-//                 $cvParams = array(
-//                                   'entity_table'    => 'civicrm_contact', 
-//                                   'entity_id'       => $contact->id,
-//                                   'value'           => $customValue['value'],
-//                                   'type'            => $customValue['type'],
-//                                   'custom_field_id' => $customValue['custom_field_id'],
-//                                   'file_id'         => $customValue['file_id'],
-//                                   );
+        // add custom field values
+        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+            $cvParams = array( );
+            foreach ($params['custom'] as $customValue) {
+                $cvParam = array(
+                                 'entity_table'    => 'civicrm_contact', 
+                                 'entity_id'       => $contact->id,
+                                 'value'           => $customValue['value'],
+                                 'type'            => $customValue['type'],
+                                 'custom_field_id' => $customValue['custom_field_id'],
+                                 'table_name'      => $customValue['table_name'],
+                                 'column_name'     => $customValue['column_name'],
+                                 'file_id'         => $customValue['file_id'],
+                                 );
                 
-//                 if ($customValue['id']) {
-//                     $cvParams['id'] = $customValue['id'];
-//                 }
-//                 CRM_Core_BAO_CustomValue::create($cvParams);
-//             }
-//         }
+                if ($customValue['id']) {
+                    $cvParam['id'] = $customValue['id'];
+                }
+                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
+                    $cvParams[$customValue['table_name']] = array( );
+                }
+                $cvParams[$customValue['table_name']][] = $cvParam;
+            }
+            if ( ! empty( $cvParams ) ) {
+                require_once 'CRM/Core/BAO/CustomValueTable.php';
+                CRM_Core_BAO_CustomValueTable::create($cvParams);
+            }
+        }
         
         // make a civicrm_subscription_history entry only on contact create (CRM-777)
         if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {

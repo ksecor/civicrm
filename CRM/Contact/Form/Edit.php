@@ -541,11 +541,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
         //Custom Group Inline Edit form
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        //DO TO: comment because of schema changes
-        //$this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, $this->_contactId,0,$this->_contactSubType);
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
-        //CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-
         if ( $this->_showNotes ) {
             CRM_Core_ShowHideBlocks::links( $this, 'notes', '' , '' );
         }
@@ -590,8 +588,6 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
      */
     public function postProcess() 
     {
-        //print "called postProcess()<br/>";
-        
         // check if dedupe button, if so return.
         $buttonName = $this->controller->getButtonName( );
         if ( $buttonName == $this->_dedupeButtonName ) {
@@ -635,32 +631,31 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $params[$key] = $files;
             }
         }
-        //DO TO: comment because of schema changes        
-//         $customData = array( );
-//         foreach ( $params as $key => $value ) {
-//             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-//                 CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-//                                                              $value, $params['contact_type'], null, $this->_contactId);
-//             }
-//         }
-    
-//         //special case to handle if all checkboxes are unchecked
-//         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
-        
-//         if ( !empty($customFields) ) {
-//             foreach ( $customFields as $k => $val ) {
-//                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
-//                      ! CRM_Utils_Array::value( $k, $customData ) ) {
-//                     CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-//                                                                  '', $params['contact_type'], null, $this->_contactId);
-//                 }
-//             }
-//         }
 
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, $params['contact_type'], null, $this->_contactId);
+            }
+        }
     
-//         if (! empty($customData) ) {
-//             $params['custom'] = $customData;
-//         }
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+                                                                 '', $params['contact_type'], null, $this->_contactId);
+                }
+            }
+        }
+    
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
 
         if ( $this->_showCommBlock ) {
             // this is a chekbox, so mark false if we dont get a POST value
@@ -681,7 +676,6 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        //print "about to call CRM_Contact_BAO_Contact::create<br/>";
         $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
