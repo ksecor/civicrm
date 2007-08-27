@@ -114,27 +114,15 @@ require_once '$configFile';
 function civicrm_source( $fileName ) {
     global $crmPath, $dsn, $civicrmUpgrade;
 
+    if ( $civicrmUpgrade ) {
+        return;
+    }
+
     require_once 'DB.php';
 
     $db  =& DB::connect( $dsn );
     if ( PEAR::isError( $db ) ) {
         die( "Cannot open $dsn: " . $db->getMessage( ) );
-    }
-
-    if ( $civicrmUpgrade ) {
-        // keep table as is, let user do the necessary sql stuff
-        $menuFixQuery = "
-UPDATE  jos_menu
-SET     published = 1
-WHERE   link LIKE CONVERT( _utf8 'index.php?option=com_civicrm' USING latin1 )
-COLLATE latin1_swedish_ci 
-    AND published = -2
-";
-        $res =& $db->query( $menuFixQuery );
-        if ( PEAR::isError( $res ) ) {
-            die( "Cannot execute $menuFixQuery: " . $res->getMessage( ) );
-        }
-        return;
     }
 
     $string = file_get_contents( $fileName );
