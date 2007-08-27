@@ -120,7 +120,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          * table */
         $excludeSubGroup =
                     "INSERT INTO        X_$job_id (contact_id)
-                    SELECT              $g2contact.contact_id
+                    SELECT  DISTINCT    $g2contact.contact_id
                     FROM                $g2contact
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
@@ -134,7 +134,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          * the temp table */
         $excludeSubMailing = 
                     "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              $eq.contact_id
+                    SELECT  DISTINCT    $eq.contact_id
                     FROM                $eq
                     INNER JOIN          $job
                             ON          $eq.job_id = $job.id
