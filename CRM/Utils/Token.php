@@ -345,7 +345,6 @@ class CRM_Utils_Token {
     
      public static function &unescapeTokens(&$str){
        $str = preg_replace('/\\\\|\{(\{\w+\.\w+\})\}/','\\1',$str);
-       return $str;
      }
     
     /**
