@@ -172,8 +172,8 @@ class CRM_Utils_Token {
           $loc =& $domain->getLocationValues();
           $value = null;
           /* Construct the address token */
-          if ( CRM_Utils_Array::value( 'address', $loc ) ) {
-              $value = CRM_Utils_Address::format($loc['address']);
+          if ( CRM_Utils_Array::value( $token, $loc ) ) {
+              $value = CRM_Utils_Address::format($loc[$token]);
               if ($html) $value = str_replace("\n", '<br />', $value);
           }
       }
@@ -332,6 +332,23 @@ class CRM_Utils_Token {
     }
 
     /**
+     *  unescapeTokens removes any characters that caused the replacement routines to skip token replacement
+     *  for example {{token}}  or \{token}  will result in {token} in the final email
+     *
+     *  this routine will remove the extra backslashes and braces
+     *
+     *  @param $str ref to the string that will be scanned and modified
+     *  @return void  this function works directly on the string that is passed
+     *  @access public
+     *  @static
+     */
+    
+     public static function &unescapeTokens(&$str){
+       $str = preg_replace('/\\\\|\{(\{\w+\.\w+\})\}/','\\1',$str);
+       return $str;
+     }
+    
+    /**
      * Replace unsubscribe tokens
      *
      * @param string $str           the string with tokens to be replaced
@@ -445,7 +462,7 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &unmatchedTokens(&$str) {
-        preg_match_all('/[^\{]\{(\w+\.?\w+)\}/', $str, $match);
+        preg_match_all('/[^\{\\\\]\{(\w+\.?\w+)\}/', $str, $match);
         return $match[1];
     }
 }

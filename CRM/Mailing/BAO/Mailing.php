@@ -436,7 +436,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
     private function _getTokens($prop){
       $matches = array();
-      preg_match_all('/\{(.+?)\}/m',$this->$prop,$matches,PREG_PATTERN_ORDER);
+      preg_match_all('/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',$this->$prop,$matches,PREG_PATTERN_ORDER);
       if($matches[1]){
         foreach($matches[1] as $token){
           list($type,$name) = split('\.',$token,2);
@@ -677,14 +677,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both') 
         {
+            // remove escape characters that may have been used to preserve a token in the body
+            $text = CRM_Utils_Token::unescapeTokens($text);
             $message->setTxtBody($text);
-            
+
             unset( $text );
         }
 
         if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
             $contact['preferred_mail_format'] == 'Both'))
         {
+            // remove escape characters that may have been used to preserve a token in the body
+            $html = CRM_Utils_Token::unescapeTokens($html);
             $message->setHTMLBody($html);
 
             unset( $html );
