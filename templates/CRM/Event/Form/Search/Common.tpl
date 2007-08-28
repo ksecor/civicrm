@@ -60,7 +60,7 @@
     <td colspan="3">{$form.participant_test.html}</td>
  </tr>
  <tr>
-    <td>
+    <td colspan="4">
        {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
     </td>
  </tr>
