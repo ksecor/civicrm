@@ -216,6 +216,13 @@ class CRM_Core_PseudoConstant
     private static $paymentProcessorType;
     
     /**
+     * World Region
+     * @var array
+     * @static
+     */
+    private static $worldRegions;
+    
+    /**
      * populate the object from the database. generic populate
      * method
      *
@@ -966,6 +973,19 @@ class CRM_Core_PseudoConstant
                             'title', 'is_active', null, 'is_default, title', 'name' );
         }
         return self::$paymentProcessorType;
+    }
+
+     /**
+     * Get all the World Regions from Database
+     *
+     * @access public
+     * @return array - array reference of all World Regions
+     * @static
+     */
+    public static function &worldRegions( $name = 'name' )
+    {
+        self::populate( self::$worldRegions, 'CRM_Core_DAO_Worldregion', true, $name, null, null, 'name');
+        return self::$worldRegions;
     }
 }
 
