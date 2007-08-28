@@ -678,7 +678,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $contact['preferred_mail_format'] == 'Both') 
         {
             // remove escape characters that may have been used to preserve a token in the body
-            $text = CRM_Utils_Token::unescapeTokens($text);
+            CRM_Utils_Token::unescapeTokens($text);
             $message->setTxtBody($text);
 
             unset( $text );
@@ -688,7 +688,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $contact['preferred_mail_format'] == 'Both'))
         {
             // remove escape characters that may have been used to preserve a token in the body
-            $html = CRM_Utils_Token::unescapeTokens($html);
+            CRM_Utils_Token::unescapeTokens($html);
             $message->setHTMLBody($html);
 
             unset( $html );
