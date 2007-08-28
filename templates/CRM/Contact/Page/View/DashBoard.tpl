@@ -24,8 +24,11 @@
          {counter start=0 skip=1 print=false}
          {foreach from=$rows item=row}  
             <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-                 <td><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.activity_type|mb_truncate:33:"...":true}</a></td>
-                 <td>{$row.case}</td>
+                 <td>{$row.case_activity}</td>
+                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=1&cid=`$row.sourceID`"}{/capture}
+                 <td><a href="{$viewURL}">{$row.case}</td></a>
+                 <td><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.subject}</a></td>
+                
                  <td>
                    <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.sourceID`"}">{$row.sourceName}</a>
                  </td>
@@ -34,7 +37,6 @@
                  </td>
                  <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.to_contact_id`"}">{$row.to_contact}</a></td>
                  <td>{$row.date|crmDate}</td>
-                 <td>{$row.status_display}{if $row.overdue}<br />({ts}Overdue{/ts}){/if}</td>
                  <td>{$row.action}</td>
                </tr>           
         {/foreach}

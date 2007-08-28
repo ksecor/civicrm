@@ -48,7 +48,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      * @static
      */
     static $_links = null;
-
+    
     /**
      * View details of a case
      *
@@ -192,6 +192,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function run( ) 
     {
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
         $this->preProcess( );
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
@@ -255,20 +256,12 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                     'qs'    => 'activity_id=%%atype%%&action=update&reset=1&id=%%rid%%&cid=%%cid%%&subType=%%atype%%&context=case&caseid=%%id%%',
                                                                     'title' => ts('Edit Activity')
                                                                     ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Detach'),
-                                                                    'url'   => 'civicrm/contact/view/case',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&aid=%%aid%%&id=%%id%%&selectedChild=case&mode=view',
-                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',                                                                    
-                                                                    'title' => ts('Detach Activity')
-                                                                    ),
+
                                   );
         }
         return self::$_links;
     }
-    
-
-
+  
 }
 
 ?>

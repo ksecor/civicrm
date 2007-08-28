@@ -57,8 +57,11 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
      * @access public
      */
     function preProcess( ) 
-    {
+    {        
         $this->_activityType = CRM_Utils_Request::retrieve( 'activity_id', 'Positive',$this );
+        $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
+        $this->assign( 'context', $this->_context );
+        
 
         if ( ! isset($_POST['activity_type_id']) ) {
             $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
@@ -93,10 +96,10 @@ class CRM_Activity_Form_OtherActivity extends CRM_Activity_Form
                                       $urlParams ); 
         $this->assign("refreshURL",$url);
         $activityType = CRM_Core_PseudoConstant::activityType(false);
-        
+       
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType,true, array('onchange' => "if (this.value) reload(true); else return false"));
-       
+              
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
 

@@ -225,18 +225,10 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         //setting default register date
         if ($this->_action == CRM_Core_Action::ADD) {
-            $registerDate = getDate();
-            $defaults[$this->_id]['register_date']['A'] = 'AM';
-            $defaults[$this->_id]['register_date']['M'] = $registerDate['mon'];
-            $defaults[$this->_id]['register_date']['d'] = $registerDate['mday'];
-            $defaults[$this->_id]['register_date']['Y'] = $registerDate['year'];
-            if( $registerDate['hours'] > 12 ) {
-                $registerDate['hours'] -= 12;
-                $defaults[$this->_id]['register_date']['A'] = 'PM';
-            }
-            
-            $defaults[$this->_id]['register_date']['h'] = $registerDate['hours'];
-            $defaults[$this->_id]['register_date']['i'] = (integer)($registerDate['minutes']/15) *15;
+
+            $defaults[$this->_id]['register_date'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults[$this->_id]['register_date'] );
+            $defaults[$this->_id]['register_date']['i'] = (int ) ( $defaults[$this->_id]['register_date']['i'] / 15 ) * 15;
         } else {
             $defaults[$this->_id]['register_date'] = CRM_Utils_Date::unformat($defaults[$this->_id]['register_date']);
             $defaults[$this->_id]['register_date']['i'] = (integer)($defaults[$this->_id]['register_date']['i']/15) *15;
