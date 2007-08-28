@@ -544,7 +544,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     /**
      * Delete the Custom Field.
      *
-     * @param   int   $id    Field Id 
+     * @param   object $field - the field object
      * 
      * @return  boolean
      *
@@ -552,12 +552,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      *
      */
-    public static function deleteField( $id )
+    public static function deleteField( $field )
     { 
-        $field = & new CRM_Core_DAO_CustomField();
-        $field->id = $id;
-        $field->find( true );
-
         // first delete the custom option group and values associated with this field
         if ( $field->option_group_id ) {
             $params = array( 1 => array( $field->option_group_id, 'Integer' ) );

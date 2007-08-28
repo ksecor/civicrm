@@ -748,8 +748,7 @@ $where
      * @static
      *
      */
-
-  public static function deleteGroup($id) 
+    public static function deleteGroup( $group )
     { 
         require_once 'CRM/Core/DAO/CustomField.php';
 
@@ -760,10 +759,6 @@ $where
         if ($customField->fetch()) {
             return false;
         }
-
-        $group = & new CRM_Core_DAO_CustomGroup();
-        $group->id = $id;
-        $group->find( true );
 
         // drop the table associated with this custom group
         require_once 'CRM/Core/BAO/SchemaHandler.php';
