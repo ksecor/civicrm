@@ -37,7 +37,7 @@
  <tr>
     <td class="label"><label>{ts}Participant Status{/ts}</label></td> 
     <td>
-                <div class="listing-box" style="width:180px">
+                <div class="listing-box" style="width: auto; height: 120px">
                     {foreach from=$form.participant_status_id item="participant_status_val"} 
                     <div class="{cycle values="odd-row,even-row"}">
                     {$participant_status_val.html}
@@ -46,7 +46,7 @@
                 </div>
     </td> <td><label>{ts}Participant Role{/ts}</label></td>
     <td>
-                <div class="listing-box" style="width:180px">
+                <div class="listing-box" style="width: auto; height: 120px">
                     {foreach from=$form.participant_role_id item="participant_role_id_val"}                     <div class="{cycle values="odd-row,even-row"}">
                     {$participant_role_id_val.html}
                     </div>
@@ -56,8 +56,8 @@
   
  </tr> 
  <tr>
-    <td class="label">{ts}{$form.participant_test.label}{/ts}</td> 
-    <td colspan="3">{$form.participant_test.html}</td>
+    <td colspan="3 class="label" align="right">{ts}{$form.participant_test.label}{/ts}</td> 
+    <td>{$form.participant_test.html}</td>
  </tr>
  <tr>
     <td colspan="4">
