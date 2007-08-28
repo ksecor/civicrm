@@ -13,11 +13,8 @@
 </div>
 
 {if $cases}
-
     <div class="form-item" id=case_page>
-
     {strip}
-       
         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">  
        <thead> 
         <tr class="columnheader">
@@ -26,8 +23,6 @@
             <th field="Subject" dataType="String">{ts}Subject{/ts}</th>
             <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
             <th datatype="html"></th>
-
-	        <th scope="col" title="Action Links"></th>
         </tr>
        </thead>
        <tbody> 
@@ -36,11 +31,9 @@
 
             <td>{$case.status_id}</td>
             <td>{$case.casetag1_id.0} <br />{$case.casetag1_id.1}<br />{$case.casetag1_id.2}</td>  
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject|mb_truncate:33:"...":true}</a></td>
-
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject}</a></td>
             <td>{$case.start_date|crmDate}</td>
-
-            <td class="nowrap">{$case.action}</td>
+            <td >{$case.action}</td>
         </tr>
         {/foreach}
         </tbody>

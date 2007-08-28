@@ -421,20 +421,15 @@ class CRM_Event_BAO_Query
         $form->addRule('event_end_date_high', ts('Select a valid date.'), 'qfDate'); 
 
         require_once 'CRM/Event/PseudoConstant.php';
-        $statusValues = CRM_Event_PseudoConstant::participantStatus(); 
 
-        foreach ( $statusValues as $k => $v ) {
-            $status[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
+        foreach (CRM_Event_PseudoConstant::participantStatus( ) as $id => $Name) {
+            $form->_participantStatus =& $form->addElement('checkbox', "participant_status_id[$id]", null,$Name);
         }
-        $form->addGroup($status, 'participant_status_id', ts('Participant Status'));
         
-        //adding participant role
-        $roleValues = CRM_Event_PseudoConstant::participantRole();
-        foreach ( $roleValues as $k => $v ) {
-            $role[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
+        foreach (CRM_Event_PseudoConstant::participantRole( ) as $rId => $rName) {
+            $form->_participantRole =& $form->addElement('checkbox', "participant_role_id[$rId]", null,$rName);
         }
-        $form->addGroup($role, 'participant_role_id', ts('Participant Role'));
-
+     
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants Only?' ) );
 
         // add all the custom  searchable fields
