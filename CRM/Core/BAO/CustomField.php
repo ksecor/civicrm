@@ -552,39 +552,40 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @static
      *
      */
-    public static function deleteGroup($id) 
+    public static function deleteField( $field )
     { 
-        $dependencies = array(
-                              'CRM_Core_DAO_CustomValue'  => array( 
-                                                                   'custom_field_id' => $id 
-                                                                   ),
-                              'CRM_Core_DAO_CustomOption' => array ( 
-                                                                    'entity_id'       => $id,
-                                                                    'entity_table'    => 'civicrm_custom_field'
-                                                                    )
-                              );
         
-        foreach( $dependencies as $daoName => $values ) {
-            require_once ( str_replace( '_', '/', $daoName) . ".php" );
-            eval('$dao= new ' . $daoName . '();');
-            foreach( $values as $field => $value ) {
-                $dao->$field = $value;
-            }
-            
-            $dao->find( );
-            while( $dao->fetch( ) ) {
-                $dao->delete( );
-            }
+        // first delete the custom option group and values associated with this field
+        if ( $field->option_group_id ) {
+            $params = array( 1 => array( $field->option_group_id, 'Integer' ) );
+
+            // first delete all option values
+            $query = "
+DELETE v.*
+  FROM civicrm_option_value v
+ WHERE v.option_group_id = %1";
+            CRM_Core_DAO::executeQuery( $query, $params );
+
+            // next delete the option group
+            $query = "
+DELETE g.*
+  FROM civicrm_option_group g
+ WHERE g.id = %1";
+            CRM_Core_DAO::executeQuery( $query, $params );
+
+
         }
-        
-        //delete  custom field
-        $field = & new CRM_Core_DAO_CustomField();
-        $field->id = $id; 
-        if ( $field->find( ) ) {
-            return $field->delete( );
-        }
-        
-        return null;
+
+        // next drop the column from the custom value table
+        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                  $field->custom_group_id,
+                                                  'table_name' );
+
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+        CRM_Core_BAO_SchemaHandler::dropColumn( $tableName, $field->column_name );
+
+        $field->delete( );
+        return;
     }
 
     /**

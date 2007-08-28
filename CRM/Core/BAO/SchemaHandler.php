@@ -258,7 +258,12 @@ class CRM_Core_BAO_SchemaHandler
     {
         $sql = "DROP TABLE $tableName";
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        return true;
+    }
+
+    static function dropColumn( $tableName, $columnName ) 
+    {
+        $sql = "ALTER TABLE $tableName DROP COLUMN $columnName";
+        $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
     }
 }
 
