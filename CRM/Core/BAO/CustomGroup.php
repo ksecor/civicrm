@@ -1084,6 +1084,7 @@ $where
                      $field['data_type'] == 'Int' ||
                      $field['data_type'] == 'Float' ||
                      $field['data_type'] == 'Money') {
+
                     //added check for Multi-Select in the below if-statement
                     if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
                         $freezeString =  "";
@@ -1098,9 +1099,9 @@ $where
                                 $customData[] = $field['customValue']['data'];
                             }
                         }
-
+                        
                         $query = "
-SELECT   v.label as label, v.value as value;
+SELECT   v.label as label, v.value as value
   FROM   civicrm_option_value v,
          civicrm_option_group g
  WHERE   v.option_group_id = g.id
@@ -1126,7 +1127,7 @@ ORDER BY weight ASC, label ASC";
                     } else {
                         if ( $field['html_type'] == 'Select' ) {
                             $query = "
-SELECT   v.label as label, v.value as value;
+SELECT   v.label as label, v.value as value
   FROM   civicrm_option_value v,
          civicrm_option_group g
  WHERE   v.option_group_id = g.id
@@ -1134,7 +1135,7 @@ SELECT   v.label as label, v.value as value;
 ORDER BY weight ASC, label ASC";
                             $params = array( 1 => array( $field['option_group_id'], 'Integer' ) );
                             $coDAO  = CRM_Core_DAO::executeQuery( $query, $params );
-                            
+
                             while($coDAO->fetch()) {
                                 if ( isset( $field['customValue'] ) &&
                                      $coDAO->value == $field['customValue']['data'] ) {

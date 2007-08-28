@@ -377,20 +377,40 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
         case 'Select Date':
             if ( $field->is_search_range && $search) {
-                $qf->add('date', $elementName.'_from', $label . ' ' . ts('From'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts ), (($useRequired && $field->is_required) && !$search)); 
-                $qf->add('date', $elementName.'_to', $label . ' ' . ts('To'), CRM_Core_SelectValues::date( 'custom' , $field->start_date_years,$field->end_date_years,$field->date_parts), (($useRequired && $field->is_required) && !$search)); 
+                $qf->add('date',
+                         $elementName.'_from',
+                         $label . ' ' . ts('From'),
+                         CRM_Core_SelectValues::date( 'custom' ,
+                                                      $field->start_date_years,
+                                                      $field->end_date_years,
+                                                      $field->date_parts ),
+                         (($useRequired && $field->is_required) && !$search)); 
+                $qf->add('date',
+                         $elementName.'_to',
+                         $label . ' ' . ts('To'), 
+                         CRM_Core_SelectValues::date( 'custom' , 
+                                                      $field->start_date_years,
+                                                      $field->end_date_years,
+                                                      $field->date_parts ),
+                         (($useRequired && $field->is_required) && !$search)); 
             } else {
-                $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
+                $qf->add('date',
+                         $elementName,
+                         $label,
+                         CRM_Core_SelectValues::date( 'custom', 
+                                                      $field->start_date_years,
+                                                      $field->end_date_years,
+                                                      $field->date_parts),
+                         (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             }
             break;
 
         case 'Radio':
             $choice = array();
             if($field->data_type != 'Boolean') {
-                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-                
-                foreach ($customOption as $v) {
-                    $choice[] = $qf->createElement('radio', null, '', $v['label'], $v['value'], $field->attributes);
+                $customOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
+                foreach ($customOption as $v => $l ) {
+                    $choice[] = $qf->createElement('radio', null, '', $l, $v, $field->attributes);
                 }
                 $qf->addGroup($choice, $elementName, $label);
             } else {
@@ -404,11 +424,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
             
         case 'Select':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-            $selectOption = array();
-            foreach ($customOption as $v) {
-                $selectOption[$v['value']] = $v['label'];
-            }
+            $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $qf->add('select', $elementName, $label,
                      array( '' => ts('- select -')) + $selectOption,
                      ( ( $useRequired || ($useRequired && $field->is_required) ) && !$search));
@@ -416,25 +432,19 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
 
             //added for select multiple
         case 'Multi-Select':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
-            $selectOption = array();
-            foreach ($customOption as $v) {
-                $selectOption[$v['value']] = $v['label'];
-            }
-
+            $selectOption =& CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $qf->addElement('select', $elementName, $label, $selectOption,  array("size"=>"5","multiple"));
             
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {
                 $qf->addRule($elementName, ts('%1 is a required field.', array(1 => $label)) , 'required');
             }
- 
             break;
 
         case 'CheckBox':
-            $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field->id, $inactiveNeeded);
+            $customOption = CRM_Core_OptionGroup::valuesByID( $field->option_group_id );
             $check = array();
-            foreach ($customOption as $v) {
-                $check[] =& $qf->createElement('checkbox', $v['value'], null, $v['label']); 
+            foreach ($customOption as $v => $l) {
+                $check[] =& $qf->createElement('checkbox', $v, null, $l); 
             }
             $qf->addGroup($check, $elementName, $label);
             if (( $useRequired ||( $useRequired && $field->is_required) ) && !$search) {

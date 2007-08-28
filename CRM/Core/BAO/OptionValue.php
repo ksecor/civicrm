@@ -300,4 +300,5 @@ AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.n
         }
     }
 }
+
 ?>

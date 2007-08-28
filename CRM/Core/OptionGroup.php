@@ -36,23 +36,9 @@
 class CRM_Core_OptionGroup {
     static $_values = array( );
 
-    static function &values( $name, $flip = false, $grouping = false, $localize = false ) {
+    static function &valuesCommon( $dao, $flip = false, $grouping = false, $localize = false ) {
         self::$_values[$name] = array( );
-        $domainID = CRM_Core_Config::domainID( );
-        $query = "
-SELECT  v.label as label ,v.value as value, v.grouping as grouping
-FROM   civicrm_option_value v,
-       civicrm_option_group g
-WHERE  v.option_group_id = g.id
-  AND  g.domain_id       = $domainID
-  AND  g.name            = %1
-  AND  v.is_active       = 1 
-  AND  g.is_active       = 1 
-  ORDER BY v.weight; 
-";
-        $p = array( 1 => array( $name, 'String' ) );
-        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-           
+
         while ( $dao->fetch( ) ) {
             if ( $flip ) {
                 if ( $grouping ) {
@@ -74,31 +60,67 @@ WHERE  v.option_group_id = g.id
         }
         return self::$_values[$name];
     }
-    
-/**
- * Function to lookup titles OR ids for a set of option_value populated fields. The retrieved value
- * is assigned a new fieldname by id or id's by title  
- * (each within a specificied option_group)
- *
- * @param  array   $params   Reference array of values submitted by the form. Based on
- *                           $flip, creates new elements in $params for each field in
- *                           the $names array.
- *                           If $flip = false, adds     root field name     => title
- *                           If $flip = true, adds      actual field name   => id                                                                     
- * 
- * @param  array   $names    Reference array of fieldnames we want transformed.
- *                           Array key = 'postName' (field name submitted by form in $params).
- *                           Array value = array('newName' => $newName, 'groupName' => $groupName).
- *                           
- *
- * @param  boolean $flip
- *
- * @return void     
- * 
- * @access public
- * @static
- */
 
+    static function &values( $name, $flip = false, $grouping = false, $localize = false ) {
+        $domainID = CRM_Core_Config::domainID( );
+        $query = "
+SELECT  v.label as label ,v.value as value, v.grouping as grouping
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+  AND  g.domain_id       = $domainID
+  AND  g.name            = %1
+  AND  v.is_active       = 1 
+  AND  g.is_active       = 1 
+  ORDER BY v.weight; 
+";
+        $p = array( 1 => array( $name, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        
+        return self::valuesCommon( $dao, $flip, $grouping, $localize );
+    }
+
+    static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false ) {
+        self::$_values[$name] = array( );
+        $query = "
+SELECT  v.label as label ,v.value as value, v.grouping as grouping
+FROM   civicrm_option_value v,
+       civicrm_option_group g
+WHERE  v.option_group_id = g.id
+  AND  g.id              = %1
+  AND  v.is_active       = 1 
+  AND  g.is_active       = 1 
+  ORDER BY v.weight; 
+";
+        $p = array( 1 => array( $id, 'Integer' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+           
+        return self::valuesCommon( $dao, $flip, $grouping, $localize );
+    }
+    
+    /**
+     * Function to lookup titles OR ids for a set of option_value populated fields. The retrieved value
+     * is assigned a new fieldname by id or id's by title  
+     * (each within a specificied option_group)
+     *
+     * @param  array   $params   Reference array of values submitted by the form. Based on
+     *                           $flip, creates new elements in $params for each field in
+     *                           the $names array.
+     *                           If $flip = false, adds     root field name     => title
+     *                           If $flip = true, adds      actual field name   => id                                                                     
+     * 
+     * @param  array   $names    Reference array of fieldnames we want transformed.
+     *                           Array key = 'postName' (field name submitted by form in $params).
+     *                           Array value = array('newName' => $newName, 'groupName' => $groupName).
+     *                           
+     *
+     * @param  boolean $flip
+     *
+     * @return void     
+     * 
+     * @access public
+     * @static
+     */
     static function lookupValues( &$params, &$names, $flip = false ) {
         require_once "CRM/Core/BAO/CustomOption.php";
         $domainID = CRM_Core_Config::domainID( );

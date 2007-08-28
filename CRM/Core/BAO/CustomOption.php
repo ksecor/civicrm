@@ -33,14 +33,12 @@
  *
  */
 
-require_once 'CRM/Core/DAO/OptionGroup.php';
-
 
 /**
  * Business objects for managing custom data options.
  *
  */
-class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
+class CRM_Core_BAO_CustomOption {
 
     const VALUE_SEPERATOR = "";
 
@@ -113,6 +111,7 @@ class CRM_Core_BAO_CustomOption extends CRM_Core_DAO_OptionGroup {
      */
     static function getCustomOption($fieldId, $inactiveNeeded=false, $entityTable='civicrm_custom_field')
     {       
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
         $customOption = array();
         if ( ! $fieldId ) {
             return $customOption;
