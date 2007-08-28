@@ -325,6 +325,7 @@ ORDER BY civicrm_custom_group.weight,
                     $customValue['data'] = $crmDAO->civicrm_custom_value_memo_data;
                     break;
                 case 'Date':
+                case 'DateTime':
                     $customValue['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
                 case 'File':
@@ -896,6 +897,7 @@ ORDER BY civicrm_custom_group.weight,
     }
 
     static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) {
+        
         foreach ( $groupTree as $group ) {
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
@@ -992,9 +994,11 @@ ORDER BY civicrm_custom_group.weight,
                     break;
                     
                 case 'Select Date':
+                case 'Select Date/Time':
                     if (isset($value)) {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }
+                   
                     break;
                     
                 case 'Select Country':

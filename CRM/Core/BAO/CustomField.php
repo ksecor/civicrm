@@ -79,6 +79,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'Money'         => ts('Money'),
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
+                'DateTime'      => ts('Date/Time'),
                 'Boolean'       => ts('Yes or No'),
                 'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
@@ -348,6 +349,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
          * This was split into a different function before. however thanx to php4's bug with references,
          * it was not working, so i munged it back into one big function - lobo
          */
+        
         switch($field->html_type) {
         case 'Text':
             if ($field->is_search_range && $search) {
@@ -383,6 +385,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             } else {
                 $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             }
+            break;
+
+        case 'Select Date/Time':
+
+            $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'datetime', $field->start_date_years,$field->end_date_years,$field->date_parts), (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
+            
             break;
 
         case 'Radio':
@@ -957,9 +965,9 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
                 $value = '';
             }
         }
-
+        
         // fix the date field 
-        if ( $customFields[$customFieldId][2] == 'Date' ) {
+        if ( $customFields[$customFieldId][2] == 'Date' || $customFields[$customFieldId][2] == 'DateTime') {
             $date =CRM_Utils_Date::format( $value );
             if ( ! $date ) {
                 $date = '';

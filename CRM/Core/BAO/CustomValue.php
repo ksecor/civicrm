@@ -191,6 +191,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             break;
             
         case 'Date':
+        case 'DateTime':
             $customValue->date_data = $params['value'];
             break;
         
