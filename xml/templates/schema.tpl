@@ -60,7 +60,7 @@ CREATE TABLE {$table.name} (
 {if ! $first},{/if}
 {assign var='first' value=false}
      {if $mysql eq 'simple'} INDEX FKEY_{$foreign.name} ( {$foreign.name} ) , {/if} 
-     CONSTRAINT {$foreign.uniqName} FOREIGN KEY ({$foreign.name}) REFERENCES {$foreign.table}({$foreign.key})
+     CONSTRAINT {$foreign.uniqName} FOREIGN KEY ({$foreign.name}) REFERENCES {$foreign.table}({$foreign.key}) {if $foreign.onDelete}ON DELETE {$foreign.onDelete}{/if}
 {/foreach} {* table.foreignKey *}
 {/if} {* table.foreignKey *}
 

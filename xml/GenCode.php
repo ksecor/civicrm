@@ -770,7 +770,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys, &$currentTableNam
     
     /** need to make sure there is a field of type name */
     if ( ! array_key_exists( $name, $fields ) ) {
-        echo "foreign $name does not have a  field definition, ignoring\n";
+        echo "foreign $name does not have a field definition, ignoring\n";
         return;
     }
 
@@ -784,7 +784,7 @@ function getForeignKey( &$foreignXML, &$fields, &$foreignKeys, &$currentTableNam
                          'import'     => value( 'import', $foreignXML, false ),
                          'export'     => value( 'import', $foreignXML, false ),
                          'className'  => null, // we do this matching in a seperate phase (resolveForeignKeys)
-                         'attributes' => trim( value( 'attributes', $foreignXML, 'ON DELETE CASCADE' ) ),
+                         'onDelete'   => value('onDelete', $foreignXML, false),
                          );
     $foreignKeys[$name] =& $foreignKey;
 }
