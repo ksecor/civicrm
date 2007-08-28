@@ -1083,12 +1083,12 @@ SELECT id
         return $table;
     }
 
-    static function createField( $field ) {
+    static function createField( $field, $operation, $dropIndex ) {
         require_once 'CRM/Core/BAO/CustomValue.php';
         $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                                       $field->custom_group_id,
                                                                       'table_name' ),
-                         'operation'  => 'add',
+                         'operation'  => $operation,
                          'name'       => $field->column_name,
                          'type'       => CRM_Core_BAO_CustomValue::fieldToSQLType( $field->data_type ),
                          'required'   => $field->is_required,
@@ -1100,8 +1100,9 @@ SELECT id
         }
 
         require_once 'CRM/Core/BAO/SchemaHandler.php';
-        CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params );
+        CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $dropIndex );
     }
     
 }
+
 ?>

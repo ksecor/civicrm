@@ -736,11 +736,12 @@ SELECT id
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $customField->id = $this->_id;
         }
-        $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
-        CRM_Core_BAO_CustomField::createField( $customField );
 
         //Start Storing the values of Option field if the selected option is Multi Select
         if ( $this->_action & CRM_Core_Action::ADD ) {
+            $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
+            CRM_Core_BAO_CustomField::createField( $customField, 'add' );
+
             if ( $customField->html_type != 'Text' &&
                  in_array( $customField->data_type,
                            array( 'String', 'Int', 'Float', 'Money' ) ) &&
@@ -772,6 +773,21 @@ SELECT id
                     }
                 }                                                       
             }
+        } else { // action is update
+            $customField->column_name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                                     $customField->id,
+                                                                     'column_name' );
+
+            $dropIndex = false;
+
+            // drop the index if it existed (not the most efficient, but the logic is easy)
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                              $customField->id,
+                                              'is_searchable' ) ) {
+                $dropIndex = true;
+            }
+
+            CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
         }
 
         // since we need to save option group id :)
@@ -780,4 +796,5 @@ SELECT id
         CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
     }
 }
+
 ?>

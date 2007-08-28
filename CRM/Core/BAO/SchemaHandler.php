@@ -101,7 +101,7 @@ class CRM_Core_BAO_SchemaHandler
                 $sql       .= self::buildIndexSQL      ( $index, $separator, $prefix );
             }
             foreach ( $params['fields'] as $field ) {
-                $sql       .= self::buildForeignKeySQL ( $field, $separator, $prefix );
+                $sql       .= self::buildForeignKeySQL ( $field, $separator, $prefix, $params['name'] );
             }
         }
         $sql .= "\n) {$params['attributes']};";
@@ -144,9 +144,19 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildSearchIndexSQL( &$params, $separator, $prefix ) {
-        $sql = null;
+    static function buildSearchIndexSQL( &$params, $separator, $prefix, $dropIndex = false ) {
+        $sql     = null;
+        if ( $dropIndex ) {
+            $sql .= $separator;
+            $sql .= str_repeat( ' ', 8 );
+            $sql .= "DROP INDEX INDEX_{$params['name']}";
+        }
+
         if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
+            // optimize this, we dont need to drop and recreate the index
+            if ( $dropIndex ) {
+                return null;
+            }
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
@@ -179,19 +189,19 @@ class CRM_Core_BAO_SchemaHandler
         return $sql;
     }
 
-    static function buildForeignKeySQL( &$params, $separator, $prefix ) {
+    static function buildForeignKeySQL( &$params, $separator, $prefix, $tableName ) {
         $sql = null;
         if ( CRM_Utils_Array::value( 'fk_table_name', $params ) &&
              CRM_Utils_Array::value( 'fk_field_name', $params ) ) {
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
-            $sql .= "CONSTRAINT FK_{$params['fk_table_name']}_{$params['fk_field_name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} )";
+            $sql .= "CONSTRAINT FK_{$tableName}_{$params['fk_table_name']}_{$params['fk_field_name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} )";
         }
         return $sql;
     }
 
-    static function alterFieldSQL( &$params ) {
+    static function alterFieldSQL( &$params, $dropIndex = false ) {
         $sql  = str_repeat( ' ', 8 );
         $sql .= "ALTER TABLE {$params['table_name']}";
 
@@ -203,17 +213,15 @@ class CRM_Core_BAO_SchemaHandler
             $separator = ",\n";
             $sql       .= self::buildPrimaryKeySQL ( $params, $separator, "ADD PRIMARY KEY " );
             $sql       .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX " );
-            $sql       .= self::buildForeignKeySQL ( $params, $separator, "ADD CONSTRAINT " );
+            $sql       .= self::buildForeignKeySQL ( $params, $separator, "ADD CONSTRAINT ", $params['table_name'] );
             break;
             
         case 'modify':
             $separator = "\n";
             $prefix    = "MODIFY ";
-            $sql       .= self::buildFieldSQL      ( $params, $separator, $prefix );
+            $sql      .= self::buildFieldSQL      ( $params, $separator, $prefix );
             $separator = ",\n";
-            $sql       .= self::buildPrimaryKeySQL ( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildSearchIndexSQL( $params['fields'], $separator, $prefix );
-            $sql       .= self::buildForeignKeySQL ( $params['fields'], $separator, $prefix );
+            $sql      .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX ", $dropIndex );
             break;
 
         case 'delete':
@@ -226,7 +234,7 @@ class CRM_Core_BAO_SchemaHandler
                 $sql .= ", DROP INDEX INDEX_{$params['name']}";
             }
             if ( CRM_Utils_Array::value( 'fk_table_name', $params ) ) {
-                $sql .= ", DROP FOREIGN KEY FK_{$params['fk_table_name']}_{$params['fk_field_name']}";
+                $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['fk_table_name']}_{$params['fk_field_name']}";
             }
             break;
 
