@@ -9,7 +9,7 @@
 {/if}
     <td>{$form.event_title.html}</td>
 
-    <td class="label">{$form.event_type.label}</td> 
+    <td colspan="2">{$form.event_type.label}
 {if $event_type_value}
 <script type="text/javascript">
   dojo.addOnLoad( function( ) {ldelim}
@@ -17,7 +17,7 @@
   {rdelim} );
 </script>
 {/if}
-    <td>{$form.event_type.html}</td>
+    {$form.event_type.html}</td>
 
  </tr>     
  <tr> 
@@ -35,17 +35,32 @@
  </tr>
 
  <tr>
-    <td class="label">{ts}{$form.participant_status_id.label}{/ts}</td> 
-    <td>{$form.participant_status_id.html}</td>
-    <td class="label">{$form.participant_test.html}</td>
-    <td>{$form.participant_test.label}</td>
+    <td class="label"><label>{ts}Participant Status{/ts}</label></td> 
+    <td>
+                <div class="listing-box" style="width:180px">
+                    {foreach from=$form.participant_status_id item="participant_status_val"} 
+                    <div class="{cycle values="odd-row,even-row"}">
+                    {$participant_status_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+    </td> <td><label>{ts}Participant Role{/ts}</label></td>
+    <td>
+                <div class="listing-box" style="width:180px">
+                    {foreach from=$form.participant_role_id item="participant_role_id_val"}                     <div class="{cycle values="odd-row,even-row"}">
+                    {$participant_role_id_val.html}
+                    </div>
+                    {/foreach}
+                </div>
+    </td>
+  
  </tr> 
  <tr>
-    <td class="label">{ts}{$form.participant_role_id.label}{/ts}</td> 
-    <td colspan="3">{$form.participant_role_id.html}</td>
- </tr> 
+    <td class="label">{ts}{$form.participant_test.label}{/ts}</td> 
+    <td colspan="3">{$form.participant_test.html}</td>
+ </tr>
  <tr>
-    <td colspan="4">
+    <td>
        {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
     </td>
  </tr>
