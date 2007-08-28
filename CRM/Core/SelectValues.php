@@ -412,7 +412,7 @@ class CRM_Core_SelectValues
         } elseif ($type == 'creditCard') {
             $newDate['format'] = 'M Y';
             $minOffset = 0;
-            $maxOffset = 5;
+            $maxOffset = 10;
         } elseif ($type == 'mailing') {
             $minOffset = 0;
             $maxOffset = 1;
