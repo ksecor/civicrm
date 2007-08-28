@@ -752,17 +752,24 @@ $where
   public static function deleteGroup($id) 
     { 
         require_once 'CRM/Core/DAO/CustomField.php';
+
         //check wheter this contain any custom fields
-        $custonField = & new CRM_Core_DAO_CustomField();
-        $custonField->custom_group_id = $id;
-        $custonField->find();
-        while($custonField->fetch()) {
+        $customField = & new CRM_Core_DAO_CustomField();
+        $customField->custom_group_id = $id;
+        $customField->find();
+        if ($customField->fetch()) {
             return false;
-            
         }
-        //delete  custom group
+
         $group = & new CRM_Core_DAO_CustomGroup();
-        $group->id = $id; 
+        $group->id = $id;
+        $group->find( true );
+
+        // drop the table associated with this custom group
+        require_once 'CRM/Core/BAO/SchemaHandler.php';
+        CRM_Core_BAO_SchemaHandler::dropTable( $group->table_name );
+
+        //delete  custom group
         $group->delete();
         return true;
     }

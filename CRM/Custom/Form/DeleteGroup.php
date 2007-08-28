@@ -100,8 +100,8 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
     public function postProcess( ) {
         $group = & new CRM_Core_DAO_CustomGroup();
         $group->id = $this->_id;
-        $group->find();
-        $group->fetch();
+        $group->find( true );
+
         $wt = CRM_Utils_Weight::delWeight('CRM_Core_DAO_CustomGroup', $this->_id);
         if (CRM_Core_BAO_CustomGroup::deleteGroup( $this->_id)) {
             CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $group->title)) );        
