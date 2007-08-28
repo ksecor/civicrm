@@ -51,7 +51,7 @@ class CRM_Contact_Form_Address
      * @access public
      * @static
      */
-    static function buildAddressBlock(&$form, &$location, $locationId, $geoCode = true)
+    static function buildAddressBlock(&$form, &$location, $locationId)
     {
         require_once 'CRM/Core/BAO/Preferences.php';
         $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
@@ -69,12 +69,9 @@ class CRM_Contact_Form_Address
                           'county_id'              => array( ts('County')            ,  $attributes['county_id'], 'county' ),
                           'state_province_id'      => array( ts('State / Province')  ,  $attributes['state_province_id'],null ),
                           'country_id'             => array( ts('Country')           ,  $attributes['country_id'], null ), 
+                          'geo_code_1'             => array( ts('Latitude') ,  array( 'size' => 4, 'maxlength' => 8 ), null ),
+                          'geo_code_2'             => array( ts('Longitude'),  array( 'size' => 4, 'maxlength' => 8 ), null )
                           ); 
-        
-        if ( $geoCode ) {
-            $elements['geo_code_1'] = array( ts('Latitude') ,  array( 'size' => 4, 'maxlength' => 8 ), null );
-            $elements['geo_code_2'] = array( ts('Longitude'),  array( 'size' => 4, 'maxlength' => 8 ), null );
-        }
         
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
