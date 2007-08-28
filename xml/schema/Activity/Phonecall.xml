@@ -29,6 +29,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>target_entity_table</name>
@@ -81,6 +82,7 @@
        <table>civicrm_phone</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>phone_number</name>
@@ -113,5 +115,6 @@
        <table>civicrm_phonecall</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
 </table>

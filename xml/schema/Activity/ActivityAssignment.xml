@@ -68,6 +68,7 @@
     <table>civicrm_activity</table>
     <key>id</key>
     <add>2.0</add>
+    <onDelete>CASCADE</onDelete>
   </foreignKey>
 
    <field> 
@@ -82,6 +83,7 @@
     <table>civicrm_contact</table>
     <key>id</key>
     <add>2.0</add>
+    <onDelete>CASCADE</onDelete>
   </foreignKey>
 
   <index>

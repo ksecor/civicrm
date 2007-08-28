@@ -22,7 +22,7 @@
       <name>source_contact_id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <comment>Contact ID of person scheduling or logging this Activity. This will generally an authenticated user.</comment>
+      <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>
       <add>1.1</add>
   </field>
   <foreignKey>
@@ -30,6 +30,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>  
   <index>
        <name>UI_source_contact_id</name>
@@ -196,6 +197,7 @@
        <table>civicrm_phone</table>
        <key>id</key>
        <add>2.0</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
 
   <field>
@@ -233,6 +235,7 @@
        <table>civicrm_option_value</table>
        <key>id</key>
        <add>2.0</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   
   <field>
@@ -246,6 +249,7 @@
        <table>civicrm_option_value</table>
        <key>id</key>
        <add>2.0</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>  
   
   <field>
@@ -259,6 +263,7 @@
        <table>civicrm_activity</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
 
   <field>
