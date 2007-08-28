@@ -1068,11 +1068,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                     'url' => $mailing->url,
                                     'link' =>
                                     CRM_Utils_System::url(
-                    'civicrm/mailing/event',
+                    'civicrm/mailing/report/event',
                     "reset=1&event=click&mid=$mailing_id&uid={$mailing->id}"),
                                     'link_unique' =>
                                     CRM_Utils_System::url(
-                    'civicrm/mailing/event',
+                    'civicrm/mailing/report/event',
                     "reset=1&event=click&mid=$mailing_id&uid={$mailing->id}&distinct=1"),
                                     'clicks' => $mailing->clicks,
                                     'unique' => $mailing->unique_clicks,

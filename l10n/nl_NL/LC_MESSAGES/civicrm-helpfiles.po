@@ -1,450 +1,296 @@
 # CiviCRM POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"POT-Creation-Date: 2007-08-01 14:27+0200\n"
+"PO-Revision-Date: 2007-08-15 03:03+0100\n"
+"Last-Translator: Martin Niewzwaag <ma-ni@home.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"The following tokens are available to format Mailing Labels. Address fields "
-"are taken from the contact's <strong>primary</strong> location."
-msgstr ""
+msgid "The following tokens are available to format Mailing Labels. Address fields are taken from the contact's <strong>primary</strong> location."
+msgstr "De volgende tokens zijn beschikbaar voor de opmaak van mailing labels. Adres velden komen uit de <strong>primaire</strong> contact locatie."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"Used for mailing labels only. Replaced by the configurable Individual Name "
-"format for individuals and the display name for Organizations and Households."
-msgstr ""
+msgid "Used for mailing labels only. Replaced by the configurable Individual Name format for individuals and the display name for Organizations and Households."
+msgstr "Alleen voor gebruik in mailing labels. Vervangen door de hieronder vermelde en te wijzigen <strong>Opmaak persoonsnaam</strong> en de naam voor huishoudens en organisaties."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr ""
+msgstr "Volledig straatadres (vb.: Hoofdstraat 110)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr ""
+msgstr "Adres toevoeging 1 (regel wordt genegeerd indien leeg)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr ""
+msgstr "Adres toevoeging 2 (regel wordt genegeerd indien leeg)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr ""
+msgstr "Plaats."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"County name. If you want to include the county in your mailing labels, the "
-"<strong>Include Counties</strong> setting must be enabled on this screen, "
-"and county names must be added to the civicrm_county table in your database."
-msgstr ""
+msgid "County name. If you want to include the county in your mailing labels, the <strong>Include Counties</strong> setting must be enabled on this screen, and county names must be added to the civicrm_county table in your database."
+msgstr "Naam streek, regio, graafschap (county). Als u  een streek wilt invoegen in uw mailing labels dient u, hieronder op dit scherm, het adres veld strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn aangemaakt in de civicrm_county tabel van uw database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
-msgstr ""
+msgstr "<strong>Afkorting</strong> van de provincie (of Amerikaanse staat)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr ""
+msgstr "<strong>Volledige naam</strong> van de provincie (of Amerikaanse staat)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
-msgstr ""
+msgstr "Postcode."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr ""
+msgstr "Naam van het land (vb.: Canada)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
-msgstr ""
+msgstr "Voeg spatie, komma's of andere leestekens toe aan de lay-out door deze tussen haakjes te plaatsen."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"The following tokens are available to format Address display on Contact and "
-"Event screens."
-msgstr ""
+msgid "The following tokens are available to format Address display on Contact and Event screens."
+msgstr "De volgende tokens zijn beschikbaar voor de opmaak van de adres schermen voor contacten en evenementen."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"County name. If you want to include the county in your screen displays, the "
-"<strong>Include Counties</strong> setting must be enabled on this screen, "
-"and county names must be added to the civicrm_county table in your database."
-msgstr ""
+msgid "County name. If you want to include the county in your screen displays, the <strong>Include Counties</strong> setting must be enabled on this screen, and county names must be added to the civicrm_county table in your database."
+msgstr "Naam streek, regio, graafschap (county). Als u  een streek wilt invoegen in uw schermen dient u, hieronder op dit scherm, het adres veld strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn aangemaakt in de civicrm_county tabel van uw database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
-msgid ""
-"The following tokens are available to control the format of individuals' "
-"contact names when they are included in <strong>mailing labels</strong>."
-msgstr ""
+msgid "The following tokens are available to control the format of individuals' contact names when they are included in <strong>mailing labels</strong>."
+msgstr "De volgende tokens zijn beschikbaar om de opmaak van de persoonsnaam te beheren als deze in <strong>mailing labels</strong> worden gebruikt"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
-msgstr ""
+msgstr "Voorvoegsel, indien aanwezig (vb.: De heer, Mevrouw,..)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name suffix, if any (e.g. 'II', 'Jr.', 'Sr.' etc.)."
-msgstr ""
+msgstr "Achtervoegsel, indien aanwezig (vb.: jr,sr,..)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's first name."
-msgstr ""
+msgstr "Voornaam van de persoon."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's middle name."
-msgstr ""
+msgstr "Tussennaam van de persoon."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's last name."
-msgstr ""
+msgstr "Achternaam van de persoon."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-msgid ""
-"These optional components give you more tools to connect with and engage "
-"your supporters."
-msgstr ""
+msgid "These optional components give you more tools to connect with and engage your supporters."
+msgstr "Deze optioneel te gebruiken komponenten geven u meer middelen om in contact te komen met uw relaties en de betrokkenheid van uw relaties met uw organisatie te vergroten"
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-msgid ""
-"<strong>CiviContribute</strong> - An online fundraising and donor management "
-"component which enables you to track and manage contributions to your "
-"organization. It also allows you to quickly and easily create customized web "
-"pages to accept online donations. Refer to the <a href=\"%1\" target=\"_blank"
-"\">CiviContribute Guide</a> for more info."
-msgstr ""
+msgid "<strong>CiviContribute</strong> - An online fundraising and donor management component which enables you to track and manage contributions to your organization. It also allows you to quickly and easily create customized web pages to accept online donations. Refer to the <a href=\"%1\" target=\"_blank\">CiviContribute Guide</a> for more info."
+msgstr "<strong>CiviContribute</strong> - Een online fundraising en donor management systeem waarmee u geldelijke bijdragen kunt volgen en beheren. U kunt hiermee ook op eenvoudige wijze persoonlijke web pagina's maken voor online donaties. Zie de <a href=\"%1\" target=\"_blank\">CiviContribute Guide</a> voor meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-msgid ""
-"<strong>CiviMail</strong> - A robust mass-mailing component which allows you "
-"to engage your constituents with personalized email blasts and newsletters. "
-"Refer to the <a href=\"%1\" target=\"_blank\">CiviMail Guide</a> for more "
-"info."
-msgstr ""
+msgid "<strong>CiviMail</strong> - A robust mass-mailing component which allows you to engage your constituents with personalized email blasts and newsletters. Refer to the <a href=\"%1\" target=\"_blank\">CiviMail Guide</a> for more info."
+msgstr "<strong>CiviMail</strong> - Een robuust massa-mailing systeem waarmee u de de betrokkenheid van uw relaties kunt vergroten met behulp van persoonlijke e-mails en nieuwsbrieven. Zie de <a href=\"%1\" target=\"_blank\">CiviMail Guide</a> voor meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
-msgid ""
-"<strong>CiviMember</strong> -  A flexible membership management component "
-"which includes convenient online signup and renewal. Refer to the <a href=\"%"
-"1\" target=\"_blank\">CiviMember Guide</a> for more info."
-msgstr ""
+msgid "<strong>CiviMember</strong> -  A flexible membership management component which includes convenient online signup and renewal. Refer to the <a href=\"%1\" target=\"_blank\">CiviMember Guide</a> for more info."
+msgstr "<strong>CiviMember</strong> -  Een flexibel lidmaatschap beheerssysteem voorzien van unieke online inschrijf- en lidmaatschapverlengingsmogelijkheden. Zie de <a href=\"%1\" target=\"_blank\">CiviMember Guide</a> voor meer informatie."
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
-msgid ""
-"Use this screen to configure formats for date display and date input fields. "
-"Defaults are provided for standard United States formats. Settings use "
-"standard POSIX specifiers. Available specifiers and the values produced will "
-"vary based on your operating system and locale."
-msgstr ""
+msgid "Use this screen to configure formats for date display and date input fields. Defaults are provided for standard United States formats. Settings use standard POSIX specifiers. Available specifiers and the values produced will vary based on your operating system and locale."
+msgstr "Gebruik dit scherm voor datum opmaak, voor het tonen en voor het invoer van datum gegevens. Standaard is de US opmaak gebruikt. Er wordt gebruik gemaakt van POSIX specificaties. De beschikbare codes en de getoonde resultaten zijn afhankelijk van uw operating systeem en taal. "
 
 #: templates/CRM/Admin/Form/Setting/Date.hlp
 msgid "Commonly Used Specifiers"
-msgstr ""
+msgstr "Veel gebruikte codes"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
-msgid ""
-"Set this value to <strong>Yes</strong> if you want to use one of CiviCRM's "
-"debugging tools."
-msgstr ""
+msgid "Set this value to <strong>Yes</strong> if you want to use one of CiviCRM's debugging tools."
+msgstr "Zet deze waarde op <strong>Ja</strong> als u in CiviCRM fouten wilt opsporen (debugging). "
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "This feature should NOT be enabled for production sites."
-msgstr ""
+msgstr "Deze optie mag uit veiligheidsredenen NIET AAN staan in operationele website!"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
-msgid ""
-"Debug output is triggered by adding specific name-value pairs to the CiviCRM "
-"query string:"
-msgstr ""
+msgid "Debug output is triggered by adding specific name-value pairs to the CiviCRM query string:"
+msgstr "Debugging wordt geactiveerd door specifieke label en waarde combinaties toe te voegen aan de CiviCRM URL "
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Smarty Debug Window"
-msgstr ""
+msgstr "Smarty Debug Window"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
-msgid ""
-"Loads all variables available to the current page template into a pop-up "
-"window. To trigger, add <em>&smartyDebug=1</em> to any CiviCRM URL query "
-"string. Make sure you have pop-up blocking disabled in your browser for the "
-"CiviCRM site URL."
-msgstr ""
+msgid "Loads all variables available to the current page template into a pop-up window. To trigger, add <em>&smartyDebug=1</em> to any CiviCRM URL query string. Make sure you have pop-up blocking disabled in your browser for the CiviCRM site URL."
+msgstr "Genereerd een pop-up venster met daarin alle variabelen behorend bij het huidige scherm. Voeg <em>&smartyDebug=1</em> toe aan een willekeurige CiviCRM URL om het te activeren. Zorg dat er geen pop-up blockers voor uw CiviCRM site aan staan in uw browser."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
-msgstr ""
+msgstr "Session Reset"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Resets all values in your client session. To trigger, add <em>%1</em>"
-msgstr ""
+msgstr "Resets alle waardes in uw client sessie. Om te activeren:, voeg <em>%1</em> toe."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Directory Cleanup"
-msgstr ""
+msgstr "Directory Cleanup"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Empties template cache and/or temporary upload file folders."
-msgstr ""
+msgstr "Leegt de template cache en/of de directoeries met tijdelijke geuploade bestanden."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To empty template cache (civicrm/templates_c folder), add <em>%1</em>"
-msgstr ""
+msgstr "Om de template cache te legen (civicrm/templates_c folder), voeg <em>%1</em> toe."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
-msgid ""
-"To remove temporary upload files (civicrm/upload folder), add <em>%1</em>"
-msgstr ""
+msgid "To remove temporary upload files (civicrm/upload folder), add <em>%1</em>"
+msgstr "Om tijdelijk uploaded bestanden te verwijderen (civicrm/upload folder), voeg <em>%1</em> toe."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To cleanup both, add <em>%1</em>"
-msgstr ""
+msgstr "Om beide directories te legen, voeg <em>%1</em>toe."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Stack Trace"
-msgstr ""
+msgstr "Stack Trace"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To display a stack trace listing at the top of a page, add <em>%1</em>"
-msgstr ""
+msgstr "Om een stack trace overzicht bovenaan een bladzijde te tonen, voeg <em>%1</em> toe."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
-msgid ""
-"<strong>For GOOGLE mapping</strong> - request an API key for your site at %1"
-msgstr ""
+msgid "<strong>For GOOGLE mapping</strong> - request an API key for your site at %1"
+msgstr "<strong>GOOGLE Maps</strong> - vraag een API sleutel aan voor uw site op %1"
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
-msgid ""
-"When prompted for 'My Web Site URL' - enter the base URL for your site "
-"followed by the path '/civicrm'. Your API Key will be generated and "
-"displayed on the next page."
-msgstr ""
+msgid "When prompted for 'My Web Site URL' - enter the base URL for your site followed by the path '/civicrm'. Your API Key will be generated and displayed on the next page."
+msgstr "Bij het invoeren van 'My Web Site URL' - gebruikt u de basis URL van uw website (domein) gevolgd door het pad '/civicrm'. Uw API sleutel wordt gegenereerd en op de volgende bladzijde getoond."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid "EXAMPLE: if your Drupal site url is %1 you would enter"
-msgstr ""
+msgstr "VOORBEELD: als uw Drupal site url %1 is, voert u in "
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
-msgid ""
-"<strong>For YAHOO mapping</strong> - request an Application ID for your site "
-"at %1"
-msgstr ""
+msgid "<strong>For YAHOO mapping</strong> - request an Application ID for your site at %1"
+msgstr "<strong>Yahoo Maps</strong> - vraag een  Application ID aan voor uw site op %1"
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
-msgid ""
-"When prompted for 'My Web Site URL' - enter the base URL for your site "
-"followed by the path '%1'. Your API Key will be generated and displayed on "
-"the next page."
-msgstr ""
+msgid "When prompted for 'My Web Site URL' - enter the base URL for your site followed by the path '%1'. Your API Key will be generated and displayed on the next page."
+msgstr "Bij het invoeren van 'My Web Site URL' - gebruikt u de basis URL van uw website (domein) gevolgd door het pad '%1'. Uw aplicatie ID wordt gegenereerd en op de volgende bladzijde getoond."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
-msgid ""
-"This setting forces a redirect of all online contribution page requests to "
-"SSL secured URLs (https)."
-msgstr ""
+msgid "This setting forces a redirect of all online contribution page requests to SSL secured URLs (https)."
+msgstr "Deze instelling forceerd een redirect voor alle online bijdrage pagina's naar veilige SSL-URL's (https), "
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
-msgid ""
-"If you use a payment processor service where credit card and billing "
-"information is collected ON YOUR SITE (PayPal Website Payments Pro or "
-"Moneris as of now) <strong>it is strongly recommended that you create or "
-"obtain an SSL certificate and configure your webserver to support SSL "
-"connections</strong>. Consult your hosting provider or web-server "
-"documentation for more information on obtaining and installing SSL "
-"certificates."
-msgstr ""
+msgid "If you use a payment processor service where credit card and billing information is collected ON YOUR SITE (PayPal Website Payments Pro or Moneris as of now) <strong>it is strongly recommended that you create or obtain an SSL certificate and configure your webserver to support SSL connections</strong>. Consult your hosting provider or web-server documentation for more information on obtaining and installing SSL certificates."
+msgstr "Als u op uw site een Paymend Processor Service gebruikt waarmee Credit Card en betalingsgegevens worden verzameld (PayPal Website Payments Pro, Moneris. ..) <strong> raden wij u sterk aan om een SSL certificaat aan te maken of te verkrijgen en uw website zodanig aan te passen dat deze SSL connecties ondersteund</strong>. Vraag uw hosting provider of sla uw webserver dokumentie er op na voor meer  infoermatie over het verkrijgen en instaleren van SSL certificaten. "
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
-msgid ""
-"Once you have your certificate installed, test that is working by navigating "
-"to one of your online contribution pages and changing the URL prefix from "
-"'http://' to 'https://'. If your browser loads the page and indicates a "
-"valid security certificate - then you can change this setting to "
-"<strong>Yes</strong> and CiviCRM will automatically redirect requests for "
-"all online contribution pages to the corresponding SSL secured URLs."
-msgstr ""
-
-#: templates/CRM/Admin/Page/DedupeRules.hlp
-msgid ""
-"Configure up to five fields to evaluate when searching for 'suspected' "
-"duplicate contact records. For each field, set a numeric <strong>Weight</"
-"strong> which determines the relative importance of a match on that field."
-msgstr ""
-
-#: templates/CRM/Admin/Page/DedupeRules.hlp
-msgid ""
-"You can also set a <strong>Length</strong> value which determines how many "
-"characters in the field should be compared."
-msgstr ""
-
-#: templates/CRM/Admin/Page/DedupeRules.hlp
-msgid ""
-"EXAMPLE: If you set a length of 8 on 'Street Address', then '101 Delaplane "
-"Ave.' would match '101 Delaplain St.' because the first 8 characters are the "
-"same. If Length is left blank, then the comparison is done on the entire "
-"field value (<a href='%1' target='_blank' title='%2'>read more...</a>)."
-msgstr ""
+msgid "Once you have your certificate installed, test that is working by navigating to one of your online contribution pages and changing the URL prefix from 'http://' to 'https://'. If your browser loads the page and indicates a valid security certificate - then you can change this setting to <strong>Yes</strong> and CiviCRM will automatically redirect requests for all online contribution pages to the corresponding SSL secured URLs."
+msgstr "Na het installeren van uw certificaat test u de juiste werking door naar één van uw online betalingspagina's te surfen en de URL prefix te veranderen van 'http://' naar 'https://'. Als uw browser de pagina herlaad en het juiste en geldige veiligheidscertificaat toont kunt u deze instelling op <strong>Ja</strong> zetten. CiviCRM zal daarna alle online betalingspagina's redirecten naar de overeenkomstige SSL beveiligde URL's."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"If you want accept contributions online you must select a Payment Processor, "
-"register for an account with that processor, and configure CiviCRM with your "
-"account information."
-msgstr ""
+msgid "If you want accept contributions online you must select a Payment Processor, register for an account with that processor, and configure CiviCRM with your account information."
+msgstr "Als u online betalingen wilt accepteren moet u een Payment Processor selecteren, u als account bij deze processer registreren en CiviCRM instellen met uw account gegevens."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"CiviCRM currently supports three different PayPal payment processing "
-"services, as well as Moneris, Authorize.net and Google Checkout. Refer to "
-"the each payment processor's website for details on requirements, fees and "
-"terms for these services."
-msgstr ""
+msgid "CiviCRM currently supports three different PayPal payment processing services, as well as Moneris, Authorize.net and Google Checkout. Refer to the each payment processor's website for details on requirements, fees and terms for these services."
+msgstr "CiviCRM ondersteund op dit moment drie verschillende PayPal payment processing services, daarnaast ook Moneris, Authorize.net en Google Checkout. Sla de diverse payment processor's website's er op na als u gedetailleerde informatie wenst over eisen, kosten en voorwaarden van de betreffende service.  "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"<strong>For security reasons, some of the required payment processor "
-"settings are stored in your CiviCRM settings file (civicrm.settings.php). "
-"You must input these values before your can process TEST or LIVE "
-"transactions. Refer to the <a href=\"%1\" target=\"_blank\" title=\"Payment "
-"Processor Configuration Guide (opens in a new window).\">Payment Processor "
-"Configuration Guide</a> for more information.</strong>"
-msgstr ""
+msgid "<strong>For security reasons, some of the required payment processor settings are stored in your CiviCRM settings file (civicrm.settings.php). You must input these values before your can process TEST or LIVE transactions. Refer to the <a href=\"%1\" target=\"_blank\" title=\"Payment Processor Configuration Guide (opens in a new window).\">Payment Processor Configuration Guide</a> for more information.</strong>"
+msgstr "<strong>Om veiligheidredenen worden een aantal payment processir parameters bewaard in uw CiviCRM settings bestand (civicrm.settings.php). Voordat u door kunt gaan met payment processor transacties moet u deze gegevens invoeren. Zie de <a href=\"%1\" target=\"_blank\" title=\"Payment Processor Configuration Guide (opent een nieuw venster).\">Payment Processor Configuration Guide</a> voor meer informatie.</strong>"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"We recommend obtaining a TEST account from the processor, and configuring "
-"and testing your online contribution page(s) in test-drive mode first. Once "
-"you are satisfied that your test contributions are working properly, you can "
-"register for the LIVE merchant account and configure that account "
-"information. Then you are ready to activate and promote your contribution "
-"page(s)."
-msgstr ""
+msgid "We recommend obtaining a TEST account from the processor, and configuring and testing your online contribution page(s) in test-drive mode first. Once you are satisfied that your test contributions are working properly, you can register for the LIVE merchant account and configure that account information. Then you are ready to activate and promote your contribution page(s)."
+msgstr "Het is aan te bevelen een test account aan te vragen bij uw processor provider en uw online betalingspagina's eerst uitgebreid te testen in test-mode. Als u tevreden bent en ervan overtuigd dat uw test betalingen juist werken, kunt u zich registreren voor de werkende (Live) verkopers account en de account informatie hiervan invoeren. U bent dan klaar om uw betalingspagina('s) te activeren en te promoten."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account Username or Email Address:"
-msgstr ""
+msgstr "TEST account gebruikersnaam en e-mailadres:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"<strong>PayPal Website Payments Pro or Express</strong> - If you are using "
-"the recommended <strong>Signature-based API Credentials</strong> - enter "
-"your API Username value as displayed in your account Profile - View API "
-"Signature screen."
-msgstr ""
+msgid "<strong>PayPal Website Payments Pro or Express</strong> - If you are using the recommended <strong>Signature-based API Credentials</strong> - enter your API Username value as displayed in your account Profile - View API Signature screen."
+msgstr "<strong>PayPal Website Payments Pro of Express</strong> - Als u de aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer uw \"API Username value\" in, zoals deze wordt weergegeven in uw account profiel - zie \"API Signature scherm\"."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"<strong>PayPal Website Standard</strong> - Enter the email address of your "
-"TEST (sandbox) merchant account."
-msgstr ""
+msgid "If you are using <strong>Certificate-based credentials</strong> this field <strong>must be blank</strong> (or you will get errors from PayPal when submitting the transaction)."
+msgstr "Als u <strong>Certificate-based credentials</strong> gebruikt dan moet dit veld <strong>leeg</strong> zijn, anders ontvangt u foutmeldingen bij een PayPal transactie."
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "<strong>PayPal Website Standard</strong> - Enter the email address of your TEST (sandbox) merchant account."
+msgstr "<strong>PayPal Website Standard</strong> - Voer het e-mail adres in van uw TEST (sandbox) merchant (handelaars) account."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST/Sandbox Account Merchant-ID:"
-msgstr ""
+msgstr "TEST/Sandbox Account Merchant-ID:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter Merchant ID from your Sandbox account."
-msgstr ""
+msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How to obtain Merchant-ID?"
-msgstr ""
+msgstr "How to obtain Merchant-ID?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"After signing in to your account, click on the Settings tab. Then click on "
-"the Integration link on the left side of the page. Your 10- or 15-digit "
-"Merchant ID and your Merchant Key will both be listed under the Account "
-"information header."
-msgstr ""
+msgid "After signing in to your account, click on the Settings tab. Then click on the Integration link on the left side of the page. Your 10- or 15-digit Merchant ID and your Merchant Key will both be listed under the Account information header."
+msgstr "Nadat u onder uw accountnaam bent ingelogd klikt u op de tab Settings (instellingen). Klik dan op de \"Integration link\" op de linkerzijde van de pagina. Uw 10 of 15 digit Merchant (handelaars) ID en uw Merchant sleutel worden beide getoond onder Account informatie.. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"Also, make sure you have Merchant-Key set in your civicrm settings file."
-msgstr ""
+msgid "Also, make sure you have Merchant-Key set in your civicrm settings file."
+msgstr "Vergeet niet een Merchant sleutel aan te maken in uw civicrm settings bestand."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"Your Moneris username is not currently used, in either the normal or test "
-"account, so you can fill in '%1' (it can't be left blank). You can leave the "
-"recurring payments url blank, it's not used. Use '%2' as your test password, "
-"and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' "
-"accepts recurring payments."
-msgstr ""
-
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "Dummy"
-msgstr ""
+msgid "Your Moneris username is not currently used, in either the normal or test account, so you can fill in '%1' (it can't be left blank). You can leave the recurring payments url blank, it's not used. Use '%2' as your test password, and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' accepts recurring payments."
+msgstr "Uw Moneris gebruikersnaam wordt momenteel niet gebruikt, niet in de normale en niet in de test account, u kunt '%1' gebruiken (het mag niet leeg blijven). U kunt de periodieke betalinngs URL leeg laten, het wordt niet gebruikt. Gebruik '%2' als uw test wachtwoord en '%3' als uw test winkel ID. '%4' en '%5' werken ook, echter alleen '%3' accepteerd periodieke betalingen."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
-msgid ""
-"Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
-"'Volunteer%' as your Activity Type to match any activity whose type is "
-"'Volunteer' + any other words (e.g. Volunteer for Open House)."
-msgstr ""
+msgid "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter 'Volunteer%' as your Activity Type to match any activity whose type is 'Volunteer' + any other words (e.g. Volunteer for Open House)."
+msgstr "Gebruik de <strong>%</strong> wildcard voor de u onbekende tekstgedeeltes. VOORBEELD: voer 'Vrijwilliger%' in als uw activiteiten type om te zoeken naar alle activiteiten met de naam 'Vrijwilligerr' + elk ander woord, letter of tekst (vb.: Vrijwilligers voor open huis)."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
-msgid ""
-"If multiple boxes are checked for Contact Types, Groups, Tags and Location "
-"Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
-"checking 'Group A' and 'Group B' will find contacts who are either in 'Group "
-"A' OR 'Group B'). All other search fields are combined as <strong>AND</"
-"strong> criteria (e.g. selecting Tag is 'Major Donor' AND Country is "
-"'Mexico' returns only those contacts who meet both criteria)."
+msgid "If multiple boxes are checked for Contact Types, Groups, Tags and Location Types, the selections are combined as <strong>OR</strong> criteria (e.g. checking 'Group A' and 'Group B' will find contacts who are either in 'Group A' OR 'Group B'). All other search fields are combined as <strong>AND</strong> criteria (e.g. selecting Tag is 'Major Donor' AND Country is 'Mexico' returns only those contacts who meet both criteria)."
+msgstr "Als meerdere boxen worden aangevinkt in contact type, groepen, markeringen en locatie typen, worden de selecties gecombineerd in een <strong>OF</strong> functie. (vb.: aanvinken van  'group A' en 'group B' zoekt en vindt contacten die of in 'group A' OF in 'group B' zitten). Alle overige zoekvelden worden gecombineerd tot een <strong>EN</strong> functie (vb.: door kenmerk 'Belangrijke donor' EN land is 'Mexico' aan te vinken worden alleen de contacten gezocht en getoond die aan beide criteria voldoen)."
+
+#: templates/CRM/Contact/Form/Search/Builder.hlp
+msgid "IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2\">Search Builder documentation</a> before building your first search..."
+msgstr "BELANGRIJK: Zoeken opbouwen gebruikt een specifieke opmaak voor de zoekwaarden. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2\">Search Builder documentation</a> voordat u uw eerste zoekopdracht gebruikt."
+
+#: templates/CRM/Contact/Form/Search/Builder.hlp
+msgid "Create your search by selecting the criteria (record type and field), the comparison operator, and entering the value you want to search for. You can define one or many criteria as a set: <em>Include contacts where... State IS Washington AND City IS Seattle AND Birth Date is later than (>) Jan 1, 1985</em>"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
-msgid ""
-"IMPORTANT: Search Builder requires you to use specific formats for your "
-"search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Search Builder documentation</a> before building your first search..."
-msgstr ""
-
-#: templates/CRM/Contact/Form/Search/Builder.hlp
-msgid ""
-"Create your search by selecting the criteria (record type and field), the "
-"comparison operator, and entering the value you want to search for. You can "
-"define one or many criteria as a set: <em>Include contacts where... State IS "
-"Washington AND City IS Seattle AND Birth Date is later than (>) Jan 1, 1985</"
-"em>"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Search/Builder.hlp
-msgid ""
-"You can also create additional sets of criteria: <em>Also include contacts "
-"where... State IS California AND City IS Los Angeles AND Birth Date is later "
-"than (>) Jan 1, 1985</em>"
+msgid "You can also create additional sets of criteria: <em>Also include contacts where... State IS California AND City IS Los Angeles AND Birth Date is later than (>) Jan 1, 1985</em>"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
-msgid ""
-"If you want collect additional information from contributors, you will need "
-"to configure one or two CiviCRM Profiles - which are collections of standard "
-"or custom fields. You may need to information about the person (e.g. name "
-"and address if these are not already required by your payment processor, "
-"interest in subscribing to a newsletter or volunteering). You might also "
-"want to collect information specific to this contribution (e.g. target one "
-"or several projects or funds to support with this contribution)."
+msgid "If you want collect additional information from contributors, you will need to configure one or two CiviCRM Profiles - which are collections of standard or custom fields. You may need to information about the person (e.g. name and address if these are not already required by your payment processor, interest in subscribing to a newsletter or volunteering). You might also want to collect information specific to this contribution (e.g. target one or several projects or funds to support with this contribution)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
-msgid ""
-"If you haven't already configured custom fields and a profile for this, you "
-"can save this screen without selecting a Profile, complete the steps below "
-"and then return to <strong>Manage Contribution Page</strong> and select your "
-"new profile."
+msgid "If you haven't already configured custom fields and a profile for this, you can save this screen without selecting a Profile, complete the steps below and then return to <strong>Manage Contribution Page</strong> and select your new profile."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
-msgid ""
-"Create a custom field group which is 'Used for' <strong>Contacts</strong> or "
-"<strong>Contributions</strong> depending on what type of information you're "
-"collecting."
+msgid "Create a custom field group which is 'Used for' <strong>Contacts</strong> or <strong>Contributions</strong> depending on what type of information you're collecting."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
@@ -462,17 +308,11 @@ msgid "Add your custom field(s) to this profile as profile fields."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
-msgid ""
-"Return to this screen (<strong>Administer CiviCRM &raquo; Manage "
-"Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and "
-"select your profile."
+msgid "Return to this screen (<strong>Administer CiviCRM &raquo; Manage Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and select your profile."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
-msgid ""
-"Refer to the online documentation for more details on creating <a href=\"%1"
-"\" title=\"%3\" target=\"_blank\">custom fields</a> and <a href=\"%2\" title="
-"\"%3\" target='_blank'>profiles</a>."
+msgid "Refer to the online documentation for more details on creating <a href=\"%1\" title=\"%3\" target=\"_blank\">custom fields</a> and <a href=\"%2\" title=\"%3\" target='_blank'>profiles</a>."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
@@ -484,10 +324,7 @@ msgstr ""
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"Files to be imported must be in the 'comma-separated-values' format (CSV). "
-"Most applications will allow you to export records in CSV format. Consult "
-"the documentation for your application if you're not sure how to do this."
+msgid "Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in CSV format. Consult the documentation for your application if you're not sure how to do this."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
@@ -495,14 +332,7 @@ msgid "Contact Records for Contributors"
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"Contribution import requires that the Contributors already exist as contact "
-"records in your CiviCRM database. If you need to import contributions for "
-"contributors who haven't been added to CiviCRM yet - you will do this in 2 "
-"steps. First, use <strong>Import Contacts</strong> to add the contact "
-"records. If possible, include a unique 'External ID' for each new contact "
-"which you can then use to match contributions to contributors. Then return "
-"to this screen and import the contribution records."
+msgid "Contribution import requires that the Contributors already exist as contact records in your CiviCRM database. If you need to import contributions for contributors who haven't been added to CiviCRM yet - you will do this in 2 steps. First, use <strong>Import Contacts</strong> to add the contact records. If possible, include a unique 'External ID' for each new contact which you can then use to match contributions to contributors. Then return to this screen and import the contribution records."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
@@ -510,63 +340,35 @@ msgid "Matching Contributions to Contributors"
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"Contribution import files must  contain data needed to <strong>match the "
-"contribution to the contributor</strong>. This 'matching' can be handled in "
-"several different ways:"
+msgid "Contribution import files must  contain data needed to <strong>match the contribution to the contributor</strong>. This 'matching' can be handled in several different ways:"
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the "
-"contributors' First Name, Last Name and Email Address."
+msgid "Include the data fields used for contact 'matching' based on your configured <strong>Duplicate Matching</strong> rules. For the default duplicate matching rules, you would include 3 columns in each row with the contributors' First Name, Last Name and Email Address."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"If you've stored a unique <strong>External Identifier</strong> for each "
-"contact in CiviCRM, you can include that value as a column in your import "
-"file. Contributions will then be matched to contributors using their "
-"External ID."
+msgid "If you've stored a unique <strong>External Identifier</strong> for each contact in CiviCRM, you can include that value as a column in your import file. Contributions will then be matched to contributors using their External ID."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"You can include a column with each contributor's <strong>Internal Contact "
-"ID</strong>. This is the unique ID assigned by CiviCRM which is displayed at "
-"the bottom of the Contact Summary screen - and can be exported."
+msgid "You can include a column with each contributor's <strong>Internal Contact ID</strong>. This is the unique ID assigned by CiviCRM which is displayed at the bottom of the Contact Summary screen - and can be exported."
 msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.hlp
-msgid ""
-"Save the CSV file with your contributions and 'contact matching' data to "
-"your local hard drive (or an accessible drive on your network) - and you are "
-"now ready for step 1 (Upload Data)."
+msgid "Save the CSV file with your contributions and 'contact matching' data to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
-msgid ""
-"If you want collect additional information during event registration, you "
-"will need to configure one or two CiviCRM Profiles - which are collections "
-"of standard or custom fields. For event registration, you may need to "
-"collect additional information specific to a person's <strong>participation</"
-"strong> in an Event. Examples include meal and/or volunteer preferences."
+msgid "If you want collect additional information during event registration, you will need to configure one or two CiviCRM Profiles - which are collections of standard or custom fields. For event registration, you may need to collect additional information specific to a person's <strong>participation</strong> in an Event. Examples include meal and/or volunteer preferences."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
-msgid ""
-"If you haven't already configured custom fields and a profile for this, you "
-"can save this screen without selecting a Profile, complete the steps below "
-"and then return to <strong>Manage Events</strong> and select your new "
-"profile."
+msgid "If you haven't already configured custom fields and a profile for this, you can save this screen without selecting a Profile, complete the steps below and then return to <strong>Manage Events</strong> and select your new profile."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
-msgid ""
-"Create a custom field group which is 'Used for' <strong>Participants</"
-"strong>."
+msgid "Create a custom field group which is 'Used for' <strong>Participants</strong>."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
@@ -574,17 +376,11 @@ msgid "Create a profile (e.g. 'Participant Information')."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
-msgid ""
-"Return to this screen (<strong>Administer CiviCRM &raquo; Manage Events "
-"&raquo; Configure &raquo; Online Registration</strong>) and select your "
-"profile."
+msgid "Return to this screen (<strong>Administer CiviCRM &raquo; Manage Events &raquo; Configure &raquo; Online Registration</strong>) and select your profile."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
-msgid ""
-"Refer to the online documentation for more details on creating <a href='%1' "
-"title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' "
-"target='_blank'>profiles</a>."
+msgid "Refer to the online documentation for more details on creating <a href='%1' title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' target='_blank'>profiles</a>."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -596,9 +392,7 @@ msgid "Participant import data MUST include the following columns:"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Event Title OR Event ID (a unique integer assigned by CiviEvent, displayed "
-"in the Manage Events listing)"
+msgid "Event Title OR Event ID (a unique integer assigned by CiviEvent, displayed in the Manage Events listing)"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -610,10 +404,7 @@ msgid "Participant Role (ie. Attendee, Volunteer, Host, etc.)"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Valid values for Status and Role can be found in the CiviEvent section of "
-"the Administer CiviCRM screen. You can also import Fee Level, Registration "
-"Date and any other standard or custom Participant fields."
+msgid "Valid values for Status and Role can be found in the CiviEvent section of the Administer CiviCRM screen. You can also import Fee Level, Registration Date and any other standard or custom Participant fields."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -621,15 +412,7 @@ msgid "Contact Records for Event Participants"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Participant import requires that each person, household or organization "
-"already exists as a contact record in your CiviCRM database. If you need to "
-"import participant information for contact records which haven't been added "
-"to CiviCRM yet - you will do this in 2 steps. First, use <strong>Import "
-"Contacts</strong> to add the contact records. If possible, include a unique "
-"'External ID' for each new contact which you can then use to match "
-"participant info such as event registration to the corresponding contact "
-"record. Then return to this screen and import the participant records."
+msgid "Participant import requires that each person, household or organization already exists as a contact record in your CiviCRM database. If you need to import participant information for contact records which haven't been added to CiviCRM yet - you will do this in 2 steps. First, use <strong>Import Contacts</strong> to add the contact records. If possible, include a unique 'External ID' for each new contact which you can then use to match participant info such as event registration to the corresponding contact record. Then return to this screen and import the participant records."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
@@ -637,41 +420,24 @@ msgid "Matching Participant Data to Contacts"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Participant import files must  contain data needed to <strong>match the "
-"participant to a contact record in your CiviCRM database</strong>. This "
-"'matching' can be handled in several different ways:"
+msgid "Participant import files must  contain data needed to <strong>match the participant to a contact record in your CiviCRM database</strong>. This 'matching' can be handled in several different ways:"
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the "
-"participants' First Name, Last Name and Email Address."
+msgid "Include the data fields used for contact 'matching' based on your configured <strong>Duplicate Matching</strong> rules. For the default duplicate matching rules, you would include 3 columns in each row with the participants' First Name, Last Name and Email Address."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"If you've stored a unique <strong>External Identifier</strong> for each "
-"contact in CiviCRM, you can include that value as a column in your import "
-"file. Participant data will then be matched to contact records using their "
-"External ID."
+msgid "If you've stored a unique <strong>External Identifier</strong> for each contact in CiviCRM, you can include that value as a column in your import file. Participant data will then be matched to contact records using their External ID."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"You can include a column with each contact's <strong>Internal Contact ID</"
-"strong>. This is the unique ID assigned by CiviCRM which is displayed at the "
-"bottom of the Contact Summary screen - and can be exported."
+msgid "You can include a column with each contact's <strong>Internal Contact ID</strong>. This is the unique ID assigned by CiviCRM which is displayed at the bottom of the Contact Summary screen - and can be exported."
 msgstr ""
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
-msgid ""
-"Save the CSV file with your participant data and 'contact matching' data to "
-"your local hard drive (or an accessible drive on your network) - and you are "
-"now ready for step 1 (Upload Data)."
+msgid "Save the CSV file with your participant data and 'contact matching' data to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
@@ -679,11 +445,7 @@ msgid "ICalendar Downloads and Feeds"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"iCalendar is a standard format for representing information about "
-"calendaring and scheduling. CiviEvent allows you to output your current and "
-"upcoming 'public' events in the iCalendar format - so this information can "
-"be shared with other iCalendar-enabled applications."
+msgid "iCalendar is a standard format for representing information about calendaring and scheduling. CiviEvent allows you to output your current and upcoming 'public' events in the iCalendar format - so this information can be shared with other iCalendar-enabled applications."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
@@ -691,14 +453,11 @@ msgid "Depending on how you want to use the iCalendar data - you can:"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"Download an iCalendar file (with a *.ics extension) to your local computer."
+msgid "Download an iCalendar file (with a *.ics extension) to your local computer."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"Access the data using an HTTP GET request from a specific URL. (This is the "
-"'ICAL' icon on the Manage Events page.)"
+msgid "Access the data using an HTTP GET request from a specific URL. (This is the 'ICAL' icon on the Manage Events page.)"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
@@ -706,30 +465,19 @@ msgid "The iCalendar Feed URL for CiviEvent on this site:"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"By default, both methods get all events whose starting date is greater than "
-"or equal to the current date. However, you can modify this by passing "
-"additional parameters in the URL:"
+msgid "By default, both methods get all events whose starting date is greater than or equal to the current date. However, you can modify this by passing additional parameters in the URL:"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"start=YYYYMMDD - Specify a different starting date range for the events to "
-"be listed."
+msgid "start=YYYYMMDD - Specify a different starting date range for the events to be listed."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"type=N - Specify a particular Event Type using the event_type_id value. (You "
-"can find these values by browsing the listing at Administer CiviCRM &raquo; "
-"Event Types.)"
+msgid "type=N - Specify a particular Event Type using the event_type_id value. (You can find these values by browsing the listing at Administer CiviCRM &raquo; Event Types.)"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"EXAMPLE: Given the default event types, this URL will retrieve all events "
-"with start dates on or after January 1, 2007 whose event type is "
-"'Fundraiser':"
+msgid "EXAMPLE: Given the default event types, this URL will retrieve all events with start dates on or after January 1, 2007 whose event type is 'Fundraiser':"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
@@ -737,69 +485,43 @@ msgid "RSS 2.0 Feeds"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to "
-"people using RSS readers and can be displayed in most modern browsers. The "
-"RSS Feed URL for CiviEvent on this site:"
+msgid "CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to people using RSS readers and can be displayed in most modern browsers. The RSS Feed URL for CiviEvent on this site:"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.hlp
-msgid ""
-"You can also use the additional parameters shown above to filter the events "
-"included in the RSS feed."
+msgid "You can also use the additional parameters shown above to filter the events included in the RSS feed."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"Files to be imported must be in the <strong>comma-separated-values format "
-"(CSV)</strong>. Most applications will allow you to export records in this "
-"format. Consult the documentation for your application if you're not sure "
-"how to do this. Save this file to your local hard drive (or an accessible "
-"drive on your network) - and you are now ready for step 1 (Upload Data)."
+msgid "Files to be imported must be in the <strong>comma-separated-values format (CSV)</strong>. Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"Select <strong>Individual</strong> for Contact Type if each record in your "
-"file represents and individual person - even if the file also contains "
-"related Organization data (e.g. Employer Name, Employer Address, etc.)."
+msgid "Select <strong>Individual</strong> for Contact Type if each record in your file represents and individual person - even if the file also contains related Organization data (e.g. Employer Name, Employer Address, etc.)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"Select <strong>Organization</strong> or <strong>Household</strong> if each "
-"record in your file represents a contact of that type."
+msgid "Select <strong>Organization</strong> or <strong>Household</strong> if each record in your file represents a contact of that type."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"If a contact in the import file appears to be a duplicate of an existing "
-"CiviCRM contact..."
+msgid "If a contact in the import file appears to be a duplicate of an existing CiviCRM contact..."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"<strong>Skip:</strong> Reports and then Skips duplicate import file rows - "
-"leaving the matching record in the database as-is (default)."
+msgid "<strong>Skip:</strong> Reports and then Skips duplicate import file rows - leaving the matching record in the database as-is (default)."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"<strong>Update:</strong> Updates database fields with available import data. "
-"Fields in the database which are NOT included in the import row are left as-"
-"is."
+msgid "<strong>Update:</strong> Updates database fields with available import data. Fields in the database which are NOT included in the import row are left as-is."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"<strong>Fill:</strong> Fills in additional contact data only. Database "
-"fields which currently have values are left as-is."
+msgid "<strong>Fill:</strong> Fills in additional contact data only. Database fields which currently have values are left as-is."
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.hlp
-msgid ""
-"<strong>No Duplicate Checking:</strong> Inserts all valid records without "
-"comparing them to existing contact records for possible duplicates."
+msgid "<strong>No Duplicate Checking:</strong> Inserts all valid records without comparing them to existing contact records for possible duplicates."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
@@ -807,53 +529,27 @@ msgid "Scheduling and Sending Mailings"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
-msgid ""
-"You can schedule mailings to be sent starting at a specific date and time, "
-"OR you can request that they be sent as soon as possible by checking &quot;"
-"Send Immediately&quot;."
+msgid "You can schedule mailings to be sent starting at a specific date and time, OR you can request that they be sent as soon as possible by checking &quot;Send Immediately&quot;."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
-msgid ""
-"Clicking <strong>Done</strong> adds this mailing to the mailing queue. An "
-"automated task which runs periodically on your server processes mailings in "
-"the queue, and starts actually sending out your mail."
+msgid "Clicking <strong>Done</strong> adds this mailing to the mailing queue. An automated task which runs periodically on your server processes mailings in the queue, and starts actually sending out your mail."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
-msgid ""
-"<strong>Trouble-shooting Tip</strong> - If you find that your mailings are "
-"not being sent, ask the system administrator or technical support contact "
-"for your site to verify that the automated task (&quot;cron job&quot;) is "
-"running - and how frequently. (<a href='%1' title='%2' target='_blank'>more "
-"info...</a>)"
+msgid "<strong>Trouble-shooting Tip</strong> - If you find that your mailings are not being sent, ask the system administrator or technical support contact for your site to verify that the automated task (&quot;cron job&quot;) is running - and how frequently. (<a href='%1' title='%2' target='_blank'>more info...</a>)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
-msgid ""
-"Before completing this step, you must create one or two files containing "
-"your mailing content. You can choose to send BOTH an <strong>HTML</strong> "
-"formatted message and a plain <strong>TEXT</strong> message, OR you can send "
-"a <strong>TEXT</strong> message only. If you create and upload only an "
-"<strong>HTML</strong> formatted message, CiviMail will automatically create "
-"a <strong>TEXT</strong> version for your recipients who have chosen NOT to "
-"receive HTML email."
+msgid "Before completing this step, you must create one or two files containing your mailing content. You can choose to send BOTH an <strong>HTML</strong> formatted message and a plain <strong>TEXT</strong> message, OR you can send a <strong>TEXT</strong> message only. If you create and upload only an <strong>HTML</strong> formatted message, CiviMail will automatically create a <strong>TEXT</strong> version for your recipients who have chosen NOT to receive HTML email."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
-msgid ""
-"Save these file(s) somewhere on your local computer - and locate them using "
-"the <strong>Browse...</strong> buttons."
+msgid "Save these file(s) somewhere on your local computer - and locate them using the <strong>Browse...</strong> buttons."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
-msgid ""
-"CiviMail email messages must include an unsubscribe link, an opt-out link, "
-"and the postal address of your organization. These elements help reduce the "
-"chances of your email being categorized as SPAM. Refer to the online "
-"documentation for details on <a href='%1' target='_blank' title='Help on "
-"messages. Opens a new window.'>how to include required links and contact "
-"information as well as sample messages....</a>"
+msgid "CiviMail email messages must include an unsubscribe link, an opt-out link, and the postal address of your organization. These elements help reduce the chances of your email being categorized as SPAM. Refer to the online documentation for details on <a href='%1' target='_blank' title='Help on messages. Opens a new window.'>how to include required links and contact information as well as sample messages....</a>"
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
@@ -861,14 +557,7 @@ msgid "Contact Records for Members"
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"Membership import requires that each person, household or organization "
-"already exists as a contact record in your CiviCRM database. If you need to "
-"import memberships for contact records which haven't been added to CiviCRM "
-"yet - you will do this in 2 steps. First, use <strong>Import Contacts</"
-"strong> to add the contact records. If possible, include a unique 'External "
-"ID' for each new contact which you can then use to match memberships to "
-"contacts. Then return to this screen and import the membership records."
+msgid "Membership import requires that each person, household or organization already exists as a contact record in your CiviCRM database. If you need to import memberships for contact records which haven't been added to CiviCRM yet - you will do this in 2 steps. First, use <strong>Import Contacts</strong> to add the contact records. If possible, include a unique 'External ID' for each new contact which you can then use to match memberships to contacts. Then return to this screen and import the membership records."
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
@@ -876,54 +565,31 @@ msgid "Matching Memberships to Contacts"
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"Membership import files must  contain data needed to <strong>match the "
-"membership to the contact record</strong>. This 'matching' can be handled in "
-"several different ways:"
+msgid "Membership import files must  contain data needed to <strong>match the membership to the contact record</strong>. This 'matching' can be handled in several different ways:"
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"Include the data fields used for contact 'matching' based on your configured "
-"<strong>Duplicate Matching</strong> rules. For the default duplicate "
-"matching rules, you would include 3 columns in each row with the members' "
-"First Name, Last Name and Email Address."
+msgid "Include the data fields used for contact 'matching' based on your configured <strong>Duplicate Matching</strong> rules. For the default duplicate matching rules, you would include 3 columns in each row with the members' First Name, Last Name and Email Address."
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"If you've stored a unique <strong>External Identifier</strong> for each "
-"contact in CiviCRM, you can include that value as a column in your import "
-"file. Memberships will then be matched to contact records using their "
-"External ID."
+msgid "If you've stored a unique <strong>External Identifier</strong> for each contact in CiviCRM, you can include that value as a column in your import file. Memberships will then be matched to contact records using their External ID."
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
-msgid ""
-"Save the CSV file with your membership data and 'contact matching' data to "
-"your local hard drive (or an accessible drive on your network) - and you are "
-"now ready for step 1 (Upload Data)."
+msgid "Save the CSV file with your membership data and 'contact matching' data to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"Profiles may be linked to specific modules, accessed via built-in CiviCRM "
-"URLs, or used as standalone forms on any web page. Examples include:"
+msgid "Profiles may be linked to specific modules, accessed via built-in CiviCRM URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>User Screens</strong> - One or several profiles can be linked to "
-"either the <strong>new user registration</strong> and/or view and edit "
-"screens for <strong>existing user accounts</strong>."
+msgid "<strong>User Screens</strong> - One or several profiles can be linked to either the <strong>new user registration</strong> and/or view and edit screens for <strong>existing user accounts</strong>."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>CiviContribute</strong> - When you want to collect information from "
-"Contributors via online contribution pages, you can create a profile and "
-"link it to to your contribution page as a \"custom page element\" (<a href="
-"\"%1\">Configure Online Contribution Pages</a>)."
+msgid "<strong>CiviContribute</strong> - When you want to collect information from Contributors via online contribution pages, you can create a profile and link it to to your contribution page as a \"custom page element\" (<a href=\"%1\">Configure Online Contribution Pages</a>)."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
@@ -931,36 +597,19 @@ msgid "site root"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>Contact Search and Listings</strong> - When you want to provide a "
-"search form and search result listings for some or all of your contacts you "
-"can create a profile with the desired search fields and link users to the "
-"path for that search form. When creating a link to search and listings "
-"profiles, add the corresponding profile ID to the end of your query string "
-"using the 'gid' parameter. For example, the link to display a search and "
-"listings page for a Profile with ID = 3 would be:"
+msgid "<strong>Contact Search and Listings</strong> - When you want to provide a search form and search result listings for some or all of your contacts you can create a profile with the desired search fields and link users to the path for that search form. When creating a link to search and listings profiles, add the corresponding profile ID to the end of your query string using the 'gid' parameter. For example, the link to display a search and listings page for a Profile with ID = 3 would be:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>Contact Signup Forms</strong> - Create link(s) to \"new contact\" "
-"input form(s) for your Profiles using the following path: <em>%1/%2</em>. "
-"(This example links to an input form for Profile ID 3.)"
+msgid "<strong>Contact Signup Forms</strong> - Create link(s) to \"new contact\" input form(s) for your Profiles using the following path: <em>%1/%2</em>. (This example links to an input form for Profile ID 3.)"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</"
-"strong> to edit their own contact info with a Profile using the following "
-"path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
+msgid "<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</strong> to edit their own contact info with a Profile using the following path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"<strong>Standalone Forms</strong> - If you want more control over form "
-"layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/"
-"or sites...click the *Standalone Form* action link for a Profile below - and "
-"copy and paste the HTML form code into any web page."
+msgid "<strong>Standalone Forms</strong> - If you want more control over form layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/or sites...click the *Standalone Form* action link for a Profile below - and copy and paste the HTML form code into any web page."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
@@ -968,19 +617,11 @@ msgid "more info"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"The Standalone HTML code will display a form consisting of the active "
-"CiviCRM Profile fields for the selected profile. You can copy this HTML code "
-"and paste it into any block or page on ANY website where you want to collect "
-"contact information."
+msgid "The Standalone HTML code will display a form consisting of the active CiviCRM Profile fields for the selected profile. You can copy this HTML code and paste it into any block or page on ANY website where you want to collect contact information."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"You can control the web page that someone is directed to AFTER completing "
-"the form by modifying the contents of the hidden <strong>postURL</strong> "
-"input field. Replace the default value with any valid complete URL prior to "
-"saving the form code to the desired page(s)."
+msgid "You can control the web page that someone is directed to AFTER completing the form by modifying the contents of the hidden <strong>postURL</strong> input field. Replace the default value with any valid complete URL prior to saving the form code to the desired page(s)."
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
@@ -988,17 +629,10 @@ msgid "EXAMPLE:"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"If the form is submitted with errors (i.e. required field not completed...) "
-"- the default behavior is to display the errors within the \"built-in\" "
-"profile form. You can override this behavior - specifying your own error "
-"page - by adding a hidden <strong>errorURL</strong> input field"
+msgid "If the form is submitted with errors (i.e. required field not completed...) - the default behavior is to display the errors within the \"built-in\" profile form. You can override this behavior - specifying your own error page - by adding a hidden <strong>errorURL</strong> input field"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
-msgid ""
-"Make sure the CAPTCHA feature is NOT enabled for this profile when you are "
-"grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page "
-"generation. Submitting a stand-alone form with CAPTCHA included will always "
-"result in a CAPTCHA validation error."
+msgid "Make sure the CAPTCHA feature is NOT enabled for this profile when you are grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error."
 msgstr ""
+
