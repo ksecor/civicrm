@@ -5,13 +5,13 @@
 {elseif $action eq 2}
     <legend>{ts}Edit Case Registration{/ts}</legend>
 {elseif $action eq 8}
-    <legend>{ts}Delete Case Registration{/ts}</legend>
+    <legend>{ts}Remove Case Registration{/ts}</legend>
 {/if}
     <div class="form-item">
         <table class="form-layout-compressed"> 
           
     {if $action eq 8 }
-        <div class="status">{ts}Are you sure you want to detach this activity from case?{/ts}</div>
+        <div class="status">{ts}Are you sure you want to remove this case?{/ts}</div>
     {else}
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject {/ts}</td></tr>
