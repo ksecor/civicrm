@@ -33,7 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/DAO/Location.php'; 
 require_once 'CRM/Core/DAO/Address.php'; 
 require_once 'CRM/Core/DAO/Phone.php'; 
 require_once 'CRM/Core/DAO/Email.php';
@@ -428,10 +427,6 @@ class CRM_Contact_BAO_Query {
                         }
 
                         if ( CRM_Utils_Array::value( $tableName, self::$_dependencies ) ) {
-                            $this->_tables['civicrm_location'] = 1;
-                            $this->_select['location_id']      = 'civicrm_location.id as location_id';
-                            $this->_element['location_id']     = 1;
-
                             $this->_tables['civicrm_address'] = 1;
                             $this->_select['address_id']      = 'civicrm_address.id as address_id';
                             $this->_element['address_id']     = 1;
@@ -960,10 +955,6 @@ class CRM_Contact_BAO_Query {
             $this->sortByCharacter( $values );
             return;
 
-        case 'location_name':
-            $this->locationName( $values ); 
-            return;
-
         case 'location_type':
             $this->locationType( $values ); 
             return;
@@ -1411,32 +1402,12 @@ class CRM_Contact_BAO_Query {
             return $from;
         }
 
-        if ( ( 
-               CRM_Utils_Array::value( 'gender', $tables ) ||
-               //CRM_Utils_Array::value( 'civicrm_option_value', $tables ) ||
-               CRM_Utils_Array::value( 'individual_prefix' , $tables ) ||
-               CRM_Utils_Array::value( 'individual_suffix' , $tables )) &&
-             ! CRM_Utils_Array::value( 'civicrm_individual'       , $tables ) ) {
-            $tables = array_merge( array( 'civicrm_individual' => 1 ),
-                                   $tables );
-        }        
-
         if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ||
                CRM_Utils_Array::value( 'civicrm_county'       , $tables )) &&
              ! CRM_Utils_Array::value( 'civicrm_address'       , $tables ) ) {
-            $tables = array_merge( array( 'civicrm_location' => 1,
-                                          'civicrm_address'  => 1 ),
+            $tables = array_merge( array( 'civicrm_address'  => 1 ),
                                    $tables );
-        }
-        // add location table if address / phone / email is set
-        if ( ( CRM_Utils_Array::value( 'civicrm_address' , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_phone'   , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_email'   , $tables ) ||
-               CRM_Utils_Array::value( 'civicrm_im'      , $tables ) ) &&
-             ! CRM_Utils_Array::value( 'civicrm_location', $tables ) ) {
-            $tables = array_merge( array( 'civicrm_location' => 1 ),
-                                   $tables ); 
         }
 
         // add group_contact table if group table is present
@@ -1511,41 +1482,20 @@ class CRM_Contact_BAO_Query {
             }
             switch ( $name ) {
 
-            case 'civicrm_individual':
-                $from .= " $side JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id) ";
-                continue;
-
-            case 'civicrm_household':
-                $from .= " $side JOIN civicrm_household ON (contact_a.id = civicrm_household.contact_id) ";
-                continue;
-
-            case 'civicrm_organization':
-                $from .= " $side JOIN civicrm_organization ON (contact_a.id = civicrm_organization.contact_id) ";
-                continue;
-
-            case 'civicrm_location':
-                $from .= " $side JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                           contact_a.id = civicrm_location.entity_id ";
-                if ( $primaryLocation ) {
-                    $from .= "AND civicrm_location.is_primary = 1";
-                }
-                $from .= ")";
-                continue;
-
             case 'civicrm_address':
-                $from .= " $side JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id ";
+                $from .= " $side JOIN civicrm_address ON ( contact_a.id = civicrm_address.contact_id AND civicrm_address.is_primary = 1 )";
                 continue;
 
             case 'civicrm_phone':
-                $from .= " $side JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) ";
+                $from .= " $side JOIN civicrm_phone ON (contact_a.id = civicrm_phone.contact_id AND civicrm_phone.is_primary = 1) ";
                 continue;
 
             case 'civicrm_email':
-                $from .= " $side JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) ";
+                $from .= " $side JOIN civicrm_email ON (contact_a.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1) ";
                 continue;
 
             case 'civicrm_im':
-                $from .= " $side JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1) ";
+                $from .= " $side JOIN civicrm_im ON (contact_a.id = civicrm_im.contact_id AND civicrm_im.is_primary = 1) ";
                 continue;
 
             case 'im_provider':
@@ -1571,7 +1521,7 @@ class CRM_Contact_BAO_Query {
                 continue;
 
             case 'civicrm_location_type':
-                $from .= " $side JOIN civicrm_location_type ON civicrm_location.location_type_id = civicrm_location_type.id ";
+                $from .= " $side JOIN civicrm_location_type ON civicrm_address.location_type_id = civicrm_location_type.id ";
                 continue;
 
             case 'civicrm_group':
@@ -1610,17 +1560,17 @@ class CRM_Contact_BAO_Query {
                 
             case 'individual_prefix':
                 $from .= " $side JOIN civicrm_option_group option_group_prefix ON (option_group_prefix.name = 'individual_prefix')";
-                $from .= " $side JOIN civicrm_option_value individual_prefix ON (civicrm_individual.prefix_id = individual_prefix.value AND option_group_prefix.id = individual_prefix.option_group_id ) ";
+                $from .= " $side JOIN civicrm_option_value individual_prefix ON (contact_a.prefix_id = individual_prefix.value AND option_group_prefix.id = individual_prefix.option_group_id ) ";
                 continue;
                 
             case 'individual_suffix':
                 $from .= " $side JOIN civicrm_option_group option_group_suffix ON (option_group_suffix.name = 'individual_suffix')";
-                $from .= " $side JOIN civicrm_option_value individual_suffix ON (civicrm_individual.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
+                $from .= " $side JOIN civicrm_option_value individual_suffix ON (contact_a.suffix_id = individual_suffix.value AND option_group_suffix.id = individual_suffix.option_group_id ) ";
                 continue;
                 
             case 'gender':
                 $from .= " $side JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')";
-                $from .= " $side JOIN civicrm_option_value gender ON (civicrm_individual.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";
+                $from .= " $side JOIN civicrm_option_value gender ON (contact_a.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) ";
                 continue;
                 
             case 'civicrm_relationship':
@@ -2023,7 +1973,6 @@ class CRM_Contact_BAO_Query {
             $value = "'$value'";
         }
         $sub = " ( LOWER(civicrm_email.email) $op $value )";
-        $this->_tables['civicrm_location'] = $this->_whereTables['civicrm_location'] = 1;
         $this->_tables['civicrm_email'] = $this->_whereTables['civicrm_email'] = 1; 
 
         $this->_where[$grouping][] = $sub;
@@ -2082,8 +2031,7 @@ class CRM_Contact_BAO_Query {
 
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
-        $this->_tables['civicrm_location'] = $this->_tables['civicrm_address' ] = 1;
-        $this->_whereTables['civicrm_location'] = $this->_whereTables['civicrm_address' ] = 1;
+        $this->_tables['civicrm_address' ] = $this->_whereTables['civicrm_address' ] = 1;
 
         if ( $name == 'postal_code' ) {
             $this->_where[$grouping][] = "civicrm_address.postal_code {$op} '" . CRM_Utils_Type::escape( $value, 'String' ) ."'"; 
@@ -2111,11 +2059,11 @@ class CRM_Contact_BAO_Query {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         
         if (is_array($value)) {
-            $this->_where[$grouping][] = 'civicrm_location.location_type_id IN (' .
+            $this->_where[$grouping][] = 'civicrm_address.location_type_id IN (' .
                 implode( ',', array_keys( $value ) ) .
                 ')';
-            $this->_tables['civicrm_location'] = 1;
-            $this->_whereTables['civicrm_location'] = 1;
+            $this->_tables['civicrm_address'] = 1;
+            $this->_whereTables['civicrm_address'] = 1;
             
             $locationType =& CRM_Core_PseudoConstant::locationType();
             $names = array( );
@@ -2131,29 +2079,6 @@ class CRM_Contact_BAO_Query {
                 return implode( ' ' . ts('or') . ' ', $names );
             }
         }
-    }
-
-    /**
-     * where / qill clause for location Name
-     *
-     * @return void
-     * @access public
-     */
-    function locationName( &$values, $status = null ) {
-        list( $name, $op, $value, $grouping, $wildcard ) = $values; 
-
-        // do the same for location name
-        $name = strtolower(addslashes($value));
-        if ( $wildcard ) {
-            $name = "'%$name%'";
-            $op   = 'LIKE';
-        } else {
-            $name = "'$name'";
-        }
-        $this->_where[$grouping][] = "civicrm_location.name $op $name";
-        $this->_tables['civicrm_location'] = 1;
-        $this->_whereTables['civicrm_location'] = 1;
-        $this->_qill[$grouping][] = ts("Location name %1 '%2'", array(1 => $op, 2 => $value));
     }
 
     /**

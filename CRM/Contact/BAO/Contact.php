@@ -206,16 +206,14 @@ WHERE contact_a.id = %1 AND $permission";
         }
 
         $query = "
-SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary, civicrm_email.on_hold as on_hold
-FROM    civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id = civicrm_location.entity_id )
-LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
-LEFT JOIN civicrm_email ON ( civicrm_location.id = civicrm_email.location_id )
+SELECT    email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary, civicrm_email.on_hold as on_hold
+FROM      civicrm_contact
+LEFT JOIN civicrm_email ON ( civicrm_email.contact_id = civicrm_contact.id )
+LEFT JOIN civicrm_location_type ON ( civicrm_email.location_type_id = civicrm_location_type.id )
 WHERE
   civicrm_contact.id = %1
 ORDER BY
-  civicrm_location.is_primary DESC, civicrm_email.is_primary DESC";
+  civicrm_email.is_primary DESC";
         $params = array( 1 => array( $id, 'Integer' ) );
 
         $emails = array( );
@@ -230,13 +228,11 @@ ORDER BY
 
     static function updatePrimaryEmail( $contactID, $email ) {
         $query = "
-UPDATE  civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id  AND
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
-                                civicrm_email.is_primary = 1    )
-SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
+    UPDATE civicrm_contact
+INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+       SET civicrm_email.email      = %1
+     WHERE civicrm_contact.id       = %2 
+       AND civicrm_email.is_primary = 1";
         
         $p = array( 1 => array( $email    , 'String'  ),
                     2 => array( $contactID, 'Integer' ) );
@@ -265,16 +261,13 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         }
 
         $query = "
-SELECT phone, civicrm_location_type.name as locationType, civicrm_phone.is_primary as is_primary
-FROM    civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id = civicrm_location.entity_id )
-LEFT JOIN civicrm_location_type ON ( civicrm_location.location_type_id = civicrm_location_type.id )
-LEFT JOIN civicrm_phone ON ( civicrm_location.id = civicrm_phone.location_id $cond )
-WHERE
-  civicrm_contact.id = %1
-ORDER BY
-  civicrm_location.is_primary DESC, civicrm_phone.is_primary DESC";
+   SELECT phone, civicrm_location_type.name as locationType, civicrm_phone.is_primary as is_primary
+     FROM civicrm_contact
+LEFT JOIN civicrm_phone ON ( civicrm_contact.id = civicrm_phone.contact_id )
+LEFT JOIN civicrm_location_type ON ( civicrm_phone.location_type_id = civicrm_location_type.id )
+WHERE     civicrm_contact.id = %1 $cond
+ORDER BY civicrm_phone.is_primary DESC";
+
         $params = array( 1 => array( $id, 'Integer' ) );
         
         $numbers = array( );
@@ -1033,23 +1026,21 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      */
     static function getEmailDetails( $id, $locationTypeID = null ) 
     {
-        if ( ! $locationTypeID ) {
-            $locationClause = " civicrm_location.is_primary = 1";
-        } else {
-            $locationClause = " civicrm_location.location_type_id = $locationTypeID";
+        $locationClause = null;
+        if ( $locationTypeID ) {
+            $locationClause = " AND civicrm_email.location_type_id = $locationTypeID";
         }
 
         $sql = "
 SELECT    civicrm_contact.display_name,
           civicrm_email.email,
-          civicrm_location.location_type_id,
-          civicrm_location.id
+          civicrm_email.location_type_id,
+          civicrm_email.id
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                               civicrm_contact.id = civicrm_location.entity_id AND
-                               $locationClause )
-LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
+    WHERE civicrm_email.is_primary = 1
+          $cond
+      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
@@ -1085,13 +1076,13 @@ LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND 
         }
 
 
-        $sql = " SELECT    civicrm_contact.display_name, civicrm_phone.phone
-                 FROM      civicrm_contact
-                 LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                civicrm_contact.id = civicrm_location.entity_id AND
-                                                civicrm_location.is_primary = 1)
-                 LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id $cond )
-                 WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+        $sql = "
+   SELECT civicrm_contact.display_name, civicrm_phone.phone
+     FROM civicrm_contact
+LEFT JOIN civicrm_phone ON ( civicrm_phone.contact_id = civicrm_contact.id )
+    WHERE civicrm_phone.is_primary = 1
+          $cond
+      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
@@ -1109,51 +1100,46 @@ LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND 
      * function to get the information to map a contact
      *
      * @param  array  $ids    the list of ids for which we want map info
-     * $param  int    $locationId location_id
+     * $param  int    $locationTypeID
      *
      * @return null|string     display name of the contact if found
      * @static
      * @access public
      */
-    static function &getMapInfo( $ids, $locationId = null ) 
+    static function &getMapInfo( $ids, $locationTypeID = null ) 
     {
         $idString = ' ( ' . implode( ',', $ids ) . ' ) ';
         $sql = "
-SELECT
-  civicrm_contact.id as contact_id,
-  civicrm_contact.contact_type as contact_type,
-  civicrm_contact.display_name as display_name,
-  civicrm_address.street_address as street_address,
-  civicrm_address.city as city,
-  civicrm_address.postal_code as postal_code,
-  civicrm_address.postal_code_suffix as postal_code_suffix,
-  civicrm_address.geo_code_1 as latitude,
-  civicrm_address.geo_code_2 as longitude,
-  civicrm_state_province.abbreviation as state,
-  civicrm_country.name as country,
-  civicrm_location_type.name as location_type
-FROM civicrm_contact
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                               civicrm_contact.id = civicrm_location.entity_id";
-
-        if (!$locationId) {
-            $sql .= " AND civicrm_location.is_primary = 1";
-        } else {
-            $sql .= " AND civicrm_location.id = " . CRM_Utils_Type::escape($locationId, 'Integer');
-        }
-
-        $sql .= ")
-LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
+   SELECT civicrm_contact.id as contact_id,
+          civicrm_contact.contact_type as contact_type,
+          civicrm_contact.display_name as display_name,
+          civicrm_address.street_address as street_address,
+          civicrm_address.city as city,
+          civicrm_address.postal_code as postal_code,
+          civicrm_address.postal_code_suffix as postal_code_suffix,
+          civicrm_address.geo_code_1 as latitude,
+          civicrm_address.geo_code_2 as longitude,
+          civicrm_state_province.abbreviation as state,
+          civicrm_country.name as country,
+          civicrm_location_type.name as location_type
+     FROM civicrm_contact
+LEFT JOIN civicrm_address ON civicrm_address.contact_id = civicrm_contact.id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
-LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
+LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_address.location_type_id
 WHERE civicrm_contact.id IN $idString ";
 
-        $dao =& new CRM_Core_DAO( );
-        $dao->query( $sql );
+        $params = array( );
+        if (!$locationId) {
+            $sql .= " AND civicrm_address.is_primary = 1";
+        } else {
+            $sql .= " AND civicrm_address.location_type_id = %1";
+            $params[1] = array( $locationTypeID, 'Integer' );
+        }
+
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
 
         $locations = array( );
-
         $config =& CRM_Core_Config::singleton( );
 
         while ( $dao->fetch( ) ) {
@@ -1931,26 +1917,24 @@ WHERE civicrm_contact.id IN $idString ";
 
         // if individual
        if( $contactType == 'Individual') {
-           $sql = " SELECT  civicrm_individual.first_name, civicrm_individual.last_name,  civicrm_email.email, civicrm_contact.do_not_email
-                    FROM    civicrm_contact
-                    LEFT JOIN civicrm_individual ON (civicrm_contact.id = civicrm_individual.contact_id)
-                    LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                   civicrm_contact.id = civicrm_location.entity_id AND
-                                                   civicrm_location.is_primary = 1)
-                    LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-                    WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+           $sql = "
+   SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email
+     FROM civicrm_contact
+LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
+    WHERE civicrm_address.is_primary = 1
+      AND civicrm_contact.id = %1";
+           $params = array( 1 => array( $id, 'Integer' ) );
        } else { // for household / organization
-           $sql = " SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
-                    FROM   civicrm_contact
-                    LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                                                civicrm_contact.id = civicrm_location.entity_id AND
-                                                civicrm_location.is_primary = 1)
-                    LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-                    WHERE  civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+           $sql = "
+   SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
+     FROM civicrm_contact
+LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
+    WHERE civicrm_address.is_primary = 1
+      AND civicrm_contact.id = %1";
+           $params = array( 1 => array( $id, 'Integer' ) );
         }
  
-       $dao =& new CRM_Core_DAO( );
-       $dao->query( $sql );
+       $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
        $result = $dao->getDatabaseResult();
        if ( $result ) {
            $row  = $result->fetchRow();
@@ -2431,11 +2415,10 @@ SELECT    civicrm_contact.id as contact_id,
           civicrm_contact.contact_type as contact_type,
           civicrm_contact.contact_sub_type as contact_sub_type
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id AND 
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND civicrm_email.is_primary = 1    )
-WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
+LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+    WHERE civicrm_email.is_primary = 1
+      AND civicrm_email.email = %1
+      AND civicrm_contact.domain_id = %2";
        $p = array( 1 => array( $mail, 'String' ),
                    2 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
 
@@ -2507,14 +2490,11 @@ WHERE     civicrm_email.email = %1 AND civicrm_contact.domain_id = %2";
     {
         // fetch the primary email
         $query = "
-SELECT    civicrm_email.email as email
-FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id  AND
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id   AND
-                                civicrm_email.is_primary = 1    )
-WHERE     civicrm_contact.id = %1";
+   SELECT civicrm_email.email as email
+     FROM civicrm_contact
+LEFT JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
+    WHERE civicrm_email.is_primary = 1
+      AND civicrm_contact.id = %1";
         $p = array( 1 => array( $contactID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 
@@ -2541,12 +2521,9 @@ WHERE     civicrm_contact.id = %1";
         $query = "
 SELECT    civicrm_openid.openid as openid
 FROM      civicrm_contact
-LEFT JOIN civicrm_location ON ( civicrm_location.entity_table = 'civicrm_contact' AND
-                                civicrm_contact.id  = civicrm_location.entity_id  AND
-                                civicrm_location.is_primary = 1 )
-LEFT JOIN civicrm_openid    ON ( civicrm_location.id = civicrm_openid.location_id   AND
-                                civicrm_openid.is_primary = 1    )
-WHERE     civicrm_contact.id = %1";
+LEFT JOIN civicrm_openid ON ( civicrm_contact.id = civicrm_openid.contact_id )
+WHERE     civicrm_contact.id = %1
+AND       civicrm_openid.is_primary = 1";
         $p = array( 1 => array( $contactID, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
 
