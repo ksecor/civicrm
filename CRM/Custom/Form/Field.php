@@ -81,6 +81,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             array('Text' => 'Text', 'Select' => 'Select', 'Radio' => 'Radio'),
             array('TextArea' => 'TextArea'),
             array('Date' => 'Select Date'),
+            array('DateTime' => 'Select Date/Time'),
             array('Radio' => 'Radio'),
             array('StateProvince' => 'Select State/Province'),
             array('Country' => 'Select Country'),
@@ -123,6 +124,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                         'Radio' => ts('Radio')),
                 array('TextArea' => ts('TextArea')),
                 array('Date' => ts('Select Date')),
+                array('DateTime' => ts('Select Date Time')),
                 array('Radio' => ts('Radio')),
                 array('StateProvince' => ts('Select State/Province')),
                 array('Country' => ts('Select Country')),
@@ -619,6 +621,7 @@ SELECT count(*)
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
         $customField->data_type     = self::$_dataTypeKeys[$params['data_type'][0]];
+        
         $customField->html_type     = self::$_dataToHTML[$params['data_type'][0]][$params['data_type'][1]];
         
         // fix for CRM-316

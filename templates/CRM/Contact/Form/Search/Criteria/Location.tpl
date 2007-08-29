@@ -31,9 +31,11 @@
             </td>
             <td class="label">{$form.location_name.label}</td><td>{$form.location_name.html|crmReplace:class:medium}</td>
         </tr>
-	<tr>
-            <td class="label">{$form.county.label}</td>
-            <td>{$form.county.html|crmReplace:class:big}</td>
+    	<tr>
+            <td class="label">{$form.world_region.label}</td>
+            <td>{$form.world_region.html}</td>
+            <td class="label">{$form.county.label}
+                            {$form.county.html|crmReplace:class:big}</td>
         </tr>
     </table>
 </fieldset>

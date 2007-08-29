@@ -870,9 +870,11 @@ $where
                     break;
                     
                 case 'Select Date':
+                case 'Select Date/Time':
                     if (isset($value)) {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }
+                   
                     break;
                     
                 case 'Select Country':
