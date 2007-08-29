@@ -257,21 +257,9 @@ echo "Generating sql file\n";
 $sql = $smarty->fetch( 'schema.tpl' );
 
 createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "civicrm_41.mysql", "w" );
+$fd = fopen( $sqlCodePath . "civicrm.mysql", "w" );
 fputs( $fd, $sql );
 fclose($fd);
-
-/***
-// now generate the mysql4.0 version
-$smarty->assign( 'mysql', 'simple' );
-echo "Generating mysql 4.0 file\n";
-$sql = $smarty->fetch( 'schema.tpl' );
-
-createDir( $sqlCodePath );
-$fd = fopen( $sqlCodePath . "civicrm_40.mysql", "w" );
-fputs( $fd, $sql );
-fclose($fd);
-***/
 
 // write the civicrm data file fixing the domain
 // id variable and translate the {ts}-tagged strings

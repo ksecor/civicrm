@@ -79,7 +79,7 @@ mysqladmin -f -u $DBUSER $PASSWDSECTION $DBARGS drop $DBNAME
 echo; echo Creating $DBNAME database
 mysqladmin -f -u $DBUSER $PASSWDSECTION $DBARGS create $DBNAME
 echo; echo Creating database structure
-mysql -u $DBUSER $PASSWDSECTION $DBARGS $DBNAME < civicrm_41.mysql
+mysql -u $DBUSER $PASSWDSECTION $DBARGS $DBNAME < civicrm.mysql
 
 # load civicrm_generated.mysql sample data unless special DBLOAD is passed
 if [ -z $DBLOAD ]; then
@@ -97,7 +97,7 @@ echo; echo "DONE!"
 # to generate a new data file do the foll:
 # mysqladmin -f -uYourDBUser -pYourDBPassword drop YourDBName
 # mysqladmin -f -uYourDBUser -pYourDBPassword create YourDBName
-# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_41.mysql
+# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm.mysql
 # mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_data.mysql
 # mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_sample.mysql
 # mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
