@@ -147,8 +147,19 @@ class CRM_Core_BAO_CustomQuery {
 
         // initialize the field array
         $tmpArray = array_keys( $this->_ids );
-        $query = 'select * from civicrm_custom_field where is_active = 1 AND id IN ( ' .
-            implode( ',', $tmpArray ) . ' ) ';
+        $idString = implode( ',', $tmpArray );
+        $query = "
+SELECT f.id, f.label, f.data_type,
+       f.html_type, f.is_search_range,
+       f.option_group_id, f.custom_group_id,
+       f.column_name, g.table_name 
+  FROM civicrm_custom_field f,
+       civicrm_custom_group g
+ WHERE f.custom_group_id = g.id
+   AND g.is_active = 1
+   AND f.is_active = 1 
+   AND f.id IN ( $idString )";
+
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $optionIds = array( );
         while ( $dao->fetch( ) ) {
@@ -161,7 +172,8 @@ class CRM_Core_BAO_CustomQuery {
                                               'data_type'       => $dao->data_type,
                                               'html_type'       => $dao->html_type,
                                               'is_search_range' => $dao->is_search_range,
-                                              'db_field'        => CRM_Core_BAO_CustomValue::typeToField( $dao->data_type ) ); 
+                                              'column_name'     => $dao->column_name,
+                                              'table_name'      => $dao->table_name ) ;
 
             // store it in the options cache to make things easier
             // during option lookup
@@ -173,7 +185,7 @@ class CRM_Core_BAO_CustomQuery {
                  $dao->html_type == 'Radio'    ||
                  $dao->html_type == 'Select'   ||
                  $dao->html_type == 'Multi-Select' ) {
-                $optionIds[] = $dao->id;
+                $optionIds[] = $dao->option_group_id;
             }
         }
 
@@ -181,19 +193,19 @@ class CRM_Core_BAO_CustomQuery {
         if ( ! empty( $optionIds ) ) {
             $optionIdString = implode( ',', $optionIds );
             $query = "
-SELECT entity_id, label, value
-  FROM civicrm_custom_option
- WHERE entity_id IN ( $optionIdString ) AND entity_table = 'civicrm_custom_field'
+SELECT label, value
+  FROM civicrm_option_value
+ WHERE option_group_id IN ( $optionIdString )
 ";
 
-            $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            while ( $dao->fetch( ) ) {
-                $dataType = $this->_fields[$dao->entity_id]['data_type'];
+            $option =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            while ( $option->fetch( ) ) {
+                $dataType = $this->_fields[$dao->id]['data_type'];
                 if ( $dataType == 'Int' || $dataType == 'Float' ) {
-                    $num = round($dao->value, 2);
-                    $this->_options[$dao->entity_id]["$num"] = $dao->label;
+                    $num = round($option->value, 2);
+                    $this->_options[$dao->id]["$num"] = $option->label;
                 } else {
-                    $this->_options[$dao->entity_id][$dao->value] = $dao->label;
+                    $this->_options[$dao->id][$option->value] = $option->label;
                 }
             }
         }
@@ -213,38 +225,29 @@ SELECT entity_id, label, value
         }
 
         foreach ( $this->_fields as $id => $field ) {
-            $name = self::PREFIX . $field['id'];
+            $name = $field['table_name'];
             $fieldName = 'custom_' . $field['id'];
             $this->_select["{$name}_id"]  = "{$name}.id as {$name}_id";
             $this->_element["{$name}_id"] = 1;
-            $this->_select[$fieldName]    = $name . '.' . $field['db_field'] . " as $fieldName";
+            $this->_select[$fieldName]    = "{$field['table_name']}.{$field['column_name']} as $fieldName";
             $this->_element[$fieldName]   = 1;
+            $joinTable = null;
             if ( $field['extends'] == 'civicrm_contact' ) {
-                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_contact' AND $name.entity_id = contact_a.id ";
-                if ( $this->_ids[$id] ) {
-                    $this->_whereTables[$name] = $this->_tables[$name];
-                }
+                $joinTable = 'contact_a';
             } else if ( $field['extends'] == 'civicrm_contribution' ) {
-                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_contribution' AND $name.entity_id = civicrm_contribution.id ";
-                $this->_whereTables['civicrm_contribution'] = $this->_tables['civicrm_contribution'] = 1;
-                if ( $this->_ids[$id] ) {
-                    $this->_whereTables[$name] = $this->_tables[$name];
-                }
+                $joinTable = 'civicrm_contribution';
             } else if ( $field['extends'] == 'civicrm_participant' ) {
-                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_participant' AND $name.entity_id = civicrm_participant.id ";
-                $this->_whereTables['civicrm_participant'] = $this->_tables['civicrm_participant'] = 1;
+                $joinTable = 'civicrm_participant';
+            } else if ( $field['extends'] == 'civicrm_membership' ) {
+                $joinTable = 'civicrm_membership';
+            }
+            if ( $joinTable ) {
+                $this->_tables[$name] = "\nLEFT JOIN $name ON $name.entity_id = $joinTable.id";
                 if ( $this->_ids[$id] ) {
                     $this->_whereTables[$name] = $this->_tables[$name];
                 }
-            } else if ( $field['extends'] == 'civicrm_membership' ) {
-                $this->_tables[$name] = "\nLEFT JOIN civicrm_custom_value $name ON $name.custom_field_id = " . $field['id'] .
-                    " AND $name.entity_table = 'civicrm_membership' AND $name.entity_id = civicrm_membership.id ";
-                $this->_whereTables['civicrm_membership'] = $this->_tables['civicrm_membership'] = 1;
-                if ( $this->_ids[$id] ) {
-                    $this->_whereTables[$name] = $this->_tables[$name];
+                if ( $joinTable != 'contact_a' ) {
+                    $this->_whereTables[$joinTable] = $this->_tables[$joinTable] = 1;
                 }
             }
         }
@@ -283,11 +286,12 @@ SELECT entity_id, label, value
                 if ( ! is_array( $value ) ) {
                     $value = addslashes(trim($value));
                 }
-           
+
+                $fieldName = "{$field['table_name']}.{$field['column_name']}";
                 switch ( $field['data_type'] ) {
 
                 case 'String':
-                    $sql = 'LOWER(' . self::PREFIX . $field['id'] . '.char_data) ';
+                    $sql = "LOWER($fieldName)";
                     // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
                     if ( is_array( $value ) ) {
                         require_once 'CRM/Core/BAO/CustomOption.php';
@@ -309,7 +313,7 @@ SELECT entity_id, label, value
                         }                    
                     } else {
                         if ( $field['is_search_range'] && is_array( $value ) ) {
-                            $this->searchRange( $field['id'], $field['label'], 'char_data', $value, $grouping );
+                            $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
                             $this->_where[$grouping][] = "{$sql} {$op} '{$val}'";
@@ -320,9 +324,9 @@ SELECT entity_id, label, value
                 
                 case 'Int':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
-                        $this->searchRange( $field['id'], $field['label'], 'int_data', $value, $grouping );
+                        $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                     } else {
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
+                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
                         $this->_qill[$grouping][]  = $field['label'] . " $op $value";
                     }
                     continue;
@@ -330,16 +334,16 @@ SELECT entity_id, label, value
                 case 'Boolean':
                     $value = (int ) $value;
                     $value = ( $value == 1 ) ? 1 : 0;
-                    $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
+                    $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Integer' );
                     $value = $value ? ts('Yes') : ts('No');
                     $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     continue;
 
                 case 'Float':
                     if ( $field['is_search_range'] && is_array( $value ) ) {
-                        $this->searchRange( $field['id'], $field['label'], 'float_data', $value, $grouping );
+                        $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                     } else {                
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".float_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
+                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;                    
@@ -351,18 +355,18 @@ SELECT entity_id, label, value
                             $moneyFormat = CRM_Utils_Rule::cleanMoney($value[$key]);
                             $value[$key] = $moneyFormat;
                         }
-                        $this->searchRange( $field['id'], $field['label'], 'decimal_data', $value, $grouping );
+                        $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
                     } else { 
                         $moneyFormat = CRM_Utils_Rule::cleanMoney($value);
                         $value       = $moneyFormat;
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".decimal_data {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
+                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Float' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$value}";
                     }
                     continue;
                 
                 case 'Memo':
                     $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
-                    $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".memo_data {$op} '{$val}'";
+                    $this->_where[$grouping][] = "$fieldName {$op} '{$val}'";
                     $this->_qill[$grouping][] = "$field[label] $op $value";
                     continue;
                 
@@ -375,7 +379,7 @@ SELECT entity_id, label, value
                             continue; 
                         } 
                     
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".date_data {$op} {$date}";
+                        $this->_where[$grouping][] = "$fieldName {$op} {$date}";
                         $date = CRM_Utils_Date::format( $value, '-' ); 
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} " . 
                             CRM_Utils_Date::customFormat( $date ); 
@@ -386,13 +390,13 @@ SELECT entity_id, label, value
                             continue;
                         }
                         if ( $fromDate ) {
-                            $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".date_data >= $fromDate";
+                            $this->_where[$grouping][] = "$fieldName >= $fromDate";
                             $fromDate = CRM_Utils_Date::format( $fromValue, '-' );
                             $this->_qill[$grouping][]  = $field['label'] . ' >= ' .
                                 CRM_Utils_Date::customFormat( $fromDate );
                         }
                         if ( $toDate ) {
-                            $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".date_data <= $toDate";
+                            $this->_where[$grouping][] = "$fieldName <= $toDate";
                             $toDate = CRM_Utils_Date::format( $toValue, '-' );
                             $this->_qill[$grouping][]  = $field['label'] . ' <= ' .
                                 CRM_Utils_Date::customFormat( $toDate );
@@ -406,7 +410,7 @@ SELECT entity_id, label, value
                         $value  = array_search( $value, $states );
                     }
                     if ( $value ) {
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
+                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$states[$value]}";
                     }
                     continue;
@@ -417,7 +421,7 @@ SELECT entity_id, label, value
                         $value  = array_search( $value, $countries );
                     }
                     if ( $value ) {
-                        $this->_where[$grouping][] = self::PREFIX . $field['id'] . ".int_data {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
+                        $this->_where[$grouping][] = "$fieldName {$op} " . CRM_Utils_Type::escape( $value, 'Int' );
                         $this->_qill[$grouping][]  = $field['label'] . " {$op} {$countries[$value]}";
                     }
                     continue;
@@ -459,27 +463,27 @@ SELECT entity_id, label, value
                       $whereStr );
     }
 
-    function searchRange( &$id, &$label, $type, &$value, &$grouping ) {
+    function searchRange( &$id, &$label, $type, $fieldName, &$value, &$grouping ) {
         $qill = array( );
         $crmType = CRM_Core_BAO_CustomValue::fieldToType( $type );
 
         if ( isset( $value['from'] ) ) {
             $val = CRM_Utils_Type::escape( $value['from'], $crmType );
 
-            if ( $type == 'char_data' ) {
-                $this->_where[$grouping][] = self::PREFIX . "$id.$type >= '$val'";
+            if ( $type == 'String' ) {
+                $this->_where[$grouping][] = "$fieldName >= '$val'";
             } else {
-                $this->_where[$grouping][] = self::PREFIX . "$id.$type >= $val";
+                $this->_where[$grouping][] = "$fieldName >= $val";
             }
             $qill[] = ts( 'greater than or equal to "%1"', array( 1 => $value['from'] ) );
         }
 
         if ( isset( $value['to'] ) ) {
             $val = CRM_Utils_Type::escape( $value['to'], $crmType );
-            if ( $type == 'char_data' ) {
-                $this->_where[$grouping][] = self::PREFIX . "$id.$type <= '$val'";
+            if ( $type == 'String' ) {
+                $this->_where[$grouping][] = "$fieldName <= '$val'";
             } else {
-                $this->_where[$grouping][] = self::PREFIX . "$id.$type <= $val";
+                $this->_where[$grouping][] = "$fieldName <= $val";
             }
             $qill[] = ts( 'less than or equal to "%1"', array( 1 => $value['to'] ) );
         }
