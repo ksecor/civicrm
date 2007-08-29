@@ -166,7 +166,7 @@ class CRM_Case_BAO_Query
             
             $value = strtolower(addslashes(trim($value)));
             $query->_where[$grouping][] = "civicrm_case.status_id $op '{$value}'";
-            $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+            $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
             $value  = $caseStatus[$value];
             $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
@@ -248,9 +248,9 @@ class CRM_Case_BAO_Query
         $form->addElement('select', 'case_casetag3_id',  ts( 'Violation' ),  
                           $caseViolation, array("size"=>"5",'style' => 'width:200px', "multiple"));
 
-        $caseStatus  = array( 1 => 'Resolved', 2 => 'Ongoing' ); 
+        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
-                   array( '' => ts( '-select-' ) ) + $caseStatus );
+                   $caseStatus );
         $form->addElement( 'text', 'case_subject', ts( 'Subject' ) );
     
         $form->addElement('date', 'case_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
