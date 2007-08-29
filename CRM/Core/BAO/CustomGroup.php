@@ -325,7 +325,6 @@ ORDER BY civicrm_custom_group.weight,
                     $customValue['data'] = $crmDAO->civicrm_custom_value_memo_data;
                     break;
                 case 'Date':
-                case 'DateTime':
                     $customValue['data'] = $crmDAO->civicrm_custom_value_date_data;
                     break;
                 case 'File':
@@ -994,7 +993,6 @@ ORDER BY civicrm_custom_group.weight,
                     break;
                     
                 case 'Select Date':
-                case 'Select Date/Time':
                     if (isset($value)) {
                         $defaults[$elementName] = CRM_Utils_Date::unformat( $value, '-' );
                     }

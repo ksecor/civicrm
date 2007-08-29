@@ -101,7 +101,7 @@
   </index>
   <field>
      <name>date_data</name>
-     <type>datetime</type>
+     <type>date</type>
      <comment>data for ext property data_type = date.</comment>
        <add>1.1</add>
   </field>

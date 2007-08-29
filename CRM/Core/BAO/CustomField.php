@@ -79,7 +79,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'Money'         => ts('Money'),
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
-                'DateTime'      => ts('Date/Time'),
                 'Boolean'       => ts('Yes or No'),
                 'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
@@ -385,12 +384,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             } else {
                 $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'custom', $field->start_date_years,$field->end_date_years,$field->date_parts), (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             }
-            break;
-
-        case 'Select Date/Time':
-
-            $qf->add('date', $elementName, $label, CRM_Core_SelectValues::date( 'datetime', $field->start_date_years,$field->end_date_years,$field->date_parts), (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
-            
             break;
 
         case 'Radio':
@@ -967,7 +960,7 @@ WHERE custom_field_id = {$customFieldId} AND entity_table='{$entityTable}' AND e
         }
         
         // fix the date field 
-        if ( $customFields[$customFieldId][2] == 'Date' || $customFields[$customFieldId][2] == 'DateTime') {
+        if ( $customFields[$customFieldId][2] == 'Date' ) {
             $date =CRM_Utils_Date::format( $value );
             if ( ! $date ) {
                 $date = '';
