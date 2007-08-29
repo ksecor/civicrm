@@ -430,7 +430,8 @@ class CRM_Event_BAO_Query
         foreach ( $roleValues as $k => $v ) {
             $role[] = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
         }
-        $form->addGroup($role, 'participant_role_id', ts('Participant Role'));
+        $form->addGroup( $role, 'participant_role_id', ts('Participant Role'),
+			 array( '&nbsp;', '&nbsp;', '&nbsp;', '&nbsp;', '<br/>' ) );
 
         $form->addElement( 'checkbox', 'participant_test' , ts( 'Find Test Participants Only?' ) );
 
