@@ -1,42 +1,42 @@
 
 -- Sample Extended Property Group and Fields
-INSERT INTO civicrm_custom_group
-    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
-VALUES
-    (%%CIVICRM_DOMAIN_ID%%, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1);
+-- INSERT INTO civicrm_custom_group
+--    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active)
+-- VALUES
+--    (%%CIVICRM_DOMAIN_ID%%, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1);
 
-INSERT INTO 
-   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
-VALUES 
-   (%%CIVICRM_DOMAIN_ID%%, 'custom_most_important_issue', '{ts}Custom Field: Most Important Issue{/ts}'     , 0, 1),
-   (%%CIVICRM_DOMAIN_ID%%, 'custom_marital_status'      , '{ts}Custom Field: Marital Status{/ts}'           , 0, 1),
-   (%%CIVICRM_DOMAIN_ID%%, 'custom_contribution_page_1' , '{ts}Contribution Page Amount: 1{/ts}'            , 0, 1);
+-- INSERT INTO 
+--    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+-- VALUES 
+--    (%%CIVICRM_DOMAIN_ID%%, 'custom_most_important_issue', '{ts}Custom Field: Most Important Issue{/ts}'     , 0, 1),
+--    (%%CIVICRM_DOMAIN_ID%%, 'custom_marital_status'      , '{ts}Custom Field: Marital Status{/ts}'           , 0, 1),
+--    (%%CIVICRM_DOMAIN_ID%%, 'custom_contribution_page_1' , '{ts}Contribution Page Amount: 1{/ts}'            , 0, 1);
 
-SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
-SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
-SELECT @option_cpage_id   := max(id) from civicrm_option_group where name = 'custom_contribution_page_1';
+-- SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
+-- SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
+-- SELECT @option_cpage_id   := max(id) from civicrm_option_group where name = 'custom_contribution_page_1';
 
-INSERT INTO civicrm_custom_field
-    (custom_group_id, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, option_group_id)
-VALUES
-    (1, 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, @option_most_id),
-    (1, 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, @option_marital_id);
+-- INSERT INTO civicrm_custom_field
+--     (custom_group_id, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, option_group_id)
+-- VALUES
+--     (1, 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, @option_most_id),
+--     (1, 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, @option_marital_id);
 
-INSERT INTO 
-   `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`) 
-VALUES
-    (@option_most_id   , 'Education', 'Edu', 1, 1),
-    (@option_most_id   , 'Environment', 'Env', 2, 1),
-    (@option_most_id   , 'Social Justice', 'SocJus', 3, 1),
-    (@option_marital_id, 'Single', 'S', 1, 1),
-    (@option_marital_id, 'Married', 'M', 2, 1),
-    (@option_marital_id, 'Domestic Partner', 'D', 3, 1),
-    (@option_marital_id, 'Widowed', 'W', 4, 1),
-    (@option_marital_id, 'Other', 'O', 5, 1),
-    (@option_cpage_id,   'Friend','0.10',1,1),
-    (@option_cpage_id,   'Supporter','0.50',2,1),
-    (@option_cpage_id,   'Booster','1.00',3,1),
-    (@option_cpage_id,   'Sustainer','5.00',4,1);
+-- INSERT INTO 
+--    `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`) 
+-- VALUES
+--     (@option_most_id   , 'Education', 'Edu', 1, 1),
+--     (@option_most_id   , 'Environment', 'Env', 2, 1),
+--     (@option_most_id   , 'Social Justice', 'SocJus', 3, 1),
+--     (@option_marital_id, 'Single', 'S', 1, 1),
+--     (@option_marital_id, 'Married', 'M', 2, 1),
+--     (@option_marital_id, 'Domestic Partner', 'D', 3, 1),
+--     (@option_marital_id, 'Widowed', 'W', 4, 1),
+--     (@option_marital_id, 'Other', 'O', 5, 1),
+--     (@option_cpage_id,   'Friend','0.10',1,1),
+--     (@option_cpage_id,   'Supporter','0.50',2,1),
+--     (@option_cpage_id,   'Booster','1.00',3,1),
+--     (@option_cpage_id,   'Sustainer','5.00',4,1);
 
 INSERT INTO civicrm_uf_group
     (domain_id, is_active, form_type, title, help_pre)

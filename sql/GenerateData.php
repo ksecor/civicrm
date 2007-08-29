@@ -951,7 +951,6 @@ class CRM_GCD {
             self::getZipCodeInfo( );
 
         $addressDAO->county_id = 1;
-        $addressDAO->geo_coord_id = 1;
         
         $this->_insert($addressDAO);
 
@@ -1390,11 +1389,11 @@ VALUES
 
     function addEventLocationAddress()
     {
-        $event = "INSERT INTO civicrm_address (id, contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_coord_id, geo_code_1, geo_code_2, timezone)
+        $event = "INSERT INTO civicrm_address (id, contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
-      (86, 87, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 1, 41.8328, -72.9253, NULL),
-      (87, 88, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 1, 39.7531, -84.2471, NULL),
-      (88, 89, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 1, 35.5212, -105.982, NULL)
+      (86, 87, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL),
+      (87, 88, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 39.7531, -84.2471, NULL),
+      (88, 89, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 35.5212, -105.982, NULL)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
     }

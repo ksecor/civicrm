@@ -29,6 +29,7 @@
        <table>civicrm_custom_group</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
      <name>label</name>

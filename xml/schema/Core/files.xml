@@ -16,7 +16,6 @@
 <xi:include href="EntityFile.xml"           parse="xml" />
 <xi:include href="EntityTag.xml"            parse="xml" />
 <xi:include href="File.xml"                 parse="xml" />
-<xi:include href="GeoCoord.xml"             parse="xml" />
 <xi:include href="IM.xml"                   parse="xml" />
 <xi:include href="LineItem.xml"             parse="xml" />
 <xi:include href="LocationBlock.xml"        parse="xml" />

@@ -246,30 +246,17 @@
        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
-      <name>geo_coord_id</name>
-      <type>int unsigned</type>
-      <comment>Which Geo_Coord does this address belong to.</comment>
-       <add>1.1</add>
-  </field>
-  <foreignKey>
-       <name>geo_coord_id</name>
-       <table>civicrm_geo_coord</table>
-       <key>id</key>
-       <add>1.1</add>
-       <onDelete>SET NULL</onDelete>
-  </foreignKey>
-  <field>
        <name>geo_code_1</name>
        <type>float</type>
        <import>true</import>
        <headerPattern>/geo/i</headerPattern>
-       <comment>Latitude or UTM (Universal Transverse Mercator Grid) Northing.</comment>
+       <comment>Latitude</comment>
        <add>1.1</add>
   </field>
   <field>
        <name>geo_code_2</name>
        <type>float</type>
-       <comment>Longitude or UTM (Universal Transverse Mercator Grid) Easting.</comment>
+       <comment>Longitude</comment>
        <import>true</import>
        <headerPattern>/geo/i</headerPattern>
        <add>1.1</add>
