@@ -196,7 +196,8 @@ class CRM_Core_BAO_SchemaHandler
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
-            $sql .= "CONSTRAINT FK_{$tableName}_{$params['fk_table_name']}_{$params['fk_field_name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} )";
+            $sql .= "CONSTRAINT FK_{$tableName}_{$params['fk_table_name']}_{$params['fk_field_name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} ) ";
+            $sql .= CRM_Utils_Array::value( 'fk_attributes', $params );
         }
         return $sql;
     }

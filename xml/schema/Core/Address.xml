@@ -28,6 +28,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>2.0</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>location_type_id</name>
@@ -183,6 +184,7 @@
        <headerPattern>/county/i</headerPattern>
        <dataPattern>/[A-Z]{2}/</dataPattern>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>state_province_id</name>
@@ -198,6 +200,7 @@
        <headerPattern>/state|prov(ince)?/i</headerPattern>
        <dataPattern>/A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]/i</dataPattern>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
  <field>
        <name>postal_code_suffix</name>
@@ -240,6 +243,7 @@
        <headerPattern>/country/i</headerPattern>
        <dataPattern>/\w+(\s\w+)?/</dataPattern>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>geo_coord_id</name>
@@ -252,6 +256,7 @@
        <table>civicrm_geo_coord</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
        <name>geo_code_1</name>

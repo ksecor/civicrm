@@ -106,20 +106,21 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
      */
     static function updatePrimaryContact( $primaryContactId = null, $contactId ) 
     {
-        $household =& new CRM_Contact_DAO_Household;
-        
-        $queryString    = "UPDATE civicrm_household 
+        $queryString    = "UPDATE civicrm_contact
                            SET primary_contact_id = ";
         
+        $params = array( );
         if ( $primaryContactId ) {
-            $queryString .= "" . CRM_Utils_Type::escape($primaryContactId,'Integer');
+            $queryString .= '%1';
+            $params[1] = array( $primaryContactId, 'Integer' );
         } else {
             $queryString .= "null";
         }
         
-        $queryString .=  "" ." WHERE contact_id= " . CRM_Utils_Type::escape($contactId, 'Integer');
+        $queryString .=  " WHERE id = %2";
+        $params[2] = array( $contactId, 'Integer' );
         
-        return  $household->query($queryString);
+        return  CRM_Core_DAO::executeQuery( $queryString, $params );
     }
 }
 ?>

@@ -411,6 +411,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
        <name>organization_name</name>

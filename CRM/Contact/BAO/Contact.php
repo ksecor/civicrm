@@ -1298,45 +1298,24 @@ WHERE civicrm_contact.id IN $idString ";
         
         CRM_Core_BAO_Note::deleteContact($id);
 
-        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_CustomValue', $id );
-
-        CRM_Core_DAO::deleteEntityContact( 'CRM_Core_DAO_ActivityHistory', $id );
-
         require_once 'CRM/Core/BAO/UFMatch.php';
         CRM_Core_BAO_UFMatch::deleteContact( $id );
         
         // need to remove them from email, meeting , phonecall and other activities
-        CRM_Core_BAO_EmailHistory::deleteContact($id);
+        // FIX ME: Schema Change
+        // CRM_Core_BAO_EmailHistory::deleteContact($id);
         
-        CRM_Activity_BAO_Activity::deleteContact($id);
+        // CRM_Activity_BAO_Activity::deleteContact($id);
 
         // location shld be deleted after phonecall, since fields in phonecall are
         // fkeyed into location/phone.
-        CRM_Core_BAO_Location::deleteContact( $id );
+        // CRM_Core_BAO_Location::deleteContact( $id );
 
         require_once 'CRM/Core/DAO/EntityTag.php';
         $eTag=& new CRM_Core_DAO_EntityTag();
         $eTag->contact_id = $id;
         $eTag->delete();
 
-        // fix household and org primary contact ids
-        static $misc = array( 'Household', 'Organization' );
-        foreach ( $misc as $name ) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $name) . ".php");
-            eval( '$object =& new CRM_Contact_DAO_' . $name . '( );' );
-            $object->primary_contact_id = $id;
-            $object->find( );
-            while ( $object->fetch( ) ) {
-                // we need to set this to null explicitly
-                $object->primary_contact_id = 'null';
-                $object->save( );
-            }
-        }
-
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contactType) . ".php");
-        eval( '$object =& new CRM_Contact_BAO_' . $contactType . '( );' );
-        $object->contact_id = $contact->id;
-        $object->delete( );
         $contact->delete( );
 
         //delete the contact id from recently view

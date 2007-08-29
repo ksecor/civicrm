@@ -274,57 +274,61 @@ ORDER BY civicrm_custom_group.weight,
             }
         }
 
-        // add info to groupTree
-        $groupTree['info'] = array( 'tables' => $customValueTables );
-
         // now that we have all the groups and fields, lets get the values
         // since we need to know the table and field names
         if ( $entityID ) {
             $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
         }
 
-        $select = $from = $where = array( );
-        foreach ( $groupTree['info']['tables'] as $table => $fields ) {
-            $from[]   = $table;
-            $select[] = "{$table}.id as {$table}_id";
-            $select[] = "{$table}.entity_id as {$table}_entity_id";
-            foreach ( $fields as $column => $dontCare ) {
-                $select[] = "{$table}.{$column} as {$table}_{$column}";
+        // add info to groupTree
+        if ( ! empty( $customValueTables ) ) {
+            $groupTree['info'] = array( 'tables' => $customValueTables );
+
+            
+            $select = $from = $where = array( );
+            foreach ( $groupTree['info']['tables'] as $table => $fields ) {
+                $from[]   = $table;
+                $select[] = "{$table}.id as {$table}_id";
+                $select[] = "{$table}.entity_id as {$table}_entity_id";
+                foreach ( $fields as $column => $dontCare ) {
+                    $select[] = "{$table}.{$column} as {$table}_{$column}";
+                }
+                if ( $entityID ) {
+                    $where[]  = "{$table}.entity_id = $entityID";
+                }
             }
+
+            $groupTree['info']['select'] = $select;
+            $groupTree['info']['from'  ] = $from  ;
+            $groupTree['info']['where' ] = null   ;
+            
             if ( $entityID ) {
-                $where[]  = "{$table}.entity_id = $entityID";
-            }
-        }
-
-        $groupTree['info']['select'] = $select;
-        $groupTree['info']['from'  ] = $from  ;
-        $groupTree['info']['where' ] = null   ;
-
-        if ( $entityID ) {
-            $groupTree['info']['where' ] = $where ;
-            $from   = implode( ', '   , $from   );
-            $select = implode( ', '   , $select );
-            $where  = implode( ' AND ', $where  );
-        $query = "
+                $groupTree['info']['where' ] = $where ;
+                $from   = implode( ', '   , $from   );
+                $select = implode( ', '   , $select );
+                $where  = implode( ' AND ', $where  );
+                $query = "
 SELECT $select
   FROM $from
  WHERE $where
 ";
-            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            if ( $dao->fetch( ) ) {
-                foreach ( $groupTree as $groupID => $group ) {
-                    if ( $groupID == 'info' ) {
-                        continue;
-                    }
-                    $table = $groupTree[$groupID]['table_name'];
-                    foreach ( $group['fields'] as $fieldID => $dontCare ) {
-                        $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
-                        $idName    = "{$table}_id";
-                        $fieldName = "{$table}_{$column}";
-                        if ( ! empty( $dao->$fieldName ) ) {
-                            $customValue = array( 'id'   => $dao->$idName,
-                                                  'data' => $dao->$fieldName );
-                            $groupTree[$groupID]['fields'][$fieldID]['customValue'] = $customValue;
+                
+                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                if ( $dao->fetch( ) ) {
+                    foreach ( $groupTree as $groupID => $group ) {
+                        if ( $groupID == 'info' ) {
+                            continue;
+                        }
+                        $table = $groupTree[$groupID]['table_name'];
+                        foreach ( $group['fields'] as $fieldID => $dontCare ) {
+                            $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
+                            $idName    = "{$table}_id";
+                            $fieldName = "{$table}_{$column}";
+                            if ( ! empty( $dao->$fieldName ) ) {
+                                $customValue = array( 'id'   => $dao->$idName,
+                                                      'data' => $dao->$fieldName );
+                                $groupTree[$groupID]['fields'][$fieldID]['customValue'] = $customValue;
+                            }
                         }
                     }
                 }

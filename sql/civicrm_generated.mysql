@@ -211,7 +211,6 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_custom_field` DISABLE KEYS */;
 LOCK TABLES `civicrm_custom_field` WRITE;
-INSERT INTO `civicrm_custom_field` (`id`, `custom_group_id`, `label`, `data_type`, `html_type`, `default_value`, `is_required`, `is_searchable`, `is_search_range`, `weight`, `help_pre`, `help_post`, `mask`, `attributes`, `javascript`, `is_active`, `options_per_line`, `start_date_years`, `end_date_years`, `date_parts`, `note_columns`, `note_rows`, `column_name`, `option_group_id`) VALUES (1,1,'Most Important Issue','String','Radio',NULL,0,1,0,5,NULL,'',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,22),(2,1,'Marital Status','String','Select',NULL,0,1,0,7,NULL,'',NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,23);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_custom_field` ENABLE KEYS */;
 
@@ -222,7 +221,6 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_custom_group` DISABLE KEYS */;
 LOCK TABLES `civicrm_custom_group` WRITE;
-INSERT INTO `civicrm_custom_group` (`id`, `domain_id`, `name`, `title`, `extends`, `extends_entity_column_name`, `extends_entity_column_value`, `style`, `collapse_display`, `help_pre`, `help_post`, `weight`, `is_active`, `table_name`, `is_multiple`) VALUES (1,1,'constituent_information','Constituent Information','Individual',NULL,NULL,'Inline',1,'Please enter additional constituent information as data becomes available for this contact.',NULL,1,1,NULL,NULL);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_custom_group` ENABLE KEYS */;
 

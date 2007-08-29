@@ -1079,7 +1079,8 @@ SELECT id
                                                      'required'      => true,
                                                      'comment'       => 'Table that this extends',
                                                      'fk_table_name' => $params['extends_name'],
-                                                     'fk_field_name' => 'id' )
+                                                     'fk_field_name' => 'id',
+                                                     'fk_attributes' => 'ON DELETE CASCADE' )
                                               ),
                         'indexes'    => array(
                                               array( 'unique'        => true,
