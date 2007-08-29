@@ -192,6 +192,10 @@ class CRM_Activity_Form extends CRM_Core_Form
         
         require_once 'CRM/Activity/BAO/Activity.php';
         $defaults['activity_tag3_id'] = explode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, substr($defaults['activity_tag3_id'],1,-1));
+
+        // Very HRD specific hack, please do not merge.
+        $defaults['activity_type_id'] = 6;
+
         return $defaults;
     }
 
