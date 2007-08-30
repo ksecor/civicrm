@@ -450,7 +450,7 @@ class CRM_Core_Block {
                              ts( 'CiviEvent'      ) => 1,
                              ts( 'CiviMember'     ) => 1,
                              ts( 'CiviMail'       ) => 1,
-                             ts( 'Import'         ) => 1, 
+                             ts( 'Import'         ) => 1,
                              ts( 'CiviGrant'      ) => 1,
                              ts( 'Logout'         ) => 1);
                              
@@ -525,8 +525,9 @@ class CRM_Core_Block {
             $values[$activeChildren[0   ]]['start'] = true;
             $values[$activeChildren[$len]]['end'  ] = true;
         }
+        
+        ksort($values, SORT_NUMERIC );
 
-        ksort($values);
         self::setProperty( self::MENU, 'templateValues', array( 'menu' => $values ) );
     }
 

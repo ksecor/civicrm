@@ -217,12 +217,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
             $deleteExtra = ts('Are you sure you want to delete this case?');
 
             self::$_links = array(
-                                  CRM_Core_Action::VIEW    => array(
-                                                                    'name'  => ts('Show Case'),
-                                                                    'url'   => 'civicrm/contact/view/case',
-                                                                    'qs'    => 'action=view&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                    'title' => ts('Show Case')
-                                                                    ),
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/case',

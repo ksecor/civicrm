@@ -21,8 +21,9 @@
             <th field="Status" dataType="String">{ts}Case Status{/ts}</th>
             <th field="Type" dataType="String">{ts}Case Type{/ts}</th>
             <th field="Subject" dataType="String">{ts}Subject{/ts}</th>
-            <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
             <th datatype="html"></th>
+            <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
+            <th datatype="html">&nbsp;</th>
         </tr>
        </thead>
        <tbody> 
@@ -31,7 +32,8 @@
 
             <td>{$case.status_id}</td>
             <td>{$case.casetag1_id.0} <br />{$case.casetag1_id.1}<br />{$case.casetag1_id.2}</td>  
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject}</a></td>
+            <td>{$case.subject}</td>
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">(View)</a></td>
             <td>{$case.start_date|crmDate}</td>
             <td >{$case.action}</td>
         </tr>

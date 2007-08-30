@@ -395,12 +395,13 @@ ORDER BY name";
     {
         require_once 'CRM/Utils/Type.php';
         $contactID = CRM_Utils_Type::escape( $_GET['c'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name      = CRM_Utils_Type::escape( $_GET['s'], 'String'  );
 
         $query = "
 SELECT subject
 FROM civicrm_case
-WHERE contact_id = $contactID
+WHERE contact_id = $contactID 
+AND LOWER(subject) LIKE LOWER('$name%')
 ORDER BY subject LIMIT 6";
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
