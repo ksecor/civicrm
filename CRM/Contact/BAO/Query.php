@@ -585,12 +585,14 @@ class CRM_Contact_BAO_Query {
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
 
             $name = str_replace( ' ', '_', $name );
-            $tName = "$name-location";
+            $locationIndex = $index;
+
+            $tName = "$name-address";
+            $aName = "`$name-address`";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $locationJoin = "\nLEFT JOIN civicrm_location $lName ON ($lName.entity_table = 'civicrm_contact' AND $lName.entity_id = contact_a.id AND $lCond )"; 
-            $this->_tables[ $tName ] = $locationJoin;            
-            $locationIndex = $index;
+            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id)";
+            $this->_tables[ $tName ] = $addressJoin;
 
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
@@ -598,15 +600,8 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
-            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($lName.location_type_id = $ltName.id )";
+            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
             $this->_tables[ $tName ] = $locationTypeJoin;
-
-            $tName = "$name-address";
-            $aName = "`$name-address`";
-            $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
-            $this->_element["{$tName}_id"] = 1; 
-            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.location_id = $lName.id)";
-            $this->_tables[ $tName ] = $addressJoin;
 
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
@@ -706,7 +701,7 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON $lName.id = `$tName`.location_id AND `$tName`.$cond";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$cond";
                                 if ( $addWhere ) {
                                     $this->_whereTables[$tName] = $this->_tables[$tName];
                                 }
