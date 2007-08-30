@@ -64,8 +64,10 @@ class CRM_Contact_Form_Household
                           CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
-        $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
-                        'objectExists', array( 'CRM_Contact_DAO_Contact', isset($this->_id) ? $this->_id : "", 'external_identifier' ) );
+        $form->addRule( 'external_identifier',
+			ts('External ID already exists in Database.'), 
+                        'objectExists', 
+			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
     
     /**
