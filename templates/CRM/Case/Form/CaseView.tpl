@@ -13,7 +13,7 @@
 	        <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd> 
             <dt>{$form.details.label}</dt><dd>{$form.details.html}</dd>         	 
             <dt></dt><dd>{$form.buttons.html}</dd>
-            <dd><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&action=update&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}" ">{ts}Edit Case{/ts}</a></dd>
+            <dd><a href="{crmURL p='civicrm/contact/view/case' q="reset=1&action=update&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}" ">{ts}Edit Case{/ts}</a>&nbsp;|&nbsp;<a href="{crmURL p='civicrm/contact/view/case' q="reset=1&action=delete&cid=`$contactId`&id=`$id`&selectedChild=case&edit=case"}" ">{ts}Remove Case{/ts}</a></dd>
  
     </dl>
     <div class="spacer"> </div>

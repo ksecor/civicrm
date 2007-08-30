@@ -78,15 +78,14 @@
             <tr class="{cycle values="odd-row,even-row"}">
             
             {if $caseview eq 1}
-                
-                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=case&caseid=`$row.case_subjectID`"}{/capture}
-                 {assign var="caseId" value=$row.case_subjectID}
+                {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=case&caseid=`$row.case_id`"}{/capture}
+                 {assign var="caseId" value=$row.case_id}
             {else}
                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
             {/if}
        
             <td>{$row.case_activity}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=1&cid=`$row.sourceID`"}">{$row.case}</a> </td>
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.sourceID`"}">{$row.case}</a> </td>
             <td><a href="{$viewURL}">{$row.subject}</td></a>
       
              <td>

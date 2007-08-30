@@ -224,12 +224,11 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                     'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
                                                                     'title' => ts('Edit Case')
                                                                     ),
-                                  CRM_Core_Action::DELETE  => array(
-                                                                    'name'  => ts('Remove'),
-                                                                    'url'   => 'civicrm/contact/view/case',
-                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
-                                                                    'extra' => 'onclick = "if (confirm(\'' . $deleteExtra . '\') ) this.href+=\'&amp;confirmed=1\'; else return false;"',                                                                    
-                                                                    'title' => ts('Remove')
+                                  CRM_Core_Action::FOLLOWUP  => array(
+                                                                    'name'  => ts('Add Activity'),
+                                                                    'url'   => 'civicrm/contact/view/activity',
+                                                                    'qs'    => 'activity_id=5&action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
+                                                                    'title' => ts('Add Activity')
                                                                     ),
                                   );
         }

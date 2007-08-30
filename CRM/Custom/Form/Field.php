@@ -299,6 +299,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $includedPart[] = $this->createElement('checkbox', 'M',true,ts('Month'));
         $includedPart[] = $this->createElement('checkbox', 'd',true,ts('Day'));
         $includedPart[] = $this->createElement('checkbox', 'Y',true,ts('Year'));
+        $includedPart[] = $this->createElement('checkbox', 'H',true,ts('Hour'));
+        $includedPart[] = $this->createElement('checkbox', 'i',true,ts('min'));
 
         $this->addGroup($includedPart, 'date_parts',ts('Included date parts'));
         

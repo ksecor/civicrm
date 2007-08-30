@@ -197,7 +197,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
      *
      * @return int   the total number of rows for this action
      */
-    function &getRows($action, $offset, $rowCount, $sort, $output = null, $case = null) {
+    function &getRows($action, $offset, $rowCount, $sort, $output = null, $case = null) 
+    {
         $params['contact_id'] = $this->_contactId;
         
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
@@ -205,7 +206,6 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             return $rows;
         }
 
-        //print_r($rows);
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
@@ -220,23 +220,25 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
             }
             
             //for case subject
-            if ($row['case_id']){
-                $row['case_subjectID'] = CRM_Core_DAO::getFieldValue('CRM_Case_DAO_CaseActivity', $row['case_id'],'case_id' );
-                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case',$row['case_subjectID'],'subject'); 
+            if ( $row['case_id'] ) {
+                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $row['case_id'], 'subject'); 
             }
+
             require_once "CRM/Core/OptionGroup.php";
             $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
             $row['case_activity'] = $caseActivity[$row['case_activity']];
+
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
-            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'],$row['id']);
-            if( $assignCID ) {
+            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'], $row['id'] );
+
+            if ( $assignCID ) {
                 require_once "CRM/Contact/BAO/Contact.php";
-                $row['to_contact']    = CRM_Contact_BAO_Contact::displayName( $assignCID );
+                $row['to_contact'   ] = CRM_Contact_BAO_Contact::displayName( $assignCID );
                 $row['to_contact_id'] = $assignCID;
             }
-
-                // add class to this row if overdue
+            
+            // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
                 $row['overdue'] = 1;
                 $row['class']   = 'status-overdue';
@@ -247,9 +249,9 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
 
             $actionLinks =& self::actionLinks($row['activity_type_id']);
             require_once 'CRM/Contact/Page/View/Case.php';
-            $caseLinks = CRM_Contact_Page_View_Case::caseViewLinks();     
-            $caseAction = array_sum(array_keys($caseLinks));
-            $actionMask  =  array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
+            $caseLinks   = CRM_Contact_Page_View_Case::caseViewLinks();     
+            $caseAction  = array_sum(array_keys($caseLinks));
+            $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
                 // check if callback exists
@@ -262,7 +264,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'activity_id'=>$row['activity_id'],
                                                                      'cid' => $this->_contactId,
                                                                      'cxt' => $this->_context ) );
-                } elseif( $case) {
+                } elseif ( $case ) {
                     $row['action'] = CRM_Core_Action::formLink($caseLinks,
                                                                $caseAction,
                                                                array('aid'  => $row['case_id'],
@@ -271,14 +273,12 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                      'id'  =>  $row['case_subjectID'],
                                                                      'cid' => $this->_contactId
                                                                       ));
-                }else {
-                   
+                } else {
                     $row['action'] = CRM_Core_Action::formLink($actionLinks,
                                                                $actionMask,
                                                                array('id'  => $row['id'],
                                                                      'cid' => $this->_contactId,
                                                                      'cxt' => $this->_context ) );
-
                 }
  
             }

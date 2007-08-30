@@ -35,7 +35,7 @@
             <td>{$case.subject}</td>
             <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">(View)</a></td>
             <td>{$case.start_date|crmDate}</td>
-            <td >{$case.action}</td>
+            <td>{$case.action}</td>
         </tr>
         {/foreach}
         </tbody>
