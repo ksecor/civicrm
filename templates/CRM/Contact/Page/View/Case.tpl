@@ -35,12 +35,7 @@
             <td>{$case.subject}</td>
             <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">(View)</a></td>
             <td>{$case.start_date|crmDate}</td>
-            <td >{$case.action} | &nbsp;
-
-      <a href="{crmURL p='civicrm/contact/view/activity/' 
-      q="activity_id=5&action=add&reset=1&context=case&caseid=`$case.id`&cid=`$contactId`"}">{ts}Add activity{/ts}</a>
-
-</td>
+            <td>{$case.action}</td>
         </tr>
         {/foreach}
         </tbody>

@@ -1617,18 +1617,17 @@ WHERE civicrm_contact.id IN $idString ";
         
         $dao =& new CRM_Core_DAO();
         if ( $admin ) {
-            $clause = null;
+            $clause = ( 1 );
             $params = array( );
         } else {
-            $clause = " AND ( target_entity_id = %1 OR source_contact_id = %1 ) ";
+            $clause = " ( target_entity_id = %1 OR source_contact_id = %1 ) ";
             $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
         }
-        // $case = null;
-        if ( $case ) {
-            $case = "AND civicrm_case_activity.case_id = $case ";
 
+        if ( $case ) {
+            $case = " civicrm_case_activity.case_id = $case ";
         } else {
-            $case = null;
+            $case = ( 1 );
         }
 
         $query = "
@@ -1644,7 +1643,7 @@ WHERE civicrm_contact.id IN $idString ";
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.label  as activity_type,
-    civicrm_case_activity.id as case_id 
+    civicrm_case_activity.case_id as case_id 
   FROM civicrm_phonecall 
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 2) 
        LEFT JOIN civicrm_contact source ON (civicrm_phonecall.source_contact_id = source.id) 
@@ -1655,10 +1654,9 @@ WHERE civicrm_contact.id IN $idString ";
 
        
   WHERE
-   
      civicrm_phonecall.target_entity_table = 'civicrm_contact' AND
-     civicrm_phonecall.target_entity_id = target.id $clause AND
-     civicrm_option_group.name = 'activity_type' $case
+     civicrm_phonecall.target_entity_id = target.id AND $clause AND
+     civicrm_option_group.name = 'activity_type' AND $case
 
  ) UNION
 ( SELECT   
@@ -1673,7 +1671,7 @@ WHERE civicrm_contact.id IN $idString ";
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.label  as activity_type,
-    civicrm_case_activity.id as case_id
+    civicrm_case_activity.case_id as case_id
   FROM civicrm_meeting
        LEFT JOIN civicrm_option_value ON (civicrm_option_value.value = 1) 
        LEFT JOIN civicrm_contact source ON (civicrm_meeting.source_contact_id = source.id) 
@@ -1683,10 +1681,9 @@ WHERE civicrm_contact.id IN $idString ";
                                              AND  civicrm_case_activity.activity_entity_table = 'civicrm_meeting')
 
   WHERE
-  
     civicrm_meeting.target_entity_table = 'civicrm_contact' AND
-    civicrm_meeting.target_entity_id = target.id $clause AND
-    civicrm_option_group.name = 'activity_type' $case
+    civicrm_meeting.target_entity_id = target.id AND $clause AND
+    civicrm_option_group.name = 'activity_type' AND $case
 ) UNION
 ( SELECT   
     civicrm_activity.id as id,
@@ -1700,7 +1697,7 @@ WHERE civicrm_contact.id IN $idString ";
     target.display_name as targetName,
     civicrm_option_value.value  as activity_type_id,
     civicrm_option_value.label  as activity_type,
-    civicrm_case_activity.id as case_id
+    civicrm_case_activity.case_id as case_id
   FROM civicrm_activity
        LEFT JOIN civicrm_option_value   ON (civicrm_option_value.value = civicrm_activity.activity_type_id)   
        LEFT JOIN civicrm_contact source ON (civicrm_activity.source_contact_id = source.id) 
@@ -1710,11 +1707,10 @@ WHERE civicrm_contact.id IN $idString ";
                                              AND  civicrm_case_activity.activity_entity_table = 'civicrm_activity')
 
   WHERE 
- 
    civicrm_activity.source_contact_id = source.id AND
    civicrm_activity.target_entity_table = 'civicrm_contact' AND
-   civicrm_activity.target_entity_id = target.id $clause AND  
-   civicrm_option_group.name = 'activity_type' $case
+   civicrm_activity.target_entity_id = target.id AND $clause AND  
+   civicrm_option_group.name = 'activity_type' AND $case
             )
 ";
 

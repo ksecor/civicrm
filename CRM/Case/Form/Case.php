@@ -86,6 +86,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $defaults['casetag1_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag1_id'],1,-1));
         $defaults['casetag2_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag2_id'],1,-1));
         $defaults['casetag3_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag3_id'],1,-1));
+
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $defaults['start_date'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
+        }
+
         return $defaults;
     }
     
