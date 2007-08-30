@@ -196,7 +196,7 @@ class CRM_Core_BAO_SchemaHandler
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );
             $sql .= $prefix;
-            $sql .= "CONSTRAINT FK_{$tableName}_{$params['fk_table_name']}_{$params['fk_field_name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} ) ";
+            $sql .= "CONSTRAINT FK_{$tableName}_{$params['name']} FOREIGN KEY ( {$params['name']} ) REFERENCES {$params['fk_table_name']} ( {$params['fk_field_name']} ) ";
             $sql .= CRM_Utils_Array::value( 'fk_attributes', $params );
         }
         return $sql;
@@ -206,6 +206,9 @@ class CRM_Core_BAO_SchemaHandler
         $sql  = str_repeat( ' ', 8 );
         $sql .= "ALTER TABLE {$params['table_name']}";
 
+        // lets suppress the required flag, since that can cause sql issue
+        $params['required'] = false;
+
         switch ( $params['operation'] ) {
         case 'add':
             $separator = "\n";
@@ -214,7 +217,7 @@ class CRM_Core_BAO_SchemaHandler
             $separator = ",\n";
             $sql       .= self::buildPrimaryKeySQL ( $params, $separator, "ADD PRIMARY KEY " );
             $sql       .= self::buildSearchIndexSQL( $params, $separator, "ADD INDEX " );
-            $sql       .= self::buildForeignKeySQL ( $params, $separator, "ADD CONSTRAINT ", $params['table_name'] );
+            $sql       .= self::buildForeignKeySQL ( $params, $separator, "ADD ", $params['table_name'] );
             break;
             
         case 'modify':
@@ -226,16 +229,15 @@ class CRM_Core_BAO_SchemaHandler
             break;
 
         case 'delete':
-            $sql  = "DROP {$params['name']}";
+            $sql  .= " DROP COLUMN {$params['name']}";
             if ( CRM_Utils_Array::value( 'primary', $params ) ) {
                 $sql .= ", DROP PRIMARY KEY";
             }
-            break;
             if ( CRM_Utils_Array::value( 'searchable', $params ) ) {
                 $sql .= ", DROP INDEX INDEX_{$params['name']}";
             }
             if ( CRM_Utils_Array::value( 'fk_table_name', $params ) ) {
-                $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['fk_table_name']}_{$params['fk_field_name']}";
+                $sql .= ", DROP FOREIGN KEY FK_{$params['table_name']}_{$params['name']}";
             }
             break;
 

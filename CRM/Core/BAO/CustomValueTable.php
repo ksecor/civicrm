@@ -158,11 +158,11 @@ class CRM_Core_BAO_CustomValueTable {
             return 'tinyint';
         case 'Int':
             return 'int';
-        // the below three are FK's, so would be good to add constraints at some stage
+        // the below three are FK's, and have constraints added to them
         case 'StateProvince':
         case 'Country':
         case 'File':
-            return 'int';
+            return 'int unsigned';
         case 'Float':
             return 'double';
         case 'Money':

@@ -584,12 +584,7 @@ DELETE g.*
         }
 
         // next drop the column from the custom value table
-        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                  $field->custom_group_id,
-                                                  'table_name' );
-
-        require_once 'CRM/Core/BAO/SchemaHandler.php';
-        CRM_Core_BAO_SchemaHandler::dropColumn( $tableName, $field->column_name );
+        self::createField( $field, 'delete' );
 
         $field->delete( );
         return;
@@ -1105,7 +1100,21 @@ SELECT $columnName
                          'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
-                         );
+                        );
+
+        if ( $field->data_type == 'Country' ) {
+            $params['fk_table_name'] = 'civicrm_country';
+            $params['fk_field_name'] = 'id';
+            $params['fk_attributes'] = 'ON DELETE SET NULL';
+        } else if ( $field->data_type == 'StateProvince' ) {
+            $params['fk_table_name'] = 'civicrm_state_province';
+            $params['fk_field_name'] = 'id';
+            $params['fk_attributes'] = 'ON DELETE SET NULL';
+        } else if ( $field->data_type == 'File' ) {
+            $params['fk_table_name'] = 'civicrm_file';
+            $params['fk_field_name'] = 'id';
+            $params['fk_attributes'] = 'ON DELETE SET NULL';
+        }
 
         if ( $field->default_value ) {
             $params['default'] = "'{$field->default_value}'";
