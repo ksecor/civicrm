@@ -558,7 +558,6 @@ ORDER BY civicrm_phone.is_primary DESC";
                 $cvParams[$customValue['table_name']][] = $cvParam;
             }
             if ( ! empty( $cvParams ) ) {
-                CRM_Core_Error::debug( 'c', $cvParams );
                 require_once 'CRM/Core/BAO/CustomValueTable.php';
                 CRM_Core_BAO_CustomValueTable::create($cvParams);
             }

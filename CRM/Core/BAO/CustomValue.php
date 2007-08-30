@@ -153,13 +153,10 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
             // need to add/update civicrm_entity_file
             require_once 'CRM/Core/DAO/EntityFile.php'; 
             $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-            
-            
             if ( $params['file_id'] ) {
                 $entityFileDAO->file_id = $params['file_id'];
                 $entityFileDAO->find(true);
             }
-            
             $entityFileDAO->entity_table = $params['entity_table'];
             $entityFileDAO->entity_id    = $params['entity_id'];
             $entityFileDAO->file_id      = $params['file_id'];
@@ -265,41 +262,6 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue
         }
     }
 
-    /**
-     * given a field return the mysql data type associated with it
-     *
-     * @param string $type the civicrm type string
-     *
-     * @return the mysql data store placeholder
-     * @access public
-     * @static
-     */
-    public static function fieldToSQLType($type) 
-    {
-        switch ($type) {
-        case 'String':
-        case 'File':
-            return 'varchar(255)';
-        case 'Boolean':
-        case 'Int':
-        case 'StateProvince':
-        case 'Country':
-            return 'int';
-        case 'Float':
-            return 'float';
-        case 'Money':
-            return 'decimal(20,2)';
-        case 'Memo':
-            return 'text';
-        case 'Date':
-            return 'datetime';
-        case 'Link':
-            return 'varchar(255)';
-        default:
-            CRM_Core_Error::fatal( );
-        }
-    }
-    
     /**
      * return the mysql type of the current value.
      * If boolean type, set the isBool flag too (since int and bool share

@@ -349,7 +349,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
          * it was not working, so i munged it back into one big function - lobo
          */
         
-        switch($field->html_type) {
+        switch ( $field->html_type ) {
         case 'Text':
             if ($field->is_search_range && $search) {
                 $qf->add('text', $elementName.'_from', $label . ' ' . ts('From'), $field->attributes);
@@ -1027,8 +1027,11 @@ SELECT id
             }
             
             if ( $customValueId ) {
-                $fileId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue', 
-                                                       $customValueId, 'file_id', 'id' );
+                $query = "
+SELECT $columnName
+  FROM $tableName
+ WHERE entity_id={$entityId}";
+                $fileId = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
             }
             
             $fileDAO =& new CRM_Core_DAO_File();
@@ -1042,8 +1045,8 @@ SELECT id
             $fileDAO->upload_date = date('Ymdhis'); 
             $fileDAO->save();
             
-            $fileId    = $fileDAO->id;
-            $value =  $filename;
+            $fileId = $fileDAO->id;
+            $value  =  $filename;
         }
         
         $customFormatted[$customFieldId] = array('id'              => $customValueId,
@@ -1093,13 +1096,13 @@ SELECT id
     }
 
     static function createField( $field, $operation, $dropIndex = false) {
-        require_once 'CRM/Core/BAO/CustomValue.php';
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
         $params = array( 'table_name' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
                                                                       $field->custom_group_id,
                                                                       'table_name' ),
                          'operation'  => $operation,
                          'name'       => $field->column_name,
-                         'type'       => CRM_Core_BAO_CustomValue::fieldToSQLType( $field->data_type ),
+                         'type'       => CRM_Core_BAO_CustomValueTable::fieldToSQLType( $field->data_type ),
                          'required'   => $field->is_required,
                          'searchable' => $field->is_searchable,
                          );
