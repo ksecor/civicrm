@@ -2087,11 +2087,9 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                 } else if ($key === 'gender') { 
                     $data['gender_id'] = $value;
                 } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                    $str = "custom_value_{$customFieldId}_id";
-                    $customOptionValueId = $contactDetails[$str] ? $contactDetails[$str] : NULL;
-
                     CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $data['custom'], 
-                                                                 $value, $data['contact_type'], $customOptionValueId);
+                                                                 $value, $data['contact_type'],
+                                                                 null, $contactID );
                 } else if ($key == 'edit') {
                     continue;
                 } else {
