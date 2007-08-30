@@ -106,7 +106,9 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
         
         $this->assign('profileGroups', $profileGroups);
         $this->assign('recentlyViewed', false);
-        CRM_Utils_System::setTitle(ts('Contact\'s Profile'));
+
+        $title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $this->_gid, 'title' );
+        CRM_Utils_System::setTitle( $title );
     }
 
 
