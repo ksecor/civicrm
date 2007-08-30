@@ -675,7 +675,7 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                          'contact_sub_type' => 1,
                          'sort_name'        => 1 );
         
-        if ( empty( $params ) ) {
+        if ( empty( $params ) || empty( $params['mapper'] ) ) {
             return $fields;
         }
         
@@ -737,6 +737,9 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
         $mappingFields->mapping_id = $mappingId;
         $mappingFields->delete( );
         
+        if ( empty($params['mapper']) ) {
+            return;
+        }
 
         //save record in mapping field table
         foreach ($params['mapper'] as $key => $value) {
