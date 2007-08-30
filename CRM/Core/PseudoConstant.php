@@ -982,9 +982,20 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all World Regions
      * @static
      */
-    public static function &worldRegions( $name = 'name' )
+    public static function &worldRegion( $id = false )
     {
-        self::populate( self::$worldRegions, 'CRM_Core_DAO_Worldregion', true, $name, null, null, 'name');
+        if ( !self::$worldRegions || !$id ) {
+            self::populate( self::$worldRegions, 'CRM_Core_DAO_Worldregion', true, 'name', null, null, 'id');
+        }
+
+        if ( $id ) {
+            if ( array_key_exists( $id , self::$worldRegions) ) {
+                return self::$worldRegions[$id];
+            } else {
+                return null;
+            }
+        }
+
         return self::$worldRegions;
     }
 }

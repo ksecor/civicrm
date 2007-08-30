@@ -303,7 +303,7 @@ class CRM_Contact_BAO_Query {
         
         // basically do all the work once, and then reuse it
         $this->initialize( );
-        // CRM_Core_Error::debug( 'q', $this );
+        //CRM_Core_Error::debug( 'q', $this );
     }
 
     /**
@@ -1185,6 +1185,13 @@ class CRM_Contact_BAO_Query {
             } else {
                 $this->_qill[$grouping][] = ts('County (%2) %3 "%1"', array( 1 => $value, 2 => $lType, 3 => $op ) );         
             }
+        } else if ( $name === 'world_region' ) {
+            $worldRegions =& CRM_Core_PseudoConstant::worldRegion( ); 
+            if ( is_numeric( $value ) ) { 
+                $value     =  $worldRegions[(int ) $value]; 
+            }
+            $this->_where[$grouping][] = 'LOWER(' . $field['where'] . ") $op '" . strtolower( addslashes( $value ) ) . "'"; 
+            $this->_qill[$grouping][]  = ts('World region %2 "%1"', array( 1 => $value, 2 => $op ) );
         } else if ( $name === 'individual_prefix' ) {
             $individualPrefixs =& CRM_Core_PseudoConstant::individualPrefix( ); 
             if ( is_numeric( $value ) ) { 
@@ -1411,6 +1418,10 @@ class CRM_Contact_BAO_Query {
                                    $tables );
         }        
 
+        if ( CRM_Utils_Array::value( 'civicrm_worldregion', $tables ) ) {
+            $tables = array_merge( array( 'civicrm_country' => 1), $tables );
+        }
+
         if ( ( CRM_Utils_Array::value( 'civicrm_state_province', $tables ) ||
                CRM_Utils_Array::value( 'civicrm_country'       , $tables ) ||
                CRM_Utils_Array::value( 'civicrm_county'       , $tables )) &&
@@ -1554,6 +1565,10 @@ class CRM_Contact_BAO_Query {
 
             case 'civicrm_country':
                 $from .= " $side JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id ";
+                continue;
+
+            case 'civicrm_worldregion':
+                $from .= " $side JOIN civicrm_worldregion ON civicrm_country.region_id = civicrm_worldregion.id ";
                 continue;
 
             case 'civicrm_county':
@@ -2436,6 +2451,7 @@ class CRM_Contact_BAO_Query {
                                                                'postal_code_suffix'     => 1, 
                                                                'state_province'         => 1, 
                                                                'country'                => 1,
+                                                               'world_region'           => 1,
                                                                'geo_code_1'             => 1,
                                                                'geo_code_2'             => 1,
                                                                'email'                  => 1, 
@@ -2618,7 +2634,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        // CRM_Core_Error::debug('query', $query);
+        //CRM_Core_Error::debug('query', $query);
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );
