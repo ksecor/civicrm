@@ -142,41 +142,21 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
-        
+        $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
+        $history = CRM_Utils_Request::retrieve( 'history', 'Integer',$this );
+                
         if ( $edit ) {
             $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
-        } else {
+        } else if( $context && $this->_action == 8 ){
+            $activity_id = CRM_Utils_Request::retrieve( 'activity_id', 'Integer',$this );
+            $caseid = CRM_Utils_Request::retrieve( 'caseid', 'Integer',$this );
+            $url=CRM_Utils_System::url('civicrm/contact/view/activity','activity_id='.$activity_id.'&action=view&selectedChild=activity&id='.$this->_id.'&cid='. $this->_contactId.'&history='.$history.'&subType='.$activity_id.'&context='.$context.'&caseid='.$caseid );
+        
+        }else {
             $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
         }
         $session->pushUserContext( $url );
         
-        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                        CRM_Core_DAO::$_nullObject )) {
-            if (CRM_Utils_Request::retrieve('mode', 'String',
-                                            CRM_Core_DAO::$_nullObject)){
-                
-                $url = CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&cid=' . $this->_contactId.'&id='.$this->_id .'&selectedChild=case');
-                $session->pushUserContext( $url );
-                $id = CRM_Utils_Request::retrieve('aid','Integer', CRM_Core_DAO::$_nullObject);
-                require_once 'CRM/Case/BAO/Case.php';
-                CRM_Case_BAO_Case::deleteCaseActivity( $id );
-                CRM_Utils_System::redirect($url);
-                return;
-                
-            } else {
-                require_once 'CRM/Case/BAO/Case.php';
-                require_once 'CRM/Case/DAO/CaseActivity.php';
-                $caseAcitivity = new CRM_Case_DAO_CaseActivity();
-                $caseAcitivity->case_id = $this->_id;
-                $caseAcitivity->find();
-                while ( $caseAcitivity->fetch() ) {
-                    $caseAcitivity->delete();
-                }
-
-                CRM_Case_BAO_Case::deleteCase( $this->_id );
-                CRM_Utils_System::redirect($url);
-            }
-        }
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
