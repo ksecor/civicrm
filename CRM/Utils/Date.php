@@ -412,6 +412,7 @@ class CRM_Utils_Date {
                           '%l' => $hour12 > 9 ? $hour12 : ' ' . $hour12,
                           '%m' => $month  > 9 ? $month  : '0' . $month,
                           '%M' => $minute > 9 ? $minute : '0' . $minute,
+                          '%i' => $minute > 9 ? $minute : '0' . $minute,
                           '%p' => strtolower($type),
                           '%P' => $type,
                           '%Y' => $year
