@@ -4,8 +4,10 @@
     <legend>{ts}New Case Registration{/ts}</legend>
 {elseif $action eq 2}
     <legend>{ts}Edit Case Registration{/ts}</legend>
-{elseif $action eq 8}
+{elseif $action eq 8 and !$context}
     <legend>{ts}Remove Case Registration{/ts}</legend>
+{elseif $action eq 8 and $context}
+    <legend>{ts}Detach Activity From Case{/ts}</legend>
 {/if}
     <div class="form-item">
         <table class="form-layout-compressed"> 
@@ -13,7 +15,7 @@
     {if $action eq 8 and $context}
         <div class="status">{ts}Are you sure you want to Detach this case from Activity?{/ts}</div>
     {elseif $action eq 8 and !$context}
-        <div class="status">{ts}Are you sure you want to Delete this case ?{/ts}</div> 
+        <div class="status">{ts}Are you sure you want to Remove this case ?{/ts}</div> 
     {else}
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject {/ts}</td></tr>
