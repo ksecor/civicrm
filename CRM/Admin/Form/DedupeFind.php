@@ -77,9 +77,13 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         }
 
         if ($gid) {
-            $foundDupes = CRM_Dedupe_Finder::findDupesInGroup($gid, $search, $rgDao->threshold, $rgDao->contact_type);
+            $foundDupes = $this->get("dedupe_dupes_$gid");
+            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::findDupesInGroup($gid, $search, $rgDao->threshold, $rgDao->contact_type);
+            $this->set("dedupe_dupes_$gid", $foundDupes);
         } else {
-            $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+            $foundDupes = $this->get("dedupe_dupes");
+            if (!$foundDupes) $foundDupes = CRM_Dedupe_Finder::findDupes($search, $rgDao->threshold, $rgDao->contact_type);
+            $this->set("dedupe_dupes", $foundDupes);
         }
         if (!$foundDupes) {
             $this->assign('no_dupes', true);
@@ -139,7 +143,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     {
         if ($this->_cid) {
             $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/dedupefind', "reset=1&action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/dedupefind', "action=update&rgid={$this->_rgid}&gid={$this->_gid}&cid={$this->_cid}"));
         }
     }
 

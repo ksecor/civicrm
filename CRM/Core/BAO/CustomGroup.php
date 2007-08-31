@@ -1227,27 +1227,18 @@ ORDER BY weight ASC, label ASC";
                             $format = null;
                             if( $field['date_parts'] ) {
                                 $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$field['date_parts']);
-                                
                                 foreach($parts as $v ) {
                                     $format = $format." %".$v ;
                                 }
-                                
-                                if ( CRM_Utils_Array::key( 'H', $parts ) ) {
-                                    $format .= "%P" ;
-                                }
-                                
-                                $format = str_replace( array( 'M', 'H' ), array( 'B', 'I' ),$format);
+                                $format = str_replace('M','B',$format);
                             }
-                            
                             $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
-                            
-                            if ( CRM_Utils_Array::key( 'H', $parts ) ) {
+                            if ( CRM_Utils_Array::key( 'h', $parts ) ) {
                                 
                                 $form[$elementName]['html'] = str_replace( array( 'AM', 'PM' ), array( ' AM', ' PM' ), $form[$elementName]['html'] );
-                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ":", -6, 1 );
-                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ",", -9, 0 );
+                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ":", -7, 1 );
+                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ",", -10, 0 );
                             }
-                            
                             break;
 
                         case 'Link':
