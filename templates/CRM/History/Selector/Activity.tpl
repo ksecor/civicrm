@@ -1,3 +1,4 @@
+{debug}
 {* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
 {if $history NEQ 1}
     {* Showing Open Activities *}
@@ -93,9 +94,8 @@
             {else}
                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=$contactId&history=0&subType=`$row.activity_type_id`&context=activity"}{/capture}
             {/if}
-       
             <td>{$row.case_activity}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.sourceID`"}">{$row.case}</a> </td>
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.targetID`"}">{$row.case}</a></td>
             <td><a href="{$viewURL}">{$row.subject}</td></a>
       
              <td>
