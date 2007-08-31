@@ -130,7 +130,7 @@ resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
                                                               'contact_id' );
             if ( $mailToHouseholdID ) {
                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $this->assign('old_mail_to_household_id', $mailToHouseholdID);
+                $form->assign('old_mail_to_household_id', $mailToHouseholdID);
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
@@ -181,10 +181,13 @@ showHideSharedOptions();
         
         $form->addElement('text', 'contact_source', ts('Source'));
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
-        $this->addRule( 'external_identifier', ts('External ID already exists in Database.'), 
-                        'objectExists', array( 'CRM_Contact_DAO_Contact', $this->_contactId, 'external_identifier' ) );
+
+        $form->addRule( 'external_identifier',
+			ts('External ID already exists in Database.'), 
+                        'objectExists', 
+			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
         $config =& CRM_Core_Config::singleton();
-        CRM_Core_ShowHideBlocks::links($this, 'demographics', '' , '');
+        CRM_Core_ShowHideBlocks::links($form, 'demographics', '' , '');
     }
 
     /**
