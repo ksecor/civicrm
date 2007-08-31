@@ -70,11 +70,11 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         $error = array( );
 
         if ( empty( $this->_paymentProcessor['user_name'] ) ) {
-            $error[] = ts( 'user_name is not set in the Administer CiviCRM &raquo; Payment Processor.' );
+            $error[] = ts( 'User Name is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
         
         if ( empty( $this->_paymentProcessor['password'] ) ) {
-            $error[] = ts( 'password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
+            $error[] = ts( 'Password is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
         
         if ( ! empty( $error ) ) {
