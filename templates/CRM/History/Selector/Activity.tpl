@@ -1,4 +1,3 @@
-{debug}
 {* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
 {if $history NEQ 1}
     {* Showing Open Activities *}
