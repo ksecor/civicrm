@@ -13,7 +13,7 @@
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
-         <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{*{$form.description.html|crmReplace:class:texttolabel}*}</dd>
+         <dt style="display: none;">{$form.activity_type_id.label}</dt><dd style="display: none;">{$form.activity_type_id.html}{*{$form.description.html|crmReplace:class:texttolabel}*}</dd>
         {include file="CRM/Activity/Form/Activity.tpl"}</dl>
         <div class="spacer"></div>
         <dl class="html-adjust">
@@ -36,7 +36,7 @@
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 
 
-	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
+	<dt style="display: none;">{$form.status.label}</dt><dd style="display: none;">{$form.status.html}</dd>
 	
         {edit}      {*if $action neq 4*}{*Commented for crm-914*}
           <!--  <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd> -->
