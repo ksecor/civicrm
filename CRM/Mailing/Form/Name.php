@@ -98,9 +98,9 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
 
     public function postProcess() 
     {
-        $mailingName = $this->controller->exportValue($this->_name, 'name');
+        $name = $this->controller->exportValue($this->_name, 'name');
         $isTemplate  = $this->controller->exportValue($this->_name, 'template');
-        $this->set('mailing_name', $mailingName);
+        $this->set('name', $name);
         $this->set('template', $isTemplate);
     }
 
