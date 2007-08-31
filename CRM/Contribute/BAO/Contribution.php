@@ -480,50 +480,38 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         return null;
     }
 
-    /**                                                           
-     * Delete the object records that are associated with this contact 
-     *                    
-     * @param  int  $contactId id of the contact to delete
-     * 
+    /**
+     * Delete the note records that are associated with this contact (via a contribution)
+     *  
+     * @param  int  $id id of the contact to delete
+     *
      * @return boolean  true if deleted, false otherwise
-     * @access public 
-     * @static 
-     */ 
-    static function deleteContact( $contactId ) 
+     * @access public
+     * @static
+     */
+    static function deleteContact( $id )
     {
-        // While deleting the contact, two cases needs to be
-        // handled. 
-        // 1. Check if this contactd is present in "in honor of" field. If yes
-        // then update that particular record and set "in honor of" = null.
-        // 2. Check if this contact is having any contribution. If yes
-        // then delete the contribution(s).
-        
-        // 1.
-        $query = "UPDATE civicrm_contribution 
-SET honor_contact_id = null
-WHERE  honor_contact_id = {$contactId}";
-        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        
-        // 2.
-        $contribution =& new CRM_Contribute_DAO_Contribution( );
-        $contribution->contact_id = $contactId;
-        $contribution->find( );
-        
-        require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
-        while ( $contribution->fetch( ) ) {
-            self::deleteContribution($contribution->id);
-        }
-        
-        require_once 'CRM/Contribute/DAO/ContributionRecur.php';
-        $recur =& new CRM_Contribute_DAO_ContributionRecur( );
-        $recur->contact_id = $contactId;
-        $recur->delete( );
+        $query = "
+DELETE n.*
+  FROM civicrm_note n,
+       civicrm_contribution d,
+       civicrm_contact       c
+ WHERE c.id = %1
+   AND d.contact_id = c.id
+   AND n.entity_table = 'civicrm_contribution'
+   AND n.entity_id    = d.id";
+        $params = array( 1 => array( $id, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+
+        // FIXME:
+        // will also need to delete activity history records
+        // when we are done with that reorg
+
+        // we dont delete the contributions, since the DB takes care of this via the onDelete clause
     }
-    
+
     /**                                                           
-     * Delete the record that are associated with this contribution 
-     * record are deleted from contribution product, note and contribution                   
-     * @param  int  $id id of the contribution to delete
+     * Delete the indirect records associated with this contribution first
      * 
      * @return boolean  true if deleted, false otherwise
      * @access public 
@@ -531,61 +519,22 @@ WHERE  honor_contact_id = {$contactId}";
      */ 
     static function deleteContribution( $id ) 
     {
-        $depends = array( 
-                         'CRM_Contribute_DAO_ContributionProduct' => 
-                                         array( 'contribution_id' => $id ),
-                         'CRM_Core_BAO_CustomValue' => 
-                                         array( 'entity_id'       => $id,
-                                                'entity_table'    => 'civicrm_contribution' ),
-                         'CRM_Core_BAO_Note'                      =>
-                                         array( 'entity_id'       => $id ,
-                                                'entity_table'    => 'civicrm_contribution' )
-                         );
-        
-        foreach( $depends as $daoName => $values ) {
-            require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
-            eval('$dao = new ' . $daoName . '( );');
-            
-            foreach( $values as $field => $value ) {
-                $dao->$field = $value;
-            }
-            
-            $dao->find();
-            
-            while ( $dao->fetch() ) {
-                $dao->delete();
-            }
-        }
-        
-        $contribution =& new CRM_Contribute_DAO_Contribution( ); 
-        $contribution->id = $id;
-        if ( $contribution->find( true ) ) {
-            self::deleteContributionSubobjects($id);
-            $contribution->delete( ); 
-        }
-        
+        $dao               = new CRM_Core_DAO_Note( );
+        $dao->entity_table = 'civicrm_contribution';
+        $dao->entity_id    = $id;
+        $dao->delete( );
+
+        // FIXME:
+        // will also need to delete activity history records
+        // when we are done with that reorg
+
+        $dao     = new CRM_Contribute_DAO_Contribution( );
+        $dao->id = $id;
+        $dao->delete( );
+
         return true;
     }
     
-    static function deleteContributionSubobjects($contribId) 
-    {
-        require_once 'CRM/Contribute/DAO/FinancialTrxn.php';
-        $trxn =& new CRM_Contribute_DAO_FinancialTrxn();
-        $trxn->contribution_id = $contribId;
-        if ($trxn->find(true)) {
-            $trxn->delete();
-        }
-
-        require_once 'CRM/Core/DAO/ActivityHistory.php';
-        $activityHistory =& new CRM_Core_DAO_ActivityHistory();
-        $activityHistory->module      = 'CiviContribute';
-        //$activityHistory->activity_id = $contribution->id;
-        $activityHistory->activity_id = $contribId;
-        if ($activityHistory->find(true)) {
-            $activityHistory->delete();
-        }
-    }
-
     /**
      * Check if there is a contribution with the same trxn_id or invoice_id
      *

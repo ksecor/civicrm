@@ -28,6 +28,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>2.0</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey> 
   <field>
       <name>tag_id</name>
@@ -41,5 +42,6 @@
        <table>civicrm_tag</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
 </table>

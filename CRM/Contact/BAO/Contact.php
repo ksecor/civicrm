@@ -1259,6 +1259,7 @@ WHERE civicrm_contact.id IN $idString ";
             require_once 'CRM/Kabissa/BAO/Details.php';
             CRM_Kabissa_BAO_Details::deleteDetails( $id );
         }
+
         //delete Grant Details Record
         if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
             require_once 'CRM/Grant/BAO/Grant.php';
@@ -1286,6 +1287,7 @@ WHERE civicrm_contact.id IN $idString ";
         
         CRM_Contact_BAO_Relationship::deleteContact( $id );
 
+        // keep this since we need 
         require_once 'CRM/Contribute/BAO/Contribution.php';
         CRM_Contribute_BAO_Contribution::deleteContact( $id );
         

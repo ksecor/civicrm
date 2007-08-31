@@ -41,6 +41,7 @@
        <table>civicrm_contribution</table> 
        <key>id</key> 
        <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>  
       <name>trxn_date</name>  

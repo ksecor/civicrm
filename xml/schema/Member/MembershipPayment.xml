@@ -28,6 +28,7 @@
     <table>civicrm_membership</table> 
     <key>id</key> 
     <add>1.5</add>
+    <onDelete>CASCADE</onDelete>
   </foreignKey>   
   <field>
       <name>contribution_id</name>
@@ -40,5 +41,6 @@
     <table>civicrm_contribution</table> 
     <key>id</key> 
     <add>2.0</add>
+    <onDelete>CASCADE</onDelete>
   </foreignKey> 
 </table>

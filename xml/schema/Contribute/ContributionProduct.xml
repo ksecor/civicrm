@@ -32,6 +32,7 @@
        <table>civicrm_contribution</table> 
        <key>id</key> 
        <add>1.4</add> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey> 
   <field> 
       <name>product_option</name> 

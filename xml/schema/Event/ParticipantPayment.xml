@@ -29,6 +29,7 @@
        <name>participant_id</name> 
        <table>civicrm_participant</table> 
        <key>id</key> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field> 
       <name>contribution_id</name> 
@@ -42,6 +43,7 @@
        <table>civicrm_contribution</table> 
        <key>id</key> 
        <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
 </table>
 

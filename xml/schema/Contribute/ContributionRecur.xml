@@ -40,6 +40,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.6</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>amount</name>
