@@ -480,36 +480,6 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         return null;
     }
 
-    /**
-     * Delete the note records that are associated with this contact (via a contribution)
-     *  
-     * @param  int  $id id of the contact to delete
-     *
-     * @return boolean  true if deleted, false otherwise
-     * @access public
-     * @static
-     */
-    static function deleteContact( $id )
-    {
-        $query = "
-DELETE n.*
-  FROM civicrm_note n,
-       civicrm_contribution d,
-       civicrm_contact       c
- WHERE c.id = %1
-   AND d.contact_id = c.id
-   AND n.entity_table = 'civicrm_contribution'
-   AND n.entity_id    = d.id";
-        $params = array( 1 => array( $id, 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $params );
-
-        // FIXME:
-        // will also need to delete activity history records
-        // when we are done with that reorg
-
-        // we dont delete the contributions, since the DB takes care of this via the onDelete clause
-    }
-
     /**                                                           
      * Delete the indirect records associated with this contribution first
      * 
@@ -519,20 +489,9 @@ DELETE n.*
      */ 
     static function deleteContribution( $id ) 
     {
-        $dao               = new CRM_Core_DAO_Note( );
-        $dao->entity_table = 'civicrm_contribution';
-        $dao->entity_id    = $id;
-        $dao->delete( );
-
-        // FIXME:
-        // will also need to delete activity history records
-        // when we are done with that reorg
-
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
-        $dao->delete( );
-
-        return true;
+        return $dao->delete( );
     }
     
     /**

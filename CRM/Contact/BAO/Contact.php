@@ -1232,31 +1232,6 @@ WHERE civicrm_contact.id IN $idString ";
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        // delete task status here 
-        require_once 'CRM/Project/DAO/TaskStatus.php';
-        $taskDAO =& new CRM_Project_DAO_TaskStatus(); 
-        $taskDAO->responsible_entity_id = $id;
-        $taskDAO->responsible_entity_table = 'civicrm_contact';
-        $taskDAO->delete();
-
-        CRM_Mailing_Event_BAO_Subscribe::deleteContact( $id );
-
-        // keep this since we need to delete contribution notes 
-        // and activity history
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        CRM_Contribute_BAO_Contribution::deleteContact( $id );
-        
-        require_once 'CRM/Member/BAO/Membership.php';
-        CRM_Member_BAO_Membership::deleteContact( $id, $userId );
-        
-        require_once 'CRM/Event/BAO/Participant.php';
-        CRM_Event_BAO_Participant::deleteContact( $id );
-        
-        CRM_Core_BAO_Note::deleteContact($id);
-
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        CRM_Core_BAO_UFMatch::deleteContact( $id );
-        
         // need to remove them from email, meeting , phonecall and other activities
         // FIX ME: Schema Change
         // CRM_Core_BAO_EmailHistory::deleteContact($id);

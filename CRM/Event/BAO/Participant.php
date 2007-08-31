@@ -536,33 +536,6 @@ WHERE  civicrm_participant.id = {$participantId}
     }
     
     /**                          
-     * Delete the Participation records for this contact.
-     * 
-     * @param  int  $cid   Contact Id                                                              
-     * 
-     * @access public 
-     * @static 
-     */ 
-    static function deleteContact( $cid ) 
-    {
-        // delete the log and note entries
-        $query = "
-DELETE l.*, n.*
-  FROM civicrm_log l,
-       civicrm_note n,
-       civicrm_contact c,
-       civicrm_participant p
- WHERE c.id = %1
-   AND p.contact_id   = c.id
-   AND l.entity_id    = p.id
-   AND l.entity_table = 'civicrm_participant'
-   AND n.entity_id    = p.id
-   AND n.entity_table = 'civicrm_participant'";
-        $params = array( 1 => array( $cid, 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $params );
-    }
-    
-    /**                          
      * Delete the record that are associated with this participation
      * 
      * @param  int  $id id of the participation to delete                                                                           
@@ -573,29 +546,11 @@ DELETE l.*, n.*
      */ 
     static function deleteParticipant( $id ) 
     {
-        // delete the log and note entries
-        $query = "
-DELETE l.*, n.*, p.*
-  FROM civicrm_log l,
-       civicrm_note n,
-       civicrm_participant p
- WHERE p.id           = %1
-   AND l.entity_id    = %1
-   AND l.entity_table = 'civicrm_participant'
-   AND n.entity_id    = %1
-   AND n.entity_table = 'civicrm_participant'";
-        $params = array( 1 => array( $id, 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $params );
-        return true;
+        $participant = new CRM_Event_DAO_Participant( );
+        $participant->id = $id;
+        $participant->delete( );
     }
     
-    static function deleteParticipantSubobjects( $contribId ) 
-    {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        CRM_Contribute_BAO_Contribution::deleteContribution( $contribId );
-        return;
-    }
-
     /**
      *Checks duplicate participants
      *

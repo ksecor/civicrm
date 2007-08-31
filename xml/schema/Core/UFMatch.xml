@@ -27,7 +27,6 @@
   <field>
        <name>contact_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to Contact ID</comment>
       <add>1.1</add>
   </field>
@@ -36,6 +35,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>domain_id</name>

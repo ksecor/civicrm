@@ -391,38 +391,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         return $membership->delete( );
     }
 
-    /**                                                           
-     * Delete the object records that are associated with this contact 
-     *                    
-     * @param  int  $contactId id of the contact to delete 
-     * @userId int  $userID of the Logged-in id of the Civicrm.
-     * 
-     * @return boolean  true if deleted, false otherwise
-     * @access public 
-     * @static 
-     */ 
-    static function deleteContact( $contactID, $userID = null ) 
-    {
-        // also we need to fix any membership types which point to this contact
-        // for now lets just make this point to the current userID
-        if ( !$userID ) {
-            $session =& CRM_Core_Session::singleton( );
-            $userID  = $session->get( 'userID' );
-            if ( ! $userID ) {
-                return;
-            }
-        }
-
-        $query = "
-UPDATE civicrm_membership_type
-   SET member_of_contact_id = %1
- WHERE member_of_contact_id = %2
-";
-        $params = array( 1 => array( $userID, 'Integer' ), 2 => array( $contactID, 'Integer' ) );
-        CRM_Core_DAO::executeQuery( $query, $params );
-
-    }
-
     /** 
      * Function to obtain active/inactive memberships from the list of memberships passed to it.
      * 

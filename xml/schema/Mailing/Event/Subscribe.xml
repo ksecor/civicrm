@@ -24,6 +24,7 @@
         <name>group_id</name>
         <table>civicrm_group</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>contact_id</name>
@@ -35,6 +36,7 @@
         <name>contact_id</name>
         <table>civicrm_contact</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>hash</name>

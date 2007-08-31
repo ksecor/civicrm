@@ -59,6 +59,7 @@
       <table>civicrm_contact</table> 
       <key>id</key>
       <add>1.5</add>
+      <onDelete>RESTRICT</onDelete>
   </foreignKey>
   <field>
       <name>contribution_type_id</name>
