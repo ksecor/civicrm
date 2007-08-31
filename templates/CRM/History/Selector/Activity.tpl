@@ -45,7 +45,17 @@
     {/if}
 {/if}
 
+<hr>
+<br/>
 {if $rows}
+
+    {if $caseview eq 1}
+      <form><input type="button" 
+      onclick="window.location.href='{crmURL p="civicrm/contact/view/activity/" q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`&subType=6"}'"
+      value="{ts}Record a new Activity{/ts}">
+      </form>
+    {/if}
+
     <form title="activity_pager" action="{crmURL}" method="post">
 
     {include file="CRM/common/pager.tpl" location="top"}
@@ -116,11 +126,11 @@
     </table>
     {/strip}
 
+
+
     {include file="CRM/common/pager.tpl" location="bottom"}
     </form>
-    {if $caseview eq 1}
-      <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`&subType=6"}">{ts}Record a new Activity{/ts}</a>
-    {/if}
+
     </fieldset>
     </div>
 {elseif $caseview EQ 1 AND !$rows}
