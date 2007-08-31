@@ -112,7 +112,8 @@ class CRM_Utils_Address
                       'county'                 => CRM_Utils_Array::value( 'county', $fields ),
                       'state_province'         => CRM_Utils_Array::value( 'state_province', $fields ),
                       'postal_code'            => $fullPostalCode,
-                      'country'                => CRM_Utils_Array::value( 'country', $fields )
+                      'country'                => CRM_Utils_Array::value( 'country', $fields ),
+                      'world_region'           => CRM_Utils_Array::value( 'world_region', $fields )
                       );
         } else {
             $replacements =
@@ -125,7 +126,8 @@ class CRM_Utils_Address
                       'county'                 => "<span class=\"region\">" .           $fields['county'],
                       'state_province'         => "<span class=\"region\">" .           $fields['state_province'] . "</span>",
                       'postal_code'            => "<span class=\"postal-code\">" .      $fullPostalCode . "</span>",
-                      'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>"
+                      'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>",
+                      'world_region'           => "<span class=\"region\">" .           $fields['world_region'] . "</span>"
                       );
 
             // erase all empty ones, so we dont get blank lines

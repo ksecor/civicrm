@@ -1689,6 +1689,12 @@ WHERE civicrm_contact.id IN $idString ";
 
             $fields = array_merge($fields, $locationFields);
 
+            //add world region
+            require_once "CRM/Core/DAO/Worldregion.php";
+            $fields = array_merge($fields,
+                                  CRM_Core_DAO_Worldregion::export( ) );
+
+
             $fields = array_merge($fields,
                                   CRM_Contact_DAO_Contact::export( ) );
 

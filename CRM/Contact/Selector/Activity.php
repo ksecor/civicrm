@@ -270,7 +270,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                                array('aid'  => $row['case_id'],
                                                                      'atype'=> $row['activity_type_id'],
                                                                      'rid'  => $row['id'],
-                                                                     'id'  =>  $row['case_subjectID'],
+                                                                     'id'  =>  $row['case_id'],
                                                                      'cid' => $this->_contactId
                                                                       ));
                 } else {
@@ -309,15 +309,25 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
     {
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
-                                          array('name'      => ts('Type')),
+                                          array('name'      => ts('Type'),
+                                                'sort'      => 'case_activity',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array('name'      => ts('Case')),
                                           array('name'      => ts('Activity'),
                                                 'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name' => ts('From Contact')),
-                                          array('name' => ts('Regarding Contact')),
-                                          array('name' => ts('To Contact')),
+                                          array('name'      => ts('From Contact'),
+                                                'sort'      => 'sourceName',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array('name'      => ts('Regarding Contact'),
+                                                'sort'      => 'targetName',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array('name'      => ts('To Contact')),
+                                                
                                           array(
                                                 'name'      => ts('Date'),
                                                 'sort'      => 'date',

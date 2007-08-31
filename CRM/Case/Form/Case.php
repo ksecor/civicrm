@@ -69,9 +69,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
     public function preProcess()  
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
-        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Integer', $this );
         $this->_activityID = CRM_Utils_Request::retrieve('activity_id','Integer',$this);
         $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
+        $this->assign('context', $this->_context);
         $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
     }
 
@@ -199,29 +200,44 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         }
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             $session =& CRM_Core_Session::singleton();
-            require_once 'CRM/Case/BAO/Case.php';
-            if ($this->_activityID == 1){
-                $entityTable = 'civicrm_meeting';
-            } else if ($this->_activityID == 2){
-                $entityTable = 'civicrm_phonecall';
-            } else {
-                $entityTable = 'civicrm_activity';
+            if (!$this->_context) {
+                $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactID );
+                $session->pushUserContext( $url );
+                require_once 'CRM/Case/BAO/Case.php';
+                require_once 'CRM/Case/DAO/CaseActivity.php';
+                $caseAcitivity = new CRM_Case_DAO_CaseActivity();
+                $caseAcitivity->case_id = $this->_id;
+                $caseAcitivity->find();
+                while ( $caseAcitivity->fetch() ) {
+                    $caseAcitivity->delete();
+                }
+                CRM_Case_BAO_Case::deleteCase( $this->_id );
+                CRM_Utils_System::redirect($url);
+            }else{
+                require_once 'CRM/Case/BAO/Case.php';
+                if ($this->_activityID == 1){
+                    $entityTable = 'civicrm_meeting';
+                } else if ($this->_activityID == 2){
+                    $entityTable = 'civicrm_phonecall';
+                } else {
+                    $entityTable = 'civicrm_activity';
+                }
+                
+                require_once 'CRM/Case/DAO/CaseActivity.php';
+                $caseActivity = new CRM_Case_DAO_CaseActivity();
+                $caseActivity->activity_entity_table = $entityTable;
+                $caseActivity->activity_entity_id = $this->_id;
+                $caseActivity->find(true);
+                
+                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id={$this->_activityID}&action=view&reset=1&selectedChild=activity&id={$this->_id}&cid=". $this->_contactID ."&history=0&subType={$this->_activityID}&context={$this->_context}&caseid={$this->_caseid}");
+                
+                $session->pushUserContext( $url );
+                
+                CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
+                CRM_Core_Session::setStatus( ts("Selected Activity has been detached from case."));
+                CRM_Utils_System::redirect($url);
             }
-            
-            require_once 'CRM/Case/DAO/CaseActivity.php';
-            $caseActivity = new CRM_Case_DAO_CaseActivity();
-            $caseActivity->activity_entity_table = $entityTable;
-            $caseActivity->activity_entity_id = $this->_id;
-            $caseActivity->find(true);
-                        
-            $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id={$this->_activityID}&action=view&reset=1&selectedChild=activity&id={$this->_id}&cid=". $this->_contactID ."&history=0&subType={$this->_activityID}&context={$this->_context}&caseid={$this->_caseid}");
-            
-             $session->pushUserContext( $url );
-             
-             CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
-             CRM_Core_Session::setStatus( ts("Selected Activity has been detached from case."));
-             CRM_Utils_System::redirect($url);
-             return;
+            return;
         }
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['case'] = $this->_id ;

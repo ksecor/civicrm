@@ -284,8 +284,13 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             }
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
-            }
 
+                //get world region 
+                $regionId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', $address->country_id, 'region_id' );
+
+                $address->world_region = CRM_Core_PseudoConstant::worldregion( $regionId );
+            }
+            
             $address->addDisplay( $microformat );
 
             // FIXME: not sure whether non-DB values are safe to store here
@@ -324,7 +329,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
             'state_province'         => isset($this->state) ? $this->state : "",
             'postal_code'            => isset($this->postal_code) ? $this->postal_code : "",
             'postal_code_suffix'     => isset($this->postal_code_suffix) ? $this->postal_code_suffix : "",
-            'country'                => isset($this->country) ? $this->country : ""
+            'country'                => isset($this->country) ? $this->country : "",
+            'world_region'           => isset($this->world_region) ? $this->world_region : ""
             );
 
         if( isset( $this->county_id ) && $this->county_id ) {

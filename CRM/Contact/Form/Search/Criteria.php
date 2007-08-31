@@ -136,8 +136,8 @@ class CRM_Contact_Form_Search_Criteria {
 
         $form->addElement('text', 'location_name', ts('Location Name'),
                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
-        $worldRegion =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegions( );
-        $form->addElement('select', 'world_region', ts('World Region'), $worldRegion);
+        $worldRegions =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegion( );
+        $form->addElement('select', 'world_region', ts('World Region'), $worldRegions);
             
 
         // checkboxes for location type

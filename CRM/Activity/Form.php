@@ -100,10 +100,10 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
         $this->_context = CRM_Utils_Request::retrieve('context', 'String',$this );
-                
+        $this->_caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );     
         if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
-            $caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );
-            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $caseID,'subject' );
+            
+            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseID,'subject' );
         }
         require_once 'CRM/Core/BAO/OptionValue.php';        
         if ( $this->_activityType > 4 ) {
@@ -207,15 +207,19 @@ class CRM_Activity_Form extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         $contactID = $this->_contactId;
         if ( $this->_action & CRM_Core_Action::DELETE ) {
+            
+            $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
+            $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
+            
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
                                             'name'      => ts('Delete'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel') ), 
-                                    ) 
-                              );
+                                            'name'      => ts('Cancel'),
+                                            'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
+                              ));
             return;
         }
         $fromName = CRM_Contact_BAO_Contact::sortName( $this->_sourceCID );

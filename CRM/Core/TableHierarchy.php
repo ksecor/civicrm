@@ -71,6 +71,7 @@ class CRM_Core_TableHierarchy {
                          'civicrm_contribution_type'    => '27',
                          'civicrm_participant'          => '28',
                          'civicrm_event'                => '29',
+                         'civicrm_worldregion'          => '30'  
                          );
 
     static function &info( ) {
