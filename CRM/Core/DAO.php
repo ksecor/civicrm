@@ -49,9 +49,6 @@ class CRM_Core_DAO extends DB_DataObject {
     static $_nullObject = null;
     static $_nullArray  = array( );
 
-    static $_transactionCount    = 0;
-    static $_transactionRollback = false;
-
     const
         NOT_NULL        =   1,
         IS_NULL         =   2,
@@ -63,14 +60,6 @@ class CRM_Core_DAO extends DB_DataObject {
      * @var object
      */
     static $_factory = null;
-
-    /**
-     * We use this object to encapsulate transactions
-     *
-     * @var object
-     * @static
-     */
-    static private $_singleton = null;
 
     /**
      * Class constructor
@@ -418,66 +407,8 @@ class CRM_Core_DAO extends DB_DataObject {
         return null;
     }
 
-    /**
-     * Function to begin/commit/rollback a transaction
-     *
-     * @param string $type an enum which is either BEGIN|COMMIT|ROLLBACK
-     *                     or null if you just want transaction status
-     * 
-     * @return boolean true if success| false if rollback or transaction will be rolled back
-     * @access public
-     */
     static function transaction( $type ) {
-        if ( empty( $type ) ) {
-            // return status if no type sent
-            return ! self::$_transactionRollback;
-        }
-
-        if ( self::$_singleton == null ) {
-            self::$_singleton =& new CRM_Core_DAO( );
-        }
-
-        $result = true;
-        switch ( $type ) {
-        case 'BEGIN':
-            if ( self::$_transactionCount == 0 ) {
-                self::$_singleton->query( 'BEGIN' );
-            }
-            self::$_transactionCount++;
-            break;
-
-        case 'ROLLBACK':
-            self::$_transactionCount--;
-            if ( self::$_transactionCount == 0 ) {
-                self::$_singleton->query( 'ROLLBACK' );
-                self::$_transactionRollback = false;
-            } else {
-                self::$_transactionRollback = true;
-            }
-            $result = false;
-            break;
-
-        case 'COMMIT':
-            self::$_transactionCount--;
-            if ( self::$_transactionRollback ) {
-                $result = false;
-            }
-            if ( self::$_transactionCount == 0 ) {
-                if ( self::$_transactionRollback ) {
-                    self::$_singleton->query( 'ROLLBACK' );
-                } else {
-                    self::$_singleton->query( 'COMMIT' );
-                }
-                self::$_transactionRollback = false;
-            }
-            break;
-
-        default:
-            CRM_Core_Error::fatal( ts( 'Unhandled transaction type: %1',
-                                       array( 1 => $type ) ) );
-            break;
-        }
-        return $result;
+        CRM_Core_Error::fatal( 'This function is obsolete, please use CRM_Core_Transaction' );
     }
 
     /**

@@ -164,6 +164,7 @@
        <name>payment_processor_id</name> 
        <table>civicrm_payment_processor</table> 
        <key>id</key> 
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field> 
       <name>is_map</name> 

@@ -545,18 +545,21 @@ WHERE  civicrm_participant.id = {$participantId}
      */ 
     static function deleteContact( $cid ) 
     {
-        $participants = array();
-        
-        $participantDAO = new CRM_Event_BAO_Participant();
-        $participantDAO->contact_id = $cid;
-        $participantDAO->find();
-        while ( $participantDAO->fetch( ) ) {
-            $participants[] = $participantDAO->id;
-        }
-        
-        foreach( $participants as $id) {
-            self::deleteParticipant( $id );
-        }
+        // delete the log and note entries
+        $query = "
+DELETE l.*, n.*
+  FROM civicrm_log l,
+       civicrm_note n,
+       civicrm_contact c,
+       civicrm_participant p
+ WHERE c.id = %1
+   AND p.contact_id   = c.id
+   AND l.entity_id    = p.id
+   AND l.entity_table = 'civicrm_participant'
+   AND n.entity_id    = p.id
+   AND n.entity_table = 'civicrm_participant'";
+        $params = array( 1 => array( $cid, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
     }
     
     /**                          
@@ -570,66 +573,20 @@ WHERE  civicrm_participant.id = {$participantId}
      */ 
     static function deleteParticipant( $id ) 
     {
-        //check dependencies
-        
-        $dependencies = array(
-                        'CRM_Core_DAO_Log'                 => array(
-                                                      'entity_id'    => $id,
-                                                      'entity_table' => 'civicrm_participant'
-                                                      ),
-                        'CRM_Core_DAO_Note'                => array(
-                                                      'entity_id'    => $id,
-                                                      'entity_table' => 'civicrm_participant'
-                                                      ),
-                        'CRM_Core_DAO_CustomValue'         => array(
-                                                      'entity_id'    => $id,
-                                                      'entity_table' => 'civicrm_participant'
-                                                      ),
-                        'CRM_Event_BAO_ParticipantPayment' => array(
-                                                      'deleteParticipantPayment' => array (
-                                                              'params' => array (
-                                                                          'participant_id' => $id
-                                                                          ) 
-                                                              ) 
-                                                      )
-                        );
-        
-        foreach ( $dependencies as $daoName => $values ) {
-            require_once ( str_replace('_', DIRECTORY_SEPARATOR, $daoName) . '.php' );
-            eval('$dao = new ' . $daoName . '( );');
-            
-            $externalMethodCall = true;
-            foreach ( $values as $field => $value ) {
-                if ( !is_array( $value ) ) {
-                    $dao->$field        = $value;
-                    $externalMethodCall = false;
-                } else {
-                    $methodName = $field;
-                    $params     = $value;
-                }
-            }
-            
-            if ( ! $externalMethodCall ) {
-                $dao->find( );
-                
-                while( $dao->fetch( ) ) {
-                    $dao->delete( );
-                    
-                }
-            } else {
-                eval( $daoName . '::$methodName( $params["params"] );' );
-            }
-        }
-      
-        require_once 'CRM/Event/DAO/Participant.php';
-        $participant        = & new CRM_Event_DAO_Participant( );
-        $participant->id    = $id;
-        
-        if ( $participant->find( ) ) {
-            return $participant->delete( );
-        }
-        
-        return false;
+        // delete the log and note entries
+        $query = "
+DELETE l.*, n.*, p.*
+  FROM civicrm_log l,
+       civicrm_note n,
+       civicrm_participant p
+ WHERE p.id           = %1
+   AND l.entity_id    = %1
+   AND l.entity_table = 'civicrm_participant'
+   AND n.entity_id    = %1
+   AND n.entity_table = 'civicrm_participant'";
+        $params = array( 1 => array( $id, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+        return true;
     }
     
     static function deleteParticipantSubobjects( $contribId ) 

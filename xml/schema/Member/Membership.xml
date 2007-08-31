@@ -35,6 +35,7 @@
       <table>civicrm_contact</table> 
       <key>id</key>
       <add>1.5</add>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>membership_type_id</name>
@@ -51,6 +52,7 @@
       <table>civicrm_membership_type</table> 
       <key>id</key>
       <add>1.5</add>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>  
       <name>join_date</name>  
@@ -109,6 +111,7 @@
       <table>civicrm_membership_status</table> 
       <key>id</key>
       <add>1.5</add>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>  
       <name>is_override</name>     
@@ -135,6 +138,7 @@
        <table>civicrm_membership</table>
        <key>id</key>
        <add>1.7</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <index>
     <name>index_owner_membership_id</name>

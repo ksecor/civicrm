@@ -385,24 +385,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */
     static function deleteMembership( $membershipId ) 
     {
-        require_once 'CRM/Member/BAO/MembershipLog.php';
-        CRM_Member_BAO_MembershipLog::del( $membershipId );
-
-        //delete Custom Data, if any
-        require_once 'CRM/Core/BAO/CustomValue.php';
-        $customDAO = & new CRM_Core_DAO_CustomValue();
-        $customDAO->entity_id = $membershipId;
-        $customDAO->entity_table = 'civicrm_membership';
-        $customDAO->find( );
-        while( $customDAO->fetch( )) {
-            $customDAO->delete();
-        }
-
-        require_once 'CRM/Member/DAO/MembershipPayment.php';
-        $membershipPayment = & new CRM_Member_DAO_MembershipPayment( );
-        $membershipPayment->membership_id = $membershipId;
-        $membershipPayment->delete();
-
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
@@ -421,17 +403,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      */ 
     static function deleteContact( $contactID, $userID = null ) 
     {
-        $membership =& new CRM_Member_DAO_Membership( );
-        $membership->contact_id = $contactID;
-        $membership->find( );
-        
-        while ( $membership->fetch( ) ) {
-            self::deleteMembership( $membership->id );
-        }
-        
         // also we need to fix any membership types which point to this contact
         // for now lets just make this point to the current userID
-
         if ( !$userID ) {
             $session =& CRM_Core_Session::singleton( );
             $userID  = $session->get( 'userID' );
@@ -448,9 +421,6 @@ UPDATE civicrm_membership_type
         $params = array( 1 => array( $userID, 'Integer' ), 2 => array( $contactID, 'Integer' ) );
         CRM_Core_DAO::executeQuery( $query, $params );
 
-        // also reset any entries from membership log which this contact has an FK
-        require_once 'CRM/Member/BAO/MembershipLog.php';
-        CRM_Member_BAO_MembershipLog::resetModifiedID( $contactID );
     }
 
     /** 

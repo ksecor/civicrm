@@ -24,6 +24,12 @@
       <comment>Event which this page belongs to.</comment> 
        <add>1.7</add> 
   </field> 
+  <foreignKey> 
+       <name>event_id</name> 
+       <table>civicrm_event</table> 
+       <key>id</key> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey>
   <field>        
       <name>intro_text</name>     
       <type>text</type>     

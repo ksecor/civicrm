@@ -32,6 +32,7 @@
        <name>contact_id</name> 
        <table>civicrm_contact</table> 
        <key>id</key> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field> 
       <name>event_id</name> 
@@ -46,6 +47,7 @@
        <name>event_id</name> 
        <table>civicrm_event</table> 
        <key>id</key> 
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field> 
       <name>status_id</name> 

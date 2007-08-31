@@ -29,6 +29,7 @@
     <table>civicrm_membership</table> 
     <key>id</key> 
     <add>1.5</add>
+    <onDelete>CASCADE</onDelete>
   </foreignKey> 
   <field>
       <name>status_id</name>
@@ -43,6 +44,7 @@
       <table>civicrm_membership_status</table> 
       <key>id</key>
       <add>1.5</add>
+      <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>start_date</name>  
@@ -69,6 +71,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.5</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>modified_date</name>

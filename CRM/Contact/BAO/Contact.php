@@ -490,8 +490,9 @@ ORDER BY civicrm_phone.is_primary DESC";
             }
         }
 
-        CRM_Core_DAO::transaction('BEGIN');
-        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         $contact = self::add($params, $ids);
 
         $params['contact_id'] = $contact->id;
@@ -571,7 +572,7 @@ ORDER BY civicrm_phone.is_primary DESC";
             CRM_Contact_BAO_SubscriptionHistory::create($subscriptionParams);
         }
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         if ( $invokeHooks ) {
             if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
@@ -1230,7 +1231,6 @@ WHERE civicrm_contact.id IN $idString ";
         // start a new transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-       
 
         // delete task status here 
         require_once 'CRM/Project/DAO/TaskStatus.php';
