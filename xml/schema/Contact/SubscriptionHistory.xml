@@ -28,7 +28,8 @@
         <name>contact_id</name>
         <table>civicrm_contact</table>
         <key>id</key>
-       <add>1.1</add>
+        <add>1.1</add>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>group_id</name>
@@ -41,6 +42,7 @@
        <table>civicrm_group</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>date</name>

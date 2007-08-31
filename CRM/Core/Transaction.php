@@ -78,16 +78,22 @@ class CRM_Core_Transaction {
     }
 
     function __destruct( ) {
-        self::$_count--;
+        $this->commit( );
+    }
 
-        if ( self::$_count == 0 ) {
-            if ( self::$_doCommit ) {
-                self::$_dao->query( 'COMMIT' );
-            } else {
-                self::$_dao->query( 'ROLLBACK' );
+    function commit( ) {
+        if ( self::$_count > 0 ) {
+            self::$_count--;
+            
+            if ( self::$_count == 0 ) {
+                if ( self::$_doCommit ) {
+                    self::$_dao->query( 'COMMIT' );
+                } else {
+                    self::$_dao->query( 'ROLLBACK' );
+                }
+                // this transaction is complete, so reset doCommit flag
+                self::$_doCommit = true;
             }
-            // this transaction is complete, so reset doCommit flag
-            self::$_doCommit = true;
         }
     }
 

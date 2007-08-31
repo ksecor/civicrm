@@ -104,7 +104,7 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
      * @access public
      * @static
      */
-    static function updatePrimaryContact( $primaryContactId = null, $contactId ) 
+    static function updatePrimaryContact( $primaryContactId, $contactId ) 
     {
         $queryString    = "UPDATE civicrm_contact
                            SET primary_contact_id = ";

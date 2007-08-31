@@ -318,10 +318,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         require_once 'CRM/Grant/DAO/Grant.php';
         $grant     = & new CRM_Grant_DAO_Grant( );
         $grant->contact_id = $id; 
-        $grant->find();
-        while ($grant->fetch() ) {
-            return $grant->delete();
-        }
+        $grant->delete();
         return false;
     }
      

@@ -29,6 +29,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>contact_id_b</name>
@@ -42,6 +43,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>relationship_type_id</name>
@@ -55,6 +57,7 @@
        <table>civicrm_relationship_type</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>start_date</name>

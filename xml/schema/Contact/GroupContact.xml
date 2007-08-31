@@ -29,6 +29,7 @@
        <table>civicrm_group</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>contact_id</name>
@@ -42,6 +43,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>status</name>
@@ -60,7 +62,8 @@
     <name>location_id</name>
     <table>civicrm_location_block</table>
     <key>id</key>
-       <add>1.1</add>
+    <add>1.1</add>
+    <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>email_id</name>
@@ -72,7 +75,7 @@
     <name>email_id</name>
     <table>civicrm_email</table>
     <key>id</key>
-       <add>1.1</add>
+    <add>1.1</add>
   </foreignKey>
   <index>
     <name>UI_contact_group</name>

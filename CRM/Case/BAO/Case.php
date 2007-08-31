@@ -300,12 +300,8 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         require_once 'CRM/Case/DAO/Case.php';
         $case     = & new CRM_Case_DAO_Case( );
         $case->contact_id = $id; 
-        
-        $case->find();
-        while ($case->fetch() ) {
-            return $case->delete();
-        }
-        return false;
+        $case->delete();
+        return true;
     }
    /**                                                           
      * Delete the record that are associated with this case 

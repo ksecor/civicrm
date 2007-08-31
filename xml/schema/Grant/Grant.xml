@@ -30,6 +30,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.8</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>  
   <field>
       <name>application_received_date</name>

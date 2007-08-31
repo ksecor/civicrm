@@ -1227,52 +1227,11 @@ WHERE civicrm_contact.id IN $idString ";
 
         CRM_Utils_Hook::pre( 'delete', $contactType, $id, CRM_Core_DAO::$_nullArray );
 
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        // start a new transaction
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
        
-        // do a top down deletion
-        if ( CRM_Core_Permission::access( 'Quest' ) ) {
-            if ( $contact->contact_sub_type == 'Student' ) {
-                require_once 'CRM/Quest/BAO/Student.php';
-                CRM_Quest_BAO_Student::deleteStudent($id);
-            }
-            if ( $contact->contact_sub_type == 'Recommender' ) {
-                require_once 'CRM/Quest/BAO/Recommendation.php';
-                CRM_Quest_BAO_Recommendation::deleteRecommender($id);
-            }
-        }
 
-        //delete TMF student Record
-        if ( CRM_Core_Permission::access( 'TMF' ) ) {
-            // delete both students and nominators
-            require_once 'CRM/TMF/BAO/Student.php';
-            CRM_TMF_BAO_Student::deleteStudent($id);
-        }
-        
-        //delete Gcc Applicant Record
-        if ( CRM_Core_Permission::access( 'Gcc' ) ) {
-            require_once 'CRM/Gcc/BAO/Applicant.php';
-            CRM_Gcc_BAO_Applicant::deleteApp($id);
-        }
-        
-        //delete Kabissa Details Record
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
-            require_once 'CRM/Kabissa/BAO/Details.php';
-            CRM_Kabissa_BAO_Details::deleteDetails( $id );
-        }
-
-        //delete Grant Details Record
-        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
-            require_once 'CRM/Grant/BAO/Grant.php';
-            CRM_Grant_BAO_Grant::deleteContact( $id );
-        }
-        require_once 'CRM/Case/BAO/Case.php';
-        CRM_Case_BAO_Case::deleteCaseContact( $id );
-        
-        require_once 'CRM/Core/DAO/Log.php';
-        $logDAO =& new CRM_Core_DAO_Log(); 
-        $logDAO->modified_id = $id;
-        $logDAO->delete();
-       
         // delete task status here 
         require_once 'CRM/Project/DAO/TaskStatus.php';
         $taskDAO =& new CRM_Project_DAO_TaskStatus(); 
@@ -1282,12 +1241,8 @@ WHERE civicrm_contact.id IN $idString ";
 
         CRM_Mailing_Event_BAO_Subscribe::deleteContact( $id );
 
-        CRM_Contact_BAO_GroupContact::deleteContact( $id );
-        CRM_Contact_BAO_SubscriptionHistory::deleteContact($id);
-        
-        CRM_Contact_BAO_Relationship::deleteContact( $id );
-
-        // keep this since we need 
+        // keep this since we need to delete contribution notes 
+        // and activity history
         require_once 'CRM/Contribute/BAO/Contribution.php';
         CRM_Contribute_BAO_Contribution::deleteContact( $id );
         
@@ -1312,17 +1267,12 @@ WHERE civicrm_contact.id IN $idString ";
         // fkeyed into location/phone.
         // CRM_Core_BAO_Location::deleteContact( $id );
 
-        require_once 'CRM/Core/DAO/EntityTag.php';
-        $eTag=& new CRM_Core_DAO_EntityTag();
-        $eTag->contact_id = $id;
-        $eTag->delete();
-
         $contact->delete( );
 
         //delete the contact id from recently view
         CRM_Utils_Recent::del($id);
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
 
         CRM_Utils_Hook::post( 'delete', $contactType, $contact->id, $contact );
 
