@@ -207,7 +207,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                   CRM_Core_Action::FOLLOWUP  => array(
                                                                     'name'  => ts('Add Activity'),
                                                                     'url'   => 'civicrm/contact/view/activity',
-                                                                    'qs'    => 'activity_id=5&action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
+                                                                    'qs'    => 'activity_id=5&action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%&subType=6',
                                                                     'title' => ts('Add Activity')
                                                                     ),
                                   );

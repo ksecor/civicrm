@@ -119,13 +119,13 @@
     {include file="CRM/common/pager.tpl" location="bottom"}
     </form>
     {if $caseview eq 1}
-      <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">{ts}Record a new Activity{/ts}</a>
+      <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`&subType=6"}">{ts}Record a new Activity{/ts}</a>
     {/if}
     </fieldset>
     </div>
 {elseif $caseview EQ 1 AND !$rows}
     <div class="section-hidden section-hidden-border">
-    <dl>{ts}No Activites Recorded for this case.{/ts} <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">{ts}Record a new Activity.{/ts}</a></dl>
+    <dl>{ts}No Activites Recorded for this case.{/ts} <a href="{crmURL p='civicrm/contact/view/activity/' q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`&subType=6"}">{ts}Record a new Activity.{/ts}</a></dl>
     </div>
 {/if}
 {if $history NEQ 1 AND $caseview NEQ 1}
