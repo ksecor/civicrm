@@ -13,7 +13,7 @@
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
-         <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
+         <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{*{$form.description.html|crmReplace:class:texttolabel}*}</dd>
         {include file="CRM/Activity/Form/Activity.tpl"}</dl>
         <div class="spacer"></div>
         <dl class="html-adjust">
@@ -34,10 +34,12 @@
             </dd>
         {/if}
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
-	    <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
+
+
+	<dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
 	
         {edit}      {*if $action neq 4*}{*Commented for crm-914*}
-            <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
+          <!--  <dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd> -->
         {/edit}     {*/if*}
 
         <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
@@ -66,24 +68,34 @@
      {if $action eq 8 }
         <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
      {/if}
-	
-        <dt></dt><dd>{$form.buttons.html}</dd>
+
+
+
+
+        <dt></dt><dd>{$form.buttons.html}
      {if $action eq 4 && ! $history }
-     <dl> <dt></dt><dd>&nbsp;&nbsp;</dd>&nbsp;<dd><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$activityID`&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&edit=1&caseid=`$caseid`"}" ">{ts}Edit Activity{/ts}</a>{ts} | {/ts}
-   <a href="{crmURL p='civicrm/contact/view/activity'
-     q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Delete Activity {/ts}</a>{ts} | {/ts}
-        
-        {if $subject_value}  
-           <a href="{crmURL p='civicrm/contact/view/case'
-     q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Detach Activity from Case {/ts}</a>
-        {/if}
-        </dd>
+       <form>
+       <input type="button" 
+       onclick="window.location.href='{crmURL p="civicrm/contact/view/activity" 
+       q="activity_id=`$activityID`&action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&edit=1&caseid=`$caseid`"}'" 
+       value="{ts}Edit{/ts}">
+       <input type="button"
+       onclick="window.location.href='{crmURL p="civicrm/contact/view/activity"
+       q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}'"
+       value="{ts}Delete{/ts}">
+       {if $subject_value}  
+         <input type="button"
+         onclick="window.location.href='{crmURL p="civicrm/contact/view/case"
+         q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}'"
+         value="{ts}Detach from case{/ts}">
+       {/if}
+       </form>
+    {/if}
+    </dd>
     </dl>
-    {/if} 
-      </dl>
-    </fieldset>
+    </fieldset>     
+
     </div>
-    
 
 {if $action eq 1  or $action eq 2 or $form.activity_type_id.value } 
     <script type="text/javascript" >
