@@ -258,4 +258,4 @@ INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1240", "Zimbab
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1241", "Åland Islands", "AX", "99");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1242", "Serbia", "RS", "99");
 INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1243", "Montenegro", "ME", "99");
-INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1244", "Somaliland, Republic of", NULL, "3");
+INSERT INTO civicrm_country (id, name,iso_code,region_id) VALUES("1244", "Somaliland, Republic of", "X1", "3");
