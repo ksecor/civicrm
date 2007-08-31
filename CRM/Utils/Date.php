@@ -407,6 +407,7 @@ class CRM_Utils_Date {
                           '%E' => $day,
                           '%f' => $suffix,
                           '%H' => $hour24 > 9 ? $hour24 : '0' . $hour24,
+                          '%h' => $hour12 > 9 ? $hour12 : '0' . $hour12,
                           '%I' => $hour12 > 9 ? $hour12 : '0' . $hour12,
                           '%k' => $hour24 > 9 ? $hour24 : ' ' . $hour24,
                           '%l' => $hour12 > 9 ? $hour12 : ' ' . $hour12,
@@ -415,6 +416,7 @@ class CRM_Utils_Date {
                           '%i' => $minute > 9 ? $minute : '0' . $minute,
                           '%p' => strtolower($type),
                           '%P' => $type,
+                          '%A' => $type,
                           '%Y' => $year
                           );
             //CRM_Core_Error::debug('f',$format);
