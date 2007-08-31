@@ -25,7 +25,7 @@
          {foreach from=$rows item=row}  
             <tr class="{cycle values="odd-row,even-row"} {$row.class}">
                  <td>{$row.case_activity}</td>
-                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=1&cid=`$row.sourceID`"}{/capture}
+                 {capture assign=viewURL}{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.sourceID`"}{/capture}
                  <td><a href="{$viewURL}">{$row.case}</td></a>
                  <td><a href="{crmURL p='civicrm/contact/view/activity' q="activity_id=`$row.activity_type_id`&action=view&selectedChild=activity&id=`$row.id`&cid=`$row.targetID`&history=0&context=Home"}">{$row.subject}</a></td>
                 
