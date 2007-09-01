@@ -256,11 +256,11 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $result = $mailer->send($recipient, $headers, $body, $this->id);
             CRM_Core_Error::setCallback();
             
-            $params = array('event_queue_id' => $eq->id,
-                            'job_id' => $this->id,
-                            'hash' => $eq->hash);
+            $params = array( 'event_queue_id' => $eq->id,
+                             'job_id'         => $this->id,
+                             'hash'           => $eq->hash );
             
-            if (is_a($result, 'PEAR_Error')) {
+            if ( is_a( $result, 'PEAR_Error' ) ) {
                 /* Register the bounce event */
                 require_once 'CRM/Mailing/BAO/BouncePattern.php';
                 require_once 'CRM/Mailing/Event/BAO/Bounce.php';
