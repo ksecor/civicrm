@@ -7,7 +7,7 @@
         <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
         <dt>{$form.contact_name.label}</dt><dd>{$form.contact_name.html}</dd>
         <dt>{$form.email_name.label}</dt><dd>{$form.email_name.html}</dd>
-        <dt>{$form.email_default.label}</dt><dd>{$form.email_default.html}</dd>
+        <dt>{$form.email_address.label}</dt><dd>{$form.email_address.html}</dd>
         {edit}
             <dt class="extra-long-fourty">&nbsp;</dt>
             <dd class="description">
