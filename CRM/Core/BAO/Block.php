@@ -88,25 +88,17 @@ class CRM_Core_BAO_Block {
     /**
      * check if the current block object has any valid data
      *
-     * @param string $blockName     name of the above object
      * @param array  $blockFields   array of fields that are of interest for this object
      * @param array  $params        input parameters to find object
-     * @param int    $locationId    the location id
-     * @param int    $blockId       the block id
      *
      * @return boolean              true if the block has data, otherwise false
      * @access public
      * @static
      */
-    static function dataExists( $blockName, $blockFields, &$params, $locationId, $blockId ) {
-        // return if no data present
-        if ( ! array_key_exists( $blockName , $params['location'][$locationId] ) ||
-             ! array_key_exists( $blockId, $params['location'][$locationId][$blockName] ) ) {
-            return false;
-        }
-
+    static function dataExists( $blockFields, $params ) 
+    {
         foreach ( $blockFields as $field ) {
-            if ( empty( $params['location'][$locationId][$blockName][$blockId][$field] ) ) {
+            if ( empty( $params[$field] ) ) {
                 return false;
             }
         }

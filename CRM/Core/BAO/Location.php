@@ -33,159 +33,111 @@
  *
  */
 
-require_once 'CRM/Core/DAO/Location.php';
-
-require_once 'CRM/Core/BAO/Block.php';
-require_once 'CRM/Core/BAO/Address.php';
 require_once 'CRM/Core/BAO/Phone.php';
 require_once 'CRM/Core/BAO/Email.php';
 require_once 'CRM/Core/BAO/IM.php';
 require_once 'CRM/Core/BAO/OpenID.php';
-
-
-require_once 'CRM/Contact/Form/Location.php';
+require_once 'CRM/Core/BAO/Address.php';
+require_once 'CRM/Core/BAO/Block.php';
 
 /**
- * BAO object for crm_location table
+ * This class handle creation of location block elements
  */
-class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
+class CRM_Core_BAO_Location
+{
     /**
-     * takes an associative array and creates a contact object
+     * Location block element array
+     */
+    //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
+    static $blocks = array( 'phone' );
+
+    /**
+     * Function to create various elements of location block
      *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * @param array    $params        (reference ) an assoc array of name/value pairs
+     * @param boolean  $fixAddress   
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param array  $locationId     
-     *
-     * @return object   CRM_Core_BAO_Location object on success, null otherwise
+     * @return array   $location 
      * @access public
      * @static
      */
-  static function add( &$params, &$ids, $locationId, $fixAddress = true ) {
-
-        if ( ! self::dataExists( $params, $locationId, $ids ) ) {
+    static function create( &$params, $fixAddress = true ) 
+    {
+        if ( ! self::dataExists( $params ) ) {
             return null;
         }
 
-        $location =& new CRM_Core_BAO_Location( );
+        //format the params accord to new format. ie. we create all
+        //email at one time, then move to another block element.
+
+        $formattedBlocks = array( );
+        self::formatParams( $params, $formattedBlocks );
+
+        //create location block elements
+        foreach ( self::$blocks as $block ) {
+            $name = ucfirst( $block );
+            eval( '$location[$block] = CRM_Core_BAO_' . $name . '::create( $formattedBlocks );');
+        }
+
+//         crm_core_error::debug('$formattedBlocks', $formattedBlocks);
+//         exit();
+
+//         $params['location'][$locationId]['id'] = $location->id;
+//         $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId, $fixAddress );
+//         $location->address = $address_object;
+//         // set this to true if this has been made the primary IM.
+//         // the rule is the first entered value is the primary object
+//         $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = $isPrimaryOpenid = true;
+
+//         // Check if no two values of a field has is_primary=1. 
+//         // If yes then make sure only one has is_primary=1 and set rest to false.
+//         $locElements = array('email', 'phone', 'im', 'openid');
+//         foreach ($locElements as $element) {
+//             $varName = 'isPrimary' . ucfirst($element);
+//             $primarySet = false;
+//             if ( isset(  $params['location'][$locationId][$element] ) &&
+//                  is_array( $params['location'][$locationId][$element] ) ) {
+//                 foreach ( $params['location'][$locationId][$element] as $eleKey => $eleVal ) {
+//                     if ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && !$primarySet) {
+//                         $$varName   = false;
+//                         $primarySet = true;
+//                     } elseif ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && $primarySet ) {
+//                         //set is_primary to zero if already set.
+//                         $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
+//                     }
+//                 }
+//             }
+//         }
+
+//         $location->phone  = array( );
+//         $location->email  = array( );
+//         $location->im     = array( );
+//         $location->openid = array( );
         
-        if (! isset($params['contact_id'])) {
-            require_once 'CRM/Core/BAO/Domain.php';
-            $location->entity_table = $params['entity_table'];
-            $location->entity_id    = $params['entity_id'];
-        } else {
-            $location->entity_table = CRM_Contact_BAO_Contact::getTableName();
-            $location->entity_id    = $params['contact_id'];
-        }
-        $location->location_type_id = CRM_Utils_Array::value( 'location_type_id', $params['location'][$locationId] );
+//         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
+//             $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
+//             $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
+//             $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
+//             $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
+//         }
 
-        // For backward compatibility, checking for name AND location_name. At some point, migrate to only using location_name.
-        $location->name             = CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] );
-        if ( ! $location->name ) {
-            $location->name             = CRM_Utils_Array::value( 'name', $params['location'][$locationId] );
-        }
-        $location->is_primary       = CRM_Utils_Array::value( 'is_primary', $params['location'][$locationId], false );
-
-        // check if there exists another location has is_primary set, and if so reset that
-        // if no location has is_primary, make this one is_primart
-        if ( $location->is_primary ) {
-            // reset all other locations with the same entity table entity id
-            $sql = "
-UPDATE civicrm_location
-   SET is_primary = 0
- WHERE entity_table = %1
-   AND entity_id    = %2 ";
-            $sqlParams = array( 1 => array( $location->entity_table, 'String' ),
-                                2 => array( $location->entity_id   , 'Integer' ) );
-            CRM_Core_DAO::executeQuery( $sql, $sqlParams );
-        } else {
-            $location->is_primary = self::primaryLocationValue( $location->entity_id,
-                                                                $location->entity_table );
-        }
-
-        $location->id = CRM_Utils_Array::value( 'id', $ids['location'][$locationId] );
-
-        if ( $location->id ) {
-            // get the old location type
-            $oldLocationTypeID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Location', $location->id, 'location_type_id' );
-            if ( $oldLocationTypeID != $location->location_type_id ) {
-                // CRM-1986, reset any other location which has the same new location_type_id
-                // hopefully this does not result in location with null id since we should be
-                // giving the ones set to null a new id
-                $sql = "
-UPDATE civicrm_location 
-   SET location_type_id = null
- WHERE entity_table     = %1
-   AND entity_id        = %2
-   AND location_type_id = %3";
-                $sqlParams = array( 1 => array( $location->entity_table    , 'String'  ),
-                                    2 => array( $location->entity_id       , 'Integer' ),
-                                    3 => array( $location->location_type_id, 'Integer' ) );       
-                CRM_Core_DAO::executeQuery( $sql, $sqlParams );
-            }
-        }
-
-        $location->save( );
-
-        $params['location'][$locationId]['id'] = $location->id;
-        $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId, $fixAddress );
-        $location->address = $address_object;
-        // set this to true if this has been made the primary IM.
-        // the rule is the first entered value is the primary object
-        $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = $isPrimaryOpenid = true;
-
-        // Check if no two values of a field has is_primary=1. 
-        // If yes then make sure only one has is_primary=1 and set rest to false.
-        $locElements = array('email', 'phone', 'im', 'openid');
-        foreach ($locElements as $element) {
-            $varName = 'isPrimary' . ucfirst($element);
-            $primarySet = false;
-            if ( isset(  $params['location'][$locationId][$element] ) &&
-                 is_array( $params['location'][$locationId][$element] ) ) {
-                foreach ( $params['location'][$locationId][$element] as $eleKey => $eleVal ) {
-                    if ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && !$primarySet) {
-                        $$varName   = false;
-                        $primarySet = true;
-                    } elseif ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && $primarySet ) {
-                        //set is_primary to zero if already set.
-                        $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
-                    }
-                }
-            }
-        }
-
-        $location->phone  = array( );
-        $location->email  = array( );
-        $location->im     = array( );
-        $location->openid = array( );
-        
-        for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-            $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
-            $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
-            $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
-            $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
-        }
-
-        if ( isset( $ids['location'] ) ) {
-            foreach ( $ids['location'] as $lValues ) {
-                // check if location is empty
-                if ( isset( $lValues['id'] ) &&
-                     $lValues['id']          &&
-                     self::isLocationEmpty( $lValues['id'] ) ) {
-                    $locationDAO =& new CRM_Core_DAO_Location( );
-                    $locationDAO->id = $lValues['id'];
-                    $locationDAO->find( );
-                    // delete the empty location
-                    while ( $locationDAO->fetch( ) ) {
-                        self::deleteLocationBlocks( $locationDAO->id );
-                        $locationDAO->delete( );
-                    }
-                }
-            }
-        }
+//         if ( isset( $ids['location'] ) ) {
+//             foreach ( $ids['location'] as $lValues ) {
+//                 // check if location is empty
+//                 if ( isset( $lValues['id'] ) &&
+//                      $lValues['id']          &&
+//                      self::isLocationEmpty( $lValues['id'] ) ) {
+//                     $locationDAO =& new CRM_Core_DAO_Location( );
+//                     $locationDAO->id = $lValues['id'];
+//                     $locationDAO->find( );
+//                     // delete the empty location
+//                     while ( $locationDAO->fetch( ) ) {
+//                         self::deleteLocationBlocks( $locationDAO->id );
+//                         $locationDAO->delete( );
+//                     }
+//                 }
+//             }
+//         }
         return $location;
     }
 
@@ -193,47 +145,40 @@ UPDATE civicrm_location
      * Check if there is data to create the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $locationId     
-     * @param array  $ids            (reference ) the array that holds all the db ids
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, &$ids ) {
-        if ( CRM_Utils_Array::value( 'id', $ids['location'][$locationId] ) ) {
-            return true;
-        }
-
+    static function dataExists( &$params ) 
+    {
         // return if no data present
-        if ( ! array_key_exists( 'location' , $params ) ||
-             ! array_key_exists( $locationId, $params['location'] ) ) {
+        if ( ! array_key_exists( 'location' , $params ) ) {
 	        return false;
         }
-        
-        //if location name exists return true
-        // For backward compatibility, checking for name AND location_name.
-        // At some point, migrate to only using location_name.
-        if ( CRM_Utils_Array::value( 'location_name', $params['location'][$locationId] ) ||
-             CRM_Utils_Array::value( 'name', $params['location'][$locationId] )) {
-            return  true;
-        }
-        
-        if ( CRM_Core_BAO_Address::dataExists( $params, $locationId, $ids ) ) {
-	        return true;
-        }
+        return true;
+    }
 
-        for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-           
-            if ( CRM_Core_BAO_Phone::dataExists ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_Email::dataExists ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_IM::dataExists    ( $params, $locationId, $i, $ids ) ||
-                 CRM_Core_BAO_OpenID::dataExists( $params, $locationId, $i,
-$ids ) ) {
-                return true;
+    /**
+     * Function formats the submitted array in new format so that we
+     * can create all same block element in one go
+     *
+     * @param array  $params           (reference ) an assoc array of name/value pairs
+     * @param array  $formattedBlocks  (reference ) formatted array of blocks 
+     *
+     * @access public
+     * @static
+     */
+    static function formatParams( &$params, &$formattedBlocks ) 
+    {
+        foreach ( $params['location'] as $key => $value ) {
+            foreach ( self::$blocks as $block ) { 
+                $formattedBlocks[$block][$key]                     = $value[$block            ];
+                $formattedBlocks[$block][$key]['contact_id'      ] = $params['contact_id'     ];
+                $formattedBlocks[$block][$key]['location_type_id'] = $value['location_type_id'];
+                $formattedBlocks[$block][$key]['is_primary'      ] = $value['is_primary'      ];
             }
         }
-        return false;
     }
     
     /**

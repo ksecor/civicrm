@@ -36,57 +36,64 @@
 require_once 'CRM/Core/DAO/Phone.php';
 
 /**
- * BAO object for crm_phone table
+ * Class contains functions for phone
  */
 class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone 
 {
     /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * takes an associative array and creates a phone 
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param int    $locationId
-     * @param int    $phoneId
-     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
      * @return object       CRM_Core_BAO_Phone object on success, null otherwise
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $phoneId, &$isPrimary ) 
+    static function create( &$params ) 
     {
-        if ( ! self::dataExists( $params, $locationId, $phoneId, $ids ) ) {
+        if ( ! self::dataExists( $params ) ) {
             return null;
         }
+                
+        $isPrimary = true;
+        foreach ( $params['phone'] as $value ) {
+            $contactFields = array( );
+            $contactFields['contact_id'      ] = $value['contact_id'];
+            $contactFields['location_type_id'] = $value['location_type_id'];
+            
+            foreach ( $value as $val ) {
+                if ( !CRM_Core_BAO_Block::dataExists( array( 'phone' ), $val ) ) {
+                    continue;
+                }
+                if ( is_array( $val ) ) {
+                    if ( $isPrimary && $value['is_primary'] ) {
+                        $contactFields['is_primary'] = $value['is_primary'];
+                        $isPrimary = false;
+                    } else {
+                        $contactFields['is_primary'] = false;
+                    }
 
+                    $phoneFields = array_merge( $val, $contactFields);
+                    self::add( $phoneFields );
+                }
+            }
+        }
+    }
+
+    /**
+     * takes an associative array and adds phone 
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return object       CRM_Core_BAO_Phone object on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function add( &$params ) 
+    {
         $phone =& new CRM_Core_DAO_Phone();
-        $phone->id                 = CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] );
-        $phone->phone              = $params['location'][$locationId]['phone'][$phoneId]['phone'];
-        if ( empty( $phone->phone ) ) {
-            $phone->delete( );
-            return null;
-        }
-
-        $phone->location_id        = $params['location'][$locationId]['id'];
-        // fix for CRM-1084
-        if ( ! empty( $params['location'][$locationId]['phone'][$phoneId]['phone_type'] ) ) {
-            $phone->phone_type         = $params['location'][$locationId]['phone'][$phoneId]['phone_type'];
-        }
-        $phone->mobile_provider_id = 
-            CRM_Utils_Array::value( 'mobile_provider_id', $params['location'][$locationId]['phone'][$phoneId] );
-
-        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        if ( $isPrimary ) {
-            $phone->is_primary     = $isPrimary;
-            $isPrimary             = false;
-        } else {
-            $phone->is_primary     = $params['location'][$locationId]['phone'][$phoneId]['is_primary'];
-        }
-
+        
+        $phone->copyValues($params);
         return $phone->save( );
     }
 
@@ -102,13 +109,14 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $phoneId, &$ids ) 
+    static function dataExists( &$params ) 
     {
-        if ( CRM_Utils_Array::value( $phoneId, $ids['location'][$locationId]['phone'] )) {
-            return true;
+        // return if no data present
+        if ( ! array_key_exists( 'phone', $params ) ) {
+	        return false;
         }
 
-        return CRM_Core_BAO_Block::dataExists('phone', array( 'phone' ), $params, $locationId, $phoneId );
+        return true;
     }
 
     /**
@@ -148,16 +156,14 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     {
         $strQuery = "
 SELECT civicrm_phone.id as phone_id, civicrm_phone.phone as phone 
-FROM   civicrm_phone, civicrm_location 
-WHERE  civicrm_phone.location_id = civicrm_location.id
-  AND  civicrm_location.entity_table = 'civicrm_contact'
-  AND  civicrm_location.entity_id = %1";
+FROM   civicrm_phone
+WHERE  civicrm_phone.contact_id = %1";
         $params = array( 1 => array( $contactId, 'Integer' ) );
                          
         $phone =& CRM_Core_DAO::executeQuery($strQuery, $params);
         
         $contactPhones = array( );
-        while($phone->fetch()) {
+        while ( $phone->fetch( ) ) {
             $contactPhones[$phone->phone_id] = $phone->phone;
         }
 

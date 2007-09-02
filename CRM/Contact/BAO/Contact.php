@@ -497,15 +497,12 @@ ORDER BY civicrm_phone.is_primary DESC";
 
         $params['contact_id'] = $contact->id;
 
-        //DO TO: comment because of schema changes        
-        // invoke the add operator on the contact_type class
+        //add location Block data
         
-//         $location = array( );
-//         for ($locationId = 1; $locationId <= $maxLocationBlocks; $locationId++) { // start of for loop for location
-//             $location[$locationId] = CRM_Core_BAO_Location::add($params, $ids, $locationId, $fixAddress);
-//         }
-
-//         $contact->location = $location;
+        $location = array( );
+        $location = CRM_Core_BAO_Location::create( $params, $fixAddress );
+        
+        $contact->location = $location;
 	
         // add notes
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
@@ -1620,9 +1617,6 @@ WHERE civicrm_contact.id IN $idString ";
                     eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::export( ));');
                     if ( $type == 'Individual') {
                         $fields = array_merge( $fields,
-                                               //CRM_Core_DAO_IndividualPrefix::export( true ) , 
-                                               //CRM_Core_DAO_IndividualSuffix::export( true ) , 
-                                               //CRM_Core_DAO_Gender::export( true ) 
                                                CRM_Core_OptionValue::getFields( )
                                                );
                     }
