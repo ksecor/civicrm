@@ -1230,26 +1230,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
 
-    /**
-     * Get the rows for a browse operation
-     *
-     * @param int $offset       The row number to start from
-     * @param int $rowCount     The nmber of rows to return
-     * @param string $sort      The sql string that describes the sort order
-     * 
-     * @return array            The rows
-     * @access public
-     */
-    public function &getRows($offset, $rowCount, $sort) {
-        $mailing    = self::getTableName();
-        $job        = CRM_Mailing_BAO_Job::getTableName();
-        $group      = CRM_Mailing_DAO_Group::getTableName( );
-        $session    =& CRM_Core_Session::singleton();
-        $domain_id  = $session->get('domainID');
+    static function mailingACL( ) {
+        $mailingACL = " ( 0 ) ";
 
         // get all the groups that this user can access
         // if they dont have universal access
-        $mailingACL = " ( 0 ) ";
         $groups   = CRM_Core_PseudoConstant::group( );
         if ( ! empty( $groups ) ) {
             $groupIDs = implode( ',',
@@ -1269,9 +1254,31 @@ SELECT DISTINCT( m.id ) as id
             }
             if ( ! empty( $mailingIDs ) ) {
                 $mailingIDs = implode( ',', $mailingIDs );
-                $mailingACL = " $mailing.id IN ( $mailingIDs ) ";
+                $mailingACL = " civicrm_mailing.id IN ( $mailingIDs ) ";
             }
         }
+
+        return $mailingACL;
+    }
+
+    /**
+     * Get the rows for a browse operation
+     *
+     * @param int $offset       The row number to start from
+     * @param int $rowCount     The nmber of rows to return
+     * @param string $sort      The sql string that describes the sort order
+     * 
+     * @return array            The rows
+     * @access public
+     */
+    public function &getRows($offset, $rowCount, $sort) {
+        $mailing    = self::getTableName();
+        $job        = CRM_Mailing_BAO_Job::getTableName();
+        $group      = CRM_Mailing_DAO_Group::getTableName( );
+        $session    =& CRM_Core_Session::singleton();
+        $domain_id  = $session->get('domainID');
+
+        $mailingACL = self::mailingACL( );
 
         $query = "
             SELECT      $mailing.id,

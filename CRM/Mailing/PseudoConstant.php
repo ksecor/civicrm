@@ -123,7 +123,14 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
      */
     public static function &completed( ) {
         if ( ! self::$completed ) {
-            self::populate( self::$completed, 'CRM_Mailing_DAO_Mailing', true, 'name', 'is_completed' );
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $mailingACL = CRM_Mailing_BAO_Mailing::mailingACL( );
+            CRM_Core_PseudoConstant::populate( self::$completed,
+                                               'CRM_Mailing_DAO_Mailing',
+                                               true,
+                                               'name',
+                                               'is_completed',
+                                               $mailingACL );
         }
         return self::$completed;
     }
