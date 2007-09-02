@@ -95,7 +95,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add('text', 'from_email', ts('FROM Email'), NULL, true);
 
         $defaults['from_name' ] = $domain->email_name;
-        $defaults['from_email'] = $domain->email_default;
+        $defaults['from_email'] = $domain->email_address;
         
         $this->add('checkbox', 'forward_replies', ts('Forward Replies?'));
         $defaults['forward_replies'] = true;
