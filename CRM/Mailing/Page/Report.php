@@ -91,10 +91,22 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $report =& CRM_Mailing_BAO_Mailing::report($this->_mailing_id);
         
+        $text = CRM_Utils_Request::retrieve( 'text', 'Boolean', $this );
+        if ( $text ) {
+            echo "<pre>{$report['mailing']['body_text']}</pre>";
+            exit( );
+        }
+
         $html = CRM_Utils_Request::retrieve( 'html', 'Boolean', $this );
         if ( $html ) {
             echo $report['mailing']['body_html'];
             exit( );
+        }
+
+        if ( ! empty( $report['mailing']['body_text'] ) ) {
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/report', 'reset=1&text=1&mid=' . $this->_mailing_id );
+            $popup =  "javascript:popUp(\"$url\");";
+            $this->assign( 'textViewURL' , $popup  );
         }
 
         if ( ! empty( $report['mailing']['body_html'] ) ) {
@@ -102,6 +114,7 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
             $popup =  "javascript:popUp(\"$url\");";
             $this->assign( 'htmlViewURL' , $popup  );
         }
+
         $this->assign( 'report', $report );
         CRM_Utils_System::setTitle(ts('CiviMail Report: %1',
                                       array(1 =>
