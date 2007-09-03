@@ -958,6 +958,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
 //                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
 //                                           );
+
+//	DRAFTING: this should be the proper way to get open activities
+//        $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
         
         return $contact;
     }
@@ -1383,36 +1386,16 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function getNumOpenActivity( $id, $admin = false ) 
     {
-        // FIXME: activity schema redesign
-        return array( );
+        $params = array( 1 => array( $id, 'Integer' ) );
 
-        // this is not sufficient way to do.
-        if ( $admin ) {
-            $clause = null;
-            $params = array( );
-        } else {
-            $clause = " ( target_entity_id = %1 OR source_contact_id = %1 ) AND  ";
-            $params = array( 1 => array( $id, 'Integer' ) );
-        } 
+        $query = "select count(civicrm_activity.id) from civicrm_activity
+                  left join civicrm_activity_target on 
+                            civicrm_activity.id = civicrm_activity_target.activity_id
+                  left join civicrm_activity_assignment on 
+                            civicrm_activity.id = civicrm_activity_assignment.activity_id
+                  where source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1;";
 
-        $query = "SELECT count(civicrm_meeting.id) FROM civicrm_meeting
-                  WHERE  $clause ( civicrm_meeting.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Meeting'))  ";
-        
-        $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
-        
-        $query = "SELECT count(civicrm_phonecall.id) FROM civicrm_phonecall
-                  WHERE  $clause  (civicrm_phonecall.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Phone Call'))";
-        $rowPhonecall = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-           
- 
-        $query = "SELECT count(civicrm_activity.id) FROM civicrm_activity
-                  WHERE $clause (civicrm_activity.id 
-                  NOT IN ( SELECT activity_id FROM civicrm_activity_history  INNER JOIN civicrm_option_value ON (civicrm_activity_history.activity_type = civicrm_option_value.label AND civicrm_option_value.value > 4 AND civicrm_option_value.option_group_id=2)))";
-        $rowActivity = CRM_Core_DAO::singleValueQuery( $query, $params ); 
-     
-        return  $rowMeeting + $rowPhonecall + $rowActivity;
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
     /**
