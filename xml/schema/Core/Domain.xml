@@ -68,15 +68,6 @@
        <add>1.6</add>
   </field>
   <field>
-       <name>config_frontend</name>
-       <type>text</type>
-       <comment>Frontend configuration.</comment>
-       <htmlType>textarea</htmlType>
-       <rows>20</rows>
-       <cols>80</cols>
-       <add>1.6</add>
-  </field>
-  <field>
        <name>version</name>
        <type>float</type>
        <comment>The civicrm version this instance is running</comment>

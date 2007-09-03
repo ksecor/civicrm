@@ -658,7 +658,7 @@ function civicrm_validate_data($edit, &$user, $title)
 */
 function civicrm_cache_disable( ) {
 	global $conf;
-    $conf['cache'] = false;
+    $conf['cache'] = CACHE_DISABLED;
 }
 
 /**

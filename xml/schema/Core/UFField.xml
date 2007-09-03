@@ -29,6 +29,7 @@
        <table>civicrm_uf_group</table>
        <key>id</key>
        <add>1.1</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>field_name</name>
@@ -128,7 +129,8 @@
        <name>location_type_id</name>
        <table>civicrm_location_type</table>
        <key>id</key>
-      <add>1.3</add>
+       <add>1.3</add>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
        <name>phone_type</name>
