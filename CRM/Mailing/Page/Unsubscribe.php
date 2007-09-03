@@ -38,26 +38,44 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/Page.php';
 
-class extern_unsubscribe extends CRM_Core_Page 
+class CRM_Mailing_Page_Unsubscribe extends CRM_Core_Page 
 {
     function run() {
-        require_once 'CRM/Utils/Array.php';
-        $job_id   = CRM_Utils_Array::value( 'jid', $_GET );
-        $queue_id = CRM_Utils_Array::value( 'qid', $_GET );
-        $hash     = CRM_Utils_Array::value( 'h'  , $_GET );
-
+        require_once 'CRM/Utils/Request.php';
+        $job_id   = CRM_Utils_Request::retrieve( 'jid', 'Integer', CRM_Core_DAO::$_nullObject );
+        $queue_id = CRM_Utils_Request::retrieve( 'qid', 'Integer', CRM_Core_DAO::$_nullObject );
+        $hash     = CRM_Utils_Request::retrieve( 'h'  , 'String' , CRM_Core_DAO::$_nullObject );
+        
         if ( ! $job_id   ||
              ! $queue_id ||
              ! $hash ) {
-            echo "Missing input parameters\n";
-            exit( );
+            CRM_Core_Error::fatal( ts( "Missing input parameters" ) );
         }
-        
-        require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
-        CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash);
-        $displayName = CRM_Mailing_Event_BAO_Unsubscribe::getContactInfo($queue_id);
-        
-        $this->assign('display_name', $displayName);
+
+        $cancel  = CRM_Utils_Request::retrieve( '_qf_unsubscribe_cancel', 'String', CRM_Core_DAO::$_nullObject,
+                                                false, null, $_REQUEST );
+        if ( $cancel ) {
+            $config = CRM_Core_Config::singleton( );
+            CRM_Utils_System::redirect( $config->userFrameworkBaseURL );
+        }
+
+        $confirm = CRM_Utils_Request::retrieve( 'confirm', 'Boolean', CRM_Core_DAO::$_nullObject,
+                                                false, null, $_REQUEST );
+
+        require_once 'CRM/Mailing/Event/BAO/Queue.php';
+        list( $displayName, $email ) = CRM_Mailing_Event_BAO_Queue::getContactInfo($queue_id);
+        $this->assign( 'display_name', $displayName);
+        $this->assign( 'email'       , $email );
+        $this->assign( 'confirm'     , $confirm );
+
+        if ( $confirm ) { 
+            require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
+            CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash);
+        } else {
+            $confirmURL = CRM_Utils_System::url( 'civicrm/mailing/unsubscribe',
+                                                 "reset=1&jid={$job_id}&qid={$queue_id}&h={$hash}&confirm=1" );
+            $this->assign( 'confirmURL', $confirmURL );
+        }
         
         parent::run();
     }
