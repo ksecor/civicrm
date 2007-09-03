@@ -739,10 +739,10 @@ msgid "Montenegro"
 msgstr "Czarnogóra"
 
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 msgid "Isle of Man"
-msgstr ""
+msgstr "Wyspa Man"

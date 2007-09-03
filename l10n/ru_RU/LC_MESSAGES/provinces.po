@@ -1306,7 +1306,7 @@ msgid "Yuen Long"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "Люксембург"
 
 msgid "Namur"
 msgstr ""
@@ -2332,7 +2332,7 @@ msgid "Sichuan"
 msgstr ""
 
 msgid "Taiwan"
-msgstr ""
+msgstr "Тайвань"
 
 msgid "Yunnan"
 msgstr ""
@@ -4714,7 +4714,7 @@ msgid "Escuintla"
 msgstr ""
 
 msgid "Guatemala"
-msgstr ""
+msgstr "Гватемала"
 
 msgid "Huehuetenango"
 msgstr ""
@@ -7354,7 +7354,7 @@ msgid "Jalisco"
 msgstr ""
 
 msgid "Mexico"
-msgstr ""
+msgstr "Мексика"
 
 msgid "Michoacin"
 msgstr ""
@@ -7891,7 +7891,7 @@ msgid "Loa Santoa"
 msgstr ""
 
 msgid "Panama"
-msgstr ""
+msgstr "Панама"
 
 msgid "Veraguas"
 msgstr ""

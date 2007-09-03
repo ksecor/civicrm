@@ -1306,7 +1306,7 @@ msgid "Yuen Long"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "luxenburg"
 
 msgid "Namur"
 msgstr ""

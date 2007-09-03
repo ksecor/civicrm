@@ -37,7 +37,7 @@ msgid "Delaware"
 msgstr "Delaware"
 
 msgid "Florida"
-msgstr ""
+msgstr "Florida"
 
 msgid "Georgia"
 msgstr "Geòrgia"
@@ -70,7 +70,7 @@ msgid "Maine"
 msgstr "Maine"
 
 msgid "Maryland"
-msgstr ""
+msgstr "Maryland"
 
 msgid "Massachusetts"
 msgstr "Massachusetts"
@@ -88,7 +88,7 @@ msgid "Missouri"
 msgstr "Missouri"
 
 msgid "Montana"
-msgstr ""
+msgstr "Montana"
 
 msgid "Nebraska"
 msgstr "Nebraska"
@@ -1306,7 +1306,7 @@ msgid "Yuen Long"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "Luxemburg"
 
 msgid "Namur"
 msgstr ""
