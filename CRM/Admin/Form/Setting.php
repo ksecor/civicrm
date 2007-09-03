@@ -109,7 +109,10 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
                 // the system for a loop on lobo's macosx box
                 // or in modules
                 global $civicrm_root;
-                if ( strpos( $civicrm_root, '/sites/all/modules' ) !== false ) {
+                if ( strpos( $civicrm_root,
+                             DIRECTORY_SEPARATOR . 'sites' .
+                             DIRECTORY_SEPARATOR . 'all'   .
+                             DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/"; 
                 } else {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 

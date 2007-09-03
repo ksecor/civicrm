@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-17 21:31+0200\n"
+"POT-Creation-Date: 2007-08-31 13:16+0200\n"
 "PO-Revision-Date: 2007-08-20 23:59+1100\n"
 "Last-Translator: davemac<dave@macs.id.au>\n"
 "Language-Team: English (United Kingdom)<>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 "X-Generator: Pootle 1.0.1\n"
@@ -1695,16 +1695,18 @@ msgid "Online Event Registration:"
 msgstr "Online Event Registration:"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
+#, fuzzy
 msgid ""
-"user_name is not set in the Administer CiviCRM &raquo; Payment Processor."
+"User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 "user_name is not set in the Administer CiviCRM &raquo; Payment Processor."
 
-#: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
+#: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
+#: CRM/Core/Payment/PayPalImpl.php
 msgid ""
-"password is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"password is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -3455,8 +3457,8 @@ msgid ""
 "Enter a valid web location beginning with \"http://\" or \"https://\". "
 "EXAMPLE: http://www.mysite.org"
 msgstr ""
-"Enter a valid web location beginning with \"http://\" or \"https://\". EXAMPLE: "
-"http://www.mysite.org"
+"Enter a valid web location beginning with \"http://\" or \"https://\". "
+"EXAMPLE: http://www.mysite.org"
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
@@ -3862,8 +3864,8 @@ msgid ""
 "This contact record is linked to the currently logged in user account - \"%1"
 "\" - and can not be deleted."
 msgstr ""
-"This contact record is linked to the currently logged in user account - \"%1\" "
-"- and can not be deleted."
+"This contact record is linked to the currently logged in user account - \"%1"
+"\" - and can not be deleted."
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
@@ -3926,7 +3928,8 @@ msgstr "Delete Group"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Email was not sent to %1 because primary email address (%2) is On Hold."
-msgstr "Email was not sent to %1 because primary email address (%2) is On Hold."
+msgstr ""
+"Email was not sent to %1 because primary email address (%2) is On Hold."
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 #, fuzzy
@@ -4710,8 +4713,8 @@ msgid ""
 "There is no valid smtp server setting. Click <a href=\"%1\">Administer "
 "CiviCRM >> Global Settings</a> to set the SMTP Server."
 msgstr ""
-"There is no valid smtp server setting. Click <a href=\"%1\">Administer CiviCRM "
-">> Global Settings</a> to set the SMTP Server."
+"There is no valid smtp server setting. Click <a href=\"%1\">Administer "
+"CiviCRM >> Global Settings</a> to set the SMTP Server."
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Contact ID (match to contact)"
@@ -5698,7 +5701,8 @@ msgstr "Send Email to Contacts"
 
 #: CRM/Core/Menu.php
 msgid "Automatically create a CiviCRM contact record for each CMS user record."
-msgstr "Automatically create a CiviCRM contact record for each CMS user record."
+msgstr ""
+"Automatically create a CiviCRM contact record for each CMS user record."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5726,8 +5730,7 @@ msgid ""
 "site as input forms, contact display pages, and search and listings features."
 msgstr ""
 "Profiles allow you to aggregate groups of fields and include them in your "
-"site as input forms, contact display pages, and search and listings "
-"features."
+"site as input forms, contact display pages, and search and listings features."
 
 #: CRM/Core/Menu.php
 msgid "CiviCRM Profile Fields"
@@ -6002,19 +6005,14 @@ msgid ""
 msgstr ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 
-#: CRM/Core/Payment/Moneris.php
-msgid ""
-"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
-"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
 msgstr "Could not find user name for payment processor"
 
 #: CRM/Core/Payment/PayPalImpl.php
+#, fuzzy
 msgid ""
-"signature is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Signature is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 "signature is not set in the Administer CiviCRM &raquo; Payment Processor."
 
@@ -6872,8 +6870,8 @@ msgid ""
 "The Set \"%1\" has not been deleted! You must Delete all price fields in "
 "this set prior to deleting the set"
 msgstr ""
-"The Set \"%1\" has not been deleted! You must Delete all price fields in this "
-"set prior to deleting the set"
+"The Set \"%1\" has not been deleted! You must Delete all price fields in "
+"this set prior to deleting the set"
 
 #: CRM/Price/Form/Field.php
 #, fuzzy
@@ -7134,11 +7132,6 @@ msgstr "Create Profile"
 #, fuzzy
 msgid "Could not find required parameter: id"
 msgstr "We could not find your logged in user ID"
-
-#: CRM/Profile/Page/View.php
-#, fuzzy
-msgid "Contact's Profile"
-msgstr "Create Profile"
 
 #: CRM/Profile/Selector/Listings.php
 #, fuzzy
@@ -7727,11 +7720,11 @@ msgid ""
 "Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to "
 "control access."
 msgstr ""
-"IMPORTANT: The Drupal permissions for \"access all custom data\" and \"profile "
-"listings and forms\" override and disable specific ACL settings for custom "
-"field groups and profiles respectively. Do not enable those Drupal "
-"permissions for a Drupal role if you want to use CiviCRM ACL's to control "
-"access."
+"IMPORTANT: The Drupal permissions for \"access all custom data\" and "
+"\"profile listings and forms\" override and disable specific ACL settings "
+"for custom field groups and profiles respectively. Do not enable those "
+"Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to "
+"control access."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -7817,11 +7810,11 @@ msgid ""
 "\" title=\"%2\">Access Control Documentation</a> for more info."
 msgstr ""
 "ACL's allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of "
-"data</strong> that the operation can be performed on (e.g. a group of "
-"contacts, a profile or a set of custom fields), and a <strong>Role</strong> "
-"that has permission to do this operation. Refer to the <a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">Access Control Documentation</a> for more info."
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts, a "
+"profile or a set of custom fields), and a <strong>Role</strong> that has "
+"permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
+"\" title=\"%2\">Access Control Documentation</a> for more info."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -7855,11 +7848,11 @@ msgid ""
 "Documentation</a> for more info."
 msgstr ""
 "ACL's allow you control access to CiviCRM data. An ACL consists of an "
-"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of "
-"data</strong> that the operation can be performed on (e.g. a group of "
-"contacts), and a <strong>Role</strong> that has permission to do this "
-"operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info."
+"<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
+"strong> that the operation can be performed on (e.g. a group of contacts), "
+"and a <strong>Role</strong> that has permission to do this operation. Refer "
+"to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
+"Documentation</a> for more info."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -8081,8 +8074,8 @@ msgid ""
 msgstr ""
 "Select up to five contact field(s) to use when comparing a new Individual "
 "contact to existing contact records for duplicate matching. If some of the "
-"fields in your matching rule are OPTIONAL, then all <strong>non-"
-"empty</strong> fields in the incoming data are used."
+"fields in your matching rule are OPTIONAL, then all <strong>non-empty</"
+"strong> fields in the incoming data are used."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -8093,8 +8086,8 @@ msgid ""
 "a potential duplicate."
 msgstr ""
 "For example, using the default matching rule of <strong>Email AND First Name "
-"AND Last Name</strong>... Jane Citizen jane.citizen@example.org.au exists "
-"in your database. Now someone tries to add a new contact with the same email "
+"AND Last Name</strong>... Jane Citizen jane.citizen@example.org.au exists in "
+"your database. Now someone tries to add a new contact with the same email "
 "address and leaves the first and last name blank. The new contact will be "
 "flagged as a potential duplicate."
 
@@ -8161,16 +8154,16 @@ msgid ""
 "Subject for email message. Tokens may be included (<a href=\"%1\" target="
 "\"_blank\" title=\"%2\">token documentation</a>)."
 msgstr ""
-"Subject for email message. Tokens may be included (<a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">token documentation</a>)."
+"Subject for email message. Tokens may be included (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">token documentation</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid ""
 "Text formatted message. Tokens may be included (<a href=\"%1\" target="
 "\"_blank\" title=\"%2\">token documentation</a>)."
 msgstr ""
-"Text formatted message. Tokens may be included (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">token documentation</a>)."
+"Text formatted message. Tokens may be included (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">token documentation</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid ""
@@ -8293,8 +8286,8 @@ msgid ""
 msgstr ""
 "CiviCRM includes an optional plugin for interfacing the the United States "
 "Postal Services (USPS) Address Standardization web service. You must "
-"register to use the USPS service at <a href=\"http://www.usps.com/webtools/ad"
-"dress.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
+"register to use the USPS service at <a href=\"http://www.usps.com/webtools/"
+"address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -8501,10 +8494,10 @@ msgid ""
 "\">CiviCRM downloads page</a> for additional translations if the one you "
 "need is not listed."
 msgstr ""
-"Language used for this installation. Installed \"translations\" are listed in "
-"langageCode_countryCode format. Check the <a href=\"%1\" "
-"target=\"_blank\">CiviCRM downloads page</a> for additional translations if "
-"the one you need is not listed."
+"Language used for this installation. Installed \"translations\" are listed "
+"in langageCode_countryCode format. Check the <a href=\"%1\" target=\"_blank"
+"\">CiviCRM downloads page</a> for additional translations if the one you "
+"need is not listed."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -8557,9 +8550,9 @@ msgid ""
 "corresponding state / province options for the selected country.)"
 msgstr ""
 "Which countries' states and/or provinces are available in the State / "
-"Province selection field <strong>for Custom Fields and Profile "
-"forms</strong>. (Standard contact address editing forms automatically "
-"display corresponding state / province options for the selected country.)"
+"Province selection field <strong>for Custom Fields and Profile forms</"
+"strong>. (Standard contact address editing forms automatically display "
+"corresponding state / province options for the selected country.)"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid ""
@@ -8571,8 +8564,9 @@ msgid ""
 msgstr ""
 "These settings are used to configure mailer properties for the optional "
 "CiviMail component. They are NOT used for the built-in \"Send Email to "
-"Contacts\" feature. Refer to the <a href=\"%1\" target=\"_blank\" title=\"CiviMail "
-"Guide (opens in a new window)\">CiviMail Guide</a> for more information."
+"Contacts\" feature. Refer to the <a href=\"%1\" target=\"_blank\" title="
+"\"CiviMail Guide (opens in a new window)\">CiviMail Guide</a> for more "
+"information."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 #, fuzzy
@@ -8642,8 +8636,8 @@ msgid ""
 msgstr ""
 "Filename for a suitable true-type font (*.ttf) to render the CAPTCHA image. "
 "<strong>IMPORTANT: A valid CAPTCHA font and path are required if you have "
-"enabled the CAPTCHA feature for any of your CiviCRM Profile input "
-"forms.</strong>"
+"enabled the CAPTCHA feature for any of your CiviCRM Profile input forms.</"
+"strong>"
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -8711,8 +8705,8 @@ msgid ""
 "with your system administrator, ISP or hosting provider."
 msgstr ""
 "If you are sending emails to contacts using CiviCRM - then you need to enter "
-"settings for your SMTP server. If you're unsure of the correct values, "
-"check with your system administrator, ISP or hosting provider."
+"settings for your SMTP server. If you're unsure of the correct values, check "
+"with your system administrator, ISP or hosting provider."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 #, fuzzy
@@ -8742,8 +8736,8 @@ msgid ""
 "settings.php)."
 msgstr ""
 "If your SMTP server requires authentication, enter your Username here. You "
-"must also enter you SMTP password in the CiviCRM settings file "
-"(civicrm.settings.php)."
+"must also enter you SMTP password in the CiviCRM settings file (civicrm."
+"settings.php)."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -8809,9 +8803,9 @@ msgstr ""
 "consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a "
 "<strong>set of Data</strong> that the operation can be performed on (e.g. a "
 "group of contacts), and a <strong>Role</strong> that has permission to do "
-"this operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
-"Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not "
-"related to the Drupal Role."
+"this operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">Access Control Documentation</a> for more info. Note that a CiviCRM ACL "
+"Role is not related to the Drupal Role."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -8819,9 +8813,9 @@ msgid ""
 "\" (<em>Operation</em>) all contacts in the \"Active Volunteers Group"
 "\" (<em>Data</em>)."
 msgstr ""
-"<strong>EXAMPLE:</strong> \"Team Leaders\" (<em>ACL Role</em>) can \"Edit\" "
-"(<em>Operation</em>) all contacts in the \"Active Volunteers Group\" "
-"(<em>Data</em>)."
+"<strong>EXAMPLE:</strong> \"Team Leaders\" (<em>ACL Role</em>) can \"Edit"
+"\" (<em>Operation</em>) all contacts in the \"Active Volunteers Group"
+"\" (<em>Data</em>)."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -8830,10 +8824,10 @@ msgid ""
 "specific CiviCRM contact groups. You can also configure ACLs to grant or "
 "deny access to specific Profiles, and/or Custom Data Fields."
 msgstr ""
-"Use <a href=\"%1\">Drupal Access Control</a> to manage basic access to CiviCRM "
-"components and menu items. Use CiviCRM ACLs to control access to specific "
-"CiviCRM contact groups. You can also configure ACLs to grant or deny access "
-"to specific Profiles, and/or Custom Data Fields."
+"Use <a href=\"%1\">Drupal Access Control</a> to manage basic access to "
+"CiviCRM components and menu items. Use CiviCRM ACLs to control access to "
+"specific CiviCRM contact groups. You can also configure ACLs to grant or "
+"deny access to specific Profiles, and/or Custom Data Fields."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -8910,16 +8904,16 @@ msgid ""
 "A newer version of CiviCRM is available: %1 (this site is currently running %"
 "2)."
 msgstr ""
-"A newer version of CiviCRM is available: %1 (this site is currently running "
-"%2)."
+"A newer version of CiviCRM is available: %1 (this site is currently running %"
+"2)."
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
 msgstr ""
-"Read about the new version on <a href=\"%1\">our website</a> and <a "
-"href=\"%2\">download it here</a>."
+"Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
+"\">download it here</a>."
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -8949,12 +8943,11 @@ msgid ""
 "Click <strong>Edit Rule</strong> to review or modify the rules for each type "
 "of contact (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
-"<strong>Duplicate Contact Rules</strong> are used by the <strong><a "
-"href='%3'>Find Duplicate Contact</a></strong> feature - which searches "
-"through your existing contacts and identifies 'suspected' duplicate contact "
-"records. Click <strong>Edit Rule</strong> to review or modify the rules for "
-"each type of contact (<a href='%1' target='_blank' title='%2'>read "
-"more...</a>)."
+"<strong>Duplicate Contact Rules</strong> are used by the <strong><a href='%"
+"3'>Find Duplicate Contact</a></strong> feature - which searches through your "
+"existing contacts and identifies 'suspected' duplicate contact records. "
+"Click <strong>Edit Rule</strong> to review or modify the rules for each type "
+"of contact (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -8976,15 +8969,15 @@ msgid ""
 "contact fields used for matching (<a href='%3' target='_blank' title='%"
 "4'>read more...</a>)."
 msgstr ""
-"The <strong>Contact Matching Rule</strong> is used to determine when a new "
-"%2 User record should be matched and linked to an existing CiviCRM contact "
+"The <strong>Contact Matching Rule</strong> is used to determine when a new %"
+"2 User record should be matched and linked to an existing CiviCRM contact "
 "record. It is also used to alert you of a matching Individual contact record "
 "when you create a new Individual. Finally, contact <strong>Import</strong> "
 "uses this rule to determine whether a row in your import file is a duplicate "
 "of an existing record. The default rule compares email address AND first "
 "name AND last name. Click <a href='%1'>Edit Rule</a> to modify the set of "
-"contact fields used for matching (<a href='%3' target='_blank' "
-"title='%4'>read more...</a>)."
+"contact fields used for matching (<a href='%3' target='_blank' title='%"
+"4'>read more...</a>)."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -9078,8 +9071,8 @@ msgid ""
 msgstr ""
 "CiviCRM stores configurable choices for various drop-down fields as \"option "
 "groups\". Choices used by core fields are reserved and can not be modified. "
-"If a group is editable, you can click <strong>Multiple Choice "
-"Options</strong> to view and modify the available choices."
+"If a group is editable, you can click <strong>Multiple Choice Options</"
+"strong> to view and modify the available choices."
 
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/OptionValue.tpl
@@ -9231,9 +9224,8 @@ msgid ""
 "(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
 msgstr ""
 "You can add or modify your ACL Roles below. You can create ACL&rsquo;s and "
-"grant permission to roles <a href=\"%1\">here</a>... and you can assign "
-"role(s) to CiviCRM contacts who are users of your site <a "
-"href=\"%2\">here</a>."
+"grant permission to roles <a href=\"%1\">here</a>... and you can assign role"
+"(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -9299,9 +9291,8 @@ msgid ""
 msgstr ""
 "You can configure one or more Payment Processors for your CiviCRM "
 "installation. You must then assign an active Payment Processor to each "
-"<strong>Online Contribution Page</strong> and each paid "
-"<strong>Event</strong> (<a href='%1' target='_blank' title='%2'>read "
-"more...</a>)."
+"<strong>Online Contribution Page</strong> and each paid <strong>Event</"
+"strong> (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #, fuzzy
@@ -9383,9 +9374,8 @@ msgid ""
 "\">Administration Documentation</a> for details on settings and options."
 msgstr ""
 "Use the links below to configure or modify the global settings for CiviCRM "
-"for this site. Refer to the <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">Administration Documentation</a> for details on settings and "
-"options."
+"for this site. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">Administration Documentation</a> for details on settings and options."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -9605,10 +9595,10 @@ msgid ""
 "a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5\">Online "
 "documentation</a>."
 msgstr ""
-"Powered by CiviCRM %1. CiviCRM is openly available under the <a "
-"href=\"%2\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Download "
-"source</a>. <a href=\"%4\">View issues and report bugs</a>. <a "
-"href=\"%5\">Online documentation</a>."
+"Powered by CiviCRM %1. CiviCRM is openly available under the <a href=\"%2"
+"\">Affero General Public License (AGPL)</a>. <a href=\"%3\">Download source</"
+"a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5\">Online "
+"documentation</a>."
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
@@ -9730,11 +9720,11 @@ msgid ""
 "emails (so it can process the \"actions\" like subscribe, optOut, etc.)."
 msgstr ""
 "Set this to the domain (e.g., <code>example.org</code>) that should be seen "
-"in your mailings' \"action\" email addressess (like "
-"<code>subscribe.*@example.org.au</code>). This domain (or, more properly, "
-"the machine that this domain's MX record points to) has to know how to "
-"handle incoming CiviMail emails (so it can process the \"actions\" like "
-"subscribe, optOut, etc.)."
+"in your mailings' \"action\" email addressess (like <code>subscribe."
+"*@example.org.au</code>). This domain (or, more properly, the machine that "
+"this domain's MX record points to) has to know how to handle incoming "
+"CiviMail emails (so it can process the \"actions\" like subscribe, optOut, "
+"etc.)."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
@@ -9752,8 +9742,7 @@ msgstr ""
 "domain. This address will not be seen by \"typical\" email clients. Consult "
 "with your SMTP provider what address to put in here so that the SMTP server "
 "accepts outgoing mail from CiviMail. If this field is left blank, the "
-"<code>From</code> email address will be used as the <code>Return-"
-"Path</code>."
+"<code>From</code> email address will be used as the <code>Return-Path</code>."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
@@ -9806,8 +9795,7 @@ msgid ""
 "individual. You can either select an existing household, or create a new one."
 msgstr ""
 "Check this option if you want to use a shared household address for this "
-"individual. You can either select an existing household, or create a new "
-"one."
+"individual. You can either select an existing household, or create a new one."
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -9986,8 +9974,8 @@ msgid ""
 "\">Search Builder documentation</a> before building your first search."
 msgstr ""
 "IMPORTANT: Search Builder requires you to use specific formats for your "
-"search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2\">Search "
-"Builder documentation</a> before building your first search."
+"search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">Search Builder documentation</a> before building your first search."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 #, fuzzy
@@ -10134,20 +10122,24 @@ msgstr ""
 "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
+#, fuzzy
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
-"print a contact list, assign tags, export contact data to a spreadsheet, etc."
+"print a contact list, or you can use the More Actions drop down list to "
+"assign tags, add to Groups, create Smart Groups, export contact data to a "
+"spreadsheet, etc."
 msgstr ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
 "print a contact list, assign tags, export contact data to a spreadsheet, etc."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
+#, fuzzy
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
-"actions -' drop-down menu."
+"actions -' drop-down menu, and then click Go."
 msgstr ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
@@ -10296,12 +10288,12 @@ msgid ""
 msgstr ""
 "Select the fields to be exported using the table below. For each field, "
 "first select the contact type that the field belongs to (e.g. select "
-"<strong>Individuals</strong> if you are exporting <strong>Last "
-"Name</strong>). Then select the actual field to be exported from the drop-"
-"down menu which will appear next to the contact type. Your export can "
-"include multiple types of contact records, and non-applicable fields will be "
-"empty (e.g. <strong>Last Name</strong> will not be populated for an "
-"Organisation record)."
+"<strong>Individuals</strong> if you are exporting <strong>Last Name</"
+"strong>). Then select the actual field to be exported from the drop-down "
+"menu which will appear next to the contact type. Your export can include "
+"multiple types of contact records, and non-applicable fields will be empty "
+"(e.g. <strong>Last Name</strong> will not be populated for an Organisation "
+"record)."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
 msgid ""
@@ -10347,11 +10339,11 @@ msgid ""
 "data. You can also save your selections as a 'field mapping' so you can use "
 "it again later."
 msgstr ""
-"Click <strong>Select fields for export</strong> and then "
-"<strong>Continue</strong> to choose a subset of fields for export. This "
-"option allows you to export multiple specific locations (Home, Work, etc.) "
-"as well as custom data. You can also save your selections as a 'field "
-"mapping' so you can use it again later."
+"Click <strong>Select fields for export</strong> and then <strong>Continue</"
+"strong> to choose a subset of fields for export. This option allows you to "
+"export multiple specific locations (Home, Work, etc.) as well as custom "
+"data. You can also save your selections as a 'field mapping' so you can use "
+"it again later."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 #, fuzzy
@@ -11321,10 +11313,9 @@ msgid ""
 "<strong>Event Participants</strong> at this time."
 msgstr ""
 "Is this field included in the Advanced and component search forms? NOTE: "
-"This feature is available to custom fields used for "
-"<strong>Contacts</strong>,<strong>Contributions</strong>, "
-"<strong>Memberships</strong>, and <strong>Event Participants</strong> at "
-"this time."
+"This feature is available to custom fields used for <strong>Contacts</"
+"strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and "
+"<strong>Event Participants</strong> at this time."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
@@ -11612,8 +11603,7 @@ msgid ""
 "contact subscription information and history for this group will be deleted."
 msgstr ""
 "Deleting this group will NOT delete the member contact records. However, all "
-"contact subscription information and history for this group will be "
-"deleted."
+"contact subscription information and history for this group will be deleted."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "If this group is used in CiviCRM profiles, those fields will be reset."
@@ -11756,9 +11746,8 @@ msgid ""
 "The saved mapping can then be easily reused the next time data is imported."
 msgstr ""
 "If you think you may be importing additional data from the same data source, "
-"check 'Save this field mapping' at the bottom of the page before "
-"continuing. The saved mapping can then be easily reused the next time data "
-"is imported."
+"check 'Save this field mapping' at the bottom of the page before continuing. "
+"The saved mapping can then be easily reused the next time data is imported."
 
 #: templates/CRM/History/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
@@ -12387,7 +12376,8 @@ msgid ""
 "WARNING: Deleting this price field will result in the loss of all \"%1\" "
 "data."
 msgstr ""
-"WARNING: Deleting this price field will result in the loss of all \"%1\" data."
+"WARNING: Deleting this price field will result in the loss of all \"%1\" "
+"data."
 
 #: templates/CRM/Price/Form/DeleteSet.tpl
 msgid ""
@@ -12510,16 +12500,16 @@ msgid ""
 "Unable to delete the \"%1\" price set - it is currently in use by one or "
 "more active events."
 msgstr ""
-"Unable to delete the \"%1\" price set - it is currently in use by one or more "
-"active events."
+"Unable to delete the \"%1\" price set - it is currently in use by one or "
+"more active events."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
 "Unable to disable the \"%1\" price set - it is currently in use by one or "
 "more active events."
 msgstr ""
-"Unable to disable the \"%1\" price set - it is currently in use by one or more "
-"active events."
+"Unable to disable the \"%1\" price set - it is currently in use by one or "
+"more active events."
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
@@ -13547,6 +13537,15 @@ msgstr "Message caught by a content filter"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Error in SMTP transaction"
+
+#~ msgid ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+#~ msgstr ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+
+#, fuzzy
+#~ msgid "Contact's Profile"
+#~ msgstr "Create Profile"
 
 #~ msgid "Save Duplicate Contact"
 #~ msgstr "Save Duplicate Contact"
