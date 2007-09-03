@@ -242,6 +242,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                 $weight += 10;
             }
         }
+
+
         
         // now add all the custom tabs
         $activeGroups =&
@@ -264,6 +266,24 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         if ( $hookTabs ) {
             $allTabs = array_merge( $allTabs, $hookTabs );
         }
+
+        // explicitly sort tabs as desired by HRD
+        foreach ( $allTabs as $id => $tab ) {
+            echo $tab['id'];
+            switch ( $tab['id'] ) {
+                case 'rel': $allTabs[$id]['weight'] = 10; break;
+                case 'case': $allTabs[$id]['weight'] = 20; break;
+                case 'activity': $allTabs[$id]['weight'] = 30; break;
+                case 'participant': $allTabs[$id]['weight'] = 40; break;
+                case 'grant': $allTabs[$id]['weight'] = 50; break;
+                case 'contribute': $allTabs[$id]['weight'] = 60; break;
+                case 'group': $allTabs[$id]['weight'] = 70; break;
+                case 'note': $allTabs[$id]['weight'] = 80; break;
+                case 'tag': $allTabs[$id]['weight'] = 90; break;
+                case 'log': $allTabs[$id]['weight'] = 100; break;
+            }
+        }
+
 
         // now sort the tabs based on weight
         usort( $allTabs, array( 'CRM_Contact_Page_View_Tabbed', 'cmpFunc' ) );
