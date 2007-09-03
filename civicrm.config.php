@@ -42,7 +42,7 @@ function conf_init() {
      * We are within the civicrm module, the drupal root is 2 links
      * above us, so use that
      */
-    $currentDir = dirname( __FILE__ ) . '/';
+    $currentDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
     if ( file_exists( $currentDir . 'settings_location.php' ) ) {
         include $currentDir . 'settings_location.php';
     }
@@ -53,11 +53,11 @@ function conf_init() {
         // make it relative to civicrm.config.php, else php makes it relative
         // to the script that invokes it
         // simple check to see if this is under sites/all or just modules
-        if ( strpos( $currentDir, 'sites/all/modules' ) !== false ) {
+        if ( strpos( $currentDir, 'sites' . DIRECTORY_SEPARATOR . 'all' . DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
             // seems like this is in drupal5 dir location
-            $confdir = $currentDir . '../../..';
+            $confdir = $currentDir . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
         } else {
-            $confdir = $currentDir . '../../sites';
+            $confdir = $currentDir . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'sites';
         }
     }
 
