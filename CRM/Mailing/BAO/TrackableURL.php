@@ -104,11 +104,12 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             $gunk = '/#~:.?+=&%@!\-';
             $punc = '.:?\-';
             $any = "{$letters}{$gunk}{$punc}";
-            $pattern = "{\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))}eim";
+            $pattern = "{\\b(href=\"($protos:[$any]+?(?=[$punc]*[^$any]|$))\")}im";
         }
-        
+
+        $trackURL = CRM_Mailing_BAO_TrackableURL::getTrackerURL('\\1', $mailing_id, $queue_id);
         $msg = preg_replace($pattern,
-                            "CRM_Mailing_BAO_TrackableURL::getTrackerURL('\\1', $mailing_id, $queue_id)", 
+                            'href="' . "$trackURL" . '"', 
                             $msg);
     }
 }
