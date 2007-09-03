@@ -28,6 +28,7 @@ INSERT INTO civicrm_currency (id, name, symbol) VALUES (13, "THB", "฿");
 INSERT INTO civicrm_currency (id, name, symbol) VALUES (14, "USD", "$");
 INSERT INTO civicrm_currency (id, name, symbol) VALUES (15, "VND", "₫");
 INSERT INTO civicrm_currency (id, name, symbol) VALUES (16, "ZAR", "R");
+INSERT INTO civicrm_currency (id, name, symbol) VALUES (17, "SEK", "kr");
 
 -- Bounce classification patterns
 INSERT INTO civicrm_mailing_bounce_type 
