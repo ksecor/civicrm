@@ -1230,8 +1230,28 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
 
+    static function checkPermission( $id ) {
+        $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
+        if ( ! in_array( $id,
+                         $mailingIDs ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this mailing report' ) );
+        }
+        return;
+    }
+
     static function mailingACL( ) {
         $mailingACL = " ( 0 ) ";
+
+        $mailingIDs =& self::mailingACLIDs( );
+        if ( ! empty( $mailingIDs ) ) {
+            $mailingIDs = implode( ',', $mailingIDs );
+            $mailingACL = " civicrm_mailing.id IN ( $mailingIDs ) ";
+        }
+        return $mailingACL;
+    }
+
+    static function &mailingACLIDs( ) {
+        $mailingIDs = array( );
 
         // get all the groups that this user can access
         // if they dont have universal access
@@ -1252,13 +1272,9 @@ SELECT DISTINCT( m.id ) as id
             while ( $dao->fetch( ) ) {
                 $mailingIDs[] = $dao->id;
             }
-            if ( ! empty( $mailingIDs ) ) {
-                $mailingIDs = implode( ',', $mailingIDs );
-                $mailingACL = " civicrm_mailing.id IN ( $mailingIDs ) ";
-            }
         }
 
-        return $mailingACL;
+        return $mailingIDs;
     }
 
     /**

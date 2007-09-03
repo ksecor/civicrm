@@ -50,8 +50,11 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
      */
     function setDefaultValues( ) 
     {
-
         $mailingID = $this->get("mid");
+
+        // check that the user has permission to access mailing id
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::checkPermission( $mailingID );
         
         $defaults = array( );
         if ( $mailingID ) {
