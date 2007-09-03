@@ -269,7 +269,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
 
         // explicitly sort tabs as desired by HRD
         foreach ( $allTabs as $id => $tab ) {
-            echo $tab['id'];
             switch ( $tab['id'] ) {
                 case 'rel': $allTabs[$id]['weight'] = 10; break;
                 case 'case': $allTabs[$id]['weight'] = 20; break;
