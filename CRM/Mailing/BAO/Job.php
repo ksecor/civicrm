@@ -59,16 +59,20 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
         $config =& CRM_Core_Config::singleton();
-        
+
+        $currentTime = date( 'YmdHis' );
+
         /* FIXME: we might want to go to a progress table.. */
-        $query = "  SELECT      *
-                    FROM        $jobTable
-                    WHERE       (start_date IS null
-                        AND         scheduled_date <= NOW()
-                        AND         status = 'Scheduled')
-                    OR          (status = 'Running'
-                        AND         end_date IS null)
-                    ORDER BY    scheduled_date, start_date";
+        $query = "
+SELECT   *
+  FROM   $jobTable
+ WHERE   ( start_date IS null
+   AND     scheduled_date <= $currentTime
+   AND     status = 'Scheduled' )
+    OR   ( status = 'Running'
+   AND     end_date IS null )
+ORDER BY scheduled_date,
+         start_date";
         
         $job->query($query);
         
