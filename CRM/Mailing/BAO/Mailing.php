@@ -816,6 +816,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 if ( ! $mailing->is_template) {
                     $job->status = 'Scheduled';
                     $job->is_retry = false;
+                    $job->is_test = false;
                     if ($params['now']) {
                         $job->scheduled_date = date('YmdHis');
                     } else {
@@ -841,6 +842,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $job->mailing_id = $mailing->id;
             $job->status = 'Testing';
             $job->is_retry = false;
+            $job->is_test = true;
             $job->scheduled_date = date('YmdHis');
             $job->save();
         }
@@ -1310,6 +1312,7 @@ SELECT DISTINCT( m.id ) as id
             FROM        $mailing
             INNER JOIN  $job
                     ON  $job.mailing_id    = $mailing.id
+                    AND $job.is_test    <> 1
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL
             GROUP BY    $mailing.id ";
@@ -1324,7 +1327,7 @@ SELECT DISTINCT( m.id ) as id
         if ($rowCount) {
            $query .= " LIMIT $offset, $rowCount ";
         }
-    
+
         $this->query($query);
 
         $rows = array();

@@ -333,7 +333,7 @@ ORDER BY scheduled_date,
      */
     public static function status($status) {
         static $translation = null;
-
+        
         if (empty($translation)) {
             $translation = array(
                 'Scheduled' =>  ts('Scheduled'),
@@ -341,6 +341,7 @@ ORDER BY scheduled_date,
                 'Complete'  =>  ts('Complete'),
                 'Paused'    =>  ts('Paused'),
                 'Canceled'  =>  ts('Canceled'),
+                'Testing'   =>  ts('Testing'),
             );
         }
         return CRM_Utils_Array::value($status, $translation, ts('Unknown'));

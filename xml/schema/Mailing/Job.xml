@@ -51,4 +51,9 @@
       <type>boolean</type>
       <comment>Is this job a retry?</comment>
   </field>
+  <field>
+      <name>is_test</name>
+      <type>boolean</type>
+      <comment>Is this job for a test mail?</comment>
+  </field>
 </table>
