@@ -100,7 +100,7 @@
 	  {/if} 
 	{/if}
         {* Show explanatory text for field if not in 'view' mode *}
-        {if $field.help_post && $action neq 4}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
+        {if $field.help_post && $action neq 4 && $form.$n.html}<tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
 
     {/foreach}

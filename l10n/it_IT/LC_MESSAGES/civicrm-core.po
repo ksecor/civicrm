@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:31+0200\n"
+"POT-Creation-Date: 2007-08-31 13:16+0200\n"
 "PO-Revision-Date: 2007-05-28 06:52-0700\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: \n"
@@ -1719,15 +1719,16 @@ msgstr ""
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
 msgid ""
-"user_name is not set in the Administer CiviCRM &raquo; Payment Processor."
+"User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
 "&raquo; Modalità di pagamento"
 
-#: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
+#: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
+#: CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
 msgid ""
-"password is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
 "&raquo; Modalità di pagamento"
@@ -5813,14 +5814,6 @@ msgstr ""
 "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
 "&raquo; Modalità di pagamento"
 
-#: CRM/Core/Payment/Moneris.php
-#, fuzzy
-msgid ""
-"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
-"%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
-"&raquo; Modalità di pagamento"
-
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
 msgstr ""
@@ -5828,7 +5821,7 @@ msgstr ""
 #: CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
 msgid ""
-"signature is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Signature is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
 "&raquo; Modalità di pagamento"
@@ -6881,10 +6874,6 @@ msgstr ""
 #, fuzzy
 msgid "Could not find required parameter: id"
 msgstr "Non è possibile trovare un id località"
-
-#: CRM/Profile/Page/View.php
-msgid "Contact's Profile"
-msgstr ""
 
 #: CRM/Profile/Selector/Listings.php
 msgid "View Profile Details"
@@ -9355,14 +9344,16 @@ msgstr ""
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
-"print a contact list, assign tags, export contact data to a spreadsheet, etc."
+"print a contact list, or you can use the More Actions drop down list to "
+"assign tags, add to Groups, create Smart Groups, export contact data to a "
+"spreadsheet, etc."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
-"actions -' drop-down menu."
+"actions -' drop-down menu, and then click Go."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
@@ -12248,6 +12239,13 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
+
+#, fuzzy
+#~ msgid ""
+#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
+#~ msgstr ""
+#~ "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
+#~ "&raquo; Modalità di pagamento"
 
 #~ msgid "Save Duplicate Contact"
 #~ msgstr "Salva contatto duplicato"
