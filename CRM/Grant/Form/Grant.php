@@ -94,10 +94,10 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             CRM_Grant_BAO_Grant::retrieve( $params, $defaults);
         } else {
             $now = date("Y-m-d");
-            $defaults['decision_date']             = $now;
+            //$defaults['decision_date']             = $now;
             $defaults['application_received_date'] = $now;
-            $defaults['grant_due_date']            = $now;
-            $defaults['money_transfer_date']       = $now;
+            //$defaults['grant_due_date']            = $now;
+            //$defaults['money_transfer_date']       = $now;
         }
         return $defaults;
     }
@@ -129,7 +129,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $this->add( 'date', 'application_received_date', ts('Application Received date'),
                     CRM_Core_SelectValues::date( 'manual',20,10 ),
-                    false);
+                    true);
         $this->addRule('application_received_date', ts('Select a valid date.'), 'qfDate'); 
 
         $this->add( 'date', 'decision_date', ts('Grant decision date'),
@@ -150,13 +150,13 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
         $this->add('textarea', 'rationale', ts('Rationale'));
         
-        $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
+        $this->add( 'text', 'amount_total', ts('Amount requested (EUR)'), null, true );
         $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
         $this->add( 'text', 'amount_granted', ts('Amount granted') );         
         $this->addRule('amount_granted', ts('Please enter a valid amount.'), 'money'); 
 
-        $this->add( 'text', 'amount_requested', ts('Amount requested') );
+        $this->add( 'text', 'amount_requested', ts('Amount requested (orig. currency)') );
         $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'textarea', 'note', ts('Notes'));
