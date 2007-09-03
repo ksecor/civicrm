@@ -1231,6 +1231,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
 
     static function checkPermission( $id ) {
+        if ( ! $id ) {
+            return;
+        }
+
         $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
         if ( ! in_array( $id,
                          $mailingIDs ) ) {

@@ -79,6 +79,11 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function preProcess() 
     {
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
+
+        // check that the user has permission to access mailing id
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::checkPermission( $this->_mailingId );
+
         $this->_action    = CRM_Utils_Request::retrieve('action', 'String', $this);
         $this->assign('action', $this->_action);
     }
