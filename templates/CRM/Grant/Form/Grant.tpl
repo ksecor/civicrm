@@ -15,14 +15,15 @@
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested for grant  {/ts}
                 </td>
             </tr>
+            <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested in EUR{/ts}
+                </td>
+            </tr>
             <tr><td class="label">{$form.amount_granted.label}</td><td>{$form.amount_granted.html}</td></tr>
              <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount granted  {/ts}
                 </td>
             </tr>
-            <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Total amount of the grant  {/ts}
-                </td>
-            </tr>
+
             
             <tr><td class="label">{$form.application_received_date.label}</td>
                 <td>{$form.application_received_date.html}
@@ -67,8 +68,8 @@
                 </td>
             </tr>
             <tr><td class="label">{$form.grant_report_received.label}</td><td>{$form.grant_report_received.html}</td></tr>
-            <tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html}</td></tr>
-            <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+            <tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html|crmReplace:class:huge}</td></tr>
+            <tr><td class="label">{$form.note.label}</td><td>{$form.note.html|crmReplace:class:huge}</td></tr>
 
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 
