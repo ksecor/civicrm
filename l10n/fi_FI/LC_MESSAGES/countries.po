@@ -357,7 +357,6 @@ msgstr "Korean tasavalta"
 msgid "Kuwait"
 msgstr "Kuwait"
 
-# EU-luettelossa "Kirgisistan, myös Kirgisia"
 msgid "Kyrgyzstan"
 msgstr "Kirgisia"
 
