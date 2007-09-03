@@ -380,7 +380,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             if ( $field->is_search_range && $search) {
                 $qf->add('date',
                          $elementName.'_from',
-                         $label . ' ' . ts('From'),
+                         $label . ' - ' . ts('From'),
                          CRM_Core_SelectValues::date( 'custom' ,
                                                       $field->start_date_years,
                                                       $field->end_date_years,
@@ -388,7 +388,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                          (($useRequired && $field->is_required) && !$search)); 
                 $qf->add('date',
                          $elementName.'_to',
-                         $label . ' ' . ts('To'), 
+                         ts('To'), 
                          CRM_Core_SelectValues::date( 'custom' , 
                                                       $field->start_date_years,
                                                       $field->end_date_years,
