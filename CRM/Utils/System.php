@@ -38,7 +38,9 @@
  *
  */
 class CRM_Utils_System {
-    
+
+    const VERSION = '2.0';
+
     static $_callbacks = null;
 
     /**
@@ -663,6 +665,9 @@ class CRM_Utils_System {
         return $url;
     }
 
+    static function version( ) {
+        return self::VERSION;
+    }
 
 }
 
