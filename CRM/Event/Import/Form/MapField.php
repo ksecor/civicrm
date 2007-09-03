@@ -461,11 +461,12 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Memberships')){
-                     $errors['saveMappingName'] = ts('Duplicate Import Membership Mapping Name');
+                if ( CRM_Core_BAO_Mapping::checkMapping( $nameField, 'Import Participants' ) ) {
+                    $errors['saveMappingName'] = ts('Duplicate Import Participant Mapping Name');
                 }
             }
         }
+        
         //display Error if loaded mapping is not selected
         if ( array_key_exists( 'loadMapping', $fields ) ) {
             $getMapName =  CRM_Utils_Array::value( 'savedMapping', $fields );
@@ -475,7 +476,7 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         }
         
         if ( !empty($errors) ) {
-            if (!empty($errors['saveMappingName'])) {
+            if ( !empty( $errors['saveMappingName'] ) ) {
                 $_flag = 1;
                 require_once 'CRM/Core/Page.php';
                 $assignError =& new CRM_Core_Page(); 

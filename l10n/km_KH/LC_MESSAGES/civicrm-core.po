@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:31+0200\n"
+"POT-Creation-Date: 2007-08-31 13:16+0200\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "MIME-Version: 1.0\n"
@@ -1766,12 +1766,13 @@ msgstr ""
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
-"user_name is not set in the Administer CiviCRM &raquo; Payment Processor."
+"User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
-#: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
+#: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
+#: CRM/Core/Payment/PayPalImpl.php
 msgid ""
-"password is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
@@ -5958,18 +5959,13 @@ msgid ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
-#: CRM/Core/Payment/Moneris.php
-msgid ""
-"Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
-
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
 msgstr ""
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
-"signature is not set in the Administer CiviCRM &raquo; Payment Processor."
+"Signature is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
 
 #: CRM/Core/Payment/PayPalImpl.php
@@ -7049,11 +7045,6 @@ msgstr "បង្កើត​ក្រុម​ថ្មី"
 #, fuzzy
 msgid "Could not find required parameter: id"
 msgstr "រក​ព័ត៌មាន​ទំនាក់ទំនង"
-
-#: CRM/Profile/Page/View.php
-#, fuzzy
-msgid "Contact's Profile"
-msgstr "បង្កើត​ក្រុម​ថ្មី"
 
 #: CRM/Profile/Selector/Listings.php
 #, fuzzy
@@ -9539,14 +9530,16 @@ msgstr ""
 msgid ""
 "Use the Search Criteria form to find contacts by name, type of contact, "
 "group membership, tags, etc. You can then view or edit contact details, "
-"print a contact list, assign tags, export contact data to a spreadsheet, etc."
+"print a contact list, or you can use the More Actions drop down list to "
+"assign tags, add to Groups, create Smart Groups, export contact data to a "
+"spreadsheet, etc."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
-"actions -' drop-down menu."
+"actions -' drop-down menu, and then click Go."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
@@ -12423,6 +12416,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Contact's Profile"
+#~ msgstr "បង្កើត​ក្រុម​ថ្មី"
 
 #, fuzzy
 #~ msgid "Save Duplicate Contact"
