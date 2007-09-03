@@ -128,6 +128,24 @@ class CRM_Mailing_Menu {
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 630,
                                  ),
+                           array(
+                                 'path'    => 'civicrm/mailing/unsubscribe',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Unsubscribe'),
+                                 'access'  => true,
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 640,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/optout',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('OptOut'),
+                                 'access'  => true,
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 640,
+                                 ),
                            );
             
             break;

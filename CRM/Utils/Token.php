@@ -78,17 +78,39 @@ class CRM_Utils_Token {
      */
     public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
-            self::$_requiredTokens = array(    
-                'domain.address'    => ts("Displays your organization's postal address."),
-                'action.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
-                'action.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-            );
+            self::$_requiredTokens = array (    
+                'domain.address'     => ts("Displays your organization's postal address."),
+                'action.optOut' =>
+                array(
+                      'action.optOut'    => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      'action.optOutUrl' => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      ),
+                'action.unsubscribe' =>
+                array(
+                      'action.unsubscribe' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      'action.unsubscribeUrl' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      ),
+                );
         }
 
-        $missing = array();
-        foreach (self::$_requiredTokens as $token => $description) {
-            if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str)) {
-                $missing[$token] = $description;
+        $missing = array( );
+        foreach (self::$_requiredTokens as $token => $value) {
+            if ( ! is_array( $value ) ) {
+                if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str ) ) {
+                    $missing[$token] = $value;
+                }
+            } else {
+                $present = false;
+                $desc    = null;
+                foreach ( $value as $t => $d ) {
+                    $desc = $d;
+                    if ( preg_match('/(^|[^\{])'.preg_quote('{' . $t . '}').'/', $str ) ) {
+                        $present = true;
+                    }
+                }
+                if ( ! $present ) {
+                    $missing[$token] = $desc;
+                }
             }
         }
 

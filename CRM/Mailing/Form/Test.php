@@ -173,7 +173,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         if (count($errors)) {
             return  $errors ;
         } else {
-            CRM_Mailing_BAO_Mailing::delJob($options['job_id']);
+            // CRM_Mailing_BAO_Mailing::delJob($options['job_id']);
             return true;
         }
     }

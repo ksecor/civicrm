@@ -194,7 +194,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
                     'url'   => 'civicrm/mailing/report',
-                    'qs'    => 'mid=%%mid%%',
+                    'qs'    => 'mid=%%mid%%&reset=1',
                     'title' => ts('View Mailing Report')
                     ),
                 CRM_Core_Action::UPDATE => array(
@@ -206,14 +206,14 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Cancel'),
                     'url'   => 'civicrm/mailing/browse',
-                    'qs'    => 'action=disable&mid=%%mid%%',
+                    'qs'    => 'action=disable&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Cancel Mailing')
                     ),
                 CRM_Core_Action::DELETE => array(
                     'name'  => ts('Delete'),
                     'url'   => 'civicrm/mailing/browse',
-                    'qs'    => 'action=delete&mid=%%mid%%',
+                    'qs'    => 'action=delete&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $deleteExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Delete Mailing')                    
                     )

@@ -438,20 +438,25 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
     
     public static function getContactInfo($queueID) {
         
-        $query = "SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id
-                  FROM civicrm_mailing_event_queue, civicrm_mailing_event_unsubscribe
-                  WHERE civicrm_mailing_event_queue.id=civicrm_mailing_event_unsubscribe.event_queue_id AND civicrm_mailing_event_queue.id=" . CRM_Utils_Type::escape($queueID, 'Integer');
+        $query = "
+SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
+       civicrm_contact.display_name as display_name
+  FROM civicrm_mailing_event_queue,
+       civicrm_mailing_event_unsubscribe,
+       civicrm_contact
+ WHERE civicrm_mailing_event_queue.id = civicrm_mailing_event_unsubscribe.event_queue_id
+   AND civicrm_mailing_event_queue.contact_id = civicrm_contact.id
+   AND civicrm_mailing_event_queue.id = " . CRM_Utils_Type::escape($queueID, 'Integer');
         
-        $dao =& new CRM_Core_DAO();
-        $dao->query($query);
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
-        require_once 'CRM/Contact/BAO/Contact.php';
-        
-        while ($dao->fetch()) {
-            $displayName = CRM_Contact_BAO_Contact::displayName($dao->contact_id);
+        $displayName = 'Unknown';
+        if ( $dao->fetch( ) ) { 
+           $displayName = $dao->display_name;
         }
         
         return $displayName;
     }
 }
+
 ?>
