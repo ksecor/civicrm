@@ -1427,7 +1427,6 @@ WHERE civicrm_contact.id IN $idString ";
 
 
         $query = "select civicrm_activity.*,
-                         civicrm_activity.activity_date_time as date,
                          sourceContact.display_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
                          targetContact.display_name as target_contact_name,
@@ -1467,7 +1466,7 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         if ( empty( $order ) ) {
-            $order = " ORDER BY date asc ";
+            $order = " ORDER BY activity_date_time asc ";
         }
 
         if ( $rowCount > 0 ) {
@@ -1476,22 +1475,29 @@ WHERE civicrm_contact.id IN $idString ";
 
         $queryString = $query . $order . $limit;
         $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
+
+        $selectorFields = array( 'activity_type_id',
+                                 'activity_type',
+                                 'id',
+                                 'activity_date_time',
+                                 'status',
+                                 'subject',                                 
+                                 'source_contact_name',
+                                 'source_contact_id',
+                                 'target_contact_name',
+                                 'target_contact_id',
+                                 'assignee_contact_name',
+                                 'assignee_contact_id',
+                                 'case_id',
+                                 'case_activity' );
+
         $values =array();
         $rowCnt = 0;
         while($dao->fetch()) {
-                $values[$rowCnt]['activity_type_id'] = $dao->activity_type_id;
-                $values[$rowCnt]['activity_type'] = $dao->activity_type;
-                $values[$rowCnt]['id']      = $dao->id;
-                $values[$rowCnt]['subject'] = $dao->subject;
-                $values[$rowCnt]['date']    = $dao->date;
-                $values[$rowCnt]['status']  = $dao->status;
-                $values[$rowCnt]['source_contact_name'] = $dao->sourceName;
-                $values[$rowCnt]['target_contact_name'] = $dao->targetName;
-                $values[$rowCnt]['sourceID'] = $dao->source_contact_id;
-                $values[$rowCnt]['targetID'] = $dao->target_contact_id;
-                $values[$rowCnt]['case_id']  = $dao->case_id;
-                $values[$rowCnt]['case_activity'] = $dao->case_activity;
-                $rowCnt++;
+            foreach( $selectorFields as $dc => $field ) {
+                $values[$rowCnt][$field] = $dao->$field;
+            }
+            $rowCnt++;
         }
 
 //        foreach ($values as $key => $array) {

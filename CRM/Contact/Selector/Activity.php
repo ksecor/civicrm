@@ -170,6 +170,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         } else {
             return self::_getColumnHeaders();
         }
+        
     }
 
 
@@ -210,6 +211,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
+            // DRAFTING: provide a facility for db-stored strings
             // localize the built-in activity names for display
             // (these are not enums, so we can't use any automagic here)
             switch ($row['activity_type']) {
@@ -219,6 +221,8 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                 case 'SMS':        $row['activity_type'] = ts('SMS');        break;
                 case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
+
+//            CRM_Core_Error::debug('s', $row);
             
             //for case subject
             if ( $row['case_id'] ) {
@@ -311,7 +315,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         if (!isset(self::$_columnHeaders)) {
             self::$_columnHeaders = array(
                                           array('name'      => ts('Type'),
-                                                'sort'      => 'case_activity',
+                                                'sort'      => 'activity_type',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array('name'      => ts('Case'),
@@ -322,19 +326,21 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 'sort'      => 'subject',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('From Contact'),
-                                                'sort'      => 'sourceName',
+                                          array('name'      => ts('Added by'),
+                                                'sort'      => 'source_contact_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('Regarding Contact'),
-                                                'sort'      => 'targetName',
+                                          array('name'      => ts('Target'),
+                                                'sort'      => 'target_contact_name',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('To Contact')),
-                                                
+                                          array('name'      => ts('Assigned to'),
+                                                'sort'      => 'assignee_contact_name',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                           array(
                                                 'name'      => ts('Date'),
-                                                'sort'      => 'date',
+                                                'sort'      => 'activity_date_time',
                                                 'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
                                           array('desc' => ts('Actions')),

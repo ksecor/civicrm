@@ -3,7 +3,7 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 
-    <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px;" >
+    <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 1600px;" >
 
 <div id="summary" dojoType="dijit.layout.ContentPane" title="Summary" selected="true" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
 
