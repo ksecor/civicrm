@@ -668,7 +668,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
-                                $this->id, $event_queue_id);
+                                $this->id, $event_queue_id, true);
 
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
                                 $this->id, $event_queue_id);
