@@ -1,31 +1,30 @@
  <tr>
-    <td class="label">{$form.event_title.label}</td> 
-{if $event_title_value}
-<script type="text/javascript">
-  dojo.addOnLoad( function( ) {ldelim}
-    dijit.byId( 'event_title' ).setValue( '{$event_title_value}', '{$event_title_value}' )
-  {rdelim} );
-</script>
-{/if}
-    
-<td>{$form.event_title.html}
-   <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" class ="tundra">
-   </div>
-</td>
-
-    <td colspan="2">{$form.event_type.label}
-{if $event_type_value}
-<script type="text/javascript">
-  dojo.addOnLoad( function( ) {ldelim}
-    dijit.byId( 'event_type' ).setValue( '{$event_type_value}', '{$event_type_value}' )
-  {rdelim} );
-</script>
-{/if}
-
-<div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" class ="tundra">
-</div>
-    {$form.event_type.html}</td>
-
+ <td class="label">{$form.event_title.label}</td> 
+    {if $event_title_value}
+    <script type="text/javascript">
+        dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'event_title' ).setValue( '{$event_title_value}', '{$event_title_value}' )
+        {rdelim} );
+    </script>
+    {/if}
+    <td>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" >
+        {$form.event_title.html}
+        </div>
+    </td>
+    <td><label>{$form.event_type.label}</label></td>
+    {if $event_type_value}
+    <script type="text/javascript">
+        dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'event_type' ).setValue( '{$event_type_value}', '{$event_type_value}' )
+        {rdelim} );
+    </script>
+    {/if}
+    <td>
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" >
+        {$form.event_type.html}
+        </div>
+    </td>
  </tr>     
  <tr> 
     <td class="label"> {$form.event_start_date_low.label} </td>
