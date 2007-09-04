@@ -47,7 +47,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * This class is used to retrieve and display open activities for a contact
  *
  */
-class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
+class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
 {
     /**
      * This defines two actions - Details and Delete.
