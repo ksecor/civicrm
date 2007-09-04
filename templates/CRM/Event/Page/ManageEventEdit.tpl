@@ -20,9 +20,16 @@
     <td>{ts}Determine whether an online registration page is available. If so, configure registration page elements.{/ts}</td>
 </tr>
 <tr>
+<td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Friend"}" id="idFriend">&raquo; {ts}Tell a Friend{/ts}</a></td>
+    <td>{ts}Allows site administrators to configure and include "Tell a Friend" functionality for Online Contribution and Event Registration pages. Administrators will be able to configure the following elements.{/ts}</td>
+</tr>
+<tr>
+
+<tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/event/info' q="reset=1&id=`$id`"}" id="idDisplayEvent">&raquo; {ts}View Event Info{/ts}</a></td>
     <td>{ts}View the Event Information page as it will be displayed to site visitors.{/ts}</td>
 </tr>
+
 <tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/event/register' q="reset=1&action=preview&id=`$id`"}" id="idTest-drive">&raquo; {ts}Test-drive Registration{/ts}</a></td>
     <td>{ts}Test-drive the entire online registration process - including custom fields, confirmation, thank-you page, and receipting. Fee payment transactions will be directed to your payment processor's test server. <strong>No live financial transactions will be submitted. However, a contact record will be created or updated and participant and contribution records will be saved to the database. Use obvious test contact names so you can review and delete these records as needed.</strong>{/ts}</td>

@@ -53,10 +53,11 @@ class CRM_Event_StateMachine_ManageEvent extends CRM_Core_StateMachine {
         parent::__construct( $controller, $action );
         
         $this->_pages = array(
-                              'CRM_Event_Form_ManageEvent_EventInfo' => null,
-                              'CRM_Event_Form_ManageEvent_Location'  => null,
-                              'CRM_Event_Form_ManageEvent_Fee'    => null,
+                              'CRM_Event_Form_ManageEvent_EventInfo'    => null,
+                              'CRM_Event_Form_ManageEvent_Location'     => null,
+                              'CRM_Event_Form_ManageEvent_Fee'          => null,
                               'CRM_Event_Form_ManageEvent_Registration' => null,
+                              'CRM_Friend_Form_Event_TellAFriend'       => null,
                               //'CRM_Event_Form_ManageEvent_CopyEvent' => null,
                               );
         

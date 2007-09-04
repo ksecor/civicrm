@@ -47,6 +47,10 @@
     <td>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
 </tr>
 <tr>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Friend"}" id="idFriend">&raquo; {ts}Tell a Friend{/ts}</a></td>
+    <td>{ts}Allows site administrators to configure and include "Tell a Friend" functionality for Online Contribution and Event Registration pages. Administrators will be able to configure the following elements.{/ts}</td>
+</tr>
+<tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
     <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
 </tr>

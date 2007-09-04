@@ -94,6 +94,10 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         case 'Registration':
             $form = 'CRM_Event_Form_ManageEvent_Registration';
             break;
+
+        case 'Friend':
+            $form = 'CRM_Friend_Form_Event_TellAFriend';
+            break;
         }
         if ( $form ) {
             $session =& CRM_Core_Session::singleton( );
