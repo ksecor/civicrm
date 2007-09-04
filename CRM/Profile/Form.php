@@ -277,9 +277,9 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( CRM_Core_Permission::check( 'administer users' ) ||
                  $this->_id == $session->get( 'userID' )                 ) {
                 $admin = true;
-            }
+            } 
         }
-
+        
         $userID = $session->get( 'userID' );
         $anonUser = false; // if false, user is not logged-in. 
         if ( ! $userID ) {
@@ -329,14 +329,13 @@ class CRM_Profile_Form extends CRM_Core_Form
             if ( $field['add_captcha'] ) {
                 $addCaptcha[$field['group_id']] = $field['add_captcha'];
             }
-        
-           
-            if ( $name == 'email-Primary' || $name == 'email-'. isset($primaryLocationType) ? $primaryLocationType : "" ) {
+            
+            if ( ($name == 'email-Primary') || ($name == 'email-'. isset($primaryLocationType) ? $primaryLocationType : "") ) { 
                 $emailPresent = true;
                 $this->_mail = $name;
             }
         }
-
+        
         $setCaptcha = false;
         
         // do this only for CiviCRM created forms
@@ -376,21 +375,20 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-
-        if ( $this->_mode == self::MODE_CREATE && $anonUser ) {
+        if ( $this->_mode == self::MODE_CREATE ) { 
             require_once 'CRM/Core/BAO/CMSUser.php';
-            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent );
-        } else {
+            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent, CRM_Core_Action::PREVIEW);
+        } else {                                                          
             $this->assign( 'showCMS', false );
         }
-
+        
         $this->assign( 'groupId', $this->_gid ); 
-
+        
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
         }
-    }
+   }
 
     /**
      * global form rule

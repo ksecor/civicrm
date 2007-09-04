@@ -147,7 +147,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm()
-    {
+    {                                             
         $scoreAttribs = array('SAT_composite', 'SAT_composite_alt', 'SAT_reading', 'SAT_math' ,'SAT_writing', 'ACT_composite', 'ACT_english', 'ACT_reading', 'ACT_math', 'ACT_science', 'PSAT_composite', 'PLAN_composite', 'household_income_total', 'household_member_count');
         
         $readers = array('cmr_first_generation_id', 'cmr_income_increase_id', 'cmr_need_id', 'cmr_grade_id', 'cmr_class_id', 'cmr_score_id', 'cmr_academic_id', 'cmr_disposition_id');
@@ -266,8 +266,12 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                 $this->add('text', $name, $field['title'], $field['attributes'], $required);
             }
         }
-     
-        require_once 'CRM/Core/DAO/UFGroup.php';
+        
+        if($this->_fields['email-Primary']) {  
+            $emailPresent =true;
+            require_once 'CRM/Core/BAO/CMSUser.php';
+            CRM_Core_BAO_CMSUser::buildForm($this,$this->_gid,$emailPresent,true);
+        }
         $dao = new CRM_Core_DAO_UFGroup();
         $dao->id = $this->_gid;
         $dao->find(true);
@@ -285,7 +289,6 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
                                 )
                           );
     }
-
 }
 
 ?>

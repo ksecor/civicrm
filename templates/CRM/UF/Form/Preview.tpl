@@ -8,22 +8,22 @@
 {if $viewOnly }
 {* wrap in crm-container div so crm styles are used *}
 <div id="crm-container-inner" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
-    {strip}
+ {include file="CRM/common/CMSUser.tpl"}      
+    {strip} 
     {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if}
     {assign var=zeroField value="Initial Non Existent Fieldset"}
     {assign var=fieldset  value=$zeroField}
     {foreach from=$fields item=field key=name}
     {if $field.groupTitle != $fieldset}
         {if $fieldset != $zeroField}
-           </table>
+           </table> 
            {if $groupHelpPost}
               <div class="messages help">{$groupHelpPost}</div>
            {/if}
            {if $mode ne 8}
               </fieldset>
            {/if}
-            
-        {/if}
+        {/if}   
        {if $mode ne 8}
             <fieldset><legend>{$field.groupTitle}</legend>
        {/if}
@@ -77,7 +77,8 @@
         {if $field.help_post && $action neq 4}
             <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr>
         {/if}
-    {/foreach}
+    {/foreach}  
+     
     {if $addCAPTCHA }
               <tr>
                <td></td>
@@ -106,3 +107,5 @@
 <div class=" horizontal-center "> 
 	{$form.buttons.html}
 </div>
+
+
