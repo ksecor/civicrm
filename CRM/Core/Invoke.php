@@ -302,48 +302,53 @@ class CRM_Core_Invoke
                 break;
 
             case 'activity':
-                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',
-                                                          CRM_Core_DAO::$_nullObject );
-                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
-                                                    CRM_Core_DAO::$_nullObject );
+                require_once 'CRM/Contact/Page/View/Activity.php';
+                $view =& new CRM_Contact_Page_View_Activity( );
+                break;                
 
-                if(!$show) {
-                    if ($activityId)  {
-                        $session->set('activityId', $activityId);
-                    } else {
-                        $activityId = $session->get('activityId');
-                    }
-                }
+// DRAFTING: All the below commented stuff should go away, however it looks so scary that I decided to keep it for now.
 
-                if ($activityId == 1) {
-                    require_once 'CRM/Contact/Page/View/Meeting.php';
-                    $view =& new CRM_Contact_Page_View_Meeting( );
-                } elseif($activityId == 2) {
-                    require_once 'CRM/Contact/Page/View/Phonecall.php';
-                    $view =& new CRM_Contact_Page_View_Phonecall( );
-                } elseif($activityId == 3) {
-                    $details = CRM_Utils_Request::retrieve('details', 'String',
-                                                           CRM_Core_DAO::$_nullObject );
-                    if ($details) {
-                        require_once 'CRM/Contact/Page/View/Email.php';
-                        $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
-                    } else {
-                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
-                        $wrapper =& new CRM_Utils_Wrapper( );
-                        return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
-                    }
-                } elseif ($activityId == 4 ) {
-                    require_once 'CRM/Contact/Page/View/SMS.php';
-                    $view =& new CRM_Contact_Page_View_SMS( );
-                } elseif ($activityId > 4) {
-                    require_once 'CRM/Contact/Page/View/OtherActivity.php';
-                    $view =& new CRM_Contact_Page_View_OtherActivity( );
-                } else {
-                    require_once 'CRM/Contact/Page/View/Activity.php';
-                    $view =& new CRM_Contact_Page_View_Activity( );
-                }
+//                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',
+//                                                          CRM_Core_DAO::$_nullObject );
+//                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
+//                                                    CRM_Core_DAO::$_nullObject );
 
-                break;
+//                if(!$show) {
+//                    if ($activityId)  {
+//                        $session->set('activityId', $activityId);
+//                    } else {
+//                        $activityId = $session->get('activityId');
+//                    }
+//                }
+
+//                if ($activityId == 1) {
+//                    require_once 'CRM/Contact/Page/View/Meeting.php';
+//                    $view =& new CRM_Contact_Page_View_Meeting( );
+//                } elseif($activityId == 2) {
+//                    require_once 'CRM/Contact/Page/View/Phonecall.php';
+//                    $view =& new CRM_Contact_Page_View_Phonecall( );
+//                } elseif($activityId == 3) {
+//                    $details = CRM_Utils_Request::retrieve('details', 'String',
+//                                                           CRM_Core_DAO::$_nullObject );
+//                    if ($details) {
+//                        require_once 'CRM/Contact/Page/View/Email.php';
+//                        $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
+//                    } else {
+//                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
+//                        $wrapper =& new CRM_Utils_Wrapper( );
+//                        return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+//                    }
+//                } elseif ($activityId == 4 ) {
+//                    require_once 'CRM/Contact/Page/View/SMS.php';
+//                    $view =& new CRM_Contact_Page_View_SMS( );
+//                } elseif ($activityId > 4) {
+//                    require_once 'CRM/Contact/Page/View/OtherActivity.php';
+//                    $view =& new CRM_Contact_Page_View_OtherActivity( );
+//                } else {
+//                    require_once 'CRM/Contact/Page/View/Activity.php';
+//                    $view =& new CRM_Contact_Page_View_Activity( );
+//                }
+
                 
             case 'vcard':
                 require_once 'CRM/Contact/Page/View/Vcard.php';
@@ -527,6 +532,8 @@ class CRM_Core_Invoke
         }
     }
     
+
+// DRAFTING: This should go away as well.
     /**
      * This function contains the actions for history arguments
      *
@@ -535,20 +542,20 @@ class CRM_Core_Invoke
      * @static
      * @access public
      */
-    static function history( $args ) 
-    {
-        if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
-            require_once 'CRM/History/Page/Activity.php';
-            $page =& new CRM_History_Page_Activity('View Activity Details');
-            return $page->run( );
-        }
-
-        if ($args[2] == 'email') {
-            require_once 'CRM/History/Page/Email.php';
-            $page =& new CRM_History_Page_Email('View Email Details');
-            return $page->run( );
-        }
-    }
+//    static function history( $args ) 
+//    {
+//        if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
+//            require_once 'CRM/History/Page/Activity.php';
+//            $page =& new CRM_History_Page_Activity('View Activity Details');
+//            return $page->run( );
+//        }
+//
+//        if ($args[2] == 'email') {
+//            require_once 'CRM/History/Page/Email.php';
+//            $page =& new CRM_History_Page_Email('View Email Details');
+//            return $page->run( );
+//        }
+//    }
 
 
     /**

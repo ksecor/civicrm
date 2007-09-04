@@ -87,7 +87,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
      */
     static function formRule(&$fields, &$files, $options) {
         $errors = array();
-        //$extends = array('Activity','Phonecall','Meeting','Group','Contribution');
+        // DRAFTING: Verify if we cannot make it pluggable
         $extends = array('Activity','Relationship','Group','Contribution','Membership', 'Event','Participant');
         if(in_array($fields['extends'][0],$extends) && $fields['style'] == 'Tab' ) {
             $errors['style'] = 'Display Style should be Inline for this Class';

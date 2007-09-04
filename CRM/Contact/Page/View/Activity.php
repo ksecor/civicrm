@@ -57,8 +57,8 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
-        require_once 'CRM/Contact/Selector/Activity.php';
-        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
+        require_once 'CRM/Activity/Selector/Activity.php';
+        $selector   =& new CRM_Activity_Selector_Activity($this->_contactId, $this->_permission );
         $sortID     = null;
         if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),

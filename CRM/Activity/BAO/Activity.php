@@ -33,8 +33,6 @@
  *
  */
 
-require_once 'CRM/Activity/DAO/Meeting.php';
-require_once 'CRM/Activity/DAO/Phonecall.php';
 require_once 'CRM/Activity/DAO/Activity.php';
 require_once 'api/History.php';
 
@@ -74,15 +72,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        if ( $activityType == 1) {
-            $activityType = "Meeting";
-        } else if($activityType == 2) {
-            $activityType = "Phonecall";
-        } else {
-            $activityType = "Activity";
-        }
-        eval ('$activity =& new CRM_Activity_DAO_' . $activityType .'( );');
-        
+
+        $activity =& new CRM_Activity_DAO_Activity( );
+
         $activity->copyValues($params);
         
         $activity->id = CRM_Utils_Array::value( 'id', $ids );
@@ -125,14 +117,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     static function retrieve( &$params, &$defaults, $activityType ) 
     {
-        if ( $activityType == 1) {
-            $activityType = "Meeting";
-        } else if($activityType == 2) {
-            $activityType = "Phonecall";
-        } else {
-            $activityType = "Activity";
-        }
-        eval ( '$activity =& new CRM_Activity_DAO_' . $activityType . '( );' );
+        $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
             CRM_Core_DAO::storeValues( $activity, $defaults );

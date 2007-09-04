@@ -717,17 +717,12 @@ $where
         case 'Group':
             $tableName = 'civicrm_group';
             break;
+        // DRAFTING: Verify if we cannot make it pluggable
         case 'Activity':  
             $tableName = 'civicrm_activity';
             break;
         case 'Relationship':  
             $tableName = 'civicrm_relationship';
-            break;
-        case 'Phonecall':
-            $tableName = 'civicrm_phonecall';
-            break;
-        case 'Meeting':
-            $tableName = 'civicrm_meeting';
             break;
         case 'Membership':
             $tableName = 'civicrm_membership';

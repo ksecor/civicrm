@@ -84,6 +84,9 @@ class CRM_Activity_Form extends CRM_Core_Form
 
     function preProcess( ) 
     {
+
+        CRM_Core_Error::debug( 's', $this );
+
         $session =& CRM_Core_Session::singleton( );
         $this->_userId = $session->get( 'userID' );
 
@@ -94,23 +97,31 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->assign( 'log', $this->_log);
                 
         $this->_contactId = $this->get('contactId');
+
         if ($this->_action != CRM_Core_Action::ADD) {
             $this->_id = $this->get('id');
         }
+
         $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
                                                       $this, false );
+                                                      
         $this->_context = CRM_Utils_Request::retrieve('context', 'String',$this );
-        $this->_caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );     
+
+
+        // figure out if we are adding this activity to case
+        // DRAFTING: figure out the way to separate this
+        $this->_caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );
         if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
-            
             $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseID,'subject' );
         }
-        require_once 'CRM/Core/BAO/OptionValue.php';        
-        if ( $this->_activityType > 4 ) {
-            $ActivityTypeDescription = CRM_Core_BAO_OptionValue::getActivityDescription();
-            ksort($ActivityTypeDescription);
-            $this->assign('ActivityTypeDescription', $ActivityTypeDescription );            
-        }
+        
+        // DRAFTING: not sure what the below does
+        // require_once 'CRM/Core/BAO/OptionValue.php';
+        // if ( $this->_activityType > 4 ) {
+        //    $ActivityTypeDescription = CRM_Core_BAO_OptionValue::getActivityDescription();
+        //    ksort($ActivityTypeDescription);
+        //    $this->assign('ActivityTypeDescription', $ActivityTypeDescription );            
+        //}
         
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
         $this->setDefaultValues();
@@ -127,7 +138,7 @@ class CRM_Activity_Form extends CRM_Core_Form
     {
         $defaults = array( );
         $params   = array( );
-        
+
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             
@@ -226,7 +237,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         $regardName = CRM_Contact_BAO_Contact::sortName( $this->_targetCID );
         $toname     = CRM_Contact_BAO_Contact::sortName( $this->_assignCID );
         $domainID = CRM_Core_Config::domainID( );
-        $attributes = array( 'dojoType'       => 'ComboBox',
+        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
                              'style'          => 'width: 160px;',
                              'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/search",
