@@ -36,85 +36,103 @@
 require_once 'CRM/Core/DAO/Email.php';
 
 /**
- * BAO object for crm_email table
+ * This class contains functions for email handling
  */
-class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
+class CRM_Core_BAO_Email extends CRM_Core_DAO_Email 
+{
     /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * takes an associative array and creates a email
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param int    $locationId
-     * @param int    $emailId
-     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object    CRM_Core_BAO_Email object if successful 
-     *                   else null will be returned
+     * @return object       CRM_Core_BAO_Email object on success, null otherwise
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $emailId, &$isPrimary ) {
-        // if no data and we are not updating an exisiting record
-        if ( ! self::dataExists( $params, $locationId, $emailId, $ids ) ) {
+    static function create( &$params ) 
+    {
+        if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        
-        $email =& new CRM_Core_DAO_Email();
-        $email->id = CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] );
-        $email->email       = $params['location'][$locationId]['email'][$emailId]['email'];
-        if ( empty( $email->email ) ) {
-            $email->delete( );
-            return null;
-        }
-        
-        $email->location_id = $params['location'][$locationId]['id'];
-        
-        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        if ( $isPrimary ) {
-            $email->is_primary     = $isPrimary;
-            $isPrimary             = false;
-        } else {
-            $email->is_primary     = $params['location'][$locationId]['email'][$emailId]['is_primary'];
-        }
-        
-        if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
-            $values = array(
-                      'location' => array( $locationId => $params['location'][$locationId]['id'] ),
-                      'email'    => $ids['location'][$locationId]['email']
-                      );
+                
+        $isPrimary = true;
+        foreach ( $params['email'] as $value ) {
+            $contactFields = array( );
+            $contactFields['contact_id'      ] = $value['contact_id'];
+            $contactFields['location_type_id'] = $value['location_type_id'];
             
-            self::holdEmail( $email, $values, $locationId, $emailId,
-                             CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
-            
-            return $email;
+            foreach ( $value as $val ) {
+                if ( !CRM_Core_BAO_Block::dataExists( array( 'email' ), $val ) ) {
+                    continue;
+                }
+                if ( is_array( $val ) ) {
+                    if ( $isPrimary && $value['is_primary'] ) {
+                        $contactFields['is_primary'] = $value['is_primary'];
+                        $isPrimary = false;
+                    } else {
+                        $contactFields['is_primary'] = false;
+                    }
+
+                    $emailFields = array_merge( $val, $contactFields);
+                    self::add( $emailFields );
+                }
+            }
         }
-        
-        return $email->save();
-        
     }
-    
+
+    /**
+     * takes an associative array and adds email
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return object       CRM_Core_BAO_Email object on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function add( &$params ) 
+    {
+        $email =& new CRM_Core_DAO_Email( );
+        
+        $email->copyValues($params);
+
+        // need to handle update mode
+
+        // when email field is empty need to delete it
+
+        // handle if email is on hold TO DO
+//         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
+//             $values = array(
+//                       'location' => array( $locationId => $params['location'][$locationId]['id'] ),
+//                       'email'    => $ids['location'][$locationId]['email']
+//                       );
+            
+//             self::holdEmail( $email, $values, $locationId, $emailId,
+//                              CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
+            
+//             return $email;
+//         }
+
+
+        return $email->save( );
+    }
+
     /**
      * Check if there is data to create the object
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param int    $locationId
-     * @param int    $emailId
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params         (reference) an assoc array of name/value pairs
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $emailId, &$ids) {
-        if ( CRM_Utils_Array::value( $emailId, $ids['location'][$locationId]['email'] )) {
-            return true;
+    static function dataExists( &$params ) 
+    {
+        // return if no data present
+        if ( ! array_key_exists( 'email', $params ) ) {
+	        return false;
         }
 
-        return CRM_Core_BAO_Block::dataExists('email', array( 'email' ), $params, $locationId, $emailId );
+        return true;
     }
 
     /**
@@ -195,12 +213,13 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
      *                                   an email or reset
      *
      */
-    public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) {
-        if ($holdStatus) {
+    public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) 
+    {
+        if ( $holdStatus ) {
             $emailDAO->on_hold     = 1;
             $emailDAO->hold_date   = date( 'YmdHis' );
             $emailDAO->reset_date  = '';
-        } else if (! empty($values['email'][$emailBlockId])) {
+        } else if ( !empty($values['email'][$emailBlockId])) {
             $emailDAO->save();
             $emailDAO->location_id = $values['location'][$locationBlockId];
             

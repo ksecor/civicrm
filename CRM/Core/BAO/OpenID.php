@@ -36,97 +36,107 @@
 require_once 'CRM/Core/DAO/OpenID.php';
 
 /**
- * BAO object for crm_openid table
+ * This class contains function for Open Id
  */
-class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
+class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID 
+{
     /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * takes an associative array and creates a OpenId
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param int    $locationId
-     * @param int    $openIdId
-     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object    CRM_Core_BAO_OpenID object if successful 
-     *                   else null will be returned
+     * @return object       CRM_Core_BAO_OpenID object on success, null otherwise
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $openIdId, &$isPrimary ) {
-        /*
-        print "adding an OpenID to the database<br/>";
-        print "\$params:";
-        print_r($params);
-        print "<br/>";
-        print "\$ids:";
-        print_r($ids);
-        print "<br/>";
-        */
-        // if no data and we are not updating an exisiting record
-        if ( ! self::dataExists( $params, $locationId, $openIdId, $ids ) ) {
+    static function create( &$params ) 
+    {
+        if ( ! self::dataExists( $params ) ) {
             return null;
         }
-        
-        $openId =& new CRM_Core_DAO_OpenID();
-        $openId->id     = CRM_Utils_Array::value( $openIdId, $ids['location'][$locationId]['openid'] );
-        $openId->openid = $params['location'][$locationId]['openid'][$openIdId]['openid'];
-        if ( empty( $openId->openid ) ) {
-            $openId->delete( );
-            return null;
-        }
-        
-        $openId->location_id = $params['location'][$locationId]['id'];
-        
-        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        if ( $isPrimary ) {
-            $openId->is_primary     = $isPrimary;
-            $isPrimary              = false;
-        } else {
-            $openId->is_primary     = $params['location'][$locationId]['openid'][$openIdId]['is_primary'];
-        }
-        
-        if ( array_key_exists( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId]) ) {
-            
-            if ( !empty( $params['contact_id'] ) ) {
-                $contactId = $params['contact_id'];
-
-                self::setAllowedToLogin( $openId, $contactId,
-                CRM_Utils_Array::value( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId], false));
                 
-                // Copied from Email.php, but I don't think we want to do
-                // this here (i.e. return)
-                //return $openId;
+        $isPrimary = true;
+        foreach ( $params['openid'] as $value ) {
+            $contactFields = array( );
+            $contactFields['contact_id'      ] = $value['contact_id'];
+            $contactFields['location_type_id'] = $value['location_type_id'];
+            
+            foreach ( $value as $val ) {
+                if ( !CRM_Core_BAO_Block::dataExists( array( 'openid' ), $val ) ) {
+                    continue;
+                }
+                if ( is_array( $val ) ) {
+                    if ( $isPrimary && $value['is_primary'] ) {
+                        $contactFields['is_primary'] = $value['is_primary'];
+                        $isPrimary = false;
+                    } else {
+                        $contactFields['is_primary'] = false;
+                    }
+
+                    $openIdFields = array_merge( $val, $contactFields);
+                    self::add( $openIdFields );
+                }
             }
         }
-        //print "saving OpenID<br/>";
-        return $openId->save();
     }
-    
+
+    /**
+     * takes an associative array and adds phone 
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return object       CRM_Core_BAO_OpenID object on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function add( &$params ) 
+    {
+        $openId =& new CRM_Core_DAO_OpenID();
+        
+        $openId->copyValues($params);
+
+        // need to handle update mode
+
+        // when open id field is empty need to delete it
+
+        // fix allowed login to do
+//         if ( array_key_exists( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId]) ) {
+            
+//             if ( !empty( $params['contact_id'] ) ) {
+//                 $contactId = $params['contact_id'];
+
+//                 self::setAllowedToLogin( $openId, $contactId,
+//                 CRM_Utils_Array::value( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId], false));
+                
+//                 // Copied from Email.php, but I don't think we want to do
+//                 // this here (i.e. return)
+//                 //return $openId;
+//             }
+//         }
+        
+
+        return $openId->save( );
+    }
+
     /**
      * Check if there is data to create the object
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param int    $locationId
-     * @param int    $openIdId
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params         (reference) an assoc array of name/value pairs
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $openIdId, &$ids) {
-        if ( CRM_Utils_Array::value( $openIdId, $ids['location'][$locationId]['openid'] ) ) {
-            return true;
+    static function dataExists( &$params ) 
+    {
+        // return if no data present
+        if ( ! array_key_exists( 'openid', $params ) ) {
+	        return false;
         }
 
-        return CRM_Core_BAO_Block::dataExists( 'openid', array( 'openid' ), $params, $locationId, $openIdId );
+        return true;
     }
-
+    
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
@@ -140,7 +150,8 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
+    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
+    {
         $openId =& new CRM_Core_BAO_OpenID( );
         $blocks = CRM_Core_BAO_Block::getValues( $openId, 'openid', $params, $values, $ids, $blockCount );
         require_once 'CRM/Core/BAO/UFMatch.php';
@@ -150,33 +161,6 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
         return $blocks;
     }
 
-    /**
-     * Delete OpenID address records from a location
-     *
-     * @param int $locationId       Location ID to delete for
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteLocation( $locationId ) {
-        $dao =& new CRM_Core_DAO_OpenID();
-        $dao->location_id = $locationId;
-        $dao->find();
-
-        /* Copied this from CRM_Core_BAO_Email, but is it necessary here?
-           Or anything like it?
-        require_once 'CRM/Mailing/Event/BAO/Queue.php';
-        while ($dao->fetch()) {
-            CRM_Mailing_Event_BAO_Queue::deleteEventQueue( $dao->id );
-        }
-        
-        $dao->reset();
-        $dao->location_id = $locationId;
-        */
-        $dao->delete();
-    }
     
     /**
      * Method to set whether or not an OpenID is allowed to login or not
@@ -190,7 +174,8 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
      *                                   OpenID can be used for login
      *
      */
-    public static function setAllowedToLogin( &$openIdDAO, $contactId, $allowedToLogin = false ) {
+    public static function setAllowedToLogin( &$openIdDAO, $contactId, $allowedToLogin = false ) 
+    {
         // first make sure a ufmatch record exists, if not,
         // this will create one
         require_once 'CRM/Core/BAO/UFMatch.php';

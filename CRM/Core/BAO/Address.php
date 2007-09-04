@@ -36,9 +36,10 @@
 require_once 'CRM/Core/DAO/Address.php';
 
 /**
- * BAO object for crm_address table
+ * This is class to handle address related functions
  */
-class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
+class CRM_Core_BAO_Address extends CRM_Core_DAO_Address 
+{
     /**
      * Should we overwrite existing address, total hack for now
      * Please do not use this hack in other places, its totally gross
@@ -46,46 +47,66 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     static $_overwrite = true;
 
     /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * takes an associative array and creates a address
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param array  $locationId     
      *
-     * @return object CRM_Core_BAO_Address object
+     * @return object       CRM_Core_BAO_Address object on success, null otherwise
      * @access public
      * @static
      */
-    static function add(&$params, &$ids, $locationId, $fixAddress = true)
+    static function create( &$params ) 
     {
-        if ( ! self::dataExists($params, $locationId, $ids) ) {
-            return null;
+//         if ( ! self::dataExists( $params ) ) {
+//             return null;
+//         }
+
+        $isPrimary = true;
+        foreach ( $params['address'] as $value ) {
+            if ( $isPrimary && $value['is_primary'] ) {
+                $isPrimary = false;
+            } else {
+                $value['is_primary'] = false;
+            }
+        
+            self::add( $value );
         }
 
-        if ( empty($params['location'][$locationId]['address']) ) {
-            return ;
-        }
-        
-        $address              =& new CRM_Core_BAO_Address();
-        $address->location_id = $params['location'][$locationId]['id'];
-        $address->id          = CRM_Utils_Array::value('address', $ids['location'][$locationId]);
-        
-        
-        if ( $fixAddress ) {
-            CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
-        }
-                
-        if ( $address->copyValues($params['location'][$locationId]['address']) ) {
-            // we copied only null stuff, so we delete the object
-            $address->delete( );
-            return null;
-        }
-        
-        return $address->save();
+    }
+
+    /**
+     * takes an associative array and adds phone 
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return object       CRM_Core_BAO_Address object on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function add( &$params ) 
+    {
+        $address =& new CRM_Core_DAO_Address( );
+
+        $address->copyValues($params);
+
+        // need to handle update mode
+
+        // when address field is empty need to delete it
+//         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
+//             // we copied only null stuff, so we delete the object
+//             $address->delete( );
+//             return null;
+//         }
+
+
+
+        // fixAddress mode to be done
+//         if ( $fixAddress ) {
+//             CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
+//         }
+
+
+        return $address->save( );
     }
 
     /**
@@ -320,19 +341,19 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address {
     {
         require_once 'CRM/Utils/Address.php';
         $fields = array(
-            'address_id'             => $this->id, // added this for CRM 1200
-            'street_address'         => $this->street_address,
-            'supplemental_address_1' => $this->supplemental_address_1,
-            'supplemental_address_2' => $this->supplemental_address_2,
-            'city'                   => $this->city,
-            'state_province_name'    => isset($this->state_name) ? $this->state_name : "",
-            'state_province'         => isset($this->state) ? $this->state : "",
-            'postal_code'            => isset($this->postal_code) ? $this->postal_code : "",
-            'postal_code_suffix'     => isset($this->postal_code_suffix) ? $this->postal_code_suffix : "",
-            'country'                => isset($this->country) ? $this->country : "",
-            'world_region'           => isset($this->world_region) ? $this->world_region : ""
-            );
-
+                        'address_id'             => $this->id, // added this for CRM 1200
+                        'street_address'         => $this->street_address,
+                        'supplemental_address_1' => $this->supplemental_address_1,
+                        'supplemental_address_2' => $this->supplemental_address_2,
+                        'city'                   => $this->city,
+                        'state_province_name'    => isset($this->state_name) ? $this->state_name : "",
+                        'state_province'         => isset($this->state) ? $this->state : "",
+                        'postal_code'            => isset($this->postal_code) ? $this->postal_code : "",
+                        'postal_code_suffix'     => isset($this->postal_code_suffix) ? $this->postal_code_suffix : "",
+                        'country'                => isset($this->country) ? $this->country : "",
+                        'world_region'           => isset($this->world_region) ? $this->world_region : ""
+                        );
+        
         if( isset( $this->county_id ) && $this->county_id ) {
             $fields['county'] = CRM_Core_Pseudoconstant::county($this->county_id);
         } else {

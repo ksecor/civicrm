@@ -36,52 +36,70 @@
 require_once 'CRM/Core/DAO/IM.php';
 
 /**
- * BAO object for crm_im table
+ * This class contain function for IM handling
  */
-class CRM_Core_BAO_IM extends CRM_Core_DAO_IM {
+class CRM_Core_BAO_IM extends CRM_Core_DAO_IM 
+{
+
     /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
+     * takes an associative array and creates a im
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $ids            the array that holds all the db ids
-     * @param int    $locationId
-     * @param int    $imId
-     * @param bool   $isPrimary      Has any previous entry been marked as isPrimary?
      *
-     * @return object  CRM_Core_BAO_IM object on success, null otherwise
+     * @return object       CRM_Core_BAO_IM object on success, null otherwise
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $locationId, $imId, &$isPrimary ) {
-        if ( ! self::dataExists( $params, $locationId, $imId, $ids ) ) {
+    static function create( &$params ) 
+    {
+        if ( ! self::dataExists( $params ) ) {
             return null;
         }
+                
+        $isPrimary = true;
+        foreach ( $params['im'] as $value ) {
+            $contactFields = array( );
+            $contactFields['contact_id'      ] = $value['contact_id'];
+            $contactFields['location_type_id'] = $value['location_type_id'];
+            
+            foreach ( $value as $val ) {
+                if ( !CRM_Core_BAO_Block::dataExists( array( 'name' ), $val ) ) {
+                    continue;
+                }
+                if ( is_array( $val ) ) {
+                    if ( $isPrimary && $value['is_primary'] ) {
+                        $contactFields['is_primary'] = $value['is_primary'];
+                        $isPrimary = false;
+                    } else {
+                        $contactFields['is_primary'] = false;
+                    }
 
+                    $imFields = array_merge( $val, $contactFields);
+                    self::add( $imFields );
+                }
+            }
+        }
+    }
+
+    /**
+     * takes an associative array and adds im
+     *
+     * @param array  $params         (reference ) an assoc array of name/value pairs
+     *
+     * @return object       CRM_Core_BAO_IM object on success, null otherwise
+     * @access public
+     * @static
+     */
+    static function add( &$params ) 
+    {
         $im =& new CRM_Core_DAO_IM();
-        $im->name         = $params['location'][$locationId]['im'][$imId]['name'];
-        $im->id = CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] );
-        if ( empty( $im->name ) ) {
-            $im->delete( );
-            return null;
-        }
+        
+        $im->copyValues($params);
 
-        $im->location_id  = $params['location'][$locationId]['id'];
-        $im->provider_id  = $params['location'][$locationId]['im'][$imId]['provider_id'];
-        if (! $im->provider_id ) {
-            $im->provider_id  = 'null';
-        }
+        // need to handle update mode
 
-        // set this object to be the value of isPrimary and make sure no one else can be isPrimary
-        if ( $isPrimary ) {
-            $im->is_primary     = $isPrimary;
-            $isPrimary          = false;
-        } else {
-            $im->is_primary     = $params['location'][$locationId]['im'][$imId]['is_primary'];
-        }
+        // when im field is empty need to delete it
+
 
         return $im->save( );
     }
@@ -89,23 +107,21 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM {
     /**
      * Check if there is data to create the object
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param int    $locationId
-     * @param int    $imId
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params         (reference) an assoc array of name/value pairs
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function dataExists( &$params, $locationId, $imId, &$ids ) {
-        if (CRM_Utils_Array::value( $imId, $ids['location'][$locationId]['im'] )) {
-            return true;
+    static function dataExists( &$params ) 
+    {
+        // return if no data present
+        if ( ! array_key_exists( 'im', $params ) ) {
+	        return false;
         }
-        
-        return CRM_Core_BAO_Block::dataExists('im', array( 'name' ), $params, $locationId, $imId );
-    }
 
+        return true;
+    }
 
     /**
      * Given the list of params in the params array, fetch the object

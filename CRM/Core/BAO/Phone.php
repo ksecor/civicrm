@@ -94,6 +94,12 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         $phone =& new CRM_Core_DAO_Phone();
         
         $phone->copyValues($params);
+
+        // need to handle update mode
+
+        // when phone field is empty need to delete it
+
+
         return $phone->save( );
     }
 
@@ -101,9 +107,6 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * Check if there is data to create the object
      *
      * @param array  $params         (reference) an assoc array of name/value pairs
-     * @param int    $locationId
-     * @param int    $phoneId
-     * @param array  $ids            (reference) the array that holds all the db ids
      *
      * @return boolean
      * @access public
