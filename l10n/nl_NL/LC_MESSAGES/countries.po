@@ -1,7 +1,7 @@
-# CiviCRM countries POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
@@ -376,7 +376,6 @@ msgstr "Lesotho"
 msgid "Liberia"
 msgstr "Liberia"
 
-# name for LBY
 msgid "Libyan Arab Jamahiriya"
 msgstr "Libisch-Arabische Jamahiriya"
 
@@ -431,7 +430,6 @@ msgstr "Mayotte"
 msgid "Mexico"
 msgstr "Mexico"
 
-# name for FSM
 msgid "Micronesia, Federated States of"
 msgstr "Micronesië, Federale Staten van"
 
@@ -504,7 +502,6 @@ msgstr "Pakistan"
 msgid "Palau"
 msgstr "Palau"
 
-# name for PSE
 msgid "Palestinian Territory, Occupied"
 msgstr "Palestijns Gebied, Bezet"
 
@@ -688,7 +685,6 @@ msgstr "Oekraïne"
 msgid "United Arab Emirates"
 msgstr "Verenigde Arabische Emiraten"
 
-# name for GBR
 msgid "United Kingdom"
 msgstr "Verenigd Koninkrijk"
 
@@ -725,7 +721,6 @@ msgstr "Westelijke Sahara"
 msgid "Yemen"
 msgstr "Jemen"
 
-# name for SCG
 msgid "Serbia and Montenegro"
 msgstr "Servië en Montenegro"
 
@@ -741,7 +736,6 @@ msgstr "Åland-eilanden"
 msgid "Serbia"
 msgstr "Servië"
 
-# name for SCG
 msgid "Montenegro"
 msgstr "Montenegro"
 

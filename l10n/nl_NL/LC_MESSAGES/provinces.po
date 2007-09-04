@@ -1,7 +1,7 @@
-# CiviCRM provinces POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
@@ -187,7 +187,6 @@ msgstr "Verenigde Staten Kleine Uitliggende Eilanden"
 msgid "Armed Forces Europe"
 msgstr "Gewapende troepen van Europa"
 
-# of "Amerika's" vooraan zetten, of 'van' ertussen zonder 'accent s'
 msgid "Armed Forces Americas"
 msgstr "Gewapende troepen van Amerika"
 
@@ -857,7 +856,6 @@ msgstr "Xankandi [Stepanakert]"
 msgid "Yevlax"
 msgstr "Yevlax"
 
-# !! extra controle !!
 msgid "Abseron"
 msgstr "Abseron"
 
@@ -2331,7 +2329,6 @@ msgstr "Shandong"
 msgid "Shanxi"
 msgstr "Shanxi"
 
-# Sichuan Pendi? dan Rode Bekken
 msgid "Sichuan"
 msgstr "Sichuan"
 
@@ -5320,7 +5317,6 @@ msgstr "Wasit"
 msgid "Ardabil"
 msgstr "Ardabil"
 
-# dit is correct? er wordt in ieder geval hetzelfde bedoeld met Azarbaijan
 msgid "Azarbayjan-e Gharbi"
 msgstr "West-Azerbeidzjan"
 
@@ -5339,7 +5335,6 @@ msgstr "Isfahan"
 msgid "Fars"
 msgstr "Fars [Perzië]"
 
-# Hyrcinië
 msgid "Gilan"
 msgstr "Guilan"
 
@@ -10185,7 +10180,6 @@ msgstr "Burdur"
 msgid "Bursa"
 msgstr "Bursa"
 
-# Çanakkale boğazi? dan Dardanellen
 msgid "Canakkale"
 msgstr "Çanakkale"
 
