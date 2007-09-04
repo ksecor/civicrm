@@ -90,18 +90,21 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
      * @access public
      * @return void
      */
-    public function postProcess()
+    public function postProcess ( )
     {
         $fv = $this->controller->exportValues($this->_name); 
-        
         $config =& CRM_Core_Config::singleton();
 
         //get the address format sequence from the config file
         require_once 'CRM/Core/BAO/Preferences.php';
-        $sequence = CRM_Core_BAO_Preferences::value( 'address_sequence' );
-
+       
+        $sequence = CRM_Core_BAO_Preferences::value( 'mailing_sequence' );
+        
         foreach ($sequence as $v) {
             $address[$v] = 1;
+        }
+        if ( array_key_exists( 'postal_code',$address ) ) {
+            $address['postal_code_suffix'] = 1;
         }
         
         //build the returnproperties
@@ -117,48 +120,107 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         if ($fv['location_type_id']) {
             $locType = CRM_Core_PseudoConstant::locationType();
             $locName = $locType[$fv['location_type_id']];
-            $location = array ('location' => array("{$locName}"  => $address)) ;
-            $returnProperties = array_merge($returnProperties , $location);
+            $location = array ('location' => array("{$locName}"  => $address ) ) ;
+            $returnProperties = array_merge( $returnProperties , $location );
         } else {
-            $returnProperties = array_merge($returnProperties , $address);
+            $returnProperties = array_merge( $returnProperties , $address );
         }
-        
+
         //get the contact information
-        foreach ($this->_contactIds as $value) {
-            $params  = array( 'contact_id'=> $value );
+        foreach ( $this->_contactIds as $value ) {
+            // fetch the contacts
+            $params = array( 'contact_id'=> $value );
             require_once 'api/Contact.php';
-            $contact[$value] =& crm_fetch_contact( $params, $returnProperties );
+            $contact =& crm_fetch_contact( $params, $returnProperties );
+            
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
-        }
-        //format the contact array before sending tp pdf
-        foreach ($contact as $k => $v) {
-            foreach ($v as $k1 => $v1) {
-                if ( substr($k1, -3, 3) == '_id' ) {
+            
+            // we need to remove all the "_id"
+            unset( $contact['contact_id'] );
+            
+            if ( $locName && CRM_Utils_Array::value( $locName, $contact ) ) {
+                // If location type is not priamry, $contact contains
+                // one more array as "$contact[$locName] = array( values... )"
+                $found = false;
+                
+                foreach ( $sequence as $sequenceName ) {
+                    // we are interested in only those
+                    // $contact[$locName] which contains any
+                    // of the address sequences
+                    if ( CRM_Utils_Array::value( $sequenceName, $contact[$locName] ) ) {
+                        $found = true;
+                        break;
+                    }
+                }
+                
+                if ( ! $found ) {
                     continue;
                 }
-                if (is_array($v1)) {
-                    foreach ($v1 as $k2 => $v2) {
-                        if ( substr($k2, -3, 3) == '_id' || $k2 == 'location_type' ) {
-                            continue;
-                        }
-                        $rows[$k][$k2] = $v2;
+                
+                // again unset all "_id" from $contact[$locName]
+                // except country_id, state_province_id
+                
+                if ( CRM_Utils_Array::value( 'location_type_id', $contact[$locName] ) ) {
+                    unset( $contact[$locName]['location_type_id'] );
+                }
+                
+                if ( CRM_Utils_Array::value( 'address_id', $contact[$locName] ) ) {
+                    unset( $contact[$locName]['address_id'] );
+                }
+                
+                if (  CRM_Utils_Array::value( 'county_id', $contact )  ) {
+                    unset( $contact['county_id'] );
+                }
+
+                // now create the rows for generating mailing labels
+                foreach( CRM_Utils_Array::value( $locName, $contact ) as $field => $fieldValue ) {
+                    $rows[$value][$field] = $fieldValue;
+                }
+            } else {
+                $found = false;
+                
+                foreach ( $sequence as $sequenceName) {
+                    // we are interested in only those
+                    // $contact which contains any
+                    // of the address sequences
+                    
+                    if ( CRM_Utils_Array::value( $sequenceName, $contact ) ) {
+                        $found = true;
+                        break;
                     }
-                } else {
-                    $rows[$k][$k1] = $v1;
+                }
+                
+                if ( ! $found ) {
+                    continue;
+                }
+                
+                // again unset all "_id" from $contact
+                // except country_id, state_province_id
+                
+                if (  CRM_Utils_Array::value( 'address_id', $contact )  ) {
+                    unset( $contact['address_id'] );
+                }
+                if (  CRM_Utils_Array::value( 'county_id', $contact )  ) {
+                    unset( $contact['county_id'] );
+                }
+                
+                // now create the rows for generating mailing labels
+                foreach ( $contact as $field => $fieldValue ) {
+                    $rows[$value][$field] = $fieldValue;
                 }
             }
         }
-    
+        
         // format the addresses according to CIVICRM_ADDRESS_FORMAT (CRM-1327)
         require_once 'CRM/Utils/Address.php';
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
-            $formatted = CRM_Utils_Address::format( $row, null, null, true );
+            $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true );
             $rows[$id]= array( $formatted );
         }
-
+        
         //call function to create labels
         self::createLabel($rows, $fv['label_id']);
         exit(1);

@@ -78,7 +78,9 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
         if ( $name == 'address_sequence' ) {
             return self::addressSequence( self::$_systemObject->address_format );
-        }
+        } else if ( $name == 'mailing_sequence' ) {
+            return self::addressSequence( self::$_systemObject->mailing_format );
+        } 
 
         return self::$_systemObject->$name;
     }
