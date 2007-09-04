@@ -149,13 +149,34 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
 
-        // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
-        $mailer =& CRM_Core_Config::getMailer( );  
-        if ($mailer->send($to, $headers, $message) !== true) {  
-            return false;                                                    
-        } 
-        
+        CRM_Core_Error::debug( 'h', $headers );
+        exit( );
+        if ( defined( 'CIVICRM_MAIL_DEBUG' ) ) {
+            self::logger( $to, $headers, $message );
+        } else {
+            CRM_Core_Error::fatal( 'oh man' );
+            // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
+            $mailer =& CRM_Core_Config::getMailer( );  
+            if ($mailer->send($to, $headers, $message) !== true) {  
+                return false;                                                    
+            } 
+        }
+
         return true;
+    }
+
+    function logger( &$to, &$headers, &$message ) {
+        $content = "To: " . implode( ', ', $to ) . "\n";
+        foreach ( $headers as $key => $val ) {
+            $content .= "$key: $val\n";
+        }
+        $content .= "\n" . $message . "\n";
+
+        $fileName = CRM_Utils_String::munge( $to[0] ) . '.' . md5( uniqid( ) ) . '.txt';
+
+        $config =& CRM_Core_Config::singleton( );
+        file_put_contents( $config->uploadDir . 'mail/' . $fileName,
+                           $content );
     }
 
     /**

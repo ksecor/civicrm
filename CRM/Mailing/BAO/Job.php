@@ -39,6 +39,8 @@ require_once 'CRM/Mailing/DAO/Mailing.php';
 
 class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
+    const MAX_CONTACTS_TO_PROCESS = 100;
+
     /**
      * class constructor
      */
@@ -102,9 +104,10 @@ ORDER BY scheduled_date,
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
             
-            if (!$isComplete){
+            if ( ! $isComplete ) {
                 return;
             }
+
             /* Finish the job */
             CRM_Core_DAO::transaction('BEGIN');
             $job->end_date = date('YmdHis');
@@ -226,9 +229,13 @@ ORDER BY scheduled_date,
 
         static $config = null;
         static $mailsProcessed = 0;
+
         if ( $config == null ) {
             $config =& CRM_Core_Config::singleton();
         }
+
+        $job_date = CRM_Utils_Date::isoToMysql( $this->scheduled_date );
+        $fields = array( );
 
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
@@ -236,16 +243,36 @@ ORDER BY scheduled_date,
             // CRM_Utils_System::xMemory( "$mailsProcessed: " );
             // }
 
-            if ($config->mailerBatchLimit > 0 and $mailsProcessed >= $config->mailerBatchLimit ) {
-               return false;
+            if ( $config->mailerBatchLimit > 0 &&
+                 $mailsProcessed >= $config->mailerBatchLimit ) {
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                return false;
             }
             $mailsProcessed++;
             
+            $field = array( 'id'         => $eq->id,
+                            'hash'       => $eq->hash,
+                            'contact_id' => $eq->contact_id,
+                            'email'      => $eq->email );
+            $fields[] = $field;
+            if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+                $fields = array( );
+            }
+        }
+
+        $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
+        return true;
+    }
+
+    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
+        foreach ( $fields as $index => $field ) {
+
             /* Compose the mailing */
             $recipient = null;
-            $message =& $mailing->compose(   $this->id, $eq->id, $eq->hash,
-                                             $eq->contact_id, $eq->email,
-                                             $recipient);
+            $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
+                                           $field['contact_id'], $field['email'],
+                                           $recipient );
             
             /* Send the mailing */
             $body    =& $message->get();
@@ -253,23 +280,22 @@ ORDER BY scheduled_date,
             
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
-            
             PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                     array('CRM_Mailing_BAO_Mailing', 
                                           'catchSMTP'));
             $result = $mailer->send($recipient, $headers, $body, $this->id);
             CRM_Core_Error::setCallback();
             
-            $params = array( 'event_queue_id' => $eq->id,
+            $params = array( 'event_queue_id' => $field['id'],
                              'job_id'         => $this->id,
-                             'hash'           => $eq->hash );
+                             'hash'           => $field['hash'] );
             
             if ( is_a( $result, 'PEAR_Error' ) ) {
                 /* Register the bounce event */
                 require_once 'CRM/Mailing/BAO/BouncePattern.php';
                 require_once 'CRM/Mailing/Event/BAO/Bounce.php';
                 $params = array_merge($params, 
-                CRM_Mailing_BAO_BouncePattern::match($result->getMessage()));
+                                      CRM_Mailing_BAO_BouncePattern::match($result->getMessage()));
                 CRM_Mailing_Event_BAO_Bounce::create($params);
             } else {
                 /* Register the delivery event */
@@ -277,21 +303,15 @@ ORDER BY scheduled_date,
             }
             
             // add activity histroy record for every mail that is send
-            $jobDate = new CRM_Mailing_BAO_Job();
-            $jobDate->mailing_id = $this->mailing_id;
-            $jobDate->find();
-            while( $jobDate->fetch() ) {
-                $job_date =  CRM_Utils_Date::isoToMysql($jobDate->scheduled_date);
-                $activityHistory = array('entity_table'     => 'civicrm_contact',
-                                         'entity_id'        => $eq->contact_id,
-                                         'activity_type'    => 'Email Sent',
-                                         'module'           => 'CiviMail',
-                                         'callback'         => 'CRM_Mailing_BAO_Mailing::showEmailDetails',
-                                         'activity_id'      => $this->mailing_id,
-                                         'activity_summary' => $mailing->subject,
-                                         'activity_date'    => $job_date
-                                         );
-            }
+            $activityHistory = array('entity_table'     => 'civicrm_contact',
+                                     'entity_id'        => $field['contact_id'],
+                                     'activity_type'    => 'Email Sent',
+                                     'module'           => 'CiviMail',
+                                     'callback'         => 'CRM_Mailing_BAO_Mailing::showEmailDetails',
+                                     'activity_id'      => $this->mailing_id,
+                                     'activity_summary' => $mailing->subject,
+                                     'activity_date'    => $job_date
+                                     );
             
             if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
                 return false;
@@ -299,9 +319,8 @@ ORDER BY scheduled_date,
             
             unset( $result );
         }
-        return true;
     }
-    
+
     /**
      * cancel a mailing
      *
