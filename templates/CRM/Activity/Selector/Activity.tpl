@@ -4,27 +4,6 @@
   <fieldset>
   <legend>{ts}Open Activities{/ts}</legend>
 
-
-
-
-    {if $totalCountOpenActivity and $caseview NEQ 1}
-
-        
-    
-    {elseif !$totalCountOpenActivity and $caseview NEQ 1}
-        <div>
-        <dl><dt>{ts}Open Activities{/ts}</dt>
-        {if $permission EQ 'edit'}
-            {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
-            {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
-            <dd>{ts 1=$mtgURL 2=$callURL}No open activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
-        {else}
-            <dd>{ts}There are no open activities for this contact.{/ts}</dd>
-        {/if}
-        </dl>
-        </div>
-    {/if}
-
 {if $rows}
   <form title="activity_pager" action="{crmURL}" method="post">
   {include file="CRM/common/pager.tpl" location="top"}
@@ -105,10 +84,12 @@
 
 {else}
 
-  <dl>{ts}No Activites Recorded for this case.{/ts} 
+  <div class="messages status">
+  <dl>{ts}No Activites for this contact.{/ts} 
   <a href="{crmURL p='civicrm/contact/view/activity/' 
                    q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">
                    {ts}Record a new Activity.{/ts}</a>
   </dl>
+  </div>
 
 {/if}

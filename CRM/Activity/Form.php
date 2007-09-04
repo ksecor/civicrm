@@ -85,8 +85,6 @@ class CRM_Activity_Form extends CRM_Core_Form
     function preProcess( ) 
     {
 
-        CRM_Core_Error::debug( 's', $this );
-
         $session =& CRM_Core_Session::singleton( );
         $this->_userId = $session->get( 'userID' );
 
