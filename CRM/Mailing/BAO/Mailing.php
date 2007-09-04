@@ -498,6 +498,42 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
+     * Generate an event queue for a test job 
+     *
+     * @params array $params contains form values
+     * @return void
+     * @access public
+     */
+    public function getTestRecipients($testParams) {
+        $session    =& CRM_Core_Session::singleton();
+        if ($testParams['test_email']) {
+            $testers = array($session->get('userID') => $testParams['test_email']);
+        } else {
+            $testers = array();
+        }
+        if (array_key_exists($testParams['test_group'], CRM_Core_PseudoConstant::group())) {
+            $group =& new CRM_Contact_DAO_Group();
+            $group->id = $testParams['test_group'];
+            $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
+            foreach ($contacts as $contact) {
+                $testers[$contact->contact_id] = $contact->email;
+            }
+        }
+        foreach ($testers as $testerId => $testerEmail) {
+            $params   = array('contact_id'    => $testerId);
+            $location = array('location_id');
+            $ids      = array( );
+            CRM_Core_BAO_Location::getValues($params,$location,$ids);
+            $params = array(
+                            'job_id'        => $testParams['job_id'],
+                            'email_id'      => $location['id'],
+                            'contact_id'    => $testerId
+                            );
+
+            $queue = CRM_Mailing_Event_BAO_Queue::create($params);  
+        }
+    }
+    /**
      * Retrieve the header and footer for this mailing
      *
      * @param void
@@ -840,7 +876,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             /* Create the job record */
             $job =& new CRM_Mailing_BAO_Job();
             $job->mailing_id = $mailing->id;
-            $job->status = 'Testing';
             $job->is_retry = false;
             $job->is_test = true;
             $job->scheduled_date = date('YmdHis');

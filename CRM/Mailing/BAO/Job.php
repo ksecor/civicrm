@@ -55,17 +55,25 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
      * @access public
      * @static
      */
-    public static function runJobs() {
+    public static function runJobs($testParams = null) {
         $job =& new CRM_Mailing_BAO_Job();
+        
         $mailing =& new CRM_Mailing_DAO_Mailing();
-        $jobTable = CRM_Mailing_DAO_Job::getTableName();
         
         $config =& CRM_Core_Config::singleton();
-
-        $currentTime = date( 'YmdHis' );
-
-        /* FIXME: we might want to go to a progress table.. */
-        $query = "
+        $jobTable = CRM_Mailing_DAO_Job::getTableName();
+        if (!empty($testParams)) {
+            $query = "
+                     SELECT  *
+                     FROM    $jobTable
+                     WHERE   id = {$testParams['job_id']}";
+           
+            $job->query($query);
+        } else {
+            $currentTime = date( 'YmdHis' );
+            
+            /* FIXME: we might want to go to a progress table.. */
+            $query = "
 SELECT   *
   FROM   $jobTable
  WHERE   ( start_date IS null
@@ -75,16 +83,15 @@ SELECT   *
    AND     end_date IS null )
 ORDER BY scheduled_date,
          start_date";
-        
-        $job->query($query);
-        
+            
+            $job->query($query);
+        }
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-            
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
-                $job->queue();
+                $job->queue($testParams);
                 
                 /* Start the job */
                 $job->start_date = date('YmdHis');
@@ -97,7 +104,7 @@ ORDER BY scheduled_date,
             
             $mailingSize = $job->getMailingSize();
             $mailer =& $config->getMailer($mailingSize);
-
+            
             /* Compose and deliver */
             $isComplete = $job->deliver($mailer);
 
@@ -130,27 +137,29 @@ ORDER BY scheduled_date,
      * @return void
      * @access public
      */
-    public function queue() {
+    public function queue($testParams = null) {
+       
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
-        
-        if ($this->is_retry) {
-            $recipients =& $mailing->retryRecipients($this->id);
+        if (!empty($testParams)) {
+            $mailing->getTestRecipients($testParams);
         } else {
-            $recipients =& $mailing->getRecipients($this->id);
-        }
-        
-        while ($recipients->fetch()) {
-            $params = array(
-                'job_id'        => $this->id,
-                'email_id'      => $recipients->email_id,
-                'contact_id'    => $recipients->contact_id
-            );
-            CRM_Mailing_Event_BAO_Queue::create($params);
+            if ($this->is_retry) {
+            $recipients =& $mailing->retryRecipients($this->id);
+            } else {
+                $recipients =& $mailing->getRecipients($this->id);
+            }
+            while ($recipients->fetch()) {
+                $params = array(
+                                'job_id'        => $this->id,
+                                'email_id'      => $recipients->email_id,
+                                'contact_id'    => $recipients->contact_id
+                                );
+                CRM_Mailing_Event_BAO_Queue::create($params);
+            }
         }
     }
-
     /**
      * Number of mailings of a job.
      *
@@ -360,7 +369,6 @@ ORDER BY scheduled_date,
                 'Complete'  =>  ts('Complete'),
                 'Paused'    =>  ts('Paused'),
                 'Canceled'  =>  ts('Canceled'),
-                'Testing'   =>  ts('Testing'),
             );
         }
         return CRM_Utils_Array::value($status, $translation, ts('Unknown'));

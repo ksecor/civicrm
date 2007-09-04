@@ -55,5 +55,6 @@
       <name>is_test</name>
       <type>boolean</type>
       <comment>Is this job for a test mail?</comment>
+      <add>1.9</add>
   </field>
 </table>
