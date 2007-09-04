@@ -322,11 +322,15 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
                                                 'sort'      => 'sourceName',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
+
                                           array('name'      => ts('Regarding Contact'),
                                                 'sort'      => 'targetName',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
-                                          array('name'      => ts('To Contact')),
+                                          array('name'      => ts('To Contact') ,  
+                                                'sort'      => 'tcName',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
                                                 
                                           array(
                                                 'name'      => ts('Date'),
