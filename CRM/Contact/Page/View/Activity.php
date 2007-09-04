@@ -54,46 +54,21 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
     {
         $this->assign( 'totalCountOpenActivity',
                        CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
-        $this->assign( 'totalCountActivity',
-                       CRM_Core_BAO_History::getNumHistory( $this->_contactId,
-                                                            'Activity' ) );
         require_once 'CRM/Core/Selector/Controller.php';
-        if ( $history ) {
-  
-            $this->assign('history', true);
 
-            // create the selector, controller and run - store results in session
-           
-            $output   =  CRM_Core_Selector_Controller::SESSION;
-            require_once 'CRM/History/Selector/Activity.php';
-            $selector =& new CRM_History_Selector_Activity( $this->_contactId, $this->_permission );
-            $sortID   =  null;
-            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
-                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
-            }
-            $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
-            $controller->setEmbedded(true);
-            $controller->run();
-            $controller->moveFromSessionToTemplate( );
-        } else {
-            $this->assign('history', false);
-            // create the selector, controller and run - store results in session
-            $output = CRM_Core_Selector_Controller::SESSION;
-            require_once 'CRM/Contact/Selector/Activity.php';
-            $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
-            $sortID     = null;
-            if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
-                $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                       $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
-            }
-            $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
-            $controller->setEmbedded(true);
-            $controller->run();
-            $controller->moveFromSessionToTemplate( );
+        $output = CRM_Core_Selector_Controller::SESSION;
+        require_once 'CRM/Contact/Selector/Activity.php';
+        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
+        $sortID     = null;
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
+        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
+                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
+        $controller->setEmbedded(true);
+        $controller->run();
+        $controller->moveFromSessionToTemplate( );
     }
 
     /**
@@ -133,6 +108,8 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         // get selector type ? open or closed activities ?
         $history = CRM_Utils_Request::retrieve('history', 'Boolean',
                                                $this );
+
+
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $url     = 'civicrm/contact/view';

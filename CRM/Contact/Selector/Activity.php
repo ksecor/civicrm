@@ -202,6 +202,7 @@ class CRM_Contact_Selector_Activity extends CRM_Core_Selector_Base implements CR
         $params['contact_id'] = $this->_contactId;
         
         $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
+
         if ( empty( $rows ) ) {
             return $rows;
         }
