@@ -215,7 +215,7 @@ class CRM_Grant_BAO_Query
         $form->add('select', 'grant_status_id',  ts( 'Grant Status' ),
                    array( '' => ts( '-select-' ) ) + $grantStatus );
         
-        $form->addElement('date', 'grant_application_received_date_low', ts('Application Recieved Date - From'), 
+        $form->addElement('date', 'grant_application_received_date_low', ts('App. Recieved Date - From'), 
                           CRM_Core_SelectValues::date('relative')); 
         $form->addRule('grant_application_received_date_low', ts('Select a valid date.'), 'qfDate'); 
         

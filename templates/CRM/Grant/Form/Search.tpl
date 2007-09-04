@@ -8,12 +8,11 @@
         <table class="form-layout">
 		<tr>
             <td class="font-size12pt label">{$form.sort_name.label}</td>
-            <td colspan="2">{$form.sort_name.html}
+            <td colspan="4">{$form.sort_name.html} {$form.buttons.html}
                 <div class="description font-italic">
                     {ts}Complete OR partial name OR email.{/ts}
                 </div>
             </td>
-            <td class="label">{$form.buttons.html}</td>       
         </tr>
 
         {include file="CRM/Grant/Form/Search/Common.tpl"}
