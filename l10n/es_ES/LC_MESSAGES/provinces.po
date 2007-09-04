@@ -1,7 +1,7 @@
-# CiviCRM provinces POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
@@ -14,16 +14,16 @@ msgstr ""
 "X-Generator: Pootle 0.10\n"
 
 msgid "Alabama"
-msgstr "Álava"
+msgstr "Alabama"
 
 msgid "Alaska"
-msgstr "Albacete"
+msgstr "Alaska"
 
 msgid "Arizona"
 msgstr "Alicante"
 
 msgid "Arkansas"
-msgstr "Almería"
+msgstr "Arkansas"
 
 msgid "California"
 msgstr "Asturias"
@@ -32,157 +32,157 @@ msgid "Colorado"
 msgstr "Ávila"
 
 msgid "Connecticut"
-msgstr "Badajoz"
+msgstr "Connecticut"
 
 msgid "Delaware"
-msgstr "Barcelona"
+msgstr "Delaware"
 
 msgid "Florida"
-msgstr "Burgos"
+msgstr "Florida"
 
 msgid "Georgia"
-msgstr "Cáceres"
+msgstr "Georgia"
 
 msgid "Hawaii"
-msgstr "Cádiz"
+msgstr "Hawaii"
 
 msgid "Idaho"
-msgstr "Cantabria"
+msgstr "Idaho"
 
 msgid "Illinois"
-msgstr "Castellón"
+msgstr "Illinois"
 
 msgid "Indiana"
-msgstr "Ciudad Real"
+msgstr "Indiana"
 
 msgid "Iowa"
-msgstr "Córdoba"
+msgstr "Iowa"
 
 msgid "Kansas"
-msgstr "Coruña, La"
+msgstr "Kansas"
 
 msgid "Kentucky"
-msgstr "Cuenca"
+msgstr "Kentucky"
 
 msgid "Louisiana"
-msgstr "Gerona"
+msgstr "Louisiana"
 
 msgid "Maine"
-msgstr "Granada"
+msgstr "Maine"
 
 msgid "Maryland"
-msgstr "Guadalajara"
+msgstr "Maryland"
 
 msgid "Massachusetts"
-msgstr "Guipúzcoa"
+msgstr "Massachusetts"
 
 msgid "Michigan"
-msgstr "Huelva"
+msgstr "Michigan"
 
 msgid "Minnesota"
-msgstr "Huesca"
+msgstr "Minnesota"
 
 msgid "Mississippi"
-msgstr "Islas Baleares"
+msgstr "Mississippi"
 
 msgid "Missouri"
-msgstr "Jaén"
+msgstr "Missouri"
 
 msgid "Montana"
-msgstr "León"
+msgstr "Montana"
 
 msgid "Nebraska"
-msgstr "Lérida"
+msgstr "Nebraska"
 
 msgid "Nevada"
-msgstr "Lugo"
+msgstr "Nevada"
 
 msgid "New Hampshire"
-msgstr "Madrid"
+msgstr "New Hampshire"
 
 msgid "New Jersey"
-msgstr "Málaga"
+msgstr "New Jersey"
 
 msgid "New Mexico"
-msgstr "Murcia"
+msgstr "New Mexico"
 
 msgid "New York"
-msgstr "Navarra"
+msgstr "New York"
 
 msgid "North Carolina"
-msgstr "Orense"
+msgstr "North Carolina"
 
 msgid "North Dakota"
-msgstr "Palencia"
+msgstr "North Dakota"
 
 msgid "Ohio"
-msgstr "Palmas, Las"
+msgstr "Ohio"
 
 msgid "Oklahoma"
-msgstr "Pontevedra"
+msgstr "Oklahoma"
 
 msgid "Oregon"
-msgstr "Rioja, La"
+msgstr "Oregon"
 
 msgid "Pennsylvania"
-msgstr "Salamanca"
+msgstr "Pennsylvania"
 
 msgid "Rhode Island"
-msgstr "Santa Cruz de Tenerife"
+msgstr "Rhode Island"
 
 msgid "South Carolina"
-msgstr "Segovia"
+msgstr "South Carolina"
 
 msgid "South Dakota"
-msgstr "Sevilla"
+msgstr "South Dakota"
 
 msgid "Tennessee"
-msgstr "Soria"
+msgstr "Tennessee"
 
 msgid "Texas"
-msgstr "Tarragona"
+msgstr "Texas"
 
 msgid "Utah"
-msgstr "Teruel"
+msgstr "Utah"
 
 msgid "Vermont"
-msgstr "Toledo"
+msgstr "Vermont"
 
 msgid "Virginia"
-msgstr "Valencia"
+msgstr "Virginia"
 
 msgid "Washington"
-msgstr "Valladolid"
+msgstr "Washington"
 
 msgid "West Virginia"
-msgstr "Vizcaya"
+msgstr "West Virginia"
 
 msgid "Wisconsin"
-msgstr "Zamora"
+msgstr "Wisconsin"
 
 msgid "Wyoming"
-msgstr "Zaragoza"
+msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr "Ceuta"
+msgstr "District of Columbia"
 
 msgid "American Samoa"
-msgstr "Melilla"
+msgstr "Samoa Americana"
 
 msgid "Guam"
-msgstr "Andorra"
+msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr "Comunidad Europea"
+msgstr "Islas Mariana del Norte"
 
 msgid "Puerto Rico"
-msgstr "Otra"
+msgstr "Puerto Rico"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "Virgin Islands"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Islas Circundantes Menores de los Estados Unidos"
 
 msgid "Armed Forces Europe"
 msgstr ""
@@ -194,16 +194,16 @@ msgid "Armed Forces Pacific"
 msgstr ""
 
 msgid "Alberta"
-msgstr ""
+msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "British Columbia"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "Manitoba"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
 msgstr ""
@@ -212,25 +212,25 @@ msgid "Northwest Territories"
 msgstr ""
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Nova Scotia"
 
 msgid "Nunavut"
 msgstr ""
 
 msgid "Ontario"
-msgstr ""
+msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
-msgstr ""
+msgstr "Quebec"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "Yukon Territory"
 
 msgid "Maharashtra"
 msgstr ""

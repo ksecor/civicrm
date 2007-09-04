@@ -203,9 +203,10 @@ SELECT v.label
 FROM   civicrm_option_value v,
        civicrm_option_group g
 WHERE  v.option_group_id = g.id 
-AND  g.name = 'event_type'
+AND g.name = 'event_type'
+AND v.is_active = 1
 AND v.label  LIKE '$name%' 
-";
+ORDER by v.weight";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
