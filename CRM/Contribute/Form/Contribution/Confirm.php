@@ -283,7 +283,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' );
-        
+
+        // add a description field at the very beginning
+        $this->_params['description'] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
+
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
         $fields = array( );
@@ -524,7 +527,9 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                'amount_level'          => CRM_Utils_Array::value( 'amount_level', $params ),
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                => !$online || $params['source'] ? $params['source'] : ts( 'Online Contribution:' ) . ' ' . $form->_values['title'],
+                               'source'                => ! $online || $params['source'] ?
+                               $params['source'] : 
+                               $params['description'],
                                );
 
         if ( ! $online || $form->_values['is_monetary'] ) {

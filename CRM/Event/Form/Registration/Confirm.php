@@ -246,9 +246,11 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->fixLocationFields( $params, $fields );
 
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
-        
+        $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+
         // required only if paid event
         if ( $this->_values['event']['is_monetary'] ) {
+        
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
 
@@ -264,7 +266,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $contribution =& $this->processContribution( $this->_params, null, $contactID, true );
                 $this->_params['contributionID'    ] = $contribution->id;
                 $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
-                $this->_params['item_name'         ] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+                $this->_params['item_name'         ] = $this->_params['description'];
                 $this->_params['receive_date'      ] = $now;
 
                 // save params here also since we dont come back
@@ -385,7 +387,9 @@ WHERE  v.option_group_id = g.id
                                    'status_id'     => $params['participant_status_id'] ? $params['participant_status_id'] : 1,
                                    'role_id'       => $params['participant_role_id'] ? $params['participant_role_id'] : $roleID,
                                    'register_date' => $params['participant_register_date'] ? CRM_Utils_Date::format( $params['participant_register_date'] ) : date( 'YmdHis' ),
-                                   'source'        => $params['participant_source'] ? $params['participant_source'] : ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'],
+                                   'source'        => isset( $params['participant_source'] ) ?
+                                   $params['participant_source'] :
+                                   $params['description'],
                                    'event_level'   => $params['amount_level']
                                    );
         
@@ -436,7 +440,7 @@ WHERE  v.option_group_id = g.id
                                'amount_level'          => $params['amount_level'],
                                'invoice_id'            => $params['invoiceID'],
                                'currency'              => $params['currencyID'],
-                               'source'                => ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title']
+                               'source'                => $params['description'],
                                );
         
         if ( ! $pending && $result ) {

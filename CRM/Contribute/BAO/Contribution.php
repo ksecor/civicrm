@@ -816,7 +816,7 @@ SELECT count(*) as count,
                                                                               true, true, true );
             $form->_params['contributionID'    ] = $contribution->id;
             $form->_params['contributionTypeID'] = $contributionType->id;
-            $form->_params['item_name'         ] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+            $form->_params['item_name'         ] = $form->_params['description'];
             $form->_params['receive_date'      ] = $now;
             if ( $form->_values['is_recur'] &&
                  $contribution->contribution_recur_id ) {
