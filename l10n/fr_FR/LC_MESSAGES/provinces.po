@@ -1,13 +1,13 @@
-# CiviCRM provinces POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-07-26 16:40-0700\n"
-"Last-Translator: Matthieu Martin <matthieu.martin@nootix.com>\n"
+"PO-Revision-Date: 2007-09-03 15:28-0700\n"
+"Last-Translator: Altervisions <arnaud.tessier@altervisions.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11324,7 +11324,7 @@ msgid "Northern Cape"
 msgstr "Cape du Nord"
 
 msgid "Limpopo"
-msgstr ""
+msgstr "Limpopo"
 
 msgid "Western Cape"
 msgstr "Western Cape"
@@ -11372,106 +11372,106 @@ msgid "Midlands"
 msgstr "Midlands"
 
 msgid "South Karelia"
-msgstr ""
+msgstr "Karelia du Sud"
 
 msgid "South Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnie du Sud"
 
 msgid "Etelä-Savo"
-msgstr ""
+msgstr "Savonie du Sud"
 
 msgid "Häme"
-msgstr ""
+msgstr "Tavastie"
 
 msgid "Itä-Uusimaa"
-msgstr ""
+msgstr "Uusimaa de l'Est"
 
 msgid "Kainuu"
-msgstr ""
+msgstr "Kainuu"
 
 msgid "Central Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnie Centrale"
 
 msgid "Central Finland"
-msgstr ""
+msgstr "Finlande Centrale"
 
 msgid "Kymenlaakso"
-msgstr ""
+msgstr "Vallée de la Kymi"
 
 msgid "Lapland"
-msgstr ""
+msgstr "Laponie"
 
 msgid "Tampere Region"
-msgstr ""
+msgstr "Pirkanmaa"
 
 msgid "Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnie"
 
 msgid "North Karelia"
-msgstr ""
+msgstr "Karelia du Nord"
 
 msgid "Nothern Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnie du Nord"
 
 msgid "Northern Savo"
-msgstr ""
+msgstr "Savo du Nord"
 
 msgid "Päijät-Häme"
-msgstr ""
+msgstr "Päijät-Häme"
 
 msgid "Satakunta"
-msgstr ""
+msgstr "Satakunta"
 
 msgid "Uusimaa"
-msgstr ""
+msgstr "Uusimaa"
 
 msgid "South-West Finland"
-msgstr ""
+msgstr "Finlande du Sud-Ouest"
 
 msgid "Åland"
-msgstr ""
+msgstr "Åland"
 
 msgid "North West"
-msgstr ""
+msgstr "Angleterre du Nord-Ouest"
 
 msgid "Tyne and Wear"
-msgstr ""
+msgstr "Tyne and Wear"
 
 msgid "Isle of Man"
-msgstr ""
+msgstr "île de Man"
 
 msgid "Greater Manchester"
-msgstr ""
+msgstr "Grand Manchester"
 
 msgid "Co Tyrone"
-msgstr ""
+msgstr "Comté de Tyrone"
 
 msgid "West Yorkshire"
-msgstr ""
+msgstr "West Yorkshire"
 
 msgid "South Yorkshire"
-msgstr ""
+msgstr "South Yorkshire"
 
 msgid "Merseyside"
-msgstr ""
+msgstr "Merseyside"
 
 msgid "Berkshire"
-msgstr ""
+msgstr "Berkshire"
 
 msgid "West Midlands"
-msgstr ""
+msgstr "West Midlands"
 
 msgid "Inverness"
-msgstr ""
+msgstr "Inverness"
 
 msgid "Avon"
-msgstr ""
+msgstr "Avon"
 
 msgid "Middlesex"
-msgstr ""
+msgstr "Middlesex"
 
 msgid "West Glamorgan"
-msgstr ""
+msgstr "West Glamorgan"
 
 msgid "London"
 msgstr "Londres"

@@ -1,7 +1,7 @@
-# CiviCRM countries POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
@@ -12,11 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# AF
 msgid "Afghanistan"
 msgstr ""
 
-# AL
 msgid "Albania"
 msgstr ""
 
@@ -26,146 +24,114 @@ msgstr ""
 msgid "American Samoa"
 msgstr ""
 
-# AD
 msgid "Andorra"
 msgstr ""
 
-# AO
 msgid "Angola"
 msgstr ""
 
-# AI
 msgid "Anguilla"
 msgstr ""
 
-# AQ
 msgid "Antarctica"
 msgstr ""
 
-# AG
 msgid "Antigua and Barbuda"
 msgstr "אנטיגואה וברבודה"
 
-# AR
 msgid "Argentina"
 msgstr "ארגנטינה"
 
 msgid "Armenia"
 msgstr ""
 
-# AW
 msgid "Aruba"
 msgstr ""
 
-# AU
 msgid "Australia"
 msgstr "אוסטרליה"
 
-# AT
 msgid "Austria"
 msgstr "אוסטריה"
 
-# AZ
 msgid "Azerbaijan"
 msgstr "אזרביג'ן"
 
 msgid "Bahrain"
 msgstr ""
 
-# BD
 msgid "Bangladesh"
 msgstr "בנגלדש"
 
-# BB
 msgid "Barbados"
 msgstr "ברבדוס"
 
-# BY
 msgid "Belarus"
 msgstr "בלרוס"
 
-# BE
 msgid "Belgium"
 msgstr "בלגיה"
 
 msgid "Belize"
 msgstr ""
 
-# BJ
 msgid "Benin"
 msgstr ""
 
-# BM
 msgid "Bermuda"
 msgstr ""
 
-# BT
 msgid "Bhutan"
 msgstr ""
 
-# BO
 msgid "Bolivia"
 msgstr "בוליביה"
 
-# BA
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-# BW
 msgid "Botswana"
 msgstr ""
 
-# BV
 msgid "Bouvet Island"
 msgstr ""
 
-# BR
 msgid "Brazil"
 msgstr "ברזיל"
 
-# IO
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-# VG
 msgid "Virgin Islands, British"
 msgstr ""
 
-# BN
 msgid "Brunei Darussalam"
 msgstr ""
 
-# BG
 msgid "Bulgaria"
 msgstr "בולגריה"
 
-# BF
 msgid "Burkina Faso"
 msgstr ""
 
 msgid "Myanmar"
 msgstr ""
 
-# BI
 msgid "Burundi"
 msgstr ""
 
 msgid "Cambodia"
 msgstr ""
 
-# CM
 msgid "Cameroon"
 msgstr ""
 
-# CA
 msgid "Canada"
 msgstr "קנדה"
 
-# CV
 msgid "Cape Verde"
 msgstr ""
 
-# KY
 msgid "Cayman Islands"
 msgstr ""
 
@@ -175,73 +141,60 @@ msgstr ""
 msgid "Chad"
 msgstr ""
 
-# CL
 msgid "Chile"
 msgstr "צ'ילה"
 
-# CN
 msgid "China"
 msgstr "סין"
 
-# CX
 msgid "Christmas Island"
 msgstr ""
 
-# CC
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
 msgid "Colombia"
 msgstr ""
 
-# KM
 msgid "Comoros"
 msgstr ""
 
 msgid "Congo, The Democratic Republic of the"
 msgstr ""
 
-# CG
 msgid "Congo"
 msgstr ""
 
-# CK
 msgid "Cook Islands"
 msgstr ""
 
-# CR
 msgid "Costa Rica"
 msgstr ""
 
 msgid "Côte d'Ivoire"
 msgstr ""
 
-# HR
 msgid "Croatia"
 msgstr "קרואטיה"
 
 msgid "Cuba"
 msgstr ""
 
-# CY
 msgid "Cyprus"
 msgstr ""
 
 msgid "Czech Republic"
 msgstr ""
 
-# DK
 msgid "Denmark"
 msgstr "דנמרק"
 
-# DJ
 msgid "Djibouti"
 msgstr ""
 
 msgid "Dominica"
 msgstr ""
 
-# DO
 msgid "Dominican Republic"
 msgstr "הרפובליקה הדומיניקנית"
 
@@ -251,214 +204,171 @@ msgstr ""
 msgid "Ecuador"
 msgstr ""
 
-# EG
 msgid "Egypt"
 msgstr "מצרים"
 
-# SV
 msgid "El Salvador"
 msgstr "אל סלבדור"
 
-# GQ
 msgid "Equatorial Guinea"
 msgstr ""
 
-# ER
 msgid "Eritrea"
 msgstr ""
 
-# EE
 msgid "Estonia"
 msgstr "אסטוניה"
 
 msgid "Ethiopia"
 msgstr ""
 
-# FK
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
 msgid "Faroe Islands"
 msgstr ""
 
-# FJ
 msgid "Fiji"
 msgstr ""
 
-# FI
 msgid "Finland"
 msgstr "פינלנד"
 
-# FR
 msgid "France"
 msgstr "צרפת"
 
-# GF
 msgid "French Guiana"
 msgstr ""
 
-# PF
 msgid "French Polynesia"
 msgstr ""
 
 msgid "French Southern Territories"
 msgstr ""
 
-# GA
 msgid "Gabon"
 msgstr ""
 
 msgid "Georgia"
 msgstr ""
 
-# DE
 msgid "Germany"
 msgstr "גרמניה"
 
 msgid "Ghana"
 msgstr ""
 
-# GI
 msgid "Gibraltar"
 msgstr ""
 
-# GR
 msgid "Greece"
 msgstr "יוון"
 
 msgid "Greenland"
 msgstr ""
 
-# GD
 msgid "Grenada"
 msgstr "גרנדה"
 
-# GP
 msgid "Guadeloupe"
 msgstr ""
 
 msgid "Guam"
 msgstr ""
 
-# GT
 msgid "Guatemala"
 msgstr "גואטמלה"
 
-# GN
 msgid "Guinea"
 msgstr ""
 
-# GW
 msgid "Guinea-Bissau"
 msgstr ""
 
-# GY
 msgid "Guyana"
 msgstr ""
 
-# HT
 msgid "Haiti"
 msgstr ""
 
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-# VA
 msgid "Holy See (Vatican City State)"
 msgstr ""
 
-# HN
 msgid "Honduras"
 msgstr "הונדורס"
 
-# HK
 msgid "Hong Kong"
 msgstr ""
 
-# HU
 msgid "Hungary"
 msgstr "הונגריה"
 
-# IS
 msgid "Iceland"
 msgstr "איסלנד"
 
-# IN
 msgid "India"
 msgstr "הודו"
 
-# ID
 msgid "Indonesia"
 msgstr "אינדונזיה"
 
 msgid "Iran, Islamic Republic of"
 msgstr ""
 
-# IQ
 msgid "Iraq"
 msgstr "עירק"
 
-# IE
 msgid "Ireland"
 msgstr "אירלנד"
 
-# IL
 msgid "Israel"
 msgstr "ישראל"
 
-# IT
 msgid "Italy"
 msgstr "איטליה"
 
 msgid "Jamaica"
 msgstr ""
 
-# JP
 msgid "Japan"
 msgstr "יפן"
 
-# JO
 msgid "Jordan"
 msgstr "ירדן"
 
 msgid "Kazakhstan"
 msgstr ""
 
-# KE
 msgid "Kenya"
 msgstr ""
 
-# KI
 msgid "Kiribati"
 msgstr ""
 
-# KP
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
 msgid "Korea, Republic of"
 msgstr ""
 
-# KW
 msgid "Kuwait"
 msgstr ""
 
-# KG
 msgid "Kyrgyzstan"
 msgstr ""
 
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-# LV
 msgid "Latvia"
 msgstr "לטביה"
 
-# LB
 msgid "Lebanon"
 msgstr ""
 
-# LS
 msgid "Lesotho"
 msgstr ""
 
@@ -468,15 +378,12 @@ msgstr ""
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-# LI
 msgid "Liechtenstein"
 msgstr ""
 
-# LT
 msgid "Lithuania"
 msgstr "ליטא"
 
-# LU
 msgid "Luxembourg"
 msgstr "לוקסמבורג"
 
@@ -486,7 +393,6 @@ msgstr ""
 msgid "Macedonia, Republic of"
 msgstr ""
 
-# MG
 msgid "Madagascar"
 msgstr ""
 
@@ -502,15 +408,12 @@ msgstr ""
 msgid "Mali"
 msgstr ""
 
-# MT
 msgid "Malta"
 msgstr "מלטה"
 
-# MH
 msgid "Marshall Islands"
 msgstr ""
 
-# MQ
 msgid "Martinique"
 msgstr ""
 
@@ -520,11 +423,9 @@ msgstr ""
 msgid "Mauritius"
 msgstr ""
 
-# YT
 msgid "Mayotte"
 msgstr ""
 
-# MX
 msgid "Mexico"
 msgstr "מקסיקו"
 
@@ -534,83 +435,66 @@ msgstr ""
 msgid "Moldova, Republic of"
 msgstr ""
 
-# MC
 msgid "Monaco"
 msgstr ""
 
-# MN
 msgid "Mongolia"
 msgstr ""
 
-# MS
 msgid "Montserrat"
 msgstr ""
 
-# MA
 msgid "Morocco"
 msgstr ""
 
-# MZ
 msgid "Mozambique"
 msgstr ""
 
-# NA
 msgid "Namibia"
 msgstr ""
 
-# NR
 msgid "Nauru"
 msgstr ""
 
-# NP
 msgid "Nepal"
 msgstr ""
 
 msgid "Netherlands Antilles"
 msgstr ""
 
-# NL
 msgid "Netherlands"
 msgstr "הולנד"
 
 msgid "New Caledonia"
 msgstr ""
 
-# NZ
 msgid "New Zealand"
 msgstr "ניו זילנד"
 
 msgid "Nicaragua"
 msgstr ""
 
-# NE
 msgid "Niger"
 msgstr ""
 
 msgid "Nigeria"
 msgstr ""
 
-# NU
 msgid "Niue"
 msgstr ""
 
-# NF
 msgid "Norfolk Island"
 msgstr ""
 
-# MP
 msgid "Northern Mariana Islands"
 msgstr ""
 
-# NO
 msgid "Norway"
 msgstr "נורבגיה"
 
-# OM
 msgid "Oman"
 msgstr ""
 
-# PK
 msgid "Pakistan"
 msgstr ""
 
@@ -620,61 +504,48 @@ msgstr ""
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-# PA
 msgid "Panama"
 msgstr "פנמה"
 
-# PG
 msgid "Papua New Guinea"
 msgstr ""
 
-# PY
 msgid "Paraguay"
 msgstr "פרגואי"
 
-# PE
 msgid "Peru"
 msgstr "פרו"
 
-# PH
 msgid "Philippines"
 msgstr ""
 
-# PN
 msgid "Pitcairn"
 msgstr ""
 
-# PL
 msgid "Poland"
 msgstr "פולין"
 
-# PT
 msgid "Portugal"
 msgstr "פורטוגל"
 
-# PR
 msgid "Puerto Rico"
 msgstr ""
 
 msgid "Qatar"
 msgstr ""
 
-# RO
 msgid "Romania"
 msgstr "רומניה"
 
-# RU
 msgid "Russian Federation"
 msgstr ""
 
 msgid "Rwanda"
 msgstr ""
 
-# RE
 msgid "Reunion"
 msgstr ""
 
-# SH
 msgid "Saint Helena"
 msgstr ""
 
@@ -690,96 +561,75 @@ msgstr ""
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-# WS
 msgid "Samoa"
 msgstr ""
 
-# SM
 msgid "San Marino"
 msgstr ""
 
-# SA
 msgid "Saudi Arabia"
 msgstr ""
 
-# SN
 msgid "Senegal"
 msgstr ""
 
-# SC
 msgid "Seychelles"
 msgstr ""
 
-# SL
 msgid "Sierra Leone"
 msgstr ""
 
-# SG
 msgid "Singapore"
 msgstr ""
 
-# SK
 msgid "Slovakia"
 msgstr "סלובקיה"
 
-# SI
 msgid "Slovenia"
 msgstr "סלובניה"
 
-# SB
 msgid "Solomon Islands"
 msgstr ""
 
 msgid "Somalia"
 msgstr ""
 
-# ZA
 msgid "South Africa"
 msgstr "דרום אפריקה"
 
-# GS
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-# ES
 msgid "Spain"
 msgstr "ספרד"
 
-# LK
 msgid "Sri Lanka"
 msgstr ""
 
-# SD
 msgid "Sudan"
 msgstr "סודן"
 
-# SR
 msgid "Suriname"
 msgstr ""
 
-# SJ
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
 msgid "Swaziland"
 msgstr ""
 
-# SE
 msgid "Sweden"
 msgstr "שבדיה"
 
-# CH
 msgid "Switzerland"
 msgstr "שוייץ"
 
 msgid "Syrian Arab Republic"
 msgstr ""
 
-# ST
 msgid "Sao Tome and Principe"
 msgstr ""
 
-# TW
 msgid "Taiwan"
 msgstr "טיוואן"
 
@@ -789,7 +639,6 @@ msgstr ""
 msgid "Tanzania, United Republic of"
 msgstr ""
 
-# TH
 msgid "Thailand"
 msgstr "תאילנד"
 
@@ -799,48 +648,39 @@ msgstr ""
 msgid "Gambia"
 msgstr ""
 
-# TG
 msgid "Togo"
 msgstr ""
 
-# TK
 msgid "Tokelau"
 msgstr ""
 
-# TO
 msgid "Tonga"
 msgstr ""
 
-# TT
 msgid "Trinidad and Tobago"
 msgstr "טרינידד וטובגו"
 
 msgid "Tunisia"
 msgstr ""
 
-# TR
 msgid "Turkey"
 msgstr "טורקיה"
 
-# TM
 msgid "Turkmenistan"
 msgstr ""
 
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-# TV
 msgid "Tuvalu"
 msgstr ""
 
 msgid "Uganda"
 msgstr ""
 
-# UA
 msgid "Ukraine"
 msgstr "אוקראינה"
 
-# AE
 msgid "United Arab Emirates"
 msgstr ""
 
@@ -853,19 +693,15 @@ msgstr ""
 msgid "United States"
 msgstr ""
 
-# UY
 msgid "Uruguay"
 msgstr "אורוגואי"
 
-# UZ
 msgid "Uzbekistan"
 msgstr ""
 
-# VU
 msgid "Vanuatu"
 msgstr ""
 
-# VE
 msgid "Venezuela"
 msgstr "ונצואלה"
 
@@ -875,15 +711,12 @@ msgstr ""
 msgid "Virgin Islands, U.S."
 msgstr ""
 
-# WF
 msgid "Wallis and Futuna"
 msgstr ""
 
-# EH
 msgid "Western Sahara"
 msgstr ""
 
-# YE
 msgid "Yemen"
 msgstr ""
 
@@ -893,7 +726,6 @@ msgstr ""
 msgid "Zambia"
 msgstr ""
 
-# ZW
 msgid "Zimbabwe"
 msgstr ""
 
