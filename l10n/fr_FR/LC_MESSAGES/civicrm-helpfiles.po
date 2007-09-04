@@ -1,16 +1,17 @@
-# CiviCRM POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# 
+# If you contribute heavily to a translation and deem your work copyrightable,
+# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-17 21:12+0200\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-09-03 15:49-0700\n"
+"Last-Translator: Altervisions <arnaud.tessier@altervisions.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -26,19 +27,19 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr ""
+msgstr "Adresse complète (ex. 110, rue de la Gare)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr ""
+msgstr "Adresse - ligne 2 (non prise en compte si vide)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr ""
+msgstr "Adresse - ligne 3 (non prise en compte si vide)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr ""
+msgstr "Ville."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -46,22 +47,26 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
+"Nom de la Province. Si vous voulez inclure la province dans le libellé de "
+"votre mailing, le paramètre <strong>Inclure Provinces</strong> doit être "
+"validé sur cette écran, et les noms des provinces doivent être ajoutées dans "
+"la table civicrm_county de votre base de données."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
-msgstr ""
+msgstr "<strong>abréviation</strong> de l'état ou de la province"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr ""
+msgstr "<strong>Nom Complet</strong> de l'état ou de la province"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
-msgstr ""
+msgstr "Code Postal."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr ""
+msgstr "Pays (ex. Suisse)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
