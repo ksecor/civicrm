@@ -38,7 +38,6 @@ require_once 'CRM/Core/Form.php';
 
 require_once 'CRM/Contact/DAO/Contact.php';
 
-require_once 'CRM/Core/DAO/Location.php';
 require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php';
 require_once 'CRM/Core/DAO/Email.php';
@@ -1336,8 +1335,7 @@ WHERE civicrm_contact.id IN $idString ";
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {
                 $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
             }
-            $locationFields = array_merge( CRM_Core_DAO_Location::import( ),  
-                                           CRM_Core_DAO_Address::import( ),
+            $locationFields = array_merge( CRM_Core_DAO_Address::import( ),
                                            CRM_Core_DAO_Phone::import( ),
                                            CRM_Core_DAO_Email::import( ),
                                            CRM_Core_DAO_IM::import( true ),
@@ -1571,7 +1569,6 @@ WHERE civicrm_contact.id IN $idString ";
             }
             
             $locationFields = array_merge(  $locationType,
-                                            CRM_Core_DAO_Location::export( ),
                                             CRM_Core_DAO_Address::export( ),
                                             CRM_Core_DAO_Phone::export( ),
                                             CRM_Core_DAO_Email::export( ),

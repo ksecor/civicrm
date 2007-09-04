@@ -83,12 +83,6 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                                                                 array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
             }
             
-            $location[$locationId]['name']             =& $form->addElement(
-                                                           'text', 
-                                                           "location[$locationId][name]",
-                                                           ts('Location Name'),
-                                                           CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name'));
-            
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId );
             
             require_once 'CRM/Core/ShowHideBlocks.php';

@@ -43,7 +43,7 @@ require_once 'CRM/Core/BAO/Block.php';
 /**
  * This class handle creation of location block elements
  */
-class CRM_Core_BAO_Location
+class CRM_Core_BAO_Location extends CRM_Core_DAO
 {
     /**
      * Location block element array

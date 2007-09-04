@@ -33,14 +33,12 @@
  *
  */
 
-require_once 'CRM/Core/DAO/CustomValue.php';
-
 
 /**
  * Business objects for managing custom data values.
  *
  */
-class CRM_Core_BAO_CustomValue extends CRM_Core_DAO_CustomValue 
+class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
 {
 
     /**
