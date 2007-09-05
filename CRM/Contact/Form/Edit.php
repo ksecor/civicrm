@@ -665,7 +665,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
         
-        if ( $this->_contactId != null ) {
+        if ( ! empty( $this->_contactId ) ) {
 	        require_once 'CRM/Contact/BAO/GroupOrganization.php';
 	        require_once 'CRM/Contact/DAO/Organization.php';
 
