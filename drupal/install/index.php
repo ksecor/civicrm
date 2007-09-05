@@ -90,7 +90,9 @@ $drupalVersionFile = implode(DIRECTORY_SEPARATOR, array($cmsPath, 'modules', 'sy
 
 if ( file_exists( $drupalVersionFile ) ) {
     require_once $drupalVersionFile;
-    $drupal_version = VERSION;
+    if ( defined( 'VERSION' ) ) {
+        $drupal_version = VERSION;
+    }
 }
 
 if ( !isset($drupal_version) or version_compare($drupal_version, '5') < 0 ) {
