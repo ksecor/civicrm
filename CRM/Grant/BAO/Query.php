@@ -56,6 +56,8 @@ class CRM_Grant_BAO_Query
             $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type_id";
             $query->_select['grant_status_id' ]  = "civicrm_grant.status_id as grant_status_id";
             $query->_select['grant_amount_requested']  = "civicrm_grant.amount_requested as grant_amount_requested";
+            $query->_select['grant_amount_granted']  = "civicrm_grant.amount_granted as grant_amount_granted";
+            $query->_select['grant_amount_total']  = "civicrm_grant.amount_total as grant_amount_total";
             $query->_select['grant_application_received_date']  = "civicrm_grant.application_received_date as grant_application_received_date ";
             $query->_element['grant_type_id'] = 1;
             $query->_element['grant_status_id'] = 1;

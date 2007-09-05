@@ -75,7 +75,9 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                  'grant_id',
                                  'grant_status_id',
                                  'grant_type_id',
+                                 'grant_amount_total',
                                  'grant_amount_requested',
+                                 'grant_amount_granted',
                                  'grant_application_received_date',
                                  );
 
@@ -332,6 +334,7 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
 
              $rows[] = $row;
          }
+         
          return $rows;
      }
      
@@ -372,8 +375,18 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested'),
+                                                'name'      => ts('Amount Requested (orig. currency) '),
                                                 'sort'      => 'grant_amount_requested',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Amount Requested(EUR) '),
+                                                'sort'      => 'grant_amount_total',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Amount Granted '),
+                                                'sort'      => 'grant_amount_granted',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                          
