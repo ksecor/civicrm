@@ -881,15 +881,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             return $mailing;
         }
 
-        if( $params['test'] && ! $params['is_template'] ) {
-            /* Create the job record */
-            $job =& new CRM_Mailing_BAO_Job();
-            $job->mailing_id = $mailing->id;
-            $job->is_retry = false;
-            $job->is_test = true;
-            $job->scheduled_date = date('YmdHis');
-            $job->save();
-        }
         require_once 'CRM/Contact/BAO/Group.php';
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
