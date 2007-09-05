@@ -20,7 +20,7 @@
         <td>{$row.sort_name}</td>
         <td>{$row.grant_status}</td>  
         <td>{$row.grant_type}</td> 
-        <td>{$row.grant_amount_requested|crmMoney}</td>
+        <td>{$row.grant_amount_requested}</td>
            
         <td>{$row.grant_application_received_date |truncate:10:''|crmDate}
        

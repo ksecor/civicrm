@@ -157,7 +157,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addRule('amount_granted', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'text', 'amount_requested', ts('Amount requested (orig. currency)') );
-        $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'textarea', 'note', ts('Notes'));
         
