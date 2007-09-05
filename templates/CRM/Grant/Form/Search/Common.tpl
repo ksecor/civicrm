@@ -5,17 +5,18 @@
                     {$form.grant_status_id.html}
                 </td>
                 <td colspan="2">
-                    {$form.grant_type_id.label}  {$form.grant_type_id.html}
+                    {$form.grant_type_id.label}  {$form.grant_type_id.html} 
                 </td>
+
             </tr>
             <tr><td class="label">
-                    {$form.grant_amount_total.label}
+                    {$form.grant_amount_low.label}
                 </td>
                 <td>
-                    {$form.grant_amount_total.html}
+                    {$form.grant_amount_low.html}
                 </td> 
                 <td colspan="2">
-                    {$form.grant_report_received.html} {$form.grant_report_received.label}
+                    {$form.grant_amount_high.label} {$form.grant_amount_high.html}
                 </td>
             </tr>
             <tr>
@@ -48,4 +49,17 @@
                     {include file="CRM/common/calendar/body.tpl" dateVar=grant_money_transfer_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_grant_4}
               </td>          
           </tr>
+          <tr>
+              <td class="label">
+                {$form.grant_country.label}
+              </td>
+              <td>  
+                {$form.grant_country.html}
+              </td>
+              <td colspan="2">
+                    {$form.grant_report_received.label} {$form.grant_report_received.html}
+              </td>
+                
+           </tr>  
+                  
             
