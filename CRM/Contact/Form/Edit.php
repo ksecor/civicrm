@@ -202,7 +202,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             }
 
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
-        }            
+        }
     }
 
     /**
@@ -506,8 +506,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
         //add tags and groups block
         require_once 'CRM/Contact/Form/GroupTag.php';
-        $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId,
-                                                                   CRM_Contact_Form_GroupTag::ALL );
+        $groupTag =& CRM_Contact_Form_GroupTag::buildGroupTagBlock($this, $this->_contactId, CRM_Contact_Form_GroupTag::ALL );
 
         //Custom Group Inline Edit form
         require_once 'CRM/Core/BAO/CustomGroup.php';
@@ -664,20 +663,17 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         //add contact to group
         //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
-        
-        if ( ! empty( $this->_contactId ) ) {
-	        require_once 'CRM/Contact/BAO/GroupOrganization.php';
-	        require_once 'CRM/Contact/DAO/Organization.php';
+        require_once 'CRM/Contact/BAO/GroupOrganization.php';
+        require_once 'CRM/Contact/DAO/Organization.php';
 
-	        $dao = new CRM_Contact_DAO_Organization( );
-	        $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
-	        $dao->query($query);
-	        if ( $dao->fetch() ) {
-	            $orgId = $dao->id;
-	        } else {
-	            $orgId = null;
-	            $excludeGroupId = null;
-	        }
+        $dao = new CRM_Contact_DAO_Organization( );
+        $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
+        $dao->query($query);
+        if ( $dao->fetch() ) {
+            $orgId = $dao->id;
+        } else {
+            $orgId = null;
+            $excludeGroupId = null;
         }
 
 	    if ( $orgId != null ) {
