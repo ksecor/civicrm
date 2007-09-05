@@ -60,7 +60,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                         'name'  => ts('Cancel') )
                 )
             );
-        $values = array('job_id'    => $this->get('job_id'));
+        $values = array( 'mailing_id' => $this->get('mailing_id' ) );
 
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
         $preview = array(
@@ -81,12 +81,19 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
      */
     public function &testMail($testParams, &$files, &$options) 
     {
-        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-            !$testParams['_qf_Test_next'] or !$testParams['test']) {
+        if ( CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
+             ! $testParams['_qf_Test_next'] ||
+             ! $testParams['test'] ) {
             return true;
         }
-        $testParams['job_id'] = $options['job_id'];
+
         require_once 'CRM/Mailing/BAO/Job.php';
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $options['mailing_id'];
+        $job->is_test    = true;
+        $job->save( );
+        
+        $testParams['job_id'] = $job->id;
         CRM_Mailing_BAO_Job::runJobs($testParams);
         return true;
     }

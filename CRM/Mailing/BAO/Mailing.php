@@ -571,7 +571,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
-                             $email, &$recipient, $test = false) 
+                             $email, &$recipient, $test = false, 
+                             $contactDetails = null ) 
     {
         
         $domain_id = $this->domain_id;
@@ -664,11 +665,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $html = $this->html;
         $text = $this->text;
-        
-        $params  = array( 'contact_id' => $contactId );
-        $contact =& crm_fetch_contact( $params );
-        if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-            return null;
+
+        if ( $contactDetails ) {
+            $contact = $contactDetails;
+        } else {
+            $params  = array( 'contact_id' => $contactId );
+            $contact =& crm_fetch_contact( $params );
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                return null;
+            }
         }
 
         $message =& new Mail_Mime("\n");

@@ -64,10 +64,9 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $jobTable = CRM_Mailing_DAO_Job::getTableName();
         if (!empty($testParams)) {
             $query = "
-                     SELECT  *
-                     FROM    $jobTable
-                     WHERE   id = {$testParams['job_id']}";
-           
+SELECT *
+  FROM $jobTable
+ WHERE id = {$testParams['job_id']}";
             $job->query($query);
         } else {
             $currentTime = date( 'YmdHis' );
@@ -76,14 +75,15 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
             $query = "
 SELECT   *
   FROM   $jobTable
- WHERE   ( start_date IS null
-   AND     scheduled_date <= $currentTime
-   AND     status = 'Scheduled' )
-    OR   ( status = 'Running'
-   AND     end_date IS null )
+ WHERE   is_test = 0
+   AND   ( ( start_date IS null
+   AND       scheduled_date <= $currentTime
+   AND       status = 'Scheduled' )
+    OR     ( status = 'Running'
+   AND       end_date IS null ) )
 ORDER BY scheduled_date,
          start_date";
-            
+
             $job->query($query);
         }
         /* TODO We should parallelize or prioritize this */
@@ -92,7 +92,7 @@ ORDER BY scheduled_date,
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
                 $job->queue($testParams);
-                
+
                 /* Start the job */
                 $job->start_date = date('YmdHis');
                 $job->status = 'Running';
@@ -263,7 +263,7 @@ ORDER BY scheduled_date,
                             'hash'       => $eq->hash,
                             'contact_id' => $eq->contact_id,
                             'email'      => $eq->email );
-            $fields[] = $field;
+            $fields[$eq->contact_id] = $field;
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
                 $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
                 $fields = array( );
@@ -275,14 +275,23 @@ ORDER BY scheduled_date,
     }
 
     public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
-        foreach ( $fields as $index => $field ) {
+        // first get all the contact details in one huge query
+        $params = array( );
+        foreach ( array_keys( $fields ) as $contactID ) {
+            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
+                               '=', 1, 0, 1);
+        }
+        require_once 'api/Search.php';
+        require_once 'api/History.php';
+        $details = crm_search( $params, null, null, 0, 0 );
+
+        foreach ( $fields as $contactID => $field ) {
 
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
                                            $field['contact_id'], $field['email'],
-                                           $recipient );
-            
+                                           $recipient, false, $details[0][$contactID] );
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();

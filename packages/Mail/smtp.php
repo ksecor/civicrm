@@ -203,6 +203,12 @@ class Mail_smtp extends Mail {
      */
     function send($recipients, $headers, $body, $job_id = null)
     {
+        if ( defined( 'CIVICRM_MAIL_DEBUG' ) ) {
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::logger( $recipients, $headers, $body );
+            return true;
+        }
+        
         include_once 'Net/SMTP.php';
 
         /* If we don't already have an SMTP object, create one. */
