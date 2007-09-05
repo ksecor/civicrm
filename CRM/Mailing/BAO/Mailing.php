@@ -434,20 +434,24 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return void
      */
 
-    private function _getTokens($prop){
-      $matches = array();
-      preg_match_all('/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',$this->$prop,$matches,PREG_PATTERN_ORDER);
-      if($matches[1]){
-        foreach($matches[1] as $token){
-          list($type,$name) = split('\.',$token,2);
-          if($name){
-            if(!$this->tokens[$prop][$type]){
-               $this->tokens[$prop][$type] = array();
+    private function _getTokens( $prop ) {
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $this->$prop,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $this->tokens[$prop][$type] ) ) {
+                        $this->tokens[$prop][$type] = array( );
+                    }
+                    $this->tokens[$prop][$type][] = $name;
+                }
             }
-            $this->tokens[$prop][$type][] = $name;
-          }
         }
-      }
     }
 
     /**
