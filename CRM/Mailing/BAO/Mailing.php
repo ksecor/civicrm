@@ -621,7 +621,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                                         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
                                                         true), 
                       );
-        
+
         $headers = array(
                          'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
                          'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),

@@ -39,7 +39,7 @@ require_once 'CRM/Mailing/DAO/Mailing.php';
 
 class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
-    const MAX_CONTACTS_TO_PROCESS = 1;
+    const MAX_CONTACTS_TO_PROCESS = 1000;
 
     /**
      * class constructor
