@@ -150,14 +150,14 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
+    static function &getValues( $contactId ) 
     {
         $openId =& new CRM_Core_BAO_OpenID( );
-        $blocks = CRM_Core_BAO_Block::getValues( $openId, 'openid', $params, $values, $ids, $blockCount );
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        foreach ( $values['openid'] as $idx => $oid ) {
-            $values['openid'][$idx]['allowed_to_login'] = CRM_Core_BAO_UFMatch::getAllowedToLogin( $oid['openid'] ) ? 1 : 0;
-        }
+        $blocks = CRM_Core_BAO_Block::getValues( $openId, 'openid', $contactId );
+//         require_once 'CRM/Core/BAO/UFMatch.php';
+//         foreach ( $values['openid'] as $idx => $oid ) {
+//             $values['openid'][$idx]['allowed_to_login'] = CRM_Core_BAO_UFMatch::getAllowedToLogin( $oid['openid'] ) ? 1 : 0;
+//         }
         return $blocks;
     }
 

@@ -136,9 +136,10 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) {
+    static function &getValues( $contactId ) 
+    {
         $im =& new CRM_Core_BAO_IM( );
-        return CRM_Core_BAO_Block::getValues( $im, 'im', $params, $values, $ids, $blockCount );
+        return CRM_Core_BAO_Block::getValues( $im, 'im', $contactId );
     }
 
 }

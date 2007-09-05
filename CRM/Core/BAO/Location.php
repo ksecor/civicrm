@@ -271,68 +271,90 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $locationCount = 0, $microformat = false ) {
-        $location =& new CRM_Core_BAO_Location( );
-        $location->copyValues( $params );
-        if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
-            $location->entity_table = 'civicrm_contact';
-            $location->entity_id    = $params['contact_id'];
-        } else if ( CRM_Utils_Array::value( 'domain_id', $params ) ) {
-            $location->entity_table = 'civicrm_domain';
-            $location->entity_id    = $params['domain_id'];
-        }
+    static function &getValues( $contactId, &$values, $microformat = false ) 
+    {
 
-        $flatten = false;
-        if ( empty($locationCount) ) {
-            $locationCount = 1;
-            $flatten       = true;
-        } else {
-            $values['location'] = array();
-            $ids['location']    = array();
-        }
+//         $flatten = false;
+//         if ( empty($locationCount) ) {
+//             $locationCount = 1;
+//             $flatten       = true;
+//         } else {
+//             $values['location'] = array();
+//             $ids['location']    = array();
+//         }
 
-        // we first get the primary location due to the order by clause
-        $location->orderBy( 'is_primary desc, id' );
-        $location->find( );
+//         $locations = array( );
+//         for ($i = 0; $i < $locationCount; $i++) {
+//             if ($location->fetch()) {
+//                 $params['location_id'] = $location->id;
+//                 if ($flatten) {
+//                     $ids['location'] = $location->id;
+//                     CRM_Core_DAO::storeValues( $location, $values );
+//                     self::getBlocks( $params, $values, $ids, 0, $location, $microformat );
+//                 } else {
+//                     $values['location'][$i+1] = array();
+//                     $ids['location'][$i+1]    = array();
+//                     $ids['location'][$i+1]['id'] = $location->id;
+//                     CRM_Core_DAO::storeValues( $location, $values['location'][$i+1] );
+//                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
+//                                      CRM_Contact_Form_Location::BLOCKS, $location, $microformat );
+//                 }
+//                 $locations[$i + 1] = clone($location);
+//             }
+//         }
+
+        
         $locations = array( );
-        for ($i = 0; $i < $locationCount; $i++) {
-            if ($location->fetch()) {
-                $params['location_id'] = $location->id;
-                if ($flatten) {
-                    $ids['location'] = $location->id;
-                    CRM_Core_DAO::storeValues( $location, $values );
-                    self::getBlocks( $params, $values, $ids, 0, $location, $microformat );
+        
+        //get all the blocks for this contact
+        foreach ( self::$blocks as $block ) {
+            $name = ucfirst( $block );
+            eval( '$location[$block] = CRM_Core_BAO_' . $name . '::getValues( $contactId, $values );');
+        }
+        
+        //format locations blocks for setting defaults
+        
+        $count = 1;
+        $locationTypes = array( );
+        foreach ( $location as $key => $value ) {
+            $blockCount = 1;
+            foreach ( $value as $k => $val ) { 
+                //logic to check when we should increment counter
+                if ( !empty( $locationTypes ) ) {
+                    if ( in_array ( $val['location_type_id'], $locationTypes ) ) {
+                        $count = array_search( $val['location_type_id'], $locationTypes );
+                    } else {
+                        $count++;
+                        $locationTypes[$count] = $val['location_type_id']; 
+                    }
                 } else {
-                    $values['location'][$i+1] = array();
-                    $ids['location'][$i+1]    = array();
-                    $ids['location'][$i+1]['id'] = $location->id;
-                    CRM_Core_DAO::storeValues( $location, $values['location'][$i+1] );
-                    self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
-                                     CRM_Contact_Form_Location::BLOCKS, $location, $microformat );
+                    $locationTypes[$count]  = $val['location_type_id'];
                 }
-                $locations[$i + 1] = clone($location);
+                
+                $locations[$count]['location_type_id'] = $val['location_type_id'];
+                $locations[$count]['is_primary'      ] = $val['is_primary'      ];
+
+                if ( $key == 'address' ) { 
+                    $locations[$count][$key] = $val;
+                } else {
+                    $locations[$count][$key][$blockCount] = $val;
+                    $blockCount++;
+                }
             }
         }
+        
+        $values['location'] = $allLocations['location'] = $locations;
+        //crm_core_error::debug('$locations', $allLocations);
 
         if ( empty( $values['location'] ) ) {
             // mark the first location as primary if none exists
             $values['location'][1] = array( );
             $values['location'][1]['is_primary'] = 1;
         }
-        return $locations;
+
+        return $allLocations;
     }
 
-    /**
-     * simple helper function to dispatch getCall to lower comm blocks
-     */
-    static function getBlocks( &$params, &$values, &$ids, $blockCount = 0, &$parent, $microformat = false ) {
-        $parent->address =& CRM_Core_BAO_Address::getValues( $params, $values, $ids, $blockCount, $microformat );
-
-        $parent->phone   =& CRM_Core_BAO_Phone::getValues ( $params, $values, $ids, $blockCount );
-        $parent->email   =& CRM_Core_BAO_Email::getValues ( $params, $values, $ids, $blockCount );
-        $parent->im      =& CRM_Core_BAO_IM::getValues    ( $params, $values, $ids, $blockCount );
-        $parent->openid  =& CRM_Core_BAO_OpenID::getValues( $params, $values, $ids, $blockCount );
-    }
 
     /**
      * Delete the object records that are associated with this contact

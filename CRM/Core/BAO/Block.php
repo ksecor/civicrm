@@ -52,36 +52,36 @@ class CRM_Core_BAO_Block {
      * @access public
      * @static
      */
-    static function &getValues( &$block, $blockName, &$params, &$values, &$ids, $blockCount = 0 )  {
-        $block->copyValues( $params );
-
-        $flatten = false;
-        if ( empty($blockCount) ) {
-            $blockCount = 1;
-            $flatten       = true;
-        } else {
-            $values[$blockName] = array();
-            $ids[$blockName]    = array();
-        }
+    static function &getValues( &$block, $blockName, $contactId )  {
+        $block->contact_id = $contactId;
 
         $blocks = array( );
 
         // we first get the primary location due to the order by clause
         $block->orderBy( 'is_primary desc' );
         $block->find( );
-        for ($i = 0; $i < $blockCount; $i++) {
-            if ($block->fetch()) {
-                if ( $flatten ) {
-                    CRM_Core_DAO::storeValues( $block, $values );
-                    $ids[$blockName] = $block->id;
-                } else {
-                    $values[$blockName][$i+1] = array();
-                    CRM_Core_DAO::storeValues( $block, $values[$blockName][$i+1] );
-                    $ids[$blockName][$i+1] = $block->id;
-                }
-                $blocks[$i + 1] = clone($block);
-            }
+        
+        $count = 1;
+        while ( $block->fetch( ) ) {
+            $values = array( );
+            CRM_Core_DAO::storeValues( $block, $values );
+            $blocks[$count] = $values;
+            $count++;
         }
+
+//         for ($i = 0; $i < $blockCount; $i++) {
+//             if ($block->fetch()) {
+//                 if ( $flatten ) {
+//                     CRM_Core_DAO::storeValues( $block, $values );
+//                     $ids[$blockName] = $block->id;
+//                 } else {
+//                     $values[$blockName][$i+1] = array();
+//                     CRM_Core_DAO::storeValues( $block, $values[$blockName][$i+1] );
+//                     $ids[$blockName][$i+1] = $block->id;
+//                 }
+//                 $blocks[$i + 1] = clone($block);
+//             }
+//         }
         return $blocks;
     }
 

@@ -279,25 +279,24 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * @access public
      * @static
      */
-    static function &getValues(&$params, &$values, &$ids, $blockCount=0, $microformat = false)
+    static function &getValues( $contactId, $microformat = false)
     {
         $address =& new CRM_Core_BAO_Address();
-        $address->copyValues($params);
+        $address->contact_id = $contactId;
 
-        $flatten = false;
-        if (empty($blockCount)) {
-            $flatten = true;
-        }
+//         $flatten = false;
+//         if (empty($blockCount)) {
+//             $flatten = true;
+//         }
         
-        // we first get the primary location due to the order by clause
-        if ($address->find(true)) {
-            $ids['address'] = $address->id;
-            if ($flatten) {
-                CRM_Core_DAO::storeValues( $address, $values );
-            } else {
-                $values['address'] = array();
-                CRM_Core_DAO::storeValues( $address, $values['address'] );
-            }
+        $address->find( );
+
+        $count = 1;
+        while ( $address->fetch( ) ) {
+            $values = array( );
+
+            CRM_Core_DAO::storeValues( $address, $values );
+            
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
                 $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id, false );
@@ -322,9 +321,49 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             } else {
                 $values['address']['display'] = $address->display;
             }
-            return $address;
+            
+            $addresses[$count] = $values;
+            $count++;
         }
-        return CRM_Core_DAO::$_nullObject;
+       
+        return $addresses;
+
+//         // we first get the primary location due to the order by clause
+//         if ($address->find(true)) {
+//             $ids['address'] = $address->id;
+//             if ($flatten) {
+//                 CRM_Core_DAO::storeValues( $address, $values );
+//             } else {
+//                 $values['address'] = array();
+//                 CRM_Core_DAO::storeValues( $address, $values['address'] );
+//             }
+//             // add state and country information: CRM-369
+//             if ( ! empty( $address->state_province_id ) ) {
+//                 $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id, false );
+//                 $address->state_name = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id, false );
+//             }
+//             if ( ! empty( $address->country_id ) ) {
+//                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
+
+//                 //get world region 
+//                 $regionId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', $address->country_id, 'region_id' );
+
+//                 $address->world_region = CRM_Core_PseudoConstant::worldregion( $regionId );
+//             }
+            
+//             $address->addDisplay( $microformat );
+
+//             // FIXME: not sure whether non-DB values are safe to store here
+//             // if so, we should store state_province and country as well and
+//             // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
+//             if ($flatten) {
+//                 $values['display'] = $address->display;
+//             } else {
+//                 $values['address']['display'] = $address->display;
+//             }
+//             return $address;
+//         }
+        // return CRM_Core_DAO::$_nullObject;
     }
     
     /**

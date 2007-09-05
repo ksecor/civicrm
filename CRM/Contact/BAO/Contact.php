@@ -929,8 +929,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         unset($params['id']);
         
         //DO TO: commented because of schema change
-//         require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-//         eval( '$contact->contact_type_object =& CRM_Contact_BAO_' . $contact->contact_type . '::getValues( $params, $defaults, $ids );' );
+
 //         $locParams = $params + array('entity_id' => $params['contact_id'],
 //                                      'entity_table' => self::getTableName());
        
@@ -942,6 +941,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                                                     $ids, 
 //                                                                     $locationCount, 
 //                                                                     $microformat );
+
+        //get the block information for this contact
+        
+        $contact->location  =& CRM_Core_BAO_Location::getValues( $params['contact_id'], 
+                                                                 $defaults, 
+                                                                 $microformat );
+
+
         
         $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
@@ -1716,14 +1723,15 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function getPrimaryLocationType($contactId) 
     {
-        require_once 'CRM/Core/BAO/Location.php';
-        $location =& new CRM_Core_DAO_Location( ); 
-        $location->entity_table = 'civicrm_contact';
-        $location->entity_id    = $contactId;
-        $location->is_primary   = 1;
-        $location->find(true);
+//         require_once 'CRM/Core/BAO/Location.php';
+//         $location =& new CRM_Core_DAO_Location( ); 
+//         $location->entity_table = 'civicrm_contact';
+//         $location->entity_id    = $contactId;
+//         $location->is_primary   = 1;
+//         $location->find(true);
         
-        return $location->location_type_id;
+        //return $location->location_type_id;
+        return 1;
     }
 
 

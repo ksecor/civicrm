@@ -135,13 +135,15 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $blockCount = 0 ) 
+    static function &getValues( $contactId ) 
     {
         $phone =& new CRM_Core_BAO_Phone( );
-        $getValues =& CRM_Core_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
-        foreach ($values['phone'] as $key => $array) {
-            CRM_Core_DAO_Phone::addDisplayEnums($values['phone'][$key]);
+        $getValues =& CRM_Core_BAO_Block::getValues( $phone, 'phone', $contactId );
+
+        foreach ($getValues as $key => $array) {
+            CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key] );
         }
+
         return $getValues;
     }
 
