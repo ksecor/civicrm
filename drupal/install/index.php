@@ -86,14 +86,14 @@ if ( ( strpos( $civicrm_version, 'PHP5'   ) === false) ||
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 
-$drupalVersionFile = $cmsPath . DIRECTORY_SEPARATOR . 'CHANGELOG.txt';
+$drupalVersionFile = implode(DIRECTORY_SEPARATOR, array($cmsPath, 'modules', 'system', 'system.module'));
+
 if ( file_exists( $drupalVersionFile ) ) {
-    $drupal_version = file_get_contents( $drupalVersionFile );
-} else {
-    $drupal_version = 'unknown';
+    require_once $drupalVersionFile;
+    $drupal_version = VERSION;
 }
 
-if ( ( strpos( $drupal_version, 'Drupal 5.0' ) === false ) ) {
+if ( !isset($drupal_version) or version_compare($drupal_version, '5') < 0 ) {
     $errorTitle = "Oops! Incorrect Drupal Version";
     $errorMsg = "This installer can only be used with Drupal 5.x. We extract the Drupal version from the CHANGELOG.txt file in your Drupal home directory. Please ensure that this file exists if you are running Drupal 5.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
     errorDisplayPage( $errorTitle, $errorMsg );
