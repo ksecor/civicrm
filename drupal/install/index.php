@@ -90,12 +90,9 @@ $drupalVersionFile = implode(DIRECTORY_SEPARATOR, array($cmsPath, 'modules', 'sy
 
 if ( file_exists( $drupalVersionFile ) ) {
     require_once $drupalVersionFile;
-    if ( defined( 'VERSION' ) ) {
-        $drupal_version = VERSION;
-    }
 }
 
-if ( !isset($drupal_version) or version_compare($drupal_version, '5') < 0 ) {
+if ( !defined('VERSION') or version_compare(VERSION, '5') < 0 ) {
     $errorTitle = "Oops! Incorrect Drupal Version";
     $errorMsg = "This installer can only be used with Drupal 5.x. Please ensure that '$drupalVersionFile' exists if you are running Drupal 5.0 and over. Refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a> for information about installing CiviCRM on other Drupal versions OR installing CiviCRM for Joomla!";
     errorDisplayPage( $errorTitle, $errorMsg );
