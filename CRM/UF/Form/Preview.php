@@ -270,7 +270,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         if($this->_fields['email-Primary']) {  
             $emailPresent =true;
             require_once 'CRM/Core/BAO/CMSUser.php';
-            CRM_Core_BAO_CMSUser::buildForm($this,$this->_gid,$emailPresent,true);
+            CRM_Core_BAO_CMSUser::buildForm($this,$this->_gid,$emailPresent,CRM_Core_Action::PREVIEW);
         }
         $dao = new CRM_Core_DAO_UFGroup();
         $dao->id = $this->_gid;

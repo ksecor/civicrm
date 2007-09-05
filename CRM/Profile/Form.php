@@ -375,10 +375,12 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->assign( 'showBlocks', $showBlocks ); 
             $this->assign( 'hideBlocks', $hideBlocks ); 
         }
-        if ( $this->_mode == self::MODE_CREATE ) { 
+
+        $action = CRM_Utils_Request::retrieve('action', 'String',$this, false, null );
+        if ( $this->_mode == self::MODE_CREATE  ) { 
             require_once 'CRM/Core/BAO/CMSUser.php';
-            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent, CRM_Core_Action::PREVIEW);
-        } else {                                                          
+            CRM_Core_BAO_CMSUser::buildForm( $this, $this->_gid , $emailPresent ,$action );
+        } else {                                                         
             $this->assign( 'showCMS', false );
         }
         
