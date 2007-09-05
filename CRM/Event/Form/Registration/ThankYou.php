@@ -52,7 +52,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         parent::preProcess( );
         $this->_params = $this->get( 'params' );
         $this->_lineItem = $this->get( 'lineItem' );
-       
+        
         CRM_Utils_System::setTitle(CRM_Utils_Array::value('thankyou_title',$this->_values['event_page']));
     }
 
@@ -101,7 +101,23 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         }
         $this->setDefaults( $defaults );
         
+        require_once 'CRM/Friend/BAO/Friend.php';
+        $eventId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'event_id' );
+        
+        $params['entity_id']    = $eventId;
+        $params['entity_table'] = 'civicrm_event';
+        
+        CRM_Friend_BAO_Friend::retrieve( $params, $data, $ids ) ;
+        if( isset( $data) ) {               
+            $registerText = ts( $data['title'] ) ;
+            $this->assign( 'registerText', $registerText );
+            $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                                         "eid={$eventId}&reset=1&etable=civicrm_event" );                       
+            $this->assign( 'registerURL', $url );
+        }
+                             
         $this->freeze();
+        
     }
     
     /**

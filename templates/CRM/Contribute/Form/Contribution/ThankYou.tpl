@@ -121,4 +121,11 @@
         {$thankyou_footer}
         </p>
     </div>
+
+	{* Show link to Tell a Friend(CRM-2153) *}
+    
+        <div class="action-link">
+            <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
+        </div>
+    	
 </div>

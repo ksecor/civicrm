@@ -100,9 +100,9 @@ class CRM_Core_Invoke
             self::dashboard($args);
             break;
             
-	case 'logout':
-	    self::logout($args);
-	    break;
+        case 'logout':
+            self::logout($args);
+            break;
 	  
         case 'history'  : 
             self::history ( $args );
@@ -144,8 +144,12 @@ class CRM_Core_Invoke
             require_once 'Reports/Zend/Wrapper.php';
             break;
 
+        case 'tell_a_friend':
+            self::friend( $args );
+            break;
+
         default         :
-	    if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
+            if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
             }
             CRM_Utils_System::redirect( );
@@ -155,6 +159,28 @@ class CRM_Core_Invoke
 
         return;
     }
+
+     /**
+     * This function contains the forms related to friend
+     *
+     * @param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
+    static function tell_a_friend( $args ) 
+    {
+        $session =& CRM_Core_Session::singleton();
+        if ( $args[1] !== 'tell_a_friend' ) {
+            return;
+        }
+        
+        $session->pushUserContext( CRM_Utils_System::url('civicrm/tell_a_friend', 'reset=1' ) );
+        $wrapper =& new CRM_Utils_Wrapper( );
+        return $wrapper->run( 'CRM_Friend_Form', ts('Tell A Friend'), null);
+    }
+
+        
 
     /**
      * This function contains the actions for arg[1] = contact

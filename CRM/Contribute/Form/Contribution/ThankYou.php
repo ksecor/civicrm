@@ -159,6 +159,19 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
        
 
         $this->setDefaults( $defaults );
+        require_once 'CRM/Friend/BAO/Friend.php';
+        $values['entity_id'] = $this->_id;
+        $values['entity_table'] = 'civicrm_contribution_page';
+        
+        CRM_Friend_BAO_Friend::retrieve( $values, $data, $ids ) ;
+        if( isset( $data) ) {               
+            $registerText = ts( $data['title'] ) ;
+            $this->assign( 'registerText', $registerText );
+            $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                                         "eid={$this->_id}&reset=1&etable=civicrm_contribution_page" );
+            $this->assign( 'registerURL', $url );
+        }
+        
         $this->freeze();
         // can we blow away the session now to prevent hackery
         $this->controller->reset( );

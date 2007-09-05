@@ -3,7 +3,7 @@ For more information, visit {$general_link}
 {/if}
 
 
-{if $contribution}
+{if $contribute}
 To make a contribution, go to: {$pageURL}
 {/if}
 
