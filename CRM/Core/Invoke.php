@@ -168,7 +168,7 @@ class CRM_Core_Invoke
      * @static
      * @access public
      */
-    static function tell_a_friend( $args ) 
+    static function friend( $args ) 
     {
         $session =& CRM_Core_Session::singleton();
         if ( $args[1] !== 'tell_a_friend' ) {
