@@ -1826,19 +1826,20 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
         
         // use the email id of someone who is on the list, so its kosher and more likely to avoid smtp
-        // relay issues
-        $emailFrom = '"' . $displayName . '" <' . $emailList[0] . '>';
+        $emailFrom = '"' . $emailList[0] . '" <' . $emailList[0] . '>';
 
         if($message) {
-            require_once 'CRM/Utils/Mail.php';
-            CRM_Utils_Mail::send( $emailFrom,
-                                  "",
-                                  $emailList,
-                                  $subject,
-                                  $message,
-                                  null,
-                                  null
-                                  );
+            foreach ( $emailList as $emailTo ) {
+                require_once 'CRM/Utils/Mail.php';
+                CRM_Utils_Mail::send( $emailFrom,
+                                      "",
+                                      $emailTo,
+                                      $subject,
+                                      $message,
+                                      null,
+                                      null
+                                      );
+            }
         }            
     }
     

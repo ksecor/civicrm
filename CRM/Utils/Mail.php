@@ -117,8 +117,6 @@ class CRM_Utils_Mail {
     }
 
     static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null ) {
-        $args = func_get_args( );
-
         require_once 'CRM/Core/DAO/Domain.php';
         $dao = new CRM_Core_DAO_Domain();
         $dao->id = 1;
@@ -142,11 +140,7 @@ class CRM_Utils_Mail {
         $headers['Reply-To']                  = $from;
         $headers['Date']                      = date('r');
 
-        if ( is_array( $toEmail ) ) {
-            $to = $toEmail;
-        } else {
-            $to = array( $toEmail );
-        }
+        $to = array( $toEmail );
         if ( $cc ) {
             $to[] = $cc;
         }
