@@ -318,6 +318,9 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         $locationTypes = array( );
         foreach ( $location as $key => $value ) {
             $blockCount = 1;
+            if ( ! is_array( $value ) ) {
+                continue;
+            }
             foreach ( $value as $k => $val ) { 
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {

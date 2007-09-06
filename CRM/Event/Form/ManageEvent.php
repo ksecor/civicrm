@@ -101,14 +101,6 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
             $defaults['style']     = 'Inline';
         }
         
-        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $inactiveNeeded = true;
-            $viewMode = true;
-        } else {
-            $viewMode = false;
-            $inactiveNeeded = false;
-        }
-        
         return $defaults;
     }
 

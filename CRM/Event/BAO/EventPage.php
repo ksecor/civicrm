@@ -65,6 +65,7 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
         $eventPage  = new CRM_Event_DAO_EventPage( );
         $eventPage->copyValues( $params );
         if ( $eventPage->find( true ) ) {
+            CRM_Core_Error::debug( 'e', $eventPage );
             CRM_Core_DAO::storeValues( $eventPage, $defaults );
             return $eventPage;
         }

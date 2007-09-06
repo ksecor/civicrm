@@ -133,7 +133,8 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     public static function create( &$params, &$ids) 
     {
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         $event = self::add($params, $ids);
         
@@ -178,7 +179,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
             }
         }
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return $event;
     }

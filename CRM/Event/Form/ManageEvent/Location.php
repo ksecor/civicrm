@@ -269,7 +269,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params['location'][1]['location_type_id'] = $defaultLocationType->id;
 
         require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
+        // FIXME: Schema redesign
+        // CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
 
         $ids['event_id']  = $eventId;
         require_once 'CRM/Event/BAO/Event.php';

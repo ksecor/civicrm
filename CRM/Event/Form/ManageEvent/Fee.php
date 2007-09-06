@@ -68,12 +68,14 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     function setDefaultValues( )
     {  
-        $defaults = parent::setDefaultValues( );
+        $parentDefaults = parent::setDefaultValues( );
+
         $eventId = $this->_id;
 
-        $params = array( 'event_id' => $eventId );
+        $params   = array( 'event_id' => $eventId );
+        $defaults = array( );
         CRM_Event_BAO_EventPage::retrieve( $params, $defaults );
-        $eventPageId = $defaults['id'];
+        $eventPageId = CRM_Utils_Array::value( 'id', $defaults );
         
         if ( isset( $eventPageId ) ) {
             require_once 'CRM/Core/BAO/PriceSet.php';
@@ -85,8 +87,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                 CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $defaults );
             }
         }
-        $defaults['id'] = $eventPageId;
+        $defaults = array_merge( $defaults, $parentDefaults );
 
+        $defaults['id'] = $eventPageId;
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
                 if ( $defaults['amount_id'][$i] == $defaults['default_fee_id'] ) {
@@ -153,9 +156,9 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
-            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
+            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
             // value 
-            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
+            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
             $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
             
             // default
