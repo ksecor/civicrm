@@ -56,7 +56,7 @@
 require_once 'CRM/Core/Form.php';
 
 /**
- * This class generates form components for retrying a mailing
+ * This class is to integrate dojo WYSIWYG editor
  * 
  */
 class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
