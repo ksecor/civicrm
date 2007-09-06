@@ -212,6 +212,7 @@ ORDER BY scheduled_date,
         $mailing->id = $this->mailing_id;
         $mailing->find(true);
 
+        $mailing->body_text .= "\n\n{contact.custom_1}\n\n";
         $eq =& new CRM_Mailing_Event_BAO_Queue();
         $eqTable        = CRM_Mailing_Event_BAO_Queue::getTableName();
         $emailTable     = CRM_Core_BAO_Email::getTableName();
@@ -247,8 +248,8 @@ ORDER BY scheduled_date,
         $fields = array( );
         
         if (! empty($testParams)) {
-            $mailing->from_name     = ts('CiviCRM Test Mailer (%1)', array(1 =>
-                                                                           $mailing->from_name));
+            $mailing->from_name     = ts('CiviCRM Test Mailer (%1)',
+                                         array( 1 => $mailing->from_name ) );
             $mailing->subject = ts('Test Mailing:') . ' ' . $mailing->subject;
         }
 
@@ -289,6 +290,12 @@ ORDER BY scheduled_date,
         }
         require_once 'api/Search.php';
         require_once 'api/History.php';
+        $returnProperties = array ( 'first_name'            => 1,
+                                    'last_name'             => 1,
+                                    'email'                 => 1,
+                                    'preferred_mail_format' => 1,
+                                    'display_name'          => 1,
+                                    );
         $details = crm_search( $params, null, null, 0, 0 );
 
         foreach ( $fields as $contactID => $field ) {
