@@ -644,15 +644,15 @@ class CRM_Profile_Form extends CRM_Core_Form
             CRM_Core_BAO_Address::setOverwrite( false );
         }
 
-        require_once 'CRM/Core/BAO/UFGroup.php'; 
-        if ( !$this->_mode == self::MODE_REGISTER ) {            
-            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);                
-            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
-        } 
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
                                                                    $this->_gid, $this->_ctype );
         
+        require_once 'CRM/Core/BAO/UFGroup.php'; 
+        if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {
+            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);                
+            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
+        } 
     }
 }
 
