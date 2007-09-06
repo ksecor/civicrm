@@ -82,13 +82,7 @@
                </td>          
            </tr>
           <tr>
-              <td class="label">
-                {$form.grant_country.label}
-              </td>
-              <td>  
-                {$form.grant_country.html}
-              </td>
-              <td colspan="2">
+              <td></td><td>
                     {$form.grant_report_received.label} {$form.grant_report_received.html}
               </td>
                 
