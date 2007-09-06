@@ -89,6 +89,8 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
             $url = CRM_Utils_System::url('civicrm/grant/search','reset=1&force=1');
         } else if ( $context == 'dashboard' ){
             $url = CRM_Utils_System::url('civicrm/grant','reset=1');
+        } else if( $context == 'edit' ){
+            $url = CRM_utils_System::url('civicrm/contact/view/grant','reset=1&id='.$this->_id.'&cid='.$this->_contactId.'&action=view&context=grant&selectedChild=grant');            
         } else {
             $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=grant&cid=' . $this->_contactId );
         }

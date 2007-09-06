@@ -163,12 +163,17 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
+            $editURL = CRM_Utils_System::url( 'civicrm/contact/view/grant' , 'reset=1&action=update&cid='.$this->_contactID.'&id='.$this->_id.'&context=edit' , true , null , false);
+            
             $this->addButtons(array(  
                                     array ( 'type'      => 'next',  
                                             'name'      => ts('Done'),  
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
 
-                                            'isDefault' => true   )
+                                            'isDefault' => true   ),
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Edit'),
+                                            'js'        => array( 'onclick' => "location.href='{$editURL}'; return false;" ) ),
                                     )
                               );
         
@@ -230,7 +235,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $formValues['decision_date'] = CRM_Utils_Date::format($formValues['decision_date']);
         $formValues['money_transfer_date'] = CRM_Utils_Date::format($formValues['money_transfer_date']);
         $formValues['grant_due_date'] = CRM_Utils_Date::format($formValues['grant_due_date']);
-       
+     
         $ids['note'] = array( );
         if ( $this->_noteId ) {
             $ids['note']['id']   = $this->_noteId;

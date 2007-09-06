@@ -3,6 +3,7 @@
 <fieldset>
      <legend>{ts} View Grant{/ts}</legend>
      <dl class="html-adjust">
+          <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>    
           <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>
           <dt>{$form.grant_type_id.label}</dt><dd>{$form.grant_type_id.html}</dd>
           <dt>{ts}Application Recieved {/ts}</dt><dd>{$form.application_received_date.html}
@@ -15,12 +16,12 @@
           <dt>{$form.grant_report_received.label}</dt><dd>{$form.grant_report_received.html}</dd>  
           <dt>{$form.rationale.label}</dt><dd>{$form.rationale.html}</dd>
           <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-          <dt></dt><dd></dd>  
-          <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
-   
-      </dl>
-  
-    
+          
+     </dl>
+    <div class="spacer"></div>  
+    <dl class="html-adjust">
+         <dt></dt><dd>{$form.buttons.html}</dd>
+    </dl>
 </fieldset>
 </div>        
     

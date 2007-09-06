@@ -56,6 +56,8 @@ class CRM_Grant_BAO_Query
             $query->_select['grant_type_id'] = "civicrm_grant.grant_type_id as grant_type_id";
             $query->_select['grant_status_id' ]  = "civicrm_grant.status_id as grant_status_id";
             $query->_select['grant_amount_requested']  = "civicrm_grant.amount_requested as grant_amount_requested";
+            $query->_select['grant_amount_granted']  = "civicrm_grant.amount_granted as grant_amount_granted";
+            $query->_select['grant_amount_total']  = "civicrm_grant.amount_total as grant_amount_total";
             $query->_select['grant_application_received_date']  = "civicrm_grant.application_received_date as grant_application_received_date ";
             $query->_element['grant_type_id'] = 1;
             $query->_element['grant_status_id'] = 1;
@@ -222,18 +224,48 @@ class CRM_Grant_BAO_Query
         $form->addElement('date', 'grant_application_received_date_high', ts('To'), 
                           CRM_Core_SelectValues::date('relative')); 
         $form->addRule('grant_application_received_date_high', ts('Select a valid date.'), 'qfDate'); 
-
+        $form->addElement('checkbox','grant_application_received_notset', ts(''),null );
+        
         $form->addElement('date', 'grant_money_transfer_date_low', ts('Money Sent Date - From'), 
                           CRM_Core_SelectValues::date('relative')); 
         $form->addRule('grant_money_transfer_date_low', ts('Select a valid date.'), 'qfDate'); 
-        
+               
         $form->addElement('date', 'grant_money_transfer_date_high', ts('To'),
                           CRM_Core_SelectValues::date('relative')); 
         $form->addRule('grant_money_transfer_date_high', ts('Select a valid date.'), 'qfDate'); 
-
-        $form->addElement('checkbox','grant_report_received', ts('Grant report received'),null );
         
-        $form->add( 'text', 'grant_amount_total', ts('Amount total') );
+        $form->addElement('checkbox','grant_money_transfer_date_notset', ts(''),null );
+        
+        $form->addElement('date', 'grant_due_date_low', ts('Report Due Date - From'), 
+                          CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('grant_due_date_low', ts('Select a valid date.'), 'qfDate'); 
+               
+        $form->addElement('date', 'grant_due_date_high', ts('To'),
+                          CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('grant_due_date_high', ts('Select a valid date.'), 'qfDate');
+        
+        $form->addElement('checkbox','grant_due_date_notset', ts(''),null );
+        
+        $form->addElement('date', 'grant_decision_date_low', ts('Grant Decision Date - From'), 
+                          CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('grant_decision_date_low', ts('Select a valid date.'), 'qfDate'); 
+               
+        $form->addElement('date', 'grant_decision_date_high', ts('To'),
+                          CRM_Core_SelectValues::date('relative')); 
+        $form->addRule('grant_decision_date_high', ts('Select a valid date.'), 'qfDate');
+        
+        $form->addElement('checkbox','grant_decision_date_notset', ts(''),null );
+         
+        $form->addYesNo( 'grant_report_received', ts( 'Grant report received?' ) );
+        
+        $country =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::country( );
+        $form->addElement('select', 'grant_country', ts('Country'), $country);
+        
+        $form->add('text', 'grant_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'grant_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );
+        
+        $form->add('text', 'grant_amount_high', ts('Maximum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
+        $form->addRule( 'grant_amount_high', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
         
         $form->assign( 'validGrant', true );
         
