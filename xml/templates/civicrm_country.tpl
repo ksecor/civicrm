@@ -8,10 +8,10 @@
 
 
 INSERT INTO civicrm_worldregion (id, name) VALUES("1", "Europe and Central Asia");
-INSERT INTO civicrm_worldregion (id, name) VALUES("2", "South America, North America and Carribean");
+INSERT INTO civicrm_worldregion (id, name) VALUES("2", "America South, Central, North and Carribean");
 INSERT INTO civicrm_worldregion (id, name) VALUES("3", "Middle East and North Africa");
 INSERT INTO civicrm_worldregion (id, name) VALUES("4", "Asia-Pacific");
-INSERT INTO civicrm_worldregion (id, name) VALUES("5", "Central and South Africa");
+INSERT INTO civicrm_worldregion (id, name) VALUES("5", "Africa West, East, Central and Southern");
 INSERT INTO civicrm_worldregion (id, name) VALUES("99", "unassigned");
 
 
