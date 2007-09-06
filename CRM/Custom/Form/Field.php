@@ -597,6 +597,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
+        
         // set values for custom field properties and save
         $customField                =& new CRM_Core_DAO_CustomField();
         $customField->label         = $params['label'];
@@ -697,6 +698,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $customField->end_date_years   = $params['end_date_years'];
         $customField->note_columns     = $params['note_columns'];
         $customField->note_rows        = $params['note_rows'];
+        
+        if ( ! array_key_exists( 'A', $params['date_parts'] ) ) {
+            unset( $params['date_parts']['h'] );
+            $params['date_parts']['H'] = 1;
+        }
         
         if( is_array($params['date_parts']) ) {
             $customField->date_parts       = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
