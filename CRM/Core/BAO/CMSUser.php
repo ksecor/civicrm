@@ -155,29 +155,34 @@ class CRM_Core_BAO_CMSUser
      * @static
      */ 
     static function buildForm ( &$form, $gid, $emailPresent, $action = CRM_Core_Action::NONE) 
-        {                                      
+        {                                    
             $config =& CRM_Core_Config::singleton( );
             $showCMS = false;
             // if cms is drupal having version greater than equal to 5.1
             // we also need email verification enabled, else we dont do it
             // then showCMS will true
             if ( $config->userFramework == 'Drupal'  &&
-                 $config->userFrameworkVersion >=5.1 &&
-                 variable_get('user_email_verification', TRUE ) ) {  
+                 $config->userFrameworkVersion >=5.1 ) {
                 if ( $gid ) {                                        
                     $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
                 } 
                 // $cms is true when there is email(primary location) is set in the profile field.
                 $session =& CRM_Core_Session::singleton( );                         
                 $userID = $session->get( 'userID' );      
-                if ( $isCMSUser && $emailPresent ) {               
-                    if ( ($action) || (!$action && ! $userID)  ) {
+                $showUserRegistration = false;
+                if ( $action ) { 
+                    $showUserRegistration = true;
+                }elseif (!$action && !$userID ) { ;
+                    $showUserRegistration = true;
+                }
+                if ( $isCMSUser && $emailPresent ) {                
+                    if ( $showUserRegistration ) {  
                         $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
                         $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
                         require_once 'CRM/Core/Action.php';
                         if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
                             $form->add('text', 'cms_name', ts('Username') );
-                            if ( !variable_get('user_email_verification', TRUE )) {         
+                            if ( !variable_get('user_email_verification', TRUE )) {       
                                 $form->add('password', 'cms_pass', ts('Password') );
                                 $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
                             } 
@@ -219,11 +224,11 @@ class CRM_Core_BAO_CMSUser
                 if ( empty( $fields['cms_name'] ) ) {
                     $errors['cms_name'] = ts( 'Please specify a username.' );
                 }
-
+                
                 if ( empty( $fields[ $emailName ] ) ) {
                     $errors[$emailName] = ts( 'Please specify a valid email address.' );
                 }
-
+                
                 if ( ! variable_get('user_email_verification', TRUE ) ) {
                     if ( empty( $fields['cms_pass'] ) ||
                          empty( $fields['cms_confirm_pass'] ) ) {
@@ -233,11 +238,11 @@ class CRM_Core_BAO_CMSUser
                         $errors['cms_pass'] = ts( 'Password and Confirm Password values are not the same.' );
                     }
                 }
-
+                
                 if ( ! empty( $errors ) ) {
                     return $errors;
                 }
-
+                
                 // now check that the drupal db does not have the user name and/or email
                 $params = array( 'name' => $fields['cms_name'],
                                  'mail' => $fields[$emailName] );
