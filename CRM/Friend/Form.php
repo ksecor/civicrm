@@ -33,7 +33,7 @@
  *
  */
 
-require_once 'CRM/Friend/Form/Friend.php';
+require_once 'CRM/Core/Form.php';
 require_once 'CRM/Friend/BAO/Friend.php';
 
 /**
@@ -77,6 +77,8 @@ class CRM_Friend_Form extends CRM_Core_Form
                                                             $this );       
         $this->_entityTable  = CRM_Utils_Request::retrieve( 'etable', 'String',
                                                             $this );
+        $this->_action       = CRM_Utils_Request::retrieve( 'action', 'String', 
+                                                            $this );
         
         if ( $this->_entityTable == 'civicrm_contribution_page' ) {
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
@@ -107,6 +109,10 @@ class CRM_Friend_Form extends CRM_Core_Form
         $this->assign( 'title', $defaults['title'] );
         $this->assign( 'intro', $defaults['intro'] );
         $this->assign( 'message', $defaults['suggested_message'] );
+
+        $defaults['first_name_user'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'first_name');
+        $defaults['last_name_user']  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'last_name');
+        $defaults['email_user']      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',      $this->_contactID, 'email', 'contact_id');
        
         return $defaults;
     }
@@ -225,7 +231,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         $params['activity_date_time'] = date("Ymd"); 
         $params['subject']            = 'Tell a Friend:'.$this->_title;
         $params['details']            = $formValues['suggested_message'];
-        //$params['is_test'] = ;
+        $params['is_test']            = $this->_action ? 1 : 0 ;
 
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Activity/BAO/Activity.php';
@@ -247,6 +253,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         $values['title']        = $this->_title;
         $values['email']        = $formValues['email'];
         $values['general_link'] = $frndParams['general_link'];
+        $values['message']      = $formValues['suggested_message'];
         
         if( $this->_entityTable = 'civicrm_contribution_page' ) {
             $values['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'receipt_from_email', 'id' );

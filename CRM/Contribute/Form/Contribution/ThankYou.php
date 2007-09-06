@@ -167,8 +167,13 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         if( isset( $data) ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );
-            $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+            if( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                                             "eid={$this->_id}&reset=1&action=preview&etable=civicrm_contribution_page" );
+            } else {
+                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
                                          "eid={$this->_id}&reset=1&etable=civicrm_contribution_page" );
+            }
             $this->assign( 'registerURL', $url );
         }
         

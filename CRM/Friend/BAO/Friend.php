@@ -220,12 +220,13 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     static function sendMail( $contactID, &$values )
     {   
         $template =& CRM_Core_Smarty::singleton( );
-          
+        
         require_once 'CRM/Contact/BAO/Contact.php';
-        list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+        
         $first_name = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'first_name');
         $last_name  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'last_name');
-               
+        $email      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',      $contactID, 'email', 'contact_id');
+          
         // set details in the template here
         $template->assign( $values['module'], $values['module'] );        
         $template->assign( 'senderContactFirstName', $first_name ); 
@@ -233,14 +234,17 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $template->assign( 'title', $values['title'] );
         $template->assign( 'generalLink', $values['general_link'] );
         $template->assign( 'pageURL', $values['page_url'] );
+        $template->assign( 'senderMessage', $values['message'] );
                 
         $subject = trim( $template->fetch( 'CRM/Friend/Form/SubjectTemplate.tpl' ) );
-        $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' );             
-        
+        $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' ); 
+
+        $emailFrom = '"' . $first_name.$last_name.$email. '" <' . $values['email_from'] . '>';
+       
         require_once 'CRM/Utils/Mail.php';        
         foreach ( $values['email'] as $emailTo ) {
             if ( $emailTo ) {
-                CRM_Utils_Mail::send( $values['email_from'],
+                CRM_Utils_Mail::send( $emailFrom,
                                       "",
                                       $emailTo,
                                       $subject,

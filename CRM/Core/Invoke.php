@@ -170,12 +170,10 @@ class CRM_Core_Invoke
      */
     static function friend( $args ) 
     {
-        $session =& CRM_Core_Session::singleton();
         if ( $args[1] !== 'tell_a_friend' ) {
             return;
         }
         
-        $session->pushUserContext( CRM_Utils_System::url('civicrm/tell_a_friend', 'reset=1' ) );
         $wrapper =& new CRM_Utils_Wrapper( );
         return $wrapper->run( 'CRM_Friend_Form', ts('Tell A Friend'), null);
     }

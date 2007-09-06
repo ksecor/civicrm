@@ -105,10 +105,10 @@
     {/if}
 
     {* Show link to Tell a Friend(CRM-2153) *}
-    {if $is_active_friend}
+    
         <div class="action-link">
             <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
         </div>
-    {/if}	
+   	
 
 </div>

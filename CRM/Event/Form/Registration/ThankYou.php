@@ -111,8 +111,13 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         if( isset( $data) ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );
-            $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
-                                         "eid={$eventId}&reset=1&etable=civicrm_event" );                       
+            if( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                                             "eid={$eventId}&reset=1&action=preview&etable=civicrm_event" );
+            } else {
+                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                                             "eid={$eventId}&reset=1&etable=civicrm_event" );   
+            }                    
             $this->assign( 'registerURL', $url );
         }
                              

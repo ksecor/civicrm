@@ -1,5 +1,7 @@
-{if $general_link} 
-For more information, visit {$general_link}	
+{$senderMessage}
+
+{if $generalLink} 
+For more information, visit {$generalLink}	
 {/if}
 
 
