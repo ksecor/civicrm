@@ -15,14 +15,20 @@
     <dt class="label">{$form.from_name.label}</dt><dd>{$form.from_name.html}</dd>
     <dt class="label">{$form.from_email.label}</dt><dd>{$form.from_email.html}</dd>
     <dt class="label">{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
-    <dt class="label extra-long-fourty">{$form.textFile.label}</dt>
+    <dt class="label">{$form.upload_type.label}</dt><dd>{$form.upload_type.html}</dd>
+    <fieldset id="compose_id">
+	<dt class="label"></dt><dd>{$form.upload.html}</dd>
+	<dt class="label">{$form.message_file.label}</dt><dd>{$form.message_file.html}</dd>
+    </fieldset>
+
+    <fieldset id="upload_id"><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
         <dd>{$form.textFile.html}<br />
             <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
         </dd>
     <dt class="label extra-long-fourty">{$form.htmlFile.label}</dt>
         <dd>{$form.htmlFile.html}<br />
             <span class="description">{ts}Browse to the <strong>HTML</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
-        </dd>
+        </dd></fieldset>
     <dt class="label extra-long-fourty">{$form.header_id.label}</dt>
         <dd>{$form.header_id.html}<br />
             <span class="description">{ts}You may choose to include a pre-configured Header block above your message.{/ts}</span>
@@ -69,3 +75,25 @@
     <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
   </dl>
 </div>
+
+{* -- Javascript for showing/hiding the upload/compose options -- *}
+{include file="CRM/common/showHide.tpl"}
+{literal}
+<script type="text/javascript">
+{/literal}{literal}
+    document.getElementsByName("upload_type")[0].checked = true;  hide('compose_id');
+
+    function showHideUpload()
+    { 
+	if (document.getElementsByName("upload_type")[0].checked) {
+            hide('compose_id');
+	    show('upload_id');	
+        } else {
+            show('compose_id');
+	    hide('upload_id');	
+        }
+       
+    }
+    
+</script>
+{/literal}

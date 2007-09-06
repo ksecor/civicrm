@@ -86,7 +86,14 @@ class CRM_Mailing_Invoke {
             return $wrapper->run( 'CRM_Mailing_Form_Retry', 
                                   ts('Retry Mailing'), null);
         }
-        
+
+		if ( $secondArg == 'composer' ) {
+            require_once 'CRM/Mailing/Form/Composer/Compose.php';
+            $wrapper =& new CRM_Utils_Wrapper();
+            return $wrapper->run( 'CRM_Mailing_Form_Composer_Compose', 
+                                  ts('Composer'), null);
+        }
+		
         if ( $secondArg == 'component' ) {
             require_once 'CRM/Mailing/Page/Component.php';
             $view =& new CRM_Mailing_Page_Component( );
