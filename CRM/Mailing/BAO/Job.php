@@ -290,12 +290,6 @@ ORDER BY scheduled_date,
         }
         require_once 'api/Search.php';
         require_once 'api/History.php';
-        $returnProperties = array ( 'first_name'            => 1,
-                                    'last_name'             => 1,
-                                    'email'                 => 1,
-                                    'preferred_mail_format' => 1,
-                                    'display_name'          => 1,
-                                    );
         $details = crm_search( $params, null, null, 0, 0 );
 
         foreach ( $fields as $contactID => $field ) {
