@@ -206,7 +206,7 @@ LEFT JOIN civicrm_custom_value
         } else {
             $in = "'$entityType'";
         }
-       
+        
         $domainID = CRM_Core_Config::domainID( );
         if ( $subType ) {
             $strWhere = "
@@ -226,7 +226,7 @@ WHERE civicrm_custom_group.domain_id = $domainID
   AND civicrm_custom_group.extends_entity_column_value IS NULL
 ";
         }
-
+ 
         $params = array( );
         if ($groupId > 0) {
             // since we want a specific group id we add it to the where clause
@@ -243,7 +243,6 @@ WHERE civicrm_custom_group.domain_id = $domainID
             " AND " .
             CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
                                                     'civicrm_custom_group.' );
-
         $orderBy = "
 ORDER BY civicrm_custom_group.weight,
          civicrm_custom_group.title,
@@ -253,13 +252,12 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = $strSelect . $strFrom . $strWhere . $orderBy;
-
+       
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
         // process records
         while($crmDAO->fetch()) {
-
             // get the id's 
             $groupId = $crmDAO->civicrm_custom_group_id;
             $fieldId = $crmDAO->civicrm_custom_field_id;
@@ -824,11 +822,13 @@ ORDER BY civicrm_custom_group.weight,
         case 'Event':
             $tableName = 'civicrm_event';
             break;
-            
+        case 'Grant':
+            $tableName = 'civicrm_grant';
+            break;  
             // need to add cases for Location, Address
         }
-        
-            return $tableName;
+       
+        return $tableName;
     }
     
     /**

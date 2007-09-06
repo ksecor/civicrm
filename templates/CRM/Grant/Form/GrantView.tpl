@@ -16,7 +16,7 @@
           <dt>{$form.grant_report_received.label}</dt><dd>{$form.grant_report_received.html}</dd>  
           <dt>{$form.rationale.label}</dt><dd>{$form.rationale.html}</dd>
           <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
-          
+          {include file="CRM/Contact/Page/View/InlineCustomData.tpl" } 
      </dl>
     <div class="spacer"></div>  
     <dl class="html-adjust">
