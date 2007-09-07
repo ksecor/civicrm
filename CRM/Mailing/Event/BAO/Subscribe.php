@@ -205,7 +205,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         );
 
         $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',
-                                      "reset=1&cid={$this->contact_id}&sid={$this->id}&hash={$this->hash}" );
+                                      "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
 
         $html = $component->body_html;
         require_once 'CRM/Utils/Token.php';
@@ -213,6 +213,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
                                                         $group->name,
                                                         $url, true);
+        
         if ($component->body_text) {
             $text = $component->body_text;
         } else {
@@ -222,6 +223,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
                                                         $group->name,
                                                         $url, false);
+        // render the &amp; entities in text mode, so that the links work
+        $text = str_replace('&amp;', '&', $text);
 
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
@@ -229,9 +232,10 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-        
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+                               array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
     }

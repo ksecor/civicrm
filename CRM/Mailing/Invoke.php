@@ -57,6 +57,7 @@ class CRM_Mailing_Invoke {
         
         $pages = array( 'unsubscribe' => 'Unsubscribe',
                         'optout'      => 'Optout',
+                        'confirm'     => 'Confirm',
                         'component'   => 'Component',
                         'mailcomp'    => 'Component',
                         'browse'      => 'Browse',

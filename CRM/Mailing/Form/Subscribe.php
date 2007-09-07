@@ -122,7 +122,7 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
                                                               $params['email'] );
             if ( $se !== null ) {
                 /* Ask the contact for confirmation */
-                $se->send_confirm_request($email);
+                $se->send_confirm_request($params['email']);
             } else {
                 $success = false;
             }
