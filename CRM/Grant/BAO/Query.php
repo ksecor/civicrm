@@ -93,13 +93,52 @@ class CRM_Grant_BAO_Query
                                       'grant_money_transfer_date', 'money_transfer_date',
                                       'Money Transfer Date' );
             return;
+        
+        case 'grant_money_transfer_date_notset' :
+            $query->_where[$grouping][] =   "civicrm_grant.money_transfer_date IS NULL";
+            $query->_qill[$grouping][]  = "Grant Money Transfer Date is NULL";
+            $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
+            return;
 
+ 
         case 'grant_application_received_date_low':
         case 'grant_application_received_date_high':
             $query->dateQueryBuilder( $values, 'civicrm_grant',
                                       'grant_application_received_date',
                                       'application_received_date', 'Application Received Date' );
             return;
+
+        case 'grant_application_received_notset' :
+            $query->_where[$grouping][] =   "civicrm_grant.application_received_date IS NULL";
+            $query->_qill[$grouping][]  = "Grant Application Received Date is NULL";
+            $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
+            return ;
+        
+        case 'grant_due_date_low':
+        case 'grant_due_date_high':
+            $query->dateQueryBuilder( $values, 'civicrm_grant',
+                                      'grant_due_date',
+                                      'grant_due_date', 'Grant Due Date' );
+            return;
+
+        case 'grant_due_date_notset':
+           $query->_where[$grouping][] =   "civicrm_grant.grant_due_date IS NULL";
+           $query->_qill[$grouping][]  = "Grant Due Date is NULL";
+           $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
+           return ;
+
+
+        case 'grant_decision_date_low':
+        case 'grant_decision_date_high':
+            $query->dateQueryBuilder( $values, 'civicrm_grant',
+                                      'grant_decision_date',
+                                      'decision_date', 'Grant Decision Date' );
+            return;
+        case 'grant_decision_date_notset':
+          $query->_where[$grouping][] =   "civicrm_grant.decision_date IS NULL";
+          $query->_qill[$grouping][]  = "Grant Decision Date is NULL";
+          $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
+          return ;
 
         case 'grant_type_id':
             
@@ -132,26 +171,25 @@ class CRM_Grant_BAO_Query
             return;
    
         case 'grant_report_received':
-            $query->_where[$grouping][] = "civicrm_grant.grant_report_received $op $value";
-            $query->_qill[$grouping][]  = "Grant Report Received";
+
+            if ( $value == 1 ) {
+                $yesNo = 'Yes';
+                $query->_where[$grouping][] =   "civicrm_grant.grant_report_received $op $value";
+            } else if ( $value == 0 ){
+                $yesNo = 'No';
+                $query->_where[$grouping][]  = "civicrm_grant.grant_report_received IS NULL";
+            }
+
+            $query->_qill[$grouping][]  = "Grant Report Received = $yesNo ";
             $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
             
             return;
      
-        case 'grant_amount_total':
-            $query->_where[$grouping][] = "civicrm_grant.amount_total $op $value";
-            $query->_qill[$grouping][]  =  ts( 'Total Amount %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
-            
-            return;
-
-        case 'grant_amount_requested':
-            $query->_where[$grouping][] = "civicrm_grant.amount_requested $op $value";
-            $query->_qill[$grouping][]  =  ts( ' Amount Requested %2 %1', array( 1 => $value, 2 => $op) );
-            $query->_tables['civicrm_grant'] = $query->_whereTables['civicrm_grant'] = 1;
-            
-            return;
-            
+        case 'grant_amount':
+        case 'grant_amount_low':
+        case 'grant_amount_high':
+            $query->numberRangeBuilder( $values,
+                                        'civicrm_grant', 'grant_amount', 'amount_total', 'Total Amount' );
         }
     }
 
@@ -257,9 +295,6 @@ class CRM_Grant_BAO_Query
         $form->addElement('checkbox','grant_decision_date_notset', ts(''),null );
          
         $form->addYesNo( 'grant_report_received', ts( 'Grant report received?' ) );
-        
-        $country =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::country( );
-        $form->addElement('select', 'grant_country', ts('Country'), $country);
         
         $form->add('text', 'grant_amount_low', ts('Minimum Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $form->addRule( 'grant_amount_low', ts( 'Please enter a valid money value (e.g. 9.99).' ), 'money' );

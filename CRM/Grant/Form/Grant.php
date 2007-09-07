@@ -63,7 +63,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      * Function to set variables up before form is built 
      *                                                           
      * @return void 
-     * @access public 
+     * @access public
      */ 
     public function preProcess()  
     {  
@@ -78,7 +78,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             if ( $noteDAO->find(true) ) {
                 $this->_noteId = $noteDAO->id;
             }
-        } 
+        }
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( "Grant", $this->_id, 0 );
+        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
     }
     
     function setDefaultValues( ) 
@@ -98,6 +100,16 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $defaults['application_received_date'] = $now;
             $defaults['grant_due_date']            = $now;
             $defaults['money_transfer_date']       = $now;
+        }
+        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+            $inactiveNeeded = true;
+            $viewMode = true;
+        } else {
+            $viewMode = false;
+            $inactiveNeeded = false;
+        }
+        if( $this->_groupTree ) {
+            CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
         return $defaults;
     }
@@ -149,7 +161,6 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         $this->addElement('checkbox','grant_report_received', ts('Grant report received?'),null );
         $this->add('textarea', 'rationale', ts('Rationale'));
-        
         $this->add( 'text', 'amount_total', ts('Amount total'), null, true );
         $this->addRule('amount_total', ts('Please enter a valid amount.'), 'money'); 
         
@@ -160,6 +171,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         $this->addRule('amount_requested', ts('Please enter a valid amount.'), 'money'); 
 
         $this->add( 'textarea', 'note', ts('Notes'));
+        
+        //build custom data
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
@@ -240,6 +254,47 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
         if ( $this->_noteId ) {
             $ids['note']['id']   = $this->_noteId;
         }
+        
+         // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $formValues[$key] ) {
+                    $files['name'] = $formValues[$key];
+                }
+                if ( $formValues['type'] ) {
+                    $files['type'] = $formValues['type']; 
+                }
+                $formValues[$key] = $files;
+            }
+        }
+       
+        $customData = array( );
+        foreach ( $formValues as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Grant', null, $this->_id);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $formValues['custom'] = $customData;
+        }
+
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Grant' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $formValues['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $formValues['custom'],
+                                                                 '', 'Grant', null, $this->_id);
+                }
+            }
+        }
+
 
         require_once 'CRM/Grant/BAO/Grant.php';
         $case =  CRM_Grant_BAO_Grant::create($formValues ,$ids);

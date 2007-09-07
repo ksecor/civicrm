@@ -24,7 +24,7 @@ You have {$grantSummary.total_grants} grant(s) registered in your database.
 {foreach from=$grantSummary.per_status item=status key=id}
 <tr>
     <td><a href="{crmURL p="civicrm/grant/search" q="reset=1&status=`$id`&force=1"}">{$status.label}</a></td>
-    <td>{$status.total}</td>
+    <td><a href="{crmURL p="civicrm/grant/search" q="reset=1&status=`$id`&force=1"}">{$status.total}</a></td>
 </tr>
 {/foreach}
 <tr class="columnfooter">

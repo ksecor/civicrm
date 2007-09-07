@@ -1,4 +1,4 @@
-{* this template is used for adding/editing/deleting case *} 
+{* this template is used for adding/editing/deleting grant *} 
 <fieldset>
 {if $action eq 1}
     <legend>{ts}New Grant{/ts}</legend>
@@ -69,6 +69,10 @@
             <tr><td class="label">{$form.grant_report_received.label}</td><td>{$form.grant_report_received.html}</td></tr>
             <tr><td class="label">{$form.rationale.label}</td><td>{$form.rationale.html}</td></tr>
             <tr><td class="label">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+            <tr><td colspan=2>
+            {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
+                </td>
+            </tr>
 
             <tr> {* <tr> for add / edit form buttons *}
       	    <td>&nbsp;</td><td>{$form.buttons.html}</td> 

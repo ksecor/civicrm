@@ -721,7 +721,11 @@ SELECT id
         $customField->end_date_years   = $params['end_date_years'];
         $customField->note_columns     = $params['note_columns'];
         $customField->note_rows        = $params['note_rows'];
-
+        
+        if ( ! array_key_exists( 'A', $params['date_parts'] ) ) {
+            unset( $params['date_parts']['h'] );
+            $params['date_parts']['H'] = 1;
+        }
 
         if ( is_array( $params['date_parts'] ) ) {
             $customField->date_parts = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
