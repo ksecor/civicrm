@@ -130,7 +130,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
         
-        return true;
+        return $group->name;
     }
 }
 
