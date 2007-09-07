@@ -620,9 +620,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                       'optOutUrl'      => CRM_Utils_System::url('civicrm/mailing/optout', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
                                                                 true), 
-                      'confirmUrl'     => CRM_Utils_System::url( 'civicrm/mailing/confirm',
-                                                                 "reset=1&cid={$contact_id}&sid={$subscribe_id}&h={$hash}",
-                                                                 true ),
                       );
 
         $headers = array(

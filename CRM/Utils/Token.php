@@ -468,9 +468,12 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceSubscribeTokens($str, $group, $html) {
+    public static function &replaceSubscribeTokens($str, $group, $url, $html) {
         if (self::token_match('subscribe', 'group', $str)) {
             self::token_replace('subscribe', 'group', $group, $str);
+        }
+        if (self::token_match('subscribe', 'url', $str)) {
+            self::token_replace('subscribe', 'url', $url, $str);
         }
         return $str;
     }

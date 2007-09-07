@@ -33,7 +33,9 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';require_once 'CRM/Mailing/BAO/Mailing.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Mailing/BAO/Mailing.php';
+
     /**
      * Build the form for disable mail feature 
      *

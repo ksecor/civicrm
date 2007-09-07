@@ -76,6 +76,13 @@ class CRM_Mailing_Invoke {
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
         }
 
+        if ( $secondArg == 'subscribe' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::baseURL());
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Mailing_Form_Subscribe', ts( 'Subscribe' ), null );
+        }
+
         if ( $secondArg == 'retry' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(
