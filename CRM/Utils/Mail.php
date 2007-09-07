@@ -117,7 +117,6 @@ class CRM_Utils_Mail {
     }
 
     static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null ) {
-
         require_once 'CRM/Core/DAO/Domain.php';
         $dao = new CRM_Core_DAO_Domain();
         $dao->id = 1;
