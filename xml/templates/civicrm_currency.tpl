@@ -1,5 +1,5 @@
 -- currencies
-INSERT INTO civicrm_currency (id, name, symbol, code, full_name) VALUES
+INSERT INTO civicrm_currency (id, name, symbol, numeric_code, full_name) VALUES
 (  1, "AUD",  "$", "036", "Australian Dollar"),
 (  2, "CAD",  "$", "124", "Canadian Dollar"),
 (  3, "EUR",  "€", "978", "Euro"),
