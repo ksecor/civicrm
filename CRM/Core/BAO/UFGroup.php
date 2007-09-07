@@ -1834,12 +1834,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $template->assign( 'contactLink',$contactLink);
         
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
-        $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );             
-        $emailFrom = '"' . $displayName . '" <' . $email . '>';
-       
+        $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
+        
+        // use the email id of someone who is on the list, so its kosher and more likely to avoid smtp
+        $emailFrom = '"' . $emailList[0] . '" <' . $emailList[0] . '>';
+
         if($message) {
-            require_once 'CRM/Utils/Mail.php';
-            foreach ( $emailList as $emailTo ) {  
+            foreach ( $emailList as $emailTo ) {
+                require_once 'CRM/Utils/Mail.php';
                 CRM_Utils_Mail::send( $emailFrom,
                                       "",
                                       $emailTo,
@@ -1864,7 +1866,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @return array
      * @access public  
      */ 
-    function checkFieldsEmptyValues( $gid,$cid,$params ) 
+    function checkFieldsEmptyValues( $gid, $cid, $params ) 
     {
         if ( $gid ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
