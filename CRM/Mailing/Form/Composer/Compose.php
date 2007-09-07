@@ -89,10 +89,10 @@ class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
         $this->addButtons(array( 
                                 array ( 'type'      => 'submit',
                                         'name'      => ts('Save'), 
-                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                        'isDefault' => true   ),
-                                )
-                          );
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'js'         => array( 'onclick' => 'window.close();' ),
+                                        'isDefault' => true ),
+                                ) );
 
     }
 
@@ -182,7 +182,7 @@ class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
             }
             $contents["_".$file_type] = $content;
         }
-        
+       
       }//end of function
     
     public function getTitle() 
