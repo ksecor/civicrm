@@ -198,27 +198,21 @@ class CRM_Friend_Form extends CRM_Core_Form
     {
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-       
+        
         //create params for friend's contact
-        $temp = array();
+        $friends = array();
         for ( $i=1; $i<=self::NUM_OPTION; $i++ ) {
             foreach ( $formValues as $k => $v ) {
-                if( $k == 'first_name') {
-                    $temp[$i][$k] = $v[$i] ;
-                } elseif ( $k == 'last_name' ) {
-                    $temp[$i][$k] = $v[$i] ;
-                }  elseif ( $k == 'email' ) {
-                    $temp[$i]['contact_type']   = 'Individual';
-                    $temp[$i]['contact_source'] = 'Tell a Friend:'.$this->_title;
-                    $temp[$i]['location'][1]['is_primary'] = 1;
-                    $temp[$i]['location'][1]['email'][1]['email'] = $v[$i];  
-                    $temp[$i]['location'][1]['email'][1]['is_primary'] = 1;
+                if( $k == 'first_name' && $v[$i] ) {
+                    $friends[$i][$k] = $v[$i] ;
+                } elseif ( $k == 'last_name' && $v[$i] ) {
+                    $friends[$i][$k] = $v[$i] ;
+                }  elseif ( $k == 'email' && $v[$i] ) {                    
+                    $friends[$i]['email'] = $v[$i];                      
                 }
-            }
-            
-        } 
-
-
+            }            
+        }   
+        
         $frndParams = array( );
         $frndParams['entity_id']    = $this->_entityId;
         $frndParams['entity_table'] = $this->_entityTable;  
@@ -238,16 +232,29 @@ class CRM_Friend_Form extends CRM_Core_Form
         require_once 'CRM/Activity/DAO/ActivityTarget.php';
         $ids = array(); 
         $activity = CRM_Activity_BAO_Activity::createActivity($params,$ids);     
-       
-        //create friend contacts and entry in activity target table
-        $ids = array(); 
-        foreach ( $temp as $k => $v ) {
-            $contact[$k]            =& CRM_Contact_BAO_Contact::create( $v, $ids, 1, true, false );
-            $dao                    =& new CRM_Activity_DAO_ActivityTarget;
-            $dao->activity_id       = $activity->id;
-            $dao->target_contact_id = $contact[$k]->id;
-            $dao->save();
-        }  
+        
+        //create friend contacts and entry in activity target table        
+        foreach ( $friends as $k => $v ) {
+            if ( count($v) == 3 ) {
+                //checking if first name, last name and email is present
+                $v['contact_type']   = 'Individual';
+                $v['contact_source'] = 'Tell a Friend:'.$this->_title;
+                $v['location'][1]['is_primary'] = 1;
+                $v['location'][1]['email'][1]['email'] = $v['email']; 
+                $v['location'][1]['email'][1]['is_primary'] = 1;
+                unset($v['email']);
+
+                //create friend's contact
+                $ids = array(); 
+                $contact[$k]            =& CRM_Contact_BAO_Contact::create( $v, $ids, 1, true, false );
+
+                //create activity for friends
+                $dao                    =& new CRM_Activity_DAO_ActivityTarget;
+                $dao->activity_id       = $activity->id;
+                $dao->target_contact_id = $contact[$k]->id;
+                $dao->save();
+            }  
+        }
         
         //create params for sending mails
         $values['title']        = $this->_title;
