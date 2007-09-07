@@ -601,7 +601,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         }
         $this->addGroup($options, $name, $title, $separator);
         if ($required) {
-            $this->addRule($name, $title, 'required');
+            $this->addRule($name, ts('%1 is a required field.', array(1 => $title)), 'required');
         }           
     }
 
@@ -615,7 +615,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         $group =& $this->addGroup( $choice, $id, $title );
 
         if ( $required ) {
-            $this->addRule($id, $title,'required');
+            $this->addRule($id,  ts('%1 is a required field.', array(1 => $title)),'required');
         }
     }
 
@@ -641,7 +641,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
         }
         if ( $required ) {
-            $this->addRule($id, $title, 'required');
+            $this->addRule($id,  ts('%1 is a required field.', array(1 => $title)), 'required');
         }
     }
                           

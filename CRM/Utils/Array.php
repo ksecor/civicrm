@@ -73,7 +73,12 @@ class CRM_Utils_Array {
     static function key( $value, &$list ) {
         if ( is_array( $list ) ) {
             $key = array_search( $value, $list );
-            return $key ? $key : null;
+            
+            // array_search returns key if found, false otherwise 
+            // it may return values like 0 or empty string which
+            // evaluates to false
+            // hence we must use identical comparison operator
+            return ($key === false) ? null : $key;
         }
         return null;
     }
