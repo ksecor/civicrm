@@ -60,7 +60,8 @@ VALUES
     (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Welcome{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}',1,1),
     (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Unsubscribe results{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}',1,1),
     (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Goodbye{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}',1,1),
-    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1);
+    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1),
+    (@domain_id,'Resubscribe Message','Resubscribe','Resubscribe results','You have been resubscribed to {ldelim}resubscribe.group{rdelim}.','You have been resubscribed to {ldelim}unsubscribe.group{rdelim}.',1,1);
 
 
 

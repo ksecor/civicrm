@@ -68,6 +68,17 @@
         <key>id</key>
   </foreignKey>
   <field>
+        <name>resubscribe_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+        <comment>FK to the resubscribe component.</comment>
+  </field>
+  <foreignKey>
+        <name>resubscribe_id</name>
+        <table>civicrm_mailing_component</table>
+        <key>id</key>
+  </foreignKey>
+  <field>
         <name>optout_id</name>
         <type>int unsigned</type>
         <required>true</required>
