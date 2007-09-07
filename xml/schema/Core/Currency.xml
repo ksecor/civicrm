@@ -32,4 +32,19 @@
        <comment>Currency Symbol</comment>
        <add>1.7</add>
   </field>
+  <field>
+       <name>numeric_code</name>
+       <type>varchar</type>
+       <length>3</length>
+       <import>true</import>
+       <comment>Numeric currency code</comment>
+       <add>1.9</add>
+  </field>
+  <field>
+       <name>full_name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>Full currency name</comment>
+       <add>1.9</add>
+  </field>
 </table>
