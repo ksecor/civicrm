@@ -142,6 +142,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), 
                     CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
 
+        $this->add( 'select', 'resubscribe_id', ts( 'Resubscribe Message' ), 
+                    CRM_Mailing_PseudoConstant::component( 'Resubscribe' ), true );
+
         $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), 
                     CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
         
@@ -165,8 +168,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     {
         $params = $ids       = array( );
         $uploadParams        = array ( 
-                                      'header_id', 'footer_id', 'reply_id', 'unsubscribe_id', 'optout_id', 
-                                      'textFile', 'htmlFile', 'subject', 'from_name', 'from_email'
+                                      'header_id', 'footer_id', 'reply_id', 'unsubscribe_id', 'resubscribe_id', 
+                                      'optout_id', 'textFile', 'htmlFile', 'subject', 'from_name', 'from_email'
                                       );
         
         $uploadParamsBoolean = array( 
