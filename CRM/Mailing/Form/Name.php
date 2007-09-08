@@ -78,16 +78,6 @@ class CRM_Mailing_Form_Name extends CRM_Core_Form {
         $this->addRule('name', ts('Name already exists in Database.'),
                        'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
-        /**
-        $template =& CRM_Mailing_PseudoConstant::template( );
-        if ( ! empty( $template ) ) {
-            $template = array( '' => '-select-' ) + $template;
-            $this->add('select'  , 'template'    , ts('Mailing Template'), $template );
-        }
-
-        $this->add('checkbox', 'is_template' , ts('Mailing Template?'));
-        **/
-
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
