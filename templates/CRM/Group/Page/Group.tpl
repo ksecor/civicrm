@@ -17,6 +17,7 @@
       <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
       <th field="ID" dataType="Integer" scope="col">{ts}ID{/ts}</th>
       <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
+      <th field="GroupType" dataType="String" scope="col">{ts}Group Type{/ts}</th>
       <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
       <th datatype="html"></th>
      </tr>
@@ -30,6 +31,7 @@
         <td>
             {$row.description|mb_truncate:80:"...":true}
         </td>
+        <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
         <td>{$row.action}</td>
      </tr>

@@ -483,7 +483,7 @@ function crm_update_contact_membership($params)
         $activitySummary .= " - {$membershipBAO->source}";
     }
     
-    if ( $membership->owner_membership_id ) {
+    if ( $membershipBAO->owner_membership_id ) {
         $cid         = CRM_Core_DAO::getFieldValue(
                                                    'CRM_Member_DAO_Membership',
                                                    $membershipBAO->owner_membership_id,

@@ -102,6 +102,18 @@
        <comment>the tables to be included in the count statement</comment>
        <add>1.6</add>
   </field>
+  <field>
+      <name>group_type</name>
+      <type>varchar</type>
+      <length>128</length>
+      <comment>FK to group type</comment>
+      <add>1.9</add>
+  </field>
+  <index>
+     <name>index_group_type</name>
+     <fieldName>group_type</fieldName>     
+     <add>1.9</add>
+  </index>
   <index>
     <name>UI_title_domain_id</name>
     <fieldName>title</fieldName>

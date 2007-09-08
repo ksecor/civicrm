@@ -99,7 +99,8 @@ VALUES
    (@domain_id, 'contact_edit_options'          , '{ts}Contact Edit Options{/ts}'               , 0, 1),
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
-   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1);
+   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
+   (@domain_id, 'group_type'                    , '{ts}Group Type{/ts}'                         , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -120,6 +121,7 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
+SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -235,17 +237,21 @@ VALUES
   (@option_group_id_udOpt, 'Memberships'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, 'Events'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 
-  (@option_group_id_adOpt, 'Street Address'   ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Street Address'    ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Addt\'l Address 1' ,  2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Addt\'l Address 2' ,  3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'City'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Zip / Postal Code',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'City'              ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Zip / Postal Code' ,  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Postal Code Suffix',  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'County'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'State / Province' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Country'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Latitude'         , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Longitude'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 );
+  (@option_group_id_adOpt, 'County'            ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'State / Province'  ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Country'           ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Latitude'          , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Longitude'         , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+
+  (@option_group_id_gType, 'Mailing List'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+  (@option_group_id_gType, 'Access Control'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+
 
 -- sample membership status entries
 INSERT INTO

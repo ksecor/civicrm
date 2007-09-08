@@ -35,9 +35,9 @@ VALUES
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
 VALUES
-   (1,'User Registration','','',1,1),
-   (1,'User Account','','',1,1),
-   (1,'Profile','','',1,1);
+   (1,'User Registration','',NULL,1,1),
+   (1,'User Account','',NULL,1,1),
+   (1,'Profile','',NULL,1,1);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_monetary,is_allow_other_amount,default_amount_id,min_amount,max_amount,goal_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,cc_receipt,bcc_receipt,receipt_text,is_active,footer_text,amount_block_is_active,is_thermometer,thermometer_title,honor_block_is_active,honor_block_title,honor_block_text)
