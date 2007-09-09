@@ -163,6 +163,86 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         return $groups;
     }
 
+
+    /**
+     * Send a reponse email informing the contact of the groups to which he/she
+     * has been resubscribed.
+     *
+     * @param string $queue_id      The queue event ID
+     * @param array $groups         List of group IDs
+     * @param bool $is_domain       Is this domain-level?
+     * @param int $job              The job ID
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function send_resub_response($queue_id, $groups, $is_domain = false, $job) {
+        // param is_domain is not supported as of now.
+
+        $config =& CRM_Core_Config::singleton();
+        $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
+
+        $contacts = CRM_Contact_DAO_Contact::getTableName();
+        $email    = CRM_Core_DAO_Email::getTableName();
+        $queue    = CRM_Mailing_Event_BAO_Queue::getTableName();
+        
+        $component =& new CRM_Mailing_BAO_Component();
+        $component->component_type = 'Resubscribe';
+        $component->find(true);
+
+        $html = $component->body_html;
+        if ($component->body_text) {
+            $text = $component->body_text;
+        } else {
+            $text = CRM_Utils_String::htmlToText($component->body_html);
+        }
+
+        $eq =& new CRM_Core_DAO();
+        $eq->query(
+        "SELECT     $contacts.preferred_mail_format as format,
+                    $contacts.id as contact_id,
+                    $email.email as email,
+                    $queue.hash as hash
+        FROM        $contacts
+        INNER JOIN  $queue ON $queue.contact_id = $contacts.id
+        INNER JOIN  $email ON $queue.email_id = $email.id
+        WHERE       $queue.id = " 
+                    . CRM_Utils_Type::escape($queue_id, 'Integer'));
+        $eq->fetch();
+
+        $message =& new Mail_Mime("\n");
+        require_once 'CRM/Utils/Token.php';
+        if ($eq->format == 'HTML' || $eq->format == 'Both') {
+            $html = 
+                CRM_Utils_Token::replaceResubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
+            $message->setHTMLBody($html);
+        }
+        if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
+            $text = 
+                CRM_Utils_Token::replaceResubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
+            $message->setTxtBody($text);
+        }
+        $headers = array(
+            'Subject'       => $component->subject,
+            'From'          => ts('"%1 Administrator" <%2>',
+                array(  1 => $domain->name, 
+                        2 => "do-not-reply@{$domain->email_domain}")),
+            'To'            => $eq->email,
+            'Reply-To'      => "do-not-reply@{$domain->email_domain}",
+            'Return-Path'   => "do-not-reply@{$domain->email_domain}"
+        );
+
+        $b = $message->get();
+
+        $h = $message->headers($headers);
+        $mailer =& $config->getMailer();
+
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+        $mailer->send($eq->email, $h, $b);
+        CRM_Core_Error::setCallback();
+    }
+
 }
 
 ?>
