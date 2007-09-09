@@ -55,6 +55,7 @@ require_once 'CRM/Mailing/Event/BAO/Queue.php';
 require_once 'CRM/Mailing/Event/BAO/Reply.php';
 require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
+require_once 'CRM/Mailing/Event/BAO/Resubscribe.php';
 require_once 'CRM/Mailing/Event/BAO/Forward.php';
 
 
@@ -115,6 +116,25 @@ function crm_mailer_event_domain_unsubscribe($job, $queue, $hash) {
     CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue, null, 
                                                             true, $job);
     return true;
+}
+
+/**
+ * Handle a resubscription event
+ *
+ * @param string $email     The email address to resubscribe
+ * @param int $group_id     The group of the resubscription
+ * @param string $hash      Security hash
+ * @return boolean
+ */
+function crm_mailer_event_resubscribe($job, $queue, $hash) {
+    $groups =&
+        CRM_Mailing_Event_BAO_Resubscribe::resub_to_mailing($job, $queue, $hash);
+    
+    if (count($groups)) {
+        CRM_Mailing_Event_BAO_Resubscribe::send_resub_response($job, $queue, $hash);
+        return true;
+    }
+    return false;
 }
 
 /**

@@ -56,6 +56,7 @@ class CRM_Mailing_Invoke {
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
         
         $pages = array( 'unsubscribe' => 'Unsubscribe',
+                        'resubscribe' => 'Resubscribe',
                         'optout'      => 'Optout',
                         'confirm'     => 'Confirm',
                         'component'   => 'Component',

@@ -15016,6 +15016,28 @@ sub process($$) {
             } else {
                 do_log(1, "CiviCRM: failed unsubscribe event: $verpInfo");
             }
+        } elsif ($dest eq 'resubscribe') {
+            # resubscription
+            while (1) {
+                $result = 
+                    $soapClient->mailer_event_resubscribe($soapKey,
+							  $jobId, $qId, $hash);
+
+                last unless $result->fault;
+                
+                if ($attempt < 1) {
+                    authenticate($domainId);
+                    $attempt++;
+                    next;
+                }
+                soapError($result->faultstring);
+            }
+
+            if ($result->result == 1) {
+                do_log(2, "CiviCRM: succesful resubscribe event: $verpInfo");
+            } else {
+                do_log(1, "CiviCRM: failed resubscribe event: $verpInfo");
+            }
         } elsif ($dest eq 'confirm') {
             # opt-in
             while (1) {

@@ -34,70 +34,15 @@
  */
 
 
-require_once 'Mail/mime.php';
-require_once 'CRM/Utils/Verp.php';
-
-require_once 'CRM/Mailing/Event/DAO/Resubscribe.php';
-
 class CRM_Mailing_Event_BAO_Resubscribe {
 
     /**
-     * class constructor
-     */
-    function __construct( ) {
-        parent::__construct( );
-    }
-
-    /**
-     * Resubscribe a contact to the domain
+     * Resubscribe a contact to the groups, he/she was unsubscribed from.
      *
      * @param int $job_id       The job ID
      * @param int $queue_id     The Queue Event ID of the recipient
      * @param string $hash      The hash
-     * @return boolean          Was the contact succesfully resubscribed?
-     * @access public
-     * @static
-     */
-    public static function resub_to_domain($job_id, $queue_id, $hash) {
-        $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
-        if (! $q) {
-            return false;
-        }
-        CRM_Core_DAO::transaction('BEGIN');
-        $contact =& new CRM_Contact_BAO_Contact();
-        $contact->id = $q->contact_id;
-        $contact->is_opt_out = false;
-        $contact->save();
-        
-        $ue =& new CRM_Mailing_Event_BAO_Unsubscribe();
-        $ue->event_queue_id = $queue_id;
-        $ue->org_unsubscribe = 1;
-        //$ue->time_stamp = date('YmdHis');
-        if ( $ue->find(true) ) {
-            $ue->delete();
-        }
-
-        $shParams = array(
-                          'contact_id'    => $q->contact_id,
-                          'group_id'      => null,
-                          'status'        => 'Added',
-                          'method'        => 'Email',
-                          'tracking'      => $ue->id
-                          );
-        CRM_Contact_BAO_SubscriptionHistory::create($shParams);
-        
-        CRM_Core_DAO::transaction('COMMIT');
-        
-        return true;
-    }
-
-    /**
-     * Resubscribe a contact from all groups that received this mailing
-     *
-     * @param int $job_id       The job ID
-     * @param int $queue_id     The Queue Event ID of the recipient
-     * @param string $hash      The hash
-     * @return array|null $groups    Array of all groups from which the contact was removed, or null if the queue event could not be found.
+     * @return array|null $groups    Array of all groups to which the contact was added, or null if the queue event could not be found.
      * @access public
      * @static
      */
@@ -105,6 +50,14 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         /* First make sure there's a matching queue event */
         $q =& CRM_Mailing_Event_BAO_Queue::verify($job_id, $queue_id, $hash);
         if (! $q) {
+            return null;
+        }
+
+        // check if this queue_id was actually unsubscribed 
+        $ue =& new CRM_Mailing_Event_BAO_Unsubscribe();
+        $ue->event_queue_id = $queue_id;
+        $ue->org_unsubscribe = 0;
+        if (! $ue->find(true)) {
             return null;
         }
         
@@ -137,7 +90,6 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         
         while ($do->fetch()) {
             if ($do->entity_table == $group) {
-                //$groups[$do->entity_id] = true;
                 $groups[$do->entity_id] = $do->entity_table;
             } else if ($do->entity_table == $mailing) {
                 $mailings[] = $do->entity_id;
@@ -182,32 +134,31 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         while ($do->fetch()) {
             $groups[$do->group_id] = $do->title;
         }
-        
+
         $contacts = array($contact_id);
         
         foreach ($groups as $group_id => $group_name) {
             
             if ( $group_name == 'civicrm_group' ) {
-                list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email', 'Added');
+                list($total, $added, $notadded) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email', 'Removed');
             } else {
-                list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email');
+                list($total, $added, $notadded) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email');
                 //CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email', $queue_id);
             }
             
-            if ($notremoved) {
-                
+            if ($notadded) {
                 unset($groups[$group_id]);
             }
         }
         
+        // remove entry from Unsubscribe table.
         $ue =& new CRM_Mailing_Event_BAO_Unsubscribe();
         $ue->event_queue_id = $queue_id;
         $ue->org_resubscribe = 0;
-        //$ue->time_stamp = date('YmdHis');
         if ($ue->find(true)) {
             $ue->delete();
         }
-        
+
         CRM_Core_DAO::transaction('COMMIT');
         return $groups;
     }
