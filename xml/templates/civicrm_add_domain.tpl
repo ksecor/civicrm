@@ -249,8 +249,8 @@ VALUES
   (@option_group_id_adOpt, 'Latitude'          , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Longitude'         , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
 
-  (@option_group_id_gType, 'Mailing List'    , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-  (@option_group_id_gType, 'Access Control'  , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
 
 
 -- sample membership status entries

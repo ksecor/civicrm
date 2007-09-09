@@ -70,8 +70,8 @@ class CRM_Core_Permission_Joomla {
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( ) {
-        return CRM_Core_PseudoConstant::allGroup( );
+    public static function &group( $groupType ) ${
+        return CRM_Core_PseudoConstant::allGroup( $groupType );
     }
 
     /**
