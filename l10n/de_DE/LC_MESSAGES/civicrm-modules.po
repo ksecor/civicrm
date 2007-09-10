@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-08-16 14:17-0700\n"
-"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
+"PO-Revision-Date: 2007-09-05 06:16-0700\n"
+"Last-Translator: Christoph Adl <griffi@gmx.at>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -195,7 +195,7 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Profile Fields"
-msgstr ""
+msgstr "Profilfelder"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -375,7 +375,7 @@ msgstr "Teilnehmer exportieren"
 
 #: CRM/Event/Import/Form/MapField.php CRM/Member/Import/Form/MapField.php
 msgid "Duplicate Import Membership Mapping Name"
-msgstr "Dubliziere Import-Mitglieds-Mapping-Namen"
+msgstr "Dupliziere Import-Mitglieds-Mapping-Namen"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
@@ -387,7 +387,7 @@ msgstr "Laufend"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr "Abschließen"
+msgstr "Abgeschlossen"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
@@ -456,7 +456,7 @@ msgstr "Sofort versenden"
 #: CRM/Mailing/Form/Retry.php CRM/Mailing/Invoke.php
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Retry Mailing"
-msgstr "Mailing wiederholen "
+msgstr "Mailing wiederholen"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
@@ -545,6 +545,10 @@ msgid ""
 "Pages, or Membership Types. Consider disabling this type instead if you no "
 "longer want it used."
 msgstr ""
+"Dieser Spendentyp kann nicht gelöscht werden, da er von einem oder mehreren "
+"der folgenden Datensatztypen verwendet wird: Spenden, Spendenseiten oder "
+"Mitgliedstypen. Erwägen sie stattdessen diesen Spendentyp zu deaktivieren, "
+"wenn sie ihn nicht mehr verwenden wollen."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
 msgid ""
