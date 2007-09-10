@@ -17,10 +17,13 @@
     <dt class="label">{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt class="label">{$form.upload_type.label}</dt><dd>{$form.upload_type.html}</dd>
     <fieldset id="compose_id">
-	<dt class="label"></dt><dd>{$form.upload.html}</dd>
-	<dt class="label">{$form.message_file.label}</dt><dd>{$form.message_file.html}</dd>
+	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
+  	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
+	<dt>{$form.html_message.label}</dt><dd>{$form.html_message.html}</dd>
+	<dt>{$form.updateTemplate.label}</dt><dd>{$form.updateTemplate.html}</dd>
+	<dt>{$form.saveNewTemplate.label}</dt><dd>{$form.saveNewTemplate.html}</dd>	
+	<div id="save"><dt>{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
     </fieldset>
-
     <fieldset id="upload_id"><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
         <dd>{$form.textFile.html}<br />
             <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
@@ -37,7 +40,7 @@
         <dd>{$form.footer_id.html}<br />
             <span class="description">{ts}You may choose to include a pre-configured Footer block below your message. This is a good place to include the required unsubscribe, opt-out and postal address tokens.{/ts}</span>
         </dd>
-    </dl>
+    </dl> 
   </fieldset>
   <fieldset><legend>{ts}Tracking{/ts}</legend> 
     <dl>
@@ -82,7 +85,7 @@
 <script type="text/javascript">
 {/literal}{literal}
     document.getElementsByName("upload_type")[0].checked = true;  hide('compose_id');
-
+    hide('save');
     function showHideUpload()
     { 
 	if (document.getElementsByName("upload_type")[0].checked) {
@@ -92,8 +95,22 @@
             show('compose_id');
 	    hide('upload_id');	
         }
-       
     }
-    
+   
+    function showSave(chkbox)
+    { 
+	if (chkbox.checked) {
+            show('save');
+        } else {
+            hide('save');
+        }
+    }
+    function selectValue(val)
+     {
+       var tokens = val.split( "^A" );
+       dojo.byId('text_message').value=tokens[0];
+       dojo.byId('html_message').value=tokens[2];	 
+     }
+ 
 </script>
 {/literal}

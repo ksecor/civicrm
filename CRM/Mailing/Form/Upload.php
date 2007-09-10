@@ -115,11 +115,38 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( '0' => ts('Upload'), '1' => ts('Compose') );
         $this->addRadio( 'upload_type', ts('Message'), $options, $attributes, "<br />");
-        
-        $url = CRM_Utils_System::url('civicrm/mailing/composer');
-        
-        $this->addElement('button', 'upload', ts('Open Composer'), array('onclick' => "window.open('{$url}');"));
-        $this->add('text', 'message_file', ts('Composed Mailing Name'));
+
+
+        require_once 'CRM/Core/BAO/MessageTemplates.php';
+        $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
+        $this->assign('templates', $this->_templates);
+        $dojoAttributes = array( 'dojoType'       => 'Select',
+                                 'style'          => 'width: 300px;',
+                                 'autocomplete'   => 'false',
+                                 'onValueChanged' => 'selectValue',
+                                 'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/message',
+                                                                            "d=$domain->id" ),
+                                 );
+        if (! empty( $this->_templates ) ){
+            $this->add('select', 'template', ts('Select Template'), null, false, $dojoAttributes );
+            $this->add('checkbox','updateTemplate',ts('Update Template'), null);
+        } else {
+            $this->add('text', 'template', ts('Name Template') );
+            $this->addElement('checkbox','saveNewTemplate',ts('Save New Template'), null,
+                       array( 'onclick' => "showSave(this);" ));
+        }
+
+        //insert message Text by selecting "Select Template option"
+        $this->add( 'textarea', 
+                    'text_message', 
+                    ts('Text Message'),
+                    array('cols' => '56', 'rows' => '7'));
+                
+        $this->add( 'textarea', 
+                    'html_message', 
+                    ts('HTML Message'),
+                    array('cols' => '56', 'rows' => '7'));
+       
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -166,11 +193,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $params = $ids       = array( );
         $uploadParams        = array ( 
                                       'header_id', 'footer_id', 'reply_id', 'unsubscribe_id', 'optout_id', 
-                                      'textFile', 'htmlFile', 'subject', 'from_name', 'from_email'
+                                      'textFile', 'htmlFile', 'subject', 'from_name', 'from_email', 
+                                      'template', 'text_message', 'html_message'
                                       );
         
         $uploadParamsBoolean = array( 
-                                     'is_template', 'forward_replies', 'url_tracking',
+                                     'forward_replies', 'url_tracking',
                                      'open_tracking', 'auto_responder'
                                      );
         
@@ -180,17 +208,27 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $params[$key] = $this->controller->exportvalue($this->_name, $key);
             $this->set($key, $this->controller->exportvalue($this->_name, $key));
         }
-        
-        foreach ( $fileType as $key ) {
-            if( file_get_contents($this->controller->exportvalue($this->_name, $key) ) ) { 
-                $params['body_'. substr($key,0,4 )] = file_get_contents($this->controller->exportvalue($this->_name, $key) );
-            } else {
-                $params['body_'. substr($key,0,4 )] = 'NULL';
+        if ( !$this->controller->exportvalue($this->_name, 'upload_type')) {
+            foreach ( $fileType as $key ) {
+                if( file_get_contents($this->controller->exportvalue($this->_name, $key) ) ) { 
+                    $params['body_'. substr($key,0,4 )] = file_get_contents($this->controller->exportvalue($this->_name, $key) );
+                } else {
+                    $params['body_'. substr($key,0,4 )] = 'NULL';
+                }
+                $this->set($key, $this->controller->exportvalue($this->_name, $key));
             }
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+            if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
+                $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
+            }
+            
+            if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
+                $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
+            }
+        } else {
+            $params['body_text'] = $params['text_message'];
+            $params['body_html'] = $params['html_message'];
         }
-        
-        foreach ( $uploadParamsBoolean as $key ) {
+            foreach ( $uploadParamsBoolean as $key ) {
             if ( $this->controller->exportvalue($this->_name, $key) ) {
                 $params[$key] = true;
             } else {
@@ -206,15 +244,42 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']  = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
-        
-        if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
-            $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
-        }
-        
-        if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
-            $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
-        }
 
+        $templateID = array();
+
+        //mail template is composed 
+        if( $this->controller->exportvalue($this->_name, 'upload_type') ){
+            //mail template created for the first time
+            if( !$this->_templates ) {
+                $newMessage = array( 'msg_title'   => $params['template'],
+                                     'msg_text'    => $params['text_message'],
+                                     'msg_html'    => $params['html_message'],
+                                     'msg_subject' => $params['name'],
+                                     'is_active'   => true
+                                     );
+             CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);  
+            } else {
+                //update the current one
+                if( $this->controller->exportvalue($this->_name, 'updateTemplate') ) {
+                    $newMessage = array( 'msg_title'   => $params['template'],
+                                         'msg_text'    => $params['text_message'],
+                                         'msg_html'    => $params['html_message'],
+                                         'msg_subject' => $params['name'],
+                                         'is_active'   => true
+                                         );
+                    
+                    CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);  
+                } else {
+                    $newMessage = array( 'msg_title'   => $params['template'],
+                                         'msg_text'    => $params['text_message'],
+                                         'msg_html'    => $params['html_message'],
+                                         'msg_subject' => $params['name'],
+                                         'is_active'   => true
+                                     );
+                    CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);
+                }
+            }
+        }
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
@@ -279,14 +344,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $skipTextFile = $session->get('skipTextFile');
         $skipHtmlFile = $session->get('skipHtmlFile');
-
-        if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
-             ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
-            if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
-                $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+        
+        if( !$params['upload_type'] ) { 
+            if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
+                 ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
+                if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
+                    $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+                }
             }
         }
-
+        
         foreach (array('textFile', 'htmlFile') as $file) {
             if (!file_exists(CRM_Utils_Array::value('tmp_name',$files[$file]))) {
                 continue;
