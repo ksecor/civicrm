@@ -53,6 +53,25 @@ class CRM_Utils_System_Standalone {
 
       return;
     }
+    
+    /**
+     * Authenticate the user; dummy for now, not sure how this will
+     * work with OpenID
+     * 
+     * *** BIG FAT WARNING: THIS CURRENTLY LETS EVERYONE AND THEIR DOG IN!!
+     * IT DOES ZERO AUTHENTICATION! ***
+     *
+     * @param string $name     the user name
+     * @param string $password the password for the above user name
+     *
+     * @return mixed false if no auth
+     *               array( contactID, ufID, unique string ) if success
+     * @access public
+     * @static
+     */
+    static function authenticate( $name, $password ) {
+        return true;
+    }
 
     /**
      * Append an additional breadcrumb tag to the existing breadcrumb

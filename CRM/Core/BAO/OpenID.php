@@ -61,13 +61,14 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
 
       /*      
         print "adding an OpenID to the database<br/>";
-        print "\$params:";
+        print "\$params: <pre>";
         print_r($params);
-        print "<br/>";
-        print "\$ids:";
+        print "</pre>";
+        print "\$ids: <pre>";
         print_r($ids);
-        print "<br/>";
+        print "</pre>";
       */
+        
         // if no data and we are not updating an exisiting record
         if ( ! self::dataExists( $params, $locationId, $openIdId, $ids ) ) {
             return null;
@@ -104,7 +105,6 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID {
                 //return $openId;
             }
         }
-        //print "saving OpenID<br/>";
         return $openId->save();
     }
     

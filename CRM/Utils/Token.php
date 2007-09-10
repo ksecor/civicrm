@@ -55,6 +55,7 @@ class CRM_Utils_Token {
                             'address', 
                             'email'
                         ),
+        'org'           => null, // populate this dynamically
         'subscribe'     => array(
                             'group'
                         ),
@@ -79,15 +80,15 @@ class CRM_Utils_Token {
     public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
             self::$_requiredTokens = array(    
-                'domain.address'    => ts("Displays your organization's postal address."),
-                'action.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
-                'action.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                '(domain|org)\.address'    => ts("Displays your organization's postal address."),
+                'action\.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                'action\.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
             );
         }
 
         $missing = array();
         foreach (self::$_requiredTokens as $token => $description) {
-            if (! preg_match('/[^\{]'.preg_quote('{' . $token . '}').'/', $str)) {
+            if (! preg_match('/[^\{]\{' . $token . '\}/', $str)) {
                 $missing[$token] = $description;
             }
         }
@@ -109,9 +110,9 @@ class CRM_Utils_Token {
      * @static
      */
     public static function token_match($type, $var, &$str) {
-        $token  = preg_quote('{' . "$type.$var") 
-                . '(\|.+?)?' . preg_quote('}');
-        return preg_match("/[^\{]$token/", $str);
+        $token  = '\{' . "$type\.$var" 
+                . '(\|.+?)?\}';
+        return preg_match("/[^\{]$token/i", $str);
     }
 
     /**
@@ -126,12 +127,12 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &token_replace($type, $var, $value, &$str) {
-        $token  = preg_quote('{' . "$type.$var") 
-                . '(\|([^\}]+?))?' . preg_quote('}');
+        $token  = '\{' . "$type\.$var" 
+                . '(\|([^\}]+?))?\}';
         if (! $value) {
             $value = '$3';
         }
-        $str = preg_replace("/([^\{])?$token/", "\${1}$value", $str);
+        $str = preg_replace("/([^\{])?$token/i", "\${1}$value", $str);
         return $str;
     }
     
@@ -178,6 +179,87 @@ class CRM_Utils_Token {
                 self::token_replace('domain', $key, $value, $str);
             }
         }
+        return $str;
+    }
+    
+    /**
+     * Replace all the org-level tokens in $str
+     *
+     * @param string $str       The string with tokens to be replaced
+     * @param object $org       Associative array of org properties
+     * @param boolean $html     Replace tokens with HTML or plain text
+     * @return string           The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceOrgTokens($str, &$org, $html = false) {
+        self::$_tokens['org'] =
+            array_merge( array_keys( CRM_Contact_BAO_Contact::importableFields( 'Organization' ) ),
+                         array( 'address', 'display_name', 'checksum', 'contact_id' ) );
+        /*
+        print "org tokens: <pre>";
+        print_r( $_tokens['org'] );
+        print "</pre>";
+        */
+        
+        $cv = null;
+        foreach (self::$_tokens['org'] as $token) {
+            // print "Getting token value for $token<br/><br/>";
+            if ($token == '') {
+                continue;
+            }
+
+            /* If the string doesn't contain this token, skip it. */
+            if (! self::token_match('org', $token, $str)) {
+                continue;
+            }
+
+            /* Construct value from $token and $contact */
+            $value = null;
+            
+            if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
+                // only generate cv if we need it
+                if ( $cv === null ) {
+                    $cv =& CRM_Core_BAO_CustomValue::getContactValues($org['contact_id']);
+                }
+                foreach ($cv as $customValue) {
+                    if ($customValue['custom_field_id'] == $cfID) {
+                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
+                        break;
+                    }
+                }
+            } else if ( $token == 'checksum' ) {
+                $cs = CRM_Contact_BAO_Contact::generateChecksum( $org['contact_id'] );
+                $value = "cs={$cs}";
+            } else if ( $token == 'address' ) {
+                /* Build the location values array */
+                $loc = array( );
+                $loc['display_name'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'display_name' );
+                $loc['street_address'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'street_address' );
+                $loc['city'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'city' );
+                $loc['state_province'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'state_province' );
+                $loc['postal_code'] = CRM_Contact_BAO_Contact::retrieveValue( $org, 'postal_code' );
+                
+                /* Construct the address token */
+                $value = CRM_Utils_Address::format( $loc );
+                if ($html) $value = str_replace( "\n", '<br />', $value );
+            } else {
+                /*
+                print "\$org: <pre>";
+                print_r( $org );
+                print "</pre>";
+                */
+                $value = CRM_Contact_BAO_Contact::retrieveValue( $org, $token );
+                /*
+                print "\$value: <pre>";
+                print_r( $value );
+                print "</pre>";
+                */
+            }
+            
+            self::token_replace('org', $token, $value, $str);
+        }
+
         return $str;
     }
 
@@ -288,7 +370,17 @@ class CRM_Utils_Token {
                 $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
                 $value = "cs={$cs}";
             } else {
+                /*
+                print "\$contact: <pre>";
+                print_r( $contact );
+                print "</pre>";
+                */
                 $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
+                /*
+                print "\$value: <pre>";
+                print_r( $value );
+                print "</pre>";
+                */
             }
             
             self::token_replace('contact', $token, $value, $str);
