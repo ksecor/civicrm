@@ -230,14 +230,20 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
+        $this->search( );
+
         $config =& CRM_Core_Config::singleton( );
-        $values =  array( );
-        
-        $object =& new CRM_Contact_BAO_Group( );
-        $object->domain_id = $config->domainID( );
-        $object->orderBy ( 'title asc' );
-        $object->find();
-        
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params );
+
+        $query = "
+SELECT *
+  FROM civicrm_group
+       $whereClause
+ORDER BY title asc";
+        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
+
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
 
@@ -282,7 +288,56 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         }
         
         $this->assign( 'rows', $values );
-    }           
+    }
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE ) ) {
+            return;
+        }
+
+        $form = new CRM_Core_Controller_Simple( 'CRM_Group_Form_Search', ts( 'Search Groups' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+
+    function whereClause( &$params ) {
+        $values =  array( );
+
+        $clauses = array( );
+        if ( $this->get( 'title' ) ) {
+            $clauses[] = "title LIKE %1";
+            $params[1] = array( $this->get( 'title' ), 'String', true );
+        }
+
+        if ( $this->get( 'group_type' ) ) {
+            $types = array_keys( $this->get( 'group_type' ) );
+            if ( ! empty( $types ) ) {
+                $clauses[] = 'group_type LIKE %2';
+                $typeString = 
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR, $types ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+                $params[2] = array( $typeString, 'String', true );
+            }
+        }
+
+        if ( $this->get( 'visibility' ) ) {
+            $clauses[] = 'visibility = %3';
+            $params[3] = array( $this->get( 'visibility' ), 'String' );
+        }
+
+        if ( ! empty( $clauses ) ) {
+            $whereClause = 'WHERE ' . implode( ' AND ', $clauses );
+        } else {
+            $whereClause = null;
+        }
+
+        return $whereClause;
+    }
     
 }
 
