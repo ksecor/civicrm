@@ -43,7 +43,9 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * @var array
      */
     static $_links = null;
-    
+
+    protected $_pager = null;
+
     /**
      * The action links that we need to display for saved search items
      *
@@ -236,12 +238,17 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 
         $params      = array( );
         $whereClause = $this->whereClause( $params );
+        $this->pager( $whereClause, $params );
+
+        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
         $query = "
-SELECT *
-  FROM civicrm_group
-       $whereClause
-ORDER BY title asc";
+  SELECT *
+    FROM civicrm_group
+   WHERE $whereClause
+ORDER BY title asc
+   LIMIT $offset, $rowCount";
+
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
 
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
@@ -330,15 +337,34 @@ ORDER BY title asc";
             $params[3] = array( $this->get( 'visibility' ), 'String' );
         }
 
-        if ( ! empty( $clauses ) ) {
-            $whereClause = 'WHERE ' . implode( ' AND ', $clauses );
-        } else {
-            $whereClause = null;
+        $clauses[] = 'domain_id = %4';
+        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        return implode( ' AND ', $clauses );
+    }
+
+    function pager( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/Pager.php';
+
+        $params['status']       = ts('Group %%StatusMessage%%');
+        $params['csvString']    = null;
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
+        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( ! $params['rowCount'] ) {
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
         }
 
-        return $whereClause;
+        $query = "
+SELECT count(id)
+  FROM civicrm_group
+ WHERE $whereClause";
+
+        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $this->_pager );
     }
-    
+
 }
 
 ?>

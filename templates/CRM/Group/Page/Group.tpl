@@ -11,6 +11,7 @@
 <p></p>
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
 {include file="CRM/Group/Form/Search.tpl"}
+{include file="CRM/common/pager.tpl" location="top"}
    {strip}
    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>  
