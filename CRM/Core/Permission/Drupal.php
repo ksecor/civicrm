@@ -70,7 +70,7 @@ class CRM_Core_Permission_Drupal {
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( $groupType ) {
+    public static function &group( $groupType = null ) {
         if ( ! isset( self::$_viewPermissionedGroups ) ) {
             self::$_viewPermissionedGroups = self::$_editPermissionedGroups = array( );
 
