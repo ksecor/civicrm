@@ -255,7 +255,7 @@ ORDER BY title asc
         $this->assign( 'groupPermission', $groupPermission );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $groupTypes = CRM_Core_OptionGroup::values( 'group_type' );
+        $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
@@ -280,7 +280,6 @@ ORDER BY title asc
                 if ( $values[$object->id]['group_type'] ) {
                     $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
                                            substr( $values[$object->id]['group_type'], 1, -1 ) );
-                    $allTypes   = CRM_Core_OptionGroup::values( 'group_type' );
                     $types = array( );
                     foreach ( $groupTypes as $type ) {
                         $types[] = $allTypes[$type];
@@ -315,13 +314,19 @@ ORDER BY title asc
         $values =  array( );
 
         $clauses = array( );
-        if ( $this->get( 'title' ) ) {
+        $title   = $this->get( 'title' );
+        if ( $title ) {
             $clauses[] = "title LIKE %1";
-            $params[1] = array( $this->get( 'title' ), 'String', true );
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
         }
 
-        if ( $this->get( 'group_type' ) ) {
-            $types = array_keys( $this->get( 'group_type' ) );
+        $groupType = $this->get( 'group_type' );
+        if ( $groupType ) {
+            $types = array_keys( $groupType );
             if ( ! empty( $types ) ) {
                 $clauses[] = 'group_type LIKE %2';
                 $typeString = 
@@ -332,9 +337,10 @@ ORDER BY title asc
             }
         }
 
-        if ( $this->get( 'visibility' ) ) {
+        $visibility = $this->get( 'visibility' );
+        if ( $visibility ) {
             $clauses[] = 'visibility = %3';
-            $params[3] = array( $this->get( 'visibility' ), 'String' );
+            $params[3] = array( $visibility, 'String' );
         }
 
         $clauses[] = 'domain_id = %4';

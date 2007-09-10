@@ -41,6 +41,7 @@
 	</tbody>
    </table>
    {/strip}
+{include file="CRM/common/pager.tpl" location="bottom"}
 {/if}{* browse action *}
 
 {if $action eq 1 or $action eq 2} 
