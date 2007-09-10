@@ -246,10 +246,14 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 
         $config =& CRM_Core_Config::singleton( );
 
-        $params      = array( );
-        $whereClause = $this->whereClause( $params );
-        $this->pager    ( $whereClause, $params );
+        $params = array( );
+        $whereClause = $this->whereClause( $params, false );
         $this->pagerAToZ( $whereClause, $params );
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, true );
+        $this->pager    ( $whereClause, $params );
+
 
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
@@ -321,7 +325,7 @@ ORDER BY title asc
         $form->run( );
     }
 
-    function whereClause( &$params ) {
+    function whereClause( &$params, $sortBy = true ) {
         $values =  array( );
 
         $clauses = array( );
@@ -354,7 +358,8 @@ ORDER BY title asc
             $params[3] = array( $visibility, 'String' );
         }
 
-        if ( $this->_sortByCharacter ) {
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
             $clauses[] = 'title LIKE %4';
             $params[4] = array( $this->_sortByCharacter . '%', 'String' );
         }
