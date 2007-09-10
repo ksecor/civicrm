@@ -1221,20 +1221,9 @@ ORDER BY weight ASC, label ASC";
                             
                         case 'Date':
                             $format = null;
-                            if( $field['date_parts'] ) {
-                                $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$field['date_parts']);
-                                foreach($parts as $v ) {
-                                    $format = $format." %".$v ;
-                                }
-                                $format = str_replace('M','B',$format);
-                            }
-                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat($field['customValue']['data'],$format);
-                            if ( CRM_Utils_Array::key( 'h', $parts ) ) {
-                                
-                                $form[$elementName]['html'] = str_replace( array( 'AM', 'PM' ), array( ' AM', ' PM' ), $form[$elementName]['html'] );
-                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ":", -7, 1 );
-                                $form[$elementName]['html'] = substr_replace( $form[$elementName]['html'], ",", -10, 0 );
-                            }
+                            $config =& CRM_Core_Config::singleton( );
+                            $setting = $config->dateformatDatetime ;
+                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat( $field['customValue']['data'], $setting);
                             break;
 
                         case 'Link':
