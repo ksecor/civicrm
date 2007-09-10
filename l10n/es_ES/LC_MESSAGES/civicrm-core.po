@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-08-01 04:41-0700\n"
-"Last-Translator: pedro jose vila <pedrojose.vila@gmail.com>\n"
+"PO-Revision-Date: 2007-09-08 04:24-0700\n"
+"Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12796,13 +12796,12 @@ msgid "Unable to resolve recipient domain"
 msgstr "incapaz de resolver el dominio del destinatario"
 
 #: xml/templates/civicrm_data.tpl
-#, fuzzy
 msgid "Unable to deliver to destintation mail server"
 msgstr "Incapaz de entregar al servidor de destino"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr "La cuenta de usuario no estará activa"
+msgstr "La cuenta de usuario no esta activa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
