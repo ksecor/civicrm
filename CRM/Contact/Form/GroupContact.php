@@ -109,18 +109,21 @@ class CRM_Contact_Form_GroupContact extends CRM_Core_Form
             $allGroups = CRM_Core_PseudoConstant::group( );
         }
 
-
-	    //get the group to exclude for the contact, if it exists.	
-    	require_once 'CRM/Contact/DAO/Organization.php';
-    	require_once 'CRM/Contact/DAO/GroupOrganization.php';
-    	require_once 'CRM/Contact/BAO/GroupOrganization.php';
-    	$dao = new CRM_Contact_DAO_Organization();
-    	$query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
-    	$dao->query( $query );
-    	if ( $dao->fetch( ) ) {
-    	    $orgId = $dao->id;
-    	}
-    	$excludeGroupIds = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+        $orgId = null;
+        $excludeGroupIds = array( );
+        if ( $this->_contactId > 0 ) {
+	        // get the group(s) to exclude for the contact, if it exists.
+            require_once 'CRM/Contact/DAO/Organization.php';
+            require_once 'CRM/Contact/DAO/GroupOrganization.php';
+            require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            $dao = new CRM_Contact_DAO_Organization();
+            $query = "SELECT id FROM civicrm_organization WHERE contact_id = " . $this->_contactId;
+            $dao->query( $query );
+            if ( $dao->fetch( ) ) {
+                $orgId = $dao->id;
+            }
+            $excludeGroupIds = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+        }
     	$excludeGroups = array( );
     	foreach ( $excludeGroupIds as $excludeGroupId ) {
     	    $dao = new CRM_Contact_DAO_Group( );

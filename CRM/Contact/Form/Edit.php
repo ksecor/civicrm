@@ -660,20 +660,20 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
-        //add contact to group
-        //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
-        require_once 'CRM/Contact/BAO/GroupContact.php';
-        require_once 'CRM/Contact/BAO/GroupOrganization.php';
-        require_once 'CRM/Contact/DAO/Organization.php';
+        $orgId = null;
+        $excludeGroupId = null;
+        if ( $this->_contactId > 0 ) {
+            // add contact to group
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+            require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            require_once 'CRM/Contact/DAO/Organization.php';
 
-        $dao = new CRM_Contact_DAO_Organization( );
-        $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
-        $dao->query($query);
-        if ( $dao->fetch() ) {
-            $orgId = $dao->id;
-        } else {
-            $orgId = null;
-            $excludeGroupId = null;
+            $dao = new CRM_Contact_DAO_Organization( );
+            $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
+            $dao->query($query);
+            if ( $dao->fetch() ) {
+                $orgId = $dao->id;
+            }
         }
 
 	    if ( $orgId != null ) {

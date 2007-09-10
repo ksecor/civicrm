@@ -45,12 +45,16 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     
     private $_lastParentlessGroup;
     
+    private $_styleLabels;
+    
+    private $_alreadyStyled = false;
+    
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( $styleLabels = false ) {
         parent::__construct( );
-        $counter = 0;
+        $this->_styleLabels = $styleLabels;
     }
     
     function setSortOrder( $sortOrder ) {
@@ -87,9 +91,30 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         $firstGroup = $this->_getNextParentlessGroup( );
         $this->_current = $firstGroup;
         $this->_lastParentlessGroup = $firstGroup;
+        $this->_alreadyStyled = false;
     }
     
     function current( ) {
+        if ( $this->_styleLabels &&
+             $this->valid( ) &&
+             ! $this->_alreadyStyled ) {
+            $styledGroup = clone( $this->_current );
+            $nestingLevel = $this->getCurrentNestingLevel( );
+            $indent = "";
+            while ( $nestingLevel-- ) {
+                $indent .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+            $styledGroup->title = $indent . $styledGroup->title;
+            /* Doesn't work, so comment out for now
+            * require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            * if ( CRM_Contact_BAO_GroupOrganization::exists( $styledGroup->id ) ) {
+            *    // TODO: How can I make these bold?
+            *    // It seems to ignore any tags inside the <option> tag.
+            * }
+            */
+            $this->_current =& $styledGroup;
+            $this->_alreadyStyled = true;
+        }
         return $this->_current;
     }
     
@@ -109,39 +134,30 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     
     function next( ) {
         $currentGroup =& $this->_current;
-        //print "Calling getNextChild for $currentGroup<br/><br/>";
         $childGroup = $this->_getNextChildGroup( $currentGroup );
         if ( $childGroup ) {
             $nextGroup =& $childGroup;
             $this->_parentStack[] =& $this->_current;
         } else {
-            // group has no children, see if there's a sibling to return
             $nextGroup = $this->_getNextSiblingGroup( $currentGroup );
             if ( ! $nextGroup ) {
                 // no sibling, find an ancestor w/ a sibling
-                #$i = 0;
                 for ( ;; ) {
+                    // since we pop this array everytime, we should be
+                    // reasonably safe from infinite loops, I think :)
                     $ancestor = array_pop( $this->_parentStack );
                     if ( $ancestor == null ) {
-                        //print "Ancestor is null<br/>";
                         break;
                     }
-                    //print "Calling getNextSibling for $ancestor<br/><br/>";
                     $nextGroup = $this->_getNextSiblingGroup( $ancestor );
                     if ( $nextGroup ) {
-                        //print "Found the next group: $nextGroup<br/>";
                         break;
                     }
-                    // either way, let's pop the array here so we don't
-                    // have an infinite loop
-                    #array_pop( $this->_parentStack );
-                    #if ( $i++ > 100 ) {
-                    #    break;
-                    #}
                 }
             }
         }
         $this->_current =& $nextGroup;
+        $this->_alreadyStyled = false;
         return $nextGroup;
     }
     
@@ -154,11 +170,8 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
     
     function _getNextParentlessGroup( &$group = null ) {
-        global $counter;
-        #$counter++;
         require_once 'CRM/Contact/BAO/Group.php';
         $lastParentlessGroup = $this->_lastParentlessGroup;
-        //print "Last parentless group was $lastParentlessGroup<br/>";
         $nextGroup =& new CRM_Contact_BAO_Group( );
         $nextGroup->order_by = "title " . self::$_sortOrder;
         $nextGroup->find( );
@@ -168,12 +181,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $sawLast = false;
         }
         while ( $nextGroup->fetch( ) ) {
-            //print "<br/>Just fetched $nextGroup and sawLast is $sawLast<br/><br/>";
             if ( ! self::hasParentGroups( $nextGroup->id ) && $sawLast ) {
-                //print "Starting from $group, found next parentless group $nextGroup<br/>";
-                if ( $counter > 4 ) {
-                    exit;
-                }
                 return $nextGroup;
             } else if ( $lastParentlessGroup->id == $nextGroup->id ) {
                 $sawLast = true;
@@ -211,7 +219,6 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     
     function _getNextSiblingGroup( &$group ) {
         $parentGroup = end( $this->_parentStack );
-        //print "$parentGroup is the parent of $group<br/><br/>";
         if ( $parentGroup ) {
             $nextGroup = $this->_getNextChildGroup( $parentGroup, $group );
             return $nextGroup;
@@ -472,7 +479,9 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $groupIds = array( $groupIds );
         }
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id, child_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $query = "SELECT parent_group_id, child_group_id
+                  FROM   civicrm_group_nesting
+                  WHERE  child_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $parentGroupIds = array( );

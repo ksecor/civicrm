@@ -87,7 +87,7 @@ class CRM_Contact_Form_GroupTag
             
             $orgId = null;
             $excludeGroupIds = array( );
-	        if ( $contact_id > 0 ) {
+	        if ( $contactId > 0 ) {
 	            require_once 'CRM/Contact/DAO/GroupOrganization.php';
 	            require_once 'CRM/Contact/DAO/Organization.php';
 	            require_once 'CRM/Contact/DAO/Group.php';

@@ -4,7 +4,7 @@
  +--------------------------------------------------------------------+
  | CiviCRM version 1.8                                                |
  +--------------------------------------------------------------------+
- | Copyright U.S. PIRG (c) 2007                                       |
+ | Copyright U.S. PIRG Education Fund (c) 2007                        |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright U.S. PIRG 2007
+ * @copyright U.S. PIRG Education Fund 2007
  * $Id$
  *
  */
@@ -144,37 +144,24 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @param           $groupIds                Array of group ids
      * 
      * @return          $orgIds                  Array of organization ids
+     *                                      array( 0 => array( 
+     *                                        'organization_id' => 19,
+     *                                        'contact_id' => 13 ), ... )
      *
      *
      */
-    static function getOwnerOrganizations( $groupIds ) {
+    static function getOrganizationsForGroups( $groupIds ) {
         require_once 'CRM/Contact/BAO/GroupNesting.php';
 	    $ancestorIds = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds($groupIds, true);
 	    $orgIds = array( );
 	    foreach( $ancestorIds as $ancestorId ) {
-	        $id = self::getOrganizationId( $ancestorId );
-	        if ( ! empty( $id ) ) {
-	            $orgIds[] = $id;
+	        $ids = self::getOrganizationIds( $ancestorId );
+	        if ( $ids ) {
+	            $orgIds[] = $ids;
 	        }
 	    }
 	    return $orgIds;
     }
-
-    /**
-     * Retrieves the organization and group id's that an individual contact
-     * belongs to.
-     *
-     * @param           $contactId              id of the contact
-     *
-     * @return          $orgs                   Array of organization and
-     *                                          group ids
-     *                                          ( 0 => ( 'orgId' => 1,
-     *                                            'contactId' => 1 ), ... )
-     *
-     */
-     static function getOrganizationsForGroup( $groupId ) {
-         // TODO: Need to write this
-     }
 
     /**
      * Retrieves the id in the civcrm_organization table for the corresponding
@@ -183,22 +170,27 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
      * @param            $groupId               The id of the group
      *
      *
-     * @return           $orgId                 Returns the id of the
-     *                                           organization, if there is one;
-     *                                           null otherwise.
+     * @return           $orgId                 Returns the organization_id
+     *                                          and contact_id of the
+     *                                          organization, if there is one;
+     *                                          null otherwise.
      *
      * @access public
      */
-    static function getOrganizationId( $groupId ) {
+    static function getOrganizationIds( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT organization_id FROM civicrm_group_organization WHERE group_id = $groupId";
+        $query = "SELECT cgo.organization_id, co.contact_id
+                  FROM   civicrm_group_organization AS cgo
+                  INNER JOIN civicrm_organization AS co
+                  ON     cgo.organization_id = co.id
+                  WHERE  cgo.group_id = $groupId";
         $dao->query( $query );
         if ( $dao->fetch( ) ) {
             $orgId = $dao->organization_id;
-	    } else {
-	        $orgId = null;
-	    }
-	    return $orgId;
+            $contactId = $dao->contact_id;
+	        return array( 'organization_id' => $orgId, 'contact_id' => $contactId );
+        }
+        return null;
     }
 
     /**
