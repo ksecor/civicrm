@@ -603,7 +603,8 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-	    if ( isset( $_SERVER['HTTPS'] ) ) {
+	    if ( isset( $_SERVER['HTTPS'] ) &&
+             strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
 	      $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
 							       $this->userFrameworkBaseURL );
 	    }

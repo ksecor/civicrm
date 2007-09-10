@@ -107,7 +107,8 @@ class CRM_Contribute_Invoke {
         if ( $secondArg == 'transact' ) { 
             if ( $config->enableSSL     &&
                  CRM_Core_Invoke::onlySSL( $args ) ) {
-                if ( !isset($_SERVER['HTTPS'] ) ) {
+                if ( ! isset( $_SERVER['HTTPS'] ) &&
+                     strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
                     CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
                 }
             }
