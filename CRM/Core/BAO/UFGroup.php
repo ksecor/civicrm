@@ -1836,8 +1836,18 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
         
-        // use the email id of someone who is on the list, so its kosher and more likely to avoid smtp
-        $emailFrom = '"' . $emailList[0] . '" <' . $emailList[0] . '>';
+        // lets get the stuff from domain to build the email address
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->id = CRM_Core_Config::domainID( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'id, email_name, email_address' );
+        $domain->find( true );
+
+        if ( ! $domain->email_address ) {
+            CRM_Core_Error::fatal( ts( 'Please set the domain email address setting in Administer CiviCRM' ) );
+        }
+
+        $emailFrom = '"' . $domain->email_name . '" <' . $domain->email_address . '>';
 
         if($message) {
             foreach ( $emailList as $emailTo ) {
