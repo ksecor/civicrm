@@ -1,6 +1,3 @@
-<div class="messages status">
-<dl>
-<dd> <p>{ts}"You have selected {$count} contacts to receive this mailing."
- {/ts}</p></dd>
-</dl>
+<div class="messages status float-right" style="margin-left: 1em;">
+    {ts}Selected Recipients: <strong>{$count}</strong>{/ts}
 </div>
