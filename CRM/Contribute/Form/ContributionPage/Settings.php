@@ -77,7 +77,8 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         $this->add('select', 'contribution_type_id',
                    ts( 'Contribution Type' ),
-                   CRM_Contribute_PseudoConstant::contributionType( ) );
+                   CRM_Contribute_PseudoConstant::contributionType( ),
+                   true );
         $paymentProcessor =& CRM_Core_PseudoConstant::paymentProcessor( );
         if ( count($paymentProcessor) ) {
             $this->assign('paymentProcessor',$paymentProcessor);
