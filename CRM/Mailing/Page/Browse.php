@@ -79,6 +79,11 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function preProcess() 
     {
         $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
+
+        // check that the user has permission to access mailing id
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::checkPermission( $this->_mailingId );
+
         $this->_action    = CRM_Utils_Request::retrieve('action', 'String', $this);
         $this->assign('action', $this->_action);
     }
@@ -91,14 +96,16 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
     function run( ) {
         $this->preProcess(); 
         $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
-        //$retrieve = CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this );
+
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', $this )) {
                 require_once 'CRM/Mailing/BAO/Job.php';
                 CRM_Mailing_BAO_Job::cancel($this->_mailingId);
                 CRM_Utils_System::redirect($url);
             } else {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse', ts('Cancel Mailing'), $this->_action );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
+                                                               ts('Cancel Mailing'),
+                                                               $this->_action );
                 $controller->setEmbedded( true );
                 
                 // set the userContext stack
@@ -112,7 +119,9 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                 CRM_Mailing_BAO_Mailing::del($this->_mailingId);
                 CRM_Utils_System::redirect($url);
             } else {
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse', ts('Delete Mailing'), $this->_action );
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Browse',
+                                                               ts('Delete Mailing'),
+                                                               $this->_action );
                 $controller->setEmbedded( true );
                 
                 // set the userContext stack

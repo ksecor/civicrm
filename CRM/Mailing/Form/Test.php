@@ -147,9 +147,10 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         foreach ($testers as $testerId => $testerEmail) {
-            $params = array('contact_id'    => $testerId);
+            $params   = array('contact_id'    => $testerId);
             $location = array('location_id');
-            CRM_Core_BAO_Location::getValues($params,$location);
+            $ids      = array( );
+            CRM_Core_BAO_Location::getValues($params,$location,$ids);
             $params = array(
                             'job_id'        => $options['job_id'],
                             'email_id'      => $location['id'],

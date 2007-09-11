@@ -45,6 +45,20 @@
     <add>1.1</add>
   </field>
   <field>
+       <name>email_name</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>The default email name that is used in the from address for all outgoing emails</comment>
+       <add>1.9</add>
+  </field>
+  <field>
+       <name>email_address</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>The default email address that is used as the from address for all outgoing emails</comment>
+       <add>1.9</add>
+  </field>
+  <field>
        <name>email_domain</name>
        <type>varchar</type>
        <length>64</length>

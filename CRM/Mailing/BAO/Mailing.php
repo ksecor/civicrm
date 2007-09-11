@@ -1230,6 +1230,57 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
 
+    static function checkPermission( $id ) {
+        if ( ! $id ) {
+            return;
+        }
+
+        $mailingIDs =& CRM_Mailing_BAO_Mailing::mailingACLIDs( );
+        if ( ! in_array( $id,
+                         $mailingIDs ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to access this mailing report' ) );
+        }
+        return;
+    }
+
+    static function mailingACL( ) {
+        $mailingACL = " ( 0 ) ";
+
+        $mailingIDs =& self::mailingACLIDs( );
+        if ( ! empty( $mailingIDs ) ) {
+            $mailingIDs = implode( ',', $mailingIDs );
+            $mailingACL = " civicrm_mailing.id IN ( $mailingIDs ) ";
+        }
+        return $mailingACL;
+    }
+
+    static function &mailingACLIDs( ) {
+        $mailingIDs = array( );
+
+        // get all the groups that this user can access
+        // if they dont have universal access
+        $groups   = CRM_Core_PseudoConstant::group( );
+        if ( ! empty( $groups ) ) {
+            $groupIDs = implode( ',',
+                                 array_keys( $groups ) );
+            // get all the mailings that are in this subset of groups
+            $query = "
+SELECT DISTINCT( m.id ) as id
+  FROM civicrm_mailing m,
+       civicrm_mailing_group g
+ WHERE g.mailing_id   = m.id
+   AND g.entity_table = 'civicrm_group'
+   AND g.entity_id IN ( $groupIDs )";
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $mailingIDs = array( );
+            while ( $dao->fetch( ) ) {
+                $mailingIDs[] = $dao->id;
+            }
+        }
+
+        return $mailingIDs;
+    }
+
     /**
      * Get the rows for a browse operation
      *
@@ -1243,9 +1294,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public function &getRows($offset, $rowCount, $sort) {
         $mailing    = self::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
-
+        $group      = CRM_Mailing_DAO_Group::getTableName( );
         $session    =& CRM_Core_Session::singleton();
         $domain_id  = $session->get('domainID');
+
+        $mailingACL = self::mailingACL( );
 
         $query = "
             SELECT      $mailing.id,
@@ -1256,10 +1309,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         MAX($job.end_date) as end_date
             FROM        $mailing
             INNER JOIN  $job
-                    ON  $job.mailing_id = $mailing.id
+                    ON  $job.mailing_id    = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
+              AND       $mailingACL
             GROUP BY    $mailing.id ";
-        //ORDER BY    $mailing.id DESC, $job.end_date DESC";
         
         if ($sort) {
             $orderBy = trim( $sort->orderBy() );
@@ -1269,7 +1322,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
 
         if ($rowCount) {
-            $query .= " LIMIT $offset, $rowCount ";
+           $query .= " LIMIT $offset, $rowCount ";
         }
     
         $this->query($query);
@@ -1328,16 +1381,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
                     $daoSpool = new CRM_Mailing_BAO_Spool();
                     $daoSpool->job_id = $dao->id;
-                    if ( $daoSpool->find() ) {
+                    if ( $daoSpool->find( true ) ) {
                         CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
                         return;
                     }
-                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                    $daoQueue->deleteEventQueue( $dao->id, 'job');
                 } elseif ( $dao->status == 'Running' ) {
                     CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
                     return;
                 }
+                $daoQueue = new CRM_Mailing_Event_BAO_Queue();
+                $daoQueue->deleteEventQueue( $dao->id, 'job');
             }
             
             $dao->delete();

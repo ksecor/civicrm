@@ -189,8 +189,21 @@
 <tr><td class="label">{$component.type}</td><td>
 <a href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}
-<tr><td class="label">{ts}Text Body{/ts}</td><td class="report">{$report.mailing.body_text|escape|nl2br}</td></tr>
-<tr><td class="label">{ts}HTML Body{/ts}</td><td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
+{if $report.mailing.body_text}
+<tr>
+  <td class="label">{ts}Text Body{/ts}<br />
+    <small><a href='{$textViewURL}'>{ts}View Text Body{/ts}</a></small>
+  </td>
+  <td class="report">{$report.mailing.body_text|escape|nl2br}</td>
+</tr>
+{/if}
+{if $report.mailing.body_html}
+<tr>
+  <td class="label">{ts}HTML Body{/ts}<br/>
+    <small><a href='{$htmlViewURL}'>{ts}View HTML Body{/ts}</a></small>
+  </td>
+  <td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
+{/if}
 </table>
 {/strip}
 </fieldset>

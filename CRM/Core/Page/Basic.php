@@ -154,6 +154,12 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
+        if ( $id ) {
+            if ( ! $this->checkPermission( $id ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to make changes to the record' ) );
+            }
+        }
+
         if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE | CRM_Core_Action::DELETE)) {
             $this->edit($action, $id);                               // use edit form for view, add or update or delete
         } else if ($action & CRM_Core_Action::DISABLE) {

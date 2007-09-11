@@ -11,8 +11,8 @@
 
 SET @domain_name := CONCAT('Domain Name ',@domain_id);
 
-INSERT INTO civicrm_domain( id, name, contact_name, email_domain, version ) 
-    VALUES ( @domain_id, @domain_name, 'Domain Contact Name', 'FIXME.ORG', '2.0' );
+INSERT INTO civicrm_domain( id, name, contact_name, email_name, email_address, email_domain, version ) 
+    VALUES ( @domain_id, @domain_name, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0' );
 
 -- Sample location types
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( @domain_id, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1, 1 );

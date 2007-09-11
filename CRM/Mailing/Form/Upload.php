@@ -86,10 +86,16 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $session =& CRM_Core_Session::singleton();
-        
+
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->id = CRM_Core_Config::domainID( );
+        $domain->find( true );
+
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM Email'), NULL, true);
-        $defaults['from_email'] = $session->get('ufEmail');
+
+        $defaults['from_name' ] = $domain->email_name;
+        $defaults['from_email'] = $domain->email_address;
         
         $this->add('checkbox', 'forward_replies', ts('Forward Replies?'));
         $defaults['forward_replies'] = true;
