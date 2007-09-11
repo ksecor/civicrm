@@ -1337,7 +1337,8 @@ SELECT DISTINCT( m.id ) as id
                     ON  $job.mailing_id    = $mailing.id
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL
-              AND       $job.is_test != 1
+              AND       ( $job.is_test <> 1
+               OR         $job.is_test IS NULL )
                         $additionalClause
             GROUP BY    $mailing.id ";
         
@@ -1358,6 +1359,7 @@ SELECT DISTINCT( m.id ) as id
 
         $dao = CRM_Core_DAO::executeQuery( $query, $additionalParams );
 
+        
         $rows = array();
         while ($dao->fetch()) {
             $rows[] = array(
