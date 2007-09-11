@@ -333,7 +333,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             if ($js != '') {
                 $js .= ",\n";
             }
-            $js .= '"'.$optValue.'":"'.$options.'"';
+            $js .= '"'.$optValue.'":"'.addcslashes($options,'"').'"';
         }
     }
 
