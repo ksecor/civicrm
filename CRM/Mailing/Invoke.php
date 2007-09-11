@@ -63,14 +63,14 @@ class CRM_Mailing_Invoke {
         }
         
         if ( $secondArg == 'unsubscribe' ) {
-            require_once 'extern/unsubscribe.php';
-            $view =& new extern_unsubscribe( );
+            require_once 'CRM/Mailing/Page/Unsubscribe.php';
+            $view =& new CRM_Mailing_Page_Unsubscribe( );
             return $view->run( );
         }
         
         if ( $secondArg == 'optout' ) {
-            require_once 'extern/optout.php';
-            $view =& new extern_optout( );
+            require_once 'CRM/Mailing/Page/Optout.php';
+            $view =& new CRM_Mailing_Page_Optout( );
             return $view->run( );
         }
         

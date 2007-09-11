@@ -2452,7 +2452,7 @@ class CRM_Contact_BAO_Query {
                               $sort = null,
                               $offset = 0,
                               $row_count = 25 ) {
-        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null );
+        $query =& new CRM_Contact_BAO_Query( $params, $returnProperties, null, true );
  
         list( $select, $from, $where ) = $query->query( );
         $options = $query->_options;

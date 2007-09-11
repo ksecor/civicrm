@@ -170,7 +170,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
         $this->add('text', 'email_name', ts('Default Email Name:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
 
-        $this->add('text', '`email_address', ts('Default Email:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->add('text', 'email_address', ts('Default Email:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_address", ts('Email is not valid.'), 'email' );
 
         $this->add('text', 'email_domain', ts('Email Domain:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));

@@ -60,17 +60,7 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                         'name'  => ts('Cancel') )
                 )
             );
-        $values = array(
-            'textFile'  => $this->get('textFile'),
-            'htmlFile'  => $this->get('htmlFile'),
-            'header_id' => $this->get('header_id'),
-            'footer_id' => $this->get('footer_id'),
-            'name'      => $this->get('mailing_name'),
-            'from_name' => $this->get('from_name'),
-            'from_email'=> $this->get('from_email'),
-            'subject'   => $this->get('subject'),
-            'job_id'    => $this->get('job_id'),
-        );
+        $values = array( 'mailing_id' => $this->get('mailing_id' ) );
 
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
         $preview = array(
@@ -89,93 +79,23 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
      * @return boolean          true on succesful SMTP handoff
      * @access public
      */
-    public function &testMail($params, &$files, &$options) 
+    public function &testMail($testParams, &$files, &$options) 
     {
-        if (CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
-            !$params['_qf_Test_next'] or !$params['test']) {
+        if ( CRM_Utils_Array::value('_qf_Import_refresh', $_POST) ||
+             ! $testParams['_qf_Test_next'] ||
+             ! $testParams['test'] ) {
             return true;
         }
+
+        require_once 'CRM/Mailing/BAO/Job.php';
+        $job =& new CRM_Mailing_BAO_Job();
+        $job->mailing_id = $options['mailing_id'];
+        $job->is_test    = true;
+        $job->save( );
         
-        $config =& CRM_Core_Config::singleton();
-        $session    =& CRM_Core_Session::singleton();
-        
-        /* Create a new mailing object for test purposes only */
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        $mailing    =& new CRM_Mailing_BAO_Mailing();
-        $mailing->domain_id = $session->get('domainID');
-        $mailing->header_id = $options['header_id'];
-        $mailing->footer_id = $options['footer_id'];
-        $mailing->name = $options['name'];
-        $mailing->from_name     = ts('CiviCRM Test Mailer (%1)', array(1 =>
-                                                                       $options['from_name']));
-        $mailing->from_email    = $options['from_email'];
-        $mailing->replyTo_email = $email;
-        $mailing->subject = ts('Test Mailing:') . ' ' . $options['subject'];
-
-        if (file_exists($options['htmlFile'])) {
-            $mailing->body_html = file_get_contents($options['htmlFile']);
-        } else {
-            $mailing->body_html = $options['htmlFile'];
-        }
-
-        if (file_exists($options['textFile'])) {
-            $mailing->body_text = file_get_contents($options['textFile']);
-        } else if ( $options['textFile'] ) {
-            $mailing->body_text = $options['textFile'];
-        } else {
-            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
-        }
-
-        $mailer =& $config->getMailer();
-
-        if ($params['test_email']) {
-            $testers = array($session->get('userID') => $params['test_email']);
-        } else {
-            $testers = array();
-        }
-        if (array_key_exists($params['test_group'], CRM_Core_PseudoConstant::group())) {
-            $group =& new CRM_Contact_DAO_Group();
-            $group->id = $params['test_group'];
-            $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
-            foreach ($contacts as $contact) {
-                $testers[$contact->contact_id] = $contact->email;
-            }
-        }
-        
-        $errors = array();
-        $recipient = '';
-        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
-        foreach ($testers as $testerId => $testerEmail) {
-            $params   = array('contact_id'    => $testerId);
-            $location = array('location_id');
-            $ids      = array( );
-            CRM_Core_BAO_Location::getValues($params,$location,$ids);
-            $params = array(
-                            'job_id'        => $options['job_id'],
-                            'email_id'      => $location['id'],
-                            'contact_id'    => $testerId
-                            );
-            $queue = CRM_Mailing_Event_BAO_Queue::create($params);
-            $mime =& $mailing->compose($options['job_id'], $queue->id, $queue->hash,
-                                       $testerId, $testerEmail, $recipient, true);
-            
-            $body = $mime->get();
-            $headers = $mime->headers();
-            $result = $mailer->send($recipient, $headers, $body);
-            if ($result !== true) {
-                $errors['_qf_default'] =
-                    ts('The test mailing could not be delivered due to the following error:') .
-                    '<br /> <tt>' . $result->getMessage() . '</tt>';
-            }
-        }
-        CRM_Core_Error::setCallback();
-        if (count($errors)) {
-            return  $errors ;
-        } else {
-            CRM_Mailing_BAO_Mailing::delJob($options['job_id']);
-            return true;
-        }
+        $testParams['job_id'] = $job->id;
+        CRM_Mailing_BAO_Job::runJobs($testParams);
+        return true;
     }
     
     /**

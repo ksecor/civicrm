@@ -202,18 +202,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
         }
 
-        $params['test'] = true;
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
         $this->set('mailing_id', $mailing->id);
-        
-        $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $mailing->id;
-        if ($job->find(true)) {
-            $this->set('job_id',$job->id);
-        } 
-        
     }
     
     /**

@@ -78,17 +78,39 @@ class CRM_Utils_Token {
      */
     public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
-            self::$_requiredTokens = array(    
-                'domain.address'    => ts("Displays your organization's postal address."),
-                'action.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
-                'action.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-            );
+            self::$_requiredTokens = array (    
+                'domain.address'     => ts("Displays your organization's postal address."),
+                'action.optOut' =>
+                array(
+                      'action.optOut'    => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      'action.optOutUrl' => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      ),
+                'action.unsubscribe' =>
+                array(
+                      'action.unsubscribe' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      'action.unsubscribeUrl' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      ),
+                );
         }
 
-        $missing = array();
-        foreach (self::$_requiredTokens as $token => $description) {
-            if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str)) {
-                $missing[$token] = $description;
+        $missing = array( );
+        foreach (self::$_requiredTokens as $token => $value) {
+            if ( ! is_array( $value ) ) {
+                if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str ) ) {
+                    $missing[$token] = $value;
+                }
+            } else {
+                $present = false;
+                $desc    = null;
+                foreach ( $value as $t => $d ) {
+                    $desc = $d;
+                    if ( preg_match('/(^|[^\{])'.preg_quote('{' . $t . '}').'/', $str ) ) {
+                        $present = true;
+                    }
+                }
+                if ( ! $present ) {
+                    $missing[$token] = $desc;
+                }
             }
         }
 
@@ -162,7 +184,7 @@ class CRM_Utils_Token {
     public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null) {
         $key = 'domain';
         if(!$knownTokens || !$knownTokens[$key]) return $str;
-        $str = preg_replace(self::tokenRegex($key),'self::getDomainTokenReplacement(\\1,$domain,$html)',$str);
+        $str = preg_replace(self::tokenRegex($key),'self::getDomainTokenReplacement(\'\\1\',$domain,$html)',$str);
         return $str;
     }
 
@@ -216,8 +238,12 @@ class CRM_Utils_Token {
      */
      public static function &replaceMailingTokens($str, &$mailing, $html = false, $knownTokens = null) {
         $key = 'mailing';
-        if(!$knownTokens || !$knownTokens[$key]) return $str;
-        $str = preg_replace(self::tokenRegex($key),'self::getMailingTokenReplacement(\\1,$mailing)',$str);
+        if ( ! $knownTokens ||
+             ! isset( $knownTokens[$key] ) ) {
+            return $str;
+        }
+
+        $str = preg_replace(self::tokenRegex($key),'self::getMailingTokenReplacement(\'\\1\',$mailing)',$str);
         return $str;
      }
 
@@ -258,9 +284,13 @@ class CRM_Utils_Token {
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
         // then we will just iterate on a list of tokens that are passed to us
-        if(!$knownTokens || !$knownTokens[$key]) return $str;
+        if( ! $knownTokens || ! $knownTokens[$key] ) {
+            return $str;
+        }
 
-        $str = preg_replace(self::tokenRegex($key),'self::getActionTokenReplacement(\\1,$addresses,$urls)',$str);
+        $str = preg_replace( self::tokenRegex($key),
+                             'self::getActionTokenReplacement(\'\\1\',$addresses,$urls)',
+                             $str);
         return $str;
     }
 
@@ -312,7 +342,7 @@ class CRM_Utils_Token {
         // then we will just iterate on a list of tokens that are passed to us
         if(!$knownTokens || !$knownTokens[$key]) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\\1, $contact)',$str);
+        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact)',$str);
         return $str;
     }
     
@@ -360,7 +390,7 @@ class CRM_Utils_Token {
      *  @static
      */
     
-     public static function &unescapeTokens(&$str){
+     public static function unescapeTokens(&$str){
        $str = preg_replace('/\\\\|\{(\{\w+\.\w+\})\}/','\\1',$str);
      }
     

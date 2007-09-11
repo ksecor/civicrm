@@ -434,20 +434,24 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return void
      */
 
-    private function _getTokens($prop){
-      $matches = array();
-      preg_match_all('/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',$this->$prop,$matches,PREG_PATTERN_ORDER);
-      if($matches[1]){
-        foreach($matches[1] as $token){
-          list($type,$name) = split('\.',$token,2);
-          if($name){
-            if(!$this->tokens[$prop][$type]){
-               $this->tokens[$prop][$type] = array();
+    private function _getTokens( $prop ) {
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $this->$prop,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $this->tokens[$prop][$type] ) ) {
+                        $this->tokens[$prop][$type] = array( );
+                    }
+                    $this->tokens[$prop][$type][] = $name;
+                }
             }
-            $this->tokens[$prop][$type][] = $name;
-          }
         }
-      }
     }
 
     /**
@@ -498,6 +502,42 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
+     * Generate an event queue for a test job 
+     *
+     * @params array $params contains form values
+     * @return void
+     * @access public
+     */
+    public function getTestRecipients($testParams) {
+        $session    =& CRM_Core_Session::singleton();
+        if ($testParams['test_email']) {
+            $testers = array($session->get('userID') => $testParams['test_email']);
+        } else {
+            $testers = array();
+        }
+        if (array_key_exists($testParams['test_group'], CRM_Core_PseudoConstant::group())) {
+            $group =& new CRM_Contact_DAO_Group();
+            $group->id = $testParams['test_group'];
+            $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
+            foreach ($contacts as $contact) {
+                $testers[$contact->contact_id] = $contact->email;
+            }
+        }
+        foreach ($testers as $testerId => $testerEmail) {
+            $params   = array('contact_id'    => $testerId);
+            $location = array('location_id');
+            $ids      = array( );
+            CRM_Core_BAO_Location::getValues($params,$location,$ids);
+            $params = array(
+                            'job_id'        => $testParams['job_id'],
+                            'email_id'      => $location['id'],
+                            'contact_id'    => $testerId
+                            );
+
+            $queue = CRM_Mailing_Event_BAO_Queue::create($params);  
+        }
+    }
+    /**
      * Retrieve the header and footer for this mailing
      *
      * @param void
@@ -535,7 +575,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      */
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
-                             $email, &$recipient, $test = false) 
+                             $email, &$recipient, $test = false, 
+                             $contactDetails = null ) 
     {
         
         $domain_id = $this->domain_id;
@@ -628,11 +669,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $html = $this->html;
         $text = $this->text;
-        
-        $params  = array( 'contact_id' => $contactId );
-        $contact =& crm_fetch_contact( $params );
-        if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-            return null;
+
+        if ( $contactDetails ) {
+            $contact = $contactDetails;
+        } else {
+            $params  = array( 'contact_id' => $contactId );
+            $contact =& crm_fetch_contact( $params );
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                return null;
+            }
         }
 
         $message =& new Mail_Mime("\n");
@@ -668,7 +713,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
-                                $this->id, $event_queue_id);
+                                $this->id, $event_queue_id, true);
 
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
                                 $this->id, $event_queue_id);
@@ -816,6 +861,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 if ($job->find(true) && ! $mailing->is_template) {
                     $job->status = 'Scheduled';
                     $job->is_retry = false;
+                    $job->is_test = false;
                     if ($params['now']) {
                         $job->scheduled_date = date('YmdHis');
                     } else {
@@ -835,15 +881,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             return $mailing;
         }
 
-        if( $params['test'] && ! $params['is_template'] ) {
-            /* Create the job record */
-            $job =& new CRM_Mailing_BAO_Job();
-            $job->mailing_id = $mailing->id;
-            $job->status = 'Testing';
-            $job->is_retry = false;
-            $job->scheduled_date = date('YmdHis');
-            $job->save();
-        }
         require_once 'CRM/Contact/BAO/Group.php';
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
@@ -1310,6 +1347,7 @@ SELECT DISTINCT( m.id ) as id
             FROM        $mailing
             INNER JOIN  $job
                     ON  $job.mailing_id    = $mailing.id
+                    AND $job.is_test    <> 1
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL
             GROUP BY    $mailing.id ";
@@ -1324,7 +1362,7 @@ SELECT DISTINCT( m.id ) as id
         if ($rowCount) {
            $query .= " LIMIT $offset, $rowCount ";
         }
-    
+
         $this->query($query);
 
         $rows = array();
