@@ -65,6 +65,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     static $_columnHeaders;
 
+    protected $_parent;
+
     /**
      * Class constructor
      *
@@ -169,9 +171,13 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        
-        return $mailing->getCount();
+        $params      = array( );
+        $whereClause = $this->whereClause( $params );
+        $query = "
+SELECT count(id)
+  FROM civicrm_mailing
+ WHERE $whereClause";
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
     /**
@@ -222,7 +228,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
 
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
-        $rows =& $mailing->getRows($offset, $rowCount, $sort);
+        
+        $params = array( );
+        $whereClause = ' AND ' . $this->whereClause( $params );
+        $rows =& $mailing->getRows($offset, $rowCount, $sort, $whereClause, $params );
 
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
@@ -257,6 +266,52 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getExportFileName( $output = 'csv') {
         return ts('CiviMail Mailings');
+    }
+
+    function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
+    function whereClause( &$params, $sortBy = true ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->_parent->get( 'mailing_name' );
+        //echo " name=$title  ";
+        if ( $title ) {
+            $clauses[] = 'name LIKE %1';
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        if ( $sortBy &&
+             $this->_parent->_sortByCharacter ) {
+            $clauses[] = 'name LIKE %2';
+            $params[2] = array( $this->_parent->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %3';
+        $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        
+        return implode( ' AND ', $clauses );
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
+     FROM civicrm_mailing
+    WHERE $whereClause
+ ORDER BY LEFT(name, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_parent->_sortByCharacter, true );
+        $this->_parent->assign( 'aToZ', $aToZBar );
     }
     
 }//end of class

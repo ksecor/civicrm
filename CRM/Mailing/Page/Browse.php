@@ -70,7 +70,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
     protected $_pager = null;
 
-    protected $_sortByCharacter;
+    public $_sortByCharacter;
 
     /**
      * Heart of the viewing process. The runner gets all the meta data for
@@ -113,31 +113,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
         $config =& CRM_Core_Config::singleton( );
 
-        $params = array( );
-        $whereClause = $this->whereClause( $params, false );
-        $this->pagerAToZ( $whereClause, $params );
-
-        $params      = array( );
-        $whereClause = $this->whereClause( $params, true );
-        $this->pager    ( $whereClause, $params );
-
-
-        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
-        $query = "
-  SELECT *
-    FROM civicrm_mailing
-   WHERE $whereClause
-ORDER BY name asc
-   LIMIT $offset, $rowCount";
-
-        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Mailing_DAO_Mailing' );
-        $rowIds = array();
-        while ($object->fetch()) {
-            $rowIds[] = $object->id;
-        }
-
-
         $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
 
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
@@ -178,6 +153,7 @@ ORDER BY name asc
         CRM_Utils_System::setTitle(ts('Mailings'));
 
         $selector =& new CRM_Mailing_Selector_Browse( );
+        $selector->setParent( $this );
         $controller =& new CRM_Core_Selector_Controller(
                                                         $selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
@@ -190,12 +166,6 @@ ORDER BY name asc
 
         // hack to display results as per search
         $rows = $controller->getRows($controller);
-        foreach ($rows as $key => $row) {
-            unset($rows[$key]['id']);
-            if (! in_array($row['id'], $rowIds)) {
-                unset($rows[$key]);
-            }
-        }
         $this->assign('rows', $rows);
 
         return parent::run( );

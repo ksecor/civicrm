@@ -1316,7 +1316,7 @@ SELECT DISTINCT( m.id ) as id
      * @return array            The rows
      * @access public
      */
-    public function &getRows($offset, $rowCount, $sort) {
+    public function &getRows($offset, $rowCount, $sort, $additionalClause = null, $additionalParams = null ) {
         $mailing    = self::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $group      = CRM_Mailing_DAO_Group::getTableName( );
@@ -1335,9 +1335,10 @@ SELECT DISTINCT( m.id ) as id
             FROM        $mailing
             INNER JOIN  $job
                     ON  $job.mailing_id    = $mailing.id
-                    AND $job.is_test    <> 1
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL
+              AND       $job.is_test != 1
+                        $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {
@@ -1351,19 +1352,21 @@ SELECT DISTINCT( m.id ) as id
            $query .= " LIMIT $offset, $rowCount ";
         }
 
-        $this->query($query);
+        if ( ! $additionalParams ) {
+            $additionalParams = array( );
+        }
+
+        $dao = CRM_Core_DAO::executeQuery( $query, $additionalParams );
 
         $rows = array();
-
-        while ($this->fetch()) {
+        while ($dao->fetch()) {
             $rows[] = array(
-                'id'            =>  $this->id,
-                'name'          =>  $this->name, 
-                'status'        => CRM_Mailing_BAO_Job::status($this->status), 
-                'scheduled'     => CRM_Utils_Date::customFormat($this->scheduled_date),
-                'scheduled_iso' => $this->scheduled_date,
-                'start'         => CRM_Utils_Date::customFormat($this->start_date), 
-                'end'           => CRM_Utils_Date::customFormat($this->end_date)
+                'name'          =>  $dao->name, 
+                'status'        => CRM_Mailing_BAO_Job::status($dao->status), 
+                'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
+                'scheduled_iso' => $dao->scheduled_date,
+                'start'         => CRM_Utils_Date::customFormat($dao->start_date), 
+                'end'           => CRM_Utils_Date::customFormat($dao->end_date)
             );
         }
         return $rows;
