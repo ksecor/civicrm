@@ -1461,6 +1461,30 @@ SELECT DISTINCT( m.id ) as id
         }
         $daoJob->delete();
     }
+
+    function getReturnProperties( ) {
+        $tokens =& $this->getTokens( );
+
+        $properties = array( );
+        if ( isset( $tokens['body_html'] ) &&
+             isset( $tokens['body_html']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['body_html']['contact'] );
+        }
+
+        if ( isset( $tokens['body_text'] ) &&
+             isset( $tokens['body_text']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['body_text']['contact'] );
+        }
+
+        $returnProperties = array( );
+        $returnProperties['display_name'] = $returnProperties['contact_id'] = 1;
+        foreach ( $properties as $p ) {
+            $returnProperties[$p] = 1;
+        }
+
+        return $returnProperties;
+    }
+
 }
 
 ?>
