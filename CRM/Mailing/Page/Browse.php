@@ -68,6 +68,10 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_action;
 
+    protected $_pager = null;
+
+    protected $_sortByCharacter;
+
     /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -95,6 +99,45 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */ 
     function run( ) {
         $this->preProcess(); 
+
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
+        }
+
+        $this->search( );
+
+        $config =& CRM_Core_Config::singleton( );
+
+        $params = array( );
+        $whereClause = $this->whereClause( $params, false );
+        $this->pagerAToZ( $whereClause, $params );
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, true );
+        $this->pager    ( $whereClause, $params );
+
+
+        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
+
+        $query = "
+  SELECT *
+    FROM civicrm_mailing
+   WHERE $whereClause
+ORDER BY name asc
+   LIMIT $offset, $rowCount";
+
+        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Mailing_DAO_Mailing' );
+        $rowIds = array();
+        while ($object->fetch()) {
+            $rowIds[] = $object->id;
+        }
+
+
         $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
 
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
@@ -132,6 +175,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
             
 
+        CRM_Utils_System::setTitle(ts('Mailings'));
+
         $selector =& new CRM_Mailing_Selector_Browse( );
         $controller =& new CRM_Core_Selector_Controller(
                                                         $selector ,
@@ -141,12 +186,99 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
-
-        CRM_Utils_System::setTitle(ts('Mailings'));
         $controller->run( );
+
+        // hack to display results as per search
+        $rows = $controller->getRows($controller);
+        foreach ($rows as $key => $row) {
+            unset($rows[$key]['id']);
+            if (! in_array($row['id'], $rowIds)) {
+                unset($rows[$key]);
+            }
+        }
+        $this->assign('rows', $rows);
+
         return parent::run( );
     }
-  
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE ) ) {
+            return;
+        }
+
+        $form = new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Search', ts( 'Search Mailings' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+
+    function whereClause( &$params, $sortBy = true ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->get( 'mailing_name' );
+        //echo " name=$title  ";
+        if ( $title ) {
+            $clauses[] = 'name LIKE %1';
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
+            $clauses[] = 'name LIKE %2';
+            $params[2] = array( $this->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %3';
+        $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        
+        return implode( ' AND ', $clauses );
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
+     FROM civicrm_mailing
+    WHERE $whereClause
+ ORDER BY LEFT(name, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
+        $this->assign( 'aToZ', $aToZBar );
+    }
+ 
+    function pager( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/Pager.php';
+
+        $params['status']       = ts('Group %%StatusMessage%%');
+        $params['csvString']    = null;
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
+        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( ! $params['rowCount'] ) {
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
+        }
+
+        $query = "
+SELECT count(id)
+  FROM civicrm_mailing
+ WHERE $whereClause";
+
+        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $this->_pager );
+    }
+ 
 }
 
 ?>

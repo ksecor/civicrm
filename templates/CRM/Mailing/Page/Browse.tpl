@@ -6,7 +6,9 @@
 {/if}
 
 {if $rows}
+{include file="CRM/Mailing/Form/Search.tpl"}
 {include file="CRM/common/pager.tpl" location="top"}
+{include file="CRM/common/pagerAToZ.tpl}
 
 {strip}
 <table>
