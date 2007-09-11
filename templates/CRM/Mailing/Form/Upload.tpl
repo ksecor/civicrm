@@ -20,9 +20,13 @@
 	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
   	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
 	<dt>{$form.html_message.label}</dt><dd>{$form.html_message.html}</dd>
-	<dt>{$form.updateTemplate.label}</dt><dd>{$form.updateTemplate.html}</dd>
-	<dt>{$form.saveNewTemplate.label}</dt><dd>{$form.saveNewTemplate.html}</dd>	
-	<div id="save"><dt>{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
+    <div id="editMessageDetails" class="form-item">
+    <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
+    <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
+    </div>
+     <div id="saveDetails" class="form-item">
+       <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
+      </div>
     </fieldset>
     <fieldset id="upload_id"><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
         <dd>{$form.textFile.html}<br />
@@ -83,9 +87,7 @@
 {include file="CRM/common/showHide.tpl"}
 {literal}
 <script type="text/javascript">
-{/literal}{literal}
-    document.getElementsByName("upload_type")[0].checked = true;  hide('compose_id');
-    hide('save');
+    showHideUpload();
     function showHideUpload()
     { 
 	if (document.getElementsByName("upload_type")[0].checked) {
@@ -97,20 +99,35 @@
         }
     }
    
-    function showSave(chkbox)
-    { 
-	if (chkbox.checked) {
-            show('save');
-        } else {
-            hide('save');
-        }
-    }
     function selectValue(val)
-     {
+    {
        var tokens = val.split( "^A" );
        dojo.byId('text_message').value=tokens[0];
        dojo.byId('html_message').value=tokens[2];	 
-     }
+    }
  
+     function verify( select )
+     {
+	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
+	    document.getElementById("saveDetails").style.display = "none";
+	}
+
+	document.getElementById("editMessageDetails").style.display = "block";
+	document.getElementById("saveTemplateName").disabled = false;
+     }
+
+     function showSaveDetails(chkbox) 
+     {
+	if (chkbox.checked) {
+	    document.getElementById("saveDetails").style.display = "block";
+	    document.getElementById("saveTemplateName").disabled = false;
+	} else {
+	    document.getElementById("saveDetails").style.display = "none";
+	    document.getElementById("saveTemplateName").disabled = true;
+	}
+     }
+
+    document.getElementById("saveDetails").style.display = "none";
+    document.getElementById("editMessageDetails").style.display = "none";
 </script>
 {/literal}
