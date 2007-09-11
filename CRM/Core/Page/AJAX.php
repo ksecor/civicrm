@@ -210,7 +210,7 @@ ORDER by v.weight";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
+       
         $elements = array( );
         while ( $dao->fetch( ) ) {
             $elements[] = array( 'name'  => $dao->label, 
@@ -403,20 +403,17 @@ SELECT subject
 FROM civicrm_case
 WHERE contact_id = $contactID 
 AND LOWER(subject) LIKE LOWER('$name%')
-ORDER BY subject LIMIT 6";
+ORDER BY subject";
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
-        $count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->subject, $dao->subject );
-            $count++;
+       
+        while ( $dao->fetch( ) ) {
+            $elements[] = array('name' => $dao->subject);
         }
 
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'name');
     }
 }
 

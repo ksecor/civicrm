@@ -109,9 +109,9 @@ class CRM_Activity_Form extends CRM_Core_Form
         // figure out if we are adding this activity to case
         // DRAFTING: figure out the way to separate this
         $this->_caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );
-        if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
+        /* if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
             $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseID,'subject' );
-        }
+        }*/
         
         // DRAFTING: not sure what the below does
         // require_once 'CRM/Core/BAO/OptionValue.php';
@@ -235,13 +235,21 @@ class CRM_Activity_Form extends CRM_Core_Form
         $regardName = CRM_Contact_BAO_Contact::sortName( $this->_targetCID );
         $toname     = CRM_Contact_BAO_Contact::sortName( $this->_assignCID );
         $domainID = CRM_Core_Config::domainID( );
+
+        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
-                             'style'          => 'width: 160px;',
-                             'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/search",
-                                                                           "d={$domainID}&s=%{searchString}",
-                                                                           true, null, false ),
-                                );
+                             'store'          => 'contactStore',
+                             'class '         => 'tundra'
+                             );
+        
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "d={$domainID}&s=",
+                                          true, null, false );
+        
+        $this->assign('dataUrl',$dataUrl );
+
         $from = $this->add( 'text','from_contact',ts('From'),$attributes,true );
         if ( $from->getValue( ) ) {
             $this->assign( 'from_contact_value',  $from->getValue( ) );
@@ -263,13 +271,17 @@ class CRM_Activity_Form extends CRM_Core_Form
             $this->assign('regard_contact_value',$regardName );
         }
         
-        $attributeCase = array( 'dojoType'       => 'ComboBox',
+        $attributeCase = array( 'dojoType'       => 'dijit.form.ComboBox',
                                 'mode'           => 'remote',
-                                'style'          => 'width: 300px;',
-                                'dataUrl'        => CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                                                           "c={$contactID}&s=%{searchString}",
-                                                                           true, null, false ),
-                                );
+                                'store'          => 'caseStore',
+                                'class'          => 'tundra',
+                             );
+                                
+        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
+                                          "c={$contactID}&s=",
+                                          true, null, false );
+        $this->assign('caseUrl',$caseUrl );
+
         $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
         if ( $subject->getValue( ) ) {
             $this->assign( 'subject_value',  $subject->getValue( ) );

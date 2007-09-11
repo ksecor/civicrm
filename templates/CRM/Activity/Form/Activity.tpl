@@ -10,72 +10,68 @@
         {if $history eq 1}{ts}View Completed Activity{/ts}{else}{ts}View Scheduled Activity{/ts}{/if}
     {/if}
   </legend>
+   <div class= "form-layout">
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
          <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 
-
-
-
-
-
-
    <dl class="html-adjust">     
     <dt>{$form.from_contact.label}</dt>
     
     {if $from_contact_value}
-     
         <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dojo.widget.byId( 'from_contact' ).setAllValues( "{$from_contact_value}", "{$from_contact_value}" )
+        dijit.byId( 'from_contact' ).setValue( "{$from_contact_value}", "{$from_contact_value}" )
         {rdelim} );
         </script>
    
     {/if}
-    <dd>{if $action eq 4} {$from_contact_value} {else}{$form.from_contact.html}{/if}</dd>
+     <div class = "form-layout" "dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
+        <dd>{if $action eq 4} {$from_contact_value} {else}{$form.from_contact.html}{/if}</dd>
+     </div>
+    
     <dt>{$form.to_contact.label}</dt>
     {if $to_contact_value}
-    <script type="text/javascript">
-    dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'to_contact' ).setAllValues( "{$to_contact_value}", "{$to_contact_value}" )
+        <script type="text/javascript">
+        dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'to_contact' ).setValue( "{$to_contact_value}", "{$to_contact_value}" )
     {rdelim} );
     </script>
     {/if}
-    <dd>{if $action eq 4}{$to_contact_value}{else}{$form.to_contact.html}{/if}</dd>
+    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
+        <dd>{if $action eq 4} {$to_contact_value} {else}{$form.to_contact.html}{/if}</dd>
+    </div>
+
     <dt>{$form.regarding_contact.label}</dt>
     {if $regard_contact_value}
-    <script type="text/javascript">
-    dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'regarding_contact' ).setAllValues( "{$regard_contact_value}", "{$regard_contact_value}" )
+        <script type="text/javascript">
+        dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'regarding_contact' ).setValue( "{$regard_contact_value}", "{$regard_contact_value}" )
     {rdelim} );
     </script>
     {/if}  
-    <dd>{if $action eq 4}{$regard_contact_value}{else}{$form.regarding_contact.html}{/if}</dd>
-	<dt>{$form.case_subject.label}</dt>
+    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
+        <dd>{if $action eq 4} {$regarding_contact_value} {else}{$form.regarding_contact.html}{/if}        </dd>
+    </div>
+
+    <dt>{$form.case_subject.label}</dt>
     {if $subject_value}
-    <script type="text/javascript">
-    dojo.addOnLoad( function( ) {ldelim}
-    dojo.widget.byId( 'case_subject' ).setAllValues( '{$subject_value}', '{$subject_value}' )
+        <script type="text/javascript">
+        dojo.addOnLoad( function( ) {ldelim}
+        dijit.byId( 'case_subject' ).setValue( '{$subject_value}', '{$subject_value}' )
     {rdelim} );
     </script>
-    {/if}  
-    <dd>{if $action eq 4}{$subject_value}{else}{$form.case_subject.html}{/if}</dd>
-   
+    {/if} 
+    <div dojoType="dojo.data.ItemFileReadStore" jsId="caseStore" url="{$caseUrl}" >
+        <dd>{if $action eq 4} {$subject_value} {else}{$form.case_subject.html}{/if}</dd>
+    </div> 
+    
     <dt>{$form.activity_tag1_id.label}</dt><dd>{$form.activity_tag1_id.html}</dd>
 	<dt>{$form.activity_tag2_id.label}</dt><dd>{$form.activity_tag2_id.html}</dd>
 	<dt>{$form.activity_tag3_id.label}</dt><dd>{$form.activity_tag3_id.html}</dd>
    </dl>
-
-
-
-
-
-
-
-
-
-        <div class="spacer"></div>
+         <div class="spacer"></div>
         <dl class="html-adjust">
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
@@ -141,6 +137,7 @@
     </dl>
     {/if} 
       </dl>
+    </div>
     </fieldset>
     </div>
     

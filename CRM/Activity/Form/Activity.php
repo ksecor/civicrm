@@ -58,7 +58,7 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
      */
     function preProcess( ) 
     {        
-        CRM_Core_Error::debug('dupa', $this );
+       
         $this->_activityType = CRM_Utils_Request::retrieve( 'activity_id', 'Positive',$this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
         $this->assign( 'context', $this->_context );
