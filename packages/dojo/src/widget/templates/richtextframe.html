@@ -5,18 +5,18 @@
 <html>
 	<head>
 		<title></title>
-		<script type="text/javascript">
-			function init(){
-				document.designMode = 'on';
-				try{
-					parentPageDomain = document.location.href.split('#')[1];
-					if(parentPageDomain){
-						document.domain = parentPageDomain;
-					}
-				}catch(e){ }
-			}
-			window.onload = init;
-		</script>
+<script type="text/javascript">
+function init(){
+	 parentPageDomain = document.location.href.split('#')[1];
+	 if (parentPageDomain) {
+			document.domain = parentPageDomain;
+	 }
+}
+window.onload = init;
+window.onfocus = function() {
+	document.designMode = 'On';
+}
+</script>
 	</head>
 	<body>
 		<br />

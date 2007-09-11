@@ -143,11 +143,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     'text_message', 
                     ts('Text Message'),
                     array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
-        
+
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
+        $dojoAttributes = "dojoType='Editor2' htmlEditing=true useActiveX=true	shareToolbar=false
+                           height=200px 
+                           toolbarTemplatePath='src/widget/templates/EditorToolbarCiviMail.html' 
+                           toolbarTemplateCssPath='src/widget/templates/EditorToolbarCiviMail.css' ";
+     
         $this->add( 'textarea', 
                     'html_message', 
                     ts('HTML Message'),
-                    array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
+                    $dojoAttributes);
         
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );

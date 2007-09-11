@@ -16,19 +16,27 @@
     <dt class="label">{$form.from_email.label}</dt><dd>{$form.from_email.html}</dd>
     <dt class="label">{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt class="label">{$form.upload_type.label}</dt><dd>{$form.upload_type.html}</dd>
+    </dl>
     <fieldset id="compose_id">
+      <dl class="html-adjust">  
 	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
   	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
-	<dt>{$form.html_message.label}</dt><dd>{$form.html_message.html}</dd>
+        <dt>{$form.html_message.label}</dt> 
+        <dd style="border: 1px solid black; ">{$form.html_message.html}</dd>
+      </dl>  
     <div id="editMessageDetails" class="form-item">
-    <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
-    <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
+      <dl>
+         <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
+         <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
+      </dl>
     </div>
      <div id="saveDetails" class="form-item">
-       <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
+        <dl> 
+          <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
+        </dl>
       </div>
     </fieldset>
-    <fieldset id="upload_id"><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
+    <fieldset id="upload_id"><dl><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
         <dd>{$form.textFile.html}<br />
             <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
         </dd>
