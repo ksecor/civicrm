@@ -102,8 +102,7 @@ ORDER BY scheduled_date,
                 CRM_Core_DAO::transaction('COMMIT');
             }
             
-            $mailingSize = $job->getMailingSize();
-            $mailer =& $config->getMailer($mailingSize);
+            $mailer =& $config->getMailer();
             
             /* Compose and deliver */
             $isComplete = $job->deliver($mailer, $testParams);
