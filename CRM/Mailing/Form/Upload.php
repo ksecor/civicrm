@@ -91,6 +91,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $domain = new CRM_Core_DAO_Domain( );
         $domain->id = CRM_Core_Config::domainID( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'id, email_name, email_address' );
         $domain->find( true );
 
         $this->add('text', 'from_name', ts('FROM Name'));
