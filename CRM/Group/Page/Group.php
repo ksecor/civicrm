@@ -234,15 +234,16 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
-        $this->search( );
-
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
         if ( $this->_sortByCharacter == 1 ||
              ! empty( $_POST ) ) {
-            $this->_sortByCharacter = null;
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
         }
+
+        $this->search( );
 
         $config =& CRM_Core_Config::singleton( );
 
