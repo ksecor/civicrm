@@ -38,7 +38,18 @@
  */
 class CRM_Mailing_Form_Test extends CRM_Core_Form 
 {
-    
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $count = $this->get('count');
+        $this->assign('count',$count);    
+    }
+
     public function buildQuickForm() 
     {
         $session =& CRM_Core_Session::singleton();

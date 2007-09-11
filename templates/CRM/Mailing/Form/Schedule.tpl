@@ -1,4 +1,5 @@
 {include file="CRM/common/WizardHeader.tpl"}
+{include file="CRM/Mailing/Form/Count.tpl"}
 
 <div class="form-item">
 <fieldset>

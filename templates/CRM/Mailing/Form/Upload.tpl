@@ -1,4 +1,5 @@
 {include file="CRM/common/WizardHeader.tpl"}
+{include file="CRM/Mailing/Form/Count.tpl"}
 <div id="help">
 <p>
     {ts}Before completing this step, you must create one or two files containing your mailing content.{/ts} {help id="id-upload"}

@@ -97,7 +97,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param bool $includeDelivered  Whether to include the recipients who already got the mailing
      * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
-    function &getRecipients($job_id, $includeDelivered = false) {
+    function &getRecipientsObject($job_id, $includeDelivered = false) {
+        $eq = self::getRecipients($job_id, $includeDelivered = false, $this->id);
+        return $eq;
+    }
+    
+    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id) {
+        $eq = self::getRecipients($job_id, $includeDelivered = false, $mailing_id);
+        return $eq->N;
+    }
+    
+    function &getRecipients($job_id, $includeDelivered = false, $mailing_id) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -131,7 +141,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
                     WHERE
-                                        $mg.mailing_id = {$this->id}
+                                        $mg.mailing_id = {$mailing_id}
                         AND             $g2contact.status = 'Added'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
@@ -147,7 +157,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $job.mailing_id = $mg.entity_id AND $mg.entity_table = '$mailing'
                     WHERE
-                                        $mg.mailing_id = {$this->id}
+                                        $mg.mailing_id = {$mailing_id}
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
         
@@ -165,7 +175,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         LEFT JOIN           $eb
                                 ON          $eq.id = $eb.event_queue_id
                         WHERE
-                                            $job.mailing_id = {$this->id}
+                                            $job.mailing_id = {$mailing_id}
                             AND             $eb.id IS null";
             $mailingGroup->query($excludeRetry);
         }
@@ -177,7 +187,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         ON          $mg.entity_id = $group.id
                 WHERE               $mg.entity_table = '$group'
                     AND             $mg.group_type = 'Exclude'
-                    AND             $mg.mailing_id = {$this->id}
+                    AND             $mg.mailing_id = {$mailing_id}
                     AND             $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
@@ -237,7 +247,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
 
         /* Query prior mailings */
@@ -266,7 +276,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
 
         /* Construct the saved-search queries */
@@ -277,7 +287,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 AND $mg.entity_table = '$group'
                     WHERE               
                                     $mg.group_type = 'Include'
-                        AND         $mg.mailing_id = {$this->id}
+                        AND         $mg.mailing_id = {$mailing_id}
                         AND         $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
@@ -338,7 +348,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.is_opt_out = 0
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
                     
         /* Get the emails with full override */
@@ -364,7 +374,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
                         
         $results = array();
@@ -852,28 +862,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     {
         CRM_Core_DAO::transaction('BEGIN');
         
-        if( $ids['mailing_id'] ) {
-            $mailing =& new CRM_Mailing_BAO_Mailing();
-            $mailing->id = $ids['mailing_id'];
-            if ($mailing->find(true)) {
-                $job =& new CRM_Mailing_BAO_Job();
-                $job->mailing_id = $mailing->id;
-                if ( ! $mailing->is_template) {
-                    $job->status = 'Scheduled';
-                    $job->is_retry = false;
-                    $job->is_test = false;
-                    if ($params['now']) {
-                        $job->scheduled_date = date('YmdHis');
-                    } else {
-                        $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
-                    }
-                    $job->save();
-                } 
-                $mailing->save();
-            }
-            CRM_Core_DAO::transaction('COMMIT');
-            return $mailing;
-        }
         $mailing = self::add($params, $ids);
         
         if( is_a( $mailing, 'CRM_Core_Error') ) {

@@ -147,7 +147,7 @@ ORDER BY scheduled_date,
             if ($this->is_retry) {
                 $recipients =& $mailing->retryRecipients($this->id);
             } else {
-                $recipients =& $mailing->getRecipients($this->id);
+                $recipients =& $mailing->getRecipientsObject($this->id);
             }
             while ($recipients->fetch()) {
                 $params = array(
@@ -170,7 +170,7 @@ ORDER BY scheduled_date,
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
 
-        $recipients =& $mailing->getRecipients($this->id, true);
+        $recipients =& $mailing->getRecipientsObject($this->id, true);
         $mailingSize = 0;
         while ($recipients->fetch()) {
             $mailingSize ++;

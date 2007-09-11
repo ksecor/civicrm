@@ -76,7 +76,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $defaults['includeMailings'] = CRM_Utils_Array::value('Include',$mailingGroups['civicrm_mailing']);
             $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
-        
+
         return $defaults;
     }
 
@@ -185,10 +185,53 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             }
         }
         
+        $daoComponent =& new CRM_Mailing_DAO_Component();
+        $components = array('Reply', 'OptOut', 'Unsubscribe');
+        
+        foreach ($components as $key => $value) {
+            $findDefaultComponent =
+                "SELECT id
+                FROM    civicrm_mailing_component
+                WHERE   component_type = '$value'
+                AND     is_default = true";
+            
+            $daoComponent->query($findDefaultComponent);
+            
+            while($daoComponent->fetch()) {
+                $$value = $daoComponent->id;
+            }
+        }
+        
+        $params['reply_id'] = $Reply;
+        $params['optout_id'] = $OptOut;
+        $params['unsubscribe_id'] = $Unsubscribe;
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id']  = $session->get('domainID');
+        $params['groups']         = $groups;
+        $params['mailings']       = $mailings;
+        
+        $ids['mailing_id'] = $this->get('mailing_id');  
+        
+        $mg =& new CRM_Mailing_DAO_Group();
+        $mg->mailing_id = $ids['mailing_id']; 
+
+        $mg->find();
+        while ($mg->fetch()) {                       
+            $mg->delete( );
+        }
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
+        $this->set('mailing_id', $mailing->id);
+        
+        require_once "CRM/Mailing/BAO/Mailing.php";
+        $count = CRM_Mailing_BAO_Mailing::getRecipientsCount(true, false, $mailing->id);
+        $this->set('count',$count );
+        $this->assign('count',$count );
         $this->set('groups', $groups);
         $this->set('mailings', $mailings);
     }
-
+    
     /**
      * Display Name of the form
      *

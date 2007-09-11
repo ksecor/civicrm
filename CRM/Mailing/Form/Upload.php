@@ -49,7 +49,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         $mailingID = $this->get("mid");
-
+        $count = $this->get('count');
+        $this->assign('count',$count);
+        
         $session =& CRM_Core_Session::singleton();
         $session->set('skipTextFile', false);
         $session->set('skipHtmlFile', false);
@@ -246,9 +248,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $this->set($key, $this->controller->exportvalue($this->_name, $key));
         }
         
-        foreach ( array( 'name', 'groups', 'mailings' ) as $key ) {
-            $params[$key] = $this->get($key);
-        }
+        $params['name'] = $this->get('name');
         
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']  = $session->get('domainID');
@@ -288,11 +288,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $params['msg_template_id'] = $msgTemplate->id;
             }
         }
-        
+
+        $ids['mailing_id'] = $this->get('mailing_id');
+
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
-        $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
-        $this->set('mailing_id', $mailing->id);
+        CRM_Mailing_BAO_Mailing::create($params, $ids);
+        
     }
     
     /**
