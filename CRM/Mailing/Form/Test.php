@@ -169,10 +169,14 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
             }
         }
         CRM_Core_Error::setCallback();
-        
-        return (count($errors) ? $errors : true);
+        if (count($errors)) {
+            return  $errors ;
+        } else {
+            CRM_Mailing_BAO_Mailing::delJob($options['job_id']);
+            return true;
+        }
     }
-
+    
     /**
      * Display Name of the form
      *

@@ -106,7 +106,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
         $params['mailing_id'] = $this->get('mailing_id');
         foreach(array('now', 'start_date') as $parameter) {
             $params[$parameter] = $this->controller->exportValue($this->_name,
-            $parameter);
+                                                                 $parameter);
         }
         
         $session =& CRM_Core_Session::singleton();

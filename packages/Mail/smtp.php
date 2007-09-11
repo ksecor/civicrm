@@ -201,7 +201,7 @@ class Mail_smtp extends Mail {
      *               failure.
      * @access public
      */
-    function send($recipients, $headers, $body)
+    function send($recipients, $headers, $body, $job_id = null)
     {
         include_once 'Net/SMTP.php';
 

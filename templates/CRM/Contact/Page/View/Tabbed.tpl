@@ -74,10 +74,13 @@
         {if $email.is_primary eq 1}<strong>{/if}
         {ts}Email:{/ts} <a href="mailto:{$email.email}">{$email.email}</a>
         {if $email.is_primary eq 1}</strong>{/if}
-        {/if}
-        {if $email.on_hold}
+      {/if}
+      {if $email.on_hold}
 	    <span class="status-hold">&nbsp;(On Hold)</span>
-	{/if}
+	  {/if}
+      {if $email.is_bulkmail}
+	    <span class="status-hold">&nbsp;(For Bulkmail)</span>
+	  {/if}
 	<br />
    {/foreach}
 

@@ -47,8 +47,14 @@ require_once 'CRM/Mailing/Event/BAO/Delivered.php';
 require_once 'CRM/Mailing/Event/BAO/Bounce.php';
 require_once 'CRM/Mailing/BAO/TrackableURL.php';
 require_once 'CRM/Mailing/BAO/Component.php';
+require_once 'CRM/Mailing/BAO/Spool.php';
 
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
+
+    /**
+     * An array that holds the tokens that are specifically found in our text and html bodies
+     */
+    private $tokens = null;
 
     /**
      * The header associated with this mailing
@@ -87,11 +93,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     /**
      * Find all intended recipients of a mailing
      *
-     * @param int $job_id       Job ID
-     * @return object           A DAO loaded with results of the form
-     *                              (email_id, contact_id)
+     * @param int  $job_id            Job ID
+     * @param bool $includeDelivered  Whether to include the recipients who already got the mailing
+     * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
-    function &getRecipients($job_id) {
+    function &getRecipients($job_id, $includeDelivered = false) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -147,21 +153,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         /* Add all the succesful deliveries of this mailing (but any job/retry)
          * to the exclude temp table */
-        $excludeRetry =
-                    "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              $eq.contact_id
-                    FROM                $eq
-                    INNER JOIN          $job
-                            ON          $eq.job_id = $job.id
-                    INNER JOIN          $ed
-                            ON          $eq.id = $ed.event_queue_id
-                    LEFT JOIN           $eb
-                            ON          $eq.id = $eb.event_queue_id
-                    WHERE
-                                        $job.mailing_id = {$this->id}
-                        AND             $eb.id IS null";
-        $mailingGroup->query($excludeRetry);
-        
+        if (! $includeDelivered ) {
+            $excludeRetry =
+                "INSERT IGNORE INTO X_$job_id (contact_id)
+                        SELECT              $eq.contact_id
+                        FROM                $eq
+                        INNER JOIN          $job
+                                ON          $eq.job_id = $job.id
+                        INNER JOIN          $ed
+                                ON          $eq.id = $ed.event_queue_id
+                        LEFT JOIN           $eb
+                                ON          $eq.id = $eb.event_queue_id
+                        WHERE
+                                            $job.mailing_id = {$this->id}
+                            AND             $eb.id IS null";
+            $mailingGroup->query($excludeRetry);
+        }
         $ss =& new CRM_Core_DAO();
         $ss->query(
                 "SELECT             $group.saved_search_id as saved_search_id
@@ -202,6 +209,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          * exclusion temp table */
 
         /* Get the emails with no override */
+        
         $mailingGroup->query(
                     "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
@@ -227,7 +235,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $location.is_primary = 1
-                        AND             $email.is_primary = 1
+                        AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$this->id}
                         AND             X_$job_id.contact_id IS null");
@@ -376,6 +384,73 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
+     * 
+     *  Retrieve a ref to an array that holds all of the tokens in the email body
+     *  where the keys are the type of token and the values are ordinal arrays
+     *  that hold the token names (even repeated tokens) in the order in which
+     *  they appear in the body of the email.
+     *  
+     *  note: the real work is done in the _getTokens() function
+     *  
+     *  this function needs to have some sort of a body assigned
+     *  either text or html for this to have any meaningful impact
+     *  
+     * @return array               reference to an assoc array
+     * @access public
+     * 
+     **/
+    public function &getTokens(){
+      if(!$this->tokens){
+
+        $htmlKey = 'body_html';
+        $textKey = 'body_text';
+
+        $this->tokens = array( $htmlKey => array(), $textKey => array() );
+
+        if($this->$textKey){
+          $this->_getTokens($textKey);
+        }
+  
+        if($this->$htmlKey){
+          $this->_getTokens($htmlKey);
+        }
+      }
+      return $this->tokens;      
+    }
+    
+    /**
+     *
+     *  _getTokens parses out all of the tokens that have been
+     *  included in the html and text bodies of the email
+     *  we get the tokens and then separate them into an
+     *  internal structure named tokens that has the same
+     *  form as the static tokens property(?) of the CRM_Utils_Token class.
+     *  The difference is that there might be repeated token names as we want the
+     *  structures to represent the order in which tokens were found from left to right, top to bottom.
+     *
+     *  
+     * @param str $prop     name of the property that holds the text that we want to scan for tokens (body_html, body_text)
+     * @access private
+     * @return void
+     */
+
+    private function _getTokens($prop){
+      $matches = array();
+      preg_match_all('/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',$this->$prop,$matches,PREG_PATTERN_ORDER);
+      if($matches[1]){
+        foreach($matches[1] as $token){
+          list($type,$name) = split('\.',$token,2);
+          if($name){
+            if(!$this->tokens[$prop][$type]){
+               $this->tokens[$prop][$type] = array();
+            }
+            $this->tokens[$prop][$type][] = $name;
+          }
+        }
+      }
+    }
+
+    /**
      * Generate an event queue for a retry job (ie the contacts who bounced)
      *
      * @param int $job_id       The job marked retry
@@ -462,20 +537,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public function &compose($job_id, $event_queue_id, $hash, $contactId, 
                              $email, &$recipient, $test = false) 
     {
-        if ($test) {
-            $domain_id = $this->domain_id;
-            $job_id = $job_id;
-            $event_queue_id = $event_queue_id;
-            $hash = $hash;
-        } else {
-            $domain_id = $this->domain_id;
-        }
+        
+        $domain_id = $this->domain_id;
+
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
             $this->_domain =& 
                 CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
-
+        
         require_once 'api/Contact.php';
         /**
          * Inbound VERP keys:
@@ -485,7 +555,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
          *  optOut:         contact unsubscribes from the domain
          */
         $config =& CRM_Core_Config::singleton( );
-        
+
         $verp = array( );
         foreach (array('reply', 'bounce', 'unsubscribe', 'optOut') as $key) {
             $verp[$key] = implode($config->verpSeparator,
@@ -498,7 +568,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         )
                                   ) . '@' . $this->_domain->email_domain;
         }
-                
+
         $urls = array(
                       'forward'         => CRM_Utils_System::url('civicrm/mailing/forward', 
                                                          "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
@@ -519,9 +589,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                          );
 
         require_once 'CRM/Utils/Token.php';
+
+
         if ($this->html == null || $this->text == null) {
             $this->getHeaderFooter();
 
+            $knownTokens = $this->getTokens();
             if ($this->body_html) {
                 $this->html = null;
                 if ( $this->header ) {
@@ -532,10 +605,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     $this->html = $this->html . $this->footer->body_html;
                 }
 
-                $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,
-                                $this->_domain, true);
-                $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,
-                                $this, true);
+                $this->html = CRM_Utils_Token::replaceDomainTokens($this->html,$this->_domain, true, $knownTokens['body_html']);
+                $this->html = CRM_Utils_Token::replaceMailingTokens($this->html,$this, true, $knownTokens['body_html']);
             }
 
             if (!$this->body_text) {
@@ -551,10 +622,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $this->text = $this->text . $this->footer->body_text;
             }
 
-            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,
-                                                               $this->_domain, false);
-            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,
-                                                                $this, true);
+            $this->text = CRM_Utils_Token::replaceDomainTokens($this->text,$this->_domain, false, $knownTokens['body_text']);
+            $this->text = CRM_Utils_Token::replaceMailingTokens($this->text,$this, false, $knownTokens['body_text']);
         }
         
         $html = $this->html;
@@ -573,10 +642,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both') 
         {
-            $text = CRM_Utils_Token::replaceContactTokens(
-                                        $text, $contact, false);
-            $text = CRM_Utils_Token::replaceActionTokens( $text,
-                                        $verp, $urls, false);
+            $knownTokens =& $this->getTokens();
+            $text = CRM_Utils_Token::replaceContactTokens($text, $contact, false, $knownTokens['body_text']);
+            $text = CRM_Utils_Token::replaceActionTokens( $text, $verp, $urls, false,$knownTokens['body_text']);
             // render the &amp; entities in text mode, so that the links work
             $text = str_replace('&amp;', '&', $text);
         }
@@ -588,10 +656,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
             $contact['preferred_mail_format'] == 'Both'))
         {
-            $html = CRM_Utils_Token::replaceContactTokens(
-                                        $html, $contact, true);
-            
-            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true);
+            $knownTokens =& $this->getTokens();
+            $html = CRM_Utils_Token::replaceContactTokens($html, $contact, true, $knownTokens['body_html']);
+            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true, $knownTokens['body_html']);
             
             if ($this->open_tracking) {
                 $html .= '<img src="' . $config->userFrameworkResourceURL . 
@@ -602,6 +669,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($html && !$test && $this->url_tracking) {
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($html,
                                 $this->id, $event_queue_id);
+
             CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,
                                 $this->id, $event_queue_id);
         }
@@ -609,14 +677,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both') 
         {
+            // remove escape characters that may have been used to preserve a token in the body
+            CRM_Utils_Token::unescapeTokens($text);
             $message->setTxtBody($text);
-            
+
             unset( $text );
         }
 
         if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
             $contact['preferred_mail_format'] == 'Both'))
         {
+            // remove escape characters that may have been used to preserve a token in the body
+            CRM_Utils_Token::unescapeTokens($html);
             $message->setHTMLBody($html);
 
             unset( $html );
@@ -758,10 +830,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $mailing->is_completed  = false;
         $mailing->save();
         
-        if (! $mailing->is_template) {
+        if ($params['test'] && ! $mailing->is_template) {
             /* Create the job record */
             $job =& new CRM_Mailing_BAO_Job();
             $job->mailing_id = $mailing->id;
+            $job->status = 'Testing';
+            $job->is_retry = false;
+            $job->scheduled_date = date('YmdHis');
             $job->save();
         }
         require_once 'CRM/Contact/BAO/Group.php';
@@ -807,6 +882,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
         require_once 'CRM/Mailing/Event/BAO/Forward.php';
         require_once 'CRM/Mailing/Event/BAO/TrackableURLOpen.php';
+        require_once 'CRM/Mailing/BAO/Spool.php';
         $t = array(
                 'mailing'   => self::getTableName(),
                 'mailing_group'  => CRM_Mailing_DAO_Group::getTableName(),
@@ -823,7 +899,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 'url'       => CRM_Mailing_BAO_TrackableURL::getTableName(),
                 'urlopen'   =>
                     CRM_Mailing_Event_BAO_TrackableURLOpen::getTableName(),
-                'component' =>  CRM_Mailing_BAO_Component::getTableName()
+                'component' =>  CRM_Mailing_BAO_Component::getTableName(),
+                'spool'     => CRM_Mailing_BAO_Spool::getTableName() 
             );
         
         
@@ -930,7 +1007,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                             COUNT(DISTINCT {$t['reply']}.id) as reply,
                             COUNT(DISTINCT {$t['forward']}.id) as forward,
                             COUNT(DISTINCT {$t['bounce']}.id) as bounce,
-                            COUNT(DISTINCT {$t['urlopen']}.id) as url
+                            COUNT(DISTINCT {$t['urlopen']}.id) as url,
+                            COUNT(DISTINCT {$t['spool']}.id) as spool
             FROM            {$t['job']}
             LEFT JOIN       {$t['queue']}
                     ON      {$t['queue']}.job_id = {$t['job']}.id
@@ -945,7 +1023,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND     {$t['bounce']}.id IS null
             LEFT JOIN       {$t['urlopen']}
                     ON      {$t['urlopen']}.event_queue_id = {$t['queue']}.id
-                    
+            LEFT JOIN       {$t['spool']}
+                    ON      {$t['spool']}.job_id = {$t['job']}.id
             WHERE           {$t['job']}.mailing_id = $mailing_id
             GROUP BY        {$t['job']}.id");
         
@@ -954,7 +1033,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         while ($mailing->fetch()) {
             $row = array();
             foreach(array(  'queue', 'delivered', 'url', 'forward',
-                            'reply', 'unsubscribe', 'bounce') as $field) {
+                            'reply', 'unsubscribe', 'bounce', 'spool') as $field) {
                 if (isset( $mailing->$field )){
                     $row[$field] = $mailing->$field;
                 }
@@ -1233,7 +1312,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
     public static function del($id) {
         
-        $dependencies = array( 'CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_Job', 'CRM_Mailing_DAO_TrackableURL');
+        $dependencies = array( 'CRM_Mailing_DAO_Job','CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_TrackableURL');
         
         foreach ($dependencies as $className) {
             eval('$dao = & new ' . $className . '();');
@@ -1241,8 +1320,19 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             
             if ( $className == 'CRM_Mailing_DAO_Job' ) {
                 $dao->find(true);
+                if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
+                    $daoSpool = new CRM_Mailing_BAO_Spool();
+                    $daoSpool->job_id = $dao->id;
+                    if ( $daoSpool->find() ) {
+                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                        return;
+                    }
                     $daoQueue = new CRM_Mailing_Event_BAO_Queue();
                     $daoQueue->deleteEventQueue( $dao->id, 'job');
+                } elseif ( $dao->status == 'Running' ) {
+                    CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
+                    return;
+                }
             }
             
             $dao->delete();
@@ -1253,7 +1343,28 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $dao->delete();
         
         CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
-   }
+    }
+    
+    /**
+     * Delete Jobss and all its associated records 
+     * related to test Mailings
+     *
+     * @param  int  $id id of the Job to delete
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function delJob($id) {
+    
+        $daoJob = new CRM_Mailing_BAO_Job();
+        $daoJob->id = $id;
+        if ( $daoJob->find() ) {
+            $daoQueue = new CRM_Mailing_Event_BAO_Queue();
+            $daoQueue->deleteEventQueue( $daoJob->id, 'job');
+        }
+        $daoJob->delete();
+    }
 }
 
 ?>

@@ -902,30 +902,36 @@ class CRM_Core_Config
      * @access private
      * @return object
      */
-    static function &getMailer( ) 
+    static function &getMailer( $mailingSize = null) 
     {
         if ( ! isset( self::$_mail ) ) {
-            if ( self::$_singleton->smtpServer == '' ||
-                 ! self::$_singleton->smtpServer ) {
-                CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
-            }
-
-            $params['host'] = self::$_singleton->smtpServer;
-            $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
-
-            if (self::$_singleton->smtpAuth) {
-                $params['username'] = self::$_singleton->smtpUsername;
-                $params['password'] = self::$_singleton->smtpPassword;
-                $params['auth']     = true;
+            $config =& CRM_Core_Config::singleton();
+            if ( $mailingSize && ($mailingSize > $config->mailerSpoolLimit) ) {
+                require_once 'CRM/Mailing/BAO/Spool.php';
+                self::$_mail = & new CRM_Mailing_BAO_Spool();
             } else {
-                $params['auth']     = false;
+                if ( self::$_singleton->smtpServer == '' ||
+                     ! self::$_singleton->smtpServer ) {
+                    CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
+                }
+                
+                $params['host'] = self::$_singleton->smtpServer;
+                $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
+                
+                if (self::$_singleton->smtpAuth) {
+                    $params['username'] = self::$_singleton->smtpUsername;
+                    $params['password'] = self::$_singleton->smtpPassword;
+                    $params['auth']     = true;
+                } else {
+                    $params['auth']     = false;
+                }
+                
+                self::$_mail =& Mail::factory( 'smtp', $params );
             }
-
-            self::$_mail =& Mail::factory( 'smtp', $params );
         }
         return self::$_mail;
     }
-
+    
     /**
      * get the domain Id of the current user
      *

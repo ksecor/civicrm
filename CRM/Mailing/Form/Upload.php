@@ -154,9 +154,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         foreach (array( 'mailing_name', 'groups', 'mailings') as $key) {
             $params[$key] = $this->get($key);
-            
         }
-
+        
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id'] = $session->get('domainID');
+        $params['contact_id'] = $session->get('userID');
+        
         $session =& CRM_Core_Session::singleton();
         $params['domain_id'] = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
@@ -164,11 +167,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         if ( $this->controller->exportvalue($this->_name, 'textFile') ) {
             $this->set('textFile', $this->controller->exportvalue($this->_name, 'textFile') );
         }
-
+        
         if ($this->controller->exportvalue($this->_name, 'htmlFile')) {
             $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
         }
 
+        $params['test'] = true;
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = CRM_Mailing_BAO_Mailing::create($params);
@@ -179,8 +183,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         if ($job->find(true)) {
             $this->set('job_id',$job->id);
         } 
+        
     }
-
+    
     /**
      * Function for validation
      *
@@ -283,10 +288,23 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
             /* Do a full token replacement on a dummy verp, the current contact
              * and domain. */
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact);
+            
+            // here we make a dummy mailing object so that we
+            // can retrieve the tokens that we need to replace
+            // so that we do get an invalid token error
+            // this is qute hacky and I hope that there might
+            // be a suggestion from someone on how to
+            // make it a bit more elegant
+            
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $dummy_mail = new CRM_Mailing_BAO_Mailing();
+            $dummy_mail->body_text = $str;
+            $tokens = $dummy_mail->getTokens();
+
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['body_text']);
 
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
             if (! empty($unmatched)) {
