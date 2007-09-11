@@ -144,14 +144,19 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'textarea', 
                     'text_message', 
                     ts('Text Message'),
-                    array('cols' => '56', 'rows' => '7','onkeyup' => "return verify(this)"));
+                    array('cols' => '49', 'rows' => '8','onkeyup' => "return verify(this)"));
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
-        $dojoAttributes = "dojoType='Editor2' htmlEditing=true useActiveX=true	shareToolbar=false
-                           height=200px 
-                           toolbarTemplatePath='src/widget/templates/EditorToolbarCiviMail.html' 
-                           toolbarTemplateCssPath='src/widget/templates/EditorToolbarCiviMail.css' ";
-     
+        
+        $dojoAttributes = array( 'dojoType'            => 'Editor2',
+                                 'style'               => 'height:200px',
+                                 'htmlEditing'         => 'true',
+                                 'useActiveX'          => 'true',
+                                 'shareToolbar'        => 'false',
+                                 'toolbarTemplatePath' => 'src/widget/templates/EditorToolbarCiviMail.html',
+                                 'toolbarCssPath'      => 'src/widget/templates/EditorToolbarCiviMail.css',
+                                 'onkeyup'             => 'return verify(this)',
+                                 );
         $this->add( 'textarea', 
                     'html_message', 
                     ts('HTML Message'),
@@ -366,6 +371,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         } else {
             if ( !($params['text_message']) && !($params['html_message']) ) {
                 $errors['text_message'] = ts('Please provide either a Text or HTML formatted message - or both.');
+            }
+            if ( $params['saveTemplate'] &&  ! $params['saveTemplateName'] ) {
+                $errors['saveTemplateName'] =  ts('Please provide a Template Name.');
             }
         }
         
