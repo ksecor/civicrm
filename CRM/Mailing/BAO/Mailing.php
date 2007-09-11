@@ -758,6 +758,41 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         return $obj;
     }
 
+    /**
+     * function to add the mailings
+     *
+     * @param array $params reference array contains the values submitted by the form
+     * @param array $ids    reference array contains the id
+     * 
+     * @access public
+     * @static 
+     * @return object
+     */
+    static function add( &$params, &$ids )
+    {
+        require_once 'CRM/Utils/Hook.php';
+        
+        if ( CRM_Utils_Array::value( 'mailing', $ids ) ) {
+            CRM_Utils_Hook::pre( 'edit', 'Mailing', $ids['mailing_id'], $params );
+        } else {
+            CRM_Utils_Hook::pre( 'create', 'Mailing', null, $params ); 
+        }
+        
+        $mailing =& new CRM_Mailing_DAO_Mailing( );
+        $mailing->domain_id = CRM_Core_Config::domainID( );
+        $mailing->id = CRM_Utils_Array::value( 'mailing_id', $ids );
+        
+        $mailing->copyValues( $params );
+        $result = $mailing->save( );
+
+        if ( CRM_Utils_Array::value( 'mailing', $ids ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Mailing', $mailing->id, $mailing );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Mailing', $mailing->id, $mailing );
+        }
+        
+        return $result;
+    }
 
     /**
      * Construct a new mailing object, along with job and mailing_group
@@ -768,12 +803,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      * @static
      */
-    public static function create(&$params) {
+    public static function create( &$params, &$ids ) 
+    {
         CRM_Core_DAO::transaction('BEGIN');
-        $mailing =& new CRM_Mailing_BAO_Mailing(); 
         
-        if ($params['mailing_id']) {
-            $mailing->id = $params['mailing_id'];
+        if( $ids['mailing_id'] ) {
+            $mailing =& new CRM_Mailing_BAO_Mailing();
+            $mailing->id = $ids['mailing_id'];
             if ($mailing->find(true)) {
                 $job =& new CRM_Mailing_BAO_Job();
                 $job->mailing_id = $mailing->id;
@@ -783,8 +819,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     if ($params['now']) {
                         $job->scheduled_date = date('YmdHis');
                     } else {
-                        $job->scheduled_date =
-                            CRM_Utils_Date::format($params['start_date']);
+                        $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
                     }
                     $job->save();
                 } 
@@ -793,44 +828,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             CRM_Core_DAO::transaction('COMMIT');
             return $mailing;
         }
+        $mailing = self::add($params, $ids);
         
-        $mailing->domain_id     = $params['domain_id'];
-        if ($params['header_id']) $mailing->header_id = $params['header_id'];
-        if ($params['footer_id']) $mailing->footer_id = $params['footer_id'];
-        $mailing->reply_id      = $params['reply_id'];
-        $mailing->unsubscribe_id= $params['unsubscribe_id'];
-        $mailing->optout_id     = $params['optout_id'];
-        $mailing->name          = $params['mailing_name'];
-        $mailing->from_name     = $params['from_name'];
-        $mailing->from_email    = $params['from_email'];
-        if (! isset($params['replyto_email'])) {
-            $mailing->replyto_email = $params['from_email'];
-        } else  {
-            $mailing->replyto_email = $params['replyto_email'];
+        if( is_a( $mailing, 'CRM_Core_Error') ) {
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            return $mailing;
         }
-        $mailing->subject       = $params['subject'];
-        if (file_exists($params['htmlFile'])) {
-            $mailing->body_html = file_get_contents($params['htmlFile']);
-        } else {
-            $mailing->body_html = $params['htmlFile'];
-        }
-        if (file_exists($params['textFile'])) {
-            $mailing->body_text = file_get_contents($params['textFile']);
-        } else if ($params['textFile']) {
-            $mailing->body_text = $params['textFile'];
-        } else {
-            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
-        }
-        
-        $mailing->is_template   = $params['template'] ? true : false;
-        $mailing->auto_responder= $params['auto_responder'] ? true : false;
-        $mailing->url_tracking  = $params['track_urls'] ? true : false;
-        $mailing->open_tracking = $params['track_opens'] ? true : false;
-        $mailing->forward_replies = $params['forward_reply'] ? true : false;
-        $mailing->is_completed  = false;
-        $mailing->save();
-        
-        if ($params['test'] && ! $mailing->is_template) {
+
+        if( $params['test'] && ! $params['is_template'] ) {
             /* Create the job record */
             $job =& new CRM_Mailing_BAO_Job();
             $job->mailing_id = $mailing->id;
@@ -842,18 +847,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Contact/BAO/Group.php';
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
-        foreach (array('groups', 'mailings') as $entity) {
-            foreach (array('include', 'exclude') as $type) {                
-                if (is_array($params[$entity][$type])) {                    
-                    foreach ($params[$entity][$type] as $entityId) {
-                        $mg->reset();
+        foreach( array( 'groups', 'mailings' ) as $entity ) {
+            foreach( array( 'include', 'exclude' ) as $type ) {                
+                if( is_array( $params[$entity][$type] ) ) {                    
+                    foreach( $params[$entity][$type] as $entityId ) {
+                        $mg->reset( );
                         $mg->mailing_id = $mailing->id;                        
-                        $mg->entity_table   = ($entity == 'groups') 
-                                            ? CRM_Contact_BAO_Group::getTableName()
-                                            : CRM_Mailing_BAO_Mailing::getTableName();
+                        $mg->entity_table   = ( $entity == 'groups' ) 
+                                            ? CRM_Contact_BAO_Group::getTableName( )
+                                            : CRM_Mailing_BAO_Mailing::getTableName( );
                         $mg->entity_id = $entityId;
                         $mg->group_type = $type;
-                        $mg->save();
+                        $mg->save( );
                     }
                 }
             }

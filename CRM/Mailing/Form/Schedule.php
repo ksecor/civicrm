@@ -103,19 +103,20 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
     public function postProcess() 
     {
         $params = array();
-        $params['mailing_id'] = $this->get('mailing_id');
+        $params['mailing_id'] = $ids['mailing_id'] = $this->get('mailing_id');
+     
         foreach(array('now', 'start_date') as $parameter) {
             $params[$parameter] = $this->controller->exportValue($this->_name,
                                                                  $parameter);
         }
         
         $session =& CRM_Core_Session::singleton();
-        $params['domain_id'] = $session->get('domainID');
+        $params['domain_id' ] = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
         
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
-        CRM_Mailing_BAO_Mailing::create($params);
+        CRM_Mailing_BAO_Mailing::create( $params, $ids );
     }
 
     /**

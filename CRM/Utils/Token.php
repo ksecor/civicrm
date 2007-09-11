@@ -167,7 +167,14 @@ class CRM_Utils_Token {
     }
 
     private static function getDomainTokenReplacement($token, &$domain, $html = false){
-      if ($token == 'address') {
+      // check if the token we were passed is valid
+      // we have to do this because this function is
+      // called only when we find a token in the string
+      if(!in_array($token,self::$_tokens['domain'])){
+        $value = "{domain.$token}";
+      }
+
+      else if ($token == 'address') {
           require_once 'CRM/Utils/Address.php';
           $loc =& $domain->getLocationValues();
           $value = null;
@@ -216,7 +223,14 @@ class CRM_Utils_Token {
 
      private static function getMailingTokenReplacement($token, &$mailing) {
       $value = '';
-      if ($token == 'name') {
+
+      // check if the token we were passed is valid
+      // we have to do this because this function is
+      // called only when we find a token in the string
+      if(!in_array($token,self::$_tokens['mailing'])){
+        $value = "{mailing.$token}";
+      }
+      else if ($token == 'name') {
           $value = $mailing ? $mailing->name : 'Mailing Name';
       }
       else if ($token == 'group') {
@@ -249,21 +263,22 @@ class CRM_Utils_Token {
         $str = preg_replace(self::tokenRegex($key),'self::getActionTokenReplacement(\\1,$addresses,$urls)',$str);
         return $str;
     }
-    private static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
 
-        /* If the token is an email action, use it.  Otherwise, find the
-         * appropriate URL */
-        if (($value = CRM_Utils_Array::value($token, $addresses)) == null) {
-            if (($value = CRM_Utils_Array::value($token, $urls)) == null)
-            {
-                continue;
-            } 
-        } else {
-            if ($html) {
-                $value = "mailto:$value";
-            }
+    private static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
+      /* If the token is an email action, use it.  Otherwise, find the
+       * appropriate URL */
+      if(!in_array($token,self::$_tokens['action'])){
+        $value = "{action.$token}";
+      } else {
+        $value = CRM_Utils_Array::value($token, $addresses);
+        if ($value == null) {
+          $value = CRM_Utils_Array::value($token, $urls);
+          if($value && $html){
+            $value = "mailto:$value";  
+          }
         }
-        return $value;
+      }
+      return $value;
     }
 
 
@@ -301,16 +316,18 @@ class CRM_Utils_Token {
         return $str;
     }
     
-    private function getContactTokenReplacement($token,&$contact){
-
-        if ($token == '') {
-            continue;
-        }
+    private function getContactTokenReplacement($token, &$contact){
 
         /* Construct value from $token and $contact */
         $value = null;
 
-        if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
+        // check if the token we were passed is valid
+        // we have to do this because this function is
+        // called only when we find a token in the string
+        if(!in_array($token,self::$_tokens['contact'])){
+          $value = "{contact.$token}";
+        }
+        else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
             // only generate cv if we need it
             if ( $cv === null ) {
                 $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
@@ -461,7 +478,7 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &unmatchedTokens(&$str) {
-        preg_match_all('/[^\{\\\\]\{(\w+\.?\w+)\}/', $str, $match);
+        preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
         return $match[1];
     }
 }
