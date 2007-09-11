@@ -47,7 +47,7 @@ class CRM_Group_Form_Search extends CRM_Core_Form {
 
         require_once 'CRM/Core/OptionGroup.php';
         $this->addCheckBox( 'group_type',
-                            ts( 'Group Type' ),
+                            ts( 'Type' ),
                             CRM_Core_OptionGroup::values( 'group_type', true ),
                             null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
         

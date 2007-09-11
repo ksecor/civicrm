@@ -1,4 +1,4 @@
-{* this template is used for adding/editing a mailing component  *}
+{* this template is used for web-based subscriptions to mailing list type groups  *}
 <div class="form-item">
 <fieldset>
 {if $single}
