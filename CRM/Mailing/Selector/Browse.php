@@ -174,9 +174,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $params      = array( );
         $whereClause = $this->whereClause( $params );
         $query = "
-SELECT count(id)
-  FROM civicrm_mailing
- WHERE $whereClause";
+SELECT count(civicrm_mailing.id)
+  FROM civicrm_mailing, civicrm_mailing_job
+ WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+   AND $whereClause";
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
@@ -280,7 +281,7 @@ SELECT count(id)
 
         $clauses = array( );
         $title   = $this->_parent->get( 'mailing_name' );
-        //echo " name=$title  ";
+
         if ( $title ) {
             $clauses[] = 'name LIKE %1';
             if ( strpos( $title, '%' ) !== false ) {
@@ -290,14 +291,32 @@ SELECT count(id)
             }
         }
 
-        if ( $sortBy &&
-             $this->_parent->_sortByCharacter ) {
-            $clauses[] = 'name LIKE %2';
-            $params[2] = array( $this->_parent->_sortByCharacter . '%', 'String' );
+        require_once 'CRM/Utils/Date.php';
+
+        $from = $this->_parent->get( 'mailing_from' );
+        if ( ! CRM_Utils_System::isNull( $from ) ) {
+            $from = CRM_Utils_date::format( $from );
+            $from .= '000000';
+            $clauses[] = 'start_date >= %2';
+            $params[2] = array( $from, 'String' );
         }
 
-        $clauses[] = 'domain_id = %3';
-        $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        $to = $this->_parent->get( 'mailing_to' );
+        if ( ! CRM_Utils_System::isNull( $to ) ) {
+            $to = CRM_Utils_date::format( $to );
+            $to .= '235959';
+            $clauses[] = 'start_date <= %3';
+            $params[3] = array( $to, 'String' );
+        }
+
+        if ( $sortBy &&
+             $this->_parent->_sortByCharacter ) {
+            $clauses[] = 'name LIKE %3';
+            $params[3] = array( $this->_parent->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %4';
+        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
         
         return implode( ' AND ', $clauses );
     }
@@ -310,8 +329,9 @@ SELECT count(id)
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_mailing
-    WHERE $whereClause
+     FROM civicrm_mailing, civicrm_mailing_job
+    WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+      AND $whereClause
  ORDER BY LEFT(name, 1)
 ";
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
