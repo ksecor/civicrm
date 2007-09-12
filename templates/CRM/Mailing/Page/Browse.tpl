@@ -28,9 +28,12 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr class="{cycle values="odd-row,even-row"}">
-  {foreach from=$row item=value}
-    <td>{$value}</td>
-  {/foreach}
+    <td>{$row.name}</td>
+    <td>{$row.status}</td>
+    <td>{$row.scheduled}</td>
+    <td>{$row.start}</td>
+    <td>{$row.end}</td>
+    <td>{$row.action}</td>
   </tr>
   {/foreach}
 </table>

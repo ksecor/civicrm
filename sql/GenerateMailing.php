@@ -23,7 +23,7 @@ foreach ( $tables as $t ) {
 }
 
 $prefix = 'Automated Mailing Gen: ';
-$numGroups = 159;
+$numGroups = 0;
 
 $status = array( 'Scheduled', 'Running', 'Complete', 'Paused', 'Canceled', 'Testing' );
 

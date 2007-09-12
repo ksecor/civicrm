@@ -1363,13 +1363,14 @@ SELECT DISTINCT( m.id ) as id
         $rows = array();
         while ($dao->fetch()) {
             $rows[] = array(
-                'name'          =>  $dao->name, 
-                'status'        => CRM_Mailing_BAO_Job::status($dao->status), 
-                'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
-                'scheduled_iso' => $dao->scheduled_date,
-                'start'         => CRM_Utils_Date::customFormat($dao->start_date), 
-                'end'           => CRM_Utils_Date::customFormat($dao->end_date)
-            );
+                            'id'            => $dao->id,                            
+                            'name'          => $dao->name, 
+                            'status'        => CRM_Mailing_BAO_Job::status($dao->status), 
+                            'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
+                            'scheduled_iso' => $dao->scheduled_date,
+                            'start'         => CRM_Utils_Date::customFormat($dao->start_date), 
+                            'end'           => CRM_Utils_Date::customFormat($dao->end_date)
+                            );
         }
         return $rows;
     }

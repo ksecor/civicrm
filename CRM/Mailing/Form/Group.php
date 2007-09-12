@@ -210,16 +210,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $params['groups']         = $groups;
         $params['mailings']       = $mailings;
         
-        $ids['mailing_id'] = $this->get('mailing_id');  
-        
-        $mg =& new CRM_Mailing_DAO_Group();
-        $mg->mailing_id = $ids['mailing_id']; 
-
-        $mg->find();
-        while ($mg->fetch()) {                       
-            $mg->delete( );
-        }
-
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
         $this->set('mailing_id', $mailing->id);
