@@ -205,6 +205,45 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
 
     /**
+     * Get all the mobile numbers for a specified contact_id, with the primary mobile being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of phone ids which are potential numbers
+     * @access public
+     * @static
+     */
+    static function allPhoneNumbers( $id, $type = null ) 
+    {
+        if ( ! $id ) {
+            return null;
+        }
+
+        $cond = null;
+        if ( $type ) {
+            $cond = " AND civicrm_phone.phone_type = '$type'";
+        }
+
+        $query = "
+   SELECT phone, civicrm_location_type.name as locationType, civicrm_phone.is_primary as is_primary
+     FROM civicrm_contact
+LEFT JOIN civicrm_phone ON ( civicrm_contact.id = civicrm_phone.contact_id )
+LEFT JOIN civicrm_location_type ON ( civicrm_phone.location_type_id = civicrm_location_type.id )
+WHERE     civicrm_contact.id = %1 $cond
+ORDER BY civicrm_phone.is_primary DESC";
+
+        $params = array( 1 => array( $id, 'Integer' ) );
+        
+        $numbers = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        while ( $dao->fetch( ) ) {
+            $numbers[$dao->phone] = array( 'locationType' => $dao->locationType,
+                                           'is_primary'   => $dao->is_primary );
+        }
+        return $numbers;
+    }
+
+    /**
      * create and query the db for an contact search
      *
      * @param array    $params   the search input params
@@ -372,18 +411,20 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             require_once 'CRM/Core/OptionGroup.php';
             CRM_Core_OptionGroup::lookupValues( $temp, $names, false );                
                             
-
             $values['preferred_communication_method']          = $preffComm;
             $values['preferred_communication_method_display']  = 
                 CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
-
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
-            if ($contact->birth_date) {
-                $birthYear      = CRM_Utils_Date::customFormat($contact->birth_date,'%Y'); 
-                $currYear = CRM_Utils_Date::getToday(null,'Y'); 
-                if ($birthYear < $currYear) {
-                    $values['age'] = $currYear - $birthYear;
-                }
+            
+            $birthdate      = (int)CRM_Utils_Date::customFormat($contact->birth_date,'%Y%m%d'); 
+            $checkdate      = (int)date('Ymd',mktime(0,0,0,date('m'),date('d'),date('Y')-1)); 
+            
+            if ( $checkdate > $birthdate ) {
+                $values['age'] = ( date( 'Y' ) - CRM_Utils_Date::customFormat( $birthdate, "%Y" ) ) . " Years";
+            } else {
+                $values['age'] = ( date('z',mktime( 0, 0, 0,(date('m')-date( 'm', $birthdate )  ),
+                                                    (date('d')-date( 'd', $birthdate )  ) ,
+                                                    (date('Y') - date( 'Y', $birthdate )  ) ) ) ) . " Days";
             }
             $contact->contact_id = $contact->id;
             

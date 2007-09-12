@@ -165,7 +165,7 @@
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
     {if $age}  
-    <label>{ts}Age :{/ts}</label> {$age} Years<br />
+    <label>{ts}Age :{/ts}</label> {$age} <br />
     {/if}
     </div>
    <div class="spacer"></div>
