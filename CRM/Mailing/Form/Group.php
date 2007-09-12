@@ -99,20 +99,20 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
-        $this->addRule('name', ts('Name already exists in Database.'),
+        $this->addRule('name', ts('This mailing name has already been used. Please pick a unique name for the mailing.'),
                        'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
         $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-                                  ts('Include Group(s)') . ' ', $groups,
+                                  ts('INCLUDE Contacts in these Group(s)') . ' ', $groups,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
 
-        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+        $this->addRule( 'includeGroups', ts('Please select at least one group to include in the mailing.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('Exclude Group(s)') . ' ', $groups,
+                                   ts('EXCLUDE Contacts in these Group(s)') . ' ', $groups,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -127,13 +127,13 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-                                  ts('Include mailing(s)') . ' ', $mailings,
+                                  ts('INCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-                                   ts('Exclude mailing(s)') . ' ', $mailings,
+                                   ts('EXCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
