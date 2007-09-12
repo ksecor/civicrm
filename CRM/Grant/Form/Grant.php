@@ -190,10 +190,18 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                                     )
                               );
         
-        }else {
+        } else {
+
+            $session = & CRM_Core_Session::singleton( );
+            $uploadNames = $session->get( 'uploadNames' );
+            if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
+                $buttonType = 'upload';
+            } else {
+                $buttonType = 'next';
+            }
 
             $this->addButtons(array( 
-                                    array ( 'type'      => 'next',
+                                    array ( 'type'      => $buttonType,
                                             'name'      => ts('Save'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
@@ -202,8 +210,9 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                                     ) 
                               );
         }
-    }   
-        /**  
+    }
+    
+    /**  
      * global form rule  
      *  
      * @param array $fields  the input form values  
@@ -228,21 +237,21 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
      */ 
     public function postProcess( )  
     { 
-        if( $this->_action & CRM_Core_Action::VIEW ) {
+        if ( ($this->_action & CRM_Core_Action::VIEW) || ( $this->_action & CRM_Core_Action::DELETE ) ) {
             return;
         }
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            return;
-        }
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['grant'] = $this->_id ;
         }
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
+        
         if (!$formValues['grant_report_received']){
-            $formValues['grant_report_received']="null";
+            $formValues['grant_report_received'] = "null";
         }
+        
         $formValues['contact_id'] = $this->_contactID;
         $formValues['application_received_date'] = CRM_Utils_Date::format($formValues['application_received_date']);
         $formValues['decision_date'] = CRM_Utils_Date::format($formValues['decision_date']);
@@ -254,7 +263,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             $ids['note']['id']   = $this->_noteId;
         }
         
-         // format custom data
+        // format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {
             foreach ( $_FILES as $key => $value) {
@@ -262,13 +271,13 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
                 if ( $formValues[$key] ) {
                     $files['name'] = $formValues[$key];
                 }
-                if ( $formValues['type'] ) {
-                    $files['type'] = $formValues['type']; 
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
                 }
                 $formValues[$key] = $files;
             }
         }
-       
+
         $customData = array( );
         foreach ( $formValues as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
@@ -283,7 +292,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
 
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Grant' );
-
+        
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
@@ -294,9 +303,8 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
             }
         }
 
-
         require_once 'CRM/Grant/BAO/Grant.php';
-        $case =  CRM_Grant_BAO_Grant::create($formValues ,$ids);
+        CRM_Grant_BAO_Grant::create($formValues ,$ids);
         
     }
 }
