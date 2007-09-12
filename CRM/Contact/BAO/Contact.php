@@ -418,7 +418,11 @@ ORDER BY civicrm_phone.is_primary DESC";
 
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
             if ($contact->birth_date) {
-                $values['age'] = date("Y-M-D") - $contact->birth_date;
+                $birthYear      = CRM_Utils_Date::customFormat($contact->birth_date,'%Y'); 
+                $currYear = CRM_Utils_Date::getToday(null,'Y'); 
+                if ($birthYear < $currYear) {
+                    $values['age'] = $currYear - $birthYear;
+                }
             }
             $contact->contact_id = $contact->id;
             
