@@ -39,7 +39,7 @@ require_once 'CRM/Mailing/DAO/Mailing.php';
 
 class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
 
-    const MAX_CONTACTS_TO_PROCESS = 1;
+    const MAX_CONTACTS_TO_PROCESS = 1000;
 
     /**
      * class constructor
@@ -106,7 +106,7 @@ ORDER BY scheduled_date,
             $mailer =& $config->getMailer($mailingSize);
             
             /* Compose and deliver */
-            $isComplete = $job->deliver($mailer);
+            $isComplete = $job->deliver($mailer, $testParams);
 
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
@@ -206,12 +206,13 @@ ORDER BY scheduled_date,
      * @return void
      * @access public
      */
-    public function deliver(&$mailer) {
+    public function deliver(&$mailer, $testParams =null) {
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
         $mailing->find(true);
 
+        $mailing->body_text .= "\n\n{contact.custom_1}\n\n";
         $eq =& new CRM_Mailing_Event_BAO_Queue();
         $eqTable        = CRM_Mailing_Event_BAO_Queue::getTableName();
         $emailTable     = CRM_Core_BAO_Email::getTableName();
@@ -245,6 +246,12 @@ ORDER BY scheduled_date,
 
         $job_date = CRM_Utils_Date::isoToMysql( $this->scheduled_date );
         $fields = array( );
+        
+        if (! empty($testParams)) {
+            $mailing->from_name     = ts('CiviCRM Test Mailer (%1)',
+                                         array( 1 => $mailing->from_name ) );
+            $mailing->subject = ts('Test Mailing:') . ' ' . $mailing->subject;
+        }
 
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
@@ -295,7 +302,7 @@ ORDER BY scheduled_date,
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();
-            
+
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
             PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,

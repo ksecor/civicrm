@@ -358,10 +358,7 @@ class CRM_Utils_Token {
           $value = "{contact.$token}";
         }
         else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
-            // only generate cv if we need it
-            if ( $cv === null ) {
-                $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
-            }
+            $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
             foreach ($cv as $customValue) {
                 if ($customValue['custom_field_id'] == $cfID) {
                     $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
@@ -471,9 +468,12 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceSubscribeTokens($str, $group, $html) {
+    public static function &replaceSubscribeTokens($str, $group, $url, $html) {
         if (self::token_match('subscribe', 'group', $str)) {
             self::token_replace('subscribe', 'group', $group, $str);
+        }
+        if (self::token_match('subscribe', 'url', $str)) {
+            self::token_replace('subscribe', 'url', $url, $str);
         }
         return $str;
     }

@@ -55,25 +55,35 @@ class CRM_Mailing_Invoke {
         
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
         
+        $pages = array( 'unsubscribe' => 'Unsubscribe',
+                        'optout'      => 'Optout',
+                        'confirm'     => 'Confirm',
+                        'component'   => 'Component',
+                        'mailcomp'    => 'Component',
+                        'browse'      => 'Browse',
+                        'preview'     => 'Preview',
+                        );
+
+        if ( isset( $pages[$secondArg] ) ) {
+            require_once "CRM/Mailing/Page/{$pages[$secondArg]}.php";
+            eval( '$view = new CRM_Mailing_Page_' . $pages[$secondArg] . '( );' );
+            return $view->run( );
+        }
+
         if ( $secondArg == 'forward' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(CRM_Utils_System::baseURL());
             $wrapper =& new CRM_Utils_Wrapper( );
             return $wrapper->run( 'CRM_Profile_Form_ForwardMailing', ts('Forward Mailing'),  null );
         }
-        
-        if ( $secondArg == 'unsubscribe' ) {
-            require_once 'CRM/Mailing/Page/Unsubscribe.php';
-            $view =& new CRM_Mailing_Page_Unsubscribe( );
-            return $view->run( );
+
+        if ( $secondArg == 'subscribe' ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext(CRM_Utils_System::baseURL());
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Mailing_Form_Subscribe', ts( 'Subscribe' ), null );
         }
-        
-        if ( $secondArg == 'optout' ) {
-            require_once 'CRM/Mailing/Page/Optout.php';
-            $view =& new CRM_Mailing_Page_Optout( );
-            return $view->run( );
-        }
-        
+
         if ( $secondArg == 'retry' ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext(
@@ -86,22 +96,14 @@ class CRM_Mailing_Invoke {
             return $wrapper->run( 'CRM_Mailing_Form_Retry', 
                                   ts('Retry Mailing'), null);
         }
-        
-        if ( $secondArg == 'component' ) {
-            require_once 'CRM/Mailing/Page/Component.php';
-            $view =& new CRM_Mailing_Page_Component( );
-            return $view->run( );
+
+		if ( $secondArg == 'composer' ) {
+            require_once 'CRM/Mailing/Form/Composer/Compose.php';
+            $wrapper =& new CRM_Utils_Wrapper();
+            return $wrapper->run( 'CRM_Mailing_Form_Composer_Compose', 
+                                  ts('Composer'), null);
         }
-        if ( $secondArg == 'mailcomp' ) {
-            require_once 'CRM/Mailing/Page/Component.php';
-            $view =& new CRM_Mailing_Page_Component( );
-            return $view->run( );
-        }
-        if ( $secondArg == 'browse' ) {
-            require_once 'CRM/Mailing/Page/Browse.php';
-            $view =& new CRM_Mailing_Page_Browse( );
-            return $view->run( );
-        }
+		
         
         if ( $secondArg == 'report' ) {
             $thirdArg  = CRM_Utils_Array::value( 3, $args, '' ); 
@@ -135,12 +137,6 @@ class CRM_Mailing_Invoke {
             require_once 'CRM/Mailing/BAO/Job.php';
             CRM_Mailing_BAO_Job::runJobs();
             CRM_Core_Session::setStatus( ts('The mailing queue has been processed.') );
-        }
-        
-        if ($secondArg == 'preview') {
-            require_once 'CRM/Mailing/Page/Preview.php';
-            $view =& new CRM_Mailing_Page_Preview();
-            return $view->run();
         }
         
         require_once 'CRM/Mailing/Page/Browse.php';

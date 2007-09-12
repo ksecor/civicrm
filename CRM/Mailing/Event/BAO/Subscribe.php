@@ -63,6 +63,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         // CRM-1797 - allow subscription only to public groups
         $params = array('id' => (int) $group_id);
         $defaults = array();
+        require_once 'CRM/Contact/BAO/Group.php';
         $bao = CRM_Contact_BAO_Group::retrieve($params, $defaults);
         if (substr($bao->visibility, 0, 6) != 'Public') {
             return null;
@@ -71,6 +72,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $params = array('email' => $email, 'domain_id' => $domain_id);
         require_once 'CRM/Core/BAO/UFGroup.php';
         $contact_id = CRM_Core_BAO_UFGroup::findContact($params);
+
+        require_once 'api/Contact.php';
 
         CRM_Core_DAO::transaction('BEGIN');
         if ( ! $contact_id ) {
@@ -200,12 +203,17 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             'Reply-To'  => $confirm,
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"
         );
-        
+
+        $url = CRM_Utils_System::url( 'civicrm/mailing/confirm',
+                                      "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
+
         $html = $component->body_html;
         require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
-                                                        $group->name, true);
+                                                        $group->name,
+                                                        $url, true);
+        
         if ($component->body_text) {
             $text = $component->body_text;
         } else {
@@ -213,7 +221,10 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
         $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
-                                                        $group->name, false);
+                                                        $group->name,
+                                                        $url, false);
+        // render the &amp; entities in text mode, so that the links work
+        $text = str_replace('&amp;', '&', $text);
 
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
@@ -221,9 +232,10 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $b = $message->get();
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
-        
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+                               array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
     }

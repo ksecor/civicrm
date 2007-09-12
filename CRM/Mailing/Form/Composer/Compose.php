@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  +--------------------------------------------------------------------+
@@ -33,73 +33,77 @@
  *
  */
 
+/*
+	CiviCRM CiviMail Composer
+	=========================
+	This application was designed to be implemented with CiviCRM's CiviMail.
+	It was designed with the intention of simplifying the e-mail process and
+	eliminating the need for users to upload e-mails.
+	
+	The user is able to open an external editor in which they are able to
+	create/delete e-mails before selecting one to send. Uploaded e-mails are
+	also copied to the composer directory for future editing or resending.
+	
+*/
+
+/*
+ * Copyright (C) 2007 legal.consult pty ltd ABN 84 002 413 078
+ * Licensed to CiviCRM under the Academic Free License version 3.0.
+ *
+ */
+
+
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Mailing/BAO/Mailing.php';
 
-    /**
-     * Build the form for disable mail feature 
-     *
-     * @param
-     * @return void
-     * @access public
-     */
-class CRM_Mailing_Form_Browse extends CRM_Core_Form
+/**
+ * This class is to integrate dojo WYSIWYG editor
+ * 
+ */
+class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
 {
-
-    /**
-     * Heart of the viewing process. The runner gets all the meta data for
-     * the contact and calls the appropriate type of page to view.
-     *
-     * @return void
-     * @access public
-     *
-     */
     function preProcess( ) 
-    { 
-        $this->_mailingId = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
-        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this);
-        
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $this->_mailingId;
-        if ($mailing->find(true)) {
-            $this->assign('subject', $mailing->subject);
-        }
+    {
+ 
     }
 
     /**
-     * Function to actually build the form
+     * Function to build the form
      *
      * @return None
      * @access public
      */
-
     public function buildQuickForm( ) 
     {
-        $this->addButtons( array(
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Confirm'),
-                                         'isDefault' => true   ),
-                                 array ( 'type'       => 'cancel',
-                                         'name'      => ts('Cancel') ),
-                                 )
-                                 
-                           );
+                
     }
-    
+
     /**
+     * This function sets the default values for the form.
+     *
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        
+    }
+       
+    /**
+     * Function to process the form
      *
      * @access public
      * @return None
      */
     public function postProcess() 
-    {    
-        if ( $this->_action & CRM_Core_Action::DELETE ) {        
-            CRM_Mailing_BAO_Mailing::del($this->_mailingId);
-        } elseif ( $this->_action & CRM_Core_Action::DISABLE ) {
-            CRM_Mailing_BAO_Job::cancel($this->_mailingId);
-        }
+    {
+        
     }//end of function
 
+    public function getTitle() 
+    {
+        return ts('Compose');
+    }
+
 }
+
 ?>

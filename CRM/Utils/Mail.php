@@ -178,7 +178,10 @@ class CRM_Utils_Mail {
         $fileName = md5( uniqid( CRM_Utils_String::munge( $fileName ) ) ) . '.txt';
 
         $config =& CRM_Core_Config::singleton( );
-        file_put_contents( $config->uploadDir . 'mail/' . $fileName,
+        // create the directory if not there
+        $dirName = $config->uploadDir . 'mail' . DIRECTORY_SEPARATOR;
+        CRM_Utils_File::createDir( $dirName );
+        file_put_contents( $dirName . $fileName,
                            $content );
     }
 

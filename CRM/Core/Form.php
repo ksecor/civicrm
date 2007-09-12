@@ -640,8 +640,11 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         if ( $other ) {
             $this->addElement( 'text', $id . '_other', ts( 'Other' ), $attributes[$id . '_other'] );
         }
+
         if ( $required ) {
-            $this->addRule($id,  ts('%1 is a required field.', array(1 => $title)), 'required');
+            $this->addRule($id,
+                           ts('%1 is a required field.', array(1 => $title ) ),
+                           'required');
         }
     }
                           

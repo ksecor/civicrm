@@ -111,7 +111,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         $defaults['subject'] = $this->get('name');
+      
+        $attributes = array( 'onclick' => "showHideUpload();" );    
+        $options = array( '0' => ts('Upload'), '1' => ts('Compose') );
+        $this->addRadio( 'upload_type', ts('Message'), $options, $attributes, "<br />");
         
+        $url = CRM_Utils_System::url('civicrm/mailing/composer');
+        
+        $this->addElement('button', 'upload', ts('Open Composer'), array('onclick' => "window.open('{$url}');"));
+        $this->add('text', 'message_file', ts('Composed Mailing Name'));
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -122,11 +130,20 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
-        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
-        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
-        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
-        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
-        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
+        $this->add( 'select', 'header_id', ts( 'Mailing Header' ), 
+                    array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
+
+        $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
+                    array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
+
+        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), 
+                    CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
+
+        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), 
+                    CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
+
+        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), 
+                    CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
         
         $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
 
@@ -352,7 +369,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
      */
     public function getTitle( ) 
     {
-        return ts( 'Upload Message' );
+        return ts( 'Mailing Content' );
     }
 }
 
