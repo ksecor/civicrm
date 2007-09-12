@@ -851,26 +851,73 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public static function create( &$params, &$ids ) 
     {
         CRM_Core_DAO::transaction('BEGIN');
-        
-        if( $ids['mailing_id'] ) {
-            $mailing =& new CRM_Mailing_BAO_Mailing();
-            $mailing->id = $ids['mailing_id'];
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+       
+        if ($params['mailing_id']) {
+            $mailing->id = $params['mailing_id'];
             if ($mailing->find(true)) {
                 $job =& new CRM_Mailing_BAO_Job();
                 $job->mailing_id = $mailing->id;
-                if ($job->find(true) && ! $mailing->is_template) {
+                if ( ! $mailing->is_template) {
                     $job->status = 'Scheduled';
                     $job->is_retry = false;
-                    $job->is_test = false;
                     if ($params['now']) {
                         $job->scheduled_date = date('YmdHis');
                     } else {
-                        $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
+                        $job->scheduled_date =
+                            CRM_Utils_Date::format($params['start_date']);
                     }
                     $job->save();
                 } 
                 $mailing->save();
             }
+            CRM_Core_DAO::transaction('COMMIT');
+            return $mailing;
+        }
+
+        $mailing->domain_id     = $params['domain_id'];
+        if ($params['header_id']) $mailing->header_id = $params['header_id'];
+        if ($params['footer_id']) $mailing->footer_id = $params['footer_id'];
+        $mailing->reply_id      = $params['reply_id'];
+        $mailing->unsubscribe_id= $params['unsubscribe_id'];
+        $mailing->optout_id     = $params['optout_id'];
+        $mailing->name          = $params['mailing_name'];
+        $mailing->from_name     = $params['from_name'];
+        $mailing->from_email    = $params['from_email'];
+        if (! isset($params['replyto_email'])) {
+            $mailing->replyto_email = $params['from_email'];
+        } else  {
+            $mailing->replyto_email = $params['replyto_email'];
+        }
+        $mailing->subject       = $params['subject'];
+        if (file_exists($params['htmlFile'])) {
+            $mailing->body_html = file_get_contents($params['htmlFile']);
+        } else {
+            $mailing->body_html = $params['htmlFile'];
+        }
+        if (file_exists($params['textFile'])) {
+            $mailing->body_text = file_get_contents($params['textFile']);
+        } else if ($params['textFile']) {
+            $mailing->body_text = $params['textFile'];
+        } else {
+            $mailing->body_text = CRM_Utils_String::htmlToText($mailing->body_html);
+        }
+        
+        $mailing->is_template   = $params['template'] ? true : false;
+        $mailing->auto_responder= $params['auto_responder'] ? true : false;
+        $mailing->url_tracking  = $params['track_urls'] ? true : false;
+        $mailing->open_tracking = $params['track_opens'] ? true : false;
+        $mailing->forward_replies = $params['forward_reply'] ? true : false;
+        $mailing->is_completed  = false;
+        $mailing->save();
+        
+        if ($params['test'] && ! $mailing->is_template) {
+            /* Create the job record */
+            $job =& new CRM_Mailing_BAO_Job();
+            $job->mailing_id = $mailing->id;
+            $job->status = 'Testing';
+            $job->is_retry = false;
+            $job->scheduled_date = date('YmdHis');
             CRM_Core_DAO::transaction('COMMIT');
             return $mailing;
         }
