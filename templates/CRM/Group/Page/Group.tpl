@@ -10,6 +10,8 @@
 <div id="group">
 <p></p>
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
+{include file="CRM/Group/Form/Search.tpl"}
+{include file="CRM/common/pager.tpl" location="top"}
    {strip}
    <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>  
@@ -42,6 +44,7 @@
 	</tbody>
    </table>
    {/strip}
+{include file="CRM/common/pager.tpl" location="bottom"}
 {/if}{* browse action *}
 
 {if $action eq 1 or $action eq 2} 

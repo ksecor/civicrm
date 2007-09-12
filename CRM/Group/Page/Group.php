@@ -43,7 +43,9 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * @var array
      */
     static $_links = null;
-    
+
+    protected $_pager = null;
+
     /**
      * The action links that we need to display for saved search items
      *
@@ -231,19 +233,30 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
     function browse($action = null) 
     {
       require_once 'CRM/Contact/BAO/GroupNesting.php';
+        $this->search( );
+
         $config =& CRM_Core_Config::singleton( );
-        $values =  array( );
-        
-        $object =& new CRM_Contact_BAO_Group( );
-        $object->domain_id = $config->domainID( );
-        $object->orderBy ( 'title asc' );
-        $object->find();
-        
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params );
+        $this->pager( $whereClause, $params );
+
+        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
+
+        $query = "
+  SELECT *
+    FROM civicrm_group
+   WHERE $whereClause
+ORDER BY title asc
+   LIMIT $offset, $rowCount";
+
+        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
+
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $groupTypes = CRM_Core_OptionGroup::values( 'group_type' );
+        $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
@@ -268,7 +281,6 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                 if ( $values[$object->id]['group_type'] ) {
                     $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
                                            substr( $values[$object->id]['group_type'], 1, -1 ) );
-                    $allTypes   = CRM_Core_OptionGroup::values( 'group_type' );
                     $types = array( );
                     foreach ( $groupTypes as $type ) {
                         $types[] = $allTypes[$type];
@@ -298,8 +310,83 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         
         }
         $this->assign( 'rows', $values );
-    }          
-    
+    }
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE ) ) {
+            return;
+        }
+
+        $form = new CRM_Core_Controller_Simple( 'CRM_Group_Form_Search', ts( 'Search Groups' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+
+    function whereClause( &$params ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->get( 'title' );
+        if ( $title ) {
+            $clauses[] = "title LIKE %1";
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        $groupType = $this->get( 'group_type' );
+        if ( $groupType ) {
+            $types = array_keys( $groupType );
+            if ( ! empty( $types ) ) {
+                $clauses[] = 'group_type LIKE %2';
+                $typeString = 
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR, $types ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+                $params[2] = array( $typeString, 'String', true );
+            }
+        }
+
+        $visibility = $this->get( 'visibility' );
+        if ( $visibility ) {
+            $clauses[] = 'visibility = %3';
+            $params[3] = array( $visibility, 'String' );
+        }
+
+        $clauses[] = 'domain_id = %4';
+        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        return implode( ' AND ', $clauses );
+    }
+
+    function pager( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/Pager.php';
+
+        $params['status']       = ts('Group %%StatusMessage%%');
+        $params['csvString']    = null;
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
+        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( ! $params['rowCount'] ) {
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
+        }
+
+        $query = "
+SELECT count(id)
+  FROM civicrm_group
+ WHERE $whereClause";
+
+        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $this->_pager );
+    }
+
 }
 
 ?>

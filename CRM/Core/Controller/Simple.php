@@ -85,6 +85,11 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         }
         
     }
+
+    public function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
 }
 
 ?>

@@ -585,8 +585,13 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function &executeQuery( $query, &$params, $abort = true ) {
-        $dao =& new CRM_Core_DAO( );
+    static function &executeQuery( $query, &$params, $abort = true, $daoName = null ) {
+        if ( ! $daoName ) {
+            $dao =& new CRM_Core_DAO( );
+        } else {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+            eval( '$dao   =& new ' . $daoName . '( );' );
+        }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         $dao->query( $queryStr );
         return $dao;
@@ -625,7 +630,12 @@ class CRM_Core_DAO extends DB_DataObject {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
                     $item[0] = $dao->escape( $item[0] );
                     if ( $item[1] == 'String' ) {
-                        $item[0] = "'{$item[0]}'";
+                        if ( isset( $item[2] ) &&
+                             $item[2] ) {
+                            $item[0] = "'%{$item[0]}%'";
+                        } else {
+                            $item[0] = "'{$item[0]}'";
+                        }
                     }
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {

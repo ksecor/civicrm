@@ -110,6 +110,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     static protected $_session;
 
     /**
+     * The parent of this form if embedded
+     *
+     * @var object
+     */
+    protected $_parent = null;
+
+    /**
      * All CRM single or multi page pages should inherit from this class. 
      *
      * @param string  title        descriptive title of the controller
@@ -535,6 +542,14 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
             $this->addAction('upload' , $action );
         }
+    }
+
+    public function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
+    public function getParent( ) {
+        return $this->_parent;
     }
 
 }
