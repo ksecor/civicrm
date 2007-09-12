@@ -48,9 +48,9 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Location block element array
      */
-    static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
-    //static $blocks = array( 'email' );
-
+    //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
+    static $blocks = array( 'phone', 'email' );
+    
     /**
      * Function to create various elements of location block
      *
@@ -76,7 +76,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         //create location block elements
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
-            eval( '$location[$block] = CRM_Core_BAO_' . $name . '::create( $formattedBlocks );');
+            eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks );');
         }
 
 //         crm_core_error::debug('$formattedBlocks', $formattedBlocks);

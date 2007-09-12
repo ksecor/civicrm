@@ -40,71 +40,6 @@ require_once 'CRM/Core/DAO/Email.php';
  */
 class CRM_Core_BAO_Email extends CRM_Core_DAO_Email 
 {
-    /**
-     * takes an associative array and creates a email
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return object       CRM_Core_BAO_Email object on success, null otherwise
-     * @access public
-     * @static
-     */
-    static function create( &$params ) 
-    {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
-        }
-        
-        $contactId = $params['email']['contact_id'];
-
-
-        //get exixting email id if exist for this contact
-        $contactEmailIds = array( );
-        $contactEmailIds = self::getEmailIds( $contactId );
-        
-//         crm_core_error::debug('$params', $params);
-//         crm_core_error::debug('$contactEmailIds', $contactEmailIds);
-//         exit();
-        $isPrimary     = true;
-        $locationCount = 1;
-        foreach ( $params['email'] as $value ) {
-            if ( !is_array( $value ) ) {
-                continue;
-            }
-
-            $contactFields = array( );
-            $contactFields['contact_id'      ] = $contactId;
-            $contactFields['location_type_id'] = $value['location_type_id'];
-            
-            
-            foreach ( $value as $val ) {
-                
-                if ( !is_array( $val ) || !CRM_Core_BAO_Block::dataExists( array( 'email' ), $val ) ) {
-                    continue;
-                }
-                
-                if ( $isPrimary && $value['is_primary'] ) {
-                    $contactFields['is_primary'] = $value['is_primary'];
-                    $isPrimary = false;
-                } else {
-                    $contactFields['is_primary'] = false;
-                }
-                
-                unset( $contactFields['id'] );
-
-                if ( !empty( $contactEmailIds[ $locationCount ] ) ) {
-                    $contactFields['id'] = array_shift($contactEmailIds[ $locationCount ] );
-                }
-                
-                $emailFields = array_merge( $val, $contactFields);
-
-                //crm_core_error::Debug('$emailFields', $emailFields);
-                self::add( $emailFields );
-            }
-            
-            $locationCount++;
-        }
-    }
 
     /**
      * takes an associative array and adds email
@@ -120,8 +55,6 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         $email =& new CRM_Core_DAO_Email( );
         
         $email->copyValues($params);
-
-        // need to handle update mode
 
         // when email field is empty need to delete it
 
@@ -143,25 +76,6 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     }
 
     /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        // return if no data present
-        if ( ! array_key_exists( 'email', $params ) ) {
-	        return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
@@ -178,47 +92,6 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     {
         $email =& new CRM_Core_BAO_Email( );
         return CRM_Core_BAO_Block::getValues( $email, 'email', $contactId );
-    }
-
-    /**
-     * Function to get all email addresses of the contact
-     *
-     * @param int    $contactId contact id
-     *
-     * @return array $contactEmailIds formatted array of email id
-     *
-     * @access public
-     * @static
-     */
-    static function getEmailIds ( $contactId )
-    {
-        $contactEmailIds = $allEmails = array( );
-        
-        $allEmails = self::allEmails( $contactId );
-        
-        $locationCount = 1;
-        $blockCount    = 1;
-        $locationTypes = array( );
-
-        foreach ( $allEmails as $emails) {
-            //logic to check when we should increment counter
-            $locationTypeId = $emails['locationTypeId'];
-            if ( !empty( $locationTypes ) ) {
-                if ( in_array ( $locationTypeId, $locationTypes ) ) {
-                    $locationCount = array_search( $locationTypeId, $locationTypes );
-                } else {
-                    $locationCount++;
-                    $locationTypes[ $locationCount ] = $locationTypeId;
-                }
-                } else {
-                    $locationTypes[ $locationCount ]  = $locationTypeId;
-                }
-
-            $contactEmailIds[ $locationCount ][ $blockCount ] = $emails['id'];
-            $blockCount++;
-        }
-
-        return $contactEmailIds;
     }
 
     /**

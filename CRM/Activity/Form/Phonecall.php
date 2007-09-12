@@ -61,12 +61,14 @@ class CRM_Activity_Form_Phonecall extends CRM_Activity_Form
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
+
         $this->applyFilter('__ALL__', 'trim');
+
         $contactPhone[''] = ts('Select Phone Number');
-        if ( is_array(CRM_Core_BAO_Phone::getphoneNumber($this->_contactId))) {
-            $contactPhone = CRM_Core_BAO_Phone::getphoneNumber($this->_contactId);
-        }
-        
+        //TO BE fixed when activity changes are done, use this function
+        $allPhones = CRM_Core_BAO_Phone::allPhones( $this->_contactId );
+        //$contactPhone = $allPhones;
+
         $this->add('text', 'subject', ts('Subject'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Phonecall', 'subject' ),true);
         $this->add('date', 'scheduled_date_time', ts('Date and Time'),CRM_Core_SelectValues::date('datetime'),true);
         //$this->addRule( 'scheduled_date_time', ts('Please enter a valid date and time for this call.'), 'qfDate' );
