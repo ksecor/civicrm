@@ -23,7 +23,7 @@ if(dojo.hostenv.post_load_){
 (function(){
 var _1=dojo.doc().createElement("textarea");
 _1.id="dojo.widget.RichText.savedContent";
-_1.style="display:none;position:absolute;top:-100px;left:-100px;height:2px;width:3px;overflow:hidden;";
+_1.style="display:none;position:absolute;top:-100px;left:-100px;height:3px;width:3px;overflow:hidden;";
 dojo.body().appendChild(_1);
 })();
 }else{

@@ -151,7 +151,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
         
         $dojoAttributes = array( 'dojoType'            => 'Editor2',
-                                 'style'               => 'height:200px',
+                                 'style'               => 'height:300px',
                                  'widgetId'            => 'editor4',
                                  'htmlEditing'         => 'true',
                                  'useActiveX'          => 'true',
