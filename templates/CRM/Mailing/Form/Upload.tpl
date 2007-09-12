@@ -111,8 +111,9 @@
     function selectValue(val)
     {
        var tokens = val.split( "^A" );
+       var ed = dojo.widget.byId('editor4');
        dojo.byId('text_message').value=tokens[0];
-       dojo.byId('html_message').value=tokens[2];	 
+       ed._htmlEditNode.value=tokens[2];
     }
  
      function verify( select )

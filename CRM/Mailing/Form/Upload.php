@@ -152,6 +152,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $dojoAttributes = array( 'dojoType'            => 'Editor2',
                                  'style'               => 'height:200px',
+                                 'widgetId'            => 'editor4',
                                  'htmlEditing'         => 'true',
                                  'useActiveX'          => 'true',
                                  'shareToolbar'        => 'false',
@@ -163,7 +164,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     'html_message', 
                     ts('HTML Message'),
                     $dojoAttributes);
-        
+
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
