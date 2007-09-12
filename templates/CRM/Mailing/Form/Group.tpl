@@ -2,6 +2,13 @@
 
 <div class="form-item">
 <fieldset>
+  <legend>Name Mailing</legend>
+  <dl>
+    <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+  </dl>
+</fieldset>
+
+<fieldset>
   <legend>Select Mailing Recipients</legend>
   
   {strip}

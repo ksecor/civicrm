@@ -101,18 +101,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $defaults['from_name' ] = $domain->email_name;
         $defaults['from_email'] = $domain->email_address;
         
-        $this->add('checkbox', 'forward_replies', ts('Forward Replies?'));
-        $defaults['forward_replies'] = true;
-        
-        $this->add('checkbox', 'url_tracking', ts('Track Click-throughs?'));
-        $defaults['url_tracking'] = true;
-        
-        $this->add('checkbox', 'open_tracking', ts('Track Opens?'));
-        $defaults['open_tracking'] = true;
-        
-        $this->add('checkbox', 'auto_responder', ts('Auto-respond to Replies?'));
-        $defaults['auto_responder'] = false;
-        
         $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
         $defaults['subject'] = $this->get('name');
       
@@ -175,20 +163,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->addRule( 'htmlFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
         $this->addRule( 'htmlFile', ts('File must be in UTF-8 encoding'), 'utf8File' );
         
+        require_once 'CRM/Mailing/PseudoConstant.php';
         $this->add( 'select', 'header_id', ts( 'Mailing Header' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Header' ) );
         
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
-        
-        $this->add( 'select', 'reply_id', ts( 'Auto-responder' ), 
-                    CRM_Mailing_PseudoConstant::component( 'Reply' ), true );
-        
-        $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), 
-                    CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
-
-        $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), 
-                    CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
         
         $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
         
@@ -211,12 +191,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $params      = $ids  = array( );
         $uploadParams        = array( 
-                                     'header_id', 'footer_id', 'reply_id', 'unsubscribe_id', 
-                                     'optout_id', 'subject', 'from_name', 'from_email'
-                                     );
-        $uploadParamsBoolean = array( 
-                                     'forward_replies', 'url_tracking',
-                                     'open_tracking', 'auto_responder'
+                                     'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
                                      );
         $fileType            = array( 'textFile', 'htmlFile' );
         
@@ -247,15 +222,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $params['body_html'] = $this->controller->exportvalue($this->_name, 'html_message');
         }
 
-        foreach ( $uploadParamsBoolean as $key ) {
-            if ( $this->controller->exportvalue($this->_name, $key) ) {
-                $params[$key] = true;
-            } else {
-                $params[$key] = false;
-            }
-            $this->set($key, $this->controller->exportvalue($this->_name, $key));
-        }
-        
         $params['name'] = $this->get('name');
         
         $session =& CRM_Core_Session::singleton();

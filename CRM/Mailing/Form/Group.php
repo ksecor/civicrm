@@ -58,8 +58,14 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
     {
         $mailingID = $this->get("mid");
 
+        // check that the user has permission to access mailing id
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::checkPermission( $mailingID );
+
         $defaults = array( );
         if ( $mailingID ) {
+            $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
+
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
             
@@ -88,6 +94,14 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        require_once 'CRM/Mailing/PseudoConstant.php';
+
+        $this->add( 'text', 'name', ts('Name Your Mailing'),
+                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
+                    true );
+        $this->addRule('name', ts('Name already exists in Database.'),
+                       'objectExists', array('CRM_Mailing_DAO_Component', null ) );
+
         $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', $groups,
@@ -149,6 +163,9 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
     public function postProcess() 
     {
+        $params['name'] = $this->controller->exportValue($this->_name, 'name');
+        $this->set('name', $params['name']);
+
         $inGroups = $this->controller->exportValue($this->_name, 'includeGroups');
         $outGroups = $this->controller->exportValue($this->_name, 'excludeGroups');
         $inMailings = $this->controller->exportValue($this->_name, 'includeMailings');
