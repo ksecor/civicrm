@@ -68,10 +68,23 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         if (substr($bao->visibility, 0, 6) != 'Public') {
             return null;
         }
-        /* First, find out if the contact already exists */        
-        $params = array('email' => $email, 'domain_id' => $domain_id);
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        $contact_id = CRM_Core_BAO_UFGroup::findContact($params);
+        /* First, find out if the contact already exists */  
+        $query = 
+            "SELECT DISTINCT contact_a.id as id 
+            FROM civicrm_contact contact_a 
+            LEFT JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id)  
+            LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' 
+                   AND contact_a.id = civicrm_location.entity_id AND civicrm_location.is_primary = 1) 
+            LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id  
+            LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id )  
+            WHERE  (  ( LOWER(civicrm_email.email) = '{$email}' ) )";
+
+        $dao =& CRM_Core_DAO::executeQuery( $query );
+        while ( $dao->fetch( ) ) {
+            $ids[] = $dao->id;
+        }
+        $dao->free( );
+        $contact_id = implode( ',', $ids );
 
         require_once 'api/Contact.php';
 
