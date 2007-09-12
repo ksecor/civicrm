@@ -11,7 +11,7 @@ To make a contribution, go to: {$pageURL}
 
 
 {if $event}
-To find out more about this event, got to: {$pageURL}
+To find out more about this event, go to: {$pageURL}
 {/if}
 
 

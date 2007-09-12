@@ -116,7 +116,7 @@ class CRM_Utils_Mail {
         }
     }
 
-    static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null ) {
+    static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null, $replyTo = null  ) {
         require_once 'CRM/Core/DAO/Domain.php';
         $dao = new CRM_Core_DAO_Domain();
         $dao->id = 1;
@@ -137,7 +137,7 @@ class CRM_Utils_Mail {
         $headers['Content-Disposition']       = 'inline';  
         $headers['Content-Transfer-Encoding'] = '8bit';  
         $headers['Return-Path']               = $returnPath;
-        $headers['Reply-To']                  = $from;
+        $headers['Reply-To']                  = isset($replyTo) ? $replyTo : $from;
         $headers['Date']                      = date('r');
 
         $to = array( $toEmail );
@@ -153,7 +153,7 @@ class CRM_Utils_Mail {
         } else {
             CRM_Core_Error::fatal( 'oh man' );
             // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
-            $mailer =& CRM_Core_Config::getMailer( );  
+            $mailer =& CRM_Core_Config::getMailer( ); 
             if ($mailer->send($to, $headers, $message) !== true) {  
                 return false;                                                    
             } 

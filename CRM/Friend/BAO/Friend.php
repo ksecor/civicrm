@@ -168,7 +168,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         // name
         $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
         
-        // intro_text and footer_text
+        // intro-text and thank-you text
         $form->add('textarea', 'intro', ts('Introductory'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
 
         $form->add('textarea', 'suggested_message', ts('Suggested Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
@@ -239,8 +239,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $subject = trim( $template->fetch( 'CRM/Friend/Form/SubjectTemplate.tpl' ) );
         $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' ); 
 
-        $emailFrom = '"' . $first_name.$last_name.$email. '" <' . $values['email_from'] . '>';
-       
+        $emailFrom = '"' . $first_name.' '. $last_name.' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
+        
         require_once 'CRM/Utils/Mail.php';        
         foreach ( $values['email'] as $emailTo ) {
             if ( $emailTo ) {
@@ -250,7 +250,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                       $subject,
                                       $message,
                                       null,
-                                      null
+                                      null,
+                                      $email
                                       );
             }
         }            

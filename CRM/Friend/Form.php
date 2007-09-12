@@ -79,10 +79,10 @@ class CRM_Friend_Form extends CRM_Core_Form
                                                             $this );
         $this->_action       = CRM_Utils_Request::retrieve( 'action', 'String', 
                                                             $this );
-        
+               
         if ( $this->_entityTable == 'civicrm_contribution_page' ) {
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
-        } else {
+        } elseif( $this->_entityTable == 'civicrm_event' ) {
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
         }
        
@@ -136,6 +136,7 @@ class CRM_Friend_Form extends CRM_Core_Form
             $this->add('text', "first_name[$i]", ts("Friend's First Name"));           
             $this->add('text', "last_name[$i]", ts("Friend's Last Name")); 
             $this->add('text', "email[$i]", ts("Friend's Email"));
+            $this->addRule( "email[$i]", ts('Email is not valid.'), 'email' );
         }
        
         $this->addButtons(array( 
@@ -262,15 +263,17 @@ class CRM_Friend_Form extends CRM_Core_Form
         $values['general_link'] = $frndParams['general_link'];
         $values['message']      = $formValues['suggested_message'];
         
-        if( $this->_entityTable = 'civicrm_contribution_page' ) {
-            $values['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'receipt_from_email', 'id' );
-            //$$values['page_url'] = CRM_Utils_System::url('civicrm/contribute/transact', "reset=1&action=preview&id=$this->_entityId");
+        if ( $this->_entityTable == 'civicrm_contribution_page' ) {
+            $values['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'receipt_from_email', 'id' );            
+            $values['page_url'] = CRM_Utils_System::url('civicrm/contribute/transact', "reset=1&id=$this->_entityId");
             $values['module']   = 'contribute';
-        } else {
+        } elseif ( $this->_entityTable == 'civicrm_event' ) {
             $values['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_entityId, 'confirm_from_email' );
-            //$values['page_url'] = CRM_Utils_System::url('civicrm/event/register', "reset=1&action=preview&id=$this->_entityId");
+            $values['page_url'] = CRM_Utils_System::url('civicrm/event/info', "reset=1&id=$this->_entityId");
             $values['module']   = 'event';
         } 
+        list( $username, $values['domain'] ) = split( '@', $values['email_from'] );
+        
         CRM_Friend_BAO_Friend::sendMail( $this->_contactID, $values ); 
         $session =& CRM_Core_Session::singleton( );
         CRM_Utils_System::redirect( $session->popUserContext() );
