@@ -124,7 +124,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     array( 'size' => 30, 'maxlength' => 60 ), true );
 
         if ( $this->_values['event']['is_monetary'] ) {
-            $this->buildAmount( );
+            self::buildAmount( $this );
 
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );
@@ -178,33 +178,33 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void
      * @access private
      */
-    public function buildAmount( $required = true ) {
+    static public function buildAmount( &$form, $required = true ) {
         $elements = array( );
-        if ( isset($this->_priceSetId) ) {
-            $this->add( 'hidden', 'priceSetId', $this->_priceSetId );
-            $this->assign( 'priceSet', $this->_priceSet );
+        if ( isset($form->_priceSetId) ) {
+            $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
+            $form->assign( 'priceSet', $form->_priceSet );
             require_once 'CRM/Core/BAO/PriceField.php';
-            foreach ( $this->_values['custom']['fields'] as $field ) {
+            foreach ( $form->_values['custom']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
                 CRM_Core_BAO_PriceField::addQuickFormElement(
-                    $this, $elementName, $fieldId, false,
+                    $form, $elementName, $fieldId, false,
                     $field['is_required']
                 );
             }
         }
-        else if ( ! empty( $this->_values['custom']['label'] ) ) {
+        else if ( ! empty( $form->_values['custom']['label'] ) ) {
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $this->_values['custom']['label'] ); $index++ ) {
-                $elements[] =& $this->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($this->_values['custom']['value'][$index]) . ' ' . 
-                                                    $this->_values['custom']['label'][$index], 
-                                                    $this->_values['custom']['amount_id'][$index] );
+            for ( $index = 1; $index <= count( $form->_values['custom']['label'] ); $index++ ) {
+                $elements[] =& $form->createElement('radio', null, '',
+                                                    CRM_Utils_Money::format($form->_values['custom']['value'][$index]) . ' ' . 
+                                                    $form->_values['custom']['label'][$index], 
+                                                    $form->_values['custom']['amount_id'][$index] );
             }
-            $this->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$this->_values['event_page']);
-            $this->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
+            $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
+            $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
             if ( $required ) {
-                $this->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
+                $form->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
             }
         }
     }
@@ -305,77 +305,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             
             $params['currencyID']     = $config->defaultCurrency;
 
-            if ( !empty( $params['priceSetId'] ) ) {
-                $totalPrice = 0;
-                $lineItem = array();
-                foreach ($this->_priceSet['fields'] as $fieldId => $field) {
-                    $fieldName = 'price_' . $fieldId;
-                    if ( empty( $params[$fieldName] ) ) {
-                        // skip if nothing was submitted for this field
-                        continue;
-                    }
-                    switch ($field['html_type']) {
-                        case 'Text':
-                            $qty = $params[$fieldName];
-                            $optionId = key($field['options']);
-                            $price = $field['options'][$optionId]['value'];
-                            $lineTotal = $qty * $price;
-                            $lineItem[$optionId] = array(
-                                'price_field_id' => $field['id'],
-                                'custom_option_id' => $optionId,
-                                'label' => $field['label'],
-                                'qty' => $qty,
-                                'unit_price' => $price,
-                                'line_total' => $lineTotal
-                            );
-                            $totalPrice += $qty * $price;
-                            break;
+            self::processPriceSetAmount( $this, $params );
 
-                        case 'Radio':
-                        case 'Select':
-                            $optionId = $params[$fieldName];
-                            $optionLabel = $field['options'][$optionId]['label'];
-                            $price = $field['options'][$optionId]['value'];
-                            $lineItem[$optionId] = array(
-                                'price_field_id' => $field['id'],
-                                'custom_option_id' => $optionId,
-                                'label' => $field['label'] . ': ' . $optionLabel,
-                                'qty' => 1,
-                                'unit_price' => $price,
-                                'line_total' => $price
-                            );
-                            $totalPrice += $price;
-                            break;
-
-                        case 'CheckBox':
-                            foreach ( $params[$fieldName] as $optionId => $option ) {
-                                $optionLabel = $field['options'][$optionId]['label'];
-                                $price = $field['options'][$optionId]['value'];
-                                $lineItem[$optionId] = array(
-                                    'price_field_id' => $field['id'],
-                                    'custom_option_id' => $optionId,
-                                    'label' => $field['label'] . ': ' . $optionLabel,
-                                    'qty' => 1,
-                                    'unit_price' => $price,
-                                    'line_total' => $price
-                                );
-                                $totalPrice += $price;
-                            }
-                            break;
-
-                    }
-                }
-                $params['amount'] = $totalPrice;
-                $params['amount_level'] = $this->_values['event']['title'];
-                $this->set( 'lineItem', $lineItem );
-            }
-            else {
-                $params['amount_level'] = $this->_values['custom']['label']
-                    [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
-                $params['amount'] = $this->_values['custom']['value']
-                    [array_search( $params['amount'], $this->_values['custom']['amount_id'])];
-            
-            }
             $this->set( 'amount', $params['amount'] ); 
             $this->set( 'amount_level', $params['amount_level'] ); 
 
@@ -421,5 +352,81 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
     }//end of function
+
+    static function processPriceSetAmount( &$form, &$params ) {
+        if ( ! empty( $params['priceSetId'] ) ) {
+            $totalPrice = 0;
+            $lineItem = array();
+
+            foreach ($form->_priceSet['fields'] as $fieldId => $field) {
+                $fieldName = 'price_' . $fieldId;
+                if ( empty( $params[$fieldName] ) ) {
+                    // skip if nothing was submitted for this field
+                    continue;
+                }
+                switch ($field['html_type']) {
+
+                case 'Text':
+                    $qty = $params[$fieldName];
+                    $optionId = key($field['options']);
+                    $price = $field['options'][$optionId]['value'];
+                    $lineItem[$optionId] = array(
+                                                 'price_field_id'   => $field['id'],
+                                                 'custom_option_id' => $optionId,
+                                                 'label'            => $field['label'],
+                                                 'qty'              => $qty,
+                                                 'unit_price'       => $price,
+                                                 'line_total'       => $qty * $price;
+                                                 );
+                    $totalPrice += ( $qty * $price );
+                    break;
+
+                case 'Radio':
+                case 'Select':
+                    $optionId = $params[$fieldName];
+                    $optionLabel = $field['options'][$optionId]['label'];
+                    $price = $field['options'][$optionId]['value'];
+                    $lineItem[$optionId] = array(
+                                                 'price_field_id'   => $field['id'],
+                                                 'custom_option_id' => $optionId,
+                                                 'label'            => $field['label'] . ': ' . $optionLabel,
+                                                 'qty'              => 1,
+                                                 'unit_price'       => $price,
+                                                 'line_total'       => $price
+                                                 );
+                    $totalPrice += $price;
+                    break;
+
+                case 'CheckBox':
+                    foreach ( $params[$fieldName] as $optionId => $option ) {
+                        $optionLabel = $field['options'][$optionId]['label'];
+                        $price = $field['options'][$optionId]['value'];
+                        $lineItem[$optionId] = array(
+                                                     'price_field_id'   => $field['id'],
+                                                     'custom_option_id' => $optionId,
+                                                     'label'            => $field['label'] . ': ' . $optionLabel,
+                                                     'qty'              => 1,
+                                                     'unit_price'       => $price,
+                                                     'line_total'       => $price
+                                                     );
+                        $totalPrice += $price;
+                    }
+                    break;
+                    
+                }
+            }
+            $params['amount'] = $totalPrice;
+            $params['amount_level'] = $form->_values['event']['title'];
+            $form->set( 'lineItem', $lineItem );
+        }
+        else {
+            $params['amount_level'] = $form->_values['custom']['label']
+                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+            $params['amount'] = $form->_values['custom']['value']
+                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+        }
+    }
+
 }
+
 ?>

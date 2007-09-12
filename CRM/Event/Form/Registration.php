@@ -111,7 +111,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var int
      * @protected
      */
-    protected $_priceSetId;
+    public $_priceSetId;
 
     /**
      * Array of fields for the price set
@@ -119,7 +119,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @var array
      * @protected
      */
-    protected $_priceSet;
+    public $_priceSet;
 
     /** 
      * Function to set variables up before form is built 
@@ -213,7 +213,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                         $this->_id,
                                                         'id',
                                                         'event_id' );
-            
+
+            self::initPriceSet( $this, $eventPageID );
+
             // get price info
             require_once 'CRM/Core/BAO/PriceSet.php';
             $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
@@ -224,8 +226,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 if ( isset($priceSet[$priceSetId]['fields']) ) {
                     foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
                         $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
-                          }
-                     }
+                    }
+                }
                 $this->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
                 $this->set('priceSetId', $this->_priceSetId);
@@ -397,6 +399,29 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                     $this->_fields[$key] = $field;
                 }
             }
+        }
+    }
+
+    static function initPriceSet( &$form, $eventPageID ) {
+        // get price info
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
+        if ( $priceSetId ) {
+            $form->_priceSetId = $priceSetId;
+            $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
+            require_once 'CRM/Core/BAO/PriceField.php';
+            if ( isset($priceSet[$priceSetId]['fields']) ) {
+                foreach ( array_keys($priceSet[$priceSetId]['fields']) as $fieldId ) {
+                    $priceSet[$priceSetId]['fields'][$fieldId]['options'] = CRM_Core_BAO_PriceField::getOptions($fieldId, false);
+                }
+            }
+            $form->_priceSet = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->_values['custom'] = CRM_Utils_Array::value($priceSetId,$priceSet);
+            $form->set('priceSetId', $form->_priceSetId);
+            $form->set('priceSet', $form->_priceSet);
+        } else {
+            require_once 'CRM/Core/BAO/CustomOption.php'; 
+            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageID, $form->_values['custom'] );
         }
     }
 

@@ -92,6 +92,30 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */
     public $_single = false;
     
+    /**
+     * the values for the contribution db object
+     *
+     * @var array
+     * @protected
+     */
+    public $_values;
+
+    /**
+     * Price Set ID, if the new price set method is used
+     *
+     * @var int
+     * @protected
+     */
+    public $_priceSetId;
+
+    /**
+     * Array of fields for the price set
+     *
+     * @var array
+     * @protected
+     */
+    public $_priceSet;
+
     /** 
      * Function to set variables up before form is built 
      *                                                           
@@ -240,11 +264,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         require_once "CRM/Core/BAO/CustomOption.php";
         $eventPage = array( 'entity_table' => 'civicrm_event_page',
-                            'label'        => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
+                            'label'        => CRM_Utils_Array::value( 'event_level', $defaults[$this->_id] ) );
         CRM_Core_BAO_CustomOption::retrieve( $eventPage, $params );
         
         $defaults[$this->_id]['amount'] = $params['id'];
-        $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
+        $this->assign( 'event_is_test', CRM_Utils_Array::value( 'event_is_test', $defaults[$this->_id] ) );
 
         return $defaults[$this->_id];
     }
@@ -339,17 +363,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         if ( $this->_event['is_monetary'] ) {
-            
             require_once "CRM/Event/BAO/EventPage.php";
             $params = array( 'event_id' => $this->_eId );
             CRM_Event_BAO_EventPage::retrieve( $params, $eventPage );
-            
-            //retrieve custom information
-            require_once 'CRM/Core/BAO/CustomOption.php';
-            CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPage['id'], $this->_values['custom'] );
-            
+
+            $this->_values = array( );
+
             require_once "CRM/Event/Form/Registration/Register.php";
-            CRM_Event_Form_Registration_Register::buildAmount( false );
+
+            CRM_Event_Form_Registration::initPriceSet( $this, $eventPage['id'] );
+            CRM_Event_Form_Registration_Register::buildAmount( $this, false );
         } else {
             $this->add( 'text', 'amount', ts('Event Fee(s)') );
         }
@@ -444,11 +467,8 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $params = $this->controller->exportValues( $this->_name );
         
         if(  $this->_event['is_monetary'] ) {
-            require_once "CRM/Core/BAO/CustomOption.php";
-            $eventPage = array( 'id' => $params['amount'] );
-            CRM_Core_BAO_CustomOption::retrieve( $eventPage, $pageInfo);
-            
-            $params['event_level']    = $pageInfo['label'];
+            CRM_Event_Form_Registration_Register::processPriceSetAmount( $this, $params );
+            $params['event_level']    = $params['amount_level'];
         }
         
         unset($params['amount']);
