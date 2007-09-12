@@ -932,7 +932,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return $value;
         } else {
             foreach ($params as $subParam) {
-                if ($value = self::retrieveValue($subParam, $key)) {
+                if ( is_array( $subParam ) &&
+                     $value = self::retrieveValue( $subParam, $key ) ) {
                     return $value;
                 }
             }

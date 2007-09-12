@@ -97,7 +97,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param bool $includeDelivered  Whether to include the recipients who already got the mailing
      * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
-    function &getRecipients($job_id, $includeDelivered = false) {
+    function &getRecipientsObject($job_id, $includeDelivered = false) {
+        $eq = self::getRecipients($job_id, $includeDelivered, $this->id);
+        return $eq;
+    }
+    
+    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id = null) {
+        $eq = self::getRecipients($job_id, $includeDelivered, $mailing_id);
+        return $eq->N;
+    }
+    
+    function &getRecipients($job_id, $includeDelivered = false, $mailing_id = null) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -131,7 +141,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id AND $mg.entity_table = '$group'
                     WHERE
-                                        $mg.mailing_id = {$this->id}
+                                        $mg.mailing_id = {$mailing_id}
                         AND             $g2contact.status = 'Added'
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubGroup);
@@ -147,7 +157,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     INNER JOIN          $mg
                             ON          $job.mailing_id = $mg.entity_id AND $mg.entity_table = '$mailing'
                     WHERE
-                                        $mg.mailing_id = {$this->id}
+                                        $mg.mailing_id = {$mailing_id}
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
         
@@ -165,7 +175,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         LEFT JOIN           $eb
                                 ON          $eq.id = $eb.event_queue_id
                         WHERE
-                                            $job.mailing_id = {$this->id}
+                                            $job.mailing_id = {$mailing_id}
                             AND             $eb.id IS null";
             $mailingGroup->query($excludeRetry);
         }
@@ -177,7 +187,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         ON          $mg.entity_id = $group.id
                 WHERE               $mg.entity_table = '$group'
                     AND             $mg.group_type = 'Exclude'
-                    AND             $mg.mailing_id = {$this->id}
+                    AND             $mg.mailing_id = {$mailing_id}
                     AND             $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
@@ -237,7 +247,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
 
         /* Query prior mailings */
@@ -266,7 +276,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
 
         /* Construct the saved-search queries */
@@ -277,7 +287,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                 AND $mg.entity_table = '$group'
                     WHERE               
                                     $mg.group_type = 'Include'
-                        AND         $mg.mailing_id = {$this->id}
+                        AND         $mg.mailing_id = {$mailing_id}
                         AND         $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
@@ -338,7 +348,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.is_opt_out = 0
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
                     
         /* Get the emails with full override */
@@ -364,7 +374,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $email.on_hold = 0
-                        AND             $mg.mailing_id = {$this->id}
+                        AND             $mg.mailing_id = {$mailing_id}
                         AND             X_$job_id.contact_id IS null");
                         
         $results = array();
@@ -1328,7 +1338,7 @@ SELECT DISTINCT( m.id ) as id
      * @return array            The rows
      * @access public
      */
-    public function &getRows($offset, $rowCount, $sort) {
+    public function &getRows($offset, $rowCount, $sort, $additionalClause = null, $additionalParams = null ) {
         $mailing    = self::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
         $group      = CRM_Mailing_DAO_Group::getTableName( );
@@ -1344,12 +1354,13 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
-            FROM        $mailing
-            INNER JOIN  $job
-                    ON  $job.mailing_id    = $mailing.id
-                    AND $job.is_test    <> 1
+            FROM        $mailing, $job
             WHERE       $mailing.domain_id = $domain_id
+              AND       $job.mailing_id    = $mailing.id
               AND       $mailingACL
+              AND       ( $job.is_test <> 1
+               OR         $job.is_test IS NULL )
+                        $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {
@@ -1363,20 +1374,24 @@ SELECT DISTINCT( m.id ) as id
            $query .= " LIMIT $offset, $rowCount ";
         }
 
-        $this->query($query);
+        if ( ! $additionalParams ) {
+            $additionalParams = array( );
+        }
 
+        $dao = CRM_Core_DAO::executeQuery( $query, $additionalParams );
+
+        
         $rows = array();
-
-        while ($this->fetch()) {
+        while ($dao->fetch()) {
             $rows[] = array(
-                'id'            =>  $this->id,
-                'name'          =>  $this->name, 
-                'status'        => CRM_Mailing_BAO_Job::status($this->status), 
-                'scheduled'     => CRM_Utils_Date::customFormat($this->scheduled_date),
-                'scheduled_iso' => $this->scheduled_date,
-                'start'         => CRM_Utils_Date::customFormat($this->start_date), 
-                'end'           => CRM_Utils_Date::customFormat($this->end_date)
-            );
+                            'id'            => $dao->id,                            
+                            'name'          => $dao->name, 
+                            'status'        => CRM_Mailing_BAO_Job::status($dao->status), 
+                            'scheduled'     => CRM_Utils_Date::customFormat($dao->scheduled_date),
+                            'scheduled_iso' => $dao->scheduled_date,
+                            'start'         => CRM_Utils_Date::customFormat($dao->start_date), 
+                            'end'           => CRM_Utils_Date::customFormat($dao->end_date)
+                            );
         }
         return $rows;
     }
@@ -1461,6 +1476,30 @@ SELECT DISTINCT( m.id ) as id
         }
         $daoJob->delete();
     }
+
+    function getReturnProperties( ) {
+        $tokens =& $this->getTokens( );
+
+        $properties = array( );
+        if ( isset( $tokens['body_html'] ) &&
+             isset( $tokens['body_html']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['body_html']['contact'] );
+        }
+
+        if ( isset( $tokens['body_text'] ) &&
+             isset( $tokens['body_text']['contact'] ) ) {
+            $properties = array_merge( $properties, $tokens['body_text']['contact'] );
+        }
+
+        $returnProperties = array( );
+        $returnProperties['display_name'] = $returnProperties['contact_id'] = 1;
+        foreach ( $properties as $p ) {
+            $returnProperties[$p] = 1;
+        }
+
+        return $returnProperties;
+    }
+
 }
 
 ?>

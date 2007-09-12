@@ -58,8 +58,14 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
     {
         $mailingID = $this->get("mid");
 
+        // check that the user has permission to access mailing id
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        CRM_Mailing_BAO_Mailing::checkPermission( $mailingID );
+
         $defaults = array( );
         if ( $mailingID ) {
+            $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
+
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
             
@@ -76,7 +82,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $defaults['includeMailings'] = CRM_Utils_Array::value('Include',$mailingGroups['civicrm_mailing']);
             $defaults['excludeMailings'] = $mailingGroups['civicrm_mailing']['Exclude'];
         }
-        
+
         return $defaults;
     }
 
@@ -88,17 +94,25 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        require_once 'CRM/Mailing/PseudoConstant.php';
+
+        $this->add( 'text', 'name', ts('Name Your Mailing'),
+                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
+                    true );
+        $this->addRule('name', ts('This mailing name has already been used. Please pick a unique name for the mailing.'),
+                       'objectExists', array('CRM_Mailing_DAO_Component', null ) );
+
         $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-                                  ts('Include Group(s)') . ' ', $groups,
+                                  ts('INCLUDE Contacts in these Group(s)') . ' ', $groups,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
 
-        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+        $this->addRule( 'includeGroups', ts('Please select at least one group to include in the mailing.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('Exclude Group(s)') . ' ', $groups,
+                                   ts('EXCLUDE Contacts in these Group(s)') . ' ', $groups,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -113,13 +127,13 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-                                  ts('Include mailing(s)') . ' ', $mailings,
+                                  ts('INCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-                                   ts('Exclude mailing(s)') . ' ', $mailings,
+                                   ts('EXCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -149,6 +163,9 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
     public function postProcess() 
     {
+        $params['name'] = $this->controller->exportValue($this->_name, 'name');
+        $this->set('name', $params['name']);
+
         $inGroups = $this->controller->exportValue($this->_name, 'includeGroups');
         $outGroups = $this->controller->exportValue($this->_name, 'excludeGroups');
         $inMailings = $this->controller->exportValue($this->_name, 'includeMailings');
@@ -185,10 +202,63 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             }
         }
         
+        $daoComponent =& new CRM_Mailing_DAO_Component();
+        $components = array('Reply', 'OptOut', 'Unsubscribe');
+        
+        foreach ($components as $key => $value) {
+            $findDefaultComponent =
+                "SELECT id
+                FROM    civicrm_mailing_component
+                WHERE   component_type = '$value'
+                AND     is_default = true";
+            
+            $daoComponent->query($findDefaultComponent);
+            
+            while($daoComponent->fetch()) {
+                $$value = $daoComponent->id;
+            }
+        }
+        
+        $params['reply_id'] = $Reply;
+        $params['optout_id'] = $OptOut;
+        $params['unsubscribe_id'] = $Unsubscribe;
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id']  = $session->get('domainID');
+        $params['groups']         = $groups;
+        $params['mailings']       = $mailings;
+        
+        if ( $this->get('mailing_id') ) {
+            $ids = array();
+            // don't create a new mailing if already exists
+            $ids['mailing_id']    = $this->get('mailing_id');
+            
+            // delete previous includes/excludes, if mailing already existed
+            require_once 'CRM/Contact/DAO/Group.php';
+            foreach( array( 'groups', 'mailings' ) as $entity ) {
+                $mg =& new CRM_Mailing_DAO_Group();
+                $mg->mailing_id     = $ids['mailing_id'];                        
+                $mg->entity_table   = ( $entity == 'groups' ) 
+                    ? CRM_Contact_BAO_Group::getTableName( )
+                    : CRM_Mailing_BAO_Mailing::getTableName( );
+                $mg->find();
+                while ( $mg->fetch() ) {
+                    $mg->delete( );
+                }
+            }
+        }
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
+        $this->set('mailing_id', $mailing->id);
+        
+        require_once "CRM/Mailing/BAO/Mailing.php";
+        $count = CRM_Mailing_BAO_Mailing::getRecipientsCount(true, false, $mailing->id);
+        $this->set('count',$count );
+        $this->assign('count',$count );
         $this->set('groups', $groups);
         $this->set('mailings', $mailings);
     }
-
+    
     /**
      * Display Name of the form
      *

@@ -75,7 +75,7 @@ class CRM_Core_Component
                 array( 'title'   => 'CiviCRM Mailing Engine',
                        'path'    => 'CRM_Mailing_',
                        'url'     => 'mailing',
-                       'perm'    => array( 'access CiviMail' ),
+                       'perm'    => array( 'access CiviMail', 'access CiviMail actions via HTTP' ),
                        'search'  => 0 );
                        
             self::$_info['CiviGrant'] = 

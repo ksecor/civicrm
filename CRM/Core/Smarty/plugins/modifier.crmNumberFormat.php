@@ -34,63 +34,31 @@
  */
 
 /**
+ * Add thousands separator to numeric strings using
+ * PHP number_format() function.
  *
+ * @param float  $number        numeric value to be formatted
+ * @param int    $decimals      number of decimal places
+ * @param string $dec_point     decimal point character (if other than ".")
+ * @param string $thousands_sep thousands sep character (if other than ",")
+ *
+ * @return string        the formatted string
+ * @access public
+ *
+ * For alternate decimal point and thousands separator, delimit values with single quotes in the template.
+ * EXAMPLE:   {$number|crmNumberFormat:2:',':' '} for French notation - 1234.56 becomes 1 234,56
  */
-class CRM_Core_Permission_Joomla {
-    /**
-     * get the current permission of this user
-     *
-     * @return string the permission of the user (edit or view or null)
-     */
-    public static function getPermission( ) {
-        return CRM_Core_Permission::EDIT;
-    }
-
-    /**
-     * Get the permissioned where clause for the user
-     *
-     * @param int $type the type of permission needed
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
-     *
-     * @return string the group where clause for this user
-     * @access public
-     */
-    public static function whereClause( $type, &$tables, &$whereTables ) {
-        return '( 1 )';
-    }
-
-    /**
-     * Get all groups from database, filtered by permissions
-     * for this user
-     *
-     * @access public
-     * @static
-     *
-     * @return array - array reference of all groups.
-     *
-     */
-    public static function &group( $groupType = null ) {
-        return CRM_Core_PseudoConstant::allGroup( $groupType );
-    }
-
-    /**
-     * given a permission string, check for access requirements
-     *
-     * @param string $str the permission to check
-     *
-     * @return boolean true if yes, else false
-     * @static
-     * @access public
-     */
-    static function check( $str ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
-            return false;
+function smarty_modifier_crmNumberFormat( $number, $decimals = null, $dec_point = null, $thousands_sep = null ) {
+    if ( is_numeric( $number ) ) {
+        // Both dec_point AND thousands_sep are required if one is specified (this is how number_format works)
+        if ( $dec_point && $thousands_sep ) {
+            return number_format( $number, $decimals, $dec_point, $thousands_sep);
+        } else {
+            return number_format( $number, $decimals );
         }
-        return true;
+    } else {
+        return '';
     }
-
 }
 
 ?>

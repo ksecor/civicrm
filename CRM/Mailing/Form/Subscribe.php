@@ -72,19 +72,38 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
                     CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                'email' ),
                     true );
-        $this->addRule( 'email', ts('Email is not valid.'), 'email' );
+        $this->addRule( 'email', ts('Please enter a valid email address (e.g. "yourname@example.com").'), 'email' );
 
         if ( ! $this->_groupID ) {
             // create a selector box of all public groups
-            $groups =& CRM_Core_PseudoConstant::staticGroup( true, 'Mailing' );
-            $groups =  array_flip( $groups );
-            $this->addCheckbox( 'group_id',
-                                ts( 'Mailing Lists' ),
-                                $groups,
-                                null, null, true,
-                                null, array( '&nbsp;&nbsp;',
-                                             '&nbsp;&nbsp;',
-                                             '<br/>' ) );
+            require_once 'CRM/Contact/BAO/Group.php';
+
+            $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
+            $query = "
+SELECT id, title, description
+  FROM civicrm_group
+ WHERE ( saved_search_id = 0
+    OR   saved_search_id IS NULL )
+   AND visibility != 'User and User Admin Only'
+   AND $groupTypeCondition";
+            $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            $rows   =  array( );
+            while ( $dao->fetch( ) ) {
+                $row                = array( );
+                $row['id']          = $dao->id;
+                $row['title']       = $dao->title;
+                $row['description'] = $dao->description;
+                $row['checkbox'   ] = CRM_Core_Form::CB_PREFIX . $row['id'];
+                $this->addElement( 'checkbox',
+                                   $row['checkbox'],
+                                   null, null );
+                $rows[] = $row;
+            }
+            if ( empty( $rows ) ) {
+                CRM_Core_Error::fatal( ts( 'There are no public mailing groups' ) );
+            }
+            $this->assign( 'rows', $rows );
+            $this->addFormRule( array( 'CRM_Mailing_Form_Subscribe', 'formRule' ) );
         }
 
         $this->addButtons( array(
@@ -98,6 +117,15 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
                            );
     }
     
+    static function formRule( &$fields ) {
+        foreach ( $fields as $name => $dontCare ) {
+            if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                return true;
+            }
+        }
+        return array( '_qf_default' => 'Please select one or more groups.' );
+    }
+
     /**
      *
      * @access public
@@ -107,10 +135,15 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
     {    
         $params = $this->controller->exportValues( $this->_name );
 
+        $groups = array( );
         if ( $this->_groupID ) {
-            $groups = array( $this->_groupID );
+            $groups[] = $this->_groupID;
         } else {
-            $groups = array_keys( $params['group_id'] );
+            foreach ( $params as $name => $dontCare ) {
+                if ( substr( $name, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $groups[] = substr( $name, CRM_Core_Form::CB_PREFIX_LEN );
+                }
+            }
         }
 
         require_once 'CRM/Mailing/Event/BAO/Subscribe.php';

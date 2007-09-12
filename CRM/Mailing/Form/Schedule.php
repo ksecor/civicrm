@@ -40,6 +40,18 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
 {
 
     /**
+     * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $count = $this->get('count');
+        $this->assign('count',$count);
+    }
+    
+    /**
      * Build the form for the last step of the mailing wizard
      *
      * @param
@@ -104,21 +116,35 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
     {
         $params = array();
         $params['mailing_id'] = $ids['mailing_id'] = $this->get('mailing_id');
-     
+        
         foreach(array('now', 'start_date') as $parameter) {
             $params[$parameter] = $this->controller->exportValue($this->_name,
                                                                  $parameter);
         }
-        
-        $session =& CRM_Core_Session::singleton();
-        $params['domain_id' ] = $session->get('domainID');
-        $params['contact_id'] = $session->get('userID');
-        
-        /* Build the mailing object */
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        CRM_Mailing_BAO_Mailing::create( $params, $ids );
-    }
 
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $ids['mailing_id'];
+
+        if ($mailing->find(true)) {
+            
+            $job =& new CRM_Mailing_BAO_Job();
+            $job->mailing_id = $mailing->id;
+            
+            if ( ! $mailing->is_template) {
+                $job->status = 'Scheduled';
+                $job->is_retry = false;
+                $job->is_test = false;
+                if ($params['now']) {
+                    $job->scheduled_date = date('YmdHis');
+                } else {
+                    $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
+                }
+                $job->save();
+            } 
+        }
+    }
+    
     /**
      * Display Name of the form
      *

@@ -68,6 +68,8 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_action;
 
+    public $_sortByCharacter;
+
     /**
      * Heart of the viewing process. The runner gets all the meta data for
      * the contact and calls the appropriate type of page to view.
@@ -95,6 +97,20 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */ 
     function run( ) {
         $this->preProcess(); 
+
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
+        }
+
+        $this->search( );
+
+        $config =& CRM_Core_Config::singleton( );
+
         $url = CRM_Utils_System::url('civicrm/mailing/browse', 'reset=1');
 
         if ($this->_action & CRM_Core_Action::DISABLE) {                 
@@ -132,7 +148,10 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
             
 
+        CRM_Utils_System::setTitle(ts('Sent Mailings'));
+
         $selector =& new CRM_Mailing_Selector_Browse( );
+        $selector->setParent( $this );
         $controller =& new CRM_Core_Selector_Controller(
                                                         $selector ,
                                                         $this->get( CRM_Utils_Pager::PAGE_ID ),
@@ -141,12 +160,56 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
                                                         $this, 
                                                         CRM_Core_Selector_Controller::TEMPLATE );
         $controller->setEmbedded( true );
-
-        CRM_Utils_System::setTitle(ts('Mailings'));
         $controller->run( );
+
+        // hack to display results as per search
+        $rows = $controller->getRows($controller);
+        $this->assign('rows', $rows);
+
         return parent::run( );
     }
-  
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE ) ) {
+            return;
+        }
+
+        $form = new CRM_Core_Controller_Simple( 'CRM_Mailing_Form_Search', ts( 'Search Mailings' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+
+    function whereClause( &$params, $sortBy = true ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->get( 'mailing_name' );
+        //echo " name=$title  ";
+        if ( $title ) {
+            $clauses[] = 'name LIKE %1';
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
+            $clauses[] = 'name LIKE %2';
+            $params[2] = array( $this->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %3';
+        $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        
+        return implode( ' AND ', $clauses );
+    }
+
 }
 
 ?>

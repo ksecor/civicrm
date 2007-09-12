@@ -29,11 +29,8 @@ P=`dirname $0`
 ORIGPWD=`pwd`
 
 # Set no actions by default 
-PHP4CONV=0
 D5PACK=0
 J5PACK=0
-D4PACK=0
-J4PACK=0
 
 # Display usage
 display_usage()
@@ -45,9 +42,7 @@ display_usage()
 	echo "Options available:"
 	echo "  all - generate all available tarballs"
 	echo "  d5  - generate Drupal PHP5 module"
-	echo "  d4  - generate Drupal PHP4 module"
 	echo "  j5  - generate Joomla PHP5 module"
-	echo "  j4  - generate Joomla PHP4 module"
 	echo
 	echo "You also need to have distmaker.conf file in place."
 	echo "See distmaker.conf.dist for example contents."
@@ -101,28 +96,11 @@ case $1 in
 	J5PACK=1
 	;;
 
-	# DRUPAL PHP4
-	d4)
-	echo; echo "Generating Drupal PHP4 module"; echo;
-	D4PACK=1
-	PHP4CONV=1
-	;;
-
-	# JOOMLA PHP4
-	j4)
-	echo; echo "Generating Joomla PHP4 module"; echo;
-	J4PACK=1
-	PHP4CONV=1
-	;;
-
 	# ALL
 	all)
 	echo; echo "Generating all we've got."; echo;
-	PHP4CONV=1
 	D5PACK=1
 	J5PACK=1
-	D4PACK=1
-	J4PACK=1
 	;;
 
 	# USAGE
@@ -141,13 +119,6 @@ $DM_PHP GenCode.php schema/Schema.xml $DM_VERSION
 
 cd $ORIGPWD
 
-# Main flow
-if [ $PHP4CONV = 1 ]; then
-	echo; echo "PHP5->PHP4 conversion started"; echo;
-	PHP4GENERATED=1
-	sh $P/utils/php4conversion.sh
-fi
-
 if [ $D5PACK = 1 ]; then
 	echo; echo "Packaging for Drupal, PHP5 version"; echo;
 	sh $P/dists/drupal_php5.sh
@@ -158,18 +129,6 @@ if [ $J5PACK = 1 ]; then
 	sh $P/dists/joomla_php5.sh
 fi
 
-
-if [ $D4PACK = 1 ]; then
-	echo; echo "Packaging for Drupal, PHP4 version"; echo;
-	check_php4
-	sh $P/dists/drupal_php4.sh
-fi
-
-if [ $J4PACK = 1 ]; then
-	echo; echo "Packaging for Joomla, PHP4 version"; echo;
-	check_php4
-	sh $P/dists/joomla_php4.sh
-fi
 
 unset DM_SOURCEDIR DM_GENFILESDIR DM_TARGETDIR DM_TMPDIR DM_PHP DM_RSYNC DM_VERSION DM_ZIP
 echo;echo "DISTMAKER Done.";echo;

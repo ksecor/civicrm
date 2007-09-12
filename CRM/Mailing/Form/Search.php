@@ -35,40 +35,35 @@
 
 require_once 'CRM/Core/Form.php';
 
-class CRM_Group_Form_Search extends CRM_Core_Form {
+class CRM_Mailing_Form_Search extends CRM_Core_Form {
 
     public function preProcess( ) {
         parent::preProcess( );
     }
 
     public function buildQuickForm( ) {
-        $this->add( 'text', 'title', ts( 'Find' ),
-                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'title' ) );
+        $this->add( 'text', 'mailing_name', ts( 'Find' ),
+                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'title' ) );
 
-        require_once 'CRM/Core/OptionGroup.php';
-        $this->addCheckBox( 'group_type',
-                            ts( 'Type' ),
-                            CRM_Core_OptionGroup::values( 'group_type', true ),
-                            null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
-        
-        $this->add( 'select', 'visibility', ts('Visibility'        ),
-                    array( '' => ts('- any visibility -' ) ) + CRM_Core_SelectValues::ufVisibility( ) );
-        
+        $this->add('date', 'mailing_from', ts('Sent Between'), CRM_Core_SelectValues::date('relative')); 
+        $this->addRule('mailing_from', ts('Select a valid date.'), 'qfDate'); 
+ 
+        $this->add('date', 'mailing_to', ts('And'), CRM_Core_SelectValues::date('relative')); 
+        $this->addRule('mailing_to', ts('Select a valid date.'), 'qfDate'); 
+
         $this->addButtons(array( 
                                 array ('type'      => 'refresh', 
                                        'name'      => ts('Search'), 
                                        'isDefault' => true ), 
                                 ) ); 
-
-        parent::buildQuickForm( );
     }
 
     function postProcess( ) {
         $params = $this->controller->exportValues( $this->_name );
-
+        
         $parent = $this->controller->getParent( );
         if ( ! empty( $params ) ) {
-            $fields = array( 'title', 'group_type', 'visibility' );
+            $fields = array( 'mailing_name', 'mailing_from', 'mailing_to' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {

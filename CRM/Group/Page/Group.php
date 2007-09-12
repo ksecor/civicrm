@@ -46,6 +46,8 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
 
     protected $_pager = null;
 
+    protected $_sortByCharacter;
+
     /**
      * The action links that we need to display for saved search items
      *
@@ -233,13 +235,27 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
     function browse($action = null) 
     {
       require_once 'CRM/Contact/BAO/GroupNesting.php';
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
+        }
+
         $this->search( );
 
         $config =& CRM_Core_Config::singleton( );
 
+        $params = array( );
+        $whereClause = $this->whereClause( $params, false );
+        $this->pagerAToZ( $whereClause, $params );
+
         $params      = array( );
-        $whereClause = $this->whereClause( $params );
-        $this->pager( $whereClause, $params );
+        $whereClause = $this->whereClause( $params, true );
+        $this->pager    ( $whereClause, $params );
+
 
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
@@ -326,7 +342,7 @@ ORDER BY title asc
         $form->run( );
     }
 
-    function whereClause( &$params ) {
+    function whereClause( &$params, $sortBy = true ) {
         $values =  array( );
 
         $clauses = array( );
@@ -359,8 +375,14 @@ ORDER BY title asc
             $params[3] = array( $visibility, 'String' );
         }
 
-        $clauses[] = 'domain_id = %4';
-        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
+            $clauses[] = 'title LIKE %4';
+            $params[4] = array( $this->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %5';
+        $params[5] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
         return implode( ' AND ', $clauses );
     }
@@ -385,6 +407,21 @@ SELECT count(id)
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
         $this->_pager = new CRM_Utils_Pager( $params );
         $this->assign_by_ref( 'pager', $this->_pager );
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
+     FROM civicrm_group
+    WHERE $whereClause
+ ORDER BY LEFT(title, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
+        $this->assign( 'aToZ', $aToZBar );
     }
 
 }

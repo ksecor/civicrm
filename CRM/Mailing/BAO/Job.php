@@ -102,8 +102,7 @@ ORDER BY scheduled_date,
                 CRM_Core_DAO::transaction('COMMIT');
             }
             
-            $mailingSize = $job->getMailingSize();
-            $mailer =& $config->getMailer($mailingSize);
+            $mailer =& $config->getMailer();
             
             /* Compose and deliver */
             $isComplete = $job->deliver($mailer, $testParams);
@@ -148,7 +147,7 @@ ORDER BY scheduled_date,
             if ($this->is_retry) {
                 $recipients =& $mailing->retryRecipients($this->id);
             } else {
-                $recipients =& $mailing->getRecipients($this->id);
+                $recipients =& $mailing->getRecipientsObject($this->id);
             }
             while ($recipients->fetch()) {
                 $params = array(
@@ -171,7 +170,7 @@ ORDER BY scheduled_date,
         $mailing =& new CRM_Mailing_BAO_Mailing();
         $mailing->id = $this->mailing_id;
 
-        $recipients =& $mailing->getRecipients($this->id, true);
+        $recipients =& $mailing->getRecipientsObject($this->id, true);
         $mailingSize = 0;
         while ($recipients->fetch()) {
             $mailingSize ++;
@@ -288,11 +287,31 @@ ORDER BY scheduled_date,
             $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
                                '=', 1, 0, 1);
         }
+
+        // also get the return properties
+        $returnProperties = $mailing->getReturnProperties( );
+        
+        $custom = array( );
+        foreach ( $returnProperties as $name => $dontCare ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            if ( $cfID ) {
+                $custom[] = $cfID;
+            }
+        }
+
         require_once 'api/Search.php';
         require_once 'api/History.php';
-        $details = crm_search( $params, null, null, 0, 0 );
+        $details = crm_search( $params, $returnProperties, null, 0, 0 );
 
         foreach ( $fields as $contactID => $field ) {
+
+            foreach ( $custom as $cfID ) {
+                if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
+                    $details[0][$contactID]["custom_{$cfID}"] = 
+                        CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$contactID]["custom_{$cfID}"],
+                                                                   $cfID, $details[1] );
+                }
+            }
 
             /* Compose the mailing */
             $recipient = null;

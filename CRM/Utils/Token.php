@@ -334,8 +334,6 @@ class CRM_Utils_Token {
                              array( 'display_name', 'checksum', 'contact_id' ) );
         }
 
-        $cv = null;
- 
         // here we intersect with the list of pre-configured valid tokens
         // so that we remove anything we do not recognize
         // I hope to move this step out of here soon and
@@ -356,15 +354,6 @@ class CRM_Utils_Token {
         // called only when we find a token in the string
         if(!in_array($token,self::$_tokens['contact'])){
           $value = "{contact.$token}";
-        }
-        else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
-            $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
-            foreach ($cv as $customValue) {
-                if ($customValue['custom_field_id'] == $cfID) {
-                    $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
-                    break;
-                }
-            }
         } else if ( $token == 'checksum' ) {
             $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
             $value = "cs={$cs}";

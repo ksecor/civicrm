@@ -13,7 +13,7 @@
             <strong>{ts}Drupal Example{/ts}</strong><br />
             {ts 1=http://www.example.com/}If your site's home url is %1 ... then your CiviCRM Resource URL would be:{/ts} 
             <div class="font-italic description">
-             &nbsp;&nbsp; http://www.example.com/modules/civicrm/
+             &nbsp;&nbsp; http://www.example.com/sites/all/modules/civicrm/
             </div>
             
             <strong>{ts}Joomla Example{/ts}</strong><br />

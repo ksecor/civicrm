@@ -1,0 +1,28 @@
+{htxt id="mailing-name"}
+<p>
+{ts}
+Assign a unique name to each of your mailings. Select a naming convention that will help keep your mailings organized and easy
+to find when you want to review and compare mailing results. For example, if you do a monthly general-interest newsletter - you might
+use the following naming convention:
+<div class="status">
+General Monthly Newsletter: 200709
+</div>
+{/ts}
+</p>
+{/htxt}
+
+{htxt id="mailing-recipients"}
+{ts}
+<p>Determine the contacts in your database who should receive this mailing by first selecting one or more <strong>Included Groups</strong>.
+(Groups must be assigned the <strong>Mailing List</strong> type to be available on this screen - you can update this for an
+existing group from <strong>Manage Groups &raquo; Settings</strong>.)</p>
+
+<p>You also have the option to <strong>Exclude</strong> some contacts in your included groups by selecting on or more <strong>Excluded
+Groups</strong>. Contacts who are in both groups will NOT receive the mailing (they are "excluded").</p>
+
+<p>If you have sent other mailings - you can additionally Include (or Exclude) contacts who received those mailings.</p>
+
+<p>After you click <strong>Next</strong> - the total number of selected recipients will be displayed on the next screen. Use this
+as a "reality-check" to help you confirm that you've targeted (and excluded) the desired recipients.</p>
+{/ts}
+{/htxt}

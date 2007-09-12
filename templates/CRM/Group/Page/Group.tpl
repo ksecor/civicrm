@@ -1,17 +1,16 @@
 {* Actions: 1=add, 2=edit, browse=16, delete=8 *}
 {if $action eq 16}
 <div id="help">
-<p>{ts}Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality).{/ts}</p>
-<p>{ts}You can add contacts to a group from any set of search results (or when viewing an individual contact). You can also allow contacts to sign themselves up for certain groups by setting the group visibility to 'Public User Pages' (use the <strong>Settings</strong> link), and including the <strong>Groups</strong> element in your CiviCRM Profile.{/ts}</p>
+    {ts}Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality).{/ts} {help id="manage_groups"}
 </div>
 {/if}
  
 {if $rows}
 <div id="group">
-<p></p>
 {if $action eq 16 or $action eq 32 or $action eq 64} {* browse *}  
 {include file="CRM/Group/Form/Search.tpl"}
 {include file="CRM/common/pager.tpl" location="top"}
+{include file="CRM/common/pagerAToZ.tpl}
    {strip}
    <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead>  

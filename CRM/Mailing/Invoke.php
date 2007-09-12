@@ -98,14 +98,6 @@ class CRM_Mailing_Invoke {
                                   ts('Retry Mailing'), null);
         }
 
-		if ( $secondArg == 'composer' ) {
-            require_once 'CRM/Mailing/Form/Composer/Compose.php';
-            $wrapper =& new CRM_Utils_Wrapper();
-            return $wrapper->run( 'CRM_Mailing_Form_Composer_Compose', 
-                                  ts('Composer'), null);
-        }
-		
-        
         if ( $secondArg == 'report' ) {
             $thirdArg  = CRM_Utils_Array::value( 3, $args, '' ); 
             if  ( $thirdArg  == 'event' ) {

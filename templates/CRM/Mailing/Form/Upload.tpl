@@ -1,4 +1,5 @@
 {include file="CRM/common/WizardHeader.tpl"}
+{include file="CRM/Mailing/Form/Count.tpl"}
 <div id="help">
 <p>
     {ts}Before completing this step, you must create one or two files containing your mailing content.{/ts} {help id="id-upload"}
@@ -16,15 +17,27 @@
     <dt class="label">{$form.from_email.label}</dt><dd>{$form.from_email.html}</dd>
     <dt class="label">{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
     <dt class="label">{$form.upload_type.label}</dt><dd>{$form.upload_type.html}</dd>
+    </dl>
     <fieldset id="compose_id">
+      <dl class="html-adjust">  
 	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
   	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
-	<dt>{$form.html_message.label}</dt><dd>{$form.html_message.html}</dd>
-	<dt>{$form.updateTemplate.label}</dt><dd>{$form.updateTemplate.html}</dd>
-	<dt>{$form.saveNewTemplate.label}</dt><dd>{$form.saveNewTemplate.html}</dd>	
-	<div id="save"><dt>{$form.template.label}</dt><dd>{$form.template.html}</dd></div>
+        <dt>{$form.html_message.label}</dt> 
+        <dd style="border: 1px solid black; ">{$form.html_message.html}</dd>
+      </dl>  
+    <div id="editMessageDetails" class="form-item">
+      <dl>
+         <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
+         <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
+      </dl>
+    </div>
+     <div id="saveDetails" class="form-item">
+        <dl> 
+          <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
+        </dl>
+      </div>
     </fieldset>
-    <fieldset id="upload_id"><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
+    <fieldset id="upload_id"><dl><dt class="label extra-long-fourty">{$form.textFile.label}</dt>
         <dd>{$form.textFile.html}<br />
             <span class="description">{ts}Browse to the <strong>TEXT</strong> message file you have prepared for this mailing.{/ts}<br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank" title="{ts}Help on messages. Opens a new window.{/ts}">{ts}More information and sample messages...{/ts}</a></span>
         </dd>
@@ -42,38 +55,6 @@
         </dd>
     </dl> 
   </fieldset>
-  <fieldset><legend>{ts}Tracking{/ts}</legend> 
-    <dl>
-    <dt class="label extra-long-sixty">{$form.url_tracking.label}</dt>
-        <dd>{$form.url_tracking.html}<br />
-            <span class="description">{ts}Track the number of times recipients click each link in this mailing. NOTE: When this feature is enabled, all links in the message body will be automaticallly re-written to route through your CiviCRM server prior to redirecting to the target page.{/ts}</span>
-        </dd>
-    <dt class="label">{$form.open_tracking.label}</dt>
-        <dd>{$form.open_tracking.html}<br />
-            <span class="description">{ts}Track the number of times recipients open this mailing in their email software.{/ts}</span>
-        </dd>
-    </dl>
-  </fieldset>
-  <fieldset><legend>{ts}Responding{/ts}</legend> 
-    <dl>
-        <dt class="label extra-long-fourty">{$form.forward_replies.label}</dt>
-            <dd>{$form.forward_replies.html}<br />
-                <span class="description">{ts}If a recipient replies to this mailing, forward the reply to the FROM Email address specified above.{/ts}</span>
-            </dd>
-    <dt class="label">{$form.auto_responder.label}</dt>
-        <dd>{$form.auto_responder.html} &nbsp; {$form.reply_id.html}<br />
-            <span class="description">{ts}If a recipient replies to this mailing, send an automated reply using the selected message.{/ts}</span>
-        </dd>
-    <dt class="label">{$form.unsubscribe_id.label}</dt>
-        <dd>{$form.unsubscribe_id.html}<br />
-            <span class="description">{ts}Select the automated message to be sent when a recipient unsubscribes from this mailing.{/ts}</span>
-        </dd>
-    <dt class="label extra-long-fourty">{$form.optout_id.label}</dt>
-        <dd>{$form.optout_id.html}<br />
-            <span class="description">{ts}Select the automated message to be sent when a recipient opts out of all mailings from your site.{/ts}</span>
-        </dd>
-   </dl>
-  </fieldset>
   <dl>
     <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
   </dl>
@@ -83,9 +64,7 @@
 {include file="CRM/common/showHide.tpl"}
 {literal}
 <script type="text/javascript">
-{/literal}{literal}
-    document.getElementsByName("upload_type")[0].checked = true;  hide('compose_id');
-    hide('save');
+    showHideUpload();
     function showHideUpload()
     { 
 	if (document.getElementsByName("upload_type")[0].checked) {
@@ -97,20 +76,36 @@
         }
     }
    
-    function showSave(chkbox)
-    { 
-	if (chkbox.checked) {
-            show('save');
-        } else {
-            hide('save');
-        }
-    }
     function selectValue(val)
-     {
+    {
        var tokens = val.split( "^A" );
+       var ed = dojo.widget.byId('editor4');
        dojo.byId('text_message').value=tokens[0];
-       dojo.byId('html_message').value=tokens[2];	 
-     }
+       ed._htmlEditNode.value=tokens[2];
+    }
  
+     function verify( select )
+     {
+	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
+	    document.getElementById("saveDetails").style.display = "none";
+	}
+
+	document.getElementById("editMessageDetails").style.display = "block";
+	document.getElementById("saveTemplateName").disabled = false;
+     }
+
+     function showSaveDetails(chkbox) 
+     {
+	if (chkbox.checked) {
+	    document.getElementById("saveDetails").style.display = "block";
+	    document.getElementById("saveTemplateName").disabled = false;
+	} else {
+	    document.getElementById("saveDetails").style.display = "none";
+	    document.getElementById("saveTemplateName").disabled = true;
+	}
+     }
+
+    document.getElementById("saveDetails").style.display = "none";
+    document.getElementById("editMessageDetails").style.display = "none";
 </script>
 {/literal}

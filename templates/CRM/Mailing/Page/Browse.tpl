@@ -5,8 +5,14 @@
 </fieldset>
 {/if}
 
+<div class="action-link">
+    <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
+</div>
+
 {if $rows}
+{include file="CRM/Mailing/Form/Search.tpl"}
 {include file="CRM/common/pager.tpl" location="top"}
+{include file="CRM/common/pagerAToZ.tpl}
 
 {strip}
 <table>
@@ -26,9 +32,12 @@
   {counter start=0 skip=1 print=false}
   {foreach from=$rows item=row}
   <tr class="{cycle values="odd-row,even-row"}">
-  {foreach from=$row item=value}
-    <td>{$value}</td>
-  {/foreach}
+    <td>{$row.name}</td>
+    <td>{$row.status}</td>
+    <td>{$row.scheduled}</td>
+    <td>{$row.start}</td>
+    <td>{$row.end}</td>
+    <td>{$row.action}</td>
   </tr>
   {/foreach}
 </table>
@@ -39,6 +48,7 @@
 <div class="action-link">
     <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
 </div>
+
 
 {else}
 <div class="messages status">
