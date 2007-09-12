@@ -42,46 +42,6 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
 {
 
     /**
-     * takes an associative array and creates a im
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return object       CRM_Core_BAO_IM object on success, null otherwise
-     * @access public
-     * @static
-     */
-    static function create( &$params ) 
-    {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
-        }
-                
-        $isPrimary = true;
-        foreach ( $params['im'] as $value ) {
-            $contactFields = array( );
-            $contactFields['contact_id'      ] = $value['contact_id'];
-            $contactFields['location_type_id'] = $value['location_type_id'];
-            
-            foreach ( $value as $val ) {
-                if ( !CRM_Core_BAO_Block::dataExists( array( 'name' ), $val ) ) {
-                    continue;
-                }
-                if ( is_array( $val ) ) {
-                    if ( $isPrimary && $value['is_primary'] ) {
-                        $contactFields['is_primary'] = $value['is_primary'];
-                        $isPrimary = false;
-                    } else {
-                        $contactFields['is_primary'] = false;
-                    }
-
-                    $imFields = array_merge( $val, $contactFields);
-                    self::add( $imFields );
-                }
-            }
-        }
-    }
-
-    /**
      * takes an associative array and adds im
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
@@ -96,31 +56,9 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
         
         $im->copyValues($params);
 
-        // need to handle update mode
-
         // when im field is empty need to delete it
 
-
         return $im->save( );
-    }
-
-    /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        // return if no data present
-        if ( ! array_key_exists( 'im', $params ) ) {
-	        return false;
-        }
-
-        return true;
     }
 
     /**
@@ -142,6 +80,44 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
         return CRM_Core_BAO_Block::getValues( $im, 'im', $contactId );
     }
 
+    /**
+     * Get all the ims for a specified contact_id, with the primary im being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of im details
+     * @access public
+     * @static
+     */
+    static function allIMs( $id ) 
+    {
+        if ( !$id ) {
+            return null;
+        }
+
+        $query = "
+SELECT civicrm_im.name as im, civicrm_location_type.name as locationType, civicrm_im.is_primary as is_primary,
+civicrm_im.id as im_id, civicrm_im.location_type_id as locationTypeId
+FROM      civicrm_contact
+LEFT JOIN civicrm_im ON ( civicrm_im.contact_id = civicrm_contact.id )
+LEFT JOIN civicrm_location_type ON ( civicrm_im.location_type_id = civicrm_location_type.id )
+WHERE
+  civicrm_contact.id = %1
+ORDER BY
+  civicrm_im.is_primary DESC, civicrm_im.location_type_id DESC, im_id ASC ";
+        $params = array( 1 => array( $id, 'Integer' ) );
+
+        $ims = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        while ( $dao->fetch( ) ) {
+            $ims[$dao->im_id] = array( 'locationType'   => $dao->locationType,
+                                       'is_primary'     => $dao->is_primary,
+                                       'id'             => $dao->im_id,
+                                       'name'           => $dao->im,
+                                       'locationTypeId' => $dao->locationTypeId );
+        }
+        return $ims;
+    }
 }
 
 ?>

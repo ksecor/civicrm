@@ -120,10 +120,11 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         $numbers = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
-            $numbers[$dao->phone] = array( 'locationType'   => $dao->locationType,
-                                           'is_primary'     => $dao->is_primary,
-                                           'id'             => $dao->phone_id,
-                                           'locationTypeId' => $dao->locationTypeId);
+            $numbers[$dao->phone_id] = array( 'locationType'   => $dao->locationType,
+                                              'is_primary'     => $dao->is_primary,
+                                              'id'             => $dao->phone_id,
+                                              'phone'          => $dao->phone,
+                                              'locationTypeId' => $dao->locationTypeId);
         }
         return $numbers;
     }

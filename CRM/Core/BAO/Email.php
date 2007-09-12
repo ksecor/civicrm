@@ -124,11 +124,12 @@ ORDER BY
         $emails = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
-            $emails[$dao->email] = array( 'locationType'   => $dao->locationType,
-                                          'is_primary'     => $dao->is_primary,
-                                          'on_hold'        => $dao->on_hold,
-                                          'id'             => $dao->email_id,
-                                          'locationTypeId' => $dao->locationTypeId );
+            $emails[$dao->email_id] = array( 'locationType'   => $dao->locationType,
+                                             'is_primary'     => $dao->is_primary,
+                                             'on_hold'        => $dao->on_hold,
+                                             'id'             => $dao->email_id,
+                                             'email'          => $dao->email,
+                                             'locationTypeId' => $dao->locationTypeId );
         }
         return $emails;
     }

@@ -40,15 +40,16 @@ require_once "CRM/Core/BAO/Email.php";
  * one or a group of contact ids. This class is reused by all the search
  * components in CiviCRM (since they all have send email as a task)
  */
-class CRM_Contact_Form_Task_EmailCommon {
-
+class CRM_Contact_Form_Task_EmailCommon 
+{
     /**
      * build all the data structures needed to build the form
      *
      * @return void
      * @access public
      */
-    static function preProcess( &$form ) {
+    static function preProcess( &$form ) 
+    {
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $messageText  = array( );
         $messageSubject  = array( );
@@ -58,22 +59,23 @@ class CRM_Contact_Form_Task_EmailCommon {
         while ( $dao->fetch() ){
             $messageText   [$dao->id] = $dao->msg_text;
             $messageSubject[$dao->id] = $dao->msg_subject;
-        } 
+        }
+        
         $form->assign( 'message'       , $messageText    );
         $form->assign( 'messageSubject', $messageSubject );
-        
     }
 
-    static function preProcessSingle( &$form, $cid ) {
+    static function preProcessSingle( &$form, $cid ) 
+    {
         $form->_contactIds = array( $cid );
         $form->_single     = true;
         $emails     = CRM_Core_BAO_Email::allEmails( $cid );
         $form->_emails = array( );
         $form->_onHold = array( );
         
-        
         $toName = CRM_Contact_BAO_Contact::displayName( $cid );
-        foreach ( $emails as $email => $item ) {
+        foreach ( $emails as $emailId => $item ) {
+            $email = $item['email'];
             if (!$email && ( count($emails) <= 1 ) ) {
                 $form->_emails[$email] = '"' . $toName . '"';
                 $form->_noEmails = true;
@@ -89,6 +91,7 @@ class CRM_Contact_Form_Task_EmailCommon {
             }
             $form->_emails[$email] = htmlspecialchars( $form->_emails[$email] );
         }
+
         $form->assign( 'single', $form->_single );
     }
     
@@ -120,8 +123,10 @@ class CRM_Contact_Form_Task_EmailCommon {
             if ( empty( $toArray ) ) {
                 CRM_Core_Error::statusBounce( ts('Selected contact(s) do not have a valid email address' ));
             }
+
             $form->assign('to', implode(', ', $toArray));
             $form->assign('suppressedEmails', $suppressedEmails);
+            
         } else {
             if ( $form->_noEmails ) {
                 $to = $form->add( 'select', 'to', ts('To'), $form->_emails );
@@ -137,9 +142,11 @@ class CRM_Contact_Form_Task_EmailCommon {
                     $defaults = array( 'to' => $email );
                     $form->setDefaults( $defaults );
                 }
+                
                 $to->freeze( );
             }
         }
+        
         $form->assign('noEmails', $form->_noEmails);
         
         $session =& CRM_Core_Session::singleton( );
@@ -209,6 +216,7 @@ class CRM_Contact_Form_Task_EmailCommon {
         } else {
             $form->addDefaultButtons( ts('Send Email') );
         }
+        
         $form->addFormRule( array( 'CRM_Contact_Form_Task_EmailCommon', 'formRule' ), $form );
     }
 
@@ -223,7 +231,8 @@ class CRM_Contact_Form_Task_EmailCommon {
      * @access public  
      * 
      */  
-    static function formRule($fields, $dontCare, &$self) {
+    static function formRule($fields, $dontCare, &$self) 
+    {
         $toEmail = CRM_Utils_Array::value( 'to', $fields );
         $errors = array();
         
@@ -244,14 +253,14 @@ class CRM_Contact_Form_Task_EmailCommon {
      * @access public
      * @return None
      */
-    static function postProcess( &$form ) {
+    static function postProcess( &$form ) 
+    {
         $emailAddress = null;
         if ( $form->_single ) {
             $emailAddress = $form->controller->exportValue( 'Email', 'to' );
         }
-         
-        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
-                                            $form, false );
+        
+        $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
          
         if ( $form->_noEmails ) {
             $emailAddress = $form->controller->exportValue( 'Email', 'emailAddress' );
@@ -288,7 +297,7 @@ class CRM_Contact_Form_Task_EmailCommon {
 
         // Update Message template, if new or updated
         require_once 'CRM/Core/BAO/MessageTemplates.php';
-        if( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
+        if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
             if ( $messageParams['saveTemplate'] ) {
                 $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
                                      'msg_text'    => $messageParams['message'],
@@ -296,13 +305,15 @@ class CRM_Contact_Form_Task_EmailCommon {
                                      'is_active'   => true
                                      );
                 CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);
-            } 
+            }
+            
             if ( $messageParams['updateTemplate'] && 
                  CRM_Utils_Array::key( $_POST['template_selected'], $form->_templates ) ) {
 
                 $newMessage = array( 'msg_text'    => $messageParams['message'],
                                      'msg_subject' => $messageParams['subject'],
                                      'is_active'   => true );
+
                 require_once 'CRM/Core/BAO/MessageTemplates.php';
                 require_once 'CRM/Utils/Array.php';
                 $template = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
@@ -338,8 +349,7 @@ class CRM_Contact_Form_Task_EmailCommon {
         require_once 'CRM/Core/BAO/Domain.php';
         $domain = CRM_Core_BAO_Domain::getDomainByID( $domainId );
         require_once 'CRM/Utils/Token.php';
-        $text = CRM_Utils_Token::replaceDomainTokens( $message,
-                                                      $domain, false  );
+        $text = CRM_Utils_Token::replaceDomainTokens( $message, $domain, false  );
         
         // send the mail
         require_once 'CRM/Core/BAO/EmailHistory.php';
@@ -373,8 +383,6 @@ class CRM_Contact_Form_Task_EmailCommon {
         CRM_Core_Session::setStatus( $status );
         
     }//end of function
-
-
 }
 
 ?>
