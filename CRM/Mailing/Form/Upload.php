@@ -151,7 +151,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'textarea', 
                     'html_message', 
                     ts('HTML Message'),
-                    $dojoAttributes);
+                    $dojoAttributes );
 
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
@@ -188,7 +188,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     
     public function postProcess() 
     {
-        
         $params      = $ids  = array( );
         $uploadParams        = array( 
                                      'header_id', 'footer_id', 'subject', 'from_name', 'from_email'
@@ -219,7 +218,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         } else {
             
             $params['body_text'] = $this->controller->exportvalue($this->_name, 'text_message');
+            $this->set('textFile', $params['body_text'] );
             $params['body_html'] = $this->controller->exportvalue($this->_name, 'html_message');
+            $this->set('htmlFile', $params['body_html'] );
         }
 
         $params['name'] = $this->get('name');
@@ -268,7 +269,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
         CRM_Mailing_BAO_Mailing::create($params, $ids);
-        
     }
     
     /**
