@@ -282,6 +282,7 @@ foreach ($locales as $locale) {
     $data = '';
     $data .= $smarty->fetch('civicrm_country.tpl');
     $data .= $smarty->fetch('civicrm_state_province.tpl');
+    $data .= $smarty->fetch('civicrm_currency.tpl');
     $data .= $smarty->fetch('civicrm_data.tpl');
 
     // write the initialize base-data sql script

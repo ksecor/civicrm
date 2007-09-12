@@ -46,9 +46,9 @@ VALUES
 INSERT INTO civicrm_uf_join
    (is_active,module,entity_table,entity_id,weight,uf_group_id)
 VALUES
-   (1,'User Registration','','',1,1),
-   (1,'User Account','','',1,1),
-   (1,'Profile','','',1,1);
+   (1,'User Registration','',NULL,1,1),
+   (1,'User Account','',NULL,1,1),
+   (1,'Profile','',NULL,1,1);
 
 INSERT INTO civicrm_contribution_page
   (domain_id,title,intro_text,contribution_type_id,is_monetary,is_allow_other_amount,default_amount_id,min_amount,max_amount,goal_amount,thankyou_title,thankyou_text,thankyou_footer,receipt_from_name,receipt_from_email,cc_receipt,bcc_receipt,receipt_text,is_active,footer_text,amount_block_is_active,is_thermometer,thermometer_title,honor_block_is_active,honor_block_title,honor_block_text)
@@ -100,9 +100,9 @@ VALUES
 
 -- Create default Groups for User Permissioning
 INSERT INTO civicrm_group
-(`id`, `domain_id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `where_clause`, `select_tables`, `where_tables`)
+(`id`, `domain_id`, `name`, `title`, `description`, `source`, `saved_search_id`, `is_active`, `visibility`, `group_type`, `where_clause`, `select_tables`, `where_tables`)
     VALUES
-(1, %%CIVICRM_DOMAIN_ID%%, 'Administrators', 'Administrators', 'Contacts in this group are assigned Administrator role permissions.', NULL, NULL, 1, 'User and User Admin Only', ' ( `civicrm_group_contact-1`.group_id = (1) AND `civicrm_group_contact-1`.status IN ("Added") ) ', 'a:10:{s:15:"civicrm_contact";i:1;s:18:"civicrm_individual";i:1;s:16:"civicrm_location";i:1;s:15:"civicrm_address";i:1;s:22:"civicrm_state_province";i:1;s:15:"civicrm_country";i:1;s:13:"civicrm_email";i:1;s:13:"civicrm_phone";i:1;s:10:"civicrm_im";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}', 'a:2:{s:15:"civicrm_contact";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}');
+(1, %%CIVICRM_DOMAIN_ID%%, 'Administrators', 'Administrators', 'Contacts in this group are assigned Administrator role permissions.', NULL, NULL, 1, 'User and User Admin Only', '1', ' ( `civicrm_group_contact-1`.group_id = (1) AND `civicrm_group_contact-1`.status IN ("Added") ) ', 'a:10:{s:15:"civicrm_contact";i:1;s:18:"civicrm_individual";i:1;s:16:"civicrm_location";i:1;s:15:"civicrm_address";i:1;s:22:"civicrm_state_province";i:1;s:15:"civicrm_country";i:1;s:13:"civicrm_email";i:1;s:13:"civicrm_phone";i:1;s:10:"civicrm_im";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}', 'a:2:{s:15:"civicrm_contact";i:1;s:25:"`civicrm_group_contact-1`";s:114:" LEFT JOIN civicrm_group_contact `civicrm_group_contact-1` ON contact_a.id = `civicrm_group_contact-1`.contact_id ";}');
 
 -- Assign above Group (entity) to the Administrator Role
 INSERT INTO civicrm_acl_entity_role

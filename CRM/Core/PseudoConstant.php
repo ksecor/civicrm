@@ -684,10 +684,14 @@ class CRM_Core_PseudoConstant
     * @return array - array reference of all groups.
     *
     */
-    public static function &allGroup()
+    public static function &allGroup( $groupType = null )
     {
+        require_once 'CRM/Contact/BAO/Group.php';
+        $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
+
         if (!self::$group) {
-            self::populate( self::$group, 'CRM_Contact_DAO_Group', false, 'title' );
+            self::populate( self::$group, 'CRM_Contact_DAO_Group', false, 'title',
+                            'is_active', $condition );
         }
         return self::$group;
     }
@@ -707,10 +711,10 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all groups.
      *
      */
-    public static function group()
+    public static function group( $groupType = null )
     {
         require_once 'CRM/Core/Permission.php';
-        return CRM_Core_Permission::group( );
+        return CRM_Core_Permission::group( $groupType );
     }
 
     /**
@@ -728,12 +732,17 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all groups.
      *
      */
-    public static function &staticGroup( $onlyPublic = false )
+    public static function &staticGroup( $onlyPublic = false,
+                                         $groupType  = null )
     {
         if ( ! self::$staticGroup ) {
             $condition = 'saved_search_id = 0 OR saved_search_id IS NULL';
             if ( $onlyPublic ) {
-                $condition .= " and visibility != 'User and User Admin Only'";
+                $condition .= " AND visibility != 'User and User Admin Only'";
+            }
+            if ( $groupType ) {
+                require_once 'CRM/Contact/BAO/Group.php';
+                $condition .= ' AND ' . CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
             }
             self::populate( self::$staticGroup, 'CRM_Contact_DAO_Group', false, 'title', 'is_active', $condition, 'title' );
         }

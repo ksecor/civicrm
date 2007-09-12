@@ -69,7 +69,7 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
         require_once 'CRM/ACL/BAO/EntityRole.php';
 
         $label = ts( 'Assigned To' );
-        $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::staticGroup( );
+        $group = array( '' => ts('- select group -')) + CRM_Core_PseudoConstant::staticGroup( false, 'Access' );
         $this->add( 'select', 'entity_id', $label, $group, true );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));

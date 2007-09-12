@@ -88,7 +88,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-        $groups =& CRM_Core_PseudoConstant::group();
+        $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
                                   ts('Include Group(s)') . ' ', $groups,
                                   array('size' => 5,

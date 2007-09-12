@@ -76,7 +76,7 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 
         if ( ! $this->_groupID ) {
             // create a selector box of all public groups
-            $groups =& CRM_Core_PseudoConstant::staticGroup( true );
+            $groups =& CRM_Core_PseudoConstant::staticGroup( true, 'Mailing' );
             $groups =  array_flip( $groups );
             $this->addCheckbox( 'group_id',
                                 ts( 'Mailing Lists' ),

@@ -79,10 +79,18 @@ class CRM_Mailing_Page_Common extends CRM_Core_Page
 
         if ( $confirm ) { 
             require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
-            if ( $type == 'unsubscribe' ) {
+            if ( $this->_type == 'unsubscribe' ) {
                 $groups =& CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash);
                 if ( count( $groups ) ) {
                     CRM_Mailing_Event_BAO_Unsubscribe::send_unsub_response($queue_id, $groups, false, $job_id);
+                } else {
+                    // should we indicate an error, or just ignore?
+                }
+            } elseif ( $this->_type == 'resubscribe' ) {
+                require_once 'CRM/Mailing/Event/BAO/Resubscribe.php';
+                $groups =& CRM_Mailing_Event_BAO_Resubscribe::resub_to_mailing($job_id, $queue_id, $hash);
+                if ( count( $groups ) ) {
+                    CRM_Mailing_Event_BAO_Resubscribe::send_resub_response($queue_id, $groups, false, $job_id);
                 } else {
                     // should we indicate an error, or just ignore?
                 }

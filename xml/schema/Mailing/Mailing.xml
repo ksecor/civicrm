@@ -119,11 +119,6 @@
        <comment>Body of the mailing in html format.</comment>
   </field>
   <field>
-       <name>is_template</name>
-       <type>boolean</type>
-       <comment>Is this object a mailing template?</comment>
-  </field>
-  <field>
        <name>url_tracking</name>
        <type>boolean</type>
        <comment>Should we track URL click-throughs for this mailing?</comment>

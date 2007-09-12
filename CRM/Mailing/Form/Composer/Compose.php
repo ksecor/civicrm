@@ -73,8 +73,27 @@ class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
      * @access public
      */
     public function buildQuickForm( ) 
-    {
-                
+    { 
+        $this->add('text', 'file', ts('Name') );
+        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
+
+        $dojoAttributes = " dojoType='Editor2' htmlEditing=true useActiveX=true	shareToolbar=false
+                           id='editor4' toolbarAlwaysVisible=true 
+                           toolbarTemplatePath='src/widget/templates/EditorToolbarCiviMail.html' 
+                           toolbarTemplateCssPath='src/widget/templates/EditorToolbarCiviMail.css' ";
+     
+        $text =& $this->add('textarea', 'edit_text', ts('Text Version'), 'rows=3, cols=70');
+
+        $html =& $this->add('textarea', 'edit_html', ts('Html Version'), $dojoAttributes);
+
+        $this->addButtons(array( 
+                                array ( 'type'      => 'submit',
+                                        'name'      => ts('Save'), 
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                        'js'         => array( 'onclick' => 'window.close();' ),
+                                        'isDefault' => true ),
+                                ) );
+
     }
 
     /**
@@ -96,9 +115,76 @@ class CRM_Mailing_Form_Composer_Compose extends CRM_Core_Form
      */
     public function postProcess() 
     {
+        // get the submitted form values.
+        $formValues = $this->controller->exportValues( $this->_name );
         
-    }//end of function
+        $config =& CRM_Core_Config::singleton( );
+        $dir    = $config->uploadDir; 
+        
+        //	Replaces
+        foreach (array("text","html") as $version) {
+            $formValues['edit_'.$version] = str_replace("\\\"","&quot;",$formValues['edit_'.$version]);
+            $formValues['edit_'.$version] = str_replace("\\'","&#39;",$formValues['edit_'.$version]);
+        }
+        
+        // Set time
+        if(!$formValues['time']) {
+            $time = time();
+        } else {
+            $time = $formValues['time'];
+        }
 
+        
+        /*	Write
+         *		The user has chosen to save a file. If the file currently
+         *		exists, the existing file will be overwritten.
+         */
+
+        $file_load = $formValues['file'];
+        
+        if ($formValues['file']) {
+            $file_name = $formValues['file']."_";
+        } else {
+            $file_name = "compose_".$time."_";
+        }
+        $file_dir = $dir;
+        
+        foreach(array("text","html") as $file_type) {
+            $file = $file_dir.$file_name.$file_type;
+            $content = $formValues['edit_'.$file_type];
+            
+            //  Clear the file if it exists. If so, delete.
+            if (file_exists($file)) {
+                unlink ($file);
+            }
+            
+            if (!file_exists($file)) {
+                touch($file); // Create blank file
+                chmod($file,0666);
+            }
+            
+            //** Write to the file ****************************
+            if (is_writable($file)) {
+                
+                if (!$handle = fopen($file, 'a')) {
+                    CRM_Core_Session::setStatus("Cannot open file $file<br>");
+                    exit;
+                }
+                if (fwrite($handle, $content) === FALSE) {
+                    CRM_Core_Session::setStatus("Cannot write to file $file<br>");
+                    exit;
+                }
+                CRM_Core_Session::setStatus("Success, wrote to file $file<br>");
+                fclose($handle);
+                
+            } else {
+                CRM_Core_Session::setStatus("The file $file is not writable.<br>");
+            }
+            $contents["_".$file_type] = $content;
+        }
+       
+      }//end of function
+    
     public function getTitle() 
     {
         return ts('Compose');

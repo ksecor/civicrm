@@ -56,11 +56,12 @@ INSERT INTO civicrm_mailing_component
 VALUES
     (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}This is the Header{/ts}','{ts}HTML Body of Header{/ts}','{ts}Text Body of Header{/ts}',1,1),
     (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}This is the Footer{/ts}','{ts}HTML Body of Footer{/ts}','{ts}Text Body of Footer{/ts}',1,1),
-    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription confirmation request{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}',1,1),
+    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription confirmation request{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}',1,1),
     (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Welcome{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}',1,1),
     (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Unsubscribe results{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}',1,1),
     (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Goodbye{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}',1,1),
-    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1);
+    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1),
+    (@domain_id,'Resubscribe Message','Resubscribe','Resubscribe results','You have been resubscribed to {ldelim}resubscribe.group{rdelim}.','You have been resubscribed to {ldelim}unsubscribe.group{rdelim}.',1,1);
 
 
 
@@ -99,6 +100,7 @@ VALUES
    (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
    (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
    (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
+   (@domain_id, 'group_type'                    , '{ts}Group Type{/ts}'                         , 0, 1),
    (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
    (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1);
    
@@ -121,6 +123,7 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
+SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 
@@ -244,17 +247,20 @@ VALUES
   (@option_group_id_udOpt, 'Memberships'  , 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, 'Events'       , 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 
-  (@option_group_id_adOpt, 'Street Address'   ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Street Address'    ,  1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Addt\'l Address 1' ,  2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Addt\'l Address 2' ,  3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'City'             ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Zip / Postal Code',  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'City'              ,  4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Zip / Postal Code' ,  5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
   (@option_group_id_adOpt, 'Postal Code Suffix',  6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'County'           ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'State / Province' ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Country'          ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Latitude'         , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
-  (@option_group_id_adOpt, 'Longitude'        , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'County'            ,  7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'State / Province'  ,  8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Country'           ,  9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Latitude'          , 10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_adOpt, 'Longitude'         , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+
+  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
 
   (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -263,6 +269,7 @@ VALUES
   (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1);
+
 -- sample membership status entries
 INSERT INTO
     civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)

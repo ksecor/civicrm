@@ -155,6 +155,11 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
     }
 
+    public function mailer_event_resubscribe($key, $job, $queue, $hash) {
+        $this->verify($key);
+        return crm_mailer_event_resubscribe($job, $queue, $hash);
+    }
+
     public function mailer_event_subscribe($key, $email, $domain, $group) {
         $this->verify($key);
         return crm_mailer_event_subscribe($email, $domain, $group);

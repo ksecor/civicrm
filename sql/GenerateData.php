@@ -1042,12 +1042,13 @@ class CRM_GCD {
 
         // add the 3 groups first
         $numGroup = count($this->group);
-	require_once 'CRM/Contact/BAO/Group.php';
+        require_once 'CRM/Contact/BAO/Group.php';
         for ($i=0; $i<$numGroup; $i++) {
             $group =& new CRM_Contact_BAO_Group();   
             $group->domain_id  = 1;
             $group->name       = $this->group[$i];
             $group->title      = $this->group[$i];
+            $group->group_type = "12";
             $group->visibility = 'Public User Pages and Listings';
             $group->is_active  = 1;
             $group->save( );

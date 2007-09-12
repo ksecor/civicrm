@@ -53,7 +53,9 @@ class CRM_Core_DAO extends DB_DataObject {
         NOT_NULL        =   1,
         IS_NULL         =   2,
 
-        DB_DAO_NOTNULL  = 128;
+        DB_DAO_NOTNULL  = 128,
+
+        VALUE_SEPARATOR = "";
 
     /**
      * the factory class for this application

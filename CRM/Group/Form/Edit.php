@@ -121,6 +121,15 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         if ( isset( $this->_id ) ) {
             $params = array( 'id' => $this->_id );
             CRM_Contact_BAO_Group::retrieve( $params, $defaults );
+
+            if ( $defaults['group_type'] ) {
+                $types = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                  substr( $defaults['group_type'], 1, -1 ) );
+                $defaults['group_type'] = array( );
+                foreach ( $types as $type ) {
+                    $defaults['group_type'][$type] = 1;
+                }
+            }
         }
 
         if( isset($this->_groupTree) ) {
@@ -157,6 +166,13 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $this->add('text', 'description', ts('Description:') . ' ', 
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
+
+            require_once 'CRM/Core/OptionGroup.php';
+            $this->addCheckBox( 'group_type',
+                                ts( 'Group Type' ),
+                                CRM_Core_OptionGroup::values( 'group_type', true ),
+                                null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
+
             $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true ); 
             
             $session = & CRM_Core_Session::singleton( );
@@ -231,7 +247,15 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             
             $params['domain_id'] = CRM_Core_Config::domainID( );
             $params['is_active'] = 1;
-            
+
+            if ( is_array( $params['group_type'] ) ) {
+                $params['group_type'] =
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR,
+                             array_keys( $params['group_type'] ) ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+            }
+
             if ($this->_action & CRM_Core_Action::UPDATE ) {
                 $params['id'] = $this->_id;
             }

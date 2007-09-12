@@ -427,9 +427,10 @@ class CRM_Utils_Token {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
                         $verpAddress = implode( $config->verpSeparator,
-                                                array( 'subscribe',
+                                                array( 'resubscribe',
                                                        $domain->id,
-                                                       $gid ) ) . "@{$domain->email_domain}";
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
                         $resub = '';
                         if (in_array($gid, $visibleGroups)) {
                             $resub = "(<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)";
@@ -441,9 +442,10 @@ class CRM_Utils_Token {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
                         $verpAddress = implode( $config->verpSeparator, 
-                                                array( 'subscribe',
+                                                array( 'resubscribe',
                                                        $domain->id,
-                                                       $gid ) ) . "@{$domain->email_domain}";
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
                         $resub = '';
                         if (in_array($gid, $visibleGroups)) {
                             $resub = ts("(re-subscribe: %1)", array( 1 => "$verpAddress"));
@@ -453,6 +455,59 @@ class CRM_Utils_Token {
                     $value .= "\n";
                 }
                 self::token_replace('unsubscribe', 'group', $value, $str);
+            }
+        }
+        return $str;
+    }
+
+    /**
+     * Replace resubscribe tokens
+     *
+     * @param string $str           the string with tokens to be replaced
+     * @param object $domain        The domain BAO
+     * @param array $groups         The groups (if any) being resubscribed
+     * @param boolean $html         Replace tokens with html or plain text
+     * @param int $contact_id       The contact ID
+     * @param string hash           The security hash of the resub event
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceResubscribeTokens($str, &$domain, &$groups, $html,
+                                                     $contact_id, $hash) 
+    {
+        if (self::token_match('resubscribe', 'group', $str)) {
+            if (! empty($groups)) {
+                $config =& CRM_Core_Config::singleton();
+
+                if ($html) {
+                    $value = '<ul>';
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator,
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = "(<a href=\"mailto:$verpAddress\">" . ts("unsubscribe") . "</a>)";
+                        $value .= "<li>$name $unsub</li>\n";
+                    }
+                    $value .= '</ul>';
+                } else {
+                    $value = "\n";
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator, 
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = ts("(unsubscribe: %1)", array( 1 => "$verpAddress"));
+                        $value .= "\t* $name $unsub\n";
+                    }
+                    $value .= "\n";
+                }
+                self::token_replace('resubscribe', 'group', $value, $str);
             }
         }
         return $str;

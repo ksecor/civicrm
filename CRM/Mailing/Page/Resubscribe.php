@@ -25,6 +25,7 @@
  +--------------------------------------------------------------------+
 */
 
+
 /**
  *
  * @package CRM
@@ -33,64 +34,13 @@
  *
  */
 
-/**
- *
- */
-class CRM_Core_Permission_Joomla {
-    /**
-     * get the current permission of this user
-     *
-     * @return string the permission of the user (edit or view or null)
-     */
-    public static function getPermission( ) {
-        return CRM_Core_Permission::EDIT;
-    }
+require_once 'CRM/Mailing/Page/Common.php';
 
-    /**
-     * Get the permissioned where clause for the user
-     *
-     * @param int $type the type of permission needed
-     * @param  array $tables (reference ) add the tables that are needed for the select clause
-     * @param  array $whereTables (reference ) add the tables that are needed for the where clause
-     *
-     * @return string the group where clause for this user
-     * @access public
-     */
-    public static function whereClause( $type, &$tables, &$whereTables ) {
-        return '( 1 )';
+class CRM_Mailing_Page_Resubscribe extends CRM_Mailing_Page_Common
+{
+    function run() {
+        $this->_type = 'resubscribe';
+        parent::run( );
     }
-
-    /**
-     * Get all groups from database, filtered by permissions
-     * for this user
-     *
-     * @access public
-     * @static
-     *
-     * @return array - array reference of all groups.
-     *
-     */
-    public static function &group( $groupType ) ${
-        return CRM_Core_PseudoConstant::allGroup( $groupType );
-    }
-
-    /**
-     * given a permission string, check for access requirements
-     *
-     * @param string $str the permission to check
-     *
-     * @return boolean true if yes, else false
-     * @static
-     * @access public
-     */
-    static function check( $str ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFrameworkFrontend && $str == 'administer users' ) {
-            return false;
-        }
-        return true;
-    }
-
 }
-
 ?>

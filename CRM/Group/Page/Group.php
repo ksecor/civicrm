@@ -241,18 +241,18 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
-        
+
+        require_once 'CRM/Core/OptionGroup.php';
+        $groupTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
-                    $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-                    $links =& $this->links( );
-                } else {
-                    $links =& $this->links( );
+                    $values[$object->id]['title'] .= ' (' . ts('Smart Group') . ')';
                 }
+                $links =& $this->links( );
                 $action = array_sum(array_keys($links));
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
@@ -265,6 +265,16 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
                 $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
+                if ( $values[$object->id]['group_type'] ) {
+                    $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                           substr( $values[$object->id]['group_type'], 1, -1 ) );
+                    $allTypes   = CRM_Core_OptionGroup::values( 'group_type' );
+                    $types = array( );
+                    foreach ( $groupTypes as $type ) {
+                        $types[] = $allTypes[$type];
+                    }
+                    $values[$object->id]['group_type'] = implode( ', ', $types );
+                }
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $action,
                                                                             array( 'id'   => $object->id,

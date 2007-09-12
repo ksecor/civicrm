@@ -70,11 +70,11 @@ class CRM_Core_Permission_Drupal {
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( ) {
+    public static function &group( $groupType ) {
         if ( ! isset( self::$_viewPermissionedGroups ) ) {
             self::$_viewPermissionedGroups = self::$_editPermissionedGroups = array( );
 
-            $groups =& CRM_Core_PseudoConstant::allGroup( );
+            $groups =& CRM_Core_PseudoConstant::allGroup( $groupType );
 
             if ( self::check( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return
