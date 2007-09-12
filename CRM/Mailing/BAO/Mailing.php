@@ -98,16 +98,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
     function &getRecipientsObject($job_id, $includeDelivered = false) {
-        $eq = self::getRecipients($job_id, $includeDelivered = false, $this->id);
+        $eq = self::getRecipients($job_id, $includeDelivered, $this->id);
         return $eq;
     }
     
-    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id) {
-        $eq = self::getRecipients($job_id, $includeDelivered = false, $mailing_id);
+    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id = null) {
+        $eq = self::getRecipients($job_id, $includeDelivered, $mailing_id);
         return $eq->N;
     }
     
-    function &getRecipients($job_id, $includeDelivered = false, $mailing_id) {
+    function &getRecipients($job_id, $includeDelivered = false, $mailing_id = null) {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
