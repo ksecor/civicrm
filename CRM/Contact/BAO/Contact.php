@@ -1574,16 +1574,16 @@ WHERE civicrm_contact.id IN $idString ";
             $phoneClause = $meetingClause = $activityClause = null;
             $params = array( );
         } else {
-            $phoneClause = " ( civicrm_phonecall.target_entity_id = %1  OR civicrm_phonecall.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1) AND ";
+            $phoneClause = " civicrm_phonecall.id =  civicrm_activity_assignment.activity_entity_id AND activity_entity_table = 'civicrm_phonecall' AND( civicrm_phonecall.target_entity_id = %1  OR civicrm_phonecall.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1) AND ";
             if (! $phoneClause) {
                 $phoneClause = null;
             }
             
-            $meetingClause = " ( civicrm_meeting.target_entity_id = %1  OR  civicrm_meeting.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1 ) AND ";
+            $meetingClause = "civicrm_meeting.id =  civicrm_activity_assignment.activity_entity_id AND activity_entity_table = 'civicrm_meeting' AND ( civicrm_meeting.target_entity_id = %1  OR  civicrm_meeting.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1 ) AND ";
             if (! $meetingClause) {
                 $meetingClause = null;
             }
-            $activityClause = " ( civicrm_activity.target_entity_id = %1  OR civicrm_activity.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1 ) AND ";
+            $activityClause = "civicrm_activity.id =  civicrm_activity_assignment.activity_entity_id AND activity_entity_table = 'civicrm_activity' AND ( civicrm_activity.target_entity_id = %1  OR civicrm_activity.source_contact_id = %1 OR  civicrm_activity_assignment.target_entity_id = %1 ) AND ";
             if (! $activityClause) {
                 $activityClause = null;
             }
@@ -1594,7 +1594,7 @@ WHERE civicrm_contact.id IN $idString ";
         $query = "SELECT count(civicrm_meeting.id) FROM civicrm_meeting, civicrm_activity_assignment
                   WHERE  $meetingClause  ( civicrm_meeting.id 
                   NOT IN ( SELECT activity_id FROM civicrm_activity_history WHERE  activity_type='Meeting'))  ";
-        
+       
         $rowMeeting = CRM_Core_DAO::singleValueQuery( $query, $params );
         
         $query = "SELECT count(civicrm_phonecall.id) FROM civicrm_phonecall, civicrm_activity_assignment
