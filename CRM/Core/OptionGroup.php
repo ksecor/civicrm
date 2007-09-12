@@ -215,6 +215,29 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
+    static function getAssoc( $groupName, &$values ) {
+        $query = "
+SELECT v.id, v.value, v.label
+  FROM civicrm_option_group g,
+       civicrm_option_value v
+ WHERE g.id = v.option_group_id
+   AND g.name = %1";
+        $params = array( 1 => array( $groupName, 'String' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        // now extract the amount 
+        $values['value'] = array( ); 
+        $values['label'] = array( ); 
+        $index  = 1; 
+         
+        while ( $dao->fetch( ) ) { 
+            $values['value'    ][$index] = $dao->value; 
+            $values['label'    ][$index] = $dao->label; 
+            $values['amount_id'][$index] = $dao->id; 
+            $index++; 
+        } 
+    }
+
 }
 
 ?>

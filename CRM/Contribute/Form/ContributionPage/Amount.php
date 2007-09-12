@@ -63,10 +63,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $default = array( );
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {
             // label 
-            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label')); 
+            $this->add('text', "label[$i]", ts('Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label')); 
  
             // value 
-            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value')); 
+            $this->add('text', "value[$i]", ts('Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value')); 
             $this->addRule("value[$i]", ts('Please enter a valid money value for this field (e.g. 99.99).'), 'money'); 
 
             // default
@@ -107,8 +107,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
         CRM_Utils_System::setTitle(ts('Contribution Amounts (%1)', array(1 => $title)));
        
-        require_once 'CRM/Core/BAO/CustomOption.php'; 
-        CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_contribution_page', $this->_id, $defaults );
+        require_once 'CRM/Core/OptionGroup.php'; 
+        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.{$this->_id}", $defaults );
         
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
