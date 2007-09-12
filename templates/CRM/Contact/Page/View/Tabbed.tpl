@@ -156,15 +156,18 @@
    <div class="col1">
     <label>{ts}Gender:{/ts}</label> {$gender_display}<br />
     {if $is_deceased eq 1}
-        <label>{ts}Contact is Deceased{/ts}</label>
+        <label>{ts}Contact is Deceased{/ts}</label><br />
     {/if}
-   </div>
-   <div class="col2">
-    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
     {if $deceased_date}
         <label>{ts}Date Deceased:{/ts}</label> {$deceased_date|crmDate}
     {/if}
    </div>
+   <div class="col2">
+    <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
+    {if $age}  
+    <label>{ts}Age :{/ts}</label> {$age} Years<br />
+    {/if}
+    </div>
    <div class="spacer"></div>
   </fieldset>
  </div>
