@@ -68,8 +68,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
      */
     protected $_action;
 
-    protected $_pager = null;
-
     public $_sortByCharacter;
 
     /**
@@ -210,21 +208,6 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         $params[3] = array( CRM_Core_Config::domainID( ), 'Integer' );
         
         return implode( ' AND ', $clauses );
-    }
-
-    function pagerAtoZ( $whereClause, $whereParams ) {
-        require_once 'CRM/Utils/PagerAToZ.php';
-        
-        $query = "
-   SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
-     FROM civicrm_mailing
-    WHERE $whereClause
- ORDER BY LEFT(name, 1)
-";
-        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
-        
-        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
-        $this->assign( 'aToZ', $aToZBar );
     }
 
 }
