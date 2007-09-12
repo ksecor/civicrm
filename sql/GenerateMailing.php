@@ -7,6 +7,8 @@ require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/I18n.php';
 
 require_once 'CRM/Mailing/BAO/Mailing.php';
+require_once 'CRM/Mailing/BAO/Job.php';
+require_once 'CRM/Mailing/DAO/Group.php';
 
 $config = CRM_Core_Config::singleton();
 
@@ -21,13 +23,11 @@ foreach ( $tables as $t ) {
 }
 
 $prefix = 'Automated Mailing Gen: ';
-$numGroups = 100;
+$numGroups = 159;
 
 $status = array( 'Scheduled', 'Running', 'Complete', 'Paused', 'Canceled', 'Testing' );
 
 for ( $i = 1; $i <= $numGroups; $i++ ) {
-    $job = new CRM_Mailing_BAO_Job( );
-
     $mailing = new CRM_Mailing_BAO_Mailing( );
 
     $alphabet = mt_rand( 97, 122 );
@@ -45,10 +45,16 @@ for ( $i = 1; $i <= $numGroups; $i++ ) {
     $job->scheduled_date = generateRandomDate( );
     $job->start_date = generateRandomDate( );
     $job->end_date = generateRandomDate( );
-
-    $t = mt_rand( 0, 5 );
     $job->status = 'Complete';
     $job->save( );
+
+    $group = new CRM_Mailing_DAO_Group( );
+    $group->mailing_id = $mailing->id;
+    $group->group_type = 'Include';
+    $group->entity_table = 'civicrm_group';
+    $group->entity_id    = 1;
+    $group->save( );
+
 }
 
 function generateRandomDate( ) {

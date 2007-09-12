@@ -226,29 +226,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
         $this->assign( 'aToZ', $aToZBar );
     }
- 
-    function pager( $whereClause, $whereParams ) {
-        require_once 'CRM/Utils/Pager.php';
 
-        $params['status']       = ts('Group %%StatusMessage%%');
-        $params['csvString']    = null;
-        $params['buttonTop']    = 'PagerTopButton';
-        $params['buttonBottom'] = 'PagerBottomButton';
-        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
-        if ( ! $params['rowCount'] ) {
-            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
-        }
-
-        $query = "
-SELECT count(id)
-  FROM civicrm_mailing
- WHERE $whereClause";
-
-        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
-        $this->_pager = new CRM_Utils_Pager( $params );
-        $this->assign_by_ref( 'pager', $this->_pager );
-    }
- 
 }
 
 ?>

@@ -254,6 +254,9 @@ SELECT count(id)
             }
         }
 
+        // also initialize the AtoZ pager
+        $this->pagerAtoZ( );
+
         return $rows;
         
     }
@@ -299,8 +302,11 @@ SELECT count(id)
         return implode( ' AND ', $clauses );
     }
 
-    function pagerAtoZ( $whereClause, $whereParams ) {
+    function pagerAtoZ( ) {
         require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, false );
         
         $query = "
    SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
@@ -308,7 +314,7 @@ SELECT count(id)
     WHERE $whereClause
  ORDER BY LEFT(name, 1)
 ";
-        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
         
         $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_parent->_sortByCharacter, true );
         $this->_parent->assign( 'aToZ', $aToZBar );
