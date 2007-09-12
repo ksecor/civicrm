@@ -35,8 +35,8 @@
  *
  */
 
-class CRM_Core_BAO_Block {
-
+class CRM_Core_BAO_Block 
+{
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
@@ -52,21 +52,38 @@ class CRM_Core_BAO_Block {
      * @access public
      * @static
      */
-    static function &getValues( &$block, $blockName, $contactId )  {
+    static function &getValues( &$block, $blockName, $contactId )  
+    {
         $block->contact_id = $contactId;
 
         $blocks = array( );
 
         // we first get the primary location due to the order by clause
-        $block->orderBy( 'is_primary desc' );
+        $block->orderBy( 'is_primary desc, location_type_id desc, id asc' );
         $block->find( );
-        
+
+        $locationTypes = array( );
         $count = 1;
         while ( $block->fetch( ) ) {
             $values = array( );
             CRM_Core_DAO::storeValues( $block, $values );
-            $blocks[$count] = $values;
-            $count++;
+
+            //logic to check when we should increment counter
+            if ( !empty( $locationTypes ) ) {
+                if ( array_key_exists ( $block->location_type_id, $locationTypes ) ) {
+                    $count = $locationTypes[$block->location_type_id];
+                    $count++;
+                    $locationTypes[$block->location_type_id] = $count;
+                } else {
+                    $locationTypes[$block->location_type_id]  = 1;
+                    $count = 1;
+                }
+            } else {
+                $locationTypes[$block->location_type_id]  = 1;
+                $count = 1;
+            }
+
+            $blocks[$block->location_type_id][$count] = $values;
         }
 
 //         for ($i = 0; $i < $blockCount; $i++) {

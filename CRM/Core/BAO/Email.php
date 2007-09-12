@@ -54,29 +54,55 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-                
-        $isPrimary = true;
+        
+        $contactId = $params['email']['contact_id'];
+
+
+        //get exixting email id if exist for this contact
+        $contactEmailIds = array( );
+        $contactEmailIds = self::getEmailIds( $contactId );
+        
+//         crm_core_error::debug('$params', $params);
+//         crm_core_error::debug('$contactEmailIds', $contactEmailIds);
+//         exit();
+        $isPrimary     = true;
+        $locationCount = 1;
         foreach ( $params['email'] as $value ) {
+            if ( !is_array( $value ) ) {
+                continue;
+            }
+
             $contactFields = array( );
-            $contactFields['contact_id'      ] = $value['contact_id'];
+            $contactFields['contact_id'      ] = $contactId;
             $contactFields['location_type_id'] = $value['location_type_id'];
             
+            
             foreach ( $value as $val ) {
-                if ( !CRM_Core_BAO_Block::dataExists( array( 'email' ), $val ) ) {
+                
+                if ( !is_array( $val ) || !CRM_Core_BAO_Block::dataExists( array( 'email' ), $val ) ) {
                     continue;
                 }
-                if ( is_array( $val ) ) {
-                    if ( $isPrimary && $value['is_primary'] ) {
-                        $contactFields['is_primary'] = $value['is_primary'];
-                        $isPrimary = false;
-                    } else {
-                        $contactFields['is_primary'] = false;
-                    }
-
-                    $emailFields = array_merge( $val, $contactFields);
-                    self::add( $emailFields );
+                
+                if ( $isPrimary && $value['is_primary'] ) {
+                    $contactFields['is_primary'] = $value['is_primary'];
+                    $isPrimary = false;
+                } else {
+                    $contactFields['is_primary'] = false;
                 }
+                
+                unset( $contactFields['id'] );
+
+                if ( !empty( $contactEmailIds[ $locationCount ] ) ) {
+                    $contactFields['id'] = array_shift($contactEmailIds[ $locationCount ] );
+                }
+                
+                $emailFields = array_merge( $val, $contactFields);
+
+                //crm_core_error::Debug('$emailFields', $emailFields);
+                self::add( $emailFields );
             }
+            
+            $locationCount++;
         }
     }
 
@@ -154,6 +180,86 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         return CRM_Core_BAO_Block::getValues( $email, 'email', $contactId );
     }
 
+    /**
+     * Function to get all email addresses of the contact
+     *
+     * @param int    $contactId contact id
+     *
+     * @return array $contactEmailIds formatted array of email id
+     *
+     * @access public
+     * @static
+     */
+    static function getEmailIds ( $contactId )
+    {
+        $contactEmailIds = $allEmails = array( );
+        
+        $allEmails = self::allEmails( $contactId );
+        
+        $locationCount = 1;
+        $blockCount    = 1;
+        $locationTypes = array( );
+
+        foreach ( $allEmails as $emails) {
+            //logic to check when we should increment counter
+            $locationTypeId = $emails['locationTypeId'];
+            if ( !empty( $locationTypes ) ) {
+                if ( in_array ( $locationTypeId, $locationTypes ) ) {
+                    $locationCount = array_search( $locationTypeId, $locationTypes );
+                } else {
+                    $locationCount++;
+                    $locationTypes[ $locationCount ] = $locationTypeId;
+                }
+                } else {
+                    $locationTypes[ $locationCount ]  = $locationTypeId;
+                }
+
+            $contactEmailIds[ $locationCount ][ $blockCount ] = $emails['id'];
+            $blockCount++;
+        }
+
+        return $contactEmailIds;
+    }
+
+    /**
+     * Get all the emails for a specified contact_id, with the primary email being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of email id's
+     * @access public
+     * @static
+     */
+    static function allEmails( $id ) 
+    {
+        if ( ! $id ) {
+            return null;
+        }
+
+        $query = "
+SELECT email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary, civicrm_email.on_hold as on_hold,
+civicrm_email.id as email_id, civicrm_email.location_type_id as locationTypeId
+FROM      civicrm_contact
+LEFT JOIN civicrm_email ON ( civicrm_email.contact_id = civicrm_contact.id )
+LEFT JOIN civicrm_location_type ON ( civicrm_email.location_type_id = civicrm_location_type.id )
+WHERE
+  civicrm_contact.id = %1
+ORDER BY
+  civicrm_email.is_primary DESC, civicrm_email.location_type_id DESC, email_id ASC ";
+        $params = array( 1 => array( $id, 'Integer' ) );
+
+        $emails = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        while ( $dao->fetch( ) ) {
+            $emails[$dao->email] = array( 'locationType'   => $dao->locationType,
+                                          'is_primary'     => $dao->is_primary,
+                                          'on_hold'        => $dao->on_hold,
+                                          'id'             => $dao->email_id,
+                                          'locationTypeId' => $dao->locationTypeId );
+        }
+        return $emails;
+    }
+    
     /**
      * Delete email address records from a location
      *

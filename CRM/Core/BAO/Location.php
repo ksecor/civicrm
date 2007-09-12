@@ -48,7 +48,8 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Location block element array
      */
-    static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
+    //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
+    static $blocks = array( 'email' );
 
     /**
      * Function to create various elements of location block
@@ -173,7 +174,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         foreach ( $params['location'] as $key => $value ) {
             foreach ( self::$blocks as $block ) { 
                 $formattedBlocks[$block][$key]                     = $value[$block            ];
-                $formattedBlocks[$block][$key]['contact_id'      ] = $params['contact_id'     ];
+                $formattedBlocks[$block]['contact_id'            ] = $params['contact_id'     ];
                 $formattedBlocks[$block][$key]['location_type_id'] = $value['location_type_id'];
                 $formattedBlocks[$block][$key]['is_primary'      ] = $value['is_primary'      ];
             }
@@ -312,37 +313,37 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             eval( '$location[$block] = CRM_Core_BAO_' . $name . '::getValues( $contactId, $values );');
         }
         
+        //crm_core_error::debug('$location', $location);
+
         //format locations blocks for setting defaults
         
-        $count = 1;
+        $locationCount = 1;
         $locationTypes = array( );
         foreach ( $location as $key => $value ) {
-            $blockCount = 1;
+            
             if ( ! is_array( $value ) ) {
                 continue;
             }
-            foreach ( $value as $k => $val ) { 
+            
+            foreach ( $value as $locationTypeId => $val ) { 
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {
-                    if ( in_array ( $val['location_type_id'], $locationTypes ) ) {
-                        $count = array_search( $val['location_type_id'], $locationTypes );
+                    if ( in_array ( $locationTypeId, $locationTypes ) ) {
+                        $locationCount = array_search( $locationTypeId, $locationTypes );
                     } else {
-                        $count++;
-                        $locationTypes[$count] = $val['location_type_id']; 
+                        $locationCount++;
+                        $locationTypes[ $locationCount ] = $locationTypeId;
                     }
                 } else {
-                    $locationTypes[$count]  = $val['location_type_id'];
+                    $locationTypes[ $locationCount ]  = $locationTypeId;
                 }
                 
-                $locations[$count]['location_type_id'] = $val['location_type_id'];
-                $locations[$count]['is_primary'      ] = $val['is_primary'      ];
-
-                if ( $key == 'address' ) { 
-                    $locations[$count][$key] = $val;
-                } else {
-                    $locations[$count][$key][$blockCount] = $val;
-                    $blockCount++;
-                }
+                $locations[ $locationCount ]['location_type_id'] = $locationTypeId;
+                
+                //need to fix this if there is no address
+                $locations[ $locationCount ]['is_primary'] = $val['is_primary'];
+                
+                $locations[ $locationCount ][$key] = $val;
             }
         }
         

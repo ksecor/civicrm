@@ -33,6 +33,8 @@
  *
  */
 
+require_once "CRM/Core/BAO/Email.php";
+
 /**
  * This class provides the common functionality for sending email to
  * one or a group of contact ids. This class is reused by all the search
@@ -65,7 +67,7 @@ class CRM_Contact_Form_Task_EmailCommon {
     static function preProcessSingle( &$form, $cid ) {
         $form->_contactIds = array( $cid );
         $form->_single     = true;
-        $emails     = CRM_Contact_BAO_Contact::allEmails( $cid );
+        $emails     = CRM_Core_BAO_Email::allEmails( $cid );
         $form->_emails = array( );
         $form->_onHold = array( );
         
@@ -319,7 +321,7 @@ class CRM_Contact_Form_Task_EmailCommon {
         $statusOnHold = '';
         foreach ($form->_contactIds as $item => $contactId) {
             $email     = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
-            $allEmails = CRM_Contact_BAO_Contact::allEmails($contactId);
+            $allEmails = CRM_Core_BAO_Email::allEmails($contactId);
 
             if ( $allEmails[$email[1]]['is_primary'] && $allEmails[$email[1]]['on_hold'] ) {
                 $displayName = CRM_Contact_BAO_Contact::displayName($contactId);

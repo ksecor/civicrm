@@ -263,8 +263,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-             $this->set( 'ids', $ids );
-
+            $this->set( 'ids', $ids );
+             
             $locationExists = array();
             // DO TO: commented because of schema changes
 //             foreach( $contact->location as $loc) {
@@ -598,6 +598,10 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         $params = $this->controller->exportValues( $this->_name );
 
         $params['contact_type'] = $this->_contactType;
+
+        if ( $this->_contactId ) {
+            $params['contact_id'] = $this->_contactId;
+        }
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 

@@ -189,41 +189,6 @@ WHERE contact_a.id = %1 AND $permission";
         }
      }
     
-    /**
-     * Get all the emails for a specified contact_id, with the primary email being first
-     *
-     * @param int $id the contact id
-     *
-     * @return array  the array of email id's
-     * @access public
-     * @static
-     */
-    static function allEmails( $id ) 
-    {
-        if ( ! $id ) {
-            return null;
-        }
-
-        $query = "
-SELECT    email, civicrm_location_type.name as locationType, civicrm_email.is_primary as is_primary, civicrm_email.on_hold as on_hold
-FROM      civicrm_contact
-LEFT JOIN civicrm_email ON ( civicrm_email.contact_id = civicrm_contact.id )
-LEFT JOIN civicrm_location_type ON ( civicrm_email.location_type_id = civicrm_location_type.id )
-WHERE
-  civicrm_contact.id = %1
-ORDER BY
-  civicrm_email.is_primary DESC";
-        $params = array( 1 => array( $id, 'Integer' ) );
-
-        $emails = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-        while ( $dao->fetch( ) ) {
-            $emails[$dao->email] = array( 'locationType' => $dao->locationType,
-                                          'is_primary'   => $dao->is_primary,
-                                          'on_hold'      => $dao->on_hold );
-        }
-        return $emails;
-    }
 
     static function updatePrimaryEmail( $contactID, $email ) {
         $query = "
@@ -319,7 +284,7 @@ ORDER BY civicrm_phone.is_primary DESC";
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) 
+    static function add( &$params ) 
     {
         $contact =& new CRM_Contact_BAO_Contact();
 
@@ -358,8 +323,8 @@ ORDER BY civicrm_phone.is_primary DESC";
 
         $contact->copyValues($params);
 
-        $contact->domain_id = CRM_Utils_Array::value( 'domain' , $ids, CRM_Core_Config::domainID( ) );
-        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
+        $contact->domain_id = CRM_Utils_Array::value( 'domain_id' , $params, CRM_Core_Config::domainID( ) );
+        $contact->id        = CRM_Utils_Array::value( 'contact_id', $params );
         
         if ($contact->contact_type == 'Individual') {
             //format individual fields
@@ -492,8 +457,8 @@ ORDER BY civicrm_phone.is_primary DESC";
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        $contact = self::add($params, $ids);
-
+        $contact = self::add( $params );
+        
         $params['contact_id'] = $contact->id;
 
         //add location Block data
