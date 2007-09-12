@@ -146,21 +146,49 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
     public function postProcess() 
     {
-        $params = array();
-        foreach (array( 
-                       'template', 'header_id', 'footer_id',
-                       'reply_id', 'unsubscribe_id', 'optout_id',
-                       'textFile', 'htmlFile', 'subject',
-                       'from_name', 'from_email', 'forward_reply', 'track_urls',
-                       'track_opens', 'auto_responder'
-                       ) as $key) 
-            {
-                $params[$key] = $this->controller->exportvalue($this->_name, $key);
-                $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        $params = $ids       = array( );
+        $uploadParams        = array ( 
+                                      'header_id', 'footer_id', 'reply_id', 'unsubscribe_id', 'optout_id', 
+                                      'textFile', 'htmlFile', 'subject', 'from_name', 'from_email'
+                                      );
+        
+        $uploadParamsBoolean = array( 
+                                     'is_template', 'forward_replies', 'url_tracking',
+                                     'open_tracking', 'auto_responder'
+                                     );
+        
+        $fileType            = array( 'textFile', 'htmlFile' );
+        
+        foreach ( $uploadParams as $key ) {
+            $params[$key] = $this->controller->exportvalue($this->_name, $key);
+            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        }
+        
+        foreach ( $fileType as $key ) {
+            if( file_get_contents($this->controller->exportvalue($this->_name, $key) ) ) { 
+                $params['body_'. substr($key,0,4 )] = file_get_contents($this->controller->exportvalue($this->_name, $key) );
+            } else {
+                $params['body_'. substr($key,0,4 )] = 'NULL';
             }
-        foreach (array( 'mailing_name', 'groups', 'mailings') as $key) {
+            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        }
+        
+        foreach ( $uploadParamsBoolean as $key ) {
+            if ( $this->controller->exportvalue($this->_name, $key) ) {
+                $params[$key] = true;
+            } else {
+                $params[$key] = false;
+            }
+            $this->set($key, $this->controller->exportvalue($this->_name, $key));
+        }
+        
+        foreach ( array( 'name', 'groups', 'mailings' ) as $key ) {
             $params[$key] = $this->get($key);
         }
+        
+        $session =& CRM_Core_Session::singleton();
+        $params['domain_id']  = $session->get('domainID');
+        $params['contact_id'] = $session->get('userID');
         
         $session =& CRM_Core_Session::singleton();
         $params['domain_id'] = $session->get('domainID');
@@ -174,18 +202,10 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
         }
 
-        $params['test'] = true;
         /* Build the mailing object */
         require_once 'CRM/Mailing/BAO/Mailing.php';
-        $mailing = CRM_Mailing_BAO_Mailing::create($params);
+        $mailing = CRM_Mailing_BAO_Mailing::create($params, $ids);
         $this->set('mailing_id', $mailing->id);
-        
-        $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $mailing->id;
-        if ($job->find(true)) {
-            $this->set('job_id',$job->id);
-        } 
-        
     }
     
     /**
