@@ -1,6 +1,8 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {include file="CRM/Mailing/Form/Count.tpl"}
-
+<div id="help">
+{ts}These settings control tracking and responses to recipient actions. The number of recipients selected to receive this mailing is shown in the box to the right. If this count doesn't match your expectations, click <strong>Previous</strong> to review your selection(s).{/ts} 
+</div>
 <div class="form-item">
   <fieldset><legend>{ts}Tracking{/ts}</legend> 
     <dl>
@@ -18,7 +20,7 @@
     <dl>
         <dt class="label extra-long-fourty">{$form.forward_replies.label}</dt>
             <dd>{$form.forward_replies.html}<br />
-                <span class="description">{ts}If a recipient replies to this mailing, forward the reply to the FROM Email address specified above.{/ts}</span>
+                <span class="description">{ts}If a recipient replies to this mailing, forward the reply to the FROM Email address specified for the mailing.{/ts}</span>
             </dd>
     <dt class="label">{$form.auto_responder.label}</dt>
         <dd>{$form.auto_responder.html} &nbsp; {$form.reply_id.html}<br />
