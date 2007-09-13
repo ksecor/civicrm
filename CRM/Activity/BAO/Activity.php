@@ -42,11 +42,6 @@ require_once 'api/History.php';
  */
 class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
-    /**  
-     * value seletor for multi-select
-     **/ 
-   
-    const VALUE_SEPERATOR = "";
     
     /**
      * class constructor
@@ -67,23 +62,30 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function add( &$params, &$ids, $activityType ) 
+    public function add( &$params ) 
     {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
+        if ( ! $this->dataExists( $params ) ) {
+            CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
         }
 
-        $activity =& new CRM_Activity_DAO_Activity( );
+        $this->copyValues( $params );
+        //$this->id = CRM_Utils_Array::value( 'id', $ids );
 
-        $activity->copyValues($params);
-        
-        $activity->id = CRM_Utils_Array::value( 'id', $ids );
+        $result = $this->save( );
 
-        return $activity->save( );
+//            CRM_Core_Error::debug( 'ass', $params );
+
+        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
+            $assignment->add( $this->id, $params['assignee_contact_id'] );
+        }
+
+        return $result;
     }
 
     /**
-     * Check if there is data to add the object
+     * Check if there is absolute minimum of data to add the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
@@ -91,9 +93,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function dataExists( &$params ) 
+    private function dataExists( &$params ) 
     {
-        if (CRM_Utils_Array::value( 'subject', $params)) {
+        if (CRM_Utils_Array::value( 'subject', $params) &&
+            CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
             return true;
         }
         return false;
@@ -213,143 +216,101 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @return
      */
-    public static function createActivity( &$params, &$ids, $activityType = 'Meeting', $record = false ) 
+    public function create( &$params  ) 
     {
-        $activity = self::add($params, $ids, $activityType);
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        $activity = $this->add($params );
+                                
+        if ( is_a( $activity, 'CRM_Core_Error') ) {
+            $transaction->rollback( );
+            return $activity;
+        }
+
+       $transaction->commit( );
+                                                                                        
+       CRM_Core_Session::setStatus( ts('Activity has been saved.') );
+       return $activity;
+
+
         
+// custom data disabled for now
+        
+//       // format custom data
+//       // get mime type of the uploaded file
+//        if ( !empty($_FILES) ) {
+//            foreach ( $_FILES as $key => $value) {
+//                $files = array( );
+//                if ( $params[$key] ) {
+//                    $files['name'] = $params[$key];
+//                }
+//                if ( $value['type'] ) {
+//                    $files['type'] = $value['type']; 
+//                }
+//                $params[$key] = $files;
+//            }
+//        }
 
-        // do the updates/inserts
-        if ( $activityType == 1) {
-            $activityType = 'Meeting';
-        } else if($activityType == 2) {
-            $activityType = 'Phonecall';
-        } else if($activityType == 3) {
-            $activityType = 'Email';
-        } else if($activityType == 4) {
-            $activityType = 'SMS';
-        } else {
-            $activityType = 'Activity';
-        }
-      
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-
-        $customData = array( );
-        require_once "CRM/Core/BAO/CustomField.php";
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $activityType, null, $activity->id);
-            }
-        }
+//        $customData = array( );
+//        require_once "CRM/Core/BAO/CustomField.php";
+//        foreach ( $params as $key => $value ) {
+//            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+//                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+//                                                             $value, $activityType, null, $activity->id);
+//            }
+//        }
 
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+//        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
 
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-                                                                 '', $activityType, null, $activity->_id);
-                }
-            }
-        }
+//        if ( !empty($customFields) ) {
+//            foreach ( $customFields as $k => $val ) {
+//                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+//                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+//                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+//                                                                 '', $activityType, null, $activity->_id);
+//                }
+//            }
+//        }
 
-        if ( !empty($customData) ) {
-            //get the entity table for the custom field
-            require_once "CRM/Core/BAO/CustomQuery.php";
-            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+//        if ( !empty($customData) ) {
+//            //get the entity table for the custom field
+//            require_once "CRM/Core/BAO/CustomQuery.php";
+//            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
 
             // add custom field values
-            foreach ($customData as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => $entityTable,
-                                  'entity_id'       => $activity->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
+//            foreach ($customData as $customValue) {
+//                $cvParams = array(
+//                                  'entity_table'    => $entityTable,
+//                                  'entity_id'       => $activity->id,
+//                                  'value'           => $customValue['value'],
+//                                  'type'            => $customValue['type'],
+//                                  'custom_field_id' => $customValue['custom_field_id'],
+//                                  'file_id'         => $customValue['file_id'],
+//                                  );
                 
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
-        }
+//                if ($customValue['id']) {
+//                    $cvParams['id'] = $customValue['id'];
+//                }
+//                CRM_Core_BAO_CustomValue::create($cvParams);
+//            }
+//        }
 
-        if ( $record ) {
-            return $activity;
-        }
         // Log the information on successful add/edit of Activity
-        $session = & CRM_Core_Session::singleton();
-        $id = $session->get('userID');
-        require_once 'CRM/Core/BAO/Log.php';
-        $logParams = array(
-                           'entity_table'  => 'civicrm_' .strtolower($activityType) ,
-                           'entity_id'     => $activity->id,
-                           'modified_id'   => $id,
-                           'modified_date' => date('Ymd')
-                           );
+//        $session = & CRM_Core_Session::singleton();
+//        $id = $session->get('userID');
+//        require_once 'CRM/Core/BAO/Log.php';
+//        $logParams = array(
+//                           'entity_table'  => 'civicrm_activity' ,
+//                           'entity_id'     => $activity->id,
+//                           'modified_id'   => $id,
+//                           'modified_date' => date('Ymd')
+//                           );
         
-        CRM_Core_BAO_Log::add( $logParams );
-
-        if ( $params['case_subject'] ) {
-            return $activity;
-        }
- 
+//        CRM_Core_BAO_Log::add( $logParams );
       
-        if ( $activityType == 'Phonecall' ) {
-            $title = 'Phone Call';
-        } else if ( $activityType == 'Activity' ) {
-            $activityType = CRM_Core_PseudoConstant::activityType(false);
-            $title        = $activityType[$params['activity_type_id']];
-        } else {
-            $title = $activityType;
-        }
-        
-        if ( $activity->status == 'Completed' ) {
-            // we need to insert an activity history record here
-            $params = array('entity_table'     => 'civicrm_contact',
-                            'entity_id'        => $activity->source_contact_id,
-                            'activity_type'    => $title,
-                            'module'           => 'CiviCRM',
-                            'callback'         => 'CRM_Activity_BAO_Activity::showActivityDetails',
-                            'activity_id'      => $activity->id,
-                            'activity_summary' => $activity->subject,
-                            'activity_date'    => $activity->scheduled_date_time
-                            );
-            
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
 
-            // now set activity history for the target cid
-            $params['entity_id'] = $activity->target_entity_id;
-            if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) {
-                return false;
-            }
-        }
-        
-        if( $activity->status=='Completed' ) {
-            CRM_Core_Session::setStatus("$title " . ts('"%1" has been logged to Activity History.', array(1 => $activity->subject)));
-        } else {
-            CRM_Core_Session::setStatus("$title " . ts('"%1" has been saved.', array(1 => $activity->subject)));
-        }
-        return $activity;
         
     }
 
@@ -391,74 +352,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } 
     }
    
-     /*
-     * @param Integer $activityType activity type id
-     * @param Integer $id activity id
-     * @return Integer target_entity_id of CRM_Activity_DAO_ActivityAssignment
-     * @access public
-     * @static
-     */
-    static function retrieveActivityAssign( $activityType, $id) 
-    {
-        if ( $activityType == 1) {
-            $entityTable = "civicrm_meeting";
-        } else if($activityType == 2) {
-            $entityTable = "civicrm_phonecall";
-        } else {
-            $entityTable = "civicrm_activity";
-        }
-        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->target_entity_id;
-        }
-        return null;
-    }
-    
-
-    /**
-     * takes an associative array and creates a Activity Assignment object
-     *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @access public
-     * @static
-     */
-    static function &createActivityAssignment(&$params , $ids ) 
-    { 
-        $params['target_entity_table'] = 'civicrm_contact';
-        $params['target_entity_id']    = $params['to_contact'];
-        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityDAO =& new CRM_Activity_DAO_ActivityAssignment;
-        $activityDAO->copyValues($params);
-        $activityDAO->id = CRM_Utils_Array::value( 'aid', $ids );
-        $result = $activityDAO->save();
-        
-    }
-    /**
-     * delete record for activity id in activity_assignment
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param string $entityTable entity table name 
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function deleteActivityAssignment( $entityTable,$id )
-    {
-      require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->delete();
-        }
-    }
 }
 
 ?>

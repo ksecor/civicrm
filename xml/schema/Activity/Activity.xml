@@ -41,7 +41,6 @@
   <field>
       <name>source_record_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>Artificial FK to original transaction (e.g. contribution) IF it is not an Activity. Table can be figured out through activity_type_id, and further through component registry.</comment>
       <add>2.0</add>
   </field>
@@ -50,9 +49,16 @@
        <name>activity_type_id</name>
        <type>int unsigned</type>
        <required>true</required>
+       <default>1</default>
        <comment>FK to civicrm_option_value.id, that has to be valid, registered activity type.</comment>
        <add>1.1</add>
   </field>
+  <foreignKey>
+       <name>activity_type_id</name>
+       <table>civicrm_option_value</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>  
   <index>
        <name>UI_activity_type_id</name>
        <fieldName>activity_type_id</fieldName>       

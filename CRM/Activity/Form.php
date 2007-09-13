@@ -46,83 +46,60 @@ class CRM_Activity_Form extends CRM_Core_Form
      *
      * @var int
      */
-    protected $_id;
+    protected $_activityId;
 
     /**
-     * The contact id, used when add / edit 
+     * The id of currently viewed contact
      *
      * @var int
      */
-    protected $_contactId;
-    protected $_sourceCID;
-    protected $_targetCID;
+    protected $_currentlyViewedContactId;
+
+    /**
+     * The id of source contact and target contact
+     *
+     * @var int
+     */
+    protected $_sourceContactId;
+    protected $_targetContactId;
+    protected $_asigneeContactId;
 
     /**
      * The id of the logged in user, used when add / edit 
      *
      * @var int
      */
-    protected $_userId;
+    protected $_currentUserId;
 
-    /**
-     *  Boolean variable to show followup if it is set to true
-     *
-     */
-    protected $_status;
-
-    /**
-     *  Boolean variable set for differentiating between log and schedule
-     *
-     */
-    protected $_log;
-
-    /**
-     * this variable to store parent id for the follow up activity
-     *
-     */
-    protected $_pid;
 
     function preProcess( ) 
     {
 
         $session =& CRM_Core_Session::singleton( );
-        $this->_userId = $session->get( 'userID' );
+        $this->_currentUserId = $session->get( 'userID' );
+
+//        require_once 'CRM/Utils/Request.php';
+        $this->_activityType = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this );
 
         $page =& new CRM_Contact_Page_View();
         
-        $this->_pid  = $this->get( 'pid' );
-        $this->_log  = $this->get( 'log' );
-        $this->assign( 'log', $this->_log);
-                
-        $this->_contactId = $this->get('contactId');
+        $this->_currentlyViewedContactId = $this->get('contactId');
 
+        // if we're not adding new one, there must be an id to
+        // an activity we're trying to work on.
         if ($this->_action != CRM_Core_Action::ADD) {
-            $this->_id = $this->get('id');
+            $this->_activityId = $this->get('id');
         }
 
-        $this->_status = CRM_Utils_Request::retrieve( 'status', 'String',
-                                                      $this, false );
-                                                      
-        $this->_context = CRM_Utils_Request::retrieve('context', 'String',$this );
-
-
-        // figure out if we are adding this activity to case
-        // DRAFTING: figure out the way to separate this
-        $this->_caseID = CRM_Utils_Request::retrieve('caseid', 'Integer', $this );
-        /* if (  $this->_context == 'case' && $this->_action == CRM_Core_Action::ADD ){
-            $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseID,'subject' );
-        }*/
+        // what's the context we're currently working on?
+        // DRAFTING: Try to eliminate this.
+        $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
         
-        // DRAFTING: not sure what the below does
-        // require_once 'CRM/Core/BAO/OptionValue.php';
-        // if ( $this->_activityType > 4 ) {
-        //    $ActivityTypeDescription = CRM_Core_BAO_OptionValue::getActivityDescription();
-        //    ksort($ActivityTypeDescription);
-        //    $this->assign('ActivityTypeDescription', $ActivityTypeDescription );            
-        //}
-        
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_id, 0,$this->_activityType);
+        // get the tree of custom fields
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0,$this->_activityType);
+
         $this->setDefaultValues();
+
     }
 
     /**
@@ -137,70 +114,65 @@ class CRM_Activity_Form extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
 
-        if ( isset( $this->_id ) ) {
-            $params = array( 'id' => $this->_id );
+        // if we're editing...
+        if ( isset( $this->_activityId ) ) {
+//            $params = array( 'id' => $this->_activityId );
+//            
+//            require_once "CRM/Activity/BAO/Activity.php";
+//            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
+//            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             
-            require_once "CRM/Activity/BAO/Activity.php";
-            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
-            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
+//            if (! $this->_subject){
+//                require_once "CRM/Case/BAO/Case.php";
+//                $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
+//                if ($subjectID){
+//                    $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
+//                }
+//                
+//            }
+
+//            if ( CRM_Utils_Array::value( 'activity_date_time', $defaults ) ) {
+//                $this->assign('activity_date_time', $defaults['scheduled_date_time']);
+//            }
             
-            if (! $this->_subject){
-                require_once "CRM/Case/BAO/Case.php";
-                $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
-                if ($subjectID){
-                    $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
-                }
-                
-            }
-            if ( CRM_Utils_Array::value( 'scheduled_date_time', $defaults ) ) {
-                $this->assign('scheduled_date_time', $defaults['scheduled_date_time']);
-            }
-            
-            // change _contactId to be the target of the activity
-            $this->_sourceCID = $defaults['source_contact_id'];
-            $this->_targetCID = $defaults['target_entity_id'];
+            // change _currentlyViewedContactId to be the target of the activity
+//            $this->_sourceContactId = $defaults['source_contact_id'];
+//            $this->_targetContactId = $defaults['target_contact_id'];
+
+        // otherwise, we're adding new activity.
         } else {
-            $this->_sourceCID = $this->_userId;
-            $this->_targetCID = $this->_contactId;
-        }
-        
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            $this->assign( 'delName', $defaults['subject'] );
-        }
-       
-        if ($this->_log) { 
-            $defaults['status'] = 'Completed';
+            // if it's a new activity, we need to set default values for associated contact fields
+            // since those are dojo fields, unfortunately we cannot use defaults directly
+            $this->_sourceContactId = $this->_currentUserId;
+            $this->_targetContactId = $this->_currentlyViewedContactId;
+            $this->_assigneeContactId = null;
+
+            $defaults['activity_date_time'] = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
+            $defaults['activity_date_time']['i'] = (int ) ( $defaults['scheduled_date_time']['i'] / 15 ) * 15;
         }
 
-        // set the default date if we are creating a new meeting/call or 
-        // marking one as complete
-
-        if ( $this->_log || ! isset( $this->_id ) ) {
-            // rounding of minutes
-            $defaults['scheduled_date_time'] = array( );
-            CRM_Utils_Date::getAllDefaultValues( $defaults['scheduled_date_time'] );
-            $defaults['scheduled_date_time']['i'] = (int ) ( $defaults['scheduled_date_time']['i'] / 15 ) * 15;
-        }
-        
-        if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
-            $inactiveNeeded = true;
-            $viewMode = true;
-        } else {
-            $viewMode = false;
-            $inactiveNeeded = false;
-        }
-        
         $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
         if ( $subType ) {
             $defaults["activity_type_id"] = $subType;
         }
+
+        
+        // DRAFTING: Check this in the template
+        if ($this->_action == CRM_Core_Action::DELETE) {
+            $this->assign( 'delName', $defaults['subject'] );
+        }
        
+        // Set defaults for custom values
         if( isset($this->_groupTree) ) {
+            if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
+                $inactiveNeeded = true; $viewMode = true;
+            } else {
+                $viewMode = false; $inactiveNeeded = false;
+            }
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
         
-        require_once 'CRM/Activity/BAO/Activity.php';
-        $defaults['activity_tag3_id'] = explode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, substr($defaults['activity_tag3_id'],1,-1));
         return $defaults;
     }
 
@@ -214,28 +186,51 @@ class CRM_Activity_Form extends CRM_Core_Form
     {
      
         $config =& CRM_Core_Config::singleton( );
-        $contactID = $this->_contactId;
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            
-            $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
-            $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
-            
-            $this->addButtons(array( 
-                                    array ( 'type'      => 'next', 
-                                            'name'      => ts('Delete'), 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel'),
-                                            'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
-                              ));
-            return;
-        }
-        $fromName = CRM_Contact_BAO_Contact::sortName( $this->_sourceCID );
-        $regardName = CRM_Contact_BAO_Contact::sortName( $this->_targetCID );
-        $toname     = CRM_Contact_BAO_Contact::sortName( $this->_assignCID );
         $domainID = CRM_Core_Config::domainID( );
 
+        $urlParams = 'reset=1&cid=' . $this->_currentlyViewedContactId . '&selectedChild=activity';
+        if ( $this->_activity_id ) {
+            $urlParams .= '&action=update&aid=' . $this->_activity_id . '&context=activity';
+        } else {
+            $urlParams .= '&action=add';
+        }
+        
+        
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $urlParams );
+
+        $this->assign( "refreshURL", $url );
+        $activityType = CRM_Core_PseudoConstant::activityType(false);
+
+        $this->applyFilter('__ALL__', 'trim');
+        $this->add('select', 'activity_type_id', ts('Activity Type'), 
+        array('' => ts('- select activity type -')) + $activityType, true, 
+        array('onchange' => "if (this.value) reload(true); else return false"));
+
+
+        // we're deleting
+//        if ( $this->_action & CRM_Core_Action::DELETE ) {
+//            
+//            $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_activityId}&cid={$this->_currentlyViewedContactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
+//            $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
+//            
+//            $this->addButtons(array( 
+//                                    array ( 'type'      => 'next', 
+//                                            'name'      => ts('Delete'), 
+//                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+//                                            'isDefault' => true   ), 
+//                                    array ( 'type'      => 'cancel', 
+//                                            'name'      => ts('Cancel'),
+//                                            'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
+//                              ));
+//            return;
+//        }
+
+
+
+ 
+
+
+        // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
 
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
@@ -243,85 +238,74 @@ class CRM_Activity_Form extends CRM_Core_Form
                              'store'          => 'contactStore',
                              'class '         => 'tundra'
                              );
-        
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}&s=",
                                           true, null, false );
-        
         $this->assign('dataUrl',$dataUrl );
 
-        $from = $this->add( 'text','from_contact',ts('From'),$attributes,true );
-        if ( $from->getValue( ) ) {
-            $this->assign( 'from_contact_value',  $from->getValue( ) );
+
+        $defaultSourceContactName = CRM_Contact_BAO_Contact::sortName( $this->_sourceContactId );
+        $sourceContactField = $this->add( 'text','source_contact', ts('Source contact'), $attributes, true );
+        if ( $sourceContactField->getValue( ) ) {
+            $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
         } else {
-            $this->assign('from_contact_value',$fromName );
+            // we're setting currently LOGGED IN user as source for this activity
+            $this->assign( 'source_contact_value', $defaultSourceContactName );
         }
 
-        $to = $this->add( 'text','to_contact',ts('To'),$attributes,true );
-        if ( $to->getValue( ) ) {
-            $this->assign( 'to_contact_value',  $to->getValue( ) );
+        $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
+        $targetContactField = $this->add( 'text','target_contact', ts('Target contact'), $attributes, true );
+        if ( $targetContactField->getValue( ) ) {
+            $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
-            $this->assign( 'to_contact_value', $toname );
+            // we're setting currently VIEWED user as target for this activity
+            $this->assign( 'target_contact_value', $defaultTargetContactName );
+        }
+
+        $defaultAssigneeContactName = CRM_Contact_BAO_Contact::sortName( $this->_assigneeContactId );
+        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assignee contact'), $attributes, true );
+        if ( $assigneeContactField->getValue( ) ) {
+            $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
+        } else {
+            // at this stage, we're not assigning any default contact to assigned user - it
+            // was earlier set to null in setDefaultValues
+            $this->assign('assignee_contact_value', $defaultAssigneeContactName );
         }
         
-        $regard = $this->add( 'text','regarding_contact',ts('Regarding'),$attributes,true );
-        if ( $regard->getValue( ) ) {
-            $this->assign( 'regard_contact_value',  $regard->getValue( ) );
-        } else {
-            $this->assign('regard_contact_value',$regardName );
-        }
-        
-        $attributeCase = array( 'dojoType'       => 'dijit.form.ComboBox',
-                                'mode'           => 'remote',
-                                'store'          => 'caseStore',
-                                'class'          => 'tundra',
-                             );
+//        $attributeCase = array( 'dojoType'       => 'dijit.form.ComboBox',
+//                                'mode'           => 'remote',
+//                                'store'          => 'caseStore',
+//                                'class'          => 'tundra',
+//                             );
                                 
-        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                          "c={$contactID}&s=",
-                                          true, null, false );
-        $this->assign('caseUrl',$caseUrl );
+//        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
+//                                          "c={$contactID}&s=",
+//                                          true, null, false );
+//        $this->assign('caseUrl',$caseUrl );
 
-        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
-        if ( $subject->getValue( ) ) {
-            $this->assign( 'subject_value',  $subject->getValue( ) );
-        } else {
-            $this->assign( 'subject_value',  $this->_subject );
-        }
+//        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
+//        if ( $subject->getValue( ) ) {
+//            $this->assign( 'subject_value',  $subject->getValue( ) );
+//        } else {
+//            $this->assign( 'subject_value',  $this->_subject );
+//        }
           
-        require_once 'CRM/Core/OptionGroup.php';
-        $caseActivityType = CRM_Core_OptionGroup::values('case_activity_type');
-        $this->add('select', 'activity_tag1_id',  ts( 'Case Activity Type' ),  
-                   array( '' => ts( '-select-' ) ) + $caseActivityType );
-        
-        $comunicationMedium = CRM_Core_OptionGroup::values('communication_medium'); 
-        $this->add('select', 'activity_tag2_id',  ts( 'Communication' ),  
-                   array( '' => ts( '-select-' ) ) + $comunicationMedium );
-
-        $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-        $this->add('select', 'activity_tag3_id',  ts( 'Violation Type' ),
-                   $caseViolation , false, array("size"=>"5",  "multiple"));
-     
-        if ($this->_action == CRM_Core_Action::VIEW) { 
+        if ($this->_action == CRM_Core_Action::VIEW) {
             $this->freeze();
         }
 
-        if ($this->_status || ($this->_action == CRM_Core_Action::VIEW)) { 
-            if ($this->_status) {
-                $this->assign('status', $this->_status);
-                $this->assign('pid'   , $this->_id);
-                $this->assign('history'   , 1);
-            } else {
-                $this->assign('history'   , 0);
-            }
+        // if we're viewing, we're assigning different buttons than for adding/editing
+        if ( $this->_action == CRM_Core_Action::VIEW ) { 
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Done') ),
                                      )
                                );
-
         } else {
-            $session = & CRM_Core_Session::singleton( );
+
+            // DRAFTING: This probably is a hack for custom field uploads
+            // DRAFTING: Try to eradicate it at later stage
+            $session =& CRM_Core_Session::singleton( );
             $uploadNames = $session->get( 'uploadNames' );
             if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
                 $buttonType = 'upload';
@@ -339,6 +323,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                                );
         }
 
+        // add custom fields elements
         if ($this->_action & CRM_Core_Action::VIEW ) { 
             CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
         } else {
@@ -360,34 +345,39 @@ class CRM_Activity_Form extends CRM_Core_Form
      */  
     static function formRule( &$fields ) 
     {  
-        if  ( ($fields['_qf_Meeting_next_'] == 'Delete') ||($fields['_qf_Phonecall_next_'] == 'Delete') || ($fields['_qf_Activity_next_'] == 'Delete')  ) {
+        // skip form rule if deleting
+        if  ( $fields['_qf_Activity_next_'] == 'Delete' ) {
             return true;
         }
-        $errors = array( ); 
-        require_once 'CRM/Case/BAO/Case.php';
-        $sourceCID = CRM_Case_BAO_Case::retrieveCid($fields['from_contact']);
-        $targetCID = CRM_Case_BAO_Case::retrieveCid($fields['regarding_contact']);
-        $toCID     = CRM_Case_BAO_Case::retrieveCid($fields['to_contact']);
         
-        if(!$sourceCID){
-            $errors['from_contact'] = ts('Invalid From Contact');
+        $errors = array( );
+
+        // make sure if associated contacts exist
+        require_once 'CRM/Contact/BAO/Contact.php';
+        $source_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['source_contact'] );
+        $assignee_contact_id = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['assignee_contact']);
+        $target_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['target_contact']);
+        
+        if( !$source_contact_id ) {
+            $errors['source_contact'] = ts('Source Contact non-existant!');
         }
-        if(!$targetCID){
-            $errors['regarding_contact'] = ts('Invalid Regarding Contact');
+        if( !$assignee_contact_id ) {
+            $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
             }
-        if(!$toCID){
-            $errors['to_contact'] = ts('Invalid To Contact');
+        if( !$target_contact_id ) {
+            $errors['target_contact'] = ts('Target Contact non-existant!');
         }
-        if ( $fields['case_subject'] ){
-            require_once 'CRM/Case/DAO/Case.php';
-            $caseDAO =& new CRM_Case_DAO_Case();
-            $caseDAO->subject = $fields['case_subject'];
-            $caseDAO->find(true);
+
+//        if ( $fields['case_subject'] ){
+//            require_once 'CRM/Case/DAO/Case.php';
+//            $caseDAO =& new CRM_Case_DAO_Case();
+//            $caseDAO->subject = $fields['case_subject'];
+//            $caseDAO->find(true);
             
-            if(!$caseDAO->id){
-                $errors['case_subject'] = ts('Invalid Case Subject');
-            }
-        }
+//            if(!$caseDAO->id){
+//                $errors['case_subject'] = ts('Invalid Case Subject');
+//            }
+//        }
         return $errors;
     }
 }

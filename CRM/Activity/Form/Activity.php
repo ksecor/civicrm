@@ -59,20 +59,10 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
     function preProcess( ) 
     {        
        
-        $this->_activityType = CRM_Utils_Request::retrieve( 'activity_id', 'Positive',$this );
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
         $this->assign( 'context', $this->_context );
         
 
-        if ( ! isset($_POST['activity_type_id']) ) {
-            $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive',$this );
-        } else {
-            $this->_activityType = $_POST['activity_type_id'];
-        }
-        
-        if ( isset($subType) ) {
-            $this->_activityType = $subType;
-        } 
         parent::preProcess();
         
     }
@@ -86,20 +76,22 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         }
         
         
-        $urlParams = "activity_id=$this->_activityType&reset=1&cid=$this->_contactId&selectedChild=activity";
-        if ( $this->_id ) {
-            $urlParams .= "&action=update&id=$this->_id&context=activity";
-        } else {
-            $urlParams .= "&action=add";
-        }
+//        $urlParams = "activity_id=$this->_activityType&reset=1&cid=$this->_contactId&selectedChild=activity";
+//        if ( $this->_id ) {
+//            $urlParams .= "&action=update&id=$this->_id&context=activity";
+//        } else {
+//            $urlParams .= "&action=add";
+//        }
         
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-                                      $urlParams ); 
-        $this->assign("refreshURL",$url);
-        $activityType = CRM_Core_PseudoConstant::activityType(false);
+//        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
+//                                      $urlParams ); 
+//        $this->assign("refreshURL",$url);
+//        $activityType = CRM_Core_PseudoConstant::activityType(false);
        
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'activity_type_id', ts('Activity Type'), array('' => ts('- select activity type -')) + $activityType,true, array('onchange' => "if (this.value) reload(true); else return false"));
+//        $this->applyFilter('__ALL__', 'trim');
+//        $this->add('select', 'activity_type_id', ts('Activity Type'), 
+//        array('' => ts('- select activity type -')) + $activityType,true, 
+//        array('onchange' => "if (this.value) reload(true); else return false"));
               
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
@@ -141,9 +133,9 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         $params = $this->controller->exportValues( $this->_name );
         //$params = $_POST;
 
-        require_once 'CRM/Case/BAO/Case.php';
-        $this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
-        $this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
+        //require_once 'CRM/Case/BAO/Case.php';
+        //$this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
+        //$this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
 
         $ids = array();
         
@@ -152,15 +144,14 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
 
         // store the contact id and current drupal user id
         $params['source_contact_id'  ] = $this->_sourceCID;
-        $params['target_entity_id'   ] = $this->_targetCID;
-        $params['target_entity_table'] = 'civicrm_contact';
+        $params['target_contact_id'   ] = $this->_targetCID;
 
         //set parent id if exists for follow up activities
         if ($this->_pid) {
-            $params['parent_id'] = $this->_pid;            
+            $params['parent_id'] = $this->_pid;
         }
         
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
+        if (0 or $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['id'] = $this->_id;
             require_once 'CRM/Case/DAO/CaseActivity.php';
             $caseActivity = new CRM_Case_DAO_CaseActivity();
@@ -168,26 +159,27 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
             $caseActivity->activity_entity_id = $ids['id'];
             $caseActivity->find(true);
             $ids['cid'] = $caseActivity->id;
-            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-            $ActivityAssignment = new CRM_Activity_DAO_ActivityAssignment();
-            $ActivityAssignment->activity_entity_table = 'civicrm_activity';
-            $ActivityAssignment->activity_entity_id = $ids['id'];
-            $ActivityAssignment->find(true);
-            $ids['aid'] = $ActivityAssignment->id;
+//            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+//            $ActivityAssignment = new CRM_Activity_DAO_ActivityAssignment();
+//            $ActivityAssignment->activity_entity_table = 'civicrm_activity';
+//            $ActivityAssignment->activity_entity_id = $ids['id'];
+//            $ActivityAssignment->find(true);
+//            $ids['aid'] = $ActivityAssignment->id;
         }
         $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
 
         require_once "CRM/Activity/BAO/Activity.php";
+        $bao = new CRM_Activity_BAO_Activity();
+        $bao->create( $params );
        
-        $params['activity_tag3_id']   = CRM_Activity_BAO_Activity::VALUE_SEPERATOR.implode(CRM_Activity_BAO_Activity::VALUE_SEPERATOR, $params['activity_tag3_id'] ).CRM_Activity_BAO_Activity::VALUE_SEPERATOR;
-        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
+//        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 
-        require_once 'CRM/Case/BAO/Case.php';
-        $caseParams['activity_entity_table'] = 'civicrm_activity';
-        $caseParams['activity_entity_id']    = $activity->id;
-        $caseParams['subject']               = $params['case_subject'];
-        CRM_Activity_BAO_Activity::createActivityAssignment( &$caseParams,$ids );
-        CRM_Case_BAO_Case::createCaseActivity( &$caseParams,$ids );        
+//        require_once 'CRM/Case/BAO/Case.php';
+//        $caseParams['activity_entity_table'] = 'civicrm_activity';
+//        $caseParams['activity_entity_id']    = $activity->id;
+//        $caseParams['subject']               = $params['case_subject'];
+//        CRM_Activity_BAO_Activity::createActivityAssignment( &$caseParams,$ids );
+//        CRM_Case_BAO_Case::createCaseActivity( &$caseParams,$ids );        
     }
 }
 

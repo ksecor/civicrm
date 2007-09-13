@@ -235,7 +235,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
 
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
-            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'], $row['id'] );
+//            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'], $row['id'] );
 
             if ( $assignCID ) {
                 require_once "CRM/Contact/BAO/Contact.php";

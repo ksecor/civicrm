@@ -17,42 +17,42 @@
          <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
 
    <dl class="html-adjust">     
-    <dt>{$form.from_contact.label}</dt>
+    <dt>{$form.source_contact.label}</dt>
     
-    {if $from_contact_value}
+    {if $source_contact_value}
         <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'from_contact' ).setValue( "{$from_contact_value}", "{$from_contact_value}" )
+        dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
         {rdelim} );
         </script>
-   
     {/if}
+
      <div class = "form-layout" "dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
-        <dd>{if $action eq 4} {$from_contact_value} {else}{$form.from_contact.html}{/if}</dd>
+        <dd>{if $action eq 4} {$source_contact_value} {else}{$form.source_contact.html}{/if}</dd>
      </div>
     
-    <dt>{$form.to_contact.label}</dt>
-    {if $to_contact_value}
+    <dt>{$form.target_contact.label}</dt>
+    {if $target_contact_value}
         <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'to_contact' ).setValue( "{$to_contact_value}", "{$to_contact_value}" )
+        dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
     {rdelim} );
     </script>
     {/if}
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$to_contact_value} {else}{$form.to_contact.html}{/if}</dd>
+        <dd>{if $action eq 4} {$target_contact_value} {else}{$form.target_contact.html}{/if}</dd>
     </div>
 
-    <dt>{$form.regarding_contact.label}</dt>
+    <dt>{$form.assignee_contact.label}</dt>
     {if $regard_contact_value}
         <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
-        dijit.byId( 'regarding_contact' ).setValue( "{$regard_contact_value}", "{$regard_contact_value}" )
+        dijit.byId( 'assignee_contact' ).setValue( "{$regard_contact_value}", "{$regard_contact_value}" )
     {rdelim} );
     </script>
     {/if}  
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$regarding_contact_value} {else}{$form.regarding_contact.html}{/if}        </dd>
+        <dd>{if $action eq 4} {$assignee_contact_value} {else}{$form.assignee_contact.html}{/if}        </dd>
     </div>
 
     <dt>{$form.case_subject.label}</dt>

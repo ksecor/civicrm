@@ -89,8 +89,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'Integer',$this );
 
-        CRM_Core_Error::debug( 'edit', $edit  );
-
         // DRAFTING: Need to sort out the situation with cases here.
         if( $edit ){
             $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
@@ -128,13 +126,13 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )){
             
-                require_once 'CRM/Activity/BAO/Activity.php';
+            require_once 'CRM/Activity/BAO/Activity.php';
                 
-                CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
+            CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Meeting', ts('Contact Meetings'), $this->_action );
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
         $controller->reset( );
         $controller->setEmbedded( true );
 
