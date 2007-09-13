@@ -11,18 +11,43 @@ General Monthly Newsletter: 200709
 </p>
 {/htxt}
 
-{htxt id="mailing-recipients"}
+{htxt id="include-groups"}
 {ts}
 <p>Determine the contacts in your database who should receive this mailing by first selecting one or more <strong>Included Groups</strong>.
 (Groups must be assigned the <strong>Mailing List</strong> type to be available on this screen - you can update this for an
 existing group from <strong>Manage Groups &raquo; Settings</strong>.)</p>
 
-<p>You also have the option to <strong>Exclude</strong> some contacts in your included groups by selecting on or more <strong>Excluded
+<p>You also have the option to <strong>Exclude</strong> some contacts from your included groups by selecting one or more <strong>Excluded
 Groups</strong>. Contacts who are in both groups will NOT receive the mailing (they are "excluded").</p>
 
-<p>If you have sent other mailings - you can additionally Include (or Exclude) contacts who received those mailings.</p>
+<p>If you have sent other mailings - you can additionally Include (or Exclude) contacts who received those mailings. CiviCRM will
+eliminate any duplications so that contacts who are in an Included Group AND were recipients of an Included Mailing will only be sent
+one copy of this mailing.</p>
 
 <p>After you click <strong>Next</strong> - the total number of selected recipients will be displayed on the next screen. Use this
 as a "reality-check" to help you confirm that you've targeted (and excluded) the desired recipients.</p>
+{/ts}
+{/htxt}
+
+{htxt id="exclude-groups"}
+{ts}
+<p>You also have the option to <strong>Exclude</strong> some contacts in your included groups by selecting on or more <strong>Excluded
+Groups</strong>. Contacts who are in both groups will NOT receive the mailing (they are "excluded").</p>
+{/ts}
+{/htxt}
+
+{htxt id="include-mailings"}
+{ts}
+<p>If you have sent other mailings - you can additionally Include (or Exclude) contacts who received those mailings. CiviCRM will
+eliminate any duplications so that contacts who are in an Included Group AND were recipients of an Included Mailing will only be sent
+one copy of this mailing.</p>
+{/ts}
+{/htxt}
+
+{htxt id="exclude-mailings"}
+{ts}
+<p>If you have sent other mailings - you can additionally Include (or Exclude) contacts who received those mailings. CiviCRM will
+eliminate any duplications so that contacts who are in an Included Group AND were recipients of an Included Mailing will only be sent
+one copy of this mailing.</p>
 {/ts}
 {/htxt}
