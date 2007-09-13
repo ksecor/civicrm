@@ -42,16 +42,18 @@
      <name>data_type</name>
      <type>enum</type>
      <values>String, Int, Float, Money, Memo, Date, Boolean, StateProvince, Country,File,Link</values>
+     <required>true</required>
      <comment>Controls location of data storage in extended_data table.</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
      <name>html_type</name>
      <type>enum</type>
      <values>Text, TextArea, Select, Multi-Select, Radio, CheckBox,
   Select Date, Select State/Province, Select Country,File,Link</values>
+     <required>true</required>
      <comment>HTML types plus several built-in extended types.</comment>
-       <add>1.1</add>
+     <add>1.1</add>
   </field>
   <field>
      <name>default_value</name>

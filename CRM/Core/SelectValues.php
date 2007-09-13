@@ -376,7 +376,7 @@ class CRM_Core_SelectValues
         if (!$_date) {
             require_once 'CRM/Utils/Date.php';
             $_date = array(
-                'format'           => CRM_Utils_Date::posixToPhp($config->dateformatQfDate),
+                'format'           => CRM_Utils_Date::posixToPhp( $config->dateformatQfDate ),
                 'addEmptyOption'   => true,
                 'emptyOptionText'  => ts('-select-'),
                 'emptyOptionValue' => ''
@@ -402,14 +402,10 @@ class CRM_Core_SelectValues
             $minOffset = $min; 
             $maxOffset = $max; 
             if( $dateParts ) {
-                $stringFormat = null;
-                
                 require_once 'CRM/Core/BAO/CustomOption.php';
-                $format = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $dateParts );
-                foreach( $format as $v ) {
-                    $stringFormat .= " $v";
-                }
-                $newDate['format'] = $stringFormat;
+                $format = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+                                                                 $format );
             }
         } elseif ($type == 'fixed') {
             $minOffset = $dao->start;
@@ -418,22 +414,27 @@ class CRM_Core_SelectValues
             $minOffset = $min;
             $maxOffset = $max;
         } elseif ($type == 'creditCard') {
-            $newDate['format'] = 'M Y';
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+                                                             array( 'M', 'Y' ) );
         } elseif ($type == 'mailing') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
-            $newDate['format'] = $dao->format;
+            $format = explode( ' ', trim( $dao->format ) );
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+                                                             $format );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
         } elseif ($type == 'datetime') {
             require_once 'CRM/Utils/Date.php';
-            $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
         } elseif ($type =='duration') {
-            $newDate['format'] = $dao->format;
+            $format = explode( ' ', trim( $dao->format ) );
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
+                                                             $format );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
         }
         

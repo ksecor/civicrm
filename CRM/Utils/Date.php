@@ -441,7 +441,7 @@ class CRM_Utils_Date {
      *
      * @static
      */
-    static function posixToPhp($format)
+    static function posixToPhp($format, $filter = null)
     {
         static $replacements = array(
             '%b' => 'M',
@@ -460,7 +460,19 @@ class CRM_Utils_Date {
             '%P' => 'A',
             '%Y' => 'Y'
         );
-        return strtr($format, $replacements);
+        if ( $filter ) {
+            $filteredReplacements = $replacements;
+            foreach ( $replacements as $key => $value ) {
+                if ( in_array( $value, $filter ) ) {
+                    $filteredReplacements[$key] = $value;
+                } else {
+                    $filteredReplacements[$key] = null;
+                }
+            }
+            return  strtr($format, $filteredReplacements);
+        } else {
+            return strtr($format, $replacements);
+        }
     }
 
     /**
