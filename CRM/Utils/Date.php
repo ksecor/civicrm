@@ -436,6 +436,7 @@ class CRM_Utils_Date {
      * note: the blank-padded sequences are converted to non-blank-padded ones
      *
      * @param string $format  format string in POSIX % notation
+     * @param array  $filter  only include these elements for the date string
      *
      * @return string  format string in PHP notation
      *
