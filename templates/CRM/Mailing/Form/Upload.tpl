@@ -4,7 +4,6 @@
 {ts}You can either <strong>upload</strong> the mailing content from your computer OR <strong>compose</strong> the content on this screen.
 Hold your mouse over the help (?) icon for more information on formats and requirements.{/ts} {help id="content-intro"} 
 </div>
-
 <div class="form-item">
   <fieldset>
     <table class="form-layout-compressed">
@@ -86,9 +85,9 @@ Hold your mouse over the help (?) icon for more information on formats and requi
     function selectValue(val)
     {
        var tokens = val.split( "^A" );
-       var ed = dojo.widget.byId('editor4');
+       var ed = dojo.widget.byId('html_message');
        dojo.byId('text_message').value=tokens[0];
-       ed._htmlEditNode.value=tokens[2];
+       ed.editNode.innerHTML = tokens[2];
     }
  
      function verify( select )
@@ -97,7 +96,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	    document.getElementById("saveDetails").style.display = "none";
 	}
 
-	document.getElementById("editMessageDetails").style.display = "block";
+        document.getElementById("editMessageDetails").style.display = "block";
 	document.getElementById("saveTemplateName").disabled = false;
      }
 

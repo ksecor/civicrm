@@ -108,7 +108,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
 
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
-        $defaults['upload_type'] = 0; 
+        $defaults['upload_type'] = 1; 
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
@@ -140,19 +140,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $dojoAttributes = array( 'dojoType'            => 'Editor2',
                                  'style'               => 'height:300px',
-                                 'widgetId'            => 'editor4',
-                                 'htmlEditing'         => 'true',
+                                 'widgetId'            => 'html_message',
                                  'useActiveX'          => 'true',
-                                 'shareToolbar'        => 'false',
                                  'toolbarTemplatePath' => 'src/widget/templates/EditorToolbarCiviMail.html',
                                  'toolbarCssPath'      => 'src/widget/templates/EditorToolbarCiviMail.css',
-                                 'onkeyup'             => 'return verify(this)',
+                                 'onkeyup'             => 'return verify(this)'
                                  );
-        $this->add( 'textarea', 
-                    'html_message', 
-                    ts('HTML Message'),
-                    $dojoAttributes );
 
+        $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
+       
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -239,8 +235,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set($key, $this->controller->exportvalue($this->_name, $key));
             }
             
-            $templateParams = array( 'msg_title'   => $params['name'],
-                                     'msg_text'    => $composeParams['text_message'],
+            $templateParams = array( 'msg_text'    => $composeParams['text_message'],
                                      'msg_html'    => $composeParams['html_message'],
                                      'msg_subject' => $params['subject'],
                                      'is_active'   => true
@@ -256,6 +251,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $templateIds = array('messageTemplate' => CRM_Utils_Array::key( $_POST['template_selected'],
                                                                                 $this->_templates ) 
                                      );
+                $templateParams['msg_title'] = $composeParams['template_selected'];
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
             }
             
