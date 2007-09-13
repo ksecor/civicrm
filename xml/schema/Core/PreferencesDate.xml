@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>PreferencesDate</class>
+  <name>civicrm_preferences_date</name>
+  <comment>Define date preferences for the site</comment>
+  <add>2.0</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+       <add>2.0</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>domain_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>1.1</add>
+  </field>
+  <foreignKey>
+       <name>domain_id</name>
+       <table>civicrm_domain</table>
+       <key>id</key>
+       <add>1.1</add>
+  </foreignKey>
+  <field>
+       <name>name</name>
+       <type>varchar</type>
+       <length>64</length>
+       <required>true</required>
+       <comment>The meta name for this date (fixed in code)</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+    <name>index_name</name>
+    <fieldName>name</fieldName>
+    <add>2.0</add>
+  </index>
+  <field>
+       <name>start</name>
+       <type>int</type>
+       <required>true</required>
+       <comment>The start offset relative to current year</comment>
+       <add>2.0</add>
+  </field>
+  <field>
+       <name>end</name>
+       <type>int</type>
+       <required>true</required>
+       <comment>The end offset relative to current year, can be negative</comment>
+       <add>2.0</add>
+  </field>
+  <field>
+       <name>minute_increment</name>
+       <type>int</type>
+       <comment>The minute increment number</comment>
+       <add>2.0</add>
+  </field>
+  <field>
+       <name>format</name>
+       <type>varchar</type>
+       <length>64</length>
+       <comment>The date type</comment>
+       <add>2.0</add>
+  </field>
+</table>

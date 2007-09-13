@@ -287,6 +287,17 @@ VALUES
      (@domain_id,NULL,1,1,'12345678910','1234','1234567891011121314','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}\n{world_region}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
+INSERT INTO `civicrm_preferences_date`
+  (domain_id, name, start, end, minute_increment, format)
+VALUES
+  ( @domain_id, 'birth'     , 100,  0,  0, null        ),
+  ( @domain_id, 'relative'  ,  20, 20,  0, null        ),
+  ( @domain_id, 'fixed'     ,   0,  5,  0, null        ),
+  ( @domain_id, 'creditCard',   0, 10,  0, 'M Y'       ),
+  ( @domain_id, 'mailing'   ,   0,  1, 15, 'Y M d H i' ),
+  ( @domain_id, 'datetime'  ,  10,  3, 15, null        ),
+  ( @domain_id, 'duration'  ,   0,  0, 15, 'H i'       );
+
 -- various processor options
 --
 -- Table structure for table `civicrm_payment_processor_type`

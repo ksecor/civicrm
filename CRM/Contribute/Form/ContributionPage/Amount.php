@@ -108,7 +108,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         CRM_Utils_System::setTitle(ts('Contribution Amounts (%1)', array(1 => $title)));
        
         require_once 'CRM/Core/OptionGroup.php'; 
-        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.{$this->_id}", $defaults );
+        CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$this->_id}", $defaults );
         
         if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
