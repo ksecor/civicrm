@@ -1470,7 +1470,9 @@ SELECT DISTINCT( m.id ) as id
         }
 
         $returnProperties = array( );
-        $returnProperties['display_name'] = $returnProperties['contact_id'] = 1;
+        $returnProperties['display_name'] = 
+            $returnProperties['contact_id'] = $returnProperties['preferred_mail_format'] = 1;
+
         foreach ( $properties as $p ) {
             $returnProperties[$p] = 1;
         }
