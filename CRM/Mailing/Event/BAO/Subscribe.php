@@ -74,7 +74,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             FROM civicrm_contact contact_a 
             LEFT JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id)  
             LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' 
-                   AND contact_a.id = civicrm_location.entity_id AND civicrm_location.is_primary = 1) 
+                   AND contact_a.id = civicrm_location.entity_id ) 
             LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id  
             LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id )  
             WHERE  (  ( LOWER(civicrm_email.email) = '{$email}' ) )";
