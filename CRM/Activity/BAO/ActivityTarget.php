@@ -68,18 +68,15 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
     }
 
 
-    function retrieve( $id ) 
+    function retrieveTargetIdByActivityId( $activity_id ) 
     {
-        require_once 'CRM/Activity/DAO/ActivityTarget.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityTarget();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->target_entity_id;
+        $this->activity_id = $activity_id;
+        if ( $this->find( true ) ) {
+            return $this->target_contact_id;
         }
         return null;
     }
-    
+                                                    
 
     /**
      * takes an associative array and creates a Activity Assignment object

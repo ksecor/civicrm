@@ -34,7 +34,6 @@
  */
 
 require_once 'CRM/Activity/DAO/Activity.php';
-require_once 'api/History.php';
 
 /**
  * This class is for activity functions
@@ -70,7 +69,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         $this->copyValues( $params );
-        //$this->id = CRM_Utils_Array::value( 'id', $ids );
 
         $result = $this->save( );
 
@@ -128,7 +126,32 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
+
+            // TODO: at some stage we'll have to deal
+            // TODO: with multiple values for assignees and targets, but
+            // TODO: for now, let's just fetch first row
+            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+            $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
+            $assigneeContactId = $assignment->retrieveAssigneeIdByActivityId( $activity->id );
+            if ( $assigneeContactId ) { 
+                $defaults['assignee_contact_id'] = $assigneeContactId;
+                $defaults['assignee_contact'] = CRM_Contact_BAO_Contact::sortName( $assigneeContactId );
+            }
+            
+            require_once 'CRM/Activity/BAO/ActivityTarget.php';
+            $target =& new CRM_Activity_BAO_ActivityTarget( );
+            $targetContactId = $target->retrieveTargetIdByActivityId( $activity->id );
+            if ( $targetContactId ) { 
+                $defaults['target_contact_id'] = $targetContactId; 
+                $defaults['target_contact'] = CRM_Contact_BAO_Contact::sortName( $targetContactId );
+            }
+
+            $defaults['source_contact'] = CRM_Contact_BAO_Contact::sortName( $activity->source_contact_id );
+
             CRM_Core_DAO::storeValues( $activity, $defaults );
+
+            CRM_Core_Error::debug( 'y', $defaults);
+            
             return $activity;
         }
         return null;
@@ -160,15 +183,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $cutomDAO->delete();
         }
               
-        if ( $activityType == 'Meeting'){
-            $entityTable= 'civicrm_meeting';
-        } else if ($activityType == 'Phonecall'){
-            $entityTable = 'civicrm_phonecall';
-        }else{
-            $entityTable = 'civicrm_activity';
-        }
-        
-        eval ('$activity =& new CRM_Activity_DAO_' .$activityType. '( );');
+        $activity =& new CRM_Activity_DAO_Activity();
         $activity->id = $id;
         require_once 'CRM/Case/DAO/CaseActivity.php';
         $caseActivity =  new CRM_Case_DAO_CaseActivity();
@@ -235,7 +250,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
        $transaction->commit( );
                                                                                         
-       CRM_Core_Session::setStatus( ts('Activity has been saved.') );
+       CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
+
+       $logMsg = "Activity created for source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
+       $this->_logActivityAction( $activity, $logMsg );
+
        return $activity;
 
 
@@ -302,18 +321,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 //            }
 //        }
 
-        // Log the information on successful add/edit of Activity
-//        $session = & CRM_Core_Session::singleton();
-//        $id = $session->get('userID');
-//        require_once 'CRM/Core/BAO/Log.php';
-//        $logParams = array(
-//                           'entity_table'  => 'civicrm_activity' ,
-//                           'entity_id'     => $activity->id,
-//                           'modified_id'   => $id,
-//                           'modified_date' => date('Ymd')
-//                           );
-        
-//        CRM_Core_BAO_Log::add( $logParams );
+
       
 
         
@@ -356,6 +364,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return CRM_Utils_System::url('civicrm' ); 
         } 
     }
+
+    private function _logActivityAction( $activity, $logMessage = null ) {
+        $session = & CRM_Core_Session::singleton();
+        $id = $session->get('userID');
+        require_once 'CRM/Core/BAO/Log.php';
+        $logParams = array(
+                           'entity_table'  => 'civicrm_activity' ,
+                           'entity_id'     => $activity->id,
+                           'modified_id'   => $id,
+                           'modified_date' => date('Ymd'),
+                           'data'          => $logMessage
+                           );
+        CRM_Core_BAO_Log::add( $logParams );
+        return true;
+    }
+
    
 }
 

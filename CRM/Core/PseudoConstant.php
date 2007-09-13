@@ -337,22 +337,11 @@ class CRM_Core_PseudoConstant
      * @return array - array reference of all activty types.
      *
      */
-    public static function &activityType( $all = true )
+    public static function &activityType( )
     {
         require_once 'CRM/Core/OptionGroup.php';
         $activityType = CRM_Core_OptionGroup::values('activity_type');
-        
-        if ( $all ) {
-            return $activityType;
-        } else {
-            $otherActivities = array();
-            foreach( $activityType as $key => $value ) {
-                if ( $key > 4 ) {
-                    $otherActivities [$key] = $value;
-                }
-            }
-            return $otherActivities;
-        }
+        return $activityType;
     }
 
     /**

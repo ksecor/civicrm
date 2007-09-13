@@ -74,31 +74,13 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
             return;
         }
         
-        
-//        $urlParams = "activity_id=$this->_activityType&reset=1&cid=$this->_contactId&selectedChild=activity";
-//        if ( $this->_id ) {
-//            $urlParams .= "&action=update&id=$this->_id&context=activity";
-//        } else {
-//            $urlParams .= "&action=add";
-//        }
-        
-//        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-//                                      $urlParams ); 
-//        $this->assign("refreshURL",$url);
-//        $activityType = CRM_Core_PseudoConstant::activityType(false);
-       
-//        $this->applyFilter('__ALL__', 'trim');
-//        $this->add('select', 'activity_type_id', ts('Activity Type'), 
-//        array('' => ts('- select activity type -')) + $activityType,true, 
-//        array('onchange' => "if (this.value) reload(true); else return false"));
-              
         $this->add('text', 'description', ts('Description'),
                    CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ), false);
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
 
-        $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true);
-        $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate');
+        $this->add('date', 'activity_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true);
+        $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());
         $this->add('select','duration_minutes', null,CRM_Core_SelectValues::getMinutes());

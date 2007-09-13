@@ -121,7 +121,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                      'name'     => ts('Edit'),
                                                                      'url'      => 'civicrm/contact/view/activity',
 
-                                                                     'qs'       => "activity_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&subType={$activityType}",
+                                                                     'qs'       => "activity_type_id={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
                                                                      'title'    => ts('View Activity'),
                                                                      ),
                                     );

@@ -68,14 +68,10 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
     }
 
 
-    function retrieve( $id ) 
-    {
-        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->target_entity_id;
+    function retrieveAssigneeIdByActivityId( $activity_id ) {
+        $this->activity_id = $activity_id;
+        if ( $this->find( true ) ) {
+            return $this->assignee_contact_id;
         }
         return null;
     }

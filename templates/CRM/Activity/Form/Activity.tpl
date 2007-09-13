@@ -76,17 +76,17 @@
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
         {if $action eq 4}
-            <dt>{$form.scheduled_date_time.label}</dt><dd>{$scheduled_date_time|crmDate}</dd>
+            <dt>{$form.activity_date_time.label}</dt><dd>{$activity_date_time|crmDate}</dd>
         {else}
-            <dt>{$form.scheduled_date_time.label}</dt>
-            <dd>{$form.scheduled_date_time.html}</dd>
+            <dt>{$form.activity_date_time.label}</dt>
+            <dd>{$form.activity_date_time.html}</dd>
             <dt>&nbsp;</dt>
             <dd class="description">
                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_otheractivity_1}
             </dd>
             <dt>&nbsp;</dt>
             <dd class="description">
-{include file="CRM/common/calendar/body.tpl" dateVar=scheduled_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_otheractivity_1}
+	{include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear endDate=endYear offset=3 doTime=1 trigger=trigger_otheractivity_1}
             </dd>
         {/if}
     	<dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>

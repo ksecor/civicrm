@@ -49,6 +49,13 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_activityId;
 
     /**
+     * The id of activity type 
+     *
+     * @var int
+     */
+    protected $_activityTypeId;
+
+    /**
      * The id of currently viewed contact
      *
      * @var int
@@ -72,16 +79,16 @@ class CRM_Activity_Form extends CRM_Core_Form
     protected $_currentUserId;
 
 
+
+
     function preProcess( ) 
     {
 
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-        $this->_activityType = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this );
+        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this );
 
-        $page =& new CRM_Contact_Page_View();
-        
         $this->_currentlyViewedContactId = $this->get('contactId');
 
         // if we're not adding new one, there must be an id to
@@ -95,7 +102,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
         
         // get the tree of custom fields
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0,$this->_activityType);
+        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId);
 
         $this->setDefaultValues();
 
@@ -113,12 +120,16 @@ class CRM_Activity_Form extends CRM_Core_Form
         $defaults = array( );
         $params   = array( );
 
+        $defaults['activity_type_id'] = $this->_activityTypeId;
+
         // if we're editing...
         if ( isset( $this->_activityId ) ) {
-//            $params = array( 'id' => $this->_activityId );
-//            
-//            require_once "CRM/Activity/BAO/Activity.php";
-//            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityType );
+            $params = array( 'id' => $this->_activityId );
+            
+            require_once "CRM/Activity/BAO/Activity.php";
+            $bao = new CRM_Activity_BAO_Activity();
+            $bao->retrieve( $params, $defaults, $this->_activityTypeId );
+
 //            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             
 //            if (! $this->_subject){
@@ -187,19 +198,17 @@ class CRM_Activity_Form extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );
 
-        $urlParams = "reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity";
+        // prepare an URL for reloading after choosing activity type
+        $urlParams = "activity_type_id={$this->_activityTypeId}&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity";
         if ( $this->_activity_id ) {
-            $urlParams .= "&action=update&aid={$this->_activity_id}&context=activity";
+            $urlParams .= "&action=update&id={$this->_activity_id}";
         } else {
             $urlParams .= "&action=add";
         }
-        
-        
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $urlParams, true, null, false );
-
         $this->assign( "refreshURL", $url );
         
-        $activityType = CRM_Core_PseudoConstant::activityType(false);
+        $activityType = CRM_Core_PseudoConstant::activityType();
 
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'activity_type_id', ts('Activity Type'), 
