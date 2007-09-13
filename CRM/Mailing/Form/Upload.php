@@ -96,7 +96,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $domain->find( true );
 
         $this->add('text', 'from_name', ts('FROM Name'));
-        $this->add('text', 'from_email', ts('FROM Email'), NULL, true);
+        $this->add('text', 'from_email', ts('FROM'), NULL, true);
 
         $defaults['from_name' ] = $domain->email_name;
         $defaults['from_email'] = $domain->email_address;
@@ -105,9 +105,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $defaults['subject'] = $this->get('name');
       
         $attributes = array( 'onclick' => "showHideUpload();" );    
-        $options = array( ts('Upload'),  ts('Compose') );
+        $options = array( ts('Upload Content'),  ts('Compose On-screen') );
 
-        $this->addRadio( 'upload_type', ts('Message'), $options, $attributes, "&nbsp;");
+        $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
         $defaults['upload_type'] = 0; 
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
