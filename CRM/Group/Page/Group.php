@@ -368,6 +368,12 @@ ORDER BY title asc
         $clauses[] = 'domain_id = %5';
         $params[5] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
+        if ( count( $clauses ) > 1 ) {
+            $this->assign( 'isSearch', 1 );
+        } else {
+            $this->assign( 'isSearch', 0 );
+        }
+
         return implode( ' AND ', $clauses );
     }
 
