@@ -52,7 +52,7 @@ class CRM_Admin_Form_Preferences extends CRM_Core_Form
     protected $_params    = null;
 
     function preProcess( ) {
-        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Postive',
+        $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this, false );
         $this->_system    = CRM_Utils_Request::retrieve( 'system', 'Boolean',
                                                          $this, false, true );

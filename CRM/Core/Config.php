@@ -958,12 +958,12 @@ class CRM_Core_Config
 
         if ( $value & 1 ) {
             // clean templates_c
-            CRM_Utils_File::cleanDir( $this->templateCompileDir );
+            CRM_Utils_File::cleanDir ( $this->templateCompileDir );
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
         if ( $value & 2 ) {
             // clean upload dir
-            CRM_Utils_File::cleanDir( $this->uploadDir );
+            CRM_Utils_File::cleanDir ( $this->uploadDir );
             CRM_Utils_File::createDir( $this->uploadDir );
         }
     }

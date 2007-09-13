@@ -1088,6 +1088,11 @@ class CRM_Core_Invoke
             case 'address':
                 $output = $wrapper->run( 'CRM_Admin_Form_Preferences_Address', ts('Address Preferences'), null); 
                 break;
+            case 'date':
+                require_once 'CRM/Admin/Page/PreferencesDate.php';
+                $view   =& new CRM_Admin_Page_PreferencesDate(ts('View Date Prefences'));
+                $output =  $view->run( );
+                break;
             }
             break;
         case 'path' : 
