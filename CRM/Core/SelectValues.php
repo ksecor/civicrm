@@ -364,7 +364,7 @@ class CRM_Core_SelectValues
      * @return array         the date array
      * @static
      */
-    static function &date($type = 'birth', $min = null, $max = null, $dateParts = null)
+    static function &date( $type = 'birth', $min = null, $max = null, $dateParts = null)
     {
         static $_date = null;
         static $config = null;
@@ -385,12 +385,19 @@ class CRM_Core_SelectValues
         
         $newDate = $_date;
 
+        require_once 'CRM/Core/DAO/PreferencesDate.php';
+        $dao = new CRM_Core_DAO_PreferencesDate( );
+        $dao->name = $type;
+        if ( ! $dao->find( true ) ) {
+            CRM_Core_Error::fatal( );
+        }
+
         if ($type == 'birth') {
-            $minOffset = 100;
-            $maxOffset = 0;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'relative') {
-            $minOffset = 20;
-            $maxOffset = 20;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'custom') {
             $minOffset = $min; 
             $maxOffset = $max; 
@@ -405,30 +412,29 @@ class CRM_Core_SelectValues
                 $newDate['format'] = $stringFormat;
             }
         } elseif ($type == 'fixed') {
-            $minOffset = 0;
-            $maxOffset = 5;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ( $type == 'manual' ) {
             $minOffset = $min;
             $maxOffset = $max;
         } elseif ($type == 'creditCard') {
             $newDate['format'] = 'M Y';
-            $minOffset = 0;
-            $maxOffset = 10;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'mailing') {
-            $minOffset = 0;
-            $maxOffset = 1;
-            $newDate['format'] = 'Y M d H i';
-            $newDate['optionIncrement']['i'] = 15;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
+            $newDate['format'] = $dao->format;
+            $newDate['optionIncrement']['i'] = $dao->minute_increment;
         } elseif ($type == 'datetime') {
             require_once 'CRM/Utils/Date.php';
             $newDate['format'] = CRM_Utils_Date::posixToPhp($config->dateformatQfDatetime);
-            $newDate['optionIncrement']['i'] = 15;
-            // change this to minus 1 so folks can at least go back 1 year
-            $minOffset = 10;
-            $maxOffset = 3;
+            $newDate['optionIncrement']['i'] = $dao->minute_increment;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type =='duration') {
-            $newDate['format'] = 'H i';
-            $newDate['optionIncrement']['i'] = 15;
+            $newDate['format'] = $dao->format;
+            $newDate['optionIncrement']['i'] = $dao->minute_increment;
         }
         
         $year = date('Y');

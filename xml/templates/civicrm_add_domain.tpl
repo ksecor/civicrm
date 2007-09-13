@@ -260,7 +260,7 @@ VALUES
   (@option_group_id_adOpt, 'Longitude'         , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
 
   (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 ),
 
   (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -291,12 +291,13 @@ INSERT INTO `civicrm_preferences_date`
   (domain_id, name, start, end, minute_increment, format)
 VALUES
   ( @domain_id, 'birth'     , 100,  0,  0, null        ),
-  ( @domain_id, 'relative'  ,  20, 20,  0, null        ),
-  ( @domain_id, 'fixed'     ,   0,  5,  0, null        ),
   ( @domain_id, 'creditCard',   0, 10,  0, 'M Y'       ),
-  ( @domain_id, 'mailing'   ,   0,  1, 15, 'Y M d H i' ),
+  ( @domain_id, 'custom'    ,  20, 20, 15, 'Y M d H i' ),
   ( @domain_id, 'datetime'  ,  10,  3, 15, null        ),
-  ( @domain_id, 'duration'  ,   0,  0, 15, 'H i'       );
+  ( @domain_id, 'duration'  ,   0,  0, 15, 'H i'       ),
+  ( @domain_id, 'fixed'     ,   0,  5,  0, null        ),
+  ( @domain_id, 'mailing'   ,   0,  1, 15, 'Y M d H i' ),
+  ( @domain_id, 'relative'  ,  20, 20,  0, null        );
 
 -- various processor options
 --
