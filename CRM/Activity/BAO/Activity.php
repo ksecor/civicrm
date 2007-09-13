@@ -64,6 +64,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function add( &$params ) 
     {
+
         if ( ! $this->dataExists( $params ) ) {
             CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
         }
@@ -73,13 +74,17 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $result = $this->save( );
 
-//            CRM_Core_Error::debug( 'ass', $params );
-
         if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment();
             $assignment->add( $this->id, $params['assignee_contact_id'] );
         }
+        
+        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityTarget.php';
+            $assignment =& new CRM_Activity_BAO_ActivityTarget();
+            $assignment->add( $this->id, $params['target_contact_id'] );
+        }        
 
         return $result;
     }

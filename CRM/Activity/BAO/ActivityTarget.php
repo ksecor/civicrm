@@ -33,13 +33,13 @@
  *
  */
 
-require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+require_once 'CRM/Activity/DAO/ActivityTarget.php';
 
 /**
  * This class is for activity assignment functions
  *
  */
-class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssignment
+class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
 {
 
     /**
@@ -61,17 +61,17 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @access public
      * @static
      */
-    public function add( $activity_id, $assignee_contact_id ) {
+    public function add( $activity_id, $target_contact_id ) {
         $this->activity_id = $activity_id;
-        $this->assignee_contact_id = $assignee_contact_id;
+        $this->target_contact_id = $target_contact_id;
         return $this->save();
     }
 
 
     function retrieve( $id ) 
     {
-        require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
+        require_once 'CRM/Activity/DAO/ActivityTarget.php';
+        $activityAssign =  new CRM_Activity_DAO_ActivityTarget();
         $activityAssign->activity_entity_table = $entityTable;
         $activityAssign->activity_entity_id = $id;
         if ($activityAssign->find(true)){
@@ -90,7 +90,7 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @access public
      * @static
      */
-    static function &createActivityAssignment(&$params , $ids ) 
+    static function &createActivityTarget(&$params , $ids ) 
     {         
     }
     /**
@@ -106,8 +106,8 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      */
     public static function remove( $id )
     {
-      require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
+      require_once 'CRM/Activity/DAO/ActivityTarget.php';
+        $activityAssign =  new CRM_Activity_DAO_ActivityTarget();
         $activityAssign->activity_entity_table = $entityTable;
         $activityAssign->activity_entity_id = $id;
         if ($activityAssign->find(true)){

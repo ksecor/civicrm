@@ -78,7 +78,6 @@ class CRM_Activity_Form extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-//        require_once 'CRM/Utils/Request.php';
         $this->_activityType = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this );
 
         $page =& new CRM_Contact_Page_View();
@@ -149,7 +148,7 @@ class CRM_Activity_Form extends CRM_Core_Form
 
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
-            $defaults['activity_date_time']['i'] = (int ) ( $defaults['scheduled_date_time']['i'] / 15 ) * 15;
+            $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
         }
 
         $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
@@ -188,17 +187,18 @@ class CRM_Activity_Form extends CRM_Core_Form
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );
 
-        $urlParams = 'reset=1&cid=' . $this->_currentlyViewedContactId . '&selectedChild=activity';
+        $urlParams = "reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity";
         if ( $this->_activity_id ) {
-            $urlParams .= '&action=update&aid=' . $this->_activity_id . '&context=activity';
+            $urlParams .= "&action=update&aid={$this->_activity_id}&context=activity";
         } else {
-            $urlParams .= '&action=add';
+            $urlParams .= "&action=add";
         }
         
         
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $urlParams );
+        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $urlParams, true, null, false );
 
         $this->assign( "refreshURL", $url );
+        
         $activityType = CRM_Core_PseudoConstant::activityType(false);
 
         $this->applyFilter('__ALL__', 'trim');

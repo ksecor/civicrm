@@ -62,7 +62,6 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
         $this->assign( 'context', $this->_context );
         
-
         parent::preProcess();
         
     }
@@ -140,17 +139,13 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         $ids = array();
         
         // store the date with proper format
-        $params['scheduled_date_time']= CRM_Utils_Date::format( $params['scheduled_date_time'] );
+        $params['activity_date_time']= CRM_Utils_Date::format( $params['activity_date_time'] );
 
-        // store the contact id and current drupal user id
-        $params['source_contact_id'  ] = $this->_sourceCID;
-        $params['target_contact_id'   ] = $this->_targetCID;
+        // get ids for associated contacts
+        $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
+        $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
+        $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);        
 
-        //set parent id if exists for follow up activities
-        if ($this->_pid) {
-            $params['parent_id'] = $this->_pid;
-        }
-        
         if (0 or $this->_action & CRM_Core_Action::UPDATE ) {
             $ids['id'] = $this->_id;
             require_once 'CRM/Case/DAO/CaseActivity.php';
@@ -160,13 +155,8 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
             $caseActivity->find(true);
             $ids['cid'] = $caseActivity->id;
 //            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-//            $ActivityAssignment = new CRM_Activity_DAO_ActivityAssignment();
-//            $ActivityAssignment->activity_entity_table = 'civicrm_activity';
-//            $ActivityAssignment->activity_entity_id = $ids['id'];
-//            $ActivityAssignment->find(true);
-//            $ids['aid'] = $ActivityAssignment->id;
         }
-        $caseParams['to_contact'] = CRM_Case_BAO_Case::retrieveCid($params['to_contact']);
+
 
         require_once "CRM/Activity/BAO/Activity.php";
         $bao = new CRM_Activity_BAO_Activity();
