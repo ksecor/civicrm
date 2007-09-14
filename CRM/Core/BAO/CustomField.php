@@ -320,7 +320,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     public static function addQuickFormElement( &$qf,
                                                 $elementName,
                                                 $fieldId,
-                                                $inactiveNeeded,
+                                                $inactiveNeeded = false,
                                                 $useRequired = true,
                                                 $search = false,
                                                 $label = null ) 
@@ -766,6 +766,7 @@ DELETE g.*
         
         require_once "CRM/Profile/Form.php";
 
+        $value = null;
         if ( ! $contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
                 $value = $customField->default_value;
