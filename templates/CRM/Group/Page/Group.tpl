@@ -1,5 +1,4 @@
 {* Actions: 1=add, 2=edit, browse=16, delete=8 *}
-{debug}
 {if $action eq 16}
 <div id="help">
     {ts}Use Groups to organize contacts (e.g. these contacts are members of our 'Steering Committee'). You can also create 'smart' groups whose membership is based on contact characteristics (e.g. this group consists of all people in our database who live in a specific locality).{/ts} {help id="manage_groups"}
@@ -62,8 +61,8 @@
     </div>
 {/if} {* action ne add or edit *}
 </div>
-{else} {* No groups to list. Check isSearch flag to see if we're in a search or not. Display 'add group' prompt if user has 'edit groups' permission. *}
-    {if isSearch EQ 1}
+{* No groups to list. Check isSearch flag to see if we're in a search or not. Display 'add group' prompt if user has 'edit groups' permission. *}
+{elseif $isSearch eq 1}
         <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -80,7 +79,7 @@
             </dd>
         </dl>
         </div>
-    {else}
+{else}
         <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
@@ -92,5 +91,4 @@
             </dd>
         </dl>
         </div>
-    {/if}
 {/if}
