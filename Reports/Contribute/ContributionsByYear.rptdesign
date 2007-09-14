@@ -76,11 +76,9 @@
 count(contrib.id) AS ctNum,
 avg(contrib.total_amount) AS ctAvg,
 year(contrib.receive_date) as contribYear
-FROM civicrm_contribution AS contrib,
-civicrm_contact AS contact
-WHERE contrib.contact_id = contact.id 
+FROM civicrm_contribution AS contrib
 GROUP BY contribYear
-order by contribYear desc</property>
+ORDER BY contribYear desc</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -133,7 +131,7 @@ order by contribYear desc</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Math.abs((Total.sum(row["ctAmt"])/Total.sum(row["ctNum"]) + "").replace("NaN",""))</expression>
+                    <expression name="expression">Math.abs((Total.sum(row["ctAmt"])/Total.count() + "").replace("NaN",""))</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>

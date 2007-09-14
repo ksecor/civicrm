@@ -197,7 +197,7 @@ ORDER BY month(contrib.receive_date)</property>
                 </structure>
                 <structure>
                     <property name="name">avgContributions</property>
-                    <expression name="expression">Math.abs((Total.sum(row["ctAmt"])/Total.sum(row["ctNum"]) + "").replace("NaN",""))</expression>
+                    <expression name="expression">Math.abs((Total.sum(row["ctAmt"])/Total.count() + "").replace("NaN",""))</expression>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
