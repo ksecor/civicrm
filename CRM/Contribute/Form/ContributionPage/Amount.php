@@ -168,38 +168,32 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $params['min_amount'] = CRM_Utils_Rule::cleanMoney( $params['min_amount'] );
         $params['max_amount'] = CRM_Utils_Rule::cleanMoney( $params['max_amount'] );
         
-        require_once 'CRM/Core/DAO/CustomOption.php';
-            
-        // delete all the prior label values in the custom options table
-        $dao =& new CRM_Core_DAO_CustomOption( );
-        $dao->entity_table = 'civicrm_contribution_page'; 
-        $dao->entity_id    = $this->_id; 
-        $dao->delete( );
-        
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
-
         $default = CRM_Utils_Array::value( 'default', $params ); 
+
         $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params ,false);
         $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false);
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
+
+        $options = array( );
         if ( ! CRM_Utils_System::isNull( $values ) ) {
             for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
                 if ( isset( $values[$i] ) &&
                      ( strlen( trim( $values[$i] ) ) > 0 ) ) {
-                    $dao =& new CRM_Core_DAO_CustomOption( );
-                    $dao->label        = trim( CRM_Utils_Array::value( $i, $labels ) );
-                    $dao->value        = CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) );
-                    $dao->entity_table = 'civicrm_contribution_page';
-                    $dao->entity_id    = $this->_id;
-                    $dao->weight       = $i;
-                    $dao->is_active    = 1;
-                    $dao->save( );
-                    if ( $default == $i ) {
-                        $params['default_amount_id'] = $dao->id;
-                    }
+                    $options[] = array( 'label'      => trim( $labels[$i] ),
+                                        'value'      => CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) ),
+                                        'weight'     => $i,
+                                        'is_active'  => 1,
+                                        'is_default' => $default == $i );
                 }
+            }
+            if ( ! empty( $options ) ) {
+                $params['default_amount_id'] = null;
+                CRM_Core_OptionGroup::createAssoc( "civicrm_contribution_page.amount.{$this->_id}",
+                                                   $options,
+                                                   $params['default_amount_id'] );
             }
         }
         

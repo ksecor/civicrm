@@ -96,7 +96,7 @@ class CRM_Core_BAO_CustomOption {
      */
     static function setIsActive( $id, $is_active )
     {
-        return CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomOption', $id, 'is_active', $is_active );
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
     }
 
 
@@ -145,6 +145,8 @@ class CRM_Core_BAO_CustomOption {
      */
     static function getCustomValues($fieldId)
     {
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+
         $customValueDAO =& new CRM_Core_DAO_CustomValue();
         $customValueDAO->custom_field_id = $fieldId;
         $customValueDAO->find(true);
@@ -156,6 +158,8 @@ class CRM_Core_BAO_CustomOption {
 
     static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null, $entityTable = 'civicrm_custom_field')
     {
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+
         switch ($fieldType) {
 
         case null:
@@ -203,6 +207,8 @@ class CRM_Core_BAO_CustomOption {
      */
     static function del($optionId) 
     {
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/BAO/CustomValue.php';
         
@@ -289,6 +295,8 @@ class CRM_Core_BAO_CustomOption {
 
     static function updateCustomValues($params) 
     {
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+
         // FIXME: Custom Value schema redesign
         return;
 
@@ -346,6 +354,8 @@ class CRM_Core_BAO_CustomOption {
      * @static
      */
     static function getAssoc( $entity_table, $entity_id, &$values ) {
+        CRM_Core_Error::fatal( 'This function has been obsoleted' );
+
         require_once 'CRM/Core/DAO/CustomOption.php';  
         $dao =& new CRM_Core_DAO_CustomOption( );  
         $dao->entity_table = $entity_table;

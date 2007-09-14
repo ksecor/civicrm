@@ -219,6 +219,7 @@ WHERE  v.option_group_id = g.id
         // delete groupName if already present
         self::deleteAssoc( $groupName );
 
+        require_once 'CRM/Core/DAO/OptionGroup.php';
         $group = new CRM_Core_DAO_OptionGroup( );
         $group->domain_id   = CRM_Core_Config::domainID( );
         $group->name        = $groupName;
@@ -274,6 +275,20 @@ DELETE g, v
    AND g.name = %1";
         $params = array( 1 => array( $groupName, 'String' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
+    }
+
+    static function optionLabel( $groupName, $value ) {
+        $query = "
+SELECT v.label
+  FROM civicrm_option_group g,
+       civicrm_option_value v
+ WHERE g.id = v.option_group_id
+   AND g.name  = %1
+   AND v.value = %2";
+        $params = array( 1 => array( $groupName, 'String' ),
+                         2 => array( $value    , 'String' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+
     }
 }
 
