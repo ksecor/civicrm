@@ -85,8 +85,10 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             $defaults["event_type_id"] = $etype;
         }
         if( !isset ( $defaults['start_date'] ) || !isset ( $defaults['end_date'] ) ) {
-            $min = (int ) ( date("i") / 15 ) * 15;
-            $defaults['start_date'] = $defaults['end_date'] = array( 'i' => $min);
+            $defaultDate = array( );
+            CRM_Utils_Date::getAllDefaultValues( $defaultDate );
+            $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
+            $defaults['start_date'] = $defaults['end_date'] = $defaultDate;
         }
 
         if( isset($this->_groupTree) ) {
