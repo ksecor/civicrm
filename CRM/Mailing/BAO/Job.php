@@ -86,8 +86,19 @@ ORDER BY scheduled_date,
 
             $job->query($query);
         }
+
+        require_once 'CRM/Core/Lock.php';
+
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+            $lockName = "civimail.job.{$job->id}";
+
+            // get a lock on this job id
+            if ( ! CRM_Core_Lock::isFreeLock( $lockName ) ) {
+                continue;
+            }
+            CRM_Core_Lock::getLock( $lockName );
+
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
@@ -111,6 +122,7 @@ ORDER BY scheduled_date,
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
             
             if ( ! $isComplete ) {
+                CRM_Core_Lock::releaseLock( $lockName );
                 return;
             }
 
@@ -127,6 +139,8 @@ ORDER BY scheduled_date,
             $mailing->is_completed = true;
             $mailing->save();
             CRM_Core_DAO::transaction('COMMIT');
+
+            CRM_Core_Lock::releaseLock( $lockName );
         }
     }
 
@@ -304,7 +318,6 @@ ORDER BY scheduled_date,
         $details = crm_search( $params, $returnProperties, null, 0, 0 );
 
         foreach ( $fields as $contactID => $field ) {
-
             foreach ( $custom as $cfID ) {
                 if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
                     $details[0][$contactID]["custom_{$cfID}"] = 
