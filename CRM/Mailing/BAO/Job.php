@@ -114,36 +114,37 @@ ORDER BY scheduled_date,
             }
             
             $mailer =& $config->getMailer();
-            
+
             /* Compose and deliver */
             $isComplete = $job->deliver($mailer, $testParams);
 
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
             
-            if ( ! $isComplete ) {
-                CRM_Core_Lock::releaseLock( $lockName );
-                return;
-            }
-
-            /* Finish the job */
-            CRM_Core_DAO::transaction('BEGIN');
-            $job->end_date = date('YmdHis');
-            $job->status = 'Complete';
-            // CRM-992 - MySQL can't eat its own dates
-            $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-            $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
-            $job->save();
-            $mailing->reset();
-            $mailing->id = $job->mailing_id;
-            $mailing->is_completed = true;
-            $mailing->save();
-            CRM_Core_DAO::transaction('COMMIT');
-
+            if ( $isComplete ) {
+                /* Finish the job */
+                CRM_Core_DAO::transaction('BEGIN');
+                $job->end_date = date('YmdHis');
+                $job->status = 'Complete';
+                // CRM-992 - MySQL can't eat its own dates
+                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
+                $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
+                $job->save();
+                $mailing->reset();
+                $mailing->id = $job->mailing_id;
+                $mailing->is_completed = true;
+                $mailing->save();
+                CRM_Core_DAO::transaction('COMMIT');
+            } 
+            
             CRM_Core_Lock::releaseLock( $lockName );
+            
+            if ($testParams) {
+                return $isComplete;
+            } 
         }
     }
-
+    
     /**
      * Queue recipients of a job.
      *
@@ -251,7 +252,7 @@ ORDER BY scheduled_date,
         $eq->query($query);
 
         static $config = null;
-        static $mailsProcessed = 0;
+        $mailsProcessed = 0;
 
         if ( $config == null ) {
             $config =& CRM_Core_Config::singleton();
