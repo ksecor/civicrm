@@ -315,7 +315,8 @@ ORDER BY title asc
     function search( ) {
         if ( $this->_action &
              ( CRM_Core_Action::ADD    |
-               CRM_Core_Action::UPDATE ) ) {
+               CRM_Core_Action::UPDATE |
+               CRM_Core_Action::DELETE ) ) {
             return;
         }
 
