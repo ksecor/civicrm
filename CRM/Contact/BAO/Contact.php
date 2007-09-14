@@ -252,6 +252,11 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             return;
         }
 
+        $contact->id        = CRM_Utils_Array::value( 'contact', $ids );
+        if ( $contact->id ) {
+            $contact->find( true );
+        }
+
         //fixed contact source
         if ( isset($params['contact_source']) ) {
             $params['source'] = $params['contact_source'];
@@ -290,7 +295,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             //format individual fields
             require_once "CRM/Contact/BAO/Individual.php";
             CRM_Contact_BAO_Individual::format( $params, $contact );
-            
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
