@@ -16,7 +16,14 @@ Hold your mouse over the help (?) icon for more information on formats and requi
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-      <dl class="html-adjust">  
+      <dl class="html-adjust"> 
+	{if $template_value}
+		<script type="text/javascript">
+  			dojo.addOnLoad( function( ) {ldelim}
+    			dojo.widget.byId( 'template' ).setAllValues( '{$template_value[0]}', '{$template_value[1]}' ) 
+			{rdelim} );
+		</script>
+	{/if} 
 	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
   	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
         <dt>{$form.html_message.label}</dt> 
