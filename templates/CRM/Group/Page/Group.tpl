@@ -63,24 +63,24 @@
 </div>
 {* No groups to list. Check isSearch flag to see if we're in a search or not. Display 'add group' prompt if user has 'edit groups' permission. *}
 {elseif $isSearch eq 1}
-        <div class="status messages">
+    <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=browseURL}{crmURL p='civicrm/group' q="reset=1"}{/capture}
             <dd>
-                {ts 1=$browseURL}No available groups match your search criteria. Suggestions:
+                {ts 1=$browseURL}No available Groups match your search criteria. Suggestions:
                 <div class="spacer"></div>
                 <ul>
-                <li>Check your spelling</li>
-                <li>Try a different spelling or use fewer letters</li>
-                <li>Make sure you have enough privileges in the access control system</li>
+                <li>Check your spelling.</li>
+                <li>Try a different spelling or use fewer letters.</li>
+                <li>Make sure you have enough privileges in the access control system.</li>
                 </ul>
-                Or you can <a href="%1">browse all available groups</a>.{/ts}
+                Or you can <a href="%1">browse all available Groups</a>.{/ts}
             </dd>
         </dl>
-        </div>
+    </div>
 {else}
-        <div class="status messages">
+    <div class="status messages">
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
@@ -90,5 +90,5 @@
                 {/if}
             </dd>
         </dl>
-        </div>
+    </div>
 {/if}
