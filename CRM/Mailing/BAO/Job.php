@@ -94,10 +94,10 @@ ORDER BY scheduled_date,
             $lockName = "civimail.job.{$job->id}";
 
             // get a lock on this job id
-            if ( ! CRM_Core_Lock::isFreeLock( $lockName ) ) {
+            $lock = new CRM_Core_Lock( $lockName );
+            if ( ! $lock->isAcquired( ) ) {
                 continue;
             }
-            CRM_Core_Lock::getLock( $lockName );
 
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
@@ -137,7 +137,7 @@ ORDER BY scheduled_date,
                 CRM_Core_DAO::transaction('COMMIT');
             } 
             
-            CRM_Core_Lock::releaseLock( $lockName );
+            $lock->release( );
             
             if ($testParams) {
                 return $isComplete;

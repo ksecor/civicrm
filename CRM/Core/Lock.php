@@ -38,27 +38,51 @@ class CRM_Core_Lock {
     // lets have a 15 minute timeout window
     const TIMEOUT = 900;
 
-    static function getLock( $name, $timeout = null ) {
-        if ( ! $timeout ) {
-            $timeout = self::TIMEOUT;
+    protected $_hasLock = false;
+
+    protected $_name;
+
+    function __construct( $name, $timeout = null ) {
+        $this->_name    = $name;
+        $this->_timeout = $timeout ? $timeout : self::TIMEOUT;
+
+        if ( $this->isFree( ) ) {
+            $this->acquire( );
         }
-
-        $query  = "SELECT GET_LOCK( %1, %2 )";
-        $params = array( 1 => array( $name   , 'String'  ),
-                         2 => array( $timeout, 'Integer' ) );
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
-    static function releaseLock( $name ) {
-        $query = "SELECT RELEASE_LOCK( %1 )";
-        $params = array( 1 => array( $name, 'String' ) );
-        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    function __destruct( ) {
     }
 
-    static function isFreeLock( $name ) {
+    function acquire( ) {
+        if ( ! $this->_hasLock ) {
+            $this->_hasLock = true;
+            
+            $query  = "SELECT GET_LOCK( %1, %2 )";
+            $params = array( 1 => array( $this->_name   , 'String'  ),
+                             2 => array( $this->_timeout, 'Integer' ) );
+            CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+    }
+
+    function release( ) {
+        if ( $this->_hasLock ) {
+            $this->_hasLock = false;
+
+            $query = "SELECT RELEASE_LOCK( %1 )";
+            $params = array( 1 => array( $this->_name, 'String' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+    }
+
+    function isFree( ) {
         $query = "SELECT IS_FREE_LOCK( %1 )";
-        $params = array( 1 => array( $name, 'String' ) );
+        $params = array( 1 => array( $this->_name, 'String' ) );
         return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
+    function isAcquired( ) {
+        return $this->_hasLock;
     }
 
 }
