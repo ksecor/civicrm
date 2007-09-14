@@ -61,7 +61,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $mailing =& new CRM_Mailing_DAO_Mailing();
         
         $config =& CRM_Core_Config::singleton();
-        $jobTable = CRM_Mailing_DAO_Job::getTableName();
+        $jobTable     = CRM_Mailing_DAO_Job::getTableName();
+        $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
+        $domainID     = CRM_Core_Config::domainID( );
+
         if (!empty($testParams)) {
             $query = "
 SELECT *
@@ -73,16 +76,19 @@ SELECT *
             
             /* FIXME: we might want to go to a progress table.. */
             $query = "
-SELECT   *
-  FROM   $jobTable
- WHERE   is_test = 0
-   AND   ( ( start_date IS null
-   AND       scheduled_date <= $currentTime
-   AND       status = 'Scheduled' )
-    OR     ( status = 'Running'
-   AND       end_date IS null ) )
-ORDER BY scheduled_date,
-         start_date";
+SELECT   j.*
+  FROM   $jobTable     j,
+         $mailingTable m
+ WHERE   m.id = j.mailing_id
+   AND   j.is_test = 0
+   AND   m.domain_id = $domainID
+   AND   ( ( j.start_date IS null
+   AND       j.scheduled_date <= $currentTime
+   AND       j.status = 'Scheduled' )
+    OR     ( j.status = 'Running'
+   AND       j.end_date IS null ) )
+ORDER BY j.scheduled_date,
+         j.start_date";
 
             $job->query($query);
         }
@@ -91,7 +97,7 @@ ORDER BY scheduled_date,
 
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
-            $lockName = "civimail.job.{$job->id}";
+            $lockName = "civimail.job.{$domainID}.{$job->id}";
 
             // get a lock on this job id
             $lock = new CRM_Core_Lock( $lockName );
