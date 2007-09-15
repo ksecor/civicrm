@@ -150,7 +150,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 	
 	    require_once 'CRM/Contact/BAO/GroupOrganization.php';
 	    if ( isset ( $this->_id ) ) {
-	        $orgId = CRM_Contact_BAO_GroupOrganization::getOrganizationId( $this->_id );
+	        $orgId = CRM_Contact_BAO_GroupOrganization::getOrganizationIds( $this->_id );
 	        if ( $orgId ) {
 	            $defaults['add_group_org'] = 1;
 	            $defaults['select_group_org'] = $orgId;
