@@ -449,7 +449,7 @@ class CRM_Core_Config
     /**
      * to determine wether the call is from cms or civicrm 
      */
-    public $cmsCall  = false;
+    public $inCiviCRM  = false;
 
     /**
      * singleton function used to manage this object

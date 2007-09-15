@@ -63,7 +63,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $dao->id = $mailingID; 
             $dao->find(true);
             $dao->storeValues($dao, $defaults);
-            
+            if ( $defaults['msg_template_id'] ) {
+                $msg_title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_title' );
+                
+                $msg_text = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_text' );
+                $msg_html = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_html' );
+                
+                $this->assign( 'template_value',  
+                               array( $msg_title , $msg_text."^A". $msg_title."^A". $msg_html, $defaults['msg_template_id'] ) );
+            }
             if ($defaults['body_text']) {
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
@@ -73,8 +81,20 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
             }
+            
         }
-
+        
+        $domain = new CRM_Core_DAO_Domain( );
+        $domain->id = CRM_Core_Config::domainID( );
+        $domain->selectAdd( );
+        $domain->selectAdd( 'id, email_name, email_address' );
+        $domain->find( true );
+        
+        $defaults['from_name' ] = $domain->email_name;
+        $defaults['from_email'] = $domain->email_address;
+        $defaults['subject'] = $this->get('name');   
+        $defaults['upload_type'] = 1; 
+        $defaults['template' ]  = $defaults['subject'];
         return $defaults;
     }
 
@@ -88,27 +108,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         $session =& CRM_Core_Session::singleton();
-
-        $domain = new CRM_Core_DAO_Domain( );
-        $domain->id = CRM_Core_Config::domainID( );
-        $domain->selectAdd( );
-        $domain->selectAdd( 'id, email_name, email_address' );
-        $domain->find( true );
-
+        $domainID = CRM_Core_Config::domainID( );
         $this->add('text', 'from_name', ts('FROM Name'));
         $this->add('text', 'from_email', ts('FROM'), NULL, true);
 
-        $defaults['from_name' ] = $domain->email_name;
-        $defaults['from_email'] = $domain->email_address;
-        
         $this->add('text', 'subject', ts('Mailing Subject'), 'size=30 maxlength=60', true);
-        $defaults['subject'] = $this->get('name');
-      
+        
         $attributes = array( 'onclick' => "showHideUpload();" );    
         $options = array( ts('Upload Content'),  ts('Compose On-screen') );
 
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
-        $defaults['upload_type'] = 0; 
+
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
@@ -119,7 +129,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                  'autocomplete'   => 'false',
                                  'onValueChanged' => 'selectValue',
                                  'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/message',
-                                                                            "d=$domain->id" ),
+                                                                            "d=$domainID" ),
                                  );
             
             $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
@@ -140,19 +150,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         $dojoAttributes = array( 'dojoType'            => 'Editor2',
                                  'style'               => 'height:300px',
-                                 'widgetId'            => 'editor4',
-                                 'htmlEditing'         => 'true',
+                                 'widgetId'            => 'html_message',
                                  'useActiveX'          => 'true',
-                                 'shareToolbar'        => 'false',
                                  'toolbarTemplatePath' => 'src/widget/templates/EditorToolbarCiviMail.html',
                                  'toolbarCssPath'      => 'src/widget/templates/EditorToolbarCiviMail.css',
-                                 'onkeyup'             => 'return verify(this)',
+                                 'onkeyup'             => 'return verify(this)'
                                  );
-        $this->add( 'textarea', 
-                    'html_message', 
-                    ts('HTML Message'),
-                    $dojoAttributes );
 
+        $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
+       
         $this->addElement( 'file', 'textFile', ts('Upload TEXT Message'), 'size=30 maxlength=60' );
         $this->setMaxFileSize( 1024 * 1024 );
         $this->addRule( 'textFile', ts('File size should be less than 1 MByte'), 'maxfilesize', 1024 * 1024 );
@@ -183,7 +189,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                  )
                            );
         
-        $this->setDefaults($defaults);
+        
     }
     
     public function postProcess() 
@@ -239,8 +245,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set($key, $this->controller->exportvalue($this->_name, $key));
             }
             
-            $templateParams = array( 'msg_title'   => $params['name'],
-                                     'msg_text'    => $composeParams['text_message'],
+            $templateParams = array( 'msg_text'    => $composeParams['text_message'],
                                      'msg_html'    => $composeParams['html_message'],
                                      'msg_subject' => $params['subject'],
                                      'is_active'   => true
@@ -256,6 +261,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $templateIds = array('messageTemplate' => CRM_Utils_Array::key( $_POST['template_selected'],
                                                                                 $this->_templates ) 
                                      );
+                $templateParams['msg_title'] = $composeParams['template_selected'];
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
             }
             

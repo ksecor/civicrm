@@ -317,7 +317,17 @@ SELECT count(civicrm_mailing.id)
 
         $clauses[] = 'domain_id = %4';
         $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
-        
+
+        // dont do a the below assignement when doing a 
+        // AtoZ pager clause
+        if ( $sortBy ) {
+            if ( count( $clauses ) > 1 ) {
+                $this->_parent->assign( 'isSearch', 1 );
+            } else {
+                $this->_parent->assign( 'isSearch', 0 );
+            }
+        }
+
         return implode( ' AND ', $clauses );
     }
 

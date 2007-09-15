@@ -26,34 +26,66 @@
 */
 
 /**
- * A PHP cron script to run the outstanding and scheduled CiviMail jobs
- * initiated by Owen Barton from a mailing sent by Lobo to crm-mail
  *
- * The structure of the file is set to mimiic soap.php which is a stand-alone
- * script and hence does not have any UF issues. You should be able to run
- * this script using a web url or from the command line
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
  */
 
-function processQueue( ) {
-    require_once 'CRM/Mailing/BAO/Job.php';
-    CRM_Mailing_BAO_Job::runJobs();
+class CRM_Core_Lock {
+
+    // lets have a 1 second timeout for now
+    const TIMEOUT = 1;
+
+    protected $_hasLock = false;
+
+    protected $_name;
+
+    function __construct( $name, $timeout = null ) {
+        $this->_name    = $name;
+        $this->_timeout = $timeout ? $timeout : self::TIMEOUT;
+
+        $this->acquire( );
+    }
+
+    function __destruct( ) {
+        $this->release( );
+    }
+
+    function acquire( ) {
+        if ( ! $this->_hasLock ) {
+            $query  = "SELECT GET_LOCK( %1, %2 )";
+            $params = array( 1 => array( $this->_name   , 'String'  ),
+                             2 => array( $this->_timeout, 'Integer' ) );
+            $res = CRM_Core_DAO::singleValueQuery( $query, $params );
+            if ( $res ) {
+                $this->_hasLock = true;
+            }
+        }
+        return $this->_hasLock;
+    }
+
+    function release( ) {
+        if ( $this->_hasLock ) {
+            $this->_hasLock = false;
+
+            $query = "SELECT RELEASE_LOCK( %1 )";
+            $params = array( 1 => array( $this->_name, 'String' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+    }
+
+    function isFree( ) {
+        $query = "SELECT IS_FREE_LOCK( %1 )";
+        $params = array( 1 => array( $this->_name, 'String' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
+    function isAcquired( ) {
+        return $this->_hasLock;
+    }
+
 }
-
-function run( ) {
-    session_start( );                               
-                                            
-    require_once '../civicrm.config.php'; 
-    require_once 'CRM/Core/Config.php'; 
-    
-    $config =& CRM_Core_Config::singleton(); 
-
-    // this does not return on failure
-    CRM_Utils_System::authenticateScript( true );
-
-    // we now use DB locks on a per job basis
-    processQueue( );
-}
-
-run( );
 
 ?>

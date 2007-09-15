@@ -61,7 +61,10 @@ class CRM_Mailing_BAO_Job extends CRM_Mailing_DAO_Job {
         $mailing =& new CRM_Mailing_DAO_Mailing();
         
         $config =& CRM_Core_Config::singleton();
-        $jobTable = CRM_Mailing_DAO_Job::getTableName();
+        $jobTable     = CRM_Mailing_DAO_Job::getTableName();
+        $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
+        $domainID     = CRM_Core_Config::domainID( );
+
         if (!empty($testParams)) {
             $query = "
 SELECT *
@@ -73,21 +76,35 @@ SELECT *
             
             /* FIXME: we might want to go to a progress table.. */
             $query = "
-SELECT   *
-  FROM   $jobTable
- WHERE   is_test = 0
-   AND   ( ( start_date IS null
-   AND       scheduled_date <= $currentTime
-   AND       status = 'Scheduled' )
-    OR     ( status = 'Running'
-   AND       end_date IS null ) )
-ORDER BY scheduled_date,
-         start_date";
+SELECT   j.*
+  FROM   $jobTable     j,
+         $mailingTable m
+ WHERE   m.id = j.mailing_id
+   AND   j.is_test = 0
+   AND   m.domain_id = $domainID
+   AND   ( ( j.start_date IS null
+   AND       j.scheduled_date <= $currentTime
+   AND       j.status = 'Scheduled' )
+    OR     ( j.status = 'Running'
+   AND       j.end_date IS null ) )
+ORDER BY j.scheduled_date,
+         j.start_date";
 
             $job->query($query);
         }
+
+        require_once 'CRM/Core/Lock.php';
+
         /* TODO We should parallelize or prioritize this */
         while ($job->fetch()) {
+            $lockName = "civimail.job.{$domainID}.{$job->id}";
+
+            // get a lock on this job id
+            $lock = new CRM_Core_Lock( $lockName );
+            if ( ! $lock->isAcquired( ) ) {
+                continue;
+            }
+
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
                 CRM_Core_DAO::transaction('BEGIN');
@@ -103,33 +120,37 @@ ORDER BY scheduled_date,
             }
             
             $mailer =& $config->getMailer();
-            
+
             /* Compose and deliver */
             $isComplete = $job->deliver($mailer, $testParams);
 
             require_once 'CRM/Utils/Hook.php';
             CRM_Utils_Hook::post( 'create', 'CRM_Mailing_DAO_Spool', $job->id, $isComplete);
             
-            if ( ! $isComplete ) {
-                return;
-            }
-
-            /* Finish the job */
-            CRM_Core_DAO::transaction('BEGIN');
-            $job->end_date = date('YmdHis');
-            $job->status = 'Complete';
-            // CRM-992 - MySQL can't eat its own dates
-            $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-            $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
-            $job->save();
-            $mailing->reset();
-            $mailing->id = $job->mailing_id;
-            $mailing->is_completed = true;
-            $mailing->save();
-            CRM_Core_DAO::transaction('COMMIT');
+            if ( $isComplete ) {
+                /* Finish the job */
+                CRM_Core_DAO::transaction('BEGIN');
+                $job->end_date = date('YmdHis');
+                $job->status = 'Complete';
+                // CRM-992 - MySQL can't eat its own dates
+                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
+                $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
+                $job->save();
+                $mailing->reset();
+                $mailing->id = $job->mailing_id;
+                $mailing->is_completed = true;
+                $mailing->save();
+                CRM_Core_DAO::transaction('COMMIT');
+            } 
+            
+            $lock->release( );
+            
+            if ($testParams) {
+                return $isComplete;
+            } 
         }
     }
-
+    
     /**
      * Queue recipients of a job.
      *
@@ -237,7 +258,7 @@ ORDER BY scheduled_date,
         $eq->query($query);
 
         static $config = null;
-        static $mailsProcessed = 0;
+        $mailsProcessed = 0;
 
         if ( $config == null ) {
             $config =& CRM_Core_Config::singleton();
@@ -304,7 +325,6 @@ ORDER BY scheduled_date,
         $details = crm_search( $params, $returnProperties, null, 0, 0 );
 
         foreach ( $fields as $contactID => $field ) {
-
             foreach ( $custom as $cfID ) {
                 if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
                     $details[0][$contactID]["custom_{$cfID}"] = 

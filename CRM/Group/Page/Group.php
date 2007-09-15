@@ -331,7 +331,8 @@ ORDER BY title asc
     function search( ) {
         if ( $this->_action &
              ( CRM_Core_Action::ADD    |
-               CRM_Core_Action::UPDATE ) ) {
+               CRM_Core_Action::UPDATE |
+               CRM_Core_Action::DELETE ) ) {
             return;
         }
 
@@ -383,6 +384,16 @@ ORDER BY title asc
 
         $clauses[] = 'domain_id = %5';
         $params[5] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        // dont do a the below assignement when doing a 
+        // AtoZ pager clause
+        if ( $sortBy ) {
+            if ( count( $clauses ) > 1 ) {
+                $this->assign( 'isSearch', 1 );
+            } else {
+                $this->assign( 'isSearch', 0 );
+            }
+        }
 
         return implode( ' AND ', $clauses );
     }

@@ -135,7 +135,7 @@ class CRM_Core_BAO_CMSUser
             
             $res = drupal_execute( 'user_register', $values );
             
-            $config->cmsCall = false;
+            $config->inCiviCRM = false;
 
             if ( form_get_errors( ) ) {
                 return false;

@@ -105,7 +105,10 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
         $job->save( );
         
         $testParams['job_id'] = $job->id;
-        CRM_Mailing_BAO_Job::runJobs($testParams);
+        $isComplete = false;
+        while (!$isComplete) {
+            $isComplete = CRM_Mailing_BAO_Job::runJobs($testParams);
+         }
         return true;
     }
     

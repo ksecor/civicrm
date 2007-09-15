@@ -244,7 +244,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
-                        AND             $location.is_primary = 1
                         AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -1430,20 +1429,25 @@ SELECT DISTINCT( m.id ) as id
             $dao->mailing_id = $id;
             
             if ( $className == 'CRM_Mailing_DAO_Job' ) {
-                $dao->find(true);
-                if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
-                    $daoSpool = new CRM_Mailing_BAO_Spool();
-                    $daoSpool->job_id = $dao->id;
-                    if ( $daoSpool->find( true ) ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                $dao->find( );
+                while ($dao->fetch()) {
+                    if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
+                        $daoSpool = new CRM_Mailing_BAO_Spool();
+                        $daoSpool->job_id = $dao->id;
+                        if ( $daoSpool->find( true ) ) {
+                            CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                            return;
+                        }
+                    } elseif ( $dao->status == 'Running' ) {
+                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
                         return;
                     }
-                } elseif ( $dao->status == 'Running' ) {
-                    CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
-                    return;
+                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
+                    $daoQueue->deleteEventQueue( $dao->id, 'job');
+                    
+                    $dao->delete();
                 }
-                $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                $daoQueue->deleteEventQueue( $dao->id, 'job');
+                continue;
             }
             
             $dao->delete();
@@ -1492,7 +1496,9 @@ SELECT DISTINCT( m.id ) as id
         }
 
         $returnProperties = array( );
-        $returnProperties['display_name'] = $returnProperties['contact_id'] = 1;
+        $returnProperties['display_name'] = 
+            $returnProperties['contact_id'] = $returnProperties['preferred_mail_format'] = 1;
+
         foreach ( $properties as $p ) {
             $returnProperties[$p] = 1;
         }

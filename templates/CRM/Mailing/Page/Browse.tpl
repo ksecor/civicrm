@@ -9,8 +9,9 @@
     <a href="{crmURL p='civicrm/mailing/send' q='reset=1'}">&raquo; {ts}New Mailing{/ts}</a>
 </div>
 
-{if $rows}
 {include file="CRM/Mailing/Form/Search.tpl"}
+
+{if $rows}
 {include file="CRM/common/pager.tpl" location="top"}
 {include file="CRM/common/pagerAToZ.tpl}
 
@@ -50,12 +51,29 @@
 </div>
 
 
+{* No mailings to list. Check isSearch flag to see if we're in a search or not. *}
+{elseif $isSearch eq 1}
+    <div class="status messages">
+        <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
+            {capture assign=browseURL}{crmURL p='civicrm/mailing/browse' q="reset=1"}{/capture}
+            <dd>
+                {ts 1=$browseURL}No Sent Mailings match your search criteria. Suggestions:
+                <div class="spacer"></div>
+                <ul>
+                <li>Check your spelling.</li>
+                <li>Try a different spelling or use fewer letters.</li>
+                </ul>
+                Or you can <a href="%1">browse all Sent Mailings</a>.{/ts}
+            </dd>
+        </dl>
+    </div>
 {else}
-<div class="messages status">
-    <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/mailing/send' q='reset=1'}{/capture}
-        <dd>{ts 1=$crmURL}There are no sent mails. You can <a href="%1">send one</a>.{/ts}</dd>
-    </dl>
+    <div class="messages status">
+        <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+            {capture assign=crmURL}{crmURL p='civicrm/mailing/send' q='reset=1'}{/capture}
+            <dd>{ts 1=$crmURL}There are no Sent Mailings. You can <a href="%1">create and send one</a>.{/ts}</dd>
+        </dl>
    </div>
 {/if}
