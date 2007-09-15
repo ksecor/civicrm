@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-09-11 07:42-0700\n"
+"PO-Revision-Date: 2007-09-13 07:04-0700\n"
 "Last-Translator: Peter Häggstrand <peter.haggstrand@vxu.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,14 +151,12 @@ msgid "All Groups"
 msgstr "Alla Grupper"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Custom Groups"
-msgstr "Alla Grupper"
+msgstr "Alla anpassade grupper"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Profiles"
-msgstr "Välj profil"
+msgstr "Alla profiler"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -223,9 +221,8 @@ msgid "Custom Group"
 msgstr "Allmän grupp"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
-#, fuzzy
 msgid "Activity Entity Table"
-msgstr "Tabellenhet"
+msgstr "Aktivitetsenheter tabell"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/DAO/Meeting.php CRM/Activity/DAO/Phonecall.php
@@ -500,14 +497,12 @@ msgid "Settings - Payment Processor"
 msgstr "Inställningar -betalningsprocess"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "Site URL"
-msgstr "Hemsidans URL"
+msgstr "Webbplatsens URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Enter a valid URL"
-msgstr "Ange en giltig hemsida"
+msgstr "Ange en giltig URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -608,9 +603,8 @@ msgid "Configure"
 msgstr "Konfigurera"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Option Lists"
-msgstr "Val"
+msgstr "Alternativ"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
@@ -652,7 +646,6 @@ msgstr "Kartläggning"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
-#, fuzzy
 msgid "Localization"
 msgstr "Landsinställningar"
 
@@ -956,17 +949,15 @@ msgstr "%1 är ett obligatoriskt fält"
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External Id"
-msgstr ""
+msgstr "Externt ID"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "External ID already exists in Database."
-msgstr "Namnet finns redan i databasen"
+msgstr "Externt ID finns redan i databasen"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Matching Contact button below."
@@ -975,10 +966,10 @@ msgid_plural ""
 "Save Matching Contact button below."
 msgstr[0] ""
 "En matchande kontakt hittades. Du kan ändra den här: %1, eller klicka på "
-"spara kontaktdublett nedan"
+"spara matchande kontakt nedan."
 msgstr[1] ""
 "%count matchande kontakter hittades. Du kan ändra dem här: %1, eller klicka "
-"på spara kontaktdublett nedan"
+"på spara matchande kontakt nedan."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -2007,18 +1998,16 @@ msgid "Please select a set of Custom Data (or ALL Custom Data)."
 msgstr "Välj en grupp av anpassad data (eller ALL anpassad data)"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Vald typ av medverkan har raderats"
+msgstr "Vald ACL har raderats"
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
 msgstr "Tilldelad"
 
 #: CRM/ACL/Form/EntityRole.php
-#, fuzzy
 msgid "Selected Entity Role has been deleted."
-msgstr "Vald typ av medverkan har raderats"
+msgstr "Vald roll har raderats"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
@@ -2046,91 +2035,92 @@ msgstr "Valfri roll"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av denna ACL rolltilldelning?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Ändra ACL rolltilldelning"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Stäng av ACL-rolltilldelning"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Slå på ACL-rolltilldelning"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Ta bort ACL-rolltilldelning"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Tilldela användare roller"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "\"%1\" har loggats i aktivitetshistoriken."
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been saved."
-msgstr ""
+msgstr "\"%1\" har sparats."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr ""
+msgstr "- välj aktivitetstyp -"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
-msgstr ""
+msgstr "Välj telefonnummer"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
-msgstr ""
+msgstr "ELLER nytt telefonnummer"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr ""
+msgstr "Det valda telefonsamtalet har tagits bort."
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
-#, fuzzy
 msgid "Field"
-msgstr "Fil"
+msgstr "Fält"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "- none -"
-msgstr "- vilket som land -"
+msgstr "- inget -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
-msgstr ""
+msgstr "Längd"
 
 #: CRM/Admin/Form/DedupeRules.php
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr ""
+msgstr "Viktad tröskel för när kontakter ska anses 'matcha' varann:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
-msgstr ""
+msgstr "Matcha per:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
+"Regeln för dublettmatchningar har inte sparats eftersom regeln inte är "
+"giltig. Regler får bara innehålla giltiga fältnamn, 'AND', 'OR' eller "
+"paranteser."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
-msgstr ""
+msgstr "Regeln för dublettmatchningar har sparats."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr ""
+msgstr "Namn kan bara bestå av alfa-numeriska tecken"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
-msgstr ""
+msgstr "Namn på vCard"
 
 #: CRM/Admin/Form/LocationType.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -2140,324 +2130,293 @@ msgstr "Standard?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr ""
+msgstr "Den valda lokaliseringstypen har tagits bort."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
-msgstr ""
+msgstr "Lokaliseringstypen \"%1\" har sparats."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Title"
-msgstr "Meddelande"
+msgstr "Meddelandetitel"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Subject"
-msgstr "Ämne"
+msgstr "Meddelandets ämne"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "Text Message"
-msgstr "Lämnat meddelande"
+msgstr "Textmeddelande"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "HTML Message"
-msgstr "Lämnat meddelande"
+msgstr "HTML-meddelande"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "The Message Template \"%1\" has been saved."
-msgstr "Gruppen \"%1\" har raderats"
+msgstr "Meddelandemallen \"%1\" har sparats."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "Selected option group has been deleted."
-msgstr ""
+msgstr "Vald alternativgrupp har tagits bort."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "The Option Group \"%1\" has been saved."
-msgstr ""
+msgstr "Alternativgruppen \"%1\" har sparats."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has been deleted."
-msgstr "Vald typ av medverkan har raderats"
+msgstr "Vald typ har raderats."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has not been deleted."
-msgstr "Vald typ av medverkan har raderats"
+msgstr "Vald typ har inte tagits bort."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "The %1 \"%2\" has been saved."
-msgstr "Gruppen \"%1\" har raderats"
+msgstr "%1 \"%2\" har sparats."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Default Option?"
-msgstr "Standard?"
+msgstr "Standardalternativ?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Option Group?"
-msgstr "Namn på Gruppval"
+msgstr "Alternativgrupp?"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Selected option value has been deleted."
-msgstr ""
+msgstr "Valt alternativvärde har tagits bort."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "The Option Value \"%1\" has been saved."
-msgstr ""
+msgstr "Alternativvärdet \"%1\" har sparats."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Could not find payment processor meta information"
-msgstr ""
+msgstr "Kunde inte hitta metainformationen för betalningsmotorn"
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor active?"
-msgstr "Betalingsmotor"
+msgstr "Är betalningsmotorn aktiv?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor the default?"
-msgstr "Betalingsmotor"
+msgstr "Är detta den förvalda betalningsmotorn?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
-msgstr ""
+msgstr "Du måste ha åtminstone test- eller live-sektionen ifylld"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the user_name specified"
-msgstr ""
+msgstr "Du måste ha specificerat åtminstone user_name"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a positive integer"
-msgstr ""
+msgstr "Fyll i ett positivt tal"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "User Name Label"
-msgstr ""
+msgstr "Etikett för användarnamn"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Password Label"
-msgstr ""
+msgstr "Etikett för lösenord"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Signature Label"
-msgstr "Fältnamn"
+msgstr "Etikett för signatur"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Subject Label"
-msgstr "Ämne"
+msgstr "Etikett för ämne"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
-msgstr ""
+msgstr "PHP klassnamn"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Live Site URL"
-msgstr "Hemsidans URL"
+msgstr "Skarpa webbplatsens URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Recurring Payments URL"
-msgstr ""
+msgstr "Skarp URL för återkommande betalningar"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Button URL"
-msgstr ""
+msgstr "URL till skarp knapp"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Site URL"
-msgstr "Hemsidans URL"
+msgstr "Testwebbplatsens URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Recurring Payments URL"
-msgstr ""
+msgstr "URL till testet av återkommande betalningar"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Button URL"
-msgstr ""
+msgstr "URL till testknapp"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Is this Payment Processor Type active?"
-msgstr "Betalingsmotor"
+msgstr "Är denna typ av betalningsmotor aktiv?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
-msgstr ""
+msgstr "Är denna typ av betalningsmotor den förvalda?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Does this Payment Processor Type support recurring donations?"
-msgstr ""
+msgstr "Stödjer denna typ av betalningsmotorer återkommande betalningar?"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Settings - Addresses"
-msgstr "Gatuadress"
+msgstr "Inställningar - Adresser"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Number of Locations"
-msgstr "Högsta belopp"
+msgstr "Antal platser"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr ""
+msgstr "Platsantalet måste vara ett positivt tal (t ex 1, 2 3...)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
-msgstr ""
+msgstr "Format för e-postetikett"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Display Format"
-msgstr "Visa namn"
+msgstr "Visningsformat"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Provider"
-msgstr "Förhandsgranska"
+msgstr "Leverantör"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "User ID"
-msgstr ""
+msgstr "Användar-ID"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Web Service URL"
-msgstr ""
+msgstr "URL till webbtjänsten"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Address Standardization features require PHP version 5 or greater."
-msgstr ""
+msgstr "Standardiseringsfunktionen för adresser kräver PHP 5 eller nyare."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "You must provide values for all three Address Standarization fields."
-msgstr ""
+msgstr "Du måste ange värden för alla tre standardiseringsfälten."
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Settings - Site Preferences"
-msgstr "Gatuadress"
+msgstr "Inställningar -webbplatsinställningar"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Viewing Contacts"
-msgstr "Hitta kontakter"
+msgstr "Granskar kontakter"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Editing Contacts"
-msgstr "Hitta kontakter"
+msgstr "Redigerar kontakter"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-A to B"
-msgstr ""
+msgstr "Relationsetikett A-B"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-B to A"
-msgstr ""
+msgstr "Relationsetikett B-A"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Selected Relationship type has been deleted."
-msgstr ""
+msgstr "Vald relationstyp har tagits bort."
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "The Relationship Type has been saved."
-msgstr ""
+msgstr "Relationstypen har sparats."
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
-msgstr ""
+msgstr "Inställningar -Slå på komponenter"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "Enable >>"
-msgstr "Aktivera"
+msgstr "Slå på"
 
 #: CRM/Admin/Form/Setting/Component.php
-#, fuzzy
 msgid "<< Disable"
-msgstr "Avaktivera"
+msgstr "Stäng av"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Settings - Date"
-msgstr "Inställningar"
+msgstr "Inställningar -datum"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date and Time"
-msgstr "Datum och Tid"
+msgstr "Fullständigt datum och tid"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Complete Date"
-msgstr "Klart"
+msgstr "Fullständigt datum"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Month and Year"
-msgstr ""
+msgstr "Månad och år"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Year Only"
-msgstr ""
+msgstr "Endast år"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Fiscal Year Start"
-msgstr ""
+msgstr "Start för fiskalt år"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Settings - Debugging"
-msgstr ""
+msgstr "Inställningar -felhantering"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Enable Debugging"
-msgstr ""
+msgstr "Slå på felhantering"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Display Backtrace"
-msgstr "Visa namn"
+msgstr "Visa bakåtspårning"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr ""
+msgstr "Mall för fatala fel"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Handler"
-msgstr ""
+msgstr "Handler för fatala fel"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Settings - Localization"
-msgstr "Landsinställningar"
+msgstr "Inställningar -Landsinställningar"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "User Language"
-msgstr ""
+msgstr "Användarspråk"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Monetary Locale"
-msgstr ""
+msgstr "Valutalokalisering"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Monetary Display"
-msgstr ""
+msgstr "Valutavisning"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available Countries"
-msgstr ""
+msgstr "Tillgängliga länder"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Add >>"
