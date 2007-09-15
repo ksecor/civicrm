@@ -66,7 +66,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-
+	//	print "About to edit location data";
         //format the params accord to new format. ie. we create all
         //email at one time, then move to another block element.
 

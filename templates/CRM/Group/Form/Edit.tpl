@@ -44,7 +44,7 @@
 </fieldset>
 </div>
 
-<div class="form-item">
+<div id="group_org_add" class="form-item">
 <fieldset><legend>{ts}Organization{/ts}</legend>
  
     <dl>
@@ -53,12 +53,14 @@
     </dl>
 
     <dl>
-    <dt>{$form.remove_group_org.label}</dt>
-    <dd>{$form.remove_group_org.html}</dt>
+    <dt>{$form.select_group_org.label}</dt>
+    <dd>{$form.select_group_org.html}</dd>
     </dl>
-
+    
 </fieldset>
 </div>
+
+
 
 {$form.buttons.html}
 
