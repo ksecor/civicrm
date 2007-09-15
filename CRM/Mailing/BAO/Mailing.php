@@ -1407,20 +1407,25 @@ SELECT DISTINCT( m.id ) as id
             $dao->mailing_id = $id;
             
             if ( $className == 'CRM_Mailing_DAO_Job' ) {
-                $dao->find(true);
-                if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
-                    $daoSpool = new CRM_Mailing_BAO_Spool();
-                    $daoSpool->job_id = $dao->id;
-                    if ( $daoSpool->find( true ) ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                $dao->find( );
+                while ($dao->fetch()) {
+                    if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
+                        $daoSpool = new CRM_Mailing_BAO_Spool();
+                        $daoSpool->job_id = $dao->id;
+                        if ( $daoSpool->find( true ) ) {
+                            CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                            return;
+                        }
+                    } elseif ( $dao->status == 'Running' ) {
+                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
                         return;
                     }
-                } elseif ( $dao->status == 'Running' ) {
-                    CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
-                    return;
+                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
+                    $daoQueue->deleteEventQueue( $dao->id, 'job');
+                    
+                    $dao->delete();
                 }
-                $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                $daoQueue->deleteEventQueue( $dao->id, 'job');
+                continue;
             }
             
             $dao->delete();
