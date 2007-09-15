@@ -35,8 +35,8 @@
 
 class CRM_Core_Lock {
 
-    // lets have a 15 minute timeout window
-    const TIMEOUT = 900;
+    // lets have a 1 second timeout for now
+    const TIMEOUT = 1;
 
     protected $_hasLock = false;
 
@@ -46,9 +46,7 @@ class CRM_Core_Lock {
         $this->_name    = $name;
         $this->_timeout = $timeout ? $timeout : self::TIMEOUT;
 
-        if ( $this->isFree( ) ) {
-            $this->acquire( );
-        }
+        $this->acquire( );
     }
 
     function __destruct( ) {
@@ -56,13 +54,15 @@ class CRM_Core_Lock {
 
     function acquire( ) {
         if ( ! $this->_hasLock ) {
-            $this->_hasLock = true;
-            
             $query  = "SELECT GET_LOCK( %1, %2 )";
             $params = array( 1 => array( $this->_name   , 'String'  ),
                              2 => array( $this->_timeout, 'Integer' ) );
-            CRM_Core_DAO::singleValueQuery( $query, $params );
+            $res = CRM_Core_DAO::singleValueQuery( $query, $params );
+            if ( $res ) {
+                $this->_hasLock = true;
+            }
         }
+        return $this->_hasLock;
     }
 
     function release( ) {
