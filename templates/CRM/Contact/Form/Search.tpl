@@ -20,7 +20,7 @@
   <label>
         {if $context EQ 'smog'}{ts}Find Members within this Group{/ts}
         {elseif $context EQ 'amtg'}{ts}Find Contacts to Add to this Group{/ts}
-        {else}{ts}Search Criteria{/ts}{/if}
+        {else}{ts}Edit Search Criteria{/ts}{/if}
   </label>
 </div>
 
@@ -33,6 +33,10 @@
 {/if}
 
 {if $rows}
+    {* Search request has returned 1 or more matching rows. Display results and collapse the search criteria fieldset. *}
+    {assign var="showBlock" value="'searchForm_show'"}
+    {assign var="hideBlock" value="'searchForm'"}
+    
     {* Search request has returned 1 or more matching rows. *}
     <fieldset>
     
