@@ -50,6 +50,7 @@ class CRM_Core_Lock {
     }
 
     function __destruct( ) {
+        $this->release( );
     }
 
     function acquire( ) {
