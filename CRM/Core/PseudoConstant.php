@@ -706,7 +706,7 @@ class CRM_Core_PseudoConstant
     * @return mixed - instance of CRM_Contact_BAO_GroupNesting
     *
     */
-    public static function &groupIterator()
+    public static function &groupIterator( $styledLabels = false )
     {
         if (!self::$groupIterator) {
             /*
@@ -714,7 +714,7 @@ class CRM_Core_PseudoConstant
              and iterates nested groups in a logical manner for us
             */
             require_once 'CRM/Contact/BAO/GroupNesting.php';
-            self::$groupIterator =& new CRM_Contact_BAO_GroupNesting( );
+            self::$groupIterator =& new CRM_Contact_BAO_GroupNesting( $styledLabels );
         }
         return self::$groupIterator;
     }

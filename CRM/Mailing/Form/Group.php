@@ -102,21 +102,26 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->addRule('name', ts('This mailing name has already been used. Please pick a unique name for the mailing.'),
                        'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
-        $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
-        $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-                                  ts('INCLUDE Contacts in these Group(s)') . ' ', $groups,
-                                  array('size' => 5,
-                                        'style' => 'width:240px',
-                                        'class' => 'advmultiselect')
-                                  );
+        $groups         =& CRM_Core_PseudoConstant::group('Mailing');
+        $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
+        require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
+        $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
+        ts('Include Group(s)') . ' ', $groupIterator,
+        array( 'size'  => 5,
+               'style' => 'width:240px',
+               'class' => 'advmultiselect' )
+        );
+        $inG =& $this->addElement( $inGroupsSelect );
+        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+        
+        $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
+        ts('Exclude Group(s)') . ' ', $groupIterator,
+        array( 'size'  => 5,
+               'style' => 'width:240px',
+               'class' => 'advmultiselect' )
+        );
+        $outG =& $this->addElement($outGroupsSelect);
 
-        $this->addRule( 'includeGroups', ts('Please select at least one group to include in the mailing.'), 'required' );
-        $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('EXCLUDE Contacts in these Group(s)') . ' ', $groups,
-                                   array('size' => 5,
-                                         'style' => 'width:240px',
-                                         'class' => 'advmultiselect')
-                                   );
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;

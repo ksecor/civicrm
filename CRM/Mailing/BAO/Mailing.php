@@ -391,6 +391,32 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         return $eq;
     }
+    
+    private function _getMailingGroupIds( $type = 'Include' ) {
+        $mailingGroup =& new CRM_Mailing_DAO_Group();
+        $group = CRM_Contact_DAO_Group::getTableName();
+        if ( ! isset( $this->id ) ) {
+            // we're just testing tokens, so return any group
+            $query = "SELECT   id AS entity_id
+                      FROM     $group
+                      ORDER BY id
+                      LIMIT 1";
+        } else {
+            $query = "SELECT entity_id
+                      FROM   $mg
+                      WHERE  mailing_id = {$this->id}
+                      AND    group_type = '$type'
+                      AND    entity_table = '$group'";
+        }
+        $mailingGroup->query( $query );
+        
+        $groupIds = array( );
+        while ( $mailingGroup->fetch( ) ) {
+            $groupIds[] = $mailingGroup->entity_id;
+        }
+        
+        return $groupIds;
+    }
 
     /**
      * 
@@ -698,9 +724,36 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $knownTokens =& $this->getTokens();
             $text = CRM_Utils_Token::replaceContactTokens($text, $contact, false, $knownTokens['body_text']);
+            require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            /* TODO: I should know which group I'm starting from already.
+             *  Eventually I should probably already know which org I'm
+             *  working with too (because I should ask when there's >1).
+            */
+             /* For now, I'm just going to ascend the group graph and get
+              *  the first organization I encounter. THIS IS NOT HOW THIS
+              *  WILL WORK WHEN READY FOR PRODUCTION.
+             */
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = $this->_getMailingGroupIds( );
+            $parentGroups = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds( $groupIds, true );
+            foreach ( $parentGroups as $pg ) {
+                $orgs  = CRM_Contact_BAO_GroupOrganization::getOrganizationsForGroups( $pg );
+                if ( count( $orgs ) > 0 ) {
+                    break;
+                }
+            }
+            if ( count( $orgs ) > 0 ) {
+                $params = array( 'contact_id' => $orgs[0]['contact_id'] );
+                $orgArr = crm_fetch_contact( $params );
+                $text = CRM_Utils_Token::replaceOrgTokens(
+                                        $text, $orgArr, false );
+            }
+            
+            $text = CRM_Utils_Token::replaceActionTokens( $text,
+                                        $verp, $urls, false );
             $text = CRM_Utils_Token::replaceActionTokens( $text, $verp, $urls, false,$knownTokens['body_text']);
             // render the &amp; entities in text mode, so that the links work
-            $text = str_replace('&amp;', '&', $text);
+            $text = str_replace( '&amp;', '&', $text );
         }
 
 
@@ -712,7 +765,32 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         {
             $knownTokens =& $this->getTokens();
             $html = CRM_Utils_Token::replaceContactTokens($html, $contact, true, $knownTokens['body_html']);
-            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true, $knownTokens['body_html']);
+            require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            /* TODO: I should know which group I'm starting from already.
+             *  Eventually I should probably already know which org I'm
+             *  working with too (because I should ask when there's >1).
+             */
+            /* For now, I'm just going to ascend the group graph and get
+              *  the first organization I encounter. THIS IS NOT HOW THIS
+              *  WILL WORK WHEN READY FOR PRODUCTION.
+             */
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = $this->_getMailingGroupIds( );
+            $parentGroups = CRM_Contact_BAO_GroupNesting::getAncestorGroupIds( $groupIds, true );
+            foreach ( $parentGroups as $pg ) {
+                $orgs  = CRM_Contact_BAO_GroupOrganization::getOrganizationsForGroups( $pg );
+                if ( count( $orgs ) > 0 ) {
+                    break;
+                }
+            }
+            if ( count( $orgs ) > 0 ) {
+                $params = array( 'contact_id' => $orgs[0]['contact_id'] );
+                $orgArr = crm_fetch_contact( $params );
+                $html = CRM_Utils_Token::replaceOrgTokens(
+                                        $html, $orgArr, true );
+            }
+
+            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true );
             
             if ($this->open_tracking) {
                 $html .= '<img src="' . $config->userFrameworkResourceURL . 

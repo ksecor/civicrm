@@ -314,6 +314,21 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                           'preferred_mail_format' => 'Both'
                           );
 
+        require_once 'CRM/Contact/DAO/GroupOrganization.php';
+        $goDao =& new CRM_Contact_DAO_GroupOrganization( );
+        $query = "SELECT        co.contact_id
+                  FROM          civicrm_group_organization AS cgo
+                  INNER JOIN    civicrm_organization AS co
+                  ON            cgo.organization_id = co.id
+                  ORDER BY      cgo.id ASC
+                  LIMIT 1";
+        $goDao->query( $query );
+        if ( $goDao->fetch( ) ) {
+            $orgContactId = $goDao->contact_id;
+        }
+        $values = array('contact_id' => $orgContactId );
+        $org =& crm_fetch_contact( $values );
+        
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
@@ -384,8 +399,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
 
-            /* Do a full token replacement on a dummy verp, the current contact
-             * and domain. */
+            /* Do a full token replacement on a dummy verp, the current
+             * contact and domain, and the first organization. */
             
             // here we make a dummy mailing object so that we
             // can retrieve the tokens that we need to replace
@@ -401,6 +416,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['body_text']);
             $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['body_text']);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['body_text']);
 
