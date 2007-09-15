@@ -48,7 +48,7 @@ function conf_init() {
     }
   
     if ( defined( 'CIVICRM_CONFDIR' ) ) {
-        $confdir = CIVICRM_CONFDIR;
+      	$confdir = CIVICRM_CONFDIR;
     } else {
         // make it relative to civicrm.config.php, else php makes it relative
         // to the script that invokes it
@@ -60,7 +60,6 @@ function conf_init() {
             $confdir = $currentDir . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'sites';
         }
     }
-
     if ( ! file_exists( $confdir ) ) {
         echo "Could not find valid configuration dir, best guess: $confdir\n";
         exit( );

@@ -93,7 +93,6 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             if ( ! $user->$key ) {
                 // Let's get the next uf_id since we don't actually have one
                 $user->$key = self::getNextUfIdValue( );
-                //print "Got new uf_id " . $user->$key . "<br/>";
             }
         } else {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
@@ -145,9 +144,17 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                 // uniqId has changed, so we need to update that everywhere
                 $ufmatch->user_unique_id = $uniqId;
                 $ufmatch->save( );
-
-                CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id,
-                                                             $user->$mail );
+                
+                /* I don't think we should do this here anymore, since
+                   we don't use email address as the user identifier.
+                   ----
+                   However, we should revisit this (and probably 
+                   make it start updating the OpenID) once we move
+                   to using the OpenID associated w/ the contact
+                   (rather than storing it as a field in civicrm_contact).
+                   That's awaiting the schema re-design for 2.0.
+                */
+                //CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id, $user->$mail );
             }
         }
     }
@@ -516,7 +523,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         if ( $result ) {
             $row = $result->fetchRow( );
             if ( $row ) {
-                $ufId = $row['next_uf_id'];
+                $ufId = $row[0];
             }
         }
         if ( ! $ufId ) {

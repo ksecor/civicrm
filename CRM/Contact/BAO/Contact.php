@@ -246,7 +246,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      */
     static function add( &$params ) 
     {
-        $contact =& new CRM_Contact_BAO_Contact();
+      //      CRM_Core_Error::debug('p','oh');   
+     $contact =& new CRM_Contact_BAO_Contact();
 
         if ( empty($params) ) {
             return;
@@ -1144,7 +1145,8 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
-
+	print "aljdkf";
+	print $id;
         if ( ! $id ) {
             return false;
         }
