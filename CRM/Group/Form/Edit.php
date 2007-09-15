@@ -148,12 +148,14 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
 	
-	require_once 'CRM/Contact/BAO/GroupOrganization.php';
-	if ( isset ($this->_id ) ) {
-	    if (CRM_Contact_BAO_GroupOrganization::exists( $this->_id ) ) {
-	        $defaults['add_group_org'] = 1;
+	    require_once 'CRM/Contact/BAO/GroupOrganization.php';
+	    if ( isset ( $this->_id ) ) {
+	        $orgId = CRM_Contact_BAO_GroupOrganization::getOrganizationId( $this->_id );
+	        if ( $orgId ) {
+	            $defaults['add_group_org'] = 1;
+	            $defaults['select_group_org'] = $orgId;
+	        }
 	    }
-	}
         return $defaults;
     }
 
@@ -240,22 +242,22 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             }
 
             require_once ( 'CRM/Contact/BAO/GroupOrganization.php' );
-	    $this->add( 'checkbox', 'add_group_org', ts('Make this an Organization?'), null, null );
+	        $this->add( 'checkbox', 'add_group_org', ts('Organization'), null, null );
 	    
-	    //Provide list of organizations from which to choose associated org.
-	    require_once ( 'CRM/Contact/DAO/Organization.php');
-	    $orgsList = array( );
-	    $this->_orgSelectValues = array( );
-	    $this->_orgSelectValues[] = "- Select an Organization -";
-	    $query = "SELECT id, organization_name FROM civicrm_organization";
-	    $dao = new CRM_Contact_DAO_Organization( );
-	    $dao->query($query);
-	    while ( $dao->fetch() ) {
-	      $orgsList[] = array('id' => $dao->id, 'org_name' => $dao->organization_name );
-	      $this->_orgSelectValues[] = $dao->organization_name;
-	    }
+	        // Provide list of organizations from which to choose associated org.
+	        require_once ( 'CRM/Contact/DAO/Organization.php');
+	        $orgsList = array( );
+	        $this->_orgSelectValues = array( );
+	        $this->_orgSelectValues[] = "- Create new -";
+	        $query = "SELECT id, organization_name FROM civicrm_organization";
+	        $dao = new CRM_Contact_DAO_Organization( );
+	        $dao->query($query);
+	        while ( $dao->fetch() ) {
+	            $orgsList[] = array('id' => $dao->id, 'org_name' => $dao->organization_name );
+	            $this->_orgSelectValues[$dao->id] = $dao->organization_name;
+	        }
 	    
-	    $this->add( 'select', 'select_group_org', ts('Select Organization'), $this->_orgSelectValues );
+	        $this->add( 'select', 'select_group_org', ts('Select Organization Contact'), $this->_orgSelectValues );
 	        $this->addButtons( array(
                                      array( 'type'      => $buttonType,
                                             'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),

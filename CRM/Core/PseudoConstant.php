@@ -144,6 +144,13 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $group;
+    
+    /**
+     * groupIterator
+     * @var mixed
+     * @static
+     */
+    private static $groupIterator;
 
     /**
      * relationshipType
@@ -683,6 +690,33 @@ class CRM_Core_PseudoConstant
                             'is_active', $condition );
         }
         return self::$group;
+    }
+    
+    /**
+    * Create or get groups iterator (iterates over nested groups in a
+    *  logical fashion)
+    *
+    * The GroupNesting instance is returned; it's created if this is being
+    *  called for the first time
+    *
+    *
+    * @access public
+    * @static
+    *
+    * @return mixed - instance of CRM_Contact_BAO_GroupNesting
+    *
+    */
+    public static function &groupIterator()
+    {
+        if (!self::$groupIterator) {
+            /*
+             When used as an object, GroupNesting implements Iterator
+             and iterates nested groups in a logical manner for us
+            */
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            self::$groupIterator =& new CRM_Contact_BAO_GroupNesting( );
+        }
+        return self::$groupIterator;
     }
 
     /**

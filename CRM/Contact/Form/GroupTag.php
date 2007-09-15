@@ -84,46 +84,47 @@ class CRM_Contact_Form_GroupTag
             } else {
                 $group  =& CRM_Core_PseudoConstant::group( );
             }
-	    
-	    require_once 'CRM/Contact/DAO/GroupOrganization.php';
-	    require_once 'CRM/Contact/DAO/Organization.php';
-	    require_once 'CRM/Contact/DAO/Group.php';
+            
+            $orgId = null;
+            $excludeGroupIds = array( );
+	        if ( $contactId > 0 ) {
+	            require_once 'CRM/Contact/DAO/GroupOrganization.php';
+	            require_once 'CRM/Contact/DAO/Organization.php';
+	            require_once 'CRM/Contact/DAO/Group.php';
 
-	    $dao = new CRM_Contact_DAO_Organization();
-	    $query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
-	    $dao->query($query);
+	            $dao = new CRM_Contact_DAO_Organization();
+	            $query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
+	            $dao->query($query);
 	    
-	    if ( $dao->fetch() ) {
-	        $orgId = $dao->id;
-	    } else {
-	        $orgId = null;
-		$excludeGroupIds = null;
-	    }
+	            if ( $dao->fetch() ) {
+	                $orgId = $dao->id;
+	            }
+            }
 	    
-	    if ( $orgId != null ) {
-	        $excludeGroupIds = array ( );
-	        $dao = new CRM_Contact_DAO_GroupOrganization();
-		$query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
-		$dao->query($query);
-		while ( $dao->fetch() ) {
-		    $excludeGroupIds[] = $dao->group_id;
-		}
-	    }
-	    /*
-	    if ( $groupFetchId != null ) {
-	        $dao = new CRM_Contact_DAO_Group();
-		$query = "SELECT title FROM civicrm_group WHERE id = $groupFetchId";
-		$dao->query($query);
-		if ( $dao->fetch() ) {
-		    $excludeGroupTitle = $dao->title;
-		}
-		else {
-		    $excludeGroupTitle = null;
-		}
+	        if ( $orgId != null ) {
+	            $excludeGroupIds = array ( );
+	            $dao = new CRM_Contact_DAO_GroupOrganization();
+		        $query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
+		        $dao->query($query);
+		        while ( $dao->fetch() ) {
+		            $excludeGroupIds[] = $dao->group_id;
+		        }
+	        }
+	        /*
+    	    if ( $groupFetchId != null ) {
+    	        $dao = new CRM_Contact_DAO_Group();
+    		$query = "SELECT title FROM civicrm_group WHERE id = $groupFetchId";
+    		$dao->query($query);
+    		if ( $dao->fetch() ) {
+    		    $excludeGroupTitle = $dao->title;
+    		}
+    		else {
+    		    $excludeGroupTitle = null;
+    		}
 
 
-	    }
-	    */
+    	    }
+    	    */
             foreach ($group as $id => $name) {
 		  
 	        if ( $visibility ) {
@@ -180,8 +181,6 @@ class CRM_Contact_Form_GroupTag
                 $form->addRule( $fName , ts('%1 is a required field.', array(1 => $tagName)) , 'required');   
             }
         }
-        
-        
     }
 
     /**
