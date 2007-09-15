@@ -183,7 +183,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $temp_date_parts = array();
             if (is_array( $date_parts )) {
                 foreach($date_parts as $v  ) {
-                    $temp_date_parts[$v] = 1;
+                    if ( $v == 'H') {
+                        $temp_date_parts['h'] = 1;
+                    } else {
+                        $temp_date_parts[$v] = 1;
+                    }
                 }
                 $defaults['date_parts'] = $temp_date_parts;
             }
@@ -459,7 +463,7 @@ SELECT count(*)
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             
             //capture duplicate Custom option values
-            if( !empty($fields['option_value']) ) {
+            if ( !empty($fields['option_value']) ) {
                 $countValue = count($fields['option_value']);
                 $uniqueCount = count(array_unique($fields['option_value']));
                 
@@ -486,7 +490,7 @@ SELECT count(*)
             }
             
             //capture duplicate Custom Option label
-            if( !empty($fields['option_label']) ) {
+            if ( !empty($fields['option_label']) ) {
                 $countValue = count($fields['option_label']);
                 $uniqueCount = count(array_unique($fields['option_label']));
                 
@@ -721,15 +725,14 @@ SELECT id
         $customField->end_date_years   = $params['end_date_years'];
         $customField->note_columns     = $params['note_columns'];
         $customField->note_rows        = $params['note_rows'];
-
-        if ( array_key_exists( 'A', $params['date_parts'] ) ) {
+        
+        if ( !isset ( $params['date_parts']['A'] ) && isset ( $params['date_parts']['h'] ) ) {
             unset( $params['date_parts']['h'] );
             $params['date_parts']['H'] = 1;
         }
-
-        if ( is_array( $params['date_parts'] ) ) {
-            $customField->date_parts = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                                                array_keys( $params['date_parts'] ) );
+        
+        if ( is_array($params['date_parts']) ) {
+            $customField->date_parts = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,array_keys($params['date_parts']));
         } else {
             $customField->date_parts = "";
         }
