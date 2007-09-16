@@ -46,7 +46,7 @@ class CRM_OG_NodeAPI {
         $aclParams                     = $params;
         $aclParams['civicrm_group_id'] = $groupParams['group_id'];
         $aclParams['name']             = $aclParams['title'] = "{$aclParams['name']}: Administrator";
-        $aclParams['source']           = "OG Sync Group: {$params['og_id']}";
+        $aclParams['source']           = "OG Sync ACL Group: {$params['og_id']}";
 
         self::updateCiviGroup        ( $aclParams );
         $aclParams['acl_group_id']   = $aclParams['group_id'];

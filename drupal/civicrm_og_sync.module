@@ -38,7 +38,7 @@
  * http://api.drupal.org/api/function/hook_nodeapi/5
  *	
  */
-function og_civicrm_acl_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
+function civicrm_og_sync_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
 
     // check if the node if of type og
     if ( ! og_is_group_type( $node->type ) ) {
@@ -77,5 +77,34 @@ function og_civicrm_acl_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
     }
 }
 
-?>
+function civicrm_og_sync_og( $op, $nid, $uid, $args = array( ) ) {
 
+    // check if civicrm is present
+    if ( ! function_exists( 'civicrm_initialize' ) ) {
+        return;
+    }
+
+    civicrm_initialize( );
+    
+    require_once 'CRM/OG/OG.php';
+
+    $params = array( 'og_id'     => $nid,
+                     'uf_id'     => $uid,
+                     'is_active' => isset( $args['is_active'] ) ? $args['is_active'] : 0,
+                     'is_admin'  => isset( $args['is_admin' ] ) ? $args['is_admin' ] : null,
+                     );
+
+    switch ( $op ) {
+
+    case 'user_insert':
+        CRM_OG_OG::update( $params );
+        break;
+
+    case 'user_delete':
+        CRM_OG_OG::delete( $params );
+        break;
+
+    }
+}
+
+?>
