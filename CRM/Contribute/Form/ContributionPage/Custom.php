@@ -98,9 +98,10 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         }
 
 
-        $params['domain_id']             = CRM_Core_Config::domainID( );
+        $params['domain_id'] = CRM_Core_Config::domainID( );
 
-        CRM_Core_DAO::transaction('BEGIN'); 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
          
         // also update the ProfileModule tables 
         $ufJoinParams = array( 'is_active'    => 1, 
@@ -117,8 +118,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         $ufJoinParams['weight'     ] = 2; 
         $ufJoinParams['uf_group_id'] = $params['custom_post_id'];  
         CRM_Core_BAO_UFJoin::create( $ufJoinParams ); 
- 
-        CRM_Core_DAO::transaction('COMMIT'); 
+
+        $transaction->commit( ); 
     }
 
     /** 
@@ -127,7 +128,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      * @return string 
      * @access public 
      */ 
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Custom Fields' );
     }
 }

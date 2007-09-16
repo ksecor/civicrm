@@ -481,7 +481,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                          $online = true ) 
     {
         
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         $honorCId = $recurringContributionID = null;
         if ( $online ) {
@@ -648,12 +649,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         'is_test'          => $contribution->is_test
                         );
 
-        require_once 'api/History.php';
-        if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-            CRM_Core_Error::fatal( "Could not create a system record" );
-        }
+        //TO DO commented because of schema changes
+//         require_once 'api/History.php';
+//         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
+//             CRM_Core_Error::fatal( "Could not create a system record" );
+//         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( ); 
 
         return $contribution;
     }
