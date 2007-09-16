@@ -46,13 +46,15 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 
         if ( $this->_groupID ) {
             $this->assign( 'groupID'  , $this->_groupID );
-            $this->assign( 'groupName',
-                           CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
-                                                        $this->_groupID,
-                                                        'title' ) );
+            $groupName = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                                       $this->_groupID,
+                                                       'title' );
+            $this->assign( 'groupName', $groupName );
+            CRM_Utils_System::setTitle(ts('Subscribe to Mailing List - %1', array(1 => $groupName)));
             $this->assign( 'single', true  );
         } else {
             $this->assign( 'single', false );
+            CRM_Utils_System::setTitle(ts('Mailing List Subscription'));
         }
     }
 
@@ -100,7 +102,7 @@ SELECT id, title, description
                 $rows[] = $row;
             }
             if ( empty( $rows ) ) {
-                CRM_Core_Error::fatal( ts( 'There are no public mailing groups' ) );
+                CRM_Core_Error::fatal( ts( 'There are no public mailing list groups to display.' ) );
             }
             $this->assign( 'rows', $rows );
             $this->addFormRule( array( 'CRM_Mailing_Form_Subscribe', 'formRule' ) );
@@ -123,7 +125,7 @@ SELECT id, title, description
                 return true;
             }
         }
-        return array( '_qf_default' => 'Please select one or more groups.' );
+        return array( '_qf_default' => 'Please select one or more mailing lists.' );
     }
 
     /**
@@ -160,6 +162,13 @@ SELECT id, title, description
                 $success = false;
             }
         }
+
+        if ( $success ) {
+            CRM_Utils_System::setUFMessage( ts( "Your subscription request has been submitted. Check your inbox shortly for the confirmation email(s)." ) );
+        } else {
+            CRM_Utils_System::setUFMessage( ts( "We had a problem processing your subscription request. Please contact the site administrator" ) );
+        }
+
     }//end of function
 
 }

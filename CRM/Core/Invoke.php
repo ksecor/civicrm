@@ -412,9 +412,6 @@ class CRM_Core_Invoke
                 if( $properties ) {
                     require_once $properties['file'];
                     eval( '$view =& new ' . $properties['class'] . '( );' );
-                } elseif ( file_exists( realpath ( dirname( __FILE__ ) . "../Contact/Page/View/{$contact_type}.php" ) ) ) {
-                    require_once 'CRM/Contact/Page/View/' . $contact_type . '.php';
-                    eval( '$view =& new CRM_Contact_Page_View_' . $contact_type . '( );' );
                 } else {
                     require_once 'CRM/Contact/Page/View/Tabbed.php';
                     $view =& new CRM_Contact_Page_View_Tabbed( );
@@ -549,8 +546,6 @@ class CRM_Core_Invoke
         $properties =& CRM_Core_Component::contactSubTypeProperties( $contact_sub_type, 'Edit' );
         if( $properties ) {
             $wrapper->run( $properties['class'], ts('New %1', array(1 => $contact_sub_type)), $action, true );
-        } elseif ( file_exists( realpath (dirname( __FILE__ ) . "../Contact/Form/{$contact_type}.php" ) ) ) {
-            $wrapper->run( "CRM_Contact_Form_{$contact_type}", ts('New %1', array(1 => $contact_type)), $action, true );
         } else {
             $wrapper->run( 'CRM_Contact_Form_Edit', ts( 'New Contact' ), $action, true );
         }

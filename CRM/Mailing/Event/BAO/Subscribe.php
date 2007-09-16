@@ -69,27 +69,28 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
             return null;
         }
         /* First, find out if the contact already exists */  
-        $query = 
-            "SELECT DISTINCT contact_a.id as id 
-            FROM civicrm_contact contact_a 
-            LEFT JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id)  
-            LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' 
-                   AND contact_a.id = civicrm_location.entity_id ) 
-            LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id  
-            LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id )  
-            WHERE  (  ( LOWER(civicrm_email.email) = '{$email}' ) )";
+        $query = "
+   SELECT DISTINCT contact_a.id as contact_id 
+     FROM civicrm_contact contact_a 
+LEFT JOIN civicrm_individual ON contact_a.id = civicrm_individual.contact_id
+LEFT JOIN civicrm_location   ON civicrm_location.entity_id = contact_a.id
+LEFT JOIN civicrm_address    ON civicrm_location.id = civicrm_address.location_id  
+LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
+    WHERE LOWER(civicrm_email.email) = %1
+      AND civicrm_location.entity_table = 'civicrm_contact'";
 
-        $dao =& CRM_Core_DAO::executeQuery( $query );
-        while ( $dao->fetch( ) ) {
-            $ids[] = $dao->id;
+        $params = array( 1 => array( $email, 'String' ) );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $id = array( );
+        // lets just use the first contact id we got
+        if ( $dao->fetch( ) ) {
+            $contact_id = $dao->contact_id;
         }
         $dao->free( );
-        $contact_id = implode( ',', $ids );
-
-        require_once 'api/Contact.php';
 
         CRM_Core_DAO::transaction('BEGIN');
         if ( ! $contact_id ) {
+            require_once 'api/Contact.php';
             require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
@@ -117,19 +118,22 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
 
         /* Get the primary email id from the contact to use as a hash input */
         $dao =& new CRM_Core_DAO();
-        $emailTable = CRM_Core_BAO_Email::getTableName();
-        $locTable   = CRM_Core_BAO_Location::getTableName();
-        $contactTable = CRM_Contact_BAO_Contact::getTableName();
-        $dao->query("SELECT $emailTable.id as email_id
-                    FROM $emailTable
-                    INNER JOIN $locTable
-                        ON  $emailTable.location_id = $locTable.id
-                    WHERE   $emailTable.is_primary = 1
-                    AND     $locTable.is_primary = 1
-                    AND     $locTable.entity_table = '$contactTable'
-                    AND     $locTable.entity_id = " 
-                            . CRM_Utils_Type::escape($contact_id, 'Integer'));
-        $dao->fetch();
+
+        $query = "
+SELECT     civicrm_email.id as email_id
+  FROM     civicrm_email
+INNER JOIN civicrm_location ON  civicrm_email.location_id = civicrm_location.id
+     WHERE LOWER(civicrm_email.email) = %1
+       AND civicrm_location.entity_table = 'civicrm_contact'
+       AND civicrm_location.entity_id = %2";
+        $params = array( 1 => array( $email     , 'String'  ),
+                         2 => array( $contact_id, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
+        if ( ! $dao->fetch( ) ) {
+            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            return null;
+        }
 
         $se =& new CRM_Mailing_Event_BAO_Subscribe();
         $se->group_id = $group_id;
@@ -137,12 +141,12 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $se->time_stamp = date('YmdHis');
         $se->hash = sha1("{$group_id}:{$contact_id}:{$dao->email_id}");
         $se->save();
-
+        
         $contacts = array($contact_id);
         require_once 'CRM/Contact/BAO/GroupContact.php'; 
         CRM_Contact_BAO_GroupContact::addContactsToGroup($contacts, $group_id,
-                                                         'Email', 'Pending', $se->id);
-            
+                                                             'Email', 'Pending', $se->id);
+
         CRM_Core_DAO::transaction('COMMIT');
         return $se;
     }
@@ -224,7 +228,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
         $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
-                                                        $group->name,
+                                                        $group->title,
                                                         $url, true);
         
         if ($component->body_text) {
@@ -234,7 +238,7 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
         $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
-                                                        $group->name,
+                                                        $group->title,
                                                         $url, false);
         // render the &amp; entities in text mode, so that the links work
         $text = str_replace('&amp;', '&', $text);
