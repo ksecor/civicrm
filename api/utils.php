@@ -255,10 +255,6 @@ function _crm_format_params( &$params, &$values ) {
     
     _crm_store_values( $fields, $params, $values );
 
-    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $values['contact_type']) . ".php");
-    eval( '$fields =& CRM_Contact_DAO_' . $values['contact_type'] . '::fields( );' );
-    _crm_store_values( $fields, $params, $values );
-    
     $ids = array("prefix","suffix","gender"); 
     foreach ( $ids as $id ) {
         if ( array_key_exists( $id, $params ) ) {

@@ -39,7 +39,7 @@
   </field>
   <foreignKey>
     <name>organization_id</name>
-    <table>civicrm_organization</table>
+    <table>civicrm_contact</table>
     <key>id</key>
     <add>2.0</add>
   </foreignKey>

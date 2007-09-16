@@ -33,8 +33,6 @@
  *
  */
 
-require_once 'CRM/Contact/Form/StateCountry.php';
-
 /**
  * This class is used to build address block
  */

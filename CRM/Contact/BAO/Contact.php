@@ -51,8 +51,6 @@ require_once 'CRM/Core/BAO/Note.php';
 require_once 'CRM/Contact/BAO/Query.php';
 require_once 'CRM/Contact/BAO/Relationship.php';
 require_once 'CRM/Contact/BAO/GroupContact.php';
-require_once 'CRM/Activity/DAO/Meeting.php';
-require_once 'CRM/Activity/DAO/Phonecall.php';
 require_once 'CRM/Core/Permission.php';
 require_once 'CRM/Mailing/Event/BAO/Subscribe.php';
 

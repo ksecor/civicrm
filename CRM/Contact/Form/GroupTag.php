@@ -89,11 +89,11 @@ class CRM_Contact_Form_GroupTag
             $excludeGroupIds = array( );
 	        if ( $contactId > 0 ) {
 	            require_once 'CRM/Contact/DAO/GroupOrganization.php';
-	            require_once 'CRM/Contact/DAO/Organization.php';
 	            require_once 'CRM/Contact/DAO/Group.php';
-
-	            $dao = new CRM_Contact_DAO_Organization();
-	            $query = "SELECT id FROM civicrm_organization WHERE contact_id = $contactId";
+                
+                //will revist this code once done with other fixes
+	            $dao = new CRM_Contact_DAO_Contact( );
+	            $query = "SELECT id FROM civicrm_contact WHERE id = $contactId";
 	            $dao->query($query);
 	    
 	            if ( $dao->fetch() ) {
