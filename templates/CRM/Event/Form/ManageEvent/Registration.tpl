@@ -43,9 +43,9 @@
             <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}Optional footer text for registration screen.{/ts}</dd>
             <dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="event-profile"}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message). NOTE: If you are using PayPal Standard or Google Checkout - custom fields are not supported.{/ts}{help id="event-profile"}</dd>
             <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields on this registration form by configuring and selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: If you are using PayPal Standard or Google Checkout - custom fields are not supported.{/ts}</dd>
         </dl>
         </fieldset>
         </div>
