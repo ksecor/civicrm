@@ -1265,18 +1265,8 @@ WHERE civicrm_contact.id IN $idString ";
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
            
-            if ( $contactType != 'All' ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-                eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::import( ));');
-                $fields = array_merge( $fields, $tmpFields );
-            } else {
-                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
-                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
-                    eval('$tmpFields = array_merge($fields, CRM_Contact_DAO_'.$type.'::import( ));');
-                    $fields = array_merge( $fields, $tmpFields );
-                }
-            }
-             
+            $fields = array_merge($fields, CRM_Contact_DAO_Contact::import( ));
+
             require_once "CRM/Core/OptionValue.php";
             // the fields are only meant for Individual contact type
             if ( ($contactType == 'Individual') || ($contactType == 'All')) {

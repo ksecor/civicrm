@@ -49,9 +49,9 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
     /**
      * takes an associative array and creates a address
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $params (reference ) an assoc array of name/value pairs
      *
-     * @return object       CRM_Core_BAO_Address object on success, null otherwise
+     * @return array $blocks array of created address 
      * @access public
      * @static
      */
@@ -61,17 +61,33 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 //             return null;
 //         }
 
+        $contactId = $params['address']['contact_id'];
+
+        //get all the addresses for this contact
+        $addresses = array( );
+        $addresses = self::allAddress( $contactId );
+
         $isPrimary = true;
         foreach ( $params['address'] as $value ) {
+            if ( !is_array( $value ) ) {
+                continue;
+            }
+
             if ( $isPrimary && $value['is_primary'] ) {
                 $isPrimary = false;
             } else {
                 $value['is_primary'] = false;
             }
-        
-            self::add( $value );
-        }
+            
+            $value['contact_id'] = $contactId;
 
+            if ( !empty( $addresses ) ) {
+                $value['id'] = array_shift( $addresses );
+            }
+            
+            $blocks[] = self::add( $value );
+        }
+        return $blocks;
     }
 
     /**
@@ -206,7 +222,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             require_once( str_replace('_', DIRECTORY_SEPARATOR, $config->geocodeMethod ) . '.php' );
             eval( $config->geocodeMethod . '::format( $params );' );
         } 
-   }
+    }
 
     /**
      * Check if there is data to create the object
@@ -264,7 +280,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         return false;
     }
-
 
     /**
      * Given the list of params in the params array, fetch the object
@@ -406,10 +421,42 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      *
      * 
      *
-     */
-    
-    static function setOverwrite( $overwrite ) {
+     */ 
+    static function setOverwrite( $overwrite ) 
+    {
         self::$_overwrite = $overwrite;
+    }
+
+    /**
+     * Get all the addresses for a specified contact_id, with the primary address being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of adrress data
+     * @access public
+     * @static
+     */
+    static function allAddress( $id ) 
+    {
+        if ( !$id ) {
+            return null;
+        }
+
+        $query = "
+SELECT civicrm_address.id as address_id
+FROM civicrm_contact, civicrm_address 
+WHERE civicrm_address.contact_id = civicrm_contact.id AND civicrm_contact.id = %1
+ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC, address_id ASC";
+        $params = array( 1 => array( $id, 'Integer' ) );
+
+        $addresses = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $locationCount = 1;
+        while ( $dao->fetch( ) ) {
+            $addresses[$locationCount] = $dao->address_id;
+            $locationCount++;
+        }
+        return $addresses;
     }
 
 }

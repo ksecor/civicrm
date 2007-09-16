@@ -49,7 +49,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
      * Location block element array
      */
     //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
-    static $blocks = array( 'phone', 'email', 'im' );
+    static $blocks = array( 'phone', 'email', 'im', 'address' );
     
     /**
      * Function to create various elements of location block
@@ -66,7 +66,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-	//	print "About to edit location data";
+
         //format the params accord to new format. ie. we create all
         //email at one time, then move to another block element.
 
@@ -76,11 +76,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         //create location block elements
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
-            eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks );');
+            if ( $block != 'address' ) {
+                eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks );');
+            } else {
+                $location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks );
+            }
         }
-
-//         crm_core_error::debug('$formattedBlocks', $formattedBlocks);
-//         exit();
 
 //         $params['location'][$locationId]['id'] = $location->id;
 //         $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId, $fixAddress );
