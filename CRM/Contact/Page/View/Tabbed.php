@@ -49,10 +49,10 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @access public 
      * 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         parent::preProcess( );
 
-        //FIXME: comment because of schema change        
         //Custom Groups Inline
         $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
         $groupTree =& CRM_Core_BAO_CustomGroup::getTree($entityType, $this->_contactId);
@@ -86,7 +86,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @return void
      * @access public
      */
-    function edit( ) {
+    function edit( ) 
+    {
         // set the userContext stack
         $session =& CRM_Core_Session::singleton();
         $url = CRM_Utils_System::url('civicrm/contact/view/basic', 'action=browse&cid=' . $this->_contactId );
@@ -104,7 +105,8 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
      * @return void
      * @access public
      */
-    function view( ) {
+    function view( ) 
+    {
         $params   = array( );
         $defaults = array( );
         $ids      = array( );
@@ -122,13 +124,14 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             unset( $defaults['location'] );
         }
 
-        if (CRM_Utils_Array::value( 'gender_id',  $defaults )) {
+        if ( CRM_Utils_Array::value( 'gender_id',  $defaults ) ) {
             $gender =CRM_Core_PseudoConstant::gender();
             $defaults['gender_display'] =  $gender[CRM_Utils_Array::value( 'gender_id',  $defaults )];
         }
 
         // get the list of all the categories
         $tag =& CRM_Core_PseudoConstant::tag();
+
         // get categories for the contact id
         require_once 'CRM/Core/BAO/EntityTag.php';
         $entityTag =& CRM_Core_BAO_EntityTag::getTag($this->_contactId);
@@ -181,8 +184,6 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
                                  'weight' => $weight );
             $weight += 10;
         }
-        
-
 
         // get the events, new style of doing stuff
         // do the below only if the person has access to events

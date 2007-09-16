@@ -1470,24 +1470,11 @@ WHERE civicrm_contact.id IN $idString ";
                 $fields = array( '' => array( 'title' => ts('- Contact Fields -') ) );
             }
 
-            require_once 'CRM/Core/OptionValue.php';
-            if ( $contactType != 'All' ) {
-                require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $contactType) . ".php");
-                eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$contactType.'::export( ));');
-            } else {
-                foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) {
-                    require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_DAO_" . $type) . ".php");
-                    eval('$fields = array_merge($fields, CRM_Contact_DAO_'.$type.'::export( ));');
-                    if ( $type == 'Individual') {
-                        $fields = array_merge( $fields,
-                                               CRM_Core_OptionValue::getFields( )
-                                               );
-                    }
-                }
-            }
+            $fields = array_merge($fields, CRM_Contact_DAO_Contact::export( ));
             
             // the fields are only meant for Individual contact type
             if ( $contactType == 'Individual') {
+                require_once 'CRM/Core/OptionValue.php';
                 $fields = array_merge( $fields, CRM_Core_OptionValue::getFields( ) );                
             }
             
@@ -1499,7 +1486,7 @@ WHERE civicrm_contact.id IN $idString ";
             }
             
             $IMProvider = array( );
-            if ($status) {
+            if ( $status ) {
                 $IMProvider['im_provider'] = array ('name' => 'im_provider',
                                                     'where' => 'im_provider.name',
                                                     'title' => 'IM Provider');
