@@ -33,58 +33,42 @@
  *
  */
 
-class CRM_OG_NodeAPI {
+class CRM_Bridge_OG_Drupal {
 
-    static function update( &$params ) {
+    static function nodeapi( &$params, $op ) {
+        require_once 'CRM/Bridge/OG/Utils.php';
+
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         // first create or update the CiviCRM group
-        $groupParams           = $params;
-        $groupParams['source'] = "OG Sync Group: {$params['og_id']}";
-        self::updateCiviGroup( $groupParams, 'update' );
+        $groupParams               = $params;
+        $groupParams['source']     = CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] );
+        $groupParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
+        self::updateCiviGroup( $groupParams, $op, $groupType );
 
         // next create or update the CiviCRM ACL group
-        $aclParams                     = $params;
-        $aclParams['name']             = $aclParams['title'] = "{$aclParams['name']}: Administrator";
-        $aclParams['source']           = "OG Sync ACL Group: {$params['og_id']}";
-        self::updateCiviGroup        ( $aclParams, 'update' );
+        $aclParams               = $params;
+        $aclParams['name']       = $aclParams['title'] = "{$aclParams['name']}: Administrator";
+        $aclParams['source']     = CRM_Bridge_OG_Utils::ogSyncACLName( $params['og_id'] );
+        $aclParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
+        self::updateCiviGroup    ( $aclParams, $op );
 
         $aclParams['acl_group_id']     = $aclParams['group_id'];
         $aclParams['civicrm_group_id'] = $groupParams['group_id'];
             
-        self::updateCiviACLTables    ( $aclParams, 'update' );
-
-        CRM_Core_DAO::transaction( 'COMMIT' );
-    }
-
-    static function delete( &$params ) {
-        CRM_Core_DAO::transaction( 'BEGIN' );
-
-        // first create or update the CiviCRM group
-        $groupParams           = $params;
-        $groupParams['source'] = "OG Sync Group: {$params['og_id']}";
-        self::updateCiviGroup( $groupParams, 'delete' );
-
-        // next create or update the CiviCRM ACL group
-        $aclParams                     = $params;
-        $aclParams['source']           = "OG Sync ACL Group: {$params['og_id']}";
-        $aclParams['name']             = $aclParams['title'] = "{$aclParams['name']}: Administrator";
-        self::updateCiviGroup        ( $aclParams, 'delete' );
-
-        $aclParams['acl_group_id']     = $aclParams['group_id'];
-        $aclParams['civicrm_group_id'] = $groupParams['group_id'];
-        self::updateCiviACLTables    ( $aclParams, 'delete' );
+        self::updateCiviACLTables    ( $aclParams, $op );
 
         CRM_Core_DAO::transaction( 'COMMIT' );
     }
 
     static function updateCiviGroup( &$params, $op ) {
-        require_once 'CRM/OG/Utils.php';
-        CRM_Core_Error::debug( 'p', $params );
-        $params['id'] = CRM_OG_Utils::groupID( $params['source'], $params['title'], false );
+        $params['id'] = CRM_Bridge_OG_Utils::groupID( $params['source'], $params['title'], false );
 
-        if ( $op == 'update' ) {
+        if ( $op == 'add' ) {
             require_once 'api/Group.php';
+            if ( $groupType ) {
+                $params['group_type'] = $groupType;
+            }
             $group = crm_create_group( $params );
             $params['group_id'] = $group->id;
         } else {
@@ -183,6 +167,47 @@ SELECT v.id
         $dao->is_active = true;
         $dao->save( );
         $params['acl_id'] = $dao->id;
+    }
+
+    static function og( &$params, $op ) {
+        require_once 'CRM/Bridge/OG/Utils.php';
+
+        $contactID = CRM_Bridge_OG_Utils::contactID( $params['uf_id'] );
+        if ( ! $contactID ) {
+            CRM_Core_Error::fatal( );
+        }
+
+        // get the group id of this OG
+        $groupID   = CRM_Bridge_OG_Utils::groupID( CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] ),
+                                                   null, true );
+        
+        $groupParams = array( 'contact_id' => $contactID,
+                              'group_id'   => $groupID  );
+
+        require_once 'api/v2/GroupContact.php';
+        if ( $op == 'add' ) {
+            $groupParams['status'] = $params['is_active'] ? 'Added' : 'Pending';
+            civicrm_group_contact_add( $groupParams );
+        } else {
+            $groupParams['status'] = 'Removed';
+            civicrm_group_contact_remove( $groupParams );
+        }
+
+        if ( $params['is_admin'] !== null ) {
+            // get the group ID of the acl group
+            $groupID   = CRM_Bridge_OG_Utils::groupID( CRM_Bridge_OG_Utils::ogSyncACLName( $params['og_id'] ),
+                                                       null, true );
+            
+            $groupParams = array( 'contact_id' => $contactID,
+                                  'group_id'   => $groupID  ,
+                                  'status'     => $params['is_admin'] ? 'Added' : 'Removed' );
+            
+            if ( $params['is_admin'] ) {
+                civicrm_group_contact_add( $groupParams );
+            } else {
+                civicrm_group_contact_remove( $groupParams );
+            }
+        }
     }
 
 }

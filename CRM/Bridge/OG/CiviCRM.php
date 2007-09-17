@@ -33,56 +33,24 @@
  *
  */
 
-class CRM_OG_OG {
+class CRM_Bridge_OG_CiviCRM {
 
-    static function update( &$params ) {
-        self::common( $params, 'add' );
-    }
+    static function groupContact( $groupID, $contactIDs, $op ) {
+        require_once 'CRM/Bridge/OG/Utils.php';
+        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, true );
 
-    static function delete( &$params ) {
-        self::common( $params, 'remove' );
-    }
-
-
-    static function common( &$params, $op ) {
-        require_once 'CRM/OG/Utils.php';
-
-        $contactID = CRM_OG_Utils::contactID( $params['uf_id'] );
-        if ( ! $contactID ) {
-            CRM_Core_Error::fatal( );
-        }
-
-        // get the group id of this OG
-        $groupID   = CRM_OG_Utils::groupID( "OG Sync Group: {$params['og_id']}", null, true );
-        
-        $groupParams = array( 'contact_id' => $contactID,
-                              'group_id'   => $groupID  );
-
-        require_once 'api/v2/GroupContact.php';
-        if ( $op == 'add' ) {
-            $groupParams['status'] = $params['is_active'] ? 'Added' : 'Pending';
-            civicrm_group_contact_add( $groupParams );
-        } else {
-            $groupParams['status'] = 'Removed';
-            civicrm_group_contact_add( $groupParams );
-        }
-
-        if ( $params['is_admin'] !== null ) {
-            // get the group ID of the acl group
-            $groupID   = self::getGroupID( "OG Sync ACL Group: {$params['og_id']}" );
-            
-            $groupParams = array( 'contact_id' => $contactID,
-                                  'group_id'   => $groupID  ,
-                                  'status'     => $params['is_admin'] ? 'Added' : 'Removed' );
-            
-            if ( $params['is_admin'] ) {
-                civicrm_group_contact_add( $groupParams );
-            } else {
-                civicrm_group_contact_remove( $groupParams );
+        require_once 'api/UFGroup.php';
+        foreach ( $contactIDs as $contactID ) {
+            $drupalID = crm_uf_get_uf_id( $contactID );
+            if ( $drupalID ) {
+                if ( $op == 'add' ) {
+                    og_save_subscription( $ogID, $drupalID, array( 'is_active' => 1 ) );
+                } else {
+                    og_delete_subscription( $ogID, $drupalID );
+                }
             }
         }
     }
-
 }
 
 ?>

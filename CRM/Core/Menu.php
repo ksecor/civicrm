@@ -545,18 +545,6 @@ class CRM_Core_Menu {
         $backupDataExtra = ts('Backup Your Data:') . ' ' . ts('CiviCRM will create an SQL dump file with all of your existing data, and allow you to download it to your local computer. This process may take a long time and generate a very large file if you have a large number of records.') . '\n\n' . ts('Do you want to continue?');
         $items = array(
                      array(
-                           'path'    => 'civicrm/admin/access',
-                           'title'   => ts('Access Control'),
-                           'desc'    => ts('Grant or deny access to actions (view, edit...), features and components.'), 
-                           'query'   => 'reset=1',
-                           'type'    => self::CALLBACK,
-                           'crmType' => self::LOCAL_TASK,
-                           'adminGroup' => ts('Manage'),
-                           'icon'    => 'admin/small/03.png',
-                           'weight'  => 110
-                           ),
-
-                     array(
                            'path'    => 'civicrm/admin/backup',
                            'title'   => ts('Backup Data'),
                            'desc'    => ts('Create a backup file containing your CiviCRM data.'),
@@ -836,6 +824,21 @@ class CRM_Core_Menu {
                              ),
                        
                        );
+        $config = CRM_Core_Config::singleton( );
+        if ( $config->userFramework != 'Joomla' ) {
+            $items[] = array(
+                             'path'    => 'civicrm/admin/access',
+                             'title'   => ts('Access Control'),
+                             'desc'    => ts('Grant or deny access to actions (view, edit...), features and components.'), 
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Manage'),
+                             'icon'    => 'admin/small/03.png',
+                             'weight'  => 110
+                             );
+        }
+        
         return $items;
     }
 
