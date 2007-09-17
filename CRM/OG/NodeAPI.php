@@ -67,6 +67,7 @@ class CRM_OG_NodeAPI {
 
         // next create or update the CiviCRM ACL group
         $aclParams                     = $params;
+        $aclParams['source']           = "OG Sync ACL Group: {$params['og_id']}";
         $aclParams['name']             = $aclParams['title'] = "{$aclParams['name']}: Administrator";
         self::updateCiviGroup        ( $aclParams, 'delete' );
 
@@ -79,6 +80,7 @@ class CRM_OG_NodeAPI {
 
     static function updateCiviGroup( &$params, $op ) {
         require_once 'CRM/OG/Utils.php';
+        CRM_Core_Error::debug( 'p', $params );
         $params['id'] = CRM_OG_Utils::groupID( $params['source'], $params['title'], false );
 
         if ( $op == 'update' ) {
