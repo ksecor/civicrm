@@ -35,6 +35,31 @@
 
 class CRM_Bridge_OG_Utils {
 
+    static function ogSyncName( $ogID ) {
+        return "OG Sync Group :{$ogID}:";
+    }
+
+    static function ogSyncACLName( $ogID ) {
+        return "OG Sync Group ACL :{$ogID}:";
+    }
+
+    static function ogID( $groupID, $abort = true ) {
+        $source = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                               $groupID,
+                                               'source' );
+
+        if ( strpos( $source, 'OG Sync Group' ) !== false ) {
+            preg_match( '/:(\d+):$/', $source, $matches );
+            if ( is_numeric( $matches[1] ) ) {
+                return $matches[1];
+            }
+        }
+        if ( $abort ) {
+            CRM_Core_Error::fatal( );
+        }
+        return null;
+    }
+
     static function contactID( $ufID ) {
         require_once 'api/UFGroup.php';
         $contactID = crm_uf_get_match_id( $ufID );
@@ -75,6 +100,7 @@ SELECT id
 
         return $groupID;
     }
+
 
 }
 

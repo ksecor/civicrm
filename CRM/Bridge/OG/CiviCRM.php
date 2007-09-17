@@ -33,49 +33,24 @@
  *
  */
 
-class CRM_Bridge_OG_OG {
+class CRM_Bridge_OG_CiviCRM {
 
-    static function og( &$params, $op ) {
+    static function groupContact( $groupID, $contactIDs, $op ) {
         require_once 'CRM/Bridge/OG/Utils.php';
+        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, true );
 
-        $contactID = CRM_Bridge_OG_Utils::contactID( $params['uf_id'] );
-        if ( ! $contactID ) {
-            CRM_Core_Error::fatal( );
-        }
-
-        // get the group id of this OG
-        $groupID   = CRM_Bridge_OG_Utils::groupID( CRM_Bridge_OG_Utils::ogSyncName( $params['og_id'] ),
-                                                   null, true );
-        
-        $groupParams = array( 'contact_id' => $contactID,
-                              'group_id'   => $groupID  );
-
-        require_once 'api/v2/GroupContact.php';
-        if ( $op == 'add' ) {
-            $groupParams['status'] = $params['is_active'] ? 'Added' : 'Pending';
-            civicrm_group_contact_add( $groupParams );
-        } else {
-            $groupParams['status'] = 'Removed';
-            civicrm_group_contact_remove( $groupParams );
-        }
-
-        if ( $params['is_admin'] !== null ) {
-            // get the group ID of the acl group
-            $groupID   = CRM_Bridge_OG_Utils::groupID( CRM_Bridge_OG_Utils::ogSyncACLName( $params['og_id'] ),
-                                                       null, true );
-            
-            $groupParams = array( 'contact_id' => $contactID,
-                                  'group_id'   => $groupID  ,
-                                  'status'     => $params['is_admin'] ? 'Added' : 'Removed' );
-            
-            if ( $params['is_admin'] ) {
-                civicrm_group_contact_add( $groupParams );
-            } else {
-                civicrm_group_contact_remove( $groupParams );
+        require_once 'api/UFGroup.php';
+        foreach ( $contactIDs as $contactID ) {
+            $drupalID = crm_uf_get_uf_id( $contactID );
+            if ( $drupalID ) {
+                if ( $op == 'add' ) {
+                    og_save_subscription( $ogID, $drupalID, array( 'is_active' => 1 ) );
+                } else {
+                    og_delete_subscription( $ogID, $drupalID );
+                }
             }
         }
     }
-
 }
 
 ?>
