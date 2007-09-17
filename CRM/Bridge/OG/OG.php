@@ -33,7 +33,7 @@
  *
  */
 
-class CRM_OG_OG {
+class CRM_Bridge_OG_OG {
 
     static function update( &$params ) {
         self::common( $params, 'add' );
@@ -45,15 +45,15 @@ class CRM_OG_OG {
 
 
     static function common( &$params, $op ) {
-        require_once 'CRM/OG/Utils.php';
+        require_once 'CRM/Bridge/OG/Utils.php';
 
-        $contactID = CRM_OG_Utils::contactID( $params['uf_id'] );
+        $contactID = CRM_Bridge_OG_Utils::contactID( $params['uf_id'] );
         if ( ! $contactID ) {
             CRM_Core_Error::fatal( );
         }
 
         // get the group id of this OG
-        $groupID   = CRM_OG_Utils::groupID( "OG Sync Group: {$params['og_id']}", null, true );
+        $groupID   = CRM_Bridge_OG_Utils::groupID( "OG Sync Group: {$params['og_id']}", null, true );
         
         $groupParams = array( 'contact_id' => $contactID,
                               'group_id'   => $groupID  );
@@ -69,7 +69,7 @@ class CRM_OG_OG {
 
         if ( $params['is_admin'] !== null ) {
             // get the group ID of the acl group
-            $groupID   = CRM_OG_Utils::groupID( "OG Sync ACL Group: {$params['og_id']}", null, true );
+            $groupID   = CRM_Bridge_OG_Utils::groupID( "OG Sync ACL Group: {$params['og_id']}", null, true );
             
             $groupParams = array( 'contact_id' => $contactID,
                                   'group_id'   => $groupID  ,

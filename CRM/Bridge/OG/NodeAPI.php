@@ -33,7 +33,7 @@
  *
  */
 
-class CRM_OG_NodeAPI {
+class CRM_Bridge_OG_NodeAPI {
 
     static function update( &$params ) {
         CRM_Core_DAO::transaction( 'BEGIN' );
@@ -81,8 +81,8 @@ class CRM_OG_NodeAPI {
     }
 
     static function updateCiviGroup( &$params, $op ) {
-        require_once 'CRM/OG/Utils.php';
-        $params['id'] = CRM_OG_Utils::groupID( $params['source'], $params['title'], false );
+        require_once 'CRM/Bridge/OG/Utils.php';
+        $params['id'] = CRM_Bridge_OG_Utils::groupID( $params['source'], $params['title'], false );
 
         if ( $op == 'update' ) {
             require_once 'api/Group.php';

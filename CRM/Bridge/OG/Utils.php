@@ -33,7 +33,7 @@
  *
  */
 
-class CRM_OG_Utils {
+class CRM_Bridge_OG_Utils {
 
     static function contactID( $ufID ) {
         require_once 'api/UFGroup.php';
