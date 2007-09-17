@@ -414,11 +414,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $dummy_mail->body_text = $str;
             $tokens = $dummy_mail->getTokens();
 
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['body_text']);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
             $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['body_text']);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['body_text']);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
 
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
             if (! empty($unmatched)) {
