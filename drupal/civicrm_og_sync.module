@@ -1,0 +1,112 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 1.9                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the Affero General Public License Version 1,    |
+ | March 2002.                                                        |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the Affero General Public License for more details.            |
+ |                                                                    |
+ | You should have received a copy of the Affero General Public       |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org.  If you have questions about the       |
+ | Affero General Public License or the licensing  of CiviCRM,        |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
+
+/**
+ * Implementation of hook_nodeapi
+ * http://api.drupal.org/api/function/hook_nodeapi/5
+ *	
+ */
+function civicrm_og_sync_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
+
+    // check if the node if of type og
+    if ( ! og_is_group_type( $node->type ) ) {
+        return;
+    }
+
+    // check if civicrm is present
+    if ( ! function_exists( 'civicrm_initialize' ) ) {
+        return;
+    }
+
+    civicrm_initialize( );
+
+	require_once 'CRM/OG/NodeAPI.php';
+
+    $title  = trim( $node->title );
+    $params = array( 'name'        => $title,
+                     'title'       => $title,
+                     'description' => trim( $node->og_description ),
+                     'is_active'   => 1,
+                     'domain_id'   => CRM_Core_Config::domainID( ),
+                     'og_id'       => $node->nid );
+    
+    switch ( $op ) {
+    case 'insert':
+    case 'update':
+        CRM_OG_NodeAPI::update( $params );
+        break;
+
+    case 'delete':
+        // OG has been deleted, but we dont really care about this in CiviCRM land
+        // We ignore this for now
+        CRM_OG_NodeAPI::delete( $params );
+        break;
+
+    default:
+        break;
+    }
+}
+
+function civicrm_og_sync_og( $op, $nid, $uid, $args = array( ) ) {
+
+    // check if civicrm is present
+    if ( ! function_exists( 'civicrm_initialize' ) ) {
+        return;
+    }
+
+    civicrm_initialize( );
+    
+    require_once 'CRM/OG/OG.php';
+
+    $params = array( 'og_id'     => $nid,
+                     'uf_id'     => $uid,
+                     'is_active' => isset( $args['is_active'] ) ? $args['is_active'] : null,
+                     'is_admin'  => isset( $args['is_admin' ] ) ? $args['is_admin' ] : null,
+                     );
+
+    switch ( $op ) {
+
+    case 'user_insert':
+        CRM_OG_OG::update( $params );
+        break;
+
+    case 'user_delete':
+        CRM_OG_OG::delete( $params );
+        break;
+
+    }
+}
+
+?>

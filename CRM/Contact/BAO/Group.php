@@ -101,6 +101,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $subHistory->delete();
 
         // delete all crm_group_contact records with the selected group id
+        require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         $groupContact->delete();

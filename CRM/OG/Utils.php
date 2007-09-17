@@ -33,49 +33,49 @@
  *
  */
 
-/**
- * Implementation of hook_nodeapi
- * http://api.drupal.org/api/function/hook_nodeapi/5
- *	
- */
-function og_civicrm_acl_nodeapi( &$node, $op, $a3 = null, $a4 = null ) {
+class CRM_OG_Utils {
 
-    // check if the node if of type og
-    if ( ! og_is_group_type( $node->type ) ) {
-        return;
+    static function contactID( $ufID ) {
+        require_once 'api/UFGroup.php';
+        $contactID = crm_uf_get_match_id( $ufID );
+        if ( $contactID ) {
+            return $contactID;
+        }
+
+        // else create a contact for this user
+        $user = user_load( array( 'uid' => $ufID ) );
+        $params = array( 'contact_type' => 'Individual',
+                         'email'        => $user->mail, );
+
+        require_once 'api/v2/Contact.php';
+        $contact = civicrm_contact_add( $params );
+        if ( $values['is_error'] ) {
+            CRM_Core_Error::fatal( );
+        }
+        return $values['contact_id'];
     }
 
-    // check if civicrm is present
-    if ( ! function_exists( 'civicrm_initialize' ) ) {
-        return;
+    static function groupID( $source, $title = null, $abort = false ) {
+        $query  = "
+SELECT id
+  FROM civicrm_group
+ WHERE source = %1";
+        $params = array( 1 => array( $source, 'String' ) );
+
+        if ( $title ) {
+            $query .= " OR title = %2";
+            $params[2] = array( $title, 'String' );
+        }
+                         
+        $groupID = CRM_Core_DAO::singleValueQuery( $query, $params );
+        if ( $abort &&
+             ! $groupID ) {
+            CRM_Core_Error::fatal( );
+        }
+
+        return $groupID;
     }
 
-    civicrm_initialize( );
-
-	require_once 'CRM/OG/NodeAPI.php';
-
-    switch ( $op ) {
-    case 'insert':
-    case 'update':
-        $title  = trim( $node->title );
-        $params = array( 'name'        => $title,
-                         'title'       => $title,
-                         'description' => trim( $node->og_description ),
-                         'is_active'   => 1,
-                         'domain_id'   => CRM_Core_Config::domainID( ),
-                         'og_id'       => $node->nid );
-        CRM_OG_NodeAPI::update( $params );
-        break;
-
-    case 'delete':
-        // OG has been deleted, but we dont really care about this in CiviCRM land
-        // We ignore this for now
-        break;
-
-    default:
-        break;
-    }
 }
 
 ?>
-
