@@ -39,15 +39,17 @@ class CRM_OG_NodeAPI {
         CRM_Core_DAO::transaction( 'BEGIN' );
 
         // first create or update the CiviCRM group
-        $groupParams           = $params;
-        $groupParams['source'] = "OG Sync Group: {$params['og_id']}";
-        self::updateCiviGroup( $groupParams, 'update' );
+        $groupParams               = $params;
+        $groupParams['source']     = "OG Sync Group: {$params['og_id']}";
+        $groupParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
+        self::updateCiviGroup( $groupParams, 'update', $groupType );
 
         // next create or update the CiviCRM ACL group
-        $aclParams                     = $params;
-        $aclParams['name']             = $aclParams['title'] = "{$aclParams['name']}: Administrator";
-        $aclParams['source']           = "OG Sync ACL Group: {$params['og_id']}";
-        self::updateCiviGroup        ( $aclParams, 'update' );
+        $aclParams               = $params;
+        $aclParams['name']       = $aclParams['title'] = "{$aclParams['name']}: Administrator";
+        $aclParams['source']     = "OG Sync ACL Group: {$params['og_id']}";
+        $aclParams['group_type'] = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
+        self::updateCiviGroup    ( $aclParams, 'update' );
 
         $aclParams['acl_group_id']     = $aclParams['group_id'];
         $aclParams['civicrm_group_id'] = $groupParams['group_id'];
@@ -80,11 +82,13 @@ class CRM_OG_NodeAPI {
 
     static function updateCiviGroup( &$params, $op ) {
         require_once 'CRM/OG/Utils.php';
-        CRM_Core_Error::debug( 'p', $params );
         $params['id'] = CRM_OG_Utils::groupID( $params['source'], $params['title'], false );
 
         if ( $op == 'update' ) {
             require_once 'api/Group.php';
+            if ( $groupType ) {
+                $params['group_type'] = $groupType;
+            }
             $group = crm_create_group( $params );
             $params['group_id'] = $group->id;
         } else {

@@ -40,7 +40,7 @@ class CRM_OG_OG {
     }
 
     static function delete( &$params ) {
-        self::common( $params, 'remove' );
+        self::common( $params, 'delete' );
     }
 
 
@@ -64,12 +64,12 @@ class CRM_OG_OG {
             civicrm_group_contact_add( $groupParams );
         } else {
             $groupParams['status'] = 'Removed';
-            civicrm_group_contact_add( $groupParams );
+            civicrm_group_contact_remove( $groupParams );
         }
 
         if ( $params['is_admin'] !== null ) {
             // get the group ID of the acl group
-            $groupID   = self::getGroupID( "OG Sync ACL Group: {$params['og_id']}" );
+            $groupID   = CRM_OG_Utils::groupID( "OG Sync ACL Group: {$params['og_id']}", null, true );
             
             $groupParams = array( 'contact_id' => $contactID,
                                   'group_id'   => $groupID  ,

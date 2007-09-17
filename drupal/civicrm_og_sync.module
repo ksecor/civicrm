@@ -98,11 +98,12 @@ function civicrm_og_sync_og( $op, $nid, $uid, $args = array( ) ) {
 
     switch ( $op ) {
 
-    case 'user_insert':
+    case 'user insert':
+    case 'user update':
         CRM_OG_OG::update( $params );
         break;
 
-    case 'user_delete':
+    case 'user delete':
         CRM_OG_OG::delete( $params );
         break;
 
