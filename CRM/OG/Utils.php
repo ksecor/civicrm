@@ -33,52 +33,47 @@
  *
  */
 
-class CRM_OG_OG {
+class CRM_OG_Utils {
 
-    static function update( &$params ) {
-        self::common( $params, 'add' );
+    static function contactID( $ufID ) {
+        require_once 'api/UFGroup.php';
+        $contactID = crm_uf_get_match_id( $ufID );
+        if ( $contactID ) {
+            return $contactID;
+        }
+
+        // else create a contact for this user
+        $user = user_load( array( 'uid' => $ufID ) );
+        $params = array( 'contact_type' => 'Individual',
+                         'email'        => $user->mail, );
+
+        require_once 'api/v2/Contact.php';
+        $contact = civicrm_contact_add( $params );
+        if ( $values['is_error'] ) {
+            CRM_Core_Error::fatal( );
+        }
+        return $values['contact_id'];
     }
 
-    static function delete( &$params ) {
-        self::common( $params, 'remove' );
-    }
+    static function groupID( $source, $name = null, $abort = false ) {
+        $query  = "
+SELECT id
+  FROM civicrm_group
+ WHERE source = %1";
+        $params = array( 1 => array( $source, 'String' ) );
 
-
-    static function common( &$params, $op ) {
-        $contactID = CRM_Utils_OG::contactID( $params['uf_id'] );
-        if ( ! $contactID ) {
+        if ( $name ) {
+            $query .= " OR $name = %2";
+            $params[2] = array( $name, 'String' );
+        }
+                         
+        $groupID = CRM_Core_DAO::singleValueQuery( $query, $params );
+        if ( $abort &&
+             ! $groupID ) {
             CRM_Core_Error::fatal( );
         }
 
-        // get the group id of this OG
-        $groupID   = CRM_Utils_OG::groupID( "OG Sync Group: {$params['og_id']}", null, true );
-        
-        $groupParams = array( 'contact_id' => $contactID,
-                              'group_id'   => $groupID  );
-
-        require_once 'api/v2/GroupContact.php';
-        if ( $op == 'add' ) {
-            $groupParams['status'] = $params['is_active'] ? 'Added' : 'Pending';
-            civicrm_group_contact_add( $groupParams );
-        } else {
-            $groupParams['status'] = 'Removed';
-            civicrm_group_contact_add( $groupParams );
-        }
-
-        if ( $params['is_admin'] !== null ) {
-            // get the group ID of the acl group
-            $groupID   = self::getGroupID( "OG Sync ACL Group: {$params['og_id']}" );
-            
-            $groupParams = array( 'contact_id' => $contactID,
-                                  'group_id'   => $groupID  ,
-                                  'status'     => $params['is_admin'] ? 'Added' : 'Removed' );
-            
-            if ( $params['is_admin'] ) {
-                civicrm_group_contact_add( $groupParams );
-            } else {
-                civicrm_group_contact_remove( $groupParams );
-            }
-        }
+        return $groupID;
     }
 
 }
