@@ -72,12 +72,17 @@ class CRM_Mailing_Form_Test extends CRM_Core_Form
                 )
             );
         $values = array( 'mailing_id' => $this->get('mailing_id' ) );
+        $textFile = $this->get('textFile');
+        $htmlFile = $this->get('htmlFile');
 
         $this->addFormRule(array('CRM_Mailing_Form_Test', 'testMail'), $values);
-        $preview = array(
-            'text_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=text'),
-            'html_link' => CRM_Utils_System::url('civicrm/mailing/preview', 'type=html'),
-        );
+        $preview = array();
+        if ($textFile) {
+            $preview['text_link'] = CRM_Utils_System::url('civicrm/mailing/preview', 'type=text');
+        }
+        if ($htmlFile) {
+            $preview['html_link'] = CRM_Utils_System::url('civicrm/mailing/preview', 'type=html');
+        }
         $this->assign('preview', $preview);
     }
     
