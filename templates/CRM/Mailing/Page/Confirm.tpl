@@ -2,9 +2,9 @@
     <dl>
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
 {if $success}
-      <dd><label>{$display_name} ({$email})</label> {ts}has been successfully subscribed to{/ts} {$group}.</dd>
+      <dd>{ts 1=$display_name 2=$email 3=$group}<strong>%1 (%2)</strong> has been successfully subscribed to the <strong>%3</strong> mailing list.{/ts}</dd>
 {else}
-      <dd>{ts}We encountered a problem in processing your subscription. Please contact the site administrator{/ts}.</dd>
+      <dd>{ts}Oops. We encountered a problem in processing your subscription confirmation. Please contact the site administrator.{/ts}</dd>
 {/if}
     </dl>
 </div>

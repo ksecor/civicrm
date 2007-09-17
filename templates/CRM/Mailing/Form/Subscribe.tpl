@@ -10,7 +10,7 @@
     <div id="help">
         {ts}Enter your email address and check the box next to each mailing list you want to join. Then click the
         <strong>Subscribe</strong> button. You will receive a confirmation request via email for each selected list.
-        Confirm your subscription to each list by responding to the confirmation email(s).{/ts}
+        Activate your subscription to each list by responding to the corresponding confirmation email.{/ts}
     </div>
 {/if}
 
