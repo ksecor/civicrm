@@ -9,7 +9,7 @@
         <dt>{$form.email_name.label}</dt><dd>{$form.email_name.html}</dd>
         <dt>{$form.email_address.label}</dt><dd>{$form.email_address.html}</dd>
         {edit}
-            <dt class="extra-long-fourty">&nbsp;</dt>
+            <dt class="extra-long-twenty">&nbsp;</dt>
             <dd class="description">
                 {ts}Set the above two values to the default values you want to appear in the From Header when email is sent from this domain (e.g., <code>Organization Name, info@example.org</code>){/ts}
             </dd>

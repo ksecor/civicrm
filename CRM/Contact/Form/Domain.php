@@ -164,20 +164,20 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
     public function buildQuickForm( ) {
         
-        $this->add('text', 'name' , ts('Name:') , array('size' => 25));
-        $this->add('text', 'description', ts('Description:'), array('size' => 25) );
-        $this->add('text', 'contact_name', ts('Contact Name:'), array('size' => 25) );
+        $this->add('text', 'name' , ts('Domain Name') , array('size' => 25));
+        $this->add('text', 'description', ts('Description'), array('size' => 25) );
+        $this->add('text', 'contact_name', ts('Contact Name'), array('size' => 25) );
 
-        $this->add('text', 'email_name', ts('Default Email Name:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->add('text', 'email_name', ts('Default Email Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
 
-        $this->add('text', 'email_address', ts('Default Email:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->add('text', 'email_address', ts('Default Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_address", ts('Email is not valid.'), 'email' );
 
-        $this->add('text', 'email_domain', ts('Email Domain:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->add('text', 'email_domain', ts('Email Domain'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_domain", ts('Email is not valid.'), 'domain' );
 
-        $this->add('text', 'email_return_path', ts('Return-Path:'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
-        $this->addRule( "email_return_path", ts('Email is not valid.'), 'email' );
+        $this->add('text', 'email_return_path', ts('Return-Path'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
+        $this->addRule( "email_return_path", ts('Return-Path must be a valid email address format.'), 'email' );
         
         //blocks to be displayed
         $this->assign( 'locationCount', self::LOCATION_BLOCKS + 1);    

@@ -108,7 +108,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $html = $component->body_html;
         require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
-        $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->name, true);
+        $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->title, true);
 
         if ($component->body_text) {
             $text = $component->body_text;
@@ -116,7 +116,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
             $text = CRM_Utils_String::htmlToText($component->body_html);
         }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
-        $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->name, false);
+        $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->title, false);
 
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);

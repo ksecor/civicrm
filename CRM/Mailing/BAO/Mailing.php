@@ -52,6 +52,20 @@ require_once 'CRM/Mailing/BAO/Spool.php';
 class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
     /**
+     * An array that holds the complete templates
+     * including any headers or footers that need to be prepended
+     * or appended to the body
+     */
+    private $preparedTemplates = null;
+
+    /**
+     * An array that holds the complete templates
+     * including any headers or footers that need to be prepended
+     * or appended to the body
+     */
+    private $templates = null;
+
+    /**
      * An array that holds the tokens that are specifically found in our text and html bodies
      */
     private $tokens = null;
@@ -418,6 +432,126 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         return $groupIds;
     }
 
+
+    /**
+     * 
+     * Returns the regex patterns that are used for preparing the text and html templates
+     *   
+     * @access private
+     * 
+     **/
+    private function &getPatterns($onlyHrefs = false){
+    
+      $patterns = array();
+    
+      $protos = '(https?|ftp)';
+      $letters = '\w';
+      $gunk = '\{\}/#~:.?+=&%@!\-';
+      $punc = '.:?\-';
+      $any = "{$letters}{$gunk}{$punc}";
+      if ( $onlyHrefs ) {
+          $pattern = "\\b(href=([\"'])?($protos:[$any]+?(?=[$punc]*[^$any]|$))([\"'])?)";
+      } else {
+          $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
+      }
+    
+      $patterns[] = $pattern;
+      $patterns[] = '\\\\\{\w+\.\w+\\\\\}|\{\{\w+\.\w+\}\}';
+      $patterns[] = '\{\w+\.\w+\}';
+    
+      $patterns = '{'.join('|',$patterns).'}im';
+    
+      return $patterns;
+    }
+
+    /**
+     * 
+     * Prepares the text and html templates
+     * for generating the emails
+     *   
+     * @access private
+     * 
+     **/
+    private function prepareTemplates(){
+      $patterns['html'] = $this->getPatterns(true);
+      $patterns['text'] = $this->getPatterns();
+      $templates = $this->getTemplates();
+
+      if(!$this->preparedTemplates){
+        $this->preparedTemplates = array();
+      }
+
+      foreach(array('html','text') as $key){
+          if(!isset($templates[$key])){
+            continue;
+          }
+          
+          $matches = array();
+          $split_template = array();
+
+          $email = $templates[$key];
+          preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
+
+          foreach($matches[0] as $token){
+            $token = '/'.preg_quote($token,'/').'/im';
+            list($split_template[],$email) = preg_split($token,$email,2);
+          }
+          if($email){
+             $split_template[] = $email;
+          }
+          $this->preparedTemplates[$key]['template'] = $split_template;
+          $this->preparedTemplates[$key]['tokens'] = $matches[0];
+      }
+    }
+
+    /**
+     * 
+     *  Retrieve a ref to an array that holds the email and text templates for this email
+     *  assembles the complete template including the header and footer
+     *  that the user has uploaded or declared (if they have dome that)
+     *  
+     *  
+     * @return array reference to an assoc array
+     * @access private
+     * 
+     **/
+
+    private function &getTemplates(){
+      if(!$this->templates){
+
+          $this->templates = array(  );
+  
+          if( $this->body_text ){
+              $template = array();
+              if ( $this->header ) {
+                  $template[] = $this->header->body_text;
+              }
+              $template[] = $this->body_text;
+              if ( $this->footer ) {
+                  $template[] = $this->footer->body_text;
+              }
+              $this->templates['text'] = join("\n",$template);
+          }
+
+          if($this->body_html){
+  
+              $template = array();
+              if ( $this->header ) {
+                  $template[] = $this->header->body_html;
+              }
+              $template[] = $this->body_html;
+              if ( $this->footer ) {
+                  $template[] = $this->footer->body_html;
+              }
+              $this->templates['html'] = join("\n",$template);
+    
+              if (!$this->body_text) {
+                $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
+              }
+          }
+      }
+      return $this->templates;    
+    }
     /**
      * 
      *  Retrieve a ref to an array that holds all of the tokens in the email body
@@ -437,45 +571,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     public function &getTokens(){
       if(!$this->tokens){
 
-        $htmlKey = 'body_html';
-        $textKey = 'body_text';
-
-        $this->tokens = array( $htmlKey => array(), $textKey => array() );
+        $this->tokens = array( 'html' => array(), 'text' => array() );
   
-        if($this->$htmlKey){
-
-          if($this->html == null){
-            $email = array();
-            if ( $this->header ) {
-                $email[] = $this->header->$htmlKey;
-            }
-            $email[] = $this->$htmlKey;
-            if ( $this->footer ) {
-                $email[] = $this->footer->$htmlKey;
-            }
-            $this->html = join("\n",$email);
-          }
-          $this->_getTokens('html');
-
-          if (!$this->$textKey) {
-            $this->$textKey = CRM_Utils_String::htmlToText($this->$htmlKey);
-          }
+        if($this->body_html){
+            $this->_getTokens('html');
         }
 
-        if($this->$textKey){
-
-          if($this->text == null){
-            $email = array();
-            if ( $this->header ) {
-                $email[] = $this->header->$textKey;
-            }
-            $email[] = $this->$textKey;
-            if ( $this->footer ) {
-                $email[] = $this->footer->$textKey;
-            }
-            $this->text = join("\n",$email);
-          }
-          $this->_getTokens('text');
+        if($this->body_text){
+            $this->_getTokens('text');
         }
 
       }
@@ -499,9 +602,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
 
     private function _getTokens( $prop ) {
+        $templates = $this->getTemplates();
         $matches = array();
         preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $this->$prop,
+                        $templates[$prop],
                         $matches,
                         PREG_PATTERN_ORDER);
         
@@ -703,26 +807,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Utils/Token.php';
         $config =& CRM_Core_Config::singleton( );
         $knownTokens = $this->getTokens();
-
+        $templates = $this->getTemplates();
+        
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
             $this->_domain =& CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
 
         list($verp,$urls,$headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
-
-        $html = null;
-        $text = null;
-
-        if ($this->html) {
-          $html = $this->html;
-          $html = CRM_Utils_Token::replaceDomainTokens($html,$this->_domain, true, $knownTokens['html']);
-          $html = CRM_Utils_Token::replaceMailingTokens($html,$this, true, $knownTokens['html']);
-        }
-
-        $text = $this->text;
-        $text = CRM_Utils_Token::replaceDomainTokens($text,$this->_domain, false, $knownTokens['text']);
-        $text = CRM_Utils_Token::replaceMailingTokens($text,$this, false, $knownTokens['text']);
 
         if ( $contactDetails ) {
             $contact = $contactDetails;
@@ -733,6 +825,19 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 return null;
             }
         }
+
+        $html = null;
+        $text = null;
+
+        if (isset($templates['html'])) {
+          $html = $templates['html'];
+          $html = CRM_Utils_Token::replaceDomainTokens($html,$this->_domain, true, $knownTokens['html']);
+          $html = CRM_Utils_Token::replaceMailingTokens($html,$this, true, $knownTokens['html']);
+        }
+
+        $text = $templates['text'];
+        $text = CRM_Utils_Token::replaceDomainTokens($text,$this->_domain, false, $knownTokens['text']);
+        $text = CRM_Utils_Token::replaceMailingTokens($text,$this, false, $knownTokens['text']);
 
         $message =& new Mail_Mime("\n");
 

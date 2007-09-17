@@ -24,8 +24,12 @@ You can also view your content by clicking (+) Preview Mailing.{/ts} {help id="t
   <fieldset>
     <legend><a href="#" onclick="hide('previewMailing'); show('previewMailing_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Preview Mailing{/ts}</legend>
     <dl>
+      {if $preview.text_link}
       <dt class="label">{ts}Text Version:{/ts}</dt><dd><iframe height="300" src="{$preview.text_link}" width="80%"><a href="{$preview.text_link}" onclick="window.open(this.href); return false;">{ts}Text Version{/ts}</a></iframe></dd></dt>
+      {/if}
+      {if $preview.html_link}
       <dt class="label">{ts}HTML Version:{/ts}</dt><dd><iframe height="300" src="{$preview.html_link}" width="80%"><a href="{$preview.html_link}" onclick="window.open(this.href); return false;">{ts}HTML Version{/ts}</a></iframe></dd></dt>
+      {/if}
     </dl>
   </fieldset>
 </div>
