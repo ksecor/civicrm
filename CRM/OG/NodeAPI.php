@@ -36,6 +36,8 @@
 class CRM_OG_NodeAPI {
 
     static function update( &$params ) {
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
         // first create or update the CiviCRM group
         $groupParams           = $params;
         $groupParams['source'] = "OG Sync Group: {$params['og_id']}";
@@ -49,10 +51,15 @@ class CRM_OG_NodeAPI {
 
         $aclParams['acl_group_id']     = $aclParams['group_id'];
         $aclParams['civicrm_group_id'] = $groupParams['group_id'];
+            
         self::updateCiviACLTables    ( $aclParams, 'update' );
+
+        CRM_Core_DAO::transaction( 'COMMIT' );
     }
 
     static function delete( &$params ) {
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
         // first create or update the CiviCRM group
         $groupParams           = $params;
         $groupParams['source'] = "OG Sync Group: {$params['og_id']}";
@@ -66,10 +73,13 @@ class CRM_OG_NodeAPI {
         $aclParams['acl_group_id']     = $aclParams['group_id'];
         $aclParams['civicrm_group_id'] = $groupParams['group_id'];
         self::updateCiviACLTables    ( $aclParams, 'delete' );
+
+        CRM_Core_DAO::transaction( 'COMMIT' );
     }
 
     static function updateCiviGroup( &$params, $op ) {
-        $params['id'] = CRM_Utils_OG::groupID( $params['source'], $params['name'  ], false );
+        require_once 'CRM/OG/Utils.php';
+        $params['id'] = CRM_OG_Utils::groupID( $params['source'], $params['title'], false );
 
         if ( $op == 'update' ) {
             require_once 'api/Group.php';
@@ -122,11 +132,11 @@ SELECT v.id
  WHERE v.option_group_id = %1
    AND v.description     = %2
 ";
-        $params  = array( 1 => array( $optionGroupID   , 'Integer' ),
-                          2 => array( $params['source'], 'String'  ) );
-        $dao->id = CRM_Core_DAO::singleValueQuery( $query, $params );
-        dao->save( );
-        $params['acl_role_id'] = $dao->id;
+        $queryParams  = array( 1 => array( $optionGroupID   , 'Integer' ),
+                               2 => array( $params['source'], 'String'  ) );
+        $dao->id = CRM_Core_DAO::singleValueQuery( $query, $queryParams );
+        $dao->save( );
+        $params['acl_role_id'] = $dao->value;
     }
 
     static function updateCiviACLEntityRole( &$params, $op ) {

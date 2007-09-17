@@ -45,13 +45,15 @@ class CRM_OG_OG {
 
 
     static function common( &$params, $op ) {
-        $contactID = CRM_Utils_OG::contactID( $params['uf_id'] );
+        require_once 'CRM/OG/Utils.php';
+
+        $contactID = CRM_OG_Utils::contactID( $params['uf_id'] );
         if ( ! $contactID ) {
             CRM_Core_Error::fatal( );
         }
 
         // get the group id of this OG
-        $groupID   = CRM_Utils_OG::groupID( "OG Sync Group: {$params['og_id']}", null, true );
+        $groupID   = CRM_OG_Utils::groupID( "OG Sync Group: {$params['og_id']}", null, true );
         
         $groupParams = array( 'contact_id' => $contactID,
                               'group_id'   => $groupID  );

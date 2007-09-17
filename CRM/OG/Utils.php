@@ -55,16 +55,16 @@ class CRM_OG_Utils {
         return $values['contact_id'];
     }
 
-    static function groupID( $source, $name = null, $abort = false ) {
+    static function groupID( $source, $title = null, $abort = false ) {
         $query  = "
 SELECT id
   FROM civicrm_group
  WHERE source = %1";
         $params = array( 1 => array( $source, 'String' ) );
 
-        if ( $name ) {
-            $query .= " OR $name = %2";
-            $params[2] = array( $name, 'String' );
+        if ( $title ) {
+            $query .= " OR title = %2";
+            $params[2] = array( $title, 'String' );
         }
                          
         $groupID = CRM_Core_DAO::singleValueQuery( $query, $params );
