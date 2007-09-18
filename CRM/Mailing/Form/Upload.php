@@ -313,21 +313,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                           'on_hold'               => 0,
                           'preferred_mail_format' => 'Both'
                           );
-
-        require_once 'CRM/Contact/DAO/GroupOrganization.php';
-        $goDao =& new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT        co.contact_id
-                  FROM          civicrm_group_organization AS cgo
-                  INNER JOIN    civicrm_organization AS co
-                  ON            cgo.organization_id = co.id
-                  ORDER BY      cgo.id ASC
-                  LIMIT 1";
-        $goDao->query( $query );
-        if ( $goDao->fetch( ) ) {
-            $orgContactId = $goDao->contact_id;
-        }
-        $values = array('contact_id' => $orgContactId );
-        $org =& crm_fetch_contact( $values );
         
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
         foreach($verp as $key => $value) {

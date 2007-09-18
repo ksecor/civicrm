@@ -105,13 +105,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
                 $indent .= "&nbsp;&nbsp;&nbsp;&nbsp;";
             }
             $styledGroup->title = $indent . $styledGroup->title;
-            /* Doesn't work, so comment out for now
-            * require_once 'CRM/Contact/BAO/GroupOrganization.php';
-            * if ( CRM_Contact_BAO_GroupOrganization::exists( $styledGroup->id ) ) {
-            *    // TODO: How can I make these bold?
-            *    // It seems to ignore any tags inside the <option> tag.
-            * }
-            */
+
             $this->_current =& $styledGroup;
             $this->_alreadyStyled = true;
         }

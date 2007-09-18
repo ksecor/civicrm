@@ -84,77 +84,24 @@ class CRM_Contact_Form_GroupTag
             } else {
                 $group  =& CRM_Core_PseudoConstant::group( );
             }
-            
-            $orgId = null;
-            $excludeGroupIds = array( );
-	        if ( $contactId > 0 ) {
-	            require_once 'CRM/Contact/DAO/GroupOrganization.php';
-	            require_once 'CRM/Contact/DAO/Group.php';
-                
-                //will revist this code once done with other fixes
-	            $dao = new CRM_Contact_DAO_Contact( );
-	            $query = "SELECT id FROM civicrm_contact WHERE id = $contactId";
-	            $dao->query($query);
-	    
-	            if ( $dao->fetch() ) {
-	                $orgId = $dao->id;
-	            }
-            }
-	    
-	        if ( $orgId != null ) {
-	            $excludeGroupIds = array ( );
-	            $dao = new CRM_Contact_DAO_GroupOrganization();
-		        $query = "SELECT group_id FROM civicrm_group_organization WHERE organization_id = $orgId";
-		        $dao->query($query);
-		        while ( $dao->fetch() ) {
-		            $excludeGroupIds[] = $dao->group_id;
-		        }
-	        }
-	        /*
-    	    if ( $groupFetchId != null ) {
-    	        $dao = new CRM_Contact_DAO_Group();
-    		$query = "SELECT title FROM civicrm_group WHERE id = $groupFetchId";
-    		$dao->query($query);
-    		if ( $dao->fetch() ) {
-    		    $excludeGroupTitle = $dao->title;
-    		}
-    		else {
-    		    $excludeGroupTitle = null;
-    		}
-
-
-    	    }
-    	    */
+            require_once 'CRM/Contact/DAO/Group.php';
             foreach ($group as $id => $name) {
-		  
-	        if ( $visibility ) {
-		    // make sure that this group has public visibility. not very efficient
-		    $dao =& new CRM_Contact_DAO_Group( );
+		        if ( $visibility ) {
+		            // make sure that this group has public visibility. not very efficient
+		            $dao =& new CRM_Contact_DAO_Group( );
                     $dao->id = $id;
 		    
-		    if ( $dao->find( true ) ) {
-		        if ( $dao->visibility == 'User and User Admin Only' ) {
-			    continue;
-			}
-		    } else {
-		        continue;
+		            if ( $dao->find( true ) ) {
+		                if ( $dao->visibility == 'User and User Admin Only' ) {
+			                continue;
+			            }
+		            } else {
+		                continue;
+		            }
+		        }
+		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name, array ('disabled' => 'disabled', 'checked' => 'checked'));
 		    }
-		    
-		}
-		$disableBox = false;
-		foreach ( $excludeGroupIds as $excludeGroupId ) {
-		  if ( $excludeGroupId == $id ) {
-		      $disableBox = true;
-		  }
-		}		
-		if ( ! $disableBox ) {
-                    $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name);
-		}
-		else {
-		  $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name, array ('disabled' => 'disabled', 'checked' => 'checked'));
-		}
-	    }
-	    if ( ! empty( $elements ) ) {
+	        if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, $fName, $groupName, '<br />' );
                 if ( $isRequired ) {
                     $form->addRule( $fName , ts('%1 is a required field.', array(1 => $groupName)) , 'required');   

@@ -148,14 +148,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
 	
-	    require_once 'CRM/Contact/BAO/GroupOrganization.php';
-	    if ( isset ( $this->_id ) ) {
-	        $orgId = CRM_Contact_BAO_GroupOrganization::getOrganizationIds( $this->_id );
-	        if ( $orgId ) {
-	            $defaults['add_group_org'] = 1;
-	            $defaults['select_group_org'] = $orgId;
-	        }
-	    }
         return $defaults;
     }
 
@@ -229,6 +221,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                     $potentialChildGroupIds[] = $potentialChildGroup->id;
                 }
             }
+            
             foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
                 $potentialChildGroupInfo = array( );
                 $params = array( 'id' => $potentialChildGroupId );
@@ -236,36 +229,9 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
             }
             
-            
             if ( count( $childGroupSelectValues ) > 1 ) {
                 $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
             }
-
-            require_once ( 'CRM/Contact/BAO/GroupOrganization.php' );
-	        $this->add( 'checkbox', 'add_group_org', ts('Organization'), null, null );
-	    
-	        // Provide list of organizations from which to choose associated org.
-	        require_once ( 'CRM/Contact/DAO/Organization.php');
-	        $orgsList = array( );
-	        $this->_orgSelectValues = array( );
-	        $this->_orgSelectValues[] = "- Create new -";
-	        $query = "SELECT id, organization_name FROM civicrm_organization";
-	        $dao = new CRM_Contact_DAO_Organization( );
-	        $dao->query($query);
-	        while ( $dao->fetch() ) {
-	            $orgsList[] = array('id' => $dao->id, 'org_name' => $dao->organization_name );
-	            $this->_orgSelectValues[$dao->id] = $dao->organization_name;
-	        }
-	    
-	        $this->add( 'select', 'select_group_org', ts('Select Organization Contact'), $this->_orgSelectValues );
-	        $this->addButtons( array(
-                                     array( 'type'      => $buttonType,
-                                            'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
-                                            'isDefault' => true   ),
-                                     array( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
-                                     )
-            );
 
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
@@ -367,33 +333,6 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             if ( ! empty( $params['add_child_group'] ) ) {
                 CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
             }
-            
-	    if ( ! empty ( $params['add_group_org'] ) ) {
-	      if ( CRM_Contact_BAO_GroupOrganization::exists( $group->id ) ) {
-		// do nothing for now
-
-	      } else {
-		    if ( $params['select_group_org'] != "- Select an Organization -")  {
-		      $title = $this->_orgSelectValues[$params['select_group_org']];
-		    }
-		    else {
-		        $title = $group->title;
-		    }
-		    require_once('CRM/Contact/BAO/GroupOrganization.php');
-		    CRM_Contact_BAO_GroupOrganization::add($group->id, $title);
-       
-		    $contactId = CRM_Contact_BAO_GroupOrganization::getOrganizationContactId($group->id);
-		    //		    CRM_Core_Error::debug('p', $params);
-
-		    $url = CRM_Utils_System::url("civicrm/contact/add&reset=1&action=update&cid=$contactId");
-		    CRM_Utils_System::redirect($url);
-	      }
-	    } else if ( CRM_Contact_BAO_GroupOrganization::exists( $group->id ) ) {
-	        require_once( 'CRM/Contact/BAO/GroupOrganization.php' );
-	        CRM_Contact_BAO_GroupOrganization::remove( $group->id );
-			$contactId = CRM_Contact_BAO_GroupOrganization::getOrganizationContactId( $group->id );
-		CRM_Contact_BAO_Contact::deleteContact( $contactId );
-	    }
 
             CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
             
