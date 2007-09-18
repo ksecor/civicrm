@@ -130,6 +130,10 @@ function civicrm_og_sync_og( $op, $nid, $uid, $args = array( ) ) {
 }
 
 function civicrm_og_sync_civicrm_post( $op, $objectName, $objectID, $objectRef ) {
+    require_once 'CRM/Bridge/OG/Utils.php';
+    if ( ! CRM_Bridge_OG_Utils::syncFromCiviCRM( ) ) {
+        return;
+    }
 
     switch ( $objectName ) {
     case 'Group':
@@ -137,14 +141,14 @@ function civicrm_og_sync_civicrm_post( $op, $objectName, $objectID, $objectRef )
         switch ( $op ) {
         case 'create':
         case 'edit':
-            if ( _civicrm_og_sync_set_context( 'civicrm' ) ) {
+            if ( ! _civicrm_og_sync_set_context( 'civicrm' ) ) {
                 return;
             }
             CRM_Bridge_OG_CiviCRM::group( $objectID, $objectRef, 'add' );
             break;
 
         case 'delete':
-            if ( _civicrm_og_sync_set_context( 'civicrm' ) ) {
+            if ( ! _civicrm_og_sync_set_context( 'civicrm' ) ) {
                 return;
             }
             CRM_Bridge_OG_CiviCRM::group( $objectID, $objectRef, 'delete' );
@@ -156,18 +160,18 @@ function civicrm_og_sync_civicrm_post( $op, $objectName, $objectID, $objectRef )
         break;
 
     case 'GroupContact':
-        require_once 'CRM/Bridge/OG/GroupContact.php';
+        require_once 'CRM/Bridge/OG/CiviCRM.php';
         switch ( $op ) {
         case 'create':
         case 'edit':
-            if ( _civicrm_og_sync_set_context( 'civicrm' ) ) {
+            if ( ! _civicrm_og_sync_set_context( 'civicrm' ) ) {
                 return;
             }
             CRM_Bridge_OG_Drupal::groupContact( $objectID, $objectRef, 'add' );
             break;
 
         case 'delete':
-            if ( _civicrm_og_sync_set_context( 'civicrm' ) ) {
+            if ( ! _civicrm_og_sync_set_context( 'civicrm' ) ) {
                 return;
             }
             CRM_Bridge_OG_Drupal::groupContact( $objectID, $objectRef, 'delete' );

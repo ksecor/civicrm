@@ -35,9 +35,60 @@
 
 class CRM_Bridge_OG_CiviCRM {
 
+    static function group( $groupID, $group, $op ) {
+        if ( $op == 'add' ) {
+            self::groupAdd   ( $groupID, $group );
+        } else {
+            self::groupDelete( $groupID, $group );
+        }
+    }
+
+    static function groupAdd( $groupID, $group ) {
+        require_once 'CRM/Bridge/OG/Utils.php';
+        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, false );
+        
+        $node = new StdClass( );
+        if ( $ogID ) {
+            $node->nid = $ogID;
+        }
+
+        global $user;
+        $node->uid            = $user->uid;
+        $node->title          = $group->title;
+        $node->type           = 'og';
+        $node->status       = 1;
+
+        // set the og values
+        $node->og_description = $group->description;
+        $node->og_selective   = OF_OPEN;
+        $node->og_register    = 0;
+        $node->og_directory   = 1;
+
+        node_save( $node );
+
+        // also change the source field of the group
+        CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group',
+                                     $groupID,
+                                     'source',
+                                     CRM_Bridge_OG_Utils::ogSyncName( $node->nid ) );
+    }
+
+    static function groupDelete( $groupID, $group ) {
+        require_once 'CRM/Bridge/OG/Utils.php';
+        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, false );
+        if ( ! $ogID ) {
+            return;
+        }
+        
+        node_delete( $ogID );
+    }
+
     static function groupContact( $groupID, $contactIDs, $op ) {
         require_once 'CRM/Bridge/OG/Utils.php';
-        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, true );
+        $ogID = CRM_Bridge_OG_Utils::ogID( $groupID, false );
+        if ( ! $ogID ) {
+            return;
+        }
 
         require_once 'api/UFGroup.php';
         foreach ( $contactIDs as $contactID ) {
