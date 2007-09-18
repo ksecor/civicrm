@@ -246,45 +246,8 @@ class CRM_Core_BAO_CMSUser
                 // now check that the drupal db does not have the user name and/or email
                 $params = array( 'name' => $fields['cms_name'],
                                  'mail' => $fields[$emailName] );
-                _user_edit_validate(null, $params );
-                $errors = form_get_errors( );
-
-                if ( $errors ) {
-                    if ( CRM_Utils_Array::value( 'name', $errors ) ) {
-                        $errors['cms_name'] = $errors['name'];
-                    } 
-
-                    if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
-                        $errors[$emailName] = $errors['mail'];
-                    } 
-
-                    // also unset drupal messages to avoid twice display of errors
-                    unset( $_SESSION['messages'] );
-                }
                 
-                // drupal api sucks
-                // do the name check manually
-                $nameError = user_validate_name( $fields['cms_name'] );
-                if ( $nameError ) {
-                    $errors['cms_name'] = $nameError;
-                }
-
-                $dao =& new CRM_Core_DAO( );
-                $name = $dao->escape( $fields['cms_name'] );
-                $sql = "
-SELECT count(*)
-  FROM {$config->userFrameworkUsersTableName}
- WHERE LOWER(name) = LOWER('$name')
-";
-                $db_drupal = DB::connect($config->userFrameworkDSN);
-                if ( DB::isError( $db_drupal ) ) { 
-                    die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
-                }
-                $query = $db_drupal->query( $sql );
-                $row = $query->fetchRow( );
-                if ( $row[0] >= 1 ) {
-                    $errors['cms_name'] = ts( 'The username %1 is already taken. Please select another username.', array( 1 => $name) );
-                }
+                self::checkUserNameEmailExists( $params, $errors, $emailName );
                 
                 if ( ! empty( $errors ) ) {
                     return $errors;
@@ -295,6 +258,60 @@ SELECT count(*)
         return true;
     }
 
+    /**
+     * Check if username and email exists in the drupal db
+     * 
+     * @params $params    array   array of name and mail values
+     * @params $errors    array   array of errors
+     * @params $emailName string  field label for the 'email'
+     *
+     * @return void
+     * @static
+     */
+    static function checkUserNameEmailExists( &$params, &$errors, $emailName = 'email' )
+    {
+        _user_edit_validate(null, $params );
+        $errors = form_get_errors( );
+        
+        if ( $errors ) {
+            if ( CRM_Utils_Array::value( 'name', $errors ) ) {
+                $errors['cms_name'] = $errors['name'];
+            } 
+            
+            if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
+                $errors[$emailName] = $errors['mail'];
+            } 
+            
+            // also unset drupal messages to avoid twice display of errors
+            unset( $_SESSION['messages'] );
+        }
+        
+        // drupal api sucks
+        // do the name check manually
+        $nameError = user_validate_name( $fields['cms_name'] );
+        if ( $nameError ) {
+            $errors['cms_name'] = $nameError;
+        }
+        
+        $config  =& CRM_Core_Config::singleton( );
+        $dao =& new CRM_Core_DAO( );
+        $name = $dao->escape( $fields['cms_name'] );
+        $sql = "
+SELECT count(*)
+  FROM {$config->userFrameworkUsersTableName}
+ WHERE LOWER(name) = LOWER('$name')
+";
+        $db_drupal = DB::connect($config->userFrameworkDSN);
+        if ( DB::isError( $db_drupal ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+        }
+        $query = $db_drupal->query( $sql );
+        $row = $query->fetchRow( );
+        if ( $row[0] >= 1 ) {
+            $errors['cms_name'] = ts( 'The username %1 is already taken. Please select another username.', array( 1 => $name) );
+        }
+    }
+    
     /**
      * Function to check if a drupal user already exists.
      *  
