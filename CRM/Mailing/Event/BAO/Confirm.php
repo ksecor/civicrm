@@ -97,8 +97,8 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         
         $headers = array(
             'Subject'   => $component->subject,
-            'From'      => ts('"%1 Administrator" <do-not-reply@%2>',
-                            array(  1 => $domain->name,
+            'From'      => ts('"%1" <do-not-reply@%2>',
+                            array(  1 => $domain->email_name,
                                     2 => $domain->email_domain)),
             'To'        => $email,
             'Reply-To'  => "do-not-reply@{$domain->email_domain}",

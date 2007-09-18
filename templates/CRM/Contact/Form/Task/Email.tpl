@@ -27,20 +27,21 @@
 {if $suppressedEmails > 0}
     <dt></dt><dd>{ts count=$suppressedEmails plural='Email will NOT be sent to %count contacts.'}Email will NOT be sent to %count contact.{/ts}</dd>
 {/if}
+</dl>
 
-<div id="editMessageDetails" class="form-item">
-
+<div id="editMessageDetails">
 <dl>
     <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
     <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
 </dl>
 </div>
-<div id="saveDetails" class="form-item">
+<div id="saveDetails">
 <dl>
     <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
 </dl>
 </div>
 
+<dl>
 <dt></dt><dd>{$form.buttons.html}</dd>
 </dl>
 </fieldset>
