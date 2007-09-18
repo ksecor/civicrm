@@ -35,6 +35,19 @@
 
 class CRM_Bridge_OG_Utils {
 
+    const
+        aclEnabled      = 1,
+        syncFromCiviCRM = 1;
+
+    static function aclEnabled( ) {
+        return self::aclEnabled;
+    }
+
+    static function syncFromCiviCRM( ) {
+        // make sure that acls are not enabled
+        return ! self::aclEnabled & self::syncFromCiviCRM;
+    }
+    
     static function ogSyncName( $ogID ) {
         return "OG Sync Group :{$ogID}:";
     }

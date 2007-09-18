@@ -741,7 +741,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
 
-    private function &getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
+    private function getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
         $config =& CRM_Core_Config::singleton( );
         /**
          * Inbound VERP keys:

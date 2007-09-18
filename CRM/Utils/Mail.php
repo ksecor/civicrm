@@ -148,10 +148,9 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
 
-        if ( defined( 'CIVICRM_MAIL_DEBUG' ) ) {
+        if ( defined( 'CIVICRM_MAIL_LOG' ) ) {
             self::logger( $to, $headers, $message );
         } else {
-            CRM_Core_Error::fatal( 'oh man' );
             // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
             $mailer =& CRM_Core_Config::getMailer( ); 
             if ($mailer->send($to, $headers, $message) !== true) {  
@@ -175,14 +174,18 @@ class CRM_Utils_Mail {
         }
         $content .= "\n" . $message . "\n";
 
-        $fileName = md5( uniqid( CRM_Utils_String::munge( $fileName ) ) ) . '.txt';
-
-        $config =& CRM_Core_Config::singleton( );
-        // create the directory if not there
-        $dirName = $config->uploadDir . 'mail' . DIRECTORY_SEPARATOR;
-        CRM_Utils_File::createDir( $dirName );
-        file_put_contents( $dirName . $fileName,
-                           $content );
+        if ( is_numeric( CIVICRM_MAIL_LOG ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            // create the directory if not there
+            $dirName = $config->uploadDir . 'mail' . DIRECTORY_SEPARATOR;
+            CRM_Utils_File::createDir( $dirName );
+            $fileName = md5( uniqid( CRM_Utils_String::munge( $fileName ) ) ) . '.txt';
+            file_put_contents( $dirName . $fileName,
+                               $content );
+        } else {
+            file_put_contents( CIVICRM_MAIL_LOG,
+                               $content );
+        }
     }
 
     /**

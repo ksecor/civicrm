@@ -341,6 +341,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             }
         }
 
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Group', $group->id, $group ); 
+        }
+
         return $group;
     }
 
