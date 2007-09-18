@@ -36,7 +36,7 @@
 class CRM_Bridge_OG_Utils {
 
     const
-        aclEnabled      = 0,
+        aclEnabled      = 1,
         syncFromCiviCRM = 1;
 
     static function aclEnabled( ) {

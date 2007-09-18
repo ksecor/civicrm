@@ -201,9 +201,9 @@ class Mail_smtp extends Mail {
      *               failure.
      * @access public
      */
-    function send($recipients, $headers, $body, $job_id = null)
+    function send($recipients, $headers, $body)
     {
-        if ( defined( 'CIVICRM_MAIL_DEBUG' ) ) {
+        if ( defined( 'CIVICRM_MAIL_LOG' ) ) {
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::logger( $recipients, $headers, $body );
             return true;
