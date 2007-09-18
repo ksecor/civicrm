@@ -544,9 +544,13 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping
                 $sel->setOptions(array($sel1,$sel2,$sel3, $sel4));
                 
                 if ($mappingType == 'Search Builder') {
+                    //CRM -2292
+//                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
+//                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
+//                                             'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
                     $operatorArray = array ('' => '-operator-', '=' => '=', '!=' => '!=', '>' => '>', '<' => '<', 
                                             '>=' => '>=', '<=' => '<=', 'IN' => 'IN',
-                                            'NOT IN' => 'NOT IN', 'LIKE' => 'LIKE', 'NOT LIKE' => 'NOT LIKE');
+                                            'LIKE' => 'LIKE');
                     
                     $form->add('select',"operator[$x][$i]",'', $operatorArray);
                     $form->add('text',"value[$x][$i]",'');
