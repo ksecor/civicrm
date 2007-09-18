@@ -71,22 +71,22 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     static function &add(&$params, &$ids) 
     {
         require_once 'CRM/Utils/Hook.php';
-
+        
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Membership', $ids['membership'], $params );
         } else {
             CRM_Utils_Hook::pre( 'create', 'Membership', null, $params ); 
         }
-
+        
         // converting dates to mysql format
         $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
         $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
         $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
-
+        
         if ($params['reminder_date']) { 
             $params['reminder_date']  = CRM_Utils_Date::isoToMysql($params['reminder_date']);
         } else {
-        $params['reminder_date'] = 'null';        
+            $params['reminder_date'] = 'null';        
         }
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
@@ -94,7 +94,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         $membership->save();
         $membership->free( );
-
+        
         $session = & CRM_Core_Session::singleton();
         
         $membershipLog = array('membership_id' => $membership->id,
@@ -116,7 +116,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         return $membership;
     }
-
+    
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
@@ -153,7 +153,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         
         return $memberships;
     }
-
+    
     /**
      * takes an associative array and creates a membership object
      *
@@ -166,7 +166,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create(&$params, &$ids, $callFromAPI = false ) 
-        { 
+    { 
         require_once 'CRM/Utils/Date.php';
         
         if ( ! isset( $params['is_override'] ) ) {
@@ -865,7 +865,7 @@ civicrm_membership_status.is_current_member =1";
      **/
     static function renewMembership( $contactID, $membershipTypeID, $is_test,
                                      &$form, $changeToday = null, $ipnParams = null )
-        {                                                                                      
+    {                                                                                      
         require_once 'CRM/Utils/Hook.php';
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
