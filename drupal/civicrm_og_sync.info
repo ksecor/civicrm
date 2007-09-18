@@ -1,5 +1,5 @@
 name = CiviCRM OG Sync
 description = Module to synchronize OG groups and CiviCRM Groups and ACL's, spec at: http://wiki.civicrm.org/confluence//x/5zk
-version = 1.9
+version = 2.0
 dependencies = og civicrm
 package = CiviCRM
