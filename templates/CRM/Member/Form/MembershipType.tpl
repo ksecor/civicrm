@@ -137,8 +137,8 @@
             <dl>
                 <dt>{$form.renewal_msg_id.label}</dt>
                 <dd>{$form.renewal_msg_id.html}</dd>
-                <dt>&nbsp;</dt>
-                <dd class="description">{ts}Select the renewal reminder message to be sent to the members of this membership type.{/ts}</dd>
+          
+                <dd class="description">{ts}Select the renewal reminder message to be sent to the members of this membership type.{/ts}</dd>              
                 <dt>{$form.renewal_reminder_day.label}</dt>
                 <dd>{$form.renewal_reminder_day.html}</dd>
                 <dt>&nbsp;</dt>

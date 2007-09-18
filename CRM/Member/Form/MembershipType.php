@@ -77,6 +77,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $defaults[$per]['d'] = substr($dat, 2, 3);
             }
         }
+
         return $defaults;
     }
 
@@ -142,12 +143,12 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $msgTemplates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
 
         if ( ! empty( $msgTemplates ) ) {
-            $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
+            $reminderMsg = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
         } else {
             $this->assign('noMsgTemplates', true );            
         }
-        $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
-                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
+        $reminderDay = $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
+                                  CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
 
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
@@ -188,6 +189,17 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $memberOrg->unfreeze( );
             }
         }
+        
+        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay && $reminderMsg)  {
+            require_once 'CRM/Member/DAO/Membership.php';
+            $dao = & new CRM_Member_DAO_Membership();
+            $dao->membership_type_id = $this->_id;
+            if ( $dao->find( true ) ) {  
+                $reminderDay->freeze( );
+                $reminderMsg->freeze( );
+            }
+        }
+        
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
@@ -273,10 +285,10 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
         }
-                
+        
         return empty($errors) ? true : $errors;
     }
-       
+    
     /**
      * Function to process the form
      *
@@ -332,7 +344,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
             
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
             CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
-        }
+        } 
     }
 
     /**

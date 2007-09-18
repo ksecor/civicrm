@@ -265,7 +265,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'],
                                                                               $joinDate, $startDate, $endDate);
-
         $dates = array( 'join_date',
                         'start_date',
                         'end_date',
@@ -278,19 +277,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$d] = CRM_Utils_Date::format( $formValues[$d] );
             } else if ( isset( $calcDates[$d] ) ) {
                 $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
-            }
-        }
-
-        // change reminder date if end-date present
-        if ( ! CRM_Utils_System::isNull( $formValues['end_date'] ) ) {
-            $membershipTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $formValues['membership_type_id'] );
-            if ( isset( $membershipTypeDetails["renewal_reminder_day"] ) &&
-                 $membershipTypeDetails["renewal_reminder_day"] ) {
-                $year  = $formValues['end_date']['Y'];
-                $month = $formValues['end_date']['M'];
-                $day   = $formValues['end_date']['d'];
-                $day = $day - $membershipTypeDetails["renewal_reminder_day"];
-                $params['reminder_date'] = str_replace('-', "", date('Y-m-d',mktime($hour, $minute, $second, $month, $day-1, $year)));
             }
         }
         
@@ -363,7 +349,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     unset( $params['custom'][$k]['id'] );
                 }
             }
-                        
+
             foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
@@ -385,7 +371,6 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
-                
                 CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
