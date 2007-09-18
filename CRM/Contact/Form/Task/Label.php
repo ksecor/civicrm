@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.9                                                |
+ | CiviCRM version 2.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -125,6 +125,8 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         } else {
             $returnProperties = array_merge( $returnProperties , $address );
         }
+
+        $rows = array( );
 
         //get the contact information
         foreach ( $this->_contactIds as $value ) {
