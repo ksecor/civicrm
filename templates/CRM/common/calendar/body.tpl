@@ -23,11 +23,19 @@
          monthField  : "{$dateVar}[M]",
          yearField   : "{$dateVar}[Y]",
 {if $doTime}
+       {if $ampm}
          hourField   : "{$dateVar}[h]",
          minuteField : "{$dateVar}[i]",
-         ampmField   : "{$dateVar}[A]",
+         ampmField   : "{$dateVar}[A]",       
          showsTime   : true,
-         timeFormat  : "12",
+         timeFormat  : 12,
+        {else}
+         hourField   : "{$dateVar}[H]",
+         minuteField : "{$dateVar}[i]",
+         ampmField   : false,
+         showsTime   : true,
+         timeFormat  : 24,
+        {/if}
 {/if}
          range       : [startYear, endYear],
          button      : "{$trigger}"

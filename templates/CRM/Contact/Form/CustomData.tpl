@@ -67,8 +67,13 @@
               {if $element.data_type eq 'Date'}
 	          {if $element.skip_calendar NEQ true } 
               <span>
+		      {if $element.skip_ampm NEQ true }   
 		      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_customdata_$field_id}
-		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_customdata_$field_id} 
+		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_customdata_$field_id ampm=1}
+              {else}
+              {include file="CRM/common/calendar/desc.tpl" trigger=trigger_customdata_$field_id}
+		      {include file="CRM/common/calendar/body.tpl" dateVar=$element_name startDate=$currentYear-$element.start_date_years endDate=$currentYear+$element.end_date_years doTime=1 trigger=trigger_customdata_$field_id}
+               {/if} 
 		      </span>
 	          {/if}
               {/if}

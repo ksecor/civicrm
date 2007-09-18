@@ -1032,13 +1032,21 @@ $where
             foreach ($group['fields'] as $key2 => $field) {
                 if ($field['data_type'] == 'Date' && $field['date_parts'] ) {
                     $datePart = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR , $field['date_parts']);
-                    if ( count( $datePart ) < 3) {
+                    $datePart = array_flip( $datePart);
+                    
+                    if (( !array_key_exists( 'M', $datePart))&&
+                        ( !array_key_exists( 'd', $datePart))&&
+                        ( !array_key_exists( 'Y', $datePart))) {
                         $groupTree[$key1]['fields'][$key2]['skip_calendar'] = true;
                     }
+                    if (array_key_exists( 'H', $datePart)){
+                        $groupTree[$key1]['fields'][$key2]['skip_ampm'] = true; 
+                    }
                 }
-              
             }
+                
         }
+    
         
         $form->assign_by_ref( 'groupTree', $groupTree );
         $sBlocks = array( );
