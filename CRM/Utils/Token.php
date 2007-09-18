@@ -203,7 +203,9 @@ class CRM_Utils_Token {
           /* Construct the address token */
           if ( CRM_Utils_Array::value( $token, $loc ) ) {
               $value = CRM_Utils_Address::format($loc[$token]);
-              if ($html) $value = str_replace("\n", '<br />', $value);
+              if ( $html ) {
+                  $value = str_replace("\n", '<br />', $value);
+              }
           }
       }
       
@@ -223,6 +225,7 @@ class CRM_Utils_Token {
           }
         }
       }
+
       return $value;      
     }
 

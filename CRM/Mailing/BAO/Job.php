@@ -232,7 +232,6 @@ ORDER BY j.scheduled_date,
         $mailing->id = $this->mailing_id;
         $mailing->find(true);
 
-        $mailing->body_text .= "\n\n{contact.custom_1}\n\n";
         $eq =& new CRM_Mailing_Event_BAO_Queue();
         $eqTable        = CRM_Mailing_Event_BAO_Queue::getTableName();
         $emailTable     = CRM_Core_BAO_Email::getTableName();
