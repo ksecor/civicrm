@@ -224,9 +224,9 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         }
         $headers = array(
             'Subject'       => $component->subject,
-            'From'          => ts('"%1 Administrator" <%2>',
-                array(  1 => $domain->name, 
-                        2 => "do-not-reply@{$domain->email_domain}")),
+            'From'          => ts('"%1" <do-not-reply@%2>',
+                                  array(  1 => $domain->email_name,
+                                          2 => $domain->email_domain) ),
             'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"
