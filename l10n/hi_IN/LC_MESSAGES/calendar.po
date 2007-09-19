@@ -6,27 +6,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
-"PO-Revision-Date: 2007-04-18 07:33+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-09-18 06:12-0700\n"
+"Last-Translator: Mohd Nizam <786.nizam@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "पंचांग के बारें में"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "नवीनतम अनुवाद के लिए: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
-msgstr ""
+msgstr "जींऍनउ एलजींपीएल के अधीन वितरित. विस्तृत सूचना के लिए देखें %1|"
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "तारीख़ चुनाव:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
@@ -42,7 +43,7 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "समय चुनाव:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
@@ -50,11 +51,11 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- या शीफ्ट-दबाये उसको घटाने के लीए"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- या दबाये और घसीटे तेज़ चयन के लीए"
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
@@ -62,27 +63,27 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "पीछ्ला साल"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "पीछ्ला महीना"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "आज जाए"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "अगला महीना"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "अगला साल"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "तारीख चुने"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
@@ -90,7 +91,7 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "आज"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
@@ -98,11 +99,11 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "बंद"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "आज"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
@@ -114,4 +115,4 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
-msgstr ""
+msgstr "समय:"
