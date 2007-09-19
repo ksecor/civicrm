@@ -453,9 +453,18 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
       $funcStruct = array('type' => null,'token' => $token);
       $matches = array();
       if(preg_match('/^(?:http|href)/',$token) && $this->url_tracking){
-        // it is a url so we need to check
-        // to see if there are any tokens embedded
-        $funcStruct['type'] = 'url';
+        // it is a url so we need to check to see if there are any tokens embedded
+        // if so then call this function again to get the token dataFunc
+        // and asign the type 'embedded'  so that the data retirving function
+        // will know what how to handle this token
+        if(preg_match('/(\{\w+\.\w+\})/', $token, $matches) ){
+          $funcStruct['type'] = 'embedded_url';
+          $preg_token = '/'.preg_quote($matches[1],'/').'/';
+          $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
+          $funcStruct['token'] = $this->getDataFunc($matches[1]);
+        } else {          
+          $funcStruct['type'] = 'url';
+        }
 
       } else if(preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches)){
 
@@ -872,7 +881,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         // push the tracking url on to the html email if necessary
         if ($this->open_tracking) {
-            array_push($pEmails['html'],'\n<img src="' . $config->userFrameworkResourceURL . 
+            array_push($pEmails['html'],"\n".'<img src="' . $config->userFrameworkResourceURL . 
             "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>");
         }
         
@@ -929,7 +938,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $type = $token_a['type'];
         $token = $token_a['token'];
         $data = $token;
-        if($type == 'url'){
+
+        if($type == 'embedded_url'){
+          $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
+          $url = join($token_a['embed_parts'],$embed_data);
+          $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
+          if($html){
+            $data = "href=\"$data\"";
+          }
+
+        } else if($type == 'url'){
 
           $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
           if($html){
@@ -943,16 +961,10 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         } else if($type == 'contact'){
 
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
-          if(!$html){
-            $data = str_replace('&amp;', '&', $data);
-          }
 
         } else if($type == 'action'){
 
           $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
-          if(!$html){
-            $data = str_replace('&amp;', '&', $data);
-          }
 
         } else if($type == 'domain'){
 

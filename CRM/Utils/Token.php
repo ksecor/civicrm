@@ -309,12 +309,17 @@ class CRM_Utils_Token {
         $value = "{action.$token}";
       } else {
         $value = CRM_Utils_Array::value($token, $addresses);
+
         if ($value == null) {
           $value = CRM_Utils_Array::value($token, $urls);
-          if($value && $html){
-            $value = "mailto:$value";  
-          }
         }
+
+        if($value && $html){
+          $value = "mailto:$value";
+        } else if($value && !$html){
+          $value = str_replace('&amp;', '&', $value);
+        }
+
       }
       return $value;
     }
@@ -348,11 +353,11 @@ class CRM_Utils_Token {
         // then we will just iterate on a list of tokens that are passed to us
         if(!$knownTokens || !$knownTokens[$key]) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact)',$str);
+        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
         return $str;
     }
     
-    public function getContactTokenReplacement($token, &$contact){
+    public function getContactTokenReplacement($token, &$contact, $html = false){
 
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
@@ -375,6 +380,10 @@ class CRM_Utils_Token {
             $value = "cs={$cs}";
         } else {
             $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
+        }
+
+        if(!$html){
+          $value = str_replace('&amp;', '&', $value);
         }
 
         return $value;
