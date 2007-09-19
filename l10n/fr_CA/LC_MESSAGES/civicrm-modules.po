@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-08-14 02:26-0700\n"
-"Last-Translator: CARRERE <yves@ccomca.com>\n"
+"PO-Revision-Date: 2007-09-18 08:56-0700\n"
+"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -495,7 +495,7 @@ msgstr ""
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
 msgid "Mailings"
-msgstr ""
+msgstr "Envois de courriels"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -2400,7 +2400,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Name.php
 msgid "Name Your Mailing"
-msgstr ""
+msgstr "Nom de l'envoi"
 
 #: CRM/Mailing/Form/Retry.php
 msgid "Invalid Mailing ID"
@@ -5891,6 +5891,8 @@ msgstr "Principales"
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
 msgstr ""
+"Il n'y a pas de courriels envoyés. Vous pouvez <a href=\"%1\">préparer un "
+"nouvel envoi</a>."
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
