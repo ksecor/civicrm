@@ -1175,6 +1175,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             LEFT JOIN       {$t['spool']}
                     ON      {$t['spool']}.job_id = {$t['job']}.id
             WHERE           {$t['job']}.mailing_id = $mailing_id
+                    AND     {$t['job']}.is_test = 0
             GROUP BY        {$t['job']}.id");
         
         $report['jobs'] = array();
