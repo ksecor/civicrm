@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -70,11 +70,11 @@ class CRM_Core_Permission_Drupal {
      * @return array - array reference of all groups.
      *
      */
-    public static function &group( ) {
+    public static function &group( $groupType = null ) {
         if ( ! isset( self::$_viewPermissionedGroups ) ) {
             self::$_viewPermissionedGroups = self::$_editPermissionedGroups = array( );
 
-            $groups =& CRM_Core_PseudoConstant::allGroup( );
+            $groups =& CRM_Core_PseudoConstant::allGroup( $groupType );
 
             if ( self::check( 'edit all contacts' ) ) {
                 // this is the most powerful permission, so we return

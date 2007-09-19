@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -64,6 +64,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      * @static
      */
     static $_columnHeaders;
+
+    protected $_parent;
 
     /**
      * Class constructor
@@ -169,9 +171,14 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getTotalCount($action)
     {
-        $mailing =& new CRM_Mailing_BAO_Mailing();
-        
-        return $mailing->getCount();
+        $params      = array( );
+        $whereClause = $this->whereClause( $params );
+        $query = "
+SELECT count(civicrm_mailing.id)
+  FROM civicrm_mailing, civicrm_mailing_job
+ WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+   AND $whereClause";
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
 
     /**
@@ -194,7 +201,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 CRM_Core_Action::VIEW => array(
                     'name'  => ts('Report'),
                     'url'   => 'civicrm/mailing/report',
-                    'qs'    => 'mid=%%mid%%',
+                    'qs'    => 'mid=%%mid%%&reset=1',
                     'title' => ts('View Mailing Report')
                     ),
                 CRM_Core_Action::UPDATE => array(
@@ -206,14 +213,14 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Cancel'),
                     'url'   => 'civicrm/mailing/browse',
-                    'qs'    => 'action=disable&mid=%%mid%%',
+                    'qs'    => 'action=disable&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $cancelExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Cancel Mailing')
                     ),
                 CRM_Core_Action::DELETE => array(
                     'name'  => ts('Delete'),
                     'url'   => 'civicrm/mailing/browse',
-                    'qs'    => 'action=delete&mid=%%mid%%',
+                    'qs'    => 'action=delete&mid=%%mid%%&reset=1',
                     'extra' => 'onclick="if (confirm(\''. $deleteExtra .'\')) this.href+=\'&amp;confirmed=1\'; else return false;"',
                     'title' => ts('Delete Mailing')                    
                     )
@@ -222,7 +229,10 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
 
         
         $mailing =& new CRM_Mailing_BAO_Mailing();
-        $rows =& $mailing->getRows($offset, $rowCount, $sort);
+        
+        $params = array( );
+        $whereClause = ' AND ' . $this->whereClause( $params );
+        $rows =& $mailing->getRows($offset, $rowCount, $sort, $whereClause, $params );
 
         if ($output != CRM_Core_Selector_Controller::EXPORT) {
             foreach ($rows as $key => $row) {
@@ -236,7 +246,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                     CRM_Core_Action::formLink(  $actionLinks,
                                                 $actionMask,
                                                 array('mid' => $row['id']));
-                unset($rows[$key]['id']);
+                //unset($rows[$key]['id']);
                 // if the scheduled date is 0, replace it with an empty string
                 if ($rows[$key]['scheduled_iso'] == '0000-00-00 00:00:00') {
                     $rows[$key]['scheduled'] = '';
@@ -244,6 +254,9 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
                 unset($rows[$key]['scheduled_iso']);
             }
         }
+
+        // also initialize the AtoZ pager
+        $this->pagerAtoZ( );
 
         return $rows;
         
@@ -257,6 +270,84 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
      */
     function getExportFileName( $output = 'csv') {
         return ts('CiviMail Mailings');
+    }
+
+    function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
+    function whereClause( &$params, $sortBy = true ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->_parent->get( 'mailing_name' );
+
+        if ( $title ) {
+            $clauses[] = 'name LIKE %1';
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        require_once 'CRM/Utils/Date.php';
+
+        $from = $this->_parent->get( 'mailing_from' );
+        if ( ! CRM_Utils_System::isNull( $from ) ) {
+            $from = CRM_Utils_date::format( $from );
+            $from .= '000000';
+            $clauses[] = 'start_date >= %2';
+            $params[2] = array( $from, 'String' );
+        }
+
+        $to = $this->_parent->get( 'mailing_to' );
+        if ( ! CRM_Utils_System::isNull( $to ) ) {
+            $to = CRM_Utils_date::format( $to );
+            $to .= '235959';
+            $clauses[] = 'start_date <= %3';
+            $params[3] = array( $to, 'String' );
+        }
+
+        if ( $sortBy &&
+             $this->_parent->_sortByCharacter ) {
+            $clauses[] = 'name LIKE %3';
+            $params[3] = array( $this->_parent->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %4';
+        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        // dont do a the below assignement when doing a 
+        // AtoZ pager clause
+        if ( $sortBy ) {
+            if ( count( $clauses ) > 1 ) {
+                $this->_parent->assign( 'isSearch', 1 );
+            } else {
+                $this->_parent->assign( 'isSearch', 0 );
+            }
+        }
+
+        return implode( ' AND ', $clauses );
+    }
+
+    function pagerAtoZ( ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, false );
+        
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(name, 1)) as sort_name
+     FROM civicrm_mailing, civicrm_mailing_job
+    WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+      AND $whereClause
+ ORDER BY LEFT(name, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_parent->_sortByCharacter, true );
+        $this->_parent->assign( 'aToZ', $aToZBar );
     }
     
 }//end of class

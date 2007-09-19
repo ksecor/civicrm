@@ -65,8 +65,9 @@
        <add>1.8</add>
   </field>
   <index>
-    <name>UI_name</name>
+    <name>UI_name_domain_id</name>
     <fieldName>name</fieldName>
+    <fieldName>domain_id</fieldName>
     <unique>true</unique>
     <add>1.8</add>
   </index>

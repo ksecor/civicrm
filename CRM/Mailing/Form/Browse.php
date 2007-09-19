@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -33,7 +33,9 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';require_once 'CRM/Mailing/BAO/Mailing.php';
+require_once 'CRM/Core/Form.php';
+require_once 'CRM/Mailing/BAO/Mailing.php';
+
     /**
      * Build the form for disable mail feature 
      *

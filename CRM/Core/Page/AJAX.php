@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -255,7 +255,7 @@ ORDER by v.weight LIMIT 5";
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
 
         $query = "
-SELECT id, msg_title,msg_text,msg_subject
+SELECT id, msg_title,msg_text,msg_subject,msg_html
   FROM civicrm_msg_template
  WHERE domain_id = $domainID
  AND is_active =1 
@@ -269,7 +269,7 @@ LIMIT 6";
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
             $elements[] = array( $dao->msg_title,
-                                 $dao->msg_text . "^A" . $dao->msg_subject,
+                                 $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
                                  $dao->id );
             $count++;
         }

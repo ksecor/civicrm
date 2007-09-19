@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -85,6 +85,11 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
         }
         
     }
+
+    public function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
 }
 
 ?>

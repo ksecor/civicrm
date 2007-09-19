@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -101,6 +101,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $subHistory->delete();
 
         // delete all crm_group_contact records with the selected group id
+        require_once 'CRM/Contact/DAO/GroupContact.php';
         $groupContact =& new CRM_Contact_DAO_GroupContact( );
         $groupContact->group_id = $id;
         $groupContact->delete();
@@ -293,6 +294,12 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             }
         }
 
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
+            CRM_Utils_Hook::post( 'edit', 'Group', $group->id, $group );
+        } else {
+            CRM_Utils_Hook::post( 'create', 'Group', $group->id, $group ); 
+        }
+
         return $group;
     }
 
@@ -353,7 +360,22 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
     static function setIsActive( $id, $is_active ) {
         return CRM_Core_DAO::setFieldValue( 'CRM_Contact_DAO_Group', $id, 'is_active', $is_active );
     }
-    
+
+    static function groupTypeCondition( $groupType = null ) {
+        $value = null;
+        if ( $groupType == 'Mailing' ) {
+            $value = CRM_Core_DAO::VALUE_SEPARATOR . '2' . CRM_Core_DAO::VALUE_SEPARATOR;
+        } else if ( $groupType == 'Access' ) {
+            $value = CRM_Core_DAO::VALUE_SEPARATOR . '1' . CRM_Core_DAO::VALUE_SEPARATOR;
+        }
+        if ( $value ) {
+            $condition = "group_type LIKE '%$value%'";
+        } else {
+            $condition = null;
+        }
+        return $condition;
+    }
+
 }
 
 ?>

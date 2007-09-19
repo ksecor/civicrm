@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -97,8 +97,8 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         
         $headers = array(
             'Subject'   => $component->subject,
-            'From'      => ts('"%1 Administrator" <do-not-reply@%2>',
-                            array(  1 => $domain->name,
+            'From'      => ts('"%1" <do-not-reply@%2>',
+                            array(  1 => $domain->email_name,
                                     2 => $domain->email_domain)),
             'To'        => $email,
             'Reply-To'  => "do-not-reply@{$domain->email_domain}",
@@ -108,7 +108,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $html = $component->body_html;
         require_once 'CRM/Utils/Token.php';
         $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
-        $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->name, true);
+        $html = CRM_Utils_Token::replaceWelcomeTokens($html, $group->title, true);
 
         if ($component->body_text) {
             $text = $component->body_text;
@@ -116,7 +116,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
             $text = CRM_Utils_String::htmlToText($component->body_html);
         }
         $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
-        $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->name, false);
+        $text = CRM_Utils_Token::replaceWelcomeTokens($text, $group->title, false);
 
         $message =& new Mail_Mime("\n");
         $message->setHTMLBody($html);
@@ -125,12 +125,13 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         $h = $message->headers($headers);
         $mailer =& $config->getMailer();
 
+        require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
                                 array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
         
-        return true;
+        return $group->title;
     }
 }
 

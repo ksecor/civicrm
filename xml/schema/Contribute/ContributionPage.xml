@@ -99,7 +99,6 @@
   <field>
       <name>default_amount_id</name>
       <type>int unsigned</type>
-      <required>true</required>
       <comment>FK to civicrm_custom_option.</comment>
       <add>1.7</add>
   </field>

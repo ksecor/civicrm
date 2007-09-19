@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -52,6 +52,7 @@ class CRM_Admin_Form_Setting_Mail extends CRM_Admin_Form_Setting
         $this->addElement('text','mailerPeriod', ts('Mailer Spool Period'));
         $this->addElement('text','verpSeparator', ts(' VERP Separator'));
         $this->addElement('text','mailerBatchLimit', ts('Mailer Batch Limit'));
+        $this->addElement('text','mailerSpoolLimit', ts('Mailer Spool Limit'));
         $check =true;
         
         // redirect to Administer Section After hitting either Save or Cancel button.

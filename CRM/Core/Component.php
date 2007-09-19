@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -75,7 +75,7 @@ class CRM_Core_Component
                 array( 'title'   => 'CiviCRM Mailing Engine',
                        'path'    => 'CRM_Mailing_',
                        'url'     => 'mailing',
-                       'perm'    => array( 'access CiviMail' ),
+                       'perm'    => array( 'access CiviMail', 'access CiviMail subscribe/unsubscribe pages' ),
                        'search'  => 0 );
                        
             self::$_info['CiviGrant'] = 

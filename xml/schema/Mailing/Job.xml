@@ -43,12 +43,18 @@
   <field>
       <name>status</name>
       <type>enum</type>
-      <values>Scheduled, Running, Complete, Paused, Canceled</values>
+      <values>Scheduled, Running, Complete, Paused, Canceled, Testing</values>
       <comment>The state of this job</comment>
   </field>
   <field>
       <name>is_retry</name>
       <type>boolean</type>
       <comment>Is this job a retry?</comment>
+  </field>
+  <field>
+      <name>is_test</name>
+      <type>boolean</type>
+      <comment>Is this job for a test mail?</comment>
+      <add>1.9</add>
   </field>
 </table>

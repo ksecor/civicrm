@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -33,36 +33,59 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Core/Page.php';
+class CRM_Core_Lock {
 
-class extern_optout extends CRM_Core_Page 
-{
-    function run() {
-        $config =& CRM_Core_Config::singleton();
+    // lets have a 1 second timeout for now
+    const TIMEOUT = 1;
 
-        require_once 'CRM/Utils/Array.php';
-        $job_id   = CRM_Utils_Array::value( 'jid', $_GET );
-        $queue_id = CRM_Utils_Array::value( 'qid', $_GET );
-        $hash     = CRM_Utils_Array::value( 'h'  , $_GET );
+    protected $_hasLock = false;
 
-        if ( ! $job_id   ||
-             ! $queue_id ||
-             ! $hash ) {
-            echo "Missing input parameters\n";
-            exit( );
-        }
-        
-        require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
-        CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_domain($job_id, $queue_id, $hash);
-        
-        $displayName = CRM_Mailing_Event_BAO_Unsubscribe::getContactInfo($queue_id);
-        
-        $this->assign('display_name', $displayName);
-                
-        parent::run();
+    protected $_name;
+
+    function __construct( $name, $timeout = null ) {
+        $this->_name    = $name;
+        $this->_timeout = $timeout ? $timeout : self::TIMEOUT;
+
+        $this->acquire( );
     }
+
+    function __destruct( ) {
+        $this->release( );
+    }
+
+    function acquire( ) {
+        if ( ! $this->_hasLock ) {
+            $query  = "SELECT GET_LOCK( %1, %2 )";
+            $params = array( 1 => array( $this->_name   , 'String'  ),
+                             2 => array( $this->_timeout, 'Integer' ) );
+            $res = CRM_Core_DAO::singleValueQuery( $query, $params );
+            if ( $res ) {
+                $this->_hasLock = true;
+            }
+        }
+        return $this->_hasLock;
+    }
+
+    function release( ) {
+        if ( $this->_hasLock ) {
+            $this->_hasLock = false;
+
+            $query = "SELECT RELEASE_LOCK( %1 )";
+            $params = array( 1 => array( $this->_name, 'String' ) );
+            return CRM_Core_DAO::singleValueQuery( $query, $params );
+        }
+    }
+
+    function isFree( ) {
+        $query = "SELECT IS_FREE_LOCK( %1 )";
+        $params = array( 1 => array( $this->_name, 'String' ) );
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
+    function isAcquired( ) {
+        return $this->_hasLock;
+    }
+
 }
 
 ?>

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -286,9 +286,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         $headers = array(
             'Subject'       => $component->subject,
-            'From'          => ts('"%1 Administrator" <%2>',
-                array(  1 => $domain->name, 
-                        2 => "do-not-reply@{$domain->email_domain}")),
+            'From'          => ts('"%1" <do-not-reply@%2>',
+                                   array(  1 => $domain->email_name,
+                                           2 => $domain->email_domain) ),
             'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"
@@ -334,6 +334,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
 
@@ -399,6 +400,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
     
@@ -437,21 +439,28 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
     }
     
     public static function getContactInfo($queueID) {
+        $query = "
+SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
+       civicrm_contact.display_name as display_name
+       civicrm_email.email as email
+  FROM civicrm_mailing_event_queue,
+       civicrm_contact,
+       civicrm_email
+ WHERE civicrm_mailing_event_queue.contact_id = civicrm_contact.id
+   AND civicrm_mailing_event_queue.email_id = civicrm_email.id
+   AND civicrm_mailing_event_queue.id = " . CRM_Utils_Type::escape($queueID, 'Integer');
         
-        $query = "SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id
-                  FROM civicrm_mailing_event_queue, civicrm_mailing_event_unsubscribe
-                  WHERE civicrm_mailing_event_queue.id=civicrm_mailing_event_unsubscribe.event_queue_id AND civicrm_mailing_event_queue.id=" . CRM_Utils_Type::escape($queueID, 'Integer');
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
-        $dao =& new CRM_Core_DAO();
-        $dao->query($query);
-        
-        require_once 'CRM/Contact/BAO/Contact.php';
-        
-        while ($dao->fetch()) {
-            $displayName = CRM_Contact_BAO_Contact::displayName($dao->contact_id);
+        $displayName = 'Unknown';
+        $email       = 'Unknown';
+        if ( $dao->fetch( ) ) { 
+           $displayName = $dao->display_name;
+           $email       = $dao->email;
         }
         
-        return $displayName;
+        return array( $displayName, $email );
     }
 }
+
 ?>

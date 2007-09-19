@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -25,7 +25,6 @@
  +--------------------------------------------------------------------+
 */
 
-
 /**
  *
  * @package CRM
@@ -34,32 +33,14 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
-require_once 'CRM/Core/Error.php';
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Mailing/Page/Common.php';
 
-class extern_unsubscribe extends CRM_Core_Page 
+class CRM_Mailing_Page_Optout extends CRM_Mailing_Page_Common
 {
     function run() {
-        require_once 'CRM/Utils/Array.php';
-        $job_id   = CRM_Utils_Array::value( 'jid', $_GET );
-        $queue_id = CRM_Utils_Array::value( 'qid', $_GET );
-        $hash     = CRM_Utils_Array::value( 'h'  , $_GET );
-
-        if ( ! $job_id   ||
-             ! $queue_id ||
-             ! $hash ) {
-            echo "Missing input parameters\n";
-            exit( );
-        }
-        
-        require_once 'CRM/Mailing/Event/BAO/Unsubscribe.php';
-        CRM_Mailing_Event_BAO_Unsubscribe::unsub_from_mailing($job_id, $queue_id, $hash);
-        $displayName = CRM_Mailing_Event_BAO_Unsubscribe::getContactInfo($queue_id);
-        
-        $this->assign('display_name', $displayName);
-        
+        $this->_type = 'optout';
         parent::run();
     }
 }
+
 ?>

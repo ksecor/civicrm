@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -108,6 +108,13 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
      * @var CRM_Core_Session
      */
     static protected $_session;
+
+    /**
+     * The parent of this form if embedded
+     *
+     * @var object
+     */
+    protected $_parent = null;
 
     /**
      * All CRM single or multi page pages should inherit from this class. 
@@ -533,6 +540,14 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
             $this->addAction('upload' , $action );
         }
+    }
+
+    public function setParent( $parent ) {
+        $this->_parent = $parent;
+    }
+
+    public function getParent( ) {
+        return $this->_parent;
     }
 
 }

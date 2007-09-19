@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -67,6 +67,9 @@ class CRM_Contact_Form_Email
             
             $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
                                                                              "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
+            $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
+                                                                               "location[$locationId][email][$i][is_bulkmail]",null, ts('for bulkmail'));
+            
         }
     }
 }

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -43,7 +43,11 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      * @var array
      */
     static $_links = null;
-    
+
+    protected $_pager = null;
+
+    protected $_sortByCharacter;
+
     /**
      * The action links that we need to display for saved search items
      *
@@ -230,28 +234,53 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
+        }
+
+        $this->search( );
+
         $config =& CRM_Core_Config::singleton( );
-        $values =  array( );
-        
-        $object =& new CRM_Contact_BAO_Group( );
-        $object->domain_id = $config->domainID( );
-        $object->orderBy ( 'title asc' );
-        $object->find();
-        
+
+        $params = array( );
+        $whereClause = $this->whereClause( $params, false );
+        $this->pagerAToZ( $whereClause, $params );
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, true );
+        $this->pager    ( $whereClause, $params );
+
+
+        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
+
+        $query = "
+  SELECT *
+    FROM civicrm_group
+   WHERE $whereClause
+ORDER BY title asc
+   LIMIT $offset, $rowCount";
+
+        $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
+
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
-        
+
+        require_once 'CRM/Core/OptionGroup.php';
+        $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
-                    $values[$object->id]['title'] = $values[$object->id]['title'] . ' (' . ts('Smart Group') . ')';
-                    $links =& $this->links( );
-                } else {
-                    $links =& $this->links( );
+                    $values[$object->id]['title'] .= ' (' . ts('Smart Group') . ')';
                 }
+                $links =& $this->links( );
                 $action = array_sum(array_keys($links));
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
@@ -264,6 +293,15 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
                 $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
+                if ( $values[$object->id]['group_type'] ) {
+                    $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                                           substr( $values[$object->id]['group_type'], 1, -1 ) );
+                    $types = array( );
+                    foreach ( $groupTypes as $type ) {
+                        $types[] = $allTypes[$type];
+                    }
+                    $values[$object->id]['group_type'] = implode( ', ', $types );
+                }
                 $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $action,
                                                                             array( 'id'   => $object->id,
@@ -272,8 +310,115 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         }
         
         $this->assign( 'rows', $values );
-    }           
-    
+    }
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE |
+               CRM_Core_Action::DELETE ) ) {
+            return;
+        }
+
+        $form = new CRM_Core_Controller_Simple( 'CRM_Group_Form_Search', ts( 'Search Groups' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+
+    function whereClause( &$params, $sortBy = true ) {
+        $values =  array( );
+
+        $clauses = array( );
+        $title   = $this->get( 'title' );
+        if ( $title ) {
+            $clauses[] = "title LIKE %1";
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( $title, 'String', false );
+            } else {
+                $params[1] = array( $title, 'String', true );
+            }
+        }
+
+        $groupType = $this->get( 'group_type' );
+        if ( $groupType ) {
+            $types = array_keys( $groupType );
+            if ( ! empty( $types ) ) {
+                $clauses[] = 'group_type LIKE %2';
+                $typeString = 
+                    CRM_Core_DAO::VALUE_SEPARATOR . 
+                    implode( CRM_Core_DAO::VALUE_SEPARATOR, $types ) .
+                    CRM_Core_DAO::VALUE_SEPARATOR;
+                $params[2] = array( $typeString, 'String', true );
+            }
+        }
+
+        $visibility = $this->get( 'visibility' );
+        if ( $visibility ) {
+            $clauses[] = 'visibility = %3';
+            $params[3] = array( $visibility, 'String' );
+        }
+
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
+            $clauses[] = 'title LIKE %4';
+            $params[4] = array( $this->_sortByCharacter . '%', 'String' );
+        }
+
+        $clauses[] = 'domain_id = %5';
+        $params[5] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        // dont do a the below assignement when doing a 
+        // AtoZ pager clause
+        if ( $sortBy ) {
+            if ( count( $clauses ) > 1 ) {
+                $this->assign( 'isSearch', 1 );
+            } else {
+                $this->assign( 'isSearch', 0 );
+            }
+        }
+
+        return implode( ' AND ', $clauses );
+    }
+
+    function pager( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/Pager.php';
+
+        $params['status']       = ts('Group %%StatusMessage%%');
+        $params['csvString']    = null;
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
+        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( ! $params['rowCount'] ) {
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
+        }
+
+        $query = "
+SELECT count(id)
+  FROM civicrm_group
+ WHERE $whereClause";
+
+        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $this->_pager );
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
+     FROM civicrm_group
+    WHERE $whereClause
+ ORDER BY LEFT(title, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
+        $this->assign( 'aToZ', $aToZBar );
+    }
+
 }
 
 ?>

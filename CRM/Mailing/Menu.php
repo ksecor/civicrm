@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -127,6 +127,42 @@ class CRM_Mailing_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::NORMAL_ITEM,  
                                  'weight'  => 630,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/unsubscribe',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Unsubscribe'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 640,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/optout',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Optout'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 650,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/confirm',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Confirm'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 660,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/subscribe',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Subscribe'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 660,
                                  ),
                            );
             

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -148,14 +148,44 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
 
-        // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
-        $mailer =& CRM_Core_Config::getMailer( );  
+        if ( defined( 'CIVICRM_MAIL_LOG' ) ) {
+            self::logger( $to, $headers, $message );
+        } else {
+            // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
+            $mailer =& CRM_Core_Config::getMailer( );  
+            if ($mailer->send($to, $headers, $message) !== true) {  
+                return false;                                                    
+            } 
+        }
 
-        if ($mailer->send($to, $headers, $message) !== true) {  
-            return false;                                                    
-        } 
-        
         return true;
+    }
+
+    function logger( &$to, &$headers, &$message ) {
+        if ( is_array( $to ) ) {
+            $toString = implode( ', ', $to ); 
+            $fileName = $to[0];
+        } else {
+            $toString = $fileName = $to;
+        }
+        $content = "To: " . $toString . "\n";
+        foreach ( $headers as $key => $val ) {
+            $content .= "$key: $val\n";
+        }
+        $content .= "\n" . $message . "\n";
+
+        if ( is_numeric( CIVICRM_MAIL_LOG ) ) {
+            $config =& CRM_Core_Config::singleton( );
+            // create the directory if not there
+            $dirName = $config->uploadDir . 'mail' . DIRECTORY_SEPARATOR;
+            CRM_Utils_File::createDir( $dirName );
+            $fileName = md5( uniqid( CRM_Utils_String::munge( $fileName ) ) ) . '.txt';
+            file_put_contents( $dirName . $fileName,
+                               $content );
+        } else {
+            file_put_contents( CIVICRM_MAIL_LOG,
+                               $content );
+        }
     }
 
     /**

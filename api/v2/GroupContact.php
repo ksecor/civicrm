@@ -1,7 +1,7 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -74,7 +74,7 @@ function civicrm_group_contact_common( &$params, $op = 'add' ) {
         return civicrm_create_error( ts( 'group_id is a required field' ) );
     }
 
-    $method     = CRM_Utils_Array::value( 'method'  , $params, 'API v2' );
+    $method     = CRM_Utils_Array::value( 'method'  , $params, 'API' );
     if ( $op == 'add' ) {
         $status     = CRM_Utils_Array::value( 'status'  , $params, 'Added'  );
     } else {

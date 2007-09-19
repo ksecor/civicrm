@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -39,6 +39,18 @@
 class CRM_Mailing_Form_Schedule extends CRM_Core_Form 
 {
 
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @access public
+     * @return None
+     */
+    function setDefaultValues( ) 
+    {
+        $count = $this->get('count');
+        $this->assign('count',$count);
+    }
+    
     /**
      * Build the form for the last step of the mailing wizard
      *
@@ -102,32 +114,36 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        $params = array();
-        foreach (array( 
-                    'template', 'mailing_name',
-                    'groups', 'mailings', 'header_id', 'footer_id',
-                    'reply_id', 'unsubscribe_id', 'optout_id',
-                    'textFile', 'htmlFile', 'subject',
-                    'from_name', 'from_email', 'forward_reply', 'track_urls',
-                    'track_opens', 'auto_responder'
-                ) as $parameter) 
-        {
-            $params[$parameter] = $this->get($parameter);
-        }
+        $params['mailing_id'] = $ids['mailing_id'] = $this->get('mailing_id');
+        
         foreach(array('now', 'start_date') as $parameter) {
             $params[$parameter] = $this->controller->exportValue($this->_name,
-            $parameter);
+                                                                 $parameter);
         }
-        
-        $session =& CRM_Core_Session::singleton();
-        $params['domain_id'] = $session->get('domainID');
-        $params['contact_id'] = $session->get('userID');
-        
-        /* Build the mailing object */
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        CRM_Mailing_BAO_Mailing::create($params);
-    }
 
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing =& new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $ids['mailing_id'];
+
+        if ($mailing->find(true)) {
+            
+            $job =& new CRM_Mailing_BAO_Job();
+            $job->mailing_id = $mailing->id;
+            
+            if ( ! $mailing->is_template) {
+                $job->status = 'Scheduled';
+                $job->is_retry = false;
+                $job->is_test = false;
+                if ($params['now']) {
+                    $job->scheduled_date = date('YmdHis');
+                } else {
+                    $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
+                }
+                $job->save();
+            } 
+        }
+    }
+    
     /**
      * Display Name of the form
      *

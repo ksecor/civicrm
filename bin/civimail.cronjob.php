@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -50,50 +50,8 @@ function run( ) {
     // this does not return on failure
     CRM_Utils_System::authenticateScript( true );
 
-    $config->userFramework      = 'Soap'; 
-    $config->userFrameworkClass = 'CRM_Utils_System_Soap'; 
-    $config->userHookClass      = 'CRM_Utils_Hook_Soap';
-
-    // how to create a universal lock file name?
-    // generally this should be in /var/lock but this is unwritable on Openwall
-    // consider the semaphore mechanism described by christian.wessels at web.de
-    // 07-Apr-2006 09:41 on http://us3.php.net/flock
-
-    global $argc, $argv;
-
-    // note that storing it in $config->uploadDir means that the user running the cron script
-    // needs to run it with write permissions on that directory, change the directory below
-    // if it does not meet your needs
-    if ( $argc > 1 && isset( $argv[1] ) && is_dir( $argv[1] ) ) {
-        $lockFileDir = $argv[1] . '/';
-    } else {
-        $lockFileDir = $config->uploadDir;
-    }
-    $lockName    = $lockFileDir . '.civicrm_cronjob.lck';
-    $staleTime   = 30*60;           // lock goes stale after 30 minutes
-    
-    $fp = fopen($lockName, "w+");
-    if ( ! $fp ) {
-        echo "ERROR: We could not open the lockfile $lockName, please check and fix permissions\n";
-        exit( 0 );
-    }
-
-    if (!flock($fp, LOCK_EX | LOCK_NB)) {  // if lock is already taken...
-        if ((time() - filemtime($lockName)) > $staleTime) {
-            echo "ERROR: civimail.cronjob/php: $lockName is stale\n";
-        } else {
-            echo "ERROR: Unknown error in obtaining lock\n";
-        }
-        exit(0);                     // ...exit immediately
-    }
-    fwrite($fp, '0');              // sets modification time
-
-    // we have an exclusive lock - run the mail queue
+    // we now use DB locks on a per job basis
     processQueue( );
-
-    // release the lock and clean up
-    flock($fp, LOCK_UN);
-    fclose($fp);
 }
 
 run( );

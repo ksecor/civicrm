@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -78,17 +78,39 @@ class CRM_Utils_Token {
      */
     public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
-            self::$_requiredTokens = array(    
-                'domain.address'    => ts("Displays your organization's postal address."),
-                'action.optOut'     => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
-                'action.unsubscribe'    => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
-            );
+            self::$_requiredTokens = array (    
+                'domain.address'     => ts("Displays your organization's postal address."),
+                'action.optOut' =>
+                array(
+                      'action.optOut'    => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      'action.optOutUrl' => ts("Creates a link for recipients to opt out of receiving emails from your organization."), 
+                      ),
+                'action.unsubscribe' =>
+                array(
+                      'action.unsubscribe' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      'action.unsubscribeUrl' => ts("Creates a link for recipients to unsubscribe from the group(s) to which this mailing is being sent."),
+                      ),
+                );
         }
 
-        $missing = array();
-        foreach (self::$_requiredTokens as $token => $description) {
-            if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str)) {
-                $missing[$token] = $description;
+        $missing = array( );
+        foreach (self::$_requiredTokens as $token => $value) {
+            if ( ! is_array( $value ) ) {
+                if (! preg_match('/(^|[^\{])'.preg_quote('{' . $token . '}').'/', $str ) ) {
+                    $missing[$token] = $value;
+                }
+            } else {
+                $present = false;
+                $desc    = null;
+                foreach ( $value as $t => $d ) {
+                    $desc = $d;
+                    if ( preg_match('/(^|[^\{])'.preg_quote('{' . $t . '}').'/', $str ) ) {
+                        $present = true;
+                    }
+                }
+                if ( ! $present ) {
+                    $missing[$token] = $desc;
+                }
             }
         }
 
@@ -136,6 +158,19 @@ class CRM_Utils_Token {
     }
     
     /**
+     * get the regex for token replacement
+     *
+     * @param string $key       a string indicating the the type of token to be used in the expression
+     * @return string           regular expression sutiable for using in preg_replace
+     * @access private
+     * @static
+     */
+
+    private static function tokenRegex($token_type){
+      return '/(?<!\{|\\\\)\{'.$token_type.'\.(\w+)\}(?!\})/e';
+    }
+
+    /**
      * Replace all the domain-level tokens in $str
      *
      * @param string $str       The string with tokens to be replaced
@@ -145,40 +180,58 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceDomainTokens($str, &$domain, $html = false)
-    {
-        require_once 'CRM/Utils/Address.php';
-        $loc =& $domain->getLocationValues();
-        if (self::token_match('domain', 'address', $str)) {
-            $value = null;
-            /* Construct the address token */
-            if ( CRM_Utils_Array::value( 'address', $loc ) ) {
-                $value = CRM_Utils_Address::format($loc['address']);
-                if ($html) $value = str_replace("\n", '<br />', $value);
-            }
-            self::token_replace('domain', 'address', $value, $str);
-        }
-        
-        if (self::token_match('domain', 'name', $str)) {
-            self::token_replace('domain', 'name', $domain->name, $str);
-        }
-        
-        /* Construct the phone and email tokens */
-        foreach (array('phone', 'email') as $key) {
-            if (self::token_match('domain', $key, $str)) {
-                $value = null;
-                if ( CRM_Utils_Array::value( $key, $loc ) ) {
-                    foreach ($loc[$key] as $index => $entity) {
-                        if ($entity->is_primary) {
-                            $value = $entity->$key;
-                            break;
-                        }
-                    }
-                }
-                self::token_replace('domain', $key, $value, $str);
-            }
-        }
+    
+    public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null) {
+        $key = 'domain';
+        if(!$knownTokens || !$knownTokens[$key]) return $str;
+        $str = preg_replace(self::tokenRegex($key),'self::getDomainTokenReplacement(\'\\1\',$domain,$html)',$str);
         return $str;
+    }
+
+    public static function getDomainTokenReplacement($token, &$domain, $html = false){
+      // check if the token we were passed is valid
+      // we have to do this because this function is
+      // called only when we find a token in the string
+      if(!in_array($token,self::$_tokens['domain'])){
+        $value = "{domain.$token}";
+      }
+
+      else if ($token == 'address') {
+          static $addressCache = array();
+
+          $cache_key = $html ? 'address-html' : 'address-text';
+          if ( array_key_exists($cache_key, $addressCache) ) {
+              return $addressCache[$cache_key];
+          }
+
+          require_once 'CRM/Utils/Address.php';
+          $loc =& $domain->getLocationValues();
+          $value = null;
+          /* Construct the address token */
+          if ( CRM_Utils_Array::value( $token, $loc ) ) {
+              $value = CRM_Utils_Address::format($loc[$token]);
+              if ($html) $value = str_replace("\n", '<br />', $value);
+              $addressCache[$cache_key] = $value;
+          }
+      }
+      
+      else if ( $token == 'name') {
+        $value = $domain->name;
+      }
+     
+      else if($token == 'phone' || $token == 'email'){
+        /* Construct the phone and email tokens */
+        $value = null;
+        if ( CRM_Utils_Array::value( $token, $loc ) ) {
+          foreach ($loc[$token] as $index => $entity) {
+            if ($entity->is_primary) {
+              $value = $entity->$token;
+              break;
+            }
+          }
+        }
+      }
+      return $value;      
     }
 
     /**
@@ -191,52 +244,84 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-     public static function &replaceMailingTokens($str, &$mailing, $html = false) {
-        if (self::token_match('mailing', 'name', $str)) {
-            self::token_replace('mailing', 'name', 
-            $mailing ? $mailing->name : 'Mailing Name', $str);
+     public static function &replaceMailingTokens($str, &$mailing, $html = false, $knownTokens = null) {
+        $key = 'mailing';
+        if ( ! $knownTokens ||
+             ! isset( $knownTokens[$key] ) ) {
+            return $str;
         }
-        if (self::token_match('mailing', 'group', $str)) {
-            $groups = $mailing  ? $mailing->getGroupNames() 
-                                : array('Mailing Groups');
-            $value = implode(', ', $groups);
-            self::token_replace('mailing', 'group', $value, $str);
-        }
+
+        $str = preg_replace(self::tokenRegex($key),'self::getMailingTokenReplacement(\'\\1\',$mailing)',$str);
         return $str;
+     }
+
+     public static function getMailingTokenReplacement($token, &$mailing) {
+      $value = '';
+
+      // check if the token we were passed is valid
+      // we have to do this because this function is
+      // called only when we find a token in the string
+      if(!in_array($token,self::$_tokens['mailing'])){
+        $value = "{mailing.$token}";
+      }
+      else if ($token == 'name') {
+          $value = $mailing ? $mailing->name : 'Mailing Name';
+      }
+      else if ($token == 'group') {
+          $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
+          $value = implode(', ', $groups);
+      }
+      return $value;
      }
 
     /**
      * Replace all action tokens in $str
      *
-     * @param string $str       The string with tokens to be replaced
-     * @param array $addresses  Assoc. array of VERP event addresses
-     * @param array $urls       Assoc. array of action URLs
-     * @param boolean $html     Replace tokens with HTML or plain text
-     * @return string           The processed string
+     * @param string $str         The string with tokens to be replaced
+     * @param array $addresses    Assoc. array of VERP event addresses
+     * @param array $urls         Assoc. array of action URLs
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @param array $knownTokens  A list of tokens that are known to exist in the email body
+     * @return string             The processed string
      * @access public
      * @static
      */
-    public static function &replaceActionTokens($str, &$addresses, &$urls, $html = false) {
-        foreach (self::$_tokens['action'] as $token) {
-            if (! self::token_match('action', $token, $str)) {
-                continue;
-            }
-
-            /* If the token is an email action, use it.  Otherwise, find the
-             * appropriate URL */
-            if (($value = CRM_Utils_Array::value($token, $addresses)) == null) {
-                if (($value = CRM_Utils_Array::value($token, $urls)) == null)
-                {
-                    continue;
-                } 
-            } else {
-                if ($html) {
-                    $value = "mailto:$value";
-                }
-            }
-            self::token_replace('action', $token, $value, $str);
+    public static function &replaceActionTokens($str, &$addresses, &$urls, $html = false, $knownTokens = null) {
+        $key = 'action';
+        // here we intersect with the list of pre-configured valid tokens
+        // so that we remove anything we do not recognize
+        // I hope to move this step out of here soon and
+        // then we will just iterate on a list of tokens that are passed to us
+        if( ! $knownTokens || ! $knownTokens[$key] ) {
+            return $str;
         }
+
+        $str = preg_replace( self::tokenRegex($key),
+                             'self::getActionTokenReplacement(\'\\1\',$addresses,$urls)',
+                             $str);
         return $str;
+    }
+
+    public static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
+      /* If the token is an email action, use it.  Otherwise, find the
+       * appropriate URL */
+      if(!in_array($token,self::$_tokens['action'])){
+        $value = "{action.$token}";
+      } else {
+        $value = CRM_Utils_Array::value($token, $addresses);
+
+        if ($value == null) {
+          $value = CRM_Utils_Array::value($token, $urls);
+        }
+
+        if($value && $html){
+          $value = "mailto:$value";
+        } else if($value && !$html){
+          $value = str_replace('&amp;', '&', $value);
+        }
+
+      }
+      return $value;
     }
 
 
@@ -244,14 +329,36 @@ class CRM_Utils_Token {
      * Replace all the contact-level tokens in $str with information from
      * $contact.
      *
-     * @param string $str       The string with tokens to be replaced
-     * @param array $contact    Associative array of contact properties
-     * @param boolean $html     Replace tokens with HTML or plain text
-     * @return string           The processed string
+     * @param string $str         The string with tokens to be replaced
+     * @param array $contact      Associative array of contact properties
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @param boolean $html       Replace tokens with HTML or plain text
+     * @param array $knownTokens  A list of tokens that are known to exist in the email body
+     * @return string             The processed string
      * @access public
      * @static
      */
-    public static function &replaceContactTokens($str, &$contact, $html = false) {
+    public static function &replaceContactTokens($str, &$contact, $html = false, $knownTokens = null) {
+        $key = 'contact';
+        if (self::$_tokens[$key] == null) {
+            /* This should come from UF */
+            self::$_tokens[$key] =
+                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
+                             array( 'display_name', 'checksum', 'contact_id' ) );
+        }
+
+        // here we intersect with the list of pre-configured valid tokens
+        // so that we remove anything we do not recognize
+        // I hope to move this step out of here soon and
+        // then we will just iterate on a list of tokens that are passed to us
+        if(!$knownTokens || !$knownTokens[$key]) return $str;
+
+        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
+        return $str;
+    }
+    
+    public function getContactTokenReplacement($token, &$contact, $html = false){
+
         if (self::$_tokens['contact'] == null) {
             /* This should come from UF */
             self::$_tokens['contact'] =
@@ -259,44 +366,45 @@ class CRM_Utils_Token {
                              array( 'display_name', 'checksum', 'contact_id' ) );
         }
 
-        $cv = null;
-        foreach (self::$_tokens['contact'] as $token) {
-            if ($token == '') {
-                continue;
-            }
+        /* Construct value from $token and $contact */
+        $value = null;
 
-            /* If the string doesn't contain this token, skip it. */
-            if (! self::token_match('contact', $token, $str)) {
-                continue;
-            }
+        // check if the token we were passed is valid
+        // we have to do this because this function is
+        // called only when we find a token in the string
 
-            /* Construct value from $token and $contact */
-            $value = null;
-            
-            if ($cfID = CRM_Core_BAO_CustomField::getKeyID($token)) {
-                // only generate cv if we need it
-                if ( $cv === null ) {
-                    $cv =& CRM_Core_BAO_CustomValue::getContactValues($contact['contact_id']);
-                }
-                foreach ($cv as $customValue) {
-                    if ($customValue['custom_field_id'] == $cfID) {
-                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
-                        break;
-                    }
-                }
-            } else if ( $token == 'checksum' ) {
-                $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
-                $value = "cs={$cs}";
-            } else {
-                $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
-            }
-            
-            self::token_replace('contact', $token, $value, $str);
+        if(!in_array($token,self::$_tokens['contact'])){
+          $value = "{contact.$token}";
+        } else if ( $token == 'checksum' ) {
+            $cs = CRM_Contact_BAO_Contact::generateChecksum( $contact['contact_id'] );
+            $value = "cs={$cs}";
+        } else {
+            $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
         }
 
-        return $str;
+        if(!$html){
+          $value = str_replace('&amp;', '&', $value);
+        }
+
+        return $value;
     }
 
+    /**
+     *  unescapeTokens removes any characters that caused the replacement routines to skip token replacement
+     *  for example {{token}}  or \{token}  will result in {token} in the final email
+     *
+     *  this routine will remove the extra backslashes and braces
+     *
+     *  @param $str ref to the string that will be scanned and modified
+     *  @return void  this function works directly on the string that is passed
+     *  @access public
+     *  @static
+     */
+    
+     public static function unescapeTokens(&$str){
+       $str = preg_replace('/\\\\|\{(\{\w+\.\w+\})\}/','\\1',$str);
+     }
+    
     /**
      * Replace unsubscribe tokens
      *
@@ -333,9 +441,10 @@ class CRM_Utils_Token {
                     $value = '<ul>';
                     foreach ($groups as $gid => $name) {
                         $verpAddress = implode( $config->verpSeparator,
-                                                array( 'subscribe',
+                                                array( 'resubscribe',
                                                        $domain->id,
-                                                       $gid ) ) . "@{$domain->email_domain}";
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
                         $resub = '';
                         if (in_array($gid, $visibleGroups)) {
                             $resub = "(<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)";
@@ -347,9 +456,10 @@ class CRM_Utils_Token {
                     $value = "\n";
                     foreach ($groups as $gid => $name) {
                         $verpAddress = implode( $config->verpSeparator, 
-                                                array( 'subscribe',
+                                                array( 'resubscribe',
                                                        $domain->id,
-                                                       $gid ) ) . "@{$domain->email_domain}";
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
                         $resub = '';
                         if (in_array($gid, $visibleGroups)) {
                             $resub = ts("(re-subscribe: %1)", array( 1 => "$verpAddress"));
@@ -365,6 +475,59 @@ class CRM_Utils_Token {
     }
 
     /**
+     * Replace resubscribe tokens
+     *
+     * @param string $str           the string with tokens to be replaced
+     * @param object $domain        The domain BAO
+     * @param array $groups         The groups (if any) being resubscribed
+     * @param boolean $html         Replace tokens with html or plain text
+     * @param int $contact_id       The contact ID
+     * @param string hash           The security hash of the resub event
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceResubscribeTokens($str, &$domain, &$groups, $html,
+                                                     $contact_id, $hash) 
+    {
+        if (self::token_match('resubscribe', 'group', $str)) {
+            if (! empty($groups)) {
+                $config =& CRM_Core_Config::singleton();
+
+                if ($html) {
+                    $value = '<ul>';
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator,
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = "(<a href=\"mailto:$verpAddress\">" . ts("unsubscribe") . "</a>)";
+                        $value .= "<li>$name $unsub</li>\n";
+                    }
+                    $value .= '</ul>';
+                } else {
+                    $value = "\n";
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator, 
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = ts("(unsubscribe: %1)", array( 1 => "$verpAddress"));
+                        $value .= "\t* $name $unsub\n";
+                    }
+                    $value .= "\n";
+                }
+                self::token_replace('resubscribe', 'group', $value, $str);
+            }
+        }
+        return $str;
+    }
+
+    /**
      * Replace subscription-confirmation-request tokens
      * 
      * @param string $str           The string with tokens to be replaced
@@ -374,9 +537,12 @@ class CRM_Utils_Token {
      * @access public
      * @static
      */
-    public static function &replaceSubscribeTokens($str, $group, $html) {
+    public static function &replaceSubscribeTokens($str, $group, $url, $html) {
         if (self::token_match('subscribe', 'group', $str)) {
             self::token_replace('subscribe', 'group', $group, $str);
+        }
+        if (self::token_match('subscribe', 'url', $str)) {
+            self::token_replace('subscribe', 'url', $url, $str);
         }
         return $str;
     }
@@ -411,7 +577,7 @@ class CRM_Utils_Token {
      * @static
      */
     public static function &unmatchedTokens(&$str) {
-        preg_match_all('/[^\{]\{(\w+\.?\w+)\}/', $str, $match);
+        preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
         return $match[1];
     }
 }

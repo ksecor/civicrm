@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -95,6 +95,7 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
 
@@ -159,6 +160,7 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
     

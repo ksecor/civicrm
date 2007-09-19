@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -153,6 +153,11 @@ class CRM_Utils_SoapServer
     public function mailer_event_domain_unsubscribe($key, $job, $queue, $hash) {
         $this->verify($key);
         return crm_mailer_event_domain_unsubscribe($job, $queue, $hash);
+    }
+
+    public function mailer_event_resubscribe($key, $job, $queue, $hash) {
+        $this->verify($key);
+        return crm_mailer_event_resubscribe($job, $queue, $hash);
     }
 
     public function mailer_event_subscribe($key, $email, $domain, $group) {

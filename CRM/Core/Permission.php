@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -108,10 +108,10 @@ class CRM_Core_Permission {
      * @return array - array reference of all groups.
      *
      */
-    public static function group( ) {
+    public static function group( $groupType ) {
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userPermissionClass ) . '.php' );
-        return eval( 'return ' . $config->userPermissionClass . '::group( );' );
+        return eval( 'return ' . $config->userPermissionClass . '::group( $groupType );' );
     }
 
     public static function customGroup( $type = CRM_Core_Permission::VIEW ) {

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -39,6 +39,8 @@ require_once 'CRM/Core/Page.php';
 
 abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
     
+    protected $_action;
+
     /**
      * define all the abstract functions here
      */
@@ -145,9 +147,9 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
         // what action do we want to perform ? (store it for smarty too.. :) 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
 
-        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String',
                                                $this, false, 'browse' );
-        $this->assign( 'action', $action );
+        $this->assign( 'action', $this->_action );
 
         // get 'id' if present
         $id  = CRM_Utils_Request::retrieve( 'id', 'Positive',
@@ -155,11 +157,21 @@ abstract class CRM_Core_Page_Basic extends CRM_Core_Page {
 
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $this->getBAOName()) . ".php");
 
-        if ($action & (CRM_Core_Action::VIEW | CRM_Core_Action::ADD | CRM_Core_Action::UPDATE | CRM_Core_Action::DELETE)) {
-            $this->edit($action, $id);                               // use edit form for view, add or update or delete
-        } else if ($action & CRM_Core_Action::DISABLE) {
+        if ( $id ) {
+            if ( ! $this->checkPermission( $id, null ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to make changes to the record' ) );
+            }
+        }
+
+        if ( $this->_action &
+             ( CRM_Core_Action::VIEW   | 
+               CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE |
+               CRM_Core_Action::DELETE ) ) {
+            $this->edit($this->_action, $id);                               // use edit form for view, add or update or delete
+        } else if ($this->_action & CRM_Core_Action::DISABLE) {
             eval($this->getBAOName( ) . '::setIsActive( $id, 0 );'); //disable
-        } else if ( $action & CRM_Core_Action::ENABLE ) {
+        } else if ( $this->_action & CRM_Core_Action::ENABLE ) {
             eval($this->getBAOName( ) . '::setIsActive( $id, 1 );'); // enable
         } 
 

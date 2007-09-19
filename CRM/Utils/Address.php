@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -91,7 +91,7 @@ class CRM_Utils_Address
                 $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
                 $contactName = self::format($fields, $format, null, null, true);
             } else {
-                $contactName = $fields['display_name'];
+                $contactName = CRM_Utils_Array::value( 'display_name', $fields );
             }
         }
 

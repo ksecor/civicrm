@@ -11,6 +11,7 @@
     <th>{ts}End Date{/ts}</th>
     <th>{ts}Queued{/ts}</th>
     <th>{ts}Delivered{/ts}</th>
+    <th>{ts}Spooled Mails{/ts}</th>
     <th>{ts}Bounces{/ts}</th>
     <th>{ts}Unsubscribe Requests{/ts}</th>
     <th>{ts}Forwards{/ts}</th>
@@ -30,6 +31,7 @@
     <td>{$job.end_date|date_format}</td>
     <td><a href="{$job.links.queue}">{$job.queue}</a></td>
     <td><a href="{$job.links.delivered}">{$job.delivered}</a></td>
+    <td>{$job.spool}</td>
     <td><a href="{$job.links.bounce}">{$job.bounce}</a></td>
     <td><a href="{$job.links.unsubscribe}">{$job.unsubscribe}</a></td>
     <td><a href="{$job.links.forward}">{$job.forward}</a></td>
@@ -70,6 +72,7 @@
   <table class="form-layout">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
+  <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
   {if $report.mailing.open_tracking}
     <tr><td class="label"><a href="{$report.event_totals.links.opened}">{ts}Tracked Opens{/ts}</a></td><td>{$report.jobs.0.opened}</td></tr>
   {/if}
@@ -186,8 +189,21 @@
 <tr><td class="label">{$component.type}</td><td>
 <a href="{$component.link}">{$component.name}</a></td></tr>
 {/foreach}
-<tr><td class="label">{ts}Text Body{/ts}</td><td class="report">{$report.mailing.body_text|escape|nl2br}</td></tr>
-<tr><td class="label">{ts}HTML Body{/ts}</td><td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
+{if $report.mailing.body_text}
+<tr>
+  <td class="label">{ts}Text Body{/ts}<br />
+    <small><a href='{$textViewURL}'>{ts}View Text Body{/ts}</a></small>
+  </td>
+  <td class="report">{$report.mailing.body_text|escape|nl2br}</td>
+</tr>
+{/if}
+{if $report.mailing.body_html}
+<tr>
+  <td class="label">{ts}HTML Body{/ts}<br/>
+    <small><a href='{$htmlViewURL}'>{ts}View HTML Body{/ts}</a></small>
+  </td>
+  <td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
+{/if}
 </table>
 {/strip}
 </fieldset>

@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -79,10 +79,10 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         $this->add('text', 'subject', ts('Subject'),
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Component', 'subject' ),
                    true );
-        $this->add('textarea', 'body_text', ts('Body in text format'),
+        $this->add('textarea', 'body_text', ts('Body - TEXT Format'),
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Component', 'body_text' ),
                    true );
-        $this->add('textarea', 'body_html', ts('Body in html format'),
+        $this->add('textarea', 'body_html', ts('Body - HTML Format'),
                    CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Component', 'body_html' ),
                    true );
         

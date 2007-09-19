@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -128,8 +128,10 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
     {
         $phone =& new CRM_Core_BAO_Phone( );
         $getValues =& CRM_Core_BAO_Block::getValues( $phone, 'phone', $params, $values, $ids, $blockCount );
-        foreach ($values['phone'] as $key => $array) {
-            CRM_Core_DAO_Phone::addDisplayEnums($values['phone'][$key]);
+        if ( CRM_Utils_Array::value( 'phone', $values ) ) {
+            foreach ($values['phone'] as $key => $array) {
+                CRM_Core_DAO_Phone::addDisplayEnums($values['phone'][$key]);
+            }
         }
         return $getValues;
     }

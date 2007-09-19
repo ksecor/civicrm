@@ -16,7 +16,7 @@
     <dt>{$form.acl_role_id.label}</dt><dd>{$form.acl_role_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select an ACL Role to assign.{/ts}</dd>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select a group of contacts who should have this role when logged in to your site.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a group of contacts who should have this role when logged in to your site. Groups must be assigned the 'Access Control' type (Manage Groups &raquo; Settings) to be included in this list.{/ts}</dd>
     <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
   </dl>
 {/if}

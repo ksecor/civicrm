@@ -1,0 +1,13 @@
+.SC_Item {
+	background-color: #FFFFFF;
+	display: block;
+	border: 1px;
+	border-style: solid;
+	border-color: #999999;
+	margin: 1px;
+	padding: 2px 4px 2px 4px;
+}
+
+.SC_Panel {
+	overflow: visible;
+}

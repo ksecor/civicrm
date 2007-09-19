@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -155,6 +155,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer') 
             . ($job_id ? " AND $job.id = " . CRM_Utils_Type::escape($job_id,
@@ -201,6 +202,7 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
     
@@ -329,6 +331,31 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         $mailing->fetch();
         return $mailing;
     }
+
+    public static function getContactInfo($queueID) {
+        $query = "
+SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
+       civicrm_contact.display_name as display_name,
+       civicrm_email.email as email
+  FROM civicrm_mailing_event_queue,
+       civicrm_contact,
+       civicrm_email
+ WHERE civicrm_mailing_event_queue.contact_id = civicrm_contact.id
+   AND civicrm_mailing_event_queue.email_id = civicrm_email.id
+   AND civicrm_mailing_event_queue.id = " . CRM_Utils_Type::escape($queueID, 'Integer');
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $displayName = 'Unknown';
+        $email       = 'Unknown';
+        if ( $dao->fetch( ) ) { 
+           $displayName = $dao->display_name;
+           $email       = $dao->email;
+        }
+        
+        return array( $displayName, $email );
+    }
+
 }
 
 ?>

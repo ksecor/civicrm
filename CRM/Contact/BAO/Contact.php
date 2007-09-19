@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -1080,7 +1080,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             return $value;
         } else {
             foreach ($params as $subParam) {
-                if ($value = self::retrieveValue($subParam, $key)) {
+                if ( is_array( $subParam ) &&
+                     $value = self::retrieveValue( $subParam, $key ) ) {
                     return $value;
                 }
             }

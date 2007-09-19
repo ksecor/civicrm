@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -145,6 +145,7 @@ class CRM_Contact_Form_Task_AddToGroup extends CRM_Contact_Form_Task {
         if ( $notAdded ) {
             $status[] = ts('Total Contact(s) already in group: %1', array(1 => $notAdded));
         }
+        $status = implode( '<br/>', $status );
         CRM_Core_Session::setStatus( $status );
         
     }//end of function

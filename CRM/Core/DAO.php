@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 1.9                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -56,7 +56,9 @@ class CRM_Core_DAO extends DB_DataObject {
         NOT_NULL        =   1,
         IS_NULL         =   2,
 
-        DB_DAO_NOTNULL  = 128;
+        DB_DAO_NOTNULL  = 128,
+
+        VALUE_SEPARATOR = "";
 
     /**
      * the factory class for this application
@@ -523,7 +525,7 @@ class CRM_Core_DAO extends DB_DataObject {
         if ( empty( $id ) ) {
             // adding this year since developers forget to check for an id
             // and hence we get the first value in the db
-            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            CRM_Core_Error::fatal( );
             return null;
         }
 
@@ -652,8 +654,13 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function &executeQuery( $query, &$params, $abort = true ) {
-        $dao =& new CRM_Core_DAO( );
+    static function &executeQuery( $query, &$params, $abort = true, $daoName = null ) {
+        if ( ! $daoName ) {
+            $dao =& new CRM_Core_DAO( );
+        } else {
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+            eval( '$dao   =& new ' . $daoName . '( );' );
+        }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         $dao->query( $queryStr );
         return $dao;
@@ -692,7 +699,12 @@ class CRM_Core_DAO extends DB_DataObject {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
                     $item[0] = $dao->escape( $item[0] );
                     if ( $item[1] == 'String' ) {
-                        $item[0] = "'{$item[0]}'";
+                        if ( isset( $item[2] ) &&
+                             $item[2] ) {
+                            $item[0] = "'%{$item[0]}%'";
+                        } else {
+                            $item[0] = "'{$item[0]}'";
+                        }
                     }
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {
