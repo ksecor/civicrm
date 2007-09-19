@@ -112,7 +112,7 @@
         <dt>{$form.relationship_type_id.label}</dt>
         <dd>{if ! $form.relationship_type_id.value and ($action neq 1)} {ts}None{/ts} {else}{$form.relationship_type_id.html}{/if}</dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select relationship type for this membership type. EXAMPLE: Select 'Household Member is' for memberships where the  <strong>direct member is a Household</strong> and you want all <strong>Household Members</strong> to be automatically granted memberships.{/ts}</dd>
+        <dd class="description">{ts}Memberships can be automatically granted to related contacts by selecting a Relationship Type.{/ts} {help id="rel-type"}</dd>
         <dt>{$form.visibility.label}</dt>
         <dd>{$form.visibility.html}</dd>
         <dt>&nbsp;</dt>
