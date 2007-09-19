@@ -301,7 +301,34 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             array_unshift($values, $formatError->_errors[0]['message']);
             return CRM_Member_Import_Parser::ERROR;
         }
-                         
+       
+        //fix for CRM-2219
+        if ( $onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
+            if ( $values['id'] ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                $dao =  new CRM_Member_BAO_Membership();
+                $dao->id = $values['id'];
+                $dates = array('join_date','start_date','end_date');
+                foreach ( $dates as $v ) {
+                    if ( !$formatted[$v] ) {
+                        $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership' , $values['id'], $v );
+                    }
+                }
+                if ( $dao->find( true ) ) { 
+                    $ids = array(
+                                 'membership' => $values['id'],
+                                 'userId'     => $session->get('userID')
+                                 );
+                    $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids );
+                    $this->_newMemberships[] = $newMembership->id;
+                    return CRM_Member_Import_Parser::VALID;
+                } else {
+                    array_unshift($values,"Matching Membership record not found for Membership ID ". $values['id'].". Row was skipped.");
+                    return CRM_Member_Import_Parser::ERROR;
+                }
+            }
+        }
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -338,17 +365,18 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 $value = array($key => $field);
                 if (array_key_exists($key, $cIndieFields)) {
                     $value['contact_type'] = $this->_contactType;
-                }
+                } 
                 _crm_add_formatted_param($value, $contactFormatted);
             }
             
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+
             if ( self::isDuplicate($error) ) { 
-                if (count( $matchedIDs) >1) {
+                if (count( $matchedIDs) >1) {                   
                     array_unshift($values,"Multiple matching contact records detected for this row. The membership was not imported");
-                    return CRM_Member_Import_Parser::ERROR;
+                    return CRM_Member_Import_Parser::ERROR;                   
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
@@ -388,7 +416,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                             return CRM_Member_Import_Parser::ERROR;
                         }
                     }
-                   
+                    
                     $newMembership = crm_create_contact_membership($formatted, $cid);
                     if ( is_a( $newMembership, CRM_Core_Error ) ) {
                         array_unshift($values, $newMembership->_errors[0]['message']);

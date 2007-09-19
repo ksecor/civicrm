@@ -69,21 +69,14 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
 
         $this->addElement( 'checkbox', 'skipColumnHeader', ts('First row contains column headers') );
 
-        $duplicateOptions = array();        
+        $duplicateOptions = array();         
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Skip'), CRM_Contribute_Import_Parser::DUPLICATE_SKIP);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);
-        $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Fill'), CRM_Contribute_Import_Parser::DUPLICATE_FILL);
-// for contributions NOCHECK == SKIP
-//      $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-//          null, null, ts('No Duplicate Checking'), CRM_Contribute_Import_Parser::DUPLICATE_NOCHECK);
+            null, null, ts('Update'), CRM_Contribute_Import_Parser::DUPLICATE_UPDATE);        
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
                         ts('On duplicate entries'));
         $this->setDefaults(array('onDuplicate' =>
-                                    CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
+                        CRM_Contribute_Import_Parser::DUPLICATE_SKIP));
 
         //contact types option
         $contactOptions = array();        
@@ -124,8 +117,7 @@ class CRM_Contribute_Import_Form_UploadFile extends CRM_Core_Form {
     public function postProcess( ) {
         $fileName         = $this->controller->exportValue( $this->_name, 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( $this->_name, 'skipColumnHeader' );
-        $onDuplicate      = $this->controller->exportValue( $this->_name,
-                            'onDuplicate' );
+        $onDuplicate      = $this->controller->exportValue( $this->_name, 'onDuplicate' );
         $contactType      = $this->controller->exportValue( $this->_name, 'contactType' ); 
         $dateFormats      = $this->controller->exportValue( $this->_name, 'dateFormats' ); 
 

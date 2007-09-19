@@ -253,7 +253,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         }
         
         $params =& $this->getActiveFieldParams( );
-
+        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -301,7 +301,41 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             array_unshift($values, $formatError->_errors[0]['message']);
             return CRM_Contribute_Import_Parser::ERROR;
        }
-        
+       
+        //fix for CRM-2219 - Update Contribution
+        if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+            if ( $values['invoice_id'] || $values['trxn_id'] || $values['id'] ) {
+                require_once 'CRM/Contribute/BAO/Contribution.php';
+                $dupeIds = array(
+                                 'id'         => CRM_Utils_Array::value('id',        $values),
+                                 'trxn_id'    => CRM_Utils_Array::value('trxn_id',   $values),
+                                 'invoice_id' => CRM_Utils_Array::value('invoice_id',$values)
+                                 );              
+                
+                $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );
+                if ( $ids['contribution'] ) {
+                    $params['id'] = $ids['contribution'];
+                    $newContribution =& CRM_Contribute_BAO_Contribution::create( $params , $ids );
+                    $this->_newContributions[] = $newContribution->id;
+                    return CRM_Contribute_Import_Parser::VALID;
+                } else {
+                    $labels = array(
+                                     'id'         => 'Contribution ID',
+                                     'trxn_id'    => 'Transaction ID',
+                                     'invoice_id' => 'Invoice ID'
+                                     );              
+                    foreach ( $dupeIds as $k=>$v ) {
+                        if( $v ) {
+                            $errorMsg[]  = "$labels[$k] $v";                
+                        } 
+                    }
+                    $errorMsg = implode( ' AND ', $errorMsg );
+                    array_unshift($values,"Matching Contribution record not found for ".$errorMsg.". Row was skipped.");
+                    return CRM_Contribute_Import_Parser::ERROR; 
+                }               
+            }
+        }
+       
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -344,10 +378,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }
                 _crm_add_formatted_param($value, $contactFormatted);
             }
+
             //$contactFormatted['contact_type'] = 'Individual';
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);        
             if ( self::isDuplicate($error) ) {
                 if (count( $matchedIDs) >1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The contribution was not imported");
@@ -386,11 +421,11 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         }
                     }
                 } 
-
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
             }
-          
+           
         } else {
             if ( $values['external_identifier'] ) {
                 $checkCid = new CRM_Contact_DAO_Contact();
@@ -402,7 +437,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 }
             }
             $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
-            if ( is_a( $newContribution, CRM_Core_Error ) ) {
+            if ( is_a( $newContribution, CRM_Core_Error ) ) {                
                 array_unshift($values, $newContribution->_errors[0]['message']);
                 return CRM_Contribute_Import_Parser::ERROR;
             }
