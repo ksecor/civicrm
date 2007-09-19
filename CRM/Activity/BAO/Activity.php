@@ -51,52 +51,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     }
 
     /**
-     * funtion to add the activities based on the activity type
-     *
-     * @param array  $params       (reference ) an assoc array of name/value pairs
-     * @param array  $ids          (reference ) the array that holds all the db ids
-     * @param array  $activityType activity type  
-     *
-     * @return object activity type of object that is added
-     * @access public
-     * @static
-     */
-    public function add( &$params ) 
-    {
-
-        if ( ! $this->dataExists( $params ) ) {
-            CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
-        }
-
-        $this->copyValues( $params );
-
-        $result = $this->save( );
-
-        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
-            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
-            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
-            $assignment->add( $this->id, $params['assignee_contact_id'] );
-        }
-        
-        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
-            require_once 'CRM/Activity/BAO/ActivityTarget.php';
-            $assignment =& new CRM_Activity_BAO_ActivityTarget();
-            $assignment->add( $this->id, $params['target_contact_id'] );
-        }        
-
-        return $result;
-    }
-
-    /**
      * Check if there is absolute minimum of data to add the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
      *
      * @return boolean
      * @access public
-     * @static
      */
-    private function dataExists( &$params ) 
+    private function _dataExists( &$params ) 
     {
         if (CRM_Utils_Array::value( 'subject', $params) &&
             CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
@@ -119,9 +81,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      *
      * @return object CRM_Core_BAO_Meeting object
      * @access public
-     * @static
      */
-    static function retrieve( &$params, &$defaults, $activityType ) 
+    public function retrieveActivity( &$params, &$defaults, $activityType ) 
     {
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
@@ -150,8 +111,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             CRM_Core_DAO::storeValues( $activity, $defaults );
 
-            CRM_Core_Error::debug( 'y', $defaults);
-            
+//            CRM_Core_Error::debug( 's', $defaults );
+
             return $activity;
         }
         return null;
@@ -165,10 +126,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      *
      * @return null
      * @access public
-     * @static
      *
      */
-    static function del ( $id , $activityType ) 
+    public function removeActivity( $id , $activityType ) 
     {
         //delete Custom Data, if any
         require_once 'CRM/Core/BAO/CustomQuery.php';
@@ -207,9 +167,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return void
      * 
      * @access public
-     * @static
      */
-    public static function deleteContact($id)
+    public function deleteContact($id)
     {
         $activity = array("Meeting", "Phonecall", "Activity");
         foreach ($activity as $key) {
@@ -225,6 +184,42 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
     }
 
+
+    public function updateActivity( &$params, &$ids )
+    {
+        require_once 'CRM/Core/Transaction.php';
+
+        $this->copyValues( $params );
+        $this->id = CRM_Utils_Array::value( 'id', $ids );
+        
+        $transaction = new CRM_Core_Transaction( );
+
+        $result = $this->save( );        
+
+        // attempt to save activity assignment
+        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
+            $assignment->activity_id = $this->id;
+
+            if( $assignment->find( true ) ) {
+                if( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                    $result = $assignment->updateAssignment( $this->id, $params['assignee_contact_id'] );
+                }
+            }
+        }
+        
+        // attempt to save activity targets
+        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityTarget.php';
+            $assignment =& new CRM_Activity_BAO_ActivityTarget();
+            if( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                $result = $assignment->add( $this->id, $params['target_contact_id'] );
+            }
+        }
+
+    }
+
     /**
      * Function to process the activities
      *
@@ -236,26 +231,56 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @return
      */
-    public function create( &$params  ) 
+    public function createActivity( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
 
-        $activity = $this->add($params );
-                                
-        if ( is_a( $activity, 'CRM_Core_Error') ) {
-            $transaction->rollback( );
-            return $activity;
+        // check required params
+        if ( ! $this->dataExists( $params ) ) {
+            CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
         }
 
-       $transaction->commit( );
+        $this->copyValues( $params );
+
+        // start transaction
+        $transaction = new CRM_Core_Transaction( );
+
+        $result = $this->save( );
+
+        // attempt to save activity assignment
+        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
+            if( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                $result = $assignment->add( $this->id, $params['assignee_contact_id'] );
+            }
+        }
+        
+        // attempt to save activity targets
+        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+            require_once 'CRM/Activity/BAO/ActivityTarget.php';
+            $assignment =& new CRM_Activity_BAO_ActivityTarget();
+            if( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                $result = $assignment->add( $this->id, $params['target_contact_id'] );
+            }
+        }
+
+        // roll back if error occured
+        if ( is_a( $result, 'CRM_Core_Error') ) {
+            $transaction->rollback( );
+            return $result;
+        }
+
+        // write to changelog before transation is committed
+        $logMsg = "Activity created for source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";        
+        $this->_logActivityAction( $result, $logMsg );
+
+        // we're done
+        $transaction->commit( );
                                                                                         
-       CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
 
-       $logMsg = "Activity created for source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
-       $this->_logActivityAction( $activity, $logMsg );
-
-       return $activity;
+        return $result;
 
 
         
@@ -333,10 +358,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param int $id
      * @param int $activityHistoryId
      *
-     * @static
      * @access public
      */
-    static function showActivityDetails( $id, $activityHistoryId )
+    public function showActivityDetails( $id, $activityHistoryId )
     {
         $params   = array( );
         $defaults = array( );

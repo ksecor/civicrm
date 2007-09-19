@@ -61,14 +61,56 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @access public
      * @static
      */
-    public function add( $activity_id, $assignee_contact_id ) {
+    public function addAssignment( $activity_id, $assignee_contact_id ) {
         $this->activity_id = $activity_id;
         $this->assignee_contact_id = $assignee_contact_id;
         return $this->save();
     }
 
 
-    function retrieveAssigneeIdByActivityId( $activity_id ) {
+    /**
+     * Delete record for activity id in activity_assignment
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
+     */
+    public function removeAssignment( $id )
+    {
+        $this->id = $id;
+        if( $this->find( true ) ) {
+            return $this->delete();
+        }
+    }
+
+    /**
+     * Update record for activity id in activity_assignment
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * @param int    $assignee_contact_id contact id for assignee
+     * 
+     * @return void
+     * 
+     * @access public
+     * @static
+     */
+    public function updateAssignment( $id, $assignee_contact_id )
+    {
+        $this->id = $id;
+        if( $this->find( true ) ) {
+            $this->assignee_contact_id = $assignee_contact_id;
+            return $this->save();
+        }
+    }
+
+
+
+
+    public function retrieveAssigneeIdByActivityId( $activity_id ) 
+    {
         $this->activity_id = $activity_id;
         if ( $this->find( true ) ) {
             return $this->assignee_contact_id;
@@ -77,39 +119,6 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
     }
     
 
-    /**
-     * takes an associative array and creates a Activity Assignment object
-     *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @access public
-     * @static
-     */
-    static function &createActivityAssignment(&$params , $ids ) 
-    {         
-    }
-    /**
-     * delete record for activity id in activity_assignment
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param string $entityTable entity table name 
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function remove( $id )
-    {
-      require_once 'CRM/Activity/DAO/ActivityAssignment.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityAssignment();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->delete();
-        }
-    }
 
 }
 

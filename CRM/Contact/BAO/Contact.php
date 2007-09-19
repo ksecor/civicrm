@@ -1360,7 +1360,9 @@ WHERE civicrm_contact.id IN $idString ";
             $case = (" and 1 ");
         }
 
-
+        // DRAFTING: Consider adding DISTINCT to this query after
+        // DRAFTING: making sure that adding and updating works fine.
+        // DRAFTING: Consider moving it out to Activity BAO
         $query = "select civicrm_activity.*,
                          sourceContact.display_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
