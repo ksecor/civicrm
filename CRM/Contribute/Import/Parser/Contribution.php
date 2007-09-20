@@ -314,8 +314,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 
                 $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );
                 if ( $ids['contribution'] ) {
-                    $params['id'] = $ids['contribution'];
-                    $newContribution =& CRM_Contribute_BAO_Contribution::create( $params , $ids );
+                    $formatted['id'] = $ids['contribution'];
+                    $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
                     return CRM_Contribute_Import_Parser::VALID;
                 } else {
