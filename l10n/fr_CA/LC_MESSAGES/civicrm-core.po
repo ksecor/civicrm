@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-09-18 08:55-0700\n"
+"PO-Revision-Date: 2007-09-19 08:48-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -959,13 +959,12 @@ msgstr "%1 est un champ requis."
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External Id"
-msgstr ""
+msgstr "Identifiant externe"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "External ID already exists in Database."
-msgstr "Le nom existe déjà dans la base de données."
+msgstr "L'identifiant externe existe déjà dans la base de données."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -2905,9 +2904,8 @@ msgid "Delete Reletionship Type"
 msgstr "Supprimer le type de relation"
 
 #: CRM/Admin/Page/Setting.php
-#, fuzzy
 msgid "System Configuration"
-msgstr "Configuration avancée"
+msgstr "Configuration du système"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
@@ -2942,9 +2940,8 @@ msgid "- Contact Fields -"
 msgstr "- Champs de contact -"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Note(s)"
-msgstr "Notes"
+msgstr "Note(s)"
 
 #: CRM/Contact/BAO/Contact.php
 #, fuzzy
@@ -3129,7 +3126,7 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "External Identifier"
-msgstr ""
+msgstr "Identifiant externe"
 
 #: CRM/Contact/DAO/Contact.php
 #, fuzzy
@@ -3329,13 +3326,12 @@ msgid "Your %1 contact record has been saved."
 msgstr "Le contact (%1) a été enregistré."
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Email Format"
 msgstr "Format de courriel"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
-msgstr ""
+msgstr "Ne plus recevoir de courriel"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -3444,9 +3440,8 @@ msgid "shared options"
 msgstr "Désactiver cette option"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid "Use Household Address"
-msgstr "Nouveau ménage"
+msgstr "Utiliser une adresse de ménage"
 
 #: CRM/Contact/Form/Individual.php
 #, fuzzy
@@ -4631,7 +4626,7 @@ msgstr "Envoi de courriel"
 
 #: CRM/Core/Block.php
 msgid "Browse Sent Mailings"
-msgstr ""
+msgstr "Naviguer les envois précédents"
 
 #: CRM/Core/Config.php
 msgid ""
@@ -6646,12 +6641,11 @@ msgstr ""
 
 #: CRM/Import/Parser/Contact.php
 msgid "External Identifier conflicts with record %1"
-msgstr ""
+msgstr "L'identifiant externe est en conflit avec l'entrée %1"
 
 #: CRM/Import/Parser/Contact.php
-#, fuzzy
 msgid "External Identifier already exists in database."
-msgstr "Le nom existe déjà dans la base de données."
+msgstr "L'identifiant externe existe déjà dans la base de données."
 
 #: CRM/Import/Parser/Contact.php
 msgid "Record duplicates multiple contacts"
@@ -9048,9 +9042,8 @@ msgid "Provide a password for the new account in both fields."
 msgstr ""
 
 #: templates/CRM/common/footer.tpl
-#, fuzzy
 msgid "External ID"
-msgstr "Repérer le contact"
+msgstr "Identifiant externe"
 
 #: templates/CRM/common/footer.tpl
 #, fuzzy
@@ -9149,6 +9142,8 @@ msgid ""
 "This option indicates if the user has INTENTIONALLY opted out of email. "
 "Please set or reset with care."
 msgstr ""
+"Cette option indique si l'utilisateur a INTENTIONNELLEMENT demandé de ne "
+"plus recevoir de courriel."
 
 #: templates/CRM/Contact/Form/CustomData.tpl
 #: templates/CRM/Contact/Form/Edit.tpl
@@ -9440,9 +9435,10 @@ msgid "Does the contact have a %1 Account?"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
-msgstr "Exclure les contacts qui ont demandé ces options de confidentialité."
+msgstr ""
+"<strong>EXCLURE</strong> les contacts qui ont demandé ces options de "
+"confidentialité."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
@@ -12246,7 +12242,7 @@ msgstr "Bénévoles actifs."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
-msgstr ""
+msgstr "Entête du courriel"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "This is the Header"
@@ -12263,7 +12259,7 @@ msgstr "Texte"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
-msgstr ""
+msgstr "Pied de page du courriel"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
