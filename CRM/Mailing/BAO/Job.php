@@ -214,6 +214,7 @@ ORDER BY j.scheduled_date,
         $job->scheduled_date = $start_date;
         $job->status = 'Scheduled';
         $job->is_retry = true;
+        $job->is_test = false;
         $job->save();
         
         return $job;

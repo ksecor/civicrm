@@ -465,43 +465,105 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
+     *  returns an array that denotes the type of token that we are delaing with
+     *  we use the type later on when we are doing a token replcement lookup
+     *
+     *  @param string $token       The token for which we will be doing adata lookup
+     *  
+     *  @return array $funcStruct  An array that holds the token itself and the type.
+     *                             the type will tell us which function to use for the data lookup
+     *                             if we need to do a lookup at all
+     */
+
+    function &getDataFunc($token){
+      $funcStruct = array('type' => null,'token' => $token);
+      $matches = array();
+      if(preg_match('/^(?:http|href)/',$token) && $this->url_tracking){
+        // it is a url so we need to check to see if there are any tokens embedded
+        // if so then call this function again to get the token dataFunc
+        // and asign the type 'embedded'  so that the data retirving function
+        // will know what how to handle this token
+        if(preg_match('/(\{\w+\.\w+\})/', $token, $matches) ){
+          $funcStruct['type'] = 'embedded_url';
+          $preg_token = '/'.preg_quote($matches[1],'/').'/';
+          $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
+          $funcStruct['token'] = $this->getDataFunc($matches[1]);
+        } else {          
+          $funcStruct['type'] = 'url';
+        }
+
+      } else if(preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches)){
+
+        $funcStruct['type'] = $matches[1];
+        $funcStruct['token'] = $matches[2];
+
+      } else if(preg_match('/^\{(action)\.(\w+)\}$/',$token, $matches)){
+    
+        $funcStruct['type'] = $matches[1];
+        $funcStruct['token'] = $matches[2];
+
+      } else if(preg_match('/^\{(mailing)\.(\w+)\}$/',$token,$matches)){
+    
+        $funcStruct['type'] = $matches[1];
+        $funcStruct['token'] = $matches[2];
+
+      } else if(preg_match('/^\{(contact)\.(\w+)\}$/',$token, $matches)){
+    
+        $funcStruct['type'] = $matches[1];
+        $funcStruct['token'] = $matches[2];
+
+      } else if(preg_match('/\\\\\{(\w+\.\w+)\\\\\}|\{\{(\w+\.\w+)\}\}/', $token, $matches)){
+        // we are an escaped token
+        // so remove the escape chars
+        $unescaped_token = preg_replace('/\{\{|\}\}|\\\\\{|\\\\\}/','',$matches[0]);
+        $funcStruct['token'] = '{'.$unescaped_token.'}';
+
+      }
+      return $funcStruct;
+    }
+
+    /**
      * 
      * Prepares the text and html templates
-     * for generating the emails
+     * for generating the emails and returns a copy of the
+     * prepared templates
      *   
      * @access private
      * 
      **/
-    private function prepareTemplates(){
-      $patterns['html'] = $this->getPatterns(true);
-      $patterns['text'] = $this->getPatterns();
-      $templates = $this->getTemplates();
-
+    private function getPreparedTemplates(){
       if(!$this->preparedTemplates){
+        $patterns['html'] = $this->getPatterns(true);
+        $patterns['text'] = $this->getPatterns();
+        $templates = $this->getTemplates();
+  
         $this->preparedTemplates = array();
+  
+        foreach(array('html','text') as $key){
+            if(!isset($templates[$key])){
+              continue;
+            }
+            
+            $matches = array();
+            $tokens = array();
+            $split_template = array();
+  
+            $email = $templates[$key];
+            preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
+            foreach($matches[0] as $token){
+              $preg_token = '/'.preg_quote($token,'/').'/im';
+              list($split_template[],$email) = preg_split($preg_token,$email,2);
+
+              array_push($tokens, $this->getDataFunc($token));
+            }
+            if($email){
+               $split_template[] = $email;
+            }
+            $this->preparedTemplates[$key]['template'] = $split_template;
+            $this->preparedTemplates[$key]['tokens'] = $tokens;
+        }
       }
-
-      foreach(array('html','text') as $key){
-          if(!isset($templates[$key])){
-            continue;
-          }
-          
-          $matches = array();
-          $split_template = array();
-
-          $email = $templates[$key];
-          preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
-
-          foreach($matches[0] as $token){
-            $token = '/'.preg_quote($token,'/').'/im';
-            list($split_template[],$email) = preg_split($token,$email,2);
-          }
-          if($email){
-             $split_template[] = $email;
-          }
-          $this->preparedTemplates[$key]['template'] = $split_template;
-          $this->preparedTemplates[$key]['tokens'] = $matches[0];
-      }
+      return($this->preparedTemplates);
     }
 
     /**
@@ -741,7 +803,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      */
 
-    private function getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
+    private function &getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
         $config =& CRM_Core_Config::singleton( );
         /**
          * Inbound VERP keys:
@@ -807,7 +869,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         require_once 'CRM/Utils/Token.php';
         $config =& CRM_Core_Config::singleton( );
         $knownTokens = $this->getTokens();
-        $templates = $this->getTemplates();
         
         if ($this->_domain == null) {
             require_once 'CRM/Core/BAO/Domain.php';
@@ -826,74 +887,48 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             }
         }
 
-        $html = null;
-        $text = null;
+        $pTemplates = $this->getPreparedTemplates();
+        $pEmails = array( );
 
-        if (isset($templates['html'])) {
-          $html = $templates['html'];
-          $html = CRM_Utils_Token::replaceDomainTokens($html,$this->_domain, true, $knownTokens['html']);
-          $html = CRM_Utils_Token::replaceMailingTokens($html,$this, true, $knownTokens['html']);
+        foreach( $pTemplates as $type => $pTemplate ){
+          $html = ($type == 'html') ? true : false;
+          $pEmails[$type] = array();
+          $pEmail   =& $pEmails[$type];
+          $template =& $pTemplates[$type]['template'];
+          $tokens   =& $pTemplates[$type]['tokens'];
+          $idx = 0;
+          foreach($tokens as $idx => $token){
+            $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
+            array_push($pEmail,$template[$idx]);
+            array_push($pEmail,$token_data);
+          }
+          array_push($pEmail,$template[($idx + 1)]);
         }
 
-        $text = $templates['text'];
-        $text = CRM_Utils_Token::replaceDomainTokens($text,$this->_domain, false, $knownTokens['text']);
-        $text = CRM_Utils_Token::replaceMailingTokens($text,$this, false, $knownTokens['text']);
+        // push the tracking url on to the html email if necessary
+        if ($this->open_tracking) {
+            array_push($pEmails['html'],"\n".'<img src="' . $config->userFrameworkResourceURL . 
+            "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>");
+        }
+        
 
+        //echo(join( '', $pEmails['html'] ));
+        //exit();
         $message =& new Mail_Mime("\n");
 
-        /* Do contact-specific token replacement in text mode, and add to the
-         * message if necessary */
-        if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
-            $contact['preferred_mail_format'] == 'Both') 
+        if ($test || $contact['preferred_mail_format'] == 'Text' ||
+            $contact['preferred_mail_format'] == 'Both' ||
+            ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) 
         {
-            $text = CRM_Utils_Token::replaceContactTokens($text, $contact, false, $knownTokens['text']);
-            $text = CRM_Utils_Token::replaceActionTokens( $text, $verp, $urls, false,$knownTokens['text']);
-            // render the &amp; entities in text mode, so that the links work
-            $text = str_replace( '&amp;', '&', $text );
+          $message->setTxtBody( join( '', $pEmails['text'] ) );
         }
 
-
-
-        /* Do contact-specific token replacement in html mode, and add to the
-         * message if necessary */
-        if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
-            $contact['preferred_mail_format'] == 'Both'))
+        if ($test || $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both')
         {
-            $html = CRM_Utils_Token::replaceContactTokens($html, $contact, true, $knownTokens['html']);
-            $html = CRM_Utils_Token::replaceActionTokens( $html, $verp, $urls, true, $knownTokens['html']);
-            
-            if ($this->open_tracking) {
-                $html .= '<img src="' . $config->userFrameworkResourceURL . 
-                "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>";
-            }
+          $message->setHTMLBody( join( '', $pEmails['html'] ) );
         }
         
-        if ($html && !$test && $this->url_tracking) {
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($html, $this->id, $event_queue_id, true);
-
-            CRM_Mailing_BAO_TrackableURL::scan_and_replace($text,$this->id, $event_queue_id);
-        }
-        
-        if ($test || !$html || $contact['preferred_mail_format'] == 'Text' ||
-            $contact['preferred_mail_format'] == 'Both') 
-        {
-            // remove escape characters that may have been used to preserve a token in the body
-            CRM_Utils_Token::unescapeTokens($text);
-            $message->setTxtBody($text);
-
-            unset( $text );
-        }
-
-        if ($html && ($test || $contact['preferred_mail_format'] == 'HTML' ||
-            $contact['preferred_mail_format'] == 'Both'))
-        {
-            // remove escape characters that may have been used to preserve a token in the body
-            CRM_Utils_Token::unescapeTokens($html);
-            $message->setHTMLBody($html);
-
-            unset( $html );
-        }
-
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
 
@@ -915,6 +950,54 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         unset( $ids );
 
         return $message;
+    }
+
+
+    /**
+     *
+     *  getTokenData receives a token from an email
+     *  and returns the appropriate data for the token
+     *
+     */
+
+    private function getTokenData(&$token_a, $html = false, &$contact, &$verp, &$urls, $event_queue_id){
+        $type = $token_a['type'];
+        $token = $token_a['token'];
+        $data = $token;
+
+        if($type == 'embedded_url'){
+          $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
+          $url = join($token_a['embed_parts'],$embed_data);
+          $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
+          if($html){
+            $data = "href=\"$data\"";
+          }
+
+        } else if($type == 'url'){
+
+          $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+          if($html){
+            $data = "href=\"$data\"";
+          }
+
+        } else if($type == 'mailing'){
+
+          $data = CRM_Utils_Token::getMailingTokenReplacement($token, $this);
+
+        } else if($type == 'contact'){
+
+          $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
+
+        } else if($type == 'action'){
+
+          $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
+
+        } else if($type == 'domain'){
+
+          $data = CRM_Utils_Token::getDomainTokenReplacement($token, $this->_domain, $html);         
+
+        }
+        return $data;
     }
 
     /**
@@ -1223,6 +1306,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             LEFT JOIN       {$t['spool']}
                     ON      {$t['spool']}.job_id = {$t['job']}.id
             WHERE           {$t['job']}.mailing_id = $mailing_id
+                    AND     {$t['job']}.is_test = 0
             GROUP BY        {$t['job']}.id");
         
         $report['jobs'] = array();

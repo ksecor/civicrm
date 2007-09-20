@@ -1,0 +1,107 @@
+-- /*******************************************************
+-- *
+-- * Select DomainID
+-- *
+-- *******************************************************/
+	SELECT @domain_id := id from civicrm_domain;
+
+-- /*******************************************************
+-- *
+-- * civicrm_mailing_spool
+-- *
+-- *******************************************************/
+CREATE TABLE civicrm_mailing_spool (
+
+
+     id int(10) unsigned NOT NULL AUTO_INCREMENT  COMMENT '',
+     domain_id int(10) unsigned NOT NULL COMMENT 'The ID of the civicrm domain.',
+     job_id int(10) unsigned NOT NULL COMMENT 'The ID of the Job .',
+     recipient_email text NULL DEFAULT NULL COMMENT 'The email of the receipients this mail is to be sent.',
+     headers text NULL DEFAULT NULL COMMENT 'The header information of this mailing .',
+     body text NULL DEFAULT NULL COMMENT 'The body of this mailing.', 
+     added_at datetime NULL DEFAULT NULL COMMENT 'date on which this job was added.', 
+     removed_at datetime NULL DEFAULT NULL COMMENT 'date on which this job was removed.'
+,
+    PRIMARY KEY ( id )
+,      
+     CONSTRAINT FK_civicrm_mailing_spool_domain_id FOREIGN KEY (domain_id) REFERENCES civicrm_domain(id)
+
+,    CONSTRAINT FK_civicrm_mailing_spool_job_id FOREIGN KEY (job_id) REFERENCES civicrm_mailing_job(id)
+
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+
+
+-- /*******************************************************
+-- *
+-- * Modifying Tables
+-- *
+-- *******************************************************/
+
+-- /*******************************************************
+-- *
+-- * civicrm_email
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_email 
+	    ADD is_bulkmail tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Is this address for bulk mail ?';
+
+-- /*******************************************************
+-- *
+-- * civicrm_domain
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_domain 
+	    ADD email_name varchar(255) NULL DEFAULT NULL COMMENT 'The default email name that is used in the from address for all outgoing emails',
+            ADD email_address varchar(255) NULL DEFAULT NULL COMMENT 'The default email address that is used as the from address for all outgoing emails';
+
+-- /*******************************************************
+-- *
+-- * civicrm_mailing_job
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_mailing_job 
+	    ADD is_test tinyint(4) NULL DEFAULT NULL COMMENT 'Is this job for a test mail?';
+
+-- /*******************************************************
+-- *
+-- * civicrm_currency
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_currency 
+	    ADD numeric_code varchar(3) NULL DEFAULT NULL COMMENT 'Numeric currency code',
+            ADD full_name varchar(64) NULL DEFAULT NULL COMMENT 'Full currency name';
+           
+-- /*******************************************************
+-- *
+-- * civicrm_mailing
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_mailing
+	ADD msg_template_id int(10) unsigned NULL DEFAULT NULL ,
+    	ADD INDEX FK_civicrm_mailing_msg_template_id (msg_template_id),
+    	DROP is_template;
+
+-- /*******************************************************
+-- *
+-- * civicrm_mailing_component
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_mailing_component
+	MODIFY component_type enum('Header','Footer','Subscribe','Welcome','Unsubscribe','OptOut','Reply','Resubscribe') NULL DEFAULT NULL;
+
+-- /*******************************************************
+-- *
+-- * civicrm_group
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_group 
+	    ADD group_type varchar(128) NULL DEFAULT NULL COMMENT 'FK to group type',
+            ADD INDEX index_group_type (group_type);
+
+-- /*******************************************************
+-- *
+-- * civicrm_contribution_page
+-- *
+-- *******************************************************/
+	ALTER TABLE civicrm_contribution_page 
+	    MODIFY default_amount_id int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_custom_option.';

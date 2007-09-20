@@ -193,7 +193,7 @@ class CRM_Utils_Token {
         return $str;
     }
 
-    private static function getDomainTokenReplacement($token, &$domain, $html = false){
+    public static function getDomainTokenReplacement($token, &$domain, $html = false){
       // check if the token we were passed is valid
       // we have to do this because this function is
       // called only when we find a token in the string
@@ -202,15 +202,21 @@ class CRM_Utils_Token {
       }
 
       else if ($token == 'address') {
+          static $addressCache = array();
+
+          $cache_key = $html ? 'address-html' : 'address-text';
+          if ( array_key_exists($cache_key, $addressCache) ) {
+              return $addressCache[$cache_key];
+          }
+
           require_once 'CRM/Utils/Address.php';
           $loc =& $domain->getLocationValues();
           $value = null;
           /* Construct the address token */
           if ( CRM_Utils_Array::value( $token, $loc ) ) {
               $value = CRM_Utils_Address::format($loc[$token]);
-              if ( $html ) {
-                  $value = str_replace("\n", '<br />', $value);
-              }
+              if ($html) $value = str_replace("\n", '<br />', $value);
+              $addressCache[$cache_key] = $value;
           }
       }
       
@@ -230,7 +236,6 @@ class CRM_Utils_Token {
           }
         }
       }
-
       return $value;      
     }
     
@@ -336,7 +341,7 @@ class CRM_Utils_Token {
         return $str;
      }
 
-     private static function getMailingTokenReplacement($token, &$mailing) {
+     public static function getMailingTokenReplacement($token, &$mailing) {
       $value = '';
 
       // check if the token we were passed is valid
@@ -383,19 +388,24 @@ class CRM_Utils_Token {
         return $str;
     }
 
-    private static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
+    public static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
       /* If the token is an email action, use it.  Otherwise, find the
        * appropriate URL */
       if(!in_array($token,self::$_tokens['action'])){
         $value = "{action.$token}";
       } else {
         $value = CRM_Utils_Array::value($token, $addresses);
+
         if ($value == null) {
           $value = CRM_Utils_Array::value($token, $urls);
-          if($value && $html){
-            $value = "mailto:$value";  
-          }
         }
+
+        if($value && $html){
+          $value = "mailto:$value";
+        } else if($value && !$html){
+          $value = str_replace('&amp;', '&', $value);
+        }
+
       }
       return $value;
     }
@@ -429,11 +439,18 @@ class CRM_Utils_Token {
         // then we will just iterate on a list of tokens that are passed to us
         if(!$knownTokens || !$knownTokens[$key]) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact)',$str);
+        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
         return $str;
     }
     
-    private function getContactTokenReplacement($token, &$contact){
+    public function getContactTokenReplacement($token, &$contact, $html = false){
+
+        if (self::$_tokens['contact'] == null) {
+            /* This should come from UF */
+            self::$_tokens['contact'] =
+                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
+                             array( 'display_name', 'checksum', 'contact_id' ) );
+        }
 
         /* Construct value from $token and $contact */
         $value = null;
@@ -441,6 +458,7 @@ class CRM_Utils_Token {
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
+
         if(!in_array($token,self::$_tokens['contact'])){
           $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {
@@ -448,6 +466,10 @@ class CRM_Utils_Token {
             $value = "cs={$cs}";
         } else {
             $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
+        }
+
+        if(!$html){
+          $value = str_replace('&amp;', '&', $value);
         }
 
         return $value;

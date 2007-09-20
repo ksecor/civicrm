@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-09-18 08:56-0700\n"
+"PO-Revision-Date: 2007-09-19 08:51-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -294,7 +294,7 @@ msgstr "Page de donation"
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr ""
+msgstr "Faire un test"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
@@ -666,9 +666,8 @@ msgid "In Honor Of"
 msgstr "Honorifique"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Test Contributions Only?"
-msgstr "Chercher les contributions"
+msgstr "Rechercher les contributions test uniquement?"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -1676,9 +1675,8 @@ msgid "Event Type - %1"
 msgstr "Types d'activités"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Test Participants Only"
-msgstr "Chercher les contributions"
+msgstr "Participants test seulement"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1701,9 +1699,8 @@ msgid "Event Date - From"
 msgstr "Date de fin"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Find Test Participants Only?"
-msgstr "Chercher les contributions"
+msgstr "Rechercher les participants test seulement?"
 
 #: CRM/Event/DAO/EventPage.php
 #, fuzzy
@@ -2315,13 +2312,12 @@ msgid "Exclude"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "From Name"
-msgstr "Prénom"
+msgstr "Nom de l'émetteur"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "From Email"
-msgstr ""
+msgstr "Courriel de l'émetteur"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Replyto Email"
@@ -2363,9 +2359,8 @@ msgid "Body in html format"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Include Group(s)"
-msgstr "Groupe(s)"
+msgstr "Inclure les groupes"
 
 #: CRM/Mailing/Form/Group.php
 #, fuzzy
@@ -2373,22 +2368,20 @@ msgid "Please select a group to be mailed."
 msgstr "Type de relation"
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Exclude Group(s)"
-msgstr "Groupe(s)"
+msgstr "Exclure les groupes"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Include mailing(s)"
-msgstr ""
+msgstr "Inclure les envois"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Exclude mailing(s)"
-msgstr ""
+msgstr "Exclure les envois"
 
 #: CRM/Mailing/Form/Group.php
-#, fuzzy
 msgid "Select Recipients"
-msgstr "Supprimer l'option de sexe"
+msgstr "Sélection des récepteurs"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
@@ -2433,13 +2426,12 @@ msgid "Start date cannot be earlier than the current time."
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
-#, fuzzy
 msgid "Schedule or Send"
-msgstr "Planifié"
+msgstr "Date de l'envoi"
 
 #: CRM/Mailing/Form/Test.php
 msgid "Send a Test Mailing?"
-msgstr ""
+msgstr "Simuler un envoi?"
 
 #: CRM/Mailing/Form/Test.php
 #, fuzzy
@@ -2464,9 +2456,8 @@ msgid "The test mailing could not be delivered due to the following error:"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "FROM Name"
-msgstr "Prénom"
+msgstr "Nom de l'émetteur"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2490,13 +2481,12 @@ msgid "Auto-respond to Replies?"
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "Mailing Subject"
-msgstr "Sujet"
+msgstr "Sujet du courriel"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload TEXT Message"
-msgstr ""
+msgstr "Télécharger le message en format texte"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "File size should be less than 1 MByte"
@@ -2508,7 +2498,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload HTML Message"
-msgstr ""
+msgstr "Télécharger le message en format HTML"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2533,7 +2523,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Upload Message"
-msgstr ""
+msgstr "Télécharger le message"
 
 #: CRM/Mailing/Invoke.php
 #, fuzzy
@@ -2551,7 +2541,7 @@ msgstr ""
 
 #: CRM/Mailing/Menu.php
 msgid "Headers, Footers, and Automated Messages"
-msgstr ""
+msgstr "Entêtes, pied de pages et messages automatiques"
 
 #: CRM/Mailing/Menu.php
 msgid ""
@@ -5780,6 +5770,8 @@ msgid ""
 "Before completing this step, you must create one or two files containing "
 "your mailing content."
 msgstr ""
+"Avant de compléter cette étape, vous devez créer un ou deux fichiers avec le "
+"contenu de votre envoi."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5794,24 +5786,27 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "More information and sample messages..."
-msgstr ""
+msgstr "Pour plus d'information et des exemples de messages..."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
 msgid "Content"
-msgstr "Terminé"
+msgstr "Contenu"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>TEXT</strong> message file you have prepared for this "
 "mailing."
 msgstr ""
+"Naviguer vers le fichier (sur votre ordinateur) contenant le message "
+"<strong>texte</strong> que vous avez préparé pour cet envoi."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Browse to the <strong>HTML</strong> message file you have prepared for this "
 "mailing."
 msgstr ""
+"Naviguer vers le fichier (sur votre ordinateur) contenant le message "
+"<strong>HTML</strong> que vous avez préparé pour cet envoi."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5840,9 +5835,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
 msgid "Responding"
-msgstr "en attente"
+msgstr "Réponses"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5987,13 +5981,12 @@ msgid "Content / Components"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Text Body"
-msgstr "Texte"
+msgstr "Corps du texte"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "HTML Body"
-msgstr ""
+msgstr "Corps HTML"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
