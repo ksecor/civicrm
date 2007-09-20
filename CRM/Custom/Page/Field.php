@@ -238,8 +238,7 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
         
        
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
-
+       
         // get the group id
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                                   $this);

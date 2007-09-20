@@ -65,7 +65,7 @@ class CRM_Admin_Page_Setting extends CRM_Core_Page {
                                                   "reset=1&snippet=1}" ); 
         }
         
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.TabContainer');dojo.require('dojo.widget.ContentPane');dojo.require('dojo.widget.LinkPane');" );
+      
         $this->assign( 'allTabs'     , $allTabs     );
 
         parent::run();
