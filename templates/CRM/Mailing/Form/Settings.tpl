@@ -30,6 +30,10 @@
         <dd>{$form.unsubscribe_id.html}<br />
             <span class="description">{ts}Select the automated message to be sent when a recipient unsubscribes from this mailing.{/ts}</span>
         </dd>
+    <dt class="label">{$form.resubscribe_id.label}</dt>
+        <dd>{$form.resubscribe_id.html}<br />
+            <span class="description">{ts}Select the automated message to be sent when a recipient resubscribes to this mailing.{/ts}</span>
+        </dd>
     <dt class="label extra-long-fourty">{$form.optout_id.label}</dt>
         <dd>{$form.optout_id.html}<br />
             <span class="description">{ts}Select the automated message to be sent when a recipient opts out of all mailings from your site.{/ts}</span>
