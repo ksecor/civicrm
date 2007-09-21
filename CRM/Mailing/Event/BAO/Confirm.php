@@ -64,8 +64,9 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
             return false;
         }
 
-        CRM_Core_DAO::transaction('BEGIN');
-        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         $ce =& new CRM_Mailing_Event_BAO_Confirm();
         $ce->event_subscribe_id = $se->id;
         $ce->time_stamp = date('YmdHis');
@@ -74,7 +75,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
         CRM_Contact_BAO_GroupContact::updateGroupMembershipStatus(
                 $contact_id, $se->group_id,'Email',$ce->id);
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
 
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Mailing_Event_BAO_Subscribe::getDomain($subscribe_id);

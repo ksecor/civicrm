@@ -1088,7 +1088,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      */
     public static function create( &$params, &$ids ) 
     {
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         if( $ids['mailing_id'] ) {
             $mailing =& new CRM_Mailing_BAO_Mailing();
@@ -1109,16 +1110,16 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 } 
                 $mailing->save();
             }
-            CRM_Core_DAO::transaction('COMMIT');
+            $transaction->commit( );
             return $mailing;
         }
         $mailing = self::add($params, $ids);
         
         if( is_a( $mailing, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            $transaction->rollback( );
             return $mailing;
         }
-
+        
         require_once 'CRM/Contact/BAO/Group.php';
         /* Create the mailing group record */
         $mg =& new CRM_Mailing_DAO_Group();
@@ -1138,7 +1139,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 }
             }
         }
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         return $mailing;
     }
 

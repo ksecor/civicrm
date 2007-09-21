@@ -66,7 +66,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         if (! $q) {
             return false;
         }
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         $contact =& new CRM_Contact_BAO_Contact();
         $contact->id = $q->contact_id;
         $contact->is_opt_out = true;
@@ -87,7 +88,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         );
         CRM_Contact_BAO_SubscriptionHistory::create($shParams);
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return true;
     }
@@ -110,9 +111,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         
         $contact_id = $q->contact_id;
-        
-        CRM_Core_DAO::transaction('BEGIN');
-        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         $do =& new CRM_Core_DAO();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
@@ -207,7 +208,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $ue->time_stamp = date('YmdHis');
         $ue->save();
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         return $groups;
     }
 

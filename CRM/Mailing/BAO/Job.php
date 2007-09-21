@@ -107,7 +107,9 @@ ORDER BY j.scheduled_date,
 
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
-                CRM_Core_DAO::transaction('BEGIN');
+               
+                require_once 'CRM/Core/Transaction.php';
+                $transaction = new CRM_Core_Transaction( );
                 $job->queue($testParams);
 
                 /* Start the job */
@@ -116,7 +118,7 @@ ORDER BY j.scheduled_date,
                 // CRM-992 - MySQL can't eat its own dates
                 $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
                 $job->save();
-                CRM_Core_DAO::transaction('COMMIT');
+                $transaction->commit( );
             }
             
             $mailer =& $config->getMailer();
@@ -129,7 +131,9 @@ ORDER BY j.scheduled_date,
             
             if ( $isComplete ) {
                 /* Finish the job */
-                CRM_Core_DAO::transaction('BEGIN');
+                require_once 'CRM/Core/Transaction.php';
+                $transaction = new CRM_Core_Transaction( );
+
                 $job->end_date = date('YmdHis');
                 $job->status = 'Complete';
                 // CRM-992 - MySQL can't eat its own dates
@@ -140,7 +144,7 @@ ORDER BY j.scheduled_date,
                 $mailing->id = $job->mailing_id;
                 $mailing->is_completed = true;
                 $mailing->save();
-                CRM_Core_DAO::transaction('COMMIT');
+                $transaction->commit( );
             } 
             
             $lock->release( );

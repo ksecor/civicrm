@@ -119,12 +119,13 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      */
     static function &create(&$params, &$ids) 
     {
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( ); 
         
         $case = self::add($params, $ids);
         
         if ( is_a( $case, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            $transaction->rollback( );
             return $case;
         }
         $session = & CRM_Core_Session::singleton();
@@ -142,7 +143,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
                            );
         
         CRM_Core_BAO_Log::add( $logParams );
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return $case;
 

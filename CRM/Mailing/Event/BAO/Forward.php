@@ -88,7 +88,8 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
 
         $dao->fetch();
         
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         if (isset($dao->queue_id) || $dao->do_not_email == 1) {
             /* We already sent this mailing to $forward_email, or we should
@@ -179,7 +180,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             CRM_Mailing_Event_BAO_Delivered::create($params);
         }
 
-        CRM_Core_DAO::transaction('COMMIT');        
+        $transaction->commit( );
         return true;
     }
 

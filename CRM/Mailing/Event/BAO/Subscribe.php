@@ -88,7 +88,9 @@ LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
         }
         $dao->free( );
 
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         if ( ! $contact_id ) {
             require_once 'api/Contact.php';
             require_once 'CRM/Core/BAO/LocationType.php';
@@ -147,7 +149,7 @@ INNER JOIN civicrm_location ON  civicrm_email.location_id = civicrm_location.id
         CRM_Contact_BAO_GroupContact::addContactsToGroup($contacts, $group_id,
                                                              'Email', 'Pending', $se->id);
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         return $se;
     }
 

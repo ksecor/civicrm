@@ -63,7 +63,8 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         
         $contact_id = $q->contact_id;
         
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         $do =& new CRM_Core_DAO();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
@@ -159,7 +160,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $ue->delete();
         }
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         return $groups;
     }
 
