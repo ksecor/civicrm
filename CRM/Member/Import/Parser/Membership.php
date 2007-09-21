@@ -200,6 +200,21 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                         CRM_Import_Parser_Contact::addToErrorMsg('End date', $errorMessage);
                     }
                     break;
+                case 'membership_type_id':    
+                    if (!in_array( $val, CRM_Member_PseudoConstant::membershipType() )) {    
+                        CRM_Import_Parser_Contact::addToErrorMsg('Membership Type', $errorMessage);
+                    }
+                    break;                    
+                case 'status_id':                      
+                    if (!in_array( $val, CRM_Member_PseudoConstant::membershipStatus() )) {
+                        CRM_Import_Parser_Contact::addToErrorMsg('Membership Status', $errorMessage);
+                    }
+                    break;
+                case 'email':
+                    $email = CRM_Utils_Array::value( 'email', $val[0]['email'] );
+                    if (! CRM_Utils_Rule::email($email)) {
+                        CRM_Import_Parser_Contact::addToErrorMsg('Email Address', $errorMessage);
+                    }
                 }
             }
         }
@@ -302,7 +317,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             return CRM_Member_Import_Parser::ERROR;
         }
        
-        //fix for CRM-2219
+        //fix for CRM-2219 Update Membership
         if ( $onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
             if ( $values['id'] ) {
                 require_once 'CRM/Member/BAO/Membership.php';
