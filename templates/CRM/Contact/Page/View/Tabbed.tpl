@@ -164,9 +164,12 @@
    </div>
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
-    {if $age}  
-    <label>{ts}Age :{/ts}</label> {$age} Year{if $age gt 1}s{/if}. <br />
+    {if $age.y}  
+    <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
     {/if}
+    {if $age.m} 
+    <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
+    {/if}       
     </div>
    <div class="spacer"></div>
   </fieldset>
