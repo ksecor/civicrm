@@ -376,7 +376,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                  'label'            => $field['label'],
                                                  'qty'              => $qty,
                                                  'unit_price'       => $price,
-                                                 'line_total'       => $qty * $price;
+                                                 'line_total'       => $qty * $price,
                                                  );
                     $totalPrice += ( $qty * $price );
                     break;
