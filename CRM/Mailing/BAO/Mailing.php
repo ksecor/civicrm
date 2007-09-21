@@ -750,7 +750,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     $location_id = $dao->id;
                 }
                 $dao->free( );
-                $query = "INSERT INTO   civicrm_email (location_id,email,is_bulkmail) values ($location_id,%1,1)"; 
+                $query = "INSERT INTO   civicrm_email (location_id,email) values ($location_id,%1)"; 
                 CRM_Core_DAO::executeQuery( $query, $params );
                 $contact_id = $userID;
             } 
