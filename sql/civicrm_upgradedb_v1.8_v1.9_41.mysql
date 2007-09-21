@@ -47,6 +47,17 @@ CREATE TABLE civicrm_mailing_spool (
 
 -- /*******************************************************
 -- *
+-- * civicrm_payment_processor_type
+-- *
+-- *******************************************************/
+
+	ALTER TABLE civicrm_payment_processor_type
+	     DROP INDEX UI_name,
+	     ADD UNIQUE INDEX UI_name_domain_id( name, domain_id );
+  
+
+-- /*******************************************************
+-- *
 -- * civicrm_domain
 -- *
 -- *******************************************************/
