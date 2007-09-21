@@ -786,6 +786,7 @@ AND civicrm_location.entity_table = 'civicrm_contact'
 WHERE civicrm_email.is_bulkmail = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
+AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
                 $dao =& CRM_Core_DAO::executeQuery( $query);
                 if ($dao->fetch( ) ) {
@@ -806,6 +807,7 @@ AND civicrm_location.entity_table = 'civicrm_contact'
 WHERE civicrm_email.is_primary = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
+AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
                     $dao =& CRM_Core_DAO::executeQuery( $query);
                     if ($dao->fetch( ) ) {

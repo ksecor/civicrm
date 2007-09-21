@@ -82,7 +82,18 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
         }
 
         $email->is_bulkmail     = $params['location'][$locationId]['email'][$emailId]['is_bulkmail'];
-
+        if ( $email->is_bulkmail ) {
+            $sql = "
+UPDATE civicrm_email 
+LEFT JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
+LEFT JOIN civicrm_contact ON  civicrm_location.entity_id = civicrm_contact.id
+AND     civicrm_location.entity_table = 'civicrm_contact'
+SET is_bulkmail = 0
+WHERE 
+civicrm_contact.id = {$params['contact_id']}";
+            CRM_Core_DAO::executeQuery( $sql );
+        }
+        
         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
             $values = array(
                       'location' => array( $locationId => $params['location'][$locationId]['id'] ),
