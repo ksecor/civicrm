@@ -288,7 +288,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         $this->assign("honor_block_text",$this->_values['honor_block_text']);
 
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
         // prefix
         $this->addElement('select', 'honor_prefix_id', ts('Honoree Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
