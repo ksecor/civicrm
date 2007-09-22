@@ -91,6 +91,9 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
         $this->add( 'select', 'unsubscribe_id', ts( 'Unsubscribe Message' ), 
                     CRM_Mailing_PseudoConstant::component( 'Unsubscribe' ), true );
         
+        $this->add( 'select', 'resubscribe_id', ts( 'Resubscribe Message' ), 
+                    CRM_Mailing_PseudoConstant::component( 'Resubscribe' ), true );
+        
         $this->add( 'select', 'optout_id', ts( 'Opt-out Message' ), 
                     CRM_Mailing_PseudoConstant::component( 'OptOut' ), true );
         

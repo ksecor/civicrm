@@ -68,8 +68,8 @@ class CRM_Contact_Form_Email
             $location[$locationId]['email'][$i]['on_hold'] = $form->addElement('advcheckbox',
                                                                              "location[$locationId][email][$i][on_hold]",null, ts('On Hold'));
             $location[$locationId]['email'][$i]['is_bulkmail'] = $form->addElement('advcheckbox',
-                                                                               "location[$locationId][email][$i][is_bulkmail]",null, ts('for bulkmail'));
-            
+                                                                               "location[$locationId][email][$i][is_bulkmail]",ts('Use for Bulk Mailings'), ts('Use for Bulk Mailings'), array('onchange' => "email_is_bulkmail_onclick('" . $form->getName() . "', $i, $count, $locationId);" ));
+
         }
     }
 }
