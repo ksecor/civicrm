@@ -69,8 +69,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $msg_text = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_text' );
                 $msg_html = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_html' );
                 
-                $this->assign( 'template_value',  
-                               array( $msg_title , $msg_text."^A". $msg_title."^A". $msg_html, $defaults['msg_template_id'] ) );
+                $msg = str_replace(array("\n","\r"), ' ', $msg_text."^A". $msg_title."^A". $msg_html);
+                $this->assign('template_value',  
+                              array($msg_title, $msg, $defaults['msg_template_id']));
             }
             if ($defaults['body_text']) {
                 $this->set('textFile', $defaults['body_text'] );

@@ -79,7 +79,7 @@
 	    <span class="status-hold">&nbsp;(On Hold)</span>
 	  {/if}
       {if $email.is_bulkmail}
-	    <span class="status-hold">&nbsp;(For Bulkmail)</span>
+	    <span class="status-hold">&nbsp;(Bulk Mailings)</span>
 	  {/if}
 	<br />
    {/foreach}

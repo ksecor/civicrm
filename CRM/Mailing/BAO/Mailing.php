@@ -738,33 +738,114 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return void
      * @access public
      */
-    public function getTestRecipients($testParams) {
+    public function getTestRecipients($testParams) 
+    {
         $session    =& CRM_Core_Session::singleton();
+        
         if ($testParams['test_email']) {
-            $testers = array($session->get('userID') => $testParams['test_email']);
-        } else {
-            $testers = array();
+            /* First, find out if the contact already exists */  
+            $query = "
+                  SELECT DISTINCT contact_a.id as contact_id 
+                  FROM civicrm_contact contact_a 
+                  LEFT JOIN civicrm_individual ON contact_a.id = civicrm_individual.contact_id
+                  LEFT JOIN civicrm_location   ON civicrm_location.entity_id = contact_a.id
+                  LEFT JOIN civicrm_address    ON civicrm_location.id = civicrm_address.location_id  
+                  LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
+                      WHERE LOWER(civicrm_email.email) = %1
+                      AND civicrm_location.entity_table = 'civicrm_contact'";
+            
+            $params = array( 1 => array( $testParams['test_email'], 'String' ) );
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+            $id = array( );
+            // lets just use the first contact id we got
+            if ( $dao->fetch( ) ) {
+                $contact_id = $dao->contact_id;
+            }
+            $dao->free( );
+            
+            $userID = $session->get('userID');
+            $params = array( 1 => array($testParams['test_email'], 'String' ) );
+            
+            if ( ! $contact_id ) {
+                $query = "SELECT        civicrm_location.id 
+                          FROM civicrm_location
+                          WHERE         civicrm_location.entity_id = $userID
+                                 AND    civicrm_location.is_primary = 1";
+                $dao =& CRM_Core_DAO::executeQuery( $query);
+                if ($dao->fetch( ) ) {
+                    $location_id = $dao->id;
+                }
+                $dao->free( );
+                $query = "INSERT INTO   civicrm_email (location_id,email) values ($location_id,%1)"; 
+                CRM_Core_DAO::executeQuery( $query, $params );
+                $contact_id = $userID;
+            } 
+            $query = "SELECT        civicrm_email.id 
+                      FROM civicrm_email
+                      WHERE         civicrm_email.email = %1";
+            
+            $dao =& CRM_Core_DAO::executeQuery( $query, $params);
+            if ($dao->fetch( ) ) {
+                $email_id = $dao->id;
+            }
+            $dao->free( );
+            $params = array(
+                            'job_id'        => $testParams['job_id'],
+                            'email_id'      => $email_id,
+                            'contact_id'    => $contact_id
+                            );
+            CRM_Mailing_Event_BAO_Queue::create($params);  
         }
+        
         if (array_key_exists($testParams['test_group'], CRM_Core_PseudoConstant::group())) {
             $group =& new CRM_Contact_DAO_Group();
             $group->id = $testParams['test_group'];
             $contacts = CRM_Contact_BAO_GroupContact::getGroupContacts($group);
             foreach ($contacts as $contact) {
-                $testers[$contact->contact_id] = $contact->email;
+                $query = 
+                    "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
+                                 civicrm_email.is_bulkmail as is_bulkmail
+FROM civicrm_email
+INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
+INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
+AND civicrm_location.entity_table = 'civicrm_contact'
+WHERE civicrm_email.is_bulkmail = 1
+AND civicrm_contact.id = {$contact->contact_id}
+AND civicrm_contact.do_not_email =0
+AND civicrm_email.on_hold = 0
+AND civicrm_contact.is_opt_out =0";
+                $dao =& CRM_Core_DAO::executeQuery( $query);
+                if ($dao->fetch( ) ) {
+                    $params = array(
+                                    'job_id'        => $testParams['job_id'],
+                                    'email_id'      => $dao->email_id,
+                                    'contact_id'    => $contact->contact_id
+                                    );
+                    $queue = CRM_Mailing_Event_BAO_Queue::create($params);  
+                } else {
+                    $query = 
+                    "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
+                                 civicrm_email.is_bulkmail as is_bulkmail
+FROM civicrm_email
+INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
+INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
+AND civicrm_location.entity_table = 'civicrm_contact'
+WHERE civicrm_email.is_primary = 1
+AND civicrm_contact.id = {$contact->contact_id}
+AND civicrm_contact.do_not_email =0
+AND civicrm_email.on_hold = 0
+AND civicrm_contact.is_opt_out =0";
+                    $dao =& CRM_Core_DAO::executeQuery( $query);
+                    if ($dao->fetch( ) ) {
+                        $params = array(
+                                        'job_id'        => $testParams['job_id'],
+                                        'email_id'      => $dao->email_id,
+                                        'contact_id'    => $contact->contact_id
+                                        );
+                        $queue = CRM_Mailing_Event_BAO_Queue::create($params);  
+                    }                    
+                }
             }
-        }
-        foreach ($testers as $testerId => $testerEmail) {
-            $params   = array('contact_id'    => $testerId);
-            $location = array('location_id');
-            $ids      = array( );
-            CRM_Core_BAO_Location::getValues($params,$location,$ids);
-            $params = array(
-                            'job_id'        => $testParams['job_id'],
-                            'email_id'      => $location['id'],
-                            'contact_id'    => $testerId
-                            );
-
-            $queue = CRM_Mailing_Event_BAO_Queue::create($params);  
         }
     }
     /**
