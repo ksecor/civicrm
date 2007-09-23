@@ -260,7 +260,7 @@ VALUES
   (@option_group_id_adOpt, 'Longitude'         , 11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
 
   (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 ),
   (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
