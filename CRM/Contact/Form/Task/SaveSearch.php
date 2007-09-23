@@ -123,8 +123,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
     public function postProcess()
     {
         // saved search form values
-        //$formValues = $this->controller->exportValues($this->_name);
-        $formValues = $this->controller->exportValues();
+        // get form values of all the forms in this controller
+        $formValues = $this->controller->exportValues( );
 
         $session         =& CRM_Core_Session::singleton( );
         $isAdvanced      = $session->get('isAdvanced');

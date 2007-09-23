@@ -240,6 +240,17 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'note', ts('Note Text'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
     }
 
+    static function userSQL( &$form ) {
+        $form->add( 'hidden', 'hidden_userSQL', 1 );
+
+        $form->addElement( 'textarea', 'user_sql_from'        ,
+                           ts('From Clause'  ), array( 'rows' => 4, 'cols' => 80 ) );
+        $form->addElement( 'textarea', 'user_sql_where'       ,
+                           ts('Where Clause' ), array( 'rows' => 4, 'cols' => 80 ) );
+        $form->addElement( 'textarea', 'user_sql_tables',
+                           ts('Tables Involved'), array( 'rows' => 1, 'cols' => 80 ) );
+    }
+
 
     /**
      * Generate the custom Data Fields based
@@ -317,11 +328,13 @@ class CRM_Contact_Form_Search_Criteria {
         require_once 'CRM/Case/BAO/Query.php';
         CRM_Case_BAO_Query::buildSearchForm( $form );
     }
+
     static function caseActivity( &$form ) {
         $form->add( 'hidden', 'hidden_caseActivity', 1 );
         require_once 'CRM/Activity/BAO/Query.php';
         CRM_Activity_BAO_Query::buildSearchForm( $form );
     }
+
     static function grant( &$form ) {
         $form->add( 'hidden', 'hidden_grant', 1 );
         require_once 'CRM/Grant/BAO/Query.php';
