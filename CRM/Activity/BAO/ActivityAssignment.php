@@ -51,17 +51,17 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
     }
 
     /**
-     * funtion to add activity assignment
+     * Add activity assignment.
      *
      * @param array  $params       (reference ) an assoc array of name/value pairs
      * @param array  $ids          (reference ) the array that holds all the db ids
-     * @param array  $activityType activity type  
      *
      * @return object activity type of object that is added
      * @access public
-     * @static
+     * 
      */
-    public function addAssignment( $activity_id, $assignee_contact_id ) {
+    public function createAssignment( $activity_id, $assignee_contact_id ) 
+    {
         $this->activity_id = $activity_id;
         $this->assignee_contact_id = $assignee_contact_id;
         return $this->save();
@@ -69,14 +69,14 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
 
 
     /**
-     * Delete record for activity id in activity_assignment
+     * Delete activity assignment.
      *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * @param int    $id  ID of the activity assignment.
      * 
      * @return void
      * 
      * @access public
-     * @static
+     * 
      */
     public function removeAssignment( $id )
     {
@@ -95,7 +95,7 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @return void
      * 
      * @access public
-     * @static
+     * 
      */
     public function updateAssignment( $id, $assignee_contact_id )
     {
@@ -106,9 +106,16 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         }
     }
 
-
-
-
+    /**
+     * Retrieve assignee_id by activity_id
+     *
+     * @param int    $id  ID of the activity
+     * 
+     * @return void
+     * 
+     * @access public
+     * 
+     */
     public function retrieveAssigneeIdByActivityId( $activity_id ) 
     {
         $this->activity_id = $activity_id;
