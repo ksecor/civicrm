@@ -149,13 +149,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
         
-        $dojoAttributes = array( 'dojoType'            => 'Editor2',
-                                 'style'               => 'height:300px',
-                                 'widgetId'            => 'html_message',
-                                 'useActiveX'          => 'true',
-                                 'toolbarTemplatePath' => 'src/widget/templates/EditorToolbarCiviMail.html',
-                                 'toolbarCssPath'      => 'src/widget/templates/EditorToolbarCiviMail.css',
-                                 'onkeyup'             => 'return verify(this)'
+        $dojoAttributes = array( 'dojoType'             => 'Editor2',
+                                 'style'                => 'height:300px',
+                                 'id'                   => 'html_message',
+                                 'htmlEditing'          => 'true',
+                                 'useActiveX'           => 'true',
+                                 'shareToolbar'         => 'false',
+                                 'toolbarAlwaysVisible' => 'true',
+                                 'onkeyup'              => 'return verify(this)'
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );

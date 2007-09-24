@@ -77,7 +77,7 @@ CREATE TABLE civicrm_mailing_spool (
 -- *******************************************************/
 	ALTER TABLE civicrm_mailing_job 
 	    ADD is_test tinyint(4) NULL DEFAULT NULL COMMENT 'Is this job for a test mail?',
-	    MODIFY status enum('Scheduled', 'Running', 'Complete', 'Paused', 'Canceled', 'Testing') NULL DEFAULT NULL;
+	    DROP is_retry;
 
 -- /*******************************************************
 -- *

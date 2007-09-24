@@ -10,7 +10,7 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
-      <add>2.0</add>
+      <add>1.9.kabissa</add>
   </field>
   <primaryKey>
        <name>id</name>
@@ -21,17 +21,17 @@
       <type>varchar</type>
       <length>128</length>
       <required>true</required>
-      <add>2.0</add>
+      <add>1.9.kabissa</add>
   </field>
   <field>
        <name>value</name>
        <type>blob</type>
-       <add>2.0</add>
+       <add>1.9.kabissa</add>
   </field>
   <index>
        <name>setting_index</name>
        <fieldName>setting</fieldName>
        <unique>true</unique>
-       <add>2.0</add>
+       <add>1.9.kabissa</add>
   </index>
 </table>

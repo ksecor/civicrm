@@ -16,7 +16,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-      <dl class="html-adjust"> 
+      <dl class="dojoEditor"> 
 	{if $template_value}
 		<script type="text/javascript">
   			dojo.addOnLoad( function( ) {ldelim}
@@ -27,7 +27,13 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
   	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
         <dt>{$form.html_message.label}</dt> 
-        <dd style="border: 1px solid black; overflow: auto">{$form.html_message.html}</dd>
+        <dd>
+           <div style="position: relative;">
+		<div style="border: 1px solid black; overflow: auto" >
+                   {$form.html_message.html}
+                </div>
+           </div>
+        </dd>
       </dl>  
     <div id="editMessageDetails" class="form-item">
       <dl>

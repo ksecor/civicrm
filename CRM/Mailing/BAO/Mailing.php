@@ -189,7 +189,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         LEFT JOIN           $eb
                                 ON          $eq.id = $eb.event_queue_id
                         WHERE
-                                            $job.mailing_id = {$mailing_id}
+                                            $job.id = {$job_id}
                             AND             $eb.id IS null";
             $mailingGroup->query($excludeRetry);
         }
@@ -1560,10 +1560,6 @@ AND civicrm_contact.is_opt_out =0";
                             "reset=1&event=opened&mid=$mailing_id"
             ),
         );
-
-        $report['retry'] = CRM_Utils_System::url(
-                            'civicrm/mailing/retry',
-                            "reset=1&mid=$mailing_id");
 
         return $report;
     }
