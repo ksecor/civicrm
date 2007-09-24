@@ -424,7 +424,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
       $punc = '.:?\-';
       $any = "{$letters}{$gunk}{$punc}";
       if ( $onlyHrefs ) {
-          $pattern = "\\b(href=([\"'])?($protos:[$any]+?(?=[$punc]*[^$any]|$))([\"'])?)";
+          $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))([\"'])?";
       } else {
           $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
       }
@@ -439,7 +439,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     }
 
     /**
-     *  returns an array that denotes the type of token that we are delaing with
+     *  returns an array that denotes the type of token that we are dealing with
      *  we use the type later on when we are doing a token replcement lookup
      *
      *  @param string $token       The token for which we will be doing adata lookup
@@ -452,17 +452,17 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     function &getDataFunc($token){
       $funcStruct = array('type' => null,'token' => $token);
       $matches = array();
-      if(preg_match('/^(?:http|href)/',$token) && $this->url_tracking){
+      if(preg_match('/^http/i',$token) && $this->url_tracking){
         // it is a url so we need to check to see if there are any tokens embedded
         // if so then call this function again to get the token dataFunc
-        // and asign the type 'embedded'  so that the data retirving function
-        // will know what how to handle this token
+        // and assign the type 'embedded'  so that the data retrieving function
+        // will know what how to handle this token.
         if(preg_match('/(\{\w+\.\w+\})/', $token, $matches) ){
           $funcStruct['type'] = 'embedded_url';
           $preg_token = '/'.preg_quote($matches[1],'/').'/';
           $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
           $funcStruct['token'] = $this->getDataFunc($matches[1]);
-        } else {          
+        } else {
           $funcStruct['type'] = 'url';
         }
 
@@ -524,10 +524,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
   
             $email = $templates[$key];
             preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
-            foreach($matches[0] as $token){
+            foreach($matches[0] as $idx => $token){
+              if(preg_match('/^href/i',$token)){
+                $token = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$token);
+              }
               $preg_token = '/'.preg_quote($token,'/').'/im';
               list($split_template[],$email) = preg_split($preg_token,$email,2);
-
               array_push($tokens, $this->getDataFunc($token));
             }
             if($email){
@@ -583,6 +585,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
               }
               $this->templates['html'] = join("\n",$template);
     
+              // this is where we create a text tepalte from the html template if the texttempalte did not exist
+              // this way we ensure that every recipient will receive n email even if the pref is set to text and the
+              // user uploads an html email only
               if (!$this->body_text) {
                 $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
               }
@@ -1034,16 +1039,9 @@ AND civicrm_contact.is_opt_out =0";
           $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
           $url = join($token_a['embed_parts'],$embed_data);
           $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
-          if($html){
-            $data = "href=\"$data\"";
-          }
 
         } else if($type == 'url'){
-
           $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
-          if($html){
-            $data = "href=\"$data\"";
-          }
 
         } else if($type == 'mailing'){
 
