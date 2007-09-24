@@ -553,7 +553,9 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      **/
 
     private function &getTemplates(){
-      if(!$this->templates){
+
+        require_once('CRM/Utils/String.php');
+        if(!$this->templates){
 
           $this->templates = array(  );
   
@@ -960,28 +962,36 @@ AND civicrm_contact.is_opt_out =0";
           array_push($pEmail,$template[($idx + 1)]);
         }
 
+        $html = null;
+        if( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ){
+           $html = &$pEmails['html'];
+        }
+
+
+        $text = null;
+        if( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
+           $text = &$pEmails['text'];
+        }
+
         // push the tracking url on to the html email if necessary
-        if ($this->open_tracking) {
-            array_push($pEmails['html'],"\n".'<img src="' . $config->userFrameworkResourceURL . 
+        if ($this->open_tracking && $html ) {
+            array_push($html,"\n".'<img src="' . $config->userFrameworkResourceURL . 
             "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>");
         }
         
-
-        //echo(join( '', $pEmails['html'] ));
-        //exit();
         $message =& new Mail_Mime("\n");
 
-        if ($test || $contact['preferred_mail_format'] == 'Text' ||
+        if ($text && ( $test || $contact['preferred_mail_format'] == 'Text' ||
             $contact['preferred_mail_format'] == 'Both' ||
-            ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) 
+            ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) ) 
         {
-          $message->setTxtBody( join( '', $pEmails['text'] ) );
+          $message->setTxtBody( join( '', $text ) );
         }
 
-        if ($test || $contact['preferred_mail_format'] == 'HTML' ||
-            $contact['preferred_mail_format'] == 'Both')
+        if ( $html && ( $test ||  ( $contact['preferred_mail_format'] == 'HTML' ||
+            $contact['preferred_mail_format'] == 'Both') ) )
         {
-          $message->setHTMLBody( join( '', $pEmails['html'] ) );
+          $message->setHTMLBody( join( '', $html ) );
         }
         
         $recipient = "\"{$contact['display_name']}\" <$email>";
