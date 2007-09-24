@@ -165,11 +165,8 @@ ORDER BY j.scheduled_date,
         if (!empty($testParams)) {
             $mailing->getTestRecipients($testParams);
         } else {
-            if ($this->is_retry) {
-                $recipients =& $mailing->retryRecipients($this->id);
-            } else {
-                $recipients =& $mailing->getRecipientsObject($this->id);
-            }
+            $recipients =& $mailing->getRecipientsObject($this->id);
+            
             while ($recipients->fetch()) {
                 $params = array(
                                 'job_id'        => $this->id,
@@ -197,27 +194,6 @@ ORDER BY j.scheduled_date,
             $mailingSize ++;
         }
         return $mailingSize;
-    }
-
-    /**
-     * Create a retry job for a mailing
-     *
-     * @param int $mailing_id           ID of the mailing to retry
-     * @param string $start_date        Start date
-     * @return object                    The job object
-     * @access public
-     * @static
-     */
-    public static function retry($mailing_id, $start_date) {
-        $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $mailing_id;
-        $job->scheduled_date = $start_date;
-        $job->status = 'Scheduled';
-        $job->is_retry = true;
-        $job->is_test = false;
-        $job->save();
-        
-        return $job;
     }
 
     /**

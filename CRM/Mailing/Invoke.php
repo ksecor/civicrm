@@ -85,19 +85,6 @@ class CRM_Mailing_Invoke {
             return $wrapper->run( 'CRM_Mailing_Form_Subscribe', ts( 'Subscribe' ), null );
         }
 
-        if ( $secondArg == 'retry' ) {
-            $session =& CRM_Core_Session::singleton( );
-            $session->pushUserContext(
-                CRM_Utils_System::url('civicrm/mailing/browse'));
-            CRM_Utils_System::appendBreadCrumb( ts( 'Mailings' ),
-                                                CRM_Utils_System::url( 'civicrm/mailing/browse' ) );
-            CRM_Utils_System::appendBreadCrumb( ts( 'Report' ),
-                                                CRM_Utils_System::url( 'civicrm/mailing/report' ) );
-            $wrapper =& new CRM_Utils_Wrapper();
-            return $wrapper->run( 'CRM_Mailing_Form_Retry', 
-                                  ts('Retry Mailing'), null);
-        }
-
         if ( $secondArg == 'report' ) {
             $thirdArg  = CRM_Utils_Array::value( 3, $args, '' ); 
             if  ( $thirdArg  == 'event' ) {

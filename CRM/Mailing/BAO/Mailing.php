@@ -1512,10 +1512,6 @@ AND civicrm_contact.is_opt_out =0";
             ),
         );
 
-        $report['retry'] = CRM_Utils_System::url(
-                            'civicrm/mailing/retry',
-                            "reset=1&mid=$mailing_id");
-
         return $report;
     }
 
