@@ -257,7 +257,7 @@ ORDER BY j.scheduled_date,
 
             if ( $config->mailerBatchLimit > 0 &&
                  $mailsProcessed >= $config->mailerBatchLimit ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $testParams );
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
                 return false;
             }
             $mailsProcessed++;
@@ -268,16 +268,16 @@ ORDER BY j.scheduled_date,
                             'email'      => $eq->email );
             $fields[$eq->contact_id] = $field;
             if ( count( $fields ) == self::MAX_CONTACTS_TO_PROCESS ) {
-                $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $testParams );
+                $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
                 $fields = array( );
             }
         }
 
-        $this->deliverGroup( $fields, $mailing, $mailer, $job_date, $testParams );
+        $this->deliverGroup( $fields, $mailing, $mailer, $job_date );
         return true;
     }
 
-    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date, $testParams ) {
+    public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
         // first get all the contact details in one huge query
         $params = array( );
         foreach ( array_keys( $fields ) as $contactID ) {
@@ -330,19 +330,18 @@ ORDER BY j.scheduled_date,
                              'job_id'         => $this->id,
                              'hash'           => $field['hash'] );
             
-            if ( empty($testParams) ) {
-                if ( is_a( $result, 'PEAR_Error' ) ) {
-                    /* Register the bounce event */
-                    require_once 'CRM/Mailing/BAO/BouncePattern.php';
-                    require_once 'CRM/Mailing/Event/BAO/Bounce.php';
-                    $params = array_merge($params, 
-                                          CRM_Mailing_BAO_BouncePattern::match($result->getMessage()));
-                    CRM_Mailing_Event_BAO_Bounce::create($params);
-                } else {
-                    /* Register the delivery event */
-                    CRM_Mailing_Event_BAO_Delivered::create($params);
-                }
+            if ( is_a( $result, 'PEAR_Error' ) ) {
+                /* Register the bounce event */
+                require_once 'CRM/Mailing/BAO/BouncePattern.php';
+                require_once 'CRM/Mailing/Event/BAO/Bounce.php';
+                $params = array_merge($params, 
+                                      CRM_Mailing_BAO_BouncePattern::match($result->getMessage()));
+                CRM_Mailing_Event_BAO_Bounce::create($params);
+            } else {
+                /* Register the delivery event */
+                CRM_Mailing_Event_BAO_Delivered::create($params);
             }
+            
             // add activity histroy record for every mail that is send
             $activityHistory = array('entity_table'     => 'civicrm_contact',
                                      'entity_id'        => $field['contact_id'],

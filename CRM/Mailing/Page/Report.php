@@ -90,6 +90,10 @@ class CRM_Mailing_Page_Report extends CRM_Core_Page_Basic {
         
         require_once 'CRM/Mailing/BAO/Mailing.php';
         $report =& CRM_Mailing_BAO_Mailing::report($this->_mailing_id);
+
+        if ( count($report['jobs']) > 1 ) {
+            CRM_Core_Error::statusBounce(ts('Selected Mailing has more than one live job.'));
+        }   
         
         $text = CRM_Utils_Request::retrieve( 'text', 'Boolean', $this );
         if ( $text ) {

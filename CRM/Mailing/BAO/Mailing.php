@@ -189,7 +189,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         LEFT JOIN           $eb
                                 ON          $eq.id = $eb.event_queue_id
                         WHERE
-                                            $job.mailing_id = {$mailing_id}
+                                            $job.id = {$job_id}
                             AND             $eb.id IS null";
             $mailingGroup->query($excludeRetry);
         }
