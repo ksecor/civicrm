@@ -205,7 +205,7 @@ SELECT count(civicrm_mailing.id)
                     'title' => ts('View Mailing Report')
                     ),
                 CRM_Core_Action::UPDATE => array(
-                    'name'  => ts('Re-Send'),
+                    'name'  => ts('Re-Use'),
                     'url'   => 'civicrm/mailing/send',
                     'qs'    => 'mid=%%mid%%&reset=1',
                     'title' => ts('Re-Send Mailing ')
