@@ -328,6 +328,7 @@ SELECT count(*)
         }
         
         $sql   = "SELECT uid FROM {$config->userFrameworkUsersTableName} where mail='" . $contact['email'] . "'";
+        
         $query = $db_drupal->query( $sql );
         
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
@@ -338,7 +339,5 @@ SELECT count(*)
         $db_drupal->disconnect( );
         return false;
     }
-
 }
-
 ?>
