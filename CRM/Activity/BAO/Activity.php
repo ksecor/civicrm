@@ -202,14 +202,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function createActivity( &$params ) 
     {
-        return $this->_saveActivity( &$params, 'create' );
+        return $this->_saveActivity( $params, 'create' );
     }
 
 
     public function updateActivity( &$params, &$ids )
     {
         $this->id = CRM_Utils_Array::value( 'id', $ids );
-        return $this->_saveActivity( &$params, 'update' );
+        return $this->_saveActivity( $params, 'update' );
     }    
     
 
