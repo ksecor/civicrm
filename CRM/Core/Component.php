@@ -37,6 +37,9 @@
 
 class CRM_Core_Component 
 {
+
+    private static $_ci = 'ComponentInfo';
+
     static $_info = null;
 
     static $_contactSubTypes = null;
@@ -45,6 +48,21 @@ class CRM_Core_Component
         if ( self::$_info == null ) { 
             self::$_info = array( );
 
+            // DRAFTING: this is simulating information that we'll get from the database
+            $compRegistry = array( 1 => array( 'name' => 'CiviEvent',
+                                               'path' => 'CRM_Event' ) );
+
+            // DRAFTING: Just imagine you're iterating on DAO's fetch instead of an array
+            // DRAFTING: It will simplify below code a little bit in fact
+            foreach( $compRegistry as $dontCare => $component ) {
+                $infoClass = $component['path'] . '_' . self::$_ci;
+                require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
+                $infoObject = new $infoClass;
+                self::$_info[$component['name']] = $infoObject->info();
+                self::$_info[$component['name']]['path'] = $component['path'] . '_';
+                unset( $infoObject );
+            }
+            
             self::$_info['CiviContribute'] = 
                 array( 'title'   => 'CiviCRM Contribution Engine',
                        'path'    => 'CRM_Contribute_',
@@ -62,15 +80,8 @@ class CRM_Core_Component
                                            'edit memberships'),
                        'search'  => 1 );
 
-            self::$_info['CiviEvent'] = 
-                array( 'title'   => 'CiviCRM Event Engine',
-                       'path'    => 'CRM_Event_',
-                       'url'     => 'event',
-                       'perm'    => array( 'access CiviEvent',
-                                           'edit event participants',
-                                           'register for events' ),
-                       'search'  => 1 );
-            
+
+
             self::$_info['CiviMail'] = 
                 array( 'title'   => 'CiviCRM Mailing Engine',
                        'path'    => 'CRM_Mailing_',
