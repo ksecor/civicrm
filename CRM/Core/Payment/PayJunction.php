@@ -41,7 +41,7 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
    function __construct( $mode , &$paymentProcessor ) 
    {
       ## require PayJunction API library
-      require_once 'Services/pjClasses.php';
+      require_once 'PayJunction/pjClasses.php';
 
         $this->_mode = $mode;
         $this->_paymentProcessor = $paymentProcessor;
