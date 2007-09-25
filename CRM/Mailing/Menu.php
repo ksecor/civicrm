@@ -70,7 +70,7 @@ class CRM_Mailing_Menu {
                            array(
                                  'path'    => 'civicrm/admin/component',
                                  'title'   => ts('Headers, Footers, and Automated Messages'),
-                                 'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, and Opt-out messages.'), 
+                                 'desc'    => ts('Configure the header and footer used for mailings. Customize the content of automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages.'), 
                                  'query'   => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
@@ -136,6 +136,15 @@ class CRM_Mailing_Menu {
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::CALLBACK,
                                  'weight'  => 640,
+                                 ),
+                           array(
+                                 'path'    => 'civicrm/mailing/resubscribe',
+                                 'query'   => 'reset=1',
+                                 'title'   => ts('Resubscribe'),
+                                 'access'  => CRM_Core_Permission::check( 'access CiviMail subscribe/unsubscribe pages' ),
+                                 'type'    => CRM_Core_Menu::CALLBACK,
+                                 'crmType' => CRM_Core_Menu::CALLBACK,
+                                 'weight'  => 645,
                                  ),
                            array(
                                  'path'    => 'civicrm/mailing/optout',

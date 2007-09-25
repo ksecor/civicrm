@@ -308,12 +308,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'api/Contact.php';
         $contact =& crm_fetch_contact( $values );
         
-        $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
+        $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
         }
         
-        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl') );
+        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl', 'resubscribeUrl') );
         foreach($urls as $key => $value) {
             $urls[$key]++;
         }
