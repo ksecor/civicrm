@@ -492,7 +492,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 }
                                 $membershipTypes[] = $mem;
                             }
-                        } else {
+                        } else if ( $memType->is_active ) {
                             $mem = array();
                             CRM_Core_DAO::storeValues($memType,$mem);
                             $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);
