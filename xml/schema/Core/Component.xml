@@ -26,11 +26,12 @@
        <add>2.0</add>
   </field>
   <field>
-       <name>path</name>
-       <title>Path to components main directory.</title>
+       <name>namespace</name>
+       <title>Namespace reserved for component.</title>
        <type>varchar</type>
        <length>128</length>
-       <comment>Path to components main directory.</comment>
+       <comment>Path to components main directory in a form of a class
+namespace.</comment>
        <add>2.0</add>
   </field>
 </table>

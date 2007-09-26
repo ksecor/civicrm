@@ -816,7 +816,9 @@ class CRM_Core_Config
         }
 
         require_once 'CRM/Core/Component.php';
-        CRM_Core_Component::addConfig( $this, true );   
+        $c =& new CRM_Core_Component();
+        $c->addConfig( $this, true );
+//        CRM_Core_Component::addConfig( $this, true );   
     }
 
 
