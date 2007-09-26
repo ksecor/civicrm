@@ -38,7 +38,11 @@
 class CRM_Core_Component 
 {
 
-    private static $_ci = 'ComponentInfo';
+    /*
+     * Suffix part of the component information class'es name 
+     * that needs to be present in components main directory.
+     */
+    const COMPONENT_INFO_CLASS = 'Info';
 
     static $_info = null;
 
@@ -49,46 +53,18 @@ class CRM_Core_Component
             self::$_info = array( );
 
             // DRAFTING: this is simulating information that we'll get from the database
-            $compRegistry = array( 1 => array( 'name' => 'CiviEvent',
-                                               'path' => 'CRM_Event' ) );
-
-            // DRAFTING: Just imagine you're iterating on DAO's fetch instead of an array
-            // DRAFTING: It will simplify below code a little bit in fact
-            foreach( $compRegistry as $dontCare => $component ) {
-                $infoClass = $component['path'] . '_' . self::$_ci;
+            require_once 'CRM/Core/DAO/Component.php';
+            $cr =& new CRM_Core_DAO_Component();
+            $cr->find( false );
+            while ( $cr->fetch( ) ) {
+                $infoClass = $cr->path . '_' . self::COMPONENT_INFO_CLASS;
                 require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
                 $infoObject = new $infoClass;
-                self::$_info[$component['name']] = $infoObject->info();
-                self::$_info[$component['name']]['path'] = $component['path'] . '_';
+                self::$_info[$cr->name] = $infoObject->getInfo();
+                self::$_info[$cr->name]['path'] = $cr->path . '_';
                 unset( $infoObject );
             }
-            
-            self::$_info['CiviContribute'] = 
-                array( 'title'   => 'CiviCRM Contribution Engine',
-                       'path'    => 'CRM_Contribute_',
-                       'url'     => 'contribute',
-                       'perm'    => array( 'access CiviContribute',
-                                           'edit contributions',
-                                           'make online contributions' ),
-                       'search'  => 1 );
-
-            self::$_info['CiviMember'] = 
-                array( 'title'   => 'CiviCRM Membership Engine',
-                       'path'    => 'CRM_Member_',
-                       'url'     => 'member',
-                       'perm'    => array( 'access CiviMember',
-                                           'edit memberships'),
-                       'search'  => 1 );
-
-
-
-            self::$_info['CiviMail'] = 
-                array( 'title'   => 'CiviCRM Mailing Engine',
-                       'path'    => 'CRM_Mailing_',
-                       'url'     => 'mailing',
-                       'perm'    => array( 'access CiviMail', 'access CiviMail subscribe/unsubscribe pages' ),
-                       'search'  => 0 );
-                       
+                                                    
             self::$_info['CiviGrant'] = 
                 array( 'title'   => 'CiviCRM Grant Management Engine',
                        'path'    => 'CRM_Grant_',
