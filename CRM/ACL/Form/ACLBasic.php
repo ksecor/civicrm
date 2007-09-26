@@ -96,12 +96,22 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL' );
 
         $this->add('text', 'name', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ), true );
-        
-        $this->add( 'select',
-                    'object_table',
-                    ts('ACL Type'),
-                    $this->basicPermissions( ),
-                    true );
+
+	if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $this->add( 'select',
+                        'object_table',
+                        ts('ACL Type'),
+                        $this->basicPermissions( ),
+                        true );
+        } else {
+            $this->addCheckBox( 'object_table',
+                                ts('ACL Type'),
+                                $this->basicPermissions( ),
+                                null, null, true, null,
+                                array( '&nbsp;&nbsp;&nbsp;',
+                                       '&nbsp;&nbsp;&nbsp;',
+                                       '<br />' ) );
+        }
 
         require_once 'CRM/Core/OptionGroup.php';
 
@@ -143,12 +153,19 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
            
             if ( $this->_id ) {
                 $params['id'] = $this->_id;
+                CRM_ACL_BAO_ACL::create( $params );
+            } else {
+                foreach ( $params['object_table'] as $object_table => $value ) {
+                    if ( $value ) {
+                        $newParams = $params;
+                        unset( $newParams['object_table'] );
+                        $newParams['object_table'] = $object_table;
+                        CRM_ACL_BAO_ACL::create( $newParams );
+                     }
+                }
             }
-            
-            CRM_ACL_BAO_ACL::create( $params );
         }
     }
-
 }
 
 ?>
