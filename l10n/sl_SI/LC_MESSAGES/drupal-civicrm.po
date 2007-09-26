@@ -6,45 +6,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2007-05-07 11:19+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-09-25 16:29-0700\n"
+"Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.1\n"
 
 msgid "add contacts"
-msgstr ""
+msgstr "dodaj stike"
 
 msgid "view all contacts"
-msgstr ""
+msgstr "poglej vse stike"
 
 msgid "edit all contacts"
-msgstr ""
+msgstr "popravi vse stike"
 
 msgid "import contacts"
-msgstr ""
+msgstr "uvozi stike"
 
 msgid "edit groups"
-msgstr ""
+msgstr "urejaj skupine"
 
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "upravljaj CiviCRM"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "pojdi do naloženih datotek"
 
 msgid "profile listings and forms"
 msgstr ""
 
+# Custom? Ne dobim prave besede
 msgid "access all custom data"
-msgstr ""
+msgstr "pojdi do vseh posebnih podatkov"
 
 msgid "access CiviCRM"
-msgstr ""
+msgstr "pojdi na CiviCRM"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "pojdi na Ploščo stikov"
 
+# To bo treba še izpilit.
 #: drupal/civicrm.module
 msgid ""
 "The CiviCRM module stores information on the universe of people associated "
@@ -56,6 +59,14 @@ msgid ""
 "opportunities for communities to better communicate and benefit from "
 "relationships with their community members."
 msgstr ""
+"CiviCRM modul hrani informacije o ljudeh, ki so vključeni v skupnost in "
+"njihove odnose kot so spletna pošta, donacije, peticije, dogodki, itd. Lahko "
+"deluje kot samostojni sistem za urejanje stikov ali pa je integriran z "
+"masovno pošto, upravljanjem prostovoljcev, peticijami ali iskanjem dogodkov. "
+"CiviCRM omogoča organizacijam vzdrževanje vseh teh aktivnosti v enotni "
+"podatkovni bazi, kar ustvari učinkovitost in nove priložnosti za "
+"organizacijo da bolje komunicira in tako izboljša odnose z njenimi člani "
+"skupnosti."
 
 #: drupal/civicrm.module
 msgid ""
