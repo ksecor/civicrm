@@ -63,17 +63,21 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $dao->id = $mailingID; 
             $dao->find(true);
             $dao->storeValues($dao, $defaults);
+
             if ( $defaults['msg_template_id'] ) {
-                $msg_title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_title' );
-                
-                $msg_text = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_text' );
-                $msg_html = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_MessageTemplates', $defaults['msg_template_id'], 'msg_html' );
-                
-                $msg = str_replace(array("\n","\r"), ' ', $msg_text."^A". $msg_title."^A". $msg_html);
+                $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
+                $messageTemplate->id = $defaults['msg_template_id'];
+                $messageTemplate->selectAdd( );
+                $messageTemplate->selectAdd( 'msg_title, msg_text, msg_html' );
+                $messageTemplate->find( true );
+
+                $msg = str_replace( array("\n","\r"), ' ',
+                                    $messageTemplate->msg_text."^A". $messageTemplate->msg_title."^A". $messageTemplate->msg_html );
                 $this->assign('template_value',  
-                              array($msg_title, $msg, $defaults['msg_template_id']));
+                              array($messageTemplate->msg_title, $msg, $defaults['msg_template_id']));
             }
-            if ($defaults['body_text']) {
+
+            if ( $defaults['body_text'] ) {
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
             }
@@ -82,7 +86,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
             }
-            
         }
         
         $domain = new CRM_Core_DAO_Domain( );
@@ -316,12 +319,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                           'preferred_mail_format' => 'Both'
                           );
         
-        $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'owner'));
+        $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
         }
 
-        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl') );
+        $urls = array_flip(array( 'forward', 'optOutUrl', 'unsubscribeUrl', 'resubscribeUrl') );
         foreach($urls as $key => $value) {
             $urls[$key]++;
         }

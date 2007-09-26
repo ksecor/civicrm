@@ -6,23 +6,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-08-31 13:16+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-09-25 16:40-0700\n"
+"Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3);\n"
+"X-Generator: Pootle 1.0.1\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
 msgid "Contact"
-msgstr ""
+msgstr "Stik"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
 msgid "ACL Role"
-msgstr ""
+msgstr "Vloga ACL"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php CRM/ACL/Form/ACL.php
 #: CRM/ACL/Page/ACL.php CRM/Core/DAO/CustomGroup.php
@@ -32,12 +33,12 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Group"
-msgstr ""
+msgstr "Skupina"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
 msgid "Import"
-msgstr ""
+msgstr "Uvozi"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Membership.php
@@ -46,7 +47,7 @@ msgstr ""
 #: CRM/Price/Page/Option.php CRM/Profile/Selector/Listings.php
 #: templates/CRM/Contact/Page/View/Group.tpl
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACL.php
 #: CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php
@@ -61,7 +62,7 @@ msgstr ""
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Edit"
-msgstr ""
+msgstr "Uredi"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomOption.php
@@ -75,11 +76,11 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
-msgstr ""
+msgstr "Operacija"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
-msgstr ""
+msgstr "Ustvari"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
@@ -101,11 +102,12 @@ msgstr ""
 #: CRM/UF/Page/Group.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Delete"
-msgstr ""
+msgstr "Izbriši"
 
+# Obstaja še kakšna druga varianta?
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "Spremenjen datum"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
@@ -135,36 +137,39 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
+# Mogoče da je tu kakšna druga spregatev... izbor, izbira?
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 msgid " -select- "
-msgstr ""
+msgstr "-izberi-"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/SelectValues.php CRM/UF/Form/Preview.php
 msgid "-select-"
-msgstr ""
+msgstr "-izberi-"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
-msgstr ""
+msgstr "Vse skupine"
 
+# "Posebno" je problem.
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr ""
+msgstr "Vse posebne skupine"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
-msgstr ""
+msgstr "Vsi profili"
 
+# "Posebno" je problem.
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
-msgstr ""
+msgstr "Posebni podatki"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -179,13 +184,13 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Enabled?"
-msgstr ""
+msgstr "Omogočeno?"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
-msgstr ""
+msgstr "- izberi skupino -"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -197,7 +202,7 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Disable"
-msgstr ""
+msgstr "Onemogoči"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -209,16 +214,16 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
 msgid "Enable"
-msgstr ""
+msgstr "Omogoči"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/Options.php
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Access Control"
-msgstr ""
+msgstr "Nadzor dostopa"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Posebna skupina"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
 msgid "Activity Entity Table"
@@ -241,7 +246,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Subject"
-msgstr ""
+msgstr "Zadeva"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
