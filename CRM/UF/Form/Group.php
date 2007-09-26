@@ -95,7 +95,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             }
             $this->assign('message',$message);
         } else {
-            CRM_Utils_System::setTitle( ts('New CiviCRM Profile Group') );
+            CRM_Utils_System::setTitle( ts('New CiviCRM Profile') );
         }
     }
     
@@ -304,7 +304,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
             $wt = CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_UFJoin', $ufJoinID );
             
             CRM_Core_BAO_UFGroup::del($this->_id);
-            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been deleted.', array(1 => $title)));
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile "%1" has been deleted.', array(1 => $title)));
             return;
         }
         
@@ -338,10 +338,10 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         CRM_Core_BAO_UFGroup::createUFJoin($params, $ufGroup->id);
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been saved.', array(1 => $ufGroup->title)));
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile "%1" has been saved.', array(1 => $ufGroup->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/uf/group/field', 'reset=1&action=add&gid=' . $ufGroup->id);
-            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Group "%1" has been added. You can <a href="%2">add fields</a> to this group now.',
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile "%1" has been added. You can <a href="%2">add fields</a> to this Profile now.',
                                            array(1 => $ufGroup->title, 2 => $url)));
         }
     }

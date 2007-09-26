@@ -179,7 +179,8 @@ CREATE TABLE civicrm_mailing_spool (
 	  ( 45, "CHW", NULL, "948", "WIR Franc"),
 	  ( 46, "CLF", NULL, "990", "Unidades de fomento"),
 	  ( 47, "CLP",  "$", "152", "Chilean Peso"),
-	  ( 48, "CNY", "å", "156", "Chinese Yuan Renminbi"),
+	  ( 48, "CNY", "å
+", "156", "Chinese Yuan Renminbi"),
 	  ( 49, "COP",  "$", "170", "Colombian Peso"),
 	  ( 50, "COU", NULL, "970", "Unidad de Valor Real"),
 	  ( 51, "CRC",  "₡", "188", "Costa Rican Colon"),
@@ -325,7 +326,6 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 
-	SELECT @domain_id := id from civicrm_domain;
 	INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
 	VALUES  
 	      (@domain_id, 'group_type', 'Group Type', 0, 1);
@@ -339,6 +339,18 @@ CREATE TABLE civicrm_mailing_spool (
 	VALUES
 	  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
 	  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+
+
+-- /*******************************************************
+-- *
+-- * civicrm_payment_processor_type (new processor plugins)
+-- *
+-- *******************************************************/
+    INSERT INTO 
+        civicrm_payment_processor_type (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
+    VALUES 
+        (@domain_id,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,1);
+
 
 -- /*******************************************************
 -- *
