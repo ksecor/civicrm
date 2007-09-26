@@ -107,7 +107,9 @@ ORDER BY j.scheduled_date,
 
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
-                CRM_Core_DAO::transaction('BEGIN');
+               
+                require_once 'CRM/Core/Transaction.php';
+                $transaction = new CRM_Core_Transaction( );
                 $job->queue($testParams);
 
                 /* Start the job */
@@ -116,7 +118,7 @@ ORDER BY j.scheduled_date,
                 // CRM-992 - MySQL can't eat its own dates
                 $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
                 $job->save();
-                CRM_Core_DAO::transaction('COMMIT');
+                $transaction->commit( );
             }
             
             $mailer =& $config->getMailer();
@@ -129,7 +131,9 @@ ORDER BY j.scheduled_date,
             
             if ( $isComplete ) {
                 /* Finish the job */
-                CRM_Core_DAO::transaction('BEGIN');
+                require_once 'CRM/Core/Transaction.php';
+                $transaction = new CRM_Core_Transaction( );
+
                 $job->end_date = date('YmdHis');
                 $job->status = 'Complete';
                 // CRM-992 - MySQL can't eat its own dates
@@ -140,7 +144,7 @@ ORDER BY j.scheduled_date,
                 $mailing->id = $job->mailing_id;
                 $mailing->is_completed = true;
                 $mailing->save();
-                CRM_Core_DAO::transaction('COMMIT');
+                $transaction->commit( );
             } 
             
             $lock->release( );
@@ -165,11 +169,8 @@ ORDER BY j.scheduled_date,
         if (!empty($testParams)) {
             $mailing->getTestRecipients($testParams);
         } else {
-            if ($this->is_retry) {
-                $recipients =& $mailing->retryRecipients($this->id);
-            } else {
-                $recipients =& $mailing->getRecipientsObject($this->id);
-            }
+            $recipients =& $mailing->getRecipientsObject($this->id);
+            
             while ($recipients->fetch()) {
                 $params = array(
                                 'job_id'        => $this->id,
@@ -197,26 +198,6 @@ ORDER BY j.scheduled_date,
             $mailingSize ++;
         }
         return $mailingSize;
-    }
-
-    /**
-     * Create a retry job for a mailing
-     *
-     * @param int $mailing_id           ID of the mailing to retry
-     * @param string $start_date        Start date
-     * @return object                    The job object
-     * @access public
-     * @static
-     */
-    public static function retry($mailing_id, $start_date) {
-        $job =& new CRM_Mailing_BAO_Job();
-        $job->mailing_id = $mailing_id;
-        $job->scheduled_date = $start_date;
-        $job->status = 'Scheduled';
-        $job->is_retry = true;
-        $job->save();
-        
-        return $job;
     }
 
     /**

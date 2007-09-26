@@ -22,7 +22,11 @@
     <td>{ts}Each CiviCRM ACL Role is assigned a set of permissions. Use this link to create or edit the different roles needed for your site.{/ts}</td>
 </tr>
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/acl' q="reset=1"}" id="editACLs">&raquo; {ts}2. Manage ACLs{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/acl/basic' q="reset=1"}" id="editACLsBasic">&raquo; {ts}2. Manage Core ACLs{/ts}</a></td>
+    <td>{ts}Core ACLs define the primitive ACLs that control access to your site.{/ts}</td>
+</tr>
+<tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/acl' q="reset=1"}" id="editACLs">&raquo; {ts}2. Manage Extended ACLs{/ts}</a></td>
     <td>{ts}ACLs define permission to do an operation on a set of data, and grant that permission to a CiviCRM ACL Role. Use this link to create or edit the ACLs for your site.{/ts}</td>
 </tr>
 <tr>

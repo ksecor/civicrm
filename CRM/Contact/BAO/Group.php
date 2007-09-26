@@ -87,7 +87,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
         CRM_Utils_Hook::pre( 'delete', 'Group', $id, CRM_Core_DAO::$_nullArray );
 
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 	
         // added for CRM-1631 and CRM-1794
         // delete all subscribed mails with the selected group id
@@ -119,7 +120,7 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         $group->id = $id;
         $group->delete( );
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
 
         CRM_Utils_Hook::post( 'delete', 'Group', $id, $group );
     }

@@ -173,12 +173,13 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             }
         }
 
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         $contribution = self::add($params, $ids);
 
         if ( is_a( $contribution, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            $transaction->rollback( );
             return $contribution;
         }
 
@@ -270,7 +271,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
         }
 
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return $contribution;
     }
@@ -532,7 +533,7 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
             $clause   = "( $clause ) AND id != %3";
             $input[3] = array( $id, 'Integer' );
         }
-
+        
         $query = "SELECT id FROM civicrm_contribution WHERE $clause";
         $dao =& CRM_Core_DAO::executeQuery( $query, $input );
         $result = false;
@@ -885,6 +886,40 @@ SELECT count(*) as count,
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $form->_values, $contribution->id );
     }
+
+
+     /**
+     * Check if there is a contribution with the params passed in.
+     * Used for trxn_id,invoice_id and contribution_id
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     *
+     * @return array contribution id if success else NULL
+     * @access public
+     * static
+     */
+    static function checkDuplicateIds( $params ) 
+    {
+        $dao = new CRM_Contribute_DAO_Contribution();
+        
+        $clause = array( );
+        $input = array( );
+        foreach ( $params as $k=>$v ) {
+            if( $v ) {
+                $clause[]  = "$k = $v";                
+            } 
+        }
+        $clause = implode( ' AND ', $clause );
+        $query = "SELECT id FROM civicrm_contribution WHERE $clause";
+        $dao =& CRM_Core_DAO::executeQuery( $query, $input );
+       
+        while ( $dao->fetch( ) ) {
+            $result = $dao->id;
+            return $result;            
+        }
+        return NULL;        
+    }
+    
 }
 
 ?>

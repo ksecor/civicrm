@@ -111,7 +111,11 @@ class CRM_Utils_File {
         }
 
         CRM_Utils_File::createDir( dirname( $path ) );
-        mkdir( $path, 0777 );
+        if ( mkdir( $path, 0777 ) == false ) {
+            echo "Error: Could not create directory: $path. <p>";
+            exit( );
+        }
+
     }
 
     /** 

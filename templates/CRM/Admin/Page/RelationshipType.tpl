@@ -15,7 +15,7 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
         <tr class="columnheader">
 	        <th field="Relationship A to B" dataType="String" sort="asc">{ts}Relationship A to B{/ts}</th>

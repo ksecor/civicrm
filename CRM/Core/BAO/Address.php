@@ -267,9 +267,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                         if ( $value == $defaultCountry     ||
                              $value == $defaultCountryName ||
                              $value == $config->defaultContactCountry ) {
-                            return false;
-                        }
-                        return true;
+			  // do nothing
+                        } else {
+			  return true;
+			}
                     } else {
                         // return if null default
                         return true;

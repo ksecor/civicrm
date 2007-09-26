@@ -28,12 +28,14 @@
         </dd>
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
         <dt>&nbsp;</dt>
+	
         <dd class="description">
             {ts}Select 'Individual' if you are importing contributions made by individual persons.{/ts}
         </dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Select 'Organization' or 'Household' if you are importing contributions made by contacts of that type.{/ts}
         </dd> 
+	<dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html}</dd>
         {include file="CRM/Core/Date.tpl"}  
     </dl>
     <div class="spacer"></div>

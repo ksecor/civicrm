@@ -128,7 +128,7 @@ class CRM_Activity_Form extends CRM_Core_Form
             
             require_once "CRM/Activity/BAO/Activity.php";
             $bao = new CRM_Activity_BAO_Activity();
-            $bao->retrieve( $params, $defaults, $this->_activityTypeId );
+            $bao->retrieveActivity( $params, $defaults, $this->_activityTypeId );
 
 //            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             

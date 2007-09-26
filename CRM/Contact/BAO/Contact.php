@@ -379,26 +379,24 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
             
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
-            if ($contact->birth_date) {
-                $formatedDate = CRM_Utils_Date::customFormat($contact->birth_date,'%Y-%m-%d');
-                $bdate = explode('-',$formatedDate);
-                $birthDate      = mktime(0,0,0,$bdate['1'],$bdate['2'],$bdate['0']); 
-                $currDate      = mktime(0,0,0,date('m'),date('d'),date('Y')); 
-                $days = 0;
-                while ($birthDate<=$currDate ) { 
-                    $days++;
-                    $birthDate+=(24*3600);
-                }
-                $values['age'] = floor($days/365);
-                $values['days']=$days%365;
+            
+            // Calculating Year difference            
+            if ( $contact->birth_date ) {
+                $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
+                if ( $birthDate < date( 'Ymd' ) ) {
+                    $age =  self::findAge( $birthDate );
+                    $values['age']['y'] = $age['years'];
+                    $values['age']['m'] = $age['months'];
+                 }
             }
+
             $contact->contact_id = $contact->id;
             
             return $contact;
         }
         return null;
     }
-
+    
     /**
      * takes an associative array and creates a contact object and all the associated
      * derived objects (i.e. individual, location, email, phone etc)
@@ -1360,7 +1358,9 @@ WHERE civicrm_contact.id IN $idString ";
             $case = (" and 1 ");
         }
 
-
+        // DRAFTING: Consider adding DISTINCT to this query after
+        // DRAFTING: making sure that adding and updating works fine.
+        // DRAFTING: Consider moving it out to Activity BAO
         $query = "select civicrm_activity.*,
                          sourceContact.display_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
@@ -2493,6 +2493,47 @@ SELECT count( l.id )
         return $contact->id;
     }
 
+    /**
+     * Function to calculate Age in Years if greater than one year else in months
+     * 
+     * @param date $birthDate Birth Date
+     *
+     * @return int array $results contains years or months
+     * @access public
+     */
+    public function findAge($birthDate) 
+    {     
+        $results = array( );
+        $formatedBirthDate  = CRM_Utils_Date::customFormat($birthDate,'%Y-%m-%d'); 
+        
+        $bDate      = explode('-',$formatedBirthDate);
+        $birthYear  = $bDate[0]; 
+        $birthMonth = $bDate[1]; 
+        $birthDay   = $bDate[2]; 
+        $year_diff  = date("Y") - $birthYear; 
+        
+        switch ($year_diff) {
+        case 1: 
+            $month = (12 - $birthMonth) + date("m");
+            if ( $month < 12 ) { 
+                $results['months'] =  $month;
+            } elseif ( $month == 12 && (date("d") < $birthDay) ) { 
+                $results['months'] = $month-1;
+            } else { 
+                $results['years'] =  $year_diff;
+            }
+            break;
+        case 0:
+            $month = date("m") - $birthMonth;
+            $results['months'] = $month;
+            break;
+        default:
+            $results['years'] = $year_diff;
+        }
+        
+        return $results;
+    }
+    
 }
 
 ?>

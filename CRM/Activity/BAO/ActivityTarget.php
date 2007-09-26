@@ -51,65 +51,78 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
     }
 
     /**
-     * funtion to add activity assignment
+     * funtion to add activity target
      *
-     * @param array  $params       (reference ) an assoc array of name/value pairs
-     * @param array  $ids          (reference ) the array that holds all the db ids
-     * @param array  $activityType activity type  
+     * @param array  $activity_id           (reference ) an assoc array of name/value pairs
+     * @param array  $target_contact_id     (reference ) the array that holds all the db ids
      *
      * @return object activity type of object that is added
      * @access public
-     * @static
+     * 
      */
-    public function add( $activity_id, $target_contact_id ) {
+    public function createTarget( $activity_id, $target_contact_id ) 
+    {
         $this->activity_id = $activity_id;
         $this->target_contact_id = $target_contact_id;
         return $this->save();
     }
 
+    /**
+     * Update record for activity id in activity_assignment
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * @param int    $assignee_contact_id contact id for assignee
+     * 
+     * @return void
+     * 
+     * @access public
+     * 
+     */
+    public function updateTarget( $id, $target_contact_id )
+    {  
+        $this->id = $id;
+        if( $this->find( true ) ) {
+            $this->target_contact_id = $target_contact_id;
+            return $this->save();
+        }
+    }
 
-    function retrieveTargetIdByActivityId( $activity_id ) 
+
+    /**
+     * function to remove activity target
+     *
+     * @param int    $id  ID of the activity for which the records needs to be deleted.
+     * 
+     * @return void
+     * 
+     * @access public
+     * 
+     */
+    public function removeTarget( $id )
+    {
+        $this->id = $id;
+        if( $this->find( true ) ) {
+            return $this->delete();
+        }
+    }
+
+    /**
+     * function to retrieve id of target contact by activity_id
+     *
+     * @param int    $id  ID of the activity
+     * 
+     * @return mixed
+     * 
+     * @access public
+     * 
+     */
+    public function retrieveTargetIdByActivityId( $activity_id ) 
     {
         $this->activity_id = $activity_id;
         if ( $this->find( true ) ) {
             return $this->target_contact_id;
         }
         return null;
-    }
-                                                    
-
-    /**
-     * takes an associative array and creates a Activity Assignment object
-     *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @access public
-     * @static
-     */
-    static function &createActivityTarget(&$params , $ids ) 
-    {         
-    }
-    /**
-     * delete record for activity id in activity_assignment
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param string $entityTable entity table name 
-     * 
-     * @return void
-     * 
-     * @access public
-     * @static
-     */
-    public static function remove( $id )
-    {
-      require_once 'CRM/Activity/DAO/ActivityTarget.php';
-        $activityAssign =  new CRM_Activity_DAO_ActivityTarget();
-        $activityAssign->activity_entity_table = $entityTable;
-        $activityAssign->activity_entity_id = $id;
-        if ($activityAssign->find(true)){
-            return $activityAssign->delete();
-        }
     }
 
 }

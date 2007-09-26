@@ -348,7 +348,6 @@ abstract class CRM_Member_Import_Parser {
                 $this->_invalidRowCount++;
                 if ( $this->_invalidRowCount < $this->_maxErrorCount ) {
                     $recordNumber = $this->_lineCount;
-                    if ($this->_haveColumnHeader) $recordNumber--;
                     array_unshift($values, $recordNumber);
                     $this->_errors[] = $values;
                 }
@@ -357,7 +356,6 @@ abstract class CRM_Member_Import_Parser {
             if ( $returnCode & self::CONFLICT ) {
                 $this->_conflictCount++;
                 $recordNumber = $this->_lineCount;
-                if ($this->_haveColumnHeader) $recordNumber--;
                 array_unshift($values, $recordNumber);
                 $this->_conflicts[] = $values;
             } 
@@ -369,7 +367,6 @@ abstract class CRM_Member_Import_Parser {
                 }
                 $this->_duplicateCount++;
                 $recordNumber = $this->_lineCount;
-                if ($this->_haveColumnHeader) $recordNumber--;
                 array_unshift($values, $recordNumber);
                 $this->_duplicates[] = $values;
                 if ($onDuplicate != self::DUPLICATE_SKIP) {

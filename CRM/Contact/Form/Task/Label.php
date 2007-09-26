@@ -134,7 +134,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $params = array( 'contact_id'=> $value );
             require_once 'api/Contact.php';
             $contact =& crm_fetch_contact( $params, $returnProperties );
-            
+
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
@@ -174,6 +174,15 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 
                 if (  CRM_Utils_Array::value( 'county_id', $contact )  ) {
                     unset( $contact['county_id'] );
+                }
+                
+                //Add contact Details
+                if( CRM_Contact_BAO_Contact::getContactType( $value ) == 'Individual' ) {
+                    $rows[$value]['first_name']   = $contact['first_name'];
+                    $rows[$value]['middle_name']  = $contact['middle_name'];
+                    $rows[$value]['last_name']    = $contact['last_name'];
+                } else {
+                    $rows[$value]['display_name'] = $contact['display_name'];
                 }
 
                 // now create the rows for generating mailing labels

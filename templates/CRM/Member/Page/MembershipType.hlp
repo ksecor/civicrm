@@ -1,0 +1,30 @@
+{htxt id="rel-type"}
+<div id="crm-container">
+{ts}
+<p>Use the <strong>Relationship Type</strong> field to configure Membership Types where memberships are automatically granted to related contacts. Examples are listed below:</p>
+
+<table class="report">
+<tr>
+    <td scope="column" class="separator" style="border: solid 1px black;"><strong>Relationship Type</strong></td>
+    <td scope="column" class="separator" style="border: solid 1px black;">Direct member is:</td>
+    <td scope="column" class="separator" style="border: solid 1px black;">Membership is automatically granted to:</td>
+</tr>
+<tr>
+    <td><strong>"Household Member is"</strong></td>
+    <td>a household</td>
+    <td>"Household Members" of that household</td>
+</tr>
+<tr>
+    <td><strong>"Employer of"</strong></td>
+    <td>an organization</td>
+    <td>"Employees" of that organization</td>
+</tr>
+<tr>
+    <td><strong>"Parent of"</strong></td>
+    <td>an individual</td>
+    <td>"Children" of that individual</td>
+</tr>
+</table>
+{/ts}
+</div>
+{/htxt}

@@ -442,6 +442,10 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
             require_once 'CRM/Core/OptionGroup.php';
             $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
             break;
+        case 'contribution_status_id':  
+            require_once 'CRM/Core/OptionGroup.php';
+            $values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value );
+            break;
         default:
             break;
         }

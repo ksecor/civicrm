@@ -179,6 +179,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $this->assign( 'dataValues'  , $this->_dataValues );
         
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+        $this->_onDuplicate = $this->get('onDuplicate',$onDuplicate);
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
@@ -188,6 +189,16 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         } else {
             $this->assign( 'rowDisplayCount', 2 );
         }
+       
+        //CRM-2219 removing other required fields since for updation only
+        //membership id is required.
+        if ( $this->_onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
+            $remove = array('membership_contact_id','email','first_name','last_name');
+            foreach( $remove as $value ) {
+                unset( $this->_mapperFields[$value] );
+            }
+        }
+
         
     }
 
@@ -432,11 +443,11 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                     if( $field == 'membership_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
                              ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) ||
+                             in_array('household_name', $importKeys) ||in_array('id', $importKeys) ||
                              in_array('organization_name', $importKeys)) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) (OR Membership ID if update mode.)') . '<br />';
                         }
                         
                     } else if ( $field == 'membership_contact_id' &&  ! $defaultFlag ) {

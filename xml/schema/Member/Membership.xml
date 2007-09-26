@@ -10,6 +10,8 @@
       <name>id</name>
       <type>int unsigned</type>
       <required>true</required>
+      <import>true</import> 
+      <title>Membership ID (match to membership)</title>
       <comment>Membership Id</comment>
       <add>1.5</add>
   </field>
