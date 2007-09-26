@@ -65,15 +65,6 @@ class CRM_Core_Component
                 unset( $infoObject );
             }
                                                     
-            self::$_info['CiviGrant'] = 
-                array( 'title'   => 'CiviCRM Grant Management Engine',
-                       'path'    => 'CRM_Grant_',
-                       'url'     => 'grant',
-                       'perm'    => array( 'access CiviGrant', 
-                                           'edit grants'),
-                       'search'  => 1 );                       
-                       
-
             self::$_info['Quest'] =
                 array( 'title'   => 'Quest Application Process',
                        'path'    => 'CRM_Quest_',

@@ -1,5 +1,13 @@
 -- This file provides template to civicrm_data.mysql. Inserts all base data needed for a new CiviCRM DB
 
+-- Add components to system wide registry
+INSERT INTO civicrm_component (name, path) VALUES ('CiviEvent', 'CRM_Event' );
+INSERT INTO civicrm_component (name, path) VALUES ('CiviContribute', 'CRM_Contribute' );
+INSERT INTO civicrm_component (name, path) VALUES ('CiviMember', 'CRM_Member' );
+INSERT INTO civicrm_component (name, path) VALUES ('CiviMail', 'CRM_Mailing' );
+INSERT INTO civicrm_component (name, path) VALUES ('CiviGrant', 'CRM_Grant' );
+
+
 -- All domain-keyed values handled by this included file
 {include file="civicrm_add_domain.tpl" context="baseData"}
 
