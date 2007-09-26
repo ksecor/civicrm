@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-14 06:18+0200\n"
-"PO-Revision-Date: 2007-09-19 08:51-0700\n"
+"PO-Revision-Date: 2007-09-24 14:11-0700\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,7 +282,7 @@ msgstr "Gérer les groupes"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
-msgstr ""
+msgstr "Tableau de bord"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
 #, fuzzy
@@ -499,7 +499,7 @@ msgstr "Envois de courriels"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #, fuzzy
@@ -2095,7 +2095,7 @@ msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
 
 #: CRM/Event/Invoke.php
 msgid "CiviEvent DashBoard"
-msgstr ""
+msgstr "Tableau de bord CiviÉvénement"
 
 #: CRM/Event/Menu.php
 #, fuzzy
@@ -2324,22 +2324,20 @@ msgid "Replyto Email"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Url Tracking"
-msgstr "Suivi"
+msgstr "Suivi des URLs"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Forward Replies"
-msgstr ""
+msgstr "Renvoi automatique des réponses"
 
 #: CRM/Mailing/DAO/Mailing.php
 msgid "Auto Responder"
 msgstr ""
 
 #: CRM/Mailing/DAO/Mailing.php
-#, fuzzy
 msgid "Open Tracking"
-msgstr "Suivi"
+msgstr "Suivi des lectures"
 
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
@@ -2381,7 +2379,7 @@ msgstr "Exclure les envois"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Select Recipients"
-msgstr "Sélection des récepteurs"
+msgstr "Sélection des destinataires"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Cannot have same groups in Include Group(s) and Exclude Group(s)."
@@ -2412,14 +2410,12 @@ msgid "Retry scheduled for mailing: %1"
 msgstr ""
 
 #: CRM/Mailing/Form/Schedule.php
-#, fuzzy
 msgid "Schedule Mailing"
-msgstr "Raison de l'annulation"
+msgstr "Date et heure de l'envoi"
 
 #: CRM/Mailing/Form/Schedule.php
-#, fuzzy
 msgid "Scheduled date is not valid."
-msgstr "Adresse électronique invalide."
+msgstr "La date de la programmation de l'envoi n'est pas valide."
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Start date cannot be earlier than the current time."
@@ -2434,14 +2430,12 @@ msgid "Send a Test Mailing?"
 msgstr "Simuler un envoi?"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send to This Address:"
-msgstr "Repérer cette adresse"
+msgstr "Envoyer à cette adresse:"
 
 #: CRM/Mailing/Form/Test.php
-#, fuzzy
 msgid "Send to This Group:"
-msgstr "Ajouter au groupe"
+msgstr "Envoyer à ce groupe:"
 
 #: CRM/Mailing/Form/Test.php
 msgid "CiviCRM Test Mailer (%1)"
@@ -2460,21 +2454,20 @@ msgid "FROM Name"
 msgstr "Nom de l'émetteur"
 
 #: CRM/Mailing/Form/Upload.php
-#, fuzzy
 msgid "FROM Email"
-msgstr "Nom ou courriel"
+msgstr "Courriel de l'émetteur"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Forward Replies?"
-msgstr ""
+msgstr "Renvoi automatique des réponses?"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Track Click-throughs?"
-msgstr ""
+msgstr "Compter les clics?"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Track Opens?"
-msgstr ""
+msgstr "Compter les lectures?"
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Auto-respond to Replies?"
@@ -2578,7 +2571,7 @@ msgstr ""
 
 #: CRM/Mailing/Page/Report.php
 msgid "CiviMail Report: %1"
-msgstr ""
+msgstr "Rapport CiviCourriel: %1"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Mailings %%StatusMessage%%"
@@ -2586,11 +2579,11 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Name"
-msgstr ""
+msgstr "Nom de l'envoi"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Completed Date"
-msgstr ""
+msgstr "Date de fin"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Action"
@@ -2608,7 +2601,7 @@ msgstr "Souhaitez-vous vraiment supprimer cette étiquette?"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "View Mailing Report"
-msgstr ""
+msgstr "Afficher le rapport de l'envoi"
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Re-Send"
@@ -2636,15 +2629,15 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Intended Recipients"
-msgstr ""
+msgstr "Destinataires"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Succesful Deliveries"
-msgstr ""
+msgstr "Courriels livrés sans erreur"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Bounces"
-msgstr ""
+msgstr "Rebondissements"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Forwards"
@@ -2652,32 +2645,31 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Unique Replies"
-msgstr ""
+msgstr "Réponses uniques"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Replies"
-msgstr ""
+msgstr "Réponses"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Unsubscribe Requests"
-msgstr "Se désabonner"
+msgstr "Demandes de désabonnement"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Unique Click-throughs"
-msgstr ""
+msgstr "Clics uniques"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Click-throughs"
-msgstr ""
+msgstr "Clics"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Unique Tracked Opens"
-msgstr ""
+msgstr "Nombre de lectures uniques"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
 msgid "Tracked Opens"
-msgstr ""
+msgstr "Nombre de lectures"
 
 #: CRM/Member/BAO/Membership.php
 msgid ""
@@ -5304,9 +5296,8 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Transaction Date"
-msgstr "No de la transaction"
+msgstr "Date de la transaction"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
@@ -5745,25 +5736,24 @@ msgid "(filled with your contact's token values)"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
-#, fuzzy
 msgid "Preview Mailing"
-msgstr "Charger un mappage"
+msgstr "Aperçu de l'envoi"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Text Version:"
-msgstr ""
+msgstr "Version texte:"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "Text Version"
-msgstr ""
+msgstr "Version texte"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "HTML Version:"
-msgstr ""
+msgstr "Version HTML:"
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "HTML Version"
-msgstr ""
+msgstr "Version HTML"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5779,6 +5769,11 @@ msgid ""
 "and the postal address of your organization. These elements help reduce the "
 "chances of your email being categorized as SPAM."
 msgstr ""
+"Les messages envoyés par CiviCourriel doivent inclure un lien pour se "
+"désabonner de l'envoi, un lien pour se désabonner de tous les envois («opt-"
+"out» complet) et l'adresse postale de votre organisation. Ces éléments "
+"aident à réduire les chances que votre envoi soit bloqué par les filtres "
+"anti-spam."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Help on messages. Opens a new window."
@@ -5812,6 +5807,8 @@ msgstr ""
 msgid ""
 "You may choose to include a pre-configured Header block above your message."
 msgstr ""
+"Vous pouvez choisir d'inclure un bloc d'entête pré-configuré qui sera inséré "
+"avant votre message."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5819,6 +5816,9 @@ msgid ""
 "This is a good place to include the required unsubscribe, opt-out and postal "
 "address tokens."
 msgstr ""
+"Vous pouvez choisir d'inclure un bloc de pied de page pré-configuré qui sera "
+"inséré après votre message. Ceci est un bon endroit pour inclure les liens "
+"nécessaires pour le désabonnement, l'opt-out et l'adresse postale."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5827,12 +5827,18 @@ msgid ""
 "automaticallly re-written to route through your CiviCRM server prior to "
 "redirecting to the target page."
 msgstr ""
+"Comptabilise le nombre de fois qu'un destinataire a cliqué sur chaque lien "
+"du courriel. NOTE: Lorsque cette fonction est activée, chaque lien dans le "
+"corps du message sera automatiquement re-écrit pour que les clics passent à "
+"travers ce CiviCRM avant de rediriger le clic vers la destination finale."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "Track the number of times recipients open this mailing in their email "
 "software."
 msgstr ""
+"Comptabiliser le nombre de fois que les destinataires ont ouvert ce message "
+"dans leur logiciel de courriel."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Responding"
@@ -5843,6 +5849,8 @@ msgid ""
 "If a recipient replies to this mailing, forward the reply to the FROM Email "
 "address specified above."
 msgstr ""
+"Si un destinataire répond à cet envoi, faire le renvoi automatique de la "
+"réponse à l'adresse de courriel de l'émetteur spécifiée ci-dessus."
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5878,9 +5886,8 @@ msgid "cancel"
 msgstr "Annuler"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "New Mailing"
-msgstr "Principales"
+msgstr "Nouvel envoi"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
@@ -5918,7 +5925,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Click-through Summary"
-msgstr ""
+msgstr "Sommaire des clics"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Clicks"
@@ -5934,7 +5941,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Recipients"
-msgstr ""
+msgstr "Destinataires"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Included"
@@ -5954,7 +5961,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Forward replies"
-msgstr ""
+msgstr "Renvoi automatique des réponses"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "On"
@@ -5970,11 +5977,11 @@ msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Open tracking"
-msgstr ""
+msgstr "Suivi des ouvertures"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "URL Click-through tracking"
-msgstr ""
+msgstr "Suivi des clics de URLs"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Content / Components"
