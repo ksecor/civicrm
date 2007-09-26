@@ -175,24 +175,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $mg.group_type = 'Exclude'";
         $mailingGroup->query($excludeSubMailing);
         
-        /* Add all the succesful deliveries of this mailing (but any job/retry)
-         * to the exclude temp table */
-        if (! $includeDelivered ) {
-            $excludeRetry =
-                "INSERT IGNORE INTO X_$job_id (contact_id)
-                        SELECT              $eq.contact_id
-                        FROM                $eq
-                        INNER JOIN          $job
-                                ON          $eq.job_id = $job.id
-                        INNER JOIN          $ed
-                                ON          $eq.id = $ed.event_queue_id
-                        LEFT JOIN           $eb
-                                ON          $eq.id = $eb.event_queue_id
-                        WHERE
-                                            $job.id = {$job_id}
-                            AND             $eb.id IS null";
-            $mailingGroup->query($excludeRetry);
-        }
         $ss =& new CRM_Core_DAO();
         $ss->query(
                 "SELECT             $group.saved_search_id as saved_search_id
@@ -663,53 +645,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 }
             }
         }
-    }
-
-    /**
-     * Generate an event queue for a retry job (ie the contacts who bounced)
-     *
-     * @param int $job_id       The job marked retry
-     * @return object           A DAO loaded with email_id/contact_id results
-     * @access public
-     */
-    public function retryRecipients($job_id) {
-        $eq         =& new CRM_Mailing_Event_BAO_Queue();
-        $job        = CRM_Mailing_BAO_Job::getTableName();
-        $queue      = CRM_Mailing_Event_BAO_Queue::getTableName();
-        $bounce     = CRM_Mailing_Event_BAO_Bounce::getTableName();
-        $delivered  = CRM_Mailing_Event_BAO_Delivered::getTableName();
-        $email      = CRM_Core_BAO_Email::getTableName();
-        $contact    = CRM_Contact_BAO_Contact::getTableName();
-        
-        $query = 
-                "SELECT             $queue.email_id as email_id, 
-                                    $queue.contact_id as contact_id
-                FROM                $queue
-                INNER JOIN          $job
-                        ON          $queue.job_id = $job.id
-                INNER JOIN          $bounce
-                        ON          $bounce.event_queue_id = $queue.id
-                INNER JOIN          $contact
-                        ON          $queue.contact_id = $contact.id
-                INNER JOIN          $email
-                        ON          $queue.email_id = $email.id
-                LEFT JOIN           $queue as queue_d
-                        ON          queue_d.contact_id = $queue.contact_id
-                LEFT JOIN           $delivered
-                        ON          $delivered.event_queue_id = queue_d.id
-                LEFT JOIN           $bounce as bounce_d
-                        ON          bounce_d.event_queue_id = queue_d.id
-                WHERE               
-                                    $job.mailing_id = {$this->id}
-                    AND             $job.id <> $job_id
-                    AND             $contact.do_not_email = 0
-                    AND             $contact.is_opt_out = 0
-                    AND             $email.on_hold = 0
-                    AND             bounce_d.id IS NOT NULL
-                GROUP BY            $queue.email_id";
-
-        $eq->query($query);
-        return $eq;
     }
 
     /**
