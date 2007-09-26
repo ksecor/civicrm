@@ -42,7 +42,7 @@ require_once 'CRM/Core/Page/Basic.php';
  * $Id$
  *
  */
-class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic 
+class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic 
 {
     /**
      * The action links that we need to display for the browse screen
@@ -75,26 +75,26 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
               self::$_links = array(
                                     CRM_Core_Action::UPDATE  => array(
                                                                       'name'  => ts('Edit'),
-                                                                      'url'   => 'civicrm/acl',
+                                                                      'url'   => 'civicrm/acl/basic',
                                                                       'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                       'title' => ts('Edit ACL') 
                                                                       ),
                                     CRM_Core_Action::DISABLE => array(
                                                                       'name'  => ts('Disable'),
-                                                                      'url'   => 'civicrm/acl',
+                                                                      'url'   => 'civicrm/acl/basic',
                                                                       'qs'    => 'reset=1&action=disable&id=%%id%%',
                                                                       'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
                                                                       'title' => ts('Disable ACL') 
                                                                       ),
                                     CRM_Core_Action::ENABLE  => array(
                                                                       'name'  => ts('Enable'),
-                                                                      'url'   => 'civicrm/acl',
+                                                                      'url'   => 'civicrm/acl/basic',
                                                                       'qs'    => 'reset=1&action=enable&id=%%id%%',
                                                                       'title' => ts('Enable ACL') 
                                                                       ),
                                     CRM_Core_Action::DELETE  => array(
                                                                       'name'  => ts('Delete'),
-                                                                      'url'   => 'civicrm/acl',
+                                                                      'url'   => 'civicrm/acl/basic',
                                                                       'qs'    => 'reset=1&action=delete&id=%%id%%',
                                                                       'title' => ts('Delete ACL') 
                                                                       ),
@@ -158,7 +158,7 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
   SELECT *
     FROM civicrm_acl
    WHERE domain_id = %1
-     AND ( object_table IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+     AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
 ORDER BY entity_id
 ";
         $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
@@ -167,43 +167,18 @@ ORDER BY entity_id
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
-        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
-        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
-        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
-
         while ( $dao->fetch( ) ) {
-
             $acl[$dao->id] = array();
             $acl[$dao->id]['name']         = $dao->name;
-            $acl[$dao->id]['operation']    = $dao->operation;
             $acl[$dao->id]['entity_id']    = $dao->entity_id;
             $acl[$dao->id]['entity_table'] = $dao->entity_table;
             $acl[$dao->id]['object_table'] = $dao->object_table;
-            $acl[$dao->id]['object_id'] = $dao->object_bid;
             $acl[$dao->id]['is_active']    = $dao->is_active;
-
 
             if ( $acl[$dao->id]['entity_id'] ) {
                 $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
             } else {
                 $acl[$dao->id]['entity'] = ts( 'Any Role' );
-            }
-
-            switch ( $acl[$dao->id]['object_table'] ) {
-            case 'civicrm_saved_search':
-                $acl[$dao->id]['object'     ] = $group[$acl[$dao->id]['object_id']];
-                $acl[$dao->id]['object_name'] = ts( 'Group' );
-                break;
-
-            case 'civicrm_uf_group':
-                $acl[$dao->id]['object'     ] = $ufGroup[$acl[$dao->id]['object_id']];
-                $acl[$dao->id]['object_name'] = ts( 'Profile' );
-                break;
-
-            case 'civicrm_custom_group':
-                $acl[$dao->id]['object'     ] = $customGroup[$acl[$dao->id]['object_id']];
-                $acl[$dao->id]['object_name'] = ts( 'Custom Group' );
-                break;
             }
 
             // form all action links
@@ -228,7 +203,7 @@ ORDER BY entity_id
      */
     function editForm() 
     {
-        return 'CRM_ACL_Form_ACL';
+        return 'CRM_ACL_Form_ACLBasic';
     }
     
     /**
@@ -238,7 +213,7 @@ ORDER BY entity_id
      */
     function editName() 
     {
-        return 'ACL';
+        return 'Core ACLs';
     }
     
     /**
@@ -248,7 +223,7 @@ ORDER BY entity_id
      */
     function userContext($mode = null) 
     {
-        return 'civicrm/acl';
+        return 'civicrm/acl/basic';
     }
 }
 

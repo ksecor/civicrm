@@ -967,6 +967,9 @@ class CRM_Core_Invoke
         if (  $secondArg == 'entityrole' ) {
             require_once 'CRM/ACL/Page/EntityRole.php';
             $page =& new CRM_ACL_Page_EntityRole( );
+        } else if (  $secondArg == 'basic' ) {
+            require_once 'CRM/ACL/Page/ACLBasic.php';
+            $page =& new CRM_ACL_Page_ACLBasic( );
         } else {
             require_once 'CRM/ACL/Page/ACL.php';
             $page =& new CRM_ACL_Page_ACL( );

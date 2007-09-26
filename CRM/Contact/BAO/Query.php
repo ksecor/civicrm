@@ -386,18 +386,16 @@ class CRM_Contact_BAO_Query {
             if ( in_array( $value[0], array( 'user_sql_from', 'user_sql_where', 'user_sql_tables' ) ) ) {
                 if ( $value[0] == 'user_sql_from' ) {
                     $this->_userInputSQL['from'] = $value[2];
-                    unset( $this->_params[2] );
                 } else if ( $value[0] == 'user_sql_where' ) {
                     $this->_userInputSQL['where'] = $value[2];
-                    unset( $this->_params[2] );
                 } else if ( $value[0] == 'user_sql_tables' ) {
                     $tables = explode(',', trim( $value[2] ) );
-                    unset( $this->_params[2] );
                     $this->_userInputSQL['tables'] = array( );
                     foreach ( $tables as $t ) {
                        $this->_userInputSQL['tables'][$t] = 1;
                     }
                 }
+                unset( $this->_params[$id] );
             }
         }
     }
@@ -873,7 +871,7 @@ class CRM_Contact_BAO_Query {
                 }
             }
         }
-        
+
         return array( $select, $from, $where );
     }
 
