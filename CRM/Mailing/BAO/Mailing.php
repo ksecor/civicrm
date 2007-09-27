@@ -790,6 +790,29 @@ AND civicrm_contact.is_opt_out =0";
 
 
     /**
+     * static wrapper for getting verp and urls
+     *
+     * @param int $job_id           ID of the Job associated with this message
+     * @param int $event_queue_id   ID of the EventQueue
+     * @param string $hash          Hash of the EventQueue
+     * @param string $email         Destination address
+     * @return (reference) array    array ref that hold array refs to the verp info and urls
+     */
+    static function getVerpAndUrls($job_id, $event_queue_id, $hash, $email){
+        // create a skeleton object and set its properties that are required by getVerpAndUrlsAndHeaders()
+        require_once 'CRM/Core/BAO/Domain.php';
+        $config =& CRM_Core_Config::singleton();
+        $bao =& new CRM_Mailing_BAO_Mailing();
+        $bao->domain_id = $config->domainID();
+        $bao->_domain =& CRM_Core_BAO_Domain::getDomainByID($bao->domain_id);
+        $bao->from_name = $bao->from_email = $bao->subject = '';
+
+        // use $bao's instance method to get verp and urls
+        list($verp, $urls, $_) = $bao->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
+        return array($verp, $urls);
+    }
+
+    /**
      * get verp, urls and headers
      *
      * @param int $job_id           ID of the Job associated with this message
@@ -799,7 +822,6 @@ AND civicrm_contact.is_opt_out =0";
      * @return (reference) array    array ref that hold array refs to the verp info, urls, and headers
      * @access private
      */
-
     private function &getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
         $config =& CRM_Core_Config::singleton( );
         /**
