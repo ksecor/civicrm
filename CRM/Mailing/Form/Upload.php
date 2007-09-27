@@ -65,16 +65,15 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $dao->storeValues($dao, $defaults);
 
             if ( $defaults['msg_template_id'] ) {
+                $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
                 $messageTemplate->id = $defaults['msg_template_id'];
                 $messageTemplate->selectAdd( );
-                $messageTemplate->selectAdd( 'msg_title, msg_text, msg_html' );
+                $messageTemplate->selectAdd( 'msg_text, msg_html' );
                 $messageTemplate->find( true );
 
-                $msg = str_replace( array("\n","\r"), ' ',
-                                    $messageTemplate->msg_text."^A". $messageTemplate->msg_title."^A". $messageTemplate->msg_html );
-                $this->assign('template_value',  
-                              array($messageTemplate->msg_title, $msg, $defaults['msg_template_id']));
+                $defaults['text_message'] = $messageTemplate->msg_text;
+                $this->assign('message_html', $messageTemplate->msg_html);
             }
 
             if ( $defaults['body_text'] ) {
@@ -98,7 +97,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $defaults['from_email'] = $domain->email_address;
         $defaults['subject'] = $this->get('name');   
         $defaults['upload_type'] = 1; 
-        $defaults['template' ]  = $defaults['subject'];
+
         return $defaults;
     }
 
@@ -123,20 +122,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $this->addRadio( 'upload_type', ts('I want to'), $options, $attributes, "&nbsp;&nbsp;");
 
-        
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $this->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-        if (! empty( $this->_templates ) ){
+
+        if ( !empty( $this->_templates ) ) {
             $this->assign('templates', true);
-            $attributes = array( 'dojoType'       => 'Select',
-                                 'style'          => 'width: 300px;',
-                                 'autocomplete'   => 'false',
-                                 'onValueChanged' => 'selectValue',
-                                 'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/message',
-                                                                            "d=$domainID" ),
-                                 );
-            
-            $this->add('select', 'template', ts('Select Template'), null, false, $attributes );
+            $this->add('select', 'template', ts('Select Template'),
+                       array( '' => ts( '-select-' ) ) + $this->_templates, false,
+                       array('onChange' => "if (this.value) selectValue( this.value ); else return false") );
             $this->add('checkbox','updateTemplate',ts('Update Template'), null);
         } 
         
@@ -261,12 +254,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $templateIds = array();
                 $templateParams['msg_title'] = $composeParams['saveTemplateName'];
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
-            } elseif ( $composeParams['updateTemplate'] ) { 
+            } 
+            
+            if ( $composeParams['updateTemplate'] ) { 
                 //update the existing template
-                $templateIds = array('messageTemplate' => CRM_Utils_Array::key( $_POST['template_selected'],
-                                                                                $this->_templates ) 
-                                     );
-                $templateParams['msg_title'] = $composeParams['template_selected'];
+                $templateIds = array( 'messageTemplate' => $this->controller->exportvalue($this->_name,
+                                                                                          'template') );
                 $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
             }
             
