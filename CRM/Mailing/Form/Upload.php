@@ -148,12 +148,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'textarea', 
                     'text_message', 
                     ts('Text Message'),
-                    array('cols' => '49', 'rows' => '8','onkeyup' => "return verify(this)"));
+                    array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
 
         $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
         
         $dojoAttributes = array( 'dojoType'             => 'Editor2',
-                                 'style'                => 'height:300px',
+                                 'style'                => 'min-height:250px',
                                  'id'                   => 'html_message',
                                  'htmlEditing'          => 'true',
                                  'useActiveX'           => 'true',

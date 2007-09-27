@@ -6,7 +6,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 </div>
 <div class="form-item">
   <fieldset>
-    <table class="form-layout-compressed">
+    <table class="form-layout">
         <tr><td class="label">{$form.from_email.label}</td>
             <td>{$form.from_name.html}<br /><span class="description">Name</span></td>
             <td>{$form.from_email.html}<br /><span class="description">Email Address</span></td></tr>
@@ -16,7 +16,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-      <dl class="dojoEditor"> 
+    <table class="dojoEditor form-layout-compressed"> 
 	{if $template_value}
 		<script type="text/javascript">
   			dojo.addOnLoad( function( ) {ldelim}
@@ -24,28 +24,31 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 			{rdelim} );
 		</script>
 	{/if} 
-	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
-  	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
-        <dt>{$form.html_message.label}</dt> 
-        <dd>
+	{if $templates}<tr><td class="label">{$form.template.label}</td><td>{$form.template.html}</td></tr>{/if}
+  	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
+    <tr><td colspan="2"><span class="font-size11pt bold">{$form.html_message.label}</span><br /> 
            <div style="position: relative;">
-		<div style="border: 1px solid black; overflow: auto" >
+                <div style="border: 1px solid black; overflow: auto;" >
                    {$form.html_message.html}
                 </div>
            </div>
-        </dd>
-      </dl>  
-    <div id="editMessageDetails" class="form-item">
-      <dl>
-         <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
-         <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
-      </dl>
-    </div>
-     <div id="saveDetails" class="form-item">
-        <dl> 
-          <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
-        </dl>
-      </div>
+        </td>
+    </tr>
+    </table>
+    
+    <table class="form-layout" id="editMessageDetails">
+      <tr>
+         <td>&nbsp;</td><td>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</td>
+      </tr>
+      <tr>
+         <td>&nbsp;</td>
+         <td>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+            <div id="saveDetails" class="form-item">
+                <span class="marker" title="This field is required.">*</span> {$form.saveTemplateName.label} &nbsp; {$form.saveTemplateName.html}
+            </div>
+         </td>
+      <//tr>
+     </table>
   </fieldset>
 
   <fieldset id="upload_id"><legend>{ts}Upload Content{/ts}</legend>
