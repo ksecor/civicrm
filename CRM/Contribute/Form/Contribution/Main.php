@@ -290,6 +290,14 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
+        // radio button for Honor Type
+        $honorOptions = array( );
+        $honor =CRM_Core_PseudoConstant::honor( ); 
+        foreach ($honor as $key => $var) {
+            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+        }
+        $this->addGroup($honorTypes, 'honor_type_id', null);
+        
         // prefix
         $this->addElement('select', 'honor_prefix_id', ts('Honoree Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         // first_name
@@ -579,7 +587,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
-        }         
+        }      
     }
     
 }

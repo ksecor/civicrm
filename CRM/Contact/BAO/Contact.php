@@ -545,7 +545,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
         }
 
-        CRM_Core_DAO::transaction( 'BEGIN' ); 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         if ( ! array_key_exists( 'contact_type', $params ) ) {
             $params['contact_type'] = 'Individual';
@@ -554,9 +555,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $params['contact_id'] = $contact->id;
 
-        require_once "CRM/Contact/BAO/{$params['contact_type']}.php";
-        eval( 'CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
-
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::add( $params, $ids );
         require_once 'CRM/Core/BAO/LocationType.php';
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
@@ -569,7 +569,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 break;
             }
         }
-            
+        
         $location =& new CRM_Core_DAO_Location( );
         $location->id = CRM_Utils_Array::value( 'id', $locationIds );
         $location->entity_table = 'civicrm_contact';
@@ -581,8 +581,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             $location->location_type_id = $locationTypeId;
         }
         $location->save( );
-       
-        
+              
         $address =& new CRM_Core_BAO_Address();
         CRM_Core_BAO_Address::fixAddress( $params );
         
@@ -656,7 +655,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             }
         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' ); 
+       $transaction->commit( );
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
