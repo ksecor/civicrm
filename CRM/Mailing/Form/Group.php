@@ -99,8 +99,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
-        $this->addRule('name', ts('This mailing name has already been used. Please pick a unique name for the mailing.'),
-                       'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
         $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
