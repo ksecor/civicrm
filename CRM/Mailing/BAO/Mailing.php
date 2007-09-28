@@ -396,28 +396,29 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      * 
      **/
-    private function &getPatterns($onlyHrefs = false){
-    
-      $patterns = array();
-    
-      $protos = '(https?|ftp)';
-      $letters = '\w';
-      $gunk = '\{\}/#~:.?+=&%@!\-';
-      $punc = '.:?\-';
-      $any = "{$letters}{$gunk}{$punc}";
-      if ( $onlyHrefs ) {
-          $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))([\"'])?";
-      } else {
-          $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
-      }
-    
-      $patterns[] = $pattern;
-      $patterns[] = '\\\\\{\w+\.\w+\\\\\}|\{\{\w+\.\w+\}\}';
-      $patterns[] = '\{\w+\.\w+\}';
-    
-      $patterns = '{'.join('|',$patterns).'}im';
-    
-      return $patterns;
+    private function &getPatterns($onlyHrefs = false) 
+    {
+        
+        $patterns = array();
+        
+        $protos = '(https?|ftp)';
+        $letters = '\w';
+        $gunk = '\{\}/#~:.?+=&%@!\-';
+        $punc = '.:?\-';
+        $any = "{$letters}{$gunk}{$punc}";
+        if ( $onlyHrefs ) {
+            $pattern = "\\bhref[ ]*=[ ]*([\"'])?(($protos:[$any]+?(?=[$punc]*[^$any]|$)))([\"'])?";
+        } else {
+            $pattern = "\\b($protos:[$any]+?(?=[$punc]*[^$any]|$))";
+        }
+        
+        $patterns[] = $pattern;
+        $patterns[] = '\\\\\{\w+\.\w+\\\\\}|\{\{\w+\.\w+\}\}';
+        $patterns[] = '\{\w+\.\w+\}';
+        
+        $patterns = '{'.join('|',$patterns).'}im';
+        
+        return $patterns;
     }
 
     /**
@@ -431,51 +432,51 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      *                             if we need to do a lookup at all
      */
 
-    function &getDataFunc($token){
-      $funcStruct = array('type' => null,'token' => $token);
-      $matches = array();
-      if(preg_match('/^http/i',$token) && $this->url_tracking){
-        // it is a url so we need to check to see if there are any tokens embedded
-        // if so then call this function again to get the token dataFunc
-        // and assign the type 'embedded'  so that the data retrieving function
-        // will know what how to handle this token.
-        if(preg_match('/(\{\w+\.\w+\})/', $token, $matches) ){
-          $funcStruct['type'] = 'embedded_url';
-          $preg_token = '/'.preg_quote($matches[1],'/').'/';
-          $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
-          $funcStruct['token'] = $this->getDataFunc($matches[1]);
-        } else {
-          $funcStruct['type'] = 'url';
+    function &getDataFunc($token) 
+    {
+        $funcStruct = array('type' => null,'token' => $token);
+        $matches = array();
+        if ( preg_match('/^http/i',$token) && $this->url_tracking ) {
+            // it is a url so we need to check to see if there are any tokens embedded
+            // if so then call this function again to get the token dataFunc
+            // and assign the type 'embedded'  so that the data retrieving function
+            // will know what how to handle this token.
+            if ( preg_match('/(\{\w+\.\w+\})/', $token, $matches) ) {
+                $funcStruct['type'] = 'embedded_url';
+                $preg_token = '/'.preg_quote($matches[1],'/').'/';
+                $funcStruct['embed_parts'] = preg_split($preg_token,$token,2);
+                $funcStruct['token'] = $this->getDataFunc($matches[1]);
+            } else {
+                $funcStruct['type'] = 'url';
+            }
+            
+        } else if ( preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches) ) {
+
+            $funcStruct['type'] = $matches[1];
+            $funcStruct['token'] = $matches[2];
+            
+        } else if ( preg_match('/^\{(action)\.(\w+)\}$/',$token, $matches) ) {
+          
+            $funcStruct['type'] = $matches[1];
+            $funcStruct['token'] = $matches[2];
+            
+        } else if ( preg_match('/^\{(mailing)\.(\w+)\}$/',$token,$matches) ) {
+            
+            $funcStruct['type'] = $matches[1];
+            $funcStruct['token'] = $matches[2];
+            
+        } else if ( preg_match('/^\{(contact)\.(\w+)\}$/',$token, $matches) ) {
+            
+            $funcStruct['type'] = $matches[1];
+            $funcStruct['token'] = $matches[2];
+            
+        } else if(preg_match('/\\\\\{(\w+\.\w+)\\\\\}|\{\{(\w+\.\w+)\}\}/', $token, $matches) ) {
+            // we are an escaped token
+            // so remove the escape chars
+            $unescaped_token = preg_replace('/\{\{|\}\}|\\\\\{|\\\\\}/','',$matches[0]);
+            $funcStruct['token'] = '{'.$unescaped_token.'}';
         }
-
-      } else if(preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches)){
-
-        $funcStruct['type'] = $matches[1];
-        $funcStruct['token'] = $matches[2];
-
-      } else if(preg_match('/^\{(action)\.(\w+)\}$/',$token, $matches)){
-    
-        $funcStruct['type'] = $matches[1];
-        $funcStruct['token'] = $matches[2];
-
-      } else if(preg_match('/^\{(mailing)\.(\w+)\}$/',$token,$matches)){
-    
-        $funcStruct['type'] = $matches[1];
-        $funcStruct['token'] = $matches[2];
-
-      } else if(preg_match('/^\{(contact)\.(\w+)\}$/',$token, $matches)){
-    
-        $funcStruct['type'] = $matches[1];
-        $funcStruct['token'] = $matches[2];
-
-      } else if(preg_match('/\\\\\{(\w+\.\w+)\\\\\}|\{\{(\w+\.\w+)\}\}/', $token, $matches)){
-        // we are an escaped token
-        // so remove the escape chars
-        $unescaped_token = preg_replace('/\{\{|\}\}|\\\\\{|\\\\\}/','',$matches[0]);
-        $funcStruct['token'] = '{'.$unescaped_token.'}';
-
-      }
-      return $funcStruct;
+        return $funcStruct;
     }
 
     /**
@@ -487,41 +488,42 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      * 
      **/
-    private function getPreparedTemplates(){
-      if(!$this->preparedTemplates){
-        $patterns['html'] = $this->getPatterns(true);
-        $patterns['text'] = $this->getPatterns();
-        $templates = $this->getTemplates();
-  
-        $this->preparedTemplates = array();
-  
-        foreach(array('html','text') as $key){
-            if(!isset($templates[$key])){
-              continue;
-            }
+    private function getPreparedTemplates( )
+    {
+        if ( !$this->preparedTemplates ) {
+            $patterns['html'] = $this->getPatterns(true);
+            $patterns['text'] = $this->getPatterns();
+            $templates = $this->getTemplates();
             
-            $matches = array();
-            $tokens = array();
-            $split_template = array();
-  
-            $email = $templates[$key];
-            preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
-            foreach($matches[0] as $idx => $token){
-              if(preg_match('/^href/i',$token)){
-                $token = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$token);
-              }
-              $preg_token = '/'.preg_quote($token,'/').'/im';
-              list($split_template[],$email) = preg_split($preg_token,$email,2);
-              array_push($tokens, $this->getDataFunc($token));
+            $this->preparedTemplates = array();
+            
+            foreach (array('html','text') as $key) {
+                if (!isset($templates[$key])) {
+                    continue;
+                }
+                
+                $matches = array();
+                $tokens = array();
+                $split_template = array();
+                
+                $email = $templates[$key];
+                preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
+                foreach ($matches[0] as $idx => $token) {
+                    if (preg_match('/^href/i',$token)) {
+                        $token = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$token);
+                    }
+                    $preg_token = '/'.preg_quote($token,'/').'/im';
+                    list($split_template[],$email) = preg_split($preg_token,$email,2);
+                    array_push($tokens, $this->getDataFunc($token));
+                }
+                if ($email) {
+                    $split_template[] = $email;
+                }
+                $this->preparedTemplates[$key]['template'] = $split_template;
+                $this->preparedTemplates[$key]['tokens'] = $tokens;
             }
-            if($email){
-               $split_template[] = $email;
-            }
-            $this->preparedTemplates[$key]['template'] = $split_template;
-            $this->preparedTemplates[$key]['tokens'] = $tokens;
         }
-      }
-      return($this->preparedTemplates);
+        return($this->preparedTemplates);
     }
 
     /**
@@ -535,48 +537,54 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      * 
      **/
-
-    private function &getTemplates(){
-
+    private function &getTemplates( )
+    {
         require_once('CRM/Utils/String.php');
-        if(!$this->templates){
-
+        if (!$this->templates) {
+            
           $this->templates = array(  );
-  
-          if( $this->body_text ){
+          
+          if ( $this->body_text ) {
               $template = array();
               if ( $this->header ) {
                   $template[] = $this->header->body_text;
               }
+
               $template[] = $this->body_text;
+              
               if ( $this->footer ) {
                   $template[] = $this->footer->body_text;
               }
+
               $this->templates['text'] = join("\n",$template);
           }
 
-          if($this->body_html){
-  
+          if ( $this->body_html ) {
+              
               $template = array();
               if ( $this->header ) {
                   $template[] = $this->header->body_html;
               }
+
               $template[] = $this->body_html;
+
               if ( $this->footer ) {
                   $template[] = $this->footer->body_html;
               }
+              
               $this->templates['html'] = join("\n",$template);
     
               // this is where we create a text tepalte from the html template if the texttempalte did not exist
               // this way we ensure that every recipient will receive n email even if the pref is set to text and the
               // user uploads an html email only
-              if (!$this->body_text) {
-                $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
+              if ( !$this->body_text ) {
+                  $this->templates['text'] = CRM_Utils_String::htmlToText( $this->templates['html'] );
               }
           }
       }
       return $this->templates;    
     }
+
     /**
      * 
      *  Retrieve a ref to an array that holds all of the tokens in the email body
@@ -593,21 +601,22 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access public
      * 
      **/
-    public function &getTokens(){
-      if(!$this->tokens){
-
-        $this->tokens = array( 'html' => array(), 'text' => array() );
-  
-        if($this->body_html){
-            $this->_getTokens('html');
+    public function &getTokens( ) 
+    {
+        if (!$this->tokens) {
+            
+            $this->tokens = array( 'html' => array(), 'text' => array() );
+            
+            if ($this->body_html) {
+                $this->_getTokens('html');
+            }
+            
+            if ($this->body_text) {
+                $this->_getTokens('text');
+            }
+            
         }
-
-        if($this->body_text){
-            $this->_getTokens('text');
-        }
-
-      }
-      return $this->tokens;      
+        return $this->tokens;      
     }
     
     /**
@@ -626,7 +635,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @return void
      */
 
-    private function _getTokens( $prop ) {
+    private function _getTokens( $prop ) 
+    {
         $templates = $this->getTemplates();
         $matches = array();
         preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
@@ -915,17 +925,21 @@ AND civicrm_contact.is_opt_out =0";
 
         foreach( $pTemplates as $type => $pTemplate ) {
             $html = ($type == 'html') ? true : false;
-            $pEmails[$type] = array();
+            $pEmails[$type] = array( );
             $pEmail   =& $pEmails[$type];
             $template =& $pTemplates[$type]['template'];
             $tokens   =& $pTemplates[$type]['tokens'];
             $idx = 0;
-            foreach ($tokens as $idx => $token) {
-                $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
-                array_push($pEmail,$template[$idx]);
-                array_push($pEmail,$token_data);
+            if ( !empty( $tokens ) ) { 
+                foreach ($tokens as $idx => $token) {
+                    $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
+                    array_push($pEmail, $template[$idx]);
+                    array_push($pEmail, $token_data);
+                }
+            } else {
+                array_push($pEmail, $template[$idx]);
             }
-            array_push($pEmail,$template[($idx + 1)]);
+            array_push($pEmail, $template[($idx + 1)]);
         }
 
         $html = null;
@@ -934,7 +948,7 @@ AND civicrm_contact.is_opt_out =0";
         }
         
         $text = null;
-        if( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
+        if ( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
         }
         
