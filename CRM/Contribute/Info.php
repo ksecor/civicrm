@@ -43,11 +43,13 @@ class CRM_Contribute_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return  array( 'title'   => 'CiviCRM Contribution Engine',
-                       'url'     => 'contribute',
-                       'perm'    => array( 'access CiviContribute',
-                                           'edit contributions',
-                                           'make online contributions' ),
+        return  array( 'name'	        => 'CiviContribute',
+                       'translatedName' => ts('CiviContribute'),
+                       'title'          => ts('CiviCRM Contribution Engine'),
+                       'url'            => 'contribute',
+                       'perm'           => array( 'access CiviContribute',
+                                                  'edit contributions',
+                                                  'make online contributions' ),
                        'search'  => 1 );        
     }
 

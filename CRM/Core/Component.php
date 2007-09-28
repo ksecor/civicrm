@@ -44,39 +44,19 @@ class CRM_Core_Component
      */
     const COMPONENT_INFO_CLASS = 'Info';
 
-    /*
-     * End part (filename) of the component invocation class'es name 
-     * that needs to be present in components main directory.
-     */
-    const COMPONENT_INVOKE_CLASS = 'Invoke';
-    
-    
-    /*
-     * End part (filename) of the component menu definition class'es name
-     * that needs to be present in components main directory.
-     */
-    const COMPONENT_MENU_CLASS = 'Menu';    
-
     private static $_info = null;
 
     static $_contactSubTypes = null;
 
-    private function &info( ) {
+    private function &_info( ) {
         if( self::$_info == null ) {
             self::$_info = array( );
 
             $config =& CRM_Core_Config::singleton( );
-
-            require_once 'CRM/Core/DAO/Component.php';
-            $cr =& new CRM_Core_DAO_Component();
-            $cr->find( false );
-            while ( $cr->fetch( ) ) {
-                if( in_array( $cr->name, $config->enableComponents ) ) {
-                    $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
-                    require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
-                    $infoObject = new $infoClass( $cr->name, $cr->namespace );
-                    self::$_info[$cr->name] = $infoObject;
-                    unset( $infoObject );
+            $c = self::getComponents();
+            foreach( $c as $name => $comp ) {
+                if( in_array( $name, $config->enableComponents ) ) {
+                    self::$_info[$name] = $comp;
                 }
             }
         }
@@ -85,42 +65,60 @@ class CRM_Core_Component
 
     static function get( $name, $attribute = null) 
     {
-        $info =& self::info( );
-
-        $comp = CRM_Utils_Array::value( $name, $info );
+        $comp = CRM_Utils_Array::value( $name, $this->_info() );
         if( $attribute ) {
             return CRM_Utils_Array::value( $attribute, $comp );
         }
         return $comp;
     }
 
+    public function getComponents( )
+    {
+        $ret = array( );
+
+        require_once 'CRM/Core/DAO/Component.php';
+        $cr =& new CRM_Core_DAO_Component();
+        $cr->find( false );
+        while ( $cr->fetch( ) ) {
+            $infoClass = $cr->namespace . '_' . self::COMPONENT_INFO_CLASS;
+            require_once( str_replace( '_', DIRECTORY_SEPARATOR, $infoClass ) . '.php' );
+            $infoObject = new $infoClass( $cr->name, $cr->namespace );
+            if( $infoObject->info['name'] !== $cr->name ) {
+                CRM_Core_Error::fatal( "There is a discrepancy between name in component registry and in info file ({$cr->name})." );
+            }
+            $ret[$cr->name] = $infoObject;
+            unset( $infoObject );
+        }
+        return $ret;
+    }
+
     static function invoke( &$args, $type ) 
     {
-        $info =& self::info( );
+        $info =& self::_info( );
         $config =& CRM_Core_Config::singleton( );
 
         $firstArg  = CRM_Utils_Array::value( 1, $args, '' ); 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
-        foreach( $info as $name => $object ) {
-            if( $object->info['url'] === $firstArg || $object->info['url'] === $secondArg ) {
+        foreach( $info as $name => $comp ) {
+            if( $comp->info['url'] === $firstArg || $comp->info['url'] === $secondArg ) {
                 
                 if( $type == 'main' ) {
                     // also set the smarty variables to the current component
                     $template =& CRM_Core_Smarty::singleton( );
                     $template->assign( 'activeComponent', $name );
-                    if( CRM_Utils_Array::value( 'metaTpl', $object->info[$name] ) ) {
-                        $template->assign( 'metaTpl', $object->info[$name]['metaTpl'] );
+                    if( CRM_Utils_Array::value( 'metaTpl', $comp->info[$name] ) ) {
+                        $template->assign( 'metaTpl', $comp->info[$name]['metaTpl'] );
                     }
-                    if( CRM_Utils_Array::value( 'formTpl', $object->info[$name] ) ) {
-                        $template->assign( 'formTpl', $object->info[$name]['formTpl'] );
+                    if( CRM_Utils_Array::value( 'formTpl', $comp->info[$name] ) ) {
+                        $template->assign( 'formTpl', $comp->info[$name]['formTpl'] );
                     }
-                    if( CRM_Utils_Array::value( 'css', $object->info[$name] ) ) {
+                    if( CRM_Utils_Array::value( 'css', $comp->info[$name] ) ) {
                         $styleSheets = '<style type="text/css">@import url(' . 
-                                       "{$config->resourceBase}css/{$object->info[$name]['css']});</style>";
+                                       "{$config->resourceBase}css/{$comp->info[$name]['css']});</style>";
                         CRM_Utils_System::addHTMLHead( $styleSheet );
                     }
                 }
-                $inv =& $object->getInvokeObject();
+                $inv =& $comp->getInvokeObject();
                 $inv->$type( $args );
                 return true;
             }
@@ -130,11 +128,10 @@ class CRM_Core_Component
 
     static function &menu( $permissioned = false, $task = null ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
         $items = array( );
-        foreach( $info as $name => $object ) {
-            $mnu =& $object->getMenuObject( );
+        foreach( $info as $name => $comp ) {
+            $mnu =& $comp->getMenuObject( );
             if( $permissioned ) {
                 $ret = $mnu->permissioned( );
             } else {
@@ -147,10 +144,10 @@ class CRM_Core_Component
 
     static function addConfig( &$config, $oldMode = false ) 
     {
-        $info =& self::info( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            $cfg =& $object->getConfigObject( );
+        foreach( $info as $name => $comp ) {
+            $cfg =& $comp->getConfigObject( );
             $cfg->add( $config, $oldMode );
         }
         return;
@@ -158,12 +155,11 @@ class CRM_Core_Component
 
     static function &getQueryFields( ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
         $fields = array( );
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $flds =& $bqr->getFields( );
                 $fields = array_merge( $fields, $flds );
             }
@@ -173,12 +169,11 @@ class CRM_Core_Component
 
     static function alterQuery( &$query, $fnName ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $bqr->$fnName( $query );
             }
         }
@@ -186,13 +181,12 @@ class CRM_Core_Component
 
     static function from( $fieldName, $mode, $side ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
         $from = null;
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $from = $bqr->from( $fieldName, $mode, $side );
                 if( $from ) {
                     return $from;
@@ -204,12 +198,12 @@ class CRM_Core_Component
 
     static function &defaultReturnProperties( $mode ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
+
         $properties = null;
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $properties =& $bqr->defaultReturnProperties( $mode );
                 if( $properties ) {
                     return $properties;
@@ -221,12 +215,11 @@ class CRM_Core_Component
 
     static function &buildSearchForm( &$form ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $bqr->buildSearchForm( $form );
             }
         }
@@ -234,12 +227,11 @@ class CRM_Core_Component
 
     static function &addShowHide( &$showHide ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $bqr->addShowHide( $showHide );
             }
         }
@@ -247,12 +239,11 @@ class CRM_Core_Component
 
     static function searchAction( &$row, $id ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $bqr->searchAction( $row, $id );
             }
         }
@@ -292,13 +283,11 @@ class CRM_Core_Component
 
     static function &taskList( ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
-
+        $info =& self::_info( );
+        
         $tasks = array( );
         foreach( $info as $name => $value ) {
-            if( in_array( $name, $config->enableComponents ) && 
-                 CRM_Utils_Array::value( 'task', $info[$name] ) ) {
+            if( CRM_Utils_Array::value( 'task', $info[$name] ) ) {
                 $tasks += $info[$name]['task'];
             }
         }
@@ -316,12 +305,11 @@ class CRM_Core_Component
      */
     static function tableNames( &$tables ) 
     {
-        $info =& self::info( );
-        $config =& CRM_Core_Config::singleton( );
+        $info =& self::_info( );
 
-        foreach( $info as $name => $object ) {
-            if( $object->info['search'] ) {
-                $bqr =& $object->getBAOQueryObject( );
+        foreach( $info as $name => $comp ) {
+            if( $comp->usesSearch( ) ) {
+                $bqr =& $comp->getBAOQueryObject( );
                 $bqr->tableNames( $tables );
             }
         }

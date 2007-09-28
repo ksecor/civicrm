@@ -43,10 +43,12 @@ class CRM_Mailing_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return array( 'title'   => 'CiviCRM Mailing Engine',
-                      'url'     => 'mailing',
-                      'perm'    => array( 'access CiviMail', 'access CiviMail subscribe/unsubscribe pages' ),
-                      'search'  => 0 );
+        return array( 'name'           => 'CiviMail',
+                      'translatedName' => ts('CiviMail'),
+                      'title'          => 'CiviCRM Mailing Engine',
+                      'url'            => 'mailing',
+                      'perm'           => array( 'access CiviMail', 'access CiviMail subscribe/unsubscribe pages' ),
+                      'search'         => 0 );
     }
     
     // docs inherited from interface    

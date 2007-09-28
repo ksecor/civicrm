@@ -43,12 +43,14 @@ class CRM_Event_Info extends CRM_Core_Component_Info
     // docs inherited from interface
     public function getInfo()
     {
-        return array( 'title'   => ts('CiviCRM Event Engine'),
-                      'url'     => 'event',
-                      'perm'    => array( 'access CiviEvent',
-                                          'edit event participants',
-                                          'register for events' ),
-                      'search'  => 1 );
+        return array( 'name'	       => 'CiviEvent',
+                      'translatedName' => ts('CiviEvent'),
+                      'title'          => ts('CiviCRM Event Engine'),
+                      'url'            => 'event',
+                      'perm'           => array( 'access CiviEvent',
+                                                 'edit event participants',
+                                                 'register for events' ),
+                      'search'         => 1 );
     }
     
     // docs inherited from interface    

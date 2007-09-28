@@ -158,6 +158,18 @@ abstract class CRM_Core_Component_Info
     }
 
     /**
+     * Provides information whether given component uses system wide search.
+     * 
+     * @return boolean true if component needs search integration
+     * @access public
+     *
+     */
+    public function usesSearch( )
+    {
+        return $this->info['search'] ? true : false;
+    }
+
+    /**
      * Helper for instantiating component's elements.
      * 
      * @return mixed component's element as class instance
