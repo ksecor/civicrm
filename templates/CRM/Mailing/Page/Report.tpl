@@ -2,7 +2,7 @@
 <legend>{ts}Delivery Summary{/ts}</legend>
 {if $report.jobs.0.start_date}
   {strip}
-  <table class="form-layout">
+  <table class="form-layout-compressed">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
   <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
@@ -100,19 +100,24 @@
 <table class="form-layout-compressed">
 {if $report.mailing.body_text}
 <tr>
-  <td class="label">{ts}Text Body{/ts}<br />
-    <small><a href='{$textViewURL}'>{ts}View Text Body{/ts}</a></small>
+  <td class="label nowrap">{ts}Text Message{/ts}</td>
+  <td>
+    {$report.mailing.body_text|truncate:30|escape|nl2br}
+    <br />
+    <strong><a href='{$textViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
   </td>
-  <td class="report">{$report.mailing.body_text|escape|nl2br}</td>
 </tr>
 {/if}
 
 {if $report.mailing.body_html}
 <tr>
-  <td class="label">{ts}HTML Body{/ts}<br/>
-    <small><a href='{$htmlViewURL}'>{ts}View HTML Body{/ts}</a></small>
+  <td class="label nowrap">{ts}HTML Message{/ts}</td>
+  <td>
+    {$report.mailing.body_html|truncate:30|escape|nl2br}
+    <br/>
+    <strong><a href='{$htmlViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
   </td>
-  <td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
+</tr>
 {/if}
 
 {foreach from=$report.component item=component}
