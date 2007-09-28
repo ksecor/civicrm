@@ -913,66 +913,64 @@ AND civicrm_contact.is_opt_out =0";
         $pTemplates = $this->getPreparedTemplates();
         $pEmails = array( );
 
-        foreach( $pTemplates as $type => $pTemplate ){
-          $html = ($type == 'html') ? true : false;
-          $pEmails[$type] = array();
-          $pEmail   =& $pEmails[$type];
-          $template =& $pTemplates[$type]['template'];
-          $tokens   =& $pTemplates[$type]['tokens'];
-          $idx = 0;
-          foreach($tokens as $idx => $token){
-            $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
-            array_push($pEmail,$template[$idx]);
-            array_push($pEmail,$token_data);
-          }
-          array_push($pEmail,$template[($idx + 1)]);
+        foreach( $pTemplates as $type => $pTemplate ) {
+            $html = ($type == 'html') ? true : false;
+            $pEmails[$type] = array();
+            $pEmail   =& $pEmails[$type];
+            $template =& $pTemplates[$type]['template'];
+            $tokens   =& $pTemplates[$type]['tokens'];
+            $idx = 0;
+            foreach ($tokens as $idx => $token) {
+                $token_data = $this->getTokenData($token, $html, $contact, $verp, $urls, $event_queue_id);
+                array_push($pEmail,$template[$idx]);
+                array_push($pEmail,$token_data);
+            }
+            array_push($pEmail,$template[($idx + 1)]);
         }
 
         $html = null;
-        if( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ){
-           $html = &$pEmails['html'];
+        if ( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
+            $html = &$pEmails['html'];
         }
-
-
+        
         $text = null;
         if( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
-           $text = &$pEmails['text'];
+            $text = &$pEmails['text'];
         }
-
+        
         // push the tracking url on to the html email if necessary
         if ($this->open_tracking && $html ) {
             array_push($html,"\n".'<img src="' . $config->userFrameworkResourceURL . 
-            "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>");
+                       "extern/open.php?q=$event_queue_id\" width='1' height='1' alt='' border='0'>");
         }
         
         $message =& new Mail_Mime("\n");
-
+        
         if ($text && ( $test || $contact['preferred_mail_format'] == 'Text' ||
-            $contact['preferred_mail_format'] == 'Both' ||
-            ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) ) 
-        {
-          $message->setTxtBody( join( '', $text ) );
+                       $contact['preferred_mail_format'] == 'Both' ||
+                       ( $contact['preferred_mail_format'] == 'HTML' && !array_key_exists('html',$pEmails) ) ) ) {
+            $message->setTxtBody( join( '', $text ) );
         }
-
+        
         if ( $html && ( $test ||  ( $contact['preferred_mail_format'] == 'HTML' ||
-            $contact['preferred_mail_format'] == 'Both') ) )
-        {
-          $message->setHTMLBody( join( '', $html ) );
+                                    $contact['preferred_mail_format'] == 'Both') ) ) {
+            $message->setHTMLBody( join( '', $html ) );
         }
         
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
-
+        
         $mailMimeParams = array(
-            'text_encoding' => '8bit',
-            'html_encoding' => '8bit',
-            'head_charset'  => 'utf-8',
-            'text_charset'  => 'utf-8',
-            'html_charset'  => 'utf-8',
-            );
+                                'text_encoding' => '8bit',
+                                'html_encoding' => '8bit',
+                                'head_charset'  => 'utf-8',
+                                'text_charset'  => 'utf-8',
+                                'html_charset'  => 'utf-8',
+                                );
+        
         $message->get($mailMimeParams);
         $message->headers($headers);
-
+        
         // make sure we unset a lot of stuff
         unset( $verp );
         unset( $urls );
@@ -983,43 +981,33 @@ AND civicrm_contact.is_opt_out =0";
         return $message;
     }
 
-
     /**
      *
      *  getTokenData receives a token from an email
      *  and returns the appropriate data for the token
      *
      */
-
-    private function getTokenData(&$token_a, $html = false, &$contact, &$verp, &$urls, $event_queue_id){
+    private function getTokenData(&$token_a, $html = false, &$contact, &$verp, &$urls, $event_queue_id)
+    {
         $type = $token_a['type'];
         $token = $token_a['token'];
         $data = $token;
 
-        if($type == 'embedded_url'){
-          $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
-          $url = join($token_a['embed_parts'],$embed_data);
-          $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
-
-        } else if($type == 'url'){
-          $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
-
-        } else if($type == 'mailing'){
-
+        if ($type == 'embedded_url') {
+            $embed_data = $this->getTokenData($token, $html = false, $contact, $verp, $urls, $event_queue_id);
+            $url = join($token_a['embed_parts'],$embed_data);
+            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($url, $this->id, $event_queue_id);
+            
+        } else if ( $type == 'url' ) {
+            $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
+        } else if ( $type == 'mailing' ) {
           $data = CRM_Utils_Token::getMailingTokenReplacement($token, $this);
-
-        } else if($type == 'contact'){
-
+        } else if ( $type == 'contact' ) {
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
-
-        } else if($type == 'action'){
-
+        } else if ( $type == 'action' ) {
           $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
-
-        } else if($type == 'domain'){
-
+        } else if ( $type == 'domain' ) {
           $data = CRM_Utils_Token::getDomainTokenReplacement($token, $this->_domain, $html);         
-
         }
         return $data;
     }
