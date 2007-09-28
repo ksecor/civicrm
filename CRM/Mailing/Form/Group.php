@@ -64,7 +64,8 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
         $defaults = array( );
         if ( $mailingID ) {
-            $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
+            $defaults["name"] = 
+                "Copy of " . CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
 
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
