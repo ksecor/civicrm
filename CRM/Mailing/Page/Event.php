@@ -71,10 +71,13 @@ class CRM_Mailing_Page_Event extends CRM_Core_Page {
                       CRM_Utils_Request::retrieve('uid', 'Positive', 
                                                   $this)
                       );
+       
+        $mailing_id = CRM_Utils_Request::retrieve('mid', 'Positive', $this);
         
         CRM_Utils_System::setTitle($selector->getTitle());
         $this->assign('title',$selector->getTitle());
-
+        $this->assign('mailing_id',$mailing_id);
+        
         $controller =& new CRM_Core_Selector_Controller(
                         $selector ,
                         $this->get( CRM_Utils_Pager::PAGE_ID ),
