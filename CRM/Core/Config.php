@@ -1067,8 +1067,6 @@ class CRM_Core_Config
         require_once 'CRM/Core/Component.php';
         $this->componentRegistry =& new CRM_Core_Component();
         $this->componentRegistry->addConfig( $this );
-        
-	CRM_Core_Error::debug('this', $this );
     }
 
     function addressSequence( ) {

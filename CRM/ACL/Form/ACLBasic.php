@@ -62,6 +62,19 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
                       'access CiviCRM'             => ts( 'access CiviCRM' ),
                       'access Contact Dashboard'   => ts( 'access Contact Dashboard' ),
                      );
+           asort( $this->_basicPermissions );
+
+           $config = CRM_Core_Config::singleton( );
+           require_once 'CRM/Core/Component.php';
+           foreach ( $config->enableComponents as $comp ) {
+               $perm = CRM_Core_Component::get( $comp, 'perm' );
+               if ( $perm ) {
+                   sort( $perm );
+                   foreach ( $perm as $p ) {
+                      $this->_basicPermissions[$p] = $p;
+                   }
+               }
+           }
        }
        return $this->_basicPermissions;
     }
@@ -73,7 +86,26 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
      * @return None
      */
     function setDefaultValues( ) {
-        $defaults = parent::setDefaultValues( );
+        $defaults = array( );
+
+	if ( $this->_id ) {
+            $defaults['entity_id'] = $this->_id;
+
+            $query = "
+SELECT object_table
+  FROM civicrm_acl
+ WHERE domain_id = %1
+   AND entity_id = %2
+   AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+";
+            $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ),
+                             2 => array( $this->_id                  , 'Integer' ) );
+            $dao    = CRM_Core_DAO::executeQuery( $query, $params );
+            $defaults['object_table'] = array( );
+            while ( $dao->fetch( ) ) {
+                $defaults['object_table'][$dao->object_table] = 1;
+            }
+        }
         
         return $defaults;
     }
@@ -93,25 +125,11 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
             return;
         }
 
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL' );
-
-        $this->add('text', 'name', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_ACL', 'name' ), true );
-
-	if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->add( 'select',
-                        'object_table',
-                        ts('ACL Type'),
-                        $this->basicPermissions( ),
-                        true );
-        } else {
-            $this->addCheckBox( 'object_table',
-                                ts('ACL Type'),
-                                $this->basicPermissions( ),
-                                null, null, true, null,
-                                array( '&nbsp;&nbsp;&nbsp;',
-                                       '&nbsp;&nbsp;&nbsp;',
-                                       '<br />' ) );
-        }
+        $this->addCheckBox( 'object_table',
+                            ts('ACL Type'),
+                            $this->basicPermissions( ),
+                            null, null, true, null,
+                            array( '<br />' ) );
 
         require_once 'CRM/Core/OptionGroup.php';
 
@@ -119,8 +137,11 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
         $role = array( '-1' => ts(' -select role- '),
                        '0'  => ts( 'Everyone' ) ) +
         CRM_Core_OptionGroup::values( 'acl_role' );
-        $this->add( 'select', 'entity_id', $label, $role, true );
+        $entityID =& $this->add( 'select', 'entity_id', $label, $role, true );
 
+        if ( $this->_id ) {
+            $entityID->freeze( );
+        }
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 
         $this->addFormRule( array( 'CRM_ACL_Form_ACLBasic', 'formRule' ) );
@@ -139,30 +160,42 @@ class CRM_ACL_Form_ACLBasic extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
+
         require_once 'CRM/ACL/BAO/ACL.php';
+        $params = $this->controller->exportValues( $this->_name );
 
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
-            CRM_ACL_BAO_ACL::del($this->_id);
-            CRM_Core_Session::setStatus( ts('Selected ACL has been deleted.') );
-        } else {
-            $params = $this->controller->exportValues( $this->_name );
+        if ( $this->_id ) {
+            $query = "
+DELETE
+  FROM civicrm_acl
+ WHERE domain_id = %1
+   AND entity_id = %2
+   AND ( object_table NOT IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+";
+            $deleteParams = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ),
+                                   2 => array( $this->_id                  , 'Integer' ) );
+            $dao          = CRM_Core_DAO::executeQuery( $query, $deleteParams );
 
-            $params['operation']    = 'All';
-            $params['deny']         = 0;
-            $params['entity_table'] = 'civicrm_acl_role';
-           
-            if ( $this->_id ) {
-                $params['id'] = $this->_id;
-                CRM_ACL_BAO_ACL::create( $params );
-            } else {
-                foreach ( $params['object_table'] as $object_table => $value ) {
-                    if ( $value ) {
-                        $newParams = $params;
-                        unset( $newParams['object_table'] );
-                        $newParams['object_table'] = $object_table;
-                        CRM_ACL_BAO_ACL::create( $newParams );
-                     }
-                }
+            if ( $this->_action & CRM_Core_Action::DELETE ) {
+                CRM_Core_Session::setStatus( ts('Selected ACL has been deleted.') );
+                return;
+            }
+        }
+
+        $params['operation']    = 'All';
+        $params['deny']         = 0;
+        $params['is_active']    = 1;
+        $params['entity_table'] = 'civicrm_acl_role';
+        $params['name']         = 'Core ACL';
+       
+        foreach ( $params['object_table'] as $object_table => $value ) {
+            if ( $value ) {
+                $newParams = $params;
+                unset( $newParams['object_table'] );
+                $newParams['object_table'] = $object_table;
+                CRM_ACL_BAO_ACL::create( $newParams );
             }
         }
     }

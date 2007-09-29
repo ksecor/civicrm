@@ -18,17 +18,13 @@
         <table>
         <tr class="columnheader">
             <th>{ts}Role{/ts}</th>
-            <th>{ts}ACL Type{/ts}</th>
-            <th>{ts}Description{/ts}</th>
-            <th>{ts}Enabled?{/ts}</th>
+            <th>{ts}ACL Type(s){/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.entity}</td>	
 	        <td>{$row.object_table}</td>	
-	        <td>{$row.name}</td>	
-	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
