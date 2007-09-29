@@ -145,8 +145,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
         $this->addButtons( array(
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
