@@ -348,7 +348,7 @@ CREATE TABLE civicrm_mailing_spool (
     INSERT INTO 
         civicrm_payment_processor_type (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
     VALUES 
-        (@domain_id,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,1);
+        (@domain_id,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,0);
 
 
 -- /*******************************************************
