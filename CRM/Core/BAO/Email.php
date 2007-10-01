@@ -56,17 +56,13 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         
         $email->copyValues($params);
 
-        // when email field is empty need to delete it
         if ( $email->is_bulkmail ) {
             $sql = "
 UPDATE civicrm_email 
-LEFT JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
-LEFT JOIN civicrm_contact ON  civicrm_location.entity_id = civicrm_contact.id
-AND     civicrm_location.entity_table = 'civicrm_contact'
 SET is_bulkmail = 0
 WHERE 
-civicrm_contact.id = {$params['contact_id']}";
-            CRM_Core_DAO::executeQuery( $sql );
+contact_id = {$params['contact_id']}";
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         }
         
         // handle if email is on hold TO DO
