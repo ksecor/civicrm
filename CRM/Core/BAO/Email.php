@@ -91,7 +91,7 @@ AND     civicrm_location.entity_table = 'civicrm_contact'
 SET is_bulkmail = 0
 WHERE 
 civicrm_contact.id = {$params['contact_id']}";
-            CRM_Core_DAO::executeQuery( $sql );
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         }
         
         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
