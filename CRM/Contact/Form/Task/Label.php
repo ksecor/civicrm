@@ -231,7 +231,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true );
             $rows[$id]= array( $formatted );
         }
-        
+
         //call function to create labels
         self::createLabel($rows, $fv['label_id']);
         exit(1);
