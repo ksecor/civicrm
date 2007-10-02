@@ -90,6 +90,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         
         if ( !$htmMessage ) {
             $htmMessage = $this->getElementValue( "html_message" );
+            $htmMessage = str_replace( array("\n","\r"), ' ', $htmMessage);
         }
         
         $this->assign('message_html', $htmMessage );        
