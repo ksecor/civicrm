@@ -336,8 +336,8 @@ CREATE TABLE civicrm_mailing_spool (
 	INSERT INTO 
 	   civicrm_option_value (option_group_id, label, value, name, grouping, filter, is_default, weight, description, is_optgroup, is_reserved, is_active) 
 	VALUES
-	  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-	  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+	  (@option_group_id_gtype, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+	  (@option_group_id_gtype, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
 
 
 -- /*******************************************************
