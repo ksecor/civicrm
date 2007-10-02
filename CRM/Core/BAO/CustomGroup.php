@@ -792,7 +792,7 @@ $where
 
         //check wheter this contain any custom fields
         $customField = & new CRM_Core_DAO_CustomField();
-        $customField->custom_group_id = $id;
+        $customField->custom_group_id = $group->id;
         $customField->find();
         if ($customField->fetch()) {
             return false;
