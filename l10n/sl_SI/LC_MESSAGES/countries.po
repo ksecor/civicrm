@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-09-25 16:18-0700\n"
+"PO-Revision-Date: 2007-09-28 16:52-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -105,7 +105,7 @@ msgid "British Indian Ocean Territory"
 msgstr "Britansko ozemlje v Indijskem oceanu"
 
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "Deviški otoki, Britanski"
 
 msgid "Brunei Darussalam"
 msgstr "Brunej"
@@ -162,7 +162,7 @@ msgid "Comoros"
 msgstr "Komori"
 
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "Demokratična republika Kongo"
 
 msgid "Congo"
 msgstr "Kongo"
@@ -294,10 +294,10 @@ msgid "Haiti"
 msgstr "Haiti"
 
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "Otok Heard in otočje McDonald"
 
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "Sveti sedež (Vatikanska mestna država)"
 
 msgid "Honduras"
 msgstr "Honduras"
@@ -333,7 +333,7 @@ msgid "Italy"
 msgstr "Italija"
 
 msgid "Jamaica"
-msgstr ""
+msgstr "Jamajka"
 
 msgid "Japan"
 msgstr "Japonska"
@@ -342,7 +342,7 @@ msgid "Jordan"
 msgstr "Jordanija"
 
 msgid "Kazakhstan"
-msgstr ""
+msgstr "Kazahstan"
 
 msgid "Kenya"
 msgstr "Kenija"
@@ -360,10 +360,10 @@ msgid "Kuwait"
 msgstr "Kuvajt"
 
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "Kirgizistan"
 
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Laoška ljudska demokratična republika"
 
 msgid "Latvia"
 msgstr "Latvija"
@@ -390,7 +390,7 @@ msgid "Luxembourg"
 msgstr "Luksemburg"
 
 msgid "Macao"
-msgstr ""
+msgstr "Macao"
 
 msgid "Macedonia, Republic of"
 msgstr "Makedonija, republika"
@@ -405,7 +405,7 @@ msgid "Malaysia"
 msgstr "Malezija"
 
 msgid "Maldives"
-msgstr ""
+msgstr "Maldivi"
 
 msgid "Mali"
 msgstr "Mali"
@@ -423,7 +423,7 @@ msgid "Mauritania"
 msgstr "Mavretanija"
 
 msgid "Mauritius"
-msgstr ""
+msgstr "Mauritius"
 
 msgid "Mayotte"
 msgstr "Mayotte"
@@ -552,16 +552,16 @@ msgid "Saint Helena"
 msgstr "Sveta Helena"
 
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "Saint Kitts in Nevis"
 
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre in Miquelon"
 
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "Saint Vincent in the Grenadines"
 
 msgid "Samoa"
 msgstr "Samoa"
@@ -672,7 +672,7 @@ msgid "Turkmenistan"
 msgstr "Turkmenistan"
 
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Turks in Caicos otoki"
 
 msgid "Tuvalu"
 msgstr "Tuvalu"
@@ -708,13 +708,13 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 msgid "Viet Nam"
-msgstr ""
+msgstr "Vietnam"
 
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "Deviški otoki, ZDA"
 
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "Wallis in Futuna"
 
 msgid "Western Sahara"
 msgstr "Zahodna Sahara"
@@ -723,7 +723,7 @@ msgid "Yemen"
 msgstr "Jemen"
 
 msgid "Serbia and Montenegro"
-msgstr ""
+msgstr "Srbija in Črna gora"
 
 msgid "Zambia"
 msgstr "Zambija"

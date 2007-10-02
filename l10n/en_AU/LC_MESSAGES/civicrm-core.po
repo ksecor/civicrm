@@ -1,17 +1,18 @@
+#  CiviCRM core POT file
 # Copyright CiviCRM LLC (c) 2004-2007
 # This file is distributed under the same license as the CiviCRM package.
-# If you contribute heavily to a translation and deem your work copyrightable,
-# make sure you license it to CiviCRM LLC under Academic Free License 3.0.
+# 
+# davemac<dave@macs.id.au>,2007-08-21 01:02+1100
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-08-20 23:59+1100\n"
+"POT-Creation-Date: 2007-08-17 21:31+0200\n"
+"PO-Revision-Date: 2007-10-01 11:07+1100\n"
 "Last-Translator: davemac<dave@macs.id.au>\n"
-"Language-Team: English (United Kingdom)<>\n"
+"Language-Team: English (Australia)<Australia>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=UTf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
 "X-Generator: Pootle 1.0.1\n"
@@ -1701,8 +1702,7 @@ msgid ""
 msgstr ""
 "user_name is not set in the Administer CiviCRM &raquo; Payment Processor."
 
-#: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
-#: CRM/Core/Payment/PayPalImpl.php
+#: CRM/Core/Payment/Moneris.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
@@ -2109,18 +2109,16 @@ msgstr ""
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 
 #: CRM/Admin/Form/DupeMatch.php
-#, fuzzy
 msgid "The Duplicate Matching rule has been saved."
-msgstr "The location type \"%1\" has been saved."
+msgstr "The Duplicate Matching rule has been saved."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
 msgstr "Name can only consist of alpha-numeric characters"
 
 #: CRM/Admin/Form/LocationType.php
-#, fuzzy
 msgid "vCard Name"
-msgstr "vCard File:"
+msgstr "vCard Name"
 
 #: CRM/Admin/Form/LocationType.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -2129,9 +2127,8 @@ msgid "Default?"
 msgstr "Default?"
 
 #: CRM/Admin/Form/LocationType.php
-#, fuzzy
 msgid "Selected Location type has been deleted."
-msgstr "Selected Meeting has been deleted."
+msgstr "Selected Location type has been deleted."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
@@ -2139,84 +2136,69 @@ msgstr "The location type \"%1\" has been saved."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Title"
-msgstr "Message"
+msgstr "Message Title"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Subject"
-msgstr "Subject"
+msgstr "Message Subject"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "Text Message"
-msgstr "Left Message"
+msgstr "Text Message"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "HTML Message"
-msgstr "Left Message"
+msgstr "HTML Message"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "The Message Template \"%1\" has been saved."
-msgstr "The tag \"%1\" has been saved."
+msgstr "The Message Template \"%1\" has been saved."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "Selected option group has been deleted."
-msgstr "Selected Meeting has been deleted."
+msgstr "Selected option group has been deleted."
 
 #: CRM/Admin/Form/OptionGroup.php
-#, fuzzy
 msgid "The Option Group \"%1\" has been saved."
-msgstr "The Group \"%1\" has been saved."
+msgstr "The Option Group \"%1\" has been saved."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has been deleted."
-msgstr "Selected Meeting has been deleted."
+msgstr "Selected \"%1\" type has been deleted."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "Selected %1 type has not been deleted."
-msgstr "Selected Meeting has been deleted."
+msgstr "Selected %1 type has not been deleted."
 
 #: CRM/Admin/Form/Options.php
-#, fuzzy
 msgid "The %1 \"%2\" has been saved."
-msgstr "The tag \"%1\" has been saved."
+msgstr "The %1 \"%2\" has been saved."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Default Option?"
-msgstr "Selection Options"
+msgstr "Default Option?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Option Group?"
-msgstr "Edit Group"
+msgstr "Option Group?"
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "Selected option value has been deleted."
-msgstr "Selected Meeting has been deleted."
+msgstr "Selected option value has been deleted."
 
 #: CRM/Admin/Form/OptionValue.php
-#, fuzzy
 msgid "The Option Value \"%1\" has been saved."
-msgstr "The tag \"%1\" has been saved."
+msgstr "The Option Value \"%1\" has been saved."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Could not find payment processor meta information"
 msgstr "Could not find payment processor meta information"
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor active?"
-msgstr "Is this CiviCRM Profile active?"
+msgstr "Is this Payment Processor active?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor the default?"
@@ -2244,23 +2226,20 @@ msgid "Password Label"
 msgstr "Password Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Signature Label"
-msgstr "Field Label"
+msgstr "Signature Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Subject Label"
-msgstr "Select Date"
+msgstr "Subject Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
 msgstr "PHP class name"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Live Site URL"
-msgstr "IM Services"
+msgstr "Live Site URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Recurring Payments URL"
@@ -2271,9 +2250,8 @@ msgid "Live Button URL"
 msgstr "Live Button URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Site URL"
-msgstr "IM Services"
+msgstr "Test Site URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Recurring Payments URL"
@@ -2284,9 +2262,8 @@ msgid "Test Button URL"
 msgstr "Test Button URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Is this Payment Processor Type active?"
-msgstr "Is this Custom Data Group active?"
+msgstr "Is this Payment Processor Type active?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
@@ -2297,33 +2274,28 @@ msgid "Does this Payment Processor Type support recurring donations?"
 msgstr "Does this Payment Processor Type support recurring donations?"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Settings - Addresses"
-msgstr "Street Address"
+msgstr "Settings - Addresses"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Number of Locations"
-msgstr "Primary Location"
+msgstr "Number of Locations"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
 msgstr "Location count must be a positive integer (e.g. 1 or 2 or ...)."
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Mailing Label Format"
-msgstr "Mailing Name"
+msgstr "Mailing Label Format"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Display Format"
-msgstr "Preferred Mail Format"
+msgstr "Display Format"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Provider"
-msgstr "IM Provider"
+msgstr "Provider"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "User ID"
@@ -4043,7 +4015,7 @@ msgstr "CiviCRM Shortcuts"
 msgid "Print Contact List"
 msgstr "Print Contact List"
 
-#: CRM/Contact/Form/Task/Record.php
+#: CRM/Contact/Form/SContact/Form/Task/Record.php
 #, fuzzy
 msgid "Your user record does not have a valid user ID"
 msgstr "Your user record does not have a valid email address"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
-"PO-Revision-Date: 2007-09-19 03:03-0700\n"
-"Last-Translator: Ravi Sagar <ravisagar@gmail.com>\n"
+"PO-Revision-Date: 2007-09-27 06:18-0700\n"
+"Last-Translator: Ravindra Soni <ravindrasoni@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,15 +27,15 @@ msgstr "जींऍनउ एलजींपीएल के अधीन व�
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr "तारीख़ चुनाव:"
+msgstr "दिन्नांक चुनाव:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- वर्ष के चयन के लिए \\xab, \\xbb कुंजी दबाएँ,"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- माह के चयन हेतु \\u2039, \\u203a कुंजी दबाएँ,"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
@@ -59,19 +59,19 @@ msgstr "- या दबाये और घसीटे तेज़ चयन �
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "विकल्प सूची के लिए संयम रखें"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr "पीछ्ला साल"
+msgstr "पिछला साल"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr "पीछ्ला महीना"
+msgstr "पिछला महीना"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr "आज जाए"
+msgstr "आज जाएं"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
@@ -83,11 +83,11 @@ msgstr "अगला साल"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr "तारीख चुने"
+msgstr "तारीख चुनें"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "चुनाव के लिए खींचें "
 
 #: js/lang/calendar-lang.php
 msgid "today"
@@ -95,7 +95,7 @@ msgstr "आज"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr "%s पहले दिखाए"
+msgstr "%s पहले दिखाएं"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
