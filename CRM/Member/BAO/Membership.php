@@ -82,9 +82,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         $params['join_date']  = CRM_Utils_Date::isoToMysql($params['join_date']);
         $params['start_date'] = CRM_Utils_Date::isoToMysql($params['start_date']);
         $params['end_date']   = CRM_Utils_Date::isoToMysql($params['end_date']);
-
+        
+        if ( ! $params['is_override'] ) {
+            $params['is_override'] = 'null';
+        }
+        
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
+
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
         $membership->save();
