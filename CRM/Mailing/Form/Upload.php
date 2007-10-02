@@ -136,7 +136,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $this->assign('templates', true);
             $this->add('select', 'template', ts('Select Template'),
                        array( '' => ts( '-select-' ) ) + $this->_templates, false,
-                       array('onChange' => "if (this.value) selectValue( this.value ); else return false") );
+                       array('onChange' => "selectValue( this.value );") );
             $this->add('checkbox','updateTemplate',ts('Update Template'), null);
         } 
         
@@ -159,7 +159,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                  'useActiveX'           => 'true',
                                  'shareToolbar'         => 'false',
                                  'toolbarAlwaysVisible' => 'true',
-                                 'onkeyup'              => 'return verify(this)'
+                                 'onkeyup'              => 'return verify( )'
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );

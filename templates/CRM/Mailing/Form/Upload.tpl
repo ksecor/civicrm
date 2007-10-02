@@ -33,7 +33,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
     </table>
     
     <table class="form-layout" id="editMessageDetails">
-      <tr>
+      <tr id="updateDetails">
          <td>&nbsp;</td><td>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</td>
       </tr>
       <tr>
@@ -90,12 +90,20 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	    show('upload_id');	
         } else {
             show('compose_id');
-	    hide('upload_id');	
+	    hide('upload_id');
+            verify( );	
         }
     }
    
     function selectValue( val )
     {
+        //rebuild save template block
+        document.getElementById("updateDetails").style.display = 'none';
+        
+        if ( !val ) {
+	    return;
+        }
+
 	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
 
 	var _this = this;
@@ -129,13 +137,25 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 		      });
     }
  
-     function verify( select )
+     function verify( )
      {
 	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
 	    document.getElementById("saveDetails").style.display = "none";
 	}
 
         document.getElementById("editMessageDetails").style.display = "block";
+
+	var templateExists = true;
+	if ( document.getElementById('template') == null ) {
+	    templateExists = false;
+	}
+
+	if ( templateExists && document.getElementById('template').value ) {
+	    document.getElementById("updateDetails").style.display = '';
+	} else {
+  	    document.getElementById("updateDetails").style.display = 'none';
+	}
+
 	document.getElementById("saveTemplateName").disabled = false;
      }
 
@@ -149,10 +169,6 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	    document.getElementById("saveTemplateName").disabled = true;
 	}
      }
-
-    document.getElementById("saveDetails").style.display = "none";
-    document.getElementById("editMessageDetails").style.display = "none";
-
 
     dojo.addOnLoad( function( ) 
     {
