@@ -332,13 +332,12 @@ CREATE TABLE civicrm_mailing_spool (
 	
 
 	SELECT @option_group_id_gtype := max(id) from civicrm_option_group where name = 'group_type';
-	SELECT @option_group_id_adOpt := max(id) from civicrm_option_group where name = '';
 
 	INSERT INTO 
 	   civicrm_option_value (option_group_id, label, value, name, grouping, filter, is_default, weight, description, is_optgroup, is_reserved, is_active) 
 	VALUES
-	  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-	  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+	  (@option_group_id_gtype, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+	  (@option_group_id_gtype, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
 
 
 -- /*******************************************************
@@ -349,7 +348,7 @@ CREATE TABLE civicrm_mailing_spool (
     INSERT INTO 
         civicrm_payment_processor_type (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
     VALUES 
-        (@domain_id,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,1);
+        (@domain_id,'PayJunction','PayJunction',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,0);
 
 
 -- /*******************************************************
@@ -358,14 +357,7 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 
-	REPLACE civicrm_mailing_component
-    	  (id, domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
+	INSERT IGNORE INTO
+      civicrm_mailing_component (domain_id, name, component_type, subject, body_html, body_text, is_default, is_active)
 	VALUES
-    	  (1, @domain_id,'Mailing Header','Header','Descriptive Title for this Header','Sample Header for HTML formatted content.','Sample Header for TEXT formatted content.',1,1),
-    	  (2, @domain_id,'Mailing Footer','Footer','Descriptive Title for this Footer.','Sample Footer for HTML formatted content.','Sample Footer for TEXT formatted content.',1,1),
-          (3, @domain_id,'Subscribe Message','Subscribe','Subscription Confirmation Request','You have a pending subscription to the {subscribe.group} mailing list. To confirm this subscription, reply to this email or click <a href="{subscribe.url}">here</a>.','You have a pending subscription to the {subscribe.group} mailing list. To confirm this subscription, reply to this email or click on this link {subscribe.url}.',1,1),
-     	  (4, @domain_id,'Welcome Message','Welcome','Your Subscription has been Activated','Welcome. Your subscription to the {welcome.group} mailing list has been activated.','Welcome. Your subscription to the {welcome.group} mailing list has been activated.',1,1),
-	  (5, @domain_id,'Unsubscribe Message','Unsubscribe','Un-subscribe Confirmation','You have been un-subscribed from the {unsubscribe.group} mailing list.','You have been un-subscribed from the {unsubscribe.group} mailing list.',1,1),
-	  (6, @domain_id,'Opt-out Message','OptOut','Opt-out Confirmation','Your email address has been removed from {domain.name} mailing lists.','Your email address has been removed from {domain.name} mailing lists.',1,1),
-	  (7, @domain_id,'Auto-responder','Reply','Please Send Inquiries to Our Contact Email Address','This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.','This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.',1,1),
-          (8, @domain_id,'Resubscribe Message','Resubscribe','Re-subscribe Confirmation','You have been re-subscribed to the {resubscribe.group} mailing list, as requested.','You have been re-subscribed to the {resubscribe.group} mailing list, as requested.',1,1);
+          (@domain_id, 'Resubscribe Message', 'Resubscribe', 'Re-subscribe Confirmation', 'You have been re-subscribed to the following groups: {resubscribe.group}. You can un-subscribe by mailing {action.unsubscribe} or clicking {action.unsubscribeUrl}', 'You have been re-subscribed to the following groups: {resubscribe.group}. You can un-subscribe by mailing {action.unsubscribe} or clicking {action.unsubscribeUrl}', 1, 1);

@@ -38,7 +38,7 @@ class CRM_Contribute_Payment_PayJunction extends CRM_Core_Payment_PayJunction
     */ 
    function __construct( $mode, &$paymentProcessor ) 
    {
-	parent::__construct( $mode, $paymentProcessor );
+       parent::__construct( $mode, $paymentProcessor );
    }
 
    /** 
@@ -51,14 +51,12 @@ class CRM_Contribute_Payment_PayJunction extends CRM_Core_Payment_PayJunction
     */ 
    static function &singleton( $mode, &$paymentProcessor ) 
    {
-      if (self::$_singleton === null ) 
-      { 
-         self::$_singleton =& new CRM_Contribute_Payment_PayJunction( $mode, $paymentProcessor );
-      } 
+       if (self::$_singleton === null ) { 
+           self::$_singleton =& new CRM_Contribute_Payment_PayJunction( $mode, $paymentProcessor );
+       } 
         
-      return self::$_singleton; 
+       return self::$_singleton; 
    } 
-
 
 } // end class CRM_Contribute_Payment_PayJunction
 

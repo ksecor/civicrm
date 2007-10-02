@@ -884,7 +884,7 @@ class CRM_Core_Config
     }
 
     /**
-     * returns the singleton logger for the applicationthe singleton logger for the application
+     * returns the singleton logger for the application
      *
      * @param
      * @access private

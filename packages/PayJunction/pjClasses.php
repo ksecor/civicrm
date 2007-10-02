@@ -362,7 +362,4 @@ class pjpgTransaction
    } 
 
 } //end class pjpgTransaction
-
-
 ?>
-

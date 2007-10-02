@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-09-25 16:40-0700\n"
+"PO-Revision-Date: 2007-10-01 12:21-0700\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,6 +64,7 @@ msgstr "Pogled"
 msgid "Edit"
 msgstr "Uredi"
 
+# Nisem zadovoljen s prevodom
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomOption.php
 #: CRM/Core/DAO/CustomValue.php CRM/Core/DAO/DupeMatch.php
@@ -72,7 +73,7 @@ msgstr "Uredi"
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PriceSetEntity.php
 #: CRM/Core/DAO/UFJoin.php
 msgid "Entity Table"
-msgstr ""
+msgstr "Tabela entitet"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
@@ -227,13 +228,14 @@ msgstr "Posebna skupina"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
 msgid "Activity Entity Table"
-msgstr ""
+msgstr "Tabela aktivnosti entitete"
 
+# Še en nezadovoljiv prevod
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Activity/DAO/Activity.php
 #: CRM/Activity/DAO/Meeting.php CRM/Activity/DAO/Phonecall.php
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Target Entity Table"
-msgstr ""
+msgstr "Tabela tarčne entitete"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -248,26 +250,28 @@ msgstr ""
 msgid "Subject"
 msgstr "Zadeva"
 
+# Nezadovoljiv prevod.
+# Premalo konteksta.
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr ""
+msgstr "Čas sestanka na urniku"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Duration Hours"
-msgstr ""
+msgstr "Trajanje - ure"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Duration Minutes"
-msgstr ""
+msgstr "Trajanje - minute"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
 msgid "Location"
-msgstr ""
+msgstr "Lokacija"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -275,7 +279,7 @@ msgstr ""
 #: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/Record.php
 #: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -292,51 +296,52 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "Status"
-msgstr ""
+msgstr "Stanje"
 
+# Upam da je to to.
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/SelectValues.php
 msgid "Scheduled"
-msgstr ""
+msgstr "Na urniku"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
-msgstr ""
+msgstr "Končano"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Phonecall.php
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefonska številka"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
-msgstr ""
+msgstr "Pustil sporočilo"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Unreachable"
-msgstr ""
+msgstr "Nedosegljiv"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
 msgid "Date and Time"
-msgstr ""
+msgstr "Datum in čas"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
 msgid "Select a valid date."
-msgstr ""
+msgstr "Izberite veljaven datum"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php templates/CRM/Activity/Form/Phonecall.tpl
 msgid "Duration"
-msgstr ""
+msgstr "Trajanje"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 msgid "Selected Meeting is deleted sucessfully."
-msgstr ""
+msgstr "Označen sestanek je uspešno izbrisan."
 
 #: CRM/Activity/Form/OtherActivity.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Selector/Activity.php
@@ -344,7 +349,7 @@ msgstr ""
 #: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
-msgstr ""
+msgstr "Tip aktivnosti"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php
@@ -357,7 +362,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Done"
-msgstr ""
+msgstr "Končano"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
@@ -369,7 +374,7 @@ msgstr ""
 #: CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 msgid "Save"
-msgstr ""
+msgstr "Shrani"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/CMSUser.php
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/DomainDump.php
@@ -395,11 +400,11 @@ msgstr ""
 #: CRM/Profile/Form/ForwardMailing.php CRM/Tag/Form/Tag.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DomainDump.php
 msgid "OK"
-msgstr ""
+msgstr "V redu"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
@@ -418,7 +423,7 @@ msgstr ""
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Weight"
-msgstr ""
+msgstr "Teža"
 
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/OptionValue.php
@@ -443,7 +448,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/Options.php
@@ -452,12 +457,13 @@ msgstr ""
 #: CRM/Custom/Form/Group.php CRM/Group/Form/Edit.php
 #: CRM/Import/Form/Preview.php CRM/Price/Form/Field.php CRM/Price/Form/Set.php
 msgid "Name already exists in Database."
-msgstr ""
+msgstr "Ime že obstaja v bazi podatkov."
 
+# Mapiranje ni dovolj dober izraz.
 #: CRM/Admin/Form/Mapping.php CRM/Core/DAO/Mapping.php
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid "Mapping Type"
-msgstr ""
+msgstr "Tip mapiranja"
 
 #: CRM/Admin/Form/Options.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/CustomOption.php CRM/Core/DAO/LineItem.php
@@ -467,14 +473,14 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Label"
-msgstr ""
+msgstr "Oznaka"
 
 #: CRM/Admin/Form/Options.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid " is a numeric field"
-msgstr ""
+msgstr "je števično polje"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -483,7 +489,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Title"
-msgstr ""
+msgstr "Naslov"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomOption.php
 #: CRM/Core/DAO/MappingField.php CRM/Custom/Form/Field.php
@@ -491,96 +497,97 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Value"
-msgstr ""
+msgstr "Vrednost"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
 msgid "Option Grouping Name"
-msgstr ""
+msgstr "Ime možnosti združevanja"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr ""
+msgstr "Nastavitve - procesor plačil"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
-msgstr ""
+msgstr "Naslov spletne strani"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a valid URL"
-msgstr ""
+msgstr "Vpišite veljaven URL"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
-msgstr ""
+msgstr "URL povratnih plačil"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr ""
+msgstr "URL gumba"
 
+# Moti me beseda "procesor"
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
 msgid "Payment Processor Type"
-msgstr ""
+msgstr "Tip plačilnega procesorja"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Billing Mode"
-msgstr ""
+msgstr "Način zaračunavanja"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "User Name"
-msgstr ""
+msgstr "Uporabniško ime"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
 msgid "Password"
-msgstr ""
+msgstr "Geslo"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Signature"
-msgstr ""
+msgstr "Podpis"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 msgid "Address Fields"
-msgstr ""
+msgstr "Polja za naslov"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
 msgid "Individual Name Format"
-msgstr ""
+msgstr "Oblika posameznega imena"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Invoke.php
 #: CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Advanced Search"
-msgstr ""
+msgstr "Napredno iskanje"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Plošča stikov"
 
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Menu.php
 msgid "Global Settings"
-msgstr ""
+msgstr "Vsesplošne nastavitve"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type A"
-msgstr ""
+msgstr "Stik tipa A"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid "Contact Type B"
-msgstr ""
+msgstr "Stik tipa B"
 
 #: CRM/Admin/Form/Setting/Component.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Invoke.php
 msgid "Components"
-msgstr ""
+msgstr "Komponente"
 
 #: CRM/Admin/Form/Setting/Localization.php CRM/Contact/Form/Address.php
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
@@ -591,66 +598,69 @@ msgstr ""
 #: CRM/Core/SelectValues.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
 msgid "- select -"
-msgstr ""
+msgstr "- izberi -"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
-msgstr ""
+msgstr "SMTP strežnik"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Manage"
-msgstr ""
+msgstr "Upravljaj"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
-msgstr ""
+msgstr "Nastavi"
 
+# Bolj butasto, upam, da ima še kdo kakšen predlog
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Option Lists"
-msgstr ""
+msgstr "Spiski možnosti"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
-msgstr ""
+msgstr "Uredi pravilo"
 
+# Nerodno
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
 msgid "Backup Database"
-msgstr ""
+msgstr "Kopiraj podatkovno bazo"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Group/Page/Group.php
 msgid "Edit Group"
-msgstr ""
+msgstr "Uredi skupino"
 
 #: CRM/Admin/Page/OptionGroup.php CRM/Custom/Page/Option.php
 #: CRM/Price/Page/Option.php
 msgid "Edit Option"
-msgstr ""
+msgstr "Uredi možnost"
 
 #: CRM/Admin/Page/Options.php CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
-msgstr ""
+msgstr "Uredi %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
-msgstr ""
+msgstr "Poti datotečnega sistema"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr ""
+msgstr "URL-ji strani"
 
+# Anglicizem attacks.
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Mapping and Geocoding"
-msgstr ""
+msgstr "Mapiranje in geokodiranje"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Localization"
-msgstr ""
+msgstr "Lokalizacija"
 
 #: CRM/Admin/Page/Setting.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
@@ -658,23 +668,23 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Razno"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Debugging"
-msgstr ""
+msgstr "Razhroščevanje"
 
 #: CRM/Case/DAO/Case.php CRM/Contact/DAO/Relationship.php
 #: CRM/Contact/Form/Relationship.php CRM/Project/DAO/Project.php
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Start Date"
-msgstr ""
+msgstr "Začetni datum"
 
 #: CRM/Case/DAO/Case.php CRM/Contact/DAO/Relationship.php
 #: CRM/Contact/Form/Relationship.php CRM/Project/DAO/Project.php
@@ -682,14 +692,14 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "End Date"
-msgstr ""
+msgstr "Končni datum"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
-msgstr ""
+msgstr "Posameznik"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -697,7 +707,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Household"
-msgstr ""
+msgstr "Gospodinjstvo"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -705,71 +715,72 @@ msgstr ""
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr ""
+msgstr "Organizacija"
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/History.php
 #: CRM/History/Import/Form/MapField.php CRM/History/Import/Parser.php
 #: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
-msgstr ""
+msgstr "- ne uvozi - "
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Group(s)"
-msgstr ""
+msgstr "Skupina/e"
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Tag(s)"
-msgstr ""
+msgstr "Oznaka/e"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
-msgstr ""
+msgstr "CiviCRM iskanje stikov"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Nick Name"
-msgstr ""
+msgstr "Vzdevek"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Admin/Page/DedupeFind.tpl
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
-msgstr ""
+msgstr "Tip stika"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Text"
-msgstr ""
+msgstr "Besedilo"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "HTML"
-msgstr ""
+msgstr "Html"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "Both"
-msgstr ""
+msgstr "Oboje"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Added"
-msgstr ""
+msgstr "Dodano"
 
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php
 msgid "Removed"
-msgstr ""
+msgstr "Odstranjeno"
 
+# Ni najboljši prevod, alternative potrebne
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Pending"
-msgstr ""
+msgstr "V procesu"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -778,79 +789,83 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Source"
-msgstr ""
+msgstr "Vir"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
 #: CRM/UF/Form/Field.php templates/CRM/Group/Page/Group.tpl
 #: templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
-msgstr ""
+msgstr "Vidnost"
 
+# Vprašanje konteksta, bo potrebno v QA rešit ta problem
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
-msgstr ""
+msgstr "Kjer stavek"
 
+# Lahko pa tudi "Izbrane tabele"
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Select Tables"
-msgstr ""
+msgstr "Izberi tabele"
 
+# Oz. "kje tabele" oz. kar neki. 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
-msgstr ""
+msgstr "Kjer tabele"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "User and User Admin Only"
-msgstr ""
+msgstr "Samo uporabnik in administrator uporabnikov"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages"
-msgstr ""
+msgstr "Javne uporabniške strani"
 
+# Problematičen prevod "listings"
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
 msgid "Public User Pages and Listings"
-msgstr ""
+msgstr "Javne uporabniške strani in izpiski"
 
 #: CRM/Contact/DAO/Household.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php
 msgid "Household Name"
-msgstr ""
+msgstr "Ime gospodinjstva"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "First Name"
-msgstr ""
+msgstr "Ime"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Middle Name"
-msgstr ""
+msgstr "Drugo ime"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Last Name"
-msgstr ""
+msgstr "Priimek"
 
 #: CRM/Contact/DAO/Individual.php CRM/Core/Form.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Other"
-msgstr ""
+msgstr "Drugo"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr ""
+msgstr "Ime organizacije"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
-msgstr ""
+msgstr "Pravno ime"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Method"
-msgstr ""
+msgstr "Metoda"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
@@ -864,12 +879,12 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Email"
-msgstr ""
+msgstr "Elektronska pošta"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
 msgid "Street Address"
-msgstr ""
+msgstr "Ulica"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/Address.php CRM/Core/Form.php
@@ -880,25 +895,28 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 msgid "City"
-msgstr ""
+msgstr "Mesto"
 
 #: CRM/Contact/Form/Address.php CRM/Core/Form.php
 msgid "Zip / Postal Code"
-msgstr ""
+msgstr "Poštna številka"
 
+# Sam tega nimamo v Sloveniji
 #: CRM/Contact/Form/Address.php CRM/Core/DAO/Address.php
 msgid "Postal Code Suffix"
-msgstr ""
+msgstr "Končnica poštne številke"
 
+# Mogoče bi lahko tu bila občina?
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
 msgid "County"
-msgstr ""
+msgstr "Okrožje"
 
+# Ali provinca?
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 msgid "State / Province"
-msgstr ""
+msgstr "Dežela"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/StateCountry.php
@@ -907,58 +925,60 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "Država"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
-msgstr ""
+msgstr "Izbriši lokacijo"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "Administriraj CiviCRM"
 
 #: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
 msgid "Name:"
-msgstr ""
+msgstr "Ime:"
 
 #: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Description:"
-msgstr ""
+msgstr "Opis:"
 
 #: CRM/Contact/Form/Domain.php CRM/Contact/Form/Email.php
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr ""
+msgstr "Elektronski naslov ni veljaven."
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
-msgstr ""
+msgstr "Nov %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
-msgstr ""
+msgstr "Zasebnost"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
-msgstr ""
+msgstr "Na čakanju"
 
+# Neroden prevod, potreben kontekst.
 #: CRM/Contact/Form/GroupTag.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/UF/Form/Preview.php
 msgid "%1 is a required field."
-msgstr ""
+msgstr "%1 je zahtevano polje."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External Id"
-msgstr ""
+msgstr "Zunanji Id"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid "External ID already exists in Database."
-msgstr ""
+msgstr "Zunanji ID že obstaja v podatkovni bazi."
 
+# Manjka še ednina, dvojina in ostale posebnosti za naše ljube številke 1,2,3,4.
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
 msgid ""
@@ -968,6 +988,8 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Matching Contact button below."
 msgstr[0] ""
+"Najdeno je bilo %count ujemajočih se stikov. Tukaj jih lahko urejaš: %1, ali "
+"pa klikneš gumb \"Shrani ujemajoči stik\"."
 msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
@@ -975,18 +997,18 @@ msgstr[3] ""
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
 msgid "Gender"
-msgstr ""
+msgstr "Spol"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Website"
-msgstr ""
+msgstr "Spletna stran"
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Location.php
 msgid "Location Name"
-msgstr ""
+msgstr "Ime lokacije"
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1002,7 +1024,7 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1018,19 +1040,19 @@ msgstr ""
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: CRM/Contact/Form/Note.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php CRM/Dedupe/Merger.php
 #: CRM/Note/Form/Note.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Notes"
-msgstr ""
+msgstr "Zapiski"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
 msgid "Enter a valid Website."
-msgstr ""
+msgstr "Vpiši veljavno spletno stran."
 
 #: CRM/Contact/Form/Phone.php CRM/Contact/Selector.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
@@ -1042,14 +1064,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Relationship Type"
-msgstr ""
+msgstr "Tip odnosa"
 
+# Ali "Išči"?
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -1058,23 +1081,23 @@ msgstr ""
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Search"
-msgstr ""
+msgstr "Iskanje"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
-msgstr ""
+msgstr "Zgodovina aktivnosti"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships"
-msgstr ""
+msgstr "Odnosi"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
-msgstr ""
+msgstr "Zapisnik sprememb"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -1082,57 +1105,57 @@ msgstr ""
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions"
-msgstr ""
+msgstr "Prispevki"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships"
-msgstr ""
+msgstr "Članstva"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Participant.php
 #: CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr ""
+msgstr "Dogodki"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
-msgstr ""
+msgstr "Naloga"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
-msgstr ""
+msgstr "Najdi..."
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr ""
+msgstr "Regija"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
 msgid "Postal Code"
-msgstr ""
+msgstr "Poštna številka"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "Za"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
-msgstr ""
+msgstr "in"
 
 #: CRM/Contact/Form/Search.php CRM/Core/Menu.php
 msgid "Find Contacts"
-msgstr ""
+msgstr "Najdi stike"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Select Group"
-msgstr ""
+msgstr "Izberi skupino"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
@@ -1140,195 +1163,212 @@ msgstr ""
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/SMS/Form/Task/SMS.php
 msgid "Total Selected Contact(s): %1"
-msgstr ""
+msgstr "Vseh izbranih stikov: %1"
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "New relationship record(s) created: %1."
-msgstr ""
+msgstr "Ustvarjenih je bilo %1 novih zapisov o razmerjih."
 
+# Target = "izbrani", tarčni, ciljni
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created due to invalid target contact type: %1."
 msgstr ""
+"Zapis o razmerju ni bil ustvarjen zaradi neveljavnega tipa izbranega stika: "
+"%1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid ""
 "Relationship record(s) not created - duplicate of existing relationship: %1."
 msgstr ""
+"Zapis o razmerju ni bil ustvarjen - dvojnik obstoječega razmerja že obstaja: "
+"%1"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
-msgstr ""
+msgstr "Dodaj stike v organizacijo"
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
-msgstr ""
+msgstr "Izbriši stike"
 
+# Nisem zadovoljen s prevodom.
+# Mogoče "rajši"
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/SMS/Form/Task/SMS.php
 msgid "(preferred)"
-msgstr ""
+msgstr "(ljubše)"
 
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/Contact/Page/View/Email.php
 msgid "Your user record does not have a valid email address"
-msgstr ""
+msgstr "Vaš zapis o uporabniku nima veljavnega elektronskega poštnega naslova"
 
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/Core/DAO/EmailHistory.php
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "Message"
-msgstr ""
+msgstr "Sporočilo"
 
+# Problematika spolov na pohodu.
 #: CRM/Contact/Form/Task/Export/Map.php CRM/History/Import/Form/MapField.php
 #: CRM/History/Import/Form/Preview.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
-msgstr ""
+msgstr "<< Prejšnji"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 #: CRM/Contact/Form/Task/PickProfile.php CRM/History/Import/Form/MapField.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr ""
+msgstr "Nadaljuj >>"
 
+# Mogoče "prvotni"?
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
 msgid "Primary"
-msgstr ""
+msgstr "Primarni"
 
+# Bogve če je to to.
 #: CRM/Contact/Form/Task/Record.php CRM/Contact/Task.php
 msgid "Record Activity for Contacts"
-msgstr ""
+msgstr "Beleži aktivnost za stike"
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/Contact/Task.php
 msgid "Remove Contacts from Group"
-msgstr ""
+msgstr "Odstrani stike iz skupine"
 
+# Ne maram uporabljat "pametno", ker se izgubi v prevodu tisto kar rabimo.
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
-msgstr ""
+msgstr "Posodobi pametno skupino"
 
+# (Nes)pametne skupine, drugič.
 #: CRM/Contact/Page/SavedSearch.php CRM/Group/Page/Group.php
 msgid "Do you really want to remove this Smart Group?"
-msgstr ""
+msgstr "Ali res hočete odstraniti to pametno skupino?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
-msgstr ""
+msgstr "Izbriši zgodovino aktivnosti"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
-msgstr ""
+msgstr "Stran stikov"
 
+# Nerodno?
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "We could not find a contact id."
-msgstr ""
+msgstr "Ni bilo mogoče najti id stika."
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM domov"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Email Sent"
-msgstr ""
+msgstr "Elektronska pošta poslana"
 
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
 msgid "Contact's Groups"
-msgstr ""
+msgstr "Stikove skupine"
 
 #: CRM/Contact/Page/View/SMS.php CRM/SMS/BAO/History.php
 msgid "SMS Sent"
-msgstr ""
+msgstr "SMS poslan"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Activities"
-msgstr ""
+msgstr "Dejavnosti"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Invoke.php CRM/Core/Menu.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Groups"
-msgstr ""
+msgstr "Skupine"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
 msgid "Tags"
-msgstr ""
+msgstr "Oznake"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "Delete Activity"
-msgstr ""
+msgstr "Izbriši dejavnost"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/ActivityHistory.php
 #: CRM/History/Import/Form/MapField.php CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Activity Date"
-msgstr ""
+msgstr "Datum dejavnosti"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php xml/templates/civicrm_add_domain.tpl
 msgid "Meeting"
-msgstr ""
+msgstr "Sestanek"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Phone Call"
-msgstr ""
+msgstr "Telefonski klic"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "SMS"
-msgstr ""
+msgstr "SMS"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Price/Page/Set.tpl xml/templates/civicrm_add_domain.tpl
 msgid "Event"
-msgstr ""
+msgstr "Dogodek"
 
+# Mogoče da bi morala biti beseda "CiviCRM" na drugem mestu.
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 msgid "CiviCRM Activity History"
-msgstr ""
+msgstr "CiviCRM zgodovina dejavnosti"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 msgid "Activity"
-msgstr ""
+msgstr "Dejavnost"
 
+# Mogoče tudi dejanja
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
 #: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
 msgid "Actions"
-msgstr ""
+msgstr "Dejanja"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Map"
-msgstr ""
+msgstr "Zemljevid"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
-msgstr ""
+msgstr "Umesti stik na zemljevid"
 
+# Bogve kaj je to, upam, da je smiselno.
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Contact %%StatusMessage%%"
-msgstr ""
+msgstr "Stik %%SporočiloStatusa%%"
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Address"
-msgstr ""
+msgstr "Naslov"
 
+# POZOR! Prevajamo kot "Občina" ker nimamo zveznih držav in občine nam bolj koristijo.
 #: CRM/Contact/Selector.php CRM/Core/DAO/StateProvince.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
@@ -1336,207 +1376,227 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "State"
-msgstr ""
+msgstr "Občina"
 
 #: CRM/Contact/Task.php CRM/Core/Menu.php
 msgid "Export Contacts"
-msgstr ""
+msgstr "Izvozi stike"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
-msgstr ""
+msgstr "Celo število"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/DAO/Validation.php CRM/Core/SelectValues.php
 msgid "Money"
-msgstr ""
+msgstr "Denar"
 
+# Mogoče tudi "Beležka".
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Address.php CRM/Core/DAO/Note.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
-msgstr ""
+msgstr "Opomba"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 msgid "Link"
-msgstr ""
+msgstr "Povezava"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
-msgstr ""
+msgstr "%1 mora biti celo število."
 
+# Zelo zelo zelo nerodno. Zelo zelo potrebno revizije. Mi je pa vedno bolj všeč beseda "ukrojen".
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
 msgstr ""
+"Ni bilo mogoče prenesti ukrojene datoteke v ukrojeno mapo za prenos na "
+"omrežje"
 
+# Zelo nerodno. Treba dobiti drugo besedo oz. frazo. Enako velja za vse nadaljnje fraze s to besedo.
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Mapping Option"
-msgstr ""
+msgstr "Možnost mapiranja"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Load Mapping"
-msgstr ""
+msgstr "Naloži mapiranje"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Save this field mapping"
-msgstr ""
+msgstr "Shrani to mapiranje polja"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr ""
+msgstr "Posodobi to mapiranje polja"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Save as a new field mapping"
-msgstr ""
+msgstr "Shrani kot novo mapiranje polja"
 
+# Ta "Map" postaja vedno hujša.
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Mapper for Field %1"
-msgstr ""
+msgstr "Maper za polje %1"
 
+# Bogve kaj je to...
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
-msgstr ""
+msgstr "Ni bilo mogoče najti vaše prijavljene uporabniške ID"
 
+# Kaj za vraga je "configure"?
 #: CRM/Core/BAO/UFGroup.php CRM/Profile/Form/Edit.php
 msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
 msgstr ""
+"Ta profil ni nastavljen za zahtevano dejanje. Pokličite administratorja, če "
+"potrebujete pomoč."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
-msgstr ""
+msgstr "Tip članstva"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Status"
-msgstr ""
+msgstr "Status članstva"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
-msgstr ""
+msgstr "Plačan po"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Contribution Type"
-msgstr ""
+msgstr "Tip prispevka"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
+# Saj je lastno ime ampak mogoče bi bilo vseeno bolje to prevesti?
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviContribute"
-msgstr ""
+msgstr "CiviPrispevaj"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviEvent"
-msgstr ""
+msgstr "CiviDogodek"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMember"
-msgstr ""
+msgstr "CiviČlan"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviMail"
-msgstr ""
+msgstr "CiviPošta"
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
-msgstr ""
+msgstr "Modul"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
-msgstr ""
+msgstr "Tip Html"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Default Value"
-msgstr ""
+msgstr "Privzeta vrednost"
 
+# "Pre" seveda vse zajebe...
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFGroup.php
 msgid "Help Pre"
-msgstr ""
+msgstr "Pomoč Pre"
 
+# To ni to, to je kar nekaj.
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php
 #: CRM/Core/DAO/UFField.php CRM/Core/DAO/UFGroup.php
 msgid "Help Post"
-msgstr ""
+msgstr "Pomoč prispevek"
 
+# Glagol? Samostalnik?
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Mask"
-msgstr ""
+msgstr "Zakrij"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
 msgid "Javascript"
-msgstr ""
+msgstr "Javascript"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Options Per Line"
-msgstr ""
+msgstr "Možnosti na vrstico"
 
+# Ne vem, če je to to.
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
-msgstr ""
+msgstr "Dopis"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "TextArea"
-msgstr ""
+msgstr "ObmočjeTeksta"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Select"
-msgstr ""
+msgstr "Izberi"
 
+# Tako-tako prevod.
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
-msgstr ""
+msgstr "Večkratna izbira"
 
+# To v kontekstu najbrž ni radio.
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "Radio"
 
+# Ne dovolj dober prevod.
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "CheckBox"
-msgstr ""
+msgstr "Kvadratek"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
-msgstr ""
+msgstr "Izberi datum"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select State/Province"
-msgstr ""
+msgstr "Izberi občino"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Country"
-msgstr ""
+msgstr "Izberi državo"
 
+# Najbrž ni dovolj primerno.
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr ""
+msgstr "Razdelaj prikaz"
 
+# Mogoče tudi zavihek?
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
-msgstr ""
+msgstr "Jeziček"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Inline"
@@ -1544,271 +1604,290 @@ msgstr ""
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
 msgid "Sent Date"
-msgstr ""
+msgstr "Odposlano"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr ""
+msgstr "Tip telefona"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity History"
-msgstr ""
+msgstr "Uvozi zgodovino aktivnosti"
 
+# Mogoče bi bilo še kaj bolj primernega od izdelovalec.
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr ""
+msgstr "Izdelovalec iskanja"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Label"
-msgstr ""
+msgstr "Oznaka možnosti"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
 #: templates/CRM/Price/Page/Option.tpl
 msgid "Option Value"
-msgstr ""
+msgstr "Vrednost možnosti"
 
+# Mogoče "Procesor plačevanja"?
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
 msgid "Payment Processor"
-msgstr ""
+msgstr "Procesor plačil"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Pripona za PHP implementacijo razrednih imen"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilni telefon"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fax"
-msgstr ""
+msgstr "Faks"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr ""
+msgstr "Pozivnik"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
 msgid "Active On"
-msgstr ""
+msgstr "Aktiven na"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
 msgid "Expire On"
-msgstr ""
+msgstr "Poteče na"
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "Ime polja"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
-msgstr ""
+msgstr "CiviCRM profil"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
-msgstr ""
+msgstr "Stran informacij o domeni"
 
+# Mogoče to ni to.
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Map Event Location"
-msgstr ""
+msgstr "Mapiraj lokacijo dogodka"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
-msgstr ""
+msgstr "Rezultati iskanja"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr ""
+msgstr "Nov kontakt"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
-msgstr ""
+msgstr "Polja ukrojenih podatkov"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Group.php
 msgid "CiviCRM Profile Group"
-msgstr ""
+msgstr "CiviCRM skupina profilov"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "CiviCRM polje profilov"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Message Templates"
-msgstr ""
+msgstr "Predloge sporočil"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Find Duplicate Contacts"
-msgstr ""
+msgstr "Najdi podvojene stike"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Duplicate Contact Rules"
-msgstr ""
+msgstr "Pravila za podvojene stike"
 
+# Mogoče "Ujemanje stikov"?
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Contact Matching"
-msgstr ""
+msgstr "Primerjanje stikov"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
 msgstr ""
 
+# "Polje cene"?
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
 msgid "Price Field"
-msgstr ""
+msgstr "Polje za ceno"
 
+# Mogoče tudi "Vse cene"
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Zbirka cen"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
-msgstr ""
+msgstr "Upravljaj skupine"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
-msgstr ""
+msgstr "Stiki"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "Člani skupine"
 
+# Ni najboljši prevod.
 #: CRM/Core/Page/AJAX.php CRM/Import/Parser.php
 msgid "No processing status reported yet."
-msgstr ""
+msgstr "O statusu procesiranja se še ni poročalo."
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 msgid "The attached file has been deleted."
-msgstr ""
+msgstr "Pripeta datoteka je bila izbrisana."
 
+# "Online" - yadayadayada, Slovenija, moja angleška provinca.
 #: CRM/Core/Payment/GoogleIPN.php CRM/Core/Payment/PayPalIPN.php
 msgid "Online Event Registration:"
-msgstr ""
+msgstr "Online registracija za dogodek:"
 
+# Bogve, kako se bo to izteklo.
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
+"Uporabniško ime ni nastavljeno v Administriraj CiviCRM &raquo; procesor "
+"plačil."
 
+# Takisto kot prejšnje.
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
+msgstr "Geslo ni nastavjeno v Administriraj CiviCRM &raquo; procesor plačil."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr ""
+msgstr "Izbriši ukrojeno polje"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been deleted."
-msgstr ""
+msgstr "Skupina \"%1\" je bila izbrisana."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 msgid "Field Label"
-msgstr ""
+msgstr "Oznaka polja"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters."
 msgstr ""
+"Prosimo vnesite veljavno vrednost za to polje. Lahko uporabljate znake a - "
+"ž, A - Ž, 1 - 9, presledke in podčrtaj (_)"
 
+# Aktiven, aktivna, aktivno?
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "Aktivno?"
 
+# Zahtevan, zahtevana, zahtevano?
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
-msgstr ""
+msgstr "Zahtevano?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid " must be a numeric value"
-msgstr ""
+msgstr "mora biti številčna vrednost"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
-msgstr ""
+msgstr "Pomoč za polje"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Please enter a valid number value."
-msgstr ""
+msgstr "Prosimo vnesite veljavno številčno vrednost."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 msgid "Invalid default value for country."
-msgstr ""
+msgstr "Neveljavna privzeta vrednost za državo."
 
+# Ali "Podvojena oznaka možnosti"?
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Duplicate Option label"
-msgstr ""
+msgstr "Podvojena oznaka za možnosti"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option label cannot be empty"
-msgstr ""
+msgstr "Oznaka možnosti ne more biti prazna"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option value cannot be empty"
-msgstr ""
+msgstr "Vrednost možnosti ne more biti prazna"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Please enter a valid money value."
-msgstr ""
+msgstr "Prosimo vstavite veljavno vrednost denarja."
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
-msgstr ""
+msgstr "Predogled %1"
 
+# Ali "V uporabi za"
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "Used For"
-msgstr ""
+msgstr "Uporabljeno za"
 
+# To ni to.
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php CRM/UF/Form/Group.php
 msgid "Pre-form Help"
-msgstr ""
+msgstr "Pomoč pred obrazcem"
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php CRM/UF/Form/Group.php
 msgid "Post-form Help"
-msgstr ""
+msgstr "Pomoč po obrazcu"
 
 #: CRM/Custom/Form/Option.php CRM/Price/Form/Option.php
 msgid "Please enter a valid value."
-msgstr ""
+msgstr "Prosimo vpišite veljavno vrednost."
 
 #: CRM/Custom/Form/Preview.php CRM/Price/Form/Preview.php
 #: CRM/UF/Form/Preview.php
 msgid "Done with Preview"
-msgstr ""
+msgstr "Končaj predogled"
 
 #: CRM/Custom/Page/Field.php CRM/Custom/Page/Group.php CRM/UF/Page/Field.php
 msgid "Preview Custom Data"
-msgstr ""
+msgstr "Predogled ukrojenih podatkov"
 
 #: CRM/Custom/Page/Group.php CRM/History/Import/Form/Preview.php
 #: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
 #: CRM/UF/Page/Group.php
 msgid "Preview"
-msgstr ""
+msgstr "Predogled"
 
 #: CRM/Custom/Page/Group.php CRM/Group/Page/Group.php CRM/Price/Page/Set.php
 #: CRM/UF/Page/Group.php
 msgid "Settings"
-msgstr ""
+msgstr "Nastavitve"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
-msgstr ""
+msgstr "Izbriši skupino"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
@@ -1816,416 +1895,441 @@ msgid ""
 "mapping. Please verify that you have selected the correct saved mapping "
 "before continuing."
 msgstr ""
+"Podatkovni stolpci pri tem uvozu datoteke so drugačni od shranjenega "
+"mapiranja. Prosimo preverite, da ste izbrali pravilno shranjeno mapiranje "
+"pred nadaljevanjem."
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
-msgstr ""
+msgstr "Za shranjevanje uvoznega mapiranja je potrebno ime."
 
+# Uvozno mapiranje -  ni dovolj dober prevod, pomanjkanje konteksta
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Duplicate Import Mapping Name"
-msgstr ""
+msgstr "Podvojite ime uvoznega mapiranja"
 
+# Verjetno "Ujemaj polja", "Primerjaj polja"
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Match Fields"
-msgstr ""
+msgstr "Ujemanje polj"
 
 #: CRM/History/Import/Form/Preview.php CRM/Import/Form/Preview.php
 msgid "Import Now >>"
-msgstr ""
+msgstr "Uvozi zdaj >>"
 
 #: CRM/History/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been updated with the imported data."
-msgstr ""
+msgstr "Ti zapisi so bili posodobljeni z uvoženimi podatki."
 
 #: CRM/History/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have been filled in with the imported data."
-msgstr ""
+msgstr "Ti zapisi so bili napolnjeni z uvoženimi podatki."
 
 #: CRM/History/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "These records have not been imported."
-msgstr ""
+msgstr "Ti zapisi niso bili uvoženi."
 
 #: CRM/History/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "Summary"
-msgstr ""
+msgstr "Povzetek"
 
+# Vprašanje konteksta
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
-msgstr ""
+msgstr "Uvozi datoteko s podatki"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "A valid file must be uploaded."
-msgstr ""
+msgstr "Veljavna datoteka mora biti naložena."
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
-msgstr ""
+msgstr "Velikot datoteke bi morala biti manj kot %1 MB (%2 Bajtov)"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
-msgstr ""
+msgstr "Vhodna datoteka mora biti v formatu CSV"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "First row contains column headers"
-msgstr ""
+msgstr "Prva vrstica vsebuje glave iz stolpcev"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Skip"
-msgstr ""
+msgstr "Preskoči"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Update"
-msgstr ""
+msgstr "Posodobi"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Fill"
-msgstr ""
+msgstr "Napolni"
 
+# Upload
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Upload Data"
-msgstr ""
+msgstr "Naloži podatke"
 
+# Ni najboljši prevod
 #: CRM/History/Import/Parser/ActivityHistory.php CRM/Import/Parser/Contact.php
 msgid "Missing required fields"
-msgstr ""
+msgstr "Manjkajo zahtevana polja"
 
 #: CRM/History/Import/Parser.php CRM/Import/Parser.php
 msgid "Record Number"
-msgstr ""
+msgstr "Številka zapisa"
 
+# Upam da je razlog
 #: CRM/History/Import/Parser.php CRM/Import/Parser.php
 msgid "Reason"
-msgstr ""
+msgstr "Razlog"
 
+# Nabor cen?
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
 msgid "Delete Price Set"
-msgstr ""
+msgstr "Izbriši nabor cen"
 
+# Ne dovolj dober prevod
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
-msgstr ""
+msgstr "Tabela lastniških entitet"
 
+# Hudo pomanjkanje konteksta.
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
-msgstr ""
+msgstr "Kontaktiraj skupino"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Administer"
-msgstr ""
+msgstr "Administriraj"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "ACL Name"
-msgstr ""
+msgstr "Ime ACL"
 
+# Mogoče tudi kaj drugega.
 #: CRM/ACL/DAO/ACL.php
 msgid "Deny"
-msgstr ""
+msgstr "Zavrni"
 
+# Tako tako.
 #: CRM/ACL/DAO/ACL.php
 msgid "Object Table"
-msgstr ""
+msgstr "Tabela objektov"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
-msgstr ""
+msgstr "Tabela Acl"
 
+# Ali vsi.
 #: CRM/ACL/DAO/ACL.php
 msgid "All"
-msgstr ""
+msgstr "Vse"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Grant"
-msgstr ""
+msgstr "Dovoli"
 
+# Ne dovolj dober prevod.
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
-msgstr ""
+msgstr "Razveljavi"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
-msgstr ""
+msgstr "Skupina stikov"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A set of custom data fields"
-msgstr ""
+msgstr "Nabor ukrojenih polij podatkov"
 
+# Ali "Tip podatkov"?
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Type of Data"
-msgstr ""
+msgstr "Tip podatka"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Role"
-msgstr ""
+msgstr "Vloga"
 
 #: CRM/ACL/Form/ACL.php
 msgid " -select role- "
-msgstr ""
+msgstr "_-izberi vlogo-_"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Everyone"
-msgstr ""
+msgstr "Vsi"
 
+# Ali "...tej vlogi."?
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Prosimo določite to dovoljenje vlogi."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a Group (or ALL Groups)."
-msgstr ""
+msgstr "Prosimo izberite skupino (ali VSE skupine)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr ""
+msgstr "Prosimo izberite profil (ali VSE profile)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
-msgstr ""
+msgstr "Prosimo izberite nabor ukrojenih podatkov (ali VSE ukrojene podatke)"
 
+# Lahko da je ACL ženskega spola, kar spremeni stavek.
 #: CRM/ACL/Form/ACL.php
 msgid "Selected ACL has been deleted."
-msgstr ""
+msgstr "Izbrani ACL je bil izbrisan."
 
 #: CRM/ACL/Form/EntityRole.php templates/CRM/ACL/Page/EntityRole.tpl
 msgid "Assigned To"
-msgstr ""
+msgstr "Dodeljeno"
 
 #: CRM/ACL/Form/EntityRole.php
 msgid "Selected Entity Role has been deleted."
-msgstr ""
+msgstr "Izbrana vloga entitete je bila izbrisana"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Are you sure you want to disable this ACL?"
-msgstr ""
+msgstr "Ali ste prepričani, da boste onemogočili ta ACL?"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
 msgid "Edit ACL"
-msgstr ""
+msgstr "Uredi ACL"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Disable ACL"
-msgstr ""
+msgstr "Onemogoči ACL"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Enable ACL"
-msgstr ""
+msgstr "Omogoči ACL"
 
 #: CRM/ACL/Page/ACL.php templates/CRM/ACL/Form/ACL.tpl
 msgid "Delete ACL"
-msgstr ""
+msgstr "Izbriši ACL"
 
 #: CRM/ACL/Page/ACL.php
 msgid "Any Role"
-msgstr ""
+msgstr "Katerakoli vloga"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Are you sure you want to disable this ACL Role Assignment?"
-msgstr ""
+msgstr "Ali ste prepričani, da hočete onemogočiti nalogo tej ACL vlogi?"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Edit ACL Role Assignment"
-msgstr ""
+msgstr "Uredi nalogo ACL vlogi"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Disable ACL Role Assignment"
-msgstr ""
+msgstr "Onemogoči nalogo ACL vlogi"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Enable ACL Role Assignment"
-msgstr ""
+msgstr "Omogoči nalogo ACL vlogi"
 
 #: CRM/ACL/Page/EntityRole.php templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Delete ACL Role Assignment"
-msgstr ""
+msgstr "Izbriši nalogo ACL vlogi"
 
 #: CRM/ACL/Page/EntityRole.php
 msgid "Assign Users to Roles"
-msgstr ""
+msgstr "Dodeli uporabnike vlogam"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been logged to Activity History."
-msgstr ""
+msgstr "\"%1\" je bil prijavljen v zgodovino aktivnosti"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "\"%1\" has been saved."
-msgstr ""
+msgstr "\"%1\" je bil shranjen."
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr ""
+msgstr "- izberi tip aktivnosti -"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
-msgstr ""
+msgstr "Izberi telefonsko številko"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "OR New Phone"
-msgstr ""
+msgstr "ALI nov telefon"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Selected Phone Call is deleted sucessfully."
-msgstr ""
+msgstr "Izbrani telefonski klic je bil uspešno izbrisan."
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
-msgstr ""
+msgstr "Polje"
 
+# Ali "nobeno"
 #: CRM/Admin/Form/DedupeRules.php
 msgid "- none -"
-msgstr ""
+msgstr "- nič -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
-msgstr ""
+msgstr "Dolžina"
 
 #: CRM/Admin/Form/DedupeRules.php
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr ""
+msgstr "Teža pragu, ki bo določil da se stika ujemata"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
-msgstr ""
+msgstr "Ujemaj pri:"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
 "The Duplicate Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
+"Pravilo o ujemanju dvojnikov ni bilo shranjeno ker je pravilo neveljavno. "
+"Pravila bi morala vsebovati le veljavna imena polj, 'IN', 'ALI', ali vmesne "
+"stavke."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "The Duplicate Matching rule has been saved."
-msgstr ""
+msgstr "Pravilo o ujemanju dvojnikov je bilo shranjeno."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
-msgstr ""
+msgstr "Ime lahko vsebuje le alfanumerične znake."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "vCard Name"
-msgstr ""
+msgstr "Ime vCard"
 
 #: CRM/Admin/Form/LocationType.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Default?"
-msgstr ""
+msgstr "Privzeto?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr ""
+msgstr "Tip izbrane lokacije je bil izbrisan."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
-msgstr ""
+msgstr "Tip lokacije \"%1\" je bil shranjen."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
 msgid "Message Title"
-msgstr ""
+msgstr "Naslov sporočila"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
 msgid "Message Subject"
-msgstr ""
+msgstr "Predmet sporočila"
 
 #: CRM/Admin/Form/MessageTemplates.php
 msgid "Text Message"
-msgstr ""
+msgstr "Tekstovno sporočilo"
 
 #: CRM/Admin/Form/MessageTemplates.php
 msgid "HTML Message"
-msgstr ""
+msgstr "HTML sporočilo"
 
 #: CRM/Admin/Form/MessageTemplates.php
 msgid "The Message Template \"%1\" has been saved."
-msgstr ""
+msgstr "Predlaga sporočila \"%1\" je bila shranjena."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "Selected option group has been deleted."
-msgstr ""
+msgstr "Izbrana skupina možnosti je bila izbrisana."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "The Option Group \"%1\" has been saved."
-msgstr ""
+msgstr "Skupina možnosti \"%1\" je bila shranjena."
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has been deleted."
-msgstr ""
+msgstr "Izbran tip %1 je bil izbrisan."
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has not been deleted."
-msgstr ""
+msgstr "Izbran tip %1 ni bil izbrisan."
 
+# Vprašanje konteksta.
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
-msgstr ""
+msgstr "%1 \"%2\" je bil shranjen."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Default Option?"
-msgstr ""
+msgstr "Privzeta možnost?"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Option Group?"
-msgstr ""
+msgstr "Skupina možnosti?"
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Selected option value has been deleted."
-msgstr ""
+msgstr "Vrednost izbrane možnosti je bila izbrisana."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "The Option Value \"%1\" has been saved."
-msgstr ""
+msgstr "Vrednost možnosti \"%1\" je bila shranjena."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Could not find payment processor meta information"
-msgstr ""
+msgstr "Ni bilo moč najdi meta informacij v plačilnem procesorju"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor active?"
-msgstr ""
+msgstr "Je ta procesor plačil aktiven?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor the default?"
-msgstr ""
+msgstr "Je ta procesor plačil privzet?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
-msgstr ""
+msgstr "Zapolnjeno morate imeti vsaj testno ali živo sekcijo"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the user_name specified"
-msgstr ""
+msgstr "Imeti morate opredeljeno vsaj eno user_name"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a positive integer"
-msgstr ""
+msgstr "Vpišite pozitivno številko"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "User Name Label"
-msgstr ""
+msgstr "Oznaka uporabniškega imena"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Password Label"
-msgstr ""
+msgstr "Oznaka gesla"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Signature Label"
-msgstr ""
+msgstr "Oznaka podpisa"
 
+# "Subject" je vprašljiv
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Subject Label"
-msgstr ""
+msgstr "Oznaka predmeta"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
-msgstr ""
+msgstr "PHP ime razreda"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Site URL"
-msgstr ""
+msgstr "URL žive strani"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Recurring Payments URL"
@@ -11747,4 +11851,4 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
-msgstr ""
+msgstr "Napaka v SMTP prenosu"

@@ -16,36 +16,32 @@ Hold your mouse over the help (?) icon for more information on formats and requi
   </fieldset>
 
   <fieldset id="compose_id"><legend>{ts}Compose On-screen{/ts}</legend>
-      <dl class="dojoEditor"> 
-	{if $template_value}
-		<script type="text/javascript">
-  			dojo.addOnLoad( function( ) {ldelim}
-    			dojo.widget.byId( 'template' ).setAllValues( '{$template_value[0]}', '{$template_value[1]}' ) 
-			{rdelim} );
-		</script>
-	{/if} 
-	{if $templates}<dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>{/if}
-  	<dt>{$form.text_message.label}</dt><dd>{$form.text_message.html}</dd>
-        <dt>{$form.html_message.label}</dt> 
-        <dd>
+    <table class="dojoEditor form-layout-compressed"> 
+	{if $templates}<tr><td class="label" width="105px">{$form.template.label}</td><td>{$form.template.html}</td></tr>{/if}
+  	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
+        <tr><td colspan="2"><span class="font-size11pt bold">{$form.html_message.label}</span><br /> 
            <div style="position: relative;">
-		<div style="border: 1px solid black; overflow: auto" >
+                <div style="border: 1px solid black; overflow: auto;" >
                    {$form.html_message.html}
                 </div>
            </div>
-        </dd>
-      </dl>  
-    <div id="editMessageDetails" class="form-item">
-      <dl>
-         <dt>&nbsp;</dt><dd>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</dd>
-         <dt>&nbsp;</dt><dd>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}</dd>
-      </dl>
-    </div>
-     <div id="saveDetails" class="form-item">
-        <dl> 
-          <dt>{$form.saveTemplateName.label}</dt><dd>{$form.saveTemplateName.html}</dd>
-        </dl>
-      </div>
+        </td>
+    </tr>
+    </table>
+    
+    <table class="form-layout" id="editMessageDetails">
+      <tr>
+         <td>&nbsp;</td><td>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</td>
+      </tr>
+      <tr>
+         <td>&nbsp;</td>
+         <td>{$form.saveTemplate.html}&nbsp;{$form.saveTemplate.label}
+            <div id="saveDetails" class="form-item">
+                <span class="marker" title="This field is required.">*</span> {$form.saveTemplateName.label} &nbsp; {$form.saveTemplateName.html}
+            </div>
+         </td>
+      <//tr>
+     </table>
   </fieldset>
 
   <fieldset id="upload_id"><legend>{ts}Upload Content{/ts}</legend>
@@ -95,12 +91,39 @@ Hold your mouse over the help (?) icon for more information on formats and requi
         }
     }
    
-    function selectValue(val)
+    function selectValue( val )
     {
-       var tokens = val.split( "^A" );
-       var ed = dojo.widget.byId('html_message');
-       dojo.byId('text_message').value=tokens[0];
-       ed.editNode.innerHTML = tokens[2];
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
+
+	var _this = this;
+	var request = dojo.io.bind(
+	              {
+		         url: dataUrl,
+			 method: "get",
+			 preventCache:true,
+			 mimetype: "text/json",
+			 load: function(type, data, evt) {
+			    _this._inFlight = false;
+			    if ( !dojo.lang.isArray(data) ) {
+			       var arrData = [];
+			       for ( var key in data ) {
+				   arrData.push([data[key], key]);
+			       }
+			       data = arrData;
+			    } 
+			 
+			    if (request == _this._lastRequest){
+			      callback(data);
+			    }
+
+			    //set text message
+			    dojo.byId('text_message').value = data[0];
+
+			    //set html message
+			    var ed = dojo.widget.byId('html_message');
+			    ed.editNode.innerHTML = data[1];
+			 }
+		      });
     }
  
      function verify( select )
@@ -126,5 +149,23 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 
     document.getElementById("saveDetails").style.display = "none";
     document.getElementById("editMessageDetails").style.display = "none";
+
+
+    dojo.addOnLoad( function( ) 
+    {
+	var message = dojo.widget.byId('html_message');
+        dojo.event.connect( message, 'onLoad', 'setHTMLMessage')
+
+    });
+
+
+  function setHTMLMessage ( ) {
+      var message_html  = {/literal}'{$message_html}'{literal};
+        
+      var ed = dojo.widget.byId('html_message');
+      ed.editNode.innerHTML = message_html;
+  }
+
+
 </script>
 {/literal}
