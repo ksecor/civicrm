@@ -749,7 +749,10 @@ function _crm_format_custom_params( &$params, &$values, $extends )
     }
 }
 
-
+/**
+ * Not sure why we are not using the same create contact routines
+ * We should investigate when we upgrade the contact api
+ */
 function _crm_update_contact( $contact, $values, $overwrite = true ) 
 {
     // first check to make sure the location arrays sync up
@@ -761,6 +764,9 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
     if (! $locMatch) {
         return _crm_error('Cannot update contact location');
     }
+
+    CRM_Utils_Hook::pre( 'edit', $contact->contact_type, $contact->id, $values );
+
 
     // it is possible that an contact type object record does not exist
     // if the contact_type_object is null etc, if so we create one
@@ -1175,6 +1181,8 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             }
         }
     }
+
+    CRM_Utils_Hook::post( 'edit', $contact->contact_type, $contact->id, $contact );
 
     return $contact;
 }

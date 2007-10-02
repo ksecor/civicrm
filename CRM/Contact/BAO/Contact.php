@@ -507,6 +507,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $transaction->commit( );
         
+        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
+
         if ( $invokeHooks ) {
             if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
@@ -514,8 +516,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
             }
         }
-
-        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         return $contact;
     }
