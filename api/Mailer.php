@@ -131,7 +131,7 @@ function crm_mailer_event_resubscribe($job, $queue, $hash) {
         CRM_Mailing_Event_BAO_Resubscribe::resub_to_mailing($job, $queue, $hash);
     
     if (count($groups)) {
-        CRM_Mailing_Event_BAO_Resubscribe::send_resub_response($job, $queue, $hash);
+        CRM_Mailing_Event_BAO_Resubscribe::send_resub_response($queue, $groups, false, $job);
         return true;
     }
     return false;

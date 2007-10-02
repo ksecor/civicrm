@@ -1,8 +1,8 @@
-{if $report.jobs.0.start_date}
 <fieldset>
 <legend>{ts}Delivery Summary{/ts}</legend>
+{if $report.jobs.0.start_date}
   {strip}
-  <table class="form-layout">
+  <table class="form-layout-compressed">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
   <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
@@ -22,33 +22,13 @@
   <tr><td class="label">{ts}End Date{/ts}</td><td>{$report.jobs.0.end_date}</td></tr>
   </table>
   {/strip}
-</fieldset>
+{else}
+    <div class="messages status">
+        {ts 1="http://wiki.civicrm.org/confluence//x/vyM" 2=$docURLTitle}<strong>Delivery has not yet begun for this mailing.</strong> If the scheduled delivery date and time is past, ask the system administrator or technical support
+        contact for your site to verify that the automated mailer task (&quot;cron job&quot;) is running - and how frequently. (<a href='%1' title='%2' target='_blank'>more info...</a>){/ts}
+    </div>
 {/if}
-
-
-{if $report.mailing.url_tracking && $report.click_through|@count > 0}
-<fieldset>
-<legend>{ts}Click-through Summary{/ts}</legend>
-{strip}
-<table>
-<tr>
-<th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
-<th><a href="{$report.event_totals.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
-<th>{ts}Success Rate{/ts}</th>
-<th>{ts}URL{/ts}</th></tr>
-{foreach from=$report.click_through item=row}
-<tr class="{cycle values="odd-row,even-row"}">
-<td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
-<td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
-<td>{$row.rate|string_format:"%0.2f"}%</td>
-<td><a href="{$row.url}">{$row.url}</a></td>
-</tr>
-{/foreach}
-</table>
-{/strip}
 </fieldset>
-{/if}
-
 
 <fieldset>
 <legend>{ts}Recipients{/ts}</legend>
@@ -91,13 +71,68 @@
 {/if}
 </fieldset>
 
+{if $report.mailing.url_tracking && $report.click_through|@count > 0}
+<fieldset>
+<legend>{ts}Click-through Summary{/ts}</legend>
+{strip}
+<table>
+<tr>
+<th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
+<th><a href="{$report.event_totals.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
+<th>{ts}Success Rate{/ts}</th>
+<th>{ts}URL{/ts}</th></tr>
+{foreach from=$report.click_through item=row}
+<tr class="{cycle values="odd-row,even-row"}">
+<td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
+<td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
+<td>{$row.rate|string_format:"%0.2f"}%</td>
+<td><a href="{$row.url}">{$row.url}</a></td>
+</tr>
+{/foreach}
+</table>
+{/strip}
+</fieldset>
+{/if}
+
+<fieldset>
+<legend>{ts}Content / Components{/ts}</legend>
+{strip}
+<table class="form-layout-compressed">
+{if $report.mailing.body_text}
+<tr>
+  <td class="label nowrap">{ts}Text Message{/ts}</td>
+  <td>
+    {$report.mailing.body_text|truncate:30|escape|nl2br}
+    <br />
+    <strong><a href='{$textViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+  </td>
+</tr>
+{/if}
+
+{if $report.mailing.body_html}
+<tr>
+  <td class="label nowrap">{ts}HTML Message{/ts}</td>
+  <td>
+    {$report.mailing.body_html|truncate:30|escape|nl2br}
+    <br/>
+    <strong><a href='{$htmlViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+  </td>
+</tr>
+{/if}
+
+{foreach from=$report.component item=component}
+    <tr><td class="label">{$component.type}</td><td><a href="{$component.link}">{$component.name}</a></td></tr>
+{/foreach}
+</table>
+{/strip}
+</fieldset>
 
 <fieldset>
 <legend>
     {ts}Mailing Settings{/ts}
 </legend>
 {strip}
-<table class="form-layout">
+<table class="form-layout-compressed">
 <tr><td class="label">{ts}Mailing Name{/ts}</td><td>{$report.mailing.name}</td></tr>
 <tr><td class="label">{ts}Subject{/ts}</td><td>{$report.mailing.subject}</td></tr>
 <tr><td class="label">{ts}From{/ts}</td><td>{$report.mailing.from_name} &lt;{$report.mailing.from_email}&gt;</td></tr>
@@ -112,32 +147,6 @@
 {/strip}
 </fieldset>
 
-<fieldset>
-<legend>{ts}Content / Components{/ts}</legend>
-{strip}
-<table class="form-layout">
-{foreach from=$report.component item=component}
-<tr><td class="label">{$component.type}</td><td>
-<a href="{$component.link}">{$component.name}</a></td></tr>
-{/foreach}
-{if $report.mailing.body_text}
-<tr>
-  <td class="label">{ts}Text Body{/ts}<br />
-    <small><a href='{$textViewURL}'>{ts}View Text Body{/ts}</a></small>
-  </td>
-  <td class="report">{$report.mailing.body_text|escape|nl2br}</td>
-</tr>
-{/if}
-{if $report.mailing.body_html}
-<tr>
-  <td class="label">{ts}HTML Body{/ts}<br/>
-    <small><a href='{$htmlViewURL}'>{ts}View HTML Body{/ts}</a></small>
-  </td>
-  <td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
-{/if}
-</table>
-{/strip}
-</fieldset>
 
 
 
