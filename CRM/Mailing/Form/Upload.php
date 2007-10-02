@@ -57,6 +57,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $session->set('skipHtmlFile', false);
 
         $defaults = array( );
+        $htmMessage = null;
         if ( $mailingID ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
             $dao =&new  CRM_Mailing_DAO_Mailing();
@@ -73,7 +74,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $messageTemplate->find( true );
 
                 $defaults['text_message'] = $messageTemplate->msg_text;
-                $this->assign('message_html', $messageTemplate->msg_html);
+                $htmMessage = $messageTemplate->msg_html;
             }
 
             if ( $defaults['body_text'] ) {
@@ -87,6 +88,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
+        if ( !$htmMessage ) {
+            $htmMessage = $this->getElementValue( "html_message" );
+        }
+        
+        $this->assign('message_html', $htmMessage );        
+
         $domain = new CRM_Core_DAO_Domain( );
         $domain->id = CRM_Core_Config::domainID( );
         $domain->selectAdd( );
@@ -220,7 +227,6 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
             }
         } else {
-            
             $params['body_text'] = $this->controller->exportvalue($this->_name, 'text_message');
             $this->set('textFile', $params['body_text'] );
             $params['body_html'] = $this->controller->exportvalue($this->_name, 'html_message');
@@ -236,8 +242,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                                       'template', 'text_message', 'html_message', 
                                       'saveTemplate', 'updateTemplate', 'saveTemplateName'
                                       );
+
         //mail template is composed 
-        if ($this->controller->exportvalue($this->_name, 'upload_type') ){
+        if ( $this->controller->exportvalue($this->_name, 'upload_type') ) {
             foreach ( $composeFields as $key ) {
                 $composeParams[$key] = $this->controller->exportvalue($this->_name, $key);
                 $this->set($key, $this->controller->exportvalue($this->_name, $key));
@@ -265,6 +272,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             
             if ( $msgTemplate->id ) {
                 $params['msg_template_id'] = $msgTemplate->id;
+            } else {
+                $params['msg_template_id'] = $this->controller->exportvalue($this->_name, 'template');
             }
         }
 
