@@ -182,7 +182,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        //$this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -228,10 +228,21 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set('htmlFile', $this->controller->exportvalue($this->_name, 'htmlFile'));
             }
         } else {
-            $params['body_text'] = $this->controller->exportvalue($this->_name, 'text_message');
-            $this->set('textFile', $params['body_text'] );
-            $params['body_html'] = $this->controller->exportvalue($this->_name, 'html_message');
-            $this->set('htmlFile', $params['body_html'] );
+            $text_message = $this->controller->exportvalue($this->_name, 'text_message');
+            $params['body_text']     = $text_message;
+            $this->set('textFile',     $params['body_text'] );
+            $this->set('text_message', $params['body_text'] );
+            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
+            
+            // dojo editor does some html conversion when tokens are
+            // inserted as links. Hence token replacement fails.
+            // this is hack to revert html conversion for { to %7B and
+            // } to %7D by dojo editor
+            $html_message = str_replace( '%7B', '{', str_replace( '%7D', '}', $html_message) );
+            
+            $params['body_html']     = $html_message;
+            $this->set('htmlFile',     $params['body_html'] );
+            $this->set('html_message', $params['body_html'] );
         }
 
         $params['name'] = $this->get('name');
@@ -239,11 +250,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']  = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
-        $composeFields       = array ( 
-                                      'template', 'text_message', 'html_message', 
-                                      'saveTemplate', 'updateTemplate', 'saveTemplateName'
-                                      );
-
+        $composeFields        = array ( 'template', 'saveTemplate',
+                                        'updateTemplate', 'saveTemplateName' );
+        
         //mail template is composed 
         if ( $this->controller->exportvalue($this->_name, 'upload_type') ) {
             foreach ( $composeFields as $key ) {
@@ -251,8 +260,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $this->set($key, $this->controller->exportvalue($this->_name, $key));
             }
             
-            $templateParams = array( 'msg_text'    => $composeParams['text_message'],
-                                     'msg_html'    => $composeParams['html_message'],
+            $templateParams = array( 'msg_text'    => $text_message,
+                                     'msg_html'    => $html_message,
                                      'msg_subject' => $params['subject'],
                                      'is_active'   => true
                                      );
