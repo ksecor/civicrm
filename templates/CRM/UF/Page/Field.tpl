@@ -15,7 +15,7 @@
             <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
             <th field="Searchable" dataType="String">{ts}Searchable?{/ts}</th>
             <th field="Selector" dataType="String">{ts}In Selector?{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th field="Active" dataType="String">{ts}Active{/ts}</th>	
             <th field="Required" dataType="String">{ts}Required{/ts}</th>	
             <th field="View" dataType="String">{ts}View Only{/ts}</th>	

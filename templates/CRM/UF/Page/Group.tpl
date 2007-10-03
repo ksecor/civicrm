@@ -40,8 +40,7 @@
             <th field="ID" dataType="Number">{ts}ID{/ts}</th>
             <th field="Used" dataType="String">{ts}Used For{/ts}</th>
             <th field="Status" dataType="String">{ts}Status?{/ts}</th>
-            <th field="Order" dataType="String">{ts}Order{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th datatype="html"></th>
         </tr>
      </thead> 
@@ -54,7 +53,6 @@
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.order}</td>
             <td>{$row.weight}</td>
             <td>{$row.action}</td>
         </tr>

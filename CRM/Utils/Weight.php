@@ -270,8 +270,11 @@ class CRM_Utils_Weight {
         return $resultDAO;
     }
 
-    static function addOrder( &$rows, $daoName, $idName, $returnURL ) {
-        $returnURL = urlencode( $returnURL );
+    static function addOrder( &$rows, $daoName, $idName, $returnURL, $filter = null ) {
+        if ( empty( $rows ) ) {
+            return;
+        }
+
         $ids       = array_keys( $rows );
         $numIDs    = count( $ids );
         array_unshift( $ids, 0 );
@@ -282,10 +285,12 @@ class CRM_Utils_Weight {
             $rows[$firstID]['order'] = null;
             return;
         }
-        $config = CRM_Core_Config::singleton( );
-        $imageURL = $config->userFrameworkResourceURL . 'i/arrow';
-        $baseURL  = CRM_Utils_System::url( 'civicrm/admin/weight',
-                                           "reset=1&dao={$daoName}&idName={$idName}&url={$returnURL}" );
+        $config    = CRM_Core_Config::singleton( );
+        $imageURL  = $config->userFrameworkResourceURL . 'i/arrow';
+        $returnURL = urlencode( $returnURL );
+        $filter    = urlencode( $filter );
+        $baseURL   = CRM_Utils_System::url( 'civicrm/admin/weight',
+                                           "reset=1&dao={$daoName}&idName={$idName}&url={$returnURL}&filter={$filter}" );
 
         for ( $i = 1; $i <= $numIDs; $i++ ) {
             $id     = $ids[$i    ];
@@ -312,7 +317,7 @@ class CRM_Utils_Weight {
                 $links[] = "<a href=\"{$url}&dst={$lastID}&dir=last\"><img src=\"{$imageURL}/last.gif\" alt=\"$alt\"></a>";
             }
         
-            $rows[$id]['order'] = implode( '&nbsp;', $links );
+            $rows[$id]['weight'] .= '&nbsp;' . implode( '&nbsp;', $links );
         }
     }
 
@@ -321,6 +326,7 @@ class CRM_Utils_Weight {
         $id        = CRM_Utils_Request::retrieve( 'id'    , 'Integer', CRM_Core_DAO::$_nullObject );
         $idName    = CRM_Utils_Request::retrieve( 'idName', 'String' , CRM_Core_DAO::$_nullObject );
         $url       = CRM_Utils_Request::retrieve( 'url'   , 'String' , CRM_Core_DAO::$_nullObject );
+        $filter    = CRM_Utils_Request::retrieve( 'filter', 'String' , CRM_Core_DAO::$_nullObject );
         $src       = CRM_Utils_Request::retrieve( 'src'   , 'Integer', CRM_Core_DAO::$_nullObject );
         $dst       = CRM_Utils_Request::retrieve( 'dst'   , 'Integer', CRM_Core_DAO::$_nullObject );
         $dir       = CRM_Utils_Request::retrieve( 'dir'   , 'String' , CRM_Core_DAO::$_nullObject );
@@ -353,12 +359,18 @@ class CRM_Utils_Weight {
         } else if ( $dir == 'first' ) {
             // increment the rest by one
             $query  = "UPDATE $tableName SET weight = weight + 1 WHERE $idName != %1 AND weight < %2";
+            if ( $filter ) {
+                $query .= " AND $filter";
+            }
             $params = array( 1 => array( $src      , 'Integer' ),
                              2 => array( $srcWeight, 'Integer' ) );
             CRM_Core_DAO::executeQuery( $query, $params );
         } else if ( $dir == 'last' ) {
             // increment the rest by one
             $query  = "UPDATE $tableName SET weight = weight - 1 WHERE $idName != %1 AND weight > %2";
+            if ( $filter ) {
+                $query .= " AND $filter";
+            }
             $params = array( 1 => array( $src      , 'Integer' ),
                              2 => array( $srcWeight, 'Integer' ) );
             CRM_Core_DAO::executeQuery( $query, $params );
