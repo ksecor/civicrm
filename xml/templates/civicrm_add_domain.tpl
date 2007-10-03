@@ -122,7 +122,7 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
-SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
+SELECT @option_group_id_gType          := max(id) from civicrm_option_group where name = 'group_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
