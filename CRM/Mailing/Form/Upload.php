@@ -359,122 +359,86 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $errors['saveTemplateName'] =  ts('Please provide a Template Name.');
             }
         }
+        
         if( !$params['upload_type'] ) { 
-            foreach (array('textFile', 'htmlFile') as $file) {
-                if (!file_exists(CRM_Utils_Array::value('tmp_name',$files[$file]))) {
-                    continue;
-                }
-                $str = file_get_contents($files[$file]['tmp_name']);
+            $textFile    = 'textFile';
+            $htmlFile    = 'htmlFile';
+            $uploadState = true;
+        } else {
+            $textFile     = 'text';
+            $htmlFile     = 'html';
+            $composeState = true;
+        }
+        
+        foreach (array($textFile, $htmlFile) as $file) {
+            if ($uploadState && !file_exists(CRM_Utils_Array::value('tmp_name',$files[$file]))) {
+                continue;
+            }
+            if ($composeState && !$params[$file . '_message']) {
+                continue;
+            }
+
+            if ( $uploadState ) {
+                $str  = file_get_contents($files[$file]['tmp_name']);
                 $name = $files[$file]['name'];
                 
                 /* append header/footer */
                 $str = $header[$file] . $str . $footer[$file];
+            } else {
+                $str  = $params[$file . '_message'];
+                $name = $file . ' message';
                 
-                $dataErrors = array();
-                
-                /* First look for missing tokens */
-                $err = CRM_Utils_Token::requiredTokens($str);
-                if ($err !== true) {
-                    foreach ($err as $token => $desc) {
-                        $dataErrors[]   = '<li>' 
-                            . ts('This message is missing a required token - {%1}: %2',
-                                 array(1 => $token, 2 => $desc))
-                            . '</li>';
-                    }
-                }
-                
-                /* Do a full token replacement on a dummy verp, the current contact
-                 * and domain. */
-                
-                // here we make a dummy mailing object so that we
-                // can retrieve the tokens that we need to replace
-                // so that we do get an invalid token error
-                // this is qute hacky and I hope that there might
-                // be a suggestion from someone on how to
-                // make it a bit more elegant
-                
-                require_once 'CRM/Mailing/BAO/Mailing.php';
-                $dummy_mail = new CRM_Mailing_BAO_Mailing();
-                $dummy_mail->body_text = $str;
-                $tokens = $dummy_mail->getTokens();
-                
-                $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
-                
-                $unmatched = CRM_Utils_Token::unmatchedTokens($str);
-                if (! empty($unmatched)) {
-                    foreach ($unmatched as $token) {
-                        $dataErrors[]   = '<li>'
-                            . ts('Invalid token code')
-                            .' {'.$token.'}</li>';
-                    }
-                }
-                if (! empty($dataErrors)) {
-                    $errors[$file] = 
-                        ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
+                /* append header/footer */
+                $str = $header[$file . 'File'] . $str . $footer[$file . 'File'];
+            }
+            
+            $dataErrors = array();
+            
+            /* First look for missing tokens */
+            $err = CRM_Utils_Token::requiredTokens($str);
+            if ($err !== true) {
+                foreach ($err as $token => $desc) {
+                    $dataErrors[]   = '<li>' 
+                        . ts('This message is missing a required token - {%1}: %2',
+                             array(1 => $token, 2 => $desc))
+                        . '</li>';
                 }
             }
-        } else {
-            foreach (array('text', 'html') as $format) {
-                if (!$params[$format . '_message']) {
-                    continue;
-                }
-                
-                $str = $params[$format . '_message'];
-                $name = $format . ' message';
             
-                /* append header/footer */
-                $str = $header[$format . 'File'] . $str . $footer[$format . 'File'];
-                
-                $dataErrors = array();
-                
-                /* First look for missing tokens */
-                $err = CRM_Utils_Token::requiredTokens($str);
-                if ($err !== true) {
-                    foreach ($err as $token => $desc) {
-                        $dataErrors[]   = '<li>'
-                            . ts('This message is missing a required token - {%1}: %2',
-                                 array(1 => $token, 2 => $desc))
-                            . '</li>';
-                    }
+            /* Do a full token replacement on a dummy verp, the current contact
+             * and domain. */
+            
+            // here we make a dummy mailing object so that we
+            // can retrieve the tokens that we need to replace
+            // so that we do get an invalid token error
+            // this is qute hacky and I hope that there might
+            // be a suggestion from someone on how to
+            // make it a bit more elegant
+            
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $dummy_mail = new CRM_Mailing_BAO_Mailing();
+            $dummy_mail->body_text = $str;
+            $tokens = $dummy_mail->getTokens();
+            
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
+            
+            $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+            if (! empty($unmatched)) {
+                foreach ($unmatched as $token) {
+                    $dataErrors[]   = '<li>'
+                        . ts('Invalid token code')
+                        .' {'.$token.'}</li>';
                 }
-                
-                /* Do a full token replacement on a dummy verp, the current contact
-                 * and domain. */
-                
-                // here we make a dummy mailing object so that we
-                // can retrieve the tokens that we need to replace
-                // so that we do get an invalid token error
-                // this is qute hacky and I hope that there might
-                // be a suggestion from someone on how to
-                // make it a bit more elegant
-                
-                require_once 'CRM/Mailing/BAO/Mailing.php';
-                $dummy_mail = new CRM_Mailing_BAO_Mailing();
-                $dummy_mail->body_text = $str;
-                $tokens = $dummy_mail->getTokens();
-                
-                $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-                $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
-                
-                $unmatched = CRM_Utils_Token::unmatchedTokens($str);
-                if (! empty($unmatched)) {
-                    foreach ($unmatched as $token) {
-                        $dataErrors[]   = '<li>'
-                            . ts('Invalid token code')
-                            .' {'.$token.'}</li>';
-                    }
-                }
-                if (! empty($dataErrors)) {
-                    $errors[$format . 'File'] =
-                        ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
-                }
+            }
+            if (! empty($dataErrors)) {
+                $errors[$file] = 
+                    ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
             }
         }
+
         return empty($errors) ? true : $errors;
     }
 
