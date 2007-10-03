@@ -182,7 +182,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        //$this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',

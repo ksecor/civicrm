@@ -322,7 +322,7 @@ class CRM_Utils_Token
             
             if ( $value && $html ) {
                 //fix for CRM-2318
-                if ( substr( $token, -3 ) != 'Url' ) {
+                if ( (substr( $token, -3 ) != 'Url') && ($token != 'forward') ) {
                     $value = "mailto:$value";
                 } 
             } else if ($value && !$html) {
