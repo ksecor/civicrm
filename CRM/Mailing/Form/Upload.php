@@ -369,37 +369,25 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        if( !$params['upload_type'] ) { 
-            $textFile    = 'textFile';
-            $htmlFile    = 'htmlFile';
-            $uploadState = true;
-        } else {
-            $textFile     = 'text';
-            $htmlFile     = 'html';
-            $composeState = true;
-        }
-        
-        foreach (array($textFile, $htmlFile) as $file) {
-            if ($uploadState && !file_exists(CRM_Utils_Array::value('tmp_name',$files[$file]))) {
+        foreach (array('text', 'html') as $file) {
+            if (!$params['upload_type'] && !file_exists(CRM_Utils_Array::value('tmp_name',$files[$file . 'File']))) {
                 continue;
             }
-            if ($composeState && !$params[$file . '_message']) {
+            if ($params['upload_type'] && !$params[$file . '_message']) {
                 continue;
             }
-
-            if ( $uploadState ) {
-                $str  = file_get_contents($files[$file]['tmp_name']);
-                $name = $files[$file]['name'];
-                
-                /* append header/footer */
-                $str = $header[$file] . $str . $footer[$file];
+            
+            if ( !$params['upload_type'] ) {
+                $str  = file_get_contents($files[$file . 'File']['tmp_name']);
+                $name = $files[$file . 'File']['name'];
             } else {
                 $str  = $params[$file . '_message'];
+                $str  = ($file == 'html') ? str_replace( '%7B', '{', str_replace( '%7D', '}', $str) ) : $str;
                 $name = $file . ' message';
-                
-                /* append header/footer */
-                $str = $header[$file . 'File'] . $str . $footer[$file . 'File'];
             }
+
+            /* append header/footer */
+            $str = $header[$file . 'File'] . $str . $footer[$file . 'File'];
             
             $dataErrors = array();
             
@@ -443,14 +431,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
             if (! empty($dataErrors)) {
-                if ( $uploadState ) {
-                    $errors[$file] = 
-                        ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
-                } else {
-                    $errors[$file . 'File'] = 
-                        ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
-                    
-                }          
+                $errors[$file . 'File'] = 
+                    ts('The following errors were detected in %1:', array(1 => $name)) . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence//x/nC" target="_blank">' . ts('More information on required tokens...') . '</a>';
             }
         }
         
