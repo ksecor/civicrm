@@ -38,7 +38,6 @@
  */
 class CRM_Mailing_Form_Upload extends CRM_Core_Form 
 {
-    
     /**
      * This function sets the default values for the form.
      * the default values are retrieved from the database
@@ -55,17 +54,21 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $session->set('skipTextFile', false);
         $session->set('skipHtmlFile', false);
-
+       
         $defaults = array( );
-        $htmMessage = null;
-        if ( $mailingID ) {
+        $htmlMessage = null;
+        if ( $mailingID  ) {
             require_once "CRM/Mailing/DAO/Mailing.php";
             $dao =&new  CRM_Mailing_DAO_Mailing();
             $dao->id = $mailingID; 
             $dao->find(true);
             $dao->storeValues($dao, $defaults);
 
-            if ( $defaults['msg_template_id'] ) {
+            //we don't want to retrieve template details once it is
+            //set in session
+            $templateId = $this->get('template');
+            
+            if ( $defaults['msg_template_id'] && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
                 $messageTemplate->id = $defaults['msg_template_id'];
@@ -78,22 +81,24 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
 
             if ( $defaults['body_text'] ) {
+                $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
             }
 
-            if (CRM_Utils_Array::value('body_html',$defaults)) {
+            if ( $defaults['body_html'] ) {
+                $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
             }
         }
         
-        if ( !$htmMessage ) {
-            $htmMessage = $this->getElementValue( "html_message" );
+        if ( !$htmlMessage ) {
+            $htmlMessage = $this->getElementValue( "html_message" );
         }
         
-        $htmMessage = str_replace( array("\n","\r"), ' ', $htmMessage);        
-        $this->assign('message_html', $htmMessage );        
+        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);        
+        $this->assign('message_html', $htmlMessage );        
 
         $domain = new CRM_Core_DAO_Domain( );
         $domain->id = CRM_Core_Config::domainID( );
