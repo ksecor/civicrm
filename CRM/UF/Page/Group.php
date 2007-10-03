@@ -258,7 +258,7 @@ class CRM_UF_Page_Group extends CRM_Core_Page
         if (empty($allUFGroups)) {
             return;
         }
-        
+
         foreach ($allUFGroups as $id => $value) {
             $ufGroup[$id] = array();
             $ufGroup[$id]['id'       ] = $id;
@@ -281,6 +281,12 @@ class CRM_UF_Page_Group extends CRM_Core_Page
             //get the "Used For" from uf_join
             $ufGroup[$id]['module'] = implode( ', ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $id, true ));
         }
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/uf/group', 'reset=1' ); 
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $ufGroup, 'CRM_Core_DAO_UFJoin',
+                                    'uf_group_id', $returnURL );
+
         $this->assign('rows', $ufGroup);
     }
     

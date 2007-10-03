@@ -742,6 +742,10 @@ class CRM_Core_Invoke
             }
             break;
             
+        case 'weight':
+            require_once 'CRM/Utils/Weight.php';
+            CRM_Utils_Weight::reorder( );
+            break;
 
         case 'setting':
             return self::setting( $args );

@@ -269,4 +269,102 @@ class CRM_Utils_Weight {
         $resultDAO = CRM_Core_DAO::executeQuery( $query, $params );
         return $resultDAO;
     }
+
+    static function addOrder( &$rows, $daoName, $idName, $returnURL ) {
+        $returnURL = urlencode( $returnURL );
+        $ids       = array_keys( $rows );
+        $numIDs    = count( $ids );
+        array_unshift( $ids, 0 );
+        $ids[]     = 0;
+        $firstID   = $ids[1];
+        $lastID    = $ids[$numIDs];
+        if ( $firstID == $lastID ) {
+            $rows[$firstID]['order'] = null;
+            return;
+        }
+        $config = CRM_Core_Config::singleton( );
+        $imageURL = $config->userFrameworkResourceURL . 'i/arrow';
+        $baseURL  = CRM_Utils_System::url( 'civicrm/admin/weight',
+                                           "reset=1&dao={$daoName}&idName={$idName}&url={$returnURL}" );
+
+        for ( $i = 1; $i <= $numIDs; $i++ ) {
+            $id     = $ids[$i    ];
+            $prevID = $ids[$i - 1];
+            $nextID = $ids[$i + 1];
+
+            $links = array( );
+            $url = "{$baseURL}&src=$id";
+
+            if ( $prevID != 0 ) {
+                $alt     = ts( 'Make this the first element' );
+                $links[] = "<a href=\"{$url}&dst={$firstID}&dir=first\"><img src=\"{$imageURL}/first.gif\" alt=\"$alt\"></a>";
+                
+                $alt     = ts( 'Swap with the element above me' );
+                $links[] = "<a href=\"{$url}&dst={$prevID}&dir=swap\"><img src=\"{$imageURL}/up.gif\" alt=\"$alt\"></a>";
+                
+            }
+
+            if ( $nextID != 0 ) {
+                $alt     = ts( 'Swap with the element below me' );
+                $links[] = "<a href=\"{$url}&dst={$nextID}&dir=swap\"><img src=\"{$imageURL}/down.gif\" alt=\"$alt\"></a>";
+                
+                $alt     = ts( 'Make this the last element' );
+                $links[] = "<a href=\"{$url}&dst={$lastID}&dir=last\"><img src=\"{$imageURL}/last.gif\" alt=\"$alt\"></a>";
+            }
+        
+            $rows[$id]['order'] = implode( '&nbsp;', $links );
+        }
+    }
+
+    static function reorder( ) {
+        $daoName   = CRM_Utils_Request::retrieve( 'dao'   , 'String' , CRM_Core_DAO::$_nullObject );
+        $id        = CRM_Utils_Request::retrieve( 'id'    , 'Integer', CRM_Core_DAO::$_nullObject );
+        $idName    = CRM_Utils_Request::retrieve( 'idName', 'String' , CRM_Core_DAO::$_nullObject );
+        $url       = CRM_Utils_Request::retrieve( 'url'   , 'String' , CRM_Core_DAO::$_nullObject );
+        $src       = CRM_Utils_Request::retrieve( 'src'   , 'Integer', CRM_Core_DAO::$_nullObject );
+        $dst       = CRM_Utils_Request::retrieve( 'dst'   , 'Integer', CRM_Core_DAO::$_nullObject );
+        $dir       = CRM_Utils_Request::retrieve( 'dir'   , 'String' , CRM_Core_DAO::$_nullObject );
+
+        require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
+        eval( '$object   =& new ' . $daoName . '( );' );
+        $srcWeight = CRM_Core_DAO::getFieldValue( $daoName,
+                                                  $src,
+                                                  'weight',
+                                                  $idName );
+        $dstWeight = CRM_Core_DAO::getFieldValue( $daoName,
+                                                  $dst,
+                                                  'weight',
+                                                  $idName );
+        if ( $srcWeight == $dstWeight ) {
+            return;
+        }
+
+        $tableName = $object->tableName( );
+
+        $query  = "UPDATE $tableName SET weight = %1 WHERE $idName = %2";
+        $params = array( 1 => array( $dstWeight, 'Integer' ),
+                         2 => array( $src      , 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
+        
+        if ( $dir == 'swap' ) {
+            $params = array( 1 => array( $srcWeight, 'Integer' ),
+                             2 => array( $dst      , 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $query, $params );
+        } else if ( $dir == 'first' ) {
+            // increment the rest by one
+            $query  = "UPDATE $tableName SET weight = weight + 1 WHERE $idName != %1 AND weight < %2";
+            $params = array( 1 => array( $src      , 'Integer' ),
+                             2 => array( $srcWeight, 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $query, $params );
+        } else if ( $dir == 'last' ) {
+            // increment the rest by one
+            $query  = "UPDATE $tableName SET weight = weight - 1 WHERE $idName != %1 AND weight > %2";
+            $params = array( 1 => array( $src      , 'Integer' ),
+                             2 => array( $srcWeight, 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $query, $params );
+        }
+
+        CRM_Utils_System::redirect( $url );
+    }
+
 }
