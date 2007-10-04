@@ -84,7 +84,6 @@ class CRM_Utils_Token {
      */
     public static function requiredTokens(&$str) {
         if (self::$_requiredTokens == null) {
-<<<<<<< .working
             self::$_requiredTokens = array (    
                 'domain.address' => array(
                     'domain.address' => ts("Displays your organization's postal address."),
