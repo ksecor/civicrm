@@ -124,7 +124,7 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
-SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
+SELECT @option_group_id_gType          := max(id) from civicrm_option_group where name = 'group_type';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 

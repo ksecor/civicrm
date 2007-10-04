@@ -127,7 +127,7 @@ class CRM_Mailing_PseudoConstant extends CRM_Core_PseudoConstant {
             $mailingACL = CRM_Mailing_BAO_Mailing::mailingACL( );
             CRM_Core_PseudoConstant::populate( self::$completed,
                                                'CRM_Mailing_DAO_Mailing',
-                                               true,
+                                               false,
                                                'name',
                                                'is_completed',
                                                $mailingACL );
