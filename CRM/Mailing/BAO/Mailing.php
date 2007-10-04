@@ -541,7 +541,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     {
         require_once('CRM/Utils/String.php');
         if (!$this->templates) {
-            
+          $this->getHeaderFooter();
           $this->templates = array(  );
           
           if ( $this->body_text ) {
