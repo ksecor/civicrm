@@ -321,7 +321,7 @@ class CRM_Utils_Weight {
         }
     }
 
-    static function reorder( ) {
+    static function fixOrder( ) {
         $daoName   = CRM_Utils_Request::retrieve( 'dao'   , 'String' , CRM_Core_DAO::$_nullObject );
         $id        = CRM_Utils_Request::retrieve( 'id'    , 'Integer', CRM_Core_DAO::$_nullObject );
         $idName    = CRM_Utils_Request::retrieve( 'idName', 'String' , CRM_Core_DAO::$_nullObject );
