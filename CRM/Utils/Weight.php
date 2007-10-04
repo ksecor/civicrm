@@ -342,7 +342,7 @@ class CRM_Utils_Weight {
                                                   'weight',
                                                   $idName );
         if ( $srcWeight == $dstWeight ) {
-            return;
+            CRM_Utils_System::redirect( $url );
         }
 
         $tableName = $object->tableName( );
