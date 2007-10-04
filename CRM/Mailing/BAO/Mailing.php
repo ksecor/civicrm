@@ -429,7 +429,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $protos = '(https?|ftp)';
         $letters = '\w';
-        $gunk = '\{\}/#~:.?+=&%@!\-';
+        $gunk = '\{\}/#~:.?+=&;%@!\-';
         $punc = '.:?\-';
         $any = "{$letters}{$gunk}{$punc}";
         if ( $onlyHrefs ) {
@@ -567,7 +567,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     {
         require_once('CRM/Utils/String.php');
         if (!$this->templates) {
-            
+          $this->getHeaderFooter();
           $this->templates = array(  );
           
           if ( $this->body_text ) {
@@ -723,7 +723,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                           FROM civicrm_location
                           WHERE         civicrm_location.entity_id = $userID
                                  AND    civicrm_location.is_primary = 1";
-                $dao =& CRM_Core_DAO::executeQuery( $query);
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                 if ($dao->fetch( ) ) {
                     $location_id = $dao->id;
                 }

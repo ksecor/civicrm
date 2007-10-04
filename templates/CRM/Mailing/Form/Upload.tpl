@@ -19,18 +19,21 @@ Hold your mouse over the help (?) icon for more information on formats and requi
     <table class="dojoEditor form-layout-compressed"> 
 	{if $templates}<tr><td class="label" width="105px">{$form.template.label}</td><td>{$form.template.html}</td></tr>{/if}
   	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
-        <tr><td colspan="2"><span class="font-size11pt bold">{$form.html_message.label}</span><br /> 
-           <div style="position: relative;">
+        <tr><td colspan="2">
+            <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
+            <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})
+            <br />
+            <div style="position: relative;">
                 <div style="border: 1px solid black; overflow: auto;" >
                    {$form.html_message.html}
                 </div>
-           </div>
+            </div>
         </td>
     </tr>
     </table>
     
     <table class="form-layout" id="editMessageDetails">
-      <tr>
+      <tr id="updateDetails">
          <td>&nbsp;</td><td>{$form.updateTemplate.html}&nbsp;{$form.updateTemplate.label}</td>
       </tr>
       <tr>
@@ -87,12 +90,20 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	    show('upload_id');	
         } else {
             show('compose_id');
-	    hide('upload_id');	
+	    hide('upload_id');
+            verify( );	
         }
     }
    
     function selectValue( val )
     {
+        //rebuild save template block
+        document.getElementById("updateDetails").style.display = 'none';
+        
+        if ( !val ) {
+	    return;
+        }
+
 	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
 
 	var _this = this;
@@ -126,13 +137,25 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 		      });
     }
  
-     function verify( select )
+     function verify( )
      {
 	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
 	    document.getElementById("saveDetails").style.display = "none";
 	}
 
         document.getElementById("editMessageDetails").style.display = "block";
+
+	var templateExists = true;
+	if ( document.getElementById('template') == null ) {
+	    templateExists = false;
+	}
+
+	if ( templateExists && document.getElementById('template').value ) {
+	    document.getElementById("updateDetails").style.display = '';
+	} else {
+  	    document.getElementById("updateDetails").style.display = 'none';
+	}
+
 	document.getElementById("saveTemplateName").disabled = false;
      }
 
@@ -146,10 +169,6 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 	    document.getElementById("saveTemplateName").disabled = true;
 	}
      }
-
-    document.getElementById("saveDetails").style.display = "none";
-    document.getElementById("editMessageDetails").style.display = "none";
-
 
     dojo.addOnLoad( function( ) 
     {

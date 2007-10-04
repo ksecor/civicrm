@@ -331,13 +331,13 @@ CREATE TABLE civicrm_mailing_spool (
 	      (@domain_id, 'group_type', 'Group Type', 0, 1);
 	
 
-	SELECT @option_group_id_gtype := max(id) from civicrm_option_group where name = 'group_type';
+	SELECT @option_group_id_gType := max(id) from civicrm_option_group where name = 'group_type';
 
 	INSERT INTO 
 	   civicrm_option_value (option_group_id, label, value, name, grouping, filter, is_default, weight, description, is_optgroup, is_reserved, is_active) 
 	VALUES
-	  (@option_group_id_gtype, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
-	  (@option_group_id_gtype, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
+	  (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
+	  (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 );
 
 
 -- /*******************************************************

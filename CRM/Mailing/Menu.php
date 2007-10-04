@@ -57,7 +57,7 @@ class CRM_Mailing_Menu {
             $items = array(
                            array(
                                  'path'    => 'civicrm/admin/mail',
-                                 'title'   => ts('Mailer Settings '),
+                                 'title'   => ts('Mailer Settings'),
                                  'desc'    => ts('Configure spool period, throttling and other mailer settings.'), 
                                  'query'  => 'reset=1',
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
