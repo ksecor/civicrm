@@ -193,6 +193,13 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
                                                                                     array('id'  => $customFieldBAO->id,
                                                                                           'gid' => $this->_gid ));
         }
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', "reset=1&action=browse&gid={$this->_gid}" );
+        $filter    = "custom_group_id = {$this->_gid}";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $customField, 'CRM_Core_DAO_CustomField',
+                                    'id', $returnURL, $filter );
+        
         $this->assign('customField', $customField);
     }
 
