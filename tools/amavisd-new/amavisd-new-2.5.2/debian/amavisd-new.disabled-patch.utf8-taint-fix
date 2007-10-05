@@ -1,0 +1,33 @@
+Index: amavisd
+===================================================================
+RCS file: /cvsroot/amavisd-new/amavisd-new/amavisd,v
+retrieving revision 1.1.1.15
+retrieving revision 1.36
+diff -u -r1.1.1.15 -r1.36
+--- amavisd	21 Aug 2005 23:46:15 -0000	1.1.1.15
++++ amavisd	20 Oct 2005 13:56:17 -0000	1.36
+@@ -1392,14 +1392,21 @@
+ 
+ # A wrapper for Encode::encode, avoiding a bug in Perl 5.8.0 which causes
+ # Encode::encode to loop and fill memory when given a tainted string
++# 
++# hmh@d.o : in Debian's 5.8.4-2, trying to restore the taintedness
++# actually causes perl to somehow lose track of the encoding and it
++# completely breaks this sub.  OTOH, perl does loop eating up memory
++# on tainted strings, so we will have to lose taint state for now.
+ sub safe_encode($$;$) {
+   if (!$unicode_aware) { $_[1] }  # just return the second argument
+   else {
+     my($encoding,$str,$check) = @_;
+     $check = 0  if !defined($check);
+-    # taintedness of the string, with UTF-8 flag unconditionally off
+-    my($taint) = Encode::encode('ascii',substr($str,0,0));
+-    $taint . Encode::encode($encoding,untaint($str),$check);  # preserve taint
++    $str = untaint(\$str);
++    return Encode::encode($encoding, $str, $check);  # reattach taintedness
++#    # taintedness of the string, with UTF-8 flag unconditionally off
++#    my($taint) = Encode::encode('ascii',substr($str,0,0));
++#    $taint . Encode::encode($encoding,untaint($str),$check);  # preserve taint
+   }
+ }
+ 

@@ -1,0 +1,46 @@
+Source: amavisd-new
+Section: mail
+Priority: extra
+Maintainer: Brian May <bam@debian.org>
+Uploaders: Henrique de Moraes Holschuh <hmh@debian.org>, Alexander Wirt <formorer@debian.org>
+Build-Depends: debhelper (>= 5), libmilter-dev, po-debconf, dpatch (>= 2), patch (>= 2.5.9-3bpo1), dpkg-dev (>= 1.13.19), autoconf2.13
+Standards-Version: 3.7.2
+
+Package: amavisd-new
+Architecture: all
+Depends: debconf | debconf-2.0, adduser (>= 3.34), file, libmime-perl (>= 5.417), libmime-perl (<< 5.4.19) | libmime-perl (>= 5.420), libconvert-tnef-perl (>= 0.06), libconvert-uulib-perl (>= 1.0.5), libcompress-zlib-perl (>= 1.35), libarchive-tar-perl, libarchive-zip-perl (>= 1.14), libmailtools-perl (>= 1.58), libunix-syslog-perl, libnet-server-perl, libtime-hires-perl, libdigest-md5-perl, libmime-base64-perl, libio-stringy-perl, libberkeleydb-perl, ${perl:Depends}
+Provides: amavis
+Conflicts: amavis, logcheck (<= 1.2.62)
+Replaces: amavis
+Suggests: spamassassin (>= 3.1.0a), clamav, clamav-daemon, lha, arj, unrar, zoo, nomarch, cpio, lzop, cabextract, apt-listchanges (>= 2.35), libnet-ldap-perl (>= 1:0.32), libauthen-sasl-perl, libdbi-perl (>= 1.43), dspam
+Description: Interface between MTA and virus scanner/content filters
+ AMaViSd-new is a script that interfaces a mail transport agent (MTA) with
+ zero or more virus scanners, and spamassassin (optional).
+ .
+ It supports all common virus scanners (more than 20 different AVs), with
+ direct talk-to-daemon support for ClamAV, OpenAntiVirus, Trophie, AVG, 
+ f-prot, and Sophos AVs.
+ .
+ AMaViSd-new supports all MTAs through its generic SMTP/LMTP filter mode 
+ (ideal for postfix and exim).  It is faster and safer to use the SMTP/LMTP 
+ filter mode than using the AMaViS pipe client.  It supports sendmail milter
+ through the amavisd-new-milter package.
+
+Package: amavisd-new-milter
+Architecture: any
+Depends: ${shlibs:Depends}, amavisd-new (= ${source:Version})
+Description: Interface between sendmail-milter and amavisd-new
+ AMaViSd-new is a script that interfaces a mail transport agent (MTA) with
+ zero or more virus scanners, and spamassassin (optional).
+ .
+ It supports all common virus scanners (more than 20 different AVs), with
+ direct talk-to-daemon support for ClamAV, OpenAntiVirus, Trophie, AVG, 
+ f-prot, and Sophos AVs.
+ .
+ AMaViSd-new supports all MTAs through its generic SMTP/LMTP filter mode 
+ (ideal for postfix and exim).  It is faster and safer to use the SMTP/LMTP 
+ filter mode than using the AMaViS pipe client.  It supports sendmail milter
+ through this package.
+ .
+ This package contains the milter client, and a generic command line client
+ for amavisd-new.

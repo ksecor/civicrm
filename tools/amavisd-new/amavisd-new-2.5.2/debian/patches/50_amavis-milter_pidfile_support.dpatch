@@ -1,0 +1,102 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 50_amavis-milter_pidfile_support.dpatch by Henrique de Moraes Holschuh <hmh@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Add pidfile support for amavis-milter
+
+@DPATCH@
+diff -urNad unstable~/helper-progs/amavis-milter.c unstable/helper-progs/amavis-milter.c
+--- unstable~/helper-progs/amavis-milter.c	2006-11-04 00:51:26.000000000 -0300
++++ unstable/helper-progs/amavis-milter.c	2006-11-04 00:52:08.214746675 -0300
+@@ -45,6 +45,7 @@
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+ #include <sys/un.h>
++#include <sys/file.h>
+ #include <limits.h>
+ #include <grp.h>
+ #include <pwd.h>
+@@ -127,6 +128,9 @@
+ static struct utsname amavis_uts;
+ static int enable_x_header = 1;  /* enabled by default */
+ 
++pid_t daemon_pid;
++static char pidfile[] = "/var/run/amavis/amavisd-new-milter.pid";
++
+ static void amavis_syslog(const int, const char *, ...);
+ static char *amavis_mkdtemp(char *, int);
+ static int group_member(const char *);
+@@ -146,6 +150,38 @@
+ static sfsistat mlfi_cleanup(SMFICTX *, sfsistat, mybool);
+ 
+ 
++void
++get_lock()
++   /* check if another daemon is running */
++{
++       int otherpid = 0;
++       FILE *daemon_lockfp = NULL;
++       int fd;
++
++        if (((fd = open(pidfile, O_RDWR|O_CREAT, 0644)) == -1 )
++                        || ((daemon_lockfp = fdopen(fd, "r+"))) == NULL)
++        {
++                amavis_syslog(DBG_FATAL, "can't open or create %s", pidfile);
++                exit(EX_UNAVAILABLE);
++        }
++       if ( flock(fd, LOCK_EX|LOCK_NB) != 0 )
++       {
++               fscanf(daemon_lockfp, "%d", &otherpid);
++               amavis_syslog(DBG_INFO, "can't lock %s, running daemon's pid may be %d", pidfile, otherpid);
++               exit(EX_UNAVAILABLE);
++       }
++
++       fcntl(fd, F_SETFD, 1);
++
++       rewind(daemon_lockfp);
++       fprintf(daemon_lockfp, "%d\n", (int) daemon_pid);
++       fflush(daemon_lockfp);
++       ftruncate(fileno(daemon_lockfp), ftell(daemon_lockfp));
++       /* abandon fd and daemon_lockfp even though the file is open. we need to-
++        * keep it open and locked, but we don't need the handles elsewhere.
++        */
++}
++
+ static void
+ amavis_syslog(const int level, const char *fmt, ...)
+ {
+@@ -823,7 +859,7 @@
+ mlfi_abort(SMFICTX *ctx)
+ {
+     struct mlfiPriv *priv = MLFIPRIV;
+-    amavis_syslog(DBG_WARN, "%s: (mlfi_abort)",
++    amavis_syslog(DBG_DEBUG, "%s: (mlfi_abort)",
+ 		(!priv || !priv->mlfi_queueid ? "?" : priv->mlfi_queueid) );
+     return mlfi_cleanup(ctx, SMFIS_CONTINUE, 0);
+ }
+@@ -936,6 +972,7 @@
+ 
+     pid_t pid;
+     int devnull;
++    int result;
+ 
+ #if !defined(HAVE_MKDTEMP) && !defined(HAVE_MKTEMP)
+     int mypid = getpid();
+@@ -1123,9 +1160,15 @@
+ 
+     /* smfi_settimeout(1800); */     /* defaults to 7210 seconds */
+ 
++    daemon_pid = getpid();
++    get_lock();
++
+     /* hand control over to libmilter */
+-    amavis_syslog(DBG_WARN, "Starting, handing off to smfi_main");
+-    return smfi_main();
++    amavis_syslog(DBG_INFO, "Starting, handing off to smfi_main");
++    result=smfi_main();
++
++    remove(pidfile);
++    return(result);
+ }
+ 
+ /* eof */

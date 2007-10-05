@@ -1,0 +1,17 @@
+$Id: TODO 941 2006-08-10 14:48:18Z hmh $
+
+TODO for the packages in experimental (the rest of this file might apply
+ as well):
+
+* Manage all this with UCF, so that we get three-way diffs. Keep
+  *all* shipped revisions to enable intelligent three-way diffs.
+  (?)
+
+* Enhance amavisd-new clamd builtin support init to detect when clamd
+  ain't there?
+
+* Update templates to the new ones. pt-BR is outdated for sure
+* Improve locking on milter to lock before fork, use the new code
+  in rng-tools mt.3 or above
+* get rid of berkeley-db?
+* Provide manpages for all binarys

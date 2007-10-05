@@ -1,0 +1,1333 @@
+amavisd-new (1:2.5.2-1) experimental; urgency=low
+
+  * New upstream release (Closes: #427337, #434533)
+  * Don't remove the amavisd user (Closes: #431853)
+  * Fix unix socket path in /etc/amavis/conf.d/25-amavis_helpers
+    (Closes: #406998)
+  * Disable non-free unpackers (Closes: #410588)
+  * Add myself to uploaders 
+  * Instead of interrupting the upgrade process if starting/stopping
+    amavisd-new just warn (Closes: #430028) 
+  * Add suggestion to dspam (Closes: #423737)
+  * Add dutch po files (Closes: #413886)
+  * Add galician po file (Closes: #413459)
+  * Fix typos in debian configs (Closes: #414421)
+  * Fix comment for the X_HEADER_LINE option (Closes: #433268)
+  * Conflict against older versions of logcheck since we track logcheck files
+    now. 
+  * Update logcheck rules (Closes: #406613, #406854, #409053)
+
+ -- Alexander Wirt <formorer@debian.org>  Wed, 05 Sep 2007 10:05:05 +0200
+
+amavisd-new (1:2.4.3-1) unstable; urgency=low
+
+  * New upstream source
+  * ACK NMU: closes: #390391
+  * Switch to debhelper v5
+    + debian/control: build-depend on debhelper >= 5
+    + debian/compat: add, mode v5
+    + debian/rules: drop DH_COMPAT
+  * Switch packaging to use dpatch for all changes
+    + debian/control: build-depend on dpatch >=2, and new-enough patch for
+      "patch -U"
+    + debian/rules: convert to dpatch mechanics
+    + 20_safe_path_at_init (split from amavisd): Set safe PATH before loading
+      and running config scripts
+    + 30_conf.d_support_builtin (split from amavisd): Support out-of-the-box
+      Debian-style conf.d dirs without the need of any hackery on the main
+      config file
+    + 40_fix_paths (split from amavisd-agent, amavisd-nanny, amavisd-release
+      README_FILES/README.chroot, README_FILES/README.old.scanners,
+      README_FILES/README.performance, README_FILES/README.sendmail,
+      README_FILES/README.sendmail-dual): Correct refrences to paths that
+      are different in Debian
+    + 45_misc_doc_chages (split from amavisd.conf-default,
+      README_FILES/README.courier, README_FILES/README.exim_v3,
+      README_FILES/README.milter): miscellaneous doc updates for Debian
+    + 50_amavis-milter_pidfile_support (split from helper-progs/
+      amavis-milter.c): proper pidfile support for amavis-milter
+    + 55_helper-progs_build_fixes (split from helper-progs/Makefile.in,
+      helper-progs/configure.in): misc build fixes for helper-progs/
+  * build-depend on autoconf2.13 because of helper-progs/ (YUCK!)
+  * autotool helper-progs/ at build-time, for now
+  * debian/control: build-depend on dpkg-dev >= 1.13.19, and change to
+    binNMU-friendly dependencies in amavisd-new-milter
+  * debian/control: add po-debconf build-dependency, thanks Lintian!
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat,  4 Nov 2006 01:40:27 -0300
+
+amavisd-new (1:2.4.2-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Use $(CURDIR) instead of $(PWD) in debian/rules (closes: #390391).
+
+ -- martin f. krafft <madduck@debian.org>  Sat,  7 Oct 2006 17:47:58 +0200
+
+amavisd-new (1:2.4.2-1) unstable; urgency=low
+
+  * New upstream version:
+    + new feature: "pen pals soft-whitelisting" lowers spam score of
+      received replies to a message previously sent by a local user to this
+      address
+    + new features: added command line options to override certain
+      configuration settings from a config file
+    + documentation bug fixes, specially on the use of SQL data type
+      TIMESTAMP
+    + zoo decoder interface routine can now use utility unzoo(1) or
+      zoo(1)
+    + LDAP schema change: amavisSpamSubjectTag renamed to
+      amavisSpamQuarantineCutoffLevel
+    + Many bug fixes, including:
+      + Issue fixed: a message with only a header, without empty
+        separator line and with no body, lost the last line of a header on
+        forwarding or writing to quarantine (closes: #373206)
+      + use stricter suggested regular expression in amavisd.conf for
+        matching CLSID (Class ID extension); previous expression was loose
+        and too easily matched file names with braces in the name
+        (closes: #373159)
+  * NEWS.Debian: make it even more clear to whom the incompatible changes
+    apply, and point user to the upstream documentation about it instead of
+    describing the incompatible changes.  Apply NEWS blurb to 1:2.4.2-1, so
+    that it is shown again to the users (closes: #373136)
+  * conf.d/25-amavis_helpers: (brown paperback bug): fix location of control
+    socket
+  * New amavisd-new-cronjob script (with manpage) to encapsulate cronjobs
+  * amavisd-new.cron.d, amavisd-new.cron.daily: use the new
+    amavisd-new-cronjob script to perform maintenance actions
+    (closes: #381243)
+  * debian/logcheck.ignore: add ignore rule for non-free unpackers
+    (closes: #376465)
+  * etc/conf.d/20-debian_defaults: update black/whitelist from new upstream
+    defaults
+  * Apply patch from upstream to fix backscatter with LMTP
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 10 Aug 2006 16:26:44 -0300
+
+amavisd-new (1:2.4.1-1) unstable; urgency=low
+
+  * New upstream source
+    + Courier patch requires Net::Server 0.90 or later (not used in Debian
+      by default)
+    + Fixed many bugs
+    + Address extension is back to 2.3.3 semanthics (done at tag2_level)
+    + Fixed error handling during temporary directory cleanups
+    + Added config variables: @spam_subject_tag3_maps, @spam_tag3_level_maps
+      (and $sa_tag3_level_deflt), see upstream documentation for specifics
+    + Added LDAP attributes: amavisSpamSubjectTag, amavisSpamSubjectTag2,
+      amavisSpamDsnCutoffLevel, amavisSpamQuarantineCutoffLevel
+    + Changed notification templates in an incompatible way with 2.4.0
+      (still compatible to 2.3.3 and older): major contents category numbers
+      are renumbered due to a newly inserted category CC_SPAMMY; it affects
+      the use of macro ccat_maj in templates
+    + Storing mail in BSMTP format now saves DSN information, as permitted
+      by RFC 2442
+    + Apply the concept of separate timers $child_timeout and $smtpd_timeout
+      as used in a SMTP session to AM.PDP, AM.CL protocols and Courier patch
+    + New macros: remote_mta, smtp_response, remote_mta_smtp_response
+      and score_boost available to log and notification templates
+    + Enhanced regexp selector macro [~string|regexp|then|else], and
+      iterator macro.  Extended the semantics of the regexp selector macro
+    + Make use of the new macro remote_mta_smtp_response and add it to
+      a default $log_templ, so that a Postfix queue-id of a forwarded
+      message shows up like 'queued_as: DCF2A17B9E4' in the main log entry
+    + sophos_savi_internal (SAVI module): don't include errno ($!) in the
+      error message
+  * Bump standards version to 3.7.2 (no changes required)
+  * Add small debian/extract-upstream-en_US-templates.pl to help manual
+    update of debian/etc/en_US/, add update-templates-from-upstream target
+    to debian/rules
+  * amavisd-new.postinst: abort configuration if the amavis user has an
+    invalid home directory, and tell the local admin to fix the mess
+    as we cannot do it safely by ourselves (closes: #367807)
+  * conf.d/25-amavis_helpers (add): configure an unix socket by default,
+    for the amavis-release helper (closes: #372122)
+  * amavisd-release: modify default socket location to Debian's
+  * amavisd-new.NEWS: note upstream incompatible changes from RELEASE_NOTES
+    for version 2.4.1
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 11 Jun 2006 16:21:16 -0300
+
+amavisd-new (1:2.4.0-1) unstable; urgency=low
+
+  * New upstream source (closes: #284491)
+    + Support DSNs: RFC 3461, RFC 3462, RFC 3464
+    + Prepend headers always, so we do not break header signatures
+      like DomainKeys
+    + Configuration variables can be chosen based on mail contents
+      category, which is now represented explicitly
+    + Enhanced the built-in macro expander with new macros and call
+    + Compatibility with Net::Server 0.91 and later
+    + Many incompatible changes in the SQL interface, read the docs
+  * Add patch from upstream, sent to amavis-user mailinglist, to perform
+    defanging and spam address extension additions in tag2_level as well
+    as kill_level
+  * Fix helper-progs/Makefile.in now that we do not link
+    amavis-milter.c anymore
+  * Revert to upstream header-folding code for this release
+  * Ship amavis helpers as well (closes: #356953)
+  * Ship p0f-analyzer.pl, but rename it to just p0f-analyzer due to policy
+  * Fix clean target to get rid of cruft in helper-progs/
+  * Do the debconf postrm routine by ourselves, as dh_installdebconf writes
+    unsuitable code for our needs (closes: #362952)
+  * [l10n] Add debconf template for: pt, and fix the package name inside
+    the pt.po file while at it.  Thanks to Miguel Figueiredo
+    <elmig@debianpt.org> (closes: #362802)
+  * Version libnet-ldap-perl suggestion to 0.32 or above and libdbi-perl to
+    1.43 or above, as required by amavisd-new 2.4.0
+  * conf.d/15-av_scanners: update to new upstream
+  * conf.d/20-debian_defaults: update to new syslog facility/priority
+    variables
+  * etc/en_US templates: updated to match new upstream templates
+  * Depend on non-broken libmime-perl (must be >= 5.417, but not 5.419)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue, 18 Apr 2006 17:59:58 -0300
+
+amavisd-new (1:2.3.3-8) unstable; urgency=low
+
+  * Update amavisd-new.cron.daily to be compatible with new su
+    (closes: #360567, #358993)
+  * [l10n] Add Czech (cs) debconf template, thanks to : Miroslav Kure
+    <kurem@upcase.inf.upol.cz> (closes: #358844)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue,  4 Apr 2006 10:39:04 -0300
+
+amavisd-new (1:2.3.3-7) unstable; urgency=low
+
+  * README.Debian: Be more explicit about what needs to be done to correctly
+    interface with a clamav daemon (closes: #353383)
+  * [l10n] Add Debconf template for: fr (closes: #353056)
+  * amavisd: prefix continuated syslog messages with (!!) or (!) depending
+    on level (warning or worse)
+  * logcheck.ignore: filter off all continuated syslog messages as long as
+    they don't have a priority prefix (closes: #341957)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 25 Feb 2006 12:58:37 -0300
+
+amavisd-new (1:2.3.3-6) unstable; urgency=low
+
+  * The "I should have waited 12h more to release 2.3.3-5" release
+  * conf.d/20-debian_defaults: use "virusmails" as the quarantine directory,
+    fixing this to use "quarantine" is extremely non-trivial in the
+    packaging (but easy for the local admin) due to packaging issues
+    (closes: #350917)
+  * README.Debian: reword recommendation to disable bayes_auto_expire in
+    spamassassin config files, this closes: #295498 once again; Fix some
+    typos (closes: #350955)
+  * Match file(1) output in case-insensitive mode for most long strings,
+    and update Microsoft Cabinet match string (closes: #350962)
+  * NEWS.Debian: call attention to the left-over quarantine file (caused
+    by the #350917 fix described above)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri,  3 Feb 2006 11:18:25 -0200
+
+amavisd-new (1:2.3.3-5) unstable; urgency=low
+
+  * Enable debconf for postinst:
+    * debian/control: Build-Depends on debhelper >= 4.1.16 (po-debconf)
+    * debian/rules: enable dh_installdebconf; call debconf-updatepo on clean
+      target
+    * amavisd-new.templates: (new) debconf note for incompatible config
+      files in the system, with a much better (and lengthy) explanation of
+      what is happening (closes: #350144)
+    * po/*: (new) debconf l18n support stuff for po-debconf
+    * amavisd-new.postinst: use debconf to warn of outdated config files
+  * Modify amavisd-new to process the Debian conf.d structure by its own
+    when no config files are specified (closes: #350348)
+  * amavisd-new.init: Improve initscript handling of outdated config files:
+    be very terse and tell the user to go read the documentation;  Use the
+    new conf.d support in amavisd-new instead of doing it by hand
+  * amavisd-new.README.Debian: mention the .disabled config stuff
+  * Add lintian overrides for debconf warnings that are not valid for this
+    package
+  * amavisd-new.NEWS: mention new conf.d support in amavisd-new binary
+  * conf.d/01-debian, conf.d/20-debian_defaults: fix pointer to
+    documentation
+  * conf.d/20-debian_defaults: remove comments that lead people to believe
+    we'd ever place all commonly modified settings for amavisd-new in there
+    (see #350142...);  Add note explaining that we set all viruses to "fakes
+    sender mode", except for the EICAR test pattern
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed,  1 Feb 2006 12:12:00 -0200
+
+amavisd-new (1:2.3.3-4) unstable; urgency=low
+
+  [ Henrique de Moraes Holschuh ]
+  * Patch from upstream: fix unsecure handling of
+    $spam_quarantine_method = 'bsmtp:spam-%m-%s'
+  * Patch from upstream: add hability to detect WMF (Windows MetaFile)
+    attachments from the output of the file(1) utility
+  * debian/control: bump up versioned dependencies to those required by
+    amavisd-new 2.3.3 (oops!) (closes: #348439)
+    * libarchive-zip-perl >= 1.14
+    * libcompress-zlib-perl >= 1.35
+    * libmime-perl >= 5.417
+  * debian/amavisd-new.8:
+    * remove repeated description of "debug"
+    * mention that "reload" could be in fact a restart
+  * amavisd-new.init:
+    * amavisd-new does not support reloading anymore(!),
+      so remove the reload initscript action (closes: #255376)
+    * improve message when old config files present
+    * minor code cleanups
+    * be silent while cleaning up left-over tmp directories
+  * conf.d/05-node_id: move $mydomain functionality to 05-domain_id
+  * conf.d/05-domain_id (new):
+    * move $mydomain functionality previously in 05-node_id here
+    * amavisd-new must also know the local domains, or a lot of
+      functionality gets disabled.  Add a default to $mydomain
+      through @local_domains_acl (closes: #348990)
+  * conf.d/20-debian_defaults: Add (commented out) entries for WMF
+    matching
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 21 Jan 2006 15:31:09 -0200
+
+amavisd-new (1:2.3.3-3) unstable; urgency=low
+
+  [ Henrique de Moraes Holschuh ]
+  * Suggest spamassassin 3.1.0a or newer
+  * Do not direct stderr to /dev/null in cron scripts, now that sa 3.1.0a is
+    available in unstable (closes: #283027)
+  * README.Debian: document that using "bayes_auto_expire" for spamassassin
+    config when using amavisd-new is not a very good idea (closes: #295498);
+    Reformat and add section headers while at it
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 15 Jan 2006 13:58:01 -0200
+
+amavisd-new (1:2.3.3-2) unstable; urgency=low
+
+  * The "A Xmas minor miracle" release
+
+  [ Ondrej Sury ]
+  * Version dependency on libconvert-uulib-perl to >= 1.0.5, for backports
+
+  [ Henrique de Moraes Holschuh ]
+  * Rework of the split config file system:
+    * Move non-etc conf.d files to debian/conf
+    * (ro)00-upstream: deleted: Stop shipping amavisd.conf-defaults as a
+      read-only conf.d file.  Ship it as an example, instead
+    * (ro)10-debian: split split into (ro)10-debian_scripts and
+      (ro)20_package
+    * (ro)10-debian: prunned: Move all changeable settings out of
+      (ro)10-debian and split into (rw)01-debian, (rw)15-av_scanner,
+      (rw)20-debian_default.  Prune out most of them.
+    * (rw)15-content_filter_mode: added: Make it easy for the user to
+      re-enable spam checking and antivirus checking
+    * (rw)05-node_id: add: Autodetect $myhostname (from hostname --fqdn) and
+      $mydomain (from /etc/mailname)
+    * (rw)30-template_localization: add:  Add example for the user on how to
+      read a l10n template set
+  * Ship upstream example configuration as an example
+  * Suggest cabextract too, since amavisd-new can use it
+  * Kill all postinst stuff related to myhostname and mydomain
+  * Add new "debug" and "debug-sa" actions to initscript, and update
+    README.Debian accordingly to suggest their use
+  * Add check in initscript to avoid starting an unconfigured amavisd-new
+    when upgrading from a previous version
+  * Remove old safe_encode kludge, perl now doesn't lock up on tainted utf8
+    string processing, nor does it lose track of encodings anymore
+  * [l10n] Update etc/amavis/en_US messages with the upstream templates for
+    2.3.3
+  * [l10n] Delete other localized templates, as they are much too outdated.
+    New translations are very welcome.
+  * Add postinst code to handle l10n template conffile/confdir removal,
+    since dpkg does not delete conffiles removed by the package: move old
+    templates already installed to <template>.outdated_by_2.3.3-2
+  * Bump standards-version to 3.6.2, no changes
+  * Updated copyright file
+  * Update the template's README.l10n to remove perl 5.6 notes (we only
+    support 5.8 now), and add some more information
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue, 27 Dec 2005 13:41:18 -0200
+
+amavisd-new (1:2.3.3-1) experimental; urgency=medium
+
+  * New upstream source
+    * Besides fixing known problems and providing some optimizations, no new
+      features were added.  If using SpamAssassin older than 3.1, an upgrade
+      of either SA to 3.1, or an upgrade of amavisd-new to 2.3.3 is
+      recommended
+  * Henrique de Moraes Holschuh:
+    * Restore README_FILES/README.chroot to upstream, but add a warning
+      about Debian paths being different.  I am tired of always updating
+      this file as it still always ends up subtly wrong for Debian anyway
+    * amavisd-new.NEWS: Update for 2.3.3, trim down stuff refering to
+      packages older than the ones in sarge
+    * Update manpage for 2.3.3
+    * amavisd-new.init: Unbreak initscript restart/stop actions
+    * Fix conffile support for /etc/amavis/conf.d/30-user, remove it
+      from /usr/share/doc/amavisd-new/examples
+    * Do not ship the (empty) /var/lib/amavis tree inside the .deb anymore.
+      Instead, create it in postinst
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 21 Oct 2005 00:21:09 -0200
+
+amavisd-new (1:2.3.2-2) experimental; urgency=low
+
+  * Fix path to clamav socket in Debian config.
+  * Add french templates. Closes: #316105.
+
+ -- Brian May <bam@debian.org>  Thu,  7 Jul 2005 16:13:51 +1000
+
+amavisd-new (1:2.3.2-1) experimental; urgency=low
+
+  * New upstream source.
+    * Adds %c macro and gives terse log messages (closes: #193364)
+    * [fixed in 2.3.0]: Allows proper handling of 4xx status when LMTP 
+      is used, there is no way to fix this for SMTP (protocol limitations)
+      (closes: #211740)
+    * Never "preserve-evidence" when file or size limits are exceeded
+      (closes: #236482)
+  * Remove support for /etc/amavis/amavisd-all.conf.
+  * Use multiple -c parameters instead, this was the approach preferred by
+    upstream.
+  * Running amavisd by hand won't work unless you pass all the -c parameters
+    by hand too.
+
+ -- Brian May <bam@debian.org>  Wed,  6 Jul 2005 16:25:27 +1000
+
+amavisd-new (1:2.2.1-3) experimental; urgency=low
+
+  * Include JpegTester.pm.
+  * Move constant config files to /usr/share/amavis.
+  * Simplify Debian config file.
+
+ -- Brian May <bam@debian.org>  Fri, 20 May 2005 16:46:01 +1000
+
+amavisd-new (1:2.2.1-2) experimental; urgency=low
+
+  * Add "--quiet" to adduser and addgroup calls. Closes #305603.
+  * Make $mydomain normal variable. Still need long term solution, as this
+    variable is referenced by other variables which will be wrong.
+  * Make amavisd-all.conf default hardcoded configuration, this
+    allows running by amavisd-new by hand (note: this file
+    is automatically generated by init.d script and could still
+    cause confusion).
+  * Replace --rebuild with --sync in cron jobs. Closes: #305711.
+
+ -- Brian May <bam@debian.org>  Mon, 25 Apr 2005 16:12:48 +1000
+
+amavisd-new (1:2.2.1-1) experimental; urgency=low
+
+  * NEW STABLE UPSTREAM BRANCH (amavisd-new 2.2.1);
+    WARNING: you will have to upgrade your configuration manually
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * Merged in new upstream stable branch (amavisd-new 2.2.1)
+      + Closes: #263550.
+      + Require new patched libmime-perl (>> 5.411-2)
+      + Add minimum requirements just in case: libarchive-zip-perl (>=
+        1.09), libmailtools-perl (>= 1.58)
+      + Require known-good libnet-perl (>= 1:1.16)
+      + New dependency: libio-stringy-perl
+      + New dependency: libberkeleydb-perl
+      + Suggests libnet-ldap-perl, libauthen-sasl-perl for better
+        functionality (LDAP lookups and authenticated SMTP/LMTP)
+      + SQL lookups require perl DBI and DBD support, add at least
+        libdbi-perl to suggests as a hint to the user
+    * Added NEWS.Debian material about the new version and the
+      resulting configuration file breakage
+    * Rework package description to stop egging amavis-ng (it is much
+      better now than what it once was).  Bring package description in-line
+      with what the other amavis packages are doing.
+    * Ship amavisd-agent as an example in /usr/share/doc/amavisd-new
+  * Brian May <bam@debian.org>:
+    * New configuration system.
+      + Local changes seperated (closes: #199826).
+
+ -- Brian May <bam@debian.org>  Sat, 16 Apr 2005 12:53:26 +1000
+
+amavisd-new (20030616p10-5) unstable; urgency=high
+
+  Henrique de Moraes Holschuh <hmh@debian.org>:
+    * Fix su invocation on cron.daily script.  Why can't su have a less
+      braindead command line interface? (closes: #281931)
+    * Let message/external-body through.  I just hope that no Micosoftland
+      trash will auto-run, auto-process, auto-overwrite files and otherwise
+      endanger the sanity of a Unix sysadmin out there because of this...
+      (closes: #274940)
+    * Backport a few improvements for spamassassin 3.0 from amavisd-new 2.x
+    * Patch from Mark Martinec <Mark.Martinec@ijs.si> (upstream):
+      patch against amavisd-new-20030616-p10 required to detect some
+      password-protected RAR archives as ***UNCHECKED***
+      (There are viruses using encripted RAR files as a carrier on
+      the wild)
+    * Suggest using only "undef" for false, but I cannot duplicate the
+      problem with sid's perl (closes: #269449)
+    * Add watch file
+    * Let start-stop-daemon stderr show up on initscript output
+      (closes: #278399)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue, 30 Nov 2004 23:49:21 -0200
+
+amavisd-new (20030616p10-4) unstable; urgency=high
+
+  Henrique de Moraes Holschuh <hmh@debian.org>:
+    * Backport do_ascii fixes from 2.1.1.  This makes sure we call
+      Convert::UUlib::CleanUp() no matter what, to avoid empty temporary
+      files clogging up on ${TMPDIR} when UUlib fails for some reason (which
+      is quite common unfortunately).  This patch may also avoid leaking
+      UUlib state for the next decode, but whether this actually can happen
+      is unclear (since we call UUlib::Initialise all the time).
+      I have kept the backport to the minimum, so the stat -> lstat change 
+      from 2.1.1 was not backported.
+    * Add workaround for when Convert::UUlib fails to decode something that
+      it thought it could (such as a procmail recipe!).  Now, do_ascii will
+      create an empty file as a placeholder for the non-decoded part.  This
+      deals with #268100, but it is not clear to me who is at fault here, so
+      I am not reassigning the bug back from libconvert-uulib-perl, nor
+      closing it yet.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 29 Aug 2004 13:09:54 -0300
+
+amavisd-new (20030616p10-3) unstable; urgency=medium
+
+  * The fix for #234934 proved beyond a shade of doubt that our perl 5.8.4-2
+    is buggy.  Rework that fix to untaint the string, otherwise perl loops
+    around eating up memory forever.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon,  2 Aug 2004 14:04:31 -0300
+
+amavisd-new (20030616p10-2) unstable; urgency=medium
+
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * New Italian translations, thanks to Cristian Mezzetti
+      <cristian@students.cs.unibo.it> (closes: #261968);
+    * Mention LDAP schema location in README.Debian.  As for how to use
+      amavisd-new with LDAP, well, someone needs to write the docs, and send
+      them in ;-) (closes: #261691);
+    * Fix stupid locale-related bug in rfc2822 date generation, where we
+      were restoring the saved LC_TIME value to LC_CTYPE (!)
+    * Override LC_TIME to "C" on every log message, to work around issues
+      with Unix::Syslog (closes: #256248);
+    * Remove perl 5.8.0 taint+encode bug workaround in safe_encoding, it is
+      corrupting the encoded string (closes: #234934);
+    * Add clamav-daemon recommendations from NEWS.Debian to README.Debian
+      too.  I still want to find a way to get this thing to work out-of-
+      the-box;
+    * mlfi_abort is called every time something causes sendmail to stop a
+      delivery (such as a RSET in the ESMTP dialogue, or a dropped
+      connection).  This indicates no problem with amavisd-new-milter, and
+      such aborts are expected from time to time.  Therefore, log at the
+      debug level, and not as a warning (closes: #255203).
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 31 Jul 2004 21:08:01 -0300
+
+amavisd-new (20030616p10-1) unstable; urgency=low
+
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * New upstream source
+    * Update of de_DE templates, by Marc Schiffbauer
+      <marc@schiffbauer.net>
+    * amavisd.conf: Stop virus scan on first match instead of calling
+      all scanners regardless
+    * amavisd.conf: Block filenames containing { or } (Windows CLSID crap)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon,  5 Jul 2004 12:12:08 -0300
+
+amavisd-new (20030616p9-1) unstable; urgency=medium
+
+  * A DebConf4 release, uploaded much later :)
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * New upstream source, includes compatibility to new SpamAssassin
+      (closes: #243434)
+    * Update amavis-milter.c with the one in the webpage, since it
+      has important fixes (and will be included in P10 when upstream
+      releases it)
+    * Initscripts: use --name and drop --exec, plus cosmetic fixes
+    * cron.daily: switch back to using su - amavis, since start-stop-daemon
+      --chuid does not initialize the environment completely (closes: #237043)
+    * Add de_DE l10n (closes: #235688)
+    * Add back pidfile control to amavisd-milter, thanks to Brian's patch
+      (closes: #241848)
+    * Document what to do to get the package to work right with clamav in
+      daemon mode, running as a non-priviledged user.  This is a partial
+      fix for #253231
+    * Bump standards-version to 3.6.1, no changes required
+  * Brian May <bam@debian.org>:
+    * Fix typo in README.Debian (closes: #244877)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 11 Jun 2004 13:09:50 -0300
+
+amavisd-new (20030616p7-3) unstable; urgency=high
+
+  * Add patch from upstream to preserve entire original mail for virus
+    scanning, if "^MAIL$" is in $keep_decoded_original_re, and enable this in
+    the config file.  THIS IS REQUIRED TO STOP Worm.Bagle.F.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed,  3 Mar 2004 11:27:34 -0300
+
+amavisd-new (20030616p7-2) unstable; urgency=low
+
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * Use the new default clamd socket location
+      (closes: #232047)
+    * Change initscripts to make sure amavis is very dead indeed when
+      we stop it, and to never cleanup() with it alive
+      (closes: #230062)
+    * Default virus destination is now D_DISCARD
+      (closes: #232052)
+    * Change default virus_admin to postmaster@$mydomain, due to
+      the new D_DISCARD default virus destination.  As a side-effect,
+      this (closes: #231046)
+    * Add note about the start links in README.courier
+      (closes: #230084)
+    * Avoid two more startup messages going into logckeck, thanks to
+      Craig small <csmall@debian.org> for the patch
+      (closes: #230481)
+    * Add NEWS.Debian, and update README.Debian warning users to read
+      the new file.  Add apt-listchanges to suggests for automatic
+      NEWS.Debian display
+  * 
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 23 Feb 2004 11:59:39 -0300
+
+amavisd-new (20030616p7-1) unstable; urgency=low
+
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * New upstream source (closes: #225734)
+      + Huge lot of changes, please see upstream's RELEASE_NOTES file
+      + Better Exim v3 docs (closes: #213422)
+    * Fix build stuff in helper-progs to use new auto*, and to do proper
+      cleanups
+    * Revert initscript to the one in 20030616p5-4, and change it so that
+      we do not compare the perl inode when killing amavis (use --startas
+      instead of --exec for start-stop-daemon).  This way, we are not going
+      to break anymore due to perl upgrades (closes: #226009)
+    * Update en_US templates to the new ones from upstream, but applying
+      s/WAS NOT delivered/WILL NOT BE delivered/
+    * Update copyright file to something that works as a copyright file
+
+ -- Brian May <bam@debian.org>  Mon,  2 Feb 2004 14:00:22 +1100
+
+amavisd-new (20030616p5-6) unstable; urgency=low
+
+  * Add --exec parameter back start-stop-daemon when starting amavisd- new
+    (closes #225614). The start-stop-daemon man page is wrong, it says --exec
+    is only used for checking the existing process.
+
+ -- Brian May <bam@debian.org>  Wed, 31 Dec 2003 20:38:32 +1100
+
+amavisd-new (20030616p5-5) unstable; urgency=low
+
+  * Remove --exec in init.d script so the stop operation will work even
+    if perl has been upgraded (closes: #225195).
+  * Add dumaru to viruses_that_fake_sender_re (closes: #212613).
+  * Remove MIMEDefang headers, too (closes: #215317).
+
+ -- Brian May <bam@debian.org>  Tue, 30 Dec 2003 13:34:33 +1100
+
+amavisd-new (20030616p5-4) unstable; urgency=low
+
+  * Henrique de Moraes Holschuh <hmh@debian.org>:
+    * Use find to kill directories, instead of rm -rf (closes: #216691).
+  * Brian May <bam@debian.org>:
+    * Add amavis as system group, not normal group (closes: #222556).
+    * Document how to enable spamassassin in README.Debian (closes: #213814).
+
+ -- Brian May <bam@debian.org>  Sat, 13 Dec 2003 15:09:04 +1100
+
+amavisd-new (20030616p5-3) unstable; urgency=low
+
+  * Add Gibe, Mimail and Swen to fake-sender viruses list
+    (really, you should just DISABLE the damn notifications... everyone would
+    be better off in the general case). This closes: #211729
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 22 Sep 2003 19:42:40 -0300
+
+amavisd-new (20030616p5-2) unstable; urgency=high
+
+  * Disable relayhost_is_client by default, and write a note about its
+    loglevel in amavisd.conf (closes: #207887)
+  * SECURITY FIX: Make sure we force directories and regular files to mode
+    0750 so that we can scan unreadable files.  Thanks to Tomasz Papszun
+    <tomek@lodz.tpsa.pl> for noticing this.
+  * Add example of correct domain lists when not using qw() (closes: #207927)
+  * Add -d to cpio invocation, as requested by upstream
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue,  9 Sep 2003 10:18:40 -0300
+
+amavisd-new (20030616p5-1) unstable; urgency=low
+
+  * New upstream version (closes: #207673)
+    * fix 'Modification of non-creatable array value attempted' bug when no
+      'Received' header field was present in an infected mail;
+    * caching of SQL lookups on white/blacklist was based on sender address
+      only, instead of sender _and_ recipient. This could lead to
+      white-/blacklisting of one recipient to affect other recipients of the
+      same message;
+    * more obvious logging of HOLD reason in sendmail/milter setup;
+    * $MAXLEVELS zero or undef should disable the limit according to docs, but
+      was not honoured;
+    * if notifications delivery encounters a temporary failure (4xx),
+      propagate this status to the final result instead of only logging a
+      warning;
+    * (amavisd.conf) VirusBuster entry changed to match newer version of the
+      product;
+    * another entry in amavisd.conf for KasperskyLab kavscanner (v4.5?)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 30 Aug 2003 12:18:16 -0300
+
+amavisd-new (20030616p4-1) unstable; urgency=low
+
+  * New upstream version.
+    * Fix typo, closes: #199950.
+    * Add sobig.f into faking sender list, closes: #206630.
+    * revert to using alarm() instead of Time::HiRes::alarm()
+    * rise log level for log entries on intentional mail drops
+    * new log entries now say: '... Not sending DSN ...' and provide more
+      information on the reason for dropping DSN
+    * if sender is whitelisted, don't insert 'X-Spam-Flag: YES' header field,
+      don't append spam address extension, and don't quarantine
+      NOTE: the documentation still describes former behaviour
+    * report deaths of command line scanners and some external programs
+      distinctly from normal exits with nonzero exit status
+    * fix replacing * or {}/* in the pattern with actual file names
+    * stop the timer after SMTP transaction is over
+    * sub mail_via_smtp_single: properly report SMTP response code when all
+      recipients are rejected by MTA
+    * use SMTP response code 554 (instead of 550) for rejecting syntactically
+      invalid header (according to rfc2476)
+    * add am_id to SMTP response code generated by one_response_for_all()
+      to make it easier for MTA log to be correlated with amavisd-new log;
+      some cosmetic improvements in the generated SMTP response text
+    * added 'Return-Path:' in notifications to make it more obvious to see
+      envelope address from reports
+    * fix 'Message-ID:' in neutral DSN notifications being inadvertently
+      pushed into the DSN body
+    * report undefined spam score in X-Spam-Status header field as 'hits=-'
+      instead of 'hits=0.0', which can be misleading
+    * indicate blacklisting in X-Spam-Status header field of quarantined
+      messages
+    * add X-Envelope-From header field to quarantined messages
+    * added virus names: tanatos, lentin, bridex
+    * set environment variables LINES and COLUMNS to sensible defaults
+    * another attempt at fixing the Subject header field duplication
+    * rewritten 'Received' header fields parsing to better cope with valid,
+      as well as with more common cases of broken syntax; used when trying
+      to report originator IP address for believed-to-be-faked senders
+    * more permissive parsing of SMTP addresses and options on MAIL FROM
+      and RCPT TO commands
+    * 'neutral' (=space) field in SQL black/whitelists now terminates the
+       lookup
+    * $sa_mail_body_size_limit takes into account some portion of the mail
+      header size
+    * don't send recipient notifications to recipients that have
+      bypass_virus_checks/bypass_banned_checks
+    * fetch modules 'Net::Ping' and 'bytes', which seem to be needed in
+      certain chrooted setups
+    * change log level from 0 to 1 for the log entry 'BAD HEADER from',
+      closes: #204497.
+    * explicitly set pipes and sockets to binmode, as it a default sinc
+      Perl 5.8.1
+    * new file LDAP.schema
+    * updated README.chroot to tell that /dev/urandom is needed
+    * updated README.sendmail-dual
+  * Fix README.exim_v3 _a bit_.  This crap really needs updating.
+    And people wonder why I (hmh@d.o) want to kill all helpers, and support
+    SMTP-proxy mode only for amavisd-new... (closes: #203545)
+  * Add cron.d job, run every 3 hours, to rebuild SpamAssassin databases
+    (if spamassassin is installed) for the amavis user, and to force-expire
+    tokens once per day.  If you have more than one thread of amavisd-new
+    running, spamassassin really needs a rebuild often
+  * Add configurable spamassassin timeout (sa_timeout), and set it to 120s
+    instead of upstream default of 20s (which IS too small) (closes: #204101)
+  * Ship LDAP schema for amavis in /etc/ldap/schema/amavis.schema
+  * Add pidfile hack and syslog support for amavis-milter.c
+  * Add syslog support for amavis.c
+  * Improve header folding: it now uses tab (as everything else in the MTA
+    world) instead of spaces to indent lines
+  * Better Received: line creation in milter/amavis socket mode (if it is
+    enabled for whatever reason)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 28 Aug 2003 19:02:16 -0300
+
+amavisd-new (20030616p3-1) unstable; urgency=high
+
+  * New upstream version (closes: #199947)
+    + Fixes LMTP delivery problem with fake-sender viruses (closes: #199479)
+    + Many documentation updates
+    + Some antivirus definition updates
+    + Huge lot of bugfixes (see RELEASE_NOTES)
+    + Much better behaviour when aborting SMTP sessions
+    + Work around several perl 5.8 bugs that allowed a few DoS attacks
+  * Update clam* package names in suggests:
+  * Add cpio to suggests, and when it is available, use it instead of
+    Archive::Tar to unpack tar files, to avoid loading the entire tar file
+    in memory(!)
+  * Add lzop to suggests, since we now support it
+  * Bumped standards version to 3.5.10, no changes needed
+  * Fix helper-progs to use amavis user (instead of amavisd)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun,  6 Jul 2003 11:15:21 -0300
+
+amavisd-new (20030314p2-2) unstable; urgency=low
+
+  * amavisd: LDAP syntax error fix, added by request from Mark Martinec
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 12 May 2003 11:17:45 -0300
+
+amavisd-new (20030314p2-1) unstable; urgency=low
+
+  * New upstream source:
+    + fixed bug with blacklisted sender (closes: #190467)
+    + fix improper evaluation of bypass_spam_checks* in multi-recipient mail
+    + adding address extensions was not done for *_lovers
+    + rare duplication of Subject: fixed (closes: #190457)
+    + better ^From escaping in mbox files
+    + added paramater $notify_xmailer_header
+    + enable timeouts after SMTP connection has been established
+    + LDAP enhancement: allow "hostname" to be a string or a reference
+      to an array
+    + X-Spam-Status now says WHITELISTED if sender was whitelisted
+    + if mail rejection was due to sender blacklisting, say so in the SMTP
+      response
+    + amavisd.conf: removed option '-ni' in the DrWeb virus scanner entry
+    + amavisd.conf: added entry for 'MkS_Vir daemon'
+    + amavisd.conf: updated entry for 'F-Secure Antivirus' to cope with fsav
+      4.50
+  * ***Upstream now documents dual-sendmail setup***
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 10 May 2003 10:58:05 -0300
+
+amavisd-new (20030314p1-6) unstable; urgency=low
+
+  * Set local clamd socket to match Debian default (closes: #190079)
+  * Clean up /var/lib/amavis/tmp/amavis-* as well, if it exists; document
+    in config file that one might want to modify the initscript if one
+    changes $TEMPBASE
+  * Minor update to pt_BR l10n files, remove unneeded MIME stuff
+  * Make sure not to wipe the entire disk of someone whose amavis user
+    was created by *another package* with the homedir set to /.  Talk
+    about a very unwise homedir choice... (closes: #190427)
+  * Clean up old stuff on README.Debian about spamassassin <= 2.43
+  * Link /usr/share/doc/amavisd-new-milter to amavisd-new's doc dir
+  * rm -fr /etc/amavis on package purge, if it is a directory
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 24 Apr 2003 19:57:25 -0300
+
+amavisd-new (20030314p1-5) unstable; urgency=high
+
+  * New read_l10n_templates function to make it easy to have a directory of
+    templates with a common lang and charset.  This fixes the broken
+    semanthics in 20030314p1-4's amavisd.conf Thanks to Petr Vandrovec for a
+    much better charset file handling (closes: #189482)
+  * Rename our daemon to amavisd-new, to avoid initscript hassles with other
+    amavis packages.  This is a workaround for a Debian-wide problem, but it
+    at least fixes the issue for now (closes: #189566)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 20 Apr 2003 10:12:32 -0300
+
+amavisd-new (20030314p1-4) unstable; urgency=high
+
+  * Heavy amavisd.conf work: merge in upstream changes, add l10n
+    charset conversion for sites that have perl 5.8
+  * Fix clean target for helper-progs
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue, 15 Apr 2003 07:57:02 -0300
+
+amavisd-new (20030314p1-3) unstable; urgency=low
+
+  * Complies to Debian policy 3.5.9 (no changes)
+  * Rework package descriptions a bit
+  * amavisd-new initscript supports reload
+  * Improved amavisd-new-milter initscript
+  * Rename Build-Depends-Indep to Build-Depends, closes: #187934.
+  * Fix typo in README.milter, closes: #188565.
+
+ -- Brian May <bam@debian.org>  Mon, 14 Apr 2003 11:52:05 +1000
+
+amavisd-new (20030314p1-2) unstable; urgency=low
+
+  * Modify README.milter to include required change to $unix_socketname
+    (closes: #187146).
+  * Specify in README.exim_v3 that amavisd-new-milter is required.
+    Closes: #187103.
+  * Hack at helper-progs so it no longer requires a MTA to be installed
+    (closes: #187641).
+
+ -- Brian May <bam@debian.org>  Sun,  6 Apr 2003 13:43:36 +1000
+
+amavisd-new (20030314p1-1) unstable; urgency=low
+
+  * New upstream version.
+  * Depends on libmime-base64-perl already in place, I must have
+    forgotten to close it (closes: #185469).
+  * Incorrect header generation should now be fixed, or so I have been told
+    (closes: #185718).
+  * Change default milter socket name to /var/lib/amavis/amavisd-new-milter.sock.
+  * Document amavisd-new-milter config changes in README.Debian.
+  * amavisd-new-milter now should work fine (closes: #185331).
+    (why didn't 20021227p2-9 auto close this bug?).
+
+ -- Brian May <bam@debian.org>  Thu, 27 Mar 2003 11:59:17 +1100
+
+amavisd-new (20021227p2-9) unstable; urgency=low
+
+  * Fix incorrect depends in amavisd-new-milter package.
+  * debian/rules now cleans helper-progs subdirectory.
+  * Turn of debug by default, the debug code was dodgy.
+  * Remove -p parameter, it didn't seem to do anything.
+  * Changes from 20021227p2-8 not yet in Debian:
+    Add dependancy on libmime-base64-perl required for testing (closes: #185469).
+    Add milter support (closes: #185331).
+  * Assume milter support is correct, as it installs OK on chroot;
+    however nobody seems to keen on testing it... (based on the number and
+    type of errors fixed from -8 to -9).
+
+ -- Brian May <bam@debian.org>  Mon, 24 Mar 2003 14:19:56 +1100
+
+amavisd-new (20021227p2-8) unstable; urgency=low
+
+  * Add dependancy on libmime-base64-perl, required for testing (closes: #185469).
+  * Add milter support (closes: #185331).
+
+ -- Brian May <bam@debian.org>  Sat, 22 Mar 2003 15:53:35 +1100
+
+amavisd-new (20021227p2-7) unstable; urgency=low
+
+  * Really disable Sophos sweep by default. Don't just alter
+  the disused config file.
+
+ -- Brian May <bam@debian.org>  Tue, 18 Mar 2003 15:41:40 +1100
+
+amavisd-new (20021227p2-6) unstable; urgency=low
+
+  * The Debian sweep package was mistaken for Sophos sweep. An
+    audio editor isn't much use as a virus scanner. Disable Sophos
+    by default. Closes: #184639.
+
+ -- Brian May <bam@debian.org>  Mon, 17 Mar 2003 12:19:24 +1100
+
+amavisd-new (20021227p2-5) unstable; urgency=low
+
+  * Tweak postinst a little so that we still try to warn users about a
+    non-system amavis user if adduser fails
+  * Set unarj unpack command to first try arj, then unarj.  Keep suggesting
+    only arj, since unarj is not in main
+  * Add back to logcheck ignore file a few error messages that are common to
+    the normal running of amavisd-new. logcheck is to trap unusual
+    circunstances.  It is a conffile, so if you don't want some lines, just
+    kill them and they will NOT be added back...  Brian is way too nice
+    sometimes :-)
+  * Fix logcheck.ignore entries that were missing the queue id (and thus would
+    never match), thanks to Martin F. Krafft for the heads-up
+  * I don't want to know how the submitter managed to lose the override, but
+    silent breakages are no fun anyway.  Bang out with an error message
+    instead (closes: #183421)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue,  4 Mar 2003 23:12:12 -0300
+
+amavisd-new (20021227p2-4) unstable; urgency=low
+
+  * Fix upgrade from amavis-postfix, correct group should now be added
+    (closes: #182527).
+
+ -- Brian May <bam@debian.org>  Mon,  3 Mar 2003 15:31:44 +1100
+
+amavisd-new (20021227p2-3) unstable; urgency=low
+
+  * Replace suggests unarj with suggests arj - I have been told that arj
+    is command line compatable with unarj. closes: #182284.
+
+ -- Brian May <bam@debian.org>  Wed, 26 Feb 2003 09:31:24 +1100
+
+amavisd-new (20021227p2-2) unstable; urgency=low
+
+  * Fix logcheck entries (closes: #181414).
+
+ -- Brian May <bam@debian.org>  Tue, 18 Feb 2003 10:19:15 +1100
+
+amavisd-new (20021227p2-1) unstable; urgency=low
+
+  * The "Hey, I forgot to look at the BTS in p1-2" release
+  * New upstream patch "p2": fixes missing sender notification for banned
+    filenames, improves helper-progs configure/make, and adds minor tweaks to
+    SAVI-Perl interface and to amavisd.conf
+  * Uploaded to unstable, nobody complained about anything in experimental
+  * Since at least 20021227p1-2, we depend on libdisgest-md5-perl, this work
+    fine for both current unstable and stable, and that's all that matters
+    (closes: #178030)
+  * The new initscript from 20021227p1-2 fixed this issue (closes: #176624)
+  * We work fine without any AVs in upstream 20021227p1 (closes: #162273)
+  * We support only the Direct-MTA-Mode (SMTP/LMTP proxying) now (simpler, and
+    just as fast for anything but sendmail, which isn't fast anyway to begin
+    with -- switch to postfix or exim if you need speed).  SMTP proxy mode
+    shouldn't ever create looping bounces in non-broken configurations: You
+    should NOT pipe any locally-generated bounces through your content scanner
+    in the first place (trivial to do with postfix, I don't know about exim).
+    Also, there's no <<>> borkage in amavisd-new in proxy mode, since the
+    shell is not used anywhere.  Thus, I believe we can close the bug
+    (closes: #159042)
+  * This is the new upstream version (closes: #176859)
+  * Now you can properly configure amavis to REPLACE the address extension
+    instead of appending it, which will fix this issue (closes: #178613)
+  * Move regular do_ascii output to loglevel 4
+  * Rebuilt logcheck.ignore files with most of the level 0 messages, ignoring
+    those that are used only by the socket clients (closes: #176692)
+  * Reworked package description to reflect the fact that we are a SMTP
+    proxy, and don't support the non-SMTP clients anymore (support IS still
+    in the code, and will work if enabled)
+  * Install to debian/tmp and use dh_movefiles.  It is neater this way,
+    especially if building inside a CVS tree
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed,  5 Feb 2003 16:09:00 -0200
+
+amavisd-new (20021227p1-2) experimental; urgency=low
+
+  * Cleanup debian/* for lintian and linda-cleaness, and arch all
+  * Add myself to uploaders
+  * Spamassassin support is runtime-selectable, so now we ship with a default
+    "@bypass_spam_checks_acl = qw( . );" (i.e. disabled), and we can move
+    spamassassin to Suggests
+  * Move nomarch to Suggests, since all other unpackers are there
+  * Add libdigest-md5-perl to Depends: for better woody compatibility
+  * Switch to debhelper mode 4, since we have a initscript (invoke-rc.d)
+  * Rewrite most of the initscript so as to have it far more robust
+  * Rename init script to /etc/init.d/amavis
+  * Support ephemeral /var/run, do not ship /var/run/amavis in the deb anymore
+  * Rework postinst to be a bit more resilient on the adduser part, add
+    versioned dependency to adduser 3.34 or better
+  * Make postrm indepondent, by not failing if parts of what we want to remove
+    aren't there anymore
+  * Updated and modified package description a bit
+  * Wrote amavisd(8) manpage
+  * Moved config files to /etc/amavis/
+  * Easy-to-localize template system for the notifications,
+    in /etc/amavis/<lang>, using the new read_text support
+  * Add pt_BR localization
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 19 Jan 2003 21:53:59 -0200
+
+amavisd-new (20021227p1-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Brian May <bam@debian.org>  Tue,  7 Jan 2003 11:06:19 +1100
+
+amavisd-new (20021116-3) unstable; urgency=low
+
+  * Fix dependancy on libnet-perl.
+
+ -- Brian May <bam@debian.org>  Mon,  6 Jan 2003 10:57:14 +1100
+
+amavisd-new (20021116-2) unstable; urgency=low
+
+  * Use getent instead of id/grep to determine if user/group exists.
+  * Only delete amavis group if it still exists.
+
+ -- Brian May <bam@debian.org>  Sun,  5 Jan 2003 12:06:30 +1100
+
+amavisd-new (20021116-1) unstable; urgency=low
+
+  * New upstream version. Everything has changed and
+    is completely different, so BEWARE!
+  * Please read README.Debian if you haven't already done so.
+
+ -- Brian May <bam@debian.org>  Thu, 19 Dec 2002 15:52:27 +1100
+
+amavis (20020517-25) unstable; urgency=low
+
+  * Apply fix from upstream for new version of antivir (closes:
+    #166481).
+
+ -- Brian May <bam@debian.org>  Tue, 29 Oct 2002 09:22:26 +1100
+
+amavis (20020517-24) unstable; urgency=low
+
+  * Further rules to logcheck file.
+  * Don't add amavis user if it already exists (closes: #166190).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sun, 27 Oct 2002 10:28:01 +1100
+
+amavis (20020517-23) unstable; urgency=low
+
+  * Change /var/amavis to /var/lib/amavis in README.exim.old and
+    README.exim.older (closes: #164197).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 11 Oct 2002 19:14:18 +1000
+
+amavis (20020517-22) unstable; urgency=low
+
+  * Include README.Debian in all packages.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sun,  6 Oct 2002 12:57:34 +1000
+
+amavis (20020517-21) unstable; urgency=low
+
+  * Don't remove dpkg-statoverride settings except for on purge.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri,  4 Oct 2002 08:12:35 +1000
+
+amavis (20020517-20) unstable; urgency=low
+
+  * Only delete amavis user on purge.
+  * Only try to add alias entry once, not three times. Once is enough...
+  * Disable spam checking support, it was broken with perl 5.8 and
+  not recommended for use.
+  * Remove dependancy on razor (closes: #162798, #161832, #162310),
+  it was broken with the replacement of razor v1 in Debian with razor
+  v2.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Mon, 30 Sep 2002 13:40:37 +1000
+
+amavis (20020517-19) unstable; urgency=low
+
+  * Apply change from upstream which prevents passing spam on.
+  * Disable spamassassin support by default. Closes: #154886, #159958,
+    #160628.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sat, 21 Sep 2002 11:37:14 +1000
+
+amavis (20020517-18) unstable; urgency=low
+
+  * Further refinements to logcheck file.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue,  3 Sep 2002 10:48:51 +1000
+
+amavis (20020517-17) unstable; urgency=low
+
+  * Add extra rules, as suggested by Russell Coker.
+  * Apply change from linio@asterix.wonder.pl for MkS_Vir.
+  * Include patch to allow encrypted files through Sophos. Patch by
+    Radu Greab <radu@netsoft.ro>, contributed by Ralf G. R. Bergs
+    <rabe@RWTH-Aachen.DE>. Patch has been included in upstreams source.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 30 Aug 2002 09:39:45 +1000
+
+amavis (20020517-16) unstable; urgency=low
+
+  * Move PID file to /var/run/amavis so it will get removed properly in
+    amavis-milter (closes: #156903).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 20 Aug 2002 13:09:59 +1000
+
+amavis (20020517-15) unstable; urgency=low
+
+  * Fix REJECT handling in amavis-milter by applying patch from Evan
+    Harris <eharris@puremagic.com>.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sat, 17 Aug 2002 14:12:48 +1000
+
+amavis (20020517-14) unstable; urgency=low
+
+  * Add fix suggested by Mark Martinec to get rid of these errors
+    (closes: #155589). The headers weren't getting passed in a spam
+    message was detected, so that entity was undefined.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sat, 17 Aug 2002 13:51:06 +1000
+
+amavis (20020517-13) unstable; urgency=low
+
+  * Add required config change for exim 3.53 in README.exim.old (closes:
+    #155576).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Thu,  8 Aug 2002 08:54:45 +1000
+
+amavis (20020517-12) unstable; urgency=low
+
+  * Hack in correct path to amavis-milter.sock in README.milter.
+  * Update website and authors in copyright file.
+  * Add nomarch support (closes: #155040). While upstream will eventually
+    make the change, we cannot yet use the latest upstream version until
+    Net::SMTP 2.24 is made available in Debian.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue,  6 Aug 2002 10:49:39 +1000
+
+amavis (20020517-11) unstable; urgency=low
+
+  * Added README.exim.old from old version of amavisd-new. I assume this
+    works, but it is no longer the recommended instructions from
+    upstream. It is required because exim in Debian unstable is old
+    (closes: #154318).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 26 Jul 2002 16:49:57 +1000
+
+amavis (20020517-10) unstable; urgency=low
+
+  * Remove undeclared dependancy on unrar (closes: #154077).
+  * Disable arc,lha,unarj,unrar,zoo by default, as these are non-free.
+  * Fix name of PID file in init.d, postfix and exim.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Thu, 25 Jul 2002 10:38:20 +1000
+
+amavis (20020517-9) unstable; urgency=low
+
+  * Add ignore.d files (closes: #153513).
+  * Remove temp files when shutting down or restarting amavis.
+  * Move PID file and LOCK file into /var/run/amavis for exim and postfix
+    (not done for milter, as I cannot test it), as it looks cleaner.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 24 Jul 2002 09:56:29 +1000
+
+amavis (20020517-8) unstable; urgency=low
+
+  * Update README.Debian.
+  * Change version to 20020517 to make it clear that this is the
+    amavisd-new branch.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 17 Jul 2002 17:58:01 +1000
+
+amavis (0.3.12pre5.20020517-7) unstable; urgency=low
+
+  * Move recommends for non-free virus scanners to suggests, so package
+    can go into main. Ideally, these need to be replaced by DFSG
+    alternatives (eg. nomarch could be used for arc).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 17 Jul 2002 10:36:42 +1000
+
+amavis (0.3.12pre5.20020517-6) unstable; urgency=low
+
+  * Fix Rx_tempdir error, by using /var/lib/ instead of /usr/../var/
+    everywhere (closes: #153110, #153011).
+  * Simplify changes from upstream.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 16 Jul 2002 13:36:30 +1000
+
+amavis (0.3.12pre5.20020517-5) unstable; urgency=low
+
+  * Add missing README files. Closes: #152894.
+  * Dont bounce SPAM to mailing lists. Closes: #152896.
+  * Previous bugs weren't closed: Closes: #152739, #152834.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sun, 14 Jul 2002 13:44:37 +1000
+
+amavis (0.3.12pre5.20020517-4) unstable; urgency=low
+
+  * Add clam config to configuration file (closes: #152685).
+  * Add clam to amavisd again. Also add extra status
+   information to email, and disable razor checks (closes: #152726).
+  * Add missing build depends (closes #152739, #152834).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sat, 13 Jul 2002 09:54:12 +1000
+
+amavis (0.3.12pre5.20020517-3) unstable; urgency=low
+
+  * Add missing depends (closes: #152683).
+  * Move into main, as it no longer depends on other packages in contrib.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 12 Jul 2002 11:13:21 +1000
+
+amavis (0.3.12pre5.20020517-2) unstable; urgency=low
+
+  * Re-Create /var/lib/amavis directory, closes #152664.
+  * Add spamassassin and razor support. Closes: #151954.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 12 Jul 2002 09:32:09 +1000
+
+amavis (0.3.12pre5.20020517-1) unstable; urgency=low
+
+  * Update to amavisd-new 2002-05-17, hopefully this won't break
+      anything... Closes: #151954.
+  * Use automake maintainer mode.
+  * Create socket file under /var/run/amavis directly to let amavisd run
+      as non-root.
+  * Use /var instead of /usr/../var/ in paths. Closes: #151638.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Thu, 11 Jul 2002 17:37:13 +1000
+
+amavis (0.3.12pre5.20020421-10) unstable; urgency=low
+
+  * Use automake maintainer mode.
+  * Create socket file under /var/run/amavis directly to let amavisd run
+    as non-root.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 10 Jul 2002 14:38:51 +1000
+
+amavis (0.3.12pre5.20020421-9) unstable; urgency=low
+
+  * Messed up fix for bug #149501, try again.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 11 Jun 2002 14:16:01 +1000
+
+amavis (0.3.12pre5.20020421-8) unstable; urgency=low
+
+  * Exim version (Not tested).
+  * Fix clam bug (Closes: #149501).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 22 May 2002 16:31:50 +1000
+
+amavis (0.3.12pre5.20020421-7) unstable; urgency=low
+
+  * Apply patch from Clint Adams <schizo@debian.org> that fixes the error
+    code.
+  * This version fully supports Clam Antivirus. When Clam is uploaded
+    to Debian, this package can go into main.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 17 May 2002 10:34:24 +1000
+
+amavis (0.3.12pre5.20020421-6) unstable; urgency=low
+
+  * Fix bugs in handling environment variables when introducing clamav
+    support.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri, 17 May 2002 09:43:00 +1000
+
+amavis (0.3.12pre5.20020421-5) unstable; urgency=low
+
+  * Add support for Clam Antivirus.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 14 May 2002 12:38:46 +1000
+
+amavis (0.3.12pre5.20020421-4) unstable; urgency=low
+
+  * Create /var/run/amavis in amavis-postfix.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed,  1 May 2002 09:42:29 +1000
+
+amavis (0.3.12pre5.20020421-3) unstable; urgency=low
+
+  * Move socket to /var/run.
+  * Add milter support.
+  * Change priority to extra, closes: #145068.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 30 Apr 2002 08:59:19 +1000
+
+amavis (0.3.12pre5.20020421-2) unstable; urgency=low
+
+  * Prevent autotools running; it seems to mess up; don't ask me why.
+    Closes: #144224.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Wed, 24 Apr 2002 09:54:59 +1000
+
+amavis (0.3.12pre5.20020421-1) unstable; urgency=low
+
+  * Fix description.
+  * Update to use amavis-new branch.
+  * Updated other CVS files to latest CVS version.
+  * Optimal postfix config has changed, see README.Debian.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 16 Apr 2002 10:14:55 +1000
+
+amavis (0.3.12pre5.20020310-5) unstable; urgency=low
+
+  * Add perl modules to build depends, as these are automatically
+    checked on build (closes: #140641).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Mon,  1 Apr 2002 10:31:21 +1000
+
+amavis (0.3.12pre5.20020310-4) unstable; urgency=low
+
+  * Rename package to amavis-postfix.
+  * Will upload to Debian if no problems detected (closes: #121205).
+
+ -- Brian May <bam@snoopy.apana.org.au>  Sat, 16 Mar 2002 12:43:29 +1100
+
+amavis (0.3.12pre5.20020310-3) unstable; urgency=low
+
+  * Remove dependancies on non-free archivers.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Thu, 14 Mar 2002 10:29:52 +1100
+
+amavis (0.3.12pre5.20020310-2) unstable; urgency=low
+
+  * Configure in support for all scanners by default.
+  * Fix prestine source.
+  * Make /etc/amavisd.conf a conffile.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Tue, 12 Mar 2002 11:07:36 +1100
+
+amavis (0.3.12pre5.20020310-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Brian May <bam@snoopy.apana.org.au>  Fri,  8 Mar 2002 15:31:24 +1100
+

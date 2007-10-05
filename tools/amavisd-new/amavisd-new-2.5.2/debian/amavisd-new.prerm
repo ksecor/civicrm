@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e 
+
+init_failed ()
+{
+	echo "WARNING: Stopping amavisd-new failed! Upgrade or removal may be incomplete!" 
+}
+#DEBHELPER#
+
