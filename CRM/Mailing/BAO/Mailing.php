@@ -740,7 +740,7 @@ AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                $dao =& CRM_Core_DAO::executeQuery( $query);
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                 if ($dao->fetch( ) ) {
                     $params = array(
                                     'job_id'        => $testParams['job_id'],
@@ -761,7 +761,7 @@ AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                    $dao =& CRM_Core_DAO::executeQuery( $query);
+                    $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                     if ($dao->fetch( ) ) {
                         $params = array(
                                         'job_id'        => $testParams['job_id'],
