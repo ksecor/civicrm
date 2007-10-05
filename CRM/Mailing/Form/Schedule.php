@@ -92,7 +92,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public static function formRule(&$params) 
     {
-        if ( isset($params['now']) ) {
+        if ( isset($params['now']) || $params['_qf_Schedule_back'] == '<< Previous' ) {
             return true;
         }
         if (! CRM_Utils_Rule::qfDate($params['start_date'])) {
