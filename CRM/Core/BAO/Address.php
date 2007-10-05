@@ -79,7 +79,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
             if ( isset( $value['id'] ) && !$addressExists ) {
                 //delete the existing record
-                CRM_Core_BAO_Block::blockDelete( 'Address', $value['id'] );
+                CRM_Core_BAO_Block::blockDelete( 'Address', array( 'id' => $value['id'] ) );
                 continue;
             } else if ( !$addressExists ) {
                 continue;

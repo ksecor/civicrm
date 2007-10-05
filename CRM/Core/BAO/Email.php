@@ -144,16 +144,17 @@ ORDER BY
     /**
      * Delete email address records from a location
      *
-     * @param int $locationId       Location ID to delete for
+     * @param array $params associated array of values
      * 
      * @return void
      * 
      * @access public
      * @static
      */
-    public static function deleteLocation( $locationId ) {
+    public static function deleteLocation( $params ) 
+    {
         $dao =& new CRM_Core_DAO_Email();
-        $dao->location_id = $locationId;
+        $dao->copyValues( $params );
         $dao->find();
 
         require_once 'CRM/Mailing/Event/BAO/Queue.php';
@@ -162,7 +163,7 @@ ORDER BY
         }
         
         $dao->reset();
-        $dao->location_id = $locationId;
+        $dao->copyValues( $params );
         $dao->delete();
     }
     

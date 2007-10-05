@@ -264,12 +264,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
             $this->set( 'ids', $ids );
-             
-            $locationExists = array();
-            // DO TO: commented because of schema changes
-//             foreach( $contact->location as $loc) {
-//                 $locationExists[] = $loc->location_type_id;
-//             }
+            
+            $locationExists = array( );
+
+            foreach( $contact->location as $loc) {
+                $locationExists[] = $loc['location_type_id'];
+            }
             $this->assign( 'locationExists' , $locationExists );
 
             $this->assign( 'contactId' , $this->_contactId );

@@ -105,7 +105,7 @@ class CRM_Contact_Form_DeleteLocation extends CRM_Core_Form
     public function postProcess( )
     {
         require_once "CRM/Core/BAO/Location.php";
-        CRM_Core_BAO_Location::deleteContact( $this->_cid, 'civicrm_contact', $this->_ltypeid );
+        CRM_Core_BAO_Location::deleteLocationBlocks( $this->_cid, $this->_ltypeid );
         
         CRM_Core_Session::setStatus( ts( 'The location has been deleted.' ) );
     }
