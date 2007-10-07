@@ -100,7 +100,13 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
 
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(); 
-        
+        if ( empty( $membershipTypes ) ) {
+            $p = array( 1 => CRM_Utils_System::url( 'civicrm/admin/member/membershipType', 'reset=1' ) );
+            $message = ts( 'You need to have at least one <a href="%1">Membership Type</a> to enable Member Signup',
+                           $p );
+            CRM_Core_Error::fatal( $message );
+        }
+
         $membership        = array();
         $membershipDefault = array();
         foreach ( $membershipTypes as $k => $v ) {
