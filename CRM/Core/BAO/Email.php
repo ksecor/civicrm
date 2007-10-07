@@ -81,7 +81,8 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email {
             $email->is_primary     = $params['location'][$locationId]['email'][$emailId]['is_primary'];
         }
 
-        $email->is_bulkmail     = $params['location'][$locationId]['email'][$emailId]['is_bulkmail'];
+        $email->is_bulkmail     = CRM_Utils_Array::value( 'is_bulkmail',
+                                                          $params['location'][$locationId]['email'][$emailId] );
         if ( $email->is_bulkmail ) {
             $sql = "
 UPDATE civicrm_email 
