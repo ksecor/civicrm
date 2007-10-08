@@ -134,6 +134,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
      */
     public $_group;
     public $_groupElement;
+    public $_groupIterator;
 
     /**
      * the tag elements
@@ -360,6 +361,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $group               = array('' => ts('- any group -')) + $this->_group;
         $this->_groupElement =& $this->addElement('select', 'group', ts('in'), $group);
 
+	    // add checkbox for searching subgroups
+	    $subgroups = $this->addElement( 'checkbox', "subgroups", null, ts( 'Search Subgroups' ) );
+	    $subgroups_dummy = $this->addElement( 'hidden', 'subgroups_dummy', '666' );
+
         // add select for categories
         $tag = array('' => ts('- any tag -')) + $this->_tag;
         $this->_tagElement =& $this->addElement('select', 'tag', ts('Tagged'), $tag);
@@ -422,9 +427,10 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         /**
          * set the varios class variables
          */
-        $this->_group    =& CRM_Core_PseudoConstant::group( );
-        $this->_tag      =& CRM_Core_PseudoConstant::tag  ( );
-        $this->_done     =  false;
+        $this->_group           =& CRM_Core_PseudoConstant::group( );
+        $this->_groupIterator   =& CRM_Core_PseudoConstant::groupIterator( );
+        $this->_tag             =& CRM_Core_PseudoConstant::tag  ( );
+        $this->_done            =  false;
 
         /**
          * set the button names
@@ -674,11 +680,18 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             return;
         } else {
             $output = CRM_Core_Selector_Controller::SESSION;
-
+            
             // create the selector, controller and run - store results in session
-            $selector =& new CRM_Contact_Selector($this->_formValues, $this->_params,
-                                                  $this->_returnProperties, $this->_action);
-
+            $searchChildGroups = true;
+            $session =& CRM_Core_Session::singleton();
+            if ( $session->get( 'isAdvanced' ) ) {
+                $searchChildGroups = false;
+            }
+            $selector =& new CRM_Contact_Selector($this->_formValues,
+                $this->_params,
+                $this->_returnProperties,
+                $this->_action, false, $searchChildGroups );
+            
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
             // we need this in most cases except when just pager or sort values change, which
