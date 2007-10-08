@@ -1423,10 +1423,11 @@ AND civicrm_contact.is_opt_out =0";
             LEFT JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
             WHERE       {$t['url']}.mailing_id = $mailing_id
+                    AND {$t['job']}.is_test = 0
             GROUP BY    {$t['url']}.id");
        
         $report['click_through'] = array();
-
+        
         while ($mailing->fetch()) {
             $report['click_through'][] = array(
                                     'url' => $mailing->url,
