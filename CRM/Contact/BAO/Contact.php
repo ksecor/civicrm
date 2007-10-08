@@ -313,7 +313,8 @@ ORDER BY
      */
     static function add(&$params, &$ids) 
     {
-        $contact =& new CRM_Contact_BAO_Contact();
+      //      CRM_Core_Error::debug('p','oh');   
+     $contact =& new CRM_Contact_BAO_Contact();
         
         if ( empty($params) ) {
             return;
@@ -1273,7 +1274,8 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
-
+	print "aljdkf";
+	print $id;
         if ( ! $id ) {
             return false;
         }

@@ -131,6 +131,17 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
                 $p = array( 1 => array( $user->$mail        , 'String'  ),
                             2 => array( $ufmatch->contact_id, 'Integer' ) );
                 CRM_Core_DAO::executeQuery( $query, $p );
+                
+                /* I don't think we should do this here anymore, since
+                   we don't use email address as the user identifier.
+                   ----
+                   However, we should revisit this (and probably 
+                   make it start updating the OpenID) once we move
+                   to using the OpenID associated w/ the contact
+                   (rather than storing it as a field in civicrm_contact).
+                   That's awaiting the schema re-design for 2.0.
+                */
+                //CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id, $user->$mail );
             }
         }
     }

@@ -29,6 +29,25 @@
     </dl>
 </fieldset>
 </div>
+
+<div class="form-item">
+<fieldset><legend>{ts}Organization{/ts}</legend>
+ 
+    <dl>
+    <dt>{$form.add_group_org.label}</dt>
+    <dd>{$form.add_group_org.html}</dd>
+    </dl>
+
+    <dl>
+    <dt>{$form.remove_group_org.label}</dt>
+    <dd>{$form.remove_group_org.html}</dt>
+    </dl>
+
+</fieldset>
+</div>
+
+{$form.buttons.html}
+
 {if $action neq 1}
 <div class="action-link">
     <a href="{$crmURL}">&raquo; {ts}Show Group Members{/ts}</a>
