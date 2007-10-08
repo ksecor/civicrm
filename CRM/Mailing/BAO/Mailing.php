@@ -1584,13 +1584,10 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
-            FROM        $mailing, $job
+            FROM        $mailing 
+                        LEFT JOIN $job ON ( $job.mailing_id    = $mailing.id )
             WHERE       $mailing.domain_id = $domain_id
-              AND       $job.mailing_id    = $mailing.id
-              AND       $mailingACL
-              AND       ( $job.is_test <> 1
-               OR         $job.is_test IS NULL )
-                        $additionalClause
+              AND       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {
