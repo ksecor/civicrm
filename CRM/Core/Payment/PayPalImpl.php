@@ -39,7 +39,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     const
         CHARSET  = 'iso-8859-1';
     
-    static protected $_mode = null;
+    protected $_mode = null;
     
     /** 
      * Constructor 
@@ -49,9 +49,6 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
-        require_once 'PayPal.php';
-        require_once 'PayPal/Profile/API.php';
-
         $this->_mode = $mode;
 
         $this->_paymentProcessor = $paymentProcessor;
@@ -60,40 +57,8 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             return;
         }
 
-        if ( $this->_paymentProcessor['user_name'] ) {
-            require_once 'PayPal/Profile/Handler/Array.php';
-            $environment = ( $mode == 'test' ) ? 'sandbox' : 'live';
-            $this->_handler =& ProfileHandler_Array::getInstance( 
-                                                                 array(
-                                                                       'username'        => $this->_paymentProcessor['user_name'],
-                                                                       'certificateFile' => null,
-                                                                       'subject'         => $this->_paymentProcessor['subject'],
-                                                                       'environment'     => $environment,
-                                                                       )
-                                                                 );
-            if ( PayPal::isError( $this->_handler ) ) {
-                return self::error( $this->_handler );
-            }
-
-            $pid            =  ProfileHandler::generateID( );
-            $this->_profile =& APIProfile::getInstance( $pid, $this->_handler );
-
-            if ( PayPal::isError( $this->_profile ) ) {
-                return self::error( $this->_profile );
-            }
-
-            $this->_profile->setAPIPassword( $this->_paymentProcessor['password']  );
-            $this->_profile->setSignature  ( $this->_paymentProcessor['signature'] );
-        } else {
+        if ( ! $this->_paymentProcessor['user_name'] ) {
             CRM_Core_Error::fatal( ts( 'Could not find user name for payment processor' ) );
-        }
-
-        $this->_caller =& PayPal::getCallerServices( $this->_profile );
-
-        if ( PayPal::isError( $this->_caller ) ) {
-            $ret = self::error( $this->_caller );
-            $this->_caller = null;
-            return $ret;
         }
     }
 
@@ -292,6 +257,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         return $amount->_value;
     }
 
+    function initialize( &$args, $method ) {
+        $args['user'     ] = $this->_paymentProcessor['user_name' ];
+        $args['pwd'      ] = $this->_paymentProcessor['password'  ];
+        $args['version'  ] = 3.0;
+        $args['signature'] = $this->_paymentProcessor['signature' ];
+        $args['subject'  ] = $this->_paymentProcessor['subject'   ];
+        $args['method'   ] = $method;
+    }
+
     /**
      * This function collects all the information from a web/api form and invokes
      * the relevant payment processor specific functions to perform the transaction
@@ -302,107 +276,44 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
      * @public
      */
     function doDirectPayment( &$params ) {
-        if ( ! $this->_caller ) {
-            return self::error( );
-        }
+        $args = array( );
 
-        $orderTotal =& PayPal::getType( 'BasicAmountType' );  
-  
-        if ( PayPal::isError( $orderTotal ) ) {  
-            return self::error( $orderTotal );  
-        }  
-  
-        $orderTotal->setattr( 'currencyID', $params['currencyID'] );  
-        $orderTotal->setval( $params['amount'], self::CHARSET  );  
+        $this->initialize( $args, 'DoDirectPayment' );
+        $args['paymentAction']  = $params['payment_action'];
+        $args['amt']            = $params['amount'];
+        $args['currencyCode']   = $params['currencyID'];
+        $args['invnum']         = $params['invoiceID'];
+        $args['ipaddress']      = $params['ip_address'];
+        $args['creditCardType'] = $params['credit_card_type'];
+        $args['acct']           = $params['credit_card_number'];
+        $args['expDate']        = sprintf( '%02d', $params['month'] ) . $params['year'];
+        $args['cvv2']           = $params['cvv2'];
+        $args['firstName']      = $params['first_name'];
+        $args['lastName']       = $params['last_name'];
+        $args['email']          = $params['email'];
+        $args['street']         = $params['street_address'];
+        $args['city']           = $params['city'];
+        $args['state']          = $params['state_province'];
+        $args['countryCode']    = $params['country'];
+        $args['zip']            = $params['postal_code'];
 
-        $payerName =& PayPal::getType( 'PersonNameType' );
+        $result = $this->invokeNVPAPI( $args );
 
-        if ( PayPal::isError( $payerName ) ) {
-            return self::error( $payerName );
-        }
-
-        $payerName->setLastName  ( $params['last_name'  ], self::CHARSET  );
-        $payerName->setMiddleName( $params['middle_name'], self::CHARSET  );
-        $payerName->setFirstName ( $params['first_name' ], self::CHARSET  );
-        $address =& PayPal::getType('AddressType');
-
-        if (PayPal::isError($address)) {
-            return self::error( $address );
-        }
-
-        $address->setStreet1        ( $params['street_address'], self::CHARSET );
-        $address->setCityName       ( $params['city']          , self::CHARSET );
-        $address->setStateOrProvince( $params['state_province'], self::CHARSET );
-        $address->setPostalCode     ( $params['postal_code']   , self::CHARSET );
-        $address->setCountry        ( $params['country']       , self::CHARSET );
-        $cardOwner =& PayPal::getType( 'PayerInfoType' );
-
-        if ( PayPal::isError( $cardOwner ) ) {
-            return self::error( $cardOwner );
-        }
-
-        $cardOwner->setPayer( $params['email'] );
-        $cardOwner->setAddress( $address );
-        $cardOwner->setPayerCountry( $params['country'], self::CHARSET  );
-        $cardOwner->setPayerName( $payerName );
-        $creditCard =& PayPal::getType( 'CreditCardDetailsType' );
-
-        if ( PayPal::isError( $creditCard ) ) {
-            return self::error( $creditCard );
-        }
-
-        $creditCard->setCardOwner( $cardOwner );
-        $creditCard->setCVV2            ( $params['cvv2']              , self::CHARSET  );
-        $creditCard->setExpYear         ( $params['year' ]             , self::CHARSET  );
-        $creditCard->setExpMonth        ( $params['month']             , self::CHARSET  );
-        $creditCard->setCreditCardNumber( $params['credit_card_number'], self::CHARSET  );
-        $creditCard->setCreditCardType  ( $params['credit_card_type']  , self::CHARSET  );
-        $doDirectPaymentRequestDetails =& PayPal::getType( 'DoDirectPaymentRequestDetailsType' );
-
-        $paymentDetails =& PayPal::getType( 'PaymentDetailsType' );
-
-        if ( PayPal::isError( $paymentDetails ) ) {
-            return self::error( $paymentDetails );
-        }
-
-        $paymentDetails->setOrderTotal($orderTotal);
-        $paymentDetails->setInvoiceID( $params['invoiceID'], self::CHARSET );
-
-        $shipToAddress = $address;
-        $shipToAddress->setName( $params['first_name'] . ' ' . $params['last_name'] );
-        $paymentDetails->setShipToAddress( $shipToAddress );
-
-        if ( PayPal::isError( $doDirectPaymentRequestDetails ) ) {
-            return self::error( $doDirectPaymentRequestDetails );
-        }
-
-        $doDirectPaymentRequestDetails->setCreditCard    ( $creditCard     );
-        $doDirectPaymentRequestDetails->setPaymentDetails( $paymentDetails );
-        $doDirectPaymentRequestDetails->setIPAddress     ( $params['ip_address'    ], self::CHARSET  );
-        $doDirectPaymentRequestDetails->setPaymentAction ( $params['payment_action'], self::CHARSET  );
-        $doDirectPayment =& PayPal::getType( 'DoDirectPaymentRequestType' );
-
-        if ( PayPal::isError( $doDirectPayment ) ) {
-            return self::error( $doDirectPayment );
-        }
-
-        $doDirectPayment->setDoDirectPaymentRequestDetails( $doDirectPaymentRequestDetails );
-
-        $result = $this->_caller->DoDirectPayment( $doDirectPayment );
-
-        if ( PayPal::isError( $result ) ) { 
-            return self::error( $result );
-        }
-
-        /* Check for application errors */
-        $result =& self::checkResult( $result );
         if ( is_a( $result, 'CRM_Core_Error' ) ) {  
             return $result;  
         }
 
+        if ( strtolower( $result['ACK'] ) != 'success' ) {
+            $e =& CRM_Core_Error::singleton( );
+            $e->push( $result['L_ERRORCODE0'],
+                      0, null,
+                      "{$result['L_SHORTMESSAGE0']} {$result['L_LONGMESSAGE0']}" );
+            return $e;
+        }
+
         /* Success */
-        $params['trxn_id']        = $result->TransactionID;
-        $params['gross_amount'  ] = self::getAmount( $result->Amount );
+        $params['trxn_id']        = $result['TRANSACTIONID'];
+        $params['gross_amount'  ] = $result['AMT'];
         return $params;
     }
 
@@ -580,6 +491,85 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         $paypalURL = "{$url}{$sub}/$uri";
 
         CRM_Utils_System::redirect( $paypalURL );
+    }
+
+    /**
+     * hash_call: Function to perform the API call to PayPal using API signature
+     * @methodName is name of API  method.
+     * @nvpStr is nvp string.
+     * returns an associtive array containing the response from the server.
+     */
+    function invokeNVPAPI( $args ) {
+
+        //setting the curl parameters.
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->_paymentProcessor['url_site'] . 'nvp' );
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+        //turning off the server and peer verification(TrustManager Concept).
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        $p = array( );
+        foreach ( $args as $n => $v ) {
+            $p[] = "$n=" . urlencode( $v );
+        }
+
+        //NVPRequest for submitting to server
+        $nvpreq = implode( '&', $p );
+
+        //setting the nvpreq as POST FIELD to curl
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+
+        //getting response from server
+        $response = curl_exec( $ch );
+
+        //converting NVPResponse to an Associative Array
+        $result = $this->deformatNVP( $response );
+
+        if ( curl_errno( $ch ) ) {
+            $e =& CRM_Core_Error::singleton( );
+            $e->push( curl_errno( $ch ),
+                      0, null,
+                      curl_error( $ch ) );
+            return $e;
+        } else {
+			curl_close($ch);
+        }
+
+        return $result;
+    }
+
+    /** This function will take NVPString and convert it to an Associative Array and it will decode the response.
+     * It is usefull to search for a particular key and displaying arrays.
+     * @nvpstr is NVPString.
+     * @nvpArray is Associative Array.
+     */
+
+    function deformatNVP( $str )
+    {
+        $result = array();
+
+        while ( strlen( $str ) ) {
+            // postion of key
+            $keyPos = strpos( $str, '=' );
+
+            // position of value
+            $valPos = strpos( $str, '&' ) ? strpos( $str, '&' ): strlen( $str );
+
+            /*getting the Key and Value values and storing in a Associative Array*/
+            $key = substr( $str, 0, $keyPos );
+            $val = substr( $str, $keyPos+1, $valPos - $keyPos - 1 );
+
+            //decoding the respose
+            $result[ urldecode( $key ) ] = urldecode( $val );
+            $str = substr( $str, $valPos + 1, strlen( $str ) );
+        }
+
+        return $result;
     }
 
 }
