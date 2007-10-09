@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-17 21:12+0200\n"
-"PO-Revision-Date: 2007-10-06 15:42-0700\n"
-"Last-Translator: João Seabra <johnnyseabra@gmail.com>\n"
+"PO-Revision-Date: 2007-10-08 09:42-0700\n"
+"Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,30 +18,24 @@ msgid ""
 "The following tokens are available to format Mailing Labels. Address fields "
 "are taken from the contact's <strong>primary</strong> location."
 msgstr ""
-"Os marcadores a seguir estão disponíveis para formatar os identificadores de "
-"endereço. Campos de endereço são obtidos dos contatos "
-"<strong>principais</strong> de localização."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
 "Used for mailing labels only. Replaced by the configurable Individual Name "
 "format for individuals and the display name for Organizations and Households."
 msgstr ""
-"Usado apenas para identificadores de endereço. Substituído pelos "
-"configuráveis Nomes Individuais para individuais e o nome de tela para "
-"Organizações e residências."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr "Logradouro (ex. Rua da Moeda, 211)."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr "Complemento (a linha será pulada se vazia)."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr "Complemento 2 (a linha será pulada se vazia)."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
@@ -53,38 +47,32 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"Nome do condado. Se você quiser incluir o nome do condado em suas etiquetas "
-"de endereço, a <strong>Incluir Condado</strong> deverá estar ativada nesta "
-"tela, e os nomes de condado deverão estar adicionados na tabela "
-"civicrm_county no seu banco de dados."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
-msgstr "<string>Abreviação</strong> do estado ou província."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr "<strong>Nome completo</strong> do estado ou província."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
-msgstr "CEP"
+msgstr "Código postal."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr "Nome do País (ex. Brasil)."
+msgstr "País (ex. Canadá)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
-msgstr "Adicionar espaços ou pontuação ao layout cercando com chaves."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
 "The following tokens are available to format Address display on Contact and "
 "Event screens."
 msgstr ""
-"Os marcadores abaixo estão disponíveis para formatar a disposição de "
-"endereço na tela de Contatos e Eventos."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -92,10 +80,6 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"Nome do condado. Se você quiser incluir o nome do condado em suas tela, a "
-"opção <strong>Incluir Condado</strong> deverá estar ativada nesta tela, e os "
-"nomes de condado deverão estar adicionados na tabela civicrm_county no seu "
-"banco de dados."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -113,7 +97,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's first name."
-msgstr ""
+msgstr "Nome próprio do contacto."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's middle name."
@@ -121,13 +105,16 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's last name."
-msgstr ""
+msgstr "Apelido do contacto."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
+#, fuzzy
 msgid ""
 "These optional components give you more tools to connect with and engage "
 "your supporters."
 msgstr ""
+"Estes componentes opcionais dão-lhe mais ferramentas para interagir com os "
+"supporters."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
