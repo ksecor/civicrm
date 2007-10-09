@@ -1539,7 +1539,7 @@ WHERE civicrm_contact.id IN $idString ";
             
             //Sorting fields in alphabetical order(CRM-1507)
             foreach ( $fields as $k=>$v ) {
-                $sortArray[$k] = $v['title'];
+                $sortArray[$k] = CRM_Utils_Array::value( 'title', $v );
             }
             asort($sortArray);
             $fields = array_merge( $sortArray, $fields );

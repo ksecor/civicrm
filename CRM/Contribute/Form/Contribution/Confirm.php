@@ -90,8 +90,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $values = $this->controller->exportValues( 'Main' );
                 $skipFields = array( 'amount', 'amount_other',
                                      'first_name', 'middle_name', 'last_name',
-                                     'street_address', 'city', 'state_province_id', 'postal_code',
-                                     'country_id' );
+                                     "street_address-{$this->_bltID}",
+                                     "city-{$this->_bltID}",
+                                     "state_province_id-{$this->_bltID}",
+                                     "postal_code-{$this->_bltID}",
+                                     "country_id-{$this->_bltID}" );
                 foreach ( $values as $name => $value ) {
                     // skip amount field
                     if ( ! in_array( $name, $skipFields ) ) {
