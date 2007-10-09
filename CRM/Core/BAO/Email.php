@@ -55,7 +55,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         $email =& new CRM_Core_DAO_Email( );
         
         $email->copyValues($params);
-
+        
         if ( $email->is_bulkmail ) {
             $sql = "
 UPDATE civicrm_email 
@@ -64,21 +64,10 @@ WHERE
 contact_id = {$params['contact_id']}";
             CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
         }
+
+        // handle if email is on hold
+        self::holdEmail( $email );
         
-        // handle if email is on hold TO DO
-//         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
-//             $values = array(
-//                       'location' => array( $locationId => $params['location'][$locationId]['id'] ),
-//                       'email'    => $ids['location'][$locationId]['email']
-//                       );
-            
-//             self::holdEmail( $email, $values, $locationId, $emailId,
-//                              CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
-            
-//             return $email;
-//         }
-
-
         return $email->save( );
     }
 
@@ -166,63 +155,40 @@ ORDER BY
         $dao->copyValues( $params );
         $dao->delete();
     }
-    
+
     /**
-     * Method to hold or reset email(s)
-     * 
-     * This method is used to hold and reset the email(s) according to
-     * the 'holodStatus' value provided.
-     * 'Values' array contains values required to search for required
-     * email record in update mode.
-     * An example Values array looks like : 
-     * 
-     * Values
+     * Function to set / reset hold status for an email
      *
-     * Array
-     * (
-     * [location] => Array
-     *      (
-     *       [2] => 92
-     *      )
+     * @param object $email  email object
      *
-     * [email] => Array
-     *      (
-     *       [1] => 170
-     *       [2] => 171
-     *       [3] => 172
-     *      )
-     *
-     * )
-     * 
-     * @param object  $emailDAO          (referance) email dao object
-     * @param array   $values
-     * @param int     $locationBlockId   Location Block Number
-     * @param int     $emailBlockId      Email Block Number
-     * @param boolean $holdStatus        flag to indicate whether hold
-     *                                   an email or reset
-     *
+     * @return void
+     * @static
      */
-    public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) 
+    static function holdEmail ( &$email ) 
     {
-        if ( $holdStatus ) {
-            $emailDAO->on_hold     = 1;
-            $emailDAO->hold_date   = date( 'YmdHis' );
-            $emailDAO->reset_date  = '';
-        } else if ( !empty($values['email'][$emailBlockId])) {
-            $emailDAO->save();
-            $emailDAO->location_id = $values['location'][$locationBlockId];
-            
-            $emailDAO->whereAdd('id=' . $values['email'][$emailBlockId]);
-            $emailDAO->whereAdd('hold_date IS NOT NULL');
-            if ( $emailDAO->find(true) ) {
-                $emailDAO->on_hold     = 0;
-                $emailDAO->hold_date   = '';
-                $emailDAO->reset_date  = date( 'YmdHis' );
+        //check for update mode
+        if ( $email->id ) {
+            //get hold date
+            $holdDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'hold_date' );
+
+            //get reset date
+            $resetDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'reset_date' );
+
+            //set hold date only if it is not set
+            if ( ($email->on_hold != 'null') && !$holdDate ) {
+                $email->hold_date  = date( 'YmdHis' );
+                $email->reset_date = '';
+            } else if ( $holdDate && ( $email->on_hold == 'null' ) && !$resetDate ) {
+                //set reset date only if it is not set and if hold date is set
+                $email->on_hold     = false;
+                $email->hold_date   = '';
+                $email->reset_date  = date( 'YmdHis' );
+            }
+        } else {
+            if ( $email->on_hold != 'null' ) {
+                $email->hold_date   = date( 'YmdHis' );
             }
         }
-        
-        $emailDAO->save();
-        return true;
     }
 }
 ?>
