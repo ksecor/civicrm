@@ -387,6 +387,32 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         return $eq;
     }
+    
+    private function _getMailingGroupIds( $type = 'Include' ) {
+        $mailingGroup =& new CRM_Mailing_DAO_Group();
+        $group = CRM_Contact_DAO_Group::getTableName();
+        if ( ! isset( $this->id ) ) {
+            // we're just testing tokens, so return any group
+            $query = "SELECT   id AS entity_id
+                      FROM     $group
+                      ORDER BY id
+                      LIMIT 1";
+        } else {
+            $query = "SELECT entity_id
+                      FROM   $mg
+                      WHERE  mailing_id = {$this->id}
+                      AND    group_type = '$type'
+                      AND    entity_table = '$group'";
+        }
+        $mailingGroup->query( $query );
+        
+        $groupIds = array( );
+        while ( $mailingGroup->fetch( ) ) {
+            $groupIds[] = $mailingGroup->entity_id;
+        }
+        
+        return $groupIds;
+    }
 
 
     /**
