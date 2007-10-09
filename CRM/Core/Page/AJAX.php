@@ -111,13 +111,11 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         if ( $shared ) {
             $query = "
 SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
-civicrm_household.contact_id 'id'
-FROM civicrm_household
-LEFT JOIN civicrm_location ON civicrm_location.entity_id=civicrm_household.contact_id 
-AND civicrm_location.is_primary=1 
-AND civicrm_location.entity_table='civicrm_contact'
-LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
-where household_name LIKE '$name%'
+civicrm_contact.id 'id'
+FROM civicrm_contact
+LEFT JOIN civicrm_address ON (civicrm_address.contact_id = civicrm_contact.id
+                                 AND civicrm_address.is_primary=1 )
+WHERE household_name LIKE '$name%'
 ORDER BY household_name ";
         } else {
             $query = "
