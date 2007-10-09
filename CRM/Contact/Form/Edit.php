@@ -255,7 +255,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                     }
                 }
-                $defaults['location'][1]['is_primary'] = true;
             }
         } else { 
             // this is update mode
@@ -304,6 +303,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
         }
+        
+        //check primary for first location
+        $defaults['location'][1]['is_primary'] = true;
 
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
