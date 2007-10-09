@@ -175,8 +175,8 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $whereClause = $this->whereClause( $params );
         $query = "
 SELECT count(civicrm_mailing.id)
-  FROM civicrm_mailing, civicrm_mailing_job
- WHERE civicrm_mailing.id = civicrm_mailing_job.mailing_id
+  FROM civicrm_mailing
+     LEFT JOIN civicrm_mailing_job ON (civicrm_mailing.id = civicrm_mailing_job.mailing_id)
    AND $whereClause";
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }

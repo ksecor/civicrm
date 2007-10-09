@@ -108,7 +108,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         // make sure we load the joomla object to get valid information
         if ( $uf == 'Joomla' ) {
-            $user->load( );
+            if ( class_exists( 'JFactory' ) ) {
+                $user =& JFactory::getUser( );
+            } else {
+                $user->load( );
+            }
         }
 
         // if the id of the object is zero (true for anon users in drupal)

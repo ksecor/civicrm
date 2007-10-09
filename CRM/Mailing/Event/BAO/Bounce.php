@@ -164,7 +164,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
      */
     public static function &getRows($mailing_id, $job_id = null, 
         $is_distinct = false, $offset = null, $rowCount = null, $sort = null) {
-        
+       
         $dao =& new CRM_Core_Dao();
         
         $bounce     = self::getTableName();
@@ -193,6 +193,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                     ON  $bounce.bounce_type_id = $bounceType.id
             INNER JOIN  $job
                     ON  $queue.job_id = $job.id
+                    AND $job.is_test = 0
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
             WHERE       $mailing.id = " 

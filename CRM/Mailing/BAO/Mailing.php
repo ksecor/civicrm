@@ -766,7 +766,7 @@ AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                $dao =& CRM_Core_DAO::executeQuery( $query);
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                 if ($dao->fetch( ) ) {
                     $params = array(
                                     'job_id'        => $testParams['job_id'],
@@ -787,7 +787,7 @@ AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                    $dao =& CRM_Core_DAO::executeQuery( $query);
+                    $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                     if ($dao->fetch( ) ) {
                         $params = array(
                                         'job_id'        => $testParams['job_id'],
@@ -1472,10 +1472,11 @@ AND civicrm_contact.is_opt_out =0";
             LEFT JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
             WHERE       {$t['url']}.mailing_id = $mailing_id
+                    AND {$t['job']}.is_test = 0
             GROUP BY    {$t['url']}.id");
        
         $report['click_through'] = array();
-
+        
         while ($mailing->fetch()) {
             $report['click_through'][] = array(
                                     'url' => $mailing->url,
@@ -1632,13 +1633,10 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
-            FROM        $mailing, $job
+            FROM        $mailing 
+                        LEFT JOIN $job ON ( $job.mailing_id    = $mailing.id )
             WHERE       $mailing.domain_id = $domain_id
-              AND       $job.mailing_id    = $mailing.id
-              AND       $mailingACL
-              AND       ( $job.is_test <> 1
-               OR         $job.is_test IS NULL )
-                        $additionalClause
+              AND       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {
