@@ -6,5567 +6,5568 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2002-01-05 17:40+0000\n"
+"PO-Revision-Date: 2007-10-09 08:33-0700\n"
 "Last-Translator: José Nuno Coelho Sanarra Pires <jncp@rnl.ist.utl.pt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
-msgstr ""
+msgstr "Alabama"
 
 msgid "Alaska"
-msgstr ""
+msgstr "Alaska"
 
 msgid "Arizona"
-msgstr ""
+msgstr "Arizona"
 
 msgid "Arkansas"
-msgstr ""
+msgstr "Arkansas"
 
 msgid "California"
-msgstr ""
+msgstr "Califórnia"
 
 msgid "Colorado"
-msgstr ""
+msgstr "Colorado"
 
 msgid "Connecticut"
-msgstr ""
+msgstr "Connecticut"
 
 msgid "Delaware"
-msgstr ""
+msgstr "Delaware"
 
 msgid "Florida"
-msgstr ""
+msgstr "Florida"
 
 msgid "Georgia"
-msgstr ""
+msgstr "Georgia"
 
 msgid "Hawaii"
-msgstr ""
+msgstr "Hawaii"
 
 msgid "Idaho"
-msgstr ""
+msgstr "Idaho"
 
 msgid "Illinois"
-msgstr ""
+msgstr "Illinois"
 
 msgid "Indiana"
-msgstr ""
+msgstr "Indiana"
 
 msgid "Iowa"
-msgstr ""
+msgstr "Iowa"
 
 msgid "Kansas"
-msgstr ""
+msgstr "Kansas"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "Kentucky"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "Louisiana"
 
 msgid "Maine"
-msgstr ""
+msgstr "Maine"
 
 msgid "Maryland"
-msgstr ""
+msgstr "Maryland"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "Massachusetts"
 
 msgid "Michigan"
-msgstr ""
+msgstr "Michigan"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "Minnesota"
 
 msgid "Mississippi"
-msgstr ""
+msgstr "Mississippi"
 
 msgid "Missouri"
-msgstr ""
+msgstr "Missouri"
 
 msgid "Montana"
-msgstr ""
+msgstr "Montana"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "Nebraska"
 
 msgid "Nevada"
-msgstr ""
+msgstr "Nevada"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "New Hampshire"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "New Jersey"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "New Mexico"
 
 msgid "New York"
-msgstr ""
+msgstr "Nova Iorque"
 
 msgid "North Carolina"
-msgstr ""
+msgstr "Carolina do Norte"
 
 msgid "North Dakota"
-msgstr ""
+msgstr "Dakota do Norte"
 
 msgid "Ohio"
-msgstr ""
+msgstr "Ohio"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "Oklahoma"
 
 msgid "Oregon"
-msgstr ""
+msgstr "Oregon"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "Pennsylvania"
 
 msgid "Rhode Island"
-msgstr ""
+msgstr "Rhode Island"
 
 msgid "South Carolina"
-msgstr ""
+msgstr "Carolina do Sul"
 
 msgid "South Dakota"
-msgstr ""
+msgstr "Dakota do Sul"
 
 msgid "Tennessee"
-msgstr ""
+msgstr "Tennessee"
 
 msgid "Texas"
-msgstr ""
+msgstr "Texas"
 
 msgid "Utah"
-msgstr ""
+msgstr "Utah"
 
 msgid "Vermont"
-msgstr ""
+msgstr "Vermont"
 
 msgid "Virginia"
-msgstr ""
+msgstr "Virginia"
 
 msgid "Washington"
-msgstr ""
+msgstr "Washington"
 
 msgid "West Virginia"
-msgstr ""
+msgstr "West Virginia"
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "Wisconsin"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "Distrito de Columbia"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "Samoa Americana"
 
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Ilhas Marianas do Norte"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Porto Rico"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "Virgin Islands"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "United States Minor Outlying Islands"
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "Armed Forces Europe"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "Armed Forces Americas"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "Armed Forces Pacific"
 
 msgid "Alberta"
-msgstr ""
+msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "British Columbia"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "Manitoba"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "Newfoundland e Labrador"
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "Northwest Territories"
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Nova Escócia"
 
 msgid "Nunavut"
-msgstr ""
+msgstr "Nunavut"
 
 msgid "Ontario"
-msgstr ""
+msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
-msgstr ""
+msgstr "Quebeque"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "Yukon Territory"
 
 msgid "Maharashtra"
-msgstr ""
+msgstr "Maharashtra"
 
 msgid "Karnataka"
-msgstr ""
+msgstr "Karnataka"
 
 msgid "Andhra Pradesh"
-msgstr ""
+msgstr "Andhra Pradesh"
 
 msgid "Arunachal Pradesh"
-msgstr ""
+msgstr "Arunachal Pradesh"
 
 msgid "Assam"
-msgstr ""
+msgstr "Assam"
 
 msgid "Bihar"
-msgstr ""
+msgstr "Bihar"
 
 msgid "Chhattisgarh"
-msgstr ""
+msgstr "Chhattisgarh"
 
 msgid "Goa"
-msgstr ""
+msgstr "Goa"
 
 msgid "Gujarat"
-msgstr ""
+msgstr "Gujarat"
 
 msgid "Haryana"
-msgstr ""
+msgstr "Haryana"
 
 msgid "Himachal Pradesh"
-msgstr ""
+msgstr "Himachal Pradesh"
 
 msgid "Jammu and Kashmir"
-msgstr ""
+msgstr "Jammu e Kashmir"
 
 msgid "Jharkhand"
-msgstr ""
+msgstr "Jharkhand"
 
 msgid "Kerala"
-msgstr ""
+msgstr "Kerala"
 
 msgid "Madhya Pradesh"
-msgstr ""
+msgstr "Madhya Pradesh"
 
 msgid "Manipur"
-msgstr ""
+msgstr "Manipur"
 
 msgid "Meghalaya"
-msgstr ""
+msgstr "Meghalaya"
 
 msgid "Mizoram"
-msgstr ""
+msgstr "Mizoram"
 
 msgid "Nagaland"
-msgstr ""
+msgstr "Nagaland"
 
 msgid "Orissa"
-msgstr ""
+msgstr "Orissa"
 
 msgid "Punjab"
-msgstr ""
+msgstr "Punjab"
 
 msgid "Rajasthan"
-msgstr ""
+msgstr "Rajasthan"
 
 msgid "Sikkim"
-msgstr ""
+msgstr "Sikkim"
 
 msgid "Tamil Nadu"
-msgstr ""
+msgstr "Tamil Nadu"
 
 msgid "Tripura"
-msgstr ""
+msgstr "Tripura"
 
 msgid "Uttaranchal"
-msgstr ""
+msgstr "Uttaranchal"
 
 msgid "Uttar Pradesh"
-msgstr ""
+msgstr "Uttar Pradesh"
 
 msgid "West Bengal"
-msgstr ""
+msgstr "West Bengal"
 
 msgid "Andaman and Nicobar Islands"
-msgstr ""
+msgstr "Andaman and Nicobar Islands"
 
 msgid "Dadra and Nagar Haveli"
-msgstr ""
+msgstr "Dadra and Nagar Haveli"
 
 msgid "Daman and Diu"
-msgstr ""
+msgstr "Daman and Diu"
 
 msgid "Delhi"
-msgstr ""
+msgstr "Delhi"
 
 msgid "Lakshadweep"
-msgstr ""
+msgstr "Lakshadweep"
 
 msgid "Pondicherry"
-msgstr ""
+msgstr "Pondicherry"
 
 msgid "mazowieckie"
-msgstr ""
+msgstr "mazowieckie"
 
 msgid "pomorskie"
-msgstr ""
+msgstr "pomorskie"
 
 msgid "dolnośląskie"
-msgstr ""
+msgstr "dolnośląskie"
 
 msgid "kujawsko-pomorskie"
-msgstr ""
+msgstr "kujawsko-pomorskie"
 
 msgid "lubelskie"
-msgstr ""
+msgstr "lubelskie"
 
 msgid "lubuskie"
-msgstr ""
+msgstr "lubuskie"
 
 msgid "łódzkie"
-msgstr ""
+msgstr "łódzkie"
 
 msgid "małopolskie"
-msgstr ""
+msgstr "małopolskie"
 
 msgid "opolskie"
-msgstr ""
+msgstr "opolskie"
 
 msgid "podkarpackie"
-msgstr ""
+msgstr "podkarpackie"
 
 msgid "podlaskie"
-msgstr ""
+msgstr "podlaskie"
 
 msgid "śląskie"
-msgstr ""
+msgstr "śląskie"
 
 msgid "świętokrzyskie"
-msgstr ""
+msgstr "świętokrzyskie"
 
 msgid "warmińsko-mazurskie"
-msgstr ""
+msgstr "warmińsko-mazurskie"
 
 msgid "wielkopolskie"
-msgstr ""
+msgstr "wielkopolskie"
 
 msgid "zachodniopomorskie"
-msgstr ""
+msgstr "zachodniopomorskie"
 
 msgid "Abu Zaby"
-msgstr ""
+msgstr "Abu Zaby"
 
 msgid "'Ajman"
-msgstr ""
+msgstr "'Ajman"
 
 msgid "Al Fujayrah"
-msgstr ""
+msgstr "Al Fujayrah"
 
 msgid "Ash Shariqah"
-msgstr ""
+msgstr "Ash Shariqah"
 
 msgid "Dubayy"
-msgstr ""
+msgstr "Dubayy"
 
 msgid "Ra's al Khaymah"
-msgstr ""
+msgstr "Ra's al Khaymah"
 
 msgid "Dac Lac"
-msgstr ""
+msgstr "Dac Lac"
 
 msgid "Umm al Qaywayn"
-msgstr ""
+msgstr "Umm al Qaywayn"
 
 msgid "Badakhshan"
-msgstr ""
+msgstr "Badakhshan"
 
 msgid "Badghis"
-msgstr ""
+msgstr "Badghis"
 
 msgid "Baghlan"
-msgstr ""
+msgstr "Baghlan"
 
 msgid "Balkh"
-msgstr ""
+msgstr "Balkh"
 
 msgid "Bamian"
-msgstr ""
+msgstr "Bamian"
 
 msgid "Farah"
-msgstr ""
+msgstr "Farah"
 
 msgid "Faryab"
-msgstr ""
+msgstr "Faryab"
 
 msgid "Ghazni"
-msgstr ""
+msgstr "Ghazni"
 
 msgid "Ghowr"
-msgstr ""
+msgstr "Ghowr"
 
 msgid "Helmand"
-msgstr ""
+msgstr "Helmand"
 
 msgid "Herat"
-msgstr ""
+msgstr "Herat"
 
 msgid "Jowzjan"
-msgstr ""
+msgstr "Jowzjan"
 
 msgid "Kabul"
-msgstr ""
+msgstr "Kabul"
 
 msgid "Kandahar"
-msgstr ""
+msgstr "Kandahar"
 
 msgid "Kapisa"
-msgstr ""
+msgstr "Kapisa"
 
 msgid "Khowst"
-msgstr ""
+msgstr "Khowst"
 
 msgid "Konar"
-msgstr ""
+msgstr "Konar"
 
 msgid "Kondoz"
-msgstr ""
+msgstr "Kondoz"
 
 msgid "Laghman"
-msgstr ""
+msgstr "Laghman"
 
 msgid "Lowgar"
-msgstr ""
+msgstr "Lowgar"
 
 msgid "Nangrahar"
-msgstr ""
+msgstr "Nangrahar"
 
 msgid "Nimruz"
-msgstr ""
+msgstr "Nimruz"
 
 msgid "Nurestan"
-msgstr ""
+msgstr "Nurestan"
 
 msgid "Oruzgan"
-msgstr ""
+msgstr "Oruzgan"
 
 msgid "Paktia"
-msgstr ""
+msgstr "Paktia"
 
 msgid "Paktika"
-msgstr ""
+msgstr "Paktika"
 
 msgid "Parwan"
-msgstr ""
+msgstr "Parwan"
 
 msgid "Samangan"
-msgstr ""
+msgstr "Samangan"
 
 msgid "Sar-e Pol"
-msgstr ""
+msgstr "Sar-e Pol"
 
 msgid "Takhar"
-msgstr ""
+msgstr "Takhar"
 
 msgid "Wardak"
-msgstr ""
+msgstr "Wardak"
 
 msgid "Zabol"
-msgstr ""
+msgstr "Zabol"
 
 msgid "Berat"
-msgstr ""
+msgstr "Berat"
 
 msgid "Bulqizë"
-msgstr ""
+msgstr "Bulqizë"
 
 msgid "Delvinë"
-msgstr ""
+msgstr "Delvinë"
 
 msgid "Devoll"
-msgstr ""
+msgstr "Devoll"
 
 msgid "Dibër"
-msgstr ""
+msgstr "Dibër"
 
 msgid "Durrsës"
-msgstr ""
+msgstr "Durrsës"
 
 msgid "Elbasan"
-msgstr ""
+msgstr "Elbasan"
 
 msgid "Fier"
-msgstr ""
+msgstr "Fier"
 
 msgid "Gramsh"
-msgstr ""
+msgstr "Gramsh"
 
 msgid "Gjirokastër"
-msgstr ""
+msgstr "Gjirokastër"
 
 msgid "Has"
-msgstr ""
+msgstr "Has"
 
 msgid "Kavajë"
-msgstr ""
+msgstr "Kavajë"
 
 msgid "Kolonjë"
-msgstr ""
+msgstr "Kolonjë"
 
 msgid "Korcë"
-msgstr ""
+msgstr "Korcë"
 
 msgid "Krujë"
-msgstr ""
+msgstr "Krujë"
 
 msgid "Kuçovë"
-msgstr ""
+msgstr "Kuçovë"
 
 msgid "Kukës"
-msgstr ""
+msgstr "Kukës"
 
 msgid "Kurbin"
-msgstr ""
+msgstr "Kurbin"
 
 msgid "Lezhë"
-msgstr ""
+msgstr "Lezhë"
 
 msgid "Librazhd"
-msgstr ""
+msgstr "Librazhd"
 
 msgid "Lushnjë"
-msgstr ""
+msgstr "Lushnjë"
 
 msgid "Malësi e Madhe"
-msgstr ""
+msgstr "Malësi e Madhe"
 
 msgid "Mallakastër"
-msgstr ""
+msgstr "Mallakastër"
 
 msgid "Mat"
-msgstr ""
+msgstr "Mat"
 
 msgid "Mirditë"
-msgstr ""
+msgstr "Mirditë"
 
 msgid "Peqin"
-msgstr ""
+msgstr "Peqin"
 
 msgid "Përmet"
-msgstr ""
+msgstr "Përmet"
 
 msgid "Pogradec"
-msgstr ""
+msgstr "Pogradec"
 
 msgid "Pukë"
-msgstr ""
+msgstr "Pukë"
 
 msgid "Sarandë"
-msgstr ""
+msgstr "Sarandë"
 
 msgid "Skrapar"
-msgstr ""
+msgstr "Skrapar"
 
 msgid "Shkodër"
-msgstr ""
+msgstr "Shkodër"
 
 msgid "Tepelenë"
-msgstr ""
+msgstr "Tepelenë"
 
 msgid "Tiranë"
-msgstr ""
+msgstr "Tiranë"
 
 msgid "Tropojë"
-msgstr ""
+msgstr "Tropojë"
 
 msgid "Vlorë"
-msgstr ""
+msgstr "Vlorë"
 
 msgid "Erevan"
-msgstr ""
+msgstr "Erevan"
 
 msgid "Aragacotn"
-msgstr ""
+msgstr "Aragacotn"
 
 msgid "Ararat"
-msgstr ""
+msgstr "Ararat"
 
 msgid "Armavir"
-msgstr ""
+msgstr "Armavir"
 
 msgid "Gegarkunik'"
-msgstr ""
+msgstr "Gegarkunik'"
 
 msgid "Kotayk'"
-msgstr ""
+msgstr "Kotayk'"
 
 msgid "Lory"
-msgstr ""
+msgstr "Lory"
 
 msgid "Sirak"
-msgstr ""
+msgstr "Sirak"
 
 msgid "Syunik'"
-msgstr ""
+msgstr "Syunik'"
 
 msgid "Tavus"
-msgstr ""
+msgstr "Tavus"
 
 msgid "Vayoc Jor"
-msgstr ""
+msgstr "Vayoc Jor"
 
 msgid "Bengo"
-msgstr ""
+msgstr "Bengo"
 
 msgid "Benguela"
-msgstr ""
+msgstr "Benguela"
 
 msgid "Bie"
-msgstr ""
+msgstr "Bie"
 
 msgid "Cabinda"
-msgstr ""
+msgstr "Cabinda"
 
 msgid "Cuando-Cubango"
-msgstr ""
+msgstr "Cuando-Cubango"
 
 msgid "Cuanza Norte"
-msgstr ""
+msgstr "Cuanza Norte"
 
 msgid "Cuanza Sul"
-msgstr ""
+msgstr "Cuanza Sul"
 
 msgid "Cunene"
-msgstr ""
+msgstr "Cunene"
 
 msgid "Huambo"
-msgstr ""
+msgstr "Huambo"
 
 msgid "Huila"
-msgstr ""
+msgstr "Huila"
 
 msgid "Luanda"
-msgstr ""
+msgstr "Luanda"
 
 msgid "Lunda Norte"
-msgstr ""
+msgstr "Lunda Norte"
 
 msgid "Lunda Sul"
-msgstr ""
+msgstr "Lunda Sul"
 
 msgid "Malange"
-msgstr ""
+msgstr "Malange"
 
 msgid "Moxico"
-msgstr ""
+msgstr "Moxico"
 
 msgid "Namibe"
-msgstr ""
+msgstr "Namibe"
 
 msgid "Uige"
-msgstr ""
+msgstr "Uige"
 
 msgid "Zaire"
-msgstr ""
+msgstr "Zaire"
 
 msgid "Capital federal"
-msgstr ""
+msgstr "Capital federal"
 
 msgid "Buenos Aires"
-msgstr ""
+msgstr "Buenos Aires"
 
 msgid "Catamarca"
-msgstr ""
+msgstr "Catamarca"
 
 msgid "Cordoba"
-msgstr ""
+msgstr "Cordoba"
 
 msgid "Corrientes"
-msgstr ""
+msgstr "Corrientes"
 
 msgid "Chaco"
-msgstr ""
+msgstr "Chaco"
 
 msgid "Chubut"
-msgstr ""
+msgstr "Chubut"
 
 msgid "Entre Rios"
-msgstr ""
+msgstr "Entre Rios"
 
 msgid "Formosa"
-msgstr ""
+msgstr "Formosa"
 
 msgid "Jujuy"
-msgstr ""
+msgstr "Jujuy"
 
 msgid "La Pampa"
-msgstr ""
+msgstr "La Pampa"
 
 msgid "Mendoza"
-msgstr ""
+msgstr "Mendoza"
 
 msgid "Misiones"
-msgstr ""
+msgstr "Misiones"
 
 msgid "Neuquen"
-msgstr ""
+msgstr "Neuquen"
 
 msgid "Rio Negro"
-msgstr ""
+msgstr "Rio Negro"
 
 msgid "Salta"
-msgstr ""
+msgstr "Salta"
 
 msgid "San Juan"
-msgstr ""
+msgstr "San Juan"
 
 msgid "San Luis"
-msgstr ""
+msgstr "San Luis"
 
 msgid "Santa Cruz"
-msgstr ""
+msgstr "Santa Cruz"
 
 msgid "Santa Fe"
-msgstr ""
+msgstr "Santa Fe"
 
 msgid "Santiago del Estero"
-msgstr ""
+msgstr "Santiago del Estero"
 
 msgid "Tierra del Fuego"
-msgstr ""
+msgstr "Tierra del Fuego"
 
 msgid "Tucuman"
-msgstr ""
+msgstr "Tucuman"
 
 msgid "Burgenland"
-msgstr ""
+msgstr "Burgenland"
 
 msgid "Kärnten"
-msgstr ""
+msgstr "Kärnten"
 
 msgid "Niederosterreich"
-msgstr ""
+msgstr "Niederosterreich"
 
 msgid "Oberosterreich"
-msgstr ""
+msgstr "Oberosterreich"
 
 msgid "Salzburg"
-msgstr ""
+msgstr "Salzburg"
 
 msgid "Steiermark"
-msgstr ""
+msgstr "Steiermark"
 
 msgid "Tirol"
-msgstr ""
+msgstr "Tirol"
 
 msgid "Vorarlberg"
-msgstr ""
+msgstr "Vorarlberg"
 
 msgid "Wien"
-msgstr ""
+msgstr "Wien"
 
 msgid "Australian Antarctic Territory"
-msgstr ""
+msgstr "Australian Antarctic Territory"
 
 msgid "Australian Capital Territory"
-msgstr ""
+msgstr "Australian Capital Territory"
 
 msgid "Northern Territory"
-msgstr ""
+msgstr "Northern Territory"
 
 msgid "New South Wales"
-msgstr ""
+msgstr "New South Wales"
 
 msgid "Queensland"
-msgstr ""
+msgstr "Queensland"
 
 msgid "South Australia"
-msgstr ""
+msgstr "South Australia"
 
 msgid "Tasmania"
-msgstr ""
+msgstr "Tasmania"
 
 msgid "Victoria"
-msgstr ""
+msgstr "Victoria"
 
 msgid "Western Australia"
-msgstr ""
+msgstr "Western Australia"
 
 msgid "Naxcivan"
-msgstr ""
+msgstr "Naxcivan"
 
 msgid "Ali Bayramli"
-msgstr ""
+msgstr "Ali Bayramli"
 
 msgid "Baki"
-msgstr ""
+msgstr "Baki"
 
 msgid "Ganca"
-msgstr ""
+msgstr "Ganca"
 
 msgid "Lankaran"
-msgstr ""
+msgstr "Lankaran"
 
 msgid "Mingacevir"
-msgstr ""
+msgstr "Mingacevir"
 
 msgid "Naftalan"
-msgstr ""
+msgstr "Naftalan"
 
 msgid "Saki"
-msgstr ""
+msgstr "Saki"
 
 msgid "Sumqayit"
-msgstr ""
+msgstr "Sumqayit"
 
 msgid "Susa"
-msgstr ""
+msgstr "Susa"
 
 msgid "Xankandi"
-msgstr ""
+msgstr "Xankandi"
 
 msgid "Yevlax"
-msgstr ""
+msgstr "Yevlax"
 
 msgid "Abseron"
-msgstr ""
+msgstr "Abseron"
 
 msgid "Agcabadi"
-msgstr ""
+msgstr "Agcabadi"
 
 msgid "Agdam"
-msgstr ""
+msgstr "Agdam"
 
 msgid "Agdas"
-msgstr ""
+msgstr "Agdas"
 
 msgid "Agstafa"
-msgstr ""
+msgstr "Agstafa"
 
 msgid "Agsu"
-msgstr ""
+msgstr "Agsu"
 
 msgid "Astara"
-msgstr ""
+msgstr "Astara"
 
 msgid "Babak"
-msgstr ""
+msgstr "Babak"
 
 msgid "Balakan"
-msgstr ""
+msgstr "Balakan"
 
 msgid "Barda"
-msgstr ""
+msgstr "Barda"
 
 msgid "Beylagan"
-msgstr ""
+msgstr "Beylagan"
 
 msgid "Bilasuvar"
-msgstr ""
+msgstr "Bilasuvar"
 
 msgid "Cabrayll"
-msgstr ""
+msgstr "Cabrayll"
 
 msgid "Calilabad"
-msgstr ""
+msgstr "Calilabad"
 
 msgid "Culfa"
-msgstr ""
+msgstr "Culfa"
 
 msgid "Daskasan"
-msgstr ""
+msgstr "Daskasan"
 
 msgid "Davaci"
-msgstr ""
+msgstr "Davaci"
 
 msgid "Fuzuli"
-msgstr ""
+msgstr "Fuzuli"
 
 msgid "Gadabay"
-msgstr ""
+msgstr "Gadabay"
 
 msgid "Goranboy"
-msgstr ""
+msgstr "Goranboy"
 
 msgid "Goycay"
-msgstr ""
+msgstr "Goycay"
 
 msgid "Haciqabul"
-msgstr ""
+msgstr "Haciqabul"
 
 msgid "Imisli"
-msgstr ""
+msgstr "Imisli"
 
 msgid "Ismayilli"
-msgstr ""
+msgstr "Ismayilli"
 
 msgid "Kalbacar"
-msgstr ""
+msgstr "Kalbacar"
 
 msgid "Kurdamir"
-msgstr ""
+msgstr "Kurdamir"
 
 msgid "Lacin"
-msgstr ""
+msgstr "Lacin"
 
 msgid "Lerik"
-msgstr ""
+msgstr "Lerik"
 
 msgid "Masalli"
-msgstr ""
+msgstr "Masalli"
 
 msgid "Neftcala"
-msgstr ""
+msgstr "Neftcala"
 
 msgid "Oguz"
-msgstr ""
+msgstr "Oguz"
 
 msgid "Ordubad"
-msgstr ""
+msgstr "Ordubad"
 
 msgid "Qabala"
-msgstr ""
+msgstr "Qabala"
 
 msgid "Qax"
-msgstr ""
+msgstr "Qax"
 
 msgid "Qazax"
-msgstr ""
+msgstr "Qazax"
 
 msgid "Qobustan"
-msgstr ""
+msgstr "Qobustan"
 
 msgid "Quba"
-msgstr ""
+msgstr "Quba"
 
 msgid "Qubadli"
-msgstr ""
+msgstr "Qubadli"
 
 msgid "Qusar"
-msgstr ""
+msgstr "Qusar"
 
 msgid "Saatli"
-msgstr ""
+msgstr "Saatli"
 
 msgid "Sabirabad"
-msgstr ""
+msgstr "Sabirabad"
 
 msgid "Sadarak"
-msgstr ""
+msgstr "Sadarak"
 
 msgid "Sahbuz"
-msgstr ""
+msgstr "Sahbuz"
 
 msgid "Salyan"
-msgstr ""
+msgstr "Salyan"
 
 msgid "Samaxi"
-msgstr ""
+msgstr "Samaxi"
 
 msgid "Samkir"
-msgstr ""
+msgstr "Samkir"
 
 msgid "Samux"
-msgstr ""
+msgstr "Samux"
 
 msgid "Sarur"
-msgstr ""
+msgstr "Sarur"
 
 msgid "Siyazan"
-msgstr ""
+msgstr "Siyazan"
 
 msgid "Tartar"
-msgstr ""
+msgstr "Tartar"
 
 msgid "Tovuz"
-msgstr ""
+msgstr "Tovuz"
 
 msgid "Ucar"
-msgstr ""
+msgstr "Ucar"
 
 msgid "Xacmaz"
-msgstr ""
+msgstr "Xacmaz"
 
 msgid "Xanlar"
-msgstr ""
+msgstr "Xanlar"
 
 msgid "Xizi"
-msgstr ""
+msgstr "Xizi"
 
 msgid "Xocali"
-msgstr ""
+msgstr "Xocali"
 
 msgid "Xocavand"
-msgstr ""
+msgstr "Xocavand"
 
 msgid "Yardimli"
-msgstr ""
+msgstr "Yardimli"
 
 msgid "Zangilan"
-msgstr ""
+msgstr "Zangilan"
 
 msgid "Zaqatala"
-msgstr ""
+msgstr "Zaqatala"
 
 msgid "Zardab"
-msgstr ""
+msgstr "Zardab"
 
 msgid "Federacija Bosna i Hercegovina"
-msgstr ""
+msgstr "Federacija Bosna i Hercegovina"
 
 msgid "Republika Srpska"
-msgstr ""
+msgstr "Republika Srpska"
 
 msgid "Bagerhat zila"
-msgstr ""
+msgstr "Bagerhat zila"
 
 msgid "Bandarban zila"
-msgstr ""
+msgstr "Bandarban zila"
 
 msgid "Barguna zila"
-msgstr ""
+msgstr "Barguna zila"
 
 msgid "Barisal zila"
-msgstr ""
+msgstr "Barisal zila"
 
 msgid "Bhola zila"
-msgstr ""
+msgstr "Bhola zila"
 
 msgid "Bogra zila"
-msgstr ""
+msgstr "Bogra zila"
 
 msgid "Brahmanbaria zila"
-msgstr ""
+msgstr "Brahmanbaria zila"
 
 msgid "Chandpur zila"
-msgstr ""
+msgstr "Chandpur zila"
 
 msgid "Chittagong zila"
-msgstr ""
+msgstr "Chittagong zila"
 
 msgid "Chuadanga zila"
-msgstr ""
+msgstr "Chuadanga zila"
 
 msgid "Comilla zila"
-msgstr ""
+msgstr "Comilla zila"
 
 msgid "Cox's Bazar zila"
-msgstr ""
+msgstr "Cox's Bazar zila"
 
 msgid "Dhaka zila"
-msgstr ""
+msgstr "Dhaka zila"
 
 msgid "Dinajpur zila"
-msgstr ""
+msgstr "Dinajpur zila"
 
 msgid "Faridpur zila"
-msgstr ""
+msgstr "Faridpur zila"
 
 msgid "Feni zila"
-msgstr ""
+msgstr "Feni zila"
 
 msgid "Gaibandha zila"
-msgstr ""
+msgstr "Gaibandha zila"
 
 msgid "Gazipur zila"
-msgstr ""
+msgstr "Gazipur zila"
 
 msgid "Gopalganj zila"
-msgstr ""
+msgstr "Gopalganj zila"
 
 msgid "Habiganj zila"
-msgstr ""
+msgstr "Habiganj zila"
 
 msgid "Jaipurhat zila"
-msgstr ""
+msgstr "Jaipurhat zila"
 
 msgid "Jamalpur zila"
-msgstr ""
+msgstr "Jamalpur zila"
 
 msgid "Jessore zila"
-msgstr ""
+msgstr "Jessore zila"
 
 msgid "Jhalakati zila"
-msgstr ""
+msgstr "Jhalakati zila"
 
 msgid "Jhenaidah zila"
-msgstr ""
+msgstr "Jhenaidah zila"
 
 msgid "Khagrachari zila"
-msgstr ""
+msgstr "Khagrachari zila"
 
 msgid "Khulna zila"
-msgstr ""
+msgstr "Khulna zila"
 
 msgid "Kishorganj zila"
-msgstr ""
+msgstr "Kishorganj zila"
 
 msgid "Kurigram zila"
-msgstr ""
+msgstr "Kurigram zila"
 
 msgid "Kushtia zila"
-msgstr ""
+msgstr "Kushtia zila"
 
 msgid "Lakshmipur zila"
-msgstr ""
+msgstr "Lakshmipur zila"
 
 msgid "Lalmonirhat zila"
-msgstr ""
+msgstr "Lalmonirhat zila"
 
 msgid "Madaripur zila"
-msgstr ""
+msgstr "Madaripur zila"
 
 msgid "Magura zila"
-msgstr ""
+msgstr "Magura zila"
 
 msgid "Manikganj zila"
-msgstr ""
+msgstr "Manikganj zila"
 
 msgid "Meherpur zila"
-msgstr ""
+msgstr "Meherpur zila"
 
 msgid "Moulvibazar zila"
-msgstr ""
+msgstr "Moulvibazar zila"
 
 msgid "Munshiganj zila"
-msgstr ""
+msgstr "Munshiganj zila"
 
 msgid "Mymensingh zila"
-msgstr ""
+msgstr "Mymensingh zila"
 
 msgid "Naogaon zila"
-msgstr ""
+msgstr "Naogaon zila"
 
 msgid "Narail zila"
-msgstr ""
+msgstr "Narail zila"
 
 msgid "Narayanganj zila"
-msgstr ""
+msgstr "Narayanganj zila"
 
 msgid "Narsingdi zila"
-msgstr ""
+msgstr "Narsingdi zila"
 
 msgid "Natore zila"
-msgstr ""
+msgstr "Natore zila"
 
 msgid "Nawabganj zila"
-msgstr ""
+msgstr "Nawabganj zila"
 
 msgid "Netrakona zila"
-msgstr ""
+msgstr "Netrakona zila"
 
 msgid "Nilphamari zila"
-msgstr ""
+msgstr "Nilphamari zila"
 
 msgid "Noakhali zila"
-msgstr ""
+msgstr "Noakhali zila"
 
 msgid "Pabna zila"
-msgstr ""
+msgstr "Pabna zila"
 
 msgid "Panchagarh zila"
-msgstr ""
+msgstr "Panchagarh zila"
 
 msgid "Patuakhali zila"
-msgstr ""
+msgstr "Patuakhali zila"
 
 msgid "Pirojpur zila"
-msgstr ""
+msgstr "Pirojpur zila"
 
 msgid "Rajbari zila"
-msgstr ""
+msgstr "Rajbari zila"
 
 msgid "Rajshahi zila"
-msgstr ""
+msgstr "Rajshahi zila"
 
 msgid "Rangamati zila"
-msgstr ""
+msgstr "Rangamati zila"
 
 msgid "Rangpur zila"
-msgstr ""
+msgstr "Rangpur zila"
 
 msgid "Satkhira zila"
-msgstr ""
+msgstr "Satkhira zila"
 
 msgid "Shariatpur zila"
-msgstr ""
+msgstr "Shariatpur zila"
 
 msgid "Sherpur zila"
-msgstr ""
+msgstr "Sherpur zila"
 
 msgid "Sirajganj zila"
-msgstr ""
+msgstr "Sirajganj zila"
 
 msgid "Sunamganj zila"
-msgstr ""
+msgstr "Sunamganj zila"
 
 msgid "Sylhet zila"
-msgstr ""
+msgstr "Sylhet zila"
 
 msgid "Tangail zila"
-msgstr ""
+msgstr "Tangail zila"
 
 msgid "Thakurgaon zila"
-msgstr ""
+msgstr "Thakurgaon zila"
 
 msgid "Antwerpen"
-msgstr ""
+msgstr "Antuérpia"
 
 msgid "Brabant Wallon"
-msgstr ""
+msgstr "Brabant Wallon"
 
 msgid "Hainaut"
-msgstr ""
+msgstr "Hainaut"
 
 msgid "Liege"
-msgstr ""
+msgstr "Liege"
 
 msgid "Limburg"
-msgstr ""
+msgstr "Limburg"
 
 msgid "Central and Western"
-msgstr ""
+msgstr "Central and Western"
 
 msgid "Eastern"
-msgstr ""
+msgstr "Eastern"
 
 msgid "Southern"
-msgstr ""
+msgstr "Southern"
 
 msgid "Wan Chai"
-msgstr ""
+msgstr "Wan Chai"
 
 msgid "Kowloon City"
-msgstr ""
+msgstr "Kowloon City"
 
 msgid "Kwun Tong"
-msgstr ""
+msgstr "Kwun Tong"
 
 msgid "Sham Shui Po"
-msgstr ""
+msgstr "Sham Shui Po"
 
 msgid "Wong Tai Sin"
-msgstr ""
+msgstr "Wong Tai Sin"
 
 msgid "Yau Tsim Mong"
-msgstr ""
+msgstr "Yau Tsim Mong"
 
 msgid "Islands"
-msgstr ""
+msgstr "Islands"
 
 msgid "Kwai Tsing"
-msgstr ""
+msgstr "Kwai Tsing"
 
 msgid "North"
-msgstr ""
+msgstr "North"
 
 msgid "Sai Kung"
-msgstr ""
+msgstr "Sai Kung"
 
 msgid "Sha Tin"
-msgstr ""
+msgstr "Sha Tin"
 
 msgid "Tai Po"
-msgstr ""
+msgstr "Tai Po"
 
 msgid "Tsuen Wan"
-msgstr ""
+msgstr "Tsuen Wan"
 
 msgid "Tuen Mun"
-msgstr ""
+msgstr "Tuen Mun"
 
 msgid "Yuen Long"
-msgstr ""
+msgstr "Yuen Long"
 
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
 msgid "Namur"
-msgstr ""
+msgstr "Namur"
 
 msgid "Oost-Vlaanderen"
-msgstr ""
+msgstr "Oost-Vlaanderen"
 
 msgid "Vlaams-Brabant"
-msgstr ""
+msgstr "Vlaams-Brabant"
 
 msgid "West-Vlaanderen"
-msgstr ""
+msgstr "West-Vlaanderen"
 
 msgid "Bale"
-msgstr ""
+msgstr "Bale"
 
 msgid "Bam"
-msgstr ""
+msgstr "Bam"
 
 msgid "Banwa"
-msgstr ""
+msgstr "Banwa"
 
 msgid "Bazega"
-msgstr ""
+msgstr "Bazega"
 
 msgid "Bougouriba"
-msgstr ""
+msgstr "Bougouriba"
 
 msgid "Boulgou"
-msgstr ""
+msgstr "Boulgou"
 
 msgid "Boulkiemde"
-msgstr ""
+msgstr "Boulkiemde"
 
 msgid "Comoe"
-msgstr ""
+msgstr "Comoe"
 
 msgid "Ganzourgou"
-msgstr ""
+msgstr "Ganzourgou"
 
 msgid "Gnagna"
-msgstr ""
+msgstr "Gnagna"
 
 msgid "Gourma"
-msgstr ""
+msgstr "Gourma"
 
 msgid "Houet"
-msgstr ""
+msgstr "Houet"
 
 msgid "Ioba"
-msgstr ""
+msgstr "Ioba"
 
 msgid "Kadiogo"
-msgstr ""
+msgstr "Kadiogo"
 
 msgid "Kenedougou"
-msgstr ""
+msgstr "Kenedougou"
 
 msgid "Komondjari"
-msgstr ""
+msgstr "Komondjari"
 
 msgid "Kompienga"
-msgstr ""
+msgstr "Kompienga"
 
 msgid "Kossi"
-msgstr ""
+msgstr "Kossi"
 
 msgid "Koulpulogo"
-msgstr ""
+msgstr "Koulpulogo"
 
 msgid "Kouritenga"
-msgstr ""
+msgstr "Kouritenga"
 
 msgid "Kourweogo"
-msgstr ""
+msgstr "Kourweogo"
 
 msgid "Leraba"
-msgstr ""
+msgstr "Leraba"
 
 msgid "Loroum"
-msgstr ""
+msgstr "Loroum"
 
 msgid "Mouhoun"
-msgstr ""
+msgstr "Mouhoun"
 
 msgid "Nahouri"
-msgstr ""
+msgstr "Nahouri"
 
 msgid "Namentenga"
-msgstr ""
+msgstr "Namentenga"
 
 msgid "Nayala"
-msgstr ""
+msgstr "Nayala"
 
 msgid "Noumbiel"
-msgstr ""
+msgstr "Noumbiel"
 
 msgid "Oubritenga"
-msgstr ""
+msgstr "Oubritenga"
 
 msgid "Oudalan"
-msgstr ""
+msgstr "Oudalan"
 
 msgid "Passore"
-msgstr ""
+msgstr "Passore"
 
 msgid "Poni"
-msgstr ""
+msgstr "Poni"
 
 msgid "Sanguie"
-msgstr ""
+msgstr "Sanguie"
 
 msgid "Sanmatenga"
-msgstr ""
+msgstr "Sanmatenga"
 
 msgid "Seno"
-msgstr ""
+msgstr "Seno"
 
 msgid "Siasili"
-msgstr ""
+msgstr "Siasili"
 
 msgid "Soum"
-msgstr ""
+msgstr "Soum"
 
 msgid "Sourou"
-msgstr ""
+msgstr "Sourou"
 
 msgid "Tapoa"
-msgstr ""
+msgstr "Tapoa"
 
 msgid "Tui"
-msgstr ""
+msgstr "Tui"
 
 msgid "Yagha"
-msgstr ""
+msgstr "Yagha"
 
 msgid "Yatenga"
-msgstr ""
+msgstr "Yatenga"
 
 msgid "Ziro"
-msgstr ""
+msgstr "Ziro"
 
 msgid "Zondoma"
-msgstr ""
+msgstr "Zondoma"
 
 msgid "Zoundweogo"
-msgstr ""
+msgstr "Zoundweogo"
 
 msgid "Blagoevgrad"
-msgstr ""
+msgstr "Blagoevgrad"
 
 msgid "Burgas"
-msgstr ""
+msgstr "Burgas"
 
 msgid "Dobric"
-msgstr ""
+msgstr "Dobric"
 
 msgid "Gabrovo"
-msgstr ""
+msgstr "Gabrovo"
 
 msgid "Haskovo"
-msgstr ""
+msgstr "Haskovo"
 
 msgid "Jambol"
-msgstr ""
+msgstr "Jambol"
 
 msgid "Kardzali"
-msgstr ""
+msgstr "Kardzali"
 
 msgid "Kjstendil"
-msgstr ""
+msgstr "Kjstendil"
 
 msgid "Lovec"
-msgstr ""
+msgstr "Lovec"
 
 msgid "Pazardzik"
-msgstr ""
+msgstr "Pazardzik"
 
 msgid "Pernik"
-msgstr ""
+msgstr "Pernik"
 
 msgid "Pleven"
-msgstr ""
+msgstr "Pleven"
 
 msgid "Plovdiv"
-msgstr ""
+msgstr "Plovdiv"
 
 msgid "Razgrad"
-msgstr ""
+msgstr "Razgrad"
 
 msgid "Ruse"
-msgstr ""
+msgstr "Ruse"
 
 msgid "Silistra"
-msgstr ""
+msgstr "Silistra"
 
 msgid "Sliven"
-msgstr ""
+msgstr "Sliven"
 
 msgid "Smoljan"
-msgstr ""
+msgstr "Smoljan"
 
 msgid "Sofija"
-msgstr ""
+msgstr "Sofija"
 
 msgid "Stara Zagora"
-msgstr ""
+msgstr "Stara Zagora"
 
 msgid "Sumen"
-msgstr ""
+msgstr "Sumen"
 
 msgid "Targoviste"
-msgstr ""
+msgstr "Targoviste"
 
 msgid "Varna"
-msgstr ""
+msgstr "Varna"
 
 msgid "Veliko Tarnovo"
-msgstr ""
+msgstr "Veliko Tarnovo"
 
 msgid "Vidin"
-msgstr ""
+msgstr "Vidin"
 
 msgid "Vraca"
-msgstr ""
+msgstr "Vraca"
 
 msgid "Al Hadd"
-msgstr ""
+msgstr "Al Hadd"
 
 msgid "Al Manamah"
-msgstr ""
+msgstr "Al Manamah"
 
 msgid "Al Mintaqah al Gharbiyah"
-msgstr ""
+msgstr "Al Mintaqah al Gharbiyah"
 
 msgid "Al Mintagah al Wusta"
-msgstr ""
+msgstr "Al Mintagah al Wusta"
 
 msgid "Al Mintaqah ash Shamaliyah"
-msgstr ""
+msgstr "Al Mintaqah ash Shamaliyah"
 
 msgid "Al Muharraq"
-msgstr ""
+msgstr "Al Muharraq"
 
 msgid "Ar Rifa"
-msgstr ""
+msgstr "Ar Rifa"
 
 msgid "Jidd Hafs"
-msgstr ""
+msgstr "Jidd Hafs"
 
 msgid "Madluat Jamad"
-msgstr ""
+msgstr "Madluat Jamad"
 
 msgid "Madluat Isa"
-msgstr ""
+msgstr "Madluat Isa"
 
 msgid "Mintaqat Juzur tawar"
-msgstr ""
+msgstr "Mintaqat Juzur tawar"
 
 msgid "Sitrah"
-msgstr ""
+msgstr "Sitrah"
 
 msgid "Bubanza"
-msgstr ""
+msgstr "Bubanza"
 
 msgid "Bujumbura"
-msgstr ""
+msgstr "Bujumbura"
 
 msgid "Bururi"
-msgstr ""
+msgstr "Bururi"
 
 msgid "Cankuzo"
-msgstr ""
+msgstr "Cankuzo"
 
 msgid "Cibitoke"
-msgstr ""
+msgstr "Cibitoke"
 
 msgid "Gitega"
-msgstr ""
+msgstr "Gitega"
 
 msgid "Karuzi"
-msgstr ""
+msgstr "Karuzi"
 
 msgid "Kayanza"
-msgstr ""
+msgstr "Kayanza"
 
 msgid "Makamba"
-msgstr ""
+msgstr "Makamba"
 
 msgid "Muramvya"
-msgstr ""
+msgstr "Muramvya"
 
 msgid "Mwaro"
-msgstr ""
+msgstr "Mwaro"
 
 msgid "Ngozi"
-msgstr ""
+msgstr "Ngozi"
 
 msgid "Rutana"
-msgstr ""
+msgstr "Rutana"
 
 msgid "Ruyigi"
-msgstr ""
+msgstr "Ruyigi"
 
 msgid "Alibori"
-msgstr ""
+msgstr "Alibori"
 
 msgid "Atakora"
-msgstr ""
+msgstr "Atakora"
 
 msgid "Atlantique"
-msgstr ""
+msgstr "Atlantique"
 
 msgid "Borgou"
-msgstr ""
+msgstr "Borgou"
 
 msgid "Collines"
-msgstr ""
+msgstr "Collines"
 
 msgid "Donga"
-msgstr ""
+msgstr "Donga"
 
 msgid "Kouffo"
-msgstr ""
+msgstr "Kouffo"
 
 msgid "Littoral"
-msgstr ""
+msgstr "Littoral"
 
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 msgid "Oueme"
-msgstr ""
+msgstr "Oueme"
 
 msgid "Plateau"
-msgstr ""
+msgstr "Plateau"
 
 msgid "Zou"
-msgstr ""
+msgstr "Zou"
 
 msgid "Belait"
-msgstr ""
+msgstr "Belait"
 
 msgid "Brunei-Muara"
-msgstr ""
+msgstr "Brunei-Muara"
 
 msgid "Temburong"
-msgstr ""
+msgstr "Temburong"
 
 msgid "Tutong"
-msgstr ""
+msgstr "Tutong"
 
 msgid "Cochabamba"
-msgstr ""
+msgstr "Cochabamba"
 
 msgid "Chuquisaca"
-msgstr ""
+msgstr "Chuquisaca"
 
 msgid "El Beni"
-msgstr ""
+msgstr "El Beni"
 
 msgid "La Paz"
-msgstr ""
+msgstr "La Paz"
 
 msgid "Oruro"
-msgstr ""
+msgstr "Oruro"
 
 msgid "Pando"
-msgstr ""
+msgstr "Pando"
 
 msgid "Potosi"
-msgstr ""
+msgstr "Potosi"
 
 msgid "Tarija"
-msgstr ""
+msgstr "Tarija"
 
 msgid "Acre"
-msgstr ""
+msgstr "Acre"
 
 msgid "Alagoas"
-msgstr ""
+msgstr "Alagoas"
 
 msgid "Amazonas"
-msgstr ""
+msgstr "Amazonas"
 
 msgid "Amapa"
-msgstr ""
+msgstr "Amapa"
 
 msgid "Baia"
-msgstr ""
+msgstr "Baia"
 
 msgid "Ceara"
-msgstr ""
+msgstr "Ceara"
 
 msgid "Distrito Federal"
-msgstr ""
+msgstr "Distrito Federal"
 
 msgid "Espirito Santo"
-msgstr ""
+msgstr "Espirito Santo"
 
 msgid "Fernando de Noronha"
-msgstr ""
+msgstr "Fernando de Noronha"
 
 msgid "Goias"
-msgstr ""
+msgstr "Goias"
 
 msgid "Maranhao"
-msgstr ""
+msgstr "Maranhao"
 
 msgid "Minas Gerais"
-msgstr ""
+msgstr "Minas Gerais"
 
 msgid "Mato Grosso do Sul"
-msgstr ""
+msgstr "Mato Grosso do Sul"
 
 msgid "Mato Grosso"
-msgstr ""
+msgstr "Mato Grosso"
 
 msgid "Para"
-msgstr ""
+msgstr "Pará"
 
 msgid "Paraiba"
-msgstr ""
+msgstr "Paraíba"
 
 msgid "Pernambuco"
-msgstr ""
+msgstr "Pernambuco"
 
 msgid "Piaui"
-msgstr ""
+msgstr "Piaui"
 
 msgid "Parana"
-msgstr ""
+msgstr "Parana"
 
 msgid "Rio de Janeiro"
-msgstr ""
+msgstr "Rio de Janeiro"
 
 msgid "Rio Grande do Norte"
-msgstr ""
+msgstr "Rio Grande do Norte"
 
 msgid "Rondonia"
-msgstr ""
+msgstr "Rondonia"
 
 msgid "Roraima"
-msgstr ""
+msgstr "Roraima"
 
 msgid "Rio Grande do Sul"
-msgstr ""
+msgstr "Rio Grande do Sul"
 
 msgid "Santa Catarina"
-msgstr ""
+msgstr "Santa Catarina"
 
 msgid "Sergipe"
-msgstr ""
+msgstr "Sergipe"
 
 msgid "Sao Paulo"
-msgstr ""
+msgstr "São Paulo"
 
 msgid "Tocatins"
-msgstr ""
+msgstr "Tocatins"
 
 msgid "Acklins and Crooked Islands"
-msgstr ""
+msgstr "Acklins and Crooked Islands"
 
 msgid "Bimini"
-msgstr ""
+msgstr "Bimini"
 
 msgid "Cat Island"
-msgstr ""
+msgstr "Cat Island"
 
 msgid "Exuma"
-msgstr ""
+msgstr "Exuma"
 
 msgid "Freeport"
-msgstr ""
+msgstr "Freeport"
 
 msgid "Fresh Creek"
-msgstr ""
+msgstr "Fresh Creek"
 
 msgid "Governor's Harbour"
-msgstr ""
+msgstr "Governor's Harbour"
 
 msgid "Green Turtle Cay"
-msgstr ""
+msgstr "Green Turtle Cay"
 
 msgid "Harbour Island"
-msgstr ""
+msgstr "Harbour Island"
 
 msgid "High Rock"
-msgstr ""
+msgstr "High Rock"
 
 msgid "Inagua"
-msgstr ""
+msgstr "Inagua"
 
 msgid "Kemps Bay"
-msgstr ""
+msgstr "Kemps Bay"
 
 msgid "Long Island"
-msgstr ""
+msgstr "Long Island"
 
 msgid "Marsh Harbour"
-msgstr ""
+msgstr "Marsh Harbour"
 
 msgid "Mayaguana"
-msgstr ""
+msgstr "Mayaguana"
 
 msgid "New Providence"
-msgstr ""
+msgstr "New Providence"
 
 msgid "Nicholls Town and Berry Islands"
-msgstr ""
+msgstr "Nicholls Town and Berry Islands"
 
 msgid "Ragged Island"
-msgstr ""
+msgstr "Ragged Island"
 
 msgid "Rock Sound"
-msgstr ""
+msgstr "Rock Sound"
 
 msgid "Sandy Point"
-msgstr ""
+msgstr "Sandy Point"
 
 msgid "San Salvador and Rum Cay"
-msgstr ""
+msgstr "San Salvador and Rum Cay"
 
 msgid "Bumthang"
-msgstr ""
+msgstr "Bumthang"
 
 msgid "Chhukha"
-msgstr ""
+msgstr "Chhukha"
 
 msgid "Dagana"
-msgstr ""
+msgstr "Dagana"
 
 msgid "Gasa"
-msgstr ""
+msgstr "Gasa"
 
 msgid "Ha"
-msgstr ""
+msgstr "Ha"
 
 msgid "Lhuentse"
-msgstr ""
+msgstr "Lhuentse"
 
 msgid "Monggar"
-msgstr ""
+msgstr "Monggar"
 
 msgid "Paro"
-msgstr ""
+msgstr "Paro"
 
 msgid "Pemagatshel"
-msgstr ""
+msgstr "Pemagatshel"
 
 msgid "Punakha"
-msgstr ""
+msgstr "Punakha"
 
 msgid "Samdrup Jongkha"
-msgstr ""
+msgstr "Samdrup Jongkha"
 
 msgid "Samtee"
-msgstr ""
+msgstr "Samtee"
 
 msgid "Sarpang"
-msgstr ""
+msgstr "Sarpang"
 
 msgid "Thimphu"
-msgstr ""
+msgstr "Thimphu"
 
 msgid "Trashigang"
-msgstr ""
+msgstr "Trashigang"
 
 msgid "Trashi Yangtse"
-msgstr ""
+msgstr "Trashi Yangtse"
 
 msgid "Trongsa"
-msgstr ""
+msgstr "Trongsa"
 
 msgid "Tsirang"
-msgstr ""
+msgstr "Tsirang"
 
 msgid "Wangdue Phodrang"
-msgstr ""
+msgstr "Wangdue Phodrang"
 
 msgid "Zhemgang"
-msgstr ""
+msgstr "Zhemgang"
 
 msgid "Central"
-msgstr ""
+msgstr "Central"
 
 msgid "Ghanzi"
-msgstr ""
+msgstr "Ghanzi"
 
 msgid "Kgalagadi"
-msgstr ""
+msgstr "Kgalagadi"
 
 msgid "Kgatleng"
-msgstr ""
+msgstr "Kgatleng"
 
 msgid "Kweneng"
-msgstr ""
+msgstr "Kweneng"
 
 msgid "Ngamiland"
-msgstr ""
+msgstr "Ngamiland"
 
 msgid "North-East"
-msgstr ""
+msgstr "North-East"
 
 msgid "North-West"
-msgstr ""
+msgstr "North-West"
 
 msgid "South-East"
-msgstr ""
+msgstr "South-East"
 
 msgid "Brèsckaja voblasc'"
-msgstr ""
+msgstr "Brèsckaja voblasc'"
 
 msgid "Homel'skaja voblasc'"
-msgstr ""
+msgstr "Homel'skaja voblasc'"
 
 msgid "Hrodzenskaja voblasc'"
-msgstr ""
+msgstr "Hrodzenskaja voblasc'"
 
 msgid "Mahilëuskaja voblasc'"
-msgstr ""
+msgstr "Mahilëuskaja voblasc'"
 
 msgid "Minskaja voblasc'"
-msgstr ""
+msgstr "Minskaja voblasc'"
 
 msgid "Vicebskaja voblasc'"
-msgstr ""
+msgstr "Vicebskaja voblasc'"
 
 msgid "Belize"
-msgstr ""
+msgstr "Belize"
 
 msgid "Cayo"
-msgstr ""
+msgstr "Cayo"
 
 msgid "Corozal"
-msgstr ""
+msgstr "Corozal"
 
 msgid "Orange Walk"
-msgstr ""
+msgstr "Orange Walk"
 
 msgid "Stann Creek"
-msgstr ""
+msgstr "Stann Creek"
 
 msgid "Toledo"
-msgstr ""
+msgstr "Toledo"
 
 msgid "Kinshasa"
-msgstr ""
+msgstr "Kinshasa"
 
 msgid "Bandundu"
-msgstr ""
+msgstr "Bandundu"
 
 msgid "Bas-Congo"
-msgstr ""
+msgstr "Bas-Congo"
 
 msgid "Equateur"
-msgstr ""
+msgstr "Equateur"
 
 msgid "Haut-Congo"
-msgstr ""
+msgstr "Haut-Congo"
 
 msgid "Kasai-Occidental"
-msgstr ""
+msgstr "Kasai-Occidental"
 
 msgid "Kasai-Oriental"
-msgstr ""
+msgstr "Kasai-Oriental"
 
 msgid "Katanga"
-msgstr ""
+msgstr "Katanga"
 
 msgid "Maniema"
-msgstr ""
+msgstr "Maniema"
 
 msgid "Nord-Kivu"
-msgstr ""
+msgstr "Nord-Kivu"
 
 msgid "Orientale"
-msgstr ""
+msgstr "Orientale"
 
 msgid "Sud-Kivu"
-msgstr ""
+msgstr "Sud-Kivu"
 
 msgid "Bangui"
-msgstr ""
+msgstr "Bangui"
 
 msgid "Bamingui-Bangoran"
-msgstr ""
+msgstr "Bamingui-Bangoran"
 
 msgid "Basse-Kotto"
-msgstr ""
+msgstr "Basse-Kotto"
 
 msgid "Haute-Kotto"
-msgstr ""
+msgstr "Haute-Kotto"
 
 msgid "Haut-Mbomou"
-msgstr ""
+msgstr "Haut-Mbomou"
 
 msgid "Kemo"
-msgstr ""
+msgstr "Kemo"
 
 msgid "Lobaye"
-msgstr ""
+msgstr "Lobaye"
 
 msgid "Mambere-Kadei"
-msgstr ""
+msgstr "Mambere-Kadei"
 
 msgid "Mbomou"
-msgstr ""
+msgstr "Mbomou"
 
 msgid "Nana-Grebizi"
-msgstr ""
+msgstr "Nana-Grebizi"
 
 msgid "Nana-Mambere"
-msgstr ""
+msgstr "Nana-Mambere"
 
 msgid "Ombella-Mpoko"
-msgstr ""
+msgstr "Ombella-Mpoko"
 
 msgid "Ouaka"
-msgstr ""
+msgstr "Ouaka"
 
 msgid "Ouham"
-msgstr ""
+msgstr "Ouham"
 
 msgid "Ouham-Pende"
-msgstr ""
+msgstr "Ouham-Pende"
 
 msgid "Sangha-Mbaere"
-msgstr ""
+msgstr "Sangha-Mbaere"
 
 msgid "Vakaga"
-msgstr ""
+msgstr "Vakaga"
 
 msgid "Brazzaville"
-msgstr ""
+msgstr "Brazzaville"
 
 msgid "Bouenza"
-msgstr ""
+msgstr "Bouenza"
 
 msgid "Cuvette"
-msgstr ""
+msgstr "Cuvette"
 
 msgid "Cuvette-Ouest"
-msgstr ""
+msgstr "Cuvette-Ouest"
 
 msgid "Kouilou"
-msgstr ""
+msgstr "Kouilou"
 
 msgid "Lekoumou"
-msgstr ""
+msgstr "Lekoumou"
 
 msgid "Likouala"
-msgstr ""
+msgstr "Likouala"
 
 msgid "Niari"
-msgstr ""
+msgstr "Niari"
 
 msgid "Plateaux"
-msgstr ""
+msgstr "Plateaux"
 
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 msgid "Sangha"
-msgstr ""
+msgstr "Sangha"
 
 msgid "Aargau"
-msgstr ""
+msgstr "Aargau"
 
 msgid "Appenzell Innerrhoden"
-msgstr ""
+msgstr "Appenzell Innerrhoden"
 
 msgid "Appenzell Ausserrhoden"
-msgstr ""
+msgstr "Appenzell Ausserrhoden"
 
 msgid "Bern"
-msgstr ""
+msgstr "Bern"
 
 msgid "Basel-Landschaft"
-msgstr ""
+msgstr "Basel-Landschaft"
 
 msgid "Basel-Stadt"
-msgstr ""
+msgstr "Basel-Stadt"
 
 msgid "Fribourg"
-msgstr ""
+msgstr "Fribourg"
 
 msgid "Geneva"
-msgstr ""
+msgstr "Geneva"
 
 msgid "Glarus"
-msgstr ""
+msgstr "Glarus"
 
 msgid "Graubunden"
-msgstr ""
+msgstr "Graubunden"
 
 msgid "Jura"
-msgstr ""
+msgstr "Jura"
 
 msgid "Luzern"
-msgstr ""
+msgstr "Luzern"
 
 msgid "Neuchatel"
-msgstr ""
+msgstr "Neuchatel"
 
 msgid "Nidwalden"
-msgstr ""
+msgstr "Nidwalden"
 
 msgid "Obwalden"
-msgstr ""
+msgstr "Obwalden"
 
 msgid "Sankt Gallen"
-msgstr ""
+msgstr "Sankt Gallen"
 
 msgid "Schaffhausen"
-msgstr ""
+msgstr "Schaffhausen"
 
 msgid "Solothurn"
-msgstr ""
+msgstr "Solothurn"
 
 msgid "Schwyz"
-msgstr ""
+msgstr "Schwyz"
 
 msgid "Thurgau"
-msgstr ""
+msgstr "Thurgau"
 
 msgid "Ticino"
-msgstr ""
+msgstr "Ticino"
 
 msgid "Uri"
-msgstr ""
+msgstr "Uri"
 
 msgid "Vaud"
-msgstr ""
+msgstr "Vaud"
 
 msgid "Valais"
-msgstr ""
+msgstr "Valais"
 
 msgid "Zug"
-msgstr ""
+msgstr "Zug"
 
 msgid "Zurich"
-msgstr ""
+msgstr "Zurich"
 
 msgid "18 Montagnes"
-msgstr ""
+msgstr "18 Montagnes"
 
 msgid "Agnebi"
-msgstr ""
+msgstr "Agnebi"
 
 msgid "Bas-Sassandra"
-msgstr ""
+msgstr "Bas-Sassandra"
 
 msgid "Denguele"
-msgstr ""
+msgstr "Denguele"
 
 msgid "Haut-Sassandra"
-msgstr ""
+msgstr "Haut-Sassandra"
 
 msgid "Lacs"
-msgstr ""
+msgstr "Lacs"
 
 msgid "Lagunes"
-msgstr ""
+msgstr "Lagunes"
 
 msgid "Marahoue"
-msgstr ""
+msgstr "Marahoue"
 
 msgid "Moyen-Comoe"
-msgstr ""
+msgstr "Moyen-Comoe"
 
 msgid "Nzi-Comoe"
-msgstr ""
+msgstr "Nzi-Comoe"
 
 msgid "Savanes"
-msgstr ""
+msgstr "Savanes"
 
 msgid "Sud-Bandama"
-msgstr ""
+msgstr "Sud-Bandama"
 
 msgid "Sud-Comoe"
-msgstr ""
+msgstr "Sud-Comoe"
 
 msgid "Vallee du Bandama"
-msgstr ""
+msgstr "Vallee du Bandama"
 
 msgid "Worodouqou"
-msgstr ""
+msgstr "Worodouqou"
 
 msgid "Zanzan"
-msgstr ""
+msgstr "Zanzan"
 
 msgid "Aisen del General Carlos Ibanez del Campo"
-msgstr ""
+msgstr "Aisen del General Carlos Ibanez del Campo"
 
 msgid "Antofagasta"
-msgstr ""
+msgstr "Antofagasta"
 
 msgid "Araucania"
-msgstr ""
+msgstr "Araucania"
 
 msgid "Atacama"
-msgstr ""
+msgstr "Atacama"
 
 msgid "Bio-Bio"
-msgstr ""
+msgstr "Bio-Bio"
 
 msgid "Coquimbo"
-msgstr ""
+msgstr "Coquimbo"
 
 msgid "Libertador General Bernardo O'Higgins"
-msgstr ""
+msgstr "Libertador General Bernardo O'Higgins"
 
 msgid "Los Lagos"
-msgstr ""
+msgstr "Los Lagos"
 
 msgid "Magallanes"
-msgstr ""
+msgstr "Magallanes"
 
 msgid "Maule"
-msgstr ""
+msgstr "Maule"
 
 msgid "Region Metropolitana de Santiago"
-msgstr ""
+msgstr "Region Metropolitana de Santiago"
 
 msgid "Tarapaca"
-msgstr ""
+msgstr "Tarapaca"
 
 msgid "Valparaiso"
-msgstr ""
+msgstr "Valparaiso"
 
 msgid "Adamaoua"
-msgstr ""
+msgstr "Adamaoua"
 
 msgid "Centre"
-msgstr ""
+msgstr "Centre"
 
 msgid "East"
-msgstr ""
+msgstr "East"
 
 msgid "Far North"
-msgstr ""
+msgstr "Far North"
 
 msgid "South"
-msgstr ""
+msgstr "South"
 
 msgid "South-West"
-msgstr ""
+msgstr "South-West"
 
 msgid "West"
-msgstr ""
+msgstr "West"
 
 msgid "Beijing"
-msgstr ""
+msgstr "Beijing"
 
 msgid "Chongqing"
-msgstr ""
+msgstr "Chongqing"
 
 msgid "Shanghai"
-msgstr ""
+msgstr "Shanghai"
 
 msgid "Tianjin"
-msgstr ""
+msgstr "Tianjin"
 
 msgid "Anhui"
-msgstr ""
+msgstr "Anhui"
 
 msgid "Fujian"
-msgstr ""
+msgstr "Fujian"
 
 msgid "Gansu"
-msgstr ""
+msgstr "Gansu"
 
 msgid "Guangdong"
-msgstr ""
+msgstr "Guangdong"
 
 msgid "Gulzhou"
-msgstr ""
+msgstr "Gulzhou"
 
 msgid "Hainan"
-msgstr ""
+msgstr "Hainan"
 
 msgid "Hebei"
-msgstr ""
+msgstr "Hebei"
 
 msgid "Heilongjiang"
-msgstr ""
+msgstr "Heilongjiang"
 
 msgid "Henan"
-msgstr ""
+msgstr "Henan"
 
 msgid "Hubei"
-msgstr ""
+msgstr "Hubei"
 
 msgid "Hunan"
-msgstr ""
+msgstr "Hunan"
 
 msgid "Jiangsu"
-msgstr ""
+msgstr "Jiangsu"
 
 msgid "Jiangxi"
-msgstr ""
+msgstr "Jiangxi"
 
 msgid "Jilin"
-msgstr ""
+msgstr "Jilin"
 
 msgid "Liaoning"
-msgstr ""
+msgstr "Liaoning"
 
 msgid "Qinghai"
-msgstr ""
+msgstr "Qinghai"
 
 msgid "Shaanxi"
-msgstr ""
+msgstr "Shaanxi"
 
 msgid "Shandong"
-msgstr ""
+msgstr "Shandong"
 
 msgid "Shanxi"
-msgstr ""
+msgstr "Shanxi"
 
 msgid "Sichuan"
-msgstr ""
+msgstr "Sichuan"
 
 msgid "Taiwan"
 msgstr "Formosa"
 
 msgid "Yunnan"
-msgstr ""
+msgstr "Yunnan"
 
 msgid "Zhejiang"
-msgstr ""
+msgstr "Zhejiang"
 
 msgid "Guangxi"
-msgstr ""
+msgstr "Guangxi"
 
 msgid "Neia Mongol (mn)"
-msgstr ""
+msgstr "Neia Mongol (mn)"
 
 msgid "Xinjiang"
-msgstr ""
+msgstr "Xinjiang"
 
 msgid "Xizang"
-msgstr ""
+msgstr "Xizang"
 
 msgid "Hong Kong"
-msgstr ""
+msgstr "Hong Kong"
 
 msgid "Macau"
-msgstr ""
+msgstr "Macau"
 
 msgid "Distrito Capital de Bogotá"
-msgstr ""
+msgstr "Distrito Capital de Bogotá"
 
 msgid "Amazonea"
-msgstr ""
+msgstr "Amazonea"
 
 msgid "Antioquia"
-msgstr ""
+msgstr "Antioquia"
 
 msgid "Arauca"
-msgstr ""
+msgstr "Arauca"
 
 msgid "Atlántico"
-msgstr ""
+msgstr "Atlántico"
 
 msgid "Bolívar"
-msgstr ""
+msgstr "Bolívar"
 
 msgid "Boyacá"
-msgstr ""
+msgstr "Boyacá"
 
 msgid "Caldea"
-msgstr ""
+msgstr "Caldea"
 
 msgid "Caquetá"
-msgstr ""
+msgstr "Caquetá"
 
 msgid "Casanare"
-msgstr ""
+msgstr "Casanare"
 
 msgid "Cauca"
-msgstr ""
+msgstr "Cauca"
 
 msgid "Cesar"
-msgstr ""
+msgstr "Cesar"
 
 msgid "Córdoba"
-msgstr ""
+msgstr "Córdoba"
 
 msgid "Cundinamarca"
-msgstr ""
+msgstr "Cundinamarca"
 
 msgid "Chocó"
-msgstr ""
+msgstr "Chocó"
 
 msgid "Guainía"
-msgstr ""
+msgstr "Guainía"
 
 msgid "Guaviare"
-msgstr ""
+msgstr "Guaviare"
 
 msgid "La Guajira"
-msgstr ""
+msgstr "La Guajira"
 
 msgid "Magdalena"
-msgstr ""
+msgstr "Magdalena"
 
 msgid "Meta"
-msgstr ""
+msgstr "Meta"
 
 msgid "Nariño"
-msgstr ""
+msgstr "Nariño"
 
 msgid "Norte de Santander"
-msgstr ""
+msgstr "Norte de Santander"
 
 msgid "Putumayo"
-msgstr ""
+msgstr "Putumayo"
 
 msgid "Quindio"
-msgstr ""
+msgstr "Quindio"
 
 msgid "Risaralda"
-msgstr ""
+msgstr "Risaralda"
 
 msgid "San Andrés, Providencia y Santa Catalina"
-msgstr ""
+msgstr "San Andrés, Providencia y Santa Catalina"
 
 msgid "Santander"
-msgstr ""
+msgstr "Santander"
 
 msgid "Sucre"
-msgstr ""
+msgstr "Sucre"
 
 msgid "Tolima"
-msgstr ""
+msgstr "Tolima"
 
 msgid "Valle del Cauca"
-msgstr ""
+msgstr "Valle del Cauca"
 
 msgid "Vaupés"
-msgstr ""
+msgstr "Vaupés"
 
 msgid "Vichada"
-msgstr ""
+msgstr "Vichada"
 
 msgid "Alajuela"
-msgstr ""
+msgstr "Alajuela"
 
 msgid "Cartago"
-msgstr ""
+msgstr "Cartago"
 
 msgid "Guanacaste"
-msgstr ""
+msgstr "Guanacaste"
 
 msgid "Heredia"
-msgstr ""
+msgstr "Heredia"
 
 msgid "Limon"
-msgstr ""
+msgstr "Limon"
 
 msgid "Puntarenas"
-msgstr ""
+msgstr "Puntarenas"
 
 msgid "San Jose"
-msgstr ""
+msgstr "San Jose"
 
 msgid "Camagey"
-msgstr ""
+msgstr "Camagey"
 
 msgid "Ciego de `vila"
-msgstr ""
+msgstr "Ciego de `vila"
 
 msgid "Cienfuegos"
-msgstr ""
+msgstr "Cienfuegos"
 
 msgid "Ciudad de La Habana"
-msgstr ""
+msgstr "Ciudad de La Habana"
 
 msgid "Granma"
-msgstr ""
+msgstr "Granma"
 
 msgid "Guantanamo"
-msgstr ""
+msgstr "Guantanamo"
 
 msgid "Holquin"
-msgstr ""
+msgstr "Holquin"
 
 msgid "La Habana"
-msgstr ""
+msgstr "La Habana"
 
 msgid "Las Tunas"
-msgstr ""
+msgstr "Las Tunas"
 
 msgid "Matanzas"
-msgstr ""
+msgstr "Matanzas"
 
 msgid "Pinar del Rio"
-msgstr ""
+msgstr "Pinar del Rio"
 
 msgid "Sancti Spiritus"
-msgstr ""
+msgstr "Sancti Spiritus"
 
 msgid "Santiago de Cuba"
-msgstr ""
+msgstr "Santiago de Cuba"
 
 msgid "Villa Clara"
-msgstr ""
+msgstr "Villa Clara"
 
 msgid "Isla de la Juventud"
-msgstr ""
+msgstr "Isla de la Juventud"
 
 msgid "Pinar del Roo"
-msgstr ""
+msgstr "Pinar del Roo"
 
 msgid "Ciego de Avila"
-msgstr ""
+msgstr "Ciego de Avila"
 
 msgid "Camagoey"
-msgstr ""
+msgstr "Camagoey"
 
 msgid "Holgun"
-msgstr ""
+msgstr "Holgun"
 
 msgid "Sancti Spritus"
-msgstr ""
+msgstr "Sancti Spritus"
 
 msgid "Municipio Especial Isla de la Juventud"
-msgstr ""
+msgstr "Municipio Especial Isla de la Juventud"
 
 msgid "Boa Vista"
-msgstr ""
+msgstr "Boa Vista"
 
 msgid "Brava"
-msgstr ""
+msgstr "Brava"
 
 msgid "Calheta de Sao Miguel"
-msgstr ""
+msgstr "Calheta de Sao Miguel"
 
 msgid "Fogo"
-msgstr ""
+msgstr "Fogo"
 
 msgid "Maio"
-msgstr ""
+msgstr "Maio"
 
 msgid "Mosteiros"
-msgstr ""
+msgstr "Mosteiros"
 
 msgid "Paul"
-msgstr ""
+msgstr "Paul"
 
 msgid "Porto Novo"
-msgstr ""
+msgstr "Porto Novo"
 
 msgid "Praia"
-msgstr ""
+msgstr "Praia"
 
 msgid "Ribeira Grande"
-msgstr ""
+msgstr "Ribeira Grande"
 
 msgid "Sal"
-msgstr ""
+msgstr "Sal"
 
 msgid "Sao Domingos"
-msgstr ""
+msgstr "São Domingos"
 
 msgid "Sao Filipe"
-msgstr ""
+msgstr "São Filipe"
 
 msgid "Sao Nicolau"
-msgstr ""
+msgstr "São Nicolau"
 
 msgid "Sao Vicente"
-msgstr ""
+msgstr "São Vicente"
 
 msgid "Tarrafal"
-msgstr ""
+msgstr "Tarrafal"
 
 msgid "Ammochostos Magusa"
-msgstr ""
+msgstr "Ammochostos Magusa"
 
 msgid "Keryneia"
-msgstr ""
+msgstr "Keryneia"
 
 msgid "Larnaka"
-msgstr ""
+msgstr "Larnaka"
 
 msgid "Lefkosia"
-msgstr ""
+msgstr "Lefkosia"
 
 msgid "Lemesos"
-msgstr ""
+msgstr "Lemesos"
 
 msgid "Pafos"
-msgstr ""
+msgstr "Pafos"
 
 msgid "Jihočeský kraj"
-msgstr ""
+msgstr "Jihočeský kraj"
 
 msgid "Jihomoravský kraj"
-msgstr ""
+msgstr "Jihomoravský kraj"
 
 msgid "Karlovarský kraj"
-msgstr ""
+msgstr "Karlovarský kraj"
 
 msgid "Královéhradecký kraj"
-msgstr ""
+msgstr "Královéhradecký kraj"
 
 msgid "Liberecký kraj"
-msgstr ""
+msgstr "Liberecký kraj"
 
 msgid "Moravskoslezský kraj"
-msgstr ""
+msgstr "Moravskoslezský kraj"
 
 msgid "Olomoucký kraj"
-msgstr ""
+msgstr "Olomoucký kraj"
 
 msgid "Pardubický kraj"
-msgstr ""
+msgstr "Pardubický kraj"
 
 msgid "Plzeňský kraj"
-msgstr ""
+msgstr "Plzeňský kraj"
 
 msgid "Praha, hlavní město"
-msgstr ""
+msgstr "Praha, hlavní město"
 
 msgid "Středočeský kraj"
-msgstr ""
+msgstr "Středočeský kraj"
 
 msgid "Ústecký kraj"
-msgstr ""
+msgstr "Ústecký kraj"
 
 msgid "Vysočina"
-msgstr ""
+msgstr "Vysočina"
 
 msgid "Zlínský kraj"
-msgstr ""
+msgstr "Zlínský kraj"
 
 msgid "Baden-Wuerttemberg"
-msgstr ""
+msgstr "Baden-Wuerttemberg"
 
 msgid "Bayern"
-msgstr ""
+msgstr "Bayern"
 
 msgid "Bremen"
-msgstr ""
+msgstr "Bremen"
 
 msgid "Hamburg"
-msgstr ""
+msgstr "Hamburgo"
 
 msgid "Hessen"
-msgstr ""
+msgstr "Hessen"
 
 msgid "Niedersachsen"
-msgstr ""
+msgstr "Niedersachsen"
 
 msgid "Nordrhein-Westfalen"
-msgstr ""
+msgstr "Nordrhein-Westfalen"
 
 msgid "Rheinland-Pfalz"
-msgstr ""
+msgstr "Rheinland-Pfalz"
 
 msgid "Saarland"
-msgstr ""
+msgstr "Saarland"
 
 msgid "Schleswig-Holstein"
-msgstr ""
+msgstr "Schleswig-Holstein"
 
 msgid "Berlin"
-msgstr ""
+msgstr "Berlim"
 
 msgid "Brandenburg"
-msgstr ""
+msgstr "Brandenburgo"
 
 msgid "Mecklenburg-Vorpommern"
-msgstr ""
+msgstr "Mecklenburg-Vorpommern"
 
 msgid "Sachsen"
-msgstr ""
+msgstr "Sachsen"
 
 msgid "Sachsen-Anhalt"
-msgstr ""
+msgstr "Sachsen-Anhalt"
 
 msgid "Thueringen"
-msgstr ""
+msgstr "Thueringen"
 
 msgid "Ali Sabiah"
-msgstr ""
+msgstr "Ali Sabiah"
 
 msgid "Dikhil"
-msgstr ""
+msgstr "Dikhil"
 
 msgid "Djibouti"
-msgstr ""
+msgstr "Djibouti"
 
 msgid "Obock"
-msgstr ""
+msgstr "Obock"
 
 msgid "Tadjoura"
-msgstr ""
+msgstr "Tadjoura"
 
 msgid "Frederikaberg municipality"
-msgstr ""
+msgstr "Frederikaberg municipality"
 
 msgid "Copenhagen municipality"
-msgstr ""
+msgstr "Copenhagen municipality"
 
 msgid "Copenhagen"
-msgstr ""
+msgstr "Copenhaga"
 
 msgid "Frederiksborg"
-msgstr ""
+msgstr "Frederiksborg"
 
 msgid "Roskilde"
-msgstr ""
+msgstr "Roskilde"
 
 msgid "Western Zealand"
-msgstr ""
+msgstr "Western Zealand"
 
 msgid "Storstrøm"
-msgstr ""
+msgstr "Storstrøm"
 
 msgid "Bornholm"
-msgstr ""
+msgstr "Bornholm"
 
 msgid "Funen"
-msgstr ""
+msgstr "Funen"
 
 msgid "Southern Jutland"
-msgstr ""
+msgstr "Southern Jutland"
 
 msgid "Ribe"
-msgstr ""
+msgstr "Ribe"
 
 msgid "Vejle"
-msgstr ""
+msgstr "Vejle"
 
 msgid "Ringkøbing"
-msgstr ""
+msgstr "Ringkøbing"
 
 msgid "Aarhus"
-msgstr ""
+msgstr "Aarhus"
 
 msgid "Viborg"
-msgstr ""
+msgstr "Viborg"
 
 msgid "Northern Jutland"
-msgstr ""
+msgstr "Northern Jutland"
 
 msgid "Distrito Nacional (Santo Domingo)"
-msgstr ""
+msgstr "Distrito Nacional (Santo Domingo)"
 
 msgid "Azua"
-msgstr ""
+msgstr "Azua"
 
 msgid "Bahoruco"
-msgstr ""
+msgstr "Bahoruco"
 
 msgid "Barahona"
-msgstr ""
+msgstr "Barahona"
 
 msgid "Dajabón"
-msgstr ""
+msgstr "Dajabón"
 
 msgid "Duarte"
-msgstr ""
+msgstr "Duarte"
 
 msgid "El Seybo [El Seibo]"
-msgstr ""
+msgstr "El Seybo [El Seibo]"
 
 msgid "Espaillat"
-msgstr ""
+msgstr "Espaillat"
 
 msgid "Hato Mayor"
-msgstr ""
+msgstr "Hato Mayor"
 
 msgid "Independencia"
-msgstr ""
+msgstr "Independencia"
 
 msgid "La Altagracia"
-msgstr ""
+msgstr "La Altagracia"
 
 msgid "La Estrelleta [Elias Pina]"
-msgstr ""
+msgstr "La Estrelleta [Elias Pina]"
 
 msgid "La Romana"
-msgstr ""
+msgstr "La Romana"
 
 msgid "La Vega"
-msgstr ""
+msgstr "La Vega"
 
 msgid "Maroia Trinidad Sánchez"
-msgstr ""
+msgstr "Maroia Trinidad Sánchez"
 
 msgid "Monseñor Nouel"
-msgstr ""
+msgstr "Monseñor Nouel"
 
 msgid "Monte Cristi"
-msgstr ""
+msgstr "Monte Cristi"
 
 msgid "Monte Plata"
-msgstr ""
+msgstr "Monte Plata"
 
 msgid "Pedernales"
-msgstr ""
+msgstr "Pedernales"
 
 msgid "Peravia"
-msgstr ""
+msgstr "Peravia"
 
 msgid "Puerto Plata"
-msgstr ""
+msgstr "Puerto Plata"
 
 msgid "Salcedo"
-msgstr ""
+msgstr "Salcedo"
 
 msgid "Samaná"
-msgstr ""
+msgstr "Samaná"
 
 msgid "San Cristóbal"
-msgstr ""
+msgstr "San Cristóbal"
 
 msgid "San Pedro de Macorís"
-msgstr ""
+msgstr "San Pedro de Macorís"
 
 msgid "Sánchez Ramírez"
-msgstr ""
+msgstr "Sánchez Ramírez"
 
 msgid "Santiago"
-msgstr ""
+msgstr "Santiago"
 
 msgid "Santiago Rodríguez"
-msgstr ""
+msgstr "Santiago Rodríguez"
 
 msgid "Valverde"
-msgstr ""
+msgstr "Valverde"
 
 msgid "Adrar"
-msgstr ""
+msgstr "Adrar"
 
 msgid "Ain Defla"
-msgstr ""
+msgstr "Ain Defla"
 
 msgid "Ain Tmouchent"
-msgstr ""
+msgstr "Ain Tmouchent"
 
 msgid "Alger"
-msgstr ""
+msgstr "Alger"
 
 msgid "Annaba"
-msgstr ""
+msgstr "Annaba"
 
 msgid "Batna"
-msgstr ""
+msgstr "Batna"
 
 msgid "Bechar"
-msgstr ""
+msgstr "Bechar"
 
 msgid "Bejaia"
-msgstr ""
+msgstr "Bejaia"
 
 msgid "Biskra"
-msgstr ""
+msgstr "Biskra"
 
 msgid "Blida"
-msgstr ""
+msgstr "Blida"
 
 msgid "Bordj Bou Arreridj"
-msgstr ""
+msgstr "Bordj Bou Arreridj"
 
 msgid "Bouira"
-msgstr ""
+msgstr "Bouira"
 
 msgid "Boumerdes"
-msgstr ""
+msgstr "Boumerdes"
 
 msgid "Chlef"
-msgstr ""
+msgstr "Chlef"
 
 msgid "Constantine"
-msgstr ""
+msgstr "Constantine"
 
 msgid "Djelfa"
-msgstr ""
+msgstr "Djelfa"
 
 msgid "El Bayadh"
-msgstr ""
+msgstr "El Bayadh"
 
 msgid "El Oued"
-msgstr ""
+msgstr "El Oued"
 
 msgid "El Tarf"
-msgstr ""
+msgstr "El Tarf"
 
 msgid "Ghardaia"
-msgstr ""
+msgstr "Ghardaia"
 
 msgid "Guelma"
-msgstr ""
+msgstr "Guelma"
 
 msgid "Illizi"
-msgstr ""
+msgstr "Illizi"
 
 msgid "Jijel"
-msgstr ""
+msgstr "Jijel"
 
 msgid "Khenchela"
-msgstr ""
+msgstr "Khenchela"
 
 msgid "Laghouat"
-msgstr ""
+msgstr "Laghouat"
 
 msgid "Mascara"
-msgstr ""
+msgstr "Mascara"
 
 msgid "Medea"
-msgstr ""
+msgstr "Medea"
 
 msgid "Mila"
-msgstr ""
+msgstr "Mila"
 
 msgid "Mostaganem"
-msgstr ""
+msgstr "Mostaganem"
 
 msgid "Msila"
-msgstr ""
+msgstr "Msila"
 
 msgid "Naama"
-msgstr ""
+msgstr "Naama"
 
 msgid "Oran"
-msgstr ""
+msgstr "Oran"
 
 msgid "Ouargla"
-msgstr ""
+msgstr "Ouargla"
 
 msgid "Oum el Bouaghi"
-msgstr ""
+msgstr "Oum el Bouaghi"
 
 msgid "Relizane"
-msgstr ""
+msgstr "Relizane"
 
 msgid "Saida"
-msgstr ""
+msgstr "Saida"
 
 msgid "Setif"
-msgstr ""
+msgstr "Setif"
 
 msgid "Sidi Bel Abbes"
-msgstr ""
+msgstr "Sidi Bel Abbes"
 
 msgid "Skikda"
-msgstr ""
+msgstr "Skikda"
 
 msgid "Souk Ahras"
-msgstr ""
+msgstr "Souk Ahras"
 
 msgid "Tamanghasset"
-msgstr ""
+msgstr "Tamanghasset"
 
 msgid "Tebessa"
-msgstr ""
+msgstr "Tebessa"
 
 msgid "Tiaret"
-msgstr ""
+msgstr "Tiaret"
 
 msgid "Tindouf"
-msgstr ""
+msgstr "Tindouf"
 
 msgid "Tipaza"
-msgstr ""
+msgstr "Tipaza"
 
 msgid "Tissemsilt"
-msgstr ""
+msgstr "Tissemsilt"
 
 msgid "Tizi Ouzou"
-msgstr ""
+msgstr "Tizi Ouzou"
 
 msgid "Tlemcen"
-msgstr ""
+msgstr "Tlemcen"
 
 msgid "Azuay"
-msgstr ""
+msgstr "Azuay"
 
 msgid "Bolivar"
-msgstr ""
+msgstr "Bolivar"
 
 msgid "Canar"
-msgstr ""
+msgstr "Canar"
 
 msgid "Carchi"
-msgstr ""
+msgstr "Carchi"
 
 msgid "Cotopaxi"
-msgstr ""
+msgstr "Cotopaxi"
 
 msgid "Chimborazo"
-msgstr ""
+msgstr "Chimborazo"
 
 msgid "El Oro"
-msgstr ""
+msgstr "El Oro"
 
 msgid "Esmeraldas"
-msgstr ""
+msgstr "Esmeraldas"
 
 msgid "Galapagos"
-msgstr ""
+msgstr "Galapagos"
 
 msgid "Guayas"
-msgstr ""
+msgstr "Guayas"
 
 msgid "Imbabura"
-msgstr ""
+msgstr "Imbabura"
 
 msgid "Loja"
-msgstr ""
+msgstr "Loja"
 
 msgid "Los Rios"
-msgstr ""
+msgstr "Los Rios"
 
 msgid "Manabi"
-msgstr ""
+msgstr "Manabi"
 
 msgid "Morona-Santiago"
-msgstr ""
+msgstr "Morona-Santiago"
 
 msgid "Napo"
-msgstr ""
+msgstr "Napo"
 
 msgid "Orellana"
-msgstr ""
+msgstr "Orellana"
 
 msgid "Pastaza"
-msgstr ""
+msgstr "Pastaza"
 
 msgid "Pichincha"
-msgstr ""
+msgstr "Pichincha"
 
 msgid "Sucumbios"
-msgstr ""
+msgstr "Sucumbios"
 
 msgid "Tungurahua"
-msgstr ""
+msgstr "Tungurahua"
 
 msgid "Zamora-Chinchipe"
-msgstr ""
+msgstr "Zamora-Chinchipe"
 
 msgid "Harjumsa"
-msgstr ""
+msgstr "Harjumsa"
 
 msgid "Hitumea"
-msgstr ""
+msgstr "Hitumea"
 
 msgid "Ida-Virumsa"
-msgstr ""
+msgstr "Ida-Virumsa"
 
 msgid "Jogevamsa"
-msgstr ""
+msgstr "Jogevamsa"
 
 msgid "Jarvamsa"
-msgstr ""
+msgstr "Jarvamsa"
 
 msgid "Lasnemsa"
-msgstr ""
+msgstr "Lasnemsa"
 
 msgid "Laane-Virumaa"
-msgstr ""
+msgstr "Laane-Virumaa"
 
 msgid "Polvamea"
-msgstr ""
+msgstr "Polvamea"
 
 msgid "Parnumsa"
-msgstr ""
+msgstr "Parnumsa"
 
 msgid "Raplamsa"
-msgstr ""
+msgstr "Raplamsa"
 
 msgid "Saaremsa"
-msgstr ""
+msgstr "Saaremsa"
 
 msgid "Tartumsa"
-msgstr ""
+msgstr "Tartumsa"
 
 msgid "Valgamaa"
-msgstr ""
+msgstr "Valgamaa"
 
 msgid "Viljandimsa"
-msgstr ""
+msgstr "Viljandimsa"
 
 msgid "Vorumaa"
-msgstr ""
+msgstr "Vorumaa"
 
 msgid "Ad Daqahllyah"
-msgstr ""
+msgstr "Ad Daqahllyah"
 
 msgid "Al Bahr al Ahmar"
-msgstr ""
+msgstr "Al Bahr al Ahmar"
 
 msgid "Al Buhayrah"
-msgstr ""
+msgstr "Al Buhayrah"
 
 msgid "Al Fayym"
-msgstr ""
+msgstr "Al Fayym"
 
 msgid "Al Gharbiyah"
-msgstr ""
+msgstr "Al Gharbiyah"
 
 msgid "Al Iskandarlyah"
-msgstr ""
+msgstr "Al Iskandarlyah"
 
 msgid "Al Isma illyah"
-msgstr ""
+msgstr "Al Isma illyah"
 
 msgid "Al Jizah"
-msgstr ""
+msgstr "Al Jizah"
 
 msgid "Al Minuflyah"
-msgstr ""
+msgstr "Al Minuflyah"
 
 msgid "Al Minya"
-msgstr ""
+msgstr "Al Minya"
 
 msgid "Al Qahirah"
-msgstr ""
+msgstr "Al Qahirah"
 
 msgid "Al Qalyublyah"
-msgstr ""
+msgstr "Al Qalyublyah"
 
 msgid "Al Wadi al Jadid"
-msgstr ""
+msgstr "Al Wadi al Jadid"
 
 msgid "Ash Sharqiyah"
-msgstr ""
+msgstr "Ash Sharqiyah"
 
 msgid "As Suways"
-msgstr ""
+msgstr "As Suways"
 
 msgid "Aswan"
-msgstr ""
+msgstr "Aswan"
 
 msgid "Asyut"
-msgstr ""
+msgstr "Asyut"
 
 msgid "Bani Suwayf"
-msgstr ""
+msgstr "Bani Suwayf"
 
 msgid "Bur Sa'id"
-msgstr ""
+msgstr "Bur Sa'id"
 
 msgid "Dumyat"
-msgstr ""
+msgstr "Dumyat"
 
 msgid "Janub Sina'"
-msgstr ""
+msgstr "Janub Sina'"
 
 msgid "Kafr ash Shaykh"
-msgstr ""
+msgstr "Kafr ash Shaykh"
 
 msgid "Matruh"
-msgstr ""
+msgstr "Matruh"
 
 msgid "Qina"
-msgstr ""
+msgstr "Qina"
 
 msgid "Shamal Sina'"
-msgstr ""
+msgstr "Shamal Sina'"
 
 msgid "Suhaj"
-msgstr ""
+msgstr "Suhaj"
 
 msgid "Anseba"
-msgstr ""
+msgstr "Anseba"
 
 msgid "Debub"
-msgstr ""
+msgstr "Debub"
 
 msgid "Debubawi Keyih Bahri [Debub-Keih-Bahri]"
-msgstr ""
+msgstr "Debubawi Keyih Bahri [Debub-Keih-Bahri]"
 
 msgid "Gash-Barka"
-msgstr ""
+msgstr "Gash-Barka"
 
 msgid "Maakel [Maekel]"
-msgstr ""
+msgstr "Maakel [Maekel]"
 
 msgid "Semenawi Keyih Bahri [Semien-Keih-Bahri]"
-msgstr ""
+msgstr "Semenawi Keyih Bahri [Semien-Keih-Bahri]"
 
 msgid "Álava"
-msgstr ""
+msgstr "Álava"
 
 msgid "Albacete"
-msgstr ""
+msgstr "Albacete"
 
 msgid "Alicante"
-msgstr ""
+msgstr "Alicante"
 
 msgid "Almería"
-msgstr ""
+msgstr "Almería"
 
 msgid "Asturias"
-msgstr ""
+msgstr "Asturias"
 
 msgid "Ávila"
-msgstr ""
+msgstr "Ávila"
 
 msgid "Badajoz"
-msgstr ""
+msgstr "Badajoz"
 
 msgid "Baleares"
-msgstr ""
+msgstr "Baleares"
 
 msgid "Barcelona"
-msgstr ""
+msgstr "Barcelona"
 
 msgid "Burgos"
-msgstr ""
+msgstr "Burgos"
 
 msgid "Cáceres"
-msgstr ""
+msgstr "Cáceres"
 
 msgid "Cádiz"
-msgstr ""
+msgstr "Cádiz"
 
 msgid "Cantabria"
-msgstr ""
+msgstr "Cantabria"
 
 msgid "Castellón"
-msgstr ""
+msgstr "Castellón"
 
 msgid "Ciudad Real"
-msgstr ""
+msgstr "Ciudad Real"
 
 msgid "Cuenca"
-msgstr ""
+msgstr "Cuenca"
 
 msgid "Girona [Gerona]"
-msgstr ""
+msgstr "Girona"
 
 msgid "Granada"
-msgstr ""
+msgstr "Granada"
 
 msgid "Guadalajara"
-msgstr ""
+msgstr "Guadalajara"
 
 msgid "Guipúzcoa"
-msgstr ""
+msgstr "Guipúzcoa"
 
 msgid "Huelva"
-msgstr ""
+msgstr "Huelva"
 
 msgid "Huesca"
-msgstr ""
+msgstr "Huesca"
 
 msgid "Jaén"
-msgstr ""
+msgstr "Jaén"
 
 msgid "La Coruña"
-msgstr ""
+msgstr "Corunha"
 
 msgid "La Rioja"
-msgstr ""
+msgstr "La Rioja"
 
 msgid "Las Palmas"
-msgstr ""
+msgstr "Las Palmas"
 
 msgid "León"
-msgstr ""
+msgstr "León"
 
 msgid "Lleida [Lérida]"
-msgstr ""
+msgstr "Lérida"
 
 msgid "Lugo"
-msgstr ""
+msgstr "Lugo"
 
 msgid "Madrid"
-msgstr ""
+msgstr "Madrid"
 
 msgid "Málaga"
-msgstr ""
+msgstr "Málaga"
 
 msgid "Murcia"
-msgstr ""
+msgstr "Murcia"
 
 msgid "Navarra"
-msgstr ""
+msgstr "Navarra"
 
 msgid "Ourense"
-msgstr ""
+msgstr "Ourense"
 
 msgid "Palencia"
-msgstr ""
+msgstr "Palencia"
 
 msgid "Pontevedra"
-msgstr ""
+msgstr "Pontevedra"
 
 msgid "Salamanca"
-msgstr ""
+msgstr "Salamanca"
 
 msgid "Santa Cruz de Tenerife"
-msgstr ""
+msgstr "Santa Cruz de Tenerife"
 
 msgid "Segovia"
-msgstr ""
+msgstr "Segovia"
 
 msgid "Sevilla"
-msgstr ""
+msgstr "Sevilha"
 
 msgid "Soria"
-msgstr ""
+msgstr "Soria"
 
 msgid "Tarragona"
-msgstr ""
+msgstr "Tarragona"
 
 msgid "Teruel"
-msgstr ""
+msgstr "Teruel"
 
 msgid "Valencia"
-msgstr ""
+msgstr "Valência"
 
 msgid "Valladolid"
-msgstr ""
+msgstr "Valladolid"
 
 msgid "Vizcaya"
-msgstr ""
+msgstr "Vizcaya"
 
 msgid "Zamora"
-msgstr ""
+msgstr "Zamora"
 
 msgid "Zaragoza"
-msgstr ""
+msgstr "Zaragoza"
 
 msgid "Ceuta"
-msgstr ""
+msgstr "Ceuta"
 
 msgid "Melilla"
-msgstr ""
+msgstr "Melilla"
 
 msgid "Addis Ababa"
-msgstr ""
+msgstr "Addis Ababa"
 
 msgid "Dire Dawa"
-msgstr ""
+msgstr "Dire Dawa"
 
 msgid "Afar"
-msgstr ""
+msgstr "Afar"
 
 msgid "Amara"
-msgstr ""
+msgstr "Amara"
 
 msgid "Benshangul-Gumaz"
-msgstr ""
+msgstr "Benshangul-Gumaz"
 
 msgid "Gambela Peoples"
-msgstr ""
+msgstr "Gambela Peoples"
 
 msgid "Harari People"
-msgstr ""
+msgstr "Harari People"
 
 msgid "Oromia"
-msgstr ""
+msgstr "Oromia"
 
 msgid "Somali"
-msgstr ""
+msgstr "Somali"
 
 msgid "Southern Nations, Nationalities and Peoples"
-msgstr ""
+msgstr "Southern Nations, Nationalities and Peoples"
 
 msgid "Tigrai"
-msgstr ""
+msgstr "Tigrai"
 
 msgid "Northern"
-msgstr ""
+msgstr "Northern"
 
 msgid "Western"
-msgstr ""
+msgstr "Western"
 
 msgid "Rotuma"
-msgstr ""
+msgstr "Rotuma"
 
 msgid "Chuuk"
-msgstr ""
+msgstr "Chuuk"
 
 msgid "Kosrae"
-msgstr ""
+msgstr "Kosrae"
 
 msgid "Pohnpei"
-msgstr ""
+msgstr "Pohnpei"
 
 msgid "Yap"
-msgstr ""
+msgstr "Yap"
 
 msgid "Ain"
-msgstr ""
+msgstr "Ain"
 
 msgid "Aisne"
-msgstr ""
+msgstr "Aisne"
 
 msgid "Allier"
-msgstr ""
+msgstr "Allier"
 
 msgid "Alpes-de-Haute-Provence"
-msgstr ""
+msgstr "Alpes-de-Haute-Provence"
 
 msgid "Alpes-Maritimes"
-msgstr ""
+msgstr "Alpes-Maritimes"
 
 msgid "Ardèche"
-msgstr ""
+msgstr "Ardèche"
 
 msgid "Ardennes"
-msgstr ""
+msgstr "Ardennes"
 
 msgid "Ariège"
-msgstr ""
+msgstr "Ariège"
 
 msgid "Aube"
-msgstr ""
+msgstr "Aube"
 
 msgid "Aude"
-msgstr ""
+msgstr "Aude"
 
 msgid "Aveyron"
-msgstr ""
+msgstr "Aveyron"
 
 msgid "Bas-Rhin"
-msgstr ""
+msgstr "Bas-Rhin"
 
 msgid "Bouches-du-Rhône"
-msgstr ""
+msgstr "Bouches-du-Rhône"
 
 msgid "Calvados"
-msgstr ""
+msgstr "Calvados"
 
 msgid "Cantal"
-msgstr ""
+msgstr "Cantal"
 
 msgid "Charente"
-msgstr ""
+msgstr "Charente"
 
 msgid "Charente-Maritime"
-msgstr ""
+msgstr "Charente-Maritime"
 
 msgid "Cher"
-msgstr ""
+msgstr "Cher"
 
 msgid "Corrèze"
-msgstr ""
+msgstr "Corrèze"
 
 msgid "Corse-du-Sud"
-msgstr ""
+msgstr "Corse-du-Sud"
 
 msgid "Côte-d'Or"
-msgstr ""
+msgstr "Côte-d'Or"
 
 msgid "Côtes-d'Armor"
-msgstr ""
+msgstr "Côtes-d'Armor"
 
 msgid "Creuse"
-msgstr ""
+msgstr "Creuse"
 
 msgid "Deux-Sèvres"
-msgstr ""
+msgstr "Deux-Sèvres"
 
 msgid "Dordogne"
-msgstr ""
+msgstr "Dordogne"
 
 msgid "Doubs"
-msgstr ""
+msgstr "Doubs"
 
 msgid "Drôme"
-msgstr ""
+msgstr "Drôme"
 
 msgid "Essonne"
-msgstr ""
+msgstr "Essonne"
 
 msgid "Eure"
-msgstr ""
+msgstr "Eure"
 
 msgid "Eure-et-Loir"
-msgstr ""
+msgstr "Eure-et-Loir"
 
 msgid "Finistère"
-msgstr ""
+msgstr "Finistère"
 
 msgid "Gard"
-msgstr ""
+msgstr "Gard"
 
 msgid "Gers"
-msgstr ""
+msgstr "Gers"
 
 msgid "Gironde"
-msgstr ""
+msgstr "Gironde"
 
 msgid "Haut-Rhin"
-msgstr ""
+msgstr "Haut-Rhin"
 
 msgid "Haute-Corse"
-msgstr ""
+msgstr "Haute-Corse"
 
 msgid "Haute-Garonne"
-msgstr ""
+msgstr "Haute-Garonne"
 
 msgid "Haute-Loire"
-msgstr ""
+msgstr "Haute-Loire"
 
 msgid "Haute-Saône"
-msgstr ""
+msgstr "Haute-Saône"
 
 msgid "Haute-Savoie"
-msgstr ""
+msgstr "Haute-Savoie"
 
 msgid "Haute-Vienne"
-msgstr ""
+msgstr "Haute-Vienne"
 
 msgid "Hautes-Alpes"
-msgstr ""
+msgstr "Hautes-Alpes"
 
 msgid "Hautes-Pyrénées"
-msgstr ""
+msgstr "Hautes-Pyrénées"
 
 msgid "Hauts-de-Seine"
-msgstr ""
+msgstr "Hauts-de-Seine"
 
 msgid "Hérault"
-msgstr ""
+msgstr "Hérault"
 
 msgid "Indre"
-msgstr ""
+msgstr "Indre"
 
 msgid "Ille-et-Vilaine"
-msgstr ""
+msgstr "Ille-et-Vilaine"
 
 msgid "Indre-et-Loire"
-msgstr ""
+msgstr "Indre-et-Loire"
 
 msgid "Isère"
-msgstr ""
+msgstr "Isère"
 
 msgid "Landes"
-msgstr ""
+msgstr "Landes"
 
 msgid "Loir-et-Cher"
-msgstr ""
+msgstr "Loir-et-Cher"
 
 msgid "Loire"
-msgstr ""
+msgstr "Loire"
 
 msgid "Loire-Atlantique"
-msgstr ""
+msgstr "Loire-Atlantique"
 
 msgid "Loiret"
-msgstr ""
+msgstr "Loiret"
 
 msgid "Lot"
-msgstr ""
+msgstr "Lot"
 
 msgid "Lot-et-Garonne"
-msgstr ""
+msgstr "Lot-et-Garonne"
 
 msgid "Lozère"
-msgstr ""
+msgstr "Lozère"
 
 msgid "Maine-et-Loire"
-msgstr ""
+msgstr "Maine-et-Loire"
 
 msgid "Manche"
-msgstr ""
+msgstr "Manche"
 
 msgid "Marne"
-msgstr ""
+msgstr "Marne"
 
 msgid "Mayenne"
-msgstr ""
+msgstr "Mayenne"
 
 msgid "Meurthe-et-Moselle"
-msgstr ""
+msgstr "Meurthe-et-Moselle"
 
 msgid "Meuse"
-msgstr ""
+msgstr "Meuse"
 
 msgid "Morbihan"
-msgstr ""
+msgstr "Morbihan"
 
 msgid "Moselle"
-msgstr ""
+msgstr "Moselle"
 
 msgid "Nièvre"
-msgstr ""
+msgstr "Nièvre"
 
 msgid "Nord"
-msgstr ""
+msgstr "Nord"
 
 msgid "Oise"
-msgstr ""
+msgstr "Oise"
 
 msgid "Orne"
-msgstr ""
+msgstr "Orne"
 
 msgid "Paris"
-msgstr ""
+msgstr "Paris"
 
 msgid "Pas-de-Calais"
-msgstr ""
+msgstr "Pas-de-Calais"
 
 msgid "Puy-de-Dôme"
-msgstr ""
+msgstr "Puy-de-Dôme"
 
 msgid "Pyrénées-Atlantiques"
-msgstr ""
+msgstr "Pyrénées-Atlantiques"
 
 msgid "Pyrénées-Orientales"
-msgstr ""
+msgstr "Pyrénées-Orientales"
 
 msgid "Rhône"
-msgstr ""
+msgstr "Rhône"
 
 msgid "Saône-et-Loire"
-msgstr ""
+msgstr "Saône-et-Loire"
 
 msgid "Sarthe"
-msgstr ""
+msgstr "Sarthe"
 
 msgid "Savoie"
-msgstr ""
+msgstr "Savoie"
 
 msgid "Seine-et-Marne"
-msgstr ""
+msgstr "Seine-et-Marne"
 
 msgid "Seine-Maritime"
-msgstr ""
+msgstr "Seine-Maritime"
 
 msgid "Seine-Saint-Denis"
-msgstr ""
+msgstr "Seine-Saint-Denis"
 
 msgid "Somme"
-msgstr ""
+msgstr "Somme"
 
 msgid "Tarn"
-msgstr ""
+msgstr "Tarn"
 
 msgid "Tarn-et-Garonne"
-msgstr ""
+msgstr "Tarn-et-Garonne"
 
 msgid "Val d'Oise"
-msgstr ""
+msgstr "Val d'Oise"
 
 msgid "Territoire de Belfort"
-msgstr ""
+msgstr "Territoire de Belfort"
 
 msgid "Val-de-Marne"
-msgstr ""
+msgstr "Val-de-Marne"
 
 msgid "Var"
-msgstr ""
+msgstr "Var"
 
 msgid "Vaucluse"
-msgstr ""
+msgstr "Vaucluse"
 
 msgid "Vendée"
-msgstr ""
+msgstr "Vendée"
 
 msgid "Vienne"
-msgstr ""
+msgstr "Vienne"
 
 msgid "Vosges"
-msgstr ""
+msgstr "Vosges"
 
 msgid "Yonne"
-msgstr ""
+msgstr "Yonne"
 
 msgid "Yvelines"
-msgstr ""
+msgstr "Yvelines"
 
 msgid "Aberdeen City"
-msgstr ""
+msgstr "Aberdeen City"
 
 msgid "Aberdeenshire"
-msgstr ""
+msgstr "Aberdeenshire"
 
 msgid "Angus"
-msgstr ""
+msgstr "Angus"
 
 msgid "Co Antrim"
-msgstr ""
+msgstr "Co Antrim"
 
 msgid "Ards"
-msgstr ""
+msgstr "Ards"
 
 msgid "Argyll and Bute"
-msgstr ""
+msgstr "Argyll and Bute"
 
 msgid "Co Armagh"
-msgstr ""
+msgstr "Co Armagh"
 
 msgid "Ballymena"
-msgstr ""
+msgstr "Ballymena"
 
 msgid "Ballymoney"
-msgstr ""
+msgstr "Ballymoney"
 
 msgid "Banbridge"
-msgstr ""
+msgstr "Banbridge"
 
 msgid "Barking and Dagenham"
-msgstr ""
+msgstr "Barking and Dagenham"
 
 msgid "Barnet"
-msgstr ""
+msgstr "Barnet"
 
 msgid "Barnsley"
-msgstr ""
+msgstr "Barnsley"
 
 msgid "Bath and North East Somerset"
-msgstr ""
+msgstr "Bath and North East Somerset"
 
 msgid "Bedfordshire"
-msgstr ""
+msgstr "Bedfordshire"
 
 msgid "Belfast"
-msgstr ""
+msgstr "Belfast"
 
 msgid "Bexley"
-msgstr ""
+msgstr "Bexley"
 
 msgid "Birmingham"
-msgstr ""
+msgstr "Birmingham"
 
 msgid "Blackburn with Darwen"
-msgstr ""
+msgstr "Blackburn with Darwen"
 
 msgid "Blackpool"
-msgstr ""
+msgstr "Blackpool"
 
 msgid "Blaenau Gwent"
-msgstr ""
+msgstr "Blaenau Gwent"
 
 msgid "Bolton"
-msgstr ""
+msgstr "Bolton"
 
 msgid "Bournemouth"
-msgstr ""
+msgstr "Bournemouth"
 
 msgid "Bracknell Forest"
-msgstr ""
+msgstr "Bracknell Forest"
 
 msgid "Bradford"
-msgstr ""
+msgstr "Bradford"
 
 msgid "Brent"
-msgstr ""
+msgstr "Brent"
 
 msgid "Bridgend"
-msgstr ""
+msgstr "Bridgend"
 
 msgid "Brighton and Hove"
-msgstr ""
+msgstr "Brighton and Hove"
 
 msgid "Bristol"
-msgstr ""
+msgstr "Bristol"
 
 msgid "Bromley"
-msgstr ""
+msgstr "Bromley"
 
 msgid "Buckinghamshire"
-msgstr ""
+msgstr "Buckinghamshire"
 
 msgid "Bury"
-msgstr ""
+msgstr "Bury"
 
 msgid "Caerphilly"
-msgstr ""
+msgstr "Caerphilly"
 
 msgid "Calderdale"
-msgstr ""
+msgstr "Calderdale"
 
 msgid "Cambridgeshire"
-msgstr ""
+msgstr "Cambridgeshire"
 
 msgid "Camden"
-msgstr ""
+msgstr "Camden"
 
 msgid "Cardiff"
-msgstr ""
+msgstr "Cardiff"
 
 msgid "Carmarthenshire"
-msgstr ""
+msgstr "Carmarthenshire"
 
 msgid "Sir Gaerfyrddin"
-msgstr ""
+msgstr "Sir Gaerfyrddin"
 
 msgid "Carrickfergus"
-msgstr ""
+msgstr "Carrickfergus"
 
 msgid "Castlereagh"
-msgstr ""
+msgstr "Castlereagh"
 
 msgid "Ceredigion"
-msgstr ""
+msgstr "Ceredigion"
 
 msgid "Cheshire"
-msgstr ""
+msgstr "Cheshire"
 
 msgid "Clackmannanshire"
-msgstr ""
+msgstr "Clackmannanshire"
 
 msgid "Coleraine"
-msgstr ""
+msgstr "Coleraine"
 
 msgid "Conwy"
-msgstr ""
+msgstr "Conwy"
 
 msgid "Cookstown"
-msgstr ""
+msgstr "Cookstown"
 
 msgid "Cornwall"
-msgstr ""
+msgstr "Cornwall"
 
 msgid "Coventry"
-msgstr ""
+msgstr "Coventry"
 
 msgid "Cralgavon"
-msgstr ""
+msgstr "Cralgavon"
 
 msgid "Croydon"
-msgstr ""
+msgstr "Croydon"
 
 msgid "Cumbria"
-msgstr ""
+msgstr "Cumbria"
 
 msgid "Darlington"
-msgstr ""
+msgstr "Darlington"
 
 msgid "Denbighshire"
-msgstr ""
+msgstr "Denbighshire"
 
 msgid "Derby"
-msgstr ""
+msgstr "Derby"
 
 msgid "Derbyshire"
-msgstr ""
+msgstr "Derbyshire"
 
 msgid "Derry"
-msgstr ""
+msgstr "Derry"
 
 msgid "Devon"
-msgstr ""
+msgstr "Devon"
 
 msgid "Doncaster"
-msgstr ""
+msgstr "Doncaster"
 
 msgid "Dorset"
-msgstr ""
+msgstr "Dorset"
 
 msgid "Co Down"
-msgstr ""
+msgstr "Co Down"
 
 msgid "Dudley"
-msgstr ""
+msgstr "Dudley"
 
 msgid "Dumfries and Galloway"
-msgstr ""
+msgstr "Dumfries and Galloway"
 
 msgid "Dundee City"
-msgstr ""
+msgstr "Dundee City"
 
 msgid "Dungannon"
-msgstr ""
+msgstr "Dungannon"
 
 msgid "Co Durham"
-msgstr ""
+msgstr "Co Durham"
 
 msgid "Ealing"
-msgstr ""
+msgstr "Ealing"
 
 msgid "East Ayrshire"
-msgstr ""
+msgstr "East Ayrshire"
 
 msgid "East Dunbartonshire"
-msgstr ""
+msgstr "East Dunbartonshire"
 
 msgid "East Lothian"
-msgstr ""
+msgstr "East Lothian"
 
 msgid "East Renfrewshire"
-msgstr ""
+msgstr "East Renfrewshire"
 
 msgid "East Riding of Yorkshire"
-msgstr ""
+msgstr "East Riding of Yorkshire"
 
 msgid "East Sussex"
-msgstr ""
+msgstr "East Sussex"
 
 msgid "Edinburgh, City of"
-msgstr ""
+msgstr "Edinburgo"
 
 msgid "Eilean Siar"
-msgstr ""
+msgstr "Eilean Siar"
 
 msgid "Enfield"
-msgstr ""
+msgstr "Enfield"
 
 msgid "Essex"
-msgstr ""
+msgstr "Essex"
 
 msgid "Falkirk"
-msgstr ""
+msgstr "Falkirk"
 
 msgid "Co Fermanagh"
-msgstr ""
+msgstr "Co Fermanagh"
 
 msgid "Fife"
-msgstr ""
+msgstr "Fife"
 
 msgid "Flintshire"
-msgstr ""
+msgstr "Flintshire"
 
 msgid "Gateshead"
-msgstr ""
+msgstr "Gateshead"
 
 msgid "Glasgow"
-msgstr ""
+msgstr "Glasgow"
 
 msgid "Gloucestershire"
-msgstr ""
+msgstr "Gloucestershire"
 
 msgid "Greenwich"
-msgstr ""
+msgstr "Greenwich"
 
 msgid "Guernsey"
-msgstr ""
+msgstr "Guernsey"
 
 msgid "Gwynedd"
-msgstr ""
+msgstr "Gwynedd"
 
 msgid "Hackney"
-msgstr ""
+msgstr "Hackney"
 
 msgid "Halton"
-msgstr ""
+msgstr "Halton"
 
 msgid "Hammersmith and Fulham"
-msgstr ""
+msgstr "Hammersmith and Fulham"
 
 msgid "Hampshire"
-msgstr ""
+msgstr "Hampshire"
 
 msgid "Haringey"
-msgstr ""
+msgstr "Haringey"
 
 msgid "Harrow"
-msgstr ""
+msgstr "Harrow"
 
 msgid "Hartlepool"
-msgstr ""
+msgstr "Hartlepool"
 
 msgid "Havering"
-msgstr ""
+msgstr "Havering"
 
 msgid "Herefordshire"
-msgstr ""
+msgstr "Herefordshire"
 
 msgid "Hertfordshire"
-msgstr ""
+msgstr "Hertfordshire"
 
 msgid "Highland"
-msgstr ""
+msgstr "Highland"
 
 msgid "Hillingdon"
-msgstr ""
+msgstr "Hillingdon"
 
 msgid "Hounslow"
-msgstr ""
+msgstr "Hounslow"
 
 msgid "Inverclyde"
-msgstr ""
+msgstr "Inverclyde"
 
 msgid "Isle of Anglesey"
-msgstr ""
+msgstr "Isle of Anglesey"
 
 msgid "Isle of Wight"
-msgstr ""
+msgstr "Isle of Wight"
 
 msgid "Isles of Scilly"
-msgstr ""
+msgstr "Isles of Scilly"
 
 msgid "Islington"
-msgstr ""
+msgstr "Islington"
 
 msgid "Jersey"
-msgstr ""
+msgstr "Jersey"
 
 msgid "Kensington and Chelsea"
-msgstr ""
+msgstr "Kensington and Chelsea"
 
 msgid "Kent"
-msgstr ""
+msgstr "Kent"
 
 msgid "Kingston upon Hull"
-msgstr ""
+msgstr "Kingston upon Hull"
 
 msgid "Kingston upon Thames"
-msgstr ""
+msgstr "Kingston upon Thames"
 
 msgid "Kirklees"
-msgstr ""
+msgstr "Kirklees"
 
 msgid "Knowsley"
-msgstr ""
+msgstr "Knowsley"
 
 msgid "Lambeth"
-msgstr ""
+msgstr "Lambeth"
 
 msgid "Lancashire"
-msgstr ""
+msgstr "Lancashire"
 
 msgid "Larne"
-msgstr ""
+msgstr "Larne"
 
 msgid "Leeds"
-msgstr ""
+msgstr "Leeds"
 
 msgid "Leicester"
-msgstr ""
+msgstr "Leicester"
 
 msgid "Leicestershire"
-msgstr ""
+msgstr "Leicestershire"
 
 msgid "Lewisham"
-msgstr ""
+msgstr "Lewisham"
 
 msgid "Limavady"
-msgstr ""
+msgstr "Limavady"
 
 msgid "Lincolnshire"
-msgstr ""
+msgstr "Lincolnshire"
 
 msgid "Lisburn"
-msgstr ""
+msgstr "Lisburn"
 
 msgid "Liverpool"
-msgstr ""
+msgstr "Liverpool"
 
 msgid "London, City of"
-msgstr ""
+msgstr "Londres"
 
 msgid "Luton"
-msgstr ""
+msgstr "Luton"
 
 msgid "Magherafelt"
-msgstr ""
+msgstr "Magherafelt"
 
 msgid "Manchester"
-msgstr ""
+msgstr "Manchester"
 
 msgid "Medway"
-msgstr ""
+msgstr "Medway"
 
 msgid "Merthyr Tydfil"
-msgstr ""
+msgstr "Merthyr Tydfil"
 
 msgid "Merton"
-msgstr ""
+msgstr "Merton"
 
 msgid "Middlesbrough"
-msgstr ""
+msgstr "Middlesbrough"
 
 msgid "Midlothian"
-msgstr ""
+msgstr "Midlothian"
 
 msgid "Milton Keynes"
-msgstr ""
+msgstr "Milton Keynes"
 
 msgid "Monmouthshire"
-msgstr ""
+msgstr "Monmouthshire"
 
 msgid "Moray"
-msgstr ""
+msgstr "Moray"
 
 msgid "Moyle"
-msgstr ""
+msgstr "Moyle"
 
 msgid "Neath Port Talbot"
-msgstr ""
+msgstr "Neath Port Talbot"
 
 msgid "Newcastle upon Tyne"
-msgstr ""
+msgstr "Newcastle upon Tyne"
 
 msgid "Newham"
-msgstr ""
+msgstr "Newham"
 
 msgid "Newport"
-msgstr ""
+msgstr "Newport"
 
 msgid "Newry and Mourne"
-msgstr ""
+msgstr "Newry and Mourne"
 
 msgid "Newtownabbey"
-msgstr ""
+msgstr "Newtownabbey"
 
 msgid "Norfolk"
-msgstr ""
+msgstr "Norfolk"
 
 msgid "North Ayrshire"
-msgstr ""
+msgstr "North Ayrshire"
 
 msgid "North Down"
-msgstr ""
+msgstr "North Down"
 
 msgid "North East Lincolnshire"
-msgstr ""
+msgstr "North East Lincolnshire"
 
 msgid "North Lanarkshire"
-msgstr ""
+msgstr "North Lanarkshire"
 
 msgid "North Lincolnshire"
-msgstr ""
+msgstr "North Lincolnshire"
 
 msgid "North Somerset"
-msgstr ""
+msgstr "North Somerset"
 
 msgid "North Tyneside"
-msgstr ""
+msgstr "North Tyneside"
 
 msgid "North Yorkshire"
-msgstr ""
+msgstr "North Yorkshire"
 
 msgid "Northamptonshire"
-msgstr ""
+msgstr "Northamptonshire"
 
 msgid "Northumberland"
-msgstr ""
+msgstr "Northumberland"
 
 msgid "Nottingham"
-msgstr ""
+msgstr "Nottingham"
 
 msgid "Nottinghamshire"
-msgstr ""
+msgstr "Nottinghamshire"
 
 msgid "Oldham"
-msgstr ""
+msgstr "Oldham"
 
 msgid "Omagh"
-msgstr ""
+msgstr "Omagh"
 
 msgid "Orkney Islands"
-msgstr ""
+msgstr "Orkney Islands"
 
 msgid "Oxfordshire"
-msgstr ""
+msgstr "Oxfordshire"
 
 msgid "Pembrokeshire"
-msgstr ""
+msgstr "Pembrokeshire"
 
 msgid "Perth and Kinross"
-msgstr ""
+msgstr "Perth and Kinross"
 
 msgid "Peterborough"
-msgstr ""
+msgstr "Peterborough"
 
 msgid "Plymouth"
-msgstr ""
+msgstr "Plymouth"
 
 msgid "Poole"
-msgstr ""
+msgstr "Poole"
 
 msgid "Portsmouth"
-msgstr ""
+msgstr "Portsmouth"
 
 msgid "Powys"
-msgstr ""
+msgstr "Powys"
 
 msgid "Reading"
-msgstr ""
+msgstr "Reading"
 
 msgid "Redbridge"
-msgstr ""
+msgstr "Redbridge"
 
 msgid "Cleveland"
-msgstr ""
+msgstr "Cleveland"
 
 msgid "Renfrewshire"
-msgstr ""
+msgstr "Renfrewshire"
 
 msgid "Rhondda Cynon Taff"
-msgstr ""
+msgstr "Rhondda Cynon Taff"
 
 msgid "Richmond upon Thames"
-msgstr ""
+msgstr "Richmond upon Thames"
 
 msgid "Rochdale"
-msgstr ""
+msgstr "Rochdale"
 
 msgid "Rotherham"
-msgstr ""
+msgstr "Rotherham"
 
 msgid "Rutland"
-msgstr ""
+msgstr "Rutland"
 
 msgid "St. Helens"
-msgstr ""
+msgstr "St. Helens"
 
 msgid "Salford"
-msgstr ""
+msgstr "Salford"
 
 msgid "Sandwell"
-msgstr ""
+msgstr "Sandwell"
 
 msgid "Scottish Borders"
-msgstr ""
+msgstr "Scottish Borders"
 
 msgid "Sefton"
-msgstr ""
+msgstr "Sefton"
 
 msgid "Sheffield"
-msgstr ""
+msgstr "Sheffield"
 
 msgid "Shetland Islands"
-msgstr ""
+msgstr "Shetland Islands"
 
 msgid "Shropshire"
-msgstr ""
+msgstr "Shropshire"
 
 msgid "Slough"
-msgstr ""
+msgstr "Slough"
 
 msgid "Solihull"
-msgstr ""
+msgstr "Solihull"
 
 msgid "Somerset"
-msgstr ""
+msgstr "Somerset"
 
 msgid "South Ayrshire"
-msgstr ""
+msgstr "South Ayrshire"
 
 msgid "South Gloucestershire"
-msgstr ""
+msgstr "South Gloucestershire"
 
 msgid "South Lanarkshire"
-msgstr ""
+msgstr "South Lanarkshire"
 
 msgid "South Tyneside"
-msgstr ""
+msgstr "South Tyneside"
 
 msgid "Southampton"
-msgstr ""
+msgstr "Southampton"
 
 msgid "Southend-on-Sea"
-msgstr ""
+msgstr "Southend-on-Sea"
 
 msgid "Southwark"
-msgstr ""
+msgstr "Southwark"
 
 msgid "Staffordshire"
-msgstr ""
+msgstr "Staffordshire"
 
 msgid "Stirling"
-msgstr ""
+msgstr "Stirling"
 
 msgid "Stockport"
-msgstr ""
+msgstr "Stockport"
 
 msgid "Stockton-on-Tees"
-msgstr ""
+msgstr "Stockton-on-Tees"
 
 msgid "Stoke-on-Trent"
-msgstr ""
+msgstr "Stoke-on-Trent"
 
 msgid "Strabane"
-msgstr ""
+msgstr "Strabane"
 
 msgid "Suffolk"
-msgstr ""
+msgstr "Suffolk"
 
 msgid "Sunderland"
-msgstr ""
+msgstr "Sunderland"
 
 msgid "Surrey"
-msgstr ""
+msgstr "Surrey"
 
 msgid "Sutton"
-msgstr ""
+msgstr "Sutton"
 
 msgid "Swansea"
-msgstr ""
+msgstr "Swansea"
 
 msgid "Swindon"
-msgstr ""
+msgstr "Swindon"
 
 msgid "Tameside"
-msgstr ""
+msgstr "Tameside"
 
 msgid "Telford and Wrekin"
-msgstr ""
+msgstr "Telford and Wrekin"
 
 msgid "Thurrock"
-msgstr ""
+msgstr "Thurrock"
 
 msgid "Torbay"
-msgstr ""
+msgstr "Torbay"
 
 msgid "Torfasn"
-msgstr ""
+msgstr "Torfasn"
 
 msgid "Tower Hamlets"
-msgstr ""
+msgstr "Tower Hamlets"
 
 msgid "Trafford"
-msgstr ""
+msgstr "Trafford"
 
 msgid "Vale of Glamorgan"
-msgstr ""
+msgstr "Vale of Glamorgan"
 
 msgid "Bro Morgannwg"
-msgstr ""
+msgstr "Bro Morgannwg"
 
 msgid "Wakefield"
-msgstr ""
+msgstr "Wakefield"
 
 msgid "Walsall"
-msgstr ""
+msgstr "Walsall"
 
 msgid "Waltham Forest"
-msgstr ""
+msgstr "Waltham Forest"
 
 msgid "Wandsworth"
-msgstr ""
+msgstr "Wandsworth"
 
 msgid "Warrington"
-msgstr ""
+msgstr "Warrington"
 
 msgid "Warwickshire"
-msgstr ""
+msgstr "Warwickshire"
 
 msgid "West Berkshire"
-msgstr ""
+msgstr "West Berkshire"
 
 msgid "West Dunbartonshire"
-msgstr ""
+msgstr "West Dunbartonshire"
 
 msgid "West Lothian"
-msgstr ""
+msgstr "West Lothian"
 
 msgid "West Sussex"
-msgstr ""
+msgstr "West Sussex"
 
 msgid "Westminster"
-msgstr ""
+msgstr "Westminster"
 
 msgid "Wigan"
-msgstr ""
+msgstr "Wigan"
 
 msgid "Wiltshire"
-msgstr ""
+msgstr "Wiltshire"
 
 msgid "Windsor and Maidenhead"
-msgstr ""
+msgstr "Windsor and Maidenhead"
 
 msgid "Wirral"
-msgstr ""
+msgstr "Wirral"
 
 msgid "Wokingham"
-msgstr ""
+msgstr "Wokingham"
 
 msgid "Wolverhampton"
-msgstr ""
+msgstr "Wolverhampton"
 
 msgid "Worcestershire"
-msgstr ""
+msgstr "Worcestershire"
 
 msgid "Wrexham"
-msgstr ""
+msgstr "Wrexham"
 
 msgid "York"
-msgstr ""
+msgstr "York"
 
 msgid "Ashanti"
-msgstr ""
+msgstr "Ashanti"
 
 msgid "Brong-Ahafo"
-msgstr ""
+msgstr "Brong-Ahafo"
 
 msgid "Greater Accra"
-msgstr ""
+msgstr "Greater Accra"
 
 msgid "Upper East"
-msgstr ""
+msgstr "Upper East"
 
 msgid "Upper West"
-msgstr ""
+msgstr "Upper West"
 
 msgid "Volta"
-msgstr ""
+msgstr "Volta"
 
 msgid "Banjul"
-msgstr ""
+msgstr "Banjul"
 
 msgid "Lower River"
-msgstr ""
+msgstr "Lower River"
 
 msgid "MacCarthy Island"
-msgstr ""
+msgstr "MacCarthy Island"
 
 msgid "North Bank"
-msgstr ""
+msgstr "North Bank"
 
 msgid "Upper River"
-msgstr ""
+msgstr "Upper River"
 
 msgid "Beyla"
-msgstr ""
+msgstr "Beyla"
 
 msgid "Boffa"
-msgstr ""
+msgstr "Boffa"
 
 msgid "Boke"
-msgstr ""
+msgstr "Boke"
 
 msgid "Coyah"
-msgstr ""
+msgstr "Coyah"
 
 msgid "Dabola"
-msgstr ""
+msgstr "Dabola"
 
 msgid "Dalaba"
-msgstr ""
+msgstr "Dalaba"
 
 msgid "Dinguiraye"
-msgstr ""
+msgstr "Dinguiraye"
 
 msgid "Dubreka"
-msgstr ""
+msgstr "Dubreka"
 
 msgid "Faranah"
-msgstr ""
+msgstr "Faranah"
 
 msgid "Forecariah"
-msgstr ""
+msgstr "Forecariah"
 
 msgid "Fria"
-msgstr ""
+msgstr "Fria"
 
 msgid "Gaoual"
-msgstr ""
+msgstr "Gaoual"
 
 msgid "Guekedou"
-msgstr ""
+msgstr "Guekedou"
 
 msgid "Kankan"
-msgstr ""
+msgstr "Kankan"
 
 msgid "Kerouane"
-msgstr ""
+msgstr "Kerouane"
 
 msgid "Kindia"
-msgstr ""
+msgstr "Kindia"
 
 msgid "Kissidougou"
-msgstr ""
+msgstr "Kissidougou"
 
 msgid "Koubia"
-msgstr ""
+msgstr "Koubia"
 
 msgid "Koundara"
-msgstr ""
+msgstr "Koundara"
 
 msgid "Kouroussa"
-msgstr ""
+msgstr "Kouroussa"
 
 msgid "Labe"
-msgstr ""
+msgstr "Labe"
 
 msgid "Lelouma"
-msgstr ""
+msgstr "Lelouma"
 
 msgid "Lola"
-msgstr ""
+msgstr "Lola"
 
 msgid "Macenta"
-msgstr ""
+msgstr "Macenta"
 
 msgid "Mali"
-msgstr ""
+msgstr "Mali"
 
 msgid "Mamou"
-msgstr ""
+msgstr "Mamou"
 
 msgid "Mandiana"
-msgstr ""
+msgstr "Mandiana"
 
 msgid "Nzerekore"
-msgstr ""
+msgstr "Nzerekore"
 
 msgid "Pita"
-msgstr ""
+msgstr "Pita"
 
 msgid "Siguiri"
-msgstr ""
+msgstr "Siguiri"
 
 msgid "Telimele"
-msgstr ""
+msgstr "Telimele"
 
 msgid "Tougue"
-msgstr ""
+msgstr "Tougue"
 
 msgid "Yomou"
-msgstr ""
+msgstr "Yomou"
 
 msgid "Region Continental"
-msgstr ""
+msgstr "Region Continental"
 
 msgid "Region Insular"
-msgstr ""
+msgstr "Region Insular"
 
 msgid "Annobon"
-msgstr ""
+msgstr "Annobon"
 
 msgid "Bioko Norte"
-msgstr ""
+msgstr "Bioko Norte"
 
 msgid "Bioko Sur"
-msgstr ""
+msgstr "Bioko Sur"
 
 msgid "Centro Sur"
-msgstr ""
+msgstr "Centro Sur"
 
 msgid "Kie-Ntem"
-msgstr ""
+msgstr "Kie-Ntem"
 
 msgid "Litoral"
-msgstr ""
+msgstr "Litoral"
 
 msgid "Wele-Nzas"
-msgstr ""
+msgstr "Wele-Nzas"
 
 msgid "Achaa"
-msgstr ""
+msgstr "Achaa"
 
 msgid "Aitolia-Akarnania"
-msgstr ""
+msgstr "Aitolia-Akarnania"
 
 msgid "Argolis"
-msgstr ""
+msgstr "Argolis"
 
 msgid "Arkadia"
-msgstr ""
+msgstr "Arkadia"
 
 msgid "Arta"
-msgstr ""
+msgstr "Arta"
 
 msgid "Attiki"
-msgstr ""
+msgstr "Attiki"
 
 msgid "Chalkidiki"
-msgstr ""
+msgstr "Chalkidiki"
 
 msgid "Chania"
-msgstr ""
+msgstr "Chania"
 
 msgid "Chios"
-msgstr ""
+msgstr "Chios"
 
 msgid "Dodekanisos"
-msgstr ""
+msgstr "Dodekanisos"
 
 msgid "Drama"
-msgstr ""
+msgstr "Drama"
 
 msgid "Evros"
-msgstr ""
+msgstr "Evros"
 
 msgid "Evrytania"
-msgstr ""
+msgstr "Evrytania"
 
 msgid "Evvoia"
-msgstr ""
+msgstr "Evvoia"
 
 msgid "Florina"
-msgstr ""
+msgstr "Florina"
 
 msgid "Fokis"
-msgstr ""
+msgstr "Fokis"
 
 msgid "Fthiotis"
-msgstr ""
+msgstr "Fthiotis"
 
 msgid "Grevena"
-msgstr ""
+msgstr "Grevena"
 
 msgid "Ileia"
-msgstr ""
+msgstr "Ileia"
 
 msgid "Imathia"
-msgstr ""
+msgstr "Imathia"
 
 msgid "Ioannina"
-msgstr ""
+msgstr "Ioannina"
 
 msgid "Irakleion"
-msgstr ""
+msgstr "Irakleion"
 
 msgid "Karditsa"
-msgstr ""
+msgstr "Karditsa"
 
 msgid "Kastoria"
-msgstr ""
+msgstr "Kastoria"
 
 msgid "Kavalla"
-msgstr ""
+msgstr "Kavalla"
 
 msgid "Kefallinia"
-msgstr ""
+msgstr "Kefallinia"
 
 msgid "Kerkyra"
-msgstr ""
+msgstr "Kerkyra"
 
 msgid "Kilkis"
-msgstr ""
+msgstr "Kilkis"
 
 msgid "Korinthia"
-msgstr ""
+msgstr "Korinthia"
 
 msgid "Kozani"
-msgstr ""
+msgstr "Kozani"
 
 msgid "Kyklades"
-msgstr ""
+msgstr "Kyklades"
 
 msgid "Lakonia"
-msgstr ""
+msgstr "Lakonia"
 
 msgid "Larisa"
-msgstr ""
+msgstr "Larisa"
 
 msgid "Lasithion"
-msgstr ""
+msgstr "Lasithion"
 
 msgid "Lefkas"
-msgstr ""
+msgstr "Lefkas"
 
 msgid "Lesvos"
-msgstr ""
+msgstr "Lesvos"
 
 msgid "Magnisia"
-msgstr ""
+msgstr "Magnisia"
 
 msgid "Messinia"
-msgstr ""
+msgstr "Messinia"
 
 msgid "Pella"
-msgstr ""
+msgstr "Pella"
 
 msgid "Preveza"
-msgstr ""
+msgstr "Preveza"
 
 msgid "Rethymnon"
-msgstr ""
+msgstr "Rethymnon"
 
 msgid "Rodopi"
-msgstr ""
+msgstr "Rodopi"
 
 msgid "Samos"
-msgstr ""
+msgstr "Samos"
 
 msgid "Serrai"
-msgstr ""
+msgstr "Serrai"
 
 msgid "Thesprotia"
-msgstr ""
+msgstr "Thesprotia"
 
 msgid "Thessaloniki"
-msgstr ""
+msgstr "Thessaloniki"
 
 msgid "Trikala"
-msgstr ""
+msgstr "Trikala"
 
 msgid "Voiotia"
-msgstr ""
+msgstr "Voiotia"
 
 msgid "Xanthi"
-msgstr ""
+msgstr "Xanthi"
 
 msgid "Zakynthos"
-msgstr ""
+msgstr "Zakynthos"
 
 msgid "Agio Oros"
-msgstr ""
+msgstr "Agio Oros"
 
 msgid "Alta Verapez"
-msgstr ""
+msgstr "Alta Verapez"
 
 msgid "Baja Verapez"
-msgstr ""
+msgstr "Baja Verapez"
 
 msgid "Chimaltenango"
-msgstr ""
+msgstr "Chimaltenango"
 
 msgid "Chiquimula"
-msgstr ""
+msgstr "Chiquimula"
 
 msgid "El Progreso"
-msgstr ""
+msgstr "El Progreso"
 
 msgid "Escuintla"
-msgstr ""
+msgstr "Escuintla"
 
 msgid "Guatemala"
 msgstr "Guatemala"
 
 msgid "Huehuetenango"
-msgstr ""
+msgstr "Huehuetenango"
 
 msgid "Izabal"
-msgstr ""
+msgstr "Izabal"
 
 msgid "Jalapa"
-msgstr ""
+msgstr "Jalapa"
 
 msgid "Jutiapa"
-msgstr ""
+msgstr "Jutiapa"
 
 msgid "Peten"
-msgstr ""
+msgstr "Peten"
 
 msgid "Quetzaltenango"
-msgstr ""
+msgstr "Quetzaltenango"
 
 msgid "Quiche"
-msgstr ""
+msgstr "Quiche"
 
 msgid "Reta.thuleu"
-msgstr ""
+msgstr "Reta.thuleu"
 
 msgid "Sacatepequez"
-msgstr ""
+msgstr "Sacatepequez"
 
 msgid "San Marcos"
-msgstr ""
+msgstr "San Marcos"
 
 msgid "Santa Rosa"
-msgstr ""
+msgstr "Santa Rosa"
 
 msgid "Solol6"
-msgstr ""
+msgstr "Solol6"
 
 msgid "Suchitepequez"
-msgstr ""
+msgstr "Suchitepequez"
 
 msgid "Totonicapan"
-msgstr ""
+msgstr "Totonicapan"
 
 msgid "Zacapa"
-msgstr ""
+msgstr "Zacapa"
 
 msgid "Bissau"
-msgstr ""
+msgstr "Bissau"
 
 msgid "Bafata"
-msgstr ""
+msgstr "Bafata"
 
 msgid "Biombo"
-msgstr ""
+msgstr "Biombo"
 
 msgid "Bolama"
-msgstr ""
+msgstr "Bolama"
 
 msgid "Cacheu"
-msgstr ""
+msgstr "Cacheu"
 
 msgid "Gabu"
-msgstr ""
+msgstr "Gabu"
 
 msgid "Oio"
-msgstr ""
+msgstr "Oio"
 
 msgid "Quloara"
-msgstr ""
+msgstr "Quloara"
 
 msgid "Tombali S"
-msgstr ""
+msgstr "Tombali S"
 
 msgid "Barima-Waini"
-msgstr ""
+msgstr "Barima-Waini"
 
 msgid "Cuyuni-Mazaruni"
-msgstr ""
+msgstr "Cuyuni-Mazaruni"
 
 msgid "Demerara-Mahaica"
-msgstr ""
+msgstr "Demerara-Mahaica"
 
 msgid "East Berbice-Corentyne"
-msgstr ""
+msgstr "East Berbice-Corentyne"
 
 msgid "Essequibo Islands-West Demerara"
-msgstr ""
+msgstr "Essequibo Islands-West Demerara"
 
 msgid "Mahaica-Berbice"
-msgstr ""
+msgstr "Mahaica-Berbice"
 
 msgid "Pomeroon-Supenaam"
-msgstr ""
+msgstr "Pomeroon-Supenaam"
 
 msgid "Potaro-Siparuni"
-msgstr ""
+msgstr "Potaro-Siparuni"
 
 msgid "Upper Demerara-Berbice"
-msgstr ""
+msgstr "Upper Demerara-Berbice"
 
 msgid "Upper Takutu-Upper Essequibo"
-msgstr ""
+msgstr "Upper Takutu-Upper Essequibo"
 
 msgid "Atlantida"
-msgstr ""
+msgstr "Atlantida"
 
 msgid "Colon"
-msgstr ""
+msgstr "Colon"
 
 msgid "Comayagua"
-msgstr ""
+msgstr "Comayagua"
 
 msgid "Copan"
-msgstr ""
+msgstr "Copan"
 
 msgid "Cortes"
-msgstr ""
+msgstr "Cortes"
 
 msgid "Choluteca"
-msgstr ""
+msgstr "Choluteca"
 
 msgid "El Paraiso"
-msgstr ""
+msgstr "El Paraiso"
 
 msgid "Francisco Morazan"
-msgstr ""
+msgstr "Francisco Morazan"
 
 msgid "Gracias a Dios"
-msgstr ""
+msgstr "Gracias a Dios"
 
 msgid "Intibuca"
-msgstr ""
+msgstr "Intibuca"
 
 msgid "Islas de la Bahia"
-msgstr ""
+msgstr "Islas de la Bahia"
 
 msgid "Lempira"
-msgstr ""
+msgstr "Lempira"
 
 msgid "Ocotepeque"
-msgstr ""
+msgstr "Ocotepeque"
 
 msgid "Olancho"
-msgstr ""
+msgstr "Olancho"
 
 msgid "Santa Barbara"
-msgstr ""
+msgstr "Santa Barbara"
 
 msgid "Valle"
-msgstr ""
+msgstr "Valle"
 
 msgid "Yoro"
-msgstr ""
+msgstr "Yoro"
 
 msgid "Bjelovarsko-bilogorska zupanija"
-msgstr ""
+msgstr "Bjelovarsko-bilogorska zupanija"
 
 msgid "Brodsko-posavska zupanija"
-msgstr ""
+msgstr "Brodsko-posavska zupanija"
 
 msgid "Dubrovacko-neretvanska zupanija"
-msgstr ""
+msgstr "Dubrovacko-neretvanska zupanija"
 
 msgid "Istarska zupanija"
-msgstr ""
+msgstr "Istarska zupanija"
 
 msgid "Karlovacka zupanija"
-msgstr ""
+msgstr "Karlovacka zupanija"
 
 msgid "Koprivnickco-krizevacka zupanija"
-msgstr ""
+msgstr "Koprivnickco-krizevacka zupanija"
 
 msgid "Krapinako-zagorska zupanija"
-msgstr ""
+msgstr "Krapinako-zagorska zupanija"
 
 msgid "Licko-senjska zupanija"
-msgstr ""
+msgstr "Licko-senjska zupanija"
 
 msgid "Medimurska zupanija"
-msgstr ""
+msgstr "Medimurska zupanija"
 
 msgid "Osjecko-baranjska zupanija"
-msgstr ""
+msgstr "Osjecko-baranjska zupanija"
 
 msgid "Pozesko-slavonska zupanija"
-msgstr ""
+msgstr "Pozesko-slavonska zupanija"
 
 msgid "Primorsko-goranska zupanija"
-msgstr ""
+msgstr "Primorsko-goranska zupanija"
 
 msgid "Sisacko-moelavacka Iupanija"
-msgstr ""
+msgstr "Sisacko-moelavacka Iupanija"
 
 msgid "Splitako-dalmatinska zupanija"
-msgstr ""
+msgstr "Splitako-dalmatinska zupanija"
 
 msgid "Sibenako-kninska zupanija"
-msgstr ""
+msgstr "Sibenako-kninska zupanija"
 
 msgid "Varaidinska zupanija"
-msgstr ""
+msgstr "Varaidinska zupanija"
 
 msgid "VirovitiEko-podravska zupanija"
-msgstr ""
+msgstr "VirovitiEko-podravska zupanija"
 
 msgid "VuRovarako-srijemska zupanija"
-msgstr ""
+msgstr "VuRovarako-srijemska zupanija"
 
 msgid "Zadaraka"
-msgstr ""
+msgstr "Zadaraka"
 
 msgid "Zagrebacka zupanija"
-msgstr ""
+msgstr "Zagrebacka zupanija"
 
 msgid "Grande-Anse"
-msgstr ""
+msgstr "Grande-Anse"
 
 msgid "Nord-Eat"
-msgstr ""
+msgstr "Nord-Eat"
 
 msgid "Nord-Ouest"
-msgstr ""
+msgstr "Nord-Ouest"
 
 msgid "Ouest"
-msgstr ""
+msgstr "Ouest"
 
 msgid "Sud"
-msgstr ""
+msgstr "Sud"
 
 msgid "Sud-Est"
-msgstr ""
+msgstr "Sud-Est"
 
 msgid "Budapest"
-msgstr ""
+msgstr "Budapest"
 
 msgid "Bács-Kiskun"
-msgstr ""
+msgstr "Bács-Kiskun"
 
 msgid "Baranya"
-msgstr ""
+msgstr "Baranya"
 
 msgid "Békés"
-msgstr ""
+msgstr "Békés"
 
 msgid "Borsod-Abaúj-Zemplén"
-msgstr ""
+msgstr "Borsod-Abaúj-Zemplén"
 
 msgid "Csongrád"
-msgstr ""
+msgstr "Csongrád"
 
 msgid "Fejér"
-msgstr ""
+msgstr "Fejér"
 
 msgid "Győr-Moson-Sopron"
-msgstr ""
+msgstr "Győr-Moson-Sopron"
 
 msgid "Hajdu-Bihar"
-msgstr ""
+msgstr "Hajdu-Bihar"
 
 msgid "Heves"
-msgstr ""
+msgstr "Heves"
 
 msgid "Jász-Nagykun-Szolnok"
-msgstr ""
+msgstr "Jász-Nagykun-Szolnok"
 
 msgid "Komárom-Esztergom"
-msgstr ""
+msgstr "Komárom-Esztergom"
 
 msgid "Nográd"
-msgstr ""
+msgstr "Nográd"
 
 msgid "Pest"
-msgstr ""
+msgstr "Pest"
 
 msgid "Somogy"
-msgstr ""
+msgstr "Somogy"
 
 msgid "Szabolcs-Szatmár-Bereg"
-msgstr ""
+msgstr "Szabolcs-Szatmár-Bereg"
 
 msgid "Tolna"
-msgstr ""
+msgstr "Tolna"
 
 msgid "Vas"
-msgstr ""
+msgstr "Vas"
 
 msgid "Veszprém"
-msgstr ""
+msgstr "Veszprém"
 
 msgid "Zala"
-msgstr ""
+msgstr "Zala"
 
 msgid "Békéscsaba"
-msgstr ""
+msgstr "Békéscsaba"
 
 msgid "Debrecen"
-msgstr ""
+msgstr "Debrecen"
 
 msgid "Dunaújváros"
-msgstr ""
+msgstr "Dunaújváros"
 
 msgid "Eger"
-msgstr ""
+msgstr "Eger"
 
 msgid "Győr"
-msgstr ""
+msgstr "Győr"
 
 msgid "Hódmezővásárhely"
-msgstr ""
+msgstr "Hódmezővásárhely"
 
 msgid "Kaposvár"
-msgstr ""
+msgstr "Kaposvár"
 
 msgid "Kecskemét"
-msgstr ""
+msgstr "Kecskemét"
 
 msgid "Miskolc"
-msgstr ""
+msgstr "Miskolc"
 
 msgid "Nagykanizsa"
-msgstr ""
+msgstr "Nagykanizsa"
 
 msgid "Nyiregyháza"
-msgstr ""
+msgstr "Nyiregyháza"
 
 msgid "Pécs"
-msgstr ""
+msgstr "Pécs"
 
 msgid "Salgótarján"
-msgstr ""
+msgstr "Salgótarján"
 
 msgid "Sopron"
-msgstr ""
+msgstr "Sopron"
 
 msgid "Szeged"
-msgstr ""
+msgstr "Szeged"
 
 msgid "Székesfehérvár"
-msgstr ""
+msgstr "Székesfehérvár"
 
 msgid "Szekszárd"
-msgstr ""
+msgstr "Szekszárd"
 
 msgid "Szolnok"
-msgstr ""
+msgstr "Szolnok"
 
 msgid "Szombathely"
-msgstr ""
+msgstr "Szombathely"
 
 msgid "Tatabánya"
-msgstr ""
+msgstr "Tatabánya"
 
 msgid "Zalaegerszeg"
-msgstr ""
+msgstr "Zalaegerszeg"
 
 msgid "Bali"
-msgstr ""
+msgstr "Bali"
 
 msgid "Bangka Belitung"
-msgstr ""
+msgstr "Bangka Belitung"
 
 msgid "Banten"
-msgstr ""
+msgstr "Banten"
 
 msgid "Bengkulu"
-msgstr ""
+msgstr "Bengkulu"
 
 msgid "Gorontalo"
-msgstr ""
+msgstr "Gorontalo"
 
 msgid "Irian Jaya"
-msgstr ""
+msgstr "Irian Jaya"
 
 msgid "Jambi"
-msgstr ""
+msgstr "Jambi"
 
 msgid "Jawa Barat"
-msgstr ""
+msgstr "Jawa Barat"
 
 msgid "Jawa Tengah"
-msgstr ""
+msgstr "Jawa Tengah"
 
 msgid "Jawa Timur"
-msgstr ""
+msgstr "Jawa Timur"
 
 msgid "Kalimantan Barat"
-msgstr ""
+msgstr "Kalimantan Barat"
 
 msgid "Kalimantan Timur"
-msgstr ""
+msgstr "Kalimantan Timur"
 
 msgid "Kalimantan Selatan"
-msgstr ""
+msgstr "Kalimantan Selatan"
 
 msgid "Kepulauan Riau"
-msgstr ""
+msgstr "Kepulauan Riau"
 
 msgid "Lampung"
-msgstr ""
+msgstr "Lampung"
 
 msgid "Maluku"
-msgstr ""
+msgstr "Maluku"
 
 msgid "Maluku Utara"
-msgstr ""
+msgstr "Maluku Utara"
 
 msgid "Nusa Tenggara Barat"
-msgstr ""
+msgstr "Nusa Tenggara Barat"
 
 msgid "Nusa Tenggara Timur"
-msgstr ""
+msgstr "Nusa Tenggara Timur"
 
 msgid "Papua"
-msgstr ""
+msgstr "Papua"
 
 msgid "Riau"
-msgstr ""
+msgstr "Riau"
 
 msgid "Sulawesi Selatan"
-msgstr ""
+msgstr "Sulawesi Selatan"
 
 msgid "Sulawesi Tengah"
-msgstr ""
+msgstr "Sulawesi Tengah"
 
 msgid "Sulawesi Tenggara"
-msgstr ""
+msgstr "Sulawesi Tenggara"
 
 msgid "Sulawesi Utara"
-msgstr ""
+msgstr "Sulawesi Utara"
 
 msgid "Sumatra Barat"
-msgstr ""
+msgstr "Sumatra Barat"
 
 msgid "Sumatra Selatan"
-msgstr ""
+msgstr "Sumatra Selatan"
 
 msgid "Sumatera Utara"
-msgstr ""
+msgstr "Sumatera Utara"
 
 msgid "Jakarta Raya"
-msgstr ""
+msgstr "Jakarta Raya"
 
 msgid "Aceh"
-msgstr ""
+msgstr "Aceh"
 
 msgid "Yogyakarta"
-msgstr ""
+msgstr "Yogyakarta"
 
 msgid "Cork"
-msgstr ""
+msgstr "Cork"
 
 msgid "Clare"
-msgstr ""
+msgstr "Clare"
 
 msgid "Cavan"
-msgstr ""
+msgstr "Cavan"
 
 msgid "Carlow"
-msgstr ""
+msgstr "Carlow"
 
 msgid "Dublin"
-msgstr ""
+msgstr "Dublin"
 
 msgid "Donegal"
-msgstr ""
+msgstr "Donegal"
 
 msgid "Galway"
-msgstr ""
+msgstr "Galway"
 
 msgid "Kildare"
-msgstr ""
+msgstr "Kildare"
 
 msgid "Kilkenny"
-msgstr ""
+msgstr "Kilkenny"
 
 msgid "Kerry"
-msgstr ""
+msgstr "Kerry"
 
 msgid "Longford"
-msgstr ""
+msgstr "Longford"
 
 msgid "Louth"
-msgstr ""
+msgstr "Louth"
 
 msgid "Limerick"
-msgstr ""
+msgstr "Limerick"
 
 msgid "Leitrim"
-msgstr ""
+msgstr "Leitrim"
 
 msgid "Laois"
-msgstr ""
+msgstr "Laois"
 
 msgid "Meath"
-msgstr ""
+msgstr "Meath"
 
 msgid "Monaghan"
-msgstr ""
+msgstr "Monaghan"
 
 msgid "Mayo"
-msgstr ""
+msgstr "Mayo"
 
 msgid "Offaly"
-msgstr ""
+msgstr "Offaly"
 
 msgid "Roscommon"
-msgstr ""
+msgstr "Roscommon"
 
 msgid "Sligo"
-msgstr ""
+msgstr "Sligo"
 
 msgid "Tipperary"
-msgstr ""
+msgstr "Tipperary"
 
 msgid "Waterford"
-msgstr ""
+msgstr "Waterford"
 
 msgid "Westmeath"
-msgstr ""
+msgstr "Westmeath"
 
 msgid "Wicklow"
-msgstr ""
+msgstr "Wicklow"
 
 msgid "Wexford"
-msgstr ""
+msgstr "Wexford"
 
 msgid "HaDarom"
-msgstr ""
+msgstr "HaDarom"
 
 msgid "HaMerkaz"
-msgstr ""
+msgstr "HaMerkaz"
 
 msgid "HaZafon"
-msgstr ""
+msgstr "HaZafon"
 
 msgid "Hefa"
-msgstr ""
+msgstr "Hefa"
 
 msgid "Tel-Aviv"
-msgstr ""
+msgstr "Tel-Aviv"
 
 msgid "Yerushalayim Al Quds"
-msgstr ""
+msgstr "Yerushalayim Al Quds"
 
 msgid "Al Anbar"
-msgstr ""
+msgstr "Al Anbar"
 
 msgid "Al Ba,rah"
-msgstr ""
+msgstr "Al Ba,rah"
 
 msgid "Al Muthanna"
-msgstr ""
+msgstr "Al Muthanna"
 
 msgid "Al Qadisiyah"
-msgstr ""
+msgstr "Al Qadisiyah"
 
 msgid "An Najef"
-msgstr ""
+msgstr "An Najef"
 
 msgid "Arbil"
-msgstr ""
+msgstr "Arbil"
 
 msgid "As Sulaymaniyah"
-msgstr ""
+msgstr "As Sulaymaniyah"
 
 msgid "At Ta'mim"
-msgstr ""
+msgstr "At Ta'mim"
 
 msgid "Babil"
-msgstr ""
+msgstr "Babil"
 
 msgid "Baghdad"
-msgstr ""
+msgstr "Baghdad"
 
 msgid "Dahuk"
-msgstr ""
+msgstr "Dahuk"
 
 msgid "Dhi Qar"
-msgstr ""
+msgstr "Dhi Qar"
 
 msgid "Diyala"
-msgstr ""
+msgstr "Diyala"
 
 msgid "Karbala'"
-msgstr ""
+msgstr "Karbala'"
 
 msgid "Maysan"
-msgstr ""
+msgstr "Maysan"
 
 msgid "Ninawa"
-msgstr ""
+msgstr "Ninawa"
 
 msgid "Salah ad Din"
-msgstr ""
+msgstr "Salah ad Din"
 
 msgid "Wasit"
-msgstr ""
+msgstr "Wasit"
 
 msgid "Ardabil"
-msgstr ""
+msgstr "Ardabil"
 
 msgid "Azarbayjan-e Gharbi"
-msgstr ""
+msgstr "Azarbayjan-e Gharbi"
 
 msgid "Azarbayjan-e Sharqi"
-msgstr ""
+msgstr "Azarbayjan-e Sharqi"
 
 msgid "Bushehr"
-msgstr ""
+msgstr "Bushehr"
 
 msgid "Chahar Mahall va Bakhtiari"
-msgstr ""
+msgstr "Chahar Mahall va Bakhtiari"
 
 msgid "Esfahan"
-msgstr ""
+msgstr "Esfahan"
 
 msgid "Fars"
-msgstr ""
+msgstr "Fars"
 
 msgid "Gilan"
-msgstr ""
+msgstr "Gilan"
 
 msgid "Golestan"
-msgstr ""
+msgstr "Golestan"
 
 msgid "Hamadan"
-msgstr ""
+msgstr "Hamadan"
 
 msgid "Hormozgan"
-msgstr ""
+msgstr "Hormozgan"
 
 msgid "Iiam"
-msgstr ""
+msgstr "Iiam"
 
 msgid "Kerman"
-msgstr ""
+msgstr "Kerman"
 
 msgid "Kermanshah"
-msgstr ""
+msgstr "Kermanshah"
 
 msgid "Khorasan"
-msgstr ""
+msgstr "Khorasan"
 
 msgid "Khuzestan"
-msgstr ""
+msgstr "Khuzestan"
 
 msgid "Kohjiluyeh va Buyer Ahmad"
-msgstr ""
+msgstr "Kohjiluyeh va Buyer Ahmad"
 
 msgid "Kordestan"
-msgstr ""
+msgstr "Kordestan"
 
 msgid "Lorestan"
-msgstr ""
+msgstr "Lorestan"
 
 msgid "Markazi"
-msgstr ""
+msgstr "Markazi"
 
 msgid "Mazandaran"
-msgstr ""
+msgstr "Mazandaran"
 
 msgid "Qazvin"
-msgstr ""
+msgstr "Qazvin"
 
 msgid "Qom"
-msgstr ""
+msgstr "Qom"
 
 msgid "Semnan"
-msgstr ""
+msgstr "Semnan"
 
 msgid "Sistan va Baluchestan"
-msgstr ""
+msgstr "Sistan va Baluchestan"
 
 msgid "Tehran"
-msgstr ""
+msgstr "Tehran"
 
 msgid "Yazd"
-msgstr ""
+msgstr "Yazd"
 
 msgid "Zanjan"
-msgstr ""
+msgstr "Zanjan"
 
 msgid "Austurland"
-msgstr ""
+msgstr "Austurland"
 
 msgid "Hofuoborgarsvaeoi utan Reykjavikur"
-msgstr ""
+msgstr "Hofuoborgarsvaeoi utan Reykjavikur"
 
 msgid "Norourland eystra"
-msgstr ""
+msgstr "Norourland eystra"
 
 msgid "Norourland vestra"
-msgstr ""
+msgstr "Norourland vestra"
 
 msgid "Reykjavik"
-msgstr ""
+msgstr "Reykjavik"
 
 msgid "Suourland"
-msgstr ""
+msgstr "Suourland"
 
 msgid "Suournes"
-msgstr ""
+msgstr "Suournes"
 
 msgid "Vestfirolr"
-msgstr ""
+msgstr "Vestfirolr"
 
 msgid "Vesturland"
-msgstr ""
+msgstr "Vesturland"
 
 msgid "Agrigento"
-msgstr ""
+msgstr "Agrigento"
 
 msgid "Alessandria"
-msgstr ""
+msgstr "Alexandria"
 
 msgid "Ancona"
-msgstr ""
+msgstr "Ancona"
 
 msgid "Aosta"
-msgstr ""
+msgstr "Aosta"
 
 msgid "Arezzo"
-msgstr ""
+msgstr "Arezzo"
 
 msgid "Ascoli Piceno"
-msgstr ""
+msgstr "Ascoli Piceno"
 
 msgid "Asti"
-msgstr ""
+msgstr "Asti"
 
 msgid "Avellino"
-msgstr ""
+msgstr "Avellino"
 
 msgid "Bari"
-msgstr ""
+msgstr "Bari"
 
 msgid "Belluno"
-msgstr ""
+msgstr "Belluno"
 
 msgid "Benevento"
-msgstr ""
+msgstr "Benevento"
 
 msgid "Bergamo"
-msgstr ""
+msgstr "Bergamo"
 
 msgid "Biella"
-msgstr ""
+msgstr "Biella"
 
 msgid "Bologna"
-msgstr ""
+msgstr "Bolonha"
 
 msgid "Bolzano"
-msgstr ""
+msgstr "Bolzano"
 
 msgid "Brescia"
-msgstr ""
+msgstr "Brescia"
 
 msgid "Brindisi"
-msgstr ""
+msgstr "Brindisi"
 
 msgid "Cagliari"
-msgstr ""
+msgstr "Cagliari"
 
 msgid "Caltanissetta"
-msgstr ""
+msgstr "Caltanissetta"
 
 msgid "Campobasso"
-msgstr ""
+msgstr "Campobasso"
 
 msgid "Caserta"
-msgstr ""
+msgstr "Caserta"
 
 msgid "Catania"
-msgstr ""
+msgstr "Catania"
 
 msgid "Catanzaro"
-msgstr ""
+msgstr "Catanzaro"
 
 msgid "Chieti"
-msgstr ""
+msgstr "Chieti"
 
 msgid "Como"
-msgstr ""
+msgstr "Como"
 
 msgid "Cosenza"
-msgstr ""
+msgstr "Cosenza"
 
 msgid "Cremona"
-msgstr ""
+msgstr "Cremona"
 
 msgid "Crotone"
-msgstr ""
+msgstr "Crotone"
 
 msgid "Cuneo"
-msgstr ""
+msgstr "Cuneo"
 
 msgid "Enna"
-msgstr ""
+msgstr "Enna"
 
 msgid "Ferrara"
-msgstr ""
+msgstr "Ferrara"
 
 msgid "Firenze"
-msgstr ""
+msgstr "Florença"
 
 msgid "Foggia"
-msgstr ""
+msgstr "Foggia"
 
 msgid "Forli"
-msgstr ""
+msgstr "Forli"
 
 msgid "Frosinone"
-msgstr ""
+msgstr "Frosinone"
 
 msgid "Genova"
-msgstr ""
+msgstr "Genova"
 
 msgid "Gorizia"
-msgstr ""
+msgstr "Gorizia"
 
 msgid "Grosseto"
-msgstr ""
+msgstr "Grosseto"
 
 msgid "Imperia"
-msgstr ""
+msgstr "Imperia"
 
 msgid "Isernia"
-msgstr ""
+msgstr "Isernia"
 
 msgid "L'Aquila"
-msgstr ""
+msgstr "L'Aquila"
 
 msgid "La Spezia"
-msgstr ""
+msgstr "La Spezia"
 
 msgid "Latina"
-msgstr ""
+msgstr "Latina"
 
 msgid "Lecce"
-msgstr ""
+msgstr "Lecce"
 
 msgid "Lecco"
-msgstr ""
+msgstr "Lecco"
 
 msgid "Livorno"
-msgstr ""
+msgstr "Livorno"
 
 msgid "Lodi"
-msgstr ""
+msgstr "Lodi"
 
 msgid "Lucca"
-msgstr ""
+msgstr "Lucca"
 
 msgid "Macerata"
 msgstr ""
@@ -6013,829 +6014,829 @@ msgid "Kampong Chhnang"
 msgstr ""
 
 msgid "Kampong Spueu"
-msgstr ""
+msgstr "Kampong Spueu"
 
 msgid "Kampong Thum"
-msgstr ""
+msgstr "Kampong Thum"
 
 msgid "Kampot"
-msgstr ""
+msgstr "Kampot"
 
 msgid "Kandaal"
-msgstr ""
+msgstr "Kandaal"
 
 msgid "Kach Kong"
-msgstr ""
+msgstr "Kach Kong"
 
 msgid "Krachoh"
-msgstr ""
+msgstr "Krachoh"
 
 msgid "Mondol Kiri"
-msgstr ""
+msgstr "Mondol Kiri"
 
 msgid "Otdar Mean Chey"
-msgstr ""
+msgstr "Otdar Mean Chey"
 
 msgid "Pousaat"
-msgstr ""
+msgstr "Pousaat"
 
 msgid "Preah Vihear"
-msgstr ""
+msgstr "Preah Vihear"
 
 msgid "Prey Veaeng"
-msgstr ""
+msgstr "Prey Veaeng"
 
 msgid "Rotanak Kiri"
-msgstr ""
+msgstr "Rotanak Kiri"
 
 msgid "Siem Reab"
-msgstr ""
+msgstr "Siem Reab"
 
 msgid "Stueng Traeng"
-msgstr ""
+msgstr "Stueng Traeng"
 
 msgid "Svaay Rieng"
-msgstr ""
+msgstr "Svaay Rieng"
 
 msgid "Taakaev"
-msgstr ""
+msgstr "Taakaev"
 
 msgid "Gilbert Islands"
-msgstr ""
+msgstr "Gilbert Islands"
 
 msgid "Line Islands"
-msgstr ""
+msgstr "Line Islands"
 
 msgid "Phoenix Islands"
-msgstr ""
+msgstr "Phoenix Islands"
 
 msgid "Anjouan Ndzouani"
-msgstr ""
+msgstr "Anjouan Ndzouani"
 
 msgid "Grande Comore Ngazidja"
-msgstr ""
+msgstr "Grande Comore Ngazidja"
 
 msgid "Moheli Moili"
-msgstr ""
+msgstr "Moheli Moili"
 
 msgid "Kaesong-si"
-msgstr ""
+msgstr "Kaesong-si"
 
 msgid "Nampo-si"
-msgstr ""
+msgstr "Nampo-si"
 
 msgid "Pyongyang-ai"
-msgstr ""
+msgstr "Pyongyang-ai"
 
 msgid "Chagang-do"
-msgstr ""
+msgstr "Chagang-do"
 
 msgid "Hamgyongbuk-do"
-msgstr ""
+msgstr "Hamgyongbuk-do"
 
 msgid "Hamgyongnam-do"
-msgstr ""
+msgstr "Hamgyongnam-do"
 
 msgid "Hwanghaebuk-do"
-msgstr ""
+msgstr "Hwanghaebuk-do"
 
 msgid "Hwanghaenam-do"
-msgstr ""
+msgstr "Hwanghaenam-do"
 
 msgid "Kangwon-do"
-msgstr ""
+msgstr "Kangwon-do"
 
 msgid "Pyonganbuk-do"
-msgstr ""
+msgstr "Pyonganbuk-do"
 
 msgid "Pyongannam-do"
-msgstr ""
+msgstr "Pyongannam-do"
 
 msgid "Yanggang-do"
-msgstr ""
+msgstr "Yanggang-do"
 
 msgid "Najin Sonbong-si"
-msgstr ""
+msgstr "Najin Sonbong-si"
 
 msgid "Seoul Teugbyeolsi"
-msgstr ""
+msgstr "Seoul Teugbyeolsi"
 
 msgid "Busan Gwang'yeogsi"
-msgstr ""
+msgstr "Busan Gwang'yeogsi"
 
 msgid "Daegu Gwang'yeogsi"
-msgstr ""
+msgstr "Daegu Gwang'yeogsi"
 
 msgid "Daejeon Gwang'yeogsi"
-msgstr ""
+msgstr "Daejeon Gwang'yeogsi"
 
 msgid "Gwangju Gwang'yeogsi"
-msgstr ""
+msgstr "Gwangju Gwang'yeogsi"
 
 msgid "Incheon Gwang'yeogsi"
-msgstr ""
+msgstr "Incheon Gwang'yeogsi"
 
 msgid "Ulsan Gwang'yeogsi"
-msgstr ""
+msgstr "Ulsan Gwang'yeogsi"
 
 msgid "Chungcheongbugdo"
-msgstr ""
+msgstr "Chungcheongbugdo"
 
 msgid "Chungcheongnamdo"
-msgstr ""
+msgstr "Chungcheongnamdo"
 
 msgid "Gang'weondo"
-msgstr ""
+msgstr "Gang'weondo"
 
 msgid "Gyeonggido"
-msgstr ""
+msgstr "Gyeonggido"
 
 msgid "Gyeongsangbugdo"
-msgstr ""
+msgstr "Gyeongsangbugdo"
 
 msgid "Gyeongsangnamdo"
-msgstr ""
+msgstr "Gyeongsangnamdo"
 
 msgid "Jejudo"
-msgstr ""
+msgstr "Jejudo"
 
 msgid "Jeonrabugdo"
-msgstr ""
+msgstr "Jeonrabugdo"
 
 msgid "Jeonranamdo"
-msgstr ""
+msgstr "Jeonranamdo"
 
 msgid "Al Ahmadi"
-msgstr ""
+msgstr "Al Ahmadi"
 
 msgid "Al Farwanlyah"
-msgstr ""
+msgstr "Al Farwanlyah"
 
 msgid "Al Jahrah"
-msgstr ""
+msgstr "Al Jahrah"
 
 msgid "Al Kuwayt"
-msgstr ""
+msgstr "Al Kuwayt"
 
 msgid "Hawalli"
-msgstr ""
+msgstr "Hawalli"
 
 msgid "Almaty"
-msgstr ""
+msgstr "Almaty"
 
 msgid "Astana"
-msgstr ""
+msgstr "Astana"
 
 msgid "Almaty oblysy"
-msgstr ""
+msgstr "Almaty oblysy"
 
 msgid "Aqmola oblysy"
-msgstr ""
+msgstr "Aqmola oblysy"
 
 msgid "Aqtobe oblysy"
-msgstr ""
+msgstr "Aqtobe oblysy"
 
 msgid "Atyrau oblyfiy"
-msgstr ""
+msgstr "Atyrau oblyfiy"
 
 msgid "Batys Quzaqstan oblysy"
-msgstr ""
+msgstr "Batys Quzaqstan oblysy"
 
 msgid "Mangghystau oblysy"
-msgstr ""
+msgstr "Mangghystau oblysy"
 
 msgid "Ongtustik Quzaqstan oblysy"
-msgstr ""
+msgstr "Ongtustik Quzaqstan oblysy"
 
 msgid "Pavlodar oblysy"
-msgstr ""
+msgstr "Pavlodar oblysy"
 
 msgid "Qaraghandy oblysy"
-msgstr ""
+msgstr "Qaraghandy oblysy"
 
 msgid "Qostanay oblysy"
-msgstr ""
+msgstr "Qostanay oblysy"
 
 msgid "Qyzylorda oblysy"
-msgstr ""
+msgstr "Qyzylorda oblysy"
 
 msgid "Shyghys Quzaqstan oblysy"
-msgstr ""
+msgstr "Shyghys Quzaqstan oblysy"
 
 msgid "Soltustik Quzaqstan oblysy"
-msgstr ""
+msgstr "Soltustik Quzaqstan oblysy"
 
 msgid "Zhambyl oblysy Zhambylskaya oblast'"
-msgstr ""
+msgstr "Zhambyl oblysy Zhambylskaya oblast'"
 
 msgid "Vientiane"
-msgstr ""
+msgstr "Vientiane"
 
 msgid "Attapu"
-msgstr ""
+msgstr "Attapu"
 
 msgid "Bokeo"
-msgstr ""
+msgstr "Bokeo"
 
 msgid "Bolikhamxai"
-msgstr ""
+msgstr "Bolikhamxai"
 
 msgid "Champasak"
-msgstr ""
+msgstr "Champasak"
 
 msgid "Houaphan"
-msgstr ""
+msgstr "Houaphan"
 
 msgid "Khammouan"
-msgstr ""
+msgstr "Khammouan"
 
 msgid "Louang Namtha"
-msgstr ""
+msgstr "Louang Namtha"
 
 msgid "Louangphabang"
-msgstr ""
+msgstr "Louangphabang"
 
 msgid "Oudomxai"
-msgstr ""
+msgstr "Oudomxai"
 
 msgid "Phongsali"
-msgstr ""
+msgstr "Phongsali"
 
 msgid "Salavan"
-msgstr ""
+msgstr "Salavan"
 
 msgid "Savannakhet"
-msgstr ""
+msgstr "Savannakhet"
 
 msgid "Xaignabouli"
-msgstr ""
+msgstr "Xaignabouli"
 
 msgid "Xiasomboun"
-msgstr ""
+msgstr "Xiasomboun"
 
 msgid "Xekong"
-msgstr ""
+msgstr "Xekong"
 
 msgid "Xiangkhoang"
-msgstr ""
+msgstr "Xiangkhoang"
 
 msgid "Beirout"
-msgstr ""
+msgstr "Beirout"
 
 msgid "El Begsa"
-msgstr ""
+msgstr "El Begsa"
 
 msgid "Jabal Loubnane"
-msgstr ""
+msgstr "Jabal Loubnane"
 
 msgid "Loubnane ech Chemali"
-msgstr ""
+msgstr "Loubnane ech Chemali"
 
 msgid "Loubnane ej Jnoubi"
-msgstr ""
+msgstr "Loubnane ej Jnoubi"
 
 msgid "Nabatiye"
-msgstr ""
+msgstr "Nabatiye"
 
 msgid "Ampara"
-msgstr ""
+msgstr "Ampara"
 
 msgid "Anuradhapura"
-msgstr ""
+msgstr "Anuradhapura"
 
 msgid "Badulla"
-msgstr ""
+msgstr "Badulla"
 
 msgid "Batticaloa"
-msgstr ""
+msgstr "Batticaloa"
 
 msgid "Colombo"
-msgstr ""
+msgstr "Colombo"
 
 msgid "Galle"
-msgstr ""
+msgstr "Galle"
 
 msgid "Gampaha"
-msgstr ""
+msgstr "Gampaha"
 
 msgid "Hambantota"
-msgstr ""
+msgstr "Hambantota"
 
 msgid "Jaffna"
-msgstr ""
+msgstr "Jaffna"
 
 msgid "Kalutara"
-msgstr ""
+msgstr "Kalutara"
 
 msgid "Kandy"
-msgstr ""
+msgstr "Kandy"
 
 msgid "Kegalla"
-msgstr ""
+msgstr "Kegalla"
 
 msgid "Kilinochchi"
-msgstr ""
+msgstr "Kilinochchi"
 
 msgid "Kurunegala"
-msgstr ""
+msgstr "Kurunegala"
 
 msgid "Mannar"
-msgstr ""
+msgstr "Mannar"
 
 msgid "Matale"
-msgstr ""
+msgstr "Matale"
 
 msgid "Matara"
-msgstr ""
+msgstr "Matara"
 
 msgid "Monaragala"
-msgstr ""
+msgstr "Monaragala"
 
 msgid "Mullaittivu"
-msgstr ""
+msgstr "Mullaittivu"
 
 msgid "Nuwara Eliya"
-msgstr ""
+msgstr "Nuwara Eliya"
 
 msgid "Polonnaruwa"
-msgstr ""
+msgstr "Polonnaruwa"
 
 msgid "Puttalum"
-msgstr ""
+msgstr "Puttalum"
 
 msgid "Ratnapura"
-msgstr ""
+msgstr "Ratnapura"
 
 msgid "Trincomalee"
-msgstr ""
+msgstr "Trincomalee"
 
 msgid "VavunLya"
-msgstr ""
+msgstr "VavunLya"
 
 msgid "Bomi"
-msgstr ""
+msgstr "Bomi"
 
 msgid "Bong"
-msgstr ""
+msgstr "Bong"
 
 msgid "Grand Basaa"
-msgstr ""
+msgstr "Grand Basaa"
 
 msgid "Grand Cape Mount"
-msgstr ""
+msgstr "Grand Cape Mount"
 
 msgid "Grand Gedeh"
-msgstr ""
+msgstr "Grand Gedeh"
 
 msgid "Grand Kru"
-msgstr ""
+msgstr "Grand Kru"
 
 msgid "Lofa"
-msgstr ""
+msgstr "Lofa"
 
 msgid "Margibi"
-msgstr ""
+msgstr "Margibi"
 
 msgid "Montserrado"
-msgstr ""
+msgstr "Montserrado"
 
 msgid "Nimba"
-msgstr ""
+msgstr "Nimba"
 
 msgid "Rivercess"
-msgstr ""
+msgstr "Rivercess"
 
 msgid "Sinoe"
-msgstr ""
+msgstr "Sinoe"
 
 msgid "Berea"
-msgstr ""
+msgstr "Berea"
 
 msgid "Butha-Buthe"
-msgstr ""
+msgstr "Butha-Buthe"
 
 msgid "Leribe"
-msgstr ""
+msgstr "Leribe"
 
 msgid "Mafeteng"
-msgstr ""
+msgstr "Mafeteng"
 
 msgid "Maseru"
-msgstr ""
+msgstr "Maseru"
 
 msgid "Mohale's Hoek"
-msgstr ""
+msgstr "Mohale's Hoek"
 
 msgid "Mokhotlong"
-msgstr ""
+msgstr "Mokhotlong"
 
 msgid "Qacha's Nek"
-msgstr ""
+msgstr "Qacha's Nek"
 
 msgid "Quthing"
-msgstr ""
+msgstr "Quthing"
 
 msgid "Thaba-Tseka"
-msgstr ""
+msgstr "Thaba-Tseka"
 
 msgid "Alytaus Apskritis"
-msgstr ""
+msgstr "Alytaus Apskritis"
 
 msgid "Kauno Apskritis"
-msgstr ""
+msgstr "Kauno Apskritis"
 
 msgid "Klaipedos Apskritis"
-msgstr ""
+msgstr "Klaipedos Apskritis"
 
 msgid "Marijampoles Apskritis"
-msgstr ""
+msgstr "Marijampoles Apskritis"
 
 msgid "Panevezio Apskritis"
-msgstr ""
+msgstr "Panevezio Apskritis"
 
 msgid "Sisuliu Apskritis"
-msgstr ""
+msgstr "Sisuliu Apskritis"
 
 msgid "Taurages Apskritis"
-msgstr ""
+msgstr "Taurages Apskritis"
 
 msgid "Telsiu Apskritis"
-msgstr ""
+msgstr "Telsiu Apskritis"
 
 msgid "Utenos Apskritis"
-msgstr ""
+msgstr "Utenos Apskritis"
 
 msgid "Vilniaus Apskritis"
-msgstr ""
+msgstr "Vilniaus Apskritis"
 
 msgid "Diekirch"
-msgstr ""
+msgstr "Diekirch"
 
 msgid "GreveNmacher"
-msgstr ""
+msgstr "GreveNmacher"
 
 msgid "Aizkraukles Apripkis"
-msgstr ""
+msgstr "Aizkraukles Apripkis"
 
 msgid "Alkanes Apripkis"
-msgstr ""
+msgstr "Alkanes Apripkis"
 
 msgid "Balvu Apripkis"
-msgstr ""
+msgstr "Balvu Apripkis"
 
 msgid "Bauskas Apripkis"
-msgstr ""
+msgstr "Bauskas Apripkis"
 
 msgid "Cesu Aprikis"
-msgstr ""
+msgstr "Cesu Aprikis"
 
 msgid "Daugavpile Apripkis"
-msgstr ""
+msgstr "Daugavpile Apripkis"
 
 msgid "Dobeles Apripkis"
-msgstr ""
+msgstr "Dobeles Apripkis"
 
 msgid "Gulbenes Aprlpkis"
-msgstr ""
+msgstr "Gulbenes Aprlpkis"
 
 msgid "Jelgavas Apripkis"
-msgstr ""
+msgstr "Jelgavas Apripkis"
 
 msgid "Jekabpils Apripkis"
-msgstr ""
+msgstr "Jekabpils Apripkis"
 
 msgid "Kraslavas Apripkis"
-msgstr ""
+msgstr "Kraslavas Apripkis"
 
 msgid "Kuldlgas Apripkis"
-msgstr ""
+msgstr "Kuldlgas Apripkis"
 
 msgid "Limbazu Apripkis"
-msgstr ""
+msgstr "Limbazu Apripkis"
 
 msgid "Liepajas Apripkis"
-msgstr ""
+msgstr "Liepajas Apripkis"
 
 msgid "Ludzas Apripkis"
-msgstr ""
+msgstr "Ludzas Apripkis"
 
 msgid "Madonas Apripkis"
-msgstr ""
+msgstr "Madonas Apripkis"
 
 msgid "Ogres Apripkis"
-msgstr ""
+msgstr "Ogres Apripkis"
 
 msgid "Preilu Apripkis"
-msgstr ""
+msgstr "Preilu Apripkis"
 
 msgid "Rezaknes Apripkis"
-msgstr ""
+msgstr "Rezaknes Apripkis"
 
 msgid "Rigas Apripkis"
-msgstr ""
+msgstr "Rigas Apripkis"
 
 msgid "Saldus Apripkis"
-msgstr ""
+msgstr "Saldus Apripkis"
 
 msgid "Talsu Apripkis"
-msgstr ""
+msgstr "Talsu Apripkis"
 
 msgid "Tukuma Apriplcis"
-msgstr ""
+msgstr "Tukuma Apriplcis"
 
 msgid "Valkas Apripkis"
-msgstr ""
+msgstr "Valkas Apripkis"
 
 msgid "Valmieras Apripkis"
-msgstr ""
+msgstr "Valmieras Apripkis"
 
 msgid "Ventspils Apripkis"
-msgstr ""
+msgstr "Ventspils Apripkis"
 
 msgid "Daugavpils"
-msgstr ""
+msgstr "Daugavpils"
 
 msgid "Jelgava"
-msgstr ""
+msgstr "Jelgava"
 
 msgid "Jurmala"
-msgstr ""
+msgstr "Jurmala"
 
 msgid "Liepaja"
-msgstr ""
+msgstr "Liepaja"
 
 msgid "Rezekne"
-msgstr ""
+msgstr "Rezekne"
 
 msgid "Riga"
-msgstr ""
+msgstr "Riga"
 
 msgid "Ventspils"
-msgstr ""
+msgstr "Ventspils"
 
 msgid "Ajdābiyā"
-msgstr ""
+msgstr "Ajdābiyā"
 
 msgid "Al Buţnān"
-msgstr ""
+msgstr "Al Buţnān"
 
 msgid "Al Hizām al Akhdar"
-msgstr ""
+msgstr "Al Hizām al Akhdar"
 
 msgid "Al Jabal al Akhdar"
-msgstr ""
+msgstr "Al Jabal al Akhdar"
 
 msgid "Al Jifārah"
-msgstr ""
+msgstr "Al Jifārah"
 
 msgid "Al Jufrah"
-msgstr ""
+msgstr "Al Jufrah"
 
 msgid "Al Kufrah"
-msgstr ""
+msgstr "Al Kufrah"
 
 msgid "Al Marj"
-msgstr ""
+msgstr "Al Marj"
 
 msgid "Al Marqab"
-msgstr ""
+msgstr "Al Marqab"
 
 msgid "Al Qaţrūn"
-msgstr ""
+msgstr "Al Qaţrūn"
 
 msgid "Al Qubbah"
-msgstr ""
+msgstr "Al Qubbah"
 
 msgid "Al Wāhah"
-msgstr ""
+msgstr "Al Wāhah"
 
 msgid "An Nuqaţ al Khams"
-msgstr ""
+msgstr "An Nuqaţ al Khams"
 
 msgid "Ash Shāţi'"
-msgstr ""
+msgstr "Ash Shāţi'"
 
 msgid "Az Zāwiyah"
-msgstr ""
+msgstr "Az Zāwiyah"
 
 msgid "Banghāzī"
-msgstr ""
+msgstr "Banghāzī"
 
 msgid "Banī Walīd"
-msgstr ""
+msgstr "Banī Walīd"
 
 msgid "Darnah"
-msgstr ""
+msgstr "Darnah"
 
 msgid "Ghadāmis"
-msgstr ""
+msgstr "Ghadāmis"
 
 msgid "Gharyān"
-msgstr ""
+msgstr "Gharyān"
 
 msgid "Ghāt"
-msgstr ""
+msgstr "Ghāt"
 
 msgid "Jaghbūb"
-msgstr ""
+msgstr "Jaghbūb"
 
 msgid "Mişrātah"
-msgstr ""
+msgstr "Mişrātah"
 
 msgid "Mizdah"
-msgstr ""
+msgstr "Mizdah"
 
 msgid "Murzuq"
-msgstr ""
+msgstr "Murzuq"
 
 msgid "Nālūt"
-msgstr ""
+msgstr "Nālūt"
 
 msgid "Sabhā"
-msgstr ""
+msgstr "Sabhā"
 
 msgid "Şabrātah Şurmān"
-msgstr ""
+msgstr "Şabrātah Şurmān"
 
 msgid "Surt"
-msgstr ""
+msgstr "Surt"
 
 msgid "Tājūrā' wa an Nawāhī al Arbāh"
-msgstr ""
+msgstr "Tājūrā' wa an Nawāhī al Arbāh"
 
 msgid "Ţarābulus"
-msgstr ""
+msgstr "Ţarābulus"
 
 msgid "Tarhūnah-Masallātah"
-msgstr ""
+msgstr "Tarhūnah-Masallātah"
 
 msgid "Wādī al hayāt"
-msgstr ""
+msgstr "Wādī al hayāt"
 
 msgid "Yafran-Jādū"
-msgstr ""
+msgstr "Yafran-Jādū"
 
 msgid "Agadir"
-msgstr ""
+msgstr "Agadir"
 
 msgid "Aït Baha"
-msgstr ""
+msgstr "Aït Baha"
 
 msgid "Aït Melloul"
-msgstr ""
+msgstr "Aït Melloul"
 
 msgid "Al Haouz"
-msgstr ""
+msgstr "Al Haouz"
 
 msgid "Al Hoceïma"
-msgstr ""
+msgstr "Al Hoceïma"
 
 msgid "Assa-Zag"
-msgstr ""
+msgstr "Assa-Zag"
 
 msgid "Azilal"
-msgstr ""
+msgstr "Azilal"
 
 msgid "Beni Mellal"
-msgstr ""
+msgstr "Beni Mellal"
 
 msgid "Ben Sllmane"
-msgstr ""
+msgstr "Ben Sllmane"
 
 msgid "Berkane"
-msgstr ""
+msgstr "Berkane"
 
 msgid "Boujdour"
-msgstr ""
+msgstr "Boujdour"
 
 msgid "Boulemane"
-msgstr ""
+msgstr "Boulemane"
 
 msgid "Casablanca  [Dar el Beïda]"
-msgstr ""
+msgstr "Casablanca"
 
 msgid "Chefchaouene"
-msgstr ""
+msgstr "Chefchaouene"
 
 msgid "Chichaoua"
-msgstr ""
+msgstr "Chichaoua"
 
 msgid "El Hajeb"
-msgstr ""
+msgstr "El Hajeb"
 
 msgid "El Jadida"
-msgstr ""
+msgstr "El Jadida"
 
 msgid "Errachidia"
-msgstr ""
+msgstr "Errachidia"
 
 msgid "Essaouira"
-msgstr ""
+msgstr "Essaouira"
 
 msgid "Es Smara"
-msgstr ""
+msgstr "Es Smara"
 
 msgid "Fès"
-msgstr ""
+msgstr "Fès"
 
 msgid "Figuig"
-msgstr ""
+msgstr "Figuig"
 
 msgid "Guelmim"
-msgstr ""
+msgstr "Guelmim"
 
 msgid "Ifrane"
-msgstr ""
+msgstr "Ifrane"
 
 msgid "Jerada"
-msgstr ""
+msgstr "Jerada"
 
 msgid "Kelaat Sraghna"
-msgstr ""
+msgstr "Kelaat Sraghna"
 
 msgid "Kénitra"
-msgstr ""
+msgstr "Kénitra"
 
 msgid "Khemisaet"
-msgstr ""
+msgstr "Khemisaet"
 
 msgid "Khenifra"
-msgstr ""
+msgstr "Khenifra"
 
 msgid "Khouribga"
-msgstr ""
+msgstr "Khouribga"
 
 msgid "Laâyoune (EH)"
-msgstr ""
+msgstr "Laâyoune (EH)"
 
 msgid "Larache"
-msgstr ""
+msgstr "Larache"
 
 msgid "Marrakech"
-msgstr ""
+msgstr "Marraqueche"
 
 msgid "Meknsès"
-msgstr ""
+msgstr "Meknsès"
 
 msgid "Nador"
-msgstr ""
+msgstr "Nador"
 
 msgid "Ouarzazate"
-msgstr ""
+msgstr "Ouarzazate"
 
 msgid "Oued ed Dahab (EH)"
-msgstr ""
+msgstr "Oued ed Dahab (EH)"
 
 msgid "Oujda"
-msgstr ""
+msgstr "Oujda"
 
 msgid "Rabat-Salé"
-msgstr ""
+msgstr "Rabat-Salé"
 
 msgid "Safi"
-msgstr ""
+msgstr "Safi"
 
 msgid "Sefrou"
-msgstr ""
+msgstr "Sefrou"
 
 msgid "Settat"
-msgstr ""
+msgstr "Settat"
 
 msgid "Sidl Kacem"
-msgstr ""
+msgstr "Sidl Kacem"
 
 msgid "Tanger"
-msgstr ""
+msgstr "Tanger"
 
 msgid "Tan-Tan"
-msgstr ""
+msgstr "Tan-Tan"
 
 msgid "Taounate"
-msgstr ""
+msgstr "Taounate"
 
 msgid "Taroudannt"
-msgstr ""
+msgstr "Taroudannt"
 
 msgid "Tata"
-msgstr ""
+msgstr "Tata"
 
 msgid "Taza"
-msgstr ""
+msgstr "Taza"
 
 msgid "Tétouan"
-msgstr ""
+msgstr "Tétouan"
 
 msgid "Tiznit"
-msgstr ""
+msgstr "Tiznit"
 
 msgid "Gagauzia, Unitate Teritoriala Autonoma"
-msgstr ""
+msgstr "Gagauzia, Unitate Teritoriala Autonoma"
 
 msgid "Chisinau"
-msgstr ""
+msgstr "Chisinau"
 
 msgid "Stinga Nistrului, unitatea teritoriala din"
-msgstr ""
+msgstr "Stinga Nistrului, unitatea teritoriala din"
 
 msgid "Balti"
 msgstr ""
@@ -7513,97 +7514,97 @@ msgid "Omaheke"
 msgstr ""
 
 msgid "Omusati"
-msgstr ""
+msgstr "Omusati"
 
 msgid "Oshana"
-msgstr ""
+msgstr "Oshana"
 
 msgid "Oshikoto"
-msgstr ""
+msgstr "Oshikoto"
 
 msgid "Otjozondjupa"
-msgstr ""
+msgstr "Otjozondjupa"
 
 msgid "Niamey"
-msgstr ""
+msgstr "Niamey"
 
 msgid "Agadez"
-msgstr ""
+msgstr "Agadez"
 
 msgid "Diffa"
-msgstr ""
+msgstr "Diffa"
 
 msgid "Dosso"
-msgstr ""
+msgstr "Dosso"
 
 msgid "Maradi"
-msgstr ""
+msgstr "Maradi"
 
 msgid "Tahoua"
-msgstr ""
+msgstr "Tahoua"
 
 msgid "Tillaberi"
-msgstr ""
+msgstr "Tillaberi"
 
 msgid "Zinder"
-msgstr ""
+msgstr "Zinder"
 
 msgid "Abuja Capital Territory"
-msgstr ""
+msgstr "Abuja Capital Territory"
 
 msgid "Abia"
-msgstr ""
+msgstr "Abia"
 
 msgid "Adamawa"
-msgstr ""
+msgstr "Adamawa"
 
 msgid "Akwa Ibom"
-msgstr ""
+msgstr "Akwa Ibom"
 
 msgid "Anambra"
-msgstr ""
+msgstr "Anambra"
 
 msgid "Bauchi"
-msgstr ""
+msgstr "Bauchi"
 
 msgid "Bayelsa"
-msgstr ""
+msgstr "Bayelsa"
 
 msgid "Benue"
-msgstr ""
+msgstr "Benue"
 
 msgid "Borno"
-msgstr ""
+msgstr "Borno"
 
 msgid "Cross River"
-msgstr ""
+msgstr "Cross River"
 
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 msgid "Ebonyi"
-msgstr ""
+msgstr "Ebonyi"
 
 msgid "Edo"
-msgstr ""
+msgstr "Edo"
 
 msgid "Ekiti"
-msgstr ""
+msgstr "Ekiti"
 
 msgid "Enugu"
-msgstr ""
+msgstr "Enugu"
 
 msgid "Gombe"
-msgstr ""
+msgstr "Gombe"
 
 msgid "Imo"
-msgstr ""
+msgstr "Imo"
 
 msgid "Jigawa"
-msgstr ""
+msgstr "Jigawa"
 
 msgid "Kaduna"
-msgstr ""
+msgstr "Kaduna"
 
 msgid "Kano"
 msgstr ""
@@ -10816,661 +10817,661 @@ msgid "Tororo"
 msgstr ""
 
 msgid "Wakiso"
-msgstr ""
+msgstr "Wakiso"
 
 msgid "Yumbe"
-msgstr ""
+msgstr "Yumbe"
 
 msgid "Baker Island"
-msgstr ""
+msgstr "Baker Island"
 
 msgid "Howland Island"
-msgstr ""
+msgstr "Howland Island"
 
 msgid "Jarvis Island"
-msgstr ""
+msgstr "Jarvis Island"
 
 msgid "Johnston Atoll"
-msgstr ""
+msgstr "Johnston Atoll"
 
 msgid "Kingman Reef"
-msgstr ""
+msgstr "Kingman Reef"
 
 msgid "Midway Islands"
-msgstr ""
+msgstr "Midway Islands"
 
 msgid "Navassa Island"
-msgstr ""
+msgstr "Navassa Island"
 
 msgid "Palmyra Atoll"
-msgstr ""
+msgstr "Palmyra Atoll"
 
 msgid "Wake Ialand"
-msgstr ""
+msgstr "Wake Ialand"
 
 msgid "Artigsa"
-msgstr ""
+msgstr "Artigsa"
 
 msgid "Canelones"
-msgstr ""
+msgstr "Canelones"
 
 msgid "Cerro Largo"
-msgstr ""
+msgstr "Cerro Largo"
 
 msgid "Colonia"
-msgstr ""
+msgstr "Colonia"
 
 msgid "Durazno"
-msgstr ""
+msgstr "Durazno"
 
 msgid "Flores"
-msgstr ""
+msgstr "Flores"
 
 msgid "Lavalleja"
-msgstr ""
+msgstr "Lavalleja"
 
 msgid "Maldonado"
-msgstr ""
+msgstr "Maldonado"
 
 msgid "Montevideo"
-msgstr ""
+msgstr "Montevideo"
 
 msgid "Paysandu"
-msgstr ""
+msgstr "Paysandu"
 
 msgid "Rivera"
-msgstr ""
+msgstr "Rivera"
 
 msgid "Rocha"
-msgstr ""
+msgstr "Rocha"
 
 msgid "Salto"
-msgstr ""
+msgstr "Salto"
 
 msgid "Soriano"
-msgstr ""
+msgstr "Soriano"
 
 msgid "Tacuarembo"
-msgstr ""
+msgstr "Tacuarembo"
 
 msgid "Treinta y Tres"
-msgstr ""
+msgstr "Treinta y Tres"
 
 msgid "Toshkent (city)"
-msgstr ""
+msgstr "Toshkent (city)"
 
 msgid "Qoraqalpogiston Respublikasi"
-msgstr ""
+msgstr "Qoraqalpogiston Respublikasi"
 
 msgid "Andijon"
-msgstr ""
+msgstr "Andijon"
 
 msgid "Buxoro"
-msgstr ""
+msgstr "Buxoro"
 
 msgid "Farg'ona"
-msgstr ""
+msgstr "Farg'ona"
 
 msgid "Jizzax"
-msgstr ""
+msgstr "Jizzax"
 
 msgid "Khorazm"
-msgstr ""
+msgstr "Khorazm"
 
 msgid "Namangan"
-msgstr ""
+msgstr "Namangan"
 
 msgid "Navoiy"
-msgstr ""
+msgstr "Navoiy"
 
 msgid "Qashqadaryo"
-msgstr ""
+msgstr "Qashqadaryo"
 
 msgid "Samarqand"
-msgstr ""
+msgstr "Samarqand"
 
 msgid "Sirdaryo"
-msgstr ""
+msgstr "Sirdaryo"
 
 msgid "Surxondaryo"
-msgstr ""
+msgstr "Surxondaryo"
 
 msgid "Toshkent"
-msgstr ""
+msgstr "Toshkent"
 
 msgid "Xorazm"
-msgstr ""
+msgstr "Xorazm"
 
 msgid "Diatrito Federal"
-msgstr ""
+msgstr "Diatrito Federal"
 
 msgid "Anzoategui"
-msgstr ""
+msgstr "Anzoategui"
 
 msgid "Apure"
-msgstr ""
+msgstr "Apure"
 
 msgid "Aragua"
-msgstr ""
+msgstr "Aragua"
 
 msgid "Barinas"
-msgstr ""
+msgstr "Barinas"
 
 msgid "Carabobo"
-msgstr ""
+msgstr "Carabobo"
 
 msgid "Cojedes"
-msgstr ""
+msgstr "Cojedes"
 
 msgid "Falcon"
-msgstr ""
+msgstr "Falcon"
 
 msgid "Guarico"
-msgstr ""
+msgstr "Guarico"
 
 msgid "Lara"
-msgstr ""
+msgstr "Lara"
 
 msgid "Merida"
-msgstr ""
+msgstr "Merida"
 
 msgid "Miranda"
-msgstr ""
+msgstr "Miranda"
 
 msgid "Monagas"
-msgstr ""
+msgstr "Monagas"
 
 msgid "Nueva Esparta"
-msgstr ""
+msgstr "Nueva Esparta"
 
 msgid "Portuguesa"
-msgstr ""
+msgstr "Portuguesa"
 
 msgid "Tachira"
-msgstr ""
+msgstr "Tachira"
 
 msgid "Trujillo"
-msgstr ""
+msgstr "Trujillo"
 
 msgid "Vargas"
-msgstr ""
+msgstr "Vargas"
 
 msgid "Yaracuy"
-msgstr ""
+msgstr "Yaracuy"
 
 msgid "Zulia"
-msgstr ""
+msgstr "Zulia"
 
 msgid "Delta Amacuro"
-msgstr ""
+msgstr "Delta Amacuro"
 
 msgid "Dependencias Federales"
-msgstr ""
+msgstr "Dependencias Federales"
 
 msgid "An Giang"
-msgstr ""
+msgstr "An Giang"
 
 msgid "Ba Ria - Vung Tau"
-msgstr ""
+msgstr "Ba Ria - Vung Tau"
 
 msgid "Bac Can"
-msgstr ""
+msgstr "Bac Can"
 
 msgid "Bac Giang"
-msgstr ""
+msgstr "Bac Giang"
 
 msgid "Bac Lieu"
-msgstr ""
+msgstr "Bac Lieu"
 
 msgid "Bac Ninh"
-msgstr ""
+msgstr "Bac Ninh"
 
 msgid "Ben Tre"
-msgstr ""
+msgstr "Ben Tre"
 
 msgid "Binh Dinh"
-msgstr ""
+msgstr "Binh Dinh"
 
 msgid "Binh Duong"
-msgstr ""
+msgstr "Binh Duong"
 
 msgid "Binh Phuoc"
-msgstr ""
+msgstr "Binh Phuoc"
 
 msgid "Binh Thuan"
-msgstr ""
+msgstr "Binh Thuan"
 
 msgid "Ca Mau"
-msgstr ""
+msgstr "Ca Mau"
 
 msgid "Can Tho"
-msgstr ""
+msgstr "Can Tho"
 
 msgid "Cao Bang"
-msgstr ""
+msgstr "Cao Bang"
 
 msgid "Da Nang, thanh pho"
-msgstr ""
+msgstr "Da Nang, thanh pho"
 
 msgid "Dong Nai"
-msgstr ""
+msgstr "Dong Nai"
 
 msgid "Dong Thap"
-msgstr ""
+msgstr "Dong Thap"
 
 msgid "Gia Lai"
-msgstr ""
+msgstr "Gia Lai"
 
 msgid "Ha Giang"
-msgstr ""
+msgstr "Ha Giang"
 
 msgid "Ha Nam"
-msgstr ""
+msgstr "Ha Nam"
 
 msgid "Ha Noi, thu do"
-msgstr ""
+msgstr "Ha Noi, thu do"
 
 msgid "Ha Tay"
-msgstr ""
+msgstr "Ha Tay"
 
 msgid "Ha Tinh"
-msgstr ""
+msgstr "Ha Tinh"
 
 msgid "Hai Duong"
-msgstr ""
+msgstr "Hai Duong"
 
 msgid "Hai Phong, thanh pho"
-msgstr ""
+msgstr "Hai Phong, thanh pho"
 
 msgid "Hoa Binh"
-msgstr ""
+msgstr "Hoa Binh"
 
 msgid "Ho Chi Minh, thanh pho [Sai Gon]"
-msgstr ""
+msgstr "Ho Chi Minh, thanh pho [Sai Gon]"
 
 msgid "Hung Yen"
-msgstr ""
+msgstr "Hung Yen"
 
 msgid "Khanh Hoa"
-msgstr ""
+msgstr "Khanh Hoa"
 
 msgid "Kien Giang"
-msgstr ""
+msgstr "Kien Giang"
 
 msgid "Kon Tum"
-msgstr ""
+msgstr "Kon Tum"
 
 msgid "Lai Chau"
-msgstr ""
+msgstr "Lai Chau"
 
 msgid "Lam Dong"
-msgstr ""
+msgstr "Lam Dong"
 
 msgid "Lang Son"
-msgstr ""
+msgstr "Lang Son"
 
 msgid "Lao Cai"
-msgstr ""
+msgstr "Lao Cai"
 
 msgid "Long An"
-msgstr ""
+msgstr "Long An"
 
 msgid "Nam Dinh"
-msgstr ""
+msgstr "Nam Dinh"
 
 msgid "Nghe An"
-msgstr ""
+msgstr "Nghe An"
 
 msgid "Ninh Binh"
-msgstr ""
+msgstr "Ninh Binh"
 
 msgid "Ninh Thuan"
-msgstr ""
+msgstr "Ninh Thuan"
 
 msgid "Phu Tho"
-msgstr ""
+msgstr "Phu Tho"
 
 msgid "Phu Yen"
-msgstr ""
+msgstr "Phu Yen"
 
 msgid "Quang Binh"
-msgstr ""
+msgstr "Quang Binh"
 
 msgid "Quang Nam"
-msgstr ""
+msgstr "Quang Nam"
 
 msgid "Quang Ngai"
-msgstr ""
+msgstr "Quang Ngai"
 
 msgid "Quang Ninh"
-msgstr ""
+msgstr "Quang Ninh"
 
 msgid "Quang Tri"
-msgstr ""
+msgstr "Quang Tri"
 
 msgid "Soc Trang"
-msgstr ""
+msgstr "Soc Trang"
 
 msgid "Son La"
-msgstr ""
+msgstr "Son La"
 
 msgid "Tay Ninh"
-msgstr ""
+msgstr "Tay Ninh"
 
 msgid "Thai Binh"
-msgstr ""
+msgstr "Thai Binh"
 
 msgid "Thai Nguyen"
-msgstr ""
+msgstr "Thai Nguyen"
 
 msgid "Thanh Hoa"
-msgstr ""
+msgstr "Thanh Hoa"
 
 msgid "Thua Thien-Hue"
-msgstr ""
+msgstr "Thua Thien-Hue"
 
 msgid "Tien Giang"
-msgstr ""
+msgstr "Tien Giang"
 
 msgid "Tra Vinh"
-msgstr ""
+msgstr "Tra Vinh"
 
 msgid "Tuyen Quang"
-msgstr ""
+msgstr "Tuyen Quang"
 
 msgid "Vinh Long"
-msgstr ""
+msgstr "Vinh Long"
 
 msgid "Vinh Phuc"
-msgstr ""
+msgstr "Vinh Phuc"
 
 msgid "Yen Bai"
-msgstr ""
+msgstr "Yen Bai"
 
 msgid "Malampa"
-msgstr ""
+msgstr "Malampa"
 
 msgid "Penama"
-msgstr ""
+msgstr "Penama"
 
 msgid "Sanma"
-msgstr ""
+msgstr "Sanma"
 
 msgid "Shefa"
-msgstr ""
+msgstr "Shefa"
 
 msgid "Tafea"
-msgstr ""
+msgstr "Tafea"
 
 msgid "Torba"
-msgstr ""
+msgstr "Torba"
 
 msgid "A'ana"
-msgstr ""
+msgstr "A'ana"
 
 msgid "Aiga-i-le-Tai"
-msgstr ""
+msgstr "Aiga-i-le-Tai"
 
 msgid "Atua"
-msgstr ""
+msgstr "Atua"
 
 msgid "Fa'aaaleleaga"
-msgstr ""
+msgstr "Fa'aaaleleaga"
 
 msgid "Gaga'emauga"
-msgstr ""
+msgstr "Gaga'emauga"
 
 msgid "Gagaifomauga"
-msgstr ""
+msgstr "Gagaifomauga"
 
 msgid "Palauli"
-msgstr ""
+msgstr "Palauli"
 
 msgid "Satupa'itea"
-msgstr ""
+msgstr "Satupa'itea"
 
 msgid "Tuamasaga"
-msgstr ""
+msgstr "Tuamasaga"
 
 msgid "Va'a-o-Fonoti"
-msgstr ""
+msgstr "Va'a-o-Fonoti"
 
 msgid "Vaisigano"
-msgstr ""
+msgstr "Vaisigano"
 
 msgid "Crna Gora"
-msgstr ""
+msgstr "Crna Gora"
 
 msgid "Srbija"
-msgstr ""
+msgstr "Srbija"
 
 msgid "Kosovo-Metohija"
-msgstr ""
+msgstr "Kosovo-Metohija"
 
 msgid "Vojvodina"
-msgstr ""
+msgstr "Vojvodina"
 
 msgid "Abyan"
-msgstr ""
+msgstr "Abyan"
 
 msgid "Adan"
-msgstr ""
+msgstr "Adan"
 
 msgid "Ad Dali"
-msgstr ""
+msgstr "Ad Dali"
 
 msgid "Al Bayda'"
-msgstr ""
+msgstr "Al Bayda'"
 
 msgid "Al Hudaydah"
-msgstr ""
+msgstr "Al Hudaydah"
 
 msgid "Al Mahrah"
-msgstr ""
+msgstr "Al Mahrah"
 
 msgid "Al Mahwit"
-msgstr ""
+msgstr "Al Mahwit"
 
 msgid "Amran"
-msgstr ""
+msgstr "Amran"
 
 msgid "Dhamar"
-msgstr ""
+msgstr "Dhamar"
 
 msgid "Hadramawt"
-msgstr ""
+msgstr "Hadramawt"
 
 msgid "Hajjah"
-msgstr ""
+msgstr "Hajjah"
 
 msgid "Ibb"
-msgstr ""
+msgstr "Ibb"
 
 msgid "Lahij"
-msgstr ""
+msgstr "Lahij"
 
 msgid "Ma'rib"
-msgstr ""
+msgstr "Ma'rib"
 
 msgid "Sa'dah"
-msgstr ""
+msgstr "Sa'dah"
 
 msgid "San'a'"
-msgstr ""
+msgstr "San'a'"
 
 msgid "Shabwah"
-msgstr ""
+msgstr "Shabwah"
 
 msgid "Ta'izz"
-msgstr ""
+msgstr "Ta'izz"
 
 msgid "Eastern Cape"
-msgstr ""
+msgstr "Eastern Cape"
 
 msgid "Free State"
-msgstr ""
+msgstr "Free State"
 
 msgid "Gauteng"
-msgstr ""
+msgstr "Gauteng"
 
 msgid "Kwazulu-Natal"
-msgstr ""
+msgstr "Kwazulu-Natal"
 
 msgid "Mpumalanga"
-msgstr ""
+msgstr "Mpumalanga"
 
 msgid "Northern Cape"
-msgstr ""
+msgstr "Northern Cape"
 
 msgid "Limpopo"
-msgstr ""
+msgstr "Limpopo"
 
 msgid "Western Cape"
-msgstr ""
+msgstr "Western Cape"
 
 msgid "Copperbelt"
-msgstr ""
+msgstr "Copperbelt"
 
 msgid "Luapula"
-msgstr ""
+msgstr "Luapula"
 
 msgid "Lusaka"
-msgstr ""
+msgstr "Lusaka"
 
 msgid "North-Western"
-msgstr ""
+msgstr "North-Western"
 
 msgid "Bulawayo"
-msgstr ""
+msgstr "Bulawayo"
 
 msgid "Harare"
-msgstr ""
+msgstr "Harare"
 
 msgid "Manicaland"
-msgstr ""
+msgstr "Manicaland"
 
 msgid "Mashonaland Central"
-msgstr ""
+msgstr "Mashonaland Central"
 
 msgid "Mashonaland East"
-msgstr ""
+msgstr "Mashonaland East"
 
 msgid "Mashonaland West"
-msgstr ""
+msgstr "Mashonaland West"
 
 msgid "Masvingo"
-msgstr ""
+msgstr "Masvingo"
 
 msgid "Matabeleland North"
-msgstr ""
+msgstr "Matabeleland North"
 
 msgid "Matabeleland South"
-msgstr ""
+msgstr "Matabeleland South"
 
 msgid "Midlands"
-msgstr ""
+msgstr "Midlands"
 
 msgid "South Karelia"
-msgstr ""
+msgstr "South Karelia"
 
 msgid "South Ostrobothnia"
-msgstr ""
+msgstr "South Ostrobothnia"
 
 msgid "Etelä-Savo"
-msgstr ""
+msgstr "Etelä-Savo"
 
 msgid "Häme"
-msgstr ""
+msgstr "Häme"
 
 msgid "Itä-Uusimaa"
-msgstr ""
+msgstr "Itä-Uusimaa"
 
 msgid "Kainuu"
-msgstr ""
+msgstr "Kainuu"
 
 msgid "Central Ostrobothnia"
-msgstr ""
+msgstr "Central Ostrobothnia"
 
 msgid "Central Finland"
-msgstr ""
+msgstr "Central Finland"
 
 msgid "Kymenlaakso"
-msgstr ""
+msgstr "Kymenlaakso"
 
 msgid "Lapland"
-msgstr ""
+msgstr "Lapland"
 
 msgid "Tampere Region"
-msgstr ""
+msgstr "Tampere Region"
 
 msgid "Ostrobothnia"
-msgstr ""
+msgstr "Ostrobothnia"
 
 msgid "North Karelia"
-msgstr ""
+msgstr "North Karelia"
 
 msgid "Nothern Ostrobothnia"
-msgstr ""
+msgstr "Nothern Ostrobothnia"
 
 msgid "Northern Savo"
-msgstr ""
+msgstr "Northern Savo"
 
 msgid "Päijät-Häme"
-msgstr ""
+msgstr "Päijät-Häme"
 
 msgid "Satakunta"
-msgstr ""
+msgstr "Satakunta"
 
 msgid "Uusimaa"
-msgstr ""
+msgstr "Uusimaa"
 
 msgid "South-West Finland"
-msgstr ""
+msgstr "South-West Finland"
 
 msgid "Åland"
-msgstr ""
+msgstr "Åland"
 
 msgid "North West"
-msgstr ""
+msgstr "North West"
 
 msgid "Tyne and Wear"
-msgstr ""
+msgstr "Tyne and Wear"
 
 msgid "Isle of Man"
-msgstr ""
+msgstr "Isle of Man"
 
 msgid "Greater Manchester"
-msgstr ""
+msgstr "Greater Manchester"
 
 msgid "Co Tyrone"
-msgstr ""
+msgstr "Co Tyrone"
 
 msgid "West Yorkshire"
-msgstr ""
+msgstr "West Yorkshire"
 
 msgid "South Yorkshire"
-msgstr ""
+msgstr "South Yorkshire"
 
 msgid "Merseyside"
-msgstr ""
+msgstr "Merseyside"
 
 msgid "Berkshire"
-msgstr ""
+msgstr "Berkshire"
 
 msgid "West Midlands"
-msgstr ""
+msgstr "West Midlands"
 
 msgid "Inverness"
-msgstr ""
+msgstr "Inverness"
 
 msgid "Avon"
-msgstr ""
+msgstr "Avon"
 
 msgid "Middlesex"
-msgstr ""
+msgstr "Middlesex"
 
 msgid "West Glamorgan"
-msgstr ""
+msgstr "West Glamorgan"
 
 msgid "London"
-msgstr ""
+msgstr "Londres"
