@@ -528,7 +528,7 @@ class CRM_Utils_Token
     public static function &unmatchedTokens(&$str) 
     {
         //preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
-        preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}/', $str, $match);
+        preg_match_all('/\{(\w+\.\w+)\}/', $str, $match);
         return $match[1];
     }
 }
