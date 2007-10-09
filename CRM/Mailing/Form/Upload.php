@@ -419,15 +419,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             
             require_once 'CRM/Mailing/BAO/Mailing.php';
             $dummy_mail = new CRM_Mailing_BAO_Mailing();
-            $dummy_mail->body_text = $str;
+            $mess = "body_{$file}";
+            $dummy_mail->$mess = $str;
             $tokens = $dummy_mail->getTokens();
-            
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
+
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
             
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+
             if (! empty($unmatched)) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'
