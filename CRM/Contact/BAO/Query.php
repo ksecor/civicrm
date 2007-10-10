@@ -918,17 +918,17 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'group':
-	    list( $name, $op, $value, $grouping, $wildcard ) = $values;
-	    $includeChildGroups = true;
-	    $subgroups_dummy = $this->getWhereValues( 'subgroups_dummy', $grouping );
-	    if ( $subgroups_dummy ) {
-	        $subgroup = $this->getWhereValues( 'subgroups', $grouping );
-	        if ( !$subgroup ){
+            list( $name, $op, $value, $grouping, $wildcard ) = $values;
+            $includeChildGroups = true;
+            $subgroups_dummy = $this->getWhereValues( 'subgroups_dummy', $grouping );
+            if ( $subgroups_dummy ) {
+                $subgroup = $this->getWhereValues( 'subgroups', $grouping );
+                if ( !$subgroup ) {
                     $includeChildGroups = false;
-		}
-	    }
-	    $this->group( $values , $includeChildGroups );
-	    return;
+                }
+            }
+            $this->group( $values , $includeChildGroups );
+            return;
 
         case 'tag':
             $this->tag( $values );
@@ -1742,7 +1742,7 @@ class CRM_Contact_BAO_Query {
             foreach ( $gcsValues[2] as $k => $v ) {
                   if ( $v ) {
                     if ( $k == 'Added' ) {
-		      $in = true;
+              $in = true;
                     }
                     $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
                 }

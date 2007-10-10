@@ -597,8 +597,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-
-        $params['contact_type'] = $this->_contactType;
+	$params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
@@ -690,7 +689,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
-        //add contact to gruoup
+        //add contact to group
+        //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
         CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 

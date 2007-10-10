@@ -91,7 +91,6 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             if ( ! $user->$key ) {
                 // Let's get the next uf_id since we don't actually have one
                 $user->$key = self::getNextUfIdValue( );
-                //print "Got new uf_id " . $user->$key . "<br/>";
             }
         } else {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
@@ -520,7 +519,7 @@ SET civicrm_email.email = %1 WHERE civicrm_contact.id = %2 ";
         if ( $result ) {
             $row = $result->fetchRow( );
             if ( $row ) {
-                $ufId = $row['next_uf_id'];
+                $ufId = $row[0];
             }
         }
         if ( ! $ufId ) {
