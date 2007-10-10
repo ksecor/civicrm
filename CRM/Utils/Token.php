@@ -41,7 +41,6 @@ class CRM_Utils_Token
     static $_requiredTokens = null;
     
     static $_tokens = array( 'action'        => array( 
-                                                      'donate', 
                                                       'forward', 
                                                       'optOut',
                                                       'optOutUrl',
