@@ -324,9 +324,9 @@ ORDER BY title asc
         if ( $title ) {
             $clauses[] = "title LIKE %1";
             if ( strpos( $title, '%' ) !== false ) {
-                $params[1] = array( $title, 'String', false );
+                $params[1] = array( trim($title), 'String', false );
             } else {
-                $params[1] = array( $title, 'String', true );
+                $params[1] = array( trim($title), 'String', true );
             }
         }
 
