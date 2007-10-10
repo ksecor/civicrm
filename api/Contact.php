@@ -113,6 +113,7 @@ require_once 'CRM/Contact/BAO/Contact.php';
  * @access public
  */
 function &crm_create_contact( &$params, $contact_type = 'Individual', $dupeCheck = true ) {
+
     _crm_initialize( );
 
     // return error if we do not get any params
@@ -136,7 +137,7 @@ function &crm_create_contact( &$params, $contact_type = 'Individual', $dupeCheck
     $ids     = array( );
     $contact = CRM_Contact_BAO_Contact::create( $values, $ids, 1 );
     $contact->contact_id = $contact->id;
-    
+
     return $contact;
 }
 

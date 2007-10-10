@@ -234,6 +234,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
+      require_once 'CRM/Contact/BAO/GroupNesting.php';
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -307,8 +308,23 @@ ORDER BY title asc
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
+            $values[$object->id]['children'] = "";
+            if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
+              $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
+              foreach ($pgroups as $id){
+                if ($values[$object->id]['children'] != ""){
+                    $values[$object->id]['children'] .= ", ";
+                  }
+                $params = array('id' => $id);
+                //                print $id;
+                CRM_Contact_BAO_Group::retrieve($params, $default);
+                //print_r($default);
+                $values[$object->id]['children'] .= $default['title'];
+            }
         }
         
+        
+        }
         $this->assign( 'rows', $values );
     }
 

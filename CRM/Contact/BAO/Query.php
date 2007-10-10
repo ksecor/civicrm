@@ -332,9 +332,9 @@ class CRM_Contact_BAO_Query {
             $this->buildParamsLookup( );
         }
 
-        $this->selectClause( ); 
+        $this->selectClause( );
         $this->_whereClause      = $this->whereClause( );
-        $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
+        $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode );
         $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
     }
 
@@ -918,8 +918,17 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'group':
-            $this->group( $values );
-            return;
+	    list( $name, $op, $value, $grouping, $wildcard ) = $values;
+	    $includeChildGroups = true;
+	    $subgroups_dummy = $this->getWhereValues( 'subgroups_dummy', $grouping );
+	    if ( $subgroups_dummy ) {
+	        $subgroup = $this->getWhereValues( 'subgroups', $grouping );
+	        if ( !$subgroup ){
+                    $includeChildGroups = false;
+		}
+	    }
+	    $this->group( $values , $includeChildGroups );
+	    return;
 
         case 'tag':
             $this->tag( $values );
@@ -1042,7 +1051,7 @@ class CRM_Contact_BAO_Query {
             $this->_where[0][] = 'contact_a.domain_id = ' . $config->domainID( );
         }
 
-        $this->includeContactIds( );        
+        $this->includeContactIds( );       
         if ( ! empty( $this->_params ) ) {
             foreach ( array_keys( $this->_params ) as $id ) {
                 // check for both id and contact_id
@@ -1052,7 +1061,7 @@ class CRM_Contact_BAO_Query {
                     $this->whereClauseSingle( $this->_params[$id] );
                 }
             }
-
+            
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
         }
@@ -1110,7 +1119,7 @@ class CRM_Contact_BAO_Query {
         if ( isset( $locType[2] ) && $locType[2] ) {
             $locType[2] = addslashes( $locType[2] );
         }
-
+        
         $field = CRM_Utils_Array::value( $name, $this->_fields );
         if ( ! $field ) {
             $field = CRM_Utils_Array::value( $locType[0], $this->_fields );
@@ -1232,7 +1241,7 @@ class CRM_Contact_BAO_Query {
                     
                     //get the location name 
                     $locationType =& CRM_Core_PseudoConstant::locationType();
-                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' ) {
+                    if ( $locType[0] == 'email' || $locType[0] == 'im' || $locType[0] == 'phone' || $locType[0] == 'openid' ) {
                         if ($locType[2]) {
                             $tName = $locationType[$locType[1]] . "-" . $locType[0] . '-' . $locType[2];
                         } else {
@@ -1271,7 +1280,7 @@ class CRM_Contact_BAO_Query {
 
         if ( $setTables ) {
             list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
-            if ( isset( $tableName ) ) { 
+            if ( isset( $tableName ) ) {
                 $this->_tables[$tableName] = 1;  
                 $this->_whereTables[$tableName] = 1;  
             }
@@ -1680,7 +1689,7 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function group( &$values ) {
+    function group( &$values, $includeChildGroups = false ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
 
         if ( count( $value ) > 1 ) {
@@ -1701,11 +1710,20 @@ class CRM_Contact_BAO_Query {
         // if ( isset($group->saved_search_id) && $context == "smog" ) {
         //   return;
         // }
+        
+        // add child group ids to the query, if requested
+        if ( $includeChildGroups ) {
+            $groupIds = array_keys($value);
+            require_once 'CRM/Contact/BAO/GroupNesting.php';
+            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
+        } else {
+            $groupIds = array_keys($value);
+        }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
-        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', array_keys($value) ) . ')'; 
+        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', $groupIds ) . ')'; 
 
         $names = array( );
         $groupNames =& CRM_Core_PseudoConstant::group();
@@ -1719,13 +1737,12 @@ class CRM_Contact_BAO_Query {
         $statii    =  array(); 
         $in        =  false; 
         $gcsValues =& $this->getWhereValues( 'group_contact_status', $grouping );
-
         if ( $gcsValues &&
              is_array( $gcsValues[2] ) ) {
             foreach ( $gcsValues[2] as $k => $v ) {
-                if ( $v ) {
+                  if ( $v ) {
                     if ( $k == 'Added' ) {
-                        $in = true;
+		      $in = true;
                     }
                     $statii[] = "'" . CRM_Utils_Type::escape($k, 'String') . "'";
                 }

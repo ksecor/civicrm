@@ -191,11 +191,28 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getUserID( $user ) {
-      require 'CRM/Core/BAO/UFMatch.php';
+      require_once 'CRM/Core/BAO/UFMatch.php';
       
       // this puts the appropriate values in the session, so
       // no need to return anything
       CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
+    }
+
+    /**
+     * Get if the user is allowed to login 
+     *
+     * @param $user the user object holding auth info
+     *
+     * @return boolean
+     * @access public
+     * @static
+     */
+    static function getAllowedToLogin( $user ) {
+      require_once 'CRM/Core/BAO/UFMatch.php';
+      
+      // this returns true if the user is allowed to log in, false o/w
+      $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
+	  return $allow_login;
     }
 
     /**   

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Core</base>
+  <class>OpenID</class>
+  <name>civicrm_openid</name>
+  <comment>OpenID information for a specific location.</comment>
+  <add>2.0</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Unique OpenID ID</comment>
+       <add>2.0</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>location_id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <comment>Which Location does this OpenID belong to.</comment>
+       <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>location_id</name>
+       <table>civicrm_location</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
+  <field>
+       <name>openid</name>
+       <type>varchar</type>
+       <length>255</length>
+       <import>true</import>
+       <headerPattern>/^Open.?ID|u(niq\w*)?.?ID/i</headerPattern>
+        <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
+        <comment>the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact; mainly used for logging in to CiviCRM</comment>
+       <rule>url</rule>
+       <comment>OpenID</comment>
+       <add>2.0</add>
+  </field>
+  <index>
+     <name>UI_openid</name>
+     <fieldName>openid</fieldName>
+     <add>2.0</add>
+  </index>
+  <field>
+       <name>is_primary</name>
+       <type>boolean</type>
+       <default>0</default>
+       <comment>Is this the primary email for this contact and location.</comment>
+       <add>2.0</add>
+  </field>
+</table>

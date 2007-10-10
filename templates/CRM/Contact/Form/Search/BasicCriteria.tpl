@@ -11,6 +11,13 @@
 	<table class="form-layout">
 		<tr>
             <td class="font-size12pt">{$form.contact_type.label}</td><td>{$form.contact_type.html}</td>
+           {if $context EQ 'smog'}
+               <td>  
+                 {$form.subgroups.html}
+                 {$form.subgroups_dummy.html}
+              </td>
+           {/if}
+    
             <td class="label">
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.label}<br/>{ts 1=$form.group.html}(for %1){/ts}
@@ -18,13 +25,15 @@
                     {$form.group.label}
                 {/if}
             </td>
-            <td>
-                {if $context EQ 'smog'}
+
+<td> {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
                 {else}
                     {$form.group.html}
+                    {$form.subgroups.html}	
+                    {$form.subgroups_dummy.html}
+	       </td>
                 {/if}
-            </td>
             <td class="label">{$form.tag.label}</td><td>{$form.tag.html}</td>
         </tr>
         <tr>

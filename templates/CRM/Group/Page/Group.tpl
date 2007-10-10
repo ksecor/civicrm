@@ -25,7 +25,8 @@
       <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
       <th field="GroupType" dataType="String" scope="col">{ts}Group Type{/ts}</th>
       <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
-      <th datatype="html"></th>
+<th field = "ChildGroups" dataType = "String" scope ="col">{ts}Child Groups{/ts}</th>
+<th datatype="html"></th>
      </tr>
 	</thead>
 
@@ -39,7 +40,9 @@
         </td>
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
+<td>{$row.children}</td>
         <td>{$row.action}</td>
+
      </tr>
    {/foreach}
 	</tbody>

@@ -90,7 +90,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  
 define( 'CIVICRM_MYSQL_VERSION', 4.1 );
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
-define( 'CIVICRM_MYSQL_PATH', '/usr/bin/' );
+define( 'CIVICRM_MYSQL_PATH', '%%mysqlPath%%' );
 
 /**
  * File System Paths:

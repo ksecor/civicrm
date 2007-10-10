@@ -44,4 +44,5 @@
 <xi:include href="UFMatch.xml"              parse="xml" />
 <xi:include href="UFJoin.xml"               parse="xml" />
 <xi:include href="Validation.xml"           parse="xml" />
+<xi:include href="OpenID.xml"               parse="xml" />
 </tables>
