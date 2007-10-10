@@ -646,9 +646,15 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
-            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
-            $this->_tables[ $tName ] = $locationTypeJoin;
-
+            
+            $locationTypeName= $tName;
+//             $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
+//             $this->_tables[ $tName ] = $locationTypeJoin;
+            
+            //we need to build location join to get location type from
+            //various location blocks.
+            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( ($aName.location_type_id = $ltName.id) ";
+            
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -748,6 +754,9 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_email':
                             case 'civicrm_im':
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$cond";
+                                //build locationType join
+                                $locationTypeJoin .= " OR ( `$tName`.location_type_id = $ltName.id ) ";
+                                    
                                 if ( $addWhere ) {
                                     $this->_whereTables[$tName] = $this->_tables[$tName];
                                 }
@@ -788,6 +797,10 @@ class CRM_Contact_BAO_Query {
                     }
                 }
             }
+
+            // add location type  join
+            $locationTypeJoin .= " ) ";
+            $this->_tables[ $locationTypeName ] = $locationTypeJoin;
         }
     }
 
