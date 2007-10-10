@@ -35,7 +35,207 @@
  
 require_once 'CRM/Contact/DAO/GroupNesting.php';
 
-class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
+class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implements Iterator {
+    
+    static $_sortOrder = 'ASC';
+    
+    private $_current;
+    
+    private $_parentStack = array( );
+    
+    private $_lastParentlessGroup;
+    
+    private $_styleLabels;
+    
+    private $_alreadyStyled = false;
+    
+    /**
+     * class constructor
+     */
+    function __construct( $styleLabels = false ) {
+        parent::__construct( );
+        $this->_styleLabels = $styleLabels;
+    }
+    
+    function setSortOrder( $sortOrder ) {
+        switch ( $sortOrder ) {
+        case 'ASC':
+        case 'DESC':
+            if ( $sortOrder != self::$_sortOrder ) {
+                self::$_sortOrder = $sortOrder;
+                $this->rewind( );
+            }
+            break;
+        default:
+            // spit out some error, someday
+        }
+    }
+    
+    function getSortOrder( ) {
+        return self::$_sortOrder;
+    }
+    
+    function getCurrentNestingLevel( ) {
+        return count( $this->_parentStack );
+    }
+    
+    /**
+     * Go back to the first element in the group nesting graph,
+     * which is the first group (according to _sortOrder) that
+     * has no parent groups
+     */
+    function rewind( ) {
+        $this->_parentStack = array( );
+        // calling _getNextParentlessGroup w/ no arguments
+        // makes it return the first parentless group
+        $firstGroup = $this->_getNextParentlessGroup( );
+        $this->_current = $firstGroup;
+        $this->_lastParentlessGroup = $firstGroup;
+        $this->_alreadyStyled = false;
+    }
+    
+    function current( ) {
+        if ( $this->_styleLabels &&
+             $this->valid( ) &&
+             ! $this->_alreadyStyled ) {
+            $styledGroup = clone( $this->_current );
+            $nestingLevel = $this->getCurrentNestingLevel( );
+            $indent = "";
+            while ( $nestingLevel-- ) {
+                $indent .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+            $styledGroup->title = $indent . $styledGroup->title;
+            /* Doesn't work, so comment out for now
+            * require_once 'CRM/Contact/BAO/GroupOrganization.php';
+            * if ( CRM_Contact_BAO_GroupOrganization::exists( $styledGroup->id ) ) {
+            *    // TODO: How can I make these bold?
+            *    // It seems to ignore any tags inside the <option> tag.
+            * }
+            */
+            $this->_current =& $styledGroup;
+            $this->_alreadyStyled = true;
+        }
+        return $this->_current;
+    }
+    
+    function key( ) {
+        $group =& $this->_current;
+        $ids = array( );
+        foreach ( $this->_parentStack as $parentGroup ) {
+            $ids[] = $parentGroup->id;
+        }
+        $key = implode( '-', $ids );
+        if ( strlen( $key ) > 0 ) {
+            $key .= "-";
+        }
+        $key .= $group->id;
+        return $key;
+    }
+    
+    function next( ) {
+        $currentGroup =& $this->_current;
+        $childGroup = $this->_getNextChildGroup( $currentGroup );
+        if ( $childGroup ) {
+            $nextGroup =& $childGroup;
+            $this->_parentStack[] =& $this->_current;
+        } else {
+            $nextGroup = $this->_getNextSiblingGroup( $currentGroup );
+            if ( ! $nextGroup ) {
+                // no sibling, find an ancestor w/ a sibling
+                for ( ;; ) {
+                    // since we pop this array everytime, we should be
+                    // reasonably safe from infinite loops, I think :)
+                    $ancestor = array_pop( $this->_parentStack );
+                    if ( $ancestor == null ) {
+                        break;
+                    }
+                    $nextGroup = $this->_getNextSiblingGroup( $ancestor );
+                    if ( $nextGroup ) {
+                        break;
+                    }
+                }
+            }
+        }
+        $this->_current =& $nextGroup;
+        $this->_alreadyStyled = false;
+        return $nextGroup;
+    }
+    
+    function valid( ) {
+        if ( $this->_current ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function _getNextParentlessGroup( &$group = null ) {
+        require_once 'CRM/Contact/BAO/Group.php';
+        $lastParentlessGroup = $this->_lastParentlessGroup;
+        $nextGroup =& new CRM_Contact_BAO_Group( );
+        $nextGroup->order_by = "title " . self::$_sortOrder;
+        $nextGroup->find( );
+        if ( $group == null ) {
+            $sawLast = true;
+        } else {
+            $sawLast = false;
+        }
+        while ( $nextGroup->fetch( ) ) {
+            if ( ! self::hasParentGroups( $nextGroup->id ) && $sawLast ) {
+                return $nextGroup;
+            } else if ( $lastParentlessGroup->id == $nextGroup->id ) {
+                $sawLast = true;
+            }
+        }
+        return null;
+    }
+    
+    function _getNextChildGroup( &$parentGroup, &$group = null ) {
+        $children = self::getChildGroupIds( $parentGroup->id );
+        if ( count( $children ) > 0 ) {
+            // we have child groups, so get the first one based on _sortOrder
+            require_once 'CRM/Contact/BAO/Group.php';
+            $childGroup =& new CRM_Contact_BAO_Group( );
+            $cgQuery = "SELECT * FROM civicrm_group WHERE id IN (" .
+                implode( ',', $children ) . ") ORDER BY title " .
+                self::$_sortOrder;
+            $childGroup->query( $cgQuery );
+            $currentGroup =& $this->_current;
+            if ( $group == null ) {
+                $sawLast = true;
+            } else {
+                $sawLast = false;
+            }
+            while ( $childGroup->fetch( ) ) {
+                if ( $sawLast ) {
+                    return $childGroup;
+                } else if ( $currentGroup == $childGroup ) {
+                    $sawLast = true;
+                }
+            }
+        }
+        return null;
+    }
+    
+    function _getNextSiblingGroup( &$group ) {
+        $parentGroup = end( $this->_parentStack );
+        if ( $parentGroup ) {
+            $nextGroup = $this->_getNextChildGroup( $parentGroup, $group );
+            return $nextGroup;
+        } else {
+            /* if we get here, it could be because we're out of siblings
+             * (in which case we return null) or because we're at the
+             * top level groups which do not have parents but may still
+             * have siblings, so check for that first.
+             */
+            $nextGroup = $this->_getNextParentlessGroup( $group );
+            if ( $nextGroup ) {
+                $this->_lastParentlessGroup = $nextGroup;
+                return $nextGroup;
+            }
+            return null;
+        }
+    }
     
     /**
      * Adds a new child group identified by $childGroupId to the group
@@ -110,8 +310,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
     static function hasParentGroups( $groupId ) {
         $dao = new CRM_Contact_DAO_GroupNesting( );
         $query = "SELECT parent_group_id FROM civicrm_group_nesting WHERE child_group_id = $groupId LIMIT 1";
-	//print $query . "\n<br><br>";
-	$dao->query( $query );
+        $dao->query( $query );
         if ( $dao->fetch( ) ) {
             return true;
         }
@@ -280,7 +479,9 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting {
             $groupIds = array( $groupIds );
         }
         $dao = new CRM_Contact_DAO_GroupNesting( );
-        $query = "SELECT parent_group_id, child_group_id FROM civicrm_group_nesting WHERE child_group_id IN (" . implode( ',', $groupIds ) . ")";
+        $query = "SELECT parent_group_id, child_group_id
+                  FROM   civicrm_group_nesting
+                  WHERE  child_group_id IN (" . implode( ',', $groupIds ) . ")";
         $dao->query( $query );
         $tmpGroupIds = array( );
         $parentGroupIds = array( );

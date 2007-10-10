@@ -36,6 +36,7 @@ $mysqlSocket = exec( "$mysqlPath/mysql_config --socket" );
         &nbsp;&nbsp;&nbsp;&nbsp;<label for="socket_file">Socket file (for local connections):</label> <input type="text" name="socket_file" size="30" value="<?php print $mysqlSocket ?>"/><br/><br/>
         <h4>Remote database server</h4>
         &nbsp;&nbsp;&nbsp;&nbsp;<label for="port_number">Port:</label> <input type="text" name="port_number" size="5" value="3306"/><br/><br/>
+	<h4>Other options</h4>
         <label for="mysql_path">Path to mysql bin directory:</label> <input id="mysql_path" type="text" name="mysql_path" value="<?php print $mysqlPath ?>" size="30"/><br/><br/>
         <label for="db_user">DB Username for CiviCRM to use:</label> <input id="db_user" type="text" name="db_user" value="civicrm"/><br/><br/>
         <label for="db_name">Name of the schema for CiviCRM to use:</label> <input id="db_name" type="text" name="db_name" value="civicrm"/><br/><br/>
