@@ -10,22 +10,22 @@
     <dl>
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}The name of this Price Set{/ts}</dd>
-    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>{$form.help_pre.label}</dt><dd>{$form.help_pre.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed at the beginning of this group of fields.{/ts}</dd>
-    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html|crmReplace:class:huge}&nbsp;</dd>
+    <dt>{$form.help_post.label}</dt><dd>{$form.help_post.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Explanatory text displayed below this group of fields.{/ts}</dd>
-    <dt></dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
-    {if $action ne 4}
+    <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
+    {*if $action ne 4*}
         <dt></dt>
         <dd>
         <div id="crm-submit-buttons">{$form.buttons.html}</div>
         </dd>
-    {else}
+    {*else}
         <dt></dt>
         <dd>
         <div id="crm-done-button">{$form.done.html}</div>
         </dd>
-    {/if} {* $action ne view *}
+    {/if*} {* $action ne view *}
     </dl>
     </fieldset>
 </div>
