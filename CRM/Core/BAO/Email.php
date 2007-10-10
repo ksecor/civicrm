@@ -185,7 +185,7 @@ ORDER BY
                 $email->reset_date  = date( 'YmdHis' );
             }
         } else {
-            if ( $email->on_hold != 'null' ) {
+            if ( ($email->on_hold != 'null') && $email->on_hold ) {
                 $email->hold_date   = date( 'YmdHis' );
             }
         }
