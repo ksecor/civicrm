@@ -207,13 +207,6 @@ class CRM_Contact_BAO_Query {
      * @var boolean
      */
     public $_includeContactIds = false;
-    
-    /**
-     * descend into child groups when searching (or not)
-     *
-     * @var boolean
-     */
-    public $_searchChildGroups = true;
 
     /**
      * reference to the query object for custom values
@@ -270,7 +263,7 @@ class CRM_Contact_BAO_Query {
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1,
-                          $skipPermission = false, $searchChildGroups = true ) 
+                          $skipPermission = false ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';
 
@@ -291,7 +284,6 @@ class CRM_Contact_BAO_Query {
         $this->_strict            = $strict;
         $this->_mode              = $mode;
         $this->_skipPermission    = false;
-        $this->_searchChildGroups = $searchChildGroups;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -899,17 +891,7 @@ class CRM_Contact_BAO_Query {
             $result = array( $id, 'LIKE', $values, 0, 1 );
         } else if ( is_string( $values ) && strpos( $values, '%' ) !== false ) {
             $result = array( $id, 'LIKE', $values, 0, 0 );
-        } else if ( $id == 'group' ) {
-            foreach ( $values as $groupIds => $val ) {
-                $matches = array( );
-                preg_match( '/-(\d+)$/', $groupIds, $matches );
-                if ( strlen( $matches[1] ) > 0 ) {
-                   $values[$matches[1]] = 1;
-                   unset( $values[$groupIds] );
-                }
-            }
-            $result = array( $id, 'IN', $values, 0, 0 );
-        } else if ( $id == 'tag' ) {
+        } else if ( $id == 'group' || $id == 'tag' ) {
             $result = array( $id, 'IN', $values, 0, 0 );
         } else {
             $result = array( $id, '=', $values, 0, $wildcard );
@@ -936,14 +918,6 @@ class CRM_Contact_BAO_Query {
             return;
 
         case 'group':
-            list( $name, $op, $value, $grouping, $wildcard ) = $values;
-            $subgroupsDummy = $this->getWhereValues( 'subgroups_dummy', $grouping );
-            if ( $subgroupsDummy ) {
-                $subgroup = $this->getWhereValues( 'subgroups', $grouping );
-                if ( ! $subgroup ) {
-                    $this->_searchChildGroups = false;
-                }
-            }
             $this->group( $values );
             return;
 
@@ -1727,15 +1701,6 @@ class CRM_Contact_BAO_Query {
         // if ( isset($group->saved_search_id) && $context == "smog" ) {
         //   return;
         // }
-        
-        // add child group ids to the query, if requested
-        if ( $this->_searchChildGroups ) {
-            $groupIds = array_keys($value);
-            require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
-        } else {
-            $groupIds = array_keys($value);
-        }
 
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";

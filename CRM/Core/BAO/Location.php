@@ -67,7 +67,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO_Location {
         if ( ! self::dataExists( $params, $locationId, $ids ) ) {
             return null;
         }
-	//	print "About to edit location data";
+
         $location =& new CRM_Core_BAO_Location( );
         
         if (! isset($params['contact_id'])) {

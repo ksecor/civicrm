@@ -376,10 +376,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         return $condition;
     }
 
-    public function __tostring( ) {
-        return $this->title;
-    }
-    
 }
 
 ?>

@@ -323,33 +323,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
         require_once 'api/Contact.php';
-        //$contact =& crm_fetch_contact( $values );
-        $contact = array (
-                          'contact_id'            => 102,
-                          'contact_type'          => 'Individual',
-                          'sort_name'             => 'pankaj.sharma@webaccess.co.in',
-                          'display_name'          => 'pankaj.sharma@webaccess.co.in',
-                          'location_id'           => 90,
-                          'email_id'              => 152, 
-                          'email'                 => 'pankaj.sharma@webaccess.co.in',
-                          'on_hold'               => 0,
-                          'preferred_mail_format' => 'Both'
-                          );
-
-        require_once 'CRM/Contact/DAO/GroupOrganization.php';
-        $goDao =& new CRM_Contact_DAO_GroupOrganization( );
-        $query = "SELECT        co.contact_id
-                  FROM          civicrm_group_organization AS cgo
-                  INNER JOIN    civicrm_organization AS co
-                  ON            cgo.organization_id = co.id
-                  ORDER BY      cgo.id ASC
-                  LIMIT 1";
-        $goDao->query( $query );
-        if ( $goDao->fetch( ) ) {
-            $orgContactId = $goDao->contact_id;
-        }
-        $values = array('contact_id' => $orgContactId );
-        $org =& crm_fetch_contact( $values );
+        $contact =& crm_fetch_contact( $values );
         
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
@@ -433,8 +407,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 }
             }
             
-            /* Do a full token replacement on a dummy verp, the current
-             * contact and domain, and the first organization. */
+            /* Do a full token replacement on a dummy verp, the current contact
+             * and domain. */
             
             // here we make a dummy mailing object so that we
             // can retrieve the tokens that we need to replace
@@ -445,16 +419,17 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             
             require_once 'CRM/Mailing/BAO/Mailing.php';
             $dummy_mail = new CRM_Mailing_BAO_Mailing();
-            $dummy_mail->body_text = $str;
+            $mess = "body_{$file}";
+            $dummy_mail->$mess = $str;
             $tokens = $dummy_mail->getTokens();
-            
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
+
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
             
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+
             if (! empty($unmatched)) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'

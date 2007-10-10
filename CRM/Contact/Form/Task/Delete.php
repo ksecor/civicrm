@@ -115,6 +115,7 @@ class CRM_Contact_Form_Task_Delete extends CRM_Contact_Form_Task {
                 $deletedContacts++;
             }
         }
+
         if ( ! $this->_single ) {
             $status = array( );
             $status = array(

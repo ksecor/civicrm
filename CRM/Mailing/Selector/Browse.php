@@ -176,7 +176,7 @@ class CRM_Mailing_Selector_Browse   extends CRM_Core_Selector_Base
         $query = "
 SELECT count(civicrm_mailing.id)
   FROM civicrm_mailing
-     LEFT JOIN civicrm_mailing_job ON (civicrm_mailing.id = civicrm_mailing_job.mailing_id)
+     LEFT JOIN civicrm_mailing_job ON (civicrm_mailing.id = civicrm_mailing_job.mailing_id AND civicrm_mailing_job.is_test = 0)
    AND $whereClause";
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }

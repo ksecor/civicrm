@@ -387,32 +387,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         return $eq;
     }
-    
-    private function _getMailingGroupIds( $type = 'Include' ) {
-        $mailingGroup =& new CRM_Mailing_DAO_Group();
-        $group = CRM_Contact_DAO_Group::getTableName();
-        if ( ! isset( $this->id ) ) {
-            // we're just testing tokens, so return any group
-            $query = "SELECT   id AS entity_id
-                      FROM     $group
-                      ORDER BY id
-                      LIMIT 1";
-        } else {
-            $query = "SELECT entity_id
-                      FROM   $mg
-                      WHERE  mailing_id = {$this->id}
-                      AND    group_type = '$type'
-                      AND    entity_table = '$group'";
-        }
-        $mailingGroup->query( $query );
-        
-        $groupIds = array( );
-        while ( $mailingGroup->fetch( ) ) {
-            $groupIds[] = $mailingGroup->entity_id;
-        }
-        
-        return $groupIds;
-    }
 
 
     /**
@@ -1611,7 +1585,7 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
             FROM        $mailing 
-                        LEFT JOIN $job ON ( $job.mailing_id    = $mailing.id )
+                        LEFT JOIN $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
@@ -1624,7 +1598,7 @@ SELECT DISTINCT( m.id ) as id
         }
 
         if ($rowCount) {
-           $query .= " LIMIT $offset, $rowCount ";
+            $query .= " LIMIT $offset, $rowCount ";
         }
 
         if ( ! $additionalParams ) {
