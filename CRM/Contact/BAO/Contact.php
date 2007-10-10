@@ -313,8 +313,7 @@ ORDER BY
      */
     static function add(&$params, &$ids) 
     {
-      //      CRM_Core_Error::debug('p','oh');   
-     $contact =& new CRM_Contact_BAO_Contact();
+        $contact =& new CRM_Contact_BAO_Contact();
         
         if ( empty($params) ) {
             return;
@@ -460,6 +459,7 @@ ORDER BY
         } else if ($contact->contact_type == 'Household') {
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('household_name', $params, '');
         } else {
+
             $contact->display_name = $contact->sort_name = CRM_Utils_Array::value('organization_name', $params, '') ;
         }
 
@@ -477,13 +477,13 @@ ORDER BY
         if ( ( ! array_key_exists( 'hash', $contact ) || ! $contact->hash ) && ! $contact->id ) {
             $contact->hash = md5( uniqid( rand( ), true ) );
         }
-
         $contact->save( );
+
         require_once 'CRM/Core/BAO/Log.php';
         CRM_Core_BAO_Log::register( $contact->id,
                                     'civicrm_contact',
                                     $contact->id );
-                                  
+                           
         return $contact;
     }
 
@@ -1281,8 +1281,7 @@ WHERE civicrm_contact.id IN $idString ";
     {
         require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
-	print "aljdkf";
-	print $id;
+
         if ( ! $id ) {
             return false;
         }

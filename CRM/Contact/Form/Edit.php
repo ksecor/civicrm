@@ -170,6 +170,8 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // this is update mode, first get the id from the session
             // else get it from the REQUEST
             $ids = $this->get('ids');
+	    //	    CRM_Core_Error::debug('p', $_REQUEST);
+
             $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
           
             if ( ! $this->_contactId ) {
@@ -196,7 +198,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
                 //get the no of locations for the contact
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
-
                 return;
             }
 
@@ -597,6 +598,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
+	//      CRM_Core_Error::debug('params', $params);
+
 	$params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
@@ -692,7 +695,32 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         //add contact to group
         //print "about to call CRM_Contact_BAO_GroupContact::create<br/>";
         require_once 'CRM/Contact/BAO/GroupContact.php';
-        CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+        
+	    require_once 'CRM/Contact/BAO/GroupOrganization.php';
+	    require_once 'CRM/Contact/DAO/Organization.php';
+
+	    $dao = new CRM_Contact_DAO_Organization( );
+	    $query = "SELECT id FROM civicrm_organization WHERE contact_id = $this->_contactId";
+	    $dao->query($query);
+	    if ( $dao->fetch() ) {
+	        $orgId = $dao->id;
+	    } else {
+	        $orgId = null;
+	        $excludeGroupId = null;
+	    }
+
+	    if ( $orgId != null ) {
+	        $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+	    }
+	    $tempGroups = $params['group'];
+	    $params['group'] = array( );
+	    foreach ( $tempGroups as $tempGroup ) {
+	        if ( $tempGroup != $excludeGroupId ) {
+	            $params['group'][] = $tempGroup;
+	        }
+	    }
+
+	    CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add contact to tags
         require_once 'CRM/Core/BAO/EntityTag.php';

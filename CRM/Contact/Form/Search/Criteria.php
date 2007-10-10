@@ -47,10 +47,17 @@ class CRM_Contact_Form_Search_Criteria {
         }
         $form->addGroup($contact_type, 'contact_type', ts('Contact Type(s)'), '<br />');
         
+        require_once 'CRM/Contact/BAO/GroupOrganization.php';
+        $AllOrgs = array();
+//        $AllOrgs = getAllOrgs();
         // checkboxes for groups
         $group = array();
         foreach ($form->_group as $groupID => $groupName) {
-            $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $groupName);
+            if (CRM_Contact_BAO_GroupOrganization::exists($groupID)) {
+                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, $groupName);
+            } else {
+                $form->_groupElement =& $form->addElement('checkbox', "group[$groupID]", null, "<span class=\"notorg\"><label>" . $groupName . "</label></span>");
+            }
         }
 
         // checkboxes for categories
