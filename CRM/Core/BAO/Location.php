@@ -342,7 +342,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
                 $locations[ $locationCount ]['location_type_id'] = $locationTypeId;
                 
                 //need to fix this if there is no address
-                $locations[ $locationCount ]['is_primary'] = $val['is_primary'];
+                $locations[ $locationCount ]['is_primary'] = CRM_Utils_Array::value( 'is_primary', $val );
                 
                 $locations[ $locationCount ][$key] = $val;
             }

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-curl http://sandbox.devel.civicrm.org/sites/sandbox.devel.civicrm.org/modules/civicrm/extern/ipn.php?reset=1\&module=contribute\&contactID=103\&contributionID=45\&contributionTypeID=1 -d mc_gross=102.00 -d txn_id=1K4126771A8909619 -d invoice=f05a315b06c9044e421dc669c70e072d -d payment_status=Completed -d payment_fee=3.26
+curl http://lobo.devel.civicrm.org/~lobo/drupal/sites/all/modules/civicrm/extern/ipn.php?reset=1\&module=contribute\&contactID=103\&contributionID=1\&contributionTypeID=2\&membershipID=27 -d mc_gross=100.00 -d txn_id=7RS96016KF572480S -d invoice=921860963317b0f98d6f8eac40d751d3 -d payment_status=Completed -d payment_fee=3.20

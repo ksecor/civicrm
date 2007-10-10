@@ -37,28 +37,28 @@ class CRM_Core_OptionGroup {
     static $_values = array( );
 
     static function &valuesCommon( $dao, $flip = false, $grouping = false, $localize = false ) {
-        self::$_values[$name] = array( );
+        self::$_values = array( );
 
         while ( $dao->fetch( ) ) {
             if ( $flip ) {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->value] = $dao->grouping;
+                    self::$_values[$dao->value] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->label] = $dao->value;
+                    self::$_values[$dao->label] = $dao->value;
                 }
             } else {
                 if ( $grouping ) {
-                    self::$_values[$name][$dao->label] = $dao->grouping;
+                    self::$_values[$dao->label] = $dao->grouping;
                 } else {
-                    self::$_values[$name][$dao->value] = $dao->label;
+                    self::$_values[$dao->value] = $dao->label;
                 }
             }
         }
         if ($localize) {
             $i18n =& CRM_Core_I18n::singleton();
-            $i18n->localizeArray(self::$_values[$name]);
+            $i18n->localizeArray(self::$_values);
         }
-        return self::$_values[$name];
+        return self::$_values;
     }
 
     static function &values( $name, $flip = false, $grouping = false, $localize = false ) {
@@ -81,7 +81,6 @@ WHERE  v.option_group_id = g.id
     }
 
     static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false ) {
-        self::$_values[$name] = array( );
         $query = "
 SELECT  v.label as label ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,

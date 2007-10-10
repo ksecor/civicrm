@@ -858,6 +858,9 @@ civicrm_membership_status.is_current_member =1";
              ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
             $form->_params['membershipID'] = $membership->id;
             // this does not return
+            require_once 'CRM/Core/Payment.php';
+            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                
             $payment->doTransferCheckout( $form->_params );
         }
                 

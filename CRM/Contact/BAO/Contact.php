@@ -561,52 +561,36 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
 
-        $locationIds = CRM_Utils_Array::value( 'location', $ids );
-        // extract the first location id
-        if ( $locationIds ) {
-            foreach ( $locationIds as $dontCare => $locationId ) {
-                $locationIds = $locationId;
-                break;
-            }
-        }
-        
-        $location =& new CRM_Core_DAO_Location( );
-        $location->id = CRM_Utils_Array::value( 'id', $locationIds );
-        $location->entity_table = 'civicrm_contact';
-        $location->entity_id    = $contact->id;
-        $location->is_primary   = CRM_Core_BAO_Location::primaryLocationValue( $contact->id,
-                                                                               'civicrm_contact',
-                                                                               $location->id );
-        if ( ! $location->id ) {
-            $location->location_type_id = $locationTypeId;
-        }
-        $location->save( );
-              
-        $address =& new CRM_Core_BAO_Address();
-        CRM_Core_BAO_Address::fixAddress( $params );
-        
-        if ( ! $address->copyValues( $params ) ) {
-            $address->id = CRM_Utils_Array::value( 'address', $locationIds );
-            $address->location_id = $location->id;
-            $address->save( );
-        }
 
-        $phone =& new CRM_Core_BAO_Phone();
-        if ( ! $phone->copyValues( $params ) ) {
-            $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
-            $phone->id = CRM_Utils_Array::value( 1, $blockIds );
-            $phone->location_id = $location->id;
-            $phone->is_primary = true;
-            $phone->save( );
-        }
+        // kurund: we need to fix this
+        if ( 0 ) {
+            $address =& new CRM_Core_BAO_Address();
+            CRM_Core_BAO_Address::fixAddress( $params );
         
-        $email =& new CRM_Core_BAO_Email();
-        if ( ! $email->copyValues( $params ) ) {
-            $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
-            $email->id = CRM_Utils_Array::value( 1, $blockIds );
-            $email->location_id = $location->id;
-            $email->is_primary = true;
-            $email->save( );
+            if ( ! $address->copyValues( $params ) ) {
+                $address->id = CRM_Utils_Array::value( 'address', $locationIds );
+                $address->contact_id = $contact->id;
+                $address->is_primary = true;
+                $address->save( );
+            }
+
+            $phone =& new CRM_Core_BAO_Phone();
+            if ( ! $phone->copyValues( $params ) ) {
+                $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
+                $phone->id = CRM_Utils_Array::value( 1, $blockIds );
+                $phone->contact_id = $contact->id;
+                $phone->is_primary = true;
+                $phone->save( );
+            }
+        
+            $email =& new CRM_Core_BAO_Email();
+            if ( ! $email->copyValues( $params ) ) {
+                $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
+                $email->id = CRM_Utils_Array::value( 1, $blockIds );
+                $email->location_id = $location->id;
+                $email->is_primary = true;
+                $email->save( );
+            }
         }
 
         /* Process custom field values and other values */
