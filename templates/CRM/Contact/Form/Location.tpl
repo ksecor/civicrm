@@ -4,7 +4,7 @@
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 {* @var $locationCount contains the max number of locations to be displayed, assigned in the Location.php file*}
 {* @var $index contains the current index of the location section *}
- 
+
  {section name = locationLoop start = 1 loop = $locationCount}
  {assign var=index value=$smarty.section.locationLoop.index}
 
@@ -58,7 +58,7 @@
             {$form.shared_option.html}
         </div>
         <div id="shared_household" class="form-item">
-         <div dojoType="dojo.data.ItemFileReadStore" jsId="addressStore" url="{$dataURL}" class="tundra" >
+         <div dojoType="dojo.data.ItemFileReadStore" jsId="addressStore" url="{$dataURL}" class="tundra" ></div>
             {$form.shared_household.html}
             <br />
             <span class="description">{ts}Enter the first letters of the name of the household to see available households with their addresses.{/ts}</span> 
