@@ -26,7 +26,9 @@
  *		(Leave out CIVICRM_UF_VERSION.)
  *		define( 'CIVICRM_UF_URLVAR', 'q');
  *
- *
+ * You may have issues with images in CiviCRM. If this is the case, be sure
+ * to update the CiviCRM Resource URL field (in Administer CRM: Global
+ * Settings: Resource URLS) to your CiviCRM root directory.
  */
 
 define( 'CIVICRM_UF'               , '%%cms%%'        );

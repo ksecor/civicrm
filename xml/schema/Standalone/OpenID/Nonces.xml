@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<table>
+  <base>CRM/Standalone/OpenID</base>
+  <class>Nonce</class>
+  <name>civicrm_openid_nonces</name>
+  <comment>The OpenID nonce store for standalone login.</comment>
+  <add>2.0</add>
+  <field>
+      <name>id</name>
+      <type>int unsigned</type>
+      <required>true</required>
+      <add>2.0</add>
+  </field>
+  <primaryKey>
+       <name>id</name>
+       <autoincrement>true</autoincrement>
+  </primaryKey>
+  <field>
+      <name>nonce</name>
+      <type>char</type>
+      <length>8</length>
+      <required>true</required>
+      <add>2.0</add>
+  </field>
+  <field>
+       <name>expires</name>
+       <type>int</type>
+       <add>2.0</add>
+  </field>
+  <index>
+       <name>nonce_index</name>
+       <fieldName>nonce</fieldName>
+       <unique>true</unique>
+       <add>2.0</add>
+  </index>
+</table>
