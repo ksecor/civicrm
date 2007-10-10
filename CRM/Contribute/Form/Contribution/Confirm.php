@@ -174,7 +174,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( isset( $params['selectProduct'] ) && $params['selectProduct'] != 'no_thanks') {
             $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
-            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
+            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id, false,
+                                                           $productID, $option);
             $this->set('productID',$productID);
             $this->set('option',$option);
         }
@@ -182,7 +183,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( in_array("CiviMember", $config->enableComponents) ) {
             if ( isset( $params['selectMembership'] ) &&
                  $params['selectMembership'] != 'no_thanks' ) {
-                CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
+                CRM_Member_BAO_Membership::buildMembershipBlock( $this,
+                                                                 $this->_id,
+                                                                 false,
+                                                                 $params['selectMembership'] );
             }
         }
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
@@ -338,19 +342,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( ! isset( $contactID ) ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
-            // so now we have a confirmed financial transaction
-            // lets create or update a contact first
             require_once 'api/crm.php';
             $ids = CRM_Core_BAO_UFGroup::findContact( $params );
             $contactsIDs = explode( ',', $ids );
             
             // if we find more than one contact, use the first one
-            $contact_id  = $contactsIDs[0];
+            $contact_id  = CRM_Utils_Array::value( 0, $contactsIDs );
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         } else {
-            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact",$contactID,"contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null, $ctype);
+            $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'contact_type');
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
+                                                                         null, $ctype);
         }
         
         // store the fact that this is a membership and membership type is selected
@@ -359,17 +362,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
              $membershipParams['selectMembership'] != 'no_thanks' ) {
             $processMembership = true;
             $this->assign( 'membership_assign' , true );
-            $this->set('membershipID' , $this->_params['selectMembership']);
+            $this->set('membershipTypeID' , $this->_params['selectMembership']);
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $membershipParams["is_test"] = 1;
+                $membershipParams['is_test'] = 1;
             }
         }
+
    
-        if ( $processMembership && $this->_contributeMode != 'notify' ) {
+        if ( $processMembership ) {
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
-            require_once "CRM/Member/BAO/Membership.php";
+            require_once 'CRM/Member/BAO/Membership.php';
             CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,
                                                               $this, $premiumParams );
         } else {
