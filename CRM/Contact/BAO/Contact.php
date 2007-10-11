@@ -1729,7 +1729,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         } else {
             $data['contact_type'] = 'Individual';
         }
-
         
         // get the contact details (hier)
         if ( $contactID ) {
@@ -1747,6 +1746,8 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         $count = 1;
         
         if ( $contactID ) {
+            //add contact id
+            $data['contact_id'] = $contactID;
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactID);
         } else {
             require_once "CRM/Core/BAO/LocationType.php";
@@ -1920,10 +1921,9 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                                 $locNo = array_search( $key, $locationType );
                             }
                         }
+                        
                         if ( ! $locNo ) {
-                            // hack for now to get paypal to work, Kurund please fix
-                            $locNo = 5;
-                            // CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
+                            CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
                         }
 
                         foreach ($value as $k => $v) {
@@ -1987,7 +1987,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        
         if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
