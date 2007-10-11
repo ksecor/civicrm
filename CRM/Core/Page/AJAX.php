@@ -101,22 +101,40 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) ); 
         
         $shared = null;
         if ( isset($_GET['sh']) ) {
             $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
         }
+        
+        $relType = null;
+        if ( isset($_GET['reID']) ) {
+            $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
+            $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
+        }
+       
 
         if ( $shared ) {
             $query = "
-SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
+SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
 civicrm_contact.id 'id'
 FROM civicrm_contact
 LEFT JOIN civicrm_address ON (civicrm_address.contact_id = civicrm_contact.id
                                  AND civicrm_address.is_primary=1 )
 WHERE household_name LIKE '$name%'
 ORDER BY household_name ";
+
+        } elseif($relType) {
+            $query = "
+SELECT c.sort_name, c.id
+FROM civicrm_contact c, civicrm_relationship_type r
+WHERE c.sort_name LIKE '$name%'
+AND c.domain_id = $domainID
+AND r.id = $relType
+AND c.contact_type = r.contact_type_{$rel}
+ORDER BY sort_name" ;
+            
         } else {
             $query = "
 SELECT sort_name, id
@@ -125,7 +143,7 @@ WHERE sort_name LIKE '$name%'
 AND domain_id = $domainID
 ORDER BY sort_name ";
         }
-
+        
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
@@ -141,7 +159,7 @@ ORDER BY sort_name ";
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements );
     }
-
+    
     /**
      * Function for building Event combo box
      */
