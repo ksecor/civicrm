@@ -154,8 +154,6 @@ class CRM_Core_Component
                                            'view Kabissa Application',
                                            'review Kabissa Application' ),
                        'search'  => 1,
-                       'metaTpl' => 'quest',
-                       'formTpl' => 'quest',
                        'task'    => array( ) 
                        );
         }
