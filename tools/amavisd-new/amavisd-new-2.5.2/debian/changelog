@@ -1,3 +1,10 @@
+amavisd-new (1:2.5.2-2) unstable; urgency=low
+
+  *  Make milter tempdir group writeable (Closes: #442372)
+  *  Remove amavisd.conf from /etc - thanks to Piotr Szotkowski for reporting 
+
+ -- Alexander Wirt <formorer@debian.org>  Mon, 08 Oct 2007 10:27:14 +0200
+
 amavisd-new (1:2.5.2-1) experimental; urgency=low
 
   * New upstream release (Closes: #427337, #434533)
