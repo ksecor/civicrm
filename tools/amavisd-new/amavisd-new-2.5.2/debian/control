@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
 
 Package: amavisd-new
 Architecture: all
-Depends: debconf | debconf-2.0, adduser (>= 3.34), file, libmime-perl (>= 5.417), libmime-perl (<< 5.4.19) | libmime-perl (>= 5.420), libconvert-tnef-perl (>= 0.06), libconvert-uulib-perl (>= 1.0.5), libcompress-zlib-perl (>= 1.35), libarchive-tar-perl, libarchive-zip-perl (>= 1.14), libmailtools-perl (>= 1.58), libunix-syslog-perl, libnet-server-perl, libtime-hires-perl, libdigest-md5-perl, libmime-base64-perl, libio-stringy-perl, libberkeleydb-perl, ${perl:Depends}
+Depends: debconf | debconf-2.0, adduser (>= 3.34), file, libmime-perl (>= 5.417), libmime-perl (<< 5.4.19) | libmime-perl (>= 5.420), libconvert-tnef-perl (>= 0.06), libconvert-uulib-perl (>= 1.0.5), libcompress-zlib-perl (>= 1.35), libarchive-tar-perl, libarchive-zip-perl (>= 1.14), libmailtools-perl (>= 1.58), libunix-syslog-perl, libnet-server-perl, libtime-hires-perl, libdigest-md5-perl, libmime-base64-perl, libio-stringy-perl, libberkeleydb-perl, ${perl:Depends}, libsoap-lite-perl, libmail-verp-perl
 Provides: amavis
 Conflicts: amavis, logcheck (<= 1.2.62)
 Replaces: amavis

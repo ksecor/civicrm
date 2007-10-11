@@ -1,3 +1,12 @@
+amavisd-new (1:2.5.2-2civicrm1) unstable; urgency=low
+
+  * add debian/etc/conf.d/40-civimail
+  * amavisd: add CiviMail changes
+  * debian/control: add the libsoap-lite-perl and
+    libmail-verp-perl dependencies required by CiviMail
+
+ -- Piotr Szotkowki <shot@civicrm.org>  Thu, 11 Oct 2007 15:32:57 +0200
+
 amavisd-new (1:2.5.2-2) unstable; urgency=low
 
   *  Make milter tempdir group writeable (Closes: #442372)
