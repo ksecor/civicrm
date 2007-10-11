@@ -50,6 +50,10 @@ class CRM_Utils_Token
                                                       'resubscribe',
                                                       'resubscribeUrl'
                                                       ),
+                             'mailing'       => array(
+                                                      'name',
+                                                      'group'
+                                                      ),
                              'contact'       => null,  // populate this dynamically
                              'domain'        => array( 
                                                       'name', 
@@ -274,7 +278,7 @@ class CRM_Utils_Token
              $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
              $value = implode(', ', $groups);
          }
-         
+        
          return $value;
      }
 

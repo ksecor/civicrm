@@ -187,7 +187,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        $values = array('mailing_id'    => $this->get('mailing_id'));
+
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -318,7 +320,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Domain.php';
         
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
-        $mailing = null;
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = & new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $options['mailing_id'];
+        $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
