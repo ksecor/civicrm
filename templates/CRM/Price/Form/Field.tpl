@@ -45,28 +45,32 @@
 <fieldset><legend>{ts}Price Field{/ts}</legend>
 
     <div class="form-item">
-        <dl>
+        <dl class="html-adjust">
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
         <dt>{$form.html_type.label}</dt><dd>{$form.html_type.html}</dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the html type used to offer options for this field{/ts}</dd>
         {/if}
         </dl>
-
+        <div class="spacer"></div>
         <div id="price" {if $action eq 2 && $form.html_type.value.0 eq 'Text'} class="show-block" {else} class="hide-block" {/if}>
+        <dl class="html-adjust">
         <dt>{$form.price.label}</dt><dd>{$form.price.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Unit price{/ts}
         {/if}
+        </dl>
         </div>
 
     {if $action eq 1}
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' class="hide-block">{ include file="CRM/Price/Form/OptionFields.tpl"}</div>
     {/if}
-        <dl>
-	<dt id="optionsPerLine" {if $action eq 2 && ($form.html_type.value.0 eq 'CheckBox' || $form.html_type.value.0 eq 'Radio')}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
+        <dl class="html-adjust">
+	    <dt id="optionsPerLine" {if $action eq 2 && ($form.html_type.value.0 eq 'CheckBox' || $form.html_type.value.0 eq 'Radio')}class="show-block"{else} class="hide-block" {/if}>{$form.options_per_line.label}</dt>	
 	    <dd id="optionsPerLineDef" {if $action eq 2 && ($form.html_type.value.0 eq 'CheckBox' || $form.html_type.value.0 eq 'Radio')}class="show-block"{else} class="hide-block"{/if}>{$form.options_per_line.html|crmReplace:class:two}</dd>
+
+
 <!--
         <div id="is_enter_qty" {if $action eq 2 && $form.html_type.value.0 eq 'Text'} class="hide-block" {else} class="show-block" {/if}>
         <dt>{$form.is_enter_qty.label}</dt><dd>{$form.is_enter_qty.html}</dd>
@@ -75,12 +79,14 @@
         {/if}
         </div>
 -->
+
+
         <dt>{$form.is_display_amounts.label}</dt><dd>{$form.is_display_amounts.html}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Display amount next to each option?  If no, then the amount should be in the option description.{/ts}</dd>
         {/if}
 
-	      <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
+        <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>
         {if $action neq 4}
         <dt>&nbsp;</dt><dd class="description">{ts}Weight controls the order in which fields are displayed in a group. Enter a positive or negative integer - lower numbers are displayed ahead of higher numbers.{/ts}</dd>
         {/if}
@@ -101,14 +107,14 @@
         {/if}
 -->
         <dt>{$form.is_required.label}</dt><dd>&nbsp;{$form.is_required.html}</dd>
-    </dl>
-        <dl>
+        </dl>
+        <dl class="html-adjust">
         <dt>{$form.is_active.label}</dt><dd>&nbsp;{$form.is_active.html}</dd>
         </dl>    
    </div>
     
     <div id="crm-submit-buttons" class="form-item">
-    <dl>
+    <dl class="html-adjust">
     {if $action ne 4}
         <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
     {else}

@@ -58,6 +58,7 @@ class CRM_Core_BAO_CustomOption {
      */
     static function retrieve( &$params, &$defaults )
     {
+        require_once 'CRM/Core/DAO/OptionValue.php';
         $customOption =& new CRM_Core_DAO_OptionValue( );
         $customOption->copyValues( $params );
         if ( $customOption->find( true ) ) {
