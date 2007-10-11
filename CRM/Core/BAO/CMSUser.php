@@ -195,7 +195,7 @@ class CRM_Core_BAO_CMSUser
             // if cms is drupal having version greater than equal to 5.1
             // we also need email verification enabled, else we dont do it
             // then showCMS will true
-            if ( $isDrupal  && $version >=5.1 && variable_get('user_email_verification', TRUE ) OR 
+            if ( ( $isDrupal  && $version >=5.1 && variable_get('user_email_verification', TRUE ) ) OR 
                  ( $isJoomla ) ) {
                 if ( $gid ) {                                        
                     $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
@@ -216,7 +216,7 @@ class CRM_Core_BAO_CMSUser
                         require_once 'CRM/Core/Action.php';
                         if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
                             $form->add('text', 'cms_name', ts('Username') );
-                            if ( $isDrupal && !variable_get('user_email_verification', TRUE ) OR ( $isJoomla) ) {       
+                            if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
                                 $form->add('password', 'cms_pass', ts('Password') );
                                 $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
                             } 
@@ -239,7 +239,7 @@ class CRM_Core_BAO_CMSUser
             $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
             $version  = $config->userFrameworkVersion;
 
-            if ( $isDrupal && $version >= 5.1 ) OR ( $isJoomla ) ) {
+            if ( ( $isDrupal && $version >= 5.1 ) OR ( $isJoomla ) ) {
                 $errors = array( );
                 $emailName = null;
                 if ( ! empty( $self->_bltID ) ) {
@@ -283,7 +283,7 @@ class CRM_Core_BAO_CMSUser
                 }
                 
                 // now check that the cms db does not have the user name and/or email
-                if ( ($isDrupal && $version) OR $isJoomla ) {
+                if ( ( $isDrupal && $version ) OR $isJoomla ) {
                     $params = array( 'name' => $fields['cms_name'],
                                      'mail' => $fields[$emailName] );
                 }
