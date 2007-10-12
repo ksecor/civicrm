@@ -38,6 +38,15 @@ require_once 'CRM/Core/OptionGroup.php';
 
 class CRM_Event_Form_SearchEvent extends CRM_Core_Form 
 {
+    function setDefaultValues( )
+    {
+        $defaults = array( );
+        $today= CRM_Utils_Date::getToday( );
+        list($year, $month, $day) = explode ('-', $today);
+        $eventStartDate = date( 'Y-m-d', mktime( 0, 0, 0, $month, $day - 5, $year) );
+        $defaults['start_date'] = $eventStartDate;
+        return $defaults;
+    }
 
     /**
      * Build the form
@@ -49,7 +58,7 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
         {
         $this->add( 'text', 'title', ts( 'Find' ),
                     array(CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'title'), 
-                          'style' => 'width: 90%') );
+                          'style' => 'width: 80%') );
         
         $event_type = CRM_Core_OptionGroup::values( 'event_type', false );
         

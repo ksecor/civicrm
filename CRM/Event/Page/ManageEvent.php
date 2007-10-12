@@ -212,8 +212,7 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
 
         $this->_force = null;
         $this->_searchResult = null;
-        $past = false;
-        $current = false;
+      
         $this->search( );
 
         $config =& CRM_Core_Config::singleton( );
@@ -222,20 +221,18 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $this->_force = CRM_Utils_Request::retrieve( 'force', 'Boolean',
                                                        $this, false ); 
         $this->_searchResult = CRM_Utils_Request::retrieve( 'searchResult', 'Boolean', $this );
-        $past = CRM_Utils_Request::retrieve( 'past', 'Boolean', $this );
-        $current = CRM_Utils_Request::retrieve( 'current', 'Boolean', $this );
-       
-        $whereClause = $this->whereClause( $params, false, $this->_force, $past, $current );
+      
+        $whereClause = $this->whereClause( $params, false, $this->_force );
         $this->pagerAToZ( $whereClause, $params );
 
         $params      = array( );
-        $whereClause = $this->whereClause( $params, true, $this->_force, $past, $current );
+        $whereClause = $this->whereClause( $params, true, $this->_force );
         $this->pager( $whereClause, $params );
-        if ($current) {
+        /* if ($current) {
             $past = true;
         } else {
             $past = false;
-        }
+        }*/
             
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
@@ -250,9 +247,7 @@ ORDER BY title asc
    LIMIT $offset, $rowCount";
 
         $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Event_DAO_Event' );
-           
-        $this->assign( 'past', $past );
-
+     
         while ($dao->fetch()) {
             $manageEvent[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $manageEvent[$dao->id]);
@@ -317,7 +312,7 @@ ORDER BY title asc
         $form->run( );
     }
     
-    function whereClause( &$params, $sortBy = true, $force, $past, $current ) {
+    function whereClause( &$params, $sortBy = true, $force ) {
         $values  =  array( );
         $clauses = array( );
         $title   = $this->get( 'title' );
@@ -343,7 +338,6 @@ ORDER BY title asc
              }
              
              $clauses[] = "event_type_id IN ({$type})";
-             // $params[2] = array( $type, 'String' );
          }
          
         require_once 'CRM/Utils/Date.php';
@@ -371,14 +365,11 @@ ORDER BY title asc
             $params[5] = array( $this->_sortByCharacter . '%', 'String' );
         }
         
-        if(!$this->_searchResult) {
-            $curDate = date( 'YmdHis' );
-            if ($past) {
-                $clauses[] = "end_date < {$curDate}";
-            }
-            if ($current) {
-                $clauses[] = "end_date >= {$curDate}";
-            }
+        if ( !$this->_searchResult ) {
+            $today= CRM_Utils_Date::getToday( );
+            list($year, $month, $day) = explode ('-', $today);
+            $eventStartDate = date( 'Ymd', mktime( 0, 0, 0, $month, $day - 5, $year) );
+            $clauses[] = "start_date >= {$eventStartDate}";
         }
         $clauses[] = 'domain_id = %6';
         $params[6] = array( CRM_Core_Config::domainID( ), 'Integer' );
