@@ -23,8 +23,6 @@
         {* Checkbox for "make this the primary location" *}
         {$form.location.$index.is_primary.html}
 
-        &nbsp; &nbsp; {$form.location.$index.name.label}
-        {$form.location.$index.name.html|crmReplace:class:big} 
         {if $locationExists}
             {foreach from=$locationExists item=ltypeid}   
                {if $ltypeid == $form.location.$index.location_type_id.value[0]}

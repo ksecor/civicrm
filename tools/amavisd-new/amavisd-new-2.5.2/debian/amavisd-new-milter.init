@@ -1,0 +1,79 @@
+#! /bin/sh
+#
+# amavisd-new-milter    /etc/init.d/ initscript for amavisd-new milter
+# 		$Id: amavisd-new-milter.init 411 2004-05-15 04:45:59Z hmh $
+#
+#		Copyright (c) 2003 by Brian May <bam@debian.org>
+#			and Henrique M. Holschuh <hmh@debian.org>
+#		Distributed under the GPL version 2
+#
+### BEGIN INIT INFO
+# Provides:          amavisd-new-milter
+# Required-Start:    $syslog 
+# Required-Stop:     $syslog
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts the milter for amavisd-new 
+# Description:       milter for sendmail/postfix and amavisd-new
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/amavis-milter
+PARENTDAEMON=/usr/sbin/amavisd-new
+NAME=amavis-milter
+DESC="AMaViS Daemons (milter)"
+PARAMS="-D -p /var/lib/amavis/amavisd-new-milter.sock"
+
+test -f ${PARENTDAEMON} || exit 0
+test -f ${DAEMON} || exit 0
+
+set -e
+
+START="--start --quiet --pidfile /var/run/amavis/amavisd-new-milter.pid --chuid amavis --startas ${DAEMON} --name ${NAME} -- ${PARAMS}"
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	if start-stop-daemon ${START} >/dev/null 2>&1; then
+		echo "${NAME}."
+	else
+		if start-stop-daemon --test ${START} >/dev/null 2>&1; then
+			echo "(failed)."
+			exit 1
+		else
+			echo "(already running)."
+			exit 0
+		fi
+	fi
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	if start-stop-daemon --stop --quiet --retry 10 --name ${NAME} \
+	      --pidfile /var/run/amavis/amavisd-new-milter.pid \
+	      --startas $DAEMON >/dev/null 2>&1; then
+		echo "${NAME}."
+	else
+		if start-stop-daemon --test ${START} >/dev/null 2>&1; then
+			echo "(not running)."
+			exit 0
+		else
+			echo "(failed)."
+			exit 1
+		fi
+	fi
+	;;
+  restart|force-reload)
+	$0 stop
+	exec $0 start
+	;;
+  *)
+	N=/etc/init.d/amavisd-new-milter
+	#echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+	echo "Usage: $N {start|stop|restart|force-reload}" >&2
+	exit 1
+	;;
+esac
+
+exit 0

@@ -1539,7 +1539,7 @@ WHERE civicrm_contact.id IN $idString ";
             
             //Sorting fields in alphabetical order(CRM-1507)
             foreach ( $fields as $k=>$v ) {
-                $sortArray[$k] = $v['title'];
+                $sortArray[$k] = CRM_Utils_Array::value( 'title', $v );
             }
             asort($sortArray);
             $fields = array_merge( $sortArray, $fields );
@@ -1921,7 +1921,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                               'address_id'      => 'address'
                               );
             $ids = array( ); 
-            
             if ( is_array($contactDetails) ) {
                 foreach ($contactDetails as $key => $value) {
                     if ( array_key_exists($key, $objects) ) {
@@ -1930,8 +1929,17 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                     } else if (is_array($value)) {
                         
                         $locNo = array_search( $value['location_type_id'], $locationType );
-                        if ( $locNo == false ) {
-                            CRM_Core_Error::fatal( ts( 'Could not find location id' ) );
+                        if ( ! $locNo ) {
+                            if ( is_numeric( $key ) ) {
+                                $locNo = $key;
+                            } else {
+                                $locNo = array_search( $key, $locationType );
+                            }
+                        }
+                        if ( ! $locNo ) {
+                            // hack for now to get paypal to work, Kurund please fix
+                            $locNo = 5;
+                            // CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
                         }
 
                         foreach ($value as $k => $v) {

@@ -139,7 +139,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             CRM_Core_DAO::storeValues( $priceFieldBAO, $priceField[$priceFieldBAO->id]);
 
             // get price if it's a text field
-            if ($priceFieldBAO->html_type == 'Text') {
+            if ( $priceFieldBAO->html_type == 'Text' ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $optionParams = array(
                     'entity_table' => 'civicrm_price_field',
@@ -167,6 +167,13 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                                                                                     array('id'  => $priceFieldBAO->id,
                                                                                           'gid' => $this->_gid ));
         }
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/price/field', "reset=1&action=browse&gid={$this->_gid}" );
+        $filter    = "price_set_id = {$this->_gid}";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $priceField, 'CRM_Core_DAO_PriceSet',
+                                    'id', $returnURL, $filter );
+        
         $this->assign('priceField', $priceField);
     }
 

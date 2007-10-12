@@ -207,7 +207,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
             
             // weight
-            $this->add('text', 'option_weight['.$i.']', ts('Weight'), $weightAttribute);
+            $this->add('text', 'option_weight['.$i.']', ts('Order'), $weightAttribute);
 
             // is active ?
             $this->add('checkbox', 'option_status['.$i.']', ts('Active?'));
@@ -223,7 +223,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $this->add('checkbox', 'is_display_amounts', ts('Display Amount?') );
 
         // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
 
         // checkbox / radio options per line

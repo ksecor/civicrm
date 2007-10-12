@@ -1,0 +1,51 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 55_helper-progs_build_fixes.dpatch by  <hmh@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad unstable~/helper-progs/Makefile.in unstable/helper-progs/Makefile.in
+--- unstable~/helper-progs/Makefile.in	2006-11-04 00:55:56.000000000 -0300
++++ unstable/helper-progs/Makefile.in	2006-11-04 00:56:34.710451077 -0300
+@@ -15,8 +15,8 @@
+ 
+ all: amavis-milter amavis
+ 
+-amavis-milter.c:
+-	ln -sf amavis-milter-based-on-1.1.2.3.2.40-v2.c amavis-milter.c
++unstripped: FORCE
++	$(MAKE) all DONT_STRIP=1
+ 
+ amavis-milter: amavis-milter.o 
+ 	@CC@ @CFLAGS@ @LDFLAGS@ @PTHREAD_FLAG@ -o amavis-milter amavis-milter.o @LIBMILTER@ @LIBS@
+diff -urNad unstable~/helper-progs/configure.in unstable/helper-progs/configure.in
+--- unstable~/helper-progs/configure.in	2006-11-04 00:55:56.000000000 -0300
++++ unstable/helper-progs/configure.in	2006-11-04 00:56:34.710451077 -0300
+@@ -153,6 +153,10 @@
+    AC_PATH_PROG(SENDMAILPROG, sendmail, no, $PATH:/sbin:/usr/sbin:/usr/lib:/usr/libexec)
+ fi
+ 
++if test "$SENDMAILPROG" = "no" ; then
++   SENDMAILPROG=/usr/sbin/sendmail
++fi
++
+ dnl rm
+ AC_PATH_PROG(RM, rm, no, $PATH)
+ 
+@@ -280,9 +284,9 @@
+ 
+ 
+ 
+-if test "$SENDMAILPROG" != "no" ; then
+-        sendmailversion=`$SENDMAILPROG -bv -d0.1 | $AWK '/Version/ {print $2}'`
+-        echo ""
+-        echo "Info: sendmail version $sendmailversion detected"
+-        echo ""
+-fi
++#if test "$SENDMAILPROG" != "no" ; then
++#        sendmailversion=`$SENDMAILPROG -bv -d0.1 | $AWK '/Version/ {print $2}'`
++#        echo ""
++#        echo "Info: sendmail version $sendmailversion detected"
++#        echo ""
++#fi

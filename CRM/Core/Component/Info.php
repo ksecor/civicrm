@@ -152,7 +152,7 @@ abstract class CRM_Core_Component_Info
      * @access public
      *
      */
-    public function &getBAOQueryObject( ) 
+    public function getBAOQueryObject( ) 
     {
         return $this->_instantiate( self::COMPONENT_BAO_QUERY_CLASS );
     }

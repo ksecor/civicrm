@@ -21,7 +21,7 @@
             <th field="Minimum Fee" dataType="Money" align="right">{ts}Minimum Fee{/ts}</th>
             <th field="Duration" dataType="String">{ts}Duration{/ts}</th>
             <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
-	    <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+	    <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
  	    <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
             <th datatype="html"></th>
         </tr>

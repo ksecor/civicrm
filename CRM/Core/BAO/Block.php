@@ -241,7 +241,7 @@ class CRM_Core_BAO_Block
                 
                 if ( isset( $val['id'] ) && !$dataExits ) {
                     //delete the existing record
-                    self::blockDelete( $name, $val['id'] );
+                    self::blockDelete( $name, array( 'id' => $val['id'] ) );
                     continue;
                 } else if ( !$dataExits ) {
                     continue;
@@ -253,10 +253,8 @@ class CRM_Core_BAO_Block
                 } else {
                     $contactFields['is_primary'] = false;
                 }
-
                
                 $blockFields = array_merge( $val, $contactFields );
-                //crm_core_error::debug('$blockFields', $blockFields);
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
             }
             
@@ -265,21 +263,22 @@ class CRM_Core_BAO_Block
 
         return $blocks;
     }
-    
 
     /**
      * Function to delete block
      *
-     * @param   string $blockName block name
-     * @params  int    $blockId   block id that need to deleted
+     * @param  string $blockName       block name
+     * @param  int    $params          associates array
      *
      * @return void
      * @static
      */
-    static function blockDelete ( $blockName, $blockId ) 
+    static function blockDelete ( $blockName, $params ) 
     {
         eval ( '$block =& new CRM_Core_DAO_' . $blockName . '( );' );
-        $block->id = $blockId;
+
+        $block->copyValues( $params );
+
         $block->delete();
     }
     

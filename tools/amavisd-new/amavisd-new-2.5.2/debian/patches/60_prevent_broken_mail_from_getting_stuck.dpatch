@@ -1,0 +1,33 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 60_prevent_broken_mail_from_getting_stuck.dpatch by Alexander Wirt <formorer@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Provided by Mark Martinec for 2.5.2
+
+@DPATCH@
+diff -urNad amavisd-new~/amavisd amavisd-new/amavisd
+--- amavisd-new~/amavisd	2007-06-27 12:43:00.000000000 +0200
++++ amavisd-new/amavisd	2007-09-17 22:54:01.000000000 +0200
+@@ -3019,7 +3019,8 @@
+   local($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11);
+   $received =~ s/\n([ \t])/$1/g;  # unfold
+   $received =~ s/[\n\r]//g;       # delete remaining newlines if any
+-  my(%fields);
++  $received =~ s/[ \t]+/ /g;      # compress whitespace as a quickfix/bandaid
++  my(%fields);                    #   for deep recursion in regexp evaluation
+   while ($received =~ m{\G\s*
+             ( \b(from|by) \s+ ( (?: \[ (?: \\. | [^\]\\] )* \] | [^;\s\[] )+ )
+               (?: \s* \( (?: ( [^\s\[]+ ) \s+ )?
+@@ -3307,9 +3308,9 @@
+     # we mainly avoid stop-characters in the domain names of source route
+     $source_route = $1; $addr = $2;
+   }
+-  if ($addr =~ m{^ (    (?: [^"@]+ | " (?: \\. | [^"\\] )* " | . )*? )
+-                   ( \@ (?: [^"@\[\]\\ \t]+ | \[ (?: \\. | [^\]\\] )* \]
+-                          | [^@] )* )? \z}xs) {
++  if ($addr =~ m{^ ( .*? )
++                 ( \@ (?: [^@\[\]]+ | \[ (?: \\. | [^\]\\] )* \] | [^@] )* )?
++                 \z}xs) {
+     ($localpart,$domain) = ($1,$2);
+   } else {
+     ($localpart,$domain) = ($addr,'');

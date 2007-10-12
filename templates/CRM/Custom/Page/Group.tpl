@@ -22,7 +22,7 @@
             <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
             <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
             <th field="Type"         dataType="String">{ts}Type{/ts}</th>
-            <th field="Weight"       dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order"        dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th field="Style"        dataType="String">{ts}Style{/ts}</th>
             <th datatype="html"></th>
         </tr>

@@ -32,6 +32,7 @@
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 {/if}
     <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge}</dd>
+    <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge}</dd>
 {if $is_recur}
     <dt>{$form.url_recur.label}</dt><dd>{$form.url_recur.html|crmReplace:class:huge}</dd>
 {/if}
@@ -53,6 +54,7 @@
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
 {/if}
     <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge}</dd>
+    <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge}</dd>
 {if $is_recur}
     <dt>{$form.test_url_recur.label}</dt><dd>{$form.test_url_recur.html|crmReplace:class:huge}</dd>
 {/if}

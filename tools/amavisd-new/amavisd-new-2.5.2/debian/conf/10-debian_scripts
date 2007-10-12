@@ -1,0 +1,26 @@
+use strict;
+
+# ADMINSTRATORS: DO NOT CHANGE THIS FILE
+# Change the files in /etc/amavis/conf.d instead
+
+# This file contains Debian system settings that are not to be changed
+# unless you really know better.
+
+# Changing or overriding the settings in this file requires changing scripts
+# such as the initscript and maybe the cron scripts, and even the amavis user
+# home directory.
+#
+# You have been warned.  Don't change these settings.
+
+$daemon_user  = 'amavis';
+$daemon_group = 'amavis';
+
+$MYHOME   = '/var/lib/amavis'; # a convenient default for other settings
+$TEMPBASE = "$MYHOME/tmp";     # working directory, needs to be created manually
+$ENV{TMPDIR} = $TEMPBASE;      # environment variable TMPDIR
+$db_home   = "$MYHOME/db";
+
+$pid_file  = "/var/run/amavis/amavisd.pid";
+$lock_file = "/var/run/amavis/amavisd.lock";
+
+1;  # insure a defined return
