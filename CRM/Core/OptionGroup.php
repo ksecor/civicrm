@@ -225,7 +225,8 @@ WHERE  v.option_group_id = g.id
         $group->is_reserved = 1;
         $group->is_active   = 1;
         $group->save( );
-
+        
+        require_once 'CRM/Core/DAO/OptionValue.php';
         foreach ( $values as $v ) {
             $value = new CRM_Core_DAO_OptionValue( );
             $value->option_group_id = $group->id;

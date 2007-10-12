@@ -34,10 +34,7 @@
  */
 
 require_once 'CRM/Core/DAO/PriceField.php';
-//require_once 'CRM/Core/DAO/CustomGroup.php';
-//require_once 'CRM/Core/DAO/CustomValue.php';
-//require_once 'CRM/Core/DAO/CustomOption.php';
-require_once 'CRM/Core/BAO/CustomOption.php';
+
 
 /**
  * Business objects for managing price fields.
@@ -92,8 +89,31 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             return $priceField;
         }
         
-        if ( $priceField->html_type !== 'text' ) {
+        $options  = array( );
+        $maxIndex = CRM_Price_Form_Field::NUM_OPTION;
+        
+        if ( $priceField->html_type == 'Text' ) {
+            $maxIndex = 1;
+        }
+        
+        for ( $index = 1; $index <= $maxIndex; $index++ ) {
+            if ( ( ! empty( $params['option_label'][$index] ) ) &&
+                 ( ! empty( $params['option_value'][$index] ) ) ) {
+                $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
+                                    'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
+                                    'weight'     => $params['option_weight'][$index],
+                                    'is_active'  => 1 );
+            }
+        }
+        
+        if ( ! empty( $options ) ) {
+            $params['default_amount_id'] = null;
+            $groupName                   = "civicrm_price_field.amount.{$priceField->id}";
             
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::createAssoc( $groupName,
+                                               $options,
+                                               $params['default_amount_id'] );
         }
         
         $transaction->commit( );
