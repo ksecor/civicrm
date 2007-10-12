@@ -155,8 +155,11 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
      */
     static function dataRule(&$params, &$files, &$options) 
     {
-        $InvalidTokens = array ('action.forward'  => ts("This token can only be used in send mailing.") );
-        
+        if ( $params['component_type'] == 'Header' || $params['component_type'] == 'Footer' ) {
+            $InvalidTokens = array( );
+        } else {
+            $InvalidTokens = array ('action.forward'  => ts("This token can only be used in send mailing context (body, header, footer)..") );
+        }
         $errors = array( );
         foreach (array('text', 'html') as $type) {
             $dataErrors = array( );
