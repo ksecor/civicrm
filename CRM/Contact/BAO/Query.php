@@ -618,9 +618,7 @@ class CRM_Contact_BAO_Query {
 
             $lCond = self::getPrimaryCondition( $name );
 
-            if ( $lCond ) {
-                $lCond = "$lName." . $lCond;
-            } else {
+            if ( !$lCond ) {
                 $locationTypeId = array_search( $name, $locationTypes );
                 if ( $locationTypeId === false ) {
                     continue;
