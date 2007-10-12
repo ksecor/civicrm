@@ -625,7 +625,7 @@ class CRM_Contact_BAO_Query {
                 if ( $locationTypeId === false ) {
                     continue;
                 }
-                $lCond = "$lName.location_type_id = $locationTypeId";
+                $lCond = "location_type_id = $locationTypeId";
             }
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
@@ -637,7 +637,7 @@ class CRM_Contact_BAO_Query {
             $aName = "`$name-address`";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id)";
+            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id AND $aName.$lCond)";
             $this->_tables[ $tName ] = $addressJoin;
 
             $tName  = "$name-location_type";
@@ -753,7 +753,7 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$cond";
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
                                 //build locationType join
                                 $locationTypeJoin .= " OR ( `$tName`.location_type_id = $ltName.id ) ";
                                     
@@ -2557,7 +2557,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-
+        //crm_core_error::Debug('$sql', $sql);
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );
