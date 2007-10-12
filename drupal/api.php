@@ -105,7 +105,7 @@ function civicrm_modify_role_id( $op, $uid, $rid, $roleName = null ) {
             db_query('INSERT INTO {users_roles} (uid, rid) VALUES (%d, %d)', $uid, $rid );
         }
     } else if ( $op == 'delete' ) {
-        db_query('DELETE FROM {users_roles} (uid, rid) VALUES (%d, %d)', $uid, $rid );
+        db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $uid, $rid );
     }
 }
 
