@@ -284,70 +284,8 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         if ($this->_id) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $this->_id, 'weight', 'id' );
         }
-        $params['weight'] = 
+        $group->weight =
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_CustomGroup', $oldWeight, $params['weight']);
-
-        // fix for CRM-316
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-
-            $cg =& new CRM_Core_DAO_CustomGroup();
-            $cg->id = $this->_id;
-            $cg->find();
-
-            if ( $cg->fetch() && $cg->weight != $params['weight'] ) {
-                
-                $searchWeight =& new CRM_Core_DAO_CustomGroup();
-                $searchWeight->domain_id = CRM_Core_Config::domainID( );
-                $searchWeight->weight = $params['weight'];
-                
-                if ( $searchWeight->find() ) {
-
-                    $tempDAO =& new CRM_Core_DAO();
-                    $query = "SELECT id FROM civicrm_custom_group WHERE weight >= ". $searchWeight->weight ." AND domain_id = ".CRM_Core_Config::domainID( );
-                    $tempDAO->query($query);
-
-                    $groupIds = array();
-                    
-                    while($tempDAO->fetch()) {
-                        $groupIds[] = $tempDAO->id; 
-                    }
-                    
-                    if ( !empty($groupIds) ) {
-                        $cgDAO =& new CRM_Core_DAO();
-                        $updateSql = "UPDATE civicrm_custom_group SET weight = weight + 1 WHERE id IN ( ".implode(",", $groupIds)." ) ";
-                        $cgDAO->query($updateSql);                    
-                    }
-                }
-            }
-            
-            $group->weight  = $params['weight'];
-            
-        } else {
-            $cg =& new CRM_Core_DAO_CustomGroup();
-            $cg->domain_id = CRM_Core_Config::domainID( );
-            $cg->weight = $params['weight'];
-            
-            if ( $cg->find() ) {
-                $tempDAO =& new CRM_Core_DAO();
-                $query = "SELECT id FROM civicrm_custom_group WHERE weight >= ". $cg->weight ." AND domain_id = ".CRM_Core_Config::domainID( );
-                $tempDAO->query($query);
-                
-                $groupIds = array();
-                while($tempDAO->fetch()) {
-                    $groupIds[] = $tempDAO->id; 
-                }
-                
-                if ( !empty($groupIds) ) {
-                    $cgDAO =& new CRM_Core_DAO();
-                    $updateSql = "UPDATE civicrm_custom_group SET weight = weight + 1 WHERE id IN ( ".implode(",", $groupIds)." ) ";
-                    $cgDAO->query($updateSql);
-                }
-                
-            }
-
-            $group->weight = $params['weight'];  
-        } 
-    
 
         $group->help_pre         = $params['help_pre'];
         $group->help_post        = $params['help_post'];
@@ -367,9 +305,9 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
             
             // now create the table associated with this group
             CRM_Core_BAO_CustomGroup::createTable( $group );
-            
-            $group->save();
         }
+
+        $group->save();
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Group "%1" has been saved.', array(1 => $group->title)));

@@ -2006,11 +2006,22 @@ class CRM_Contact_BAO_Query {
             } else {
                 $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
             }
-        } else { 
+        } else {
             // split the string into pieces 
-            $pieces =  explode( ' ', $name ); 
+            // check if the string is enclosed in quotes
+            $firstChar = substr( $name,  0,  1 );
+            $lastChar  = substr( $name, -1, 1 );
+            $quotes    = array( "'", '"' );
+            if ( in_array( $firstChar, $quotes ) &&
+                 in_array( $lastChar , $quotes ) ) {
+                $name   = substr( $name,  1 );
+                $name   = substr( $name, 0, -1 );
+                $pieces = array( $name );
+            } else {
+                $pieces =  explode( ' ', $name );
+            }
             foreach ( $pieces as $piece ) { 
-                $value = strtolower(addslashes(trim($piece)));
+                $value = strtolower( addslashes( trim( $piece ) ) );
                 if ( $wildcard ) {
                     $value = "'$value%'";
                     $op    = 'LIKE';

@@ -25,63 +25,41 @@
  +--------------------------------------------------------------------+
 */
 
+require_once 'CRM/Core/Component/Info.php';
+
 /**
+ * This class introduces component to the system and provides all the 
+ * information about it. It needs to extend CRM_Core_Component_Info
+ * abstract class.
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *
  */
-
-require_once 'CRM/Admin/Form/Setting.php';
-
-/**
- * This class generates form components for Component 
- */
-class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
+class CRM_Event_Info extends CRM_Core_Component_Info
 {
-    /**
-     * Function to build the form
-     *
-     * @return None
-     * @access public
-     */
-    public function buildQuickForm( ) 
+
+    // docs inherited from interface
+    public function getInfo()
     {
-        CRM_Utils_System::setTitle(ts('Settings - Enable Components'));
-
-        $components = $this->_getComponentSelectValues( );
-
-//            if (version_compare(phpversion(), '5') >= 0) {
-//                $components['CiviMail'] = ts('CiviMail');
-//            }
-        $include =& $this->addElement('advmultiselect', 'enableComponents', 
-                                      ts('Components') . ' ', $components,
-                                      array('size' => 5, 
-                                            'style' => 'width:150px',
-                                            'class' => 'advmultiselect')
-                                      );
-        
-        $include->setButtonAttributes('add', array('value' => ts('Enable >>')));
-        $include->setButtonAttributes('remove', array('value' => ts('<< Disable')));     
-        
-        parent::buildQuickForm();
+        return array( 'name'	       => 'CiviEvent',
+                      'translatedName' => ts('CiviEvent'),
+                      'title'          => ts('CiviCRM Event Engine'),
+                      'url'            => 'event',
+                      'perm'           => array( 'access CiviEvent',
+                                                 'edit event participants',
+                                                 'register for events' ),
+                      'search'         => 1 );
     }
-
-
-    private function _getComponentSelectValues( ) 
+    
+    // docs inherited from interface    
+    public function getActivityTypes()
     {
-        $ret = array();
-        require_once 'CRM/Core/Component.php';
-        $c = CRM_Core_Component::getComponents();
-        foreach( $c as $name => $object ) {
-            $ret[$name] = $object->info['translatedName'];
-        }
-
-        return $ret;
+        $types = array();
+        $types['Event'] = array( 'title' => ts('Event'),
+                                 'callback' => 'CRM_Event_Page_EventInfo::run()' );
+        return $types;
     }
-
 
 }
-
-?>

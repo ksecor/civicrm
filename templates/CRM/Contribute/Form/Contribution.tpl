@@ -90,17 +90,26 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
+    </table>
+  </fieldset>
+ </div>     
 
-        
-        <tr id="showHonorOfDetails_show"><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
-
+       
+ <div id="id-honoree-show" class="section-hidden section-hidden-border" style="clear: both;">
+        <a href="#" onclick="hide('id-honoree-show'); show('id-honoree'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Honoree Information{/ts}</label><br />
+ </div>
+ <div id="id-honoree" class="section-shown">
+    <fieldset>
+      <legend><a href="#" onclick="hide('id-honoree'); show('id-honoree-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Honoree Information{/ts}</legend>
+      <table class="form-layout-compressed">
+        <tr id="showHonorOfDetailsType"><td class="label">{$form.honor_type_id.label}</td><td>{$form.honor_type_id.html}</td></tr>  
         <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix.label}</td><td>{$form.honor_prefix.html}</td></tr>
         <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_firstname.label}</td><td>{$form.honor_firstname.html}</td>
         <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
         <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
-    </table>
-  </fieldset>
-</div>     
+      </table>
+   </fieldset>
+ </div>     
 
     {literal}
     <script type="text/javascript">
@@ -202,15 +211,6 @@
     </dl> 
 </fieldset> 
 </div> 
-
-{include file="CRM/common/showHideByFieldValue.tpl" 
-    trigger_field_id    ="contribution_honor"
-    trigger_value       =""
-    target_element_id   ="showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail" 
-    target_element_type ="table-row"
-    field_type          ="radio"
-    invert              = 0
-}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"

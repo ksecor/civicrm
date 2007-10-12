@@ -118,7 +118,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 $defaults['start_date'          ] = CRM_Utils_Date::unformat( $relationship->start_date );
                 $defaults['end_date'            ] = CRM_Utils_Date::unformat( $relationship->end_date   );
                 $defaults['description'         ] = $relationship->description ;
-                
+                $defaults['is_active'           ] = $relationship->is_active;
                 $contact =& new CRM_Contact_DAO_Contact( );
                 if ($this->_rtype == 'a_b' && $relationship->contact_id_a == $this->_contactId ) {
                     $contact->id = $relationship->contact_id_b;
@@ -138,12 +138,14 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         } else {
+            $defaults['is_active'           ] = 1;
             $defaults['relationship_type_id'] = $this->_rtypeId;
         }
 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
+       
         return $defaults;
     }
     
@@ -217,7 +219,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $this->addElement('text', 'name'      , ts('Find Target Contact') );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
-        
+        $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Relationship', 'description' ) );
         
         CRM_Contact_Form_Note::buildNoteBlock($this);
@@ -249,7 +251,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             $this->assign('contact_type'         , $this->get('contact_type'));
             $this->assign('contact_type_display' , CRM_Contact_DAO_Contact::tsEnum('contact_type', $this->get('contact_type')));
         }
-
+        
         if ( $searchDone ) {
             $searchBtn = ts('Search Again');
         } else {
@@ -288,7 +290,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        
+       
         $this->set( 'searchDone', 0 );
         if ( CRM_Utils_Array::value( '_qf_Relationship_refresh', $_POST ) ) {
             $this->search( $params );
@@ -351,7 +353,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                 }
             }
         }
-       
+        
         list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
         $status = '';
         if ( $valid ) {
@@ -392,7 +394,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                               $this->_action );
         }
         
-        CRM_Core_Session::setStatus( $status );
+        CRM_Core_Session::setStatus( $status );    
     }//end of function
     
 

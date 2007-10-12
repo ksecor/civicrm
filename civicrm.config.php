@@ -61,7 +61,7 @@ function conf_init() {
         include $currentDir . 'settings_location.php';
     }
   
-    if ( defined( 'CIVICRM_CONFDIR' && ! defined( $confdir ) ) ) {
+    if ( defined( 'CIVICRM_CONFDIR' ) && ! defined( $confdir ) ) {
       	$confdir = CIVICRM_CONFDIR;
     } else {
         // make it relative to civicrm.config.php, else php makes it relative

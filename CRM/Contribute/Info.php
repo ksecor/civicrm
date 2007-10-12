@@ -25,36 +25,39 @@
  +--------------------------------------------------------------------+
 */
 
+require_once 'CRM/Core/Component/Info.php';
+
 /**
- * Component stores all the static and dynamic information of the various
- * CiviCRM components
+ * This class introduces component to the system and provides all the 
+ * information about it. It needs to extend CRM_Core_Component_Info
+ * abstract class.
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
  *
  */
-
-class CRM_Event_ComponentInfo
+class CRM_Contribute_Info extends CRM_Core_Component_Info
 {
 
-    public function info()
+    // docs inherited from interface
+    public function getInfo()
     {
-        return array( 'title'   => ts('CiviCRM Event Engine'),
-                      'url'     => 'event',
-                      'perm'    => array( 'access CiviEvent',
-                                          'edit event participants',
-                                          'register for events' ),
-                      'search'  => 1 );
-    }
-    
-    
-    protected function activityTypes()
-    {
-        $types = array();
-        $types['Event'] = array( 'title' => ts('Event'),
-                                 'callback' => 'CRM_Event_Page_EventInfo::run()' );
-        return $types;
+        return  array( 'name'	        => 'CiviContribute',
+                       'translatedName' => ts('CiviContribute'),
+                       'title'          => ts('CiviCRM Contribution Engine'),
+                       'url'            => 'contribute',
+                       'perm'           => array( 'access CiviContribute',
+                                                  'edit contributions',
+                                                  'make online contributions' ),
+                       'search'  => 1 );        
     }
 
+    // docs inherited from interface    
+    public function getActivityTypes()
+    {
+        return null;
+    }
+    
 }
+

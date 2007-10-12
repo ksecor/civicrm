@@ -330,7 +330,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         }
         $params['weight'] = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFJoin', $oldWeight, $params['weight']);
-        
+
         // create uf group
         $ufGroup = CRM_Core_BAO_UFGroup::add($params, $ids);
         

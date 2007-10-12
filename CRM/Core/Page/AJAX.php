@@ -63,9 +63,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         switch ( $args[2] ) {
 
-        case 'help':
-            return $this->help( $config );
-
         case 'search':
             return $this->search( $config );
 
@@ -92,21 +89,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         default:
             return;
         }
-    }
-
-    /**
-     * Function to get help messages
-     */
-    function help( &$config ) 
-    {
-        $id   = urldecode( $_GET['id'] );
-        $file = urldecode( $_GET['file'] );
-
-        $template =& CRM_Core_Smarty::singleton( );
-        $file = str_replace( '.tpl', '.hlp', $file );
-
-        $template->assign( 'id', $id );
-        echo $template->fetch( $file );
     }
 
     /**

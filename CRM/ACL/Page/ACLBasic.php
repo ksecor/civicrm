@@ -79,19 +79,6 @@ class CRM_ACL_Page_ACLBasic extends CRM_Core_Page_Basic
                                                                       'qs'    => 'reset=1&action=update&id=%%id%%',
                                                                       'title' => ts('Edit ACL') 
                                                                       ),
-                                    CRM_Core_Action::DISABLE => array(
-                                                                      'name'  => ts('Disable'),
-                                                                      'url'   => 'civicrm/acl/basic',
-                                                                      'qs'    => 'reset=1&action=disable&id=%%id%%',
-                                                                      'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"',
-                                                                      'title' => ts('Disable ACL') 
-                                                                      ),
-                                    CRM_Core_Action::ENABLE  => array(
-                                                                      'name'  => ts('Enable'),
-                                                                      'url'   => 'civicrm/acl/basic',
-                                                                      'qs'    => 'reset=1&action=enable&id=%%id%%',
-                                                                      'title' => ts('Enable ACL') 
-                                                                      ),
                                     CRM_Core_Action::DELETE  => array(
                                                                       'name'  => ts('Delete'),
                                                                       'url'   => 'civicrm/acl/basic',
@@ -168,30 +155,28 @@ ORDER BY entity_id
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
         while ( $dao->fetch( ) ) {
-            $acl[$dao->id] = array();
-            $acl[$dao->id]['name']         = $dao->name;
-            $acl[$dao->id]['entity_id']    = $dao->entity_id;
-            $acl[$dao->id]['entity_table'] = $dao->entity_table;
-            $acl[$dao->id]['object_table'] = $dao->object_table;
-            $acl[$dao->id]['is_active']    = $dao->is_active;
+            if ( ! array_key_exists( $dao->entity_id, $acl ) ) {
+                $acl[$dao->entity_id] = array();
+                $acl[$dao->entity_id]['name']         = $dao->name;
+                $acl[$dao->entity_id]['entity_id']    = $dao->entity_id;
+                $acl[$dao->entity_id]['entity_table'] = $dao->entity_table;
+                $acl[$dao->entity_id]['object_table'] = $dao->object_table;
+                $acl[$dao->entity_id]['is_active']    = 1;
 
-            if ( $acl[$dao->id]['entity_id'] ) {
-                $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
+                if ( $acl[$dao->entity_id]['entity_id'] ) {
+                    $acl[$dao->entity_id]['entity'] = $roles [$acl[$dao->entity_id]['entity_id']];
+                } else {
+                    $acl[$dao->entity_id]['entity'] = ts( 'Any Role' );
+                }
+
+                // form all action links
+                $action = array_sum(array_keys($this->links()));
+    
+                $acl[$dao->entity_id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
+                                                                     array('id' => $dao->entity_id));
             } else {
-                $acl[$dao->id]['entity'] = ts( 'Any Role' );
+                $acl[$dao->entity_id]['object_table'] .= ", {$dao->object_table}";
             }
-
-            // form all action links
-            $action = array_sum(array_keys($this->links()));
-
-            if ($dao->is_active) {
-                $action -= CRM_Core_Action::ENABLE;
-            } else {
-                $action -= CRM_Core_Action::DISABLE;
-            }
-            
-            $acl[$dao->id]['action'] = CRM_Core_Action::formLink(self::links(), $action, 
-                                                                 array('id' => $dao->id));
         }
         $this->assign('rows', $acl);
     }

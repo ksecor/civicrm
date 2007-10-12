@@ -102,7 +102,9 @@ VALUES
    (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
    (@domain_id, 'group_type'                    , '{ts}Group Type{/ts}'                         , 0, 1),
    (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
-   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1);
+   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1),
+   (@domain_id, 'honor_type'                    , '{ts}Honor Type{/ts}'                         , 0, 1);
+
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -126,6 +128,7 @@ SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
+SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group where name = 'honor_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -268,7 +271,10 @@ VALUES
   (@option_group_id_grantTyp, '{ts}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
   (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1);
+  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_honorTyp, '{ts}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
+  (@option_group_id_honorTyp, '{ts}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1);
+
 
 -- sample membership status entries
 INSERT INTO
@@ -297,7 +303,9 @@ VALUES
   ( @domain_id, 'duration'  ,   0,  0, 15, 'H i'       ),
   ( @domain_id, 'fixed'     ,   0,  5,  0, null        ),
   ( @domain_id, 'mailing'   ,   0,  1, 15, 'Y M d H i' ),
-  ( @domain_id, 'relative'  ,  20, 20,  0, null        );
+  ( @domain_id, 'relative'  ,  20, 20,  0, null        ),
+  ( @domain_id, 'manual'    ,  20, 20,  0, null        );
+
 
 -- various processor options
 --

@@ -146,7 +146,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         
-        $params = $this->_params;
+        $params = $this->_params;                    
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         // make sure we have values for it
         if ( $honor_block_is_active &&
@@ -157,6 +157,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $honor  = CRM_Core_PseudoConstant::honor( );             
+            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
             $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
             $this->assign("honor_first_name",$params["honor_first_name"]);
             $this->assign("honor_last_name",$params["honor_last_name"]);
@@ -546,11 +548,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                     'trxn_id'      => $result['trxn_id'],
                                     'receipt_date' => $receiptDate,
-                               );
+                                    );
         }
             
         if ( isset($honorCId)  ) {
             $contribParams["honor_contact_id"] = $honorCId;
+            $contribParams["honor_type_id"]    = $params['honor_type_id'];
         }
 
         if ( $recurringContributionID ) {
@@ -711,7 +714,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     function createHonorContact(  ) {
         $params = $this->controller->exportValues( 'Main' );
-        
+       
         // return if we dont have enough information
         if ( empty( $params["honor_first_name"] ) &&
              empty( $params["honor_last_name" ] ) &&
@@ -728,12 +731,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         //assign to template for email reciept
         $honor_block_is_active = $this->get( 'honor_block_is_active');
-
+        
         $this->assign('honor_block_is_active', $honor_block_is_active );
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         
         require_once "CRM/Core/PseudoConstant.php";
         $prefix = CRM_Core_PseudoConstant::individualPrefix();
+        $honorType = CRM_Core_PseudoConstant::honor( );
+        $this->assign("honor_type",$honorType[$params["honor_type_id"]]);
         $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
         $this->assign("honor_first_name",$params["honor_first_name"]);
         $this->assign("honor_last_name",$params["honor_last_name"]);

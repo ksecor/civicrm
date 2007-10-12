@@ -302,7 +302,17 @@
       <import>true</import>
       <add>1.6</add>
   </field>
-  <index>
+  <field>
+  <name>honor_type_id</name>
+  <title>Honor Type</title>
+  <type>int unsigned</type>
+  <default>1</default>
+  <import>true</import>
+    <comment>Implicit FK to civicrm_option_value.</comment>
+  <add>2.0</add>
+  <onDelete>SET NULL</onDelete>
+  </field>
+    <index>
     <name>index_contribution_status</name>
     <fieldName>contribution_status_id</fieldName>
     <add>1.6</add>
