@@ -317,12 +317,11 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         //crm_core_error::debug('$location', $location);
 
         //format locations blocks for setting defaults
-        
         $locationCount = 1;
         $locationTypes = array( );
         foreach ( $location as $key => $value ) {
             
-            if ( ! is_array( $value ) ) {
+            if ( ! is_array( $value ) || empty( $value) ) {
                 continue;
             }
             
@@ -330,21 +329,19 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {
                     if ( in_array ( $locationTypeId, $locationTypes ) ) {
-                        $locationCount = array_search( $locationTypeId, $locationTypes );
+                        $locationNo = array_search( $locationTypeId, $locationTypes );
                     } else {
                         $locationCount++;
                         $locationTypes[ $locationCount ] = $locationTypeId;
+                        $locationNo = $locationCount;
                     }
                 } else {
                     $locationTypes[ $locationCount ]  = $locationTypeId;
+                    $locationNo = $locationCount;
                 }
-                
-                $locations[ $locationCount ]['location_type_id'] = $locationTypeId;
-                
-                //need to fix this if there is no address
-                $locations[ $locationCount ]['is_primary'] = CRM_Utils_Array::value( 'is_primary', $val );
-                
-                $locations[ $locationCount ][$key] = $val;
+
+                $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
+                $locations[ $locationNo ][$key] = $val;
             }
         }
         
