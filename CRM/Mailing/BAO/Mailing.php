@@ -1585,7 +1585,7 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
             FROM        $mailing 
-                        LEFT JOIN $job ON ( $job.mailing_id    = $mailing.id )
+                        LEFT JOIN $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
             WHERE       $mailing.domain_id = $domain_id
               AND       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
@@ -1598,7 +1598,7 @@ SELECT DISTINCT( m.id ) as id
         }
 
         if ($rowCount) {
-           $query .= " LIMIT $offset, $rowCount ";
+            $query .= " LIMIT $offset, $rowCount ";
         }
 
         if ( ! $additionalParams ) {
