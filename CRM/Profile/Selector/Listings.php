@@ -229,7 +229,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                             );
             }
 
-            if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
                 require_once 'CRM/Kabissa/BAO/Kabissa.php';
                 CRM_Kabissa_BAO_Kabissa::buildProfileSearchRowLinks( self::$_links );
             }
