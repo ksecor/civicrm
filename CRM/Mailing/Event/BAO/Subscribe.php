@@ -227,18 +227,26 @@ INNER JOIN civicrm_location ON  civicrm_email.location_id = civicrm_location.id
                                       "reset=1&cid={$this->contact_id}&sid={$this->id}&h={$this->hash}" );
 
         $html = $component->body_html;
-        require_once 'CRM/Utils/Token.php';
-        $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
-        $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
-                                                        $group->title,
-                                                        $url, true);
-        
+
         if ($component->body_text) {
             $text = $component->body_text;
         } else {
             $text = CRM_Utils_String::htmlToText($component->body_html);
         }
-        $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $bao =& new CRM_Mailing_BAO_Mailing();
+        $bao->body_text = $text;
+        $bao->body_html = $html;
+        $tokens = $bao->getTokens();
+
+        require_once 'CRM/Utils/Token.php';
+        $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html'] );
+        $html = CRM_Utils_Token::replaceSubscribeTokens($html, 
+                                                        $group->title,
+                                                        $url, true);
+        
+        $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false, $tokens['text'] );
         $text = CRM_Utils_Token::replaceSubscribeTokens($text, 
                                                         $group->title,
                                                         $url, false);

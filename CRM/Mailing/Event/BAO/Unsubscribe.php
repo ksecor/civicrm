@@ -278,7 +278,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         require_once 'CRM/Utils/Token.php';
         if ($eq->format == 'HTML' || $eq->format == 'Both') {
             $html = 
-                CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
+                CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html']);
             $html = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
             $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
@@ -286,7 +286,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
             $text = 
-                CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
+                CRM_Utils_Token::replaceDomainTokens($text, $domain, false, $tokens['text']);
             $text = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
             $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);

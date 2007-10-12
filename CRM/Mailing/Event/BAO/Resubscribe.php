@@ -220,11 +220,15 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         require_once 'CRM/Utils/Token.php';
         if ($eq->format == 'HTML' || $eq->format == 'Both') {
             $html = 
+                CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html']);
+            $html = 
                 CRM_Utils_Token::replaceResubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
             $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
+            $text = 
+                CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['text']);
             $text = 
                 CRM_Utils_Token::replaceResubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
             $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);

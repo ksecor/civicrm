@@ -187,7 +187,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        $values = array('mailing_id'    => $this->get('mailing_id'));
+
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -318,7 +320,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Domain.php';
 
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
-        $mailing = null;
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = & new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $options['mailing_id'];
+        $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
@@ -428,16 +434,18 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             
             require_once 'CRM/Mailing/BAO/Mailing.php';
             $dummy_mail = new CRM_Mailing_BAO_Mailing();
-            $dummy_mail->body_text = $str;
+            $mess = "body_{$file}";
+            $dummy_mail->$mess = $str;
             $tokens = $dummy_mail->getTokens();
-            
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
+
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
             
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+
             if (! empty($unmatched)) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'

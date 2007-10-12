@@ -400,13 +400,15 @@ SELECT count(*)
         
         $query = $db_drupal->query( $sql );
         
-        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+        if ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $contact['user_exists'] = true;
-            return $row['uid'];
+            $result = $row['uid'];
+        } else {
+            $result = false;
         }
         
         $db_drupal->disconnect( );
-        return false;
+        return $result;
     }
     
 }
