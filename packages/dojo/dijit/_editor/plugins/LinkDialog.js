@@ -10,7 +10,7 @@ dojo.require("dijit.form.Button");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dojo.i18n");
 dojo.require("dojo.string");
-dojo.requireLocalization("dijit._editor", "LinkDialog", null, "zh-tw,pt,zh,de,ru,hu,cs,es,ROOT,fr,ko,it,ja,pl");
+dojo.requireLocalization("dijit._editor", "LinkDialog", null, "ROOT");
 
 dojo.declare("dijit._editor.plugins.DualStateDropDownButton",
 	dijit.form.DropDownButton,
@@ -44,8 +44,8 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 	}
 );
 
-dojo.declare("dijit._editor.plugins.LinkDialog",
-	dijit._editor._Plugin,
+dojo.declare("dijit._editor.plugins.LinkDialog", 
+	dijit._editor._Plugin, 
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
 
@@ -82,7 +82,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			this.dropDown.setContent(dojo.string.substitute(this.linkDialogTemplate, messages));
 			this.dropDown.startup();
 		},
-
+	
 		setValue: function(args){
 			// summary: callback from the dialog when user hits "set" button
 			//TODO: prevent closing popup if the text is empty

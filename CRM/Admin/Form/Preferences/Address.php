@@ -78,8 +78,7 @@ class CRM_Admin_Form_Preferences_Address extends CRM_Admin_Form_Preferences
 
         if ( empty( $this->_config->mailing_format ) ) {
             $defaults['mailing_format'] = "
-{contact_name}
-<{street_address}
+{street_address}
 {supplemental_address_1}
 {supplemental_address_2}
 {city}{, }{state_province}{ }{postal_code}

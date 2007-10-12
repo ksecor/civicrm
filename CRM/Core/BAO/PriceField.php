@@ -34,7 +34,10 @@
  */
 
 require_once 'CRM/Core/DAO/PriceField.php';
-
+//require_once 'CRM/Core/DAO/CustomGroup.php';
+//require_once 'CRM/Core/DAO/CustomValue.php';
+//require_once 'CRM/Core/DAO/CustomOption.php';
+require_once 'CRM/Core/BAO/CustomOption.php';
 
 /**
  * Business objects for managing price fields.
@@ -44,28 +47,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
 {
 
     protected $_options;
-    
-    /**
-     * takes an associative array and creates a price field object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * price field object. the params array could contain additional unused name/value
-     * pairs
-     *
-     * @param array  $params    (reference ) an assoc array of name/value pairs
-     * @param array  $ids       the array that holds all the db ids
-     *
-     * @return object CRM_Core_BAO_PriceField object
-     * @access public
-     * @static
-     */
-    static function &add( &$params, $ids ) 
-    {
-        $priceFieldBAO =& new CRM_Core_BAO_PriceField();
-        $priceFieldBAO->copyValues($params);
-        return $priceFieldBAO->save();
-    }
-    
+
     /**
      * takes an associative array and creates a price field object
      *
@@ -77,49 +59,14 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      * @access public
      * @static
      */
-    static function create( &$params, $ids )
+    static function create(&$params)
     {
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-        
-        $priceField =& self::add( $params );
-        
-        if ( is_a( $priceField, 'CRM_Core_Error') ) {
-            $transaction->rollback( );
-            return $priceField;
-        }
-        
-        $options  = array( );
-        $maxIndex = CRM_Price_Form_Field::NUM_OPTION;
-        
-        if ( $priceField->html_type == 'Text' ) {
-            $maxIndex = 1;
-        }
-        
-        for ( $index = 1; $index <= $maxIndex; $index++ ) {
-            if ( ( ! empty( $params['option_label'][$index] ) ) &&
-                 ( ! empty( $params['option_value'][$index] ) ) ) {
-                $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
-                                    'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
-                                    'weight'     => $params['option_weight'][$index],
-                                    'is_active'  => 1 );
-            }
-        }
-        
-        if ( ! empty( $options ) ) {
-            $params['default_amount_id'] = null;
-            $groupName                   = "civicrm_price_field.amount.{$priceField->id}";
-            
-            require_once 'CRM/Core/OptionGroup.php';
-            CRM_Core_OptionGroup::createAssoc( $groupName,
-                                               $options,
-                                               $params['default_amount_id'] );
-        }
-        
-        $transaction->commit( );
-        return $priceField;
+        $priceFieldBAO =& new CRM_Core_BAO_PriceField();
+        $priceFieldBAO->copyValues($params);
+        return $priceFieldBAO->save();
     }
-    
+
+
     /**
      * Takes a bunch of params that are needed to match certain criteria and
      * retrieves the relevant objects. Typically the valid params are only
@@ -353,7 +300,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) {
         static $options = array();
         if ( $reset || empty( $options[$fieldId] ) ) {
-            //$options[$fieldId] = CRM_Core_BAO_CustomOption::getCustomOption($fieldId, $inactiveNeeded, 'civicrm_price_field');
+            $options[$fieldId] = CRM_Core_BAO_CustomOption::getCustomOption($fieldId, $inactiveNeeded, 'civicrm_price_field');
         }
         return $options[$fieldId];
     }

@@ -88,14 +88,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         } else {
             $params['reminder_date'] = 'null';        
         }
-        
-        if ( ! $params['is_override'] ) {
-            $params['is_override'] = 'null';
-        }
-        
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
-
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
         $membership->save();
@@ -442,16 +436,13 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @param object  $form                  form object
      * @param int     $pageId                contribution page id
      * @param boolean $formItems
-     * @param int     $selectedMembershipTypeID  selected membership id
+     * @param int     $selectedMembershipID  selected membership id
      * @param boolean $thankPage             thank you page
      *
      * @static
      */
-    function buildMembershipBlock( &$form,
-                                   $pageID,
-                                   $formItems = false,
-                                   $selectedMembershipTypeID = null,
-                                   $thankPage = false,
+    function buildMembershipBlock( &$form , $pageID , $formItems = false,
+                                   $selectedMembershipID = null ,$thankPage = false,
                                    $isTest = null )
     {
         require_once 'CRM/Member/DAO/MembershipBlock.php';
@@ -485,8 +476,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                     $memType = & new CRM_Member_DAO_MembershipType(); 
                     $memType->id = $value;
                     if ( $memType->find(true) ) {
-                        if ($selectedMembershipTypeID  != null ) {
-                            if ( $memType->id == $selectedMembershipTypeID ) {
+                        if ($selectedMembershipID  != null ) {
+                            if ( $memType->id == $selectedMembershipID ) {
                                 CRM_Core_DAO::storeValues($memType,$mem);
                                 $form->assign( 'minimum_fee', CRM_Utils_Array::value('minimum_fee',$mem) );
                                 $form->assign( 'membership_name', $mem['name'] );
@@ -759,8 +750,8 @@ civicrm_membership_status.is_current_member =1";
         $tempParams = $membershipParams;
         $paymentDone = false;
         $form->assign('membership_assign' , true );
-
-        $form->set('membershipTypeID' , $membershipParams['selectMembership']);
+        // WE NEED TO FIX THIS BAD NAMING
+        $form->set('membershipID' , $membershipParams['selectMembership']);
         
         require_once 'CRM/Member/BAO/MembershipType.php';
         require_once 'CRM/Member/BAO/Membership.php';
@@ -780,7 +771,6 @@ civicrm_membership_status.is_current_member =1";
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
         
-
         $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
                                                                    $premiumParams, $contactID,
                                                                    $contributionTypeId, 
@@ -833,42 +823,28 @@ civicrm_membership_status.is_current_member =1";
         
         $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
 
-        if ( ! $errors[$index] ) {
+        if ( ! $errors[$index] ){
             $membership = self::renewMembership( $contactID, $membershipTypeID, $membershipParams['is_test'], $form);
-
             //insert payment record
             require_once 'CRM/Member/DAO/MembershipPayment.php';
             $dao =& new CRM_Member_DAO_MembershipPayment();    
             $dao->membership_id   = $membership->id;
-            $dao->contribution_id = $contribution[$index]->id;
+            $dao->contribition_id = $contribution[$index]->id;
             $dao->save();
         }
-
-        if ( ! empty( $errors ) ) {
-            foreach ($errors as $error ) {
-                $message[] = $error;
-            }
-            $message = implode( '<br/>', $message );
-            CRM_Core_Error::displaySessionError( $message );
-            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact',
-                                                               '_qf_Main_display=true' ) );
+        
+        foreach($errors as $error ) {
+            CRM_Core_Error::displaySessionError( $error );
+            CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact', '_qf_Main_display=true' ) );
         }
         
-        if ( $form->_contributeMode == 'notify' &&
-             ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
-            $form->_params['membershipID'] = $membership->id;
-            // this does not return
-            require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
-                
-            $payment->doTransferCheckout( $form->_params );
-        }
-                
         //finally send an email receipt
-        require_once "CRM/Contribute/BAO/ContributionPage.php";
-        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values,
-                                                       $contribution[$index]->id );
+        if ( !$errors[1]  &&  !$errors[2] ) {
+            require_once "CRM/Contribute/BAO/ContributionPage.php";
+            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
+                                                           $form->_values,
+                                                           $contribution[$index]->id );
+        }
     }
     
     /**

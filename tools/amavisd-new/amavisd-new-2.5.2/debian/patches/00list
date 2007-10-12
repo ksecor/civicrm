@@ -1,6 +1,0 @@
-20_safe_path_at_init
-30_conf.d_support_builtin
-40_fix_paths
-45_misc_doc_changes
-50_amavis-milter_pidfile_support
-55_helper-progs_build_fixes

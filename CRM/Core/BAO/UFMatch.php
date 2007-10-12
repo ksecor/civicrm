@@ -64,12 +64,18 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         if ( $uf == 'Drupal' ) {
             $key   = 'uid';
-            $login = 'name';
+            $login = 'login';
             $mail  = 'mail';
+            // TODO: Someone who uses Drupal should get the site domain into
+            // the $user object
+            $domain = 'domain';
         } else if ( $uf == 'Joomla' ) {
             $key   = 'id';
             $login = 'username';
             $mail  = 'email';
+            // TODO: Someone who uses Joomla should get the site domain into
+            // the $user object
+            $domain = 'domain';
         } else if ( $uf == 'Standalone' ) {
             $key = 'id';
             $mail = 'email';
@@ -92,6 +98,10 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             CRM_Core_Error::statusBounce(ts('Please set the user framework variable'));
         }
         
+        if ( ! $uniqId ) {
+            $uniqId = 'http://' . $user->$login . '.' . $user->$domain . '/';
+        }
+
         // have we already processed this user, if so early
         // return.
         $userID = $session->get( 'userID' );
@@ -108,11 +118,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 
         // make sure we load the joomla object to get valid information
         if ( $uf == 'Joomla' ) {
-            if ( class_exists( 'JFactory' ) ) {
-                $user =& JFactory::getUser( );
-            } else {
-                $user->load( );
-            }
+            $user->load( );
         }
 
         // if the id of the object is zero (true for anon users in drupal)
@@ -121,20 +127,16 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             return;
         }
 
-        if ( ! $uniqId ) {
-            $uniqId = $user->$mail;
-        }
-
         //print "Calling synchronizeUFMatch...<br/>";
         $ufmatch =& self::synchronizeUFMatch( $user, $user->$key, $uniqId, $uf, null, $ctype );
         if ( ! $ufmatch ) {
             return;
         }
 
-        $session->set( 'ufID'    , $ufmatch->uf_id          );
-        $session->set( 'userID'  , $ufmatch->contact_id     );
-        $session->set( 'domainID', $ufmatch->domain_id      ); 
-        $session->set( 'ufUniqID', $ufmatch->user_unique_id );
+        $session->set( 'ufID'    , $ufmatch->uf_id      );
+        $session->set( 'userID'  , $ufmatch->contact_id );
+        $session->set( 'domainID', $ufmatch->domain_id  ); 
+        $session->set( 'ufEmail' , $ufmatch->email      );
 
         if ( $update ) {
             // the only information we care about is uniqId, so lets check that
@@ -178,8 +180,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         // http://uf_username.domain/ construction (so that it can
         // be used as an OpenID in the future)
         require_once 'CRM/Utils/Rule.php';
-        if ( $uf == 'Standalone' &&
-             ! CRM_Utils_Rule::url( $uniqId ) ) {
+        if ( ! CRM_Utils_Rule::url( $uniqId ) && $uf == 'Standalone' ) {
             return $status ? null : false;
         }
         
@@ -194,8 +195,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $dao =& CRM_Contact_BAO_Contact::matchContactOnUniqId( $uniqId, $ctype );
             if ( $dao ) {
                 //print "Found contact with uniqId $uniqId<br/>";
-                $ufmatch->contact_id     = $dao->contact_id;
-                $ufmatch->domain_id      = $dao->domain_id ;
+                $ufmatch->contact_id    = $dao->contact_id;
+                $ufmatch->domain_id     = $dao->domain_id ;
                 $ufmatch->user_unique_id = $uniqId;
             } else {
                 if ( $uf == 'Drupal' ) {

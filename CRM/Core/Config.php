@@ -348,7 +348,7 @@ class CRM_Core_Config
      *
      * @var array
      */
-    public $enableComponents = array();     
+    public $enableComponents = array();
 
     /**
      * Should payments be accepted only via SSL?
@@ -450,11 +450,6 @@ class CRM_Core_Config
      * to determine wether the call is from cms or civicrm 
      */
     public $inCiviCRM  = false;
-
-    /**
-     * component registry object (of CRM_Core_Component type)
-     */
-    public $componentRegistry  = null;
 
     /**
      * singleton function used to manage this object
@@ -655,6 +650,8 @@ class CRM_Core_Config
             }
             $this->maxImportFileSize = $size;
         }
+
+        //$this->retrieveFromSettings( );
     }
 
     function retrieveFromSettings( ) {
@@ -819,8 +816,7 @@ class CRM_Core_Config
         }
 
         require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-        $this->componentRegistry->addConfig( $this, true );        
+        CRM_Core_Component::addConfig( $this, true );   
     }
 
 
@@ -884,7 +880,7 @@ class CRM_Core_Config
     }
 
     /**
-     * returns the singleton logger for the application
+     * returns the singleton logger for the applicationthe singleton logger for the application
      *
      * @param
      * @access private
@@ -1065,8 +1061,9 @@ class CRM_Core_Config
         }
         
         require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-        $this->componentRegistry->addConfig( $this );
+        CRM_Core_Component::addConfig( $this );   
+        
+	// CRM_Core_Error::debug('this', $this );
     }
 
     function addressSequence( ) {

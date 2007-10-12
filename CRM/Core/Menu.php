@@ -277,7 +277,7 @@ class CRM_Core_Menu {
                             ),
 		      array(
                             'path'    => 'civicrm/logout',
-                            'title'   => ts('Log out'),
+                            'title'   => ts('Log Out'),
                             'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,

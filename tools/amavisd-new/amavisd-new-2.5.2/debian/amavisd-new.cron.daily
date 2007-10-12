@@ -1,6 +1,0 @@
-#!/bin/sh
-#
-#  Daily maintenance for amavisd-new
-#  $Id: amavisd-new.cron.daily 930 2006-08-10 13:38:45Z hmh $
-# 
-test -e /usr/sbin/amavisd-new-cronjob && exec /usr/sbin/amavisd-new-cronjob sa-clean

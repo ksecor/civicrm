@@ -56,6 +56,8 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
         
         $im->copyValues($params);
 
+        // when im field is empty need to delete it
+
         return $im->save( );
     }
 

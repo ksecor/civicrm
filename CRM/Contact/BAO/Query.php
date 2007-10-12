@@ -618,12 +618,14 @@ class CRM_Contact_BAO_Query {
 
             $lCond = self::getPrimaryCondition( $name );
 
-            if ( !$lCond ) {
+            if ( $lCond ) {
+                $lCond = "$lName." . $lCond;
+            } else {
                 $locationTypeId = array_search( $name, $locationTypes );
                 if ( $locationTypeId === false ) {
                     continue;
                 }
-                $lCond = "location_type_id = $locationTypeId";
+                $lCond = "$lName.location_type_id = $locationTypeId";
             }
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
@@ -635,7 +637,7 @@ class CRM_Contact_BAO_Query {
             $aName = "`$name-address`";
             $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
             $this->_element["{$tName}_id"] = 1; 
-            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id AND $aName.$lCond)";
+            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id)";
             $this->_tables[ $tName ] = $addressJoin;
 
             $tName  = "$name-location_type";
@@ -644,15 +646,9 @@ class CRM_Contact_BAO_Query {
             $this->_select["{$tName}"    ]  = "`$tName`.name as `{$tName}`"; 
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
-            
-            $locationTypeName= $tName;
-//             $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
-//             $this->_tables[ $tName ] = $locationTypeJoin;
-            
-            //we need to build location join to get location type from
-            //various location blocks.
-            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( ($aName.location_type_id = $ltName.id) ";
-            
+            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
+            $this->_tables[ $tName ] = $locationTypeJoin;
+
             $processed[$lName] = $processed[$aName] = 1;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -751,10 +747,7 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
-                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
-                                //build locationType join
-                                $locationTypeJoin .= " OR ( `$tName`.location_type_id = $ltName.id ) ";
-                                    
+                                $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$cond";
                                 if ( $addWhere ) {
                                     $this->_whereTables[$tName] = $this->_tables[$tName];
                                 }
@@ -795,10 +788,6 @@ class CRM_Contact_BAO_Query {
                     }
                 }
             }
-
-            // add location type  join
-            $locationTypeJoin .= " ) ";
-            $this->_tables[ $locationTypeName ] = $locationTypeJoin;
         }
     }
 
@@ -2017,22 +2006,11 @@ class CRM_Contact_BAO_Query {
             } else {
                 $sub[] = " ( LOWER(contact_a.display_name) $op $value )";
             }
-        } else {
+        } else { 
             // split the string into pieces 
-            // check if the string is enclosed in quotes
-            $firstChar = substr( $name,  0,  1 );
-            $lastChar  = substr( $name, -1, 1 );
-            $quotes    = array( "'", '"' );
-            if ( in_array( $firstChar, $quotes ) &&
-                 in_array( $lastChar , $quotes ) ) {
-                $name   = substr( $name,  1 );
-                $name   = substr( $name, 0, -1 );
-                $pieces = array( $name );
-            } else {
-                $pieces =  explode( ' ', $name );
-            }
+            $pieces =  explode( ' ', $name ); 
             foreach ( $pieces as $piece ) { 
-                $value = strtolower( addslashes( trim( $piece ) ) );
+                $value = strtolower(addslashes(trim($piece)));
                 if ( $wildcard ) {
                     $value = "'$value%'";
                     $op    = 'LIKE';
@@ -2555,7 +2533,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-        //crm_core_error::Debug('$sql', $sql);
+
         $values = array( );
         while ( $dao->fetch( ) ) {
             $values[$dao->contact_id] = $query->store( $dao );

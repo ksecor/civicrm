@@ -6,12 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-17 21:12+0200\n"
-"PO-Revision-Date: 2007-09-27 06:43-0700\n"
-"Last-Translator: Ravindra Soni <ravindrasoni@gmail.com>\n"
+"PO-Revision-Date: 2007-08-17 21:12+0200\n"
+"Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.1\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -27,7 +26,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr "रास्ते का पूरा पता (जैसे की:110 मुख्य मार्ग)."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
@@ -39,7 +38,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
-msgstr "नगर."
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -97,23 +96,21 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's first name."
-msgstr "सम्पर्क का प्रथम नाम"
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's middle name."
-msgstr "सम्पर्क का मध्य नाम"
+msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's last name."
-msgstr "सम्पर्क का अन्तिम नाम"
+msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
 "These optional components give you more tools to connect with and engage "
 "your supporters."
 msgstr ""
-"ये अतिरिक्त अवयव आपको अपने समर्थकों से सम्पर्क स्थापित करने और उनसे जुड़ने "
-"के लिए उपकरण देते हैं."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""

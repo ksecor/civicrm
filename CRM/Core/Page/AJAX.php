@@ -63,6 +63,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         switch ( $args[2] ) {
 
+        case 'help':
+            return $this->help( $config );
+
         case 'search':
             return $this->search( $config );
 
@@ -86,12 +89,24 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         case 'caseSubject':
              return $this->caseSubject( $config );
-        case 'template':
-            return $this->template( $config );
-
         default:
             return;
         }
+    }
+
+    /**
+     * Function to get help messages
+     */
+    function help( &$config ) 
+    {
+        $id   = urldecode( $_GET['id'] );
+        $file = urldecode( $_GET['file'] );
+
+        $template =& CRM_Core_Smarty::singleton( );
+        $file = str_replace( '.tpl', '.hlp', $file );
+
+        $template->assign( 'id', $id );
+        echo $template->fetch( $file );
     }
 
     /**
@@ -101,40 +116,24 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) ); 
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
         
         $shared = null;
         if ( isset($_GET['sh']) ) {
             $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
         }
-        
-        $relType = null;
-        if ( isset($_GET['reID']) ) {
-            $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
-            $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
-        }
-       
 
         if ( $shared ) {
             $query = "
-SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
-civicrm_contact.id 'id'
-FROM civicrm_contact
-LEFT JOIN civicrm_address ON (civicrm_address.contact_id = civicrm_contact.id
-                                 AND civicrm_address.is_primary=1 )
-WHERE household_name LIKE '$name%'
+SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
+civicrm_household.contact_id 'id'
+FROM civicrm_household
+LEFT JOIN civicrm_location ON civicrm_location.entity_id=civicrm_household.contact_id 
+AND civicrm_location.is_primary=1 
+AND civicrm_location.entity_table='civicrm_contact'
+LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
+where household_name LIKE '$name%'
 ORDER BY household_name ";
-
-        } elseif($relType) {
-            $query = "
-SELECT c.sort_name, c.id
-FROM civicrm_contact c, civicrm_relationship_type r
-WHERE c.sort_name LIKE '$name%'
-AND c.domain_id = $domainID
-AND r.id = $relType
-AND c.contact_type = r.contact_type_{$rel}
-ORDER BY sort_name" ;
-            
         } else {
             $query = "
 SELECT sort_name, id
@@ -143,7 +142,7 @@ WHERE sort_name LIKE '$name%'
 AND domain_id = $domainID
 ORDER BY sort_name ";
         }
-        
+
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
@@ -159,7 +158,7 @@ ORDER BY sort_name ";
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements );
     }
-    
+
     /**
      * Function for building Event combo box
      */
@@ -416,30 +415,6 @@ ORDER BY subject";
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'name');
     }
-
-    /**
-     * Function to fetch the template text/html messages
-     */
-    function template( &$config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $templateId = CRM_Utils_Type::escape( $_GET['tid'], 'Integer' );
-
-        require_once "CRM/Core/DAO/MessageTemplates.php";
-        $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
-        $messageTemplate->id = $templateId;
-        $messageTemplate->selectAdd( );
-        $messageTemplate->selectAdd( 'msg_text, msg_html' );
-        $messageTemplate->find( true );
-        
-        $elements = array( $messageTemplate->msg_text, $messageTemplate->msg_html );
-
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
-    }
-
-
 }
 
 ?>

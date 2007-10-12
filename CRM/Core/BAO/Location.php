@@ -317,11 +317,12 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         //crm_core_error::debug('$location', $location);
 
         //format locations blocks for setting defaults
+        
         $locationCount = 1;
         $locationTypes = array( );
         foreach ( $location as $key => $value ) {
             
-            if ( ! is_array( $value ) || empty( $value) ) {
+            if ( ! is_array( $value ) ) {
                 continue;
             }
             
@@ -329,19 +330,21 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
                 //logic to check when we should increment counter
                 if ( !empty( $locationTypes ) ) {
                     if ( in_array ( $locationTypeId, $locationTypes ) ) {
-                        $locationNo = array_search( $locationTypeId, $locationTypes );
+                        $locationCount = array_search( $locationTypeId, $locationTypes );
                     } else {
                         $locationCount++;
                         $locationTypes[ $locationCount ] = $locationTypeId;
-                        $locationNo = $locationCount;
                     }
                 } else {
                     $locationTypes[ $locationCount ]  = $locationTypeId;
-                    $locationNo = $locationCount;
                 }
-
-                $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
-                $locations[ $locationNo ][$key] = $val;
+                
+                $locations[ $locationCount ]['location_type_id'] = $locationTypeId;
+                
+                //need to fix this if there is no address
+                $locations[ $locationCount ]['is_primary'] = $val['is_primary'];
+                
+                $locations[ $locationCount ][$key] = $val;
             }
         }
         
@@ -354,7 +357,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             $values['location'][1]['is_primary'] = 1;
         }
 
-        return $allLocations['location'];
+        return $allLocations;
     }
 
 
@@ -383,24 +386,24 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     }
     
     /**
-     * Delete all the block associated with the location
+     * Delete the object records that are associated with this location
      *
-     * @param  int  $contactId      contact id
-     * @param  int  $locationTypeId id of the location to delete
+     * @param  int  $locationId id of the location to delete
      *
      * @return void
      * @access public
      * @static
      */
-    static function deleteLocationBlocks( $contactId, $locationTypeId ) {
+    static function deleteLocationBlocks( $locationId ) {
         static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID' );
-        require_once "CRM/Core/BAO/Block.php";
-        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId);
         foreach ($blocks as $name) {
-            CRM_Core_BAO_Block::blockDelete( $name, $params );
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $name) . ".php");
+            eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );
+            $object->location_id = $locationId;
+            $object->delete( );
         }
         
-        CRM_Core_BAO_Email::deleteLocation( $params );
+        CRM_Core_BAO_Email::deleteLocation($locationId);
     }
 
     static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact', $locationID = null ) {

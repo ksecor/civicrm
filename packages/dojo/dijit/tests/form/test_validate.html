@@ -4,11 +4,10 @@
 	<head>
 		<title>Test TextBox Validation Widgets</title>
 
+		<script type="text/javascript" src="../testBidi.js"></script>
 
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true, extraLocale: ['de-de', 'en-us']"></script>
-		<script type="text/javascript" src="../_testCommon.js"></script>
-
 		<script type="text/javascript">
 			dojo.require("dijit.form.TextBox");
 			dojo.require("dijit.form.ValidationTextBox");
@@ -22,6 +21,8 @@
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
+			@import "../../themes/tundra/tundra_rtl.css";
 			@import "../css/dijitTests.css";
 
 			.testExample {
@@ -31,8 +32,9 @@
 				border:1px solid #bfbfbf;
 			}
 
+
 			.small {
-				width: 3em;
+				width: 2.5em;
 			}
 			.medium {
 				width: 10em;
@@ -40,9 +42,7 @@
 			.long {
 				width: 20em;
 			}
-			.verylong {
-				width: 700px;
-			}
+
 
 			.noticeMessage {
 				color:#093669;
@@ -53,10 +53,11 @@
 			.dojoTitlePaneLabel label {
 				font-weight:bold;
 			}
+
 		</style>
 	</head>
 
-	<body>
+	<body class="tundra">
 		<h1 class="testTitle">Dijit Validation Widgets</h1>
 		<!--	to test form submission, you'll need to create an action handler similar to
 			http://www.utexas.edu/teamweb/cgi-bin/generic.cgi -->
@@ -64,10 +65,10 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q01">First Name:  </label>
-				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, style: 'width:700px'}, First letter of each word is upper case.</span>
+				<span class="noticeMessage"> TextBox class, <b>tabIndex=2</b>, Attributes: {trim: true, propercase: true, class: 'medium'}, First letter of each word is upper case.</span>
 			</div>
 			<div class="testExample">
-				<input id="q01" type="text" name="firstname" value="testing testing" style="width: 700px;" tabIndex=2
+				<input id="q01" type="text" name="firstname" value="testing testing" class="medium" tabIndex=2
 					dojoType="dijit.form.TextBox"
 					trim="true"
 					propercase="true" />
@@ -75,10 +76,10 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q02">Last Name:  </label>
-				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, class: 'verylong'}, all letters converted to upper case. </span>
+				<span class="noticeMessage"> TextBox class, Attributes: {trim: true, uppercase: true, class: 'medium'}, all letters converted to upper case. </span>
 			</div>
 			<div class="testExample">
-				<input id="q02" type="text" name="lastname" value="testing testing" class="verylong"
+				<input id="q02" type="text" name="lastname" value="testing testing" class="medium"
 					dojoType="dijit.form.TextBox"
 					trim="true"
 					uppercase="true" />
@@ -86,15 +87,15 @@
 
 			<div class="dojoTitlePaneLabel">
 				<label for="q03">Age:  </label>
-				<span class="noticeMessage"> NumberTextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified.</span>
+				<span class="noticeMessage"> TextBox class, <b>tabIndex=1</b>, Attributes: {trim: true}, no initial value specified.</span>
 			</div>
 			<div class="testExample">
 				<input id="q03" type="text" name="age" tabIndex=1
 					dojoType="dijit.form.NumberTextBox"
 					promptMessage="(optional) Enter an age between 0 and 120"
+					size=4
 					maxlength=3
-					class="small"
-					constraints="{places:0,min:0,max:120}"
+					constraints={places:0,min:0,max:120}
 					onChange="console.debug('onChange fired for widget id = ' + this.id + ' with value = ' + arguments[0]);"
 					/>
 			</div>
@@ -102,10 +103,10 @@
 			<div class="dojoTitlePaneLabel">
 				<label for="q04">Occupation:  </label>
 				<span class="noticeMessage">ValidationTextBox class,
-					Attributes: {lowercase: true, required: true, class: verylong, style: font-size: 15pt;}. Displays a prompt message if field is missing.</span>
+					Attributes: {lowercase: true, required: true}. Displays a prompt message if field is missing. </span>
 			</div>
 			<div class="testExample">
-				<input id="q04" type="text" name="occupation" class="verylong" style="font-size:15pt;"
+				<input id="q04" type="text" name="occupation" class="medium"
 					dojoType="dijit.form.ValidationTextBox"
 					lowercase="true"
 					required="true"
@@ -118,7 +119,7 @@
 					Attributes: {required: true, min:-20000, max:+20000 }, Enter feet above sea level with a sign.</span>
 			</div>
 			<div class="testExample">
-				<input id="q05" class="small"/>
+				<input id="q05" class="medium"/>
 			</div>
 <script>
 	// See if we can make a widget in script and attach it to the DOM ourselves.
@@ -129,8 +130,7 @@
 			constraints: {min:-20000,max:20000,places:0},
 			promptMessage: "Enter a value between -20000 and +20000",
 			required: "true" ,
-			invalidMessage: "Invalid elevation.",
-			"class": "medium"
+			invalidMessage: "Invalid elevation."
 		};
 		var w = new dijit.form.NumberTextBox(props, "q05");
 	});
@@ -200,7 +200,7 @@
 		<input id="q08" type="text" name="income1" class="medium" value="54775.53"
 			dojoType="dijit.form.CurrencyTextBox"
 			required="true"
-			constraints="{fractional:true}"
+			constraints={fractional:true}
 			currency="USD"
 			invalidMessage="Invalid amount.  Include dollar sign, commas, and cents.  Cents are mandatory." />USD
 	</div>
@@ -340,19 +340,18 @@
 		<span class="noticeMessage">DateTextBox class, no attributes</span>
 	</div>
 	<div class="testExample">
-		<input id="q14" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox">
+		<input id="q14" name="noDOMvalue" type="text" dojoType="dijit.form.DateTextBox"> 
 	</div>
 	<div class="dojoTitlePaneLabel">
 		<label for="q14a"> Date (local format) </label>
 		<span class="noticeMessage">DateTextBox class,
-			Attributes: required="true", trim="true", constraints={min:'2004-01-01',max:'2006-12-31'}. Works for leap years</span>
+			Attributes: required="true", constraints={min:'2004-01-01',max:'2006-12-31'}. Works for leap years</span>
 	</div>
 	<div class="testExample">
 		<input id="q14a" type="text" name="date1" class="medium" value="2005-12-30"
 			dojoType="dijit.form.DateTextBox"
-			constraints="{min:'2004-01-01',max:'2006-12-31'}"
+			constraints={min:'2004-01-01',max:'2006-12-31'}
 			required="true"
-			trim="true"
 			promptMessage="mm/dd/yyyy"
 			invalidMessage="Invalid date. Use mm/dd/yyyy format." />
 		<input type="button" value="Destroy" onClick="dijit.byId('q14a').destroy(); return false;">
@@ -365,7 +364,7 @@
 	<div class="testExample">
 		<input id="q14b" type="text" name="date1" class="medium" value="2005-12-30"
 			dojoType="dijit.form.DateTextBox"
-			constraints="{min:'2004-01-01',max:'2006-12-31'}"
+			constraints={min:'2004-01-01',max:'2006-12-31'}
 			lang="en-us"
 			required="true"
 			promptMessage="mm/dd/yyyy"
@@ -404,22 +403,22 @@
 	<div class="testExample">
 		<input id="q16" type="text" name="time1" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextBox"
-			constraints="{formatLength:'medium'}"
+			constraints={formatLength:'medium'}
 			required="true"
 			invalidMessage="Invalid time." />
 	</div>
 
 	<div class="dojoTitlePaneLabel">
-		<label for="q16a">Time using local conventions without seconds, required, no invalid message tooltip</label>
+		<label for="q16a">Time using local conventions without seconds</label>
 		<span class="noticeMessage">TimeTextBox class,
 			Attributes: {formatLength:'short'}</span>
 	</div>
 	<div class="testExample">
-		<input id="q16a" type="text" name="time1a" class="medium" value="T17:45:00"
+		<input id="q16a" type="text" name="time1" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextBox"
-			constraints="{formatLength:'short'}"
+			constraints={formatLength:'short'}
 			required="true"
-			invalidMessage="" />
+			invalidMessage="Invalid time." />
 	</div>
 
 	<div class="dojoTitlePaneLabel">
@@ -428,9 +427,9 @@
 			Attributes: {timePattern:'h:mm:ss a'}</span>
 	</div>
 	<div class="testExample">
-		<input id="q16b" type="text" name="time1b" class="medium" value="T17:45:00"
+		<input id="q16b" type="text" name="time1" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextBox"
-			constraints="{timePattern:'h:mm:ss a'}"
+			constraints={timePattern:'h:mm:ss&nbsp;a'}
 			required="true"
 			invalidMessage="Invalid time." />
 	</div>
@@ -443,7 +442,7 @@
 	<div class="testExample">
 		<input id="q17" type="text" name="time2" class="medium" value="T17:45:00"
 			dojoType="dijit.form.TimeTextBox"
-			constraints="{timePattern:'HH:mm:ss'}"
+			constraints={timePattern:'HH:mm:ss'}
 			required="true"
 			invalidMessage="Invalid time. Use HH:mm:ss where HH is 00 - 23 hours.">
 			</div>
@@ -475,19 +474,19 @@
 		<span class="noticeMessage">value: null should show up as empty</span>
 	</div>
 	<div class="testExample">
-								<input id="ticket1651" class="medium" value="not null"/>
-						</div>
+                                <input id="ticket1651" class="medium" value="not null"/>
+                        </div>
 
 <script>
-		// See if we can make a widget in script and attach it to the DOM ourselves.
-		dojo.addOnLoad(function(){
-				var props = {
-						name: "ticket1651",
-						id: "mname",
-						value: null
-				};
-				var w = new dijit.form.TextBox(props, "ticket1651");
-		});
+        // See if we can make a widget in script and attach it to the DOM ourselves.
+        dojo.addOnLoad(function(){
+                var props = {
+                        name: "ticket1651",
+                        id: "mname",
+                        value: null
+                };
+                var w = new dijit.form.TextBox(props, "ticket1651");
+        });
 </script>
 <script>
 	function displayData() {

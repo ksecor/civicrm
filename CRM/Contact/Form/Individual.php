@@ -158,20 +158,15 @@ showHideSharedOptions();
         
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
         
         $domainID      =  CRM_Core_Config::domainID( );   
-        $attributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
+        $attributes    = array( 'dojoType'     => 'ComboBox',
                                 'mode'         => 'remote',
-                                'store'        => 'addressStore',
-                                'style'        => 'width:300px; border: 1px solid #cfcfcf;' 
+                                'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
+                                                                         "d={$domainID}&sh=1&s=%{searchString}",
+                                                                         true, null, false ),
                                 );
 
-        $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&sh=1&s=",
-                                           true, null, false );
-
-        $this->assign('dataURL',$dataURL );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
 
         $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );

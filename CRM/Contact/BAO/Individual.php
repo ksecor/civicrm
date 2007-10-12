@@ -136,9 +136,8 @@ class CRM_Contact_BAO_Individual
             $display_name = str_replace( '  ', ' ', $display_name );
         }
         
-        if (isset( $display_name ) &&
-            trim( $display_name ) ) {
-            $contact->display_name = trim( $display_name );
+        if (trim($display_name)) {
+            $contact->display_name = $display_name;
         }
         
         if ( CRM_Utils_Array::value( 'location', $params ) ) {
@@ -151,7 +150,7 @@ class CRM_Contact_BAO_Individual
             }
         }
         
-        $uniqId = CRM_Utils_Array::value( 'user_unique_id', $params );
+        $uniqId = $params['user_unique_id'];
         if (empty($contact->display_name)) {
             if (isset($email)) {
                 $contact->display_name = $email;

@@ -138,6 +138,7 @@ class CRM_ACL_API {
 
         return in_array( $groupID, $groups ) ? true : false;
     }
+
 }
 
 ?>

@@ -136,6 +136,8 @@ class CRM_Core_Payment_PayPalIPN {
 
         $recur->save( );
         
+        CRM_Core_DAO::transaction( 'COMMIT' );
+
         if ( $txnType != 'subscr_payment' ) {
             return;
         }
@@ -154,14 +156,8 @@ class CRM_Core_Payment_PayPalIPN {
         self::single( $component, $contactID, $contribution, $contributionType, null, true, $first );
     }
 
-    static function single( $component,
-                            $contactID,
-                            &$contribution,
-                            &$contributionType,
-                            $eventID,
-                            $recur = false,
-                            $first = false ) {
-        $membershipID   = self::retrieve( 'membershipID', 'Integer', 'GET', false );
+    static function single( $component, $contactID, &$contribution, &$contributionType, $eventID, $recur = false, $first = false ) {
+        $membershipTypeID   = self::retrieve( 'membershipTypeID', 'Integer', 'GET', false );
 
         // make sure the invoice is valid and matches what we have in the contribution record
         if ( ( ! $recur ) || ( $recur && $first ) ) {
@@ -217,9 +213,6 @@ class CRM_Core_Payment_PayPalIPN {
             $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
         }
 
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
         // lets keep this the same
         $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
@@ -227,12 +220,13 @@ class CRM_Core_Payment_PayPalIPN {
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
             $contribution->contribution_status_id = 4;
             $contribution->save( );
-            $transaction->commit( );
+            CRM_Core_DAO::transaction( 'COMMIT' );
             CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
             echo "Success: Setting contribution status to failed<p>";
             return;
         } else if ( $status == 'Pending' ) {
             CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
+            
             echo "Success: Returning since contribution status is pending<p>";
             return;
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
@@ -240,7 +234,7 @@ class CRM_Core_Payment_PayPalIPN {
             $contribution->cancel_date = $now;
             $contribution->cancel_reason = self::retrieve( 'ReasonCode', 'String', 'POST', false );
             $contribution->save( );
-            $transaction->commit( );
+            CRM_Core_DAO::transaction( 'COMMIT' );
             CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
             echo "Success: Setting contribution status to cancelled<p>";
             return;
@@ -305,6 +299,8 @@ class CRM_Core_Payment_PayPalIPN {
         }
 
 
+        CRM_Core_DAO::transaction( 'BEGIN' );
+
         $contribution->contribution_status_id  = 1;
         $contribution->is_test    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
         $contribution->fee_amount = self::retrieve( 'payment_fee'  , 'Money'  , 'POST', false );
@@ -351,6 +347,12 @@ class CRM_Core_Payment_PayPalIPN {
             require_once 'api/History.php';
             if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
                 CRM_Core_Error::debug_log_message( "error in updating activity" );
+            }
+
+            // create membership record
+            if ( $membershipTypeID ) {
+                require_once 'CRM/Member/BAO/Membership.php';
+                CRM_Member_BAO_Membership::processIPNMembership ( $contactID, $contribution, $membershipTypeID, $contribAmount );
             }
         } else { // event 
             //create participant record
@@ -400,7 +402,7 @@ WHERE  v.option_group_id = g.id
 
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
-        $transaction->commit( );
+        CRM_Core_DAO::transaction( 'COMMIT' );
 
         // add the new contribution values
         $template =& CRM_Core_Smarty::singleton( );

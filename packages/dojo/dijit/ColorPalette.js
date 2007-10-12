@@ -6,7 +6,7 @@ dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dojo.colors");
 dojo.require("dojo.i18n");
-dojo.requireLocalization("dojo", "colors", null, "zh-tw,pt,ROOT,zh,de,ru,hu,cs,es,fr,ko,it,ja,pl");
+dojo.requireLocalization("dojo", "colors", null, "ROOT");
 
 dojo.declare(
 		"dijit.ColorPalette",
@@ -16,13 +16,13 @@ dojo.declare(
 	//		Grid showing various colors, so the user can pick a certain color
 
 	// defaultTimeout: Number
-	//		number of milliseconds before a held key or button becomes typematic
+	//      number of milliseconds before a held key or button becomes typematic
 	defaultTimeout: 500,
 
 	// timeoutChangeRate: Number
-	//		fraction of time used to change the typematic timer between events
-	//		1.0 means that each typematic event fires at defaultTimeout intervals
-	//		< 1.0 means that each typematic event fires at an increasing faster rate
+	//      fraction of time used to change the typematic timer between events
+	//      1.0 means that each typematic event fires at defaultTimeout intervals
+	//      < 1.0 means that each typematic event fires at an increasing faster rate
 	timeoutChangeRate: 0.90,
 
 	// palette: String
@@ -50,7 +50,7 @@ dojo.declare(
 	//		The first level is a hashmap of the different arrays available
 	//		The next two dimensions represent the columns and rows of colors.
 	_palettes: {
-
+			
 		"7x10":	[["white", "seashell", "cornsilk", "lemonchiffon","lightyellow", "palegreen", "paleturquoise", "lightcyan",	"lavender", "plum"],
 				["lightgray", "pink", "bisque", "moccasin", "khaki", "lightgreen", "lightseagreen", "lightskyblue", "cornflowerblue", "violet"],
 				["silver", "lightcoral", "sandybrown", "orange", "palegoldenrod", "chartreuse", "mediumturquoise", 	"skyblue", "mediumslateblue","orchid"],
@@ -58,11 +58,11 @@ dojo.declare(
 				["dimgray", "crimson", 	"chocolate", "coral", "gold", "forestgreen", "seagreen", "blue", "blueviolet", "darkorchid"],
 				["darkslategray","firebrick","saddlebrown", "sienna", "olive", "green", "darkcyan", "mediumblue","darkslateblue", "darkmagenta" ],
 				["black", "darkred", "maroon", "brown", "darkolivegreen", "darkgreen", "midnightblue", "navy", "indigo", 	"purple"]],
-
+				
 		"3x4": [["white", "lime", "green", "blue"],
 			["silver", "yellow", "fuchsia", "navy"],
 			["gray", "red", "purple", "black"]]	
-
+			
 	},
 
 	// _imagePaths: Map
@@ -82,7 +82,7 @@ dojo.declare(
 
 	// templatePath: String
 	//		Path to the template of this widget.
-	templateString:"<div class=\"dijitInline\">\n\t<div style=\"position: relative; overflow:hidden\" dojoAttachPoint=\"divNode\" waiRole=\"grid\" tabIndex=\"-1\">\n\t\t<img style=\"border-style:none;position:absolute;left:0;top:0;\" dojoAttachPoint=\"imageNode\" tabIndex=\"-1\" />\n\t</div>\t\n</div>\n",
+	templateString:"<fieldset class=\"dijitInlineBox\">\n\t<div style=\"overflow: hidden\" dojoAttachPoint=\"divNode\" waiRole=\"grid\" tabIndex=\"-1\">\n\t\t<img style=\"border-style: none;\" dojoAttachPoint=\"imageNode\" tabIndex=\"-1\" />\n\t</div>\t\n</fieldset>\n",
 
 
 	_paletteDims: {

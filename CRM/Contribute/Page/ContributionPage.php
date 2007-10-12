@@ -56,11 +56,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
      */
     private static $_actionLinks;
 
-    private static $_links = null;
-
-    protected $_pager = null;
-
-    protected $_sortByCharacter;
 
     /**
      * Get the action links for this page.
@@ -247,42 +242,17 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
      */
     function browse($action=null)
     {
-
-        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
-                                                               'String',
-                                                               $this );
-        if ( $this->_sortByCharacter == 1 ||
-             ! empty( $_POST ) ) {
-            $this->_sortByCharacter = '';
-            $this->set( 'sortByCharacter', '' );
-        }
-
-        $this->search( );
-
-        $config =& CRM_Core_Config::singleton( );
         
-        $params = array( );
-                      
-        $whereClause = $this->whereClause( $params, false );
-        $this->pagerAToZ( $whereClause, $params );
-
-        $params      = array( );
-        $whereClause = $this->whereClause( $params, true );
-        $this->pager( $whereClause, $params );
-       
-        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
         // get all custom groups sorted by weight
-        $manageEvent = array();
-             
-        $query = "
-  SELECT *
-    FROM civicrm_contribution_page
-   WHERE $whereClause
-ORDER BY title asc
-   LIMIT $offset, $rowCount";
+        $contribution =  array();
+        $dao      =& new CRM_Contribute_DAO_ContributionPage();
 
-        $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contribute_DAO_ContributionPage' );
+        // set the domain_id parameter
+        $config =& CRM_Core_Config::singleton( );
+        $dao->domain_id = $config->domainID( );
+
+        $dao->orderBy('title');
+        $dao->find();
 
         while ($dao->fetch()) {
             $contribution[$dao->id] = array();
@@ -301,109 +271,6 @@ ORDER BY title asc
                                                                           array('id' => $dao->id));
         }
         $this->assign('rows', $contribution);
-    }
-
-     function search( ) {
-        if ( $this->_action &
-             ( CRM_Core_Action::ADD    |
-               CRM_Core_Action::UPDATE |
-               CRM_Core_Action::DELETE ) ) {
-            return;
-        }
-       
-        $form = new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_SearchContribution', ts( 'Search Contribution' ), CRM_Core_Action::ADD );
-        $form->setEmbedded( true );
-        $form->setParent( $this );
-        $form->process( );
-        $form->run( );
-    }
-    
-    function whereClause( &$params, $sortBy = true ) {
-        $values  =  array( );
-        $clauses = array( );
-        $title   = $this->get( 'title' );
-        if ( $title ) {
-            $clauses[] = "title LIKE %1";
-            if ( strpos( $title, '%' ) !== false ) {
-                $params[1] = array( trim($title), 'String', false );
-            } else {
-                $params[1] = array( trim($title), 'String', true );
-            }
-        }
-
-        $value = $this->get( 'contribution_type_id' );
-        $val = array( );
-         if( $value) {
-             if ( is_array( $value ) ) {
-                 foreach ($value as $k => $v) {
-                     if ($v) {
-                         $val[$k] = $k;
-                     }
-                 } 
-                 $type = implode (',' ,$val);
-             }
-             
-             $clauses[] = "contribution_type_id IN ({$type})";
-         }
-         
-         if ( $sortBy &&
-             $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %3';
-            $params[3] = array( $this->_sortByCharacter . '%', 'String' );
-        }
-       
-        $clauses[] = 'domain_id = %4';
-        $params[4] = array( CRM_Core_Config::domainID( ), 'Integer' );
-
-        // dont do a the below assignement when doing a 
-        // AtoZ pager clause
-        if ( $sortBy ) {
-            if ( count( $clauses ) > 1 ) {
-                $this->assign( 'isSearch', 1 );
-            } else {
-                $this->assign( 'isSearch', 0 );
-            }
-        }
-        return implode( ' AND ', $clauses );
-    }
-
-
-     function pager( $whereClause, $whereParams ) {
-        require_once 'CRM/Utils/Pager.php';
-
-        $params['status']       = ts('Contribution %%StatusMessage%%');
-        $params['csvString']    = null;
-        $params['buttonTop']    = 'PagerTopButton';
-        $params['buttonBottom'] = 'PagerBottomButton';
-        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
-        if ( ! $params['rowCount'] ) {
-            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
-        }
-
-        $query = "
-SELECT count(id)
-  FROM civicrm_contribution_page
- WHERE $whereClause";
-
-        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
-            
-        $this->_pager = new CRM_Utils_Pager( $params );
-        $this->assign_by_ref( 'pager', $this->_pager );
-    }
-
-    function pagerAtoZ( $whereClause, $whereParams ) {
-        require_once 'CRM/Utils/PagerAToZ.php';
-        
-        $query = "
-   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
-     FROM civicrm_contribution_page
-    WHERE $whereClause
- ORDER BY LEFT(title, 1)
-";
-        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
-
-        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
-        $this->assign( 'aToZ', $aToZBar );
     }
 }
 ?>

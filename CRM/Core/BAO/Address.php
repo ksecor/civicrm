@@ -57,6 +57,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      */
     static function create( &$params ) 
     {
+//         if ( ! self::dataExists( $params ) ) {
+//             return null;
+//         }
+
         $contactId = $params['address']['contact_id'];
 
         //get all the addresses for this contact
@@ -64,24 +68,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $addresses = self::allAddress( $contactId );
 
         $isPrimary = true;
-
-        require_once "CRM/Core/BAO/Block.php";
         foreach ( $params['address'] as $value ) {
             if ( !is_array( $value ) ) {
-                continue;
-            }
-
-            if ( !empty( $addresses ) ) {
-                $value['id'] = array_shift( $addresses );
-            }
-            
-            $addressExists = self::dataExists( $value );
-
-            if ( isset( $value['id'] ) && !$addressExists ) {
-                //delete the existing record
-                CRM_Core_BAO_Block::blockDelete( 'Address', array( 'id' => $value['id'] ) );
-                continue;
-            } else if ( !$addressExists ) {
                 continue;
             }
 
@@ -92,6 +80,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             }
             
             $value['contact_id'] = $contactId;
+
+            if ( !empty( $addresses ) ) {
+                $value['id'] = array_shift( $addresses );
+            }
             
             $blocks[] = self::add( $value );
         }
@@ -236,24 +228,31 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * Check if there is data to create the object
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param array  $locationId     
+     * @param array  $ids            the array that holds all the db ids
      *
      * @return boolean
      * 
      * @access public
      * @static
      */
-    static function dataExists( &$params )
+    static function dataExists(&$params, $locationId, &$ids)
     {
         // if we should not overwrite, then the id is not relevant.
-        if ( self::$_overwrite ) {
-            //return true;
+        if ( self::$_overwrite &&
+             is_array( $ids )  &&
+             CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
+            return true;
+        }
+
+        // return if no data present
+        if (! array_key_exists('address' , $params['location'][$locationId])) {
+            return false;
         }
 
         $config =& CRM_Core_Config::singleton( );
-        foreach ($params as $name => $value) {
-            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id' ) ) ) {
-                continue;
-            } else if ( !empty($value) ) {
+        foreach ($params['location'][$locationId]['address'] as $name => $value) {
+            if (! empty($value) ) {
                 // name could be country or country id
                 if ( substr( $name, 0, 7 ) != 'country' ) {
                     return true;
@@ -268,10 +267,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                         if ( $value == $defaultCountry     ||
                              $value == $defaultCountryName ||
                              $value == $config->defaultContactCountry ) {
-                            // do nothing
+			  // do nothing
                         } else {
-                            return true;
-                        }
+			  return true;
+			}
                     } else {
                         // return if null default
                         return true;
@@ -309,6 +308,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $flatten = true;
         $address->find( );
 
+        $count = 1;
         while ( $address->fetch( ) ) {
             $values = array( );
 
@@ -339,7 +339,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 $values['address']['display'] = $address->display;
             }
             
-            $addresses[$address->location_type_id] = $values;
+            $addresses[$count] = $values;
+            $count++;
         }
        
         return $addresses;

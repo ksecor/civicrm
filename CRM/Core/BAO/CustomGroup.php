@@ -417,18 +417,18 @@ SELECT $select
         $tableName = self::_getTableName($entityType);
 
         $update = array( );
-        foreach ( $groupTree as $groupID => $group ) {
+        foreach ( $groupTree as $groupID => $fields ) {
             if ( $groupID == 'info' ) {
                 continue;
             }
-            $table = $groupTree[$groupID]['table_name'];
-            foreach ( $group['fields'] as $fieldID => $field ) {
+            $table = $groupTree[$groupID]['civicrm_custom_group_table_name'];
+            foreach ( $fields as $fieldID => $field ) {
                 if ( isset( $field['customValue'] ) ) {
-                    $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
+                    $column    = $groupTree[$groupID]['fields'][$fieldID]['civicrm_custom_field_column_name'];
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
-            CRM_Core_Error::debug( 'u', $update );
+
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'  ] );
                 if ( $groupTree['info']['where' ] ) {
@@ -438,7 +438,7 @@ SELECT $select
                     $sqlOP  = 'SELECT';
                     $where  = null;
                 }
-                $update = implode( ', ', $update );
+                $update = implode( ', ', $groupTree['info']['update'] );
                                    
                 $query = "
 $sqlOP $tables
@@ -792,7 +792,7 @@ $where
 
         //check wheter this contain any custom fields
         $customField = & new CRM_Core_DAO_CustomField();
-        $customField->custom_group_id = $group->id;
+        $customField->custom_group_id = $id;
         $customField->find();
         if ($customField->fetch()) {
             return false;
@@ -935,13 +935,10 @@ $where
     }
 
     static function postProcess( &$groupTree, &$params ) {
-
+        
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
-        foreach ($groupTree as $groupID => $group) {
-            if ( $groupID == 'info' ) {
-                continue;
-            }              
+        foreach ($groupTree as $group) {
             foreach ($group['fields'] as $field) {
                 $groupId = $group['id'];
                 $fieldId = $field['id'];

@@ -198,27 +198,20 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         );
 
         /* TODO: do we need reply tokens? */
-        $html = $component->body_html;
-        if ($component->body_text) {
-            $text = $component->body_text;
-        } else {
-            $text = CRM_Utils_String::htmlToText($component->body_html);
-        }
-        
-        require_once 'CRM/Mailing/BAO/Mailing.php';
-        $bao =& new CRM_Mailing_BAO_Mailing();
-        $bao->body_text = $text;
-        $bao->body_html = $html;
-        $tokens = $bao->getTokens();
-
         if ($eq->format == 'HTML' ||  $eq->format == 'Both') {
+            $html = $component->body_html;
             require_once 'CRM/Utils/Token.php';
-            $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html'] );
+            $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' ||  $eq->format == 'Both') {
+            if ($component->body_text) {
+                $text = $component->body_text;
+            } else {
+                $text = CRM_Utils_String::htmlToText($component->body_html);
+            }
             require_once 'CRM/Utils/Token.php';
-            $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false, $tokens['text'] );
+            $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $message->setTxtBody($text);
         }
         

@@ -56,10 +56,9 @@ INSERT INTO civicrm_mailing_component
 VALUES
     (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}Descriptive Title for this Header{/ts}','{ts}Sample Header for HTML formatted content.{/ts}','{ts}Sample Header for TEXT formatted content.{/ts}',1,1),
     (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}Descriptive Title for this Footer.{/ts}','{ts}Sample Footer for HTML formatted content.{/ts}','{ts}Sample Footer for TEXT formatted content.{/ts}',1,1),
-    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription Confirmation Request{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click on this link: {ldelim}subscribe.url{rdelim}{/ts}',1,1),
+    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription Confirmation Request{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}',1,1),
     (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Your Subscription has been Activated{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}',1,1),
-    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Un-subscribe Confirmation{/ts}','{ts}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking <a href="{ldelim}action.resubscribeUrl{rdelim}">here</a>.{/ts}','{ts}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking {ldelim}action.resubscribeUrl{rdelim}{/ts}',1,1),
-    (@domain_id,'{ts}Resubscribe Message{/ts}','Resubscribe','{ts}Re-subscribe Confirmation{/ts}','{ts}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking <a href="{ldelim}action.unsubscribeUrl{rdelim}">here</a>.{/ts}','{ts}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking {ldelim}action.unsubscribeUrl{rdelim}{/ts}',1,1),
+    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Un-subscribe Confirmation{/ts}','{ts}You have been un-subscribed from the {ldelim}unsubscribe.group{rdelim} mailing list.{/ts}','{ts}You have been un-subscribed from the {ldelim}unsubscribe.group{rdelim} mailing list.{/ts}',1,1),
     (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Opt-out Confirmation{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}',1,1),
     (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Please Send Inquiries to Our Contact Email Address{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}',1,1),
     (@domain_id,'{ts}Resubscribe Message{/ts}','Resubscribe','{ts}Re-subscribe Confirmation{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}',1,1);
@@ -103,9 +102,7 @@ VALUES
    (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
    (@domain_id, 'group_type'                    , '{ts}Group Type{/ts}'                         , 0, 1),
    (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
-   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1),
-   (@domain_id, 'honor_type'                    , '{ts}Honor Type{/ts}'                         , 0, 1);
-
+   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1);
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
 SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
@@ -126,10 +123,9 @@ SELECT @option_group_id_ceOpt          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_asOpt          := max(id) from civicrm_option_group where name = 'advanced_search_options';
 SELECT @option_group_id_udOpt          := max(id) from civicrm_option_group where name = 'user_dashboard_options';
 SELECT @option_group_id_adOpt          := max(id) from civicrm_option_group where name = 'address_options';
-SELECT @option_group_id_gType          := max(id) from civicrm_option_group where name = 'group_type';
+SELECT @option_group_id_gtype          := max(id) from civicrm_option_group where name = 'group_type';
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
-SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group where name = 'honor_type';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -199,7 +195,6 @@ VALUES
   (@option_group_id_ps, '{ts}Attended{/ts}',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_ps, '{ts}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_ps, '{ts}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
-  (@option_group_id_ps, '{ts}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1),
 
   (@option_group_id_pRole, '{ts}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
   (@option_group_id_pRole, '{ts}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -273,10 +268,7 @@ VALUES
   (@option_group_id_grantTyp, '{ts}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
   (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
   (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_honorTyp, '{ts}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
-  (@option_group_id_honorTyp, '{ts}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1);
-
+  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1);
 
 -- sample membership status entries
 INSERT INTO
@@ -305,9 +297,7 @@ VALUES
   ( @domain_id, 'duration'  ,   0,  0, 15, 'H i'       ),
   ( @domain_id, 'fixed'     ,   0,  5,  0, null        ),
   ( @domain_id, 'mailing'   ,   0,  1, 15, 'Y M d H i' ),
-  ( @domain_id, 'relative'  ,  20, 20,  0, null        ),
-  ( @domain_id, 'manual'    ,  20, 20,  0, null        );
-
+  ( @domain_id, 'relative'  ,  20, 20,  0, null        );
 
 -- various processor options
 --
@@ -315,16 +305,16 @@ VALUES
 --
 
 INSERT INTO `civicrm_payment_processor_type` 
- (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
+ (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_recur_default, url_button_default, url_site_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
 VALUES 
- (@domain_id,'Dummy','{ts}Dummy Payment Processor{/ts}',NULL,1,1,'{ts}User Name{/ts}',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),
- (@domain_id,'PayPal_Standard','{ts}PayPal - Website Payments Standard{/ts}',NULL,1,0,'{ts}Merchant Account Email{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
- (@domain_id,'PayPal','{ts}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
- (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
- (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}','{ts}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
- (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,NULL,1,1),
- (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
- (@domain_id,'PayJunction','{ts}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
+ (@domain_id,'Dummy','{ts}Dummy Payment Processor{/ts}',NULL,1,1,'{ts}User Name{/ts}',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),
+ (@domain_id,'PayPal_Standard','{ts}PayPal - Website Payments Standard{/ts}',NULL,1,0,'{ts}Merchant Account Email{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/','https://www.sandbox.paypal.com/',NULL,4,1),
+ (@domain_id,'PayPal','{ts}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}','{ts}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
+ (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,1,1),
+ (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
+ (@domain_id,'PayJunction','{ts}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,1);
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);

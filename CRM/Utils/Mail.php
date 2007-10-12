@@ -148,11 +148,15 @@ class CRM_Utils_Mail {
             $to[] = $bcc;
         }
 
-        // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
-        $mailer =& CRM_Core_Config::getMailer( );  
-        if ($mailer->send($to, $headers, $message) !== true) {  
-            return false;                                                    
-        } 
+        if ( defined( 'CIVICRM_MAIL_LOG' ) ) {
+            self::logger( $to, $headers, $message );
+        } else {
+            // $to = array( 'dggreenberg@gmail.com', 'donald.lobo@gmail.com' );
+            $mailer =& CRM_Core_Config::getMailer( ); 
+            if ($mailer->send($to, $headers, $message) !== true) {  
+                return false;                                                    
+            } 
+        }
 
         return true;
     }
