@@ -221,7 +221,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set( 'fields', $this->_fields );
 
         }
-
         // we do this outside of the above conditional to avoid 
         // saving the country/state list in the session (which could be huge)
         if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&

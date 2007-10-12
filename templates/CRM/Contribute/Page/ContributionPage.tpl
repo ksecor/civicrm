@@ -2,7 +2,8 @@
 {capture assign=newPageURL}{crmURL q='action=add&reset=1'}{/capture}
 <div id="help">
     <p>{ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc. (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</p>
-    
+  
+    {include file="CRM/Contribute/Form/SearchContribution.tpl"}  
     {if $rows}
     {ts}For existing pages{/ts}:
     <ul class="indented">
@@ -17,6 +18,16 @@
 {if $rows}
     <div class="form-item" id="configure_contribution_page">
         {strip}
+
+        {if NOT ($action eq 1 or $action eq 2) }
+        
+        <div class="action-link">
+        <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
+        </div>
+        
+        {/if}
+        {include file="CRM/common/pager.tpl" location="top"}
+        {include file="CRM/common/pagerAToZ.tpl} 
         <table  headClass="fixedHeader" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
          <thead> 
           <tr class="columnheader">
@@ -40,14 +51,6 @@
         </tbody>
         </table>
         
-        {if NOT ($action eq 1 or $action eq 2) }
-        
-        <div class="action-link">
-        <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
-        </div>
-        
-        {/if}
-
         {/strip}
     </div>
 {else}

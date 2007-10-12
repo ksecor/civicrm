@@ -30,9 +30,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 			//		startup() in subclasses shouldn't do anything
 			//		size related because the size of the widget hasn't been set yet.
 
-			if(this._started){
-				return;
-			}
+			if(this._started){ return; }
 			this._started=true;
 
 			if(this.getChildren){
@@ -51,7 +49,7 @@ dojo.declare("dijit.layout._LayoutWidget",
 				this.connect(window, 'onresize', function(){this.resize();});
 			}
 		},
-		
+
 		resize: function(args){
 			// summary:
 			//		Explicitly set this widget's size (in pixels),
@@ -117,7 +115,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 	var size = function(widget, dim){
 		// size the child
 		widget.resize ? widget.resize(dim) : dojo.marginBox(widget.domNode, dim);
-		
+
 		// record child's size, but favor our own numbers when we have them.
 		// the browser lies sometimes
 		dojo.mixin(widget, dojo.marginBox(widget.domNode));

@@ -232,8 +232,9 @@ class CRM_Friend_Form extends CRM_Core_Form
         require_once 'CRM/Activity/BAO/Activity.php';
         require_once 'CRM/Activity/DAO/ActivityTarget.php';
         $ids = array(); 
-        $activity = CRM_Activity_BAO_Activity::createActivity($params,$ids);     
-        
+        $bao = new CRM_Activity_BAO_Activity;     
+        $activity = $bao->createActivity($params,$ids);
+
         //create friend contacts and entry in activity target table        
         foreach ( $friends as $k => $v ) {
             if ( count($v) == 3 ) {

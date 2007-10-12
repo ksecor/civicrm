@@ -29,8 +29,8 @@ dijit.popup = new function(){
 		//		orient: Object
 		//			structure specifying possible positions of popup relative to "around" node
 		//		onCancel: Function
-		//			callback when user has canceled the popup by 
-		//          	1. hitting ESC or
+		//			callback when user has canceled the popup by
+		//				1. hitting ESC or
 		//				2. by using the popup widget's proprietary cancel mechanism (like a cancel button in a dialog);
 		//				   ie: whenever popupWidget.onCancel() is called, args.onCancel is called
 		//		onClose: Function
@@ -65,6 +65,7 @@ dijit.popup = new function(){
 		wrapper.id = id;
 		wrapper.className="dijitPopup";
 		wrapper.style.zIndex = beginZIndex + stack.length;
+		wrapper.style.visibility = "hidden";
 		if(args.parent){
 			wrapper.dijitPopupParent=args.parent.id;
 		}
@@ -80,14 +81,20 @@ dijit.popup = new function(){
 			dijit.placeOnScreenAroundElement(wrapper, around, orient, widget.orient ? dojo.hitch(widget, "orient") : null) :
 			dijit.placeOnScreen(wrapper, args, orient == 'R' ? ['TR','BR','TL','BL'] : ['TL','BL','TR','BR']);
 
+		wrapper.style.visibility = "visible";
 		// TODO: use effects to fade in wrapper
 
 		var handlers = [];
 
-		// provide default escape key handling 
+		// provide default escape and tab key handling
 		handlers.push(dojo.connect(wrapper, "onkeypress", this, function(evt){
-			if (evt.keyCode == dojo.keys.ESCAPE){
+			if(evt.keyCode == dojo.keys.ESCAPE){
 				args.onCancel();
+			}else if(evt.keyCode == dojo.keys.TAB){
+				dojo.stopEvent(evt);
+				if(stack[0] && stack[0].onCancel){
+					stack[0].onCancel();
+				}
 			}
 		}));
 
@@ -96,7 +103,7 @@ dijit.popup = new function(){
 		if(widget.onCancel){
 			handlers.push(dojo.connect(widget, "onCancel", null, args.onCancel));
 		}
-		
+
 		handlers.push(dojo.connect(widget, widget.onExecute ? "onExecute" : "onChange", null, function(){
 			if(stack[0] && stack[0].onExecute){
 				stack[0].onExecute();
@@ -124,6 +131,10 @@ dijit.popup = new function(){
 		// summary:
 		//		Close popup on the top of the stack (the highest z-index popup)
 
+		if(!stack.length){
+			return;
+		}
+
 		// this needs to happen before the stack is popped, because menu's
 		// onClose calls closeTo(this)
 		var widget = stack[stack.length-1].widget;
@@ -131,9 +142,6 @@ dijit.popup = new function(){
 			widget.onClose();
 		}
 
-		if(!stack.length){
-			return;
-		}
 		var top = stack.pop();
 		var wrapper = top.wrapper,
 			iframe = top.iframe,
@@ -195,7 +203,7 @@ dijit._frames = new function(){
 		}
 		return iframe;
 	};
-	
+
 	this.push = function(iframe){
 		iframe.style.display="";
 		if(dojo.isIE){

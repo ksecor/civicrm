@@ -148,14 +148,14 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
         }
         $select['group'] = ts('Group(s)'); 
         $select['tag'  ] = ts('Tag(s)');
-	//print_r($fields);
+
         while ($ufFieldBAO->fetch()) {
             $ufField[$ufFieldBAO->id] = array();
             $phoneType = $locType = '';
             CRM_Core_DAO::storeValues( $ufFieldBAO, $ufField[$ufFieldBAO->id]);
             CRM_Core_DAO_UFField::addDisplayEnums($ufField[$ufFieldBAO->id]);
 
-	    $ufField[$ufFieldBAO->id]['label'] = $ufFieldBAO->label; 
+            $ufField[$ufFieldBAO->id]['label'] = $ufFieldBAO->label; 
 
             $action = array_sum(array_keys($this->actionLinks()));
             if ($ufFieldBAO->is_active) {
@@ -168,6 +168,14 @@ class CRM_UF_Page_Field extends CRM_Core_Page {
                                                                             array('id'  => $ufFieldBAO->id,
                                                                                   'gid' => $this->_gid));
         }
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/uf/group/field',
+                                            "reset=1&action=browse&gid={$this->_gid}" );
+        $filter    = "uf_group_id = {$this->_gid}";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $ufField, 'CRM_Core_DAO_UFField',
+                                    'id', $returnURL, $filter );
+        
         $this->assign('ufField', $ufField);
     }
 

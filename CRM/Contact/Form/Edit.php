@@ -256,7 +256,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                     }
                 }
-                $defaults['location'][1]['is_primary'] = true;
             }
         } else { 
             // this is update mode
@@ -265,12 +264,12 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $ids = array();
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
             $this->set( 'ids', $ids );
-             
-            $locationExists = array();
-            // DO TO: commented because of schema changes
-//             foreach( $contact->location as $loc) {
-//                 $locationExists[] = $loc->location_type_id;
-//             }
+            
+            $locationExists = array( );
+
+            foreach( $contact->location as $loc) {
+                $locationExists[] = $loc['location_type_id'];
+            }
             $this->assign( 'locationExists' , $locationExists );
 
             $this->assign( 'contactId' , $this->_contactId );
@@ -305,6 +304,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
         }
+        
+        //check primary for first location
+        $defaults['location'][1]['is_primary'] = true;
 
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );

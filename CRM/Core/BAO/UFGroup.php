@@ -714,6 +714,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         require_once 'CRM/Quest/BAO/Student.php';
                         $processed = CRM_Quest_BAO_Student::buildStudentForm( $this, $field );
                     }
+                    if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
+                        require_once 'CRM/Kabissa/BAO/Kabissa.php';
+                        $processed = 
+                            CRM_Kabissa_BAO_Kabissa::buildProfileView( $values, $field['name'], $index, $details );
+                    }
                     if ( ! $processed ) {
                         if ( substr($name, 0, 7) === 'do_not_' or substr($name, 0, 3) === 'is_' ) {  
                             if ($details->$name) {

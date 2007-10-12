@@ -69,6 +69,7 @@ function clearAmountOther() {
     <fieldset><legend>{$honor_block_title}</legend>
         {$honor_block_text}
       <table class="form-layout-compressed">
+      <tr><td>{$form.honor_type_id.label}</td><td>{$form.honor_type_id.html}</td></tr>  
       <tr><td>{$form.honor_prefix_id.label}</td><td>{$form.honor_prefix_id.html}</td></tr>
 	  <tr><td>{$form.honor_first_name.label}</td><td>{$form.honor_first_name.html}</td></tr>
 	  <tr><td>{$form.honor_last_name.label}</td><td>{$form.honor_last_name.html}</td></tr>

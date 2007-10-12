@@ -90,8 +90,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $values = $this->controller->exportValues( 'Main' );
                 $skipFields = array( 'amount', 'amount_other',
                                      'first_name', 'middle_name', 'last_name',
-                                     'street_address', 'city', 'state_province_id', 'postal_code',
-                                     'country_id' );
+                                     "street_address-{$this->_bltID}",
+                                     "city-{$this->_bltID}",
+                                     "state_province_id-{$this->_bltID}",
+                                     "postal_code-{$this->_bltID}",
+                                     "country_id-{$this->_bltID}" );
                 foreach ( $values as $name => $value ) {
                     // skip amount field
                     if ( ! in_array( $name, $skipFields ) ) {
@@ -146,7 +149,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $this->assignToTemplate( );
         require_once 'CRM/Contribute/BAO/Premium.php';
         
-        $params = $this->_params;
+        $params = $this->_params;                    
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         // make sure we have values for it
         if ( $honor_block_is_active &&
@@ -157,6 +160,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $honor  = CRM_Core_PseudoConstant::honor( );             
+            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
             $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
             $this->assign("honor_first_name",$params["honor_first_name"]);
             $this->assign("honor_last_name",$params["honor_last_name"]);
@@ -169,7 +174,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( isset( $params['selectProduct'] ) && $params['selectProduct'] != 'no_thanks') {
             $option    = $params['options_'.$params['selectProduct']];
             $productID = $params['selectProduct']; 
-            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false,$productID, $option);
+            CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id, false,
+                                                           $productID, $option);
             $this->set('productID',$productID);
             $this->set('option',$option);
         }
@@ -177,7 +183,10 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( in_array("CiviMember", $config->enableComponents) ) {
             if ( isset( $params['selectMembership'] ) &&
                  $params['selectMembership'] != 'no_thanks' ) {
-                CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false , $params['selectMembership'] );
+                CRM_Member_BAO_Membership::buildMembershipBlock( $this,
+                                                                 $this->_id,
+                                                                 false,
+                                                                 $params['selectMembership'] );
             }
         }
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
@@ -333,19 +342,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if ( ! isset( $contactID ) ) {
             // make a copy of params so we dont destroy our params
             // (since we pass this by reference)
-            // so now we have a confirmed financial transaction
-            // lets create or update a contact first
             require_once 'api/crm.php';
             $ids = CRM_Core_BAO_UFGroup::findContact( $params );
             $contactsIDs = explode( ',', $ids );
             
             // if we find more than one contact, use the first one
-            $contact_id  = $contactsIDs[0];
+            $contact_id  = CRM_Utils_Array::value( 0, $contactsIDs );
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         } else {
-            $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact",$contactID,"contact_type");
-            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null, $ctype);
+            $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'contact_type');
+            $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
+                                                                         null, $ctype);
         }
         
         // store the fact that this is a membership and membership type is selected
@@ -354,17 +362,18 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
              $membershipParams['selectMembership'] != 'no_thanks' ) {
             $processMembership = true;
             $this->assign( 'membership_assign' , true );
-            $this->set('membershipID' , $this->_params['selectMembership']);
+            $this->set('membershipTypeID' , $this->_params['selectMembership']);
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $membershipParams["is_test"] = 1;
+                $membershipParams['is_test'] = 1;
             }
         }
+
    
-        if ( $processMembership && $this->_contributeMode != 'notify' ) {
+        if ( $processMembership ) {
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $membershipParams, true );
 
-            require_once "CRM/Member/BAO/Membership.php";
+            require_once 'CRM/Member/BAO/Membership.php';
             CRM_Member_BAO_Membership::postProcessMembership( $membershipParams, $contactID,
                                                               $this, $premiumParams );
         } else {
@@ -546,11 +555,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                     'net_amount'   => CRM_Utils_Array::value( 'net_amount', $result, $params['amount'] ),
                                     'trxn_id'      => $result['trxn_id'],
                                     'receipt_date' => $receiptDate,
-                               );
+                                    );
         }
             
         if ( isset($honorCId)  ) {
             $contribParams["honor_contact_id"] = $honorCId;
+            $contribParams["honor_type_id"]    = $params['honor_type_id'];
         }
 
         if ( $recurringContributionID ) {
@@ -711,7 +721,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
      */
     function createHonorContact(  ) {
         $params = $this->controller->exportValues( 'Main' );
-        
+       
         // return if we dont have enough information
         if ( empty( $params["honor_first_name"] ) &&
              empty( $params["honor_last_name" ] ) &&
@@ -728,12 +738,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         
         //assign to template for email reciept
         $honor_block_is_active = $this->get( 'honor_block_is_active');
-
+        
         $this->assign('honor_block_is_active', $honor_block_is_active );
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         
         require_once "CRM/Core/PseudoConstant.php";
         $prefix = CRM_Core_PseudoConstant::individualPrefix();
+        $honorType = CRM_Core_PseudoConstant::honor( );
+        $this->assign("honor_type",$honorType[$params["honor_type_id"]]);
         $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
         $this->assign("honor_first_name",$params["honor_first_name"]);
         $this->assign("honor_last_name",$params["honor_last_name"]);

@@ -16,7 +16,7 @@ tests.register("tests.date.locale",
 				var partLocaleList = ["en-us", "fr-fr", "es", "de-at", "ja-jp", "zh-cn"];
 
 				for(var i = 0 ; i < partLocaleList.length; i ++){
-					dojo.requireLocalization("dojo.cldr","gregorian",partLocaleList[i], "zh,it-it,pt,ko-kr,pt-br,de,ROOT,it,ja,es-es,es,fr,zh-cn,en-gb,en-au,en-ca,ko,en");
+					dojo.requireLocalization("dojo.cldr","gregorian",partLocaleList[i], "en,en-au,en-gb,pt,zh-cn,zh,ko-kr,it-it,en-ca,de,ROOT,pt-br,es,es-es,fr,ko,it,ja");
 				}
 			},
 			runTest: function(t){

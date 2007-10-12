@@ -1,0 +1,43 @@
+$Id: copyright 740 2005-12-26 16:59:50Z hmh $
+
+This package was debianized by Brian May <bam@snoopy.apana.org.au> on
+Fri,  8 Mar 2002 15:31:24 +1100.
+
+The Debian packaging of amavisd-new is:
+  Copyright (c) 2002-2005 by Brian May <bam@debian.org>
+  Copyright (c) 2003-2005 by Henrique de Moraes Holschuh <hmh@debian.org>
+  and distributed in the same license as the upstream source it applies to.
+
+Upstream sources are at http://www.ijs.si/software/amavisd/
+
+Upstream Authors: Mark Martinec <mark.martinec@ijs.si>, and others.
+
+There are lots of different versions of amavis.
+According to Luca Filipozzi <lfilipoz@debian.org>:
+
+amavis-perl : the original (slow) one
+amavisd     : the client/server version
+amavis-ng   : Hilko Bengen's rewrite of amavis-perl/amavisd
+amavisd-new : Marc Martinec's version
+
+This version is amavisd-new.  We have renamed it to amavisd-new to avoid
+clashes with other packages.
+
+Copyright:
+  Copyright (C) 2002-2005 by Mark Martinec and others
+  Copyright (C) 2000-2002 by
+    Chris Mason <cmason@unixzone.com>
+    Lars Hecking <lhecking@users.sourceforge.net>
+    Mogens Kjaer <mk@crc.dk>
+    Juergen Quade <quade@softing.com>
+    Christian Bricart <shiva@aachalon.de>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+The GPL may be found in /usr/share/common-licenses/GPL on a Debian system.
+
+For JpegTester.pm, the following applies:
+The (new)BSD license applies to this package JpegTester.

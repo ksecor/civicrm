@@ -4,13 +4,16 @@ dojo.provide("dijit.layout.AccordionContainer");
 
 dojo.require("dojo.fx");
 
+dojo.require("dijit._Container");
+dojo.require("dijit._Templated");
 dojo.require("dijit.layout.StackContainer");
+dojo.require("dijit.layout.ContentPane");
 
 dojo.declare(
 	"dijit.layout.AccordionContainer",
 	dijit.layout.StackContainer,
 	{
-		// summary: 
+		// summary:
 		//		Holds a set of panes where every pane's title is visible, but only one pane's content is visible at a time,
 		//		and switching between panes is visualized by sliding the other panes up/down.
 		// usage:
@@ -35,6 +38,7 @@ dojo.declare(
 		},
 
 		startup: function(){
+			if(this._started){ return; }
 			dijit.layout.StackContainer.prototype.startup.apply(this, arguments);
 			if(this.selectedChildWidget){
 				var style = this.selectedChildWidget.containerNode.style;
@@ -74,20 +78,17 @@ inside the AccordionPane??
 
 		_transition: function(/*Widget?*/newWidget, /*Widget?*/oldWidget){
 //TODO: should be able to replace this with calls to slideIn/slideOut
+			if(this._inTransition){return;}
+			this._inTransition = true;
 			var animations = [];
 			var paneHeight = this._verticalSpace;
 			if(newWidget){
 				newWidget.setSelected(true);
 				var newContents = newWidget.containerNode;
 				newContents.style.display = "";
-				dojo.forEach(newWidget.getChildren(), function(widget){
-					if(widget.resize){
-						widget.resize({h: paneHeight});
-					}
-				});
 
-				animations.push(dojo.animateProperty({ 
-					node: newContents, 
+				animations.push(dojo.animateProperty({
+					node: newContents,
 					duration: this.duration,
 					properties: {
 						height: { start: "1", end: paneHeight }
@@ -101,17 +102,19 @@ inside the AccordionPane??
 				oldWidget.setSelected(false);
 				var oldContents = oldWidget.containerNode;
 				oldContents.style.overflow = "hidden";
-				animations.push(dojo.animateProperty({ 
+				animations.push(dojo.animateProperty({
 					node: oldContents,
 					duration: this.duration,
 					properties: {
-						height: { start: paneHeight, end: "1" } 
+						height: { start: paneHeight, end: "1" }
 					},
 					onEnd: function(){
 						oldContents.style.display = "none";
 					}
 				}));
 			}
+
+			this._inTransition = false;
 
 			dojo.fx.combine(animations).play();
 		},
@@ -144,15 +147,11 @@ inside the AccordionPane??
 
 dojo.declare(
 	"dijit.layout.AccordionPane",
-	[dijit.layout._LayoutWidget, dijit._Templated],
+	[dijit.layout.ContentPane, dijit._Templated, dijit._Contained],
 {
 	// summary
-	//		AccordionPane is a box with a title that contains another widget (often a ContentPane).
-	//		It's a widget used internally by AccordionContainer.
-
-	// selected: Boolean
-	//	if true, this is the open pane
-	selected: false,
+	//		AccordionPane is a ContentPane with a title that may contain another widget.
+	//		Nested layout widgets, such as SplitContainer, are not supported at this time.
 
 	templateString:"<div class='dijitAccordionPane'\n\t><div dojoAttachPoint='titleNode,focusNode' dojoAttachEvent='ondijitclick:_onTitleClick,onkeypress:_onKeyPress'\n\t\tclass='dijitAccordionTitle' wairole=\"tab\"\n\t\t><div class='dijitAccordionArrow'></div\n\t\t><div class='arrowTextUp' waiRole=\"presentation\">&#9650;</div\n\t\t><div class='arrowTextDown' waiRole=\"presentation\">&#9660;</div\n\t\t><span dojoAttachPoint='titleTextNode'>${title}</span></div\n\t><div><div dojoAttachPoint='containerNode' style='overflow: hidden; height: 1px; display: none'\n\t\tdojoAttachEvent='onkeypress:_onKeyPress'\n\t\tclass='dijitAccordionBody' waiRole=\"tabpanel\"\n\t></div></div>\n</div>\n",
 
@@ -170,21 +169,23 @@ dojo.declare(
 	_onTitleClick: function(){
 		// summary: callback when someone clicks my title
 		var parent = this.getParent();
-		parent.selectChild(this);
-		dijit.focus(this.focusNode);
+		if(!parent._inTransition){
+			parent.selectChild(this);
+			dijit.focus(this.focusNode);
+		}
 	},
 
 	_onKeyPress: function(/*Event*/ evt){
 		evt._dijitWidget = this;
 		return this.getParent().processKey(evt);
 	},
-	
+
 	_setSelectedState: function(/*Boolean*/ isSelected){
 		this.selected = isSelected;
 		(isSelected ? dojo.addClass : dojo.removeClass)(this.domNode, "dijitAccordionPane-selected");
-		this.focusNode.setAttribute("tabIndex",(isSelected)? "0":"-1");
+		this.focusNode.setAttribute("tabIndex", isSelected ? "0" : "-1");
 	},
-	
+
 	setSelected: function(/*Boolean*/ isSelected){
 		// summary: change the selected state on this pane
 		this._setSelectedState(isSelected);

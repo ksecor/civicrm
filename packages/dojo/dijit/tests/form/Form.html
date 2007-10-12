@@ -1,18 +1,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-        "http://www.w3.org/TR/html4/strict.dtd">
+		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 
 	<title>Form unit test</title>
 	<style type="text/css">
 		@import "../../../dojo/resources/dojo.css";
-		@import "../../themes/tundra/tundra.css";
-		@import "../../themes/tundra/tundra_rtl.css";
 		@import "../css/dijitTests.css";
 	</style>
-	<script type="text/javascript" src="../testBidi.js"></script>
 	<script type="text/javascript" src="../../../dojo/dojo.js"
 		djConfig="isDebug: true, parseOnLoad: true"></script>
+	<script type="text/javascript" src="../_testCommon.js"></script>
+
 	<script type="text/javascript">
 		dojo.require("doh.runner");
 		dojo.require("dojo.date");
@@ -24,7 +23,6 @@
 		dojo.require("dijit.form.DateTextBox");
 		dojo.require("dijit.form.Button");
 		dojo.require("dijit.Editor");
-		dojo.require("dijit._editor.plugins.DefaultToolbar");
 
 		var obj;
 		function getValues(){
@@ -82,7 +80,7 @@
 
 	</script>
 </head>
-<body class="tundra">
+<body>
 <h1>Form Widget Unit Test</h1>
 <p>
 The form widget takes data in a form and serializes/deserializes it,

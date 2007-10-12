@@ -43,9 +43,6 @@ class CRM_ACL_BAO_Cache extends CRM_ACL_DAO_Cache {
     static $_cache = null;
 
     static function &build( $id ) {
-        // in testing phase reset cache every time
-        self::resetCache( );
-
         if ( ! self::$_cache ) {
             self::$_cache = array( );
         }

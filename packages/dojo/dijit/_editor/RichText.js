@@ -4,6 +4,8 @@ dojo.provide("dijit._editor.RichText");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._editor.selection");
+dojo.require("dojo.i18n");
+dojo.requireLocalization("dijit", "Textarea", null, "ROOT");
 
 // used to save content
 // but do not try doing document.write if we are using xd loading.
@@ -33,7 +35,7 @@ if(!djConfig["useXDomain"] || djConfig["allowXdRichTextSave"]){
 	}
 }
 dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
-	preamble: function(){
+	constructor: function(){
 		// summary:
 		//		dijit._editor.RichText is the core of the WYSIWYG editor in dojo, which
 		//		provides the basic editing features. It also encapsulates the differences
@@ -102,13 +104,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	_content: "",
 
 	// height: String
-	//		set height to fix the editor at a specific height, with scrolling
-	height: "",
+	//		set height to fix the editor at a specific height, with scrolling.
+	//		By default, this is 300px. If you want to have the editor always
+	//		resizes to accommodate the content, use AlwaysShowToolbar plugin
+	//		and set height=""
+	height: "300px",
 
 	// minHeight: String
 	//		The minimum height that the editor should have
 	minHeight: "1em",
-
+	
 	// isClosed: Boolean
 	isClosed: true,
 
@@ -176,11 +181,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			return;
 		}
 		this._editorCommandsLocalized = true;
-		
+
 		//in IE, names for blockformat is locale dependent, so we cache the values here
 
 		//if the normal way fails, we try the hard way to get the list
-	
+
 		//do not use _cacheLocalBlockFormatNames here, as it will
 		//trigger security warning in IE7
 
@@ -219,17 +224,17 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//		Transforms the node referenced in this.domNode into a rich text editing
 		//		node. This will result in the creation and replacement with an <iframe>
 		//		if designMode(FF)/contentEditable(IE) is used.
-		
+
 		if((!this.onLoadDeferred)||(this.onLoadDeferred.fired >= 0)){
 			this.onLoadDeferred = new dojo.Deferred();
 		}
-		
+
 		if(!this.isClosed){ this.close(); }
 		dojo.publish("dijit._editor.RichText::open", [ this ]);
-		
+
 		this._content = "";
 		if((arguments.length == 1)&&(element["nodeName"])){ this.domNode = element; } // else unchanged
-		
+
 		if(	(this.domNode["nodeName"])&&
 			(this.domNode.nodeName.toLowerCase() == "textarea")){
 			// if we were created from a textarea, then we need to create a
@@ -346,7 +351,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			if(dojo.isIE){
 				this._localizeEditorCommands();
 			}
-			
+
 			this.onLoad();
 		}else{ // designMode in iframe
 			this._drawIframe(html);
@@ -360,10 +365,11 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	//static cache variables shared among all instance of this class
 	_local2NativeFormatNames: {},
 	_native2LocalFormatNames: {},
+	_localizedIframeTitles: null,
 
 	_getIframeDocTxt: function(html){
 		var _cs = dojo.getComputedStyle(this.domNode);
-		if(!this.height){
+		if(!this.height && !dojo.isMoz){
 			html="<div>"+html+"</div>";
 		}
 		var font = [ _cs.fontWeight, _cs.fontSize, _cs.fontFamily ].join(" ");
@@ -380,14 +386,16 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			lineHeight = "1.0";
 		}
 		return [
-			"<html><head><style>",
+			"<html><head>",
+			(dojo.isMoz ? "<title>" + this._localizedIframeTitles.iframeEditTitle + "</title>" : ""),
+			"<style>",
 			"body,html {",
 			"	background:transparent;",
 			"	padding: 0;",
 			"	margin: 0;",
 			"}",
 			// TODO: left positioning will cause contents to disappear out of view
-			//       if it gets too wide for the visible area
+			//	   if it gets too wide for the visible area
 			"body{",
 			"	top:0px; left:0px; right:0px;",
 				((this.height||dojo.isOpera) ? "" : "position: fixed;"),
@@ -398,12 +406,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			"}",
 			"p{ margin: 1em 0 !important; }",
 			(this.height ?
-				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"+
-				"body > div > *:first-child{ padding-top:0 !important;margin-top: 0px !important;}" + // FIXME: test firstChild nodeType
-				"body > div > *:last-child {"+
-				"	padding-bottom:0 !important;"+
-				"	margin-bottom: 0px !important;"+
-				"}"
+				"" : "body,html{overflow-y:hidden;/*for IE*/} body > div {overflow-x:auto;/*for FF to show vertical scrollbar*/}"
 			),
 			"li > ul:-moz-first-node, li > ol:-moz-first-node{ padding-top: 1.2em; } ",
 			"li{ min-height:1.2em; }",
@@ -431,6 +434,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			ifrs.verticalAlign = "bottom";
 //			ifrs.scrolling = this.height ? "auto" : "vertical";
 			this.editorObject = this.iframe;
+			// get screen reader text for mozilla here, too
+			this._localizedIframeTitles = dojo.i18n.getLocalization("dijit", "Textarea");
 		}
 		// opera likes this to be outside the with block
 		//	this.iframe.src = "javascript:void(0)";//dojo.uri.dojoUri("src/widget/templates/richtextframe.html") + ((dojo.doc.domain != currentDomain) ? ("#"+dojo.doc.domain) : "");
@@ -453,21 +458,8 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.editingArea.appendChild(tmpContent);
 		}
 
-
 		this.editingArea.appendChild(this.iframe);
 
-		if(!this.height){
-			// fix margins on tmpContent
-			var c = dojo.query(">", tmpContent);
-			var firstChild = c[0];
-			var lastChild = c.pop();
-			if(firstChild){
-				firstChild.style.marginTop = "0px";
-			}
-			if(lastChild){
-				lastChild.style.marginBottom = "0px";
-			}
-		}
 		//do we want to show the content before the editing area finish loading here?
 		//if external style sheets are used for the editing area, the appearance now
 		//and after loading of the editing area won't be the same (and padding/margin
@@ -504,7 +496,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 						this.document = this.iframe.contentDocument;
 					}
 					if(!this.document.body){
-						throw 'Error'; 
+						throw 'Error';
 					}
 				}catch(e){
 					setTimeout(ifrFunc,500);
@@ -519,12 +511,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 				// }catch(e){
 				//	this._tryDesignModeOnClick=true;
 				// }
-				try{
-					var currentDomain = (new dojo._Url(dojo.doc.location)).host;
-					if(dojo.doc.domain!=currentDomain){
-						this.document.domain = dojo.doc.domain;
-					}
-				}catch(e){}
 
 				this.onLoad();
 			}else{
@@ -640,20 +626,17 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 	onLoad: function(e){
 		// summary: handler after the content of the document finishes loading
 		this.isLoaded = true;
-		if(this.height){
+		if(this.height || dojo.isMoz){
 			this.editNode=this.document.body;
 		}else{
 			this.editNode=this.document.body.firstChild;
 		}
 		this.editNode.contentEditable = true; //should do no harm in FF
 		this._preDomFilterContent(this.editNode);
-		
+
 		var events=this.events.concat(this.captureEvents),i=0,et;
 		while(et=events[i++]){
 			this.connect(this.document, et.toLowerCase(), et);
-		}
-		if(!this.height){
-			this.connect(this, "onNormalizedDisplayChanged", "_updateHeight");
 		}
 		if(!dojo.isIE){
 			try{ // sanity check for Mozilla
@@ -670,7 +653,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		if(this.focusOnLoad){
 			this.focus();
 		}
-		
+
 		this.onDisplayChanged(e);
 		if(this.onLoadDeferred){
 			this.onLoadDeferred.callback(true);
@@ -686,16 +669,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// such as the backspace. It might be possible to add this to Dojo, so that
 		// keyPress events can be emulated by the keyDown and keyUp detection.
 		if(dojo.isIE){
-			if(e.keyCode === dojo.keys.TAB){
-				dojo.stopEvent(e);
-				// FIXME: this is a poor-man's indent/outdent. It would be
-				// better if it added 4 "&nbsp;" chars in an undoable way.
-				// Unfortuantly pasteHTML does not prove to be undoable
-				this.execCommand((e.shiftKey ? "outdent" : "indent"));
-			}else if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
+			if(e.keyCode === dojo.keys.BACKSPACE && this.document.selection.type === "Control"){
 				// IE has a bug where if a non-text object is selected in the editor,
-	      // hitting backspace would act as if the browser's back button was
-	      // clicked instead of deleting the object. see #1069
+		  // hitting backspace would act as if the browser's back button was
+		  // clicked instead of deleting the object. see #1069
 				dojo.stopEvent(e);
 				this.execCommand("delete");
 			}else if(	(65 <= e.keyCode&&e.keyCode <= 90) ||
@@ -703,6 +680,23 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			){ //arrow keys
 				e.charCode = e.keyCode;
 				this.onKeyPress(e);
+			}
+		}
+		else if (dojo.isMoz){
+			if(e.keyCode == dojo.keys.TAB && !e.shiftKey && !e.ctrlKey && !e.altKey && this.iframe){
+				// update iframe document title for screen reader
+				this.iframe.contentDocument.title = this._localizedIframeTitles.iframeFocusTitle;
+				
+				// Place focus on the iframe. A subsequent tab or shift tab will put focus
+				// on the correct control.
+				this.iframe.focus();  // this.focus(); won't work
+				dojo.stopEvent(e);
+			}else if (e.keyCode == dojo.keys.TAB && e.shiftKey){
+				// if there is a toolbar, set focus to it, otherwise ignore
+				if (this.toolbar){
+					this.toolbar.focus();
+				}
+				dojo.stopEvent(e);
 			}
 		}
 	},
@@ -771,7 +765,10 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 			this.onChange(_c);
 			this.savedContent=_c;
 		}
-//			console.info('_onBlur') 
+		if (dojo.isMoz && this.iframe){
+			this.iframe.contentDocument.title = this._localizedIframeTitles.iframeEditTitle;
+		} 
+//			console.info('_onBlur')
 	},
 	_initialFocus: true,
 	_onFocus: function(e){
@@ -816,7 +813,7 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		//		this event will be fired everytime the display context
 		//		changes and the result needs to be reflected in the UI.
 		// description:
-		//		if you don't want to have update too often, 
+		//		if you don't want to have update too often,
 		//		onNormalizedDisplayChanged should be used instead
 
 //			var _t=new Date();
@@ -832,13 +829,13 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		// summary:
 		//		this event is fired every updateInterval ms or more
 		// description:
-		//		if something needs to happen immidiately after a 
+		//		if something needs to happen immidiately after a
 		//		user change, please use onDisplayChanged instead
 		this._updateTimer=null;
 	},
 	onChange: function(newContent){
-		// summary: 
-		//		this is fired if and only if the editor loses focus and 
+		// summary:
+		//		this is fired if and only if the editor loses focus and
 		//		the content is changed
 
 //			console.log('onChange',newContent);
@@ -1230,41 +1227,6 @@ dojo.declare("dijit._editor.RichText", [ dijit._Widget ], {
 		});
 
 		return ec;
-	},
-
-	//Int: stored last time height
-	_lastHeight: 0,
-
-	_updateHeight: function(){
-		// summary:
-		//		Updates the height of the editor area to fit the contents.
-		if(!this.isLoaded){ return; }
-		if(this.height){ return; }
-
-		// var height = dojo.marginBox(this.editNode).h;
-		var height = dojo.marginBox(this.editNode).h;
-		if(dojo.isOpera){
-			height = this.editNode.scrollHeight;
-		}
-
-		// console.debug(this.editNode);
-		// alert(this.editNode);
-
-		//height maybe zero in some cases even though the content is not empty,
-		//we try the height of body instead
-		if(!height){
-			height = dojo.marginBox(this.document.body).h;
-		}
-
-		if(height == 0){
-			console.debug("Can not figure out the height of the editing area!");
-			return; //prevent setting height to 0
-		}
-		if(height != this._lastHeight){
-			this._lastHeight = height;
-			// this.editorObject.style.height = this._lastHeight + "px";
-			dojo.marginBox(this.editorObject, { h: this._lastHeight });
-		}
 	},
 
 	_saveContent: function(e){

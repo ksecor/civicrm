@@ -44,4 +44,5 @@
 <xi:include href="Timezone.xml"             parse="xml" />
 <xi:include href="Worldregion.xml"          parse="xml" />
 <xi:include href="OpenID.xml"               parse="xml" />
+<xi:include href="Component.xml"            parse="xml" />
 </tables>

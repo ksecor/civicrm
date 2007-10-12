@@ -10,7 +10,8 @@
         {if $history eq 1}{ts}View Completed Activity{/ts}{else}{ts}View Scheduled Activity{/ts}{/if}
     {/if}
   </legend>
-   <div class= "form-layout">
+   
+   <div class="tundra">
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
@@ -27,7 +28,7 @@
         </script>
     {/if}
 
-     <div class = "form-layout" "dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
+     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
         <dd>{if $action eq 4} {$source_contact_value} {else}{$form.source_contact.html}{/if}</dd>
      </div>
     
@@ -138,6 +139,7 @@
     {/if} 
       </dl>
     </div>
+
     </fieldset>
     </div>
     

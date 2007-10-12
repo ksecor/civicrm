@@ -26,9 +26,11 @@
     <dt>{$form.signature_label.label}</dt><dd>{$form.signature_label.html}</dd>
     <dt>{$form.subject_label.label}</dt><dd>{$form.subject_label.html}</dd>
     <dt>{$form.url_site_default.label}</dt><dd>{$form.url_site_default.html}</dd>
+    <dt>{$form.url_api_default.label}</dt><dd>{$form.url_api_default.html}</dd>
     <dt>{$form.url_recur_default.label}</dt><dd>{$form.url_recur_default.html}</dd>
     <dt>{$form.url_button_default.label}</dt><dd>{$form.url_button_default.html}</dd>
     <dt>{$form.url_site_test_default.label}</dt><dd>{$form.url_site_test_default.html}</dd>
+    <dt>{$form.url_api_test_default.label}</dt><dd>{$form.url_api_test_default.html}</dd>
     <dt>{$form.url_recur_test_default.label}</dt><dd>{$form.url_recur_test_default.html}</dd>
     <dt>{$form.url_button_test_default.label}</dt><dd>{$form.url_button_test_default.html}</dd>
 </dl>

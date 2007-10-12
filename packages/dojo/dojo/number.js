@@ -3,7 +3,7 @@ dojo._hasResource["dojo.number"] = true;
 dojo.provide("dojo.number");
 
 dojo.require("dojo.i18n");
-dojo.requireLocalization("dojo.cldr", "number", null, "zh-tw,pt,ko-kr,ja-jp,de,it,es-es,es,fr,de-de,zh-cn,ROOT,en-ca,en-us,en");
+dojo.requireLocalization("dojo.cldr", "number", null, "zh-tw,en,pt,de-de,zh-cn,ko-kr,en-ca,de,ja-jp,es,ROOT,es-es,fr,it,en-us");
 dojo.require("dojo.string");
 dojo.require("dojo.regexp");
 

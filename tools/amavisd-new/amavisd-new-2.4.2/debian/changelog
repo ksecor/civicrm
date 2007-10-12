@@ -1,3 +1,9 @@
+amavisd-new (1:2.4.2-6.1civimail2) gutsy; urgency=low
+
+  * Add resubscribe handling
+
+ -- Piotr Szotkowki <shot@civicrm.org>  Mon, 01 Oct 2007 14:34:42 +0200
+
 amavisd-new (1:2.4.2-6.1civimail1) feisty; urgency=low
 
   * add debian/etc/conf.d/40-civimail

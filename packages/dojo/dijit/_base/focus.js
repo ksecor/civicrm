@@ -20,7 +20,7 @@ dojo.mixin(dijit,
 	// _curFocus: DomNode
 	//		Currently focused item on screen
 	_curFocus: null,
-	
+
 	// _prevFocus: DomNode
 	//		Previously focused item on screen
 	_prevFocus: null,
@@ -108,13 +108,13 @@ dojo.mixin(dijit,
 		return {
 			// Node to return focus to
 			node: menu && dojo.isDescendant(dijit._curFocus, menu.domNode) ? dijit._prevFocus : dijit._curFocus,
-			
+
 			// Previously selected text
-			bookmark: 
+			bookmark:
 				!dojo.withGlobal(openedForWindow||dojo.global, dijit.isCollapsed) ?
 				dojo.withGlobal(openedForWindow||dojo.global, dijit.getBookmark) :
 				null,
-				
+
 			openedForWindow: openedForWindow
 		}; // Object
 	},
@@ -198,8 +198,9 @@ dojo.mixin(dijit,
 				body.addEventListener('blur', function(evt){ dijit._onBlurNode(); }, true);
 			}
 		}
+		body = null;	// prevent memory leak (apparent circular reference via closure)
 	},
-	
+
 	_onBlurNode: function(){
 		// summary:
 		// 		Called when focus leaves a node.
@@ -215,7 +216,7 @@ dojo.mixin(dijit,
 		if(dijit._blurAllTimer){
 			clearTimeout(dijit._blurAllTimer);
 		}
-		dijit._blurAllTimer = setTimeout(function(){ 
+		dijit._blurAllTimer = setTimeout(function(){
 			delete dijit._blurAllTimer; dijit._setStack([]); }, 100);
 	},
 
@@ -263,10 +264,10 @@ dojo.mixin(dijit,
 		if(node && node.tagName && node.tagName.toLowerCase() == "body"){
 			return;
 		}
+		dijit._onTouchNode(node);
 		if(node==dijit._curFocus){ return; }
 		dijit._prevFocus = dijit._curFocus;
 		dijit._curFocus = node;
-		dijit._onTouchNode(node);
 		dojo.publish("focusNode", [node]);
 
 		// handle focus/blur styling
@@ -287,18 +288,19 @@ dojo.mixin(dijit,
 		// summary
 		//	The stack of active widgets has changed.  Send out appropriate events and record new stack
 
-		var stack = dijit._activeStack;
+		var oldStack = dijit._activeStack;		
+		dijit._activeStack = newStack;
 
 		// compare old stack to new stack to see how many elements they have in common
-		for(var nCommon=0; nCommon<Math.min(stack.length, newStack.length); nCommon++){
-			if(stack[nCommon] != newStack[nCommon]){
+		for(var nCommon=0; nCommon<Math.min(oldStack.length, newStack.length); nCommon++){
+			if(oldStack[nCommon] != newStack[nCommon]){
 				break;
 			}
 		}
 
 		// for all elements that have gone out of focus, send blur event
-		for(var i=stack.length-1; i>=nCommon; i--){
-			var widget = dijit.byId(stack[i]);
+		for(var i=oldStack.length-1; i>=nCommon; i--){
+			var widget = dijit.byId(oldStack[i]);
 			if(widget){
 				dojo.publish("widgetBlur", [widget]);
 				if(widget._onBlur){
@@ -317,8 +319,6 @@ dojo.mixin(dijit,
 				}
 			}
 		}
-		
-		dijit._activeStack = newStack;
 	}
 });
 

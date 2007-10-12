@@ -507,6 +507,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $transaction->commit( );
         
+        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
+
         if ( $invokeHooks ) {
             if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
@@ -514,8 +516,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
             }
         }
-
-        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         return $contact;
     }
@@ -545,7 +545,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
         }
 
-        CRM_Core_DAO::transaction( 'BEGIN' ); 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         if ( ! array_key_exists( 'contact_type', $params ) ) {
             $params['contact_type'] = 'Individual';
@@ -554,60 +555,42 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $params['contact_id'] = $contact->id;
 
-        require_once "CRM/Contact/BAO/{$params['contact_type']}.php";
-        eval( 'CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
-
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::add( $params, $ids );
         require_once 'CRM/Core/BAO/LocationType.php';
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
 
-        $locationIds = CRM_Utils_Array::value( 'location', $ids );
-        // extract the first location id
-        if ( $locationIds ) {
-            foreach ( $locationIds as $dontCare => $locationId ) {
-                $locationIds = $locationId;
-                break;
-            }
-        }
-            
-        $location =& new CRM_Core_DAO_Location( );
-        $location->id = CRM_Utils_Array::value( 'id', $locationIds );
-        $location->entity_table = 'civicrm_contact';
-        $location->entity_id    = $contact->id;
-        $location->is_primary   = CRM_Core_BAO_Location::primaryLocationValue( $contact->id,
-                                                                               'civicrm_contact',
-                                                                               $location->id );
-        if ( ! $location->id ) {
-            $location->location_type_id = $locationTypeId;
-        }
-        $location->save( );
-       
-        
-        $address =& new CRM_Core_BAO_Address();
-        CRM_Core_BAO_Address::fixAddress( $params );
-        
-        if ( ! $address->copyValues( $params ) ) {
-            $address->id = CRM_Utils_Array::value( 'address', $locationIds );
-            $address->location_id = $location->id;
-            $address->save( );
-        }
 
-        $phone =& new CRM_Core_BAO_Phone();
-        if ( ! $phone->copyValues( $params ) ) {
-            $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
-            $phone->id = CRM_Utils_Array::value( 1, $blockIds );
-            $phone->location_id = $location->id;
-            $phone->is_primary = true;
-            $phone->save( );
-        }
+        // kurund: we need to fix this
+        if ( 0 ) {
+            $address =& new CRM_Core_BAO_Address();
+            CRM_Core_BAO_Address::fixAddress( $params );
         
-        $email =& new CRM_Core_BAO_Email();
-        if ( ! $email->copyValues( $params ) ) {
-            $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
-            $email->id = CRM_Utils_Array::value( 1, $blockIds );
-            $email->location_id = $location->id;
-            $email->is_primary = true;
-            $email->save( );
+            if ( ! $address->copyValues( $params ) ) {
+                $address->id = CRM_Utils_Array::value( 'address', $locationIds );
+                $address->contact_id = $contact->id;
+                $address->is_primary = true;
+                $address->save( );
+            }
+
+            $phone =& new CRM_Core_BAO_Phone();
+            if ( ! $phone->copyValues( $params ) ) {
+                $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
+                $phone->id = CRM_Utils_Array::value( 1, $blockIds );
+                $phone->contact_id = $contact->id;
+                $phone->is_primary = true;
+                $phone->save( );
+            }
+        
+            $email =& new CRM_Core_BAO_Email();
+            if ( ! $email->copyValues( $params ) ) {
+                $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
+                $email->id = CRM_Utils_Array::value( 1, $blockIds );
+                $email->location_id = $location->id;
+                $email->is_primary = true;
+                $email->save( );
+            }
         }
 
         /* Process custom field values and other values */
@@ -656,7 +639,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             }
         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' ); 
+       $transaction->commit( );
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
@@ -1540,7 +1523,7 @@ WHERE civicrm_contact.id IN $idString ";
             
             //Sorting fields in alphabetical order(CRM-1507)
             foreach ( $fields as $k=>$v ) {
-                $sortArray[$k] = $v['title'];
+                $sortArray[$k] = CRM_Utils_Array::value( 'title', $v );
             }
             asort($sortArray);
             $fields = array_merge( $sortArray, $fields );
@@ -1746,7 +1729,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         } else {
             $data['contact_type'] = 'Individual';
         }
-
         
         // get the contact details (hier)
         if ( $contactID ) {
@@ -1764,6 +1746,8 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         $count = 1;
         
         if ( $contactID ) {
+            //add contact id
+            $data['contact_id'] = $contactID;
             $primaryLocationType = CRM_Contact_BAO_Contact::getPrimaryLocationType($contactID);
         } else {
             require_once "CRM/Core/BAO/LocationType.php";
@@ -1922,7 +1906,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                               'address_id'      => 'address'
                               );
             $ids = array( ); 
-            
             if ( is_array($contactDetails) ) {
                 foreach ($contactDetails as $key => $value) {
                     if ( array_key_exists($key, $objects) ) {
@@ -1931,8 +1914,16 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                     } else if (is_array($value)) {
                         
                         $locNo = array_search( $value['location_type_id'], $locationType );
-                        if ( $locNo == false ) {
-                            CRM_Core_Error::fatal( ts( 'Could not find location id' ) );
+                        if ( ! $locNo ) {
+                            if ( is_numeric( $key ) ) {
+                                $locNo = $key;
+                            } else {
+                                $locNo = array_search( $key, $locationType );
+                            }
+                        }
+                        
+                        if ( ! $locNo ) {
+                            CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
                         }
 
                         foreach ($value as $k => $v) {
@@ -1996,7 +1987,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
         }
 
         require_once 'CRM/Contact/BAO/Contact.php';
-        
         if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
             $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
             $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );

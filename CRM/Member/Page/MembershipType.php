@@ -173,6 +173,11 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
                                                                             array('id' => $dao->id));
         }
 
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/member/membershipType', "reset=1&action=browse" );
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $membershipType, 'CRM_Member_DAO_MembershipType',
+                                    'id', $returnURL );
+        
         CRM_Member_BAO_MembershipType::convertDayFormat( $membershipType );
         $this->assign('rows', $membershipType);
     }

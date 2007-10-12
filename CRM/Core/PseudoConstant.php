@@ -228,6 +228,13 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $worldRegions;
+
+    /**
+     * honorType
+     * @var array
+     * @static
+     */
+    private static $honorType;
     
     /**
      * populate the object from the database. generic populate
@@ -1030,6 +1037,29 @@ class CRM_Core_PseudoConstant
 
         return self::$worldRegions;
     }
+    
+    /**
+     * Get all Honor Type.
+     *
+     * The static array honorType is returned
+     *
+     * @access public
+     * @static
+     *
+     * @param boolean $all - get All Honor Type.
+     *
+     * @return array - array reference of all Honor Types.
+     *
+     */
+    public static function &honor( )
+    {
+        if ( ! self::$honorType ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$honorType = CRM_Core_OptionGroup::values('honor_type');
+        }
+        return self::$honorType;
+    }
+
 }
 
 ?>

@@ -85,7 +85,8 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
      * @access public
      * @static
      */
-    static function formRule(&$fields, &$files, $options) {
+    static function formRule(&$fields, &$files, $options) 
+    {
         $errors = array();
 
         //checks the given price set doesnot start with digit
@@ -125,20 +126,23 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     public function buildQuickForm()
     {
         $this->applyFilter('__ALL__', 'trim');
-
+        
+        $this->assign( 'gid', $this->_id );
+        
         // title
         $this->add('text', 'title', ts('Set Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
                         'objectExists', array( 'CRM_Core_DAO_PriceSet', $this->_id, 'title' ) );
-
+        
         // help text
-        $this->add('textarea', 'help_pre',  ts('Pre-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_pre'));
-        $this->add('textarea', 'help_post',  ts('Post-form Help'),  CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_post'));
-
+        $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
+                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_pre') );
+        $this->add('textarea', 'help_post',  ts('Post-form Help'),
+                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'help_post'));
+        
         // is this set active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Price Set active?') );
-
-        // $this->addFormRule(array('CRM_Price_Form_Set', 'formRule'));
+        
         $this->addButtons(array(
                                 array ( 'type'      => 'next',
                                         'name'      => ts('Save'),
@@ -148,14 +152,14 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
                                         'name'      => ts('Cancel') ),
                                 )
                           );
-
+        
         // views are implemented as frozen form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
-            $this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/price?reset=1&action=browse'"));
+            //$this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/price?reset=1&action=browse'"));
         }
     }
-
+    
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -168,16 +172,8 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
-    
-        if ($this->_action == CRM_Core_Action::ADD) {
-            $defSet =& new CRM_Core_DAO_PriceSet();
-            $defSet->domain_id = CRM_Core_Config::domainID( );
-            $defSet->orderBy('title');
-            $defSet->find( );
-            
-        }
-
-        if (isset($this->_id)) {
+                
+        if ( isset( $this->_id ) ) {
             $params = array('id' => $this->_id);
             CRM_Core_BAO_PriceSet::retrieve($params, $defaults);
             
@@ -199,22 +195,19 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     public function postProcess()
     {
         // get the submitted form values.
-        $params = $this->controller->exportValues('Set');
+        $params              = $this->controller->exportValues('Set');
         
-        // create price set dao, populate fields and then save.           
-        $set =& new CRM_Core_DAO_PriceSet();
-        $set->title            = $params['title'];
-        $set->name             = CRM_Utils_String::titleToVar($params['title']);
-        $set->help_pre         = $params['help_pre'];
-        $set->help_post        = $params['help_post'];
-        $set->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
-        $set->domain_id        = CRM_Core_Config::domainID( );
-
+        $params['name']      = CRM_Utils_String::titleToVar( $params['title'] );
+        $params['is_active'] = CRM_Utils_Array::value('is_active', $params, false);
+        $params['domain_id'] = CRM_Core_Config::domainID( );
+        
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $set->id = $this->_id;
+            $params['id']    = $this->_id;
         }
-        $set->save();
-
+        
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        $set = CRM_Core_BAO_PriceSet::create( $params );
+        
         if ($this->_action & CRM_Core_Action::UPDATE) {
             CRM_Core_Session::setStatus(ts('Your Set "%1" has been saved.', array(1 => $set->title)));
         } else {

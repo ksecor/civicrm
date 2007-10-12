@@ -55,8 +55,6 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
         
         $phone->copyValues($params);
 
-        // when phone field is empty need to delete it
-
         return $phone->save( );
     }
 
