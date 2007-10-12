@@ -87,7 +87,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $this->assignToTemplate( );
         $productID    = $this->get ('productID');
         $option       = $this->get ('option');
-        $membershipID = $this->get ('membershipID');
+        $membershipTypeID = $this->get ('membershipTypeID');
 
         if ( $productID ) {
             require_once 'CRM/Contribute/BAO/Premium.php';  
@@ -101,29 +101,33 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         if ( $honor_block_is_active &&
              ( ( ! empty( $params["honor_first_name"] ) && ! empty( $params["honor_last_name"] ) ) ||
                ( ! empty( $params["honor_email"] ) ) ) ) {
-            $this->assign('honor_block_is_active', $honor_block_is_active );
-            $this->assign("honor_block_title",$this->_values['honor_block_title']);
+            $this->assign( 'honor_block_is_active', $honor_block_is_active );
+            $this->assign( 'honor_block_title',     $this->_values['honor_block_title'] );
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
             $honor  = CRM_Core_PseudoConstant::honor( );             
-            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
-            $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
-            $this->assign("honor_first_name",$params["honor_first_name"]);
-            $this->assign("honor_last_name",$params["honor_last_name"]);
-            $this->assign("honor_email",$params["honor_email"]);
+            $this->assign( 'honor_type', $honor[$params["honor_type_id"]] );
+            $this->assign( 'honor_prefix', $prefix[$params["honor_prefix_id"]] );
+            $this->assign( 'honor_first_name', $params["honor_first_name"] );
+            $this->assign( 'honor_last_name', $params["honor_last_name"] );
+            $this->assign( 'honor_email', $params["honor_email"] );
         
         }
 
-        if ( $membershipID ) {
-            $transactionID     = $this->get('membership_trx_id');
-            $membershipAmount = $this->get('membership_amount');
-            $renewalMode = $this->get("renewal_mode");
-            $this->assign('membership_trx_id',$transactionID);
-            $this->assign('membership_amount',$membershipAmount);
-            $this->assign('renewal_mode',$renewalMode);
+        if ( $membershipTypeID ) {
+            $transactionID     = $this->get( 'membership_trx_id' );
+            $membershipAmount  = $this->get( 'membership_amount' );
+            $renewalMode       = $this->get( 'renewal_mode' );
+            $this->assign( 'membership_trx_id', $transactionID );
+            $this->assign( 'membership_amount', $membershipAmount );
+            $this->assign( 'renewal_mode'     , $renewalMode );
             
-            CRM_Member_BAO_Membership::buildMembershipBlock( $this , $this->_id ,false ,$membershipID ,true );
+            CRM_Member_BAO_Membership::buildMembershipBlock( $this,
+                                                             $this->_id,
+                                                             false,
+                                                             $membershipTypeID,
+                                                             true );
         }
         
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );

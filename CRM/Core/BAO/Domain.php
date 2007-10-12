@@ -120,10 +120,10 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
     function &getLocationValues() {
         if ($this->_location == null) {
             $params = array(
-                'domain_id' => $this->id,
-                'entity_id' => $this->id, 
-                'entity_table' => self::getTableName()
-            );
+                            'domain_id' => $this->id,
+                            'entity_id' => $this->id, 
+                            'entity_table' => self::getTableName()
+                            );
             $values = array();
             $ids = array();
             
@@ -133,27 +133,9 @@ class CRM_Core_BAO_Domain extends CRM_Core_DAO_Domain {
                 $this->_location = null;
                 return $this->_location;
             }
+            
             $loc =& $values['location'];
             
-            /* Translate the state/province and country ids to names */
-            if ( CRM_Utils_Array::value( 'address', $loc[1] ) ) {
-                if ( ! array_key_exists('state_province', $loc[1]['address'])) {
-                    $loc[1]['state_province'] = CRM_Core_PseudoConstant::stateProvince($loc[1]['address']['state_province_id']);
-                    if (! isset( $loc[1]['address']['state_province'] ) ) {
-                        $loc[1]['address']['state_province'] =
-                            CRM_Core_PseudoConstant::stateProvinceAbbreviation($loc[1]['address']['state_province_id']);
-                    }
-                }
-                
-                if (! array_key_exists('country', $loc[1]['address'])) {
-                    $loc[1]['address']['country'] = CRM_Core_PseudoConstant::country($loc[1]['address']['country_id']);
-                    if ( ! isset( $loc[1]['address']['country'] ) ) {
-                        $loc[1]['address']['country'] =
-                            CRM_Core_PseudoConstant::countryIsoCode($loc[1]['address']['country_id']);
-                    }
-                }
-                
-            }
             $this->_location = $loc[1];
         }
         return $this->_location;

@@ -120,7 +120,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //set default membership for membershipship block
         require_once 'CRM/Member/BAO/Membership.php';
         if ( $membershipBlock = CRM_Member_BAO_Membership::getMembershipBlock($this->_id) ) {
-            $this->_defaults['selectMembership'] = CRM_Utils_Array::value('membership_type_default',$membershipBlock);
+            $this->_defaults['selectMembership'] = CRM_Utils_Array::value( 'membership_type_default',
+                                                                           $membershipBlock );
         }
 
         // hack to simplify credit card entry for testing
@@ -396,15 +397,20 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        if ( CRM_Utils_Array::value('selectMembership',$fields) && $fields['selectMembership'] != 'no_thanks') {
+        if ( CRM_Utils_Array::value('selectMembership', $fields) && 
+             $fields['selectMembership'] != 'no_thanks') {
             require_once 'CRM/Member/BAO/Membership.php';
             require_once 'CRM/Member/BAO/MembershipType.php';
             $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
-            if ( $self->_values['amount_block_is_active'] && ( !isset($memBlock['is_separate_payment']) || ! $memBlock['is_separate_payment']) ) {
+            if ( $self->_values['amount_block_is_active']     && 
+                 ( !isset( $memBlock['is_separate_payment'] ) ||
+                   ! $memBlock['is_separate_payment'] ) ) {
                 require_once 'CRM/Utils/Money.php';
-                if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
-                    $errors['selectMembership'] = ts(' The Membership you have selected requires a minimum contribution of %1', array(1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'])));
+                if ( $amount < CRM_Utils_Array::value( 'minimum_fee', $memTypeDetails ) ) {
+                    $errors['selectMembership'] =
+                        ts( 'The Membership you have selected requires a minimum contribution of %1',
+                            array( 1 => CRM_Utils_Money::format( $memTypeDetails['minimum_fee'] ) ) );
                 }
             }
         }
@@ -417,11 +423,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
 
             if ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' ) {
-                
                 if ( !$amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
-
+                
                 if ( CRM_Utils_Array::value('min_amount',$self->_values) > 0 ) {
                     $min = $self->_values['min_amount'];
                     if ( $fields['amount_other'] < $min ) {
@@ -429,7 +434,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                                                       array ( 1 => $min ) );
                     }
                 }
-
+                
                 if ( CRM_Utils_Array::value('max_amount',$self->_values) > 0 ) {
                     $max = $self->_values['max_amount'];
                     if ( $fields['amount_other'] > $max ) {

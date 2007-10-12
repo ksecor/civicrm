@@ -88,6 +88,27 @@ function civicrm_drupal_create_user ( $email, $rid = null ) {
     return $params['uid'];
 }
 
+function civicrm_modify_role_id( $op, $uid, $rid, $roleName = null ) {
+    $a = func_get_args( );
+    if ( $roleName ) {
+        $rid = civicrm_drupal_role_id( $roleName );
+        if ( ! $rid ) {
+            return;
+        }
+    }
+
+    if ( $op == 'insert' ) {
+        // check if this combination is already there
+        $roles_result = db_query('SELECT rid FROM {users_roles} WHERE uid = %d AND rid = %d', $uid, $rid );
+        if ( ! db_fetch_object( $roles_result ) ) {
+            // insert only if not present
+            db_query('INSERT INTO {users_roles} (uid, rid) VALUES (%d, %d)', $uid, $rid );
+        }
+    } else if ( $op == 'delete' ) {
+        db_query('DELETE FROM {users_roles} WHERE uid = %d AND rid = %d', $uid, $rid );
+    }
+}
+
 /**
  * Get the role id for a given name
  *

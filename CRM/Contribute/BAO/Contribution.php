@@ -764,7 +764,12 @@ SELECT count(*) as count,
      *
      * 
      */
-    public function processConfirm( &$form, &$paymentParams, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
+    public function processConfirm( &$form, 
+                                    &$paymentParams,
+                                    &$premiumParams,
+                                    $contactID,
+                                    $contributionTypeId,
+                                    $component = 'contribution' )
     { 
         require_once 'CRM/Core/Payment/Form.php';
         CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
@@ -778,7 +783,7 @@ SELECT count(*) as count,
         if ( ! $contributionType->find( true ) ) {
             CRM_Core_Error::fatal( "Could not find a system table" );
         }
-       
+        
         // add some contribution type details to the params list
         // if folks need to use it
         $paymentParams['contributionType_name']                = 
@@ -802,7 +807,7 @@ SELECT count(*) as count,
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );
             }
-        } else if ( ( $form->_contributeMode == 'notify' ) && ( $component !== 'membership' ) ) {
+        } else if ( $form->_contributeMode == 'notify' ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
@@ -827,13 +832,15 @@ SELECT count(*) as count,
             $form->set( 'params', $form->_params );
             $form->postProcessPremium( $premiumParams, $contribution );
             
-            // commit the transaction before we xfer
-            CRM_Core_DAO::transaction( 'COMMIT' );
-            
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                // addd qfKey so we can send to paypal
+                // add qfKey so we can send to paypal
                 $form->_params['qfKey'] = $form->controller->_key;
-                $result =& $payment->doTransferCheckout( $form->_params );
+                if ( $component == 'membership' ) {
+                    $membershipResult = array( 1 => $contribution );
+                    return $membershipResult;
+                } else {
+                    $result =& $payment->doTransferCheckout( $form->_params );
+                }
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
             $result =& $payment->doDirectPayment( $paymentParams );

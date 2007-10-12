@@ -309,7 +309,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         $flatten = true;
         $address->find( );
 
-        $count = 1;
         while ( $address->fetch( ) ) {
             $values = array( );
 
@@ -340,8 +339,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 $values['address']['display'] = $address->display;
             }
             
-            $addresses[$count] = $values;
-            $count++;
+            $addresses[$address->location_type_id] = $values;
         }
        
         return $addresses;

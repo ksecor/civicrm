@@ -62,15 +62,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
      * @access protected
      */
     protected $_id;
-
-    /**
-     * valid html types and descriptions
-     *
-     * @var array
-     * @static
-     */
-    private static $_htmlTypes = null;
-
+    
     /**
      * Function to set variables up before form is built
      * 
@@ -82,16 +74,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
     public function preProcess()
     {
         require_once 'CRM/Core/BAO/PriceField.php';
-
-        if ( ! self::$_htmlTypes ) {
-            self::$_htmlTypes = array(
-                'Text' => ts('Text'),
-                'Select' => ts('Select'),
-                'Radio' => ts('Radio'),
-                'CheckBox' => ts('CheckBox')
-            );
-        }
-
+        
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this);
         $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive', $this);
 
@@ -159,24 +142,31 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
     {
         // lets trim all the whitespace
         $this->applyFilter('__ALL__', 'trim');
-
+        
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
         $this->addRule( 'label', ts('Name already exists in Database.'), 
                         'objectExists', array( 'CRM_Core_DAO_PriceField', $this->_id, 'label' ) );
-
+        
         // html_type
-        //$sel = $this->add('select', 'html_type', ts('Input Field Type'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'html_type'), true);
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'html_type');
-        $javascript = 'onChange="option_html_type(this.form)";';
-        $sel = $this->add('select', 'html_type', ts('Input Field Type'), self::$_htmlTypes,  true, $javascript);
-
+        $javascript = 'onchange="option_html_type(this.form)";';
+        
+        $htmlTypes = array(
+                           'Text'     => ts('Text'),
+                           'Select'   => ts('Select'),
+                           'Radio'    => ts('Radio'),
+                           'CheckBox' => ts('CheckBox')
+                           );
+        
+        $sel = $this->add('select', 'html_type', ts('Input Field Type'), 
+                          $htmlTypes, true, $javascript );
+        
         // price (for text inputs)
         $this->add( 'text', 'price', ts('Price') );
         $this->addRule( 'price', ts(' must be a monetary value'), 'money' );
 
-        require_once 'CRM/Core/BAO/CustomOption.php';
-        $Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
+        //require_once 'CRM/Core/BAO/CustomOption.php';
+        //$Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('html_type');
         }
@@ -231,7 +221,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $this->addRule('options_per_line', ts(' must be a numeric value') , 'numeric');
 
         // help post, mask, attributes, javascript ?
-        $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'help_post'));        
+        $this->add('textarea', 'help_post', ts('Field Help'), 
+                   CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'help_post'));        
 
         // active_on
         $date_options = array(
@@ -419,12 +410,24 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
     {
         // store the submitted values in an array
         $params = $this->controller->exportValues('Field');
-        // set values for custom field properties and save
-        $priceField                =& new CRM_Core_DAO_PriceField();
-        $priceField->label         = $params['label'];
-        $priceField->name          = CRM_Utils_String::titleToVar($params['label']);
-        $priceField->html_type     = $params['html_type'];
         
+        $params['name']               = CRM_Utils_String::titleToVar($params['label']);
+        $params['is_display_amounts'] = CRM_Utils_Array::value( 'is_display_amounts', $params, false );
+        $params['is_required']        = CRM_Utils_Array::value( 'is_required', $params, false );
+        $params['is_active']          = CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['active_on']          = CRM_Utils_Date::format( $params['active_on'] );
+        $params['expire_on']          = CRM_Utils_Date::format( $params['expire_on'] );
+        
+        // need the FKEY - price set id
+        $params['price_set_id'] = $this->_gid;
+                
+        // if html type is Text, force is_enter_qty on
+        if ( $priceField->html_type == 'Text' ) {
+            $params['is_enter_qty'] = 1;
+        } else {
+            $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
+        }
+                
         require_once 'CRM/Utils/Weight.php';
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $fieldValues = array( 'price_set_id' => $this->_gid );
@@ -434,67 +437,38 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             $params['weight'] = 
                 CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $oldWeight, $params['weight'], $fieldValues );
         }
-
-        $priceField->weight            = $params['weight'];             
-        $priceField->help_post         = $params['help_post'];
-        // if html type is Text, force is_enter_qty on
-        if ( $priceField->html_type == 'Text' ) {
-            $priceField->is_enter_qty = 1;
-        } else {
-            $priceField->is_enter_qty      = CRM_Utils_Array::value( 'is_enter_qty', $params, false );
-        }
-        $priceField->is_display_amounts = CRM_Utils_Array::value( 'is_display_amounts', $params, false );
-        $priceField->is_required       = CRM_Utils_Array::value( 'is_required', $params, false );
-        $priceField->is_active         = CRM_Utils_Array::value( 'is_active', $params, false );
-        $priceField->options_per_line  = (int)$params['options_per_line'];
-        $priceField->active_on         = CRM_Utils_Date::format( $params['active_on'] );
-        $priceField->expire_on         = CRM_Utils_Date::format( $params['expire_on'] );
-        $priceField->javascript        = $params['javascript'];
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $priceField->id = $this->_id;
             // update price if it's a text field
             if ($priceField->html_type == 'Text') {
-                $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-                $customOptionDAO->entity_table = 'civicrm_price_field';
-                $customOptionDAO->entity_id = $this->_id;
-                $customOptionDAO->weight = 1;
-                $customOptionDAO->find(true);
-                $customOptionDAO->value = $params['price'];
-                $customOptionDAO->label = $params['label'];
-                $customOptionDAO->save();
+                // $customOptionDAO =& new CRM_Core_DAO_CustomOption();
+//                 $customOptionDAO->entity_table = 'civicrm_price_field';
+//                 $customOptionDAO->entity_id = $this->_id;
+//                 $customOptionDAO->weight = 1;
+//                 $customOptionDAO->find(true);
+//                 $customOptionDAO->value = $params['price'];
+//                 $customOptionDAO->label = $params['label'];
+                // $customOptionDAO->save();
             }
         }
-
-        // need the FKEY - custom group id
-        $priceField->price_set_id = $this->_gid;
+                
+        $ids = array( );
         
-        $priceField->save();
-
+        CRM_Core_BAO_PriceField::create( $params, $ids );
+        
         if ($this->_action & CRM_Core_Action::ADD) {
-
+            
             require_once 'CRM/Utils/Money.php';
-
+            
             if ( $priceField->html_type == 'Text' ) {
                 $params['option_value'] = array( 1 => $params['price'] );
                 $params['option_label'] = array( 1 => $params['label'] );
-                $params['weight'] = array( 1 => 1 );
-                $params['is_active'] = array( 1 => 1 );
-            }
-
-            foreach ( $params['option_value'] as $key => $value ) {
-                if ( strlen( trim ( $value ) ) ) {
-                    $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-                    $customOptionDAO->entity_id     = $priceField->id;
-                    $customOptionDAO->entity_table  = 'civicrm_price_field';
-                    $customOptionDAO->label         = $params['option_label'][$key];
-                    $customOptionDAO->value         = $value;
-                    $customOptionDAO->weight        = $params['option_weight'][$key];
-                    $customOptionDAO->is_active     = $params['option_status'][$key];
-                    $customOptionDAO->save();
-                }
+                $params['weight']       = array( 1 => 1 );
+                $params['is_active']    = array( 1 => 1 );
             }
         }
+        
         CRM_Core_Session::setStatus(ts('Price field "%1" has been saved', array(1 => $priceField->label)));
     }
 }

@@ -89,6 +89,8 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         $this->add('checkbox', 'is_default', ts('Default?'));
         $this->add('checkbox', 'is_active' , ts('Enabled?'));
         
+        $this->addFormRule(array('CRM_Mailing_Form_Component', 'dataRule'));
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Save'),
@@ -142,6 +144,39 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
         
     }//end of function
 
+    /**
+     * Function for validation
+     *
+     * @param array $params (ref.) an assoc array of name/value pairs
+     *
+     * @return mixed true or array of errors
+     * @access public
+     * @static
+     */
+    static function dataRule(&$params, &$files, &$options) 
+    {
+        $InvalidTokens = array ('action.forward'  => ts("This token can only be used in send mailing.") );
+        
+        $errors = array( );
+        foreach (array('text', 'html') as $type) {
+            $dataErrors = array( );
+            foreach ( $InvalidTokens as $token => $desc ) {
+                if ($params['body_' . $type]) {
+                    if (preg_match('/'.preg_quote('{' . $token . '}').'/', $params['body_' . $type] ) ) { 
+                        $dataErrors[]   ='<li>' 
+                            . ts("This message is having a invalid token - $token: $desc")
+                            . '</li>';
+                    }
+                }
+            }
+            if (! empty($dataErrors)) {
+                $errors['body_'.$type] = 
+                    ts('The following errors were detected in '.$type.' message ') . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Action+Tokens">' . ts('More information on tokens...') . '</a>';
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
 }
 
 ?>

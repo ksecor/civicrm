@@ -75,14 +75,17 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
     
     function preProcess( ) 
     {
+       
         $this->_contactId      = $this->get('contactId');
         $this->_relationshipId = $this->get('id');
+       
         $this->_rtype          = CRM_Utils_Request::retrieve( 'rtype', 'String',
                                                               $this );
         
         $this->_rtypeId        = CRM_Utils_Request::retrieve( 'relTypeId', 'String',
                                                               $this );
         
+       
         if ( ! $this->_rtypeId ) {
             $params = $this->controller->exportValues( $this->_name );
             if ( isset($params['relationship_type_id']) ) {
@@ -145,7 +148,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-       
+      
         return $defaults;
     }
     
@@ -183,8 +186,11 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
+        $domainID = CRM_Core_Config::domainID( ); 
+        $relTypeID =explode('_', $this->_rtypeId, 3);
+              
         if($this->_action & CRM_Core_Action::DELETE){
-            
+       
             $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Delete'),
@@ -215,8 +221,20 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId ),
                           array('onChange' => "if (this.value) reload(true); else return false"));
+        // add a dojo facility for searching contacts
+        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                             'mode'           => 'remote',
+                             'store'          => 'contactStore',
+                            
+                             'style'          => 'width:200px; border: 1px solid #cfcfcf;'                             );
+        $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
+                                          "d={$domainID}&reID={$relTypeID[0]}&retyp={$relTypeID[2]}&s=",
+                                          true, null, false );
+        $this->assign('dataUrl',$dataUrl );
         
-        $this->addElement('text', 'name'      , ts('Find Target Contact') );
+        
+        $this->addElement('text', 'name'      , ts('Find Target Contact'),$attributes );
         $this->addElement('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('date', 'end_date'  , ts('End Date')  , CRM_Core_SelectValues::date( 'relative' ) );
         $this->addElement('advcheckbox', 'is_active', ts('Enabled?'), null, 'setChecked()');

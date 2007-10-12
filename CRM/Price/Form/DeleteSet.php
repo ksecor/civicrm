@@ -60,27 +60,23 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
      * @return void
      * @acess protected
      */
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         $this->_id    = $this->get( 'id' );
         
-       
-        $defaults = array( );
-        $params   = array( 'id' => $this->_id );
-        CRM_Core_BAO_PriceSet::retrieve( $params, $defaults );
-        $this->_title = $defaults['title'];
-        $this->assign( 'name' , $this->_title );
-        
-        CRM_Utils_System::setTitle( ts('Confirm Price Set Delete') );
+        $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', 
+                                                     $this->_id, 'title' );
     }
-
+    
     /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-
+    public function buildQuickForm( )
+    {
+        $this->assign( 'name', $this->_title );
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Delete Price Set'),
@@ -90,25 +86,22 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
                                  )
                            );
     }
-
+    
     /**
      * Process the form when submitted
      *
      * @return void
      * @access public
      */
-    public function postProcess( ) {
-        $set = & new CRM_Core_DAO_PriceSet();
-        $set->id = $this->_id;
-        $set->find();
-        $set->fetch();
-        
+    public function postProcess( ) 
+    {
         if (CRM_Core_BAO_PriceSet::deleteSet( $this->_id)) {
-            CRM_Core_Session::setStatus( ts('The Set "%1" has been deleted.', array(1 => $set->title)) );        
+            CRM_Core_Session::setStatus( ts( 'The Price Set "%1" has been deleted.', 
+                                             array( 1 => $this->_title ) ) );        
         } else {
-            CRM_Core_Session::setStatus( ts('The Set "%1" has not been deleted! You must Delete all price fields in this set prior to deleting the set', array(1 => $set->title)) );        
+            CRM_Core_Session::setStatus( ts( 'The Price Set "%1" has not been deleted! You must Delete all price fields in this set prior to deleting the set', 
+                                             array( 1 => $this->_title ) ) );        
         }
-            
     }
 }
 

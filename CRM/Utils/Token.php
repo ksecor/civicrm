@@ -41,7 +41,6 @@ class CRM_Utils_Token
     static $_requiredTokens = null;
     
     static $_tokens = array( 'action'        => array( 
-                                                      'donate', 
                                                       'forward', 
                                                       'optOut',
                                                       'optOutUrl',
@@ -50,6 +49,10 @@ class CRM_Utils_Token
                                                       'unsubscribeUrl',
                                                       'resubscribe',
                                                       'resubscribeUrl'
+                                                      ),
+                             'mailing'       => array(
+                                                      'name',
+                                                      'group'
                                                       ),
                              'contact'       => null,  // populate this dynamically
                              'domain'        => array( 
@@ -201,6 +204,8 @@ class CRM_Utils_Token
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
+
+        $loc =& $domain->getLocationValues();
         if ( !in_array($token, self::$_tokens['domain']) ) {
             $value = "{domain.$token}";
         } else if ($token == 'address') {
@@ -212,7 +217,6 @@ class CRM_Utils_Token
             }
             
             require_once 'CRM/Utils/Address.php';
-            $loc =& $domain->getLocationValues();
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
@@ -227,8 +231,8 @@ class CRM_Utils_Token
             $value = null;
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
                 foreach ($loc[$token] as $index => $entity) {
-                    if ($entity->is_primary) {
-                        $value = $entity->$token;
+                    if ($entity['is_primary']) {
+                        $value = $entity[$token];
                         break;
                     }
                 }
@@ -355,7 +359,7 @@ class CRM_Utils_Token
              $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
              $value = implode(', ', $groups);
          }
-         
+        
          return $value;
      }
 
@@ -608,7 +612,8 @@ class CRM_Utils_Token
      */
     public static function &unmatchedTokens(&$str) 
     {
-        preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
+        //preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
+        preg_match_all('/\{(\w+\.\w+)\}/', $str, $match);
         return $match[1];
     }
 }
