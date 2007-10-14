@@ -630,6 +630,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $locationTypes = $imProviders = array( );
         $locationTypes = CRM_Core_PseudoConstant::locationType( );
         $imProviders   = CRM_Core_PseudoConstant::IMProvider( );
+
         //start of code to set the default values
         foreach ($fields as $name => $field ) { 
             $index   = $field['title'];
@@ -695,7 +696,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     $values[$index] = implode( ', ', $title );
                     $params[$index] = implode( ',' , $entityTags );
-                } else if (array_key_exists( $name ,$studentFields ) ) {
+                } else if ( substr( $name, 0, 8 ) == 'kabissa_' ) {
+                    require_once 'CRM/Kabissa/BAO/Kabissa.php';
+                    $values[$index] = $params[$index] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing( $name,
+                                                                                                         $details );
+                } else if (array_key_exists( $name, $studentFields ) ) {
                     require_once 'CRM/Core/OptionGroup.php';
                     $paramsNew = array($name => $details->$name );
                     if ( $name == 'test_tutoring') {
@@ -863,7 +868,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                  }
             }
         }
-        
     }
 
     /**

@@ -598,7 +598,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
         
-        if ($this->_mode == self::MODE_CREATE){
+        if ($this->_mode == self::MODE_CREATE) {
             foreach ($params as $name => $field ) {
                 if(substr( $name, 0, 5 ) == 'email' ) {                
                     $email = $name;

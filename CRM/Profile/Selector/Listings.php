@@ -445,7 +445,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
+        if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
             require_once 'CRM/Kabissa/BAO/Kabissa.php';
             $accessKabissa = true;
         }

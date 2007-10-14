@@ -123,7 +123,15 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
 
         $this->_customFields = CRM_Core_BAO_CustomField::getFieldsForImport( null );
         $this->_params   = array( );
-        
+
+        $resetArray = array( 'group', 'tag', 'preferred_communication_method', 'do_not_phone',
+                             'do_not_email', 'do_not_mail', 'do_not_trade' );
+
+        if (  CRM_Core_Permission::access( 'Kabissa', false ) ) {
+            $resetArray[] = 'kabissa_focus_id';
+            $resetArray[] = 'kabissa_region_id';
+        }
+
         foreach ( $this->_fields as $name => $field ) {
             if ( (substr($name, 0, 6) == 'custom') && $field['is_search_range']) {
                 $from = CRM_Utils_Request::retrieve( $name.'_from', 'String',
@@ -161,8 +169,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
                         $value = null;
                         $this->set( $name, $value );
                     }
-                } else if ( $name == 'group' || $name == 'tag' || $name == 'preferred_communication_method' || 
-                            $name == 'do_not_phone' || $name == 'do_not_email' || $name == 'do_not_mail' || $name == 'do_not_trade' ) {
+                } else if ( in_array( $name, $resetArray ) ) {
                     $value = null;  
                     $this->set( $name, $value );  
                 }
