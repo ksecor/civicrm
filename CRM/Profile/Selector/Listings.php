@@ -525,7 +525,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                         $row[] = '';
                     }
                 } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
-                    $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result);
+                    $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
                 } else {
                     $row[] = $result->$name;
                 }
