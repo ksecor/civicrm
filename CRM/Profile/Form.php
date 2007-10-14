@@ -205,7 +205,6 @@ class CRM_Profile_Form extends CRM_Core_Form
                                                                   $defaults,
                                                                   $this->_id,
                                                                   $this->_mode );
-                    CRM_Core_Error::debug( $name, $defaults[$name] );
                 }
                 
                 if ( $htmlType == 'File') {
