@@ -658,7 +658,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = $details->$name;
                     $idx = $name . '_id';
                     $params[$index] = $details->$idx;
-                   
                 } else if ( $name === 'preferred_communication_method' ) {
                     $communicationFields = CRM_Core_PseudoConstant::pcm();
                     $pref = array();
@@ -696,10 +695,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                     $values[$index] = implode( ', ', $title );
                     $params[$index] = implode( ',' , $entityTags );
-                } else if ( substr( $name, 0, 8 ) == 'kabissa_' ) {
-                    require_once 'CRM/Kabissa/BAO/Kabissa.php';
-                    $values[$index] = $params[$index] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing( $name,
-                                                                                                         $details );
                 } else if (array_key_exists( $name, $studentFields ) ) {
                     require_once 'CRM/Core/OptionGroup.php';
                     $paramsNew = array($name => $details->$name );
@@ -821,7 +816,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             
             if ( $field['visibility'] == "Public User Pages and Listings" &&
                  CRM_Core_Permission::check( 'profile listings and forms' ) ) {
-                
+             
                 if ( CRM_Utils_System::isNull( $params[$index] ) ) {
                     $params[$index] = $values[$index];
                 }
@@ -829,9 +824,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     continue;
                 }
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                
-                
-                if ( !$customFieldName ) { 
+                if ( ! $customFieldName ) { 
                     $fieldName = $field['name'];
                 } else {
                     $fieldName = $customFieldName;
@@ -842,13 +835,19 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
                     if($htmlType == 'Link') {
                         $url =  $params[$index] ;
-                    } else{
-                        $url = CRM_Utils_System::url( 'civicrm/profilel',
+                    } else {
+                        $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
                                                       '=' .
                                                       urlencode( $params[$index] ) );
                     }
+                } else {
+                    $url = CRM_Utils_System::url( 'civicrm/profile',
+                                                  'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
+                                                  urlencode( $fieldName ) .
+                                                  '=' .
+                                                  urlencode( $params[$index] ) );
                 }
                
                 if ( $url &&
@@ -858,7 +857,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
             if ( $field['visibility'] == "User and User Admin Only"|| $field['visibility'] == "Public User Pages" ) {
- 
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                  if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
                     $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
