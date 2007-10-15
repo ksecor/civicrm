@@ -253,24 +253,24 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @static 
      */ 
     static function formRule(&$fields, &$files, $self) {
-      $errors = array( );
+        $errors = array( );
 
-      if ( $self->_values['event']['is_monetary'] ) {
+        if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
             if ( $error ) {
                 $errors['_qf_default'] = $error;
             }
 
-	    // return if this is express mode
-	    $config =& CRM_Core_Config::singleton( );
-	    if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-	      if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
-		   CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
-		   CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
-		return empty( $errors ) ? true : $errors;
-	      }
-	    }
+            // return if this is express mode
+            $config =& CRM_Core_Config::singleton( );
+            if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+                if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
+                     CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
+                     CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
+                    return empty( $errors ) ? true : $errors;
+                }
+            }
 	    
 	    
             foreach ( $self->_fields as $name => $fld ) {
@@ -280,23 +280,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 }
             }
        
-	    // make sure that credit card number and cvv are valid
-	    require_once 'CRM/Utils/Rule.php';
-	    if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
-	      if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
-		   ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
-                $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
-	      }
+            // make sure that credit card number and cvv are valid
+            require_once 'CRM/Utils/Rule.php';
+            if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
+                if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
+                     ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
+                    $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+                }
 	      
-	      if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
-		   ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
-                $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
-	      }
-	    }
-	}
+                if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
+                     ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
+                    $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
+                }
+            }
+        }
         
         return empty( $errors ) ? true : $errors;
-   }
+    }
     
 
     /**
