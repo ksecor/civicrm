@@ -1121,16 +1121,17 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         }
 
         $sql = "
-SELECT    civicrm_contact.display_name,
-          civicrm_email.email,
-          civicrm_location.location_type_id,
-          civicrm_location.id
-FROM      civicrm_contact
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                               civicrm_contact.id = civicrm_location.entity_id AND
-                               $locationClause )
-LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
+SELECT     civicrm_contact.display_name,
+           civicrm_email.email,
+           civicrm_location.location_type_id,
+           civicrm_location.id
+FROM       civicrm_contact
+INNER JOIN civicrm_location ON ( civicrm_contact.id = civicrm_location.entity_id )
+INNER JOIN civicrm_email    ON ( civicrm_location.id = civicrm_email.location_id )
+    WHERE $locationClause
+      AND civicrm_location.entity_table = 'civicrm_contact'
+      AND civicrm_email.is_primary = 1
+      AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
