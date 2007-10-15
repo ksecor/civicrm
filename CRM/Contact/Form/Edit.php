@@ -597,9 +597,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-	//      CRM_Core_Error::debug('params', $params);
+		// CRM_Core_Error::debug('params', $params);
 
-	$params['contact_type'] = $this->_contactType;
+		$params['contact_type'] = $this->_contactType;
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
@@ -645,7 +645,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         //special case to handle if all checkboxes are unchecked
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         
-        if ( !empty($customFields) ) {
+        if ( !empty( $customFields ) ) {
             foreach ( $customFields as $k => $val ) {
                 if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
                      ! CRM_Utils_Array::value( $k, $customData ) ) {
@@ -656,7 +656,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
 
     
-        if (! empty($customData) ) {
+        if (! empty( $customData ) ) {
             $params['custom'] = $customData;
         }
 
@@ -680,7 +680,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         
         require_once 'CRM/Contact/BAO/Contact.php';
         //print "about to call CRM_Contact_BAO_Contact::create<br/>";
-        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
+        $contact =& CRM_Contact_BAO_Contact::create( $params, $ids, $this->_maxLocationBlocks, true, false );
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {
@@ -707,20 +707,20 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             }
         }
 
-	if ( $orgId != null ) {
-	    $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
-	}
-	if ( isset( $params['group'] ) ) {
-	    $tempGroups = $params['group'];
-	    $params['group'] = array( );
-	    foreach ( $tempGroups as $tempGroup ) {
-		if ( $tempGroup != $excludeGroupId ) {
-		    $params['group'][] = $tempGroup;
+		if ( $orgId != null ) {
+	    	$excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
 		}
-	    }
-	}
+		if ( isset( $params['group'] ) ) {
+	    	$tempGroups = $params['group'];
+	    	$params['group'] = array( );
+	    	foreach ( $tempGroups as $tempGroup ) {
+				if ( $tempGroup != $excludeGroupId ) {
+			    	$params['group'][] = $tempGroup;
+				}
+	    	}
+		}
 
-	CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+		CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add contact to tags
         require_once 'CRM/Core/BAO/EntityTag.php';
