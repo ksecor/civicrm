@@ -299,5 +299,58 @@ class CRM_Core_OptionValue {
         }
     }
     
+    /**
+     * Function to return option-values of a particular group
+     *
+     * @param  array     $groupParams   Array containing group fields
+     *                                  whose option-values is to retrieved.
+     * @param  array     $values        (referance) to the array which
+     *                                  will have the values for the group
+     * @param  string    $orderBy       for orderBy clause
+     * 
+     * @return array of option-values     
+     * 
+     * @access public
+     * @static
+     */
+    static function getValues( $groupParams, &$values, $orderBy = 'weight' ) 
+    {
+        $select = "
+SELECT 
+   option_value.id    as id,
+   option_value.label as label,
+   option_value.value as value ";
+        
+        $from = "
+FROM
+   civicrm_option_value  as option_value,
+   civicrm_option_group  as option_group ";
+        
+        $where = " WHERE option_group.id = option_value.option_group_id ";
+        
+        $order = " ORDER BY " . $orderBy;
+        
+        $params = array( );
+        
+        if ( $groupParams['id'] ) {
+            $where .= " AND option_group.id = %1";
+            $params[1] = array( $groupParams['id'], 'Integer' );
+        }
+        
+        if ( $groupParams['name'] ) {
+            $where .= " AND option_group.name = %2";
+            $params[2] = array( $groupParams['name'], 'String' );
+        }
+        
+        $query = $select . $from . $where . $order;
+        
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while( $dao->fetch( ) ) {
+            $values[$dao->id] = array( 'id'    => $dao->id, 
+                                       'label' => $dao->label,
+                                       'value' => $dao->value );
+        }
+    }
 }
 ?>

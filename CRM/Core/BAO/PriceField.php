@@ -61,9 +61,15 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      */
     static function &add( &$params, $ids ) 
     {
-        $priceFieldBAO =& new CRM_Core_BAO_PriceField();
-        $priceFieldBAO->copyValues($params);
-        return $priceFieldBAO->save();
+        $priceFieldBAO         =& new CRM_Core_BAO_PriceField( );
+        
+        $priceFieldBAO->copyValues( $params );
+        
+        if ( $id = CRM_Utils_Array::value( 'id', $ids ) ) {
+            $priceFieldBAO->id = $id;
+        }
+        
+        return $priceFieldBAO->save( );
     }
     
     /**
@@ -82,7 +88,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        $priceField =& self::add( $params );
+        $priceField =& self::add( $params, $ids );
         
         if ( is_a( $priceField, 'CRM_Core_Error') ) {
             $transaction->rollback( );
@@ -240,7 +246,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      * @param object  $qf             form object (reference)
      * @param string  $elementName    name of the custom field
      * @param boolean $inactiveNeeded 
-     * @param boolean $userRequired   true if required else false
+     * @param boolean $useRequired    true if required else false
      * @param boolean $search         true if used for search else false
      * @param string  $label          label for custom field        
      *
@@ -270,6 +276,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Text':
             if ($field->is_display_amounts) {
                 $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
+                CRM_Core_Error::debug( '$customOption', $customOption );
                 // text fields only have one option
                 $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';
@@ -352,10 +359,16 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      */
     public static function getOptions( $fieldId, $inactiveNeeded = false, $reset = false ) {
         static $options = array();
+        
         if ( $reset || empty( $options[$fieldId] ) ) {
-            //$options[$fieldId] = CRM_Core_BAO_CustomOption::getCustomOption($fieldId, $inactiveNeeded, 'civicrm_price_field');
+            $groupParams = array( 'name' => "civicrm_price_field.amount.{$fieldId}");
+            
+            $values = array( );
+            require_once 'CRM/Core/OptionValue.php';
+            CRM_Core_OptionValue::getValues( $groupParams, $values );
         }
-        return $options[$fieldId];
+        
+        return $values;
     }
             
     /**

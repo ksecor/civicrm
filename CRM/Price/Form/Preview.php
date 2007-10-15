@@ -88,8 +88,7 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
             $this->assign('preview_type', 'group');
         }
     }
-
-
+    
     /**
      * Set the default form values
      * 
@@ -101,10 +100,10 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
     function &setDefaultValues()
     {
         $defaults = array();
-
+        
         //require_once 'CRM/Core/BAO/PriceSet.php';
         //CRM_Core_BAO_PriceSet::setDefaults( $this->_groupTree, $defaults, false, false );
-
+        
         return $defaults;
     }
 
