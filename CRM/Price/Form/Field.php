@@ -53,7 +53,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_gid;
+    protected $_sid;
 
     /**
      * The field id, used when editing the field
@@ -61,7 +61,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_id;
+    protected $_fid;
     
     /**
      * Function to set variables up before form is built
@@ -75,8 +75,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
     {
         require_once 'CRM/Core/BAO/PriceField.php';
         
-        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive', $this);
+        $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive', $this);
+        $this->_fid = CRM_Utils_Request::retrieve('fid' , 'Positive', $this);
 
     }
 
@@ -94,18 +94,18 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $defaults = array();
        
         // is it an edit operation ?
-        if (isset($this->_id)) {
-            $params = array('id' => $this->_id);
-            $this->assign('id',$this->_id);
+        if (isset($this->_fid)) {
+            $params = array('id' => $this->_fid);
+            $this->assign('id',$this->_fid);
             CRM_Core_BAO_PriceField::retrieve($params, $defaults);
-            $this->_gid = $defaults['price_set_id'];
+            $this->_sid = $defaults['price_set_id'];
 
             // if text, retrieve price
             if ( $defaults['html_type'] == 'Text' ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $optionParams = array(
                     'entity_table' => 'civicrm_price_field',
-                    'entity_id' => $this->_id
+                    'entity_id' => $this->_fid
                 );
                 $optionValues = array();
                 CRM_Core_BAO_CustomOption::retrieve( $optionParams, $optionValues );
@@ -121,7 +121,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
         if ($this->_action & CRM_Core_Action::ADD) {
             require_once 'CRM/Utils/Weight.php';
-            $fieldValues = array('price_set_id' => $this->_gid);
+            $fieldValues = array('price_set_id' => $this->_sid);
             $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_PriceField', $fieldValues);
             $defaults['options_per_line'] = 1;
             $defaults['is_display_amounts'] = 1;
@@ -146,7 +146,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         // label
         $this->add('text', 'label', ts('Field Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'label'), true);
         $this->addRule( 'label', ts('Name already exists in Database.'), 
-                        'objectExists', array( 'CRM_Core_DAO_PriceField', $this->_id, 'label' ) );
+                        'objectExists', array( 'CRM_Core_DAO_PriceField', $this->_fid, 'label' ) );
         
         // html_type
         $javascript = 'onchange="option_html_type(this.form)";';
@@ -258,7 +258,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
-            $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1&action=browse&gid=' . $this->_gid );
+            $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid );
             $this->addElement( 'button',
                                'done',
                                ts('Done'),
@@ -419,13 +419,13 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         $params['expire_on']          = CRM_Utils_Date::format( $params['expire_on'] );
         
         // need the FKEY - price set id
-        $params['price_set_id'] = $this->_gid;
+        $params['price_set_id'] = $this->_sid;
         
         require_once 'CRM/Utils/Weight.php';
         if ($this->_action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
-            $fieldValues = array( 'price_set_id' => $this->_gid );
-            if ( $this->_id ) {
-                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_id, 'weight', 'id' );
+            $fieldValues = array( 'price_set_id' => $this->_sid );
+            if ( $this->_fid ) {
+                $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', $this->_fid, 'weight', 'id' );
             }
             $params['weight'] = 
                 CRM_Utils_Weight::updateOtherWeights( 'CRM_Core_DAO_PriceField', $oldWeight, $params['weight'], $fieldValues );
@@ -446,8 +446,8 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         $ids = array( );
         
-        if ( $this->_id ) {
-            $ids['id'] = $this->_id;
+        if ( $this->_fid ) {
+            $ids['id'] = $this->_fid;
         }
         
         $priceField = CRM_Core_BAO_PriceField::create( $params, $ids );

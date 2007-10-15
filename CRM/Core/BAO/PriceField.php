@@ -276,7 +276,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         case 'Text':
             if ($field->is_display_amounts) {
                 $customOption = CRM_Core_BAO_PriceField::getOptions( $field->id, $inactiveNeeded );
-                CRM_Core_Error::debug( '$customOption', $customOption );
+                
                 // text fields only have one option
                 $optionKey = key($customOption);
                 $label .= '&nbsp;-&nbsp;';

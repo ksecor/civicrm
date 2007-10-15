@@ -34,9 +34,9 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Core/BAO/PriceSet.php';
-require_once 'CRM/Core/DAO/PriceField.php';
-require_once 'CRM/Core/BAO/CustomOption.php';
+//require_once 'CRM/Core/BAO/PriceSet.php';
+//
+//require_once 'CRM/Core/BAO/CustomOption.php';
 /**
  * This class generates form components for previewing custom data
  * 
@@ -75,15 +75,21 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
             // field preview
             $defaults = array();
             $params = array('id' => $fieldId);
+            
+            require_once 'CRM/Core/DAO/PriceField.php';
             $fieldDAO =& new CRM_Core_DAO_PriceField();                    
+
             CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_PriceField', $params, $defaults);
+            
             $this->_groupTree = array();
             $this->_groupTree[0]['id'] = 0;
             $this->_groupTree[0]['fields'] = array();
             $this->_groupTree[0]['fields'][$fieldId] = $defaults;
+            
             $this->assign('preview_type', 'field');
         } else {
             // group preview
+            require_once 'CRM/Core/BAO/PriceSet.php';
             $this->_groupTree  = CRM_Core_BAO_PriceSet::getSetDetail($groupId);       
             $this->assign('preview_type', 'group');
         }
@@ -106,7 +112,7 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
         
         return $defaults;
     }
-
+    
     /**
      * Function to actually build the form
      * 
@@ -118,10 +124,10 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
     public function buildQuickForm()
     {
         $this->assign('groupTree', $this->_groupTree);
-
+        
         // add the form elements
         require_once 'CRM/Core/BAO/PriceField.php';
-
+        
         foreach ($this->_groupTree as $group) {
             foreach ($group['fields'] as $field) {
                 $fieldId = $field['id'];                
@@ -129,7 +135,7 @@ class CRM_Price_Form_Preview extends CRM_Core_Form
                 CRM_Core_BAO_PriceField::addQuickFormElement($this, $elementName, $fieldId, false, $field['is_required']);
             }
         }
-
+        
         $this->addButtons(array(
                                 array ('type'      => 'cancel',
                                        'name'      => ts('Done with Preview'),

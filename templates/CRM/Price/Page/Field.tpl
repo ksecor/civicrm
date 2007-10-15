@@ -39,7 +39,7 @@
             <td>{if $row.active_on}{$row.active_on|date_format:"%Y-%m-%d"}{/if}</td>
             <td>{if $row.expire_on}{$row.expire_on|date_format:"%Y-%m-%d"}{/if}</td>
 *}
-            <td>{if $row.html_type eq "Text"}{$row.price|crmMoney}{else}<a href="{crmURL p="civicrm/admin/price/field/option" q="action=browse&reset=1&gid=$gid&fid=$fid"}">{ts}Edit Price Options{/ts}</a>{/if}</td>
+            <td>{if $row.html_type eq "Text"}{$row.price|crmMoney}{else}<a href="{crmURL p="civicrm/admin/price/field/option" q="action=browse&reset=1&sid=$sid&fid=$fid"}">{ts}Edit Price Options{/ts}</a>{/if}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}
@@ -48,7 +48,7 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&gid=$gid"}" id="newPriceField">&raquo; {ts}New Price Field{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&sid=$sid"}" id="newPriceField">&raquo; {ts}New Price Field{/ts}</a>
         </div>
 
         </div>
@@ -59,7 +59,7 @@
         <div class="messages status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/admin/price/field q="action=add&reset=1&gid=$gid"}{/capture}
+        {capture assign=crmURL}{crmURL p='civicrm/admin/price/field q="action=add&reset=1&sid=$sid"}{/capture}
         <dd>{ts 1=$groupTitle 2=$crmURL}There are no fields for price set "%1", <a href="%2">add one</a>.{/ts}</dd>
         </dl>
         </div>

@@ -133,41 +133,28 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
     function browse()
     {
         $customOption = array();
-        $customOptionBAO =& new CRM_Core_BAO_CustomOption();
         
-        // fkey is fid
-        //$customOptionBAO->custom_field_id = $this->_fid;
-        $customOptionBAO->entity_id    = $this->_fid;
-        $customOptionBAO->entity_table = 'civicrm_price_field';
-
-        $customOptionBAO->orderBy('weight, label');
-        $customOptionBAO->find();
+        $groupParams = array( 'name' => "civicrm_price_field.amount.{$this->_fid}" );
         
-        $priceFieldBAO =& new CRM_Core_BAO_PriceField();
-        $priceFieldBAO->id = $this->_fid;
-        $priceFieldBAO->find();
-        while($priceFieldBAO->fetch()) {
-            $fieldHtmlType = $priceFieldBAO->html_type; 
-        }
-
-        while ($customOptionBAO->fetch()) {
-            $customOption[$customOptionBAO->id] = array();
-            CRM_Core_DAO::storeValues( $customOptionBAO, $customOption[$customOptionBAO->id]);
-
-            $action = array_sum(array_keys($this->actionLinks()));
+        require_once 'CRM/Core/OptionValue.php';
+        CRM_Core_OptionValue::getValues( $groupParams, $customOption );
+        
+        foreach ( $customOption as $id => $values ) {
+            $action = array_sum( array_keys( $this->actionLinks( ) ) );
 	    
-	    // update enable/disable links depending on price_field properties.
-            if ( $customOptionBAO->is_active ) {
+            // update enable/disable links depending on price_field properties.
+            if ( $customOption['is_active'] ) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
             }
             
-            $customOption[$customOptionBAO->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                                    array('id'  => $customOptionBAO->id,
-                                                                                          'fid' => $this->_fid,
-                                                                                          'gid' => $this->_gid));
+            $customOption[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
+                                                                     array('id'  => $id,
+                                                                           'fid' => $this->_fid,
+                                                                           'gid' => $this->_gid));
         }
+        
         $this->assign('customOption', $customOption);
     }
 
@@ -182,25 +169,25 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function edit($action)
+    function edit( $action )
     {
         // create a simple controller for editing custom data
-        require_once('CRM/Core/BAO/PriceField.php');
-        $controller =& new CRM_Core_Controller_Simple('CRM_Price_Form_Option', ts('Price Field Option'), $action);
-
+        require_once 'CRM/Core/BAO/PriceField.php';
+        $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_Option', ts('Price Field Option'), $action );
+        
         // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field/option', 'reset=1&action=browse&fid=' . $this->_fid));
-       
-        $controller->set('gid', $this->_gid);
-        $controller->set('fid', $this->_fid);
-        $controller->setEmbedded(true);
-        $controller->process();
-        $controller->run();
-        $this->browse();
+        $session =& CRM_Core_Session::singleton( );
+        $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin/price/field/option', 
+                                                          'reset=1&action=browse&fid=' . $this->_fid ) );
+        
+        $controller->set( 'gid', $this->_gid );
+        $controller->set( 'fid', $this->_fid );
+        $controller->setEmbedded( true );
+        $controller->process( );
+        $controller->run( );
+        $this->browse( );
     }
-
-
+    
     /**
      * Run the page.
      *
