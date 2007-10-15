@@ -507,8 +507,6 @@ class CRM_Utils_Token
      * Replace subscription-invitation tokens
      * 
      * @param string $str           The string with tokens to be replaced
-     * @param string $group         The name of the group being subscribed
-     * @param boolean $html         Replace tokens with html or plain text
      * @return string               The processed string
      * @access public
      * @static
@@ -519,6 +517,16 @@ class CRM_Utils_Token
             $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1' );
             $str = preg_replace('/\{action\.subscribeUrl\}/', $url, $str );
         }
+
+        if ( preg_match('/\{action\.subscribeUrl.\d+\}/', $str, $matches) ) {
+            foreach ( $matches as $key => $value ) {
+                $gid = substr($value, 21, -1);
+                $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1&gid='.$gid );
+                $url = str_replace('&amp;', '&', $url);
+                $str = preg_replace('/'.preg_quote($value).'/', $url, $str );
+            }
+        }
+
         if ( preg_match('/\{action\.subscribe.\d+\}/', $str, $matches) ) {
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 18, -1);
