@@ -318,7 +318,6 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        // hack, check if we have created a country element
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
                         if ( $countryValue ) {
                             if ( ! is_numeric( $countryValue ) ) {
