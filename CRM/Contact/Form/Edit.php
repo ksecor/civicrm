@@ -707,18 +707,20 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
             }
         }
 
-	    if ( $orgId != null ) {
-	        $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
-	    }
+	if ( $orgId != null ) {
+	    $excludeGroupId = CRM_Contact_BAO_GroupOrganization::getGroupIds( $orgId );
+	}
+	if ( isset( $params['group'] ) ) {
 	    $tempGroups = $params['group'];
 	    $params['group'] = array( );
 	    foreach ( $tempGroups as $tempGroup ) {
-	        if ( $tempGroup != $excludeGroupId ) {
-	            $params['group'][] = $tempGroup;
-	        }
+		if ( $tempGroup != $excludeGroupId ) {
+		    $params['group'][] = $tempGroup;
+		}
 	    }
+	}
 
-	    CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+	CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
         //add contact to tags
         require_once 'CRM/Core/BAO/EntityTag.php';
