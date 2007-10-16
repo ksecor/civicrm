@@ -372,7 +372,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     }
             
     /**
-     * Delete the Custom Field.
+     * Delete the price set field.
      *
      * @param   int   $id    Field Id 
      * 
@@ -384,23 +384,22 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      */
     public static function deleteField($id) 
     {
-        require_once 'CRM/Utils/Weight.php';
-
         // delete options
-        require_once( 'CRM/Core/DAO/CustomOption.php' );
-        $customOption =& new CRM_Core_DAO_CustomOption();
-        $customOption->entity_table = 'civicrm_price_field';
-        $customOption->entity_id = $id;
-        $customOption->delete();
+        require_once 'CRM/Core/BAO/OptionGroup.php';
+        CRM_Core_BAO_OptionGroup::del( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
+                                                                    "civicrm_price_field.amount.{$id}",
+                                                                    'id', 'name' ) );
         
         //delete field
         $field = & new CRM_Core_DAO_PriceField();
         $field->id = $id; 
-        if ( $field->find( ) ) {
-            $field->fetch( );
+        if ( $field->find( true ) ) {
             $price_set_id = $field->price_set_id;
-            $fieldValues = array( 'price_set_id' => $price_set_id );
+            $fieldValues  = array( 'price_set_id' => $price_set_id );
+            
+            require_once 'CRM/Utils/Weight.php';
             CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_PriceField', $field->id, $fieldValues );
+            
             return $field->delete( );
         }
         
