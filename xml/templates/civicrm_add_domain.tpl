@@ -15,54 +15,54 @@ INSERT INTO civicrm_domain( id, name, email_name, email_address, email_domain, v
     VALUES ( @domain_id, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0' );
 
 -- Sample location types
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( @domain_id, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Work{/ts}', 'WORK', '{ts}Work location{/ts}', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Main{/ts}', NULL, '{ts}Main office location{/ts}', 0, 1 );
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts}Other{/ts}', NULL, '{ts}Other location{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( @domain_id, '{ts escape="sql"}Home{/ts}', 'HOME', '{ts escape="sql"}Place of residence{/ts}', 0, 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts escape="sql"}Work{/ts}', 'WORK', '{ts escape="sql"}Work location{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts escape="sql"}Main{/ts}', NULL, '{ts escape="sql"}Main office location{/ts}', 0, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, '{ts escape="sql"}Other{/ts}', NULL, '{ts escape="sql"}Other location{/ts}', 0, 1 );
 -- the following location must stay with the untranslated Billing name, CRM-2064
-INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, 'Billing', NULL, '{ts}Billing Address location{/ts}', 1, 1 );
+INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active ) VALUES( @domain_id, 'Billing', NULL, '{ts escape="sql"}Billing Address location{/ts}', 1, 1 );
 
 -- Sample relationship types
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Child of{/ts}', '{ts}Parent of{/ts}', '{ts}Parent/child relationship.{/ts}', 'Individual', 'Individual', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Child of{/ts}', '{ts escape="sql"}Parent of{/ts}', '{ts escape="sql"}Parent/child relationship.{/ts}', 'Individual', 'Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Spouse of{/ts}', '{ts}Spouse of{/ts}', '{ts}Spousal relationship.{/ts}', 'Individual', 'Individual', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Spouse of{/ts}', '{ts escape="sql"}Spouse of{/ts}', '{ts escape="sql"}Spousal relationship.{/ts}', 'Individual', 'Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Sibling of{/ts}','{ts}Sibling of{/ts}', '{ts}Sibling relationship.{/ts}','Individual','Individual', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Sibling of{/ts}','{ts escape="sql"}Sibling of{/ts}', '{ts escape="sql"}Sibling relationship.{/ts}','Individual','Individual', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Employee of{/ts}', '{ts}Employer of{/ts}', '{ts}Employment relationship.{/ts}','Individual','Organization', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Employee of{/ts}', '{ts escape="sql"}Employer of{/ts}', '{ts escape="sql"}Employment relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Volunteer for{/ts}', '{ts}Volunteer is{/ts}', '{ts}Volunteer relationship.{/ts}','Individual','Organization', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Volunteer for{/ts}', '{ts escape="sql"}Volunteer is{/ts}', '{ts escape="sql"}Volunteer relationship.{/ts}','Individual','Organization', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Head of Household for{/ts}', '{ts}Head of Household is{/ts}', '{ts}Head of household.{/ts}','Individual','Household', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Head of Household for{/ts}', '{ts escape="sql"}Head of Household is{/ts}', '{ts escape="sql"}Head of household.{/ts}','Individual','Household', 0 );
 INSERT INTO civicrm_relationship_type( domain_id, name_a_b, name_b_a, description, contact_type_a, contact_type_b, is_reserved )
-    VALUES( @domain_id, '{ts}Household Member of{/ts}', '{ts}Household Member is{/ts}', '{ts}Household membership.{/ts}','Individual','Household', 0 );
+    VALUES( @domain_id, '{ts escape="sql"}Household Member of{/ts}', '{ts escape="sql"}Household Member is{/ts}', '{ts escape="sql"}Household membership.{/ts}','Individual','Household', 0 );
 
 -- Sample Tags
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( @domain_id, '{ts}Non-profit{/ts}', '{ts}Any not-for-profit organization.{/ts}', NULL );
+    VALUES( @domain_id, '{ts escape="sql"}Non-profit{/ts}', '{ts escape="sql"}Any not-for-profit organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( @domain_id, '{ts}Company{/ts}', '{ts}For-profit organization.{/ts}', NULL );
+    VALUES( @domain_id, '{ts escape="sql"}Company{/ts}', '{ts escape="sql"}For-profit organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( @domain_id, '{ts}Government Entity{/ts}', '{ts}Any governmental entity.{/ts}', NULL );
+    VALUES( @domain_id, '{ts escape="sql"}Government Entity{/ts}', '{ts escape="sql"}Any governmental entity.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( @domain_id, '{ts}Major Donor{/ts}', '{ts}High-value supporter of our organization.{/ts}', NULL );
+    VALUES( @domain_id, '{ts escape="sql"}Major Donor{/ts}', '{ts escape="sql"}High-value supporter of our organization.{/ts}', NULL );
 INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
-    VALUES( @domain_id, '{ts}Volunteer{/ts}', '{ts}Active volunteers.{/ts}', NULL );
+    VALUES( @domain_id, '{ts escape="sql"}Volunteer{/ts}', '{ts escape="sql"}Active volunteers.{/ts}', NULL );
 
 -- sample CiviCRM mailing components
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
 VALUES
-    (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}Descriptive Title for this Header{/ts}','{ts}Sample Header for HTML formatted content.{/ts}','{ts}Sample Header for TEXT formatted content.{/ts}',1,1),
-    (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}Descriptive Title for this Footer.{/ts}','{ts}Sample Footer for HTML formatted content.{/ts}','{ts}Sample Footer for TEXT formatted content.{/ts}',1,1),
-    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription Confirmation Request{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click on this link: {ldelim}subscribe.url{rdelim}{/ts}',1,1),
-    (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Your Subscription has been Activated{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}',1,1),
-    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Un-subscribe Confirmation{/ts}','{ts}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking <a href="{ldelim}action.resubscribeUrl{rdelim}">here</a>.{/ts}','{ts}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking {ldelim}action.resubscribeUrl{rdelim}{/ts}',1,1),
-    (@domain_id,'{ts}Resubscribe Message{/ts}','Resubscribe','{ts}Re-subscribe Confirmation{/ts}','{ts}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking <a href="{ldelim}action.unsubscribeUrl{rdelim}">here</a>.{/ts}','{ts}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking {ldelim}action.unsubscribeUrl{rdelim}{/ts}',1,1),
-    (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Opt-out Confirmation{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}',1,1),
-    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Please Send Inquiries to Our Contact Email Address{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}',1,1),
-    (@domain_id,'{ts}Resubscribe Message{/ts}','Resubscribe','{ts}Re-subscribe Confirmation{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}',1,1);
+    (@domain_id,'{ts escape="sql"}Mailing Header{/ts}','Header','{ts escape="sql"}Descriptive Title for this Header{/ts}','{ts escape="sql"}Sample Header for HTML formatted content.{/ts}','{ts escape="sql"}Sample Header for TEXT formatted content.{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Mailing Footer{/ts}','Footer','{ts escape="sql"}Descriptive Title for this Footer.{/ts}','{ts escape="sql"}Sample Footer for HTML formatted content.{/ts}','{ts escape="sql"}Sample Footer for TEXT formatted content.{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Subscribe Message{/ts}','Subscribe','{ts escape="sql"}Subscription Confirmation Request{/ts}','{ts escape="sql"}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts escape="sql"}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click on this link: {ldelim}subscribe.url{rdelim}{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Welcome Message{/ts}','Welcome','{ts escape="sql"}Your Subscription has been Activated{/ts}','{ts escape="sql"}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}','{ts escape="sql"}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Unsubscribe Message{/ts}','Unsubscribe','{ts escape="sql"}Un-subscribe Confirmation{/ts}','{ts escape="sql"}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking <a href="{ldelim}action.resubscribeUrl{rdelim}">here</a>.{/ts}','{ts escape="sql"}You have been un-subscribed from the following groups: {ldelim}unsubscribe.group{rdelim}. You can re-subscribe by mailing {ldelim}action.resubscribe{rdelim} or clicking {ldelim}action.resubscribeUrl{rdelim}{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Resubscribe Message{/ts}','Resubscribe','{ts escape="sql"}Re-subscribe Confirmation{/ts}','{ts escape="sql"}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking <a href="{ldelim}action.unsubscribeUrl{rdelim}">here</a>.{/ts}','{ts escape="sql"}You have been re-subscribed to the following groups: {ldelim}resubscribe.group{rdelim}. You can un-subscribe by mailing {ldelim}action.unsubscribe{rdelim} or clicking {ldelim}action.unsubscribeUrl{rdelim}{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Opt-out Message{/ts}','OptOut','{ts escape="sql"}Opt-out Confirmation{/ts}','{ts escape="sql"}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}','{ts escape="sql"}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Auto-responder{/ts}','Reply','{ts escape="sql"}Please Send Inquiries to Our Contact Email Address{/ts}','{ts escape="sql"}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}','{ts escape="sql"}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}',1,1),
+    (@domain_id,'{ts escape="sql"}Resubscribe Message{/ts}','Resubscribe','{ts escape="sql"}Re-subscribe Confirmation{/ts}','{ts escape="sql"}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}','{ts escape="sql"}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}',1,1);
 
 
 
@@ -72,39 +72,39 @@ INSERT INTO civicrm_dupe_match (domain_id, entity_table , rule) VALUES ( @domain
 INSERT INTO
    civicrm_contribution_type(name, domain_id, is_reserved, is_active, is_deductible)
 VALUES
-  ( '{ts}Donation{/ts}'             , @domain_id, 0, 1, 1 ),
-  ( '{ts}Member Dues{/ts}'          , @domain_id, 0, 1, 1 ), 
-  ( '{ts}Campaign Contribution{/ts}', @domain_id, 0, 1, 0 ),
-  ( '{ts}Event Fee{/ts}'            , @domain_id, 0, 1, 0 );
+  ( '{ts escape="sql"}Donation{/ts}'             , @domain_id, 0, 1, 1 ),
+  ( '{ts escape="sql"}Member Dues{/ts}'          , @domain_id, 0, 1, 1 ), 
+  ( '{ts escape="sql"}Campaign Contribution{/ts}', @domain_id, 0, 1, 0 ),
+  ( '{ts escape="sql"}Event Fee{/ts}'            , @domain_id, 0, 1, 0 );
 
 -- option groups and values for 'preferred communication methods' , 'activity types', 'gender', etc.
 
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
 VALUES 
-   (@domain_id, 'preferred_communication_method', '{ts}Preferred Communication Method{/ts}'     , 0, 1),
-   (@domain_id, 'activity_type'                 , '{ts}Activity Type{/ts}'                      , 0, 1),
-   (@domain_id, 'gender'                        , '{ts}Gender{/ts}'                             , 0, 1),
-   (@domain_id, 'instant_messenger_service'     , '{ts}Instant Messenger (IM) screen-names{/ts}', 0, 1),
-   (@domain_id, 'mobile_provider'               , '{ts}Mobile Phone Providers{/ts}'             , 0, 1),
-   (@domain_id, 'individual_prefix'             , '{ts}Individual contact prefixes{/ts}'        , 0, 1),
-   (@domain_id, 'individual_suffix'             , '{ts}Individual contact suffixes{/ts}'        , 0, 1),
-   (@domain_id, 'acl_role'                      , '{ts}ACL Role{/ts}'                           , 0, 1),
-   (@domain_id, 'accept_creditcard'             , '{ts}Accepted Credit Cards{/ts}'              , 0, 1),
-   (@domain_id, 'payment_instrument'            , '{ts}Payment Instruments{/ts}'                , 0, 1),
-   (@domain_id, 'contribution_status'           , '{ts}Contribution Status{/ts}'                , 0, 1),
-   (@domain_id, 'participant_status'            , '{ts}Participant Status{/ts}'                 , 0, 1),
-   (@domain_id, 'participant_role'              , '{ts}Participant Role{/ts}'                   , 0, 1),
-   (@domain_id, 'event_type'                    , '{ts}Event Type{/ts}'                         , 0, 1),
-   (@domain_id, 'contact_view_options'          , '{ts}Contact View Options{/ts}'               , 0, 1),
-   (@domain_id, 'contact_edit_options'          , '{ts}Contact Edit Options{/ts}'               , 0, 1),
-   (@domain_id, 'advanced_search_options'       , '{ts}Advanced Search Options{/ts}'            , 0, 1),
-   (@domain_id, 'user_dashboard_options'        , '{ts}User Dashboard Options{/ts}'             , 0, 1),
-   (@domain_id, 'address_options'               , '{ts}Addressing Options{/ts}'                 , 0, 1),
-   (@domain_id, 'group_type'                    , '{ts}Group Type{/ts}'                         , 0, 1),
-   (@domain_id, 'grant_status'                  , '{ts}Grant status{/ts}'                       , 0, 1),
-   (@domain_id, 'grant_type'                    , '{ts}Grant Type{/ts}'                         , 0, 1),
-   (@domain_id, 'honor_type'                    , '{ts}Honor Type{/ts}'                         , 0, 1);
+   (@domain_id, 'preferred_communication_method', '{ts escape="sql"}Preferred Communication Method{/ts}'     , 0, 1),
+   (@domain_id, 'activity_type'                 , '{ts escape="sql"}Activity Type{/ts}'                      , 0, 1),
+   (@domain_id, 'gender'                        , '{ts escape="sql"}Gender{/ts}'                             , 0, 1),
+   (@domain_id, 'instant_messenger_service'     , '{ts escape="sql"}Instant Messenger (IM) screen-names{/ts}', 0, 1),
+   (@domain_id, 'mobile_provider'               , '{ts escape="sql"}Mobile Phone Providers{/ts}'             , 0, 1),
+   (@domain_id, 'individual_prefix'             , '{ts escape="sql"}Individual contact prefixes{/ts}'        , 0, 1),
+   (@domain_id, 'individual_suffix'             , '{ts escape="sql"}Individual contact suffixes{/ts}'        , 0, 1),
+   (@domain_id, 'acl_role'                      , '{ts escape="sql"}ACL Role{/ts}'                           , 0, 1),
+   (@domain_id, 'accept_creditcard'             , '{ts escape="sql"}Accepted Credit Cards{/ts}'              , 0, 1),
+   (@domain_id, 'payment_instrument'            , '{ts escape="sql"}Payment Instruments{/ts}'                , 0, 1),
+   (@domain_id, 'contribution_status'           , '{ts escape="sql"}Contribution Status{/ts}'                , 0, 1),
+   (@domain_id, 'participant_status'            , '{ts escape="sql"}Participant Status{/ts}'                 , 0, 1),
+   (@domain_id, 'participant_role'              , '{ts escape="sql"}Participant Role{/ts}'                   , 0, 1),
+   (@domain_id, 'event_type'                    , '{ts escape="sql"}Event Type{/ts}'                         , 0, 1),
+   (@domain_id, 'contact_view_options'          , '{ts escape="sql"}Contact View Options{/ts}'               , 0, 1),
+   (@domain_id, 'contact_edit_options'          , '{ts escape="sql"}Contact Edit Options{/ts}'               , 0, 1),
+   (@domain_id, 'advanced_search_options'       , '{ts escape="sql"}Advanced Search Options{/ts}'            , 0, 1),
+   (@domain_id, 'user_dashboard_options'        , '{ts escape="sql"}User Dashboard Options{/ts}'             , 0, 1),
+   (@domain_id, 'address_options'               , '{ts escape="sql"}Addressing Options{/ts}'                 , 0, 1),
+   (@domain_id, 'group_type'                    , '{ts escape="sql"}Group Type{/ts}'                         , 0, 1),
+   (@domain_id, 'grant_status'                  , '{ts escape="sql"}Grant status{/ts}'                       , 0, 1),
+   (@domain_id, 'grant_type'                    , '{ts escape="sql"}Grant Type{/ts}'                         , 0, 1),
+   (@domain_id, 'honor_type'                    , '{ts escape="sql"}Honor Type{/ts}'                         , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -134,24 +134,24 @@ SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group wher
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
 VALUES
-   (@option_group_id_pcm, '{ts}Phone{/ts}', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_pcm, '{ts}Email{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_pcm, '{ts}Postal Mail{/ts}', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_pcm, '{ts}SMS{/ts}', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
-   (@option_group_id_pcm, '{ts}Fax{/ts}', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts escape="sql"}Phone{/ts}', 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts escape="sql"}Email{/ts}', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts escape="sql"}Postal Mail{/ts}', 3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts escape="sql"}SMS{/ts}', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_pcm, '{ts escape="sql"}Fax{/ts}', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
  
-   (@option_group_id_act, '{ts}Meeting{/ts}',    1, 'Meeting',    NULL, 0, NULL, 1, '{ts}Schedule a meeting{/ts}',    0, 1, 1),
-   (@option_group_id_act, '{ts}Phone Call{/ts}', 2, 'Phone Call', NULL, 0, NULL, 2, '{ts}Schedule a Phone Call{/ts}', 0, 1, 1),
-   (@option_group_id_act, '{ts}Email{/ts}',      3, 'Email',      NULL, 0, NULL, 3, '{ts}Email Sent{/ts}',            0, 1, 1),
-   (@option_group_id_act, '{ts}SMS{/ts}',        4, 'SMS',        NULL, 0, NULL, 4, '{ts}SMS{/ts}',                   0, 1, 1),
-   (@option_group_id_act, '{ts}Event{/ts}',      5, 'Event',      NULL, 0, NULL, 5, '{ts}Event{/ts}',                 0, 0, 1),
-   (@option_group_id_act, '{ts}CiviContribute Online Contribution{/ts}',      6, 'CiviContribute Online Contribution',      NULL, 0, NULL, 6, '{ts}CiviContribute Online Contribution{/ts}', 0, 0, 1),
-   (@option_group_id_act, '{ts}CiviMember Online Membership{/ts}',      7, 'CiviMember Online Membership',      NULL, 0, NULL, 7, '{ts}CiviMember Online Membership{/ts}', 0, 0, 1),
-   (@option_group_id_act, '{ts}CiviEvent Online Participant{/ts}',      8, 'CiviEvent Online Participant',      NULL, 0, NULL, 8, '{ts}CiviEvent Online Participant{/ts}', 0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}Meeting{/ts}',                            1, 'Meeting',                            NULL, 0, NULL, 1, '{ts escape="sql"}Schedule a meeting{/ts}',                 0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Phone Call{/ts}',                         2, 'Phone Call',                         NULL, 0, NULL, 2, '{ts escape="sql"}Schedule a Phone Call{/ts}',              0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',                              NULL, 0, NULL, 3, '{ts escape="sql"}Email Sent{/ts}',                         0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}SMS{/ts}',                                4, 'SMS',                                NULL, 0, NULL, 4, '{ts escape="sql"}SMS{/ts}',                                0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Event{/ts}',                              5, 'Event',                              NULL, 0, NULL, 5, '{ts escape="sql"}Event{/ts}',                              0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 0, 1),
   
-   (@option_group_id_gender, '{ts}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_gender, '{ts}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_gender, '{ts}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_gender, '{ts escape="sql"}Transgender{/ts}', 3, 'Transgender', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
    (@option_group_id_IMProvider, 'Yahoo', 1, 'Yahoo', NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_IMProvider, 'MSN',   2, 'Msn',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -164,13 +164,13 @@ VALUES
    (@option_group_id_mobileProvider, 'Verizon' , 2, 'Verizon' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_mobileProvider, 'Cingular', 3, 'Cingular', NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
-   (@option_group_id_prefix, '{ts}Mrs{/ts}', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_prefix, '{ts}Ms{/ts}',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-   (@option_group_id_prefix, '{ts}Mr{/ts}',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-   (@option_group_id_prefix, '{ts}Dr{/ts}',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts escape="sql"}Mrs{/ts}', 1, 'Mrs', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts escape="sql"}Ms{/ts}',  2, 'Ms', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts escape="sql"}Mr{/ts}',  3, 'Mr', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+   (@option_group_id_prefix, '{ts escape="sql"}Dr{/ts}',  4, 'Dr', NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-   (@option_group_id_suffix, '{ts}Jr{/ts}',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_suffix, '{ts}Sr{/ts}',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_suffix, '{ts escape="sql"}Jr{/ts}',  1, 'Jr', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_suffix, '{ts escape="sql"}Sr{/ts}',  2, 'Sr', NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'II',  3, 'II', NULL, 0, NULL, 3, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'III', 4, 'III', NULL, 0, NULL, 4, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'IV',  5, 'IV',  NULL, 0, NULL, 5, NULL, 0, 0, 1),
@@ -178,43 +178,43 @@ VALUES
    (@option_group_id_suffix, 'VI',  7, 'VI',  NULL, 0, NULL, 7, NULL, 0, 0, 1),
    (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1),
 
-   (@option_group_id_aclRole, '{ts}Administrator{/ts}',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-   (@option_group_id_aclRole, '{ts}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, '{ts escape="sql"}Administrator{/ts}',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+   (@option_group_id_aclRole, '{ts escape="sql"}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
    (@option_group_id_acc, 'Visa'      ,  1, 'Visa'      , NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1),
    (@option_group_id_acc, 'Amex'      ,  3, 'Amex'      , NULL, 0, NULL, 3, NULL, 0, 0, 1),
    (@option_group_id_acc, 'Discover'  ,  4, 'Discover'  , NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-  (@option_group_id_pi, '{ts}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_pi, '{ts}Debit Card{/ts}',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_pi, '{ts}Cash{/ts}',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_pi, '{ts}Check{/ts}',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_pi, '{ts}EFT{/ts}',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts escape="sql"}Credit Card{/ts}',  1, 'Credit Card', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts escape="sql"}Debit Card{/ts}',  2, 'Debit Card', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts escape="sql"}Cash{/ts}',  3, 'Cash', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts escape="sql"}Check{/ts}',  4, 'Check', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pi, '{ts escape="sql"}EFT{/ts}',  5, 'EFT', NULL, 0, NULL, 5, NULL, 0, 0, 1),
 
-  (@option_group_id_cs, '{ts}Completed{/ts}'  , 1, 'Completed'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_cs, '{ts}Pending{/ts}'    , 2, 'Pending'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_cs, '{ts}Cancelled{/ts}'  , 3, 'Cancelled'  , NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_cs, '{ts}Failed{/ts}'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_cs, '{ts}In Progress{/ts}', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts escape="sql"}Completed{/ts}'  , 1, 'Completed'  , NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts escape="sql"}Pending{/ts}'    , 2, 'Pending'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts escape="sql"}Cancelled{/ts}'  , 3, 'Cancelled'  , NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts escape="sql"}Failed{/ts}'     , 4, 'Failed'     , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_cs, '{ts escape="sql"}In Progress{/ts}', 5, 'In Progress', NULL, 0, NULL, 5, NULL, 0, 0, 1),
 
-  (@option_group_id_ps, '{ts}Registered{/ts}', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
-  (@option_group_id_ps, '{ts}Attended{/ts}',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_ps, '{ts}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_ps, '{ts}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
-  (@option_group_id_ps, '{ts}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1),
+  (@option_group_id_ps, '{ts escape="sql"}Registered{/ts}', 1, 'Registered', NULL, 0, NULL, 1, NULL, 0, 1, 1),
+  (@option_group_id_ps, '{ts escape="sql"}Attended{/ts}',   2, 'Attended',   NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_ps, '{ts escape="sql"}No-show{/ts}',    3, 'No-show',    NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_ps, '{ts escape="sql"}Cancelled{/ts}',  4, 'Cancelled',  NULL, 0, NULL, 4, NULL, 0, 1, 1),
+  (@option_group_id_ps, '{ts escape="sql"}Pending{/ts}'  ,  5, 'Pending',    NULL, 0, NULL, 5, NULL, 0, 1, 1),
 
-  (@option_group_id_pRole, '{ts}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
-  (@option_group_id_pRole, '{ts}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_pRole, '{ts}Host{/ts}',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_pRole, '{ts}Speaker{/ts}',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts escape="sql"}Attendee{/ts}',  1, 'Attendee',  NULL, 0, NULL, 1, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts escape="sql"}Volunteer{/ts}', 2, 'Volunteer', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts escape="sql"}Host{/ts}',      3, 'Host',      NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_pRole, '{ts escape="sql"}Speaker{/ts}',   4, 'Speaker',   NULL, 0, NULL, 4, NULL, 0, 0, 1),
 
-  (@option_group_id_etype, '{ts}Conference{/ts}', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Exhibition{/ts}', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Fundraiser{/ts}', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Meeting{/ts}',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
-  (@option_group_id_etype, '{ts}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Conference{/ts}', 1, 'Conference',  NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Exhibition{/ts}', 2, 'Exhibition',  NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Fundraiser{/ts}', 3, 'Fundraiser',  NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Meeting{/ts}',    4, 'Meeting',     NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Performance{/ts}',5, 'Performance', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+  (@option_group_id_etype, '{ts escape="sql"}Workshop{/ts}',   6, 'Workshop',    NULL, 0, NULL, 6, NULL, 0, 0, 1 ),
 
 -- note that these are not ts'ed since they are used for logic in most cases and not display
 -- they are used for display only in the prefernces field settings
@@ -227,7 +227,7 @@ VALUES
   (@option_group_id_cvOpt, 'Contributions',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
   (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
-  (@option_group_id_cvOpt, '{ts}Cases{/ts}'         ,  10, NULL, NULL, 0, NULL,  10,NULL, 0, 0, 1 ),
+  (@option_group_id_cvOpt, '{ts escape="sql"}Cases{/ts}'         ,  10, NULL, NULL, 0, NULL,  10,NULL, 0, 0, 1 ),
 
   (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
@@ -244,11 +244,11 @@ VALUES
   (@option_group_id_asOpt, 'Contributions'           ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, 'Memberships'             ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
   (@option_group_id_asOpt, 'Events'                  ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Cases{/ts}'          ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Case Activities{/ts}',  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Kabissa{/ts}'        ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Grants{/ts}'         ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}User SQL{/ts}'       ,  15, NULL, NULL, 0, NULL, 15, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts escape="sql"}Cases{/ts}'          ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts escape="sql"}Case Activities{/ts}',  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts escape="sql"}Kabissa{/ts}'        ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts escape="sql"}Grants{/ts}'         ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts escape="sql"}User SQL{/ts}'       ,  15, NULL, NULL, 0, NULL, 15, NULL, 0, 0, 1 ),
 
   (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
@@ -270,25 +270,25 @@ VALUES
   (@option_group_id_gType, 'Access Control'  , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 1, 1 ),
   (@option_group_id_gType, 'Mailing List'    , 2, NULL, NULL, 0, NULL, 2, NULL, 0, 1, 1 ),
 
-  (@option_group_id_grantSt, '{ts}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
-  (@option_group_id_grantSt, '{ts}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_grantSt, '{ts}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_grantTyp, '{ts}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
-  (@option_group_id_grantTyp, '{ts}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
-  (@option_group_id_grantTyp, '{ts}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
-  (@option_group_id_grantTyp, '{ts}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1),
-  (@option_group_id_honorTyp, '{ts}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
-  (@option_group_id_honorTyp, '{ts}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1);
+  (@option_group_id_grantSt, '{ts escape="sql"}Pending{/ts}',  1, 'Pending',  NULL, 0, 1,    1, NULL, 0, 0, 1),
+  (@option_group_id_grantSt, '{ts escape="sql"}Granted{/ts}',  2, 'Granted',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_grantSt, '{ts escape="sql"}Rejected{/ts}', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts escape="sql"}Emergency{/ts}'          , 1, 'Emergency'         , NULL, 0, 1,    1, NULL, 0, 0, 1),    
+  (@option_group_id_grantTyp, '{ts escape="sql"}Family Support{/ts}'     , 2, 'Family Support'    , NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts escape="sql"}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+  (@option_group_id_grantTyp, '{ts escape="sql"}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1),
+  (@option_group_id_honorTyp, '{ts escape="sql"}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
+  (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1);
 
 
 -- sample membership status entries
 INSERT INTO
     civicrm_membership_status(domain_id, name, start_event, start_event_adjust_unit, start_event_adjust_interval, end_event, end_event_adjust_unit, end_event_adjust_interval, is_current_member, is_admin, weight, is_default, is_active)
 VALUES
-    (@domain_id,'{ts}New{/ts}', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 0, 1),
-    (@domain_id,'{ts}Current{/ts}', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
-    (@domain_id,'{ts}Grace{/ts}', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
-    (@domain_id,'{ts}Expired{/ts}', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
+    (@domain_id,'{ts escape="sql"}New{/ts}', 'join_date', null, null,'join_date','month',3, 1, 0, 1, 0, 1),
+    (@domain_id,'{ts escape="sql"}Current{/ts}', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
+    (@domain_id,'{ts escape="sql"}Grace{/ts}', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
+    (@domain_id,'{ts escape="sql"}Expired{/ts}', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1);
 
 {literal}
 -- Initial state of system preferences
@@ -320,14 +320,14 @@ VALUES
 INSERT INTO `civicrm_payment_processor_type` 
  (domain_id, name, title, description, is_active, is_default, user_name_label, password_label, signature_label, subject_label, class_name, url_site_default, url_api_default, url_recur_default, url_button_default, url_site_test_default, url_api_test_default, url_recur_test_default, url_button_test_default, billing_mode, is_recur )
 VALUES 
- (@domain_id,'Dummy','{ts}Dummy Payment Processor{/ts}',NULL,1,1,'{ts}User Name{/ts}',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),
- (@domain_id,'PayPal_Standard','{ts}PayPal - Website Payments Standard{/ts}',NULL,1,0,'{ts}Merchant Account Email{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
- (@domain_id,'PayPal','{ts}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
- (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
- (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}','{ts}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
- (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,NULL,1,1),
- (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
- (@domain_id,'PayJunction','{ts}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
+ (@domain_id,'Dummy','{ts escape="sql"}Dummy Payment Processor{/ts}',NULL,1,1,'{ts escape="sql"}User Name{/ts}',NULL,NULL,NULL,'Payment_Dummy',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL),
+ (@domain_id,'PayPal_Standard','{ts escape="sql"}PayPal - Website Payments Standard{/ts}',NULL,1,0,'{ts escape="sql"}Merchant Account Email{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
+ (@domain_id,'PayPal','{ts escape="sql"}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'PayPal_Express','{ts escape="sql"}PayPal - Express{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
+ (@domain_id,'Google_Checkout','{ts escape="sql"}Google Checkout{/ts}',NULL,1,0,'{ts escape="sql"}Merchant ID{/ts}','{ts escape="sql"}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
+ (@domain_id,'Moneris','{ts escape="sql"}Moneris{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,NULL,1,1),
+ (@domain_id,'AuthNet_AIM','{ts escape="sql"}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts escape="sql"}API Login{/ts}','{ts escape="sql"}Payment Key{/ts}','{ts escape="sql"}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
+ (@domain_id,'PayJunction','{ts escape="sql"}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);
