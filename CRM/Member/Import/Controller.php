@@ -44,8 +44,10 @@ class CRM_Member_Import_Controller extends CRM_Core_Controller {
         parent::__construct( $title, $modal );
 
         // lets get around the time limit issue if possible, CRM-2113
-        set_time_limit( 0 );
-
+        if ( ! ini_get( 'safe_mode' ) ) {
+            set_time_limit( 0 );
+        }
+ 
         require_once 'CRM/Member/Import/StateMachine.php';
         $this->_stateMachine =& new CRM_Member_Import_StateMachine( $this, $action );
 
