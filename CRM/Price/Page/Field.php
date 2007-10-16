@@ -228,9 +228,9 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
-            $id = CRM_Utils_Request::retrieve('id', 'Positive',
+            $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                               $this, false, 0);
-            $controller->set('id', $id);
+            $controller->set('fid', $fid);
             $controller->setEmbedded( true );
             $controller->process( );
             $controller->run( );
@@ -249,24 +249,23 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         // assign vars to templates
         $this->assign('action', $action);
 
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+        $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                           $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action);   // no browse for edit/update/view
         } else if ($action & CRM_Core_Action::PREVIEW) {
-            $this->preview($id) ;
+            $this->preview($fid) ;
         } else {
             require_once 'CRM/Core/BAO/PriceField.php';
-            //require_once 'CRM/Core/BAO/UFField.php';
+            
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_PriceField::setIsActive($id, 0);
-                //CRM_Core_BAO_UFField::setUFField($id, 0);
+                CRM_Core_BAO_PriceField::setIsActive($fid, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_PriceField::setIsActive($id, 1);
-                //CRM_Core_BAO_UFField::setUFField($id, 1);
-            } 
+                CRM_Core_BAO_PriceField::setIsActive($fid, 1);
+            }
+            
             $this->browse();
         }
 

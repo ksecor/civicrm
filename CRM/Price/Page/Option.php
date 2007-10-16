@@ -46,12 +46,12 @@ require_once 'CRM/Core/Page.php';
 class CRM_Price_Page_Option extends CRM_Core_Page {
      
     /**
-     * The Group id of the option
+     * The price set id of the option
      *
      * @var int
      * @access protected
      */
-    protected $_gid;
+    protected $_sid;
     
     /**
      * The field id of the option
@@ -88,32 +88,32 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
                                         CRM_Core_Action::UPDATE  => array(
                                                                           'name'  => ts('Edit Option'),
                                                                           'url'   => 'civicrm/admin/price/field/option',
-                                                                          'qs'    => 'reset=1&action=update&id=%%id%%&fid=%%fid%%&gid=%%gid%%',
+                                                                          'qs'    => 'reset=1&action=update&oid=%%oid%%&fid=%%fid%%&sid=%%sid%%',
                                                                           'title' => ts('Edit Price Option') 
                                                                           ),
                                         CRM_Core_Action::VIEW    => array(
                                                                           'name'  => ts('View'),
                                                                           'url'   => 'civicrm/admin/price/field/option',
-                                                                          'qs'    => 'action=view&id=%%id%%',
+                                                                          'qs'    => 'action=view&oid=%%oid%%',
                                                                           'title' => ts('View Price Option'),
                                                                           ),
                                         CRM_Core_Action::ENABLE  => array(
                                                                           'name'  => ts('Enable'),
                                                                           'url'   => 'civicrm/admin/price/field/option',
-                                                                          'qs'    => 'action=enable&id=%%id%%',
+                                                                          'qs'    => 'action=enable&oid=%%oid%%',
                                                                           'title' => ts('Enable Price Option') 
                                                                           ),
                                         CRM_Core_Action::DISABLE  => array(
                                                                            'name'  => ts('Disable'),
                                                                            'url'   => 'civicrm/admin/price/field/option',
-                                                                           'qs'    => 'action=disable&id=%%id%%',
+                                                                           'qs'    => 'action=disable&oid=%%oid%%',
                                                                            'title' => ts('Disable Price Option'),
                                                                            'extra' => 'onclick = "return confirm(\'' . $disableExtra . '\');"'
                                                                            ),
                                         CRM_Core_Action::DELETE  => array(
                                                                            'name'  => ts('Delete'),
                                                                            'url'   => 'civicrm/admin/price/field/option',
-                                                                           'qs'    => 'action=delete&id=%%id%%',
+                                                                           'qs'    => 'action=delete&oid=%%oid%%',
                                                                            'title' => ts('Disable Price Option'),
                                                                            
                                                                            ),
@@ -150,9 +150,9 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
             }
             
             $customOption[$id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
-                                                                     array('id'  => $id,
+                                                                     array('oid'  => $id,
                                                                            'fid' => $this->_fid,
-                                                                           'gid' => $this->_gid));
+                                                                           'sid' => $this->_sid));
         }
         
         $this->assign('customOption', $customOption);
@@ -180,7 +180,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
         $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin/price/field/option', 
                                                           'reset=1&action=browse&fid=' . $this->_fid ) );
         
-        $controller->set( 'gid', $this->_gid );
+        $controller->set( 'sid', $this->_sid );
         $controller->set( 'fid', $this->_fid );
         $controller->setEmbedded( true );
         $controller->process( );
@@ -206,7 +206,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
         // get the field id
         $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                                   $this, false, 0);
-        $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
+        $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive',
                                                   $this, false, 0);
 
         if ($this->_fid) {
@@ -223,7 +223,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
         // assign vars to templates
         $this->assign('action', $action);
 
-        $id = CRM_Utils_Request::retrieve('id', 'Positive',
+        $oid = CRM_Utils_Request::retrieve('oid', 'Positive',
                                           $this, false, 0);
         
         // what action to take ?
@@ -231,9 +231,9 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
             $this->edit($action);   // no browse for edit/update/view
         } else {
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 0);
+                CRM_Core_BAO_CustomOption::setIsActive($oid, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 1);
+                CRM_Core_BAO_CustomOption::setIsActive($oid, 1);
             }
            $this->browse();
         }
