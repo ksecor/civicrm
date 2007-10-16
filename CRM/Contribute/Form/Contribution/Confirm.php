@@ -729,13 +729,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             return null;
         }
         
-        $honorParams = array();
-        $honorParams["prefix_id"]    = $params["honor_prefix_id"];
-        $honorParams["first_name"]   = $params["honor_first_name"];
-        $honorParams["last_name"]    = $params["honor_last_name"];
-        $honorParams["email"]        = $params["honor_email"];
-        $honorParams["contact_type"] = "Individual";
-        
         //assign to template for email reciept
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         
@@ -745,27 +738,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once "CRM/Core/PseudoConstant.php";
         $prefix = CRM_Core_PseudoConstant::individualPrefix();
         $honorType = CRM_Core_PseudoConstant::honor( );
-        $this->assign("honor_type",$honorType[$params["honor_type_id"]]);
-        $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
-        $this->assign("honor_first_name",$params["honor_first_name"]);
-        $this->assign("honor_last_name",$params["honor_last_name"]);
-        $this->assign("honor_email",$params["honor_email"]);
+        $this->assign("honor_type",       $honorType[$params["honor_type_id"]]);
+        $this->assign("honor_prefix",     $prefix[$params["honor_prefix_id"]]);
+        $this->assign("honor_first_name", $params["honor_first_name"]);
+        $this->assign("honor_last_name",  $params["honor_last_name"]);
+        $this->assign("honor_email",      $params["honor_email"]);
         
-        require_once 'api/crm.php';
-        $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
-        $contactsIDs = explode( ',', $ids );
-        if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;
-        } else {
-            $contact_id =  $contactsIDs[0];
-            $ids = array( );
-            $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-            $defaults = array( );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;    
-        }
+        //create honoree contact
+        return CRM_Contribute_BAO_Contribution::createHonorContact( $params );
     }
 
 }
