@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php"></script> 
+<script type="text/javascript" src="{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}"></script> 
 <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script>
 
 {include file="CRM/common/dojo.tpl"}
