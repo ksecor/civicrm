@@ -196,7 +196,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         $dao->fetch();
 
         $component =& new CRM_Mailing_BAO_Component();
-        $component->component_type = 'Resubscribe';
+        $component->id = $dao->resubscribe_id;
         $component->find(true);
 
         $html = $component->body_html;
