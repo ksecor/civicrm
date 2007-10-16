@@ -157,7 +157,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $activity->delete();
     }
     
-    
     /**
      * delete all records for this contact id
      *
@@ -183,11 +182,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $dao->delete();
         }
     }
-
-
-
-
-
 
     /**
      * Function to process the activities
@@ -417,7 +411,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return true;
     }
 
-   
 }
 
 ?>

@@ -254,24 +254,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
 
+            $pending = false;
             switch ( $this->_contributeMode ) {
             case 'express':
                 $result =& $payment->doExpressCheckout( $this->_params );
                 break;
             case 'checkout':
             case 'notify':
-                $this->_params['contactID'] = $contactID;
-                $this->_params['eventID']   = $this->_id;
-                
-                $contribution =& $this->processContribution( $this->_params, null, $contactID, true );
-                $this->_params['contributionID'    ] = $contribution->id;
-                $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
-                $this->_params['item_name'         ] = $this->_params['description'];
-                $this->_params['receive_date'      ] = $now;
-
-                // save params here also since we dont come back
-                $this->set( 'params', $this->_params );
-                $result =& $payment->doTransferCheckout( $this->_params );
+                $pending = true;
+                $result  = null;
+                $this->_params['participant_status_id'] = 5; // pending
                 break;
 
             default   :
@@ -292,12 +284,20 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
             $this->_params['receive_date'] = $now;
             
-            // transactionID & receive date required while building email template
-            $this->assign( 'trxn_id', $result['trxn_id'] );
-            $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
-          
+            if ( ! $pending ) {
+                // transactionID & receive date required while building email template
+                $this->assign( 'trxn_id', $result['trxn_id'] );
+                $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            }
+
             // if paid event add a contribution record
-            $contribution =& $this->processContribution( $this->_params, $result, $contactID );
+            $contribution =& $this->processContribution( $this->_params, $result, $contactID, $pending );
+
+            $this->_params['contactID']          = $contactID;
+            $this->_params['eventID']            = $this->_id;
+            $this->_params['contributionID'    ] = $contribution->id;
+            $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
+            $this->_params['item_name'         ] = $this->_params['description'];
         }
         $this->set( 'params', $this->_params );
         
@@ -339,7 +339,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
       
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
-        $paymentParams = array('participant_id'       => $participant->id,
+        $paymentParams = array('participant_id'     => $participant->id,
                                'contribution_id'    => $contribution->id,                              
                                ); 
         $ids = array();       
@@ -348,10 +348,19 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         require_once "CRM/Event/BAO/EventPage.php";
 
-        $this->assign('action',$this->_action);
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+        if ( $this->_contributeMode != 'notify' &&
+             $this->_contributeMode != 'checkout' ) {
+            $this->assign('action',$this->_action);
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+        } else {
+            // do a transfer only if a monetary payment
+            if ( $this->_values['event']['is_monetary'] ) {
+                $this->_params['participantID'] = $participant->id;
+                $payment->doTransferCheckout( $this->_params );
+            }
+        }
 
-    }//end of function
+    } //end of function
     
     /**
      * Process the contribution
@@ -384,9 +393,13 @@ WHERE  v.option_group_id = g.id
         
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_id,
-                                   'status_id'     => $params['participant_status_id'] ? $params['participant_status_id'] : 1,
-                                   'role_id'       => $params['participant_role_id'] ? $params['participant_role_id'] : $roleID,
-                                   'register_date' => $params['participant_register_date'] ? CRM_Utils_Date::format( $params['participant_register_date'] ) : date( 'YmdHis' ),
+                                   'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
+                                                                              $params, 1 );
+                                   'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
+                                                                              $params, $roleID );
+                                   'register_date' => isset( $params['participant_register_date'] ) ?
+                                   CRM_Utils_Date::format( $params['participant_register_date'] ) :
+                                   date( 'YmdHis' ),
                                    'source'        => isset( $params['participant_source'] ) ?
                                    $params['participant_source'] :
                                    $params['description'],
@@ -432,10 +445,8 @@ WHERE  v.option_group_id = g.id
         $contribParams = array(
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $this->_values['event']['contribution_type_id'],
-                               //'contribution_page_id'  => $this->_id,
                                'payment_instrument_id' => 1,
                                'receive_date'          => $now,
-                               //'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
                                'amount_level'          => $params['amount_level'],
                                'invoice_id'            => $params['invoiceID'],

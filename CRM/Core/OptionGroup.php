@@ -191,7 +191,7 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function getValue( $groupName, $label ) {
+    static function getValue( $groupName, $label, $labelField = 'label' ) {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value
@@ -202,7 +202,7 @@ WHERE  v.option_group_id = g.id
   AND  g.name            = %1 
   AND  v.is_active       = 1  
   AND  g.is_active       = 1  
-  AND  v.label           = %2
+  AND  v.$labelField     = %2
 ";
 
         $p = array( 1 => array( $groupName , 'String' ),

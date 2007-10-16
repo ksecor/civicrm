@@ -273,7 +273,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             "&module={$component}";
 
         if ( $component == 'event' ) {
-            $notifyURL .= "&eventID={$params['eventID']}";
+            $notifyURL .= "&eventID={$params['eventID']}&participantID={$params['participantID']}";
         } else {
             $membershipID = CRM_Utils_Array::value( 'membershipID', $params );
             if ( $membershipID ) {

@@ -1,0 +1,188 @@
+<?php
+// $Id: civicrm_role.module,v 1.1 2006/10/31 01:27:23 gordon Exp $
+
+/**
+ * Implementation of hook_help()
+ */
+function civicrm_role_help($section) {
+    switch ($section) {
+    case 'admin/modules#description':
+        return t('Related CiviCRM Groups to Drupal Roles');
+    }
+}
+
+/**
+ * Implementation of hook_settings()
+ */
+function civicrm_role_settings() {
+    civicrm_initialize(true);
+    $groups = crm_get_groups();
+    $civicrm_role_settings = variable_get('civicrm_role_settings', array());
+    $roles = array(0 => t('Select a Role'))+user_roles(true);
+
+    $form['civicrm_role_settings'] = array(
+                                           '#tree' => true,
+                                           );
+    foreach ($groups as $group) {
+        $form['civicrm_role_settings'][$group->id]['title'] = array(
+                                                                    '#value' => $group->title,
+                                                                    );
+        $form['civicrm_role_settings'][$group->id]['role'] = array(
+                                                                   '#type' => 'select',
+                                                                   '#options' => $roles,
+                                                                   '#default_value' => $civicrm_role_settings[$group->id]['role'],
+                                                                   );
+    }
+    $form['civicrm_role_cron'] = array(
+                                       '#type' => 'select',
+                                       '#title' => t('Users to Update per cron run'),
+                                       '#default_value' => variable_get('civicrm_role_cron', 100),
+                                       '#options' => array(10 => 10, 20 => 20, 50 => 50, 100 => 100, 200 => 200, 500 => 500),
+                                       '#description' => t('Certain actions will cause all the users to have their groups, and roles recreated. This will determine how many will be done everytime a cron is run.'),
+                                       );
+    $form['civicrm_role_cron_uid'] = array(
+                                           '#type' => 'value',
+                                           '#value' => -1,
+                                           );
+    return $form;
+}
+
+function theme_civicrm_role_settings_form(&$form) {
+    $header = array(
+                    array('data' => t('Group')),
+                    array('data' => t('Role')),
+                    );
+    foreach (element_children($form['civicrm_role_settings']) as $id) {
+        $rows[] = array(
+                        array('data' => form_render($form['civicrm_role_settings'][$id]['title'])),
+                        array('data' => form_render($form['civicrm_role_settings'][$id]['role'])),
+                        );
+    }
+
+    $output.= theme('table', $header, $rows);
+    $output.= form_render($form);
+    return $output;
+}
+
+/**
+ * Implementation of hook_cron()
+ */
+function civicrm_role_cron() {
+    civicrm_initialize(true);
+    $count = variable_get('civicrm_role_cron', 100);
+    $uid = variable_get('civicrm_role_cron_uid', 0);
+
+    $result = db_query('SELECT uid FROM {users} WHERE uid > %d ORDER BY uid ASC LIMIT %d', $uid, $count);
+    while ($user = db_fetch_object($result)) {
+        if ($cid = crm_uf_get_match_id($user->uid)) {
+            civicrm_role_recalc_user($cid);
+        }
+        variable_set('civicrm_role_cron_uid', $user->uid);
+    }
+}
+
+/**
+ * Implementation of hook_civicrm_post()
+ */
+function civicrm_role_civicrm_post($op, $objectName, $objectId, &$objectRef) {
+    //dprint_r(func_get_args());
+    switch ($objectName) {
+    case 'GroupContact':
+        foreach ($objectRef as $cid) {
+            $contact = crm_get_contact(array('contact_id' => $cid));
+            //if ($contact->contact_type == 'Individual') {
+            switch ($op) {
+            case 'create':
+            case 'edit':
+                civicrm_role_add_user($cid, $objectId);
+                break;
+
+            case 'delete':
+                civicrm_role_recalc_user($cid);
+                break;
+            }
+            //}
+            //else {
+            if ($contact->contact_type == 'Organization') {
+                // This is a Organisation or a Household, Add all the members.
+                $relationships = crm_get_relationships($contact, null, array('Employee Of'));
+                foreach ($relationships as $relationship) {
+                    switch ($op) {
+                    case 'create':
+                    case 'edit':
+                        civicrm_role_add_user($relationship['cid'], $objectId);
+                        break;
+
+                    case 'delete':
+                        civicrm_role_recalc_user($relationship['cid']);
+                        break;
+                    }
+                }
+            }
+        }
+        break;
+    }
+}
+
+function civicrm_role_add_user($cid, $gid) {
+    $civicrm_role_settings = variable_get('civicrm_role_settings', array());
+    $roles = user_roles(true);
+
+    if ($civicrm_role_settings[$gid] && $civicrm_role_settings[$gid]['role'] && $roles[$civicrm_role_settings[$gid]['role']]) {
+        $rid = $civicrm_role_settings[$gid]['role'];
+        $uid = crm_uf_get_uf_id($cid);
+        if ($uid && ($account = user_load(array('uid' => $uid))) && !isset($account->roles[$civicrm_role_settings[$gid]['role']])) {
+            $account->roles[$rid] = '';
+            user_save($account, array('roles' => $account->roles));
+        }
+    }
+}
+
+function civicrm_role_recalc_user($cid) {
+    $civicrm_role_settings = variable_get('civicrm_role_settings', array());
+
+    $uid = crm_uf_get_uf_id($cid);
+    if ($uid && ($account = user_load(array('uid' => $uid)))) {
+        $user_roles = $account->roles;
+        foreach ($civicrm_role_settings as $gid => $group) {
+            if (isset($user_roles[$group['role']])) {
+                unset($user_roles[$group['role']]);
+            }
+        }
+
+        $contact = crm_get_contact(array('contact_id' => $cid));
+
+        $new_roles = civicrm_role_get_contact_roles($contact);
+
+        foreach ($new_roles as $rid => $value) {
+            if (in_array($rid, $user_roles) === false) {
+                $roles[$rid] = '';
+            }
+        }
+        user_save($account, array('roles' => $roles));
+    }
+}
+
+function civicrm_role_get_contact_roles($contact) {
+    $roles = array();
+    $civicrm_role_settings = variable_get('civicrm_role_settings', array());
+
+    $groups = crm_contact_groups($contact);
+    foreach ($groups as $group) {
+        if ($group->in_date && $civicrm_role_settings[$group->group_id] && $civicrm_role_settings[$group->group_id]['role']) {
+            $roles[$civicrm_role_settings[$group->group_id]['role']] = '';
+        }
+    }
+    $relationships = crm_get_relationships($contact, null, array('Employer Of'));
+    foreach ($relationships as $relationship) {
+        $organisation = crm_get_contact(array('contact_id' => $relationship['cid']));
+        $groups = crm_contact_groups($organisation);
+        foreach ($groups as $group) {
+            if ($group->in_date && $civicrm_role_settings[$group->group_id] && $civicrm_role_settings[$group->group_id]['role']) {
+                $roles[$civicrm_role_settings[$group->group_id]['role']] = '';
+            }
+        }
+    }
+
+    return $roles;
+}

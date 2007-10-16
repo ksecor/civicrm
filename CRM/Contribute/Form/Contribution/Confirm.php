@@ -525,7 +525,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
         if ( ! $online && $form->_values['is_email_receipt'] ) {
-            $receiptDate = $now ;
+            $receiptDate = $now;
         }
        
         // check contribution Type
@@ -648,22 +648,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // also create an activity history record
         require_once 'CRM/Utils/Money.php';
-        $params = array('entity_table'     => 'civicrm_contact', 
-                        'entity_id'        => $contactID, 
-                        'activity_type'    => $contributionType->name,
-                        'module'           => 'CiviContribute', 
-                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                        'activity_id'      => $contribution->id, 
-                        'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
-                        'activity_date'    => $now,
-                        'is_test'          => $contribution->is_test
+        $params = array( 'source_contact_id' => $contactID,
+                         'source_record_id'  => $contribution->id,
+                         'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                'CiviContribute Online Contribution',
+                                                                                'name' ),
+                         'module'            => 'CiviContribute', 
+                         'callback'          => 'CRM_Contribute_Page_Contribution::details',
+                         'subject'           =>
+                         CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
+                         'activity_date_time'=> $now,
+                         'is_test'           => $contribution->is_test
                         );
 
-        //TO DO commented because of schema changes
-//         require_once 'api/History.php';
-//         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-//             CRM_Core_Error::fatal( "Could not create a system record" );
-//         }
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create($params), 'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
+        }
 
         $transaction->commit( ); 
 
