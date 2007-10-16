@@ -12,11 +12,19 @@
     <dt>{$form.suggested_message.label}</dt><dd>{$form.suggested_message.html}</dd>                            
     <dt>{$form.general_link.label}</dt><dd>{$form.general_link.html}</dd>             
     <dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>            
-    <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>    
-    <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd> 
+    <dt>{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}</dd>     
     </dl>	
     </div>
     </fieldset>
+    {if $action ne 4}
+    <div id="crm-submit-buttons">
+        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+    </div>
+    {else}
+    <div id="crm-done-button">
+         <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
+    </div>
+{/if} {* $action ne view *}
  </div>      
 
 {literal}
