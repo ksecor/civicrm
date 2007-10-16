@@ -809,14 +809,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $look = $newLook;
 
         if(is_array($look)) {
-            if ( ! array_key_exists( strtolower($defaults[strtolower($src)]),  array_change_key_case( $look, CASE_LOWER )) ) {
+            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
                 return false;
             }
         }
         
         $tempLook = array_change_key_case( $look ,CASE_LOWER);
 
-        $defaults[$dst] = $tempLook[strtolower($defaults[strtolower($src)])];
+        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
         return true;
     }
 
