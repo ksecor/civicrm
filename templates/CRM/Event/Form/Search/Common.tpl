@@ -1,5 +1,6 @@
- <tr>
- <td class="label">{$form.event_title.label}</td> 
+<table class="no-border" > 
+<tr>
+ <td align ="right">{$form.event_title.label}</td> 
     {if $event_title_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
@@ -7,8 +8,8 @@
         {rdelim} );
     </script>
     {/if}
-    <td>
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" >
+    <td class="tundra" >
+       <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" >
         {$form.event_title.html}
         </div>
     </td>
@@ -20,8 +21,8 @@
         {rdelim} );
     </script>
     {/if}
-    <td>
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" >
+    <td class ="tundra" align ="left">
+        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left">
         {$form.event_type.html}
         </div>
     </td>
@@ -70,3 +71,4 @@
        {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
     </td>
  </tr>
+</table>
