@@ -398,20 +398,22 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
     }
     
     /**
+     * Function to create contact
      * takes an associative array and creates a contact object and all the associated
      * derived objects (i.e. individual, location, email, phone etc)
      *
      * This function is invoked from within the web form layer and also from the api layer
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     * @param int   $maxLocationBlocks the maximum number of location blocks to process
+     * @param array   $params      (reference ) an assoc array of name/value pairs
+     * @param array   $ids         the array that holds all the db ids
+     * @param boolean $fixAddress  if we need to fix address
+     * @param boolean $invokeHooks if we need to invoke hooks
      *
      * @return object CRM_Contact_BAO_Contact object 
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) 
+    static function &create(&$params, $fixAddress = true, $invokeHooks = true ) 
     {
         if (!$params['contact_type'] ) {
             return;

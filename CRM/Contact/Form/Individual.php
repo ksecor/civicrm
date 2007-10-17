@@ -356,7 +356,7 @@ showHideSharedOptions();
                $householdParams['location']['1']['im']
                );
         
-        $contact = CRM_Contact_BAO_Contact::create( $householdParams, $ids, 1 );
+        $contact = CRM_Contact_BAO_Contact::create( $householdParams );
         
         if ( $contact->id ) {
             $params['mail_to_household_id'] = $contact->id;

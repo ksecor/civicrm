@@ -681,7 +681,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
+        $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {

@@ -237,25 +237,19 @@ class CRM_Friend_Form extends CRM_Core_Form
 
         //create friend contacts and entry in activity target table        
         foreach ( $friends as $k => $v ) {
-            if ( count($v) == 3 ) {
-                //checking if first name, last name and email is present
-                $v['contact_type']   = 'Individual';
-                $v['contact_source'] = 'Tell a Friend:'.$this->_title;
-                $v['location'][1]['is_primary'] = 1;
-                $v['location'][1]['email'][1]['email'] = $v['email']; 
-                $v['location'][1]['email'][1]['is_primary'] = 1;
-                unset($v['email']);
-
-                //create friend's contact
-                $ids = array(); 
-                $contact[$k]            =& CRM_Contact_BAO_Contact::create( $v, $ids, 1, true, false );
-
-                //create activity for friends
-                $dao                    =& new CRM_Activity_DAO_ActivityTarget;
-                $dao->activity_id       = $activity->id;
-                $dao->target_contact_id = $contact[$k]->id;
-                $dao->save();
-            }  
+            $contactParams = array( 'first_name'     => $v["first_name"],
+                                    'last_name'      => $v["last_name"], 
+                                    'contact_source' => ts( 'Tell a Friend:' ) . $this->_title;,
+                                    'email-Primary'  => $v["email"] );
+            
+            //create friend's contact
+            $contact[$k] =& CRM_Contact_BAO_Contact::createProfileContact( $contactParams, CRM_Core_DAO::$_nullArray );
+            
+            //create activity for friends
+            $dao                    =& new CRM_Activity_DAO_ActivityTarget;
+            $dao->activity_id       = $activity->id;
+            $dao->target_contact_id = $contact[$k]->id;
+            $dao->save();
         }
         
         //create params for sending mails
