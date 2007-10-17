@@ -336,16 +336,13 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function &getValues( &$params, &$values ) 
     {
-
         $contact =& new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
 
         if ( $contact->find(true) ) {
-            $ids['contact'] = $contact->id;
-            $ids['domain' ] = $contact->domain_id;
 
             CRM_Core_DAO::storeValues( $contact, $values );
                         
@@ -398,20 +395,22 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
     }
     
     /**
+     * Function to create contact
      * takes an associative array and creates a contact object and all the associated
      * derived objects (i.e. individual, location, email, phone etc)
      *
      * This function is invoked from within the web form layer and also from the api layer
      *
-     * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     * @param int   $maxLocationBlocks the maximum number of location blocks to process
+     * @param array   $params      (reference ) an assoc array of name/value pairs
+     * @param array   $ids         the array that holds all the db ids
+     * @param boolean $fixAddress  if we need to fix address
+     * @param boolean $invokeHooks if we need to invoke hooks
      *
      * @return object CRM_Contact_BAO_Contact object 
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids, $maxLocationBlocks, $fixAddress = true, $invokeHooks = true ) 
+    static function &create(&$params, $fixAddress = true, $invokeHooks = true ) 
     {
         if (!$params['contact_type'] ) {
             return;
@@ -515,136 +514,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             } else {
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
             }
-        }
-
-        return $contact;
-    }
-
-    /** 
-     * takes an associative array and creates a contact object and all the associated 
-     * derived objects (i.e. individual, location, email, phone etc) 
-     * 
-     * This function is invoked from within the web form layer and also from the api layer
-     * primarily from the profile / contribute forms where we dont have a nice hierarchy
-     * and are too lazy to create one. This function should be obsoleted at some time
-     * 
-     * @param array $params (reference ) an assoc array of name/value pairs 
-     * @param array $ids    the array that holds all the db ids 
-     * 
-     * @return object CRM_Contact_BAO_Contact object  
-     * @access public 
-     * @static 
-     */ 
-    static function &createFlat( &$params, &$ids ) 
-    {
-        require_once 'CRM/Utils/Hook.php';
-
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::pre( 'edit', 'Individual', $ids['contact'], $params );
-        } else {
-            CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
-        }
-
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
-        if ( ! array_key_exists( 'contact_type', $params ) ) {
-            $params['contact_type'] = 'Individual';
-        }
-        $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
-
-        $params['contact_id'] = $contact->id;
-
-        require_once "CRM/Contact/BAO/Contact.php";
-        CRM_Contact_BAO_Contact::add( $params, $ids );
-        require_once 'CRM/Core/BAO/LocationType.php';
-        $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
-        $locationTypeId =  $locationType->id;
-
-
-        // kurund: we need to fix this
-        if ( 0 ) {
-            $address =& new CRM_Core_BAO_Address();
-            CRM_Core_BAO_Address::fixAddress( $params );
-        
-            if ( ! $address->copyValues( $params ) ) {
-                $address->id = CRM_Utils_Array::value( 'address', $locationIds );
-                $address->contact_id = $contact->id;
-                $address->is_primary = true;
-                $address->save( );
-            }
-
-            $phone =& new CRM_Core_BAO_Phone();
-            if ( ! $phone->copyValues( $params ) ) {
-                $blockIds = CRM_Utils_Array::value( 'phone', $locationIds );
-                $phone->id = CRM_Utils_Array::value( 1, $blockIds );
-                $phone->contact_id = $contact->id;
-                $phone->is_primary = true;
-                $phone->save( );
-            }
-        
-            $email =& new CRM_Core_BAO_Email();
-            if ( ! $email->copyValues( $params ) ) {
-                $blockIds = CRM_Utils_Array::value( 'email', $locationIds );
-                $email->id = CRM_Utils_Array::value( 1, $blockIds );
-                $email->location_id = $location->id;
-                $email->is_primary = true;
-                $email->save( );
-            }
-        }
-
-        /* Process custom field values and other values */
-        foreach ($params as $key => $value) {
-            if ( $key == 'group' ) {
-                CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
-            } else if ( $key == 'tag' ) {
-                require_once 'CRM/Core/BAO/EntityTag.php';
-                CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
-            } else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                $custom_field_id = $cfID;
-                $cf =& new CRM_Core_BAO_CustomField();
-                $cf->id = $custom_field_id;
-                if ( $cf->find( true ) ) {
-                    switch($cf->html_type) {
-
-                    case 'Select Date':
-                        $date = CRM_Utils_Date::format( $value );
-                        if ( ! $date ) {
-                            $date = '';
-                        }
-                        $customValue = $date;
-                        break;
-
-                    case 'CheckBox':
-                        $customValue =
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) .
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        break;
-
-                    //added a case for Multi-Select
-                    case 'Multi-Select':
-                        $customValue = 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                            implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                        break;
-
-                    default:
-                        $customValue = $value;
-                    }
-                }
-            
-                CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
-            }
-        }
-
-       $transaction->commit( );
-
-        if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-            CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
-        } else {
-            CRM_Utils_Hook::post( 'create', 'Individual', $contact->id, $contact );
         }
 
         return $contact;
@@ -809,14 +678,14 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $look = $newLook;
 
         if(is_array($look)) {
-            if ( ! array_key_exists( strtolower($defaults[strtolower($src)]),  array_change_key_case( $look, CASE_LOWER )) ) {
+            if ( ! array_key_exists( trim(strtolower( $defaults[strtolower($src)] ),'.'),  array_change_key_case( $look, CASE_LOWER )) ) {
                 return false;
             }
         }
         
         $tempLook = array_change_key_case( $look ,CASE_LOWER);
 
-        $defaults[$dst] = $tempLook[strtolower($defaults[strtolower($src)])];
+        $defaults[$dst] = $tempLook[trim(strtolower( $defaults[strtolower($src)] ),'.')];
         return true;
     }
 
@@ -837,7 +706,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false ) 
+    static function &retrieve( &$params, &$defaults, $microformat = false ) 
     {
         if ( array_key_exists( 'contact_id', $params ) ) {
             $params['id'] = $params['contact_id'];
@@ -845,7 +714,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $params['contact_id'] = $params['id'];
         }
 
-        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults );
         unset($params['id']);
         
         //DO TO: commented because of schema change
@@ -863,16 +732,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                                                     $microformat );
 
         //get the block information for this contact
-        
         $contact->location  =& CRM_Core_BAO_Location::getValues( $params['contact_id'], 
                                                                  $defaults, 
                                                                  $microformat );
-
-
         
-        $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
-        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
-        $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
+        $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults );
+        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
+        $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
         
         //DO TO: commented because of schema change
 //         $activityParam         =  array('entity_id' => $params['contact_id']);
@@ -1988,8 +1854,7 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
 
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
-            $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
-            $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
+            $contact =& CRM_Contact_BAO_Contact::create( $data );
         }
         
         // contact is null if the profile does not have any contact fields
@@ -2400,20 +2265,16 @@ AND       civicrm_openid.is_primary = 1";
         
         if (empty($dupeIds)) {
             //create new organization
-            $orgId = array();                            
             $newOrg['contact_type'     ] = 'Organization';
             $newOrg['organization_name'] = $organizationName ;
 
             require_once 'CRM/Core/BAO/Preferences.php';
-            $orgName = self::create($newOrg, 
-                                    $orgId, 
-                                    CRM_Core_BAO_Preferences::value( 'location_count' ) );
+            $orgName = self::create( $newOrg );
+
             //create relationship
             $relationshipParams['contact_check'][$orgName->id] = 1;
-
            
-            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, 
-                                                                $cid);
+            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations

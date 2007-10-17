@@ -1047,15 +1047,6 @@ class CRM_Core_Invoke
         exit();
     }
     
-    static function onlySSL( $args ) 
-    {
-      if ( ( $args[1] = 'contribute' && $args[2] == 'transact' ) ||
-	   ( $args[1] = 'event' && $args[2] == 'register' ) ) {
-            return true;
-        }
-        return false;
-    }
-
     /** 
      * This function contains the actions for setting arguments
      * 

@@ -80,13 +80,6 @@ function &civicrm_activity_create( &$params )
         return $errors;
     }
  
-    //check the type of activity
-    if ( strtolower($params['activity_name']) == 'meeting' ) {
-        $activityType = 1;
-    } elseif ( strtolower($params['activity_name']) == 'phonecall' ) {
-        $activityType = 2;
-    }
-
     $ids = array();
     $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
     
@@ -256,31 +249,6 @@ function &_civicrm_activities_get( $contactID, $daoName )
 }
 
 /**
- * function to check if activity name is valid
- * 
- * @param string $activityName activity name
- *
- * @return true for valid activity name else false
- */
-function _civicrm_activity_check_name( $activityName ) 
-{
-    require_once 'CRM/Core/DAO/OptionGroup.php';
-    $grpDAO =& new CRM_Core_DAO_OptionGroup( );
-    $grpDAO->name = 'activity_type';
-    $grpDAO->find(true);
-    
-    require_once 'CRM/Core/DAO/OptionValue.php';
-    $dao       =& new CRM_Core_DAO_OptionValue( );
-    $dao->label = $activityName;
-    $dao->option_group_id = $grpDAO->id;
-
-    if (! $dao->find( true ) ) {
-        return false;
-    }
-    return true;
-}
-
-/**
  * Function to check for required params
  *
  * @param array   $params  associated array of fields
@@ -303,13 +271,9 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         return $errors = civicrm_create_error( ts( 'Invalid activity "id"' ) );
     }
     
-    // check if activity name is passed
-    if ( empty( $params['activity_name'] ) ) {
-        return civicrm_create_error( ts ( 'Missing Activity Name' ) );
-    }
-
-    if ( ! _civicrm_activity_check_name( $params['activity_name'] ) ) {
-        return civicrm_create_error( ts( "Invalid Activity Name" ) );
+    // check if activity type_id is passed in
+    if ( empty( $params['activity_type_id'] ) ) {
+        return civicrm_create_error( ts ( 'Missing Activity Type ID' ) );
     }
 
     // check for source contact id
@@ -319,15 +283,6 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     
     if ( $params['source_contact_id'] && !is_numeric( $params['source_contact_id'] ) ) {
         return  civicrm_create_error( ts ( 'Invalid Source Contact' ) );
-    }
-
-    // check for target contact id
-    if ( $addMode && empty( $params['target_entity_id'] ) ) {
-        return civicrm_create_error( ts ( 'Missing Target Contact Id' ) );
-    } 
-    
-    if ( $params['target_entity_id'] && !is_numeric( $params['target_entity_id'] ) ) {
-        return civicrm_create_error( ts ( 'Invalid Target Contact Id' ) );
     }
 
     return null;

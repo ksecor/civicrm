@@ -505,10 +505,10 @@ class CRM_Core_SelectValues
                                  'Footer'      => ts('Footer'),
                                  'Reply'       => ts('Reply Auto-responder'),
                                  'OptOut'      => ts('Opt-out Message'),
-                                 'Subscribe'   => ts('Subscription Message'),
+                                 'Subscribe'   => ts('Subscription Confirmation Request'),
                                  'Welcome'     => ts('Welcome Message'),
-                                 'Unsubscribe' => ts('Farewell Message'),
-                                 'Resubscribe' => ts('Resubscription Message'),
+                                 'Unsubscribe' => ts('Unsubscribe Message'),
+                                 'Resubscribe' => ts('Resubscribe Message'),
                                  );
         }
         return $components;

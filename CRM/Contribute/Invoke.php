@@ -104,15 +104,13 @@ class CRM_Contribute_Invoke {
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
 
-        if ( $secondArg == 'transact' ) { 
-            if ( $config->enableSSL     &&
-                 CRM_Core_Invoke::onlySSL( $args ) ) {
-                if ( ! isset( $_SERVER['HTTPS'] ) &&
-                     strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-                    CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-                }
-            }
+        if ( ( $secondArg == 'transact' || $secondArg == 'offline' )  &&
+             $config->enableSSL                                       &&
+             ( ! isset( $_SERVER['HTTPS'] ) || strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
+            CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+        }
 
+        if ( $secondArg == 'transact' ) {
             // also reset the bread crumb
             CRM_Utils_System::resetBreadCrumb( );
 

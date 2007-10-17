@@ -1234,8 +1234,7 @@ civicrm_membership_status.is_current_member =1";
         $query = "
 SELECT c.contribution_page_id as pageID
   FROM civicrm_membership_payment mp, civicrm_contribution c
- WHERE mp.payment_entity_table ='civicrm_contribute'
-   AND mp.payment_entity_id = c.id
+ WHERE mp.contribution_id = c.id
    AND mp.membership_id = " . CRM_Utils_Type::escape( $membershipID, 'Integer' ) ;
 
         $dao =& new CRM_Core_DAO( );

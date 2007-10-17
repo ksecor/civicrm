@@ -445,7 +445,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        // make sure either 
         // return if this is express mode
         $config =& CRM_Core_Config::singleton( );
         if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {

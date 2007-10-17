@@ -525,7 +525,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $now = date( 'YmdHis' );    
         $receiptDate = CRM_Utils_Array::value( 'receipt_date', $params );
         if ( ! $online && $form->_values['is_email_receipt'] ) {
-            $receiptDate = $now ;
+            $receiptDate = $now;
         }
        
         // check contribution Type
@@ -648,22 +648,23 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
 
         // also create an activity history record
         require_once 'CRM/Utils/Money.php';
-        $params = array('entity_table'     => 'civicrm_contact', 
-                        'entity_id'        => $contactID, 
-                        'activity_type'    => $contributionType->name,
-                        'module'           => 'CiviContribute', 
-                        'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                        'activity_id'      => $contribution->id, 
-                        'activity_summary' => CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
-                        'activity_date'    => $now,
-                        'is_test'          => $contribution->is_test
+        $params = array( 'source_contact_id' => $contactID,
+                         'source_record_id'  => $contribution->id,
+                         'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                'CiviContribute Online Contribution',
+                                                                                'name' ),
+                         'module'            => 'CiviContribute', 
+                         'callback'          => 'CRM_Contribute_Page_Contribution::details',
+                         'subject'           =>
+                         CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
+                         'activity_date_time'=> $now,
+                         'is_test'           => $contribution->is_test
                         );
 
-        //TO DO commented because of schema changes
-//         require_once 'api/History.php';
-//         if ( is_a( crm_create_activity_history($params), 'CRM_Core_Error' ) ) { 
-//             CRM_Core_Error::fatal( "Could not create a system record" );
-//         }
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create($params), 'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
+        }
 
         $transaction->commit( ); 
 
@@ -694,7 +695,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if( $this->_action & CRM_Core_Action::PREVIEW ) {
             $recurParams["is_test"] = 1;
         }
-
         
         $now = date( 'YmdHis' );
         $recurParams['start_date'] = $recurParams['create_date'] = $now;
@@ -729,13 +729,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             return null;
         }
         
-        $honorParams = array();
-        $honorParams["prefix_id"]    = $params["honor_prefix_id"];
-        $honorParams["first_name"]   = $params["honor_first_name"];
-        $honorParams["last_name"]    = $params["honor_last_name"];
-        $honorParams["email"]        = $params["honor_email"];
-        $honorParams["contact_type"] = "Individual";
-        
         //assign to template for email reciept
         $honor_block_is_active = $this->get( 'honor_block_is_active');
         
@@ -745,27 +738,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         require_once "CRM/Core/PseudoConstant.php";
         $prefix = CRM_Core_PseudoConstant::individualPrefix();
         $honorType = CRM_Core_PseudoConstant::honor( );
-        $this->assign("honor_type",$honorType[$params["honor_type_id"]]);
-        $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
-        $this->assign("honor_first_name",$params["honor_first_name"]);
-        $this->assign("honor_last_name",$params["honor_last_name"]);
-        $this->assign("honor_email",$params["honor_email"]);
+        $this->assign("honor_type",       $honorType[$params["honor_type_id"]]);
+        $this->assign("honor_prefix",     $prefix[$params["honor_prefix_id"]]);
+        $this->assign("honor_first_name", $params["honor_first_name"]);
+        $this->assign("honor_last_name",  $params["honor_last_name"]);
+        $this->assign("honor_email",      $params["honor_email"]);
         
-        require_once 'api/crm.php';
-        $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
-        $contactsIDs = explode( ',', $ids );
-        if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;
-        } else {
-            $contact_id =  $contactsIDs[0];
-            $ids = array( );
-            $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-            $defaults = array( );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;    
-        }
+        //create honoree contact
+        return CRM_Contribute_BAO_Contribution::createHonorContact( $params );
     }
 
 }

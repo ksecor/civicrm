@@ -48,7 +48,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     protected $_fid;
 
     /**
-     * The Option id, used when editing the Option
+     * option value  id, used when editing the Option
      *
      * @var int
      * @access protected
@@ -85,26 +85,24 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     function setDefaultValues()
     {
         $defaults = array();
-        $fieldDefaults = array();
-
+        
         if (isset($this->_id)) {
             $params = array('id' => $this->_id);
-            CRM_Core_BAO_CustomOption::retrieve($params, $defaults);
-            $this->_fid = $defaults['entity_id'];
-
-            $paramsField = array('id' => $this->_fid);            
-            CRM_Core_BAO_PriceField::retrieve($paramsField, $fieldDefaults);
+            
+            CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
+                                          $params, $defaults );
         }
-
+        
         require_once 'CRM/Core/DAO.php';
         require_once 'CRM/Utils/Weight.php';
-
+        
         if ($this->_action & CRM_Core_Action::ADD) {
-            $fieldValues = array(
-                'entity_table' => 'civicrm_price_field',
-                'entity_id' => $this->_fid
-            );
-            $defaults['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_CustomOption', $fieldValues);
+            $fieldValues = array( 'option_group_id' => CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
+                                                                                    "civicrm_price_field.amount.{$this->_fid}",
+                                                                                    'id', 'name' ) 
+                                  );
+            
+            $defaults['weight']    = CRM_Utils_Weight::getDefaultWeight( 'CRM_Core_DAO_OptionValue', $fieldValues );
             $defaults['is_active'] = 1;
         }
         
@@ -249,34 +247,31 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     public function postProcess()
     {
         // store the submitted values in an array
-        $params = $this->controller->exportValues('Option');
-
-        // set values for custom field properties and save
-        $customOption                =& new CRM_Core_DAO_CustomOption();
-        $customOption->label         = $params['label'];
-        $customOption->weight        = $params['weight'];
-        $customOption->value         = $params['value'];
-        $customOption->is_active     = CRM_Utils_Array::value( 'is_active', $params, false );
-       
+        $params = $this->controller->exportValues( 'Option' );
+        
+        $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
+        
+        $params['option_group_id'] = $this->_fid;
+        
         if ($this->_action == CRM_Core_Action::DELETE) {
-            CRM_Core_BAO_CustomOption::del($this->_id);
+            //CRM_Core_BAO_CustomOption::del($this->_id);
             CRM_Core_Session::setStatus(ts('This option has been deleted', array(1 => $customOption->label)));
             return;
         }
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $customOption->id = $this->_id;
-            CRM_Core_BAO_CustomOption::updateCustomValues($params);
+            $params['optionValue'] = $this->_id;
+            //$customOption->id = $this->_id;
+            //CRM_Core_BAO_CustomOption::updateCustomValues($params);
         }
-
+        
         // need the FKEY - custom field id
         //$customOption->custom_field_id = $this->_fid;
-        $customOption->entity_id    = $this->_fid;
-        $customOption->entity_table = 'civicrm_price_field';
+        //$customOption->entity_id    = $this->_fid;
+        //$customOption->entity_table = 'civicrm_price_field';
         
-        $customOption->save();
-        
-        
+        //$customOption->save();
+                
         CRM_Core_Session::setStatus(ts('The option "%1" has been saved', array(1 => $customOption->label)));
     }
 }

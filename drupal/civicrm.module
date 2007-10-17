@@ -58,7 +58,7 @@ function civicrm_html_head()
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}packages/dojo/dojo/commonWidgets.js\"></script>";
             $head .= "<style type=\"text/css\">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>";
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar.js\"></script>";
-            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php\"></script>";
+            $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/lang/calendar-lang.php?{$config->lcMessages}\"></script>";
             $head .= "<script type=\"text/javascript\" src=\"{$config->resourceBase}js/calendar-setup.js\"></script>";
         }
     } else {

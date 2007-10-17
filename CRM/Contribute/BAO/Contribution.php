@@ -618,45 +618,30 @@ GROUP BY p.id
     /**
      * Function to create is honor of
      * 
-     * @param array $params  associated array of fields
+     * @param array $params  associated array of fields (by reference)
      * @param int   $honorId honor Id
      *
      * @return contact id
-     *
      */
-    function createHonorContact( $params, $honorId = null ) 
+    function createHonorContact( &$params, $honorId = null ) 
     {
-        $honorParams = array( );
-        $honorParams["prefix_id"   ] = $params["honor_prefix"];
-        $honorParams["first_name"  ] = $params["honor_firstname"];
-        $honorParams["last_name"   ] = $params["honor_lastname"];
-        $honorParams["email"       ] = $params["honor_email"];
-        $honorParams["contact_type"] = "Individual";
-        
-        //update if contact  already exists
-        if ( $honorId ) {
-            $ids = array( );
-            $idParams = array( 'id' => $honorId, 'contact_id' => $honorId );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;    
-        } else {
+        $honorParams = array( 'first_name'    => $params["honor_first_name"],
+                              'last_name'     => $params["honor_last_name"], 
+                              'prefix_id'     => $params["honor_prefix_id"],
+                              'email-Primary' => $params["honor_email"] );
+
+        if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
-            $contactsIDs = explode( ',', $ids );
-            if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-                return $contact->id;
-            } else {
-                $contact_id =  $contactsIDs[0];
-                $ids = array( );
-                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-                $defaults = array( );
-                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-                return $contact->id;    
+            $contactsIds = explode( ',', $ids );
+
+            if ( is_numeric( $contactsIds[0] ) && count ( $contactsIds ) ==  1 ) {
+                $honorId = $contactsIds[0];
             }
-         }
+        }
+
+        $contact =& CRM_Contact_BAO_Contact::createProfileContact( $honorParams, CRM_Core_DAO::$_nullArray, $honorId );
+        return $contact->id;
     }
     
     /**

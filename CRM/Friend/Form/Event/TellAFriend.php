@@ -88,6 +88,21 @@ class CRM_Friend_Form_Event_TellAFriend extends CRM_Event_Form_ManageEvent
     public function buildQuickForm( ) 
     {
        CRM_Friend_BAO_Friend::buildFriendForm($this);
+       $session =& CRM_Core_Session::singleton();
+       $single = $session->get('singleForm');
+       if ( $single ) {
+           $this->addButtons(array(
+                                   array ( 'type'      => 'next',
+                                           'name'      => ts('Save'),
+                                           'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                           'isDefault' => true   ),
+                                   array ( 'type'      => 'cancel',
+                                           'name'      => ts('Cancel') ),
+                                   )
+                             );
+       } else {
+           parent::buildQuickForm( );
+       }
         
     }
 
@@ -108,6 +123,16 @@ class CRM_Friend_Form_Event_TellAFriend extends CRM_Event_Form_ManageEvent
         //check if its updated or added.
         $ids = CRM_Friend_BAO_Friend::getFriendId( $this->_id, $formValues['entity_table'] );        
         CRM_Friend_BAO_Friend::create( $formValues, $ids );
+    }
+
+     /** 
+     * Return a descriptive name for the page, used in wizard header 
+     * 
+     * @return string 
+     * @access public 
+     */ 
+    public function getTitle( ) {
+        return ts( 'Tell a Friend' );
     }
 }
 ?>

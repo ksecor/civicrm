@@ -349,14 +349,14 @@ showHideSharedOptions();
         $householdParams['contact_type']   = 'Household';
         $householdParams['household_name'] = $params['create_household'];
         $householdParams['location']       = $params['location'];
-        
+
         unset( $householdParams['location']['2'], 
                $householdParams['location']['1']['phone'], 
                $householdParams['location']['1']['email'], 
                $householdParams['location']['1']['im']
                );
         
-        $contact = CRM_Contact_BAO_Contact::create( $householdParams, $ids, 1 );
+        $contact = CRM_Contact_BAO_Contact::create( $householdParams );
         
         if ( $contact->id ) {
             $params['mail_to_household_id'] = $contact->id;

@@ -234,12 +234,13 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $email = CRM_Core_DAO_Email::getTableName();
         $queue = CRM_Mailing_Event_BAO_Queue::getTableName();
         
-        $dao =& new CRM_Mailing_DAO_Mailing();
+        $dao =& new CRM_Mailing_BAO_Mailing();
         $dao->query("   SELECT * FROM $mailingTable 
                         INNER JOIN $jobTable ON
                             $jobTable.mailing_id = $mailingTable.id 
                         WHERE $jobTable.id = $job");
         $dao->fetch();
+
         $component =& new CRM_Mailing_BAO_Component();
         
         if ($is_domain) {
@@ -282,6 +283,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $html = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
             $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
+            $html = CRM_Utils_Token::replaceMailingTokens($html, $dao, null, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
@@ -290,6 +292,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
             $text = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
             $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);
+            $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
         $headers = array(

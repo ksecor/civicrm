@@ -183,12 +183,21 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
 
+        $jobTable = CRM_Mailing_BAO_Job::getTableName();
+        $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email    = CRM_Core_DAO_Email::getTableName();
         $queue    = CRM_Mailing_Event_BAO_Queue::getTableName();
         
+        $dao =& new CRM_Mailing_BAO_Mailing();
+        $dao->query("   SELECT * FROM $mailingTable 
+                        INNER JOIN $jobTable ON
+                            $jobTable.mailing_id = $mailingTable.id 
+                        WHERE $jobTable.id = $job");
+        $dao->fetch();
+
         $component =& new CRM_Mailing_BAO_Component();
-        $component->component_type = 'Resubscribe';
+        $component->id = $dao->resubscribe_id;
         $component->find(true);
 
         $html = $component->body_html;
@@ -224,6 +233,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $html = 
                 CRM_Utils_Token::replaceResubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
             $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
+            $html = CRM_Utils_Token::replaceMailingTokens($html, $dao, null, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
@@ -232,6 +242,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $text = 
                 CRM_Utils_Token::replaceResubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
             $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);
+            $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
         $headers = array(

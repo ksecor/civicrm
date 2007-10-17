@@ -66,6 +66,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
                 CRM_Core_Error::fatal( ts( 'Could not find required parameter: id' ) );
             }
         }
+        $this->assign( 'cid', $id );
 
         $this->_gid = CRM_Utils_Request::retrieve('gid', 'Positive',
                                            $this);
