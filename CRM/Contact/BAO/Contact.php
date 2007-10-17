@@ -336,16 +336,13 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function &getValues( &$params, &$values ) 
     {
-
         $contact =& new CRM_Contact_BAO_Contact( );
 
         $contact->copyValues( $params );
 
         if ( $contact->find(true) ) {
-            $ids['contact'] = $contact->id;
-            $ids['domain' ] = $contact->domain_id;
 
             CRM_Core_DAO::storeValues( $contact, $values );
                         
@@ -709,7 +706,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$defaults, &$ids, $microformat = false ) 
+    static function &retrieve( &$params, &$defaults, $microformat = false ) 
     {
         if ( array_key_exists( 'contact_id', $params ) ) {
             $params['id'] = $params['contact_id'];
@@ -717,7 +714,7 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
             $params['contact_id'] = $params['id'];
         }
 
-        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults, $ids );
+        $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults );
         unset($params['id']);
         
         //DO TO: commented because of schema change
@@ -735,16 +732,13 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                                                     $microformat );
 
         //get the block information for this contact
-        
         $contact->location  =& CRM_Core_BAO_Location::getValues( $params['contact_id'], 
                                                                  $defaults, 
                                                                  $microformat );
-
-
         
-        $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults, $ids );
-        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults, $ids );
-        $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults, $ids );
+        $contact->notes        =& CRM_Core_BAO_Note::getValues( $params, $defaults );
+        $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
+        $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
         
         //DO TO: commented because of schema change
 //         $activityParam         =  array('entity_id' => $params['contact_id']);

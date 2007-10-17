@@ -349,7 +349,7 @@ showHideSharedOptions();
         $householdParams['contact_type']   = 'Household';
         $householdParams['household_name'] = $params['create_household'];
         $householdParams['location']       = $params['location'];
-        
+
         unset( $householdParams['location']['2'], 
                $householdParams['location']['1']['phone'], 
                $householdParams['location']['1']['email'], 

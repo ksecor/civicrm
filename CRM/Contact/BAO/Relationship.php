@@ -567,7 +567,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids ) 
+    static function &getValues( &$params, &$values ) 
     {
         $v = array( );
         $v['data'] =& 
