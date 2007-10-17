@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-05-27 01:20-0700\n"
-"Last-Translator: Michael Beurskens <beursken@uni-duesseldorf.de>\n"
+"PO-Revision-Date: 2007-10-15 16:37-0700\n"
+"Last-Translator: A.Lindner <chtulhu@web.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 0.10\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -167,76 +167,76 @@ msgid "District of Columbia"
 msgstr "District of Columbia"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "Amerikanisch Samoa"
 
 msgid "Guam"
-msgstr ""
+msgstr "Guam"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Nördliche Marianen"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Puerto Rico"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "Britische Jungferninseln"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Amerikanisch Ozeanien"
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "Bewaffnete Kräfte Europas"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "Bewaffnete Kräfte Amerikas"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "Bewaffnete Kräfte Pazifik"
 
 msgid "Alberta"
-msgstr ""
+msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "Britisch-Kolumbien"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "Manitoba"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "Neufundland und Labrador"
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "NordWest Terretorien"
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Nova Scotia"
 
 msgid "Nunavut"
-msgstr ""
+msgstr "Nunavut"
 
 msgid "Ontario"
-msgstr ""
+msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prinz-Edward-Insel (PEI)"
 
 msgid "Quebec"
-msgstr ""
+msgstr "Quebec"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Saskatchewan"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "Yukon Terretorium "
 
 msgid "Maharashtra"
-msgstr ""
+msgstr "Maharashtra"
 
 msgid "Karnataka"
-msgstr ""
+msgstr "Karnataka"
 
 msgid "Andhra Pradesh"
 msgstr ""
@@ -266,7 +266,7 @@ msgid "Himachal Pradesh"
 msgstr ""
 
 msgid "Jammu and Kashmir"
-msgstr ""
+msgstr "Jammu und Kashmir"
 
 msgid "Jharkhand"
 msgstr ""
@@ -317,7 +317,7 @@ msgid "West Bengal"
 msgstr ""
 
 msgid "Andaman and Nicobar Islands"
-msgstr ""
+msgstr "Andamanische und Nikobarnische Inselngruppe"
 
 msgid "Dadra and Nagar Haveli"
 msgstr ""

@@ -612,13 +612,15 @@ class CRM_Core_DAO extends DB_DataObject {
         $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
+        $ret    = null;
         if ( $result ) {
             $row = $result->fetchRow();
             if ( $row ) {
-                return $row[0];
+                $ret = $row[0];
             }
         }
-        return null;
+        $dao->free( );
+        return $ret;
     }
 
     static function composeQuery( $query, &$params, $abort, &$dao ) {

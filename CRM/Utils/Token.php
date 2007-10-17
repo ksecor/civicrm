@@ -585,6 +585,41 @@ class CRM_Utils_Token
     }
 
     /**
+     * Replace subscription-invitation tokens
+     * 
+     * @param string $str           The string with tokens to be replaced
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceSubscribeInviteTokens($str) 
+    {
+        if (preg_match('/\{action\.subscribeUrl\}/', $str )) {
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1' );
+            $str = preg_replace('/\{action\.subscribeUrl\}/', $url, $str );
+        }
+
+        if ( preg_match('/\{action\.subscribeUrl.\d+\}/', $str, $matches) ) {
+            foreach ( $matches as $key => $value ) {
+                $gid = substr($value, 21, -1);
+                $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1&gid='.$gid );
+                $url = str_replace('&amp;', '&', $url);
+                $str = preg_replace('/'.preg_quote($value).'/', $url, $str );
+            }
+        }
+
+        if ( preg_match('/\{action\.subscribe.\d+\}/', $str, $matches) ) {
+            foreach ( $matches as $key => $value ) {
+                $gid = substr($value, 18, -1);
+                $config =& CRM_Core_Config::singleton();
+                $domain = CRM_Core_BAO_Domain::getDomainByID($config->domainID());
+                $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
+            }
+        }
+        return $str;
+    }
+    
+    /**
      * Replace welcome/confirmation tokens
      * 
      * @param string $str           The string with tokens to be replaced
