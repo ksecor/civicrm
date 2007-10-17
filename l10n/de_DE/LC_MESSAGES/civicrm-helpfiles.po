@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-17 21:12+0200\n"
-"PO-Revision-Date: 2007-08-15 12:55-0700\n"
-"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
+"PO-Revision-Date: 2007-10-15 17:51-0700\n"
+"Last-Translator: A.Lindner <chtulhu@web.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.1\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -27,34 +27,39 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr ""
+msgstr "Vollständige Straße (z.B. Heideläuferweg 61a)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr ""
+msgstr "Erste Adress-Zusatzzeile (Zeile wird ausgelassen wenn leer)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr ""
+msgstr "Zweite Adress-Zusatzzeile (Zeile wird ausgelassen wenn leer)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
 msgstr "Stadt."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
+#, fuzzy
 msgid ""
 "County name. If you want to include the county in your mailing labels, the "
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
+"Bundesland. Wenn sie das Bundesland in Ihrem mailing label? haben wollen, "
+"müssen Sie <strong>Include Counties</strong> auf dieser Seite anwählen. Die "
+"Namen der Bundesländer müssen in der civicrm_county Tabelle in Ihrer "
+"Datenbank vorhanden ggf. hinzugefügt werden."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>abbreviation</strong>."
-msgstr ""
+msgstr "Bundesland- oder Gemeinde<strong>abkürzung</strong>"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr ""
+msgstr "Bundesland oder Gemeinde Name (Voll ausgeschrieben)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
@@ -62,7 +67,7 @@ msgstr "Postleitzahl."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Country name (e.g. Canada)."
-msgstr ""
+msgstr "Ländername (z.B. Deutschland)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
@@ -73,6 +78,8 @@ msgid ""
 "The following tokens are available to format Address display on Contact and "
 "Event screens."
 msgstr ""
+"Die folgenden Möglichkeiten sind verfügbar um das Layout der Adresse auf der "
+"Kontakt und Event Seite anzupassen."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -89,11 +96,11 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
-msgstr ""
+msgstr "Namenszusatz hinzufügen (z.B. \"Frau\", \"Fam.\", \"Dr.\" etc.)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name suffix, if any (e.g. 'II', 'Jr.', 'Sr.' etc.)."
-msgstr ""
+msgstr "Namenszusatz hinzufügen (z.B. \"Frau\", \"Fam.\", \"Dr.\" etc.)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's first name."
@@ -101,7 +108,7 @@ msgstr "Vorname des Kontakts"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's middle name."
-msgstr ""
+msgstr "Zweitname des Kontaks"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Contact's last name."
@@ -114,6 +121,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
+#, fuzzy
 msgid ""
 "<strong>CiviContribute</strong> - An online fundraising and donor management "
 "component which enables you to track and manage contributions to your "
@@ -121,14 +129,21 @@ msgid ""
 "pages to accept online donations. Refer to the <a href=\"%1\" target=\"_blank"
 "\">CiviContribute Guide</a> for more info."
 msgstr ""
+"<strong>CiviSpende</strong> - Eine online Spendenmanagement Komponente die "
+"es Ihnen erlaubt Spenden zu verfolgen und zu verwalten. Darüberhinaus können "
+"Sie einfach und schnell angepasste Webseiten zur Spendenannahme erstellen. "
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
+#, fuzzy
 msgid ""
 "<strong>CiviMail</strong> - A robust mass-mailing component which allows you "
 "to engage your constituents with personalized email blasts and newsletters. "
 "Refer to the <a href=\"%1\" target=\"_blank\">CiviMail Guide</a> for more "
 "info."
 msgstr ""
+"<strong>CiviMail</strong> - Eine robuste Massenmail Komponente welche es "
+"Ihnen ermöglicht Kampagnen mit personalisierten Newsletter zu starten. Im "
+"CiviMailGuide erfahren Sie mehr."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -158,6 +173,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "This feature should NOT be enabled for production sites."
 msgstr ""
+"Dieses Feature sollte auf produktiven Seiten nicht eingeschalten werden."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
@@ -167,31 +183,39 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Smarty Debug Window"
-msgstr ""
+msgstr "Kleines Debug Fenster"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#, fuzzy
 msgid ""
 "Loads all variables available to the current page template into a pop-up "
 "window. To trigger, add <em>&smartyDebug=1</em> to any CiviCRM URL query "
 "string. Make sure you have pop-up blocking disabled in your browser for the "
 "CiviCRM site URL."
 msgstr ""
+"Lädt alle verfügbaren Variablen für das jetzige Seiten Template in einem "
+"Pop-Up Fenster. Zum Beobachten fügen Sie <em>&smartyDebug=1</em> zu jeder "
+"beliebigen CiviCRM Abfrage hinzu. Stellen Sie sicher das Sie den Pop-UP "
+"Blocker Ihres Browsers richtig konfiguriert haben. "
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
-msgstr ""
+msgstr "Setzt die Session zurück."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#, fuzzy
 msgid "Resets all values in your client session. To trigger, add <em>%1</em>"
 msgstr ""
+"Setzt alle Werte in Ihrer Client Session zurück. Zum auslösen fügen Sie "
+"bitte <em>%1</em> hinzu."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Directory Cleanup"
-msgstr ""
+msgstr "Verzeichnis aufräumen"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Empties template cache and/or temporary upload file folders."
-msgstr ""
+msgstr "Leert den Template cache und/oder das temporäre Upload Verzeichnis."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To empty template cache (civicrm/templates_c folder), add <em>%1</em>"
@@ -997,9 +1021,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
+#, fuzzy
 msgid ""
 "Make sure the CAPTCHA feature is NOT enabled for this profile when you are "
 "grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page "
 "generation. Submitting a stand-alone form with CAPTCHA included will always "
 "result in a CAPTCHA validation error."
 msgstr ""
+"Stellen Sie sicher das für dieses Profil das CAPTCHA Feature nicht "
+"eingeschalten ist wenn Sie HTML Code für ein Stand-Alone Formular nehmen. "
+"CAPTCHA erfordert eine dynamische Seitengeneration. Erstellen eines Stand-"
+"Alone Formulars mit eingeschaltetem CAPTCHA Modul wird immer mit einem "
+"CAPTCHA Überprüfungsfehler geantwortet."
