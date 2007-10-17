@@ -214,11 +214,13 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
         if ($eq->format == 'HTML' ||  $eq->format == 'Both') {
             require_once 'CRM/Utils/Token.php';
             $html = CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html'] );
+            $html = CRM_Utils_Token::replaceMailingTokens($html, $mailing, null, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' ||  $eq->format == 'Both') {
             require_once 'CRM/Utils/Token.php';
             $text = CRM_Utils_Token::replaceDomainTokens($text, $domain, false, $tokens['text'] );
+            $text = CRM_Utils_Token::replaceMailingTokens($text, $mailing, null, $tokens['text']);
             $message->setTxtBody($text);
         }
         

@@ -68,6 +68,11 @@
         <key>id</key>
   </foreignKey>
   <field>
+        <name>resubscribe_id</name>
+        <type>int unsigned</type>
+        <required>true</required>
+  </field>
+  <field>
         <name>optout_id</name>
         <type>int unsigned</type>
         <required>true</required>
