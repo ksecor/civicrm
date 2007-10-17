@@ -191,15 +191,25 @@ class CRM_Core_Payment_PayPalIPN
         }
 
         // ok we are done with error checking, now let the real work begin
-        // update the contact record with the name and address
+        // update the contact record with the name and billing address
+
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+        $billingId     = array_search( 'Billing',  $locationTypes );
+        if ( ! $billingId ) {
+            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+        }
+        
         $params = array( );
-        $lookup = array( 'first_name'     => 'first_name',
-                         'last_name'      => 'last_name' ,
-                         'street_address' => 'address_street',
-                         'city'           => 'address_city',
-                         'state'          => 'address_state',
-                         'postal_code'    => 'address_zip',
-                         'country'        => 'address_country_code' );
+        $lookup = array( "first_name"                  => 'first_name',
+                         "last_name"                   => 'last_name' ,
+                         "street_address-{$billingId}" => 'address_street',
+                         "city-{$billingId}"           => 'address_city',
+                         "state-{$billingId}"          => 'address_state',
+                         "postal_code-{$billingId}"    => 'address_zip',
+                         "country-{$billingId}"        => 'address_country_code' );
+
         foreach ( $lookup as $name => $paypalName ) {
             $value = self::retrieve( $paypalName, 'String', 'POST', false );
             if ( $value ) {
@@ -211,12 +221,8 @@ class CRM_Core_Payment_PayPalIPN
 
         if ( ! empty( $params ) ) {
             // update contact record
-            $idParams = array( 'id'         => $contactID, 
-                               'contact'    => $contactID );
-            $ids = $defaults = array( );
             require_once "CRM/Contact/BAO/Contact.php";
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactID );
         }
 
         require_once 'CRM/Core/Transaction.php';
