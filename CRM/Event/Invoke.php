@@ -83,11 +83,9 @@ class CRM_Event_Invoke
             $view =& new CRM_Event_Page_ICalendar( );
             return $view->run();
         } else if ( $secondArg == 'register' ) { 
-            if ( $config->enableSSL     &&
-                 CRM_Core_Invoke::onlySSL( $args ) ) {
-                if ( !isset($_SERVER['HTTPS'] ) ) {
-                    CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-                }
+            if ( $config->enableSSL               &&
+                 ( ! isset( $_SERVER['HTTPS'] ) || strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
+                CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
             }
 
             $id     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, false, null, 'GET');
