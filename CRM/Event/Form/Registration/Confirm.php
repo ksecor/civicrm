@@ -370,7 +370,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public function addParticipant( $params, $contactID ) 
     {
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         $domainID = CRM_Core_Config::domainID( );
         $groupName = "participant_role";
@@ -394,9 +395,9 @@ WHERE  v.option_group_id = g.id
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_id,
                                    'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
-                                                                              $params, 1 );
+                                                                              $params, 1 ),
                                    'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
-                                                                              $params, $roleID );
+                                                                              $params, $roleID ),
                                    'register_date' => isset( $params['participant_register_date'] ) ?
                                    CRM_Utils_Date::format( $params['participant_register_date'] ) :
                                    date( 'YmdHis' ),
@@ -419,8 +420,8 @@ WHERE  v.option_group_id = g.id
         $ids = array();
         $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         
-        CRM_Core_DAO::transaction( 'COMMIT' );
-
+        $transaction->commit( );
+        
         return $participant;
     }
 
@@ -432,8 +433,9 @@ WHERE  v.option_group_id = g.id
      */
     public function processContribution( $params, $result, $contactID, $pending = false ) 
     {
-        CRM_Core_DAO::transaction( 'BEGIN' );
-
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
         $config =& CRM_Core_Config::singleton( );
         $now         = date( 'YmdHis' );
         $receiptDate = null;
@@ -485,7 +487,7 @@ WHERE  v.option_group_id = g.id
 
         // return if pending
         if ( $pending ) {
-            CRM_Core_DAO::transaction( 'COMMIT' );
+            $transaction->commit( );
             return $contribution;
         }
         
@@ -505,7 +507,7 @@ WHERE  v.option_group_id = g.id
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
         
         return $contribution;
     }
