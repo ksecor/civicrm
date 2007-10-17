@@ -1860,8 +1860,7 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
 
         require_once 'CRM/Contact/BAO/Contact.php';
         if ( $data['contact_type'] != 'Student' && $data['contact_type'] != 'TMF' ) {
-            $cnt = isset( $data['location'] ) ? count($data['location']) : 0;
-            $contact =& CRM_Contact_BAO_Contact::create( $data, $ids, $cnt );
+            $contact =& CRM_Contact_BAO_Contact::create( $data );
         }
         
         // contact is null if the profile does not have any contact fields
@@ -2272,20 +2271,16 @@ AND       civicrm_openid.is_primary = 1";
         
         if (empty($dupeIds)) {
             //create new organization
-            $orgId = array();                            
             $newOrg['contact_type'     ] = 'Organization';
             $newOrg['organization_name'] = $organizationName ;
 
             require_once 'CRM/Core/BAO/Preferences.php';
-            $orgName = self::create($newOrg, 
-                                    $orgId, 
-                                    CRM_Core_BAO_Preferences::value( 'location_count' ) );
+            $orgName = self::create( $newOrg );
+
             //create relationship
             $relationshipParams['contact_check'][$orgName->id] = 1;
-
            
-            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, 
-                                                                $cid);
+            $relationship= CRM_Contact_BAO_Relationship::create($relationshipParams, $cid);
         } else {
             //if more than one matching organizations found, we
             //add relationships to all those organizations
