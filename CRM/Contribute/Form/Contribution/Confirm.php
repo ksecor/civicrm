@@ -695,7 +695,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         if( $this->_action & CRM_Core_Action::PREVIEW ) {
             $recurParams["is_test"] = 1;
         }
-
         
         $now = date( 'YmdHis' );
         $recurParams['start_date'] = $recurParams['create_date'] = $now;

@@ -244,7 +244,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }        
 
-
         // attempt to save activity targets
         if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
