@@ -46,7 +46,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_id;
+    protected $_sid;
 
     /**
      * Function to set variables up before form is built
@@ -60,14 +60,14 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     {
         require_once 'CRM/Core/BAO/PriceSet.php';
         // current set id
-        $this->_id = $this->get('id');
+        $this->_sid = $this->get('id');
 
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
-            $title = CRM_Core_BAO_PriceSet::getTitle($this->_id);
+            $title = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
             CRM_Utils_System::setTitle(ts('Edit %1', array(1 => $title)));
         } else if ($this->_action == CRM_Core_Action::VIEW) {
-            $title = CRM_Core_BAO_PriceSet::getTitle($this->_id);
+            $title = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
             CRM_Utils_System::setTitle(ts('Preview %1', array(1 => $title)));
         } else {
             CRM_Utils_System::setTitle(ts('New Price Set'));
@@ -127,12 +127,12 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     {
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->assign( 'gid', $this->_id );
+        $this->assign( 'sid', $this->_sid );
         
         // title
         $this->add('text', 'title', ts('Set Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceSet', 'title'), true);
         $this->addRule( 'title', ts('Name already exists in Database.'),
-                        'objectExists', array( 'CRM_Core_DAO_PriceSet', $this->_id, 'title' ) );
+                        'objectExists', array( 'CRM_Core_DAO_PriceSet', $this->_sid, 'title' ) );
         
         // help text
         $this->add('textarea', 'help_pre',  ts('Pre-form Help'), 
@@ -173,8 +173,8 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     {
         $defaults = array();
                 
-        if ( isset( $this->_id ) ) {
-            $params = array('id' => $this->_id);
+        if ( isset( $this->_sid ) ) {
+            $params = array('id' => $this->_sid);
             CRM_Core_BAO_PriceSet::retrieve($params, $defaults);
             
         } else {
@@ -202,7 +202,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
         $params['domain_id'] = CRM_Core_Config::domainID( );
         
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $params['id']    = $this->_id;
+            $params['id']    = $this->_sid;
         }
         
         require_once 'CRM/Core/BAO/PriceSet.php';
