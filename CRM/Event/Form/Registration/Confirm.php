@@ -68,7 +68,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
             if ( $rfp ) {
-                //require_once 'CRM/Contribute/Payment.php'; 
                 require_once 'CRM/Core/Payment.php'; 
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );

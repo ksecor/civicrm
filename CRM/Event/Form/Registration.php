@@ -201,9 +201,19 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                                $this->_mode );
                 
                 // make sure we have a valid payment class, else abort
-                if ( $this->_values['event']['is_monetary'] && ! $this->_paymentProcessor ) {
-                    CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
+                if ( $this->_values['event']['is_monetary'] ) {
+                    if ( ! $this->_paymentProcessor ) {
+                        CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
+                    }
+                    
+                    // ensure that processor has a valid config
+                    $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
+                    $error = $payment->checkConfig( );
+                    if ( ! empty( $error ) ) {
+                        CRM_Core_Error::fatal( $error );
+                    }
                 }
+
                 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
             }

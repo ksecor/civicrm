@@ -202,6 +202,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
                 $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
                                                                                       $this->_mode );
+
+                // ensure that processor is valid
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+                $error = $payment->checkConfig( );
+                if ( ! empty( $error ) ) {
+                    CRM_Core_Error::fatal( $error );
+                }
+
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
                 
             }                
