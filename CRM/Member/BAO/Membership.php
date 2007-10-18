@@ -857,6 +857,14 @@ civicrm_membership_status.is_current_member =1";
         if ( $form->_contributeMode == 'notify' &&
              ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
             $form->_params['membershipID'] = $membership->id;
+
+            // at this step we need to set the status to pending, since we do not know if the user will
+            // pay or not. kinda sucks, since we've already done all the work, c'est la vie
+            CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_Membership',
+                                         $membership->id,
+                                         'status_id',
+                                         5 );
+
             // this does not return
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
@@ -1170,11 +1178,11 @@ civicrm_membership_status.is_current_member =1";
         $today = CRM_Utils_Date::getToday( $changeToday );
         require_once 'CRM/Member/BAO/MembershipStatus.php';
         $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                               $currentMembership['start_date'],
-                               $currentMembership['end_date'],
-                               $currentMembership['join_date'],
-                               $today
-                               );
+                                                                             $currentMembership['start_date'],
+                                                                             $currentMembership['end_date'],
+                                                                             $currentMembership['join_date'],
+                                                                             $today
+                                                                             );
         
         $currentMembership['today_date'] = $today;
         
@@ -1340,4 +1348,5 @@ SELECT c.contribution_page_id as pageID
         }
     }
 }
+
 ?>
