@@ -28,6 +28,7 @@
        <table>civicrm_option_group</table>
        <key>id</key>
        <add>1.5</add>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
        <name>label</name>
