@@ -36,6 +36,7 @@
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
 	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</dd>
     </dl>
+	
      
     {* Show read-only Status block - when action is UPDATE and is_override is FALSE *}
     <div id="memberStatus_show">
@@ -55,6 +56,34 @@
         </dl>
     </div>
     
+    <div id="contri">
+        <dl>
+        <dt>{$form.record_contribution.label}</dt>
+	<dd class="html-adjust">{$form.record_contribution.html}</dd>
+	<div>
+            <dt>&nbsp;&nbsp;</dt>
+	    <dd class="html-adjust">
+		<fieldset id="recordContribution"><legend>Contribution</legend>
+		    <dt class="label">{$form.contribution_type_id.label}</dt>
+		    <dd>{$form.contribution_type_id.html}</dd>
+		    <dt class="label">{$form.amount.label}</dt>
+		    <dd>{$form.amount.html}</dd>
+        	    <dt class="label">{$form.payment_instrument_id.label}</dt>
+		    <dd>{$form.payment_instrument_id.html}</dd>
+		    <dt class="label">{$form.contribution_status_id.label}</dt>
+		    <dd>{$form.contribution_status_id.html}</dd>
+		    <dt class="label"></dt>
+		    <dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
+		    <div id='notice'>
+		    <dt class="label">{$form.receipt_text.label}</dt>
+		    <dd>{$form.receipt_text.html}</dd>
+		    </div>
+	        </fieldset></dd>
+	
+	</div>
+        </dl>
+    </div>
+      
     {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
      
    {/if}
@@ -70,7 +99,8 @@
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
-    
+showRecordContribution();  
+showReceiptText();
 function showHideMemberStatus() {
 	if (document.getElementsByName("is_override")[0].checked == true) {
 	   show('memberStatus');
@@ -79,6 +109,22 @@ function showHideMemberStatus() {
 	   hide('memberStatus');
        show('memberStatus_show');
 	}
+}
+
+function showRecordContribution() {
+	if (document.getElementsByName("record_contribution")[0].checked == true) {
+	   show('recordContribution');
+       	} else {
+	   hide('recordContribution');
+       	}
+}
+
+function showReceiptText() {
+	if (document.getElementsByName("send_receipt")[0].checked == true) {
+	   show('notice');
+       	} else {
+	   hide('notice');
+       	}
 }
 
 function reload(refresh) {

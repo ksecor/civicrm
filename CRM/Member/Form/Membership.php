@@ -187,7 +187,41 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
-        $this->addElement('checkbox', 'is_override', ts('Status Hold?'), null, array( 'onClick' => 'showHideMemberStatus()'));
+        $this->addElement('checkbox', 
+                          'is_override', 
+                          ts('Status Hold?'), 
+                          null, 
+                          array( 'onClick' => 'showHideMemberStatus()'));
+
+        $this->addElement('checkbox', 
+                          'record_contribution', 
+                          ts('Record Contribution?'), null, 
+                          array( 'onClick' => 'showRecordContribution()'));
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $this->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ), 
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( )
+                   );
+
+        $this->add('text', 'amount', ts('Amount'));
+
+        $this->add('select', 'payment_instrument_id', 
+                   ts( 'Paid By' ), 
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                   );
+        
+        $this->add('select', 'contribution_status_id',
+                   ts('Contribution Status'), 
+                   CRM_Contribute_PseudoConstant::contributionStatus( )
+                   );
+
+        $this->addElement('checkbox', 
+                          'send_receipt', 
+                          ts('Send Notice / Receipt?'), null, 
+                          array( 'onClick' => 'showReceiptText()'));
+
+        $this->add('textarea', 'receipt_text', ts('Receipt Text') );
 
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
 
@@ -241,7 +275,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+      
         $params = array( );
         $ids    = array( );
 
@@ -323,8 +357,22 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
+        if( $formValues['record_contribution'] ) {
+            $recordContribution = array(
+                                        'amount',
+                                        'contribution_type_id', 
+                                        'payment_instrument_id',
+                                        'contribution_status_id'
+                                        );
 
-        $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+            foreach ( $recordContribution as $f ) {
+                $params[$f] = CRM_Utils_Array::value( $f, $formValues );
+            }            
+        }
+        // $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
+        crm_core_error::Debug('ppp',$params);
+        crm_core_error::Debug('fv',$formValues);
+        exit();
         
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
