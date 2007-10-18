@@ -193,9 +193,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
 
                 //get the no of locations for the contact
-                //TO DO: commented due to schema changes
-                //$this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
-                
+                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 return;
             }
 
@@ -286,7 +284,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'shared_name', 
 civicrm_contact.id 'id'
 FROM civicrm_contact, civicrm_address
-WHERE civicrm_address civicrm_address.contact_id = civicrm_contact.id 
+WHERE civicrm_address.contact_id = civicrm_contact.id 
    AND civicrm_address.is_primary=1 AND civicrm_contact.id={$defaults['mail_to_household_id']}";
                 
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
