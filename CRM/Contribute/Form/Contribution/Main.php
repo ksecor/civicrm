@@ -416,12 +416,6 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( $self->_values['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Contribute', $self->_paymentProcessor );
-            $error   =  $payment->checkConfig( $self->_mode );
-            if ( $error ) {
-                $errors['_qf_default'] = $error;
-            }
-
             if ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' ) {
                 if ( !$amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');

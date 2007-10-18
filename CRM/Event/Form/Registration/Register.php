@@ -256,12 +256,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $errors = array( );
 
         if ( $self->_values['event']['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
-            $error   =  $payment->checkConfig( $self->_mode );
-            if ( $error ) {
-                $errors['_qf_default'] = $error;
-            }
-
             // return if this is express mode
             $config =& CRM_Core_Config::singleton( );
             if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
