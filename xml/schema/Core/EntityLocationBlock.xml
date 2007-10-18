@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
-
 <table>
   <base>CRM/Core</base>
   <class>EntityLocationBlock</class>
@@ -37,5 +36,25 @@
        <fieldName>entity_table</fieldName>
        <fieldName>entity_id</fieldName>
        <add>2.0</add>
+  </index>
+  <field>
+      <name>location_block_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Location Block ID. </comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey> 
+     <name>location_block_id</name>
+     <table>civicrm_location_block</table>
+     <key>id</key> 
+     <add>2.0</add>
+  </foreignKey>  
+  <index>
+     <name>index_entity_location_block</name>
+     <fieldName>entity_table</fieldName>
+     <fieldName>entity_id</fieldName>
+     <fieldName>location_block_id</fieldName>
+     <unique>true</unique>
+     <add>2.0</add> 
   </index>
 </table>
