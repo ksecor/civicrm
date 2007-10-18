@@ -864,7 +864,6 @@ civicrm_membership_status.is_current_member =1";
                                          $membership->id,
                                          'status_id',
                                          5 );
-
             // this does not return
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );

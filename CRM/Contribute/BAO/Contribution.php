@@ -187,20 +187,30 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         // add custom field values
         if (CRM_Utils_Array::value('custom', $params)) {
+            $cvParams = array( );
             foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
+                $cvParam = array(
                                   'entity_table'    => 'civicrm_contribution',
                                   'entity_id'       => $contribution->id,
                                   'value'           => $customValue['value'],
                                   'type'            => $customValue['type'],
                                   'custom_field_id' => $customValue['custom_field_id'],
                                   'file_id'         => $customValue['file_id'],
+                                  'table_name'      => $customValue['table_name'],
+                                  'column_name'     => $customValue['column_name'],
                                   );
                 
                 if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
+                    $cvParam['id'] = $customValue['id'];
                 }
-                CRM_Core_BAO_CustomValue::create($cvParams);
+                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
+                    $cvParams[$customValue['table_name']] = array( );
+                }
+                $cvParams[$customValue['table_name']][] = $cvParam;
+            }
+            if ( ! empty( $cvParams ) ) {
+                require_once 'CRM/Core/BAO/CustomValueTable.php';
+                CRM_Core_BAO_CustomValueTable::create($cvParams);
             }
         }
 
@@ -254,6 +264,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             'activity_date'    => $contribution->receive_date
         );
 
+        /**
+         * Fix with schema change
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             // this contribution should have an Activity History record already
             $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
@@ -264,13 +276,13 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
                 $ids['activity_history'] = $tmp[0];
             }
         }
-        
+
         require_once 'CRM/Core/BAO/History.php';
         $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
         if (is_a($historyDAO, 'CRM_Core_Error')) {
             CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
         }
-
+        **/
         $transaction->commit( );
         
         return $contribution;
