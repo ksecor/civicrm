@@ -173,9 +173,9 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
         // form fields of Custom Option rows
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
-        $labelAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label');
-        $valueAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value');
-        $weightAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight');
+        $labelAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label');
+        $valueAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value');
+        $weightAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight');
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
             
             //the show hide blocks
