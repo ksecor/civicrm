@@ -81,7 +81,23 @@ function &civicrm_activity_create( &$params )
     }
  
     $ids = array();
-    $activity = CRM_Activity_BAO_Activity::add( $params, $ids, $activityType );
+
+    if ( $params['update'] ) {
+        $q = "
+SELECT id
+  FROM civicrm_activity
+ WHERE source_contact_id = %1
+   AND source_record_id  = %2
+   AND activity_type_id  = %3
+";
+        $p = array( 1 => array( $params['source_contact_id'], 'Integer' ),
+                    2 => array( $params['source_record_id' ], 'Integer' ),
+                    3 => array( $params['activity_type_id' ], 'Integer' ) );
+        $params['id'] = CRM_Core_DAO::singleValueQuery( $q, $p );
+    }
+
+    $activity = new CRM_Activity_BAO_Activity( );
+    $activity->createActivity( $params );
     
     $activityArray = array(); 
     _civicrm_object_to_array( $activity, $activityArray);

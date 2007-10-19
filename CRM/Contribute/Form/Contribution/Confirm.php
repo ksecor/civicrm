@@ -662,7 +662,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                         );
 
         require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create($params), 'CRM_Core_Error' ) ) { 
+        if ( is_a( civicrm_activity_create( $params ),
+                   'CRM_Core_Error' ) ) { 
             CRM_Core_Error::fatal( "Could not create a system record" );
         }
 

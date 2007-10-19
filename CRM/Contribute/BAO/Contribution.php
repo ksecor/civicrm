@@ -245,44 +245,37 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
         }
 
-        $activitySummary = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
-        
+        $subject = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
         if ( $contribution->source != 'null' ) {
-            $activitySummary .= " - {$contribution->source}";
+            $subject .= " - {$contribution->source}";
         }
+        $subject .= " (offline)";
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'CiviContribute Online Contribution',
+                                                          'name' );
 
-        $activitySummary .= " (offline)";
-        
         $historyParams = array(
-            'entity_table'     => 'civicrm_contact',
-            'entity_id'        => $contribution->contact_id,
-            'activity_type'    => $contributionType,
-            'module'           => 'CiviContribute',
-            'callback'         => 'CRM_Contribute_Page_Contribution::details',
-            'activity_id'      => $contribution->id,
-            'activity_summary' => $activitySummary,
-            'activity_date'    => $contribution->receive_date
+            'source_contact_id'     => $contribution->contact_id,
+            'source_record_id'      => $contribution->id,
+            'activity_type_id'      => $activityTypeID,
+            'module'                => 'CiviContribute',
+            'callback'              => 'CRM_Contribute_Page_Contribution::details',
+            'subject'               => $subject,
+            'activity_date_time'    => $contribution->receive_date
         );
 
-        /**
-         * Fix with schema change
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             // this contribution should have an Activity History record already
-            $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
-            require_once "CRM/Core/BAO/History.php";
-            $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
-            if ( ! empty( $getHistoryValues ) ) {
-                $tmp = array_keys( $getHistoryValues  );
-                $ids['activity_history'] = $tmp[0];
-            }
+            // so get the existing id
+            $historyParams['update'] = true;
         }
 
-        require_once 'CRM/Core/BAO/History.php';
-        $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
-        if (is_a($historyDAO, 'CRM_Core_Error')) {
-            CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $historyParams ),
+                   'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
         }
-        **/
+
         $transaction->commit( );
         
         return $contribution;
