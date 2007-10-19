@@ -135,8 +135,33 @@ This can be just about any string of characters or words. Then enter the exact s
 {/htxt}
 
 {htxt id='PayJunction-test-user-name'}
-<strong>{ts}TEST Account User Name:{/ts}</strong>
-<p>{ts}Enter the User Name associated with your test account.{/ts}</p>
+<strong>{ts}User Name (TEST account):{/ts}</strong>
+<p>{ts}Enter <strong>pj-ql-01</strong>. This is the User Name associated with the shared PayJunction test account.{/ts}</p>
+{/htxt}
+{htxt id='PayJunction-test-password'}
+<strong>{ts}Password (TEST account):{/ts}</strong>
+<p>{ts}Enter <strong>pj-ql-01p</strong>. This is the Password associated with the shared PayJunction test account.{/ts}</p>
+{/htxt}
+{htxt id='PayJunction-test-url-site'}
+{ts}The URL for PayJunction's Payment server. This is the same for TEST and LIVE transactions. Use the default value unless otherwise advised by PayPal.{/ts}
+{/htxt}
+{htxt id='PayJunction-test-url-recur'}
+<p>{ts}The Recurring Payments URL is not currently used.{/ts}</p>
+{/htxt}
+
+{htxt id='PayJunction-live-user-name'}
+<strong>{ts}User Name (LIVE account):{/ts}</strong>
+<p>{ts}Enter the User Name associated with your LIVE merchant account.{/ts}</p>
+{/htxt}
+{htxt id='PayJunction-live-password'}
+<strong>{ts}Password (LIVE account):{/ts}</strong>
+<p>{ts}Enter the Password associated with your LIVE merchant account.{/ts}</p>
+{/htxt}
+{htxt id='PayJunction-live-url-site'}
+{ts}The URL for PayJunction's Payment server. This is the same for TEST and LIVE transactions. Use the default value unless otherwise advised by PayPal.{/ts}
+{/htxt}
+{htxt id='PayJunction-live-url-recur'}
+<p>{ts}The Recurring Payments URL is not currently used.{/ts}</p>
 {/htxt}
 
 {htxt id='Google_Checkout-live-user-name'}
