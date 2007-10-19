@@ -60,7 +60,7 @@
   </field>
   <foreignKey>
     <name>location_id</name>
-    <table>civicrm_location_block</table>
+    <table>civicrm_loc_block</table>
     <key>id</key>
     <add>1.1</add>
     <onDelete>SET NULL</onDelete>

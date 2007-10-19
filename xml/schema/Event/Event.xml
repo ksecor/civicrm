@@ -197,4 +197,16 @@
       <comment>If true, show event location.</comment> 
       <add>1.7</add> 
   </field>   
+  <field>
+      <name>loc_block_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Location Block ID</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>loc_block_id</name>
+       <table>civicrm_loc_block</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
 </table>

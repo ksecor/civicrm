@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>LocationBlock</class>
-  <name>civicrm_location_block</name>
+  <class>LocBlock</class>
+  <name>civicrm_loc_block</name>
   <comment>Define location specific properties</comment>
   <add>2.0</add>
   <field>
@@ -97,4 +97,12 @@
     <fieldName>im_2_id</fieldName>
     <add>2.0</add>
   </index>
+  <field>
+       <name>name</name>
+       <uniqueName>location_name</uniqueName>
+       <title>Location Name</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>2.0</add>
+  </field>
 </table>

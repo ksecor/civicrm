@@ -89,4 +89,16 @@
        <comment>The civicrm version this instance is running</comment>
        <add>2.0</add>
   </field>
+  <field>
+      <name>loc_block_id</name>
+      <type>int unsigned</type>
+      <comment>FK to Location Block ID</comment>
+      <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>loc_block_id</name>
+       <table>civicrm_loc_block</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>
 </table>
