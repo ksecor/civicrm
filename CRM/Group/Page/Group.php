@@ -293,7 +293,7 @@ ORDER BY title asc
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
                 $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
-                if ( $values[$object->id]['group_type'] ) {
+                if ( isset( $values[$object->id]['group_type'] ) ) {
                     $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
                                            substr( $values[$object->id]['group_type'], 1, -1 ) );
                     $types = array( );
@@ -308,8 +308,10 @@ ORDER BY title asc
                                                                                    'ssid' => $object->saved_search_id ) );
             }
         }
-        
-        $this->assign( 'rows', $values );
+
+        if ( isset( $values ) ) {
+            $this->assign( 'rows', $values );
+        }
     }
 
     function search( ) {

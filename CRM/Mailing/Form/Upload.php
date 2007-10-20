@@ -97,7 +97,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $htmlMessage = $this->getElementValue( "html_message" );
         }
         
-        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);        
+        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
+        $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
 
         $domain = new CRM_Core_DAO_Domain( );
