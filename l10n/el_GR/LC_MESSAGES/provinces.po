@@ -6,23 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-04-18 07:35+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2001-11-01 00:11GMT\n"
+"Last-Translator: Νίκος Νύκταρης-Nick Niktaris <niktarin@yahoo.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Alabama"
-msgstr ""
+msgstr "Αλαμπάμα"
 
 msgid "Alaska"
-msgstr ""
+msgstr "Αλάσκα"
 
 msgid "Arizona"
 msgstr ""
 
 msgid "Arkansas"
-msgstr ""
+msgstr "Άρκανσω"
 
 msgid "California"
 msgstr ""
@@ -31,157 +31,157 @@ msgid "Colorado"
 msgstr ""
 
 msgid "Connecticut"
-msgstr ""
+msgstr "Κονεκτικάτ"
 
 msgid "Delaware"
-msgstr ""
+msgstr "Ντελαουέρ"
 
 msgid "Florida"
-msgstr ""
+msgstr "Φλόριντα"
 
 msgid "Georgia"
-msgstr ""
+msgstr "Γεωργία"
 
 msgid "Hawaii"
-msgstr ""
+msgstr "Χαβάη"
 
 msgid "Idaho"
-msgstr ""
+msgstr "Άινταχο"
 
 msgid "Illinois"
-msgstr ""
+msgstr "Ίλλινοϊς"
 
 msgid "Indiana"
-msgstr ""
+msgstr "Ιντιάνα"
 
 msgid "Iowa"
-msgstr ""
+msgstr "Αϊόβα"
 
 msgid "Kansas"
-msgstr ""
+msgstr "Κάνσας"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "Κεντάκι"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "Λουϊζιάνα"
 
 msgid "Maine"
-msgstr ""
+msgstr "Μέιν"
 
 msgid "Maryland"
-msgstr ""
+msgstr "Μέριλαντ"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "Μασσαχουσέτη"
 
 msgid "Michigan"
-msgstr ""
+msgstr "Μίσιγκαν"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "Μινεσότα"
 
 msgid "Mississippi"
-msgstr ""
+msgstr "Μισσισίπι"
 
 msgid "Missouri"
-msgstr ""
+msgstr "Μιζούρι"
 
 msgid "Montana"
-msgstr ""
+msgstr "Μοντάνα"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "Νεμπράσκα"
 
 msgid "Nevada"
-msgstr ""
+msgstr "Νεβάδα"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "Νιου Χαμσάιρ"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "Νιου Τζέρσεϋ"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "Νέο Μεξικό"
 
 msgid "New York"
-msgstr ""
+msgstr "Νέα Υόρκη"
 
 msgid "North Carolina"
-msgstr ""
+msgstr "Βόρεια Καρολίνα"
 
 msgid "North Dakota"
-msgstr ""
+msgstr "Βόρεια Ντακότα"
 
 msgid "Ohio"
-msgstr ""
+msgstr "Οχάιο"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "Οκλαχόμα"
 
 msgid "Oregon"
-msgstr ""
+msgstr "Όρεγκον"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "Πενσυλβάνια"
 
 msgid "Rhode Island"
-msgstr ""
+msgstr "Ρόντ Άιλαντ"
 
 msgid "South Carolina"
-msgstr ""
+msgstr "Νότια Καρολίνα"
 
 msgid "South Dakota"
-msgstr ""
+msgstr "Νότια Ντακότα"
 
 msgid "Tennessee"
-msgstr ""
+msgstr "Τεννεσσί"
 
 msgid "Texas"
-msgstr ""
+msgstr "Τέξας"
 
 msgid "Utah"
-msgstr ""
+msgstr "Γιούτα"
 
 msgid "Vermont"
-msgstr ""
+msgstr "Βερμόντ"
 
 msgid "Virginia"
-msgstr ""
+msgstr "Βιρτζίνια"
 
 msgid "Washington"
-msgstr ""
+msgstr "Ουάσινγκτον"
 
 msgid "West Virginia"
-msgstr ""
+msgstr "Δυτική Βιρτζίνια"
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "Ουισκόνσιν"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "Ουαϊόμινγκ"
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "Περιφέρεια της Κολούμπια"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "Αμερικανική Σαμόα"
 
 msgid "Guam"
-msgstr ""
+msgstr "Γκουάμ"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "Νήσοι Βορείων Μαριάννων"
 
 msgid "Puerto Rico"
-msgstr ""
+msgstr "Πουέρτο Ρίκο"
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "Παρθένοι Νήσοι"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Μικρά απομονωμένα νησιά Ηνωμένων Πολιτειών"
 
 msgid "Armed Forces Europe"
 msgstr ""
@@ -193,16 +193,16 @@ msgid "Armed Forces Pacific"
 msgstr ""
 
 msgid "Alberta"
-msgstr ""
+msgstr "Αλμπέρτα"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "Βρετανική Κολούμπια"
 
 msgid "Manitoba"
-msgstr ""
+msgstr "Μανιτόμπα"
 
 msgid "New Brunswick"
-msgstr ""
+msgstr "Νιου Μπρύνσβικ"
 
 msgid "Newfoundland and Labrador"
 msgstr ""
@@ -211,25 +211,25 @@ msgid "Northwest Territories"
 msgstr ""
 
 msgid "Nova Scotia"
-msgstr ""
+msgstr "Νέα Σκωτία"
 
 msgid "Nunavut"
 msgstr ""
 
 msgid "Ontario"
-msgstr ""
+msgstr "Οντάριο"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Νήσος Πρίγκιπα Εδουάρδου"
 
 msgid "Quebec"
-msgstr ""
+msgstr "Κεμπέκ"
 
 msgid "Saskatchewan"
-msgstr ""
+msgstr "Σασκάτσουαν"
 
 msgid "Yukon Territory"
-msgstr ""
+msgstr "Περιοχή Γιούκον"
 
 msgid "Maharashtra"
 msgstr ""
@@ -694,7 +694,7 @@ msgid "Uige"
 msgstr ""
 
 msgid "Zaire"
-msgstr ""
+msgstr "Ζαΐρ"
 
 msgid "Capital federal"
 msgstr ""
@@ -1306,7 +1306,7 @@ msgid "Yuen Long"
 msgstr ""
 
 msgid "Luxembourg"
-msgstr ""
+msgstr "Λουξεμβούργο"
 
 msgid "Namur"
 msgstr ""
@@ -1936,7 +1936,7 @@ msgid "Vicebskaja voblasc'"
 msgstr ""
 
 msgid "Belize"
-msgstr ""
+msgstr "Μπελίζ"
 
 msgid "Cayo"
 msgstr ""
@@ -2353,10 +2353,10 @@ msgid "Xizang"
 msgstr ""
 
 msgid "Hong Kong"
-msgstr ""
+msgstr "Χονγκ Κονγκ"
 
 msgid "Macau"
-msgstr ""
+msgstr "Μακάο"
 
 msgid "Distrito Capital de Bogotá"
 msgstr ""
@@ -2701,7 +2701,7 @@ msgid "Dikhil"
 msgstr ""
 
 msgid "Djibouti"
-msgstr ""
+msgstr "Τζιμπουτί"
 
 msgid "Obock"
 msgstr ""
@@ -4489,7 +4489,7 @@ msgid "Macenta"
 msgstr ""
 
 msgid "Mali"
-msgstr ""
+msgstr "Μάλι"
 
 msgid "Mamou"
 msgstr ""
@@ -4714,7 +4714,7 @@ msgid "Escuintla"
 msgstr ""
 
 msgid "Guatemala"
-msgstr ""
+msgstr "Γουατεμάλα"
 
 msgid "Huehuetenango"
 msgstr ""
@@ -7354,7 +7354,7 @@ msgid "Jalisco"
 msgstr ""
 
 msgid "Mexico"
-msgstr ""
+msgstr "Μεξικό"
 
 msgid "Michoacin"
 msgstr ""
@@ -7627,7 +7627,7 @@ msgid "Nassarawa"
 msgstr ""
 
 msgid "Niger"
-msgstr ""
+msgstr "Νίγηρας"
 
 msgid "Ogun"
 msgstr ""
@@ -7891,7 +7891,7 @@ msgid "Loa Santoa"
 msgstr ""
 
 msgid "Panama"
-msgstr ""
+msgstr "Παναμάς"
 
 msgid "Veraguas"
 msgstr ""
@@ -9043,7 +9043,7 @@ msgid "Ostergotlands lan"
 msgstr ""
 
 msgid "Saint Helena"
-msgstr ""
+msgstr "Νήσος Αγίας Ελένης"
 
 msgid "Ascension"
 msgstr ""

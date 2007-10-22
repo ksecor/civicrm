@@ -14,11 +14,11 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "About the calendar"
-msgstr ""
+msgstr "Για το ημερολόγιο"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "Για τελευταία έκδοση: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
@@ -26,91 +26,91 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Date selection:"
-msgstr ""
+msgstr "Επιλογή ημερομηνίας:"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\xab, \\xbb buttons to select year,"
-msgstr ""
+msgstr "- Χρησιμοποιείστε τα κουμπιά \\xab, \\xbb για επιλογή έτους"
 
 #: js/lang/calendar-lang.php
 msgid "- use the \\u2039, \\u203a buttons to select month,"
-msgstr ""
+msgstr "- Χρησιμοποιείστε τα κουμπιά \\u2039, \\u203a για επιλογή μήνα"
 
 #: js/lang/calendar-lang.php
 msgid "- hold mouse button on any of the above buttons for faster selection."
-msgstr ""
+msgstr "- Κρατήστε κουμπί ποντικού πατημένο στα παραπάνω κουμπιά για πιο γρήγορη επιλογή."
 
 #: js/lang/calendar-lang.php
 msgid "Time selection:"
-msgstr ""
+msgstr "Επιλογή ώρας:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- Κάντε κλικ σε ένα από τα μέρη της ώρας για αύξηση"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- ή Shift-κλικ για μείωση"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- ή κλικ και μετακίνηση για πιο γρήγορη επιλογή."
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
-msgstr ""
+msgstr "κρατήστε για το μενού"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "Προηγ. έτος"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "Προηγ. μήνας"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "Σήμερα"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "Επόμενος μήνας"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "Επόμενο έτος"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "Επιλέξτε ημερομηνία"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "Σύρτε για να μετακινήσετε"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "σήμερα"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
-msgstr ""
+msgstr "Εμφάνιση %s πρώτα"
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "Κλείσιμο"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "Σήμερα"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "(Shift-)κλικ ή μετακίνηση για αλλαγή"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
-msgstr ""
+msgstr "εβδ"
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
