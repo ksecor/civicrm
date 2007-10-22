@@ -147,29 +147,7 @@ class CRM_Core_BAO_CMSUser
             }
             return true;
         } elseif ( $isJoomla ) {            
-            $dao =& new CRM_Core_DAO( );
-            $name = $dao->escape( $params['cms_name'] );
-            
-            $fname = trim($params['billing_first_name']);
-            $uname = trim($params['cms_name']);
-            $pwd   = md5($params['cms_pass']);
-            $email = trim($params[$mail]); 
-            $date  = date('y-m-d h:i:s');
-            
-            //In Joomla Registerd User is fixed to 18.
-            $regiterUser = '18';
-            
-            $sql = "INSERT INTO {$config->userFrameworkUsersTableName} VALUES 
-              ('', '$fname', '$uname', '$email', '$pwd', 'Registered', 1, 0, $regiterUser, '$date', '0000-00-00 00:00:00', '', '')";
-            
-            $db_cms = DB::connect($config->userFrameworkDSN);
-            
-            if ( DB::isError( $db_cms ) ) { 
-                die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
-            }
-            $query = $db_cms->query( $sql );
-                       
-            return true;
+            self::createJoomlaUser( &$params, $mail );
         }
     }
 
@@ -184,57 +162,56 @@ class CRM_Core_BAO_CMSUser
      * @static
      */ 
     static function buildForm ( &$form, $gid, $emailPresent, $action = CRM_Core_Action::NONE) 
-        {                                    
-            $config =& CRM_Core_Config::singleton( );
-            $showCMS = false;
-
-            $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
-            $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-            $version  = $config->userFrameworkVersion;
-
-            // if cms is drupal having version greater than equal to 5.1
-            // we also need email verification enabled, else we dont do it
-            // then showCMS will true
-            if ( ( $isDrupal  && $version >=5.1 && variable_get('user_email_verification', TRUE ) ) OR 
-                 ( $isJoomla ) ) {
-                if ( $gid ) {                                        
-                    $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
-                } 
-                // $cms is true when there is email(primary location) is set in the profile field.
-                $session =& CRM_Core_Session::singleton( );                         
-                $userID = $session->get( 'userID' );      
-                $showUserRegistration = false;
-                if ( $action ) { 
-                    $showUserRegistration = true;
-                }elseif (!$action && !$userID ) { ;
-                    $showUserRegistration = true;
-                }
-                if ( $isCMSUser && $emailPresent ) {                
-                    if ( $showUserRegistration ) {  
-                        $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
-                        $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
-                        require_once 'CRM/Core/Action.php';
-                        if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
-                            $form->add('text', 'cms_name', ts('Username') );
-                            if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
-                                $form->add('password', 'cms_pass', ts('Password') );
-                                $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
-                            } 
-                            
-                            $form->addFormRule( array( 'CRM_Core_BAO_CMSUser', 'formRule' ), $form );
-                        } 
-                        $showCMS = true;
-                    } 
-                }
-                
+    {                                    
+        $config =& CRM_Core_Config::singleton( );
+        $showCMS = false;
+        
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+        $version  = $config->userFrameworkVersion;
+        
+        // if cms is drupal having version greater than equal to 5.1
+        // we also need email verification enabled, else we dont do it
+        // then showCMS will true
+        if ( ( $isDrupal  && $version >=5.1 && variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
+            if ( $gid ) {                                        
+                $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
             } 
-            $form->assign( 'showCMS', $showCMS ); 
+            // $cms is true when there is email(primary location) is set in the profile field.
+            $session =& CRM_Core_Session::singleton( );                         
+            $userID  = $session->get( 'userID' );      
+            $showUserRegistration = false;
+            if ( $action ) { 
+                $showUserRegistration = true;
+            }elseif (!$action && !$userID ) { 
+                $showUserRegistration = true;
+            }
+            if ( $isCMSUser && $emailPresent ) {                
+                if ( $showUserRegistration ) {  
+                    $extra = array('onclick' => "return showHideByValue('cms_create_account', '', 'details','block','radio',false );");
+                    $form->addElement('checkbox', 'cms_create_account', ts('Create an account?'), null, $extra);
+                    require_once 'CRM/Core/Action.php';
+                    if( ! $userID || $action & CRM_Core_Action::PREVIEW || $action & CRM_Core_Action::PROFILE ) {     
+                        $form->add('text', 'cms_name', ts('Username') );
+                        if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
+                            $form->add('password', 'cms_pass', ts('Password') );
+                            $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
+                        } 
+                        
+                        $form->addFormRule( array( 'CRM_Core_BAO_CMSUser', 'formRule' ), $form );
+                    } 
+                    $showCMS = true;
+                } 
+            }
+            
         } 
+        $form->assign( 'showCMS', $showCMS ); 
+    } 
     
     static function formRule( &$fields, &$files, &$self ) {
         if ( CRM_Utils_Array::value( 'cms_create_account', $fields ) ) {
             $config  =& CRM_Core_Config::singleton( );
-
+            
             $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
             $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
             $version  = $config->userFrameworkVersion;
@@ -409,6 +386,45 @@ SELECT count(*)
         
         $db_drupal->disconnect( );
         return $result;
+    }
+    
+    /**
+     * Function to create a user of Joomla.
+     *  
+     * @param array  $params associated array 
+     * @param string $mail email id for cms user
+     *
+     * @return uid if user exists, false otherwise
+     * 
+     * @access public
+     * @static
+     */
+    static function createJoomlaUser( &$params, $mail ) 
+    {
+        $config =& CRM_Core_Config::singleton( );
+        $dao =& new CRM_Core_DAO( );
+        $name = $dao->escape( $params['cms_name'] );
+        
+        $fname = trim($params['cms_name']);
+        $uname = trim($params['cms_name']);
+        $pwd   = md5($params['cms_pass']);
+        $email = trim($params[$mail]); 
+        $date  = date('y-m-d h:i:s');
+        
+        //In Joomla, Registerd User is fixed to 18.
+        $regiterUser = '18';
+       
+        $sql = "INSERT INTO {$config->userFrameworkUsersTableName} VALUES 
+              ('', '$fname', '$uname', '$email', '$pwd', 'Registered', 1, 0, $regiterUser, '$date', '0000-00-00 00:00:00', '', '')";
+       
+        $db_cms = DB::connect($config->userFrameworkDSN);
+        
+        if ( DB::isError( $db_cms ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
+        }
+        $query = $db_cms->query( $sql );
+        
+        return true;
     }
     
 }
