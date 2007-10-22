@@ -436,7 +436,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // value
             $params['option_value'] = array( 1 => $params['price'] );
             $params['option_label'] = array( 1 => $params['label'] );
-            $params['weight']       = array( 1 => 1 );
             $params['is_active']    = array( 1 => 1 );
         } else {
             $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );

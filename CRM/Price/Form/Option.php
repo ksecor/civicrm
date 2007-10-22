@@ -86,7 +86,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
     {
         $defaults = array();
         
-        if (isset($this->_id)) {
+        if (isset($this->_oid)) {
             $params = array('id' => $this->_oid);
             
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
@@ -171,7 +171,12 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             // if view mode pls freeze it with the done button.
             if ($this->_action & CRM_Core_Action::VIEW) {
                 $this->freeze();
-                $this->addElement('button', 'done', ts('Done'), array('onclick' => "location.href='civicrm/admin/price/field/option?reset=1&action=browse&fid=" . $this->_fid . "'"));
+                $this->addButtons(array(
+                                        array ('type'      => 'cancel',
+                                               'name'      => ts('Done with Preview'),
+                                               'isDefault' => true),
+                                        )
+                                  );
             }
         }
     }
@@ -267,14 +272,15 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         }
         
         $ids = array( );
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            $ids['optionValue'] = $this->_id;
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['optionValue'] = $this->_oid;
         }
         
         require_once 'CRM/Core/BAO/OptionValue.php';
-        $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids);
+        $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids );
         
-        CRM_Core_Session::setStatus(ts('The option "%1" has been saved', array( 1 => $optoinValue->label ) ) );
+        CRM_Core_Session::setStatus( ts( 'The option "%1" has been saved', 
+                                         array( 1 => $optoinValue->label ) ) );
     }
 }
 ?>

@@ -45,7 +45,7 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
      *
      * @var int
      */
-    protected $_id;
+    protected $_sid;
 
     /**
      * The title of the set being deleted
@@ -62,10 +62,10 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
      */
     function preProcess( ) 
     {
-        $this->_id    = $this->get( 'id' );
+        $this->_sid    = $this->get( 'sid' );
         
         $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', 
-                                                     $this->_id, 'title' );
+                                                     $this->_sid, 'title' );
     }
     
     /**
@@ -95,7 +95,7 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
      */
     public function postProcess( ) 
     {
-        if (CRM_Core_BAO_PriceSet::deleteSet( $this->_id)) {
+        if (CRM_Core_BAO_PriceSet::deleteSet( $this->_sid)) {
             CRM_Core_Session::setStatus( ts( 'The Price Set "%1" has been deleted.', 
                                              array( 1 => $this->_title ) ) );        
         } else {

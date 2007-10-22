@@ -214,13 +214,16 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function run()
+    function run( )
     {
         require_once 'CRM/Core/BAO/PriceSet.php';
         
         // get the group id
         $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive',
                                                   $this);
+        $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
+                                           $this, false, 0);
+        
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
         
@@ -228,8 +231,6 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             $session = & CRM_Core_Session::singleton();
             $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
-            $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
-                                              $this, false, 0);
             $controller->set('fid', $fid);
             $controller->setEmbedded( true );
             $controller->process( );
@@ -248,9 +249,6 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
 
         // assign vars to templates
         $this->assign('action', $action);
-
-        $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
-                                          $this, false, 0);
         
         // what action to take ?
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
@@ -281,12 +279,12 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function preview($id)
+    function preview($fid)
     {
         $controller =& new CRM_Core_Controller_Simple('CRM_Price_Form_Preview', ts('Preview Form Field'), CRM_Core_Action::PREVIEW);
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
-        $controller->set('fieldId', $id);
+        $controller->set('fieldId', $fid);
         $controller->setEmbedded(true);
         $controller->process();
         $controller->run();

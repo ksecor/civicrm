@@ -60,8 +60,7 @@ class CRM_Price_Form_Set extends CRM_Core_Form {
     {
         require_once 'CRM/Core/BAO/PriceSet.php';
         // current set id
-        $this->_sid = $this->get('id');
-
+        $this->_sid = $this->get('sid');
         // setting title for html page
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $title = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
