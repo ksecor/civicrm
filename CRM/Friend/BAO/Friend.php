@@ -79,20 +79,17 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$values, &$ids ) 
+    static function &retrieve( &$params, &$values ) 
     {
         $friend =& new CRM_Friend_BAO_Friend( );
 
         $friend->copyValues( $params );
-        
-        if ( $friend->find(true) ) {
-            $ids['friend']    = $friend->id;            
 
-            CRM_Core_DAO::storeValues( $friend, $values );
-            
-            return $values;
-        }
-        return null;
+        $friend->find(true);
+       
+        CRM_Core_DAO::storeValues( $friend, $values );
+        
+        return $values;
     }
 
     /**
@@ -299,8 +296,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     static function addTellAFriend(&$params) 
     {
         $friendDAO =& new CRM_Friend_DAO_Friend();
-        $friendDAO->entity_id   = $params['entity_table']; 
-        $friendDAO->enity_table = $params['entity_id'];
+        $friendDAO->entity_id   = $params['entity_id'];
+        $friendDAO->enity_table = $params['entity_table'];
         
         $friendDAO->find( true );
         
