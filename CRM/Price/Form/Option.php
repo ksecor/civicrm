@@ -53,7 +53,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
      * @var int
      * @access protected
      */
-    protected $_id;
+    protected $_oid;
 
 
     /**
@@ -66,10 +66,10 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
      */
     public function preProcess()
     {
-        $this->_fid = CRM_Utils_Request::retrieve('fid', 'Positive',
-                                                  $this);
-        $this->_id  = CRM_Utils_Request::retrieve('id' , 'Positive',
-                                                  $this);
+        $this->_fid  = CRM_Utils_Request::retrieve('fid', 'Positive',
+                                                   $this);
+        $this->_oid  = CRM_Utils_Request::retrieve('oid' , 'Positive',
+                                                   $this);
     }
 
     /**
@@ -87,7 +87,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $defaults = array();
         
         if (isset($this->_id)) {
-            $params = array('id' => $this->_id);
+            $params = array('id' => $this->_oid);
             
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
                                           $params, $defaults );
@@ -108,7 +108,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         
         return $defaults;
     }
-
+    
     /**
      * Function to actually build the form
      * 
@@ -136,27 +136,27 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             //hidden field ID for validation use
             $this->add('hidden', 'fieldId', $this->_fid); 
-        
+            
             
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
             
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
-        
+            
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
             $this->addRule('value', ts('Please enter a monetary value for this field.'), 'money');
-
+            
             // weight
             $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
             $this->addRule('weight', ts(' is a numeric field') , 'numeric');
-        
+            
             // is active ?
             $this->add('checkbox', 'is_active', ts('Active?'));
             
             // add a custom form rule
             require_once 'CRM/Custom/Form/Option.php';
-            $this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
+            //$this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
             
             // add buttons
             $this->addButtons(array(
@@ -251,28 +251,30 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         
         $params['is_active']       = CRM_Utils_Array::value( 'is_active', $params, false );
         
-        $params['option_group_id'] = $this->_fid;
+        $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
+                                                                  "civicrm_price_field.amount.{$this->_fid}",
+                                                                  'id', 'name' );
         
-        if ($this->_action == CRM_Core_Action::DELETE) {
-            //CRM_Core_BAO_CustomOption::del($this->_id);
-            CRM_Core_Session::setStatus(ts('This option has been deleted', array(1 => $customOption->label)));
+        if ( $this->_action == CRM_Core_Action::DELETE ) {
+            $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
+                                                  $this->_oid,
+                                                  'label', 'id' );
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            CRM_Core_BAO_OptionValue::del( $this->_oid );
+            CRM_Core_Session::setStatus( ts( '%1 option has been deleted', 
+                                             array( 1 => $label ) ) );
             return;
         }
         
+        $ids = array( );
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            $params['optionValue'] = $this->_id;
-            //$customOption->id = $this->_id;
-            //CRM_Core_BAO_CustomOption::updateCustomValues($params);
+            $ids['optionValue'] = $this->_id;
         }
         
-        // need the FKEY - custom field id
-        //$customOption->custom_field_id = $this->_fid;
-        //$customOption->entity_id    = $this->_fid;
-        //$customOption->entity_table = 'civicrm_price_field';
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids);
         
-        //$customOption->save();
-                
-        CRM_Core_Session::setStatus(ts('The option "%1" has been saved', array(1 => $customOption->label)));
+        CRM_Core_Session::setStatus(ts('The option "%1" has been saved', array( 1 => $optoinValue->label ) ) );
     }
 }
 ?>

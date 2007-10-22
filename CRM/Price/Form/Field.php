@@ -102,14 +102,12 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
             // if text, retrieve price
             if ( $defaults['html_type'] == 'Text' ) {
-                require_once 'CRM/Core/BAO/CustomOption.php';
-                $optionParams = array(
-                    'entity_table' => 'civicrm_price_field',
-                    'entity_id' => $this->_fid
-                );
                 $optionValues = array();
-                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $optionValues );
-                $defaults['price'] = $optionValues['value'];
+                
+                require_once 'CRM/Core/OptionGroup.php';
+                CRM_Core_OptionGroup::getAssoc( "civicrm_price_field.amount.{$this->_fid}", $optionValues );
+                
+                $defaults['price'] = $optionValues['value'][1];
             }
         } else {
             $defaults['is_active'] = 1;

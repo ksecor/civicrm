@@ -141,9 +141,9 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
         
         foreach ( $customOption as $id => $values ) {
             $action = array_sum( array_keys( $this->actionLinks( ) ) );
-	    
+            
             // update enable/disable links depending on price_field properties.
-            if ( $customOption['is_active'] ) {
+            if ( $values['is_active'] ) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
                 $action -= CRM_Core_Action::DISABLE;
@@ -199,7 +199,7 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
      * @return void
      * @access public
      */
-    function run()
+    function run( )
     {
         require_once 'CRM/Core/BAO/PriceField.php';
        
@@ -209,33 +209,35 @@ class CRM_Price_Page_Option extends CRM_Core_Page {
         $this->_sid = CRM_Utils_Request::retrieve('sid', 'Positive',
                                                   $this, false, 0);
 
-        if ($this->_fid) {
-            $fieldTitle = CRM_Core_BAO_PriceField::getTitle($this->_fid);
-            $this->assign('fid', $this->_fid);
-            $this->assign('fieldTitle', $fieldTitle);
-            CRM_Utils_System::setTitle(ts('%1 - Price Options', array(1 => $fieldTitle)));
+        if ( $this->_fid ) {
+            $fieldTitle = CRM_Core_BAO_PriceField::getTitle( $this->_fid );
+            $this->assign( 'fid', $this->_fid );
+            $this->assign( 'fieldTitle', $fieldTitle );
+            CRM_Utils_System::setTitle(ts( '%1 - Price Options', array( 1 => $fieldTitle ) ) );
         }
-
+        
         // get the requested action
-        $action = CRM_Utils_Request::retrieve('action', 'String',
-                                              $this, false, 'browse'); // default to 'browse'
-
+        $action = CRM_Utils_Request::retrieve( 'action', 'String',
+                                               $this, false, 'browse' ); // default to 'browse'
+        
         // assign vars to templates
-        $this->assign('action', $action);
-
-        $oid = CRM_Utils_Request::retrieve('oid', 'Positive',
-                                          $this, false, 0);
+        $this->assign( 'action', $action );
+        
+        $oid = CRM_Utils_Request::retrieve( 'oid', 'Positive',
+                                            $this, false, 0 );
         
         // what action to take ?
-        if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
-            $this->edit($action);   // no browse for edit/update/view
+        if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | 
+                         CRM_Core_Action::VIEW   | CRM_Core_Action::DELETE ) ) {
+            $this->edit( $action );   // no browse for edit/update/view
         } else {
-            if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($oid, 0);
-            } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($oid, 1);
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            if ( $action & CRM_Core_Action::DISABLE ) {
+                CRM_Core_BAO_OptionValue::setIsActive( $oid, 0 );
+            } else if ( $action & CRM_Core_Action::ENABLE ) {
+                CRM_Core_BAO_OptionValue::setIsActive( $oid, 1 );
             }
-           $this->browse();
+            $this->browse();
         }
         // Call the parents run method
         parent::run();
