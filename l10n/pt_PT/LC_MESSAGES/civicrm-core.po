@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-10-11 04:07-0700\n"
-"Last-Translator: Claudio Medina <claudio@cianeto.com>\n"
+"PO-Revision-Date: 2007-10-17 17:17-0700\n"
+"Last-Translator: Ilidio Nunes <inunes@tremazul.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -153,7 +153,7 @@ msgstr "Todos os grupos"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr ""
+msgstr "Todos os grupos personalizados"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
@@ -161,7 +161,7 @@ msgstr "Todos os perfis"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
-msgstr ""
+msgstr "Dados personalizados"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
@@ -219,7 +219,7 @@ msgstr ""
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
-msgstr ""
+msgstr "Grupo personalizado"
 
 #: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
 msgid "Activity Entity Table"
@@ -251,20 +251,17 @@ msgstr "Data e Hora Marcada"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
-#, fuzzy
 msgid "Duration Hours"
 msgstr "Duração em horas"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
-#, fuzzy
 msgid "Duration Minutes"
 msgstr "Duração em minutos"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
-#, fuzzy
 msgid "Location"
 msgstr "Local"
 
@@ -290,7 +287,6 @@ msgstr "Detalhes"
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
-#, fuzzy
 msgid "Status"
 msgstr "Estado"
 
@@ -303,7 +299,6 @@ msgstr "Agendado"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Completed"
 msgstr "Completo"
 
@@ -418,7 +413,6 @@ msgstr "OK"
 #: templates/CRM/Price/Form/OptionFields.tpl
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
-#, fuzzy
 msgid "Weight"
 msgstr "Peso"
 
@@ -501,9 +495,8 @@ msgid "Option Grouping Name"
 msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Settings - Payment Processor"
-msgstr "Definições - Processamento de pagamento"
+msgstr "Definições - Serviço de pagamento"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
@@ -515,7 +508,7 @@ msgstr "Introduza um URL válido"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
-msgstr ""
+msgstr "URL para pagamentos recorrentes"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
@@ -538,7 +531,6 @@ msgstr "Nome de utilizador"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Password"
 msgstr "Palavra-passe"
 
@@ -566,7 +558,7 @@ msgstr "Pesquisa avançada"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
 msgid "Contact Dashboard"
-msgstr ""
+msgstr "Painel de contactos"
 
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
