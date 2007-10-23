@@ -66,8 +66,8 @@
 		<fieldset id="recordContribution"><legend>Contribution</legend>
 		    <dt class="label">{$form.contribution_type_id.label}</dt>
 		    <dd>{$form.contribution_type_id.html}</dd>
-		    <dt class="label">{$form.amount.label}</dt>
-		    <dd>{$form.amount.html}</dd>
+		    <dt class="label">{$form.total_amount.label}</dt>
+		    <dd>{$form.total_amount.html}</dd>
         	    <dt class="label">{$form.payment_instrument_id.label}</dt>
 		    <dd>{$form.payment_instrument_id.html}</dd>
 		    <dt class="label">{$form.contribution_status_id.label}</dt>

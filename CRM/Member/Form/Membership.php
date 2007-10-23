@@ -112,6 +112,17 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         } else {
             $defaults["membership_type_id"]    =  $this->_memType;
         }
+        
+        $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
+                                                                        $defaults['id'], 
+                                                                        'contribution_id', 
+                                                                        'membership_id' );
+        if ($defaults['record_contribution']) {
+            $contributionParams   = array( 'id' => $defaults['record_contribution'] );
+            $contributionIds      = array( );
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
+        }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         return $defaults;
@@ -204,7 +215,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( )
                    );
 
-        $this->add('text', 'amount', ts('Amount'));
+        $this->add('text', 'total_amount', ts('Amount'));
 
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
@@ -359,7 +370,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         if( $formValues['record_contribution'] ) {
             $recordContribution = array(
-                                        'amount',
+                                        'total_amount',
                                         'contribution_type_id', 
                                         'payment_instrument_id',
                                         'contribution_status_id'
@@ -369,10 +380,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }            
         }
-        // $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
-        crm_core_error::Debug('ppp',$params);
-        crm_core_error::Debug('fv',$formValues);
-        exit();
+        $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
