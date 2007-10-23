@@ -458,7 +458,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $str = CRM_Utils_Token::replaceSubscribeInviteTokens($str);
             $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens[$file]);
-            $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
+            $str = CRM_Utils_Token::replaceOrganizationTokens($str, $org, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
             
