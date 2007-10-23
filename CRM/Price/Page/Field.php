@@ -136,20 +136,25 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
        
         while ($priceFieldBAO->fetch()) {
             $priceField[$priceFieldBAO->id] = array();
+            
             CRM_Core_DAO::storeValues( $priceFieldBAO, $priceField[$priceFieldBAO->id]);
-
+            
             // get price if it's a text field
             if ( $priceFieldBAO->html_type == 'Text' ) {
-                require_once 'CRM/Core/BAO/CustomOption.php';
-                $optionParams = array(
-                    'entity_table' => 'civicrm_price_field',
-                    'entity_id' => $priceFieldBAO->id
-                );
-                $optionValues = array();
-                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $optionValues );
-                $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('value',$optionValues);
+                $optionValues = array( );
+                
+                $params       = array( 'name' => "civicrm_price_field.amount.{$priceFieldBAO->id}" );
+                
+                require_once 'CRM/Core/OptionValue.php';
+                CRM_Core_OptionValue::getValues( $params, $optionValues );
+                
+                foreach( $optionValues as $values ) {
+                    $priceField[$priceFieldBAO->id]['price'] = CRM_Utils_Array::value('value',$values);
+                }
             }
+            
             $action = array_sum(array_keys($this->actionLinks()));
+            
             if ($priceFieldBAO->is_active) {
                 $action -= CRM_Core_Action::ENABLE;
             } else {
@@ -159,6 +164,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
             if ($priceFieldBAO->active_on == '0000-00-00 00:00:00') {
                 $priceField[$priceFieldBAO->id]['active_on'] = '';
             }
+            
             if ($priceFieldBAO->expire_on == '0000-00-00 00:00:00') {
                 $priceField[$priceFieldBAO->id]['expire_on'] = '';
             }
@@ -173,7 +179,6 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         require_once 'CRM/Utils/Weight.php';
         CRM_Utils_Weight::addOrder( $priceField, 'CRM_Core_DAO_PriceSet',
                                     'id', $returnURL, $filter );
-        
         $this->assign('priceField', $priceField);
     }
 

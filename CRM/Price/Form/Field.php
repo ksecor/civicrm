@@ -162,9 +162,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         // price (for text inputs)
         $this->add( 'text', 'price', ts('Price') );
         $this->addRule( 'price', ts(' must be a monetary value'), 'money' );
-
-        //require_once 'CRM/Core/BAO/CustomOption.php';
-        //$Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
+        
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('html_type');
         }
@@ -187,10 +185,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             }
             // label
             $this->add('text','option_label['.$i.']', ts('Label'), $labelAttribute);
-
+                       
             // value
             $this->add('text', 'option_value['.$i.']', ts('Value'), $valueAttribute);
-
+            
             // Below rule is uncommented for CRM-1313
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
             
