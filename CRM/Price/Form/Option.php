@@ -137,11 +137,26 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             //hidden field ID for validation use
             $this->add('hidden', 'fieldId', $this->_fid); 
             
+            $optionGeoup = "civicrm_price_field.amount.{$this->_fid}";
             
             // label
             $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
             
+            $this->addRule( 'label',
+                        ts( "There is an entry with the same label" ),
+                            'objectExists',
+                            array( 'CRM_Core_DAO_OptionValue',
+                                   $optionGroup,
+                                   'label' ) );
+                        
             $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+            $this->addRule( 'value',
+                        ts( "There is an entry with the same value" ),
+                            'objectExists',
+                            array( 'CRM_Core_DAO_OptionValue',
+                                   $optionGroup,
+                                   'value' ) );
+        
             
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
@@ -153,10 +168,6 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             // is active ?
             $this->add('checkbox', 'is_active', ts('Active?'));
-            
-            // add a custom form rule
-            require_once 'CRM/Custom/Form/Option.php';
-            //$this->addFormRule( array( 'CRM_Custom_Form_Option', 'formRule' ) );
             
             // add buttons
             $this->addButtons(array(
@@ -181,65 +192,6 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         }
     }
         
-    /**
-     * global validation rules for the form
-     *
-     * @param array $fields posted values of the form
-     *
-     * @return array list of errors to be posted back to the form
-     * @static
-     * @access public
-     */
-    static function formRule( &$fields ) {
-
-        $optionLabel = CRM_Utils_Type::escape( $fields['label'], 'String' );
-        $optionValue = CRM_Utils_Type::escape( $fields['value'], 'String' );
-        $temp = array();
-        if ( empty($fields['optionId'])) {
-            $fieldId = $fields['fieldId'];
-            
-            //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_price_field' AND label = '$optionLabel'";
-           
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) { 
-                $errors['label'] = 'There is an entry with the same label.';
-            }
-            
-            //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_price_field' AND value = '$optionValue'";
-            
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {  
-                $errors['value'] = 'There is an entry with the same value.';
-            }
-                
-        } else {
-
-            //capture duplicate entries while updating Custom Options
-            $optionId = CRM_Utils_Type::escape( $fields['optionId'], 'Integer' );
-            $fieldId  = CRM_Utils_Type::escape( $fields['fieldId'] , 'Integer' );
-
-            //check label duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_price_field' AND id != '$optionId' AND label = '$optionLabel'";
-            
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
-                $errors['label'] = 'There is an entry with same label.';
-            }
-            
-            //check value duplicates within a custom field
-            $query = "SELECT count(*) FROM civicrm_custom_option WHERE entity_id = '$fieldId' AND entity_table = 'civicrm_price_field' AND id != '$optionId' AND value = '$optionValue'";
-            if ( CRM_Core_DAO::singleValueQuery( $query, $temp ) > 0 ) {   
-                $errors['value'] = 'There is an entry with same value';
-            }
-        }
-
-        // price option must be of type Money
-        if ( ! CRM_Utils_Rule::money( $fields["value"] ) ) {
-            $errors['value'] = ts( 'Please enter a valid value.' );
-        }
-
-        return empty($errors) ? true : $errors;
-    }
-
     /**
      * Process the form
      * 
