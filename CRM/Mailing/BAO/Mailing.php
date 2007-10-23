@@ -944,12 +944,12 @@ AND civicrm_contact.is_opt_out =0";
         }
 
         $html = null;
-        if ( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
+        if ( isset( $pEmails['html'] ) &&  is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
             $html = &$pEmails['html'];
         }
         
         $text = null;
-        if ( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
+        if ( isset( $pEmails['text'] ) && is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
         }
         

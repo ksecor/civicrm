@@ -80,13 +80,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $htmMessage = $messageTemplate->msg_html;
             }
 
-            if ( $defaults['body_text'] ) {
+            if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
             }
 
-            if ( $defaults['body_html'] ) {
+            if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);

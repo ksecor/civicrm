@@ -123,8 +123,11 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $dao->fetch();
-        return $dao->delivered;
+        if ( $dao->fetch() ) {
+            return $dao->delivered;
+        }
+        
+        return null;
     }
 
     /**
