@@ -68,7 +68,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             //set in session
             $templateId = $this->get('template');
             
-            if ( $defaults['msg_template_id'] && !$templateId ) {
+            if ( isset($defaults['msg_template_id']) && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
                 $messageTemplate->id = $defaults['msg_template_id'];

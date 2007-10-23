@@ -58,12 +58,16 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         // FIXME: the below and CRM_Mailing_Form_Test::testMail()
         // should be refactored
-
+        $fromEmail = null;
         $mailing =& new CRM_Mailing_BAO_Mailing();
-        $mailing->id = $options['mailing_id'];
+        if ( !empty( $options ) ) { 
+            $mailing->id = $options['mailing_id'];
+            $fromEmail   = $options['from_email'];
+        }
+
         $mailing->find(true);
  
-        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $options['from_email'], $options['from_email'], true);
+        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail, true);
 
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML
         // parts, so we steal a peek at Mail_Mime's private properties, render 
