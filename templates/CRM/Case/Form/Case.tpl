@@ -1,4 +1,4 @@
-{* this template is used for adding/editing/deleting case *} 
+* this template is used for adding/editing/deleting case *} 
 <fieldset>
 {if $action eq 1}
     <legend>{ts}New Case Registration{/ts}</legend>
@@ -15,7 +15,7 @@
     {if $action eq 8 and $context}
         <div class="status">{ts}Are you sure you want to Detach this case from Activity?{/ts}</div>
     {elseif $action eq 8 and !$context}
-        <div class="status">{ts}Are you sure you want to Remove this case ?{/ts}</div> 
+        <div class="status">{ts}Are you sure you want to Remove this case?{/ts}</div> 
     {else}
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject {/ts}</td></tr>
