@@ -163,7 +163,8 @@ showHideSharedOptions();
         $attributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
                                 'mode'         => 'remote',
                                 'store'        => 'addressStore',
-                                'style'        => 'width:300px; border: 1px solid #cfcfcf;' 
+                                'style'        => 'width:300px; border: 1px solid #cfcfcf;',
+                                'class'        => 'tundra',
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
@@ -251,7 +252,7 @@ showHideSharedOptions();
         }
 
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household_selected'] ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household'] ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
                     if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
@@ -290,6 +291,7 @@ showHideSharedOptions();
                 }
             }
         }
+       
         return empty($errors) ? true : $errors;
     }
 
@@ -306,7 +308,7 @@ showHideSharedOptions();
     {
         if ( $params['shared_household'] ) {
             list($householdName) = 
-                explode( ",", $params['shared_household'] );
+                explode( ":::", $params['shared_household'] );
             $params['mail_to_household_id'] = 
                 CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
         }
