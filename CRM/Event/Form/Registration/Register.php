@@ -427,10 +427,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $form->set( 'lineItem', $lineItem );
         }
         else {
-            $params['amount_level'] = $form->_values['custom']['label']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
-            $params['amount'] = $form->_values['custom']['value']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+            $params['amount_level'] = $form->_values['label']
+                [array_search( $params['amount'], $form->_values['amount_id'])];
+            $params['amount'] = $form->_values['value']
+                [array_search( $params['amount'], $form->_values['amount_id'])];
         }
     }
 
