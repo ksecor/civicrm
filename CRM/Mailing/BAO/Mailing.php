@@ -940,7 +940,10 @@ AND civicrm_contact.is_opt_out =0";
             } else {
                 array_push($pEmail, $template[$idx]);
             }
-            array_push($pEmail, $template[($idx + 1)]);
+            
+            if ( isset( $template[($idx + 1)] ) ) {
+                array_push($pEmail, $template[($idx + 1)]);
+            }
         }
 
         $html = null;
