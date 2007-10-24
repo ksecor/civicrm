@@ -373,9 +373,11 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         $this->assign( 'email',
                        $this->controller->exportValue( 'Main', "email-{$this->_bltID}" ) );
-
+        
         // also assign the receipt_text
-        $this->assign( 'receipt_text', $this->_values['receipt_text'] );
+        if ( isset( $this->_values['receipt_text'] ) ) {
+            $this->assign( 'receipt_text', $this->_values['receipt_text'] );
+        }
     }
 
     /**  

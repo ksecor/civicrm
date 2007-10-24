@@ -225,8 +225,11 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $dao->fetch();
-        return $dao->forward;
+        if ( $dao->fetch() ) {
+            return $dao->forward;
+        }
+
+        return null;
     }
 
 

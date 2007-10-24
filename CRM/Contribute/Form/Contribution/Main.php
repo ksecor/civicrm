@@ -244,7 +244,9 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
-        $this->_defaults['amount'] = $this->_values['default_amount_id'];
+        if ( isset( $this->_values['default_amount_id'] ) ) {
+            $this->_defaults['amount'] = $this->_values['default_amount_id'];
+        }
         
         if ( $this->_values['is_allow_other_amount'] ) {
             if ( ! empty($this->_values['label'] ) ) {

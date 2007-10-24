@@ -68,7 +68,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             //set in session
             $templateId = $this->get('template');
             
-            if ( $defaults['msg_template_id'] && !$templateId ) {
+            if ( isset($defaults['msg_template_id']) && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
                 $messageTemplate->id = $defaults['msg_template_id'];
@@ -80,13 +80,13 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $htmMessage = $messageTemplate->msg_html;
             }
 
-            if ( $defaults['body_text'] ) {
+            if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
             }
 
-            if ( $defaults['body_html'] ) {
+            if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
@@ -97,7 +97,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $htmlMessage = $this->getElementValue( "html_message" );
         }
         
-        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);        
+        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
+        $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
 
         $domain = new CRM_Core_DAO_Domain( );

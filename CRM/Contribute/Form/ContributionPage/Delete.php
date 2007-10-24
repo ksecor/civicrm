@@ -49,6 +49,12 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
     protected $_title;
 
     /**
+     * Check if there are any related contributions
+     * 
+     */
+    protected $_relatedContributions;
+
+    /**
      * Function to set variables up before form is built
      *
      * @return void
@@ -85,7 +91,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         //if there are contributions related to Contribution Page 
         //then onle cancel button is displayed
         $buttons = array();
-        if (! $this->_relatedContributions ) {
+        if ( ! $this->_relatedContributions ) {
             $buttons[]  =  array ( 'type'      => 'next',
                                    'name'      => ts('Delete Contribution Page'),
                                    'isDefault' => true   );

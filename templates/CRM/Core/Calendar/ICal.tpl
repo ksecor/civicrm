@@ -12,8 +12,8 @@ DESCRIPTION:{$event.description|crmICalText}
 CATEGORIES:{$event.event_type|crmICalText}
 {/if}
 {if $event.start_date}
-DTSTART;VALUE=DATE:{$event.start_date|crmICalDate}
-DTEND;VALUE=DATE:{$event.end_date|crmICalDate}
+DTSTART:{$event.start_date|crmICalDate}
+DTEND:{$event.end_date|crmICalDate}
 {/if}
 {if $event.is_show_location EQ 1 && $event.location}
 LOCATION:{$event.location|crmICalText}
