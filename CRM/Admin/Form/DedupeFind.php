@@ -44,6 +44,7 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
     protected $_rgid;
     protected $_mainContacts;
     protected $_dupeContacts;
+    protected $_gid;
 
     /**
      * Function to pre processing
