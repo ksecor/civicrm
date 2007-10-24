@@ -152,7 +152,10 @@ class CRM_Core_Payment_PayPalIPN
             $contribution->receive_date          = $now;
         }
 
-        self::single( $component, $contactID, $contribution, $contributionType, null, null, true, $first );
+        self::single( $component, $contactID, $contribution, $contributionType,
+                      CRM_Core_DAO::$_nullObject,
+                      CRM_Core_DAO::$_nullObject,
+                      true, $first );
     }
 
     static function single( $component,
@@ -566,7 +569,9 @@ class CRM_Core_Payment_PayPalIPN
                 }
                 return self::recur( $component, $contactID, $contribution, $contributionType, $first );
             } else {
-                return self::single( $component, $contactID, $contribution, $contributionType, null, null, false, false );
+                return self::single( $component, $contactID, $contribution, $contributionType,
+                                     CRM_Core_DAO::$_nullObject,
+                                     CRM_Core_DAO::$_nullObject );
             }
         } else {
             return self::single( $component, $contactID, $contribution, $contributionType, $event, $participant );
