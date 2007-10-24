@@ -276,8 +276,11 @@ class CRM_Mailing_Event_BAO_Reply extends CRM_Mailing_Event_DAO_Reply {
             $query .= " GROUP BY $queue.id ";
         }
 
-        $dao->fetch();
-        return $dao->reply;
+        if ( $dao->fetch() ) {
+            return $dao->reply;
+        }
+
+        return null;
     }
 
 
