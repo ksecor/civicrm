@@ -21,11 +21,7 @@
     
     <div id="crm-submit-buttons" class="form-item">
     <dl>
-    {if $action ne 4}
         <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>
-    {else}
-        <dt>&nbsp;</dt><dd>{$form.done.html}</dd>
-    {/if} {* $action ne view *}
     </dl>
     </div>
 

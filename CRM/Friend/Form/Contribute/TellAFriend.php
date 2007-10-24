@@ -65,7 +65,7 @@ class CRM_Friend_Form_Contribute_TellAFriend extends CRM_Contribute_Form_Contrib
         if( isset($this->_id)  ) {
             $defaults['entity_table'] = 'civicrm_contribution_page';            
             $defaults['entity_id']    = $this->_id;            
-            CRM_Friend_BAO_Friend::setDefaults($defaults);
+            CRM_Friend_BAO_Friend::getValues($defaults);
         }    
     
         
@@ -120,8 +120,7 @@ class CRM_Friend_Form_Contribute_TellAFriend extends CRM_Contribute_Form_Contrib
         $formValues['entity_table'] = 'civicrm_contribution_page';            
         $formValues['entity_id']    = $this->_id;
         
-        $ids = CRM_Friend_BAO_Friend::getFriendId( $this->_id, $formValues['entity_table'] );
-        CRM_Friend_BAO_Friend::create( $formValues, $ids );
+        CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
     }
 
     /** 

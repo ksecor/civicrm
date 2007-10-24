@@ -140,7 +140,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         while ($do->fetch()) {
             if ($do->entity_table == $group) {
                 //$groups[$do->entity_id] = true;
-                $groups[$do->entity_id] = $do->entity_table;
+                $groups[$do->entity_id] = null;
             } else if ($do->entity_table == $mailing) {
                 $mailings[] = $do->entity_id;
             }
@@ -186,18 +186,11 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         
         $contacts = array($contact_id);
-        
         foreach ($groups as $group_id => $group_name) {
-            
-            if ( $group_name == 'civicrm_group' ) {
-                list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email', 'Removed');
-            } else {
+            if ($group_name) {
                 list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email');
-                //CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email', $queue_id);
             }
-            
             if ($notremoved) {
-                
                 unset($groups[$group_id]);
             }
         }
@@ -267,8 +260,14 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         INNER JOIN  $queue ON $queue.contact_id = $contacts.id
         INNER JOIN  $email ON $queue.email_id = $email.id
         WHERE       $queue.id = " 
-                    . CRM_Utils_Type::escape($queue_id, 'Integer'));
+        . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
+        
+        foreach ( $groups as $key => $value ) {
+            if (!$value) {
+                unset($groups[$key]);
+            }
+        }
         
         $message =& new Mail_Mime("\n");
         list($addresses, $urls) = CRM_Mailing_BAO_Mailing::getVerpAndUrls($job, $queue_id, $eq->hash, $eq->email);

@@ -202,6 +202,14 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
                 $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
                                                                                       $this->_mode );
+
+                // ensure that processor has a valid config
+                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
+                $error = $payment->checkConfig( );
+                if ( ! empty( $error ) ) {
+                    CRM_Core_Error::fatal( $error );
+                }
+
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
                 
             }                
@@ -365,9 +373,11 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         $this->assign( 'email',
                        $this->controller->exportValue( 'Main', "email-{$this->_bltID}" ) );
-
+        
         // also assign the receipt_text
-        $this->assign( 'receipt_text', $this->_values['receipt_text'] );
+        if ( isset( $this->_values['receipt_text'] ) ) {
+            $this->assign( 'receipt_text', $this->_values['receipt_text'] );
+        }
     }
 
     /**  

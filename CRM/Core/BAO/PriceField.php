@@ -382,24 +382,23 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
      * @static
      *
      */
-    public static function deleteField($id) 
+    public static function deleteField( $id ) 
     {
-        // delete options
-        require_once 'CRM/Core/BAO/OptionGroup.php';
-        CRM_Core_BAO_OptionGroup::del( CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-                                                                    "civicrm_price_field.amount.{$id}",
-                                                                    'id', 'name' ) );
+        $field     = & new CRM_Core_DAO_PriceField( );
+        $field->id = $id;
         
-        //delete field
-        $field = & new CRM_Core_DAO_PriceField();
-        $field->id = $id; 
         if ( $field->find( true ) ) {
-            $price_set_id = $field->price_set_id;
-            $fieldValues  = array( 'price_set_id' => $price_set_id );
+            // delete the options for this field
+            require_once 'CRM/Core/OptionGroup.php';
+            CRM_Core_OptionGroup::deleteAssoc( "civicrm_price_field.amount.{$id}" );
+            
+            // reorder the weight before delete
+            $fieldValues  = array( 'price_set_id' => $field->price_set_id );
             
             require_once 'CRM/Utils/Weight.php';
             CRM_Utils_Weight::delWeight( 'CRM_Core_DAO_PriceField', $field->id, $fieldValues );
             
+            // now delete the field 
             return $field->delete( );
         }
         

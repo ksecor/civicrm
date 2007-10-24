@@ -29,5 +29,5 @@ if (count($ar) > 0) {
   </form>
   </div>
   <p> If you don't have an OpenID yet, go to <a href="http://www.myopenid.com/">My OpenID to get one</a>.</p>
-  </body>
-  </html>
+</body>
+</html>

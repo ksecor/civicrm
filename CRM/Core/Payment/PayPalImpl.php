@@ -227,12 +227,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     /** 
      * This function checks to see if we have the right config values 
      * 
-     * @param  string $mode the mode we are operating in (live or test) 
-     * 
      * @return string the error message if any 
      * @public 
      */ 
-    function checkConfig( $mode ) {
+    function checkConfig( ) {
         $error = array( );
         if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ||
              $this->_paymentProcessor['payment_processor_type'] == 'PayPal' ) {

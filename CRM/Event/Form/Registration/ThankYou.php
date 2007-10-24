@@ -107,7 +107,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $params['entity_id']    = $eventId;
         $params['entity_table'] = 'civicrm_event';
         
-        CRM_Friend_BAO_Friend::retrieve( $params, $data, $ids ) ;
+        CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
         if( isset( $data) ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );

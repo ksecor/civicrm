@@ -290,10 +290,10 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
                                  'is_test'          => $participant->is_test
                                  );
 
-        require_once "api/History.php";
-        if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
-            return false;
-        }
+        // require_once "api/History.php";
+//         if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
+//             return false;
+//         }
     }
 
     /**

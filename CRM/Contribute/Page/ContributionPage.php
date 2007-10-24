@@ -196,7 +196,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                 $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1&action=browse' ) );
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Contribute_Form_ContributionPage_Delete',
                                                                'Delete Contribution Page',
-                                                               $mode );
+                                                               CRM_Core_Action::DELETE );
                 $id = CRM_Utils_Request::retrieve('id', 'Positive',
                                                   $this, false, 0);
                 $controller->set('id', $id);

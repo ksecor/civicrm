@@ -193,13 +193,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 );
             }
         }
-        else if ( ! empty( $form->_values['custom']['label'] ) ) {
+        else if ( ! empty( $form->_values['label'] ) ) {
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $form->_values['custom']['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count( $form->_values['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($form->_values['custom']['value'][$index]) . ' ' . 
-                                                    $form->_values['custom']['label'][$index], 
-                                                    $form->_values['custom']['amount_id'][$index] );
+                                                    CRM_Utils_Money::format($form->_values['value'][$index]) . ' ' . 
+                                                    $form->_values['label'][$index], 
+                                                    $form->_values['amount_id'][$index] );
             }
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
             $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
@@ -256,12 +256,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $errors = array( );
 
         if ( $self->_values['event']['is_monetary'] ) {
-            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
-            $error   =  $payment->checkConfig( $self->_mode );
-            if ( $error ) {
-                $errors['_qf_default'] = $error;
-            }
-
             // return if this is express mode
             $config =& CRM_Core_Config::singleton( );
             if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
@@ -433,10 +427,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $form->set( 'lineItem', $lineItem );
         }
         else {
-            $params['amount_level'] = $form->_values['custom']['label']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
-            $params['amount'] = $form->_values['custom']['value']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+            $params['amount_level'] = $form->_values['label']
+                [array_search( $params['amount'], $form->_values['amount_id'])];
+            $params['amount'] = $form->_values['value']
+                [array_search( $params['amount'], $form->_values['amount_id'])];
         }
     }
 

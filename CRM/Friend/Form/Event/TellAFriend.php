@@ -65,7 +65,7 @@ class CRM_Friend_Form_Event_TellAFriend extends CRM_Event_Form_ManageEvent
         if( isset($this->_id)  ) {
             $defaults['entity_table'] = 'civicrm_event';            
             $defaults['entity_id']    = $this->_id;            
-            CRM_Friend_BAO_Friend::setDefaults($defaults);
+            CRM_Friend_BAO_Friend::getValues($defaults);
         }    
             
         if ( ! $defaults['title']) {            
@@ -120,9 +120,7 @@ class CRM_Friend_Form_Event_TellAFriend extends CRM_Event_Form_ManageEvent
         $formValues['entity_table'] = 'civicrm_event';       
         $formValues['entity_id']    = $this->_id;
         
-        //check if its updated or added.
-        $ids = CRM_Friend_BAO_Friend::getFriendId( $this->_id, $formValues['entity_table'] );        
-        CRM_Friend_BAO_Friend::create( $formValues, $ids );
+        CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
     }
 
      /** 

@@ -102,14 +102,12 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
             // if text, retrieve price
             if ( $defaults['html_type'] == 'Text' ) {
-                require_once 'CRM/Core/BAO/CustomOption.php';
-                $optionParams = array(
-                    'entity_table' => 'civicrm_price_field',
-                    'entity_id' => $this->_fid
-                );
                 $optionValues = array();
-                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $optionValues );
-                $defaults['price'] = $optionValues['value'];
+                
+                require_once 'CRM/Core/OptionGroup.php';
+                CRM_Core_OptionGroup::getAssoc( "civicrm_price_field.amount.{$this->_fid}", $optionValues );
+                
+                $defaults['price'] = $optionValues['value'][1];
             }
         } else {
             $defaults['is_active'] = 1;
@@ -164,18 +162,16 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         // price (for text inputs)
         $this->add( 'text', 'price', ts('Price') );
         $this->addRule( 'price', ts(' must be a monetary value'), 'money' );
-
-        //require_once 'CRM/Core/BAO/CustomOption.php';
-        //$Options = CRM_Core_BAO_CustomOption::getCustomOption($this->_id);
+        
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('html_type');
         }
 
         // form fields of Custom Option rows
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
-        $labelAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label');
-        $valueAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value');
-        $weightAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight');
+        $labelAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'label');
+        $valueAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'value');
+        $weightAttribute = CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight');
         for($i = 1; $i <= self::NUM_OPTION; $i++) {
             
             //the show hide blocks
@@ -189,10 +185,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             }
             // label
             $this->add('text','option_label['.$i.']', ts('Label'), $labelAttribute);
-
+                       
             // value
             $this->add('text', 'option_value['.$i.']', ts('Value'), $valueAttribute);
-
+            
             // Below rule is uncommented for CRM-1313
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field.'), 'qfVariable');
             
@@ -438,7 +434,6 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
             // value
             $params['option_value'] = array( 1 => $params['price'] );
             $params['option_label'] = array( 1 => $params['label'] );
-            $params['weight']       = array( 1 => 1 );
             $params['is_active']    = array( 1 => 1 );
         } else {
             $params['is_enter_qty'] = CRM_Utils_Array::value( 'is_enter_qty', $params, false );

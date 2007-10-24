@@ -49,7 +49,7 @@ $mysqlPath          = $_POST['mysql_path'   ];
 $dbAdminUser        = $_POST['db_admin_user'];
 $dbAdminPass        = $_POST['db_admin_pass'];
 $dbFilesToLoad      = array( );
-$dbFilesToLoad[]    = 'sql/civicrm.mysql';
+$dbFilesToLoad[]    = 'sql/civicrm_41.mysql';
 $dbFilesToLoad[]    = 'sql/civicrm_generated.mysql';
 
 if ( $dbHost == 'localhost' ) {
@@ -88,6 +88,9 @@ foreach ( $params as $key => $value ) {
 }
 $filename = 'civicrm.settings.php';
 $fd = fopen( "$civicrm_root/" . $filename, "w" );
+if ( ! $fd ) {
+  die("Couldn't open ".$civicrm_root/$filename." for writing, check directory permissions.");
+}
 fputs( $fd, $data );
 fclose( $fd );
 
@@ -119,6 +122,7 @@ foreach ( $dbFilesToLoad as $file ) {
         $cmd .= "-S $dbSocketFile ";
     }
     $cmd .= "-D $dbName < $civicrm_root/$file";
+    //print "<p>$cmd</p>";
     exec( $cmd );
 }
 

@@ -111,8 +111,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
             CRM_Core_DAO::storeValues( $activity, $defaults );
 
-//            CRM_Core_Error::debug( 's', $defaults );
-
             return $activity;
         }
         return null;

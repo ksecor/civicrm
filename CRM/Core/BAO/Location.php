@@ -54,8 +54,9 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Function to create various elements of location block
      *
-     * @param array    $params        (reference ) an assoc array of name/value pairs
-     * @param boolean  $fixAddress   
+     * @param array    $params       (reference ) an assoc array of name/value pairs
+     * @param boolean  $fixAddress   true if you need to fix (format) address values
+     *                               before inserting in db
      *
      * @return array   $location 
      * @access public
@@ -79,66 +80,10 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             if ( $block != 'address' ) {
                 eval( '$location[$block] = CRM_Core_BAO_Block::create( $block, $formattedBlocks );');
             } else {
-                $location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks );
+                $location[$block] = CRM_Core_BAO_Address::create( $formattedBlocks, $fixAddress );
             }
         }
 
-//         $params['location'][$locationId]['id'] = $location->id;
-//         $address_object = CRM_Core_BAO_Address::add( $params, $ids, $locationId, $fixAddress );
-//         $location->address = $address_object;
-//         // set this to true if this has been made the primary IM.
-//         // the rule is the first entered value is the primary object
-//         $isPrimaryPhone = $isPrimaryEmail = $isPrimaryIm = $isPrimaryOpenid = true;
-
-//         // Check if no two values of a field has is_primary=1. 
-//         // If yes then make sure only one has is_primary=1 and set rest to false.
-//         $locElements = array('email', 'phone', 'im', 'openid');
-//         foreach ($locElements as $element) {
-//             $varName = 'isPrimary' . ucfirst($element);
-//             $primarySet = false;
-//             if ( isset(  $params['location'][$locationId][$element] ) &&
-//                  is_array( $params['location'][$locationId][$element] ) ) {
-//                 foreach ( $params['location'][$locationId][$element] as $eleKey => $eleVal ) {
-//                     if ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && !$primarySet) {
-//                         $$varName   = false;
-//                         $primarySet = true;
-//                     } elseif ( CRM_Utils_Array::value( 'is_primary', $eleVal ) && $primarySet ) {
-//                         //set is_primary to zero if already set.
-//                         $params['location'][$locationId][$element][$eleKey]['is_primary'] = 0;
-//                     }
-//                 }
-//             }
-//         }
-
-//         $location->phone  = array( );
-//         $location->email  = array( );
-//         $location->im     = array( );
-//         $location->openid = array( );
-        
-//         for ( $i = 1; $i <= CRM_Contact_Form_Location::BLOCKS; $i++ ) {
-//             $location->phone [$i] = CRM_Core_BAO_Phone::add ( $params, $ids, $locationId, $i, $isPrimaryPhone  );
-//             $location->email [$i] = CRM_Core_BAO_Email::add ( $params, $ids, $locationId, $i, $isPrimaryEmail  );
-//             $location->im    [$i] = CRM_Core_BAO_IM::add    ( $params, $ids, $locationId, $i, $isPrimaryIm     );
-//             $location->openid[$i] = CRM_Core_BAO_OpenID::add( $params, $ids, $locationId, $i, $isPrimaryOpenid );
-//         }
-
-//         if ( isset( $ids['location'] ) ) {
-//             foreach ( $ids['location'] as $lValues ) {
-//                 // check if location is empty
-//                 if ( isset( $lValues['id'] ) &&
-//                      $lValues['id']          &&
-//                      self::isLocationEmpty( $lValues['id'] ) ) {
-//                     $locationDAO =& new CRM_Core_DAO_Location( );
-//                     $locationDAO->id = $lValues['id'];
-//                     $locationDAO->find( );
-//                     // delete the empty location
-//                     while ( $locationDAO->fetch( ) ) {
-//                         self::deleteLocationBlocks( $locationDAO->id );
-//                         $locationDAO->delete( );
-//                     }
-//                 }
-//             }
-//         }
         return $location;
     }
 
@@ -276,36 +221,6 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     static function &getValues( $contactId, &$values, $microformat = false ) 
     {
 
-//         $flatten = false;
-//         if ( empty($locationCount) ) {
-//             $locationCount = 1;
-//             $flatten       = true;
-//         } else {
-//             $values['location'] = array();
-//             $ids['location']    = array();
-//         }
-
-//         $locations = array( );
-//         for ($i = 0; $i < $locationCount; $i++) {
-//             if ($location->fetch()) {
-//                 $params['location_id'] = $location->id;
-//                 if ($flatten) {
-//                     $ids['location'] = $location->id;
-//                     CRM_Core_DAO::storeValues( $location, $values );
-//                     self::getBlocks( $params, $values, $ids, 0, $location, $microformat );
-//                 } else {
-//                     $values['location'][$i+1] = array();
-//                     $ids['location'][$i+1]    = array();
-//                     $ids['location'][$i+1]['id'] = $location->id;
-//                     CRM_Core_DAO::storeValues( $location, $values['location'][$i+1] );
-//                     self::getBlocks( $params, $values['location'][$i+1], $ids['location'][$i+1],
-//                                      CRM_Contact_Form_Location::BLOCKS, $location, $microformat );
-//                 }
-//                 $locations[$i + 1] = clone($location);
-//             }
-//         }
-
-        
         $locations = array( );
         
         //get all the blocks for this contact

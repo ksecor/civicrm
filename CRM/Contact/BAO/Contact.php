@@ -2302,18 +2302,58 @@ AND       civicrm_openid.is_primary = 1";
         require_once 'CRM/Core/BAO/Preferences.php';
         $locationCount = CRM_Core_BAO_Preferences::value( 'location_count' );
         
+        $contactLocations = array( );
+
         // find number of location blocks for this contact and adjust value accordinly
-        $query = "
-SELECT count( l.id )
-  FROM civicrm_location l
- WHERE l.entity_table = 'civicrm_contact'
-   AND l.entity_id    = {$contactId}
+        // get location type from email
+        $emailQuery = "
+SELECT location_type_id
+FROM civicrm_email
+WHERE contact_id = {$contactId}
 ";
-        $locCount = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-        if ( $locCount && $locationCount < $locCount ) {
+        $dao = CRM_Core_DAO::executeQuery( $emailQuery, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch() ) {
+            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
+        }
+
+        // get location type from phone
+        $phoneQuery = "
+SELECT location_type_id
+FROM civicrm_phone
+WHERE contact_id = {$contactId}
+";
+        $dao = CRM_Core_DAO::executeQuery( $phoneQuery, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch() ) {
+            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
+        }
+
+        // get location type from im
+        $imQuery = "
+SELECT location_type_id
+FROM civicrm_im
+WHERE contact_id = {$contactId}
+";
+        $dao = CRM_Core_DAO::executeQuery( $imQuery, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch() ) {
+            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
+        }
+
+        // get location type from address
+        $addressQuery = "
+SELECT location_type_id
+FROM civicrm_address
+WHERE contact_id = {$contactId}
+";
+        $dao = CRM_Core_DAO::executeQuery( $addressQuery, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch() ) {
+            $contactLocations[ $dao->location_type_id ] = $dao->location_type_id;
+        }
+
+        $locCount = count($contactLocations);
+        if ( $locCount &&  $locationCount < $locCount ) {
             $locationCount = $locCount;
         }
-        
+
         return $locationCount;
     }
 

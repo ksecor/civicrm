@@ -82,16 +82,10 @@ class CRM_Core_Payment_Dummy extends CRM_Core_Payment {
     /**
      * This function checks to see if we have the right config values 
      *
-     * @param  string $mode the mode we are operating in (live or test)
-     *
      * @return string the error message if any
      * @public
      */
-    function checkConfig( $mode ) {
-        if ( $mode == 'live' ) {
-            CRM_Core_Error::fatal( ts('Dummy payment processor can not be used for live transactions') );
-        }
-    
+    function checkConfig( ) {
         return null;
     }
 

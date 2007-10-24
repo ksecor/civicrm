@@ -2,8 +2,8 @@
 
 <table>
   <base>CRM/Core</base>
-  <class>LocationBlock</class>
-  <name>civicrm_location_block</name>
+  <class>LocBlock</class>
+  <name>civicrm_loc_block</name>
   <comment>Define location specific properties</comment>
   <add>2.0</add>
   <field>
@@ -98,24 +98,11 @@
     <add>2.0</add>
   </index>
   <field>
-       <name>entity_table</name>
+       <name>name</name>
+       <uniqueName>location_name</uniqueName>
+       <title>Location Name</title>
        <type>varchar</type>
-       <length>64</length>
-       <required>true</required>
-       <comment>Name of table where item being referenced is stored.</comment>
+       <length>255</length>
        <add>2.0</add>
   </field>
-  <field>
-       <name>entity_id</name>
-       <type>int unsigned</type>
-       <required>true</required>
-       <comment>Foreign key to the referenced item.</comment>
-       <add>2.0</add>
-  </field>
-  <index>
-       <name>index_entity</name>
-       <fieldName>entity_table</fieldName>
-       <fieldName>entity_id</fieldName>
-       <add>2.0</add>
-  </index>
 </table>

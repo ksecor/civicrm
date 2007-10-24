@@ -112,6 +112,17 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         } else {
             $defaults["membership_type_id"]    =  $this->_memType;
         }
+        
+        $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
+                                                                        $defaults['id'], 
+                                                                        'contribution_id', 
+                                                                        'membership_id' );
+        if ($defaults['record_contribution']) {
+            $contributionParams   = array( 'id' => $defaults['record_contribution'] );
+            $contributionIds      = array( );
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
+        }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
         return $defaults;
@@ -187,7 +198,41 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->add('select', 'status_id', ts( 'Status' ), 
                    array(''=>ts( '-select-' )) + CRM_Member_PseudoConstant::membershipStatus( ) );
 
-        $this->addElement('checkbox', 'is_override', ts('Status Hold?'), null, array( 'onClick' => 'showHideMemberStatus()'));
+        $this->addElement('checkbox', 
+                          'is_override', 
+                          ts('Status Hold?'), 
+                          null, 
+                          array( 'onClick' => 'showHideMemberStatus()'));
+
+        $this->addElement('checkbox', 
+                          'record_contribution', 
+                          ts('Record Contribution?'), null, 
+                          array( 'onClick' => 'showRecordContribution()'));
+        
+        require_once 'CRM/Contribute/PseudoConstant.php';
+        $this->add('select', 'contribution_type_id', 
+                   ts( 'Contribution Type' ), 
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( )
+                   );
+
+        $this->add('text', 'total_amount', ts('Amount'));
+
+        $this->add('select', 'payment_instrument_id', 
+                   ts( 'Paid By' ), 
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                   );
+        
+        $this->add('select', 'contribution_status_id',
+                   ts('Contribution Status'), 
+                   CRM_Contribute_PseudoConstant::contributionStatus( )
+                   );
+
+        $this->addElement('checkbox', 
+                          'send_receipt', 
+                          ts('Send Notice / Receipt?'), null, 
+                          array( 'onClick' => 'showReceiptText()'));
+
+        $this->add('textarea', 'receipt_text', ts('Receipt Text') );
 
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
 
@@ -241,7 +286,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+      
         $params = array( );
         $ids    = array( );
 
@@ -323,7 +368,18 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
+        if( $formValues['record_contribution'] ) {
+            $recordContribution = array(
+                                        'total_amount',
+                                        'contribution_type_id', 
+                                        'payment_instrument_id',
+                                        'contribution_status_id'
+                                        );
 
+            foreach ( $recordContribution as $f ) {
+                $params[$f] = CRM_Utils_Array::value( $f, $formValues );
+            }            
+        }
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
         $relatedContacts = array( );

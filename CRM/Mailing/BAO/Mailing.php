@@ -858,7 +858,8 @@ AND civicrm_contact.is_opt_out =0";
      * @return (reference) array    array ref that hold array refs to the verp info, urls, and headers
      * @access private
      */
-    private function &getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
+    private function getVerpAndUrlsAndHeaders( $job_id, $event_queue_id, $hash, $email )
+    {
         $config =& CRM_Core_Config::singleton( );
         /**
          * Inbound VERP keys:
@@ -903,7 +904,7 @@ AND civicrm_contact.is_opt_out =0";
                          'Subject'   => $this->subject,
                          );
       
-        return array(&$verp,&$urls,&$headers);
+        return array( &$verp,&$urls,&$headers);
     }
 
     /**
@@ -969,12 +970,12 @@ AND civicrm_contact.is_opt_out =0";
         }
 
         $html = null;
-        if ( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
+        if ( isset( $pEmails['html'] ) &&  is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
             $html = &$pEmails['html'];
         }
         
         $text = null;
-        if ( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
+        if ( isset( $pEmails['text'] ) && is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
         }
         

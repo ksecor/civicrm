@@ -320,6 +320,7 @@ SELECT
    option_value.id        as id,
    option_value.label     as label,
    option_value.value     as value,
+   option_value.weight    as weight,
    option_value.is_active as is_active ";
         
         $from = "
@@ -351,6 +352,7 @@ FROM
             $values[$dao->id] = array( 'id'        => $dao->id, 
                                        'label'     => $dao->label,
                                        'value'     => $dao->value,
+                                       'weight'    => $dao->weight,
                                        'is_active' => $dao->is_active );
         }
     }

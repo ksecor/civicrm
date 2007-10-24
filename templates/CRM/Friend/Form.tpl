@@ -11,9 +11,9 @@
  
     {section name=loop start=1 loop=4}
         {assign var=idx value=$smarty.section.loop.index}
-        <dt>{$form.first_name.$idx.label}</dt><dd>{$form.first_name.$idx.html}</dd>
-	<dt>{$form.last_name.$idx.label}</dt><dd>{$form.last_name.$idx.html}</dd>
-	<dt>{$form.email.$idx.label}</dt><dd>{$form.email.$idx.html}</dd>
+        <dt>{$form.friend.$idx.first_name.label}</dt><dd>{$form.friend.$idx.first_name.html}</dd>
+	<dt>{$form.friend.$idx.last_name.label}</dt><dd>{$form.friend.$idx.last_name.html}</dd>
+	<dt>{$form.friend.$idx.email.label}</dt><dd>{$form.friend.$idx.email.html}</dd>
     {/section}      
     
     <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>     	    

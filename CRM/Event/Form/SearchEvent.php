@@ -41,10 +41,14 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
     function setDefaultValues( )
     {
         $defaults = array( );
-        $today= CRM_Utils_Date::getToday( );
-        list($year, $month, $day) = explode ('-', $today);
-        $eventStartDate = date( 'Y-m-d', mktime( 0, 0, 0, $month, $day - 5, $year) );
-        $defaults['start_date'] = $eventStartDate;
+      
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $this->_showHide =& new CRM_Core_ShowHideBlocks( );
+        if ( !$defaults['eventsByDates'] ) {
+            $this->_showHide->addHide( 'id_fromToDates' );
+        }
+
+        $this->_showHide->addToTemplate( );
         return $defaults;
     }
 
@@ -55,10 +59,9 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
      * @return void
      */
     public function buildQuickForm( ) 
-        {
+    {
         $this->add( 'text', 'title', ts( 'Find' ),
-                    array(CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'title'), 
-                          'style' => 'width: 80%') );
+                    array(CRM_Core_DAO::getAttribute('CRM_Event_DAO_Event', 'title') ) );
         
         $event_type = CRM_Core_OptionGroup::values( 'event_type', false );
         
@@ -66,6 +69,10 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
             $this->addElement('checkbox', "event_type_id[$eventId]", 'Event Type', $eventName);
         }
        
+        $eventsByDates = array();
+        $searchOption  = array( ts('Show Current and Upcomimg Events'), ts('Specify Date Range') );
+        $this->addRadio( 'eventsByDates', ts( 'Events by Dates' ), $searchOption, array('onclick' =>"return showHideByValue('eventsByDates','1','id_fromToDates','block','radio',true);"));
+
         $this->add('date', 'start_date', ts('From'), CRM_Core_SelectValues::date('relative')); 
         $this->addRule('start_date', ts('Select a valid Event FROM date.'), 'qfDate'); 
         
@@ -86,7 +93,7 @@ class CRM_Event_Form_SearchEvent extends CRM_Core_Form
         $parent = $this->controller->getParent( );
         $parent->set( 'searchResult', 1 );
         if ( ! empty( $params ) ) {
-            $fields = array( 'title', 'event_type_id', 'start_date', 'end_date' );
+            $fields = array( 'title', 'event_type_id', 'start_date', 'end_date', 'eventsByDates' );
             foreach ( $fields as $field ) {
                 if ( isset( $params[$field] ) &&
                      ! CRM_Utils_System::isNull( $params[$field] ) ) {

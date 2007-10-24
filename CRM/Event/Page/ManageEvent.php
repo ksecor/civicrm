@@ -228,12 +228,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         $params      = array( );
         $whereClause = $this->whereClause( $params, true, $this->_force );
         $this->pager( $whereClause, $params );
-        /* if ($current) {
-            $past = true;
-        } else {
-            $past = false;
-        }*/
-            
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
 
         // get all custom groups sorted by weight
@@ -327,52 +321,56 @@ ORDER BY title asc
 
         $value = $this->get( 'event_type_id' );
         $val = array( );
-         if( $value) {
-             if ( is_array( $value ) ) {
-                 foreach ($value as $k => $v) {
-                     if ($v) {
-                         $val[$k] = $k;
-                     }
-                 } 
-                 $type = implode (',' ,$val);
-             }
-             
-             $clauses[] = "event_type_id IN ({$type})";
-         }
-         
-        require_once 'CRM/Utils/Date.php';
-
-        $from = $this->get( 'start_date' );
-        if ( ! CRM_Utils_System::isNull( $from ) ) {
-            $from = CRM_Utils_date::format( $from );
-            $from .= '000000';
-            $clauses[] = 'start_date >= %3';
-            $params[3] = array( $from, 'String' );
+        if( $value) {
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ($v) {
+                        $val[$k] = $k;
+                    }
+                } 
+                $type = implode (',' ,$val);
+            }
+            
+            $clauses[] = "event_type_id IN ({$type})";
         }
-
-        $to = $this->get( 'end_date' );
-        if ( ! CRM_Utils_System::isNull( $to ) ) {
-            $to = CRM_Utils_date::format( $to );
-            $to .= '235959';
-            $clauses[] = 'start_date <= %4';
-            $params[4] = array( $to, 'String' );
+        
+        $eventsByDates = $this->get( 'eventsByDates' );
+        if ($eventsByDates) {
+             require_once 'CRM/Utils/Date.php';
+        
+            $from = $this->get( 'start_date' );
+            if ( ! CRM_Utils_System::isNull( $from ) ) {
+                $from = CRM_Utils_date::format( $from );
+                $from .= '000000';
+                $clauses[] = 'start_date >= %3';
+                $params[3] = array( $from, 'String' );
+            }
+            
+            $to = $this->get( 'end_date' );
+            if ( ! CRM_Utils_System::isNull( $to ) ) {
+                $to = CRM_Utils_date::format( $to );
+                $to .= '235959';
+                $clauses[] = 'start_date <= %4';
+                $params[4] = array( $to, 'String' );
+            }
+           
+        } else {
+            $curDate = date( 'YmdHis' );
+            $clauses[5] =  "end_date >= {$curDate}";
         }
-
 
         if ( $sortBy &&
              $this->_sortByCharacter ) {
-            $clauses[] = 'title LIKE %5';
-            $params[5] = array( $this->_sortByCharacter . '%', 'String' );
+            $clauses[] = 'title LIKE %6';
+            $params[6] = array( $this->_sortByCharacter . '%', 'String' );
         }
         
         if ( !$this->_searchResult ) {
-            $today= CRM_Utils_Date::getToday( );
-            list($year, $month, $day) = explode ('-', $today);
-            $eventStartDate = date( 'Ymd', mktime( 0, 0, 0, $month, $day - 5, $year) );
-            $clauses[] = "start_date >= {$eventStartDate}";
+            $curDate = date( 'YmdHis' );
+            $clauses[] =  "end_date >= {$curDate}";
         }
-        $clauses[] = 'domain_id = %6';
-        $params[6] = array( CRM_Core_Config::domainID( ), 'Integer' );
+        $clauses[] = 'domain_id = %7';
+        $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );
 
         // dont do a the below assignement when doing a 
         // AtoZ pager clause
