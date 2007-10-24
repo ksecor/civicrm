@@ -140,7 +140,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $optionGeoup = "civicrm_price_field.amount.{$this->_fid}";
             
             // label
-            $this->add('text', 'label', ts('Option Label'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'label'), true);
+            $this->add('text', 'label', ts('Option Label'),null, true);
             
             $this->addRule( 'label',
                         ts( "There is an entry with the same label" ),
@@ -149,7 +149,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                    $optionGroup,
                                    'label' ) );
                         
-            $this->add('text', 'value', ts('Option Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'value'), true);
+            $this->add('text', 'value', ts('Option Value'),null, true);
             $this->addRule( 'value',
                         ts( "There is an entry with the same value" ),
                             'objectExists',
@@ -163,7 +163,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             $this->addRule('value', ts('Please enter a monetary value for this field.'), 'money');
             
             // weight
-            $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomOption', 'weight'), true);
+            $this->add('text', 'weight', ts('Weight'), null, true);
             $this->addRule('weight', ts(' is a numeric field') , 'numeric');
             
             // is active ?

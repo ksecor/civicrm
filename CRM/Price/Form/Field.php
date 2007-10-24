@@ -249,7 +249,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                           );
 
         // add a form rule to check default value
-        $this->addFormRule( array( 'CRM_Price_Form_Field', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Price_Form_Field', 'formRule' ),$this );
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -272,7 +272,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields, &$files, &$form ) {
         // all option fields are of type "money"
         $errors = array( );
 
@@ -280,19 +280,84 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        if (CRM_Core_Action::ADD) {
-
+        //crm_core_error::debug('fields',$fields);
+        
+        
+        if( $fields['html_type']== 'Text' ){
+            if($fields['price']==NULL){
+                $errors['price'] = ts( 'Price is a required field' );
+            }
+        } else{
+            //crm_core_error::debug('fields',$fields);
+            /*kiran
+            //for($i=1;$i<=11;$i++){
+            if( ($fields['option_label'][1]==NULL) && ($fields['option_value'][1]==NULL)  ) {echo"kiran1";
+                $errors['price'] = ts( 'Label and Value are required field' );
+            }
+            
+            elseif($fields['option_label'][1]==NULL){echo"kiran2";
+              $errors['price'] = ts( 'Label is a required field' );   
+            }
+            elseif($fields['option_value'][1]==NULL){echo"kiran3";
+              $errors['price'] = ts( 'Value is a required field' );   
+            }
+            // }kiran*/
+            
+            //$noLabel=$noValue=1;
+            for ( $index = ( self::NUM_OPTION - 1) ; $index > 0 ; $index-- ) { 
+                $noLabel=$noValue=1;
+                if ( !empty( $fields['option_label'][$index] ) ) {
+                    $noLabel = 0;
+                    $valueIndex = CRM_Utils_Array::key( $fields['option_label'][$index],
+                                                        $fields['option_label'] );
+                    
+                    if( ( ! ( $valueIndex === false ) ) && 
+                        ( ! ( $valueIndex == $index ) ) ){
+                        $errors["option_label[{$index}]"] = ts( 'Duplicate label value' );      
+                    }
+                }
+                
+                if ( !empty( $fields['option_value'][$index] ) ) {
+                    $noValue = 0;
+                    $valueIndex = CRM_Utils_Array::key( $fields['option_value'][$index],
+                                                        $fields['option_value'] );
+                    
+                    if( ( ! ( $valueIndex === false ) ) && 
+                        ( ! ( $valueIndex == $index ) ) ){
+                        $errors["option_value[{$index}]"] = ts( 'Duplicate value' );      
+                    }
+                }
+               
+                if ( ( $noLabel && !$noValue ) ) { 
+                    $errors["option_label[{$index}]"]= ts( 'Label can not be empty' );      
+                }
+                
+                if ( ( ! $noLabel && $noValue ) ) {
+                    $errors["option_value[{$index}]"] =ts( 'Value can not be empty' );
+                }
+            }
+            
+            if ( $noLabel && $noValue ) {
+                $errors["option_label[1]"] = 
+                    $errors["option_value[1]"] = 
+                    ts( 'Label and value can not be empty' );    
+            }
+            
+        }
+        /*
+        if ( CRM_Core_Action::ADD) {
+            
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
-
+           
             // do not process if no option rows were submitted
             if ( empty( $fields['option_value'] ) && empty( $fields['option_label'] ) ) {
                 return true;
             }
-
+            
             if ( empty( $fields['option_value'] ) ) {
                 $fields['option_value'] = array( );
             }
-
+            
             if ( empty( $fields['option_label'] ) ) {
                 $fields['option_label'] = array( );
             }
@@ -360,7 +425,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 }
                 
             }
-
+            */
             /* what do rowError and fieldError do?
             if ($_rowError) {
                 $_showHide->addToTemplate();
@@ -388,9 +453,10 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
                 
             }
              */
+        /*
             $_showHide->addToTemplate();
         }
-        
+        */
         return empty($errors) ? true : $errors;
     }
 
