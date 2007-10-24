@@ -17,7 +17,7 @@ You can also view your content by clicking (+) Preview Mailing.{/ts} {help id="t
 </fieldset>
 
 <div class="section-hidden section-hidden-border" id="previewMailing_show">
-  <a href="#" onclick="hide('previewMailing_show'); show('previewMailing'); getElementById('previewMailing').style.visibility = 'visible'; return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Preview Mailing{/ts}</label><br />
+  <a href="#" onclick="hide('previewMailing_show'); show('previewMailing'); makeVisible(); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Preview Mailing{/ts}</label><br />
 </div>
 
 <div id="previewMailing" style="visibility: hidden;">
@@ -35,3 +35,12 @@ You can also view your content by clicking (+) Preview Mailing.{/ts} {help id="t
 </div>
 
 </div>
+
+{literal}
+<script type="text/javascript">
+    function makeVisible()
+    { 
+      document.getElementById('previewMailing').style.visibility = "visible";
+    }
+</script>
+{/literal}
