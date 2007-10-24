@@ -177,7 +177,7 @@ class CRM_Utils_System_Joomla {
             return $action;
         }
 
-        return self::url( $_GET['task'] );
+        return self::url( $_GET['task'], null, true, null, false );
     }
 
     /**
