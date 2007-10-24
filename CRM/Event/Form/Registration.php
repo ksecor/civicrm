@@ -243,8 +243,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 $this->set('priceSetId', $this->_priceSetId);
                 $this->set('priceSet', $this->_priceSet);
             } else {
-                //require_once 'CRM/Core/BAO/CustomOption.php'; 
-                //CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageID, $this->_values['custom'] );
+                require_once 'CRM/Core/OptionGroup.php'; 
+                CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $this->_values );
             }
 
             // get the profile ids

@@ -193,13 +193,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 );
             }
         }
-        else if ( ! empty( $form->_values['custom']['label'] ) ) {
+        else if ( ! empty( $form->_values['label'] ) ) {
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $form->_values['custom']['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count( $form->_values['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($form->_values['custom']['value'][$index]) . ' ' . 
-                                                    $form->_values['custom']['label'][$index], 
-                                                    $form->_values['custom']['amount_id'][$index] );
+                                                    CRM_Utils_Money::format($form->_values['value'][$index]) . ' ' . 
+                                                    $form->_values['label'][$index], 
+                                                    $form->_values['amount_id'][$index] );
             }
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
             $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
