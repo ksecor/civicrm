@@ -228,7 +228,55 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         $params['membership_id'] = $membership->id;
-                
+        if( $ids['membership'] ) {
+            $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
+                                                                $ids['membership'], 
+                                                                'contribution_id', 
+                                                                'membership_id' );
+        }
+        //record contribution for this membership
+        if( $params['contribution_status_id'] ) {
+            $contributionParams = array( );
+            $contributionParams['contact_id'] = $params['contact_id'];
+            $config =& CRM_Core_Config::singleton();
+            $contributionParams['currency'  ] = $config->defaultCurrency;
+            $recordContribution = array(
+                                        'total_amount',
+                                        'contribution_type_id', 
+                                        'payment_instrument_id',
+                                        'contribution_status_id'
+                                        );
+            foreach ( $recordContribution as $f ) {
+                $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
+            }
+            
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
+            
+            
+            //insert payment record for this membership
+            if( !$ids['contribution'] ) {
+                require_once 'CRM/Member/DAO/MembershipPayment.php';
+                $mpDAO =& new CRM_Member_DAO_MembershipPayment();    
+                $mpDAO->membership_id   = $membership->id;
+                $mpDAO->contribution_id = $contribution->id;
+                $mpDAO->save();
+            }
+        } else {
+            //remove payment record & contribution for this membership
+            if ($ids['contribution']) {
+                require_once 'CRM/Member/DAO/MembershipPayment.php';
+                    $mpDAO =& new CRM_Member_DAO_MembershipPayment();    
+                    $mpDAO->membership_id   = $ids['membership'];
+                    $mpDAO->contribution_id = $ids['contribution'];
+                    if ($mpDAO->find(true) ) {
+                        CRM_Contribute_BAO_Contribution::deleteContribution($ids['contribution']);
+                        $mpDAO->delete( );
+                    }
+            }
+          
+        }  
+        
         // Create activity history record.
         require_once "CRM/Member/PseudoConstant.php";
         $membershipType = CRM_Member_PseudoConstant::membershipType( $membership->membership_type_id );
@@ -262,21 +310,21 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                                                       $membership->status_id
                                                                       );
         
-        $historyParams = array(
-                               'entity_table'     => 'civicrm_contact',
-                               'entity_id'        => $membership->contact_id,
-                               'activity_type'    => $activityType,
-                               'module'           => 'CiviMember',
-                               'callback'         => 'CRM_Member_Page_Membership::details',
-                               'activity_id'      => $membership->id,
-                               'activity_summary' => $activitySummary,
-                               'activity_date'    => $membership->start_date
-                               );
+//         $historyParams = array(
+//                                'entity_table'     => 'civicrm_contact',
+//                                'entity_id'        => $membership->contact_id,
+//                                'activity_type'    => $activityType,
+//                                'module'           => 'CiviMember',
+//                                'callback'         => 'CRM_Member_Page_Membership::details',
+//                                'activity_id'      => $membership->id,
+//                                'activity_summary' => $activitySummary,
+//                                'activity_date'    => $membership->start_date
+//                                );
         
-        require_once "api/History.php";
-        if ( is_a( crm_create_activity_history( $historyParams ), 'CRM_Core_Error' ) ) {
-            CRM_Core_Error::fatal("Failed creating Activity History for membership of id {$membership->id}");
-        }
+//         require_once "api/History.php";
+//         if ( is_a( crm_create_activity_history( $historyParams ), 'CRM_Core_Error' ) ) {
+//             CRM_Core_Error::fatal("Failed creating Activity History for membership of id {$membership->id}");
+//         }
         
         $transaction->commit( );
 

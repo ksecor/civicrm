@@ -113,10 +113,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults["membership_type_id"]    =  $this->_memType;
         }
         
-        $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
-                                                                        $defaults['id'], 
-                                                                        'contribution_id', 
-                                                                        'membership_id' );
+        if ($defaults['id']) {
+            $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
+                                                                            $defaults['id'], 
+                                                                            'contribution_id', 
+                                                                            'membership_id' );
+        }
+        
         if ($defaults['record_contribution']) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
@@ -431,7 +434,66 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
-        CRM_Core_Session::setStatus( ts('The membership information has been saved.') );
+        // Retrieve the name and email of the contact - this will be the TO for receipt email
+        list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        if ($formValues['send_receipt']) {
+            
+            require_once 'CRM/Contact/BAO/Contact.php';
+            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+            $session =& CRM_Core_Session::singleton( );
+            $userID  = $session->get( 'userID' );
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
+            $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
+            
+            $subject = ts('Member Contribution Receipt');
+                    
+            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
+                                                                                $formValues['contribution_type_id'] );
+            
+            $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
+            $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
+
+            $this->assign_by_ref( 'formValues', $formValues );
+            
+            $template =& CRM_Core_Smarty::singleton( );
+            $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+            
+
+            require_once 'CRM/Utils/Mail.php';
+            CRM_Utils_Mail::send( $receiptFrom,
+                                  $contributorDisplayName,
+                                  $contributorEmail,
+                                  $subject,
+                                  $message);
+        }
+        
+        
+
+        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
+        
+        if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            $statusMsg = ts( "Membership for {$contributorDisplayName} has been changed to {$memType}. " );
+            if ( $endDate ) {
+                $endDate=CRM_Utils_Date::customFormat($endDate);
+                $statusMsg .= ts("The new membership End Date is {$endDate}. ");
+            }
+            if( $formValues['send_receipt'] ) {
+                $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$contributorEmail}." );
+            }
+        }
+        if ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+            $statusMsg = ts( "{$memType} membership for {$contributorDisplayName} has been added. " );
+            if ( $endDate ) {
+                $endDate=CRM_Utils_Date::customFormat($endDate);
+                $statusMsg = ts( " The new membership End Date is {$endDate}. " );
+            }
+            if( $formValues['send_receipt'] ) {
+                 $statusMsg = ts( "A membership confirmation and receipt has been sent to {$contributorEmail}." );
+            }
+        }
+
+        CRM_Core_Session::setStatus( ts("{$statusMsg}") );
+        
     }
 }
 ?>
