@@ -76,8 +76,12 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_mailing_job 
-	    ADD is_test tinyint(4) NULL DEFAULT NULL COMMENT 'Is this job for a test mail?',
+	    ADD is_test tinyint(4) DEFAULT 0 COMMENT 'Is this job for a test mail?',
 	    DROP is_retry;
+        
+    UPDATE civicrm_mailing_job
+    SET    is_test = 0;
+    
 
 -- /*******************************************************
 -- *
