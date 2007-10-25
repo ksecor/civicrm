@@ -175,6 +175,36 @@ class CRM_Core_BAO_CustomValueTable {
             CRM_Core_Error::fatal( );
         }
     }
+
+    function store( &$params, $entityTable, $entityID ) {
+        // add custom field values
+        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
+            $cvParams = array( );
+            foreach ($params['custom'] as $customValue) {
+                $cvParam = array(
+                                 'entity_table'    => $entityTable,
+                                 'entity_id'       => $entityID,
+                                 'value'           => $customValue['value'],
+                                 'type'            => $customValue['type'],
+                                 'custom_field_id' => $customValue['custom_field_id'],
+                                 'table_name'      => $customValue['table_name'],
+                                 'column_name'     => $customValue['column_name'],
+                                 'file_id'         => $customValue['file_id'],
+                                 );
+                
+                if ($customValue['id']) {
+                    $cvParam['id'] = $customValue['id'];
+                }
+                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
+                    $cvParams[$customValue['table_name']] = array( );
+                }
+                $cvParams[$customValue['table_name']][] = $cvParam;
+            }
+            if ( ! empty( $cvParams ) ) {
+                self::create($cvParams);
+            }
+        }
+    }
     
 }
 
