@@ -133,7 +133,6 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             
             if ( ! $mailing->is_template) {
                 $job->status = 'Scheduled';
-                $job->is_test = false;
                 if ($params['now']) {
                     $job->scheduled_date = date('YmdHis');
                 } else {

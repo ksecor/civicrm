@@ -685,12 +685,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $query = "
                   SELECT DISTINCT contact_a.id as contact_id 
                   FROM civicrm_contact contact_a 
-                  LEFT JOIN civicrm_individual ON contact_a.id = civicrm_individual.contact_id
-                  LEFT JOIN civicrm_location   ON civicrm_location.entity_id = contact_a.id
-                  LEFT JOIN civicrm_address    ON civicrm_location.id = civicrm_address.location_id  
-                  LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
-                      WHERE LOWER(civicrm_email.email) = %1
-                      AND civicrm_location.entity_table = 'civicrm_contact'";
+                  LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
+                      WHERE LOWER(civicrm_email.email) = %1";
             
             $params = array( 1 => array( $testParams['test_email'], 'String' ) );
             $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -705,16 +701,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $params = array( 1 => array($testParams['test_email'], 'String' ) );
             
             if ( ! $contact_id ) {
-                $query = "SELECT        civicrm_location.id 
-                          FROM civicrm_location
-                          WHERE         civicrm_location.entity_id = $userID
-                                 AND    civicrm_location.is_primary = 1";
-                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
-                if ($dao->fetch( ) ) {
-                    $location_id = $dao->id;
-                }
-                $dao->free( );
-                $query = "INSERT INTO   civicrm_email (location_id,email) values ($location_id,%1)"; 
+                $query = "INSERT INTO   civicrm_email (contact_id, email) values ($userID,%1)"; 
                 CRM_Core_DAO::executeQuery( $query, $params );
                 $contact_id = $userID;
             } 
@@ -744,9 +731,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
                                  civicrm_email.is_bulkmail as is_bulkmail
 FROM civicrm_email
-INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
-INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
-AND civicrm_location.entity_table = 'civicrm_contact'
+INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_bulkmail = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
@@ -765,9 +750,7 @@ AND civicrm_contact.is_opt_out =0";
                     "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
                                  civicrm_email.is_bulkmail as is_bulkmail
 FROM civicrm_email
-INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
-INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
-AND civicrm_location.entity_table = 'civicrm_contact'
+INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_primary = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0

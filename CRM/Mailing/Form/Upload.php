@@ -376,10 +376,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $skipTextFile = $session->get('skipTextFile');
         $skipHtmlFile = $session->get('skipHtmlFile');
 
-        if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
-             ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
-            if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
-                $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+        if( !$params['upload_type'] ) { 
+            if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
+                 ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
+                if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
+                    $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+                }
             }
         } else {
             if ( !($params['text_message']) && !($params['html_message']) ) {
