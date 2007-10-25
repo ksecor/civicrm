@@ -120,14 +120,28 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                             'membership_id' );
         }
         
+        $defaults['contribution_type_id'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                         $this->_memType, 
+                                                                         'contribution_type_id' );
+        
+        $defaults['total_amount'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                 $this->_memType, 
+                                                                 'minimum_fee' );
+        
         if ($defaults['record_contribution']) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
+            
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
         }
-
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $defaults['send_receipt'] = 0; 
+        } elseif ( $this->_action & CRM_Core_Action::ADD ) {
+            $defaults['send_receipt'] = 1; 
+        } 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
+        // crm_core_error::debug('d',$defaults);
         return $defaults;
     }
 
@@ -480,8 +494,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             if( $formValues['send_receipt'] ) {
                 $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$contributorEmail}." );
             }
-        }
-        if ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+        } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             $statusMsg = ts( "{$memType} membership for {$contributorDisplayName} has been added. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);

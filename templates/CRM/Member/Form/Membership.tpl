@@ -63,7 +63,7 @@
 	<div>
             <dt>&nbsp;&nbsp;</dt>
 	    <dd class="html-adjust">
-		<fieldset id="recordContribution"><legend>Contribution</legend>
+		<fieldset id="recordContribution"><legend>{ts}Contribution{/ts}</legend>
 		    <dt class="label">{$form.contribution_type_id.label}</dt>
 		    <dd>{$form.contribution_type_id.html}</dd>
 		    <dt class="label">{$form.total_amount.label}</dt>
@@ -75,10 +75,11 @@
 		    <dt class="label"></dt>
 		    <dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
 		    <div id='notice'>
-		    <dt class="label">{$form.receipt_text.label}</dt>
-		    <dd>{$form.receipt_text.html}</dd>
+		    	<dt class="label">{$form.receipt_text.label}</dt>
+		    	<dd class="html-adjust">{$form.receipt_text.html} <br/><span class="html-adjust">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span></dd>
 		    </div>
-	        </fieldset></dd>
+	        </fieldset>
+	    </dd>
 	
 	</div>
         </dl>
