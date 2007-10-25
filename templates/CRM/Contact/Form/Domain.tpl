@@ -20,12 +20,12 @@
         <dt>{$form.email_name.label}</dt><dd>{$form.email_name.html} {help id="from-name"}</dd>
         <dt>{$form.email_address.label}</dt><dd>{$form.email_address.html} {help id="from-email"}
             {edit}
-                <br /><span class="description">{ts}( info@example.org ){/ts}</span>
+                <br /><span class="description">(info@example.org)</span>
             {/edit}
             </dd>
         <dt>{$form.email_domain.label}</dt><dd>{$form.email_domain.html} {help id="email-domain"}
             {edit}
-                <br /><span class="description">{ts}( example.org ){/ts}</span>
+                <br /><span class="description">(example.org)</span>
             {/edit}
             </dd>
         <dt>{$form.email_return_path.label}</dt><dd>{$form.email_return_path.html} {help id="return-path"}</dd>

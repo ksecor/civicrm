@@ -199,7 +199,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
         
         if ($this->_action & CRM_Core_Action::DELETE ) {
             CRM_Contact_BAO_Group::discard( $this->_id );
-            CRM_Core_Session::setStatus( ts('The Group "%1" has been deleted.', array(1 => $this->_title)) );        
+            CRM_Core_Session::setStatus( ts("The Group '%1' has been deleted.", array(1 => $this->_title)) );        
         } else {
             // store the submitted values in an array
             //$params = $this->exportValues();
@@ -265,7 +265,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             require_once 'CRM/Contact/BAO/Group.php';
             $group =& CRM_Contact_BAO_Group::create( $params );
             
-            CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
+            CRM_Core_Session::setStatus( ts("The Group '%1' has been saved.", array(1 => $group->title)) );        
             
             /*
              * Add context to the session, in case we are adding members to the group

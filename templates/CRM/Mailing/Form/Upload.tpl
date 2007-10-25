@@ -1,8 +1,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {include file="CRM/Mailing/Form/Count.tpl"}
 <div id="help">
-{ts}You can either <strong>upload</strong> the mailing content from your computer OR <strong>compose</strong> the content on this screen.
-Hold your mouse over the help (?) icon for more information on formats and requirements.{/ts} {help id="content-intro"} 
+{ts}You can either <strong>upload</strong> the mailing content from your computer OR <strong>compose</strong> the content on this screen. Hold your mouse over the help (?) icon for more information on formats and requirements.{/ts} {help id="content-intro"} 
 </div>
 <div class="form-item">
   <fieldset>
