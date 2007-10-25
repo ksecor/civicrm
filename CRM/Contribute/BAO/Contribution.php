@@ -185,8 +185,11 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $params['contribution_id'] = $contribution->id;
 
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contribution', $contribution->id );
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contribution', $contribution->id );
+        }
 
         $session = & CRM_Core_Session::singleton();
 

@@ -467,8 +467,11 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         //DO TO: comment because of schema changes
         //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_contact', $contact->id );
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contact', $contact->id );
+        }
 
         // make a civicrm_subscription_history entry only on contact create (CRM-777)
         if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {
