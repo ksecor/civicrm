@@ -94,8 +94,9 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_mailing
+        ADD resubscribe_id int(10) unsigned NOT NULL,
 	ADD msg_template_id int(10) unsigned NULL DEFAULT NULL ,
-    	ADD INDEX FK_civicrm_mailing_msg_template_id (msg_template_id),
+    	ADD CONSTRAINT FK_civicrm_mailing_msg_template_id FOREIGN KEY (msg_template_id) REFERENCES civicrm_msg_template(id),
     	DROP is_template;
 
 -- /*******************************************************
