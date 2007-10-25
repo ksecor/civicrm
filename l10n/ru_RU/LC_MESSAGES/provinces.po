@@ -4308,7 +4308,7 @@ msgstr ""
 msgid "Torbay"
 msgstr ""
 
-msgid "Torfasn"
+msgid "Torfaen"
 msgstr ""
 
 msgid "Tower Hamlets"
