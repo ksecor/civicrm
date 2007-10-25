@@ -30,9 +30,7 @@
 {/htxt}
 {htxt id='AuthNet_AIM-test-signature'}
 <strong>{ts}MD5-Hash (TEST account):{/ts}</strong>
-<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net.
-Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value.
-This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
+<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net. Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value. This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
 {/htxt}
 {htxt id='AuthNet_AIM-test-url-site'}
 {ts}The URL for Authorize.net's TEST Payment server. Use the default value unless otherwise advised by the processor.{/ts}
@@ -311,26 +309,18 @@ This can be just about any string of characters or words. Then enter the exact s
 
 {htxt id='Dummy-live-user-name'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-live-url-site'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-test-user-name'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-test-url-site'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 
