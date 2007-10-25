@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-10-01 11:07+1100\n"
 "Last-Translator: davemac<dave@macs.id.au>\n"
 "Language-Team: English (Australia)<Australia>\n"
@@ -1713,7 +1713,8 @@ msgid "Delete Custom Field"
 msgstr "Delete Custom Field"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+#, fuzzy
+msgid "The Group '%1' has been deleted."
 msgstr "The Group \"%1\" has been deleted."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -4987,6 +4988,10 @@ msgid "Rule"
 msgstr "Module"
 
 #: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
 msgid "Hold Date"
 msgstr "Hold Date"
 
@@ -6324,8 +6329,9 @@ msgid "Delete Custom Group"
 msgstr "Disable Custom Group"
 
 #: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 "The Group \"%1\" has not been deleted! You must Delete all custom fields in "
@@ -6661,7 +6667,8 @@ msgid "Continue"
 msgstr "Continue"
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Group '%1' has been saved."
 msgstr "The Group \"%1\" has been saved."
 
 #: CRM/Group/Form/Search.php
@@ -7384,19 +7391,19 @@ msgstr "%1 user account registration option?"
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr "Your CiviCRM Profile Group \"%1\" has been saved."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr "Your CiviCRM Profile Group \"%1\" has been saved."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
 msgid ""
-"Your CiviCRM Profile \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this Profile now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 "Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2\">add "
 "fields</a> to this group now."
@@ -9732,14 +9739,6 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "( info@example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
-msgid "( example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Additional Contact Information"
 msgstr "Add Contacts to Organization"
@@ -11698,16 +11697,26 @@ msgid "ID"
 msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"No available Groups match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                <li>Make sure you have enough privileges in the access "
-"control system.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all available Groups</a>."
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Check your spelling."
+msgstr "check your spelling"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Try a different spelling or use fewer letters."
+msgstr "try a different spelling or use fewer letters"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Make sure you have enough privileges in the access control system."
+msgstr "make sure you have enough privileges in the access control system"
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl

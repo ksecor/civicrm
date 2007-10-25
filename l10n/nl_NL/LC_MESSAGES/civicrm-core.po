@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-08-17 04:30-0700\n"
 "Last-Translator: Pascal D'Eer <pascaldeer@hotmail.com>\n"
 "Language-Team: \n"
@@ -1710,7 +1710,8 @@ msgid "Delete Custom Field"
 msgstr "Verwijder specifiek veld"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+#, fuzzy
+msgid "The Group '%1' has been deleted."
 msgstr "Groep \"%1\" is verwijderd."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -4732,6 +4733,10 @@ msgid "Rule"
 msgstr "Regel"
 
 #: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
 msgid "Hold Date"
 msgstr "Wacht datum"
 
@@ -5963,8 +5968,9 @@ msgid "Delete Custom Group"
 msgstr "Verwijder specifieke groep"
 
 #: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 "Groep %1 is niet verwijderd. U moet eerst alle specifieke velden in deze "
@@ -6284,7 +6290,8 @@ msgid "Continue"
 msgstr "Doorgaan"
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Group '%1' has been saved."
 msgstr "Groep \"%1\" is bewaard"
 
 #: CRM/Group/Form/Search.php
@@ -6915,19 +6922,19 @@ msgstr "%1 gebruikersaccount registratie optie?"
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr "Uw CiviCRM profielgroep \"%1\" is verwijderd."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr "Uw CiviCRM profielgroep \"%1\" is bewaard."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
 msgid ""
-"Your CiviCRM Profile \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this Profile now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 "Uw CiviCRM profielgroep \"%1\" is toegevoegd. U kunt nu <a href=\"%2"
 "\">velden toevoegen</a> aan deze groep."
@@ -9166,14 +9173,6 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "( info@example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
-msgid "( example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Additional Contact Information"
 msgstr "Voeg contact informatie toe"
@@ -11043,16 +11042,26 @@ msgid "ID"
 msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"No available Groups match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                <li>Make sure you have enough privileges in the access "
-"control system.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all available Groups</a>."
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Check your spelling."
+msgstr "controleer uw spelling"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Try a different spelling or use fewer letters."
+msgstr "probeer een andere spelling of gebruik minder karakters"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Make sure you have enough privileges in the access control system."
+msgstr "overtuig u dat u de goede rechten heeft voor het toegangssysteem"
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl

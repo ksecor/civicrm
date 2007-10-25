@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-05-13 22:42-0700\n"
 "Last-Translator: ycs <yuccmember@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1987,12 +1987,12 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
 msgid ""
-"Selected mailing  can not be deleted as mails are still pending in spool "
+"Selected mailing can not be deleted as mails are still pending in spool "
 "table."
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
-msgid "Selected mailing  can not be deleted since it is in process."
+msgid "Selected mailing can not be deleted since it is in process."
 msgstr ""
 
 #: CRM/Mailing/BAO/Mailing.php
@@ -2115,10 +2115,6 @@ msgstr ""
 msgid "Url"
 msgstr ""
 
-#: CRM/Mailing/Event/BAO/Subscribe.php
-msgid "\"%1\" <%2>"
-msgstr ""
-
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Org Unsubscribe"
 msgstr ""
@@ -2157,7 +2153,7 @@ msgid "Name Your Mailing"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "INCLUDE Contacts in these Group(s)"
+msgid "INCLUDE Contacts in These Group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -2165,15 +2161,15 @@ msgid "Please select at least one group to include in the mailing."
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "EXCLUDE Contacts in these Group(s)"
+msgid "EXCLUDE Contacts in These Group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "INCLUDE Recipients of these Mailing(s)"
+msgid "INCLUDE Recipients of These Mailing(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "EXCLUDE Recipients of these Mailing(s)"
+msgid "EXCLUDE Recipients of These Mailing(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -2245,7 +2241,7 @@ msgid "Mailing List Subscription"
 msgstr ""
 
 #: CRM/Mailing/Form/Subscribe.php
-msgid "Please enter a valid email address (e.g. \"yourname@example.com\")."
+msgid "Please enter a valid email address (e.g. 'yourname@example.com')."
 msgstr ""
 
 #: CRM/Mailing/Form/Subscribe.php
@@ -3207,8 +3203,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "Check this box if you want to give users the option to make recurring "
-"contributions. (This feature requires that you use &quot;PayPal Website "
-"Standard&quot; OR &quot;PayJunction&quot; as your payment processor.)"
+"contributions. (This feature requires that you use 'PayPal Website Standard' "
+"OR 'PayJunction' as your payment processor.)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -5242,18 +5238,17 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Subscribe.tpl
 msgid ""
 "Enter your email address and click <strong>Subscribe</strong>. You will "
-"receive a confirmation request via email shortly.\n"
-"        Your subscription will be activated after you respond to that email."
+"receive a confirmation request via email shortly. Your subscription will be "
+"activated after you respond to that email."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
 msgid ""
 "Enter your email address and check the box next to each mailing list you "
-"want to join. Then click the\n"
-"        <strong>Subscribe</strong> button. You will receive a confirmation "
-"request via email for each selected list.\n"
-"        Activate your subscription to each list by responding to the "
-"corresponding confirmation email."
+"want to join. Then click the <strong>Subscribe</strong> button. You will "
+"receive a confirmation request via email for each selected list. Activate "
+"your subscription to each list by responding to the corresponding "
+"confirmation email."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Subscribe.tpl
@@ -5263,8 +5258,8 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid ""
 "It's a good idea to test your mailing by sending it to yourself and/or a "
-"selected group of people in your organization.\n"
-"You can also view your content by clicking (+) Preview Mailing."
+"selected group of people in your organization. You can also view your "
+"content by clicking (+) Preview Mailing."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
@@ -5294,8 +5289,8 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
 "You can either <strong>upload</strong> the mailing content from your "
-"computer OR <strong>compose</strong> the content on this screen.\n"
-"Hold your mouse over the help (?) icon for more information on formats and "
+"computer OR <strong>compose</strong> the content on this screen. Hold your "
+"mouse over the help (?) icon for more information on formats and "
 "requirements."
 msgstr ""
 
@@ -5358,19 +5353,16 @@ msgid "New Mailing"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid ""
-"No Sent Mailings match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all Sent Mailings</a>."
+msgid "No Sent Mailings match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid "Or you can <a href=\"%1\">browse all Sent Mailings</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 msgid ""
-"There are no Sent Mailings. You can <a href=\"%1\">create and send one</a>."
+"There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -5409,10 +5401,9 @@ msgstr ""
 msgid ""
 "<strong>Delivery has not yet begun for this mailing.</strong> If the "
 "scheduled delivery date and time is past, ask the system administrator or "
-"technical support\n"
-"        contact for your site to verify that the automated mailer task "
-"(&quot;cron job&quot;) is running - and how frequently. (<a href='%1' "
-"title='%2' target='_blank'>more info...</a>)"
+"technical support contact for your site to verify that the automated mailer "
+"task ('cron job') is running - and how frequently. (<a href='%1' title='%2' "
+"target='_blank'>more info...</a>)"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl

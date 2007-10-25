@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-07-25 01:37+0200\n"
 "Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
 "MIME-Version: 1.0\n"
@@ -1735,7 +1735,8 @@ msgid "Delete Custom Field"
 msgstr "Şterge Câmp Personalizat"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+#, fuzzy
+msgid "The Group '%1' has been deleted."
 msgstr "Grupul \"%1\" a fost şters."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -4836,6 +4837,10 @@ msgid "Rule"
 msgstr "Regulă"
 
 #: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
 msgid "Hold Date"
 msgstr "Dată"
 
@@ -6073,8 +6078,9 @@ msgid "Delete Custom Group"
 msgstr "Şterge grup personalizat"
 
 #: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 "Grupul \"%1\" nu a fost şters! Va trebui să ştergeţi toate câmpurile "
@@ -6399,7 +6405,8 @@ msgid "Continue"
 msgstr "Continuă"
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Group '%1' has been saved."
 msgstr "Grupul \"%1\" a fost salvat."
 
 #: CRM/Group/Form/Search.php
@@ -7075,19 +7082,19 @@ msgstr ""
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr "Câmpul profil \"%1\" a fost salvat."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr "Câmpul profil \"%1\" a fost salvat."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
 msgid ""
-"Your CiviCRM Profile \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this Profile now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 "Grupul \"%1\" a fost adăugat. Acum puteţi <a href=\"%2\">adăuga câmpuri "
 "personalizate</a> în acest grup."
@@ -9034,14 +9041,6 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "( info@example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
-msgid "( example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Additional Contact Information"
 msgstr "Adaugă informaţie contact"
@@ -10712,16 +10711,23 @@ msgid "ID"
 msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"No available Groups match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                <li>Make sure you have enough privileges in the access "
-"control system.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all available Groups</a>."
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Check your spelling."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Try a different spelling or use fewer letters."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Make sure you have enough privileges in the access control system."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl

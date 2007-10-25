@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-10-15 19:56-0700\n"
 "Last-Translator: A.Lindner <chtulhu@web.de>\n"
 "MIME-Version: 1.0\n"
@@ -1720,7 +1720,8 @@ msgid "Delete Custom Field"
 msgstr "Lösche eigenes Feld"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+#, fuzzy
+msgid "The Group '%1' has been deleted."
 msgstr "Die Gruppe \"%1\" wurde gelöscht."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -4804,6 +4805,10 @@ msgid "Rule"
 msgstr "Regel"
 
 #: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
 msgid "Hold Date"
 msgstr "Wartetermin"
 
@@ -6050,8 +6055,9 @@ msgid "Delete Custom Group"
 msgstr "Benutzerdefinierte Gruppe löschen"
 
 #: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 "Die Gruppe \"%1\" wurde nicht gelöscht! Sie müssen alle benutzerdefinierten "
@@ -6380,7 +6386,8 @@ msgid "Continue"
 msgstr "Weiter"
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Group '%1' has been saved."
 msgstr "Die Gruppe \"%1\" wurde gespeichert."
 
 #: CRM/Group/Form/Search.php
@@ -7067,19 +7074,19 @@ msgstr ""
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr "Ihre CiviCRMprofilgruppe \"%1\" wurde gelöscht."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr "Ihre CiviCRMprofilgruppe \"%1\" wurde gespeichert."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
 msgid ""
-"Your CiviCRM Profile \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this Profile now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 "Ihre CiviCRMprofilgruppe \"%1\" wurde hinzugefügt. Sie können jetzt <a href="
 "\"%2\"> Felder hinzufügen </a> zu dieser Gruppe."
@@ -9068,14 +9075,6 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "( info@example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
-msgid "( example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Additional Contact Information"
 msgstr "Kontaktinformation hinzufügen"
@@ -10963,16 +10962,29 @@ msgid "ID"
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"No available Groups match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                <li>Make sure you have enough privileges in the access "
-"control system.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all available Groups</a>."
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Check your spelling."
+msgstr "Prüfen Sie die Schreibweise"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Try a different spelling or use fewer letters."
+msgstr ""
+"Versuchen Sie eine andere Schreibweise oder benutzen Sie weniger Buchstaben"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Make sure you have enough privileges in the access control system."
+msgstr ""
+"Stellen Sie sicher, dass Sie ausreichende Rechte in der Zugriffskontrolle "
+"haben."
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl

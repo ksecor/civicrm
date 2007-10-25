@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-24 10:18+0200\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "MIME-Version: 1.0\n"
@@ -1760,7 +1760,8 @@ msgid "Delete Custom Field"
 msgstr "Poista räätälöity kenttä"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+#, fuzzy
+msgid "The Group '%1' has been deleted."
 msgstr "Ryhmä %1 on poistettu."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -5041,6 +5042,10 @@ msgid "Rule"
 msgstr "Sääntö"
 
 #: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
 msgid "Hold Date"
 msgstr "Pidon päivä"
 
@@ -6318,8 +6323,9 @@ msgid "Delete Custom Group"
 msgstr "Poista räätälöity ryhmä"
 
 #: CRM/Custom/Form/DeleteGroup.php
+#, fuzzy
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 "Ryhmää \"%1\" ei ole poistettu! Sinun tulee ensin poistaa kaikki ryhmän "
@@ -6648,7 +6654,8 @@ msgid "Continue"
 msgstr "Jatka"
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Group '%1' has been saved."
 msgstr "Ryhmä \"%1\" on tallennettu."
 
 #: CRM/Group/Form/Search.php
@@ -7355,19 +7362,19 @@ msgstr ""
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr "CiviCRM profiiliryhmä \"%1\" hon poistettu."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
-msgid "Your CiviCRM Profile \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr "CiviCRM profiiliryhmä \"%1\" on tallennettu."
 
 #: CRM/UF/Form/Group.php
 #, fuzzy
 msgid ""
-"Your CiviCRM Profile \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this Profile now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 "CiviCRM profiiliryhmä \"%1\" on lisätty. Voit nyt <a href=\"%2\">lisätä "
 "kenttiä</a> tähän ryhmään."
@@ -9397,14 +9404,6 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "( info@example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
-msgid "( example.org )"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Additional Contact Information"
 msgstr "Lisää yhteystiedot"
@@ -11209,16 +11208,26 @@ msgid "ID"
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"No available Groups match your search criteria. Suggestions:\n"
-"                <div class=\"spacer\"></div>\n"
-"                <ul>\n"
-"                <li>Check your spelling.</li>\n"
-"                <li>Try a different spelling or use fewer letters.</li>\n"
-"                <li>Make sure you have enough privileges in the access "
-"control system.</li>\n"
-"                </ul>\n"
-"                Or you can <a href=\"%1\">browse all available Groups</a>."
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Check your spelling."
+msgstr "tarkista oikeenkirjoitus"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Try a different spelling or use fewer letters."
+msgstr "kokeile erilaista kirjoitusasua tai lyhennä hakusanaa"
+
+#: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
+msgid "Make sure you have enough privileges in the access control system."
+msgstr "varmista että sinulla on tarvittavat käyttöoikeudet"
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
