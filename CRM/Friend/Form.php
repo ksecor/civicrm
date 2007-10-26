@@ -73,22 +73,21 @@ class CRM_Friend_Form extends CRM_Core_Form
 
     public function preProcess( )  
     {  
-        $this->_entityId     = CRM_Utils_Request::retrieve( 'eid', 'Positive',
-                                                            $this );       
-        $this->_entityTable  = CRM_Utils_Request::retrieve( 'etable', 'String',
-                                                            $this );
-        $this->_action       = CRM_Utils_Request::retrieve( 'action', 'String', 
-                                                            $this );
+        $this->_action   = CRM_Utils_Request::retrieve( 'action', 'String', $this );
+        $this->_entityId = CRM_Utils_Request::retrieve( 'eid', 'Positive', $this );       
+        
+        $page = CRM_Utils_Request::retrieve( 'page', 'String', $this );
                
-        if ( $this->_entityTable == 'civicrm_contribution_page' ) {
+        if ( $page == 'contribution' ) {
+            $this->_entityTable == 'civicrm_contribution_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
-        } elseif( $this->_entityTable == 'civicrm_event' ) {
+        } elseif ( $page == 'event' ) {
+            $this->_entityTable == 'civicrm_event_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
         }
        
         $session =& CRM_Core_Session::singleton( );
         $this->_contactID = $session->get( 'userID' );
-        
     }
 
     /**
@@ -107,8 +106,8 @@ class CRM_Friend_Form extends CRM_Core_Form
         CRM_Friend_BAO_Friend::getValues($defaults);
         CRM_Utils_System::setTitle( ts( $defaults['title'] ) );
 
-        $this->assign( 'title', $defaults['title'] );
-        $this->assign( 'intro', $defaults['intro'] );
+        $this->assign( 'title',   $defaults['title'] );
+        $this->assign( 'intro',   $defaults['intro'] );
         $this->assign( 'message', $defaults['suggested_message'] );
         
         require_once "CRM/Contact/BAO/Contact.php";
@@ -150,6 +149,7 @@ class CRM_Friend_Form extends CRM_Core_Form
                                         'name'      => ts('Cancel') ), 
                                 ) 
                           );
+        
         $this->addFormRule(array('CRM_Friend_Form', 'formRule'));
     }
     
@@ -204,13 +204,13 @@ class CRM_Friend_Form extends CRM_Core_Form
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
                
-        $formValues['entity_id']          = $this->_entityId;
-        $formValues['entity_table']       = $this->_entityTable;
+        $formValues['entity_id'        ]  = $this->_entityId;
+        $formValues['entity_table'     ]  = $this->_entityTable;
         $formValues['source_contact_id']  = $this->_contactID;      
-        $formValues['is_test']            = $this->_action ? 1 : 0 ;
-        $formValues['title']              = $this->_title;
+        $formValues['is_test'          ]  = $this->_action ? 1 : 0 ;
+        $formValues['title'            ]  = $this->_title;
 
-        CRM_Friend_BAO_Friend::create($formValues,CRM_Core_DAO::$_nullArray);
+        CRM_Friend_BAO_Friend::create( $formValues );
    }
 }
 ?>

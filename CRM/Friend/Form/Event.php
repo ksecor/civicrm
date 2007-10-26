@@ -34,49 +34,48 @@
  */
 
 require_once 'CRM/Friend/BAO/Friend.php';
-require_once 'CRM/Contribute/Form/ContributionPage.php';
+require_once 'CRM/Event/Form/ManageEvent.php';
 
 /**
  * This class generates form components for Tell A Friend
  * 
  */
-class CRM_Friend_Form_Contribute_TellAFriend extends CRM_Contribute_Form_ContributionPage
+class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
 {
 
     public function preProcess()  
     {  
-        parent::preProcess();       
+        parent::preProcess();
     }
 
     /**
-     * This function sets the default values for the form. MobileProvider that in edit/view mode
-     * the default values are retrieved from the database
+     * This function sets the default values for the form. 
      * 
      * @access public
      * @return None
      */
     public function setDefaultValues( ) 
-    {
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-        CRM_Utils_System::setTitle(ts('Tell A Friend (%1)', array(1 => $title)));       
-
+    {        
+        $eventId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'event_id' );
+        $title    = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'title' );
+        CRM_Utils_System::setTitle(ts('Tell A Friend - %1', array(1 => $title)));
+        
         $defaults = array( );         
         
-        if( isset($this->_id)  ) {
-            $defaults['entity_table'] = 'civicrm_contribution_page';            
+        if ( isset($this->_id)  ) {
+            $defaults['entity_table'] = 'civicrm_event_page';            
             $defaults['entity_id']    = $this->_id;            
             CRM_Friend_BAO_Friend::getValues($defaults);
         }    
-    
-        
+            
         if ( ! $defaults['title']) {            
-            $defaults['intro'] = 'Help us spread the word and leverage the power of your contribution by telling your friends. Use the space below to personalize your email message - let your friends know why you support us. Then fill in the name(s) and email address(es) and click "Send Your Message".';
-            $defaults['suggested_message'] = 'Thought you might be interested in learning about and helping this organization. I think they do important work.';
-            $defaults['thankyou_text'] = 'Thanks for telling your friends about us and supporting our efforts. Together we can make a difference.';
+            $defaults['intro'] = 'Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you\'re attending. Then fill in the name(s) and email address(es) and click "Send Your Message".';
+            $defaults['suggested_message'] = 'Thought you might be interested in checking out this event.I\'m planning on attending.';
+            $defaults['thankyou_text'] = 'Thanks for telling spreading the word about this event to your friends.';
             $defaults['title'] = 'Tell A Friend';
             $defaults['thankyou_title'] = 'Thanks for Spreading the Word';
         }
-
+        
         return $defaults;
     }
 
@@ -88,22 +87,8 @@ class CRM_Friend_Form_Contribute_TellAFriend extends CRM_Contribute_Form_Contrib
      */
     public function buildQuickForm( ) 
     {
-       CRM_Friend_BAO_Friend::buildFriendForm($this); 
-       $session =& CRM_Core_Session::singleton();
-       $single = $session->get('singleForm');
-       if ( $single ) {
-           $this->addButtons(array(
-                                   array ( 'type'      => 'next',
-                                           'name'      => ts('Save'),
-                                           'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                           'isDefault' => true   ),
-                                   array ( 'type'      => 'cancel',
-                                           'name'      => ts('Cancel') ),
-                                   )
-                             );
-       } else {
-           parent::buildQuickForm( );
-       }
+        CRM_Friend_BAO_Friend::buildFriendForm($this);
+        parent::buildQuickForm( );
     }
 
     /**
@@ -113,17 +98,17 @@ class CRM_Friend_Form_Contribute_TellAFriend extends CRM_Contribute_Form_Contrib
      * @return None
      */
     public function postProcess() 
-    {      
+    {
         // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-           
-        $formValues['entity_table'] = 'civicrm_contribution_page';            
+        $formValues = $this->controller->exportValues( $this->_name );     
+        
+        $formValues['entity_table'] = 'civicrm_event_page';
         $formValues['entity_id']    = $this->_id;
         
         CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
     }
 
-    /** 
+     /** 
      * Return a descriptive name for the page, used in wizard header 
      * 
      * @return string 
