@@ -234,7 +234,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
-      require_once 'CRM/Contact/BAO/GroupNesting.php';
+        require_once 'CRM/Contact/BAO/GroupNesting.php';
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -243,34 +243,34 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             $this->_sortByCharacter = '';
             $this->set( 'sortByCharacter', '' );
         }
-
+        
         $this->search( );
-
+        
         $config =& CRM_Core_Config::singleton( );
-
+        
         $params = array( );
         $whereClause = $this->whereClause( $params, false );
         $this->pagerAToZ( $whereClause, $params );
-
+        
         $params      = array( );
         $whereClause = $this->whereClause( $params, true );
         $this->pager    ( $whereClause, $params );
-
-
+        
+        
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-
+        
         $query = "
   SELECT *
     FROM civicrm_group
    WHERE $whereClause
 ORDER BY title asc
    LIMIT $offset, $rowCount";
-
+        
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
-
+        
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
-
+        
         require_once 'CRM/Core/OptionGroup.php';
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
@@ -310,24 +310,25 @@ ORDER BY title asc
             }
             $values[$object->id]['children'] = "";
             if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-              $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-              foreach ($pgroups as $id){
-                if ($values[$object->id]['children'] != ""){
-                    $values[$object->id]['children'] .= ", ";
-                  }
-                $params = array('id' => $id);
-                //                print $id;
-                CRM_Contact_BAO_Group::retrieve($params, $default);
-                //print_r($default);
-                $values[$object->id]['children'] .= $default['title'];
+                $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
+                foreach ($pgroups as $id){
+                    if ($values[$object->id]['children'] != ""){
+                        $values[$object->id]['children'] .= ", ";
+                    }
+                    $params = array('id' => $id);
+                    //                print $id;
+                    CRM_Contact_BAO_Group::retrieve($params, $default);
+                    //print_r($default);
+                    $values[$object->id]['children'] .= $default['title'];
+                }
+            }
+            
+            if ( isset( $values ) ) {
+                $this->assign( 'rows', $values );
             }
         }
-
-        if ( isset( $values ) ) {
-            $this->assign( 'rows', $values );
-        }
     }
-
+    
     function search( ) {
         if ( $this->_action &
              ( CRM_Core_Action::ADD    |
