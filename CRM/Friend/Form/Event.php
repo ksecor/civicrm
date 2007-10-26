@@ -102,9 +102,9 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );     
         
-        $formValues['entity_table'] = 'civicrm_event_page';
-        $formValues['entity_id']    = $this->_id;
-        
+        $formValues['entity_table'     ] = 'civicrm_event_page';
+        $formValues['entity_id'        ] = $this->_id;
+
         CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
     }
 
