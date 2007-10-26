@@ -144,7 +144,7 @@ class CRM_Core_Invoke
             require_once 'Reports/Zend/Wrapper.php';
             break;
 
-        case 'tell_a_friend':
+        case 'friend':
             self::friend( $args );
             break;
 
@@ -170,15 +170,13 @@ class CRM_Core_Invoke
      */
     static function friend( $args ) 
     {
-        if ( $args[1] !== 'tell_a_friend' ) {
+        if ( $args[1] !== 'friend' ) {
             return;
         }
         
         $wrapper =& new CRM_Utils_Wrapper( );
         return $wrapper->run( 'CRM_Friend_Form', ts('Tell A Friend'), null);
     }
-
-        
 
     /**
      * This function contains the actions for arg[1] = contact

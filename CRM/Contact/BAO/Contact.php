@@ -1496,17 +1496,15 @@ WHERE civicrm_contact.id IN $idString ";
        if( $contactType == 'Individual') {
            $sql = "
    SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email
-     FROM civicrm_contact
-LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_address.is_primary = 1
-      AND civicrm_contact.id = %1";
+     FROM civicrm_contact, civicrm_email 
+   WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
+          AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
        } else { // for household / organization
            $sql = "
    SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
-     FROM civicrm_contact
-LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_address.is_primary = 1
+     FROM civicrm_contact, civicrm_email 
+   WHERE civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
       AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
         }

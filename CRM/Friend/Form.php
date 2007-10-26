@@ -105,15 +105,17 @@ class CRM_Friend_Form extends CRM_Core_Form
         $defaults['entity_table'] = $this->_entityTable;   
          
         CRM_Friend_BAO_Friend::getValues($defaults);
-        CRM_Utils_System::setTitle(ts($defaults['title']));
+        CRM_Utils_System::setTitle( ts( $defaults['title'] ) );
 
         $this->assign( 'title', $defaults['title'] );
         $this->assign( 'intro', $defaults['intro'] );
         $this->assign( 'message', $defaults['suggested_message'] );
+        
+        require_once "CRM/Contact/BAO/Contact.php";
+        list( $fromName, $fromEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $this->_contactID );
 
-        $defaults['first_name_user'] = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'first_name');
-        $defaults['last_name_user']  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $this->_contactID, 'last_name');
-        $defaults['email_user']      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',      $this->_contactID, 'email', 'contact_id');
+        $defaults['from_name' ] = $fromName;
+        $defaults['from_email'] = $fromEmail;
        
         return $defaults;
     }
@@ -126,11 +128,9 @@ class CRM_Friend_Form extends CRM_Core_Form
      */
     public function buildQuickForm( ) 
     {
-       
         // Details of User        
-        $this->add('text', 'first_name_user', ts('Your First Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name'), true);
-        $this->add('text', 'last_name_user',  ts('Your Last Name'),  CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'last_name'), true);   
-        $this->add('text', 'email_user', ts('Your Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
+        $this->add('text', 'from_name', ts('Your Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name'), true);
+        $this->add('text', 'from_email', ts('Your Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
         $this->add('textarea', 'suggested_message', ts('Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);         
         
         $friend = array();
@@ -166,31 +166,32 @@ class CRM_Friend_Form extends CRM_Core_Form
     public function formRule( &$values ) 
     {
         $errorMsg = array( ); 
-  
-        /*$check = 0;
-        foreach ( $values['first_name'] as $key => $val ) {
-            if ( trim($val) && trim($values['last_name'][$key]) && trim($values['email'][$key]) ) {
-                $check++;
-                break;
+
+        $valid = false;
+        foreach ( $values['friend'] as $key => $val ) {
+            if ( trim( $val['first_name'] ) || trim( $val['last_name'] ) || trim( $val['email'] ) ) {
+                $valid = true;
+                
+                if ( ! trim( $val['first_name'] ) ) {
+                    $errorMsg["friend[{$key}][first_name]"] = ts( 'Please enter the first name.' );
+                }
+
+                if ( ! trim( $val['last_name'] ) ) {
+                    $errorMsg["friend[{$key}][last_name]"] = ts( 'Please enter the last name.' );
+                }
+
+                if ( ! trim( $val['email'] ) ) {
+                    $errorMsg["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
+                }
             }
         }
-
-        if ( !$check ) {
-            if ( !$values['first_name'][1] ) {
-                $errorMsg['first_name[1]'] = "Please enter first name for at least one contact.";
-            }
-            if ( !$values['last_name'][1] ) {
-                $errorMsg['last_name[1]'] = "Please enter last name for at least one contact.";
-            }
-            
-            if ( !$values['email'][1] ) {
-                $errorMsg['email[1]'] = "Please enter email for at least one contact.";
-            }
-        }*/
         
+        if ( ! $valid ) {
+            $errorMsg['friend[1][first_name]'] = "Enter atleast one friend information.";
+        }
+
         return empty($errorMsg) ? true : $errorMsg;
     }
-
        
     /**
      * Function to process the form

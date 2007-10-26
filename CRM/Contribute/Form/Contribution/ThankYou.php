@@ -94,7 +94,6 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
             CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,false ,$productID, $option);
         }
 
-
         $params = $this->_params;
      
         $honor_block_is_active = $this->get( 'honor_block_is_active'); 
@@ -162,7 +161,6 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 } 
             }
         }
-       
 
         $this->setDefaults( $defaults );
         require_once 'CRM/Friend/BAO/Friend.php';
@@ -170,14 +168,14 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $values['entity_table'] = 'civicrm_contribution_page';
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
-        if( isset( $data) ) {               
+        if ( isset( $data) ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );
-            if( $this->_action & CRM_Core_Action::PREVIEW ) {
-                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+            if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+                $url = CRM_Utils_System::url("civicrm/friend", 
                                              "eid={$this->_id}&reset=1&action=preview&etable=civicrm_contribution_page" );
             } else {
-                $url = CRM_Utils_System::url("civicrm/tell_a_friend", 
+                $url = CRM_Utils_System::url("civicrm/friend", 
                                          "eid={$this->_id}&reset=1&etable=civicrm_contribution_page" );
             }
             $this->assign( 'registerURL', $url );

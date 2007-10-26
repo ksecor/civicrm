@@ -1,21 +1,29 @@
+<table class="form-layout-compressed" >
+   <tr><td colspan=2>{$intro}</td></tr>
 
-<div id="intro_text">{$intro}
+   <tr><td>{$form.from_name.label}</td><td>{$form.from_name.html}</td></tr>
+   <tr><td>{$form.from_email.label}</td><td>{$form.from_email.html}</td></tr>     
+   <tr><td>{$form.suggested_message.label}</td><td>{$form.suggested_message.html}</td></tr>
 
- <div id="form" class="form-item">   
-      
-    {*<dt>{$form.intro.label}</dt> *} 
-    <dt>{$form.first_name_user.label}</dt><dd>{$form.first_name_user.html}</dd> 
-    <dt>{$form.last_name_user.label}</dt><dd>{$form.last_name_user.html}</dd>   
-    <dt>{$form.email_user.label}</dt><dd>{$form.email_user.html}</dd>     
-    <dt>{$form.suggested_message.label}</dt><dd>{$form.suggested_message.html}</dd> 
- 
+   <tr><td></td><td>  
+    <fieldset><legend>{ts}Friend Detail(s){/ts}</legend>  
+    <table >
+      <tr class="columnheader" >
+          <td>{ts}First Name(s){/ts}</td>
+          <td>{ts}Last Name(s){/ts}</td>
+          <td>{ts}Email Address(es){/ts}</td>
+      </tr>
     {section name=loop start=1 loop=4}
         {assign var=idx value=$smarty.section.loop.index}
-        <dt>{$form.friend.$idx.first_name.label}</dt><dd>{$form.friend.$idx.first_name.html}</dd>
-	<dt>{$form.friend.$idx.last_name.label}</dt><dd>{$form.friend.$idx.last_name.html}</dd>
-	<dt>{$form.friend.$idx.email.label}</dt><dd>{$form.friend.$idx.email.html}</dd>
+         <tr>
+            <td class="even-row">{$form.friend.$idx.first_name.html}</td>
+            <td class="even-row">{$form.friend.$idx.last_name.html}</td>
+	    <td class="even-row">{$form.friend.$idx.email.html}</td>
+         </tr>
     {/section}      
-    
-    <dt>&nbsp;</dt><dd>{$form.buttons.html}</dd>     	    
-<div>	
- </div>      
+    </table>
+    </fieldset>
+    </td>
+   </tr>
+   <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>	
+ </table>      

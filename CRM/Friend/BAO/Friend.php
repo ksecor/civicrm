@@ -45,7 +45,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     {
         parent::__construct();
     }
-    
 
     /**
      * takes an associative array and creates a friend object
@@ -60,7 +59,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function add(&$params) 
+    static function add( &$params ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';        
         $friend = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
@@ -71,17 +70,16 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
+     * @param array  $params input parameters to find object
+     * @param array  $values output values of the object
      *
-     * @return CRM_Friend_BAO_Friend|null the found object or null
+     * @return array $values values
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$values ) 
+    static function retrieve( &$params, &$values ) 
     {
-        $friend =& new CRM_Friend_BAO_Friend( );
+        $friend =& new CRM_Friend_DAO_Friend( );
 
         $friend->copyValues( $params );
 
@@ -101,7 +99,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function &create(&$params) 
+    static function create( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
@@ -127,7 +125,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         //activity creation
         $bao = new CRM_Activity_BAO_Activity;     
-        $activity = $bao->createActivity($activityParams,CRM_Core_DAO::$_nullArray);
+        $activity = $bao->createActivity($activityParams, CRM_Core_DAO::$_nullArray);
 
         //create params for friend contacts
         foreach ( $params['friend'] as $key => $details ) {
@@ -184,18 +182,18 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $transaction->commit( );
         
         return $friend;
-
     }
 
     /**
      * Function to build the form
      *
+     * @param object $form form object
+     *
      * @return None
      * @access public
      */
-    function buildFriendForm($form)
+    function buildFriendForm( $form )
     {
-       
         $form->addElement('checkbox', 'is_active', ts( 'Tell A Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
         // name
         $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
@@ -210,7 +208,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $form->add('text', 'thankyou_title', ts('Thank-you Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_title'), true );
 
         $form->add('textarea', 'thankyou_text', ts('Thank-you Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_text') , true);
-       
     }
     
     /**
@@ -222,7 +219,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function getValues(&$defaults)
+    static function getValues( &$defaults )
     {
         $friend =& new CRM_Friend_BAO_Friend( );
         $friend->copyValues( $defaults );        
@@ -239,7 +236,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @return void
      * @access public
      */
-    
     static function sendMail( $contactID, &$values )
     {   
         $template =& CRM_Core_Smarty::singleton( );
