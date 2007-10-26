@@ -146,7 +146,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                 $bcTitle = ts('Contact');
             } else {
                 $bcTitle = ts('Event Info');
-                $session->pushUserContext( CRM_Utils_System::url('civicrm/event/info', 'reset=1&action=preview&id='. $ids ) );
+                $session->pushUserContext( CRM_Utils_System::url('civicrm/event/info', 'reset=1&id='. $ids ) );
             }
             CRM_Utils_System::appendBreadCrumb( $bcTitle, $redirect );
         }
