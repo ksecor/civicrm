@@ -144,9 +144,9 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',                              NULL, 0, NULL, 3, '{ts escape="sql"}Email Sent{/ts}',                         0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}SMS{/ts}',                                4, 'SMS',                                NULL, 0, NULL, 4, '{ts escape="sql"}SMS{/ts}',                                0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Event{/ts}',                              5, 'Event',                              NULL, 0, NULL, 5, '{ts escape="sql"}Event{/ts}',                              0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 1, 1),
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),

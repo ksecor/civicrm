@@ -220,7 +220,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $transaction = new CRM_Core_Transaction( );
 
         $result = $this->save( );        
-        
+
         // attempt to save activity assignment
         if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
@@ -283,9 +283,55 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } elseif( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
             $transaction->rollback( );
             return $resultTarget;
-        } else {
-            $transaction->commit( );            
         }
+
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
+
+        $customData = array( );
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, $activityType, null, $result->id);
+            }
+        }
+
+        // special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+                                                                 '', $activityType, null, $result->_id);
+                }
+            }
+        }
+
+        if ( ! empty( $customData ) ) {
+            //get the entity table for the custom field
+            require_once "CRM/Core/BAO/CustomQuery.php";
+            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $customData, $entityTable, $result->id );
+        }
+
+        $transaction->commit( );            
 
         CRM_Core_Session::setStatus( $status );
 
@@ -293,69 +339,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
     }
         
-// custom data disabled for now
-        
-//       // format custom data
-//       // get mime type of the uploaded file
-//        if ( !empty($_FILES) ) {
-//            foreach ( $_FILES as $key => $value) {
-//                $files = array( );
-//                if ( $params[$key] ) {
-//                    $files['name'] = $params[$key];
-//                }
-//                if ( $value['type'] ) {
-//                    $files['type'] = $value['type']; 
-//                }
-//                $params[$key] = $files;
-//            }
-//        }
-
-//        $customData = array( );
-//        require_once "CRM/Core/BAO/CustomField.php";
-//        foreach ( $params as $key => $value ) {
-//            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-//                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-//                                                             $value, $activityType, null, $activity->id);
-//            }
-//        }
-
-        //special case to handle if all checkboxes are unchecked
-//        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
-
-//        if ( !empty($customFields) ) {
-//            foreach ( $customFields as $k => $val ) {
-//                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
-//                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-//                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-//                                                                 '', $activityType, null, $activity->_id);
-//                }
-//            }
-//        }
-
-//        if ( !empty($customData) ) {
-//            //get the entity table for the custom field
-//            require_once "CRM/Core/BAO/CustomQuery.php";
-//            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
-
-            // add custom field values
-//            foreach ($customData as $customValue) {
-//                $cvParams = array(
-//                                  'entity_table'    => $entityTable,
-//                                  'entity_id'       => $activity->id,
-//                                  'value'           => $customValue['value'],
-//                                  'type'            => $customValue['type'],
-//                                  'custom_field_id' => $customValue['custom_field_id'],
-//                                  'file_id'         => $customValue['file_id'],
-//                                  );
-                
-//                if ($customValue['id']) {
-//                    $cvParams['id'] = $customValue['id'];
-//                }
-//                CRM_Core_BAO_CustomValue::create($cvParams);
-//            }
-//        }
-
-
     /**
      * compose the url to show details of activity
      *

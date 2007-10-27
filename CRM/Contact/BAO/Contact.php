@@ -2352,11 +2352,10 @@ WHERE contact_id = {$contactId}
 
     static function getIdByDisplayName( $displayName )
     {
-        require_once "CRM/Contact/DAO/Contact.php";
-        $contact = new CRM_Contact_DAO_Contact();
-        $contact->sort_name = $displayName;
-        $contact->find(true);
-        return $contact->id;
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                            $displayName,
+                                            'id',
+                                            'sort_name' );
     }
 
     /**

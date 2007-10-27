@@ -167,7 +167,7 @@
      }
     
     function reload(refresh) {
-        var activityType = document.getElementById("activity_type_id");
+        var activityType = document.getElementById("activity_type_id").value;
         var context = {/literal}"{$context}"{literal} 
         var caseid = {/literal}"{$caseid}"{literal}
         var url = {/literal}"{$refreshURL}"{literal}

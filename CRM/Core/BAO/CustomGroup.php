@@ -224,7 +224,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-       
+
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
