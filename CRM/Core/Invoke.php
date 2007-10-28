@@ -499,6 +499,10 @@ class CRM_Core_Invoke
             $mode    =  CRM_Core_Action::PROFILE;
             $title   = ts( 'Search Builder' );
             $url   = 'civicrm/contact/search/builder';
+        } else if ( $thirdArg == 'custom' ) {
+            $mode    =  CRM_Core_Action::COPY;
+            $title   = ts( 'Custom Search' );
+            $url   = 'civicrm/contact/search/custom';
         } else if ( $thirdArg == 'simple' ) {
             // set the userContext stack
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );

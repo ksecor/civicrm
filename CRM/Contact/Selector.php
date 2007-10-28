@@ -254,13 +254,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     }//end of function
 
 
-    function &getColHeads($action = null, $output = null){
-        //      print $this->_action;
+    function &getColHeads($action = null, $output = null) {
         require_once 'CRM/Contact/BAO/Group.php';
       
         $colHeads = self::_getColumnHeaders();
-        // if ($action == CRM_Core_Action::VIEW && $output != 1){
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this->_controller);
+
         if ( $gid ) {
             $query = "SELECT title FROM civicrm_group WHERE id = $gid";
             $dao =& new CRM_Contact_DAO_Group( );
@@ -271,7 +270,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $colHeads[] = array ('name' => ts($gtitle . " Groups"));
         }
         $colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Action') );
-        //}
         return $colHeads;
     }
     
@@ -729,6 +727,10 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query;
     }
 
+    function &alphabetQuery( ) {
+        return $this->_query->searchQuery( null, null, null, false, false, true );
+    }
+    
     function &makeProperties( &$returnProperties ) {
         $properties = array( );
         foreach ( $returnProperties as $name => $value ) {

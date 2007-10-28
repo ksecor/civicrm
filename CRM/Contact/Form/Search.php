@@ -203,6 +203,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     protected $_done;
 
     /**
+     * name of the selector to use
+     */
+    protected $_selectorName = 'CRM_Contact_Selector';
+
+    /**
      * define the set of valid contexts that the search form operates on
      *
      * @return array the valid context set and the titles
@@ -273,9 +278,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
                         HTML_QuickForm::createElement('checkbox', $k, null, $v);
                 }
             }
-	    $this->addGroup( $group_contact_status,
-                            'group_contact_status', ts( 'Group Status' ) );
-            $this->addGroupRule( 'group_contact_status', ts( 'Please select at least Group Status value.' ), 'required', null, 1 );
+            $this->addGroup( $group_contact_status,
+                             'group_contact_status', ts( 'Group Status' ) );
+            $this->addGroupRule( 'group_contact_status',
+                                 ts( 'Please select at least Group Status value.' ), 'required', null, 1 );
+
             // Set dynamic page title for 'Show Members of Group'
             CRM_Utils_System::setTitle( ts( 'Group Members: %1', array( 1 => $this->_group[$this->_groupID] ) ) );
 
@@ -464,8 +471,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         $this->_context = CRM_Utils_Request::retrieve( 'context', 'String',
                                                        $this, false, 'search' );
         if ( ! CRM_Utils_Array::value( $this->_context, self::validContext() ) ) {
-	    $this->_context = 'search';
-	    $this->set( 'context', $this->_context );
+            $this->_context = 'search';
+            $this->set( 'context', $this->_context );
         }
         $this->assign( 'context', $this->_context );
 
@@ -523,9 +530,11 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         //CRM_Core_Error::debug( 'f', $this->_formValues );
         //CRM_Core_Error::debug( 'p', $this->_params );
-        $selector =& new CRM_Contact_Selector( $this->_formValues, $this->_params,
-                                               $this->_returnProperties,
-                                               $this->_action );
+        eval ( '$selector =& new ' . $this->_selectorName . 
+               '( $this->_formValues,
+                  $this->_params,
+                  $this->_returnProperties,
+                  $this->_action );' );
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -688,10 +697,13 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( $session->get( 'isAdvanced' ) ) {
                 $searchChildGroups = false;
             }
-            $selector =& new CRM_Contact_Selector($this->_formValues,
-                $this->_params,
-                $this->_returnProperties,
-                $this->_action, false, $searchChildGroups );
+        eval ( '$selector =& new ' . $this->_selectorName . 
+               '( $this->_formValues,
+                  $this->_params,
+                  $this->_returnProperties,
+                  $this->_action,
+                  false,
+                  $searchChildGroups );' );
             
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
@@ -699,9 +711,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             // we'll ignore for now
             $config =& CRM_Core_Config::singleton( );
             if ( $config->includeAlphabeticalPager ) {
-                $query =& $selector->getQuery( );
                 if ($this->_reset || !$this->_sortByCharacter) {
-                    $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $query, $this->_sortByCharacter );
+                    $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $selector, $this->_sortByCharacter );
                     $this->set( 'AToZBar', $aToZBar );
                 }
             }

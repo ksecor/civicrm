@@ -415,7 +415,7 @@ class CRM_Core_Selector_Controller {
         self::$_template->assign_by_ref( "{$this->_prefix}pager"  , $this->_pager   );
 
         $rows = $this->_store->get( "{$this->_prefix}rows" );
-        
+
         if ( $rows ) {
             self::$_template->assign( "{$this->_prefix}aToZ"  ,
                                       $this->_store->get( "{$this->_prefix}AToZBar" ) );

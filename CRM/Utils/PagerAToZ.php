@@ -87,7 +87,7 @@ class CRM_Utils_PagerAToZ
         if ( $isDAO ) {
             $result = $query;
         } else {
-            $result =& $query->searchQuery( null, null, null, false, false, true );
+            $result =& $query->alphabetQuery( );
         }
         $dynamicAlphabets = array( );
         while ($result->fetch()) { 
