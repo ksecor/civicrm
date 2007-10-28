@@ -139,7 +139,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                          $includeContactIds = false,
                          $searchChildGroups = true ) {
         require_once 'CRM/Contact/Form/Search/CustomSample.php';
-        $this->_search = new CRM_Contact_Form_Search_CustomSample( $this->_formValues );
+        $this->_search = new CRM_Contact_Form_Search_CustomSample( $formValues );
     }//end of constructor
 
 
@@ -382,7 +382,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         return ts('CiviCRM Custom Search');
     }
 
-    function &alphabetQueryDAO( ) {
+    function &alphabetQuery( ) {
         $params = array( );
         $sql = $this->_search->searchAlphabet( $params );
         $this->addDomainClause( $sql, $params );

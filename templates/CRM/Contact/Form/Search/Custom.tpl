@@ -63,7 +63,7 @@
             <td>{$form.$cbName.html}</td>
             <td>{$row.contact_id}</td>
             <td>{$row.contact_type}</td>
-            <td>{$row.display_name}</td>
+            <td>{$row.sort_name}</td>
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
             <td>{$row.action}</td>
         </tr>

@@ -730,7 +730,17 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     function &alphabetQuery( ) {
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
-    
+
+    function &contactIDQuery( $params, $action, $sortID ) {
+        $sortOrder =& $this->getSortOrder( $this->_action );
+        $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
+
+        $query   =& new CRM_Contact_BAO_Query( $params );
+        return $query->searchQuery( 0, 0, $sort,
+                                    false, false, false,
+                                    false, false );
+    }
+
     function &makeProperties( &$returnProperties ) {
         $properties = array( );
         foreach ( $returnProperties as $name => $value ) {

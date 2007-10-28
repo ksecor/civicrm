@@ -63,6 +63,8 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             $values = $this->controller->exportValues( 'Advanced' );
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
+        } else if ( $this->_action == CRM_Core_Action::COPY ) {
+            $values = $this->controller->exportValues( 'Custom' );            
         } else {
             $values = $this->controller->exportValues( 'Search' );
         }
@@ -131,6 +133,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $isSearchBuilder = $session->get('isSearchBuilder');
 
         // add mapping record only for search builder saved search
+        $mappingId = null;
         if ( $isAdvanced == '2' && $isSearchBuilder == '1' ) {
             //save the mapping for search builder
             require_once "CRM/Core/BAO/Mapping.php";

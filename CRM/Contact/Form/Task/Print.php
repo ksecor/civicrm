@@ -71,7 +71,13 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
             $includeContactIds = true;
         }
 
-        $selector   =& new CRM_Contact_Selector($fv, $params, isset($returnPropeties) ? $returnPropeties : "", $this->_action, $includeContactIds );
+        $selectorName = $this->controller->selectorName( );
+        require_once( str_replace('_', DIRECTORY_SEPARATOR, $selectorName ) . '.php' );
+
+        $returnP = isset($returnPropeties) ? $returnPropeties : "";
+        eval( '$selector   =& new ' .
+              $selectorName . 
+              '( $fv, $params, $returnP, $this->_action, $includeContactIds );' );
         $controller =& new CRM_Core_Selector_Controller($selector ,
                                                         null,
                                                         $sortID,

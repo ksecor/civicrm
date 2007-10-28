@@ -476,6 +476,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'context', $this->_context );
 
+        $this->set( 'selectorName', $this->_selectorName );
+
         // get user submitted values 
         // get it from controller only if form has been submitted, else preProcess has set this
         // $this->controller->isModal( ) returns true if page is

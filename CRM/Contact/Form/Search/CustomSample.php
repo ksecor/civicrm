@@ -45,7 +45,7 @@ class CRM_Contact_Form_Search_CustomSample implements CRM_Contact_Form_SearchInt
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
-                                 ts('Display Name') => 'display_name', );
+                                 ts('Name')         => 'sort_name', );
     }
 
     function buildForm( &$form ) {
@@ -66,8 +66,14 @@ class CRM_Contact_Form_Search_CustomSample implements CRM_Contact_Form_SearchInt
     }
 
     function searchQuery( &$queryParams ) {
+        $selectClause = "
+contact_a.id           as contact_id  ,
+contact_a.contact_type as contact_type,
+contact_a.sort_name    as sort_name
+";
         return $this->searchSQL( $queryParams,
-                                'contact_a.id as contact_id, contact_a.contact_type as contact_type, contact_a.display_name as display_name' );
+                                 $selectClause );
+
     }
 
 

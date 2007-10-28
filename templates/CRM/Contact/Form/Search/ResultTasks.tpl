@@ -21,6 +21,8 @@
           {$form._qf_Advanced_next_print.html}&nbsp;&nbsp;
         {elseif $action eq 8192}
           {$form._qf_Builder_next_print.html}&nbsp;&nbsp;
+        {elseif $action eq 16384}
+          {$form._qf_Custom_next_print.html}&nbsp;&nbsp;
         {else}
           {$form._qf_Search_next_print.html}&nbsp;&nbsp;
         {/if}
@@ -30,6 +32,8 @@
        {$form._qf_Advanced_next_action.html}
      {elseif $action eq 8192}
        {$form._qf_Builder_next_action.html}&nbsp;&nbsp;
+     {elseif $action eq 16384}
+       {$form._qf_Custom_next_action.html}&nbsp;&nbsp;
      {else}
        {$form._qf_Search_next_action.html}
      {/if}
