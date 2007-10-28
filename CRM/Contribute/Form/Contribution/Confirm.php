@@ -588,32 +588,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 
         if ( $online ) {
-            // process the custom data that is submitted or that came via the url
-            // format custom data
-            $customData = array( );
-            foreach ( $form->_params as $key => $value ) {
-                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Contribution');
-                }
-            }
-            
-            if ( ! empty($customData) ) {
-                foreach ( $customData as $customValue) {
-                    $cvParams = array(
-                                      'entity_table'    => 'civicrm_contribution', 
-                                      'entity_id'       => $contribution->id,
-                                      'value'           => $customValue['value'],
-                                      'type'            => $customValue['type'],
-                                      'custom_field_id' => $customValue['custom_field_id'],
-                                      'file_id'         => $customValue['file_id'],
-                                      );
-                    
-                    if ($customValue['id']) {
-                        $cvParams['id'] = $customValue['id'];
-                    }
-                    CRM_Core_BAO_CustomValue::create($cvParams);
-                }
-            }
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
+                                                        CRM_Core_DAO::$_nullArray,
+                                                        'civicrm_contribution',
+                                                        $contribution->id,
+                                                        'Contribution' );
+            CRM_Core_Session::setStatus( $status );
         }
 
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {

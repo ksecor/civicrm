@@ -202,7 +202,40 @@ class CRM_Core_BAO_CustomValueTable {
             self::create($cvParams);
         }
     }
-    
+
+    function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) {
+        $customData = array( );
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldID,
+                                                             $customData,
+                                                             $value,
+                                                             $customFieldExtends,
+                                                             null,
+                                                             $entityID );
+            }
+        }
+
+        if ( ! empty( $customFields ) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                 $customData,
+                                                                 '',
+                                                                 $customFieldExtends,
+                                                                 null,
+                                                                 $entityID );
+                }
+            }
+        }
+
+        if ( ! empty( $customData ) ) {
+            self::store( $customData, $entityTable, $entityID );
+        }
+    }
+
 }
 
 ?>

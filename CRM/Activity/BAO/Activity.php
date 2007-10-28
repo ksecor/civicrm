@@ -300,37 +300,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }
 
-        $customData = array( );
-        require_once "CRM/Core/BAO/CustomField.php";
-        foreach ( $params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
-                                                             $value, $activityType, null, $result->id);
-            }
-        }
-
-        // special case to handle if all checkboxes are unchecked
+        require_once "CRM/Core/BAO/CustomQuery.php";
+        $entityTable  = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
 
-        if ( !empty($customFields) ) {
-            foreach ( $customFields as $k => $val ) {
-                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
-                     ! CRM_Utils_Array::value( $k, $customData ) ) {
-                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
-                                                                 '', $activityType, null, $result->_id);
-                }
-            }
-        }
-
-        if ( ! empty( $customData ) ) {
-            //get the entity table for the custom field
-            require_once "CRM/Core/BAO/CustomQuery.php";
-            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
-
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::store( $customData, $entityTable, $result->id );
-        }
-
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::postProcess( $params,
+                                                    $customFields,
+                                                    $entityTable,
+                                                    $result->id,
+                                                    $activityType );
         $transaction->commit( );            
 
         CRM_Core_Session::setStatus( $status );

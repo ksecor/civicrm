@@ -303,19 +303,12 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         // insert participant record
         $participant  =& $this->addParticipant( $this->_params, $contactID );
 
-        //hack to add participant custom data which is included in profile
-        //format custom data
-        $customData = array( );
-        foreach ( $this->_params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Participant');
-            }
-        }
-        
-        if ( ! empty($customData) ) {
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::store( $customData, 'civicrm_participant', $participant->id );
-        }
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+                                                    CRM_Core_DAO::$_nullArray,
+                                                    'civicrm_participant',
+                                                    $participant->id,
+                                                    'Participant' );
 
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
             require_once "CRM/Core/BAO/CMSUser.php";
