@@ -24,7 +24,7 @@
         {elseif $action eq 16384}
           {$form._qf_Custom_next_print.html}&nbsp;&nbsp;
         {else}
-          {$form._qf_Search_next_print.html}&nbsp;&nbsp;
+          {$form._qf_Basic_next_print.html}&nbsp;&nbsp;
         {/if}
         {$form.task.html}
      {/if}
@@ -35,7 +35,7 @@
      {elseif $action eq 16384}
        {$form._qf_Custom_next_action.html}&nbsp;&nbsp;
      {else}
-       {$form._qf_Search_next_action.html}
+       {$form._qf_Basic_next_action.html}
      {/if}
      <br/>
      <label>{$form.radio_ts.ts_sel.html} {ts}selected records only{/ts}</label>&nbsp; <label>{$form.radio_ts.ts_all.html} {ts count=$pager->_totalItems plural='all %count records'}the found record{/ts}</label>

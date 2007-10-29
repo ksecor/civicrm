@@ -64,8 +64,8 @@ class CRM_Contact_StateMachine_Search extends CRM_Core_StateMachine {
             $this->_pages['CRM_Contact_Form_Search_Custom'] = null;
             list( $task, $result ) = $this->taskName( $controller, 'Custom' );
         } else {
-            $this->_pages['CRM_Contact_Form_Search'] = null;
-            list( $task, $result ) = $this->taskName( $controller, 'Search' );
+            $this->_pages['CRM_Contact_Form_Search_Basic'] = null;
+            list( $task, $result ) = $this->taskName( $controller, 'Basic' );
         }
         $this->_task    = $task;
         if ( is_array( $task ) ) {

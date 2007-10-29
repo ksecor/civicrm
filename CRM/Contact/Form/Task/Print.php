@@ -75,11 +75,11 @@ class CRM_Contact_Form_Task_Print extends CRM_Contact_Form_Task {
         require_once( str_replace('_', DIRECTORY_SEPARATOR, $selectorName ) . '.php' );
 
         $returnP = isset($returnPropeties) ? $returnPropeties : "";
+        $customSearchClass = $this->get( 'customSearchClass' );
         eval( '$selector   =& new ' .
               $selectorName . 
-              '( ' .
-              $this->get( 'customSearchClass' ) . 
-              ', $fv,
+              '( $customSearchClass,
+                 $fv,
                  $params,
                  $returnP,
                  $this->_action,
