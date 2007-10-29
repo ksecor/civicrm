@@ -155,7 +155,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @access public
      *
      */
-    static function &links() {
+    static function &links( ) {
 
         if (!(self::$_links)) {
             self::$_links = array(
@@ -336,6 +336,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
         $columnNames = $this->_search->columns( );
         $columnNames = array_values( $columnNames );
+        $links       = self::links( );
+        $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
         // process the result of the query
         $rows = array( );
@@ -350,6 +352,9 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
             }
             if ( ! empty( $row ) ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $dao->contact_id;
+                $row['action']   = CRM_Core_Action::formLink( $links,
+                                                              $mask ,
+                                                              array( 'id' => $dao->contact_id ) );
                 $rows[] = $row;
             }
         }

@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Contact/Form/SearchInterface.php';
-class CRM_Contact_Form_Search_CustomSample implements CRM_Contact_Form_SearchInterface {
+class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_SearchInterface {
 
     protected $_formValues;
 
@@ -111,7 +111,7 @@ SELECT $selectClause
     }
 
     function templateFile( ) {
-        return 'CRM/Contact/Form/Search/CustomSample.tpl';
+        return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
     }
 
     function &columns( ) {

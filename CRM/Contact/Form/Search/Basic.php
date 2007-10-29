@@ -267,10 +267,6 @@ class CRM_Contact_Form_Search_Basic extends CRM_Contact_Form_Search {
         return ts( 'Find Contacts' );
     }
 
-    public function &returnProperties( ) {
-        return CRM_Core_DAO::$_nullObject;
-    }
-
 }
 
 ?>

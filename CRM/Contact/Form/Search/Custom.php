@@ -71,7 +71,7 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
     function buildQuickForm( ) {
         eval( $this->_customSearchClass . '::buildForm( $this );' );
 
-        $this->buildQuickFormCommon();
+        parent::buildQuickForm( );
     }
 
 }
