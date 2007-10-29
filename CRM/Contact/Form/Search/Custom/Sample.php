@@ -33,8 +33,8 @@
  *
  */
 
-require_once 'CRM/Contact/Form/SearchInterface.php';
-class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_SearchInterface {
+require_once 'CRM/Contact/Form/Search/Interface.php';
+class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_Interface {
 
     protected $_formValues;
 

@@ -33,7 +33,7 @@
  *
  */
 
-interface CRM_Contact_Form_SearchInterface {
+interface CRM_Contact_Form_Search_Interface {
     /**
      * The constructor gets the submitted form values
      */
