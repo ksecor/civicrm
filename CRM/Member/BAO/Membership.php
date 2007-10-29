@@ -172,7 +172,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create(&$params, &$ids, $callFromAPI = false ) 
-    { 
+    {
         require_once 'CRM/Utils/Date.php';
         
         if ( ! isset( $params['is_override'] ) ) {
@@ -946,7 +946,7 @@ civicrm_membership_status.is_current_member =1";
      **/
     static function renewMembership( $contactID, $membershipTypeID, $is_test,
                                      &$form, $changeToday = null, $ipnParams = null )
-    {                                                                                      
+    {                     
         require_once 'CRM/Utils/Hook.php';
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
@@ -954,7 +954,7 @@ civicrm_membership_status.is_current_member =1";
         if ( $ipnParams ) {
             $template =& CRM_Core_Smarty::singleton( );
         }
-        
+
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test ) ) {
             
@@ -1058,7 +1058,8 @@ civicrm_membership_status.is_current_member =1";
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find( true ); 
-                                
+                
+                require_once 'CRM/Member/BAO/MembershipType.php';  
                 $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id , 
                                                                                           $changeToday );
                 
@@ -1133,6 +1134,7 @@ civicrm_membership_status.is_current_member =1";
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;
 
+            require_once 'CRM/Member/BAO/MembershipType.php';  
             $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
 
             $memParams['join_date']     = 

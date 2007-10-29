@@ -113,7 +113,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults["membership_type_id"]    =  $this->_memType;
         }
         
-        if ($defaults['id']) {
+        if ( $defaults['id'] ) {
             $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
                                                                             $defaults['id'], 
                                                                             'contribution_id', 
@@ -128,20 +128,26 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                  $this->_memType, 
                                                                  'minimum_fee' );
         
-        if ($defaults['record_contribution']) {
+        if ( $defaults['record_contribution'] ) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
             
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
         }
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $defaults['send_receipt'] = 0; 
         } elseif ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['send_receipt'] = 1; 
-        } 
+        }
+        if ( $defaults['membership_type_id'][1] ) {
+            $defaults['receipt_text'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                                                      $defaults['membership_type_id'][1],
+                                                                      'receipt_text' );
+        }
+        
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
-        // crm_core_error::debug('d',$defaults);
         return $defaults;
     }
 
@@ -399,6 +405,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
+        if ( $formValues['send_receipt'] ) {
+            require_once 'CRM/Core/DAO.php';
+            CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
+                                         $params['membership_type_id'], 
+                                         'receipt_text',
+                                         $formValues['receipt_text'] );
+        }
+
         $relatedContacts = array( );
         if ( ! is_a( $membership, 'CRM_Core_Error') ) {
             $relatedContacts = CRM_Member_BAO_Membership::checkMembershipRelationship( 
@@ -481,10 +495,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                   $message);
         }
         
-        
-
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
-        
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             $statusMsg = ts( "Membership for {$contributorDisplayName} has been changed to {$memType}. " );
             if ( $endDate ) {

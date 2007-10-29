@@ -44,9 +44,7 @@
 	</div>
         </dl>
     </div>
-      
-    {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
-     
+         
    <dl>
      <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>
    </dl>
