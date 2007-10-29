@@ -53,6 +53,15 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
                     'household_name',
                     ts( 'Household Name' ),
                     true );
+
+        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
+        $form->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
+
+        /**
+         * if you are using the standard template, this array tells the template what elements
+         * are part of the search criteria
+         */
+        $form->assign( 'elements', array( 'household_name', 'state_province' ) );
     }
 
     function count( &$queryParams ) {

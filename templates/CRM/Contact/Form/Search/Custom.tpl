@@ -15,9 +15,13 @@
     <legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{ts}Search Criteria{/ts}</legend>
 
 <table class="form-layout">
+   {foreach from=$elements item=element}
  <tr>
-   <td class="font-size12pt">{$form.household_name.label}</td><td>{$form.household_name.html}</td>
-   <td class="label">{$form.buttons.html}</td>
+     <td class="font-size12pt">{$form.$element.label}</td><td>{$form.$element.html}</td>
+ </tr>
+   {/foreach}
+ <tr>
+   <td colspan=2 class="label">{$form.buttons.html}</td>
  </tr>
 </table>
 </fieldset>
@@ -67,7 +71,11 @@
             <td>{$form.$cbName.html}</td>
   {foreach from=$columnHeaders item=header}
     {assign var=fName value=$header.sort}
+    {if $fName eq 'sort_name'}
+    <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.contact_id`"}">{$row.sort_name}</a></td>
+    {else}
     <td>{$row.$fName}</td>
+    {/if}
   {/foreach}
             <td>{$row.action}</td>
         </tr>
