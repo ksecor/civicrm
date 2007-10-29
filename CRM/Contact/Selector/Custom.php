@@ -132,14 +132,15 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct($formValues = null,
-                         $params = null,
-                         $returnProperties = null,
-                         $action = CRM_Core_Action::NONE,
-                         $includeContactIds = false,
-                         $searchChildGroups = true ) {
-        require_once 'CRM/Contact/Form/Search/CustomSample.php';
-        $this->_search = new CRM_Contact_Form_Search_CustomSample( $formValues );
+    function __construct( $customSearchClass,
+                          $formValues = null,
+                          $params = null,
+                          $returnProperties = null,
+                          $action = CRM_Core_Action::NONE,
+                          $includeContactIds = false,
+                          $searchChildGroups = true ) {
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
+        eval( '$this->_search = new ' . $customSearchClass . '( $formValues );' );
     }//end of constructor
 
 
@@ -388,7 +389,14 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         $this->addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
-        
+    }
+
+    function &contactIDQuery( ) {
+        $params = array( );
+        $sql = $this->_search->searchContactID( $params );
+        $this->addDomainClause( $sql, $params );
+
+        return CRM_Core_DAO::executeQuery( $sql, $params );
     }
 
 }//end of class

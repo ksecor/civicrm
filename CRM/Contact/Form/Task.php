@@ -95,10 +95,17 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                                                        $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
             }
 
-            $params    =  $this->get( 'queryParams' );
+            $selectorName = $this->controller->selectorName( );
+            require_once( str_replace('_', DIRECTORY_SEPARATOR, $selectorName ) . '.php' );
 
-            require_once 'CRM/Contact/Selector.php';
-            $selector  =& new CRM_Contact_Selector( );
+            $fv        =  $this->get( 'formValues' );
+            eval( '$selector   =& new ' .
+                  $selectorName . 
+                  '( ' .
+                  $this->get( 'customSearchClass' ) .
+                  ', $fv ); ' );
+
+            $params    =  $this->get( 'queryParams' );
             $dao       =& $selector->contactIDQuery( $params, $this->_action, $sortID );
 
             while ( $dao->fetch( ) ) {

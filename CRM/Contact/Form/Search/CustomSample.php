@@ -76,6 +76,15 @@ contact_a.sort_name    as sort_name
 
     }
 
+    function searchContactID( &$queryParams ) {
+        $selectClause = "
+contact_a.id           as contact_id
+";
+        return $this->searchSQL( $queryParams,
+                                 $selectClause );
+
+    }
+
 
     function searchSQL( &$queryParams,
                         $selectClause ) {

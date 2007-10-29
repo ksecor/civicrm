@@ -146,12 +146,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct($formValues = null,
-                         $params = null,
-                         $returnProperties = null,
-                         $action = CRM_Core_Action::NONE,
-                         $includeContactIds = false,
-                         $searchChildGroups = true ) 
+    function __construct( $customSearchClass,
+                          $formValues = null,
+                          $params = null,
+                          $returnProperties = null,
+                          $action = CRM_Core_Action::NONE,
+                          $includeContactIds = false,
+                          $searchChildGroups = true )
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
@@ -731,7 +732,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
 
-    function &contactIDQuery( $params, $action, $sortID ) {
+    function &contactIDQuery( $params, $action, $sortID, &$ignore ) {
         $sortOrder =& $this->getSortOrder( $this->_action );
         $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
 

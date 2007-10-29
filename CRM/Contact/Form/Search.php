@@ -205,7 +205,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
     /**
      * name of the selector to use
      */
-    protected $_selectorName = 'CRM_Contact_Selector';
+    protected $_selectorName      = 'CRM_Contact_Selector';
+    protected $_customSearchID    = null;
+    protected $_customSearchClass = null;
 
     /**
      * define the set of valid contexts that the search form operates on
@@ -532,15 +534,18 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
 
         //CRM_Core_Error::debug( 'f', $this->_formValues );
         //CRM_Core_Error::debug( 'p', $this->_params );
-        eval ( '$selector =& new ' . $this->_selectorName . 
-               '( $this->_formValues,
-                  $this->_params,
-                  $this->_returnProperties,
-                  $this->_action );' );
+        eval( '$selector =& new ' . $this->_selectorName . 
+              '( $this->_customSearchClass,
+                 $this->_formValues,
+                 $this->_params,
+                 $this->_returnProperties,
+                 $this->_action );' );
         $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                            $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                            $this->get( CRM_Utils_Sort::SORT_ID  ),
-                                                           CRM_Core_Action::VIEW, $this, CRM_Core_Selector_Controller::TRANSFER );
+                                                           CRM_Core_Action::VIEW,
+                                                           $this,
+                                                           CRM_Core_Selector_Controller::TRANSFER );
         $controller->setEmbedded( true );
 
         if ( $this->_force ) {
@@ -699,13 +704,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( $session->get( 'isAdvanced' ) ) {
                 $searchChildGroups = false;
             }
-        eval ( '$selector =& new ' . $this->_selectorName . 
-               '( $this->_formValues,
-                  $this->_params,
-                  $this->_returnProperties,
-                  $this->_action,
-                  false,
-                  $searchChildGroups );' );
+        eval( '$selector =& new ' . $this->_selectorName . 
+              '( $this->_customSearchClass,
+                 $this->_formValues,
+                 $this->_params,
+                 $this->_returnProperties,
+                 $this->_action,
+                 false,
+                 $searchChildGroups );' );
             
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter
@@ -727,7 +733,9 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             $controller =& new CRM_Contact_Selector_Controller($selector ,
                                                                $this->get( CRM_Utils_Pager::PAGE_ID ),
                                                                $sortID,
-                                                               CRM_Core_Action::VIEW, $this, $output );
+                                                               CRM_Core_Action::VIEW,
+                                                               $this,
+                                                               $output );
             $controller->setEmbedded( true );
             $controller->run();
         }
