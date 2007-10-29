@@ -37,6 +37,8 @@ require_once 'CRM/Contact/Form/Search.php';
 
 class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
 
+    protected $_customClass = null;
+
     public function preProcess( ) {
         $this->_customSearchID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this, true );
         
@@ -57,7 +59,10 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         if ( $error == false ) {
             CRM_Core_Error::fatal( 'Could not find implementation file for custom search' );
         }
-             
+
+        // instantiate the new class
+        eval( '$this->_customClass = new ' . $this->_customSearchClass . '( CRM_Core_DAO::$_nullArray );' );
+
         // use the custom selector
         require_once 'CRM/Contact/Selector/Custom.php';
         $this->_selectorName = 'CRM_Contact_Selector_Custom';
@@ -69,11 +74,15 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
     }
 
     function buildQuickForm( ) {
-        eval( $this->_customSearchClass . '::buildForm( $this );' );
+        $this->_customClass->buildForm( $this );
 
         parent::buildQuickForm( );
     }
 
+    function getTemplateFileName( ) {
+        $fileName = $this->_customClass->templateFile( );
+        return $fileName ? $fileName : parent::getTemplateFileName( );
+    }
 }
 
 ?>
