@@ -41,11 +41,14 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
     protected $_columns;
 
     function __construct( &$formValues ) {
+        CRM_Core_Error::debug_stacktrace( );
+        CRM_Core_Error::debug_var( 'fv', $formValues );
         $this->_formValues =& $formValues;
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Contact Type') => 'contact_type',
-                                 ts('Name')         => 'sort_name', );
+                                 ts('Name')         => 'sort_name',
+                                 ts('State')        => 'state_province' );
     }
 
     function buildForm( &$form ) {
@@ -55,13 +58,13 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
                     true );
 
         $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
-        $form->addElement('select', 'state_province', ts('State/Province'), $stateProvince);
+        $form->addElement('select', 'state_province_id', ts('State/Province'), $stateProvince);
 
         /**
          * if you are using the standard template, this array tells the template what elements
          * are part of the search criteria
          */
-        $form->assign( 'elements', array( 'household_name', 'state_province' ) );
+        $form->assign( 'elements', array( 'household_name', 'state_province_id' ) );
     }
 
     function count( &$queryParams ) {
@@ -89,7 +92,8 @@ contact_a.id           as contact_id
         $selectClause = "
 contact_a.id           as contact_id  ,
 contact_a.contact_type as contact_type,
-contact_a.sort_name    as sort_name
+contact_a.sort_name    as sort_name,
+state_province.name    as state_province
 ";
         return $this->sql( $queryParams,
                            $selectClause );
@@ -100,22 +104,38 @@ contact_a.sort_name    as sort_name
 
     function sql( &$queryParams,
                   $selectClause ) {
-        $name = CRM_Utils_Array::value( 'household_name',
+
+        $sql = "
+SELECT    $selectClause
+FROM      civicrm_contact contact_a
+LEFT JOIN civicrm_address address ON address.contact_id = contact_a.id
+LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
+ WHERE contact_a.contact_type = 'Household'";
+
+        $count  = 1;
+        $clause = array( );
+        $name   = CRM_Utils_Array::value( 'household_name',
                                         $this->_formValues );
-        if ( $name == null ) {
-            $name = '';
-        }
-        if ( strpos( $name, '%' ) === false ) {
-            $name = "%{$name}%";
+        if ( $name != null ) {
+            if ( strpos( $name, '%' ) === false ) {
+                $name = "%{$name}%";
+            }
+            $queryParams[$count] = array( $name, 'String' );
+            $clause[] = "contact_a.household_name LIKE %{$count}";
+            $count++;
         }
 
-        $queryParams[1] = array( $name, 'String' );
-        
-        $sql = "
-SELECT $selectClause
-  FROM civicrm_contact contact_a
- WHERE contact_a.contact_type = 'Household'
-  AND  contact_a.household_name LIKE %1";
+        $state = CRM_Utils_Array::value( 'state_province_id',
+                                         $this->_formValues );
+        if ( $state ) {
+            $queryParams[$count] = array( $state, 'Integer' );
+            $clause[] = "state_province.id = %{$count}";
+        }
+
+        if ( ! empty( $clause ) ) {
+            $sql .= ' AND ' . implode( ' AND ', $clause );
+        }
+
         return $sql;
     }
 

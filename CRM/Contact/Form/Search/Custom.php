@@ -83,6 +83,25 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         $fileName = $this->_customClass->templateFile( );
         return $fileName ? $fileName : parent::getTemplateFileName( );
     }
+
+    function postProcess( ) 
+    {
+        $session =& CRM_Core_Session::singleton();
+        $session->set('isCustom', '1');
+
+        // get user submitted values
+        // get it from controller only if form has been submitted, else preProcess has set this
+        if ( ! empty( $_POST ) ) {
+            $this->_formValues = $this->controller->exportValues($this->_name);
+
+            // also reset the sort by character
+            $this->_sortByCharacter = null;
+            $this->set( 'sortByCharacter', null );
+        }            
+
+        parent::postProcess( );
+    }
+
 }
 
 ?>

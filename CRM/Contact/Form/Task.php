@@ -98,12 +98,13 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             $selectorName = $this->controller->selectorName( );
             require_once( str_replace('_', DIRECTORY_SEPARATOR, $selectorName ) . '.php' );
 
-            $fv        =  $this->get( 'formValues' );
+            $fv          = $this->get( 'formValues' );
+            $customClass = $this->get( 'customSearchClass' );
+
             eval( '$selector   =& new ' .
                   $selectorName . 
-                  '( ' .
-                  $this->get( 'customSearchClass' ) .
-                  ', $fv ); ' );
+                  '( $customClass, $fv ); '
+                  );
 
             $params    =  $this->get( 'queryParams' );
             $dao       =& $selector->contactIDQuery( $params, $this->_action, $sortID );

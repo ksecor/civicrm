@@ -462,8 +462,8 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
         }
         $this->assign( 'id', CRM_Utils_Array::value( 'uf_group_id', $this->_formValues ) );
 
-        //CRM_Core_Error::debug( 'f', $this->_formValues );
-        //CRM_Core_Error::debug( 'p', $this->_params );
+        // CRM_Core_Error::debug( 'f', $this->_formValues );
+        // CRM_Core_Error::debug( 'p', $this->_params );
         eval( '$selector =& new ' . $this->_selectorName . 
               '( $this->_customSearchClass,
                  $this->_formValues,
