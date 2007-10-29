@@ -55,39 +55,42 @@ class CRM_Contact_Form_Search_CustomSample implements CRM_Contact_Form_SearchInt
                     true );
     }
 
-    function searchCount( &$queryParams ) {
-        return $this->searchSQL( $queryParams,
-                                 'count(contact_a.id) as total' );
+    function count( &$queryParams ) {
+        return $this->sql( $queryParams,
+                           'count(contact_a.id) as total' );
     }
 
-    function searchAlphabet( &$queryParams ) {
-        return $this->searchSQL( $queryParams,
-                                 'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
+    function alphabet( &$queryParams ) {
+        return $this->sql( $queryParams,
+                           'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
     }
 
-    function searchQuery( &$queryParams ) {
+    function contactIDs( &$queryParams,
+                         $offset, $rowcount, $sort ) {
+        $selectClause = "
+contact_a.id           as contact_id
+";
+        return $this->sql( $queryParams,
+                           $selectClause );
+
+    }
+
+    function all( &$queryParams,
+                  $offset, $rowcount, $sort ) {
         $selectClause = "
 contact_a.id           as contact_id  ,
 contact_a.contact_type as contact_type,
 contact_a.sort_name    as sort_name
 ";
-        return $this->searchSQL( $queryParams,
-                                 $selectClause );
-
-    }
-
-    function searchContactID( &$queryParams ) {
-        $selectClause = "
-contact_a.id           as contact_id
-";
-        return $this->searchSQL( $queryParams,
-                                 $selectClause );
+        return $this->sql( $queryParams,
+                           $selectClause );
 
     }
 
 
-    function searchSQL( &$queryParams,
-                        $selectClause ) {
+
+    function sql( &$queryParams,
+                  $selectClause ) {
         $name = CRM_Utils_Array::value( 'household_name',
                                         $this->_formValues );
         if ( $name == null ) {
@@ -109,14 +112,6 @@ SELECT $selectClause
 
     function templateFile( ) {
         return 'CRM/Contact/Form/Search/CustomSample.tpl';
-    }
-
-    function columnHeaders( ) {
-        return array_keys( $this->_columns );
-    }
-
-    function &columnNames( ) {
-        return array_values( $this->_columns );
     }
 
     function &columns( ) {

@@ -35,16 +35,47 @@
 
 interface CRM_Contact_Form_SearchInterface {
     /**
+     * The constructor gets the submitted form values
+     */
+    function __construct( &$formValues );
+
+    /**
      * Builds the quickform for this search
      */
     function buildForm( &$form );
 
     /**
-     * Builds the search query
+     * Builds the search query for various cases. We break it down into finer cases
+     * since you can optimize each query independently. All the functions below return
+     * a sql clause with only SELECT, FROM, WHERE sub-parts. The ORDER BY and LIMIT is
+     * added at a later stage
      */
-    function searchCount   ( &$queryParams );
-    function searchAlphabet( &$queryParams );
-    function searchQuery   ( &$queryParams );
+
+    /**
+     * Count of records that match the current input parameters
+     * Used by pager
+     */
+    function count     ( &$queryParams );
+
+    /**
+     * Dynamic alphabet set that match the current input parameters
+     * Used by alphabetic pager. If null is returned, the alpha pager
+     * is skipped
+     */
+    function alphabet  ( &$queryParams );
+
+    /**
+     * List of contact ids that match the current input parameters
+     * Used by different tasks. Will be also used to optimize the
+     * 'all' query below to avoid excessive LEFT JOIN blowup
+     */
+    function contactIDs( &$queryParams, $offset, $rowcount, $sort );
+
+    /**
+     * Retrieve all the values that match the current input parameters
+     * Used by the selector
+     */
+    function all       ( &$queryParams, $offset, $rowcount, $sort );
 
     /**
      * The template FileName to use to display the results
@@ -52,9 +83,9 @@ interface CRM_Contact_Form_SearchInterface {
     function  templateFile( );
 
     /**
-     * Returns an array of column headers and field names
+     * Returns an array of column headers and field names and sort options
      */
-    function  columnHeaders( );
+    function &columns( );
 
 }
 

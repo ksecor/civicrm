@@ -11,12 +11,16 @@
 </div>
 
 <div id="searchForm">
+<fieldset>
+    <legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{ts}Search Criteria{/ts}</legend>
+
 <table class="form-layout">
  <tr>
    <td class="font-size12pt">{$form.household_name.label}</td><td>{$form.household_name.html}</td>
    <td class="label">{$form.buttons.html}</td>
  </tr>
 </table>
+</fieldset>
 </div>
 
 {if $rowsEmpty}

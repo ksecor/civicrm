@@ -238,7 +238,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      */
     function getTotalCount( $action ) {
         $params = array( );
-        $sql = $this->_search->searchCount( $params );
+        $sql = $this->_search->count( $params );
         $this->addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::singleValueQuery( $sql, $params );
@@ -321,7 +321,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
 
         $params = array( );
-        $sql = $this->_search->searchQuery( $params );
+        $sql = $this->_search->all( $params, $offset, $rowCount, $sort );
         $this->addDomainClause( $sql, $params );
 
         if ( ( $output == CRM_Core_Selector_Controller::EXPORT || 
@@ -334,7 +334,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
         $dao = CRM_Core_DAO::executeQuery( $sql, $params );
 
-        $columnNames = $this->_search->columnNames( );
+        $columnNames = $this->_search->columns( );
+        $columnNames = array_values( $columnNames );
 
         // process the result of the query
         $rows = array( );
@@ -385,7 +386,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
     function &alphabetQuery( ) {
         $params = array( );
-        $sql = $this->_search->searchAlphabet( $params );
+        $sql = $this->_search->alphabet( $params, 0, 0, null );
         $this->addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
@@ -393,7 +394,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
     function &contactIDQuery( ) {
         $params = array( );
-        $sql = $this->_search->searchContactID( $params );
+        $sql = $this->_search->contactIDs( $params );
         $this->addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
