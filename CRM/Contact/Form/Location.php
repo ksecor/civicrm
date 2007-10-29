@@ -98,7 +98,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 CRM_Contact_Form_IM::buildIMBlock         ($form, $location, $locationId, self::BLOCKS); 
                 CRM_Contact_Form_OpenID::buildOpenIDBlock ($form, $location, $locationId, self::BLOCKS);
             } else {
-                $blockCount = self::BLOCKS;
+                $blockCount = $maxLocationBlocks;
                 foreach ( $locationCompoments as $key) {
                     eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , $blockCount );');
                 }

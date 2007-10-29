@@ -65,8 +65,8 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
-       
+    function preProcess( ) 
+    {
         parent::preProcess( );
     }
 
@@ -86,22 +86,28 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         if ( isset( $eventId ) ) {
             $params = array( 'entity_id' => $eventId ,'entity_table' => 'civicrm_event');
             require_once 'CRM/Core/BAO/Location.php';
-            $location = CRM_Core_BAO_Location::getValues($params, $defaults, $ids, self::LOCATION_BLOCKS);
+            $location = CRM_Core_BAO_Location::getValues($params, $defaults);
+            
             $this->_locationIds = $ids;
             $isShowLocation = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                         $eventId,
-                                                         'is_show_location',
-                                                         'id' );
+                                                           $eventId,
+                                                           'is_show_location',
+                                                           'id' );
             
         }
         
         $defaults['is_show_location'] = $isShowLocation;
-        if ( ! empty( $params ) ) {
-            $this->setShowHide( $params, true );
+       
+        if ( ! empty( $_POST ) ) {
+            $this->setShowHide( $_POST, true );
         } else {
-            $this->setShowHide( $defaults, false );
+            if ( ! empty( $defaults ) ) {
+                $this->setShowHide( $defaults, true );
+            } else {
+                $this->setShowHide( $defaults, false );
+            }
         }
-
+       
         //set defaults for country-state dojo widget
         if ( ! empty ( $defaults['location'] ) ) {
             $countries      =& CRM_Core_PseudoConstant::country( );
@@ -154,6 +160,7 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
                 }
             }
         }
+        
         return $defaults;
     }       
 
@@ -170,12 +177,12 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
         $prefix =  array( 'phone','email' );
-        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS , $prefix, false);
+        CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS, $prefix, false);
         
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             $config =& CRM_Core_Config::singleton( );
-            
+       
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
                                                        $config->maxLocationBlocks, $prefix );
@@ -239,10 +246,10 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
 
         //blocks to be displayed
         $locationCompoments = array('Phone', 'Email');
-        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS ,$locationCompoments);
+        CRM_Contact_Form_Location::buildLocationBlock( $this, self::LOCATION_BLOCKS + 1, true, $locationCompoments);
         $this->addElement('advcheckbox', 'is_show_location', ts('Show Location?') );
         $this->assign( 'index' , 1 );
-        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1 );
+        $this->assign( 'blockCount'   , CRM_Contact_Form_Location::BLOCKS + 1);
     
         parent::buildQuickForm();
     }
@@ -269,9 +276,9 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         $params['location'][1]['location_type_id'] = $defaultLocationType->id;
 
         require_once 'CRM/Core/BAO/Location.php';
-        // FIXME: Schema redesign
-        // CRM_Core_BAO_Location::add($params, $ids, self::LOCATION_BLOCKS);
-
+        $location = CRM_Core_BAO_Location::create($params, null, 'event');
+        $params['loc_block_id'] = $location['id'];
+        
         $ids['event_id']  = $eventId;
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::add($params, $ids);

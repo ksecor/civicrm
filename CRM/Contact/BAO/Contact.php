@@ -709,7 +709,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                                                     $microformat );
 
         //get the block information for this contact
-        $contact->location  =& CRM_Core_BAO_Location::getValues( $params['contact_id'], 
+        $entityBlock = array( 'contact_id' => $params['contact_id'] );
+        $contact->location  =& CRM_Core_BAO_Location::getValues( $entityBlock, 
                                                                  $defaults, 
                                                                  $microformat );
         

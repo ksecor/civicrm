@@ -53,10 +53,9 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     static function add( &$params ) 
     {
         $email =& new CRM_Core_DAO_Email( );
-        
         $email->copyValues($params);
         
-        if ( $email->is_bulkmail ) {
+        if ( $email->is_bulkmail && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 
 SET is_bulkmail = 0
@@ -75,21 +74,18 @@ contact_id = {$params['contact_id']}";
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
+     * @param array $entityBlock   input parameters to find object
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function &getValues( $contactId ) 
+    static function &getValues( $entityBlock ) 
     {
-        $email =& new CRM_Core_BAO_Email( );
-        return CRM_Core_BAO_Block::getValues( $email, 'email', $contactId );
+        return CRM_Core_BAO_Block::getValues( 'email', $entityBlock );
     }
 
+   
     /**
      * Get all the emails for a specified contact_id, with the primary email being first
      *
@@ -130,6 +126,53 @@ ORDER BY
         return $emails;
     }
     
+
+     /**
+     * Get all the emails for a specified location_block id, with the primary email being first
+     *
+     * @param array $entityElements the array containing entity_id and
+     * entity_table name
+     *
+     * @return array  the array of email id's
+     * @access public
+     * @static
+     */
+    static function allEntityEmails( &$entityElements ) 
+    {
+        if ( empty($entityElements) ) {
+            return null;
+        }
+
+        $entityId    = $entityElements['entity_id'];
+        $entityTable = $entityElements['entity_table'];
+
+
+        $sql = " SELECT email, ltype.name as locationType, e.is_primary as is_primary, e.on_hold as on_hold,e.id as email_id, e.location_type_id as locationTypeId 
+FROM civicrm_loc_block loc, civicrm_email e, civicrm_location_type ltype, {$entityTable} ev
+WHERE ev.id = %1
+AND   loc.id = ev.loc_block_id
+AND   e.id IN (loc.email_id, loc.email_2_id)
+AND   ltype.id = e.location_type_id
+ORDER BY e.is_primary DESC, email_id ASC ";
+       
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+            
+        $emails = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        while ( $dao->fetch( ) ) {
+            $emails[$dao->email_id] = array( 'locationType'   => $dao->locationType,
+                                             'is_primary'     => $dao->is_primary,
+                                             'on_hold'        => $dao->on_hold,
+                                             'id'             => $dao->email_id,
+                                             'email'          => $dao->email,
+                                             'locationTypeId' => $dao->locationTypeId );
+        }
+        
+        return $emails;
+    }
+    
+
+
     /**
      * Delete email address records from a location
      *
