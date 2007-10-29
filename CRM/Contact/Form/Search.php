@@ -550,14 +550,14 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( $session->get( 'isAdvanced' ) ) {
                 $searchChildGroups = false;
             }
-        eval( '$selector =& new ' . $this->_selectorName . 
-              '( $this->_customSearchClass,
-                 $this->_formValues,
-                 $this->_params,
-                 $this->_returnProperties,
-                 $this->_action,
-                 false,
-                 $searchChildGroups );' );
+            eval( '$selector =& new ' . $this->_selectorName . 
+                  '( $this->_customSearchClass,
+                     $this->_formValues,
+                     $this->_params,
+                     $this->_returnProperties,
+                     $this->_action,
+                     false,
+                     $searchChildGroups );' );
             
             // added the sorting  character to the form array
             // lets recompute the aToZ bar without the sortByCharacter

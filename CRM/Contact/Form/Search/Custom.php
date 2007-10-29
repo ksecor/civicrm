@@ -94,6 +94,9 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         if ( ! empty( $_POST ) ) {
             $this->_formValues = $this->controller->exportValues($this->_name);
 
+            $this->_formValues['customSearchID'   ] = $this->_customSearchID   ;
+            $this->_formValues['customSearchClass'] = $this->_customSearchClass;
+
             // also reset the sort by character
             $this->_sortByCharacter = null;
             $this->set( 'sortByCharacter', null );

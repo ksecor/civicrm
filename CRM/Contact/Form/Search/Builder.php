@@ -95,7 +95,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
 
         CRM_Core_BAO_Mapping::buildMappingForm($this, 'Search Builder', $mappingId, $this->_columnCount, $this->_blockCount);
         
-        $this->buildQuickFormCommon();
+        parent::buildQuickForm();
     }
     
 
@@ -290,7 +290,7 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search
 
         $this->_params =& $this->convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
-        $this->postProcessCommon( );
+        parent::postProcess( );
     }
     
 }
