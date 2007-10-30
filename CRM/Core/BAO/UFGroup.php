@@ -1695,6 +1695,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
         }  
         
+        require_once 'CRM/Core/BAO/CustomGroup.php';
         //Handling Contribution Part of the batch profile 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) && $component == 'Contribute' ) {
             $params = $ids = $values = array();
@@ -1709,7 +1710,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $defaults[$fldName] = $values['contribution_type_id'];
                 } else if ( array_key_exists($name,$values) ) {
                     $defaults[$fldName] = $values[$name];
-                }
+                }  else if ( substr( $name, 0, 7 ) == 'custom_') {               
+                     $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $componentId, 0, null); 
+                     foreach ( $groupTrees as $groupTree ) {
+                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
+                         $defaults[$fldName] = $defaults[$name];
+                         unset($defaults[$name]);
+                     }
+                }  
             }
         }
 
@@ -1730,7 +1738,14 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $noteDetails = array( );
                     $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
                     $defaults[$fldName] = array_pop($noteDetails);
-                }
+                } else if ( substr( $name, 0, 7 ) == 'custom_') {               
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $componentId, 0, null); 
+                    foreach ( $groupTrees as $groupTree ) {
+                        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
+                        $defaults[$fldName] = $defaults[$name];
+                        unset($defaults[$name]);
+                     }
+                }  
             }
         }
         
