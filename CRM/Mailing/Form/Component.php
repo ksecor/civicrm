@@ -167,14 +167,14 @@ class CRM_Mailing_Form_Component extends CRM_Core_Form
                 if ($params['body_' . $type]) {
                     if (preg_match('/'.preg_quote('{' . $token . '}').'/', $params['body_' . $type] ) ) { 
                         $dataErrors[]   ='<li>' 
-                            . ts("This message is having a invalid token - $token: $desc")
+                            . ts('This message is having a invalid token - %1: %2', array(1 => $token, 2 => $desc))
                             . '</li>';
                     }
                 }
             }
             if (! empty($dataErrors)) {
                 $errors['body_'.$type] = 
-                    ts('The following errors were detected in '.$type.' message ') . ' <ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Action+Tokens">' . ts('More information on tokens...') . '</a>';
+                    ts('The following errors were detected in %1 message:', array(1 => $type)) . '<ul>' . implode('', $dataErrors) . '</ul><br /><a href="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Action+Tokens">' . ts('More information on tokens...') . '</a>';
             }
         }
         

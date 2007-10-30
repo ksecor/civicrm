@@ -141,13 +141,13 @@ class CRM_Utils_System_Joomla {
             $fragment = '#'. $fragment;
         }
 
-        //$base = ($absolute ? $config->httpBase : '');
         $base = ($absolute ? $config->userFrameworkBaseURL : '');
+        $separator = $htmlize ? '&amp;' : '&';
 
         if ( isset( $query ) ) {
-            return $base . $script .'?option=com_civicrm&task=' . $path .'&'. $query . $fragment;
+            return "{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$query}{$fragment}";
         } else {
-            return $base . $script .'?option=com_civicrm&task=' . $path . $fragment;
+            return "{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$fragment}";
         }
     }
 
@@ -177,7 +177,7 @@ class CRM_Utils_System_Joomla {
             return $action;
         }
 
-        return self::url( $_GET['task'] );
+        return self::url( $_GET['task'], null, true, null, false );
     }
 
     /**

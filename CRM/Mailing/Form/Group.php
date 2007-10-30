@@ -102,7 +102,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
         $groups =& CRM_Core_PseudoConstant::group( 'Mailing' );
         $inG =& $this->addElement('advmultiselect', 'includeGroups', 
-                                  ts('INCLUDE Contacts in these Group(s)') . ' ', $groups,
+                                  ts('INCLUDE Contacts in These Group(s)') . ' ', $groups,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
@@ -110,7 +110,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
         $this->addRule( 'includeGroups', ts('Please select at least one group to include in the mailing.'), 'required' );
         $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
-                                   ts('EXCLUDE Contacts in these Group(s)') . ' ', $groups,
+                                   ts('EXCLUDE Contacts in These Group(s)') . ' ', $groups,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -125,13 +125,13 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-                                  ts('INCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
+                                  ts('INCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-                                   ts('EXCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
+                                   ts('EXCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -206,11 +206,11 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                 "SELECT id
                 FROM    civicrm_mailing_component
                 WHERE   component_type = '$value'
-                AND     is_default = true";
+                ORDER BY is_default desc";
             
             $daoComponent->query($findDefaultComponent);
             
-            while($daoComponent->fetch()) {
+            if ( $daoComponent->fetch( ) ) {
                 $$value = $daoComponent->id;
             }
         }

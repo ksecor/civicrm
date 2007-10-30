@@ -1,7 +1,5 @@
 {htxt id='proc-type'}
-{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Review the <a href='%1' target='_blank' title='%2'>configuration procedures for each Payment Processor here</a>. If you're not sure which processor
-to use - we recommend reviewing terms, limitations and coverage areas on each processor's website before proceeding. If your preferred processor is not in the list, consider
-partnering with a developer and contributing a plugin.{/ts}
+{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Review the <a href='%1' target='_blank' title='%2'>configuration procedures for each Payment Processor here</a>. If you're not sure which processor to use - we recommend reviewing terms, limitations and coverage areas on each processor's website before proceeding. If your preferred processor is not in the list, consider partnering with a developer and contributing a plugin.{/ts}
 {/htxt}
 
 {htxt id='AuthNet_AIM-live-user-name'}
@@ -14,9 +12,7 @@ partnering with a developer and contributing a plugin.{/ts}
 {/htxt}
 {htxt id='AuthNet_AIM-live-signature'}
 <strong>{ts}MD5-Hash (LIVE account):{/ts}</strong>
-<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net.
-Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value.
-This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
+<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net. Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value. This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
 {/htxt}
 {htxt id='AuthNet_AIM-live-url-site'}
 {ts}The URL for Authorize.net's LIVE Payment server. Use the default value unless otherwise advised by the processor.{/ts}
@@ -34,9 +30,7 @@ This can be just about any string of characters or words. Then enter the exact s
 {/htxt}
 {htxt id='AuthNet_AIM-test-signature'}
 <strong>{ts}MD5-Hash (TEST account):{/ts}</strong>
-<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net.
-Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value.
-This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
+<br />{ts}You may also optionally set an MD5 Hash Key to verify that responses come directly from Authorize.Net. Login to your merchant account and navigate to <strong>Account Settings</strong>. Select MD5-Hash and enter a new hash value. This can be just about any string of characters or words. Then enter the exact same value here.{/ts}</p>
 {/htxt}
 {htxt id='AuthNet_AIM-test-url-site'}
 {ts}The URL for Authorize.net's TEST Payment server. Use the default value unless otherwise advised by the processor.{/ts}
@@ -195,94 +189,86 @@ This can be just about any string of characters or words. Then enter the exact s
 {ts}The URL for Google Checkout's LIVE Payment server. Use the default value unless otherwise indicated by Google.{/ts}
 {/htxt}
 {htxt id='Google_Checkout-test-url-button'}
-{ts}
-<strong>Google Checkout Button:</strong>
-<p>The base URL for the <strong>TEST - Image</strong> is : http://sandbox.google.com/checkout/buttons/checkout.gif
-</p>
-To display an image, you must add several parameters to this URL as name=value pairs.
+<strong>{ts}Google Checkout Button:{/ts}</strong>
+<p>{ts 1=http://sandbox.google.com/checkout/buttons/checkout.gif}The base URL for the <strong>TEST - Image</strong> is: %1{/ts}</p>
+<p>{ts}To display an image, you must add several parameters to this URL as name=value pairs.{/ts}</p>
 <table>
-<tr><th>Parameters</th><th>Values</th><th>Description</th></tr>
+<tr><th>{ts}Parameters{/ts}</th><th>{ts}Values{/ts}</th><th>{ts}Description{/ts}</th></tr>
 <tr>
 	<td>w</td>
-	<td>180/168/160 (large/medium/small)</td>
-	<td>width of the button in pixels</td>
+	<td>180/168/160 ({ts}large/medium/small{/ts})</td>
+	<td>{ts}width of the button in pixels{/ts}</td>
 </tr>
 <tr>
 	<td>h</td>
-	<td>46/44/43 (large/medium/small)</td>
-	<td>height of the button in pixels</td>
+	<td>46/44/43 ({ts}large/medium/small{/ts})</td>
+	<td>{ts}height of the button in pixels{/ts}</td>
 </tr>
 <tr>
 	<td>style</td>
 	<td>white/trans..</td>
-	<td>background color for the button</td>
+	<td>{ts}background color for the button{/ts}</td>
 </tr>
 <tr>
 	<td>variant</td>
 	<td>text/disabled</td>
-	<td>whether the button is clickable or disabled</td>
+	<td>{ts}whether the button is clickable or disabled{/ts}</td>
 </tr>
 <tr>
 	<td>loc</td>
 	<td>en_US</td>
-	<td>a locale associated with the transaction (Optional)</td>
+	<td>{ts}a locale associated with the transaction (optional){/ts}</td>
 </tr>
 <tr>
 	<td>merchant_id</td>
-	<td>(e.g 1234567890)</td>
-	<td>Merchant ID</td>
+	<td>{ts 1=1234567890}(e.g %1){/ts}</td>
+	<td>{ts}Merchant ID{/ts}</td>
 </tr>
 </table>
 
-<p><strong>Example of a large Google Checkout button on a white background (For TEST Account):</strong></p>
-<p>http://sandbox.google.com/checkout/buttons/checkout.gif? merchant_id=1234567890&w=180&h=46&style=white&variant=text &loc=en_US
-</p>
-{/ts}
+<p><strong>{ts}Example of a large Google Checkout button on a white background (For TEST Account):{/ts}</strong></p>
+<p>http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=1234567890&amp;w=180&amp;h=46&amp;style=white&amp;variant=text&amp;loc=en_US</p>
 {/htxt}
 
 {htxt id='Google_Checkout-live-url-button'}
-{ts}
-<strong>Google Checkout Button:</strong>
-<p>The base URL for the <strong>LIVE - Image</strong> is : http://checkout.google.com/buttons/checkout.gif
-</p>
-To display an image, you must add several parameters to this URL as name=value pairs.
+<strong>{ts}Google Checkout Button:{/ts}</strong>
+<p>{ts 1=http://checkout.google.com/buttons/checkout.gif}The base URL for the <strong>LIVE - Image</strong> is: %1{/ts}</p>
+<p>{ts}To display an image, you must add several parameters to this URL as name=value pairs.{/ts}</p>
 <table>
-<tr><th>Parameters</th><th>Values</th><th>Description</th></tr>
+<tr><th>{ts}Parameters{/ts}</th><th>{ts}Values{/ts}</th><th>{ts}Description{/ts}</th></tr>
 <tr>
 	<td>w</td>
-	<td>180/168/160 (large/medium/small)</td>
-	<td>width of the button in pixels</td>
+	<td>180/168/160 ({ts}large/medium/small{/ts})</td>
+	<td>{ts}width of the button in pixels{/ts}</td>
 </tr>
 <tr>
 	<td>h</td>
-	<td>46/44/43 (large/medium/small)</td>
-	<td>height of the button in pixels</td>
+	<td>46/44/43 ({ts}large/medium/small{/ts})</td>
+	<td>{ts}height of the button in pixels{/ts}</td>
 </tr>
 <tr>
 	<td>style</td>
 	<td>white/trans..</td>
-	<td>background color for the button</td>
+	<td>{ts}background color for the button{/ts}</td>
 </tr>
 <tr>
 	<td>variant</td>
 	<td>text/disabled</td>
-	<td>whether the button is clickable or disabled</td>
+	<td>{ts}whether the button is clickable or disabled{/ts}</td>
 </tr>
 <tr>
 	<td>loc</td>
 	<td>en_US</td>
-	<td>a locale associated with the transaction (Optional)</td>
+	<td>{ts}a locale associated with the transaction (optional){/ts}</td>
 </tr>
 <tr>
 	<td>merchant_id</td>
-	<td>(e.g 1234567890)</td>
-	<td>Merchant ID</td>
+	<td>{ts 1=1234567890}(e.g %1){/ts}</td>
+	<td>{ts}Merchant ID{/ts}</td>
 </tr>
 </table>
-<p><strong>Example of a large Google Checkout button on a white background (For LIVE Account):</strong></p>
-<p>http://checkout.google.com/buttons/checkout.gif? merchant_id=1234567890&w=180&h=46&style=white&variant=text &loc=en_US
-</p>
-{/ts}
+<p><strong>{ts}Example of a large Google Checkout button on a white background (For LIVE Account):{/ts}</strong></p>
+<p>http://checkout.google.com/buttons/checkout.gif?merchant_id=1234567890&amp;w=180&amp;h=46&amp;style=white&amp;variant=text&amp;loc=en_US</p>
 {/htxt}
 
 {htxt id='Moneris-live-user-name'}
@@ -323,26 +309,18 @@ To display an image, you must add several parameters to this URL as name=value p
 
 {htxt id='Dummy-live-user-name'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-live-url-site'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-test-user-name'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 {htxt id='Dummy-test-url-site'}
 <strong>{ts}Dummy Processor{/ts}</strong>
-<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration
-pages prior to selecting and configuring a real payment processor. You can enter any values for User Name
-and Site URL.{/ts}</p>
+<br />{ts}Set up a 'Dummy' Processor if you want to test Online Contribution pages or Event Registration pages prior to selecting and configuring a real payment processor. You can enter any values for User Name and Site URL.{/ts}</p>
 {/htxt}
 
