@@ -26,6 +26,8 @@
 */
 
 /**
+ * This abstract class provides the framework for component configuration
+ * and provides aggregation methods for injecting it into system config.
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
@@ -33,31 +35,22 @@
  *
  */
 
-require_once 'CRM/Core/Component/Config.php';
-
-class CRM_Mailing_Config extends CRM_Core_Component_Config {
-
-    /**
-      * What should be the verp separator we use
-      *
-      * @var char
-      */
-    public $verpSeparator = '.';
+abstract class CRM_Core_Component_Config
+{
 
     /**
-     * How long should we wait before checking for new outgoing mailings?
+     * Gets the list of class variables from specific component's 
+     * configuration file and injects them into system wide
+     * configuration object.
      *
-     * @var int
+     * @return array collection of component settings
+     * @access public
+     *
      */
-   public $mailerPeriod    = 180;
-                           
-   /**
-    * How many emails should CiviMail deliver on a given run
-    *
-    * @var int
-    */
-   public $mailerBatchLimit = 0;
+    public function add( $config, $oldMode ) {
+        foreach( get_class_vars( get_class( $this ) ) as $key => $value ) {
+            $config->$key = $value;
+        }
+    }
 
 }
-
-

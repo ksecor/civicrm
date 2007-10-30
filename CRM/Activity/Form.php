@@ -247,7 +247,7 @@ class CRM_Activity_Form extends CRM_Core_Form
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                             
-                             'style'          => 'width:200px; border: 1px solid #cfcfcf;'                             );
+                             'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}&s=",
                                           true, null, false );

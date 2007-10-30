@@ -323,27 +323,6 @@ class CRM_Core_Config
     public $versionCheck = true;
 
     /**
-     * How long should we wait before checking for new outgoing mailings?
-     *
-     * @var int
-     */
-    public $mailerPeriod    = 180;
-
-    /**
-     * What should be the verp separator we use
-     *
-     * @var char
-     */
-    public $verpSeparator = '.';
-
-    /**
-     * How many emails should CiviMail deliver on a given run
-     *
-     * @var int
-     */
-    public $mailerBatchLimit = 0;
-
-    /**
      * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
      *
      * @var array
@@ -516,10 +495,7 @@ class CRM_Core_Config
     }
 
     function addCoreVariables( ) {
-        if (defined('CIVICRM_DSN')) {
-            $this->dsn = CIVICRM_DSN;
-        }
-
+    
         if (defined('CIVICRM_DAO_DEBUG') ) {
             $this->daoDebug = CIVICRM_DAO_DEBUG;
         }
@@ -810,10 +786,6 @@ class CRM_Core_Config
             $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
         }
 
-        if ( defined( 'CIVICRM_VERP_SEPARATOR' ) ) {
-            $this->verpSeparator = CIVICRM_VERP_SEPARATOR;
-        }
-
         if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
             $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
         }
@@ -821,6 +793,7 @@ class CRM_Core_Config
         require_once 'CRM/Core/Component.php';
         $this->componentRegistry =& new CRM_Core_Component();
         $this->componentRegistry->addConfig( $this, true );        
+
     }
 
 
@@ -833,7 +806,8 @@ class CRM_Core_Config
      */
     function initialize() 
     {
-        if (defined('CIVICRM_DSN')) {
+    
+        if (defined( 'CIVICRM_DSN' )) {
             $this->dsn = CIVICRM_DSN;
         }
 
@@ -1023,8 +997,8 @@ class CRM_Core_Config
             $variables = get_object_vars($this);
 
             // if we dont get stuff from the sttings file, apply appropriate defaults
-            require_once 'CRM/Admin/Form/Setting.php';
-            CRM_Admin_Form_Setting::setValues( $variables );
+            require_once 'CRM/Core/Config/SetValuesFixme.php';
+            CRM_Core_Config_SetValuesFixme::setValues( $variables );
 
             CRM_Core_BAO_Setting::add($variables);
         }

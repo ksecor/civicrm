@@ -121,7 +121,7 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         // get ids for associated contacts
         $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
         $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
-        $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);        
+        $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);
 
         require_once "CRM/Activity/BAO/Activity.php";
         $bao = new CRM_Activity_BAO_Activity();
