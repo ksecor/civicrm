@@ -62,7 +62,7 @@
         <tr class="{$row.class}{cycle values="odd-row even-row"}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.label}</td>	
 	        <td>{$row.description}</td>	
-	        <td>{$row.weight}</td>
+	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>

@@ -35,7 +35,7 @@
 	        <td>{$row.minimum_fee}</td>
 	        <td>{$row.duration_interval} {$row.duration_unit}</td>
 	        <td>{$row.visibility}</td>
-	        <td>{$row.weight}</td>
+	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
            </tr>
