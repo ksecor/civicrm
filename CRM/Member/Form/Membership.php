@@ -86,7 +86,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      * @access public
      * @return None
      */
-    public function setDefaultValues( ) {
+    public function setDefaultValues( ) 
+    {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
@@ -239,7 +240,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    );
 
         $this->add('text', 'total_amount', ts('Amount'));
-
+        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+        
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -257,6 +259,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->add('textarea', 'receipt_text', ts('Receipt Text') );
 
+        // Retrieve the name and email of the contact - this will be the TO for receipt email
+        list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        $this->assign( 'email', $this->_contributorEmail );
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
 
         //build custom data
@@ -272,7 +277,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
      * @access public
      * @static
      */
-    public function formRule( &$params ) {
+    public function formRule( &$params ) 
+    {
         $errors = array( );
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = "Please select a Membership Type.";
@@ -285,7 +291,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
              ! $params['status_id'] ) {
             $errors['status_id'] = "Please enter the status.";
         }
-              
+        if ( isset( $params['record_contribution'] ) && 
+             ! isset( $params['contribution_type_id'] ) ) {
+            $errors['contribution_type_id'] = "Please enter the contribution.";
+        }     
         return empty($errors) ? true : $errors;
     }
        
@@ -462,10 +471,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             }
         }
         
-        // Retrieve the name and email of the contact - this will be the TO for receipt email
-        list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        
         if ($formValues['send_receipt']) {
-            
             require_once 'CRM/Contact/BAO/Contact.php';
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             $session =& CRM_Core_Session::singleton( );
@@ -489,35 +496,33 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
-                                  $contributorDisplayName,
-                                  $contributorEmail,
+                                  $this->_contributorDisplayName,
+                                  $this->_contributorEmail,
                                   $subject,
                                   $message);
         }
         
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $statusMsg = ts( "Membership for {$contributorDisplayName} has been changed to {$memType}. " );
+            $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been changed to {$memType}. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
                 $statusMsg .= ts("The new membership End Date is {$endDate}. ");
             }
             if( $formValues['send_receipt'] ) {
-                $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$contributorEmail}." );
+                $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$this->_contributorEmail}." );
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
-            $statusMsg = ts( "{$memType} membership for {$contributorDisplayName} has been added. " );
+            $statusMsg = ts( "{$memType} membership for {$this->_contributorDisplayName} has been added. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
                 $statusMsg = ts( " The new membership End Date is {$endDate}. " );
             }
             if( $formValues['send_receipt'] ) {
-                 $statusMsg = ts( "A membership confirmation and receipt has been sent to {$contributorEmail}." );
+                 $statusMsg = ts( "A membership confirmation and receipt has been sent to {$this->_contributorEmail}." );
             }
         }
-
         CRM_Core_Session::setStatus( ts("{$statusMsg}") );
-        
     }
 }
 ?>

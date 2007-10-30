@@ -213,7 +213,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                    );
         
         $this->add('text', 'total_amount', ts('Amount'));
-        
+        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
+
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
@@ -230,7 +231,10 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                           array( 'onClick' => 'showReceiptText()'));
 
         $this->add('textarea', 'receipt_text', ts('Renewal Message') );
-
+        // Retrieve the name and email of the contact - this will be the TO for receipt email
+        list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+        $this->assign( 'email', $this->_contributorEmail );
+        
         $this->addFormRule(array('CRM_Member_Form_MembershipRenewal', 'formRule'));
     }
 
@@ -249,6 +253,10 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = "Please select a Membership Type.";
         }
+        if ( isset( $params['record_contribution'] ) && 
+             ! isset( $params['contribution_type_id'] ) ) {
+            $errors['contribution_type_id'] = "Please enter the contribution.";
+        }  
         return empty($errors) ? true : $errors;
     }
        
@@ -317,7 +325,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         if ($formValues['send_receipt']) {
             // Retrieve the name and email of the contact - this will be the TO for receipt email
-            list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
+            list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             require_once 'CRM/Contact/BAO/Contact.php';
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             $session =& CRM_Core_Session::singleton( );
@@ -341,15 +349,15 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
-                                  $contributorDisplayName,
-                                  $contributorEmail,
+                                  $this->_contributorDisplayName,
+                                  $this->_contributorEmail,
                                   $subject,
                                   $message);
             
         }
         
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
-        $statusMsg = ts("{$memType} membership for {$contributorDisplayName} has been renewed. ");
+        $statusMsg = ts("{$memType} membership for {$this->_contributorDisplayName} has been renewed. ");
        
         $sndDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", 
                                                                               $this->_id, 
@@ -359,7 +367,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         
         if( $formValues['send_receipt'] ) {
-            $statusMsg = ts( "A renewal confirmation and receipt has been sent to {$contributorEmail}." );
+            $statusMsg = ts( "A renewal confirmation and receipt has been sent to {$this->_contributorEmail}." );
         }
         
         CRM_Core_Session::setStatus( ts("{$statusMsg}") );
