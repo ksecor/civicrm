@@ -935,7 +935,10 @@ AND civicrm_contact.is_opt_out =0";
             } else {
                 array_push($pEmail, $template[$idx]);
             }
-            array_push($pEmail, $template[($idx + 1)]);
+            
+            if ( isset( $template[($idx + 1)] ) ) {
+                array_push($pEmail, $template[($idx + 1)]);
+            }
         }
 
         $html = null;
@@ -1662,11 +1665,11 @@ SELECT DISTINCT( m.id ) as id
                         $daoSpool = new CRM_Mailing_BAO_Spool();
                         $daoSpool->job_id = $dao->id;
                         if ( $daoSpool->find( true ) ) {
-                            CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
+                            CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted as mails are still pending in spool table.'));
                             return;
                         }
                     } elseif ( $dao->status == 'Running' ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
+                        CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted since it is in process.'));
                         return;
                     }
                     $daoQueue = new CRM_Mailing_Event_BAO_Queue();

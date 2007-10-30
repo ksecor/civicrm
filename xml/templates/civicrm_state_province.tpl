@@ -1425,7 +1425,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (2798, 1226, "TFW", "Telford and Wrekin"),
 (2799, 1226, "THR", "Thurrock"),
 (2800, 1226, "TOB", "Torbay"),
-(2801, 1226, "TOF", "Torfasn"),
+(2801, 1226, "TOF", "Torfaen"),
 (2802, 1226, "TWH", "Tower Hamlets"),
 (2803, 1226, "TRF", "Trafford"),
 (2804, 1226, "VGL", "Vale of Glamorgan"),

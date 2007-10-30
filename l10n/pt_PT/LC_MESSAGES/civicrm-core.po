@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-31 13:16+0200\n"
+"Project-Id-Version: CiviCRM 1.9\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-10-17 17:17-0700\n"
 "Last-Translator: Ilidio Nunes <inunes@tremazul.com>\n"
 "MIME-Version: 1.0\n"
@@ -115,17 +115,17 @@ msgstr "Data modificada"
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/DAO/RelationshipType.php
-#: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Task/SaveSearch.php
-#: CRM/Contact/Selector/Activity.php CRM/Core/BAO/Mapping.php
-#: CRM/Core/DAO/Domain.php CRM/Core/DAO/File.php CRM/Core/DAO/LocationType.php
-#: CRM/Core/DAO/Mapping.php CRM/Core/DAO/OptionGroup.php
-#: CRM/Core/DAO/OptionValue.php CRM/Core/DAO/PaymentProcessor.php
-#: CRM/Core/DAO/PaymentProcessorType.php CRM/Core/DAO/Tag.php
-#: CRM/Core/DAO/Validation.php CRM/History/Import/Form/MapField.php
-#: CRM/History/Selector/Activity.php CRM/Import/Form/MapField.php
-#: CRM/Import/Form/Preview.php CRM/Project/DAO/Project.php
-#: CRM/Project/DAO/Task.php templates/CRM/ACL/Page/ACL.tpl
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Contact/Form/Domain.php CRM/Contact/Form/Relationship.php
+#: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Selector/Activity.php
+#: CRM/Core/BAO/Mapping.php CRM/Core/DAO/Domain.php CRM/Core/DAO/File.php
+#: CRM/Core/DAO/LocationType.php CRM/Core/DAO/Mapping.php
+#: CRM/Core/DAO/OptionGroup.php CRM/Core/DAO/OptionValue.php
+#: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
+#: CRM/Core/DAO/Tag.php CRM/Core/DAO/Validation.php
+#: CRM/History/Import/Form/MapField.php CRM/History/Selector/Activity.php
+#: CRM/Import/Form/MapField.php CRM/Import/Form/Preview.php
+#: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
+#: templates/CRM/ACL/Page/ACL.tpl templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/Options.tpl
@@ -221,20 +221,15 @@ msgstr ""
 msgid "Custom Group"
 msgstr "Grupo personalizado"
 
-#: CRM/Activity/DAO/ActivityAssignment.php CRM/Case/DAO/CaseActivity.php
-msgid "Activity Entity Table"
-msgstr ""
-
-#: CRM/Activity/DAO/ActivityAssignment.php CRM/Activity/DAO/Activity.php
-#: CRM/Activity/DAO/Meeting.php CRM/Activity/DAO/Phonecall.php
-#: CRM/Project/DAO/TaskStatus.php
+#: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
+#: CRM/Activity/DAO/Phonecall.php CRM/Project/DAO/TaskStatus.php
 msgid "Target Entity Table"
 msgstr ""
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
 #: CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php
-#: CRM/Admin/Form/PaymentProcessorType.php CRM/Case/DAO/Case.php
+#: CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/Form/Task/EmailCommon.php CRM/Contact/Form/Task/Record.php
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/EmailHistory.php
 #: CRM/Core/DAO/Note.php CRM/Core/DAO/PaymentProcessor.php
@@ -268,8 +263,8 @@ msgstr "Local"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
 #: CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php
-#: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/Record.php
-#: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
+#: CRM/Contact/Form/Task/Record.php CRM/History/Selector/Activity.php
+#: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
 msgstr "Detalhes"
 
@@ -425,10 +420,9 @@ msgstr "Peso"
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php
 #: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PriceField.php
-#: CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php CRM/Core/DAO/Timezone.php
-#: CRM/Core/DAO/Worldregion.php CRM/History/Import/Form/MapField.php
-#: CRM/Import/Form/MapField.php CRM/Profile/Selector/Listings.php
-#: templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
+#: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
+#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -671,23 +665,6 @@ msgstr "Vários"
 msgid "Debugging"
 msgstr ""
 
-#: CRM/Case/DAO/Case.php CRM/Contact/DAO/Relationship.php
-#: CRM/Contact/Form/Relationship.php CRM/Project/DAO/Project.php
-#: templates/CRM/Contact/Page/View/Membership.tpl
-#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
-msgid "Start Date"
-msgstr "Data de início"
-
-#: CRM/Case/DAO/Case.php CRM/Contact/DAO/Relationship.php
-#: CRM/Contact/Form/Relationship.php CRM/Project/DAO/Project.php
-#: templates/CRM/Contact/Page/View/Membership.tpl
-#: templates/CRM/Contact/Page/View/Relationship.tpl
-#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
-msgid "End Date"
-msgstr "Data de término"
-
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
@@ -787,8 +764,8 @@ msgid "Source"
 msgstr "Fonte"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
-#: CRM/UF/Form/Field.php templates/CRM/Group/Page/Group.tpl
-#: templates/CRM/UF/Page/Field.tpl
+#: CRM/Group/Form/Search.php CRM/UF/Form/Field.php
+#: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Field.tpl
 msgid "Visibility"
 msgstr "Visibilidade"
 
@@ -803,6 +780,12 @@ msgstr "Selecionar Tabelas"
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Tables"
 msgstr ""
+
+#: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
+#: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Group Type"
+msgstr "Grupo"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -851,6 +834,21 @@ msgstr "Nome da organização"
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
 msgstr "Nome legal"
+
+#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
+#: CRM/Project/DAO/Project.php templates/CRM/Contact/Page/View/Membership.tpl
+#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
+#, fuzzy
+msgid "Start Date"
+msgstr "Data de início"
+
+#: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
+#: CRM/Project/DAO/Project.php templates/CRM/Contact/Page/View/Membership.tpl
+#: templates/CRM/Contact/Page/View/Relationship.tpl
+#: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
+#, fuzzy
+msgid "End Date"
+msgstr "Data de término"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -928,19 +926,9 @@ msgstr "Apagar localização"
 msgid "Administer CiviCRM"
 msgstr "Administrar CiviCRM"
 
-#: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
-msgid "Name:"
-msgstr "Nome:"
-
-#: CRM/Contact/Form/Domain.php CRM/Group/Form/Edit.php
-#: templates/CRM/Contact/Form/Relationship.tpl
-msgid "Description:"
-msgstr "Descrição:"
-
-#: CRM/Contact/Form/Domain.php CRM/Contact/Form/Email.php
-#: CRM/Contact/Form/Task/EmailCommon.php CRM/Profile/Form/ForwardMailing.php
-msgid "Email is not valid."
-msgstr "O email não é válido."
+#: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
+msgid "Email Domain"
+msgstr ""
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
@@ -949,6 +937,11 @@ msgstr "Novo %1"
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
 msgstr "Privacidade"
+
+#: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
+#: CRM/Profile/Form/ForwardMailing.php
+msgid "Email is not valid."
+msgstr "O email não é válido."
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 #, fuzzy
@@ -1064,8 +1057,8 @@ msgstr "Tipo de Relação"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 #: CRM/Contact/Page/SavedSearch.php CRM/Core/Invoke.php
-#: CRM/Group/Page/Group.php CRM/Profile/Form/Search.php
-#: templates/CRM/Block/Search.tpl
+#: CRM/Group/Form/Search.php CRM/Group/Page/Group.php
+#: CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 #, fuzzy
 msgid "Search"
@@ -1623,6 +1616,11 @@ msgstr ""
 msgid "CiviCRM Profile"
 msgstr ""
 
+#: CRM/Core/DAO/Validation.php CRM/Group/Form/Search.php
+#: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Set.tpl
+msgid "Type"
+msgstr ""
+
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
 msgstr ""
@@ -1720,7 +1718,7 @@ msgid "Delete Custom Field"
 msgstr ""
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been deleted."
+msgid "The Group '%1' has been deleted."
 msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
@@ -2456,6 +2454,10 @@ msgstr ""
 msgid "Mailer Batch Limit"
 msgstr ""
 
+#: CRM/Admin/Form/Setting/Mail.php
+msgid "Mailer Spool Limit"
+msgstr ""
+
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
 msgstr ""
@@ -3110,20 +3112,41 @@ msgstr ""
 msgid "The location has been deleted."
 msgstr ""
 
-#: CRM/Contact/Form/Domain.php templates/CRM/Contact/Form/Domain.tpl
+#: CRM/Contact/Form/Domain.php
 msgid "CiviMail Domain Information"
 msgstr ""
 
 #: CRM/Contact/Form/Domain.php
-msgid "Contact Name:"
+#, fuzzy
+msgid "Domain Name"
+msgstr "Nome da localização"
+
+#: CRM/Contact/Form/Domain.php
+#, fuzzy
+msgid "FROM Name"
+msgstr "Nome próprio"
+
+#: CRM/Contact/Form/Domain.php
+msgid "FROM Email Address"
 msgstr ""
 
 #: CRM/Contact/Form/Domain.php
-msgid "Email Domain:"
+msgid ""
+"Domain Email Address must use a valid email address format (e.g. "
+"\"info@example.org\")."
 msgstr ""
 
 #: CRM/Contact/Form/Domain.php
-msgid "Return-Path:"
+msgid ""
+"Email domain must use a valid internet domain format (e.g. \"example.org\")."
+msgstr ""
+
+#: CRM/Contact/Form/Domain.php
+msgid "Return-Path"
+msgstr ""
+
+#: CRM/Contact/Form/Domain.php
+msgid "Return-Path must use a valid email address format."
 msgstr ""
 
 #: CRM/Contact/Form/Domain.php
@@ -3196,6 +3219,10 @@ msgstr ""
 
 #: CRM/Contact/Form/Email.php
 msgid "hide this email"
+msgstr ""
+
+#: CRM/Contact/Form/Email.php
+msgid "Use for Bulk Mailings"
 msgstr ""
 
 #: CRM/Contact/Form/GroupContact.php
@@ -4495,6 +4522,15 @@ msgstr ""
 msgid "Symbol"
 msgstr ""
 
+#: CRM/Core/DAO/Currency.php
+msgid "Numeric Code"
+msgstr ""
+
+#: CRM/Core/DAO/Currency.php
+#, fuzzy
+msgid "Full Name"
+msgstr "Nome próprio"
+
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
 msgstr ""
@@ -4606,12 +4642,14 @@ msgid "Memo Data"
 msgstr ""
 
 #: CRM/Core/DAO/Domain.php
-msgid "Contact Name"
-msgstr ""
+#, fuzzy
+msgid "Email Name"
+msgstr "Nome legal"
 
 #: CRM/Core/DAO/Domain.php
-msgid "Email Domain"
-msgstr ""
+#, fuzzy
+msgid "Email Address"
+msgstr "Endereço"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Return Path"
@@ -4627,6 +4665,10 @@ msgstr ""
 
 #: CRM/Core/DAO/DupeMatch.php
 msgid "Rule"
+msgstr ""
+
+#: CRM/Core/DAO/Email.php
+msgid "Use for Bulk Mail"
 msgstr ""
 
 #: CRM/Core/DAO/Email.php
@@ -4933,18 +4975,6 @@ msgstr ""
 msgid "State Abbreviation"
 msgstr ""
 
-#: CRM/Core/DAO/Timezone.php
-msgid "Abbreviation"
-msgstr ""
-
-#: CRM/Core/DAO/Timezone.php
-msgid "Gmt"
-msgstr ""
-
-#: CRM/Core/DAO/Timezone.php
-msgid "Offset"
-msgstr ""
-
 #: CRM/Core/DAO/UFField.php
 msgid "In Selector"
 msgstr ""
@@ -4972,11 +5002,6 @@ msgstr ""
 
 #: CRM/Core/DAO/UFGroup.php
 msgid "Notify"
-msgstr ""
-
-#: CRM/Core/DAO/Validation.php templates/CRM/Custom/Page/Group.tpl
-#: templates/CRM/Price/Page/Set.tpl
-msgid "Type"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
@@ -5009,6 +5034,11 @@ msgstr ""
 
 #: CRM/Core/DAO/Validation.php
 msgid "Regular Expression No Match"
+msgstr ""
+
+#: CRM/Core/Error.php
+msgid ""
+"We experienced an unexpected error. Please file an issue with the backtrace"
 msgstr ""
 
 #: CRM/Core/Form/Date.php
@@ -5255,11 +5285,6 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Menu.php
-msgid ""
-"Grant or deny access to actions (view, edit...), features and components."
-msgstr ""
-
-#: CRM/Core/Menu.php
 msgid "Backup Data"
 msgstr ""
 
@@ -5434,6 +5459,11 @@ msgid "Payment Processor type information"
 msgstr ""
 
 #: CRM/Core/Menu.php
+msgid ""
+"Grant or deny access to actions (view, edit...), features and components."
+msgstr ""
+
+#: CRM/Core/Menu.php
 msgid "Quick Registration"
 msgstr ""
 
@@ -5463,6 +5493,10 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Notes about the Person"
+msgstr ""
+
+#: CRM/Core/Page/Basic.php
+msgid "You do not have permission to make changes to the record"
 msgstr ""
 
 #: CRM/Core/Payment/AuthorizeNet.php
@@ -5526,6 +5560,18 @@ msgstr ""
 #: CRM/Core/Payment/Moneris.php
 msgid ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
+msgstr ""
+
+#: CRM/Core/Payment/PayJunction.php
+msgid "Username is not set for this payment processor"
+msgstr ""
+
+#: CRM/Core/Payment/PayJunction.php
+msgid "Password is not set for this payment processor"
+msgstr ""
+
+#: CRM/Core/Payment/PayJunction.php
+msgid "Site URL is not set for this payment processor"
 msgstr ""
 
 #: CRM/Core/Payment/PayPalImpl.php
@@ -5720,17 +5766,23 @@ msgstr ""
 msgid "Opt-out Message"
 msgstr ""
 
-#: CRM/Core/SelectValues.php
-msgid "Subscription Message to organization"
-msgstr ""
+#: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Subscription Confirmation Request"
+msgstr "Pedido de confirmação da subscrição"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Welcome Message"
 msgstr ""
 
-#: CRM/Core/SelectValues.php
-msgid "Farewell Message"
+#: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
+msgid "Unsubscribe Message"
 msgstr ""
+
+#: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Resubscribe Message"
+msgstr "Mensagem de Subscrição"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "PayPal - Website Payments Pro"
@@ -5796,7 +5848,7 @@ msgstr ""
 
 #: CRM/Custom/Form/DeleteGroup.php
 msgid ""
-"The Group \"%1\" has not been deleted! You must Delete all custom fields in "
+"The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
 msgstr ""
 
@@ -6085,42 +6137,6 @@ msgstr ""
 msgid "Rule Weight"
 msgstr ""
 
-#: CRM/Grant/DAO/Grant.php
-msgid "Application Received Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Decision Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Money Transfer Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Grant Due Date"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Grant Report Received"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Amount Total"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Amount Requested"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Amount Granted"
-msgstr ""
-
-#: CRM/Grant/DAO/Grant.php
-msgid "Rationale"
-msgstr ""
-
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
 msgstr ""
@@ -6130,12 +6146,30 @@ msgid "Group Settings: %1"
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
+msgid "Name:"
+msgstr "Nome:"
+
+#: CRM/Group/Form/Edit.php templates/CRM/Contact/Form/Relationship.tpl
+msgid "Description:"
+msgstr "Descrição:"
+
+#: CRM/Group/Form/Edit.php
 msgid "Continue"
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
-msgid "The Group \"%1\" has been saved."
+msgid "The Group '%1' has been saved."
 msgstr ""
+
+#: CRM/Group/Form/Search.php
+#, fuzzy
+msgid "Find"
+msgstr "Pesquisar..."
+
+#: CRM/Group/Form/Search.php
+#, fuzzy
+msgid "- any visibility -"
+msgstr "Visibilidade"
 
 #: CRM/Group/Page/Group.php
 msgid "Are you sure you want to disable this Group?"
@@ -6161,6 +6195,16 @@ msgstr ""
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Smart Group"
 msgstr ""
+
+#: CRM/Group/Page/Group.php
+#, fuzzy
+msgid "Search Groups"
+msgstr "Seleccionar grupo"
+
+#: CRM/Group/Page/Group.php
+#, fuzzy
+msgid "Group %%StatusMessage%%"
+msgstr "Contacto %%StatusMessage%%"
 
 #: CRM/History/Import/Form/MapField.php
 msgid "Contact ID"
@@ -6669,8 +6713,8 @@ msgstr ""
 msgid "Profile Settings - %1"
 msgstr ""
 
-#: CRM/UF/Form/Group.php
-msgid "New CiviCRM Profile Group"
+#: CRM/UF/Form/Group.php templates/CRM/UF/Page/Group.tpl
+msgid "New CiviCRM Profile"
 msgstr ""
 
 #: CRM/UF/Form/Group.php
@@ -6734,17 +6778,17 @@ msgid "%1 user account registration option?"
 msgstr ""
 
 #: CRM/UF/Form/Group.php
-msgid "Your CiviCRM Profile Group \"%1\" has been deleted."
+msgid "Your CiviCRM Profile '%1' has been deleted."
 msgstr ""
 
 #: CRM/UF/Form/Group.php
-msgid "Your CiviCRM Profile Group \"%1\" has been saved."
+msgid "Your CiviCRM Profile '%1' has been saved."
 msgstr ""
 
 #: CRM/UF/Form/Group.php
 msgid ""
-"Your CiviCRM Profile Group \"%1\" has been added. You can <a href=\"%2\">add "
-"fields</a> to this group now."
+"Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
+"a> to this Profile now."
 msgstr ""
 
 #: CRM/UF/Page/Field.php
@@ -6925,14 +6969,6 @@ msgid ""
 "mailing is being sent."
 msgstr ""
 
-#: CRM/Utils/Token.php
-msgid "re-subscribe"
-msgstr ""
-
-#: CRM/Utils/Token.php
-msgid "(re-subscribe: %1)"
-msgstr ""
-
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
 msgstr ""
@@ -7026,8 +7062,7 @@ msgstr ""
 #: templates/CRM/Price/Page/Set.tpl templates/CRM/Profile/Form/Search.tpl
 #: templates/CRM/Profile/Page/Listings.tpl templates/CRM/UF/Form/Field.tpl
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl
-#: templates/CRM/UF/Page/Group.tpl templates/extern/optout.tpl
-#: templates/extern/unsubscribe.tpl
+#: templates/CRM/UF/Page/Group.tpl
 msgid "status"
 msgstr ""
 
@@ -7096,7 +7131,8 @@ msgstr ""
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid ""
 "Select a group of contacts who should have this role when logged in to your "
-"site."
+"site. Groups must be assigned the 'Access Control' type (Manage Groups "
+"&raquo; Settings) to be included in this list."
 msgstr ""
 
 #: templates/CRM/ACL/Page/ACL.tpl templates/CRM/ACL/Page/EntityRole.tpl
@@ -7112,7 +7148,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/Setting.tpl templates/CRM/Admin/Page/Tag.tpl
 #: templates/CRM/Contact/Form/Address/geo_code.tpl
 #: templates/CRM/Contact/Form/Search/Builder.tpl
-#: templates/CRM/Custom/Page/Group.tpl
+#: templates/CRM/Custom/Page/Group.tpl templates/CRM/Group/Form/Edit.tpl
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Opens online documentation in a new window."
 msgstr ""
@@ -7400,7 +7436,7 @@ msgid "Delete Message Template"
 msgstr ""
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-msgid "Do you want to delete this message template ?"
+msgid "Do you want to delete this message template?"
 msgstr ""
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
@@ -7738,6 +7774,12 @@ msgstr ""
 msgid ""
 "Throttle email delivery by setting the maximum number of emails sent during "
 "each CiviMail run (0 = unlimited)."
+msgstr ""
+
+#: templates/CRM/Admin/Form/Setting/Mail.tpl
+msgid ""
+"Set the limit of emails sent via smtp mailer, for more than limit send them "
+"in Spool table."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
@@ -8582,27 +8624,27 @@ msgid "close section"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid ""
-"Set this to the domain (e.g., <code>example.org</code>) that should be seen "
-"in your mailings' \"action\" email addressess (like <code>subscribe."
-"*@example.org</code>). This domain (or, more properly, the machine that this "
-"domain's MX record points to) has to know how to handle incoming CiviMail "
-"emails (so it can process the \"actions\" like subscribe, optOut, etc.)."
+msgid "The name of the organization or entity which owns this CiviCRM domain."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
-"Use this field to populate the <code>Return-Path</code> mail header element "
-"with a fixed value (e.g., <code>myuser@example.org</code>). Enter a fully "
-"qualified email address which belongs to a valid SMTP account in your "
-"domain. This address will not be seen by \"typical\" email clients. Consult "
-"with your SMTP provider what address to put in here so that the SMTP server "
-"accepts outgoing mail from CiviMail. If this field is left blank, the "
-"<code>From</code> email address will be used as the <code>Return-Path</code>."
+"Optional description of this domain (useful for sites with multiple domains)."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-msgid "Domain Contact Information"
+msgid "System-generated Mail Settings"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.tpl
+#, fuzzy
+msgid "Additional Contact Information"
+msgstr "Adicionar contactos à organização"
+
+#: templates/CRM/Contact/Form/Domain.tpl
+msgid ""
+"You can also include general email and/or phone contact information in "
+"mailings."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
@@ -9883,7 +9925,7 @@ msgid "This action cannot be undone."
 msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
-msgid "WARNING: Are you sure you want to delete the attached file ?"
+msgid "WARNING: Are you sure you want to delete the attached file?"
 msgstr ""
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
@@ -10186,6 +10228,15 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
+"Check 'Access Control' you want to use this group to assign access "
+"permissions to a set of contacts (<a href=\"%1\" target=\"_blank\" title=\"%3"
+"\">more info...</a>). Check 'Mailing List' if you are using this group as a "
+"mailing list in the <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail "
+"component</a>."
+msgstr ""
+
+#: templates/CRM/Group/Form/Edit.tpl
+msgid ""
 "Select 'User and User Admin Only' if membership in this group is controlled "
 "by authorized CiviCRM users only. If you want to allow contacts to join and "
 "remove themselves from this group via the Registration and Account Profile "
@@ -10198,6 +10249,23 @@ msgstr ""
 msgid "Edit Smart Group Criteria"
 msgstr ""
 
+#: templates/CRM/Group/Form/Search.tpl
+#, fuzzy
+msgid "Find Groups"
+msgstr "Grupos"
+
+#: templates/CRM/Group/Form/Search.tpl
+msgid "Complete OR partial group name."
+msgstr ""
+
+#: templates/CRM/Group/Form/Search.tpl
+msgid "Filter search by group type(s)."
+msgstr ""
+
+#: templates/CRM/Group/Form/Search.tpl
+msgid "Filter search by visibility."
+msgstr ""
+
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
 "Use Groups to organize contacts (e.g. these contacts are members of our "
@@ -10206,17 +10274,28 @@ msgid ""
 "in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.tpl
-msgid ""
-"You can add contacts to a group from any set of search results (or when "
-"viewing an individual contact). You can also allow contacts to sign "
-"themselves up for certain groups by setting the group visibility to 'Public "
-"User Pages' (use the <strong>Settings</strong> link), and including the "
-"<strong>Groups</strong> element in your CiviCRM Profile."
-msgstr ""
-
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "ID"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "No available Groups match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Check your spelling."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Try a different spelling or use fewer letters."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Make sure you have enough privileges in the access control system."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.tpl
+msgid "Or you can <a href='%1'>browse all available Groups</a>."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
@@ -10238,7 +10317,7 @@ msgstr ""
 #: templates/CRM/History/Form/Activity.tpl
 msgid ""
 "Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
-"1\" with description \"%3\" ?"
+"1\" with description \"%3\"?"
 msgstr ""
 
 #: templates/CRM/History/Import/Form/MapField.tpl
@@ -11067,7 +11146,8 @@ msgid ""
 "If you want member(s) of your organization to receive a notification email "
 "whenever this Profile form is used to enter or update contact information, "
 "enter one or more email addresses here. Multiple email addresses should be "
-"separated by a comma (e.g. jane@example.org, paula@example.org)."
+"separated by a comma (e.g. jane@example.org, paula@example.org). The first "
+"email address listed will be used as the FROM address in the notifications."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -11214,10 +11294,6 @@ msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Profile Title"
-msgstr ""
-
-#: templates/CRM/UF/Page/Group.tpl
-msgid "New CiviCRM Profile"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
@@ -11383,16 +11459,15 @@ msgid "Mailing Header"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "This is the Header"
-msgstr "Este é o Cabeçalho"
+msgid "Descriptive Title for this Header"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "HTML Body of Header"
-msgstr "Corpo HTML do Cabeçalho"
+msgid "Sample Header for HTML formatted content."
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Text Body of Header"
+msgid "Sample Header for TEXT formatted content."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
@@ -11400,16 +11475,15 @@ msgid "Mailing Footer"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "This is the Footer"
-msgstr "Este é o Rodapé"
+msgid "Descriptive Title for this Footer."
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
-msgid "HTML Body of Footer"
-msgstr "Corpo HTML do Rodapé"
+msgid "Sample Footer for HTML formatted content."
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Text Body of Footer"
+msgid "Sample Footer for TEXT formatted content."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
@@ -11417,36 +11491,36 @@ msgid "Subscribe Message"
 msgstr "Mensagem de Subscrição"
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Subscription confirmation request"
+msgid "Your Subscription has been Activated"
+msgstr ""
+
+#: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
+msgid "Un-subscribe Confirmation"
 msgstr "Pedido de confirmação da subscrição"
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Welcome"
-msgstr "Bem-Vindo(a)"
+#, fuzzy
+msgid "Re-subscribe Confirmation"
+msgstr "Pedido de confirmação da subscrição"
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Unsubscribe Message"
+msgid "Opt-out Confirmation"
 msgstr ""
-
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Unsubscribe results"
-msgstr ""
-
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Goodbye"
-msgstr "Adeus"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
 msgstr "Respondedor-automático"
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Automated response"
-msgstr "Resposta automática"
+msgid "Please Send Inquiries to Our Contact Email Address"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-msgid "Thank you for your reply."
-msgstr "Obrigado pela sua resposta."
+msgid ""
+"This is an automated reply from an un-attended mailbox. Please send any "
+"inquiries to the contact email address listed on our web-site."
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
@@ -11670,6 +11744,10 @@ msgstr ""
 msgid "MD5 Hash"
 msgstr ""
 
+#: xml/templates/civicrm_add_domain.tpl
+msgid "PayJunction"
+msgstr ""
+
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
 msgstr ""
@@ -11714,3 +11792,29 @@ msgstr "Mensagem obstruída por um filtro de conteúdo"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Erro na transacção de SMTP"
+
+#~ msgid "This is the Header"
+#~ msgstr "Este é o Cabeçalho"
+
+#, fuzzy
+#~ msgid "HTML Body of Header"
+#~ msgstr "Corpo HTML do Cabeçalho"
+
+#~ msgid "This is the Footer"
+#~ msgstr "Este é o Rodapé"
+
+#, fuzzy
+#~ msgid "HTML Body of Footer"
+#~ msgstr "Corpo HTML do Rodapé"
+
+#~ msgid "Welcome"
+#~ msgstr "Bem-Vindo(a)"
+
+#~ msgid "Goodbye"
+#~ msgstr "Adeus"
+
+#~ msgid "Automated response"
+#~ msgstr "Resposta automática"
+
+#~ msgid "Thank you for your reply."
+#~ msgstr "Obrigado pela sua resposta."

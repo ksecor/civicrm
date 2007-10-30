@@ -209,9 +209,7 @@ SELECT     civicrm_email.id as email_id
 
         $headers = array(
             'Subject'   => $component->subject,
-            'From'      => ts('"%1" <%2>', 
-                            array(1 => $domain->email_name, 
-                                  2 => $domain->email_address)),
+            'From'      => "\"{$domain->email_name}\" <{$domain->email_address}>",
             'To'        => $email,
             'Reply-To'  => $confirm,
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"

@@ -74,7 +74,7 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
                     CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email',
                                                'email' ),
                     true );
-        $this->addRule( 'email', ts('Please enter a valid email address (e.g. "yourname@example.com").'), 'email' );
+        $this->addRule( 'email', ts("Please enter a valid email address (e.g. 'yourname@example.com')."), 'email' );
 
         if ( ! $this->_groupID ) {
             // create a selector box of all public groups

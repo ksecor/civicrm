@@ -297,7 +297,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             
             if ( !$field->is_required ) {
                 // add "none" option
-                $choice[] = $qf->createElement('radio', null, '', '-none-', '0', $field->attributes);
+                $choice[] = $qf->createElement('radio', null, '', '-none-', '0' );
             }
 
             foreach ($customOption as $opt) {
@@ -305,7 +305,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
                     $opt['label'] .= '&nbsp;-&nbsp;';
                     $opt['label'] .= CRM_Utils_Money::format( $opt['value'] );
                 }
-                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'], $field->attributes);
+                $choice[] = $qf->createElement('radio', null, '', $opt['label'], $opt['id'] );
             }
             $qf->addGroup($choice, $elementName, $label);
 
