@@ -87,7 +87,8 @@ class CRM_Activity_Form extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this );
+        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this, 
+                                                              false, null, 'REQUEST' );
 
         $this->_currentlyViewedContactId = $this->get('contactId');
 
@@ -312,8 +313,8 @@ class CRM_Activity_Form extends CRM_Core_Form
                                );
         } else {
 
-            // DRAFTING: This probably is a hack for custom field uploads
-            // DRAFTING: Try to eradicate it at later stage
+            // DRAFTING: This probably is a hack for custom field uploads 
+           // DRAFTING: Try to eradicate it at later stage
             $session =& CRM_Core_Session::singleton( );
             $uploadNames = $session->get( 'uploadNames' );
             if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {

@@ -62,23 +62,20 @@ class CRM_Core_BAO_Phone extends CRM_Core_DAO_Phone
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
-     *
+     * @param array entityBlock input parameters to find object
      * @return array    array of phone objects
      * @access public
      * @static
      */
-    static function &getValues( $contactId ) 
+    static function &getValues( $entityBlock ) 
     {
-        $phone =& new CRM_Core_BAO_Phone( );
-        $getValues =& CRM_Core_BAO_Block::getValues( $phone, 'phone', $contactId );
+        $getValues =& CRM_Core_BAO_Block::getValues('phone', $entityBlock );
 
-        foreach ($getValues as $key => $values ) {
-            foreach ( $values as $k => $v ) {
-                CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key][$k] );
+        if ( ! empty( $getValues ) ) {
+            foreach ($getValues as $key => $values ) {
+                foreach ( $values as $k => $v ) {
+                    CRM_Core_DAO_Phone::addDisplayEnums( $getValues[$key][$k] );
+                }
             }
         }
         return $getValues;
@@ -126,5 +123,51 @@ ORDER BY civicrm_phone.is_primary DESC, civicrm_phone.location_type_id DESC, pho
         }
         return $numbers;
     }
+ /**
+     * Get all the mobile numbers for a specified location_block id, with the primary mobile being first
+     *
+     * @param array $entityElements the array containing entity_id and
+     * entity_table name
+     *
+     * @return array  the array of phone ids which are potential numbers
+     * @access public
+     * @static
+     */
+    static function allEntityPhones( $entityElements, $type = null ) 
+    {
+        if ( empty($entityElements) ) {
+            return null;
+        }
+      
+        $cond = null;
+        if ( $type ) {
+            $cond = " AND civicrm_phone.phone_type = '$type'";
+        }
+        
+        $entityId    = $entityElements['entity_id'];
+        $entityTable = $entityElements['entity_table'];
+       
+        $sql = " SELECT phone, ltype.name as locationType, ph.is_primary as is_primary,
+     ph.id as phone_id, ph.location_type_id as locationTypeId
+FROM civicrm_loc_block loc, civicrm_phone ph, civicrm_location_type ltype, {$entityTable} ev
+WHERE ev.id = %1
+AND   loc.id = ev.loc_block_id
+AND   ph.id IN (loc.phone_id, loc.phone_2_id)
+AND   ltype.id = ph.location_type_id
+ORDER BY ph.is_primary DESC, phone_id ASC ";
+       
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+        $numbers = array( );
+         $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        while ( $dao->fetch( ) ) {
+            $numbers[$dao->phone_id] = array( 'locationType'   => $dao->locationType,
+                                              'is_primary'     => $dao->is_primary,
+                                              'id'             => $dao->phone_id,
+                                              'phone'          => $dao->phone,
+                                              'locationTypeId' => $dao->locationTypeId);
+        }
+        return $numbers;
+    }
+    
 }
 ?>

@@ -72,12 +72,8 @@ class CRM_Mailing_Event_BAO_Subscribe extends CRM_Mailing_Event_DAO_Subscribe {
         $query = "
    SELECT DISTINCT contact_a.id as contact_id 
      FROM civicrm_contact contact_a 
-LEFT JOIN civicrm_individual ON contact_a.id = civicrm_individual.contact_id
-LEFT JOIN civicrm_location   ON civicrm_location.entity_id = contact_a.id
-LEFT JOIN civicrm_address    ON civicrm_location.id = civicrm_address.location_id  
-LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
-    WHERE LOWER(civicrm_email.email) = %1
-      AND civicrm_location.entity_table = 'civicrm_contact'";
+LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
+    WHERE LOWER(civicrm_email.email) = %1";
 
         $params = array( 1 => array( $email, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -124,10 +120,8 @@ LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
         $query = "
 SELECT     civicrm_email.id as email_id
   FROM     civicrm_email
-INNER JOIN civicrm_location ON  civicrm_email.location_id = civicrm_location.id
      WHERE LOWER(civicrm_email.email) = %1
-       AND civicrm_location.entity_table = 'civicrm_contact'
-       AND civicrm_location.entity_id = %2";
+       AND civicrm_email.contact_id = %2";
         $params = array( 1 => array( $email     , 'String'  ),
                          2 => array( $contact_id, 'Integer' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
@@ -215,9 +209,7 @@ INNER JOIN civicrm_location ON  civicrm_email.location_id = civicrm_location.id
 
         $headers = array(
             'Subject'   => $component->subject,
-            'From'      => ts('"%1" <%2>', 
-                            array(1 => $domain->email_name, 
-                                  2 => $domain->email_address)),
+            'From'      => "\"{$domain->email_name}\" <{$domain->email_address}>",
             'To'        => $email,
             'Reply-To'  => $confirm,
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"

@@ -224,7 +224,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-       
+
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
@@ -1404,6 +1404,9 @@ ORDER BY weight ASC, label ASC";
         
         case 'Membership':
             return 'civicrm_membership';
+        
+        case 'Participant':
+            return 'civicrm_participant';
         
         default:
             CRM_Core_Error::fatal( );

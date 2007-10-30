@@ -63,19 +63,14 @@ class CRM_Core_BAO_IM extends CRM_Core_DAO_IM
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
-     *
+     * @param array entityBlock input parameters to find object
      * @return boolean
      * @access public
      * @static
      */
-    static function &getValues( $contactId ) 
+    static function &getValues( $entityBlock ) 
     {
-        $im =& new CRM_Core_BAO_IM( );
-        return CRM_Core_BAO_Block::getValues( $im, 'im', $contactId );
+        return CRM_Core_BAO_Block::getValues( 'im', $entityBlock );
     }
 
     /**
@@ -116,6 +111,50 @@ ORDER BY
         }
         return $ims;
     }
+
+     /**
+     * Get all the ims for a specified location_block id, with the primary im being first
+     *
+     * @param array  $entityElements the array containing entity_id and
+     * entity_table name
+     *
+     * @return array  the array of im details
+     * @access public
+     * @static
+     */
+    static function allEntityIMs( &$entityElements) 
+    {
+        if ( empty($entityElements) ) {
+            return null;
+        }
+   
+        
+        $entityId    = $entityElements['entity_id'];
+        $entityTable = $entityElements['entity_table'];
+
+
+         $sql = "SELECT cim.name as im, ltype.name as locationType, cim.is_primary as is_primary, cim.id as im_id, cim.location_type_id as locationTypeId
+FROM civicrm_loc_block loc, civicrm_im cim, civicrm_location_type ltype, {$entityTable} ev
+WHERE ev.id = %1
+AND   loc.id = ev.loc_block_id
+AND   cim.id IN (loc.im_id, loc.im_2_id)
+AND   ltype.id = cim.location_type_id
+ORDER BY cim.is_primary DESC, im_id ASC ";
+
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+       
+        $ims = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        while ( $dao->fetch( ) ) {
+            $ims[$dao->im_id] = array( 'locationType'   => $dao->locationType,
+                                       'is_primary'     => $dao->is_primary,
+                                       'id'             => $dao->im_id,
+                                       'name'           => $dao->im,
+                                       'locationTypeId' => $dao->locationTypeId );
+        }
+        return $ims;
+    }
+
 }
 
 ?>

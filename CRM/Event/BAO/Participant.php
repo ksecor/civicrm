@@ -131,15 +131,20 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     static function getLineItems( $id ) {
         $lineItems = array();
         require_once 'CRM/Core/DAO.php';
-        $query = "SELECT li.label, li.qty, li.unit_price, li.line_total";
-        $query .= " FROM civicrm_participant AS p,";
-        $query .= " civicrm_participant_payment AS pp,";
-        $query .= " civicrm_line_item AS li";
-        $query .= " WHERE p.id=%1 AND pp.participant_id=p.id";
-        $query .= " AND li.entity_id=pp.payment_entity_id";
-        $query .= " AND li.entity_table=pp.payment_entity_table";
+        $query = "
+SELECT li.label, li.qty, li.unit_price, li.line_total
+  FROM civicrm_participant AS p,
+       civicrm_participant_payment AS pp,
+       civicrm_line_item AS li
+ WHERE p.id = %1
+   AND pp.participant_id = p.id
+   AND li.entity_id = pp.contribution_id
+   AND li.entity_table = 'civicrm_contribution'";
+
         $params = array( 1 => array( $id, 'Integer' ) );
+
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
+
         while ( $dao->fetch() ) {
             $lineItems[] = array(
                 'label' => $dao->label,
@@ -191,23 +196,11 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             $id = $params['contact_id'];
         }
         
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_participant',
-                                  'entity_id'       => $participant->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+        // add custom field values       
+         if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_participant', $participant->id );
         }
         
         if ( CRM_Utils_Array::value('note', $params) || CRM_Utils_Array::value('participant_note', $params)) {

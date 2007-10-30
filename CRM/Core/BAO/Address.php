@@ -57,13 +57,19 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * @access public
      * @static
      */
-    static function create( &$params, $fixAddress ) 
+    static function create( &$params, $fixAddress, $entity = null ) 
     {
-        $contactId = $params['address']['contact_id'];
-
-        //get all the addresses for this contact
         $addresses = array( );
-        $addresses = self::allAddress( $contactId );
+        if ( ! $entity ) {
+            $contactId = $params['address']['contact_id'];
+            //get all the addresses for this contact
+            $addresses = self::allAddress( $contactId );
+        } else {
+            // get all address from location block
+            $entityElements = array( 'entity_table' => $params['entity_table'],
+                                     'entity_id'    => $params['entity_id']);
+            $addresses = self::allEntityAddress( $entityElements );
+        }
 
         $isPrimary = true;
 
@@ -73,7 +79,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 continue;
             }
 
-            if ( !empty( $addresses ) ) {
+            if ( ! empty( $addresses ) ) {
                 $value['id'] = array_shift( $addresses );
             }
             
@@ -97,6 +103,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             
             $blocks[] = self::add( $value, $fixAddress );
         }
+
         return $blocks;
     }
 
@@ -288,17 +295,29 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * @access public
      * @static
      */
-    static function &getValues( $contactId, $microformat = false )
+    static function &getValues( &$entityBlock, $microformat = false )
     {
         $address =& new CRM_Core_BAO_Address();
-        $address->contact_id = $contactId;
-
+       
+        if ( ! $entityBlock['entity_table'] ) {
+            $address->contact_id = $entityBlock['contact_id'];
+        } else {
+            $addressIds = array();
+            $addressIds = self::allEntityAddress($entityBlock );
+           
+            if( !empty($addressIds[1]) ) {
+                $address->id = $addressIds[1];
+            } else {
+                return $addresses;
+            }
+        }
         $address->find( );
 
         while ( $address->fetch( ) ) {
+            $stree = $address->street_address;
             $values = array( );
             CRM_Core_DAO::storeValues( $address, $values );
-            
+           
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
                 $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id, false );
@@ -324,7 +343,6 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
             $addresses[$address->location_type_id] = $values;
         }
-       
         return $addresses;
     }
     
@@ -398,6 +416,45 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
 
         $addresses = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $locationCount = 1;
+        while ( $dao->fetch( ) ) {
+            $addresses[$locationCount] = $dao->address_id;
+            $locationCount++;
+        }
+        return $addresses;
+    }
+    
+     /**
+     * Get all the addresses for a specified location_block id, with the primary address being first
+     *
+     * @param array $entityElements the array containing entity_id and
+     * entity_table name
+     *
+     * @return array  the array of adrress data
+     * @access public
+     * @static
+     */
+    static function allEntityAddress( &$entityElements ) 
+    {
+        if ( empty($entityElements) ) {
+            return $addresses;
+        }
+        
+        $entityId    = $entityElements['entity_id'];
+        $entityTable = $entityElements['entity_table'];
+
+        $sql = "
+SELECT civicrm_address.id as address_id    
+FROM civicrm_loc_block loc, civicrm_location_type ltype, civicrm_address, {$entityTable} ev
+WHERE ev.id = %1
+  AND loc.id = ev.loc_block_id
+  AND civicrm_address.id IN (loc.address_id, loc.address_2_id)
+  AND ltype.id = civicrm_address.location_type_id
+ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC, address_id ASC ";
+               
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+        $addresses = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         $locationCount = 1;
         while ( $dao->fetch( ) ) {
             $addresses[$locationCount] = $dao->address_id;

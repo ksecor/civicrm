@@ -467,35 +467,12 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         //DO TO: comment because of schema changes
         //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
 
-        // add custom field values
-        if ( CRM_Utils_Array::value( 'custom', $params ) ) {
-            $cvParams = array( );
-            foreach ($params['custom'] as $customValue) {
-                $cvParam = array(
-                                 'entity_table'    => 'civicrm_contact', 
-                                 'entity_id'       => $contact->id,
-                                 'value'           => $customValue['value'],
-                                 'type'            => $customValue['type'],
-                                 'custom_field_id' => $customValue['custom_field_id'],
-                                 'table_name'      => $customValue['table_name'],
-                                 'column_name'     => $customValue['column_name'],
-                                 'file_id'         => $customValue['file_id'],
-                                 );
-                
-                if ($customValue['id']) {
-                    $cvParam['id'] = $customValue['id'];
-                }
-                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
-                    $cvParams[$customValue['table_name']] = array( );
-                }
-                $cvParams[$customValue['table_name']][] = $cvParam;
-            }
-            if ( ! empty( $cvParams ) ) {
-                require_once 'CRM/Core/BAO/CustomValueTable.php';
-                CRM_Core_BAO_CustomValueTable::create($cvParams);
-            }
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contact', $contact->id );
         }
-        
+
         // make a civicrm_subscription_history entry only on contact create (CRM-777)
         if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {
             $subscriptionParams = array('contact_id' => $contact->id,
@@ -732,7 +709,8 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 //                                                                     $microformat );
 
         //get the block information for this contact
-        $contact->location  =& CRM_Core_BAO_Location::getValues( $params['contact_id'], 
+        $entityBlock = array( 'contact_id' => $params['contact_id'] );
+        $contact->location  =& CRM_Core_BAO_Location::getValues( $entityBlock, 
                                                                  $defaults, 
                                                                  $microformat );
         
@@ -1519,17 +1497,15 @@ WHERE civicrm_contact.id IN $idString ";
        if( $contactType == 'Individual') {
            $sql = "
    SELECT civicrm_contact.first_name, civicrm_contact.last_name,  civicrm_email.email, civicrm_contact.do_not_email
-     FROM civicrm_contact
-LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_address.is_primary = 1
-      AND civicrm_contact.id = %1";
+     FROM civicrm_contact, civicrm_email 
+   WHERE  civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
+          AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
        } else { // for household / organization
            $sql = "
    SELECT civicrm_contact.display_name, civicrm_email.email, civicrm_contact.do_not_email
-     FROM civicrm_contact
-LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1)
-    WHERE civicrm_address.is_primary = 1
+     FROM civicrm_contact, civicrm_email 
+   WHERE civicrm_contact.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1
       AND civicrm_contact.id = %1";
            $params = array( 1 => array( $id, 'Integer' ) );
         }
@@ -2377,11 +2353,10 @@ WHERE contact_id = {$contactId}
 
     static function getIdByDisplayName( $displayName )
     {
-        require_once "CRM/Contact/DAO/Contact.php";
-        $contact = new CRM_Contact_DAO_Contact();
-        $contact->sort_name = $displayName;
-        $contact->find(true);
-        return $contact->id;
+        return CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact',
+                                            $displayName,
+                                            'id',
+                                            'sort_name' );
     }
 
     /**

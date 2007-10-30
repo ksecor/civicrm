@@ -32,7 +32,7 @@
  * $Id$
  *
  */
-
+require_once 'CRM/Core/OptionGroup.php';
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';

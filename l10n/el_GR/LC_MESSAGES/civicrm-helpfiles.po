@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-17 21:12+0200\n"
+"Project-Id-Version: CiviCRM 1.9\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-08-17 21:12+0200\n"
 "Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
@@ -292,67 +292,255 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"If you want accept contributions online you must select a Payment Processor, "
-"register for an account with that processor, and configure CiviCRM with your "
-"account information."
+"Review the <a href='%1' target='_blank' title='%2'>configuration procedures "
+"for each Payment Processor here</a>. If you're not sure which processor to "
+"use - we recommend reviewing terms, limitations and coverage areas on each "
+"processor's website before proceeding. If your preferred processor is not in "
+"the list, consider partnering with a developer and contributing a plugin."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "API Login (LIVE account):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"CiviCRM currently supports three different PayPal payment processing "
-"services, as well as Moneris, Authorize.net and Google Checkout. Refer to "
-"the each payment processor's website for details on requirements, fees and "
-"terms for these services."
+"Generate your API Login and Transaction Key by logging in to your Merchant "
+"Account and navigating to <strong>Settings &raquo; General Security "
+"Settings</strong>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Transaction Key (LIVE account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "MD5-Hash (LIVE account):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"<strong>For security reasons, some of the required payment processor "
-"settings are stored in your CiviCRM settings file (civicrm.settings.php). "
-"You must input these values before your can process TEST or LIVE "
-"transactions. Refer to the <a href=\"%1\" target=\"_blank\" title=\"Payment "
-"Processor Configuration Guide (opens in a new window).\">Payment Processor "
-"Configuration Guide</a> for more information.</strong>"
+"You may also optionally set an MD5 Hash Key to verify that responses come "
+"directly from Authorize.Net. Login to your merchant account and navigate to "
+"<strong>Account Settings</strong>. Select MD5-Hash and enter a new hash "
+"value. This can be just about any string of characters or words. Then enter "
+"the exact same value here."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"We recommend obtaining a TEST account from the processor, and configuring "
-"and testing your online contribution page(s) in test-drive mode first. Once "
-"you are satisfied that your test contributions are working properly, you can "
-"register for the LIVE merchant account and configure that account "
-"information. Then you are ready to activate and promote your contribution "
-"page(s)."
-msgstr ""
-
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "TEST Account Username or Email Address:"
+"The URL for Authorize.net's LIVE Payment server. Use the default value "
+"unless otherwise advised by the processor."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"<strong>PayPal Website Payments Pro or Express</strong> - If you are using "
-"the recommended <strong>Signature-based API Credentials</strong> - enter "
-"your API Username value as displayed in your account Profile - View API "
-"Signature screen."
+"The URL for recurring payments. Use the default value unless otherwise "
+"advised by the processor."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "API Login (TEST account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Transaction Key (TEST account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "MD5-Hash (TEST account):"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"<strong>PayPal Website Standard</strong> - Enter the email address of your "
-"TEST (sandbox) merchant account."
+"The URL for Authorize.net's TEST Payment server. Use the default value "
+"unless otherwise advised by the processor."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "TEST/Sandbox Account Merchant-ID:"
+msgid "LIVE Account API Username:"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "Enter Merchant ID from your Sandbox account."
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
+"as displayed in your LIVE account's <strong>Profile - View API Signature</"
+"strong> screen."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "How to obtain Merchant-ID?"
+msgid "LIVE Account API Password:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
+"as displayed in your LIVE account's <strong>Profile - View API Signature</"
+"strong> screen."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "LIVE Account API Signature:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
+"strong> as displayed in your LIVE account's <strong>Profile - View API "
+"Signature</strong> screen."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE Payment server. Use the default value unless "
+"otherwise advised by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for displaying PayPal's \"Pay with PayPal\" payment button image. "
+"Use the default value unless otherwise advised by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST Account API Username:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
+"as displayed in your TEST (sandbox) account's <strong>Profile - View API "
+"Signature</strong> screen."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST Account API Password:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
+"as displayed in your TEST (sandbox) account's <strong>Profile - View API "
+"Signature</strong> screen."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST Account API Signature:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"CiviCRM requires that you use the <strong>Signature-based API Credentials</"
+"strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
+"strong> as displayed in your TEST (sandbox) account's <strong>Profile - View "
+"API Signature</strong> screen."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST Payment server. Use the default value unless "
+"otherwise advised by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "LIVE Merchant Account Email Address:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Enter the Merchant Account Email Address linked to your LIVE PayPal Merchant "
+"Account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's LIVE Payment server. Use the default value unless "
+"otherwise indicated by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal Standard recurring payments. Use the default value unless "
+"otherwise indicated by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST Merchant Account Email Address:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Enter the Merchant Account Email Address linked to your PayPal Sandbox "
+"merchant account (NOT your Developer Central login - unless it's the same)."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayPal's TEST Payment server. Use the default value unless "
+"otherwise indicated by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "User Name (TEST account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Enter <strong>pj-ql-01</strong>. This is the User Name associated with the "
+"shared PayJunction test account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Password (TEST account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Enter <strong>pj-ql-01p</strong>. This is the Password associated with the "
+"shared PayJunction test account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for PayJunction's Payment server. This is the same for TEST and LIVE "
+"transactions. Use the default value unless otherwise advised by PayPal."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "The Recurring Payments URL is not currently used."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "User Name (LIVE account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the User Name associated with your LIVE merchant account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Password (LIVE account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the Password associated with your LIVE merchant account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "LIVE Account Merchant ID:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the Merchant ID from your Live account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "How do I Find my Merchant-ID?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
@@ -364,21 +552,221 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid ""
-"Also, make sure you have Merchant-Key set in your civicrm settings file."
+msgid "LIVE Account Merchant Key:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the Merchant Key from your Live account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "How do I Find my Merchant Key?"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST/Sandbox Account Merchant ID:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the Merchant ID from your Sandbox account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "TEST/Sandbox Account Merchant Key:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the Merchant Key from your Sandbox account."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
-"Your Moneris username is not currently used, in either the normal or test "
-"account, so you can fill in '%1' (it can't be left blank). You can leave the "
-"recurring payments url blank, it's not used. Use '%2' as your test password, "
-"and '%3' as your test store ID. '%4' and '%5' also work, but only '%3' "
-"accepts recurring payments."
+"The URL for Google Checkout's TEST Payment server. Use the default value "
+"unless otherwise indicated by Google."
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-msgid "Dummy"
+msgid ""
+"The URL for Google Checkout's LIVE Payment server. Use the default value "
+"unless otherwise indicated by Google."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Google Checkout Button:"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "The base URL for the <strong>TEST - Image</strong> is: %1"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"To display an image, you must add several parameters to this URL as "
+"name=value pairs."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Values"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "large/medium/small"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "width of the button in pixels"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "height of the button in pixels"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "background color for the button"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "whether the button is clickable or disabled"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "a locale associated with the transaction (optional)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "(e.g %1)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Example of a large Google Checkout button on a white background (For TEST "
+"Account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "The base URL for the <strong>LIVE - Image</strong> is: %1"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Example of a large Google Checkout button on a white background (For LIVE "
+"Account):"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Moneris doesn't currently use the Username field. Enter 'ignoreme' as a "
+"placeholder since the field can't be left blank."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "API Token (TEST account)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter the API Token from your live merchant account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Store ID (LIVE account)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Enter your live merchant account Store ID."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for the Moneris LIVE Payment server. Use the default value unless "
+"otherwise advised by the processor."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "The Recurring Payments URL is not currently used for Moneris."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"All Moneris test transactions are submitted to a shared test merchant "
+"account. Enter <strong>%1</strong> here, which is the API Token for this "
+"test account."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Store ID (TEST account)"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"All Moneris test transactions are submitted to a shared merchant account. "
+"You can use <strong>%1</strong> as your test store ID. '%2' and '%3' also "
+"work, but only '%1' accepts recurring payments."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"The URL for the Moneris TEST Payment server. Use the default value unless "
+"otherwise advised by the processor."
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid "Dummy Processor"
+msgstr ""
+
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+msgid ""
+"Set up a 'Dummy' Processor if you want to test Online Contribution pages or "
+"Event Registration pages prior to selecting and configuring a real payment "
+"processor. You can enter any values for User Name and Site URL."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid ""
+"The FROM Name and Email Address are used when automated emails are sent from "
+"this domain (e.g. subscribe and unsubscribe confirmations...). This Name and "
+"Email Address are also used as the default \"sender\" values when you create "
+"a new CiviMail Mailing."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid ""
+"The Email Domain is the internet domain (e.g., <code>example.org</code>) to "
+"be used in the address of \"action\" mailings (e.g. the reply-to address "
+"when confirming a subsciption: <code>subscribe.*@<strong>example.org</"
+"strong></code>). This domain (or, more properly, the machine that this "
+"domain's MX record points to) must be configured to handle incoming CiviMail "
+"emails (so it can process the \"actions\" like subscribe, optOut, etc.)."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Opens documentation in a new window."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid "Read more"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.hlp
+msgid ""
+"Use the Return Path field if you need to populate the <code>Return-Path</"
+"code> mail header element with a fixed value (e.g., <code>myuser@example."
+"org</code>). Enter a fully qualified email address which belongs to a valid "
+"SMTP account in your domain. This address will not be seen by \"typical\" "
+"email clients. Consult with your SMTP provider what address to put in here "
+"so that the SMTP server accepts outgoing mail from CiviMail. If this field "
+"is left blank, the <code>From</code> email address will be used as the "
+"<code>Return-Path</code>."
+msgstr ""
+
+#: templates/CRM/Contact/Form/Edit.hlp
+msgid ""
+"If you are using the CiviMail component to send mailings to contacts, this "
+"field provides additional control over which email address is used. By "
+"default, CiviMail sends mail to each contact's preferred email address. If "
+"the contact has multiple locations, then the preferred email of the primary "
+"location is used. However, if the contact prefers to have CiviMail ('bulk') "
+"mailings set to an alternate email address - check the 'Use for Bulk "
+"Mailings' box next to that email address."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
@@ -749,6 +1137,44 @@ msgid ""
 "included in the RSS feed."
 msgstr ""
 
+#: templates/CRM/Group/Page/Group.hlp
+msgid ""
+"Use Groups to organize contacts (e.g. these contacts are members of our "
+"'Steering Committee'). You can also create <strong>smart groups</strong> "
+"whose membership is based on contact characteristics (e.g. this group "
+"consists of all people in our database who live in a specific locality)."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.hlp templates/CRM/UF/Page/Group.hlp
+msgid "more info"
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.hlp
+msgid ""
+"You can add contacts to a group from any set of search results (or when "
+"viewing an individual contact). You can also allow contacts to sign "
+"themselves up for certain groups by setting the group visibility to 'Public "
+"User Pages' (use the <strong>Settings</strong> link), and including the "
+"<strong>Groups</strong> element in your CiviCRM Profile."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.hlp
+msgid ""
+"Groups which are using as mailing lists should be assigned the 'Mailing "
+"List' type. Groups of contacts which are used for <strong>access control</"
+"strong> must be assigned that type."
+msgstr ""
+
+#: templates/CRM/Group/Page/Group.hlp
+msgid ""
+"Use <strong>Find Groups</strong> to search by group name, type and "
+"visibility. Group type filtering uses <strong>AND</strong> logic. If you "
+"check both 'Mailing List' and 'Access Control' types - only groups which "
+"have both types assigned will be returned. You can also click a letter on "
+"the <strong>A-to-Z bar</strong> to quickly find all groups starting with "
+"that letter."
+msgstr ""
+
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
 "Files to be imported must be in the <strong>comma-separated-values format "
@@ -802,6 +1228,59 @@ msgid ""
 "comparing them to existing contact records for possible duplicates."
 msgstr ""
 
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"Assign a unique name to each of your mailings. Select a naming convention "
+"that will help keep your mailings organized and easy to find when you want "
+"to review and compare mailing results. For example, if you do a monthly "
+"general-interest newsletter - you might use the following naming convention:"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid "General Monthly Newsletter: 200709"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"Determine the contacts in your database who should receive this mailing by "
+"first selecting one or more <strong>Included Groups</strong>. (Groups must "
+"be assigned the <strong>Mailing List</strong> type to be available on this "
+"screen - you can update this for an existing group from <strong>Manage "
+"Groups &raquo; Settings</strong>.)"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"You also have the option to <strong>Exclude</strong> some contacts from your "
+"included groups by selecting one or more <strong>Excluded Groups</strong>. "
+"Contacts who are in both groups will NOT receive the mailing (they are "
+"'excluded')."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"If you have sent other mailings - you can additionally Include (or Exclude) "
+"contacts who received those mailings. CiviCRM will eliminate any "
+"duplications so that contacts who are in an Included Group AND were "
+"recipients of an Included Mailing will only be sent one copy of this mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"After you click <strong>Next</strong> - the total number of selected "
+"recipients will be displayed on the next screen. Use this as a 'reality-"
+"check' to help you confirm that you've targeted (and excluded) the desired "
+"recipients."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Group.hlp
+msgid ""
+"You also have the option to <strong>Exclude</strong> some contacts in your "
+"included groups by selecting on or more <strong>Excluded Groups</strong>. "
+"Contacts who are in both groups will NOT receive the mailing (they are "
+"'excluded')."
+msgstr ""
+
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid "Scheduling and Sending Mailings"
 msgstr ""
@@ -829,31 +1308,88 @@ msgid ""
 "info...</a>)"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
-"Before completing this step, you must create one or two files containing "
-"your mailing content. You can choose to send BOTH an <strong>HTML</strong> "
-"formatted message and a plain <strong>TEXT</strong> message, OR you can send "
-"a <strong>TEXT</strong> message only. If you create and upload only an "
-"<strong>HTML</strong> formatted message, CiviMail will automatically create "
-"a <strong>TEXT</strong> version for your recipients who have chosen NOT to "
-"receive HTML email."
+"Verify the test email address and/or test recipient group. Then click "
+"<strong>Next</strong> with 'Send Test Mailing' checked to generate the test "
+"mailing. Once you receive the test mailing:"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Test.hlp
+msgid "Verify the content and formattting."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Test.hlp
+msgid ""
+"If you are using mail-merge tokens, check that they have been replaced with "
+"expected values."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Test.hlp
+msgid ""
+"Click on each included link to make sure they go to the expected web pages."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Test.hlp
+msgid ""
+"If you need to make changes, you can click <strong>Previous</strong> from "
+"the next screen, and again from this screen to return to step 3. After "
+"making your changes, you can send another test and repeat as needed."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid "Message Formats"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
-"Save these file(s) somewhere on your local computer - and locate them using "
-"the <strong>Browse...</strong> buttons."
+"You can choose to send BOTH an <strong>HTML</strong> and a plain "
+"<strong>TEXT</strong> version of your mailing, OR you can send a "
+"<strong>TEXT</strong> version only."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
-"CiviMail email messages must include an unsubscribe link, an opt-out link, "
-"and the postal address of your organization. These elements help reduce the "
-"chances of your email being categorized as SPAM. Refer to the online "
+"If you create only an <strong>HTML</strong> version, CiviMail will "
+"automatically create a <strong>TEXT</strong> version for your recipients who "
+"have chosen NOT to receive HTML email."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid "Required Elements"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid ""
+"CiviMail email messages must include an <strong>unsubscribe</strong> link, "
+"an <strong>opt-out</strong> link, and the <strong>postal address</strong> of "
+"your organization. These elements help reduce the chances of your email "
+"being categorized as SPAM. They can be included in the main message body OR "
+"in a re-usabe <strong>message footer</strong>. Refer to the online "
 "documentation for details on <a href='%1' target='_blank' title='Help on "
 "messages. Opens a new window.'>how to include required links and contact "
 "information as well as sample messages....</a>"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid "Upload or Compose On-screen"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid ""
+"You can use your favorite editor to create content on your local computer "
+"and then <strong>Upload</strong> the files. OR you can <strong>Compose</"
+"strong> content directly on the screen."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.hlp
+msgid ""
+"If you choose to compose on the screen, a basic WYSIWYG (what-you-see-is-"
+"what-you-get) editor is provided which you can use create simple HTML "
+"messages. However, if you are planning on creating HTML messages with "
+"complex layouts - it is best to use an HTML editor on your local computer. "
+"Then locate and upload the saved file(s) by clicking the <strong>Browse</"
+"strong> button."
 msgstr ""
 
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
@@ -903,6 +1439,45 @@ msgid ""
 "Save the CSV file with your membership data and 'contact matching' data to "
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid ""
+"Use the <strong>Relationship Type</strong> field to configure Membership "
+"Types where memberships are automatically granted to related contacts. "
+"Examples are listed below:"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "Direct member is:"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "Membership is automatically granted to:"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "a household"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "'Household Members' of that household"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "an organization"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "'Employees' of that organization"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "an individual"
+msgstr ""
+
+#: templates/CRM/Member/Page/MembershipType.hlp
+msgid "'Children' of that individual"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp
@@ -961,10 +1536,6 @@ msgid ""
 "layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/"
 "or sites...click the *Standalone Form* action link for a Profile below - and "
 "copy and paste the HTML form code into any web page."
-msgstr ""
-
-#: templates/CRM/UF/Page/Group.hlp
-msgid "more info"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.hlp

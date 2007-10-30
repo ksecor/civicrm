@@ -34,14 +34,13 @@
  */
 
 require_once 'CRM/Utils/System.php';
-require_once 'CRM/Core/DAO/EmailHistory.php';
 require_once 'api/crm.php';
 require_once 'CRM/Utils/Mail.php';
 
 /**
  * BAO object for crm_email_history table
  */
-class CRM_Core_BAO_EmailHistory extends CRM_Core_DAO_EmailHistory {
+class CRM_Core_BAO_EmailHistory  {
 
     static function &add( &$params ) {
         $email =& new CRM_Core_DAO_EmailHistory( );

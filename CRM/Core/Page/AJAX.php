@@ -120,9 +120,10 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
 civicrm_contact.id 'id'
 FROM civicrm_contact
-LEFT JOIN civicrm_address ON (civicrm_address.contact_id = civicrm_contact.id
-                                 AND civicrm_address.is_primary=1 )
-WHERE household_name LIKE '$name%'
+LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
+                                AND civicrm_address.is_primary=1
+                                 )
+WHERE civicrm_contact.contact_type='Household' AND household_name LIKE '$name%'
 ORDER BY household_name ";
 
         } elseif($relType) {

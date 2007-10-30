@@ -202,17 +202,24 @@ class CRM_Member_Selector_Search extends CRM_Core_Selector_Base implements CRM_C
         if ( !isset(self::$_links['all']) || !self::$_links['all'] ) {       
             $extraLinks = array(
                                 CRM_Core_Action::UPDATE => array(
-                                                                 'name'     => ts('Edit'),
-                                                                 'url'      => 'civicrm/contact/view/membership',
-                                                                   'qs'       => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                 'title'    => ts('Edit Membership'),
+                                                                 'name'  => ts('Edit'),
+                                                                 'url'   => 'civicrm/contact/view/membership',
+                                                                 'qs'    => 'reset=1&action=update&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                 'title' => ts('Edit Membership'),
                                                                  ),
                                 CRM_Core_Action::DELETE => array(
-                                                                 'name'     => ts('Delete'),
-                                                                 'url'      => 'civicrm/contact/view/membership',
-                                                                 'qs'       => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
-                                                                 'title'    => ts('Delete Membership'),
+                                                                 'name'  => ts('Delete'),
+                                                                 'url'   => 'civicrm/contact/view/membership',
+                                                                 'qs'    => 'reset=1&action=delete&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                 'title' => ts('Delete Membership'),
                                                                  ),
+                                
+                                CRM_Core_Action::RENEW => array(
+                                                                'name'  => ts('Renew'),
+                                                                'url'   => 'civicrm/contact/view/membership',
+                                                                'qs'    => 'reset=1&action=renew&id=%%id%%&cid=%%cid%%&context=%%cxt%%',
+                                                                'title' => ts('Renew Membership')
+                                                                ),
                                 );
             self::$_links['all'] = self::$_links['view'] + $extraLinks;
         }

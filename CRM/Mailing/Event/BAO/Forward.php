@@ -72,11 +72,8 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                             $contact.do_not_email as do_not_email,
                             $queueTable.id as queue_id
                 FROM        ($email, $job as temp_job)
-                INNER JOIN  $location
-                        ON  $email.location_id = $location.id
                 INNER JOIN  $contact
-                        ON  $location.entity_table = '$contact'
-                        AND $location.entity_id = $contact.id
+                        ON  $email.contact_id = $contact.id
                 LEFT JOIN   $queueTable
                         ON  $email.id = $queueTable.email_id
                 LEFT JOIN   $job
@@ -87,7 +84,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
                     CRM_Utils_Type::escape($forward_email, 'String') . "'");
 
         $dao->fetch();
-        
+
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -100,6 +97,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         require_once 'api/Search.php';
         $contact_params = array('email' => $forward_email);
         $count = crm_contact_search_count($contact_params);
+        
         if ($count == 0) {
             /* No contact found, we'll have to create a new one */
             $contact =& crm_create_contact($contact_params);
@@ -111,29 +109,22 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             $contact->domain_id = $domain->id;
             $contact->save();
             $contact_id = $contact->id;
-            $email_id = $contact->location[1]->email[1]->id;
+            $email_id = $contact->location['email'][0]->id;
         } else {
-            $contact =& crm_get_contact($contact_params);
-            if (is_a($contact, 'CRM_Core_Error')) {
-                return false;
-            }
-            $contact_id = $contact->id;
-            foreach ($contact->location as $location) {
-                foreach($location->email as $email) {
-                    if ($email->email == $forward_email) {
-                        $email_id = $email->id;
-                        break 2;
-                    }
-                }
-            }
+            $email =& new CRM_Core_DAO_Email();
+            $email->email = $forward_email;
+            $email->find(true); 
+            $email_id = $email->id;
+            $contact_id = $email->contact_id;
         }
-
+        
         /* Create a new queue event */
         $queue_params = array(
             'email_id' => $email_id,
             'contact_id' => $contact_id,
             'job_id' => $job_id,
         );
+        
         $queue =& CRM_Mailing_Event_BAO_Queue::create($queue_params);
         
         $forward =& new CRM_Mailing_Event_BAO_Forward();

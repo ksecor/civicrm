@@ -163,6 +163,16 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 }   
             }
 
+            //check for custom data
+            foreach ( $value as $name => $data ) {                
+                if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
+                                                                 $data, 'Participant',
+                                                                 null, $key );
+                    $value['custom'] = $customData;                    
+                } 
+            }
+          
             $ids['participant'] = $key;
             if ( $value['participant_register_date'] ) {
                 $value['register_date'] = $value['participant_register_date'];
@@ -182,8 +192,8 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             unset($value['participant_register_date']);
             unset($value['participant_status_id']);
             unset($value['participant_source']);
-
-            CRM_Event_BAO_Participant::create( $value ,$ids );   
+            
+            CRM_Event_BAO_Participant::create( $value ,$ids );  
         }
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function

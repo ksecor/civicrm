@@ -68,6 +68,10 @@ class CRM_Contact_Controller_Search extends CRM_Core_Controller {
         $this->addActions( );
     }
 
+    public function selectorName( ) {
+        return $this->get( 'selectorName' );
+    }
+
 }
 
 ?>

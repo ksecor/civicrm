@@ -53,9 +53,9 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * return null
      * @access public
      */
-    function browse( ) {
+    function browse( ) 
+    { 
         $links =& self::links( );
-
         $idList = array('membership_type' => 'MembershipType',
                         'status'          => 'MembershipStatus',
                       );
@@ -67,14 +67,14 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
         $dao->is_test = 0;
         //$dao->orderBy('name');
         $dao->find();
-
+       
         // check is the user has view/edit membership permission
         $permission = CRM_Core_Permission::VIEW;
         if ( CRM_Core_Permission::check( 'edit memberships' ) ) {
             $permission = CRM_Core_Permission::EDIT;
         }
         $mask = CRM_Core_Action::mask( $permission );
-        
+
         //checks membership of contact itself
         while ($dao->fetch()) {
             $membership[$dao->id] = array();
@@ -131,7 +131,8 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function view( ) {
+    function view( ) 
+    {
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_MembershipView', 'View Membership',  
                                                        $this->_action ); 
         $controller->setEmbedded( true );  
@@ -147,14 +148,20 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * return null 
      * @access public 
      */ 
-    function edit( ) { 
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Member_Form_Membership', 'Create Membership', 
-                                                       $this->_action );
+    function edit( ) 
+    {
+        if ( $this->_action & CRM_Core_Action::RENEW ) { 
+            $path  = 'CRM_Member_Form_MembershipRenewal';
+            $title = ts('Renew Membership');
+        } else {        
+            $path  = 'CRM_Member_Form_Membership';
+            $title = ts('Create Membership');
+        }
+        $controller =& new CRM_Core_Controller_Simple( $path, $title, $this->_action );
         $controller->setEmbedded( true ); 
         $controller->set('BAOName', $this->getBAOName());
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
-        
         return $controller->run( );
     }
 
@@ -165,19 +172,19 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
      * return null
      * @access public
      */
-    function run( ) {
+    function run( ) 
+    {
         $this->preProcess( );
-
         if ( $this->_permission == CRM_Core_Permission::EDIT && ! CRM_Core_Permission::check( 'edit memberships' ) ) {
             $this->_permission = CRM_Core_Permission::VIEW; // demote to view since user does not have edit membership rights
             $this->assign( 'permission', 'view' );
         }
                
         $this->setContext( );
-
+        
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             $this->view( ); 
-        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) { 
+        } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) { 
             $this->edit( ); 
         } else {
             $this->browse( );
@@ -245,18 +252,24 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
 
         if ( ! CRM_Utils_Array::value( 'all', self::$_links ) ) {
             $extraLinks = array(
-                                CRM_Core_Action::UPDATE  => array(
-                                                                  'name'  => ts('Edit'),
+                                CRM_Core_Action::UPDATE => array(
+                                                                 'name'  => ts('Edit'),
+                                                                 'url'   => 'civicrm/contact/view/membership',
+                                                                 'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                 'title' => ts('Edit Membership')
+                                                                 ),
+                                CRM_Core_Action::DELETE => array(
+                                                                 'name'  => ts('Delete'),
+                                                                 'url'   => 'civicrm/contact/view/membership',
+                                                                 'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                 'title' => ts('Delete Membership')
+                                                                 ),
+                                CRM_Core_Action::RENEW => array(
+                                                                  'name'  => ts('Renew'),
                                                                   'url'   => 'civicrm/contact/view/membership',
-                                                                  'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                  'title' => ts('Edit Membership')
+                                                                  'qs'    => 'action=renew&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
+                                                                  'title' => ts('Renew Membership')
                                                                   ),
-                                CRM_Core_Action::DELETE  => array(
-                                                                  'name'  => ts('Delete'),
-                                                                  'url'   => 'civicrm/contact/view/membership',
-                                                                  'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&context=membership&selectedChild=member',
-                                                                  'title' => ts('Delete Membership')
-                                                                  )
                                 );
             self::$_links['all'] = self::$_links['view'] + $extraLinks;
         }

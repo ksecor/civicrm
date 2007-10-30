@@ -96,7 +96,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
             break;
 
         case 'Friend':
-            $form = 'CRM_Friend_Form_Event_TellAFriend';
+            $form = 'CRM_Friend_Form_Event';
             break;
         }
         if ( $form ) {

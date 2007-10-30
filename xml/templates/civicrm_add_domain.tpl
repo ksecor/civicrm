@@ -103,7 +103,8 @@ VALUES
    (@domain_id, 'group_type'                    , '{ts escape="sql"}Group Type{/ts}'                         , 0, 1),
    (@domain_id, 'grant_status'                  , '{ts escape="sql"}Grant status{/ts}'                       , 0, 1),
    (@domain_id, 'grant_type'                    , '{ts escape="sql"}Grant Type{/ts}'                         , 0, 1),
-   (@domain_id, 'honor_type'                    , '{ts escape="sql"}Honor Type{/ts}'                         , 0, 1);
+   (@domain_id, 'honor_type'                    , '{ts escape="sql"}Honor Type{/ts}'                         , 0, 1),
+   (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -129,6 +130,7 @@ SELECT @option_group_id_gType          := max(id) from civicrm_option_group wher
 SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group where name = 'grant_status';
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group where name = 'honor_type';
+SELECT @option_group_id_csearch        := max(id) from civicrm_option_group where name = 'custom_search';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -144,9 +146,9 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',                              NULL, 0, NULL, 3, '{ts escape="sql"}Email Sent{/ts}',                         0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}SMS{/ts}',                                4, 'SMS',                                NULL, 0, NULL, 4, '{ts escape="sql"}SMS{/ts}',                                0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Event{/ts}',                              5, 'Event',                              NULL, 0, NULL, 5, '{ts escape="sql"}Event{/ts}',                              0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 1, 1),
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -277,8 +279,9 @@ VALUES
   (@option_group_id_grantTyp, '{ts escape="sql"}General Protection{/ts}' , 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
   (@option_group_id_grantTyp, '{ts escape="sql"}Impunity{/ts}'           , 4, 'Impunity'          , NULL, 0, NULL, 4, NULL, 0, 0, 1),
   (@option_group_id_honorTyp, '{ts escape="sql"}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
-  (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1);
+  (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'     , 1, 'CRM/Contact/Form/Search/Custom/Sample.php', NULL, 0, NULL, 1, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO

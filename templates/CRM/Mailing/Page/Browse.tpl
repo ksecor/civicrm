@@ -58,13 +58,13 @@
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=browseURL}{crmURL p='civicrm/mailing/browse' q="reset=1"}{/capture}
             <dd>
-                {ts 1=$browseURL}No Sent Mailings match your search criteria. Suggestions:
+               {ts}No Sent Mailings match your search criteria. Suggestions:{/ts} 
                 <div class="spacer"></div>
                 <ul>
-                <li>Check your spelling.</li>
-                <li>Try a different spelling or use fewer letters.</li>
+                <li>{ts}Check your spelling.{/ts}</li>
+                <li>{ts}Try a different spelling or use fewer letters.{/ts}</li>
                 </ul>
-                Or you can <a href="%1">browse all Sent Mailings</a>.{/ts}
+                {ts 1=$browseURL}Or you can <a href="%1">browse all Sent Mailings</a>.{/ts}
             </dd>
         </dl>
     </div>
@@ -73,7 +73,7 @@
         <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
             {capture assign=crmURL}{crmURL p='civicrm/mailing/send' q='reset=1'}{/capture}
-            <dd>{ts 1=$crmURL}There are no Sent Mailings. You can <a href="%1">create and send one</a>.{/ts}</dd>
+            <dd>{ts 1=$crmURL}There are no Sent Mailings. You can <a href='%1'>create and send one</a>.{/ts}</dd>
         </dl>
    </div>
 {/if}

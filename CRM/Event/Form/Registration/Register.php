@@ -114,8 +114,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return None 
      * @access public 
      */ 
-    public function buildQuickForm( )  
-    { 
+
+    public function buildQuickForm( ) 
+    {  
         $config =& CRM_Core_Config::singleton( );
 
         $this->add( 'text',
@@ -125,14 +126,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
-
+            
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );
         }
-
+        
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-
+        
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
         if ( ! $userID ) {
@@ -146,16 +147,15 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $profileID = $this->_values['custom_post_id'];
                 $createCMSUser = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_UFGroup', $profileID , 'is_cms_user');
             }
-
             if ( $createCMSUser ) {
                 require_once 'CRM/Core/BAO/CMSUser.php';
                 CRM_Core_BAO_CMSUser::buildForm( $this, $profileID , true );
             }
         }
-
+        
         $uploadNames = $this->get( 'uploadNames' );
         $buttonName = empty( $uploadNames ) ? 'next' : 'upload';
-
+        
         // if payment is via a button only, dont display continue
         if ( $this->_paymentProcessor['billing_mode'] != CRM_Core_Payment::BILLING_MODE_BUTTON ||
              ! $this->_values['event']['is_monetary']) {
@@ -169,46 +169,49 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
         $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),
                             $this );
-       
+        
     }
-
+    
     /**
      * build the radio/text form elements for the amount field
      *
      * @return void
      * @access private
      */
+    
     static public function buildAmount( &$form, $required = true ) {
         $elements = array( );
+        $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
             $form->add( 'hidden', 'priceSetId', $form->_priceSetId );
             $form->assign( 'priceSet', $form->_priceSet );
-            require_once 'CRM/Core/BAO/PriceField.php';
+            require_once 'CRM/Core/BAO/PriceField.php';                       
             foreach ( $form->_values['custom']['fields'] as $field ) {
                 $fieldId = $field['id'];
                 $elementName = 'price_' . $fieldId;
                 CRM_Core_BAO_PriceField::addQuickFormElement(
-                    $form, $elementName, $fieldId, false,
-                    $field['is_required']
-                );
+                                                             $form, $elementName, $fieldId, false,
+                                                             $field['is_required']
+                                                             );
+                
             }
-        }
-        else if ( ! empty( $form->_values['label'] ) ) {
+        }        
+        else if ( ! empty( $form->_values['custom']['label'] ) ) {        
             require_once 'CRM/Utils/Money.php';
-            for ( $index = 1; $index <= count( $form->_values['label'] ); $index++ ) {
+            for ( $index = 1; $index <= count( $form->_values['custom']['label'] ); $index++ ) {
                 $elements[] =& $form->createElement('radio', null, '',
-                                                    CRM_Utils_Money::format($form->_values['value'][$index]) . ' ' . 
-                                                    $form->_values['label'][$index], 
-                                                    $form->_values['amount_id'][$index] );
+                                                    CRM_Utils_Money::format($form->_values['custom']['value'][$index]) . ' ' . 
+                                                    $form->_values['custom']['label'][$index], 
+                                                    $form->_values['custom']['amount_id'][$index] );
             }
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
-            $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );
+            $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );           
             if ( $required ) {
                 $form->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
             }
         }
     }
-
+    
     /** 
      * Function to add all the credit card fields
      * 
@@ -225,12 +228,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                             $field['attributes'],
                             $field['is_required'] );
             }
-
+            
             $this->addRule( 'cvv2', ts( 'Please enter a valid value for your card security code. This is usually the last 3-4 digits on the card\'s signature panel.' ), 'integer' );
-
+            
             $this->addRule( 'credit_card_exp_date', ts('Select a valid date greater than today.'), 'currentDate');
         }            
-            
+        
         if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
             $this->_expressButtonName = $this->getButtonName( 'next', 'express' );
             $this->add('image',
@@ -239,8 +242,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                        array( 'class' => 'form-submit' ) );
         }
     }
-
-
+    
+    
     /** 
      * global form rule 
      * 
@@ -253,46 +256,40 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @static 
      */ 
     static function formRule(&$fields, &$files, $self) {
-        $errors = array( );
-
         if ( $self->_values['event']['is_monetary'] ) {
-            // return if this is express mode
-            $config =& CRM_Core_Config::singleton( );
-            if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
-                if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
-                     CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
-                     CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
-                    return empty( $errors ) ? true : $errors;
-                }
+            $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
+            $error   =  $payment->checkConfig( $self->_mode );
+            if ( $error ) {
+                $errors['_qf_default'] = $error;
             }
-	    
-	    
+            
             foreach ( $self->_fields as $name => $fld ) {
                 if ( $fld['is_required'] &&
                      CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {
                     $errors[$name] = ts( '%1 is a required field.', array( 1 => $fld['title'] ) );
+                    
                 }
             }
-       
-            // make sure that credit card number and cvv are valid
-            require_once 'CRM/Utils/Rule.php';
-            if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
-                if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
-                     ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
-                    $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
-                }
-	      
-                if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
-                     ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
-                    $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
-                }
+        }
+        
+        // make sure that credit card number and cvv are valid
+        require_once 'CRM/Utils/Rule.php';
+        if ( CRM_Utils_Array::value( 'credit_card_type', $fields ) ) {
+            if ( CRM_Utils_Array::value( 'credit_card_number', $fields ) &&
+                 ! CRM_Utils_Rule::creditCardNumber( $fields['credit_card_number'], $fields['credit_card_type'] ) ) {
+                $errors['credit_card_number'] = ts( "Please enter a valid Credit Card Number" );
+            }
+            
+            if ( CRM_Utils_Array::value( 'cvv2', $fields ) &&
+                 ! CRM_Utils_Rule::cvv( $fields['cvv2'], $fields['credit_card_type'] ) ) {
+                $errors['cvv2'] =  ts( "Please enter a valid Credit Card Verification Number" );
             }
         }
         
         return empty( $errors ) ? true : $errors;
     }
     
-
+    
     /**
      * Function to process the form
      *
@@ -311,12 +308,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $params = $this->controller->exportValues( $this->_name ); 
             
             $params['currencyID']     = $config->defaultCurrency;
-
             self::processPriceSetAmount( $this, $params );
-
             $this->set( 'amount', $params['amount'] ); 
             $this->set( 'amount_level', $params['amount_level'] ); 
-
+            
             // generate and set an invoiceID for this transaction
             $invoiceID = $this->get( 'invoiceID' );
             if ( ! $invoiceID ) {
@@ -359,20 +354,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         }
     }//end of function
-
+    
     static function processPriceSetAmount( &$form, &$params ) {
         if ( ! empty( $params['priceSetId'] ) ) {
             $totalPrice = 0;
             $lineItem = array();
-
+            $Radio_level=array();
+            $CheckBox_level=array();
+            
             foreach ($form->_priceSet['fields'] as $fieldId => $field) {
                 $fieldName = 'price_' . $fieldId;
                 if ( empty( $params[$fieldName] ) ) {
                     // skip if nothing was submitted for this field
                     continue;
                 }
-                switch ($field['html_type']) {
-
+                switch ( $field['html_type'] ) {
                 case 'Text':
                     $qty = $params[$fieldName];
                     $optionId = key($field['options']);
@@ -383,15 +379,23 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                  'label'            => $field['label'],
                                                  'qty'              => $qty,
                                                  'unit_price'       => $price,
-                                                 'line_total'       => $qty * $price,
+                                                 'line_total'       => $qty * $price
                                                  );
                     $totalPrice += ( $qty * $price );
                     break;
-
+                    
                 case 'Radio':
-                case 'Select':
+                case 'Select': 
+                    
                     $optionId = $params[$fieldName];
                     $optionLabel = $field['options'][$optionId]['label'];
+                    $params['amount_priceset_level_radio']=array();
+                    $params['amount_priceset_level_radio']["{$field['options'][$optionId]['id']}"]= $optionLabel;
+                    if( isset($Radio_level)) {
+                        $Radio_level= array_merge($Radio_level,array_keys($params['amount_priceset_level_radio']));   
+                    }else{
+                        $Radio_level=array_keys($params['amount_priceset_level_radio']);
+                    }
                     $price = $field['options'][$optionId]['value'];
                     $lineItem[$optionId] = array(
                                                  'price_field_id'   => $field['id'],
@@ -402,11 +406,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                  'line_total'       => $price
                                                  );
                     $totalPrice += $price;
-                    break;
-
+                    break;    
+                    
                 case 'CheckBox':
-                    foreach ( $params[$fieldName] as $optionId => $option ) {
+                    
+                    $params['amount_priceset_level_checkbox']=array();
+                    foreach ( $params[$fieldName] as $optionId => $option ) {   
                         $optionLabel = $field['options'][$optionId]['label'];
+                        $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
+                        if( isset($CheckBox_level) ){
+                            $CheckBox_level=array_unique(array_merge($CheckBox_level,array_keys($params['amount_priceset_level_checkbox'])));
+                        }else{
+                            $CheckBox_level=array_keys($params['amount_priceset_level_checkbox']);
+                        }
                         $price = $field['options'][$optionId]['value'];
                         $lineItem[$optionId] = array(
                                                      'price_field_id'   => $field['id'],
@@ -422,18 +434,29 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     
                 }
             }
-            $params['amount'] = $totalPrice;
-            $params['amount_level'] = $form->_values['event']['title'];
+            $amount_level=array();
+            if( isset($Radio_level) && isset($CheckBox_level) ) {
+                $amount_level  = array_merge($Radio_level,$CheckBox_level);
+            }elseif( isset($Radio_level) ) {
+                foreach($Radio_level as $key => $value )
+                    $amount_level  = $value; 
+            }elseif( isset($CheckBox_level) ) {
+                foreach($CheckBox_level as $key => $value )
+                    $amount_level  = $value; 
+            }
+            $params['amount_level'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level); 
+            $params['amount']  =  $totalPrice;
             $form->set( 'lineItem', $lineItem );
         }
         else {
-            $params['amount_level'] = $form->_values['label']
-                [array_search( $params['amount'], $form->_values['amount_id'])];
-            $params['amount'] = $form->_values['value']
-                [array_search( $params['amount'], $form->_values['amount_id'])];
+            $params['amount_level'] = $form->_values['custom']['label']
+                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+            $params['amount'] = $form->_values['custom']['value']
+                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
+            
         }
     }
-
+    
+    
 }
-
 ?>

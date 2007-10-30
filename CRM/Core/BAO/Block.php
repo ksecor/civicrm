@@ -53,29 +53,59 @@ class CRM_Core_BAO_Block
      * @param string $blockName     name of the above object
      * @param array  $params        input parameters to find object
      * @param array  $values        output values of the object
-     * @param array  $ids           the array that holds all the db ids
-     * @param int    $blockCount    number of blocks to fetch
      *
      * @return array of $block objects.
      * @access public
      * @static
      */
-    static function &getValues( &$block, $blockName, $contactId )  
+    static function &getValues( $blockName, $params )  
     {
-        $block->contact_id = $contactId;
-
+        eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
         $blocks = array( );
+        if ( ! isset( $params['entity_table'] ) ) {
+            $block->contact_id = $params['contact_id'];
+            $blocks = self::retrieveBlock( $block, $blockName );
+        } else {
+            $blockIds = self::getBlockIds( $blockName, null, $params );
+            if ( empty($blockIds)) {
+                return $blocks;
+            }
+            $count = 1;
+            foreach( $blockIds[1] as $blockId ) {
+                eval ('$block = & new CRM_Core_BAO_' . $blockName .'( );');
+                $block->id = $blockId;
+                $getBlocks = self::retrieveBlock( $block, $blockName );
+                $blocks[1][$count] =  $getBlocks[1][1];
+                $count++;
+            }
+           
+        }
+        return $blocks;
+    }
 
+    /**
+     * Given the list of params in the params array, fetch the object
+     * and store the values in the values array
+     *
+     * @param Object $block         typically a Phone|Email|IM|OpenID object
+     * @param string $blockName     name of the above object
+     * @param array  $values        output values of the object
+     *
+     * @return array of $block objects.
+     * @access public
+     * @static
+     */
+    static function retrieveBlock( &$block, $blockName ) 
+    {
         // we first get the primary location due to the order by clause
         $block->orderBy( 'is_primary desc, location_type_id desc, id asc' );
         $block->find( );
-
+        
         $locationTypes = array( );
         $count = 1;
         while ( $block->fetch( ) ) {
             $values = array( );
             CRM_Core_DAO::storeValues( $block, $values );
-
             //logic to check when we should increment counter
             if ( !empty( $locationTypes ) ) {
                 if ( array_key_exists ( $block->location_type_id, $locationTypes ) ) {
@@ -90,26 +120,14 @@ class CRM_Core_BAO_Block
                 $locationTypes[$block->location_type_id]  = 1;
                 $count = 1;
             }
-
+            
             $blocks[$block->location_type_id][$count] = $values;
         }
-
-//         for ($i = 0; $i < $blockCount; $i++) {
-//             if ($block->fetch()) {
-//                 if ( $flatten ) {
-//                     CRM_Core_DAO::storeValues( $block, $values );
-//                     $ids[$blockName] = $block->id;
-//                 } else {
-//                     $values[$blockName][$i+1] = array();
-//                     CRM_Core_DAO::storeValues( $block, $values[$blockName][$i+1] );
-//                     $ids[$blockName][$i+1] = $block->id;
-//                 }
-//                 $blocks[$i + 1] = clone($block);
-//             }
-//         }
+      
         return $blocks;
     }
-
+    
+   
     /**
      * check if the current block object has any valid data
      *
@@ -161,17 +179,19 @@ class CRM_Core_BAO_Block
      * @access public
      * @static
      */
-    static function getBlockIds ( $blockName, $contactId )
+    static function getBlockIds ( $blockName, $contactId = null, $entityElements = null )
     {
         $contactBlockIds = $allBlocks = array( );
-        
         $name = ucfirst( $blockName );
-        eval ('$allBlocks = CRM_Core_BAO_' . $name . '::all' . $name . 's( $contactId );');
-        
+        if ( $contactId ) {
+            eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::all' . $name . 's( $contactId );');
+        } else if ( !empty($entityElements) ) {
+            eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::allEntity' . $name . 's( $entityElements );');
+        }
+
         $locationCount = 1;
         $blockCount    = 1;
         $locationTypes = array( );
-
         foreach ( $allBlocks as $blocks ) {
             //logic to check when we should increment counter
             $locationTypeId = $blocks['locationTypeId'];
@@ -189,7 +209,6 @@ class CRM_Core_BAO_Block
             $contactBlockIds[ $locationCount ][ $blockCount ] = $blocks['id'];
             $blockCount++;
         }
-
         return $contactBlockIds;
     }
 
@@ -204,21 +223,32 @@ class CRM_Core_BAO_Block
      * @access public
      * @static
      */
-    static function create( $blockName, &$params ) 
+    static function create( $blockName, &$params, $entity = null ) 
     {
         if ( !self::blockExists( $blockName, $params ) ) {
             return null;
         }
         
-        $contactId = $params[$blockName]['contact_id'];
         $name = ucfirst( $blockName );
         
-        //get exixting block ids if exist for this contact
-        $contactBlockIds = array( );
-        $contactBlockIds = self::getBlockIds( $blockName, $contactId );
+        //get existing block ids if exist for this contact
+        if ( !$entity ) {
+            //$contactBlockIds = array( );
+            $contactId = $params[$blockName]['contact_id'];
+            // $contactBlockIds = self::getBlockIds( $blockName, $contactId );
+        } else {
+            // $entityBlockIds = array();
+            $entityElements = array( 'entity_table' => $params['entity_table'],
+                                     'entity_id'    => $params['entity_id']);
+                                     
+            // $moduleBlockIds = self::getBlockIds( $blockName, null, $moduleElements );
+        }
         
+        $blockIds      = array( );
+        $blockIds      = self::getBlockIds( $blockName, $contactId, $entityElements );
         $isPrimary     = true;
         $locationCount = 1;
+        
         foreach ( $params[$blockName] as $value ) {
             if ( !is_array( $value ) ) {
                 continue;
@@ -233,8 +263,8 @@ class CRM_Core_BAO_Block
                     continue;
                 }
                 
-                if ( !empty( $contactBlockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $contactBlockIds[ $locationCount ] );
+                if ( !empty( $blockIds[ $locationCount ] ) ) {
+                    $val['id'] = array_shift( $blockIds[ $locationCount ] );
                 }
                 
                 $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
@@ -260,7 +290,6 @@ class CRM_Core_BAO_Block
             
             $locationCount++;
         }
-
         return $blocks;
     }
 

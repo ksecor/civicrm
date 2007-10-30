@@ -185,33 +185,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $params['contribution_id'] = $contribution->id;
 
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            $cvParams = array( );
-            foreach ($params['custom'] as $customValue) {
-                $cvParam = array(
-                                  'entity_table'    => 'civicrm_contribution',
-                                  'entity_id'       => $contribution->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  'table_name'      => $customValue['table_name'],
-                                  'column_name'     => $customValue['column_name'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParam['id'] = $customValue['id'];
-                }
-                if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
-                    $cvParams[$customValue['table_name']] = array( );
-                }
-                $cvParams[$customValue['table_name']][] = $cvParam;
-            }
-            if ( ! empty( $cvParams ) ) {
-                require_once 'CRM/Core/BAO/CustomValueTable.php';
-                CRM_Core_BAO_CustomValueTable::create($cvParams);
-            }
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contribution', $contribution->id );
         }
 
         $session = & CRM_Core_Session::singleton();

@@ -136,11 +136,18 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
                     
                     if ( $action ==  CRM_Core_Action::PREVIEW ) {
-                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
+                        $url    = CRM_Utils_System::url( 'civicrm/event/register',
+                                                         "id={$id}&reset=1&action=preview" );
+                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                         "eid={$id}&reset=1&action=preview" );
                     } else {
-                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
+                        $url = CRM_Utils_System::url( 'civicrm/event/register',
+                                                      "id={$id}&reset=1" );
+                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
+                                                         "eid={$id}&reset=1" );
                     }
-                    $this->assign( 'registerURL', $url );
+                    $this->assign( 'registerURL', $url    );
+                    $this->assign( 'mapURL'     , $mapURL );
                 }
             }
             

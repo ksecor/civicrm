@@ -76,8 +76,12 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_mailing_job 
-	    ADD is_test tinyint(4) NULL DEFAULT NULL COMMENT 'Is this job for a test mail?',
+	    ADD is_test tinyint(4) DEFAULT 0 COMMENT 'Is this job for a test mail?',
 	    DROP is_retry;
+        
+    UPDATE civicrm_mailing_job
+    SET    is_test = 0;
+    
 
 -- /*******************************************************
 -- *
@@ -94,8 +98,9 @@ CREATE TABLE civicrm_mailing_spool (
 -- *
 -- *******************************************************/
 	ALTER TABLE civicrm_mailing
+        ADD resubscribe_id int(10) unsigned NOT NULL,
 	ADD msg_template_id int(10) unsigned NULL DEFAULT NULL ,
-    	ADD INDEX FK_civicrm_mailing_msg_template_id (msg_template_id),
+    	ADD CONSTRAINT FK_civicrm_mailing_msg_template_id FOREIGN KEY (msg_template_id) REFERENCES civicrm_msg_template(id),
     	DROP is_template;
 
 -- /*******************************************************
@@ -361,3 +366,11 @@ CREATE TABLE civicrm_mailing_spool (
       civicrm_mailing_component (domain_id, name, component_type, subject, body_html, body_text, is_default, is_active)
 	VALUES
           (@domain_id, 'Resubscribe Message', 'Resubscribe', 'Re-subscribe Confirmation', 'You have been re-subscribed to the following groups: {resubscribe.group}. You can un-subscribe by mailing {action.unsubscribe} or clicking {action.unsubscribeUrl}', 'You have been re-subscribed to the following groups: {resubscribe.group}. You can un-subscribe by mailing {action.unsubscribe} or clicking {action.unsubscribeUrl}', 1, 1);
+
+-- /*******************************************************
+-- *
+-- * CRM-2349
+-- *
+-- *******************************************************/
+    UPDATE civicrm_state_province SET name = 'Torfaen' WHERE name = 'Torfasn';
+
