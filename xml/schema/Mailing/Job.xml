@@ -49,6 +49,7 @@
   <field>
       <name>is_test</name>
       <type>boolean</type>
+      <default>0</default>
       <comment>Is this job for a test mail?</comment>
       <add>1.9</add>
   </field>
