@@ -1,3 +1,7 @@
+{if $status eq 'thankyou' }
+{$thankYouText}
+{else}
+
 <table class="form-layout-compressed" >
    <tr><td colspan=2>{$intro}</td></tr>
 
@@ -27,3 +31,4 @@
    </tr>
    <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>	
  </table>      
+{/if}

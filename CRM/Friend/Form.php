@@ -141,7 +141,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         }
        
         $this->addButtons(array( 
-                                array ( 'type'      => 'next',
+                                array ( 'type'      => 'submit',
                                         'name'      => ts('Send Your Message'), 
                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                         'isDefault' => true   ), 
@@ -211,6 +211,17 @@ class CRM_Friend_Form extends CRM_Core_Form
         $formValues['title'            ]  = $this->_title;
 
         CRM_Friend_BAO_Friend::create( $formValues );
+
+        $this->assign( 'status', 'thankyou' );
+        $defaults = array( );      
+        
+        $defaults['entity_id']    = $this->_entityId;
+        $defaults['entity_table'] = $this->_entityTable;            
+        
+        CRM_Friend_BAO_Friend::getValues($defaults);
+       
+        CRM_Utils_System::setTitle($defaults['thankyou_title']);
+        $this->assign( 'thankYouText'  , $defaults['thankyou_text'] );
    }
 }
 ?>
