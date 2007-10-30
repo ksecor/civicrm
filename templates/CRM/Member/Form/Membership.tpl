@@ -72,7 +72,7 @@
   		        <dt class="label"></dt><dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
 	   	        <dt class="label">&nbsp;</dt> <dd class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</dd>
 		        <div id='notice'>
-		    	    <dt class="label">{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}<dt class="label"><br/></dt><dd class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</dd>
+		    	   <dt class="label">{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}<dt class="label"></dt><dd class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</dd>
 		        </div>
 		    {/if}
 	        </fieldset>
