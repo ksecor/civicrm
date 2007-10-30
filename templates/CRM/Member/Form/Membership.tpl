@@ -62,17 +62,17 @@
             <dt>&nbsp;&nbsp;</dt><dd class="html-adjust">
 		<fieldset id="recordContribution"><legend>{ts}Contribution{/ts}</legend>
 		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
- 		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd>
+ 		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd><br />
 		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}</dd>
-		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Actual amount given by contributor.{/ts}</dd>
+		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Actual amount given by contributor.{/ts}</dd><br />
         	    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-		    <dt class="label">&nbsp;</dt><dd class="description">{ts}This field is blank for non-monetary contributions.{/ts}</dd>
-		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
+		    <dt class="label">&nbsp;</dt><dd class="description">{ts}This field is blank for non-monetary contributions.{/ts}</dd><br />
+		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd><br />
 		    {if $email}
   		        <dt class="label"></dt><dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
 	   	        <dt class="label">&nbsp;</dt> <dd class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</dd>
 		        <div id='notice'>
-		    	    <dt class="label">{$form.receipt_text.label}</dt><dd class="html-adjust">{$form.receipt_text.html} <br/><span class="html-adjust">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span></dd>
+		    	    <dt class="label">{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}<dt class="label"><br/></dt><dd class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</dd>
 		        </div>
 		    {/if}
 	        </fieldset>
