@@ -162,7 +162,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      *
      * @return void
      */
-    function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null ) {
+    function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null, $showHideLocation=true ) {
         if ( empty( $values ) || $maxLocationBlocks <= 0 ) {
             return;
         }
@@ -196,7 +196,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             if(!$locationFlag) {
                 continue;
             }
-            $showHide->addShow( "id_location_{$locationId}" );
+            if ( $showHideLocation ) {
+                $showHide->addShow( "id_location_{$locationId}" );
+            }
             if ( $locationId != 1 ) {
                 $showHide->addHide( "id_location_{$locationId}_show" );
             }

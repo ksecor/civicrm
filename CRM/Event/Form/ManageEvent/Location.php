@@ -176,18 +176,16 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
     function setShowHide( &$defaults, $force ) 
     {
         $this->_showHide =& new CRM_Core_ShowHideBlocks( array(),'') ;
+        
         $prefix =  array( 'phone','email' );
         CRM_Contact_Form_Location::setShowHideDefaults( $this->_showHide, self::LOCATION_BLOCKS, $prefix, false);
-        
         if ( $force ) {
             $locationDefaults = CRM_Utils_Array::value( 'location', $defaults );
             $config =& CRM_Core_Config::singleton( );
-       
             CRM_Contact_Form_Location::updateShowHide( $this->_showHide,
                                                        $locationDefaults,
-                                                       $config->maxLocationBlocks, $prefix );
+                                                       self::LOCATION_BLOCKS, $prefix, false );
         }
-        
         $this->_showHide->addToTemplate( );
     }
 
