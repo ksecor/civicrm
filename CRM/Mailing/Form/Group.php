@@ -206,11 +206,11 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                 "SELECT id
                 FROM    civicrm_mailing_component
                 WHERE   component_type = '$value'
-                AND     is_default = true";
+                ORDER BY is_default desc";
             
             $daoComponent->query($findDefaultComponent);
             
-            while($daoComponent->fetch()) {
+            if ( $daoComponent->fetch( ) ) {
                 $$value = $daoComponent->id;
             }
         }
