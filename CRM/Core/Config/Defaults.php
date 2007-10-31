@@ -42,7 +42,7 @@ require_once 'CRM/Core/Form.php';
  * ASAP.
  * 
  */
-class CRM_Core_Config_SetValuesFixme
+class CRM_Core_Config_Defaults
 {
 
     /**

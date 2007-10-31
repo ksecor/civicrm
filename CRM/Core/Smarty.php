@@ -33,6 +33,8 @@
  *
  */
 
+require_once 'CRM/Utils/Recent.php';
+
 /**
  * Fix for bug CRM-392. Not sure if this is the best fix or it will impact
  * other similar PEAR packages. doubt it

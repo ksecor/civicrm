@@ -61,8 +61,8 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
 
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::retrieve($defaults);
-        require_once "CRM/Core/Config/SetValuesFixme.php";
-        CRM_Core_Config_SetValuesFixme::setValues($defaults, $formMode);
+        require_once "CRM/Core/Config/Defaults.php";
+        CRM_Core_Config_Defaults::setValues($defaults, $formMode);
         return $defaults;
     }
 

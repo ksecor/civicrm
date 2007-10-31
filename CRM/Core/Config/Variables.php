@@ -36,88 +36,302 @@
  *
  */
 
-require_once 'Log.php';
-require_once 'Mail.php';
-
-require_once 'CRM/Core/DAO.php';
-require_once 'CRM/Utils/System.php';
-require_once 'CRM/Utils/File.php';
-require_once 'CRM/Core/Session.php';
-require_once 'CRM/Core/Config/Variables.php';
-
-class CRM_Core_Config extends CRM_Core_Config_Variables
+class CRM_Core_Config_Variables
 {
 
 
-
-    ///
-    /// BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
-    ///
+    /** 
+     * the debug level for civicrm
+     * @var int 
+     */ 
+    public $debug             = 0; 
+    public $backtrace         = 0;
 
     /**
-     * The domainID for this instance. 
+     * the directory where Smarty and plugins are installed
+     * @var string
+     */
+    public $smartyDir           = '/opt/local/lib/php/Smarty/';
+    public $pluginsDir          = '/opt/local/lib/php/Smarty/plugins/';
+
+    /**
+     * the root directory of our template tree
+     * @var string
+     */
+    public $templateDir		  = './templates/';
+
+
+
+    /**
+     * The resourceBase of our application. Used when we want to compose
+     * url's for things like js/images/css
+     * @var string
+     */
+    public $resourceBase        = null;
+
+    /**
+     * The directory to store uploaded files
+     */
+    public $uploadDir         = null;
+    
+    /**
+     * The directory to store uploaded image files
+     */
+    public $imageUploadDir   = null;
+    
+    /**
+     * The directory to store uploaded  files in custom data 
+     */
+    public $customFileUploadDir   = null;
+    
+    /**
+     * The url that we can use to display the uploaded images
+     */
+    public $imageUploadURL   = null;
+
+    /**
+     * Are we generating clean url's and using mod_rewrite
+     * @var string
+     */
+    public $cleanURL = false;
+
+    /**
+     * List of country codes limiting the country list.
+     * @var string
+     */
+    public $countryLimit = array();
+
+    /**
+     * List of country codes limiting the province list.
+     * @var string
+     */
+    public $provinceLimit = array( 'US' );
+
+    /**
+     * ISO code of default country for contact.
+     * @var int
+     */
+    public $defaultContactCountry = 'US';
+
+    /**
+     * ISO code of default currency.
+     * @var int
+     */
+    public $defaultCurrency = 'USD';
+
+    /**
+     * Locale for the application to run with.
+     * @var string
+     */
+    public $lcMessages = 'en_US';
+
+    /**
+     * String format for date+time
+     * @var string
+     */
+    public $dateformatDatetime = '%B %E%f, %Y %l:%M %P';
+
+    /**
+     * String format for a full date (one with day, month and year)
+     * @var string
+     */
+    public $dateformatFull = '%B %E%f, %Y';
+
+    /**
+     * String format for a partial date (one with month and year)
+     * @var string
+     */
+    public $dateformatPartial = '%B %Y';
+
+    /**
+     * String format for a year-only date
+     * @var string
+     */
+    public $dateformatYear = '%Y';
+
+    /**
+     * String format for date QuickForm drop-downs
+     * @var string
+     */
+    public $dateformatQfDate = '%b %d %Y';
+
+    /**
+     * String format for date and time QuickForm drop-downs
+     * @var string
+     */
+    public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
+
+    public $fiscalYearStart = array(
+                                    'M' => 01,
+                                    'd' => 01
+                                    );
+
+    /**
+     * String format for monetary values
+     * @var string
+     */
+    public $moneyformat = '%c %a';
+
+    /**
+     * Format for monetary amounts
+     * @var string
+     */
+    public $lcMonetary = 'en_US';
+
+    /**
+     * Format for monetary amounts
+     * @var string
+     */
+    public $currencySymbols = '';
+    
+    /**
+        * Format for monetary amounts
+     * @var string
+     */
+    public $defaultCurrencySymbol = null;
+    
+    /**
+     * Default encoding of strings returned by gettext
+     * @var string
+     */
+    public $gettextCodeset = 'utf-8';
+
+
+    /**
+     * Default name for gettext domain.
+     * @var string
+     */
+    public $gettextDomain = 'civicrm';
+
+    /**
+     * Default location of gettext resource files.
+     */
+    public $gettextResourceDir = './l10n/';
+
+    /**
+     * Default smtp server and port
+     */
+    public $smtpServer         = null;
+    public $smtpPort           = 25;
+    public $smtpAuth           = false;
+    public $smtpUsername       = null;
+
+    /**
+     * Default user framework
+     */
+    public $userFramework               = 'Drupal';
+    public $userFrameworkVersion        = 4.6;
+    public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
+    public $userHookClass               = 'CRM_Utils_Hook_Drupal';
+    public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
+    public $userFrameworkURLVar         = 'q';
+    public $userFrameworkDSN            = null;
+    public $userFrameworkUsersTableName = 'users';
+    public $userFrameworkBaseURL        = null;
+    public $userFrameworkResourceURL    = null;
+    public $userFrameworkFrontend       = false;
+
+    /**
+     * Mysql path
+     */
+    public $mysqlPath = '/usr/bin/';
+
+    /**
+     * the handle for import file size 
+     * @var int
+     */
+    public $maxImportFileSize = 1048576;
+
+    /**
+     * Map Provider 
+     *
+     * @var boolean
+     */
+    public $mapProvider = null;
+
+    /**
+     * Map API Key 
+     *
+     * @var boolean
+     */
+    public $mapAPIKey = null;
+    
+    /**
+     * How should we get geo code information if google map support needed
+     *
+     * @var boolean
+     */
+    public $geocodeMethod    = '';
+
+    /**
+     * Whether CiviCRM should check for newer versions
+     *
+     * @var boolean
+     */
+    public $versionCheck = true;
+
+    /**
+     * Array of enabled add-on components (e.g. CiviContribute, CiviMail...)
+     *
+     * @var array
+     */
+    public $enableComponents = array();     
+
+    /**
+     * Should payments be accepted only via SSL?
+     *
+     * @var boolean
+     */
+    public $enableSSL = false;
+
+    /**
+     * error template to use for fatal errors
+     *
+     * @var string
+     */
+    public $fatalErrorTemplate = 'CRM/error.tpl';
+
+    /**
+     * fatal error handler
+     *
+     * @var string
+     */
+    public $fatalErrorHandler = null;
+
+    /**
+     * legacy encoding for file encoding conversion
+     *
+     * @var string
+     */
+    public $legacyEncoding = 'Windows-1252';
+
+    /**
+     * max location blocks in address
+     *
+     * @var integer
+     */
+    public $maxLocationBlocks        = 2;
+
+    /**
+     * the font path where captcha fonts are stored
+     *
+     * @var string
+     */
+    public $captchaFontPath = null;
+
+    /**
+     * the font to use for captcha
+     *
+     * @var string
+     */
+    public $captchaFont = null;
+    
+    /**
+     * the domainID for this instance. 
+     *
      * @var int
      */
     private static $_domainID = 1;
-
-    /**
-     * the dsn of the database connection
-     * @var string
-     */
-    public $dsn;
-
-    /**
-     * the name of user framework
-     * @var string
-     */
-    public $userFramework               = 'Drupal';
-
-    /**
-     * the name of user framework url variable name
-     * @var string
-     */
-    public $userFrameworkURLVar         = 'q';
-
-    /**
-     * the dsn of the database connection for user framework
-     * @var string
-     */
-    public $userFrameworkDSN            = null;
-
-    /**
-     * The root directory where Smarty should store
-     * compiled files
-     * @var string
-     */
-    public $templateCompileDir  = './templates_c/en_US/';
-
-
-    /**
-     * SMTP authentication password - it's possible to set it in config file
-     * in case somebody hesitated about sending it into database with open text.
-     * @var string
-     */
-     public $smtpPassword = '';
-     
-
-    // END: BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
-
-
-    ///
-    /// BEGIN HELPER CLASS PROPERTIES
-    ///
-    
-    /**
-     * are we initialized and in a proper state
-     * @var string
-     */
-    public $initialized = 0;
-
-    /**
-     * the factory class used to instantiate our DB objects
-     * @var string
-     */
-    private $DAOFactoryClass	  = 'CRM_Contact_DAO_Factory';
 
     /**
      * The handle to the log that we are using
@@ -140,17 +354,24 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     private static $_singleton = null;
 
     /**
-     * component registry object (of CRM_Core_Component type)
+     * Optimization related variables
      */
-    public $componentRegistry  = null;
+    public $includeAlphabeticalPager = 1;
+    public $includeOrderByClause     = 1;
+    public $includeDomainID          = 1;
+    public $oldInputStyle            = 1;
 
-    ///
-    /// END HELPER CLASS PROPERTIES
-    ///
+    /**
+     * Should we include dojo?
+     */
+    public $includeDojo              = 1;
 
-    ///
-    /// RUNTIME SET CLASS PROPERTIES
-    ///
+    /**
+     * should we disbable key generation for forms
+     *
+     * @var boolean
+     */
+    public $formKeyDisable = false;
 
     /**
      * to determine wether the call is from cms or civicrm 
@@ -158,14 +379,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     public $inCiviCRM  = false;
 
     /**
-     * the debug level for DB_DataObject
-     * @var int
+     * component registry object (of CRM_Core_Component type)
      */
-    public $daoDebug		  = 0;
-
-    ///
-    /// END: RUNTIME SET CLASS PROPERTIES
-    ///
+    public $componentRegistry  = null;
 
 
     /**
@@ -188,7 +404,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     }
 
     /**
-     * Singleton function used to manage this object.
+     * singleton function used to manage this object
      *
      * @param string the key in which to record session / log information
      *
@@ -210,7 +426,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 self::$_singleton =& new CRM_Core_Config($key);
                 self::$_singleton->_initialize( );
                 
-                //initialize variables. for gencode we cannot load from the
+                //initialize variable. for gencode we cannot load from the
                 //db since the db might not be initialized
                 if ( $loadFromDB ) {
                     self::$_singleton->initVariables( );
@@ -232,8 +448,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
     /**
      * Initializes the entire application.
-     * Reads constants defined in civicrm.settings.php and
-     * stores them in config properties.
      *
      * @return void
      * @access public
@@ -251,6 +465,11 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
+        $this->_initDAO();
+
+        // also initialize the logger
+        self::$_log =& Log::singleton( 'display' );
+
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
         }
@@ -259,22 +478,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
         }
 
-        if ( defined( 'CIVICRM_UF_DSN' ) ) { 
-            $this->userFrameworkDSN = CIVICRM_UF_DSN;
+        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
+            $this->gettextResourceDir = CRM_Utils_File::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
         }
-
-        if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
-            $this->userFrameworkURLVar = CIVICRM_UF_URLVAR;
-        }        
-
-         if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-             $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
-         }
-
-        $this->_initDAO();
-
-        // also initialize the logger
-        self::$_log =& Log::singleton( 'display' );
 
         // set the error callback
         CRM_Core_Error::setCallback();
@@ -295,91 +501,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                       );
 
         $factoryClass = $this->DAOFactoryClass;
-        require_once str_replace('_', DIRECTORY_SEPARATOR, $factoryClass) . '.php';
         CRM_Core_DAO::setFactory(new $factoryClass());
     }
 
-    /**
-     * initialize the config variables
-     *
-     * @return void
-     * @access private
-     */
-    function initVariables() 
-    {
-        require_once "CRM/Core/BAO/Setting.php";
-        $variables = array();
-        CRM_Core_BAO_Setting::retrieve( $variables );
-
-        // if we dont get stuff from the sttings file, apply appropriate defaults...
-        if ( empty( $variables ) ) {
-            $variables = get_object_vars( $this );
-
-            require_once 'CRM/Core/Config/Defaults.php';
-            CRM_Core_Config_Defaults::setValues( $variables );
-
-            // ...and store them in the database
-            CRM_Core_BAO_Setting::add($variables);
-        }
-        
-
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
-        $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
-        $dirArray     = array('uploadDir','customFileUploadDir');
-        
-        foreach($variables as $key => $value) {
-            if ( in_array($key, $urlArray) ) {
-                $value = CRM_Utils_File::addTrailingSlash( $value, '/' );
-            } else if ( in_array($key, $dirArray) ) {
-                $value = CRM_Utils_File::addTrailingSlash( $value );
-                CRM_Utils_File::createDir( $value );
-            } else if ( $key == 'lcMessages' ) {
-                // reset the templateCompileDir to locale-specific and make sure it exists
-                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($value);
-                CRM_Utils_File::createDir( $this->templateCompileDir );
-            }
-            
-            $this->$key = $value;       
-        }
-        // END FIXME
-
-        // rewrite address protocols to https if SSL is turned on
-        if ( $this->userFrameworkResourceURL ) {
-            // we need to do this here so all blocks also load from an ssl server
-            if ( isset( $_SERVER['HTTPS'] ) &&
-                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-                CRM_Utils_System::mapConfigToSSL( );
-            }
-            $this->resourceBase = $this->userFrameworkResourceURL;
-        }
-            
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
-        if ( !$this->customFileUploadDir ) {
-            $this->customFileUploadDir = $this->uploadDir;
-        }
-
-        
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
-        if ( $this->mapProvider ) {
-            $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
-        }
-        // END FIXME
-
-        // initialise component registry...
-        // (we're doing it here instead of in initialize 
-        // since at this stage we need 'enabledComponents'
-        // property to be already set)
-        require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-
-        // ...and load additional config properties from components
-        $this->componentRegistry->addConfig( $this );
-    }
-
-    // FIXME: This method as a whole can be probably either kicked out
-    // or merged in to Variables.php
     function addCoreVariables( ) {
-
         global $civicrm_root;
 
         $this->smartyDir  =
@@ -433,6 +558,14 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkVersion = (float ) CIVICRM_UF_VERSION;
         }
 
+        if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
+            $this->userFrameworkURLVar = CIVICRM_UF_URLVAR;
+        }
+
+        if ( defined( 'CIVICRM_UF_DSN' ) ) { 
+            $this->userFrameworkDSN = CIVICRM_UF_DSN;
+        }
+
         if ( defined( 'CIVICRM_UF_USERSTABLENAME' ) ) {
             $this->userFrameworkUsersTableName = CIVICRM_UF_USERSTABLENAME;
         }
@@ -480,7 +613,34 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->maxImportFileSize = $size;
         }
     }
-    // END FIXME
+
+    function retrieveFromSettings( ) {
+         if (defined('CIVICRM_DEBUG') ) {
+             $this->debug = CIVICRM_DEBUG;
+            
+             // check for backtrace only if debug is enabled
+             if ( defined( 'CIVICRM_BACKTRACE' ) ) {
+                 $this->backtrace = CIVICRM_BACKTRACE;
+             }
+         }
+
+         if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
+             $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
+         }
+
+         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
+             $this->userFrameworkResourceURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+             $this->resourceBase             = $this->userFrameworkResourceURL;
+         }
+
+        require_once 'CRM/Core/Component.php';
+        $this->componentRegistry =& new CRM_Core_Component();
+        $this->componentRegistry->addConfig( $this, true );        
+
+    }
+
+
+
 
     /**
      * returns the singleton logger for the application
@@ -593,6 +753,71 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         return true;
     }
 
+
+
+    /**
+     * initialize the config variables
+     *
+     * @return void
+     * @access private
+     */
+    function initVariables() 
+    {
+        require_once "CRM/Core/BAO/Setting.php";
+        $variables = array();
+        CRM_Core_BAO_Setting::retrieve($variables);
+
+        if ( empty( $variables ) ) {
+            $this->retrieveFromSettings( );
+            
+            $variables = get_object_vars($this);
+
+            // if we dont get stuff from the sttings file, apply appropriate defaults
+            require_once 'CRM/Core/Config/Defaults.php';
+            CRM_Core_Config_Defaults::setValues( $variables );
+
+            CRM_Core_BAO_Setting::add($variables);
+        }
+        
+        $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
+        $dirArray     = array('uploadDir','customFileUploadDir');
+        
+        foreach($variables as $key => $value) {
+            if ( in_array($key, $urlArray) ) {
+                $value = CRM_Utils_File::addTrailingSlash( $value, '/' );
+            } else if ( in_array($key, $dirArray) ) {
+                $value = CRM_Utils_File::addTrailingSlash( $value );
+                CRM_Utils_File::createDir( $value );
+            } else if ( $key == 'lcMessages' ) {
+                // reset the templateCompileDir to locale-specific and make sure it exists
+                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($value);
+                CRM_Utils_File::createDir( $this->templateCompileDir );
+            }
+            
+            $this->$key = $value;       
+        }
+        
+        if ( $this->userFrameworkResourceURL ) {
+            // we need to do this here so all blocks also load from an ssl server
+            if ( isset( $_SERVER['HTTPS'] ) &&
+                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
+                CRM_Utils_System::mapConfigToSSL( );
+            }
+            $this->resourceBase = $this->userFrameworkResourceURL;
+        } 
+            
+        if ( !$this->customFileUploadDir ) {
+            $this->customFileUploadDir = $this->uploadDir;
+        }
+        
+        if ( $this->mapProvider ) {
+            $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
+        }
+        
+        require_once 'CRM/Core/Component.php';
+        $this->componentRegistry =& new CRM_Core_Component();
+        $this->componentRegistry->addConfig( $this );
+    }
 
     function addressSequence( ) {
         require_once 'CRM/Core/BAO/Preferences.php';
