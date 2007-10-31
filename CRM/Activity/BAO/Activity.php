@@ -88,6 +88,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
 
+
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row

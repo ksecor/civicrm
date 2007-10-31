@@ -163,6 +163,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         $savedSearch->id          = $this->_id;
         $savedSearch->form_values = serialize($this->get( 'formValues' ));
         $savedSearch->mapping_id  = $mappingId;
+        $savedSearch->custom_search_id = $this->get( 'customSearchID' );
         $savedSearch->save();
         $this->set('ssID', $savedSearch->id);
         CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );

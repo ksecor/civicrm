@@ -372,7 +372,7 @@ SELECT data_type
         if ($this->_id) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $this->_id, 'weight', 'id' );
         }
-        echo "F: {$this->_fid}<p>";
+
         $fieldValues = array( 'option_group_id' => $this->_optionGroupID );
         $customOption->weight = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_OptionValue', $oldWeight, $params['weight'], $fieldValues);

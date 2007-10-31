@@ -40,8 +40,29 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
     protected $_customClass = null;
 
     public function preProcess( ) {
-        $this->_customSearchID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this, true );
-        
+        $this->_customSearchID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this );
+        $ssID = CRM_Utils_Request::retrieve( 'ssID', 'Integer', $this );
+        $gID  = CRM_Utils_Request::retrieve( 'gid' , 'Integer', $this );
+        if ( ! $this->_customSearchID &&
+             ! $ssID                   &&
+             ! $gID ) {
+            CRM_Core_Error::fatal( 'No custom id links found' );
+        }
+
+        if ( $ssID || $gID ) {
+            if ( $gID ) {
+                $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gID, 'saved_search_id' );
+            }
+
+            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $ssID );
+            $this->_customSearchID    = CRM_Utils_Array::value( 'customSearchID',
+                                                                $this->_formValues );
+        }
+
+        if ( ! $this->_customSearchID ) {
+            CRM_Core_Error::fatal( 'No custom search id found' );
+        }
+
         // check that the csid exists in the db along with the right file
         // and implements the right interface
         require_once 'CRM/Core/OptionGroup.php';
@@ -71,6 +92,10 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         $this->set( 'customSearchClass', $this->_customSearchClass );
 
         parent::preProcess( );
+    }
+
+    function setDefaultValues( ) {
+        return $this->_formValues;
     }
 
     function buildQuickForm( ) {

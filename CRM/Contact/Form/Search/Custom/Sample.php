@@ -41,8 +41,6 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
     protected $_columns;
 
     function __construct( &$formValues ) {
-        CRM_Core_Error::debug_stacktrace( );
-        CRM_Core_Error::debug_var( 'fv', $formValues );
         $this->_formValues =& $formValues;
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
@@ -110,7 +108,7 @@ SELECT    $selectClause
 FROM      civicrm_contact contact_a
 LEFT JOIN civicrm_address address ON address.contact_id = contact_a.id
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
- WHERE contact_a.contact_type = 'Household'";
+WHERE     contact_a.contact_type = 'Household'";
 
         $count  = 1;
         $clause = array( );
