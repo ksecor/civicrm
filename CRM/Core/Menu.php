@@ -544,7 +544,49 @@ class CRM_Core_Menu {
         $drupalSyncExtra = ts('Synchronize Users to Contacts:') . ' ' . ts('CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.') . '\n\n' . ts('Do you want to continue?');
         $backupDataExtra = ts('Backup Your Data:') . ' ' . ts('CiviCRM will create an SQL dump file with all of your existing data, and allow you to download it to your local computer. This process may take a long time and generate a very large file if you have a large number of records.') . '\n\n' . ts('Do you want to continue?');
         $items = array(
-                     array(
+                       array(
+                             'path'    => 'civicrm/admin/custom/group',
+                             'title'   => ts('Custom Data'),
+                             'desc'    => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Customize'),
+                             'icon'    => 'admin/small/custm_data.png',
+                             'weight'  => 10
+                             ),
+                       
+                       array(
+                             'path'   => 'civicrm/admin/custom/group/field',
+                             'title'  => ts('Custom Data Fields'),
+                             'query'  => 'reset=1',
+                             'type'   => self::CALLBACK,
+                             'crmType'=> self::CALLBACK,
+                             'weight' => 11
+                             ),
+                       
+                       array(
+                             'path'    => 'civicrm/admin/uf/group',
+                             'title'   => ts('CiviCRM Profile'),
+                             'desc'    => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 
+                             'query'   => 'reset=1',
+                             'type'    => self::CALLBACK,
+                             'crmType' => self::LOCAL_TASK,
+                             'adminGroup' => ts('Customize'),
+                             'icon'    => 'admin/small/Profile.png',
+                             'weight'  => 20
+                             ),
+                       
+                       array(
+                             'path'   => 'civicrm/admin/uf/group/field',
+                             'title'  => ts('CiviCRM Profile Fields'),
+                             'query'  => 'reset=1',
+                             'type'   => self::CALLBACK,
+                             'crmType'=> self::CALLBACK,
+                             'weight' => 21
+                             ),
+                       
+                       array(
                            'path'    => 'civicrm/admin/backup',
                            'title'   => ts('Backup Data'),
                            'desc'    => ts('Create a backup file containing your CiviCRM data.'),
@@ -590,48 +632,6 @@ class CRM_Core_Menu {
                              'weight'  => 200
                              ),
                        
-                       array(
-                             'path'    => 'civicrm/admin/custom/group',
-                             'title'   => ts('Custom Data'),
-                             'desc'    => ts('Configure custom fields to collect and store custom data which is not included in the standard CiviCRM forms.'), 
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/custm_data.png',
-                             'weight'  => 210
-                             ),
-                       
-                       array(
-                             'path'   => 'civicrm/admin/custom/group/field',
-                             'title'  => ts('Custom Data Fields'),
-                             'query'  => 'reset=1',
-                             'type'   => self::CALLBACK,
-                             'crmType'=> self::CALLBACK,
-                             'weight' => 211
-                             ),
-                       
-                       array(
-                             'path'    => 'civicrm/admin/uf/group',
-                             'title'   => ts('CiviCRM Profile'),
-                             'desc'    => ts('Profiles allow you to aggregate groups of fields and include them in your site as input forms, contact display pages, and search and listings features.'), 
-                             'query'   => 'reset=1',
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::LOCAL_TASK,
-                             'adminGroup' => ts('Configure'),
-                             'icon'    => 'admin/small/Profile.png',
-                             'weight'  => 220
-                           ),
-                      
-                     array(
-                           'path'   => 'civicrm/admin/uf/group/field',
-                           'title'  => ts('CiviCRM Profile Fields'),
-                           'query'  => 'reset=1',
-                           'type'   => self::CALLBACK,
-                           'crmType'=> self::CALLBACK,
-                           'weight' => 221
-                           ),
-                      
                      array(
                            'path'    => 'civicrm/admin/dupematch',
                            'title'   => ts('Contact Matching'),
