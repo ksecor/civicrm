@@ -829,7 +829,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     if($htmlType == 'Link') {
                         $url =  $params[$index] ;
                     } else{
-                        $url = CRM_Utils_System::url( 'civicrm/profilel',
+                        $url = CRM_Utils_System::url( 'civicrm/profile',
                                                       'reset=1&force=1&gid=' . $field['group_id'] .'&'. 
                                                       urlencode( $fieldName ) .
                                                       '=' .
