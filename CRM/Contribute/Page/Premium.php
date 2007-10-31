@@ -155,7 +155,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
         $dao =& new CRM_Contribute_DAO_PremiumsProduct();
         $dao->premiums_id = $premiumID;
-        $dao->orderBy('sort_position');
+        $dao->orderBy('weight');
         $dao->find();
 
         while ($dao->fetch()) {
@@ -165,7 +165,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
            
             if ($productDAO->find(true) ) {
                 $premiums[$productDAO->id] = array();
-                $premiums[$productDAO->id]['weight'] = $dao->sort_position;
+                $premiums[$productDAO->id]['weight'] = $dao->weight;
                 CRM_Core_DAO::storeValues( $productDAO, $premiums[$productDAO->id]);
                 
                 $action = array_sum(array_keys($this->links()));
@@ -188,7 +188,6 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         require_once 'CRM/Utils/Weight.php';
         CRM_Utils_Weight::addOrder( $premiums, 'CRM_Contribute_DAO_PremiumsProduct',
                                     'id', $returnURL, $filter );
-
         $this->assign('rows', $premiums);
     }
 
