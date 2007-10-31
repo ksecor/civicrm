@@ -576,7 +576,9 @@ WHERE  v.option_group_id = g.id
         if (get_magic_quotes_gpc()) {
             $xml_response = stripslashes($xml_response);
         }
-        $headers = getallheaders();
+
+        require_once 'CRM/Utils/System.php';
+        $headers = CRM_Utils_System::getAllHeaders();
         fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
                                      $xml_response));
         
