@@ -59,11 +59,6 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
 /**
  * CiviCRM Database Settings
  *
- * MySQL Version:
- * CiviCRM requires MySQL version 4.1 or greater.
- * IMPORTANT: Enter closest dot release to your installed version. 4.1, 5.0 are all valid examples. Do NOT
- * specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
- *
  * Database URL (CIVICRM_DSN) for CiviCRM Data:
  * Database URL format:
  *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
@@ -88,7 +83,6 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  *
  */
  
-define( 'CIVICRM_MYSQL_VERSION', 4.1 );
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '%%mysqlPath%%' );
 
