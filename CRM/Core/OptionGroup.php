@@ -232,6 +232,7 @@ WHERE  v.option_group_id = g.id
             $value->option_group_id = $group->id;
             $value->label           = $v['label'];
             $value->value           = $v['value'];
+            $value->name            = $v['name'];
             $value->weight          = $v['weight'];
             $value->is_default      = $v['is_default'];
             $value->is_active       = $v['is_active'];

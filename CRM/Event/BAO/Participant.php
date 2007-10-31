@@ -499,17 +499,6 @@ WHERE  civicrm_participant.id = {$participantId}
         self::lookupValue($defaults, 'event', CRM_Event_PseudoConstant::event(), $reverse);
         self::lookupValue($defaults, 'status', CRM_Event_PseudoConstant::participantStatus(), $reverse);
         self::lookupValue($defaults, 'role', CRM_Event_PseudoConstant::participantRole(), $reverse);
-        
-        require_once 'CRM/Core/BAO/PriceSet.php';
-        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $defaults['event_id'] ) ) {
-            $options = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaults['event_level'] );
-            foreach( $options as $id => $oid ) {
-                $options[$id] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
-                                                             $oid, 'name');
-            }
-            $defaults['event_level'] = implode( ', ', $options );
-        }
-        
     }
 
     /**

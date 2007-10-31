@@ -101,7 +101,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         if ( $priceField->html_type == 'Text' ) {
             $maxIndex = 1;
         }
-        
+                
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
             if ( $maxIndex == 1 ) {
                 $name = $params['label'];
@@ -377,7 +377,31 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         
         return $values;
     }
-            
+    
+    public static function getOptionId( $optionLabel, $fid ) 
+    {
+        $optionGroupName = "civicrm_price_field.amount.{$fid}";
+        
+        $query = "
+SELECT 
+        option_value.id as id
+FROM 
+        civicrm_option_value option_value,
+        civicrm_option_group option_group
+WHERE 
+        option_group.name  = '" . $optionGroupName . "'
+    AND option_group.id    = option_value.option_group_id
+    AND option_value.label = '" . $optionLabel . "'";
+        
+        $params = array( );
+        
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while ( $dao->fetch( ) ) {
+            return $dao->id;
+        }
+    }
+    
     /**
      * Delete the price set field.
      *

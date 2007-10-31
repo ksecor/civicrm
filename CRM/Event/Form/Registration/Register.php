@@ -460,7 +460,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         $amount_level = array_merge( $radioLevel , $checkboxLevel );
         $amount_level = array_merge( $amount_level, $selectLevel   );
         
-        $params['amount_level'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ); 
+        foreach( $amount_level as $id => $oid ) {
+            $amount_level[$id] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
+                                                              $oid, 'name');
+        }
+        
+        //$params['amount_level'] = implode(
+        //CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ); 
+        $params['amount_level'] = implode( ', ', $amount_level ); 
         $params['amount']       = $totalPrice;
     }
     
