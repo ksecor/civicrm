@@ -1099,6 +1099,9 @@ class CRM_Core_Invoke
         case 'smtp' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
             break;
+        case 'uf':
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Admin_Form_Setting_UF', ts('User Framework Settings'), null); 
         case 'mapping' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
             break;

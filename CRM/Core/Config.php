@@ -91,17 +91,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     public $templateCompileDir  = './templates_c/en_US/';
 
-
-    /**
-     * SMTP authentication password - it's possible to set it in config file
-     * in case somebody hesitated about sending it into database with open text.
-     * @var string
-     */
-     public $smtpPassword = '';
-     
-
     // END: BASE SYSTEM PROPERTIES (CIVICRM.SETTINGS.PHP)
-
 
     ///
     /// BEGIN HELPER CLASS PROPERTIES
@@ -263,10 +253,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkDSN = CIVICRM_UF_DSN;
         }
 
-        if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
-            $this->userFrameworkURLVar = CIVICRM_UF_URLVAR;
-        }        
-
          if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
              $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
          }
@@ -424,6 +410,12 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
       
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
+            if ( $this->userFramework == 'Joomla' ) {
+                $this->userFrameworkURLVar = 'task';
+            } else {
+                $this->userFrameworkURLVar = 'q';
+            }
+
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
@@ -453,10 +445,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
         if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
             $this->mysqlPath = CRM_Utils_File::addTrailingSlash( CIVICRM_MYSQL_PATH );
-        }
-
-        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
         }
 
         if ( defined( 'CIVICRM_SUNLIGHT' ) ) {

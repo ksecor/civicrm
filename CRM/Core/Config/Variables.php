@@ -215,12 +215,13 @@ class CRM_Core_Config_Variables
     public $smtpPort           = 25;
     public $smtpAuth           = false;
     public $smtpUsername       = null;
+    public $smtpPassword       = null;
 
     /**
      * Default user framework
      */
     public $userFramework               = 'Drupal';
-    public $userFrameworkVersion        = 4.6;
+    public $userFrameworkVersion        = 5.3;
     public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
     public $userHookClass               = 'CRM_Utils_Hook_Drupal';
     public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
@@ -584,14 +585,6 @@ class CRM_Core_Config_Variables
             $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
         }
 
-        if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
-            $this->mysqlPath = CRM_Utils_File::addTrailingSlash( CIVICRM_MYSQL_PATH );
-        }
-
-        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
-        }
-
         if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
             $this->sunlight = true;
         } else {
@@ -622,10 +615,6 @@ class CRM_Core_Config_Variables
              if ( defined( 'CIVICRM_BACKTRACE' ) ) {
                  $this->backtrace = CIVICRM_BACKTRACE;
              }
-         }
-
-         if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-             $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
          }
 
          if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {

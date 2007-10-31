@@ -36,10 +36,10 @@
 require_once 'CRM/Admin/Form/Setting.php';
 
 /**
- * This class generates form components for Miscellaneous
+ * This class generates form components for Site Url
  * 
  */
-class CRM_Admin_Form_Setting_Miscellaneous extends  CRM_Admin_Form_Setting
+class CRM_Admin_Form_Setting_UF extends CRM_Admin_Form_Setting
 {
     /**
      * Function to build the form
@@ -48,15 +48,15 @@ class CRM_Admin_Form_Setting_Miscellaneous extends  CRM_Admin_Form_Setting
      * @access public
      */
     public function buildQuickForm( ) {
-        CRM_Utils_System::setTitle(ts('Settings - Miscellaneous'));
+        CRM_Utils_System::setTitle(ts('Settings - Resource URLs'));
 
-        $this->addYesNo( 'versionCheck', ts( 'CiviCRM Version Check' ));
-        $this->addElement('text','mysqlPath', ts('mysqldump Path'));  
-        $this->addElement('text','captchaFontPath', ts('Captcha Font Path'));  
-        $this->addElement('text','captchaFont', ts('Captcha Font'));  
-       
-        parent::buildQuickForm();    
+        $config =& CRM_Core_Config::singleton( );
+        $uf     = $config->userFramework;
+        $this->addElement('text','userFrameworkVersion' ,ts('%1 Version', array( 1 => $uf )));  
+        $this->addElement('text','userFrameworkUsersTableName', ts('%1 Users Table Name', array( 1 => $uf )));
+        parent::buildQuickForm( ); 
     }
+
 }
 
 ?>
