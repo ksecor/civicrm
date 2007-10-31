@@ -180,7 +180,8 @@ class CRM_Core_Component
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
         foreach ( $info as $name => $value ) {
             if ( in_array( $name, $config->enableComponents ) &&
-                 ( $info[$name]['url'] === $firstArg || $info[$name]['url'] === $secondArg ) ) {
+                 ( ( $info[$name]['url'] === $firstArg  && $type == 'main' )  ||
+                   ( $info[$name]['url'] === $secondArg && $type == 'admin' ) ) ) {
                 
                 $className = $info[$name]['path'] . 'Invoke';
                 require_once(str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php');
