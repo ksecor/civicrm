@@ -205,15 +205,7 @@ $include_path = '.'        . PATH_SEPARATOR .
                 get_include_path( );
 set_include_path( $include_path );
 
-define( 'CIVICRM_SMARTYDIR'  , $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
 define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test-new'   . DIRECTORY_SEPARATOR );
-define( 'CIVICRM_DAO_DEBUG'  , 0 );
-define( 'CIVICRM_TEMPLATEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
-define( 'CIVICRM_PLUGINSDIR' , $civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
-
-define( 'CIVICRM_GETTEXT_CODESET'    , 'utf-8'   );
-define( 'CIVICRM_GETTEXT_DOMAIN'     , 'civicrm' );
-define( 'CIVICRM_GETTEXT_RESOURCEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
 
 if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
     define( 'CIVICRM_CLEANURL', 1 );

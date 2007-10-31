@@ -483,17 +483,30 @@ class CRM_Core_Config
     }
 
     function addCoreVariables( ) {
-        if (defined('CIVICRM_SMARTYDIR')) {
-            $this->smartyDir = self::addTrailingSlash(CIVICRM_SMARTYDIR);
-        }
+        global $civicrm_root;
 
-        if (defined('CIVICRM_PLUGINSDIR')) {
-            $this->pluginsDir = self::addTrailingSlash(CIVICRM_PLUGINSDIR);
-        }
+        $this->smartyDir  =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'packages'    . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR ;
 
-        if (defined('CIVICRM_TEMPLATEDIR')) {
-            $this->templateDir = self::addTrailingSlash(CIVICRM_TEMPLATEDIR);
-        }
+        $this->pluginsDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'CRM'         . DIRECTORY_SEPARATOR . 
+            'Core'        . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR .
+            'plugins'     . DIRECTORY_SEPARATOR ;
+
+        $this->templateDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'templates'   . DIRECTORY_SEPARATOR ;
+
+        $this->gettextResourceDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'l10n'        . DIRECTORY_SEPARATOR ;
+
+        $this->gettextCodeset = 'utf-8';
+        $this->gettextDomain  = 'civicrm';
 
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
             $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
@@ -508,12 +521,10 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
             $this->cleanURL = CIVICRM_CLEANURL;
-        }       
-      
-        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
-            $this->gettextResourceDir = self::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
+        } else {
+            $this->cleanURL = 0;
         }
-
+      
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
