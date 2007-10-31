@@ -182,6 +182,13 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
             $this->assign( 'products', true );
         }
         
+        // Add order changing widget to selector
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/contribute', "reset=1&action=update&id={$pageID}&subPage=Premium" );
+        $filter    = "premiums_id = {$premiumID}";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $premiums, 'CRM_Contribute_DAO_PremiumsProduct',
+                                    'id', $returnURL, $filter );
+
         $this->assign('rows', $premiums);
     }
 

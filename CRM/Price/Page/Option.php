@@ -126,10 +126,6 @@ class CRM_Price_Page_Option extends CRM_Core_Page
     {
         $customOption = array( );
         
-        // $params       = array( 'option_group_id' => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup',
-//                                                                                  "civicrm_price_field.amount.{$this->_fid}",
-//                                                                                  'id', 'name' ) );
-        
         $groupParams  = array( 'name' => "civicrm_price_field.amount.{$this->_fid}" );
         
         require_once 'CRM/Core/OptionValue.php';
@@ -150,6 +146,13 @@ class CRM_Price_Page_Option extends CRM_Core_Page
                                                                              'fid'  => $this->_fid ) );
         }
         
+        // Add order changing widget to selector
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/price/field/option', "action=browse&reset=1&fid={$this->_fid}" );
+        $filter    = "option_group_id = (SELECT id FROM civicrm_option_group WHERE name = 'civicrm_price_field.amount.{$this->_fid}')";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $customOption, 'CRM_Core_DAO_OptionValue',
+                                    'id', $returnURL, $filter );
+
         $this->assign('customOption', $customOption);
     }
 

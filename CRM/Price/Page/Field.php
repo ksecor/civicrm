@@ -177,7 +177,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
         $returnURL = CRM_Utils_System::url( 'civicrm/admin/price/field', "reset=1&action=browse&sid={$this->_sid}" );
         $filter    = "price_set_id = {$this->_sid}";
         require_once 'CRM/Utils/Weight.php';
-        CRM_Utils_Weight::addOrder( $priceField, 'CRM_Core_DAO_PriceSet',
+        CRM_Utils_Weight::addOrder( $priceField, 'CRM_Core_DAO_PriceField',
                                     'id', $returnURL, $filter );
         $this->assign('priceField', $priceField);
     }
