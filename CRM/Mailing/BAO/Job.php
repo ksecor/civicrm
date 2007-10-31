@@ -347,24 +347,26 @@ ORDER BY j.scheduled_date,
             }
             
             // add activity histroy record for every mail that is send
-            $activityHistory = array('entity_table'     => 'civicrm_contact',
-                                     'entity_id'        => $field['contact_id'],
-                                     'activity_type'    => 'Email Sent',
-                                     'module'           => 'CiviMail',
-                                     'callback'         => 'CRM_Mailing_BAO_Mailing::showEmailDetails',
-                                     'activity_id'      => $this->mailing_id,
-                                     'activity_summary' => $mailing->subject,
-                                     'activity_date'    => $job_date
-                                     );
+            $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                              'Email',
+                                                              'name' );
+            $session = & CRM_Core_Session::singleton();
+            $activity = array('source_contact_id'    => $session->get('userID'),
+                              'target_contact_id'    => $field['contact_id'],
+                              'activity_type_id'     => $activityTypeID,
+                              'source_record_id'     => $this->mailing_id,
+                              'activity_date_time'   => $job_date,
+                              'subject'              => $mailing->subject
+                              );
             
-            if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
+            require_once 'api/v2/Activity.php';
+            if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
                 return false;
             }
-            
             unset( $result );
         }
     }
-
+    
     /**
      * cancel a mailing
      *
