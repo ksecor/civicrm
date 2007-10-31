@@ -73,7 +73,7 @@ class CRM_Core_Config_SetValuesFixme
                 $path = implode( DIRECTORY_SEPARATOR, $checkPath );
             }
 
-            $path = CRM_Core_Config::addTrailingSlash( $path );
+            $path = CRM_Utils_File::addTrailingSlash( $path );
         }
 
         //set defaults if not set in db

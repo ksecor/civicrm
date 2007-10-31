@@ -423,54 +423,15 @@ class CRM_Core_Config
      */
     public $componentRegistry  = null;
 
-    /**
-     * singleton function used to manage this object
-     *
-     * @param string the key in which to record session / log information
-     *
-     * @return object
-     * @static
-     *
-     */
-    static function &singleton($key = 'crm', $loadFromDB = true ) 
-    {
-        if (self::$_singleton === null ) {
-            require_once 'CRM/Utils/Cache.php';
-
-            $cache =& CRM_Utils_Cache::singleton( );
-            self::$_singleton = $cache->get( 'CRM_Core_Config' );
-            if ( ! self::$_singleton ) {
-                self::$_singleton =& new CRM_Core_Config($key);
-                
-                self::$_singleton->initialize( );
-                
-                //initialize variable. for gencode we cannot load from the
-                //db since the db might not be initialized
-                if ( $loadFromDB ) {
-                    self::$_singleton->initVariables();
-                    
-                    // retrieve and overwrite stuff from the settings file
-                    self::$_singleton->addCoreVariables( );
-                }
-                $cache->set( 'CRM_Core_Config', self::$_singleton );
-            } else {
-                // we retrieve the object from memcache, so we now initialize the objects
-                self::$_singleton->initialize( );
-            }
-            self::$_singleton->initialized = 1;
-        }
-
-        return self::$_singleton;
-    }
 
     /**
-     * The constructor. Basically redefines the class variables if
-     * it finds a constant definition for that class variable
+     * The constructor. Sets domain id if defined, otherwise assumes
+     * single instance installation.
      *
-     * @return object
+     * @return void
      * @access private
      */
-    function __construct() 
+    private function __construct() 
     {
         require_once 'CRM/Core/Session.php';
         $session =& CRM_Core_Session::singleton( );
@@ -480,6 +441,107 @@ class CRM_Core_Config
             self::$_domainID = 1;
         }
         $session->set( 'domainID', self::$_domainID );
+    }
+
+    /**
+     * singleton function used to manage this object
+     *
+     * @param string the key in which to record session / log information
+     *
+     * @return object
+     * @static
+     *
+     */
+    static public function &singleton($key = 'crm', $loadFromDB = true ) 
+    {
+        if (self::$_singleton === null ) {
+
+            // first, attempt to get configuration object from cache
+            require_once 'CRM/Utils/Cache.php';
+            $cache =& CRM_Utils_Cache::singleton( );
+            self::$_singleton = $cache->get( 'CRM_Core_Config' );
+
+            // if not in cache, fire off config construction
+            if ( ! self::$_singleton ) {
+                self::$_singleton =& new CRM_Core_Config($key);
+                self::$_singleton->_initialize( );
+                
+                //initialize variable. for gencode we cannot load from the
+                //db since the db might not be initialized
+                if ( $loadFromDB ) {
+                    self::$_singleton->initVariables( );
+                    
+                    // retrieve and overwrite stuff from the settings file
+                    self::$_singleton->addCoreVariables( );
+                }
+                $cache->set( 'CRM_Core_Config', self::$_singleton );
+            } else {
+                // we retrieve the object from memcache, so we now initialize the objects
+                self::$_singleton->_initialize( );
+            }
+            self::$_singleton->initialized = 1;
+        }
+
+        return self::$_singleton;
+    }
+
+
+    /**
+     * Initializes the entire application.
+     *
+     * @return void
+     * @access public
+     */
+    private function _initialize() 
+    {
+        if (defined( 'CIVICRM_DSN' )) {
+            $this->dsn = CIVICRM_DSN;
+        }
+
+        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
+            $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
+
+            // make sure this directory exists
+            CRM_Utils_File::createDir( $this->templateCompileDir );
+        }
+
+        $this->_initDAO();
+
+        // also initialize the logger
+        self::$_log =& Log::singleton( 'display' );
+
+        if ( defined( 'CIVICRM_UF' ) ) {
+            $this->userFramework       = CIVICRM_UF;
+        }
+
+        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
+            $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
+        }
+
+        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
+            $this->gettextResourceDir = CRM_Utils_File::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
+        }
+
+        // set the error callback
+        CRM_Core_Error::setCallback();
+    }
+
+
+    /**
+     * initialize the DataObject framework
+     *
+     * @return void
+     * @access private
+     */
+    private function _initDAO() 
+    {
+        CRM_Core_DAO::init(
+                      $this->dsn, 
+                      $this->daoDebug
+                      );
+
+        $factoryClass = $this->DAOFactoryClass;
+        CRM_Core_DAO::setFactory(new $factoryClass());
     }
 
     function addCoreVariables( ) {
@@ -509,17 +571,17 @@ class CRM_Core_Config
         $this->gettextDomain  = 'civicrm';
 
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
+            $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
             if ( ! empty( $this->lcMessages ) ) {
-                $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
+                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
             }
                 
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
-        if ( defined( 'CIVICRM_CLEANURL' ) ) {
+        if ( defined( 'CIVICRM_CLEANURL' ) ) {        
             $this->cleanURL = CIVICRM_CLEANURL;
         } else {
             $this->cleanURL = 0;
@@ -549,7 +611,7 @@ class CRM_Core_Config
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
+            $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
             
             if ( isset( $_SERVER['HTTPS'] ) &&
                  strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
@@ -563,7 +625,7 @@ class CRM_Core_Config
         }
 
         if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
-            $this->mysqlPath = self::addTrailingSlash( CIVICRM_MYSQL_PATH );
+            $this->mysqlPath = CRM_Utils_File::addTrailingSlash( CIVICRM_MYSQL_PATH );
         }
 
         if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
@@ -607,7 +669,7 @@ class CRM_Core_Config
          }
 
          if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-             $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
+             $this->userFrameworkResourceURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
              $this->resourceBase             = $this->userFrameworkResourceURL;
          }
 
@@ -618,64 +680,7 @@ class CRM_Core_Config
     }
 
 
-    /**
-     * initializes the entire application. Currently we only need to initialize
-     * the dataobject framework
-     *
-     * @return void
-     * @access public
-     */
-    function initialize() 
-    {
-        if (defined( 'CIVICRM_DSN' )) {
-            $this->dsn = CIVICRM_DSN;
-        }
 
-        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = self::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
-
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        $this->initDAO();
-
-        // also initialize the logger
-        self::$_log =& Log::singleton( 'display' );
-
-        if ( defined( 'CIVICRM_UF' ) ) {
-            $this->userFramework       = CIVICRM_UF;
-        }
-
-        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-        }
-
-        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
-            $this->gettextResourceDir = self::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
-        }
-
-        // set the error callback
-        CRM_Core_Error::setCallback();
-
-    }
-
-    /**
-     * initialize the DataObject framework
-     *
-     * @return void
-     * @access private
-     */
-    function initDAO() 
-    {
-        CRM_Core_DAO::init(
-                      $this->dsn, 
-                      $this->daoDebug
-                      );
-
-        $factoryClass = $this->DAOFactoryClass;
-        CRM_Core_DAO::setFactory(new $factoryClass());
-    }
 
     /**
      * returns the singleton logger for the application
@@ -788,17 +793,7 @@ class CRM_Core_Config
         return true;
     }
 
-    static function addTrailingSlash( $name, $separator = null ) 
-    {
-        if ( ! $separator ) {
-            $separator = DIRECTORY_SEPARATOR;
-        }
-            
-        if ( substr( $name, -1, 1 ) != $separator ) {
-            $name .= $separator;
-        }
-        return $name;
-    }
+
 
     /**
      * initialize the config variables
@@ -829,13 +824,13 @@ class CRM_Core_Config
         
         foreach($variables as $key => $value) {
             if ( in_array($key, $urlArray) ) {
-                $value = self::addTrailingSlash( $value, '/' );
+                $value = CRM_Utils_File::addTrailingSlash( $value, '/' );
             } else if ( in_array($key, $dirArray) ) {
-                $value = self::addTrailingSlash( $value );
+                $value = CRM_Utils_File::addTrailingSlash( $value );
                 CRM_Utils_File::createDir( $value );
             } else if ( $key == 'lcMessages' ) {
                 // reset the templateCompileDir to locale-specific and make sure it exists
-                $this->templateCompileDir .= self::addTrailingSlash($value);
+                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($value);
                 CRM_Utils_File::createDir( $this->templateCompileDir );
             }
             
