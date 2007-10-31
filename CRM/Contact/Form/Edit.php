@@ -258,12 +258,14 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
             
             $locationExists = array( );
-
-            foreach( $contact->location as $loc) {
+            
+            foreach( $contact->location as $index => $loc) {
                 $locationExists[] = $loc['location_type_id'];
+                //to get the billing location
+                $defaults['location'][$index]['is_billing'] = $defaults['location'][$index]['address']['is_billing'];
             }
             $this->assign( 'locationExists' , $locationExists );
-
+            
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
@@ -296,6 +298,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         //check primary for first location
         $defaults['location'][1]['is_primary'] = true;
 
+               
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
         } else {

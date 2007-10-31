@@ -22,6 +22,9 @@
 
         {* Checkbox for "make this the primary location" *}
         {$form.location.$index.is_primary.html}
+    
+        {* Checkbox for "make this the billing location" *}
+        {$form.location.$index.is_billing.html}
 
         {if $locationExists}
             {foreach from=$locationExists item=ltypeid}   

@@ -72,6 +72,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
         }
 
         $isPrimary = true;
+        $isBilling = true;
 
         require_once "CRM/Core/BAO/Block.php";
         foreach ( $params['address'] as $value ) {
@@ -99,6 +100,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 $value['is_primary'] = false;
             }
             
+            if ( $isBilling && $value['is_billing'] ) {
+                $isBilling = false;
+            } else {
+                $value['is_billing'] = false;
+            }
             $value['contact_id'] = $contactId;
             
             $blocks[] = self::add( $value, $fixAddress );
