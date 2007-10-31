@@ -103,10 +103,17 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         }
         
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
+            if ( $maxIndex == 1 ) {
+                $name = $params['label'];
+            } else {
+                $name = $params['label'] . " - " . trim($params['option_label'][$index]);
+            }
+            
             if ( ( ! empty( $params['option_label'][$index] ) ) &&
                  ( ! empty( $params['option_value'][$index] ) ) ) {
                 $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
                                     'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
+                                    'name'       => $name,
                                     'weight'     => $params['option_weight'][$index],
                                     'is_active'  => 1 );
             }

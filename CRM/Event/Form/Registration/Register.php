@@ -308,7 +308,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $params = $this->controller->exportValues( $this->_name ); 
             
             $params['currencyID']     = $config->defaultCurrency;
-            self::processPriceSetAmount( $this, $params );
+            
+            if ( empty( $params['priceSetId'] ) ) {
+                $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
+                                                                                          $this->_values['custom']['amount_id'])];
+                
+                $params['amount']       = $this->_values['custom']['value'][array_search( $params['amount'], 
+                                                                                          $this->_values['custom']['amount_id'])];
+            } else {
+                $lineItem = array( );
+                self::processPriceSetAmount( $this->_values['custom']['fields'], $params, $lineItem );
+                $this->set( 'lineItem', $lineItem );
+            }
+            
             $this->set( 'amount', $params['amount'] ); 
             $this->set( 'amount_level', $params['amount_level'] ); 
             
@@ -355,108 +367,135 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
     }//end of function
     
-    static function processPriceSetAmount( &$form, &$params ) {
-        if ( ! empty( $params['priceSetId'] ) ) {
-            $totalPrice = 0;
-            $lineItem = array();
-            $Radio_level=array();
-            $CheckBox_level=array();
+    static function processPriceSetAmount( &$fields, &$params, &$lineItem ) {
+        // using price set
+        $totalPrice    = 0;
+        $radioLevel    = $checkboxLevel = $selectLevel = array( );
+        
+        foreach ( $fields as $id => $field ) {
+            if ( empty( $params["price_{$id}"] ) ) {
+                // skip if nothing was submitted for this field
+                continue;
+            }
             
-            foreach ($form->_priceSet['fields'] as $fieldId => $field) {
-                $fieldName = 'price_' . $fieldId;
-                if ( empty( $params[$fieldName] ) ) {
-                    // skip if nothing was submitted for this field
-                    continue;
+            switch ( $field['html_type'] ) {
+            case 'Text':
+                $params["price_{$id}"] = array( key( $field['options'] ) => $params["price_{$id}"] );
+                
+                self::getLineItem( $id, $params, $field, $lineItem );
+                
+                $totalPrice += $lineItem[key( $field['options'] )]['line_total'];
+                break;
+            case 'Radio':
+                $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
+                
+                $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
+                $optionLabel      = $field['options'][$optionValueId]['label'];
+                $params['amount_priceset_level_radio']                = array( );
+                $params['amount_priceset_level_radio'][$optionValueId]= $optionLabel;
+                
+                if( isset( $radioLevel ) ) {
+                    $radioLevel   = array_merge( $radioLevel,
+                                                 array_keys( $params['amount_priceset_level_radio'] ) );   
+                } else {
+                    $radioLevel   = array_keys($params['amount_priceset_level_radio']);
                 }
-                switch ( $field['html_type'] ) {
-                case 'Text':
-                    $qty = $params[$fieldName];
-                    $optionId = key($field['options']);
-                    $price = $field['options'][$optionId]['value'];
-                    $lineItem[$optionId] = array(
-                                                 'price_field_id'   => $field['id'],
-                                                 'custom_option_id' => $optionId,
-                                                 'label'            => $field['label'],
-                                                 'qty'              => $qty,
-                                                 'unit_price'       => $price,
-                                                 'line_total'       => $qty * $price
-                                                 );
-                    $totalPrice += ( $qty * $price );
-                    break;
-                    
-                case 'Radio':
-                case 'Select': 
-                    
-                    $optionId = $params[$fieldName];
+                
+                self::getLineItem( $id, $params, $field, $lineItem );
+                
+                $totalPrice += $lineItem[$optionValueId]['line_total'];
+                
+                break;
+            case 'Select': 
+                $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
+                                
+                $optionValueId    = CRM_Utils_Array::key( 1, $params["price_{$id}"] );
+                $optionLabel      = $field['options'][$optionValueId]['label'];
+                $params['amount_priceset_level_select']                 = array();
+                $params['amount_priceset_level_select']
+                    [CRM_Utils_Array::key( 1, $params["price_{$id}"] )] = $optionLabel;
+                
+                if( isset( $selectLevel ) ) {
+                    $selectLevel   = array_merge($selectLevel,array_keys($params['amount_priceset_level_select']));   
+                } else {
+                    $selectLevel   = array_keys($params['amount_priceset_level_select']);
+                }
+                
+                self::getLineItem( $id, $params, $field, $lineItem );
+                
+                $totalPrice += $lineItem[$optionValueId]['line_total'];
+                
+                break;
+                
+            case 'CheckBox':
+                $params['amount_priceset_level_checkbox']=array();
+                foreach ( $params["price_{$id}"] as $optionId => $option ) {   
                     $optionLabel = $field['options'][$optionId]['label'];
-                    $params['amount_priceset_level_radio']=array();
-                    $params['amount_priceset_level_radio']["{$field['options'][$optionId]['id']}"]= $optionLabel;
-                    if( isset($Radio_level)) {
-                        $Radio_level= array_merge($Radio_level,array_keys($params['amount_priceset_level_radio']));   
-                    }else{
-                        $Radio_level=array_keys($params['amount_priceset_level_radio']);
+                    $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
+                    
+                    if( isset($checkboxLevel) ){
+                        $checkboxLevel=array_unique( 
+                                                    array_merge(
+                                                                $checkboxLevel, 
+                                                                array_keys($params['amount_priceset_level_checkbox'])
+                                                                )
+                                                    );
+                    } else {
+                        $checkboxLevel=array_keys($params['amount_priceset_level_checkbox']);
                     }
-                    $price = $field['options'][$optionId]['value'];
-                    $lineItem[$optionId] = array(
-                                                 'price_field_id'   => $field['id'],
-                                                 'custom_option_id' => $optionId,
-                                                 'label'            => $field['label'] . ': ' . $optionLabel,
-                                                 'qty'              => 1,
-                                                 'unit_price'       => $price,
-                                                 'line_total'       => $price
-                                                 );
-                    $totalPrice += $price;
-                    break;    
-                    
-                case 'CheckBox':
-                    
-                    $params['amount_priceset_level_checkbox']=array();
-                    foreach ( $params[$fieldName] as $optionId => $option ) {   
-                        $optionLabel = $field['options'][$optionId]['label'];
-                        $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
-                        if( isset($CheckBox_level) ){
-                            $CheckBox_level=array_unique(array_merge($CheckBox_level,array_keys($params['amount_priceset_level_checkbox'])));
-                        }else{
-                            $CheckBox_level=array_keys($params['amount_priceset_level_checkbox']);
-                        }
-                        $price = $field['options'][$optionId]['value'];
-                        $lineItem[$optionId] = array(
-                                                     'price_field_id'   => $field['id'],
-                                                     'custom_option_id' => $optionId,
-                                                     'label'            => $field['label'] . ': ' . $optionLabel,
-                                                     'qty'              => 1,
-                                                     'unit_price'       => $price,
-                                                     'line_total'       => $price
-                                                     );
-                        $totalPrice += $price;
-                    }
-                    break;
-                    
                 }
+                
+                self::getLineItem( $id, $params, $field, $lineItem );
+                
+                foreach ( $lineItem as $optionId => $values ) {
+                    $totalPrice += $values['line_total'];
+                }
+                
+                break;
             }
-            $amount_level=array();
-            if( isset($Radio_level) && isset($CheckBox_level) ) {
-                $amount_level  = array_merge($Radio_level,$CheckBox_level);
-            }elseif( isset($Radio_level) ) {
-                foreach($Radio_level as $key => $value )
-                    $amount_level  = $value; 
-            }elseif( isset($CheckBox_level) ) {
-                foreach($CheckBox_level as $key => $value )
-                    $amount_level  = $value; 
-            }
-            $params['amount_level'] = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level); 
-            $params['amount']  =  $totalPrice;
-            $form->set( 'lineItem', $lineItem );
         }
-        else {
-            $params['amount_level'] = $form->_values['custom']['label']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
-            $params['amount'] = $form->_values['custom']['value']
-                [array_search( $params['amount'], $form->_values['custom']['amount_id'])];
-            
-        }
+        
+        $amount_level=array();
+        
+        $amount_level = array_merge( $radioLevel , $checkboxLevel );
+        $amount_level = array_merge( $amount_level, $selectLevel   );
+        
+        $params['amount_level'] = implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ); 
+        $params['amount']       = $totalPrice;
     }
     
-    
+    /**
+     * This method will create the lineItem array required for
+     * processPriceSetAmount method
+     *
+     * @param  int   $fid       price set field id
+     * @param  array $params    referance to form values
+     * @param  array $fields    referance to array of fields belonging
+     *                          to the price set used for particular event
+     * @param  array $values    referance to the values array(this is
+     *                          lineItem array)
+     *
+     * @return void
+     * @access static
+     */
+    static function getLineItem( $fid, &$params, &$fields, &$values )
+    {
+        foreach( $params["price_{$fid}"] as $oid => $qty ) {
+            $price        = $fields['options'][$oid]['value'];
+            
+            $label        = $fields['label'];
+            if ( $fields['label'] !== $fields['options'][$oid]['label'] ) {
+                $label   .= ": " + $fields['options'][$oid]['label'];
+            }
+            $values[$oid] = array(
+                                  'price_field_id'   => $fid,
+                                  'option_value_id'  => $oid,
+                                  'label'            => $label,
+                                  'qty'              => $qty,
+                                  'unit_price'       => $price,
+                                  'line_total'       => $qty * $fields['options'][$oid]['value']
+                                  );
+        }
+    }
 }
 ?>
