@@ -96,13 +96,6 @@ class CRM_Core_Config
     public $templateCompileDir  = './templates_c/en_US/';
 
     /**
-     * The root url of our application. Used when we don't
-     * know where to redirect the application flow
-     * @var string
-     */
-    public $mainMenu            = null;
-
-    /**
      * The resourceBase of our application. Used when we want to compose
      * url's for things like js/images/css
      * @var string
@@ -490,15 +483,6 @@ class CRM_Core_Config
     }
 
     function addCoreVariables( ) {
-    
-        if (defined('CIVICRM_DAO_DEBUG') ) {
-            $this->daoDebug = CIVICRM_DAO_DEBUG;
-        }
-
-        if (defined('CIVICRM_DAO_FACTORY_CLASS') ) {
-            $this->DAOFactoryClass = CIVICRM_DAO_FACTORY_CLASS;
-        }
-
         if (defined('CIVICRM_SMARTYDIR')) {
             $this->smartyDir = self::addTrailingSlash(CIVICRM_SMARTYDIR);
         }
@@ -522,34 +506,10 @@ class CRM_Core_Config
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
-        if ( defined( 'CIVICRM_UPLOADDIR' ) ) {
-            $this->uploadDir = self::addTrailingSlash( CIVICRM_UPLOADDIR );
-
-            CRM_Utils_File::createDir( $this->uploadDir );
-        }
-
         if ( defined( 'CIVICRM_CLEANURL' ) ) {
             $this->cleanURL = CIVICRM_CLEANURL;
         }       
       
-        if ( defined( 'CIVICRM_LC_MONETARY' ) ) {
-            $this->lcMonetary = CIVICRM_LC_MONETARY;
-            setlocale(LC_MONETARY, $this->lcMonetary . '.UTF-8', $this->lcMonetary, 'C');
-        }
-          
-        if ( defined( 'CIVICONTRIBUTE_DEFAULT_CURRENCY' ) &&
-             CRM_Utils_Rule::currencyCode( CIVICONTRIBUTE_DEFAULT_CURRENCY ) ) {
-            $this->defaultCurrency       = CIVICONTRIBUTE_DEFAULT_CURRENCY;
-        }        
-        
-        if ( defined( 'CIVICRM_GETTEXT_CODESET' ) ) {
-            $this->gettextCodeset = CIVICRM_GETTEXT_CODESET;
-        }
-        
-        if ( defined( 'CIVICRM_GETTEXT_DOMAIN' ) ) {
-            $this->gettextDomain = CIVICRM_GETTEXT_DOMAIN;
-        }
-        
         if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
             $this->gettextResourceDir = self::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
         }
@@ -579,17 +539,14 @@ class CRM_Core_Config
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = self::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-	    if ( isset( $_SERVER['HTTPS'] ) &&
-             strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-	      $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
-							       $this->userFrameworkBaseURL );
-	    }
+            
+            if ( isset( $_SERVER['HTTPS'] ) &&
+                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
+                $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
+                                                               $this->userFrameworkBaseURL );
+            }
         }
         
-        if ( defined( 'CIVICRM_IMAGE_UPLOADURL' ) ) {
-            $this->imageUploadURL = self::addTrailingSlash( CIVICRM_IMAGE_UPLOADURL, '/' );
-        }
-
         if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
             $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
         }
@@ -625,15 +582,6 @@ class CRM_Core_Config
     }
 
     function retrieveFromSettings( ) {
-        // we figure this out early, since some config parameters are loaded
-        // based on what components are enabled
-         if ( defined( 'ENABLE_COMPONENTS' ) ) {
-             $this->enableComponents = explode(',', ENABLE_COMPONENTS);
-             for ( $i=0; $i < count($this->enableComponents); $i++) {
-                 $this->enableComponents[$i] = trim($this->enableComponents[$i]);
-             }
-        }
-
          if (defined('CIVICRM_DEBUG') ) {
              $this->debug = CIVICRM_DEBUG;
             
@@ -641,79 +589,6 @@ class CRM_Core_Config
              if ( defined( 'CIVICRM_BACKTRACE' ) ) {
                  $this->backtrace = CIVICRM_BACKTRACE;
              }
-         }
-
-         if ( defined( 'CIVICRM_COUNTRY_LIMIT' ) ) {
-             $isoCodes = preg_split('/[^a-zA-Z]/', CIVICRM_COUNTRY_LIMIT);
-             $this->countryLimit = array_filter($isoCodes);
-         }
-        
-         if ( defined( 'CIVICRM_PROVINCE_LIMIT' ) ) {
-             $isoCodes = preg_split('/[^a-zA-Z]/', CIVICRM_PROVINCE_LIMIT);
-             $provinceLimitList = array_filter($isoCodes);
-             if ( !empty($provinceLimitList)) {
-                 $this->provinceLimit = array_filter($isoCodes);
-             }
-         } 
-
-         // Note: we can't change the ISO code to country_id
-         // here, as we can't access the database yet...
-         if ( defined( 'CIVICRM_DEFAULT_CONTACT_COUNTRY' ) ) {
-             $this->defaultContactCountry = CIVICRM_DEFAULT_CONTACT_COUNTRY;
-         }
-        
-         if ( defined( 'CIVICRM_LC_MESSAGES' ) ) {
-             $this->lcMessages = CIVICRM_LC_MESSAGES;
-
-             // reset the templateCompileDir to locale-specific and make sure it exists
-             $this->templateCompileDir .= self::addTrailingSlash($this->lcMessages);
-             CRM_Utils_File::createDir( $this->templateCompileDir );
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_DATETIME' ) ) {
-             $this->dateformatDatetime = CIVICRM_DATEFORMAT_DATETIME;
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_FULL' ) ) {
-             $this->dateformatFull = CIVICRM_DATEFORMAT_FULL;
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_PARTIAL' ) ) {
-             $this->dateformatPartial = CIVICRM_DATEFORMAT_PARTIAL;
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_YEAR' ) ) {
-             $this->dateformatYear = CIVICRM_DATEFORMAT_YEAR;
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_QF_DATE' ) ) {
-             $this->dateformatQfDate = CIVICRM_DATEFORMAT_QF_DATE;
-         }
-        
-         if ( defined( 'CIVICRM_DATEFORMAT_QF_DATETIME' ) ) {
-             $this->dateformatQfDatetime = CIVICRM_DATEFORMAT_QF_DATETIME;
-         }
-
-         if ( defined( 'CIVICRM_MONEYFORMAT' ) ) {
-             $this->moneyformat = CIVICRM_MONEYFORMAT;
-         }
-
-         if ( defined( 'CIVICRM_SMTP_SERVER' ) ) {
-             $this->smtpServer = CIVICRM_SMTP_SERVER;
-         }
-
-         if ( defined( 'CIVICRM_SMTP_PORT' ) ) {
-             $this->smtpPort = CIVICRM_SMTP_PORT;
-         }
-
-         if ( defined( 'CIVICRM_SMTP_AUTH' )) {
-             if (CIVICRM_SMTP_AUTH === true) {
-                 $this->smtpAuth = true;
-             } // else it stays false
-         }
-
-         if ( defined( 'CIVICRM_SMTP_USERNAME' ) ) {
-             $this->smtpUsername = CIVICRM_SMTP_USERNAME;
          }
 
          if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
@@ -724,62 +599,6 @@ class CRM_Core_Config
              $this->userFrameworkResourceURL = self::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
              $this->resourceBase             = $this->userFrameworkResourceURL;
          }
-
-         if ( defined( 'CIVICRM_MAP_PROVIDER' ) ) {
-             $this->mapProvider = CIVICRM_MAP_PROVIDER;
-         }
-
-         if ( defined( 'CIVICRM_MAP_API_KEY' ) ) {
-             $this->mapAPIKey = CIVICRM_MAP_API_KEY;
-         }
-
-         if ( defined( 'CIVICRM_GEOCODE_METHOD' ) ) {
-             if ( CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_ZipTable' ||
-                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_RPC'      ||
-                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Yahoo'    ||
-                  CIVICRM_GEOCODE_METHOD == 'CRM_Utils_Geocode_Google') {
-                 $this->geocodeMethod = CIVICRM_GEOCODE_METHOD;
-             }
-         }
-
-         if (defined('CIVICRM_VERSION_CHECK') and CIVICRM_VERSION_CHECK) {
-             $this->versionCheck = true;
-         }
-         if ( defined( 'CIVICRM_ENABLE_SSL' ) ) {
-             $this->enableSSL = CIVICRM_ENABLE_SSL;
-         }
-
-         if ( defined( 'CIVICRM_FATAL_ERROR_TEMPLATE' ) ) {
-             $this->fatalErrorTemplate = CIVICRM_FATAL_ERROR_TEMPLATE;
-         }
-
-         if ( defined( 'CIVICRM_FATAL_ERROR_HANDLER' ) ) {
-             $this->fatalErrorHandler = CIVICRM_FATAL_ERROR_HANDLER;
-         }
-
-         if ( defined( 'CIVICRM_LEGACY_ENCODING' ) ) {
-             $this->legacyEncoding = CIVICRM_LEGACY_ENCODING;
-         }
-
-         if ( defined( 'CIVICRM_MAX_LOCATION_BLOCKS' ) ) {
-             $this->maxLocationBlocks = CIVICRM_MAX_LOCATION_BLOCKS;
-         }
-
-         if ( defined( 'CIVICRM_CAPTCHA_FONT_PATH' ) ) {
-             $this->captchaFontPath = self::addTrailingSlash( CIVICRM_CAPTCHA_FONT_PATH );
-         }
-
-         if ( defined( 'CIVICRM_CAPTCHA_FONT' ) ) {
-             $this->captchaFont = CIVICRM_CAPTCHA_FONT;
-         }
-
-        if ( defined( 'CIVICRM_MAILER_SPOOL_PERIOD' ) ) {
-            $this->mailerPeriod = CIVICRM_MAILER_SPOOL_PERIOD;
-        }
-
-        if ( defined( 'CIVICRM_MAILER_BATCH_LIMIT' ) ) {
-            $this->mailerBatchLimit = (int) CIVICRM_MAILER_BATCH_LIMIT;
-        }
 
         require_once 'CRM/Core/Component.php';
         $this->componentRegistry =& new CRM_Core_Component();
@@ -797,7 +616,6 @@ class CRM_Core_Config
      */
     function initialize() 
     {
-    
         if (defined( 'CIVICRM_DSN' )) {
             $this->dsn = CIVICRM_DSN;
         }
@@ -875,7 +693,8 @@ class CRM_Core_Config
     {
         if ( ! isset( self::$_mail ) ) {
             $config =& CRM_Core_Config::singleton();
-            if ( defined( 'CIVICRM_MAILER_SPOOL' ) && CIVICRM_MAILER_SPOOL ) {
+            if ( defined( 'CIVICRM_MAILER_SPOOL' ) &&
+                 CIVICRM_MAILER_SPOOL ) {
                 require_once 'CRM/Mailing/BAO/Spool.php';
                 self::$_mail = & new CRM_Mailing_BAO_Spool();
             } else {
