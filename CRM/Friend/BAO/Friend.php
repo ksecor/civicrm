@@ -123,18 +123,21 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         self::getValues($frndParams);  
         
         require_once 'CRM/Activity/BAO/Activity.php';
+        
+        $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue','Tell a Friend','id','name' );
         //friend contacts creation
         foreach ( $contactParams as $key => $value ) {
             //create contact
-            self::add( $value );
+            $contact = self::add( $value );
 
             //create activity corresponding to each contact
             $activityParams = array ( 'source_contact_id'  => $params['source_contact_id'],
                                       'source_record_id'   => NULL,
-                                      'activity_type_id'   => $frndParams['id'],
+                                      'activity_type_id'   => $activityTypeId,
+                                      'target_contact_id'  => $contact,
                                       'title'              => $params['title'],
                                       'activity_date_time' => date("Ymd"), 
-                                      'subject'            => 'Tell a Friend:'.$params['title'],
+                                      'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
                                       'details'            => $params['suggested_message'],
                                       'is_test'            => $params['is_test'] );
 
@@ -161,7 +164,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         } 
 
         list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
-        
+       
         //send mail
         self::sendMail( $params['source_contact_id'], $mailParams ); 
         
@@ -271,12 +274,11 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     static function addTellAFriend(&$params) 
     {
         $friendDAO =& new CRM_Friend_DAO_Friend();
-        $friendDAO->entity_id   = $params['entity_id'];
-        $friendDAO->enity_table = $params['entity_table'];
-        
-        $friendDAO->find( true );
-        
+       
         $friendDAO->copyValues($params);
+
+        $friendDAO->find( true );
+      
         $result = $friendDAO->save();
         
         return $result;
