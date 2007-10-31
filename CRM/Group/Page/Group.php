@@ -272,17 +272,26 @@ ORDER BY title asc
         $this->assign( 'groupPermission', $groupPermission );
         
         require_once 'CRM/Core/OptionGroup.php';
+        $links =& $this->links( );
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
+                $newLinks = $links;
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] .= ' (' . ts('Smart Group') . ')';
+                    // check if custom search, if so fix view link
+                    $customSearchID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch',
+                                                                   $object->saved_search_id,
+                                                                   'search_custom_id' );
+                    if ( $customSearchID ) {
+                        $newLinks[CRM_Core_Action::VIEW]['url'] = 'civicrm/contact/search/custom';
+                        $newLinks[CRM_Core_Action::VIEW]['qs' ] = "reset=1&force=1&ssID={$object->saved_search_id}";
+                    }
                 }
-                $links =& $this->links( );
-                $action = array_sum(array_keys($links));
+                $action = array_sum(array_keys($newLinks));
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
                         $action -= CRM_Core_Action::ENABLE;
@@ -304,7 +313,7 @@ ORDER BY title asc
                     }
                     $values[$object->id]['group_type'] = implode( ', ', $types );
                 }
-                $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
+                $values[$object->id]['action'] = CRM_Core_Action::formLink( $newLinks,
                                                                             $action,
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
