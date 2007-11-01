@@ -128,7 +128,7 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
             require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
             $dao =& new CRM_Contribute_DAO_PremiumsProduct();
             $dao->premiums_id = $premiumID;
-            $dao->orderBy('sort_position');
+            $dao->orderBy('weight');
             $dao->find();
             
             $products = array();
