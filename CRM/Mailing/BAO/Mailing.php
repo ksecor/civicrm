@@ -1651,41 +1651,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function del($id) {
-        
-        $dependencies = array( 'CRM_Mailing_DAO_Job','CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_TrackableURL');
-        
-        foreach ($dependencies as $className) {
-            eval('$dao = & new ' . $className . '();');
-            $dao->mailing_id = $id;
-            
-            if ( $className == 'CRM_Mailing_DAO_Job' ) {
-                $dao->find( );
-                while ($dao->fetch()) {
-                    if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
-                        $daoSpool = new CRM_Mailing_BAO_Spool();
-                        $daoSpool->job_id = $dao->id;
-                        if ( $daoSpool->find( true ) ) {
-                            CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted as mails are still pending in spool table.'));
-                            return;
-                        }
-                    } elseif ( $dao->status == 'Running' ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted since it is in process.'));
-                        return;
-                    }
-                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                    $daoQueue->deleteEventQueue( $dao->id, 'job');
-                    
-                    $dao->delete();
-                }
-                continue;
-            }
-            
-            $dao->delete();
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        
+
         $dao = & new CRM_Mailing_DAO_Mailing();
         $dao->id = $id;
-        $dao->delete();
+        $dao->delete( );
         
         CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
     }
@@ -1701,14 +1673,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function delJob($id) {
-    
-        $daoJob = new CRM_Mailing_BAO_Job();
-        $daoJob->id = $id;
-        if ( $daoJob->find() ) {
-            $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-            $daoQueue->deleteEventQueue( $daoJob->id, 'job');
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        $daoJob->delete();
+
+        $dao     = new CRM_Mailing_BAO_Job();
+        $dao->id = $id;
+        $dao->delete();
     }
 
     function getReturnProperties( ) {
