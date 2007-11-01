@@ -143,7 +143,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_priceSet         = $this->get( 'priceSet' ) ;
 
         $config  =& CRM_Core_Config::singleton( );
-
+        
         if ( ! $this->_values ) {
             // get all the values from the dao object
             $this->_values = array( );
@@ -187,7 +187,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             // check for is_monetary status
             $isMonetary = CRM_Utils_Array::value( 'is_monetary', $this->_values['event'] );
-
+            
             if ( $isMonetary ) {
                 $ppID = CRM_Utils_Array::value( 'payment_processor_id',
                                                 $this->_values['event'] );
@@ -249,7 +249,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 require_once 'CRM/Core/OptionGroup.php'; 
                 CRM_Core_OptionGroup::getAssoc( "civicrm_event_page.amount.{$eventPageID}", $this->_values['custom'] );
             }
-
+            
             // get the profile ids
             require_once 'CRM/Core/BAO/UFJoin.php'; 
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',   
@@ -418,8 +418,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
     static function initPriceSet( &$form, $eventPageID ) {
         // get price info
         require_once 'CRM/Core/BAO/PriceSet.php';
-        $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID );
-        if ( $priceSetId ) {
+        
+        if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageID ) ) {
             $form->_priceSetId = $priceSetId;
             $priceSet = CRM_Core_BAO_PriceSet::getSetDetail($priceSetId);
             require_once 'CRM/Core/BAO/PriceField.php';

@@ -372,7 +372,7 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             
             $values = array( );
             require_once 'CRM/Core/OptionValue.php';
-            CRM_Core_OptionValue::getValues( $groupParams, $values );
+            CRM_Core_OptionValue::getValues( $groupParams, $values, 'weight', ! $inactiveNeeded );
         }
         
         return $values;

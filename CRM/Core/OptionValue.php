@@ -308,12 +308,13 @@ class CRM_Core_OptionValue {
      *                                  will have the values for the group
      * @param  string    $orderBy       for orderBy clause
      * 
+     * @param  boolean   $isActive      do you want only active option values?
      * @return array of option-values     
      * 
      * @access public
      * @static
      */
-    static function getValues( $groupParams, &$values, $orderBy = 'weight' ) 
+    static function getValues( $groupParams, &$values, $orderBy = 'weight', $isActive = false ) 
     {
         $select = "
 SELECT 
@@ -330,9 +331,11 @@ FROM
         
         $where = " WHERE option_group.id = option_value.option_group_id ";
         
+        if ( $isActive) {
+            $where .= " AND option_value.is_active = " . $isActive;
+        }
+                
         $order = " ORDER BY " . $orderBy;
-        
-        $params = array( );
         
         if ( $groupParams['id'] ) {
             $where .= " AND option_group.id = %1";
