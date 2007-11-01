@@ -601,12 +601,14 @@ class CRM_Utils_System {
     }
 
     static function checkURL( $url ) {
+        CRM_Core_Error::ignoreException( );
         require_once 'HTTP/Request.php';
         $params = array( 'method' => 'HEAD' );
         $request =& new HTTP_Request( $url, $params );
         $request->sendRequest( );
-        // CRM_Core_Error::debug( $url, $request->getResponseCode( ) );
-        return $request->getResponseCode( ) == 200 ? true : false;
+        $result = $request->getResponseCode( ) == 200 ? true : false;
+        CRM_Core_Error::setCallback( );
+        return $result;
     }
 
     static function checkPHPVersion( $ver = 5, $abort = true ) {
@@ -688,6 +690,24 @@ class CRM_Utils_System {
             }
         }
         return $headers;
+    }
+
+    static function redirectToSSL( $check = false ) {
+        $config = CRM_Core_Config::singleton( );
+        if ( $config->enableSSL             &&
+             ( ! isset( $_SERVER['HTTPS'] ) ||
+               strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
+            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            if ( $check ) {
+                // ensure that SSL is enabled on the base url (for cookie reasons etc)
+                $baseURL = str_replace( 'http://', 'https://',
+                                        $config->userFrameworkBaseURL );
+                if ( ! self::checkURL( $baseURL ) ) {
+                    CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
+                }
+            }
+            CRM_Utils_System::redirect( $url );
+        }
     }
 
 }

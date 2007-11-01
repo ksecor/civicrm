@@ -53,7 +53,25 @@ class CRM_Admin_Form_Setting_Url extends CRM_Admin_Form_Setting
         $this->addElement('text','userFrameworkResourceURL' ,ts('CiviCRM Resource URL'));  
         $this->addElement('text','imageUploadURL', ts('Image Upload URL'));  
         $this->addYesNo( 'enableSSL', ts( 'Force Secure URLs (SSL)' ));
-        parent::buildQuickForm( ); 
+
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Url', 'formRule' ) );
+
+        parent::buildQuickForm( );
+    }
+
+    static function formRule(&$fields) {
+        if ( isset( $fields['enableSSL'] ) &&
+             $fields['enableSSL'] ) {
+            $config = CRM_Core_Config::singleton( );
+            $url = str_replace( 'http://', 'https://',
+                                $config->userFrameworkBaseURL );
+            if ( ! CRM_Utils_System::checkURL( $url ) ) {
+                $errors = array( 'enableSSL' =>
+                                 ts( 'You need to set up a secure server before you can enable SSL' ) );
+                return $errors;
+            }
+        }
+        return true;
     }
 
 }

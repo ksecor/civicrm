@@ -83,10 +83,7 @@ class CRM_Event_Invoke
             $view =& new CRM_Event_Page_ICalendar( );
             return $view->run();
         } else if ( $secondArg == 'register' ) { 
-            if ( $config->enableSSL               &&
-                 ( ! isset( $_SERVER['HTTPS'] ) || strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
-                CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-            }
+            CRM_Utils_System::redirectToSSL( );
 
             $id     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, false, null, 'GET');
             $session->pushUserContext( CRM_Utils_System::url("civicrm/event/info", "id={$id}&reset=1" ) );

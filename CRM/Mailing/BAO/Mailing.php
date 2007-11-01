@@ -1057,18 +1057,6 @@ AND civicrm_contact.is_opt_out =0";
     }
     
     /**
-     * Error handler to quietly catch otherwise fatal smtp transport errors.
-     *
-     * @param object $obj       The PEAR_ERROR object
-     * @return object $obj
-     * @access public
-     * @static
-     */
-    public static function catchSMTP($obj) {
-        return $obj;
-    }
-
-    /**
      * function to add the mailings
      *
      * @param array $params reference array contains the values submitted by the form

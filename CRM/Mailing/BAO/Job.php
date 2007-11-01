@@ -324,9 +324,7 @@ ORDER BY j.scheduled_date,
 
             /* TODO: when we separate the content generator from the delivery
              * engine, maybe we should dump the messages into a table */
-            PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                    array('CRM_Mailing_BAO_Mailing', 
-                                          'catchSMTP'));
+            CRM_Core_Error::ignoreException( );
             $result = $mailer->send($recipient, $headers, $body, $this->id);
             CRM_Core_Error::setCallback();
             

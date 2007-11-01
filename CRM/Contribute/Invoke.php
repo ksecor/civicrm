@@ -104,10 +104,8 @@ class CRM_Contribute_Invoke {
 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
 
-        if ( ( $secondArg == 'transact' || $secondArg == 'offline' )  &&
-             $config->enableSSL                                       &&
-             ( ! isset( $_SERVER['HTTPS'] ) || strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
-            CRM_Utils_System::redirect( 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+        if ( ( $secondArg == 'transact' || $secondArg == 'offline' ) ) {
+            CRM_Utils_System::redirectToSSL( );
         }
 
         if ( $secondArg == 'transact' ) {

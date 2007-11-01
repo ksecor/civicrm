@@ -115,19 +115,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
     }
 
     /**
-     * (Re)set the default callback method
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    public static function setCallback() {
-        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK, 
-                                array('CRM_Core_Error', 'handle'));
-    }
-
-
-    /**
      * create the main callback method. this method centralizes error processing.
      *
      * the errors we expect are from the pear modules DB, DB_DataObject
@@ -140,6 +127,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      */
     public static function handle($pearError)
     {
+        CRM_Core_Error::backtrace( );
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
@@ -544,6 +532,37 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $error->_errors = array( ) ;
         $error->_errorsByLevel = array( ) ;
     }
+
+    public static function ignoreException( ) {
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
+                                array( 'CRM_Core_Error',
+                                       'nullHandler' ) );
+    }
+    
+    /**
+     * Error handler to quietly catch otherwise fatal smtp transport errors.
+     *
+     * @param object $obj       The PEAR_ERROR object
+     * @return object $obj
+     * @access public
+     * @static
+     */
+    public static function nullHandler( $obj ) {
+        return $obj;
+    }
+
+    /**
+     * (Re)set the default callback method
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    public static function setCallback( ) {
+        PEAR::setErrorHandling( PEAR_ERROR_CALLBACK, 
+                                array('CRM_Core_Error', 'handle'));
+    }
+
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');

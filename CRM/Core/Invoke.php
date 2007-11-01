@@ -596,7 +596,10 @@ class CRM_Core_Invoke
         if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
-       
+
+        // check and redirect to SSL
+        CRM_Utils_System::redirectToSSL( true );
+
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
             
