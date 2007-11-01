@@ -490,14 +490,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         foreach( $params["price_{$fid}"] as $oid => $qty ) {
             $price        = $fields['options'][$oid]['value'];
             
-            $label        = $fields['label'];
-            if ( $fields['label'] !== $fields['options'][$oid]['label'] ) {
-                $label   .= ": " + $fields['options'][$oid]['label'];
-            }
             $values[$oid] = array(
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
-                                  'label'            => $label,
+                                  'label'            => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
+                                                                                     $oid, 'name', 'id' ),
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
                                   'line_total'       => $qty * $fields['options'][$oid]['value']
