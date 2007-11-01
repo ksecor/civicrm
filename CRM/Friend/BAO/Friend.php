@@ -123,12 +123,18 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         self::getValues($frndParams);  
         
         require_once 'CRM/Activity/BAO/Activity.php';
+        require_once 'CRM/Core/BAO/UFGroup.php';
         
         $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue','Tell a Friend','id','name' );
         //friend contacts creation
         foreach ( $contactParams as $key => $value ) {
-            //create contact
-            $contact = self::add( $value );
+
+            //create contact only if it does not exits in db
+            $ids = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
+        
+            if ( !$ids ) {
+                $contact = self::add( $value );
+            }
 
             //create activity corresponding to each contact
             $activityParams = array ( 'source_contact_id'  => $params['source_contact_id'],
