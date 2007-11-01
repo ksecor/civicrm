@@ -276,7 +276,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @static
      */
     static function debug( $name, $variable, $log = true, $html = true ) {
-        debug_print_backtrace( );
         $error =& self::singleton( );
 
         $out = print_r( $variable, true );

@@ -24,6 +24,7 @@
        <name>mailing_id</name>
        <table>civicrm_mailing</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>scheduled_date</name>
