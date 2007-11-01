@@ -100,7 +100,7 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
      */
     public function postProcess() 
     {
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
+        if ( $this->_action & CRM_Core_Action::VIEW ) { 
             return;
         }
         
@@ -123,12 +123,9 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
         $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);
 
-        require_once "CRM/Activity/BAO/Activity.php";
-        $bao = new CRM_Activity_BAO_Activity();
         if ($this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['id'] = $this->_activityId;
-            $bao->updateActivity( $params, $ids );
-            return;
+            $params['id'] = $this->_activityId;
+
 //            require_once 'CRM/Case/DAO/CaseActivity.php';
 //            $caseActivity = new CRM_Case_DAO_CaseActivity();
 //            $caseActivity->activity_entity_table = 'civicrm_activity';
@@ -138,7 +135,10 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
 //            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
         }
 
-        $bao->createActivity( $params );
+        require_once "CRM/Activity/BAO/Activity.php";
+        $bao = new CRM_Activity_BAO_Activity();
+
+        $bao->create( $params );
        
 //        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 

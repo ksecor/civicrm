@@ -150,7 +150,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
 
             //activity creation
             $bao = new CRM_Activity_BAO_Activity;     
-            $activity = $bao->createActivity( $activityParams );
+            $activity = $bao->create( $activityParams );
         }
 
         $transaction->commit( );

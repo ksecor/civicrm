@@ -55,7 +55,7 @@
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
         <dd>{if $action eq 4} {$assignee_contact_value} {else}{$form.assignee_contact.html}{/if}        </dd>
     </div>
-
+    {*
     <dt>{$form.case_subject.label}</dt>
     {if $subject_value}
         <script type="text/javascript">
@@ -72,6 +72,7 @@
 	<dt>{$form.activity_tag2_id.label}</dt><dd>{$form.activity_tag2_id.html}</dd>
 	<dt>{$form.activity_tag3_id.label}</dt><dd>{$form.activity_tag3_id.html}</dd>
    </dl>
+    *}
          <div class="spacer"></div>
         <dl class="html-adjust">
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>

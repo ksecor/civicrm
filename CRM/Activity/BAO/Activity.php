@@ -60,8 +60,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     private function _dataExists( &$params ) 
     {
-        if (CRM_Utils_Array::value( 'subject', $params) &&
-            CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'subject', $params) &&
+             CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
             return true;
         }
         return false;
@@ -193,22 +193,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @return
      */
-    public function createActivity( &$params ) 
+    public function create( &$params )
     {
-        return $this->_saveActivity( $params, 'create' );
-    }
-
-
-    public function updateActivity( &$params, &$ids )
-    {
-        $this->id = CRM_Utils_Array::value( 'id', $ids );
-        return $this->_saveActivity( $params, 'update' );
-    }    
-    
-
-    private function _saveActivity( &$params, $operation )
-    {
-        require_once 'CRM/Core/Transaction.php';
 
         // check required params
         if ( ! $this->_dataExists( $params ) ) {
@@ -218,12 +204,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $this->copyValues( $params );
 
         // start transaction        
+        require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
         $result = $this->save( );        
 
         // attempt to save activity assignment
-        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment();
 
@@ -244,7 +231,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }        
 
         // attempt to save activity targets
-        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $target =& new CRM_Activity_BAO_ActivityTarget();
 
@@ -275,7 +262,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $this->_logActivityAction( $result, $logMsg );
 
         // roll back if error occured
-        if( is_a( $result, 'CRM_Core_Error' ) ) {
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
             $transaction->rollback( );
             return $result;
         } elseif( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
