@@ -208,25 +208,29 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $transaction = new CRM_Core_Transaction( );
 
         $result = $this->save( );        
+        
+        $activityId = $result->id;
 
         // attempt to save activity assignment
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment();
-
-            if( $operation === 'create' ) {
-                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultAssignment = $assignment->createAssignment( $this->id, $params['assignee_contact_id'] );
-                }
-
-            } elseif( $operation === 'update' ) {
-                $assignment->activity_id = $this->id;
-                if( $assignment->find( true ) ) {
-                    if( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
-                        $resultAssignment = $assignment->updateAssignment( $assignment->id, 
-                                                                           $params['assignee_contact_id'] );
+            
+            $assignmentParams = array( 'activity_id'         => $activityId,
+                                       'assignee_contact_id' => $params['assignee_contact_id'] );
+            
+            if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $assignment->activity_id = $activityId;
+                if ( $assignment->find( true ) ) {
+                    if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                        $assignmentParams['id'] = $assignment->id;
+                        $resultAssignment = $assignment->create( $assignmentParams );
                     }
-                } 
+                }            
+            } else {
+                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultAssignment = $assignment->create( $assignmentParams );
+                }
             }
         }        
 
@@ -235,17 +239,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $target =& new CRM_Activity_BAO_ActivityTarget();
 
-            if( $operation === 'create' ) {
-                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultTarget = $target->createTarget( $this->id, $params['target_contact_id'] );
-                }
-
-            } elseif( $operation === 'update' ) {
-                $target->activity_id = $this->id;
-                if( $target->find( true ) ) {
-                    if( $target->target_contact_id != $params['target_contact_id'] ) {
-                        $resultTarget = $target->updateTarget( $target->id, $params['target_contact_id'] );
+            $targetParams = array( 'activity_id'         => $activityId,
+                                   'assignee_contact_id' => $params['target_contact_id'] );
+            
+            if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $target->activity_id = $activityId;
+                if ( $target->find( true ) ) {
+                    if ( $target->target_contact_id != $params['target_contact_id'] ) {
+                        $targetParams['id'] = $target->id;
+                        $resultTarget = $target->create( $targetParams );
                     }
+                }            
+            } else {
+                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultTarget = $target->create( $targetParams );
                 }
             }
         }
