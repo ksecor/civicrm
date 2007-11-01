@@ -55,11 +55,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
      * @return None
      */
     public function setDefaultValues( ) 
-    {        
-        $eventId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $this->_id, 'event_id' );
-        $title    = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $eventId, 'title' );
-        CRM_Utils_System::setTitle(ts('Tell A Friend - %1', array(1 => $title)));
-        
+    {   
         $defaults = array( );         
         
         if ( isset($this->_id)  ) {

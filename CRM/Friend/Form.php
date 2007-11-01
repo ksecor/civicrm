@@ -165,8 +165,9 @@ class CRM_Friend_Form extends CRM_Core_Form
      */
     public function formRule( &$values ) 
     {
+        require_once 'CRM/Core/BAO/UFGroup.php';
         $errorMsg = array( ); 
-
+        
         $valid = false;
         foreach ( $values['friend'] as $key => $val ) {
             if ( trim( $val['first_name'] ) || trim( $val['last_name'] ) || trim( $val['email'] ) ) {
@@ -183,13 +184,22 @@ class CRM_Friend_Form extends CRM_Core_Form
                 if ( ! trim( $val['email'] ) ) {
                     $errorMsg["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
                 }
-            }
+            } 
+            
+            //check for duplicate contacts
+            if ( trim( $val['first_name'] ) && trim( $val['last_name'] ) && trim( $val['email'] ) ) {
+                $ids = CRM_Core_BAO_UFGroup::findContact( $val, null, true );
+            
+                if ( $ids ) {
+                    $errorMsg["friend[{$key}][first_name]"] = ts( ' Matching contact found. '  );
+                } 
+            }            
         }
         
         if ( ! $valid ) {
             $errorMsg['friend[1][first_name]'] = "Enter atleast one friend information.";
         }
-
+        
         return empty($errorMsg) ? true : $errorMsg;
     }
        
