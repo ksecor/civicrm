@@ -40,45 +40,18 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
     protected $_customClass = null;
 
     public function preProcess( ) {
-        $this->_customSearchID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this );
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
+
+        $csID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this );
         $ssID = CRM_Utils_Request::retrieve( 'ssID', 'Integer', $this );
         $gID  = CRM_Utils_Request::retrieve( 'gid' , 'Integer', $this );
-        if ( ! $this->_customSearchID &&
-             ! $ssID                   &&
-             ! $gID ) {
-            CRM_Core_Error::fatal( 'No custom id links found' );
-        }
 
-        if ( $ssID || $gID ) {
-            if ( $gID ) {
-                $ssID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $gID, 'saved_search_id' );
-            }
-
-            $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $ssID );
-            $this->_customSearchID    = CRM_Utils_Array::value( 'customSearchID',
-                                                                $this->_formValues );
-        }
-
-        if ( ! $this->_customSearchID ) {
-            CRM_Core_Error::fatal( 'No custom search id found' );
-        }
-
-        // check that the csid exists in the db along with the right file
-        // and implements the right interface
-        require_once 'CRM/Core/OptionGroup.php';
-        $this->_customSearchClass = CRM_Core_OptionGroup::getLabel( 'custom_search',
-                                                                    $this->_customSearchID );
-        if ( ! $this->_customSearchClass ) {
-            CRM_Core_Error::fatal( 'Could not find implementation file record for custom search' );
-        }
-
-        $customSearchFile = str_replace( '_',
-                                         DIRECTORY_SEPARATOR,
-                                         $this->_customSearchClass ) . '.php';
+        list( $this->_customSearchID,
+              $this->_customSearchClass,
+              $this->_formValues ) = CRM_Contact_BAO_SearchCustom::details( $csID, $ssID, $gID );
         
-        $error = include_once( $customSearchFile );
-        if ( $error == false ) {
-            CRM_Core_Error::fatal( 'Could not find implementation file for custom search' );
+        if (! $this->_customSearchID ) {
+            CRM_Core_Error::fatal( 'Could not get details for custom search' );
         }
 
         // instantiate the new class

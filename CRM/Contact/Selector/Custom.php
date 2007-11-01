@@ -42,6 +42,7 @@ require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
 require_once 'CRM/Contact/BAO/Query.php';
+require_once 'CRM/Contact/BAO/SearchCustom.php';
 
 /**
  * This class is used to retrieve and display a range of
@@ -237,71 +238,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @access public
      */
     function getTotalCount( $action ) {
-        $params = array( );
-        $sql = $this->_search->count( $params );
-        $this->addDomainClause( $sql, $params );
-
-        return CRM_Core_DAO::singleValueQuery( $sql, $params );
-    }
-
-    function validateUserSQL( $sql ) {
-        $includeStrings = array( 'select', 'from', 'where', 'civicrm_contact', 'contact_a' );
-        $excludeStrings = array( 'insert', 'delete', 'update' );
-
-        foreach ( $includeStrings as $string ) {
-            if ( stripos( $sql, $string ) === false ) {
-                CRM_Core_Error::fatal( ts( 'Could not find "%1" string in SQL clause',
-                                           array( 1 => $string ) ) );
-            }
-        }
-
-        foreach ( $excludeStrings as $string ) {
-            if ( stripos( $sql, $string ) !== false ) {
-                CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
-                                           array( 1 => $string ) ) );
-            }
-        }
-    }
-
-    function addDomainClause( &$sql, &$params ) {
-        $this->validateUserSQL( $sql );
-
-        $max = count( $params ) + 1;
-        $sql .= " AND contact_a.domain_id = %{$max}";
-        $params[$max] = array( CRM_Core_Config::domainID( ),
-                               'Integer' );
-    }
-
-    function includeContactIDs( &$sql ) {
-
-        $contactIDs = array( );
-        foreach ( $this->_formValues as $id => $value ) {
-            if ( $value &&
-                 substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                $contactIDs[] = substr( $id, CRM_Core_Form::CB_PREFIX_LEN );
-            }
-        }
-        
-        if ( ! empty( $contactIDs ) ) {
-            $contactIDs = implode( ', ', $contactIDs );
-            $sql .= " AND contact_a.if IN ( $contactIDs )";
-        }
-    }
-
-    function addSortOffset( &$sql,
-                            $offset, $rowCount, $sort ) {
-
-        if ( ! empty( $sort ) ) {
-            if ( is_string( $sort ) ) {
-                $sql .= " ORDER BY $sort ";
-            } else {
-                $sql .= " ORDER BY " . trim( $sort->orderBy() );
-            }
-        }
-        
-        if ( $row_count > 0 && $offset >= 0 ) {
-            $sql .= " LIMIT $offset, $row_count ";
-        }
+        return CRM_Contact_BAO_SearchCustom::getTotalCount( $this->_search );
     }
 
     /**
@@ -322,15 +259,15 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
         $params = array( );
         $sql = $this->_search->all( $params, $offset, $rowCount, $sort );
-        $this->addDomainClause( $sql, $params );
+        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
 
         if ( ( $output == CRM_Core_Selector_Controller::EXPORT || 
                $output == CRM_Core_Selector_Controller::SCREEN ) &&
              $this->_formValues['radio_ts'] == 'ts_sel' ) {
-            $this->includeContactIDs( $sql );
+            CRM_Contact_BAO_SearchCustom::includeContactIDs( $sql, $this->_formValues );
         }
 
-        $this->addSortOffset( $sql, $offset, $rowcount, $sort );
+        CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowcount, $sort );
 
         $dao = CRM_Core_DAO::executeQuery( $sql, $params );
 
@@ -392,7 +329,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     function &alphabetQuery( ) {
         $params = array( );
         $sql = $this->_search->alphabet( $params, 0, 0, null );
-        $this->addDomainClause( $sql, $params );
+        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
     }
@@ -400,7 +337,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     function &contactIDQuery( ) {
         $params = array( );
         $sql = $this->_search->contactIDs( $params );
-        $this->addDomainClause( $sql, $params );
+        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
     }

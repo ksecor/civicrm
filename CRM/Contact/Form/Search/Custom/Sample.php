@@ -97,18 +97,21 @@ state_province.name    as state_province
                            $selectClause );
 
     }
-
-
-
-    function sql( &$queryParams,
-                  $selectClause ) {
-
-        $sql = "
-SELECT    $selectClause
+    
+    function from( &$queryParams ) {
+        return "
 FROM      civicrm_contact contact_a
 LEFT JOIN civicrm_address address ON address.contact_id = contact_a.id
+LEFT JOIN civicrm_email           ON civicrm_email.contact_id   = contact_a.id
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
-WHERE     contact_a.contact_type = 'Household'";
+";
+    }
+
+    function where( &$queryParams ) {
+        $where = "
+      contact_a.contact_type   = 'Household'
+AND   address.is_primary       = 1
+AND   civicrm_email.is_primary = 1";
 
         $count  = 1;
         $clause = array( );
@@ -131,8 +134,20 @@ WHERE     contact_a.contact_type = 'Household'";
         }
 
         if ( ! empty( $clause ) ) {
-            $sql .= ' AND ' . implode( ' AND ', $clause );
+            $where .= ' AND ' . implode( ' AND ', $clause );
         }
+
+        return $where;
+    }
+
+    function sql( &$queryParams,
+                  $selectClause ) {
+
+        $sql =
+            "SELECT $selectClause "     .
+            self::from ( $queryParams ) .
+            " WHERE "                   .
+            self::where( $queryParams ) ;
 
         return $sql;
     }
