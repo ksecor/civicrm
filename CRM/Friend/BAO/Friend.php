@@ -130,6 +130,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         foreach ( $contactParams as $key => $value ) {
 
             //create contact only if it does not exits in db
+            $value['email'] = $value['email-Primary'];
             $ids = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
         
             if ( !$ids ) {
