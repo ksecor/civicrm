@@ -598,7 +598,7 @@ class CRM_Core_Invoke
         }
 
         // check and redirect to SSL
-        CRM_Utils_System::redirectToSSL( true );
+        CRM_Utils_System::redirectToSSL( false );
 
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {

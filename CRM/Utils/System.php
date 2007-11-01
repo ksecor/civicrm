@@ -692,18 +692,23 @@ class CRM_Utils_System {
         return $headers;
     }
 
-    static function redirectToSSL( $check = false ) {
+    static function redirectToSSL( $abort = true ) {
         $config = CRM_Core_Config::singleton( );
         if ( $config->enableSSL             &&
              ( ! isset( $_SERVER['HTTPS'] ) ||
                strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
             $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            if ( $check ) {
-                // ensure that SSL is enabled on the base url (for cookie reasons etc)
-                $baseURL = str_replace( 'http://', 'https://',
-                                        $config->userFrameworkBaseURL );
-                if ( ! self::checkURL( $baseURL ) ) {
+            // ensure that SSL is enabled on the base url (for cookie reasons etc)
+            $baseURL = str_replace( 'http://', 'https://',
+                                    $config->userFrameworkBaseURL );
+            if ( ! self::checkURL( $baseURL ) ) {
+                if ( $abort ) {
                     CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
+                } else {
+                    CRM_Core_Session::setStatus( 'HTTPS is not set up on this machine' );
+                    // admin should be the only one following this
+                    // since we dont want the user stuck in a bad place
+                    return;
                 }
             }
             CRM_Utils_System::redirect( $url );
