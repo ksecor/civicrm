@@ -231,10 +231,8 @@ class CRM_Utils_Token
             $value = null;
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
                 foreach ($loc[$token] as $index => $entity) {
-                    if ($entity['is_primary']) {
-                        $value = $entity[$token];
-                        break;
-                    }
+                    $value = $entity[$token];
+                    break;
                 }
             }
         }
