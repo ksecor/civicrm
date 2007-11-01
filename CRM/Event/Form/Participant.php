@@ -281,6 +281,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                           'optionLabel' => $level[1] );
             }
             
+            require_once 'CRM/Core/BAO/PriceField.php';
             foreach ( $eventLevel as $values ) {
                 $priceField        = new CRM_Core_BAO_PriceField( );
                 $priceField->label = $values['fieldName'];
