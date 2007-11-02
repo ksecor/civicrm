@@ -352,7 +352,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $eq->query("SELECT contact_id, email_id 
                     FROM I_$job_id 
                     ORDER BY contact_id, email_id");
-        
+
         /* Delete the temp table */
         $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
