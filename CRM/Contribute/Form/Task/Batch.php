@@ -96,6 +96,16 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         $this->addDefaultButtons( ts('Save') );
         $this->_fields  = array( );
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
+
+        // remove file type field and then limit fields
+        foreach ($this->_fields as $name => $field ) {
+            $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
+            if ( $type == 'File' ) {                        
+                $fileFieldExists = true;
+                unset($this->_fields[$name]);
+            }
+        }
+
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
         
         $this->addButtons( array(
@@ -114,11 +124,6 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         $fileFieldExists = false;
         foreach ($this->_contributionIds as $contributionId) {
             foreach ($this->_fields as $name => $field ) {
-                $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
-                if ( $type == 'File' ) {                        
-                    $fileFieldExists = true;
-                    unset($this->_fields[$name]);
-                }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contributionId );
             }
         }
