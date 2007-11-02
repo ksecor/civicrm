@@ -271,8 +271,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
 
         $dao = CRM_Core_DAO::executeQuery( $sql, $params );
 
-        $columnNames = $this->_search->columns( );
-        $columnNames = array_values( $columnNames );
+        $columns     = $this->_search->columns( );
+        $columnNames = array_values( $columns );
         $links       = self::links( );
         $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 

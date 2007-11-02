@@ -108,6 +108,9 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         parent::postProcess( );
     }
 
+    public function getTitle( ) {
+        return ts('Custom Search');
+    }
 }
 
 ?>

@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Contact/Form/Search/Interface.php';
+
 class CRM_Contact_Form_Search_Custom_Contribution implements CRM_Contact_Form_Search_Interface {
 
     protected $_formValues;
@@ -165,6 +166,8 @@ AND   c.is_test                = 0";
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
+
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
         if ( $includeContactIDs ) {
             CRM_Contact_BAO_SearchCustom::includeContactIDs( $where,
                                                              $this->_formValues );
@@ -190,7 +193,9 @@ AND   c.is_test                = 0";
             $sql .= " $groupBy ";
         }
         
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
         CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowCount, $sort );
+
         return $sql;
     }
 

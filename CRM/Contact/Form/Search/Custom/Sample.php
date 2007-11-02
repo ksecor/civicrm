@@ -136,6 +136,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
         if ( $includeContactIDs ) {
             CRM_Contact_BAO_SearchCustom::includeContactIDs( $where,
                                                              $this->_formValues );
@@ -161,6 +162,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
             $sql .= " $groupBy ";
         }
         
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
         CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowCount, $sort );
         return $sql;
     }

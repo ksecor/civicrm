@@ -240,7 +240,6 @@ class CRM_Contact_BAO_Export {
                 }
             }
             if ( $validRow ) {
-                //$contactDetails[$dao->contact_id] = $row;Commented because of CRM-1416
                 $contactDetails[] = $row;
             }
             $header = true;
@@ -251,6 +250,40 @@ class CRM_Contact_BAO_Export {
                 
         exit();
     }
+
+    function exportCustom( $customSearchClass, $formValues, $order ) {
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
+        eval( '$search = new ' . $customSearchClass . '( $formValues );' );
+
+        $includeContactIDs = false;
+        if ( $formValues['radio_ts'] == 'ts_sel' ) {
+            $includeContactIDs = true;
+        }
+
+        $params = array( );
+        $sql    = $search->all( $params, 0, 0, $order, $includeContactIDs );
+
+        $columns = $search->columns( );
+
+        $header = array_keys  ( $columns );
+        $fields = array_values( $columns );
+
+        $rows = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        while ( $dao->fetch( ) ) {
+            $row = array( );
+
+            foreach ( $fields as $field ) {
+                $row[$field] = $dao->$field;
+            }
+            $rows[] = $row;
+        }
+
+        require_once 'CRM/Core/Report/Excel.php';
+        CRM_Core_Report_Excel::writeCSVFile( self::getExportFileName( ), $header, $rows );
+        exit();
+    }
+
         
     /**
      * name of export file.
