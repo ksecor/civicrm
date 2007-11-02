@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-10-09 16:59-0700\n"
-"Last-Translator: Richard <onell.ibarra@gmail.com>\n"
+"PO-Revision-Date: 2007-10-30 09:25-0700\n"
+"Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -491,18 +491,16 @@ msgid "Settings - Payment Processor"
 msgstr "Ajustes - Procesador de pago"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "Site URL"
 msgstr "URLs del sitio"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Enter a valid URL"
 msgstr "Por Favor, introduce una URL válida."
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
-msgstr ""
+msgstr "URL de pago recurrente"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
@@ -510,21 +508,18 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
-#, fuzzy
 msgid "Payment Processor Type"
-msgstr "Procesador del Pago"
+msgstr "Proceso de pago"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
-#, fuzzy
 msgid "Billing Mode"
 msgstr "facturación"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "User Name"
-msgstr "Apellidos"
+msgstr "Nombre de usuario"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
@@ -554,7 +549,7 @@ msgstr "Búsqueda Avanzada"
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Contact Dashboard"
-msgstr "Etiquetas del Contacto"
+msgstr "Panel de contacto"
 
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
@@ -601,9 +596,8 @@ msgid "Configure"
 msgstr "Configurar"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Option Lists"
-msgstr "Opciones"
+msgstr "Lista de Opciones"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
@@ -910,9 +904,8 @@ msgid "Country"
 msgstr "País"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Delete Location"
-msgstr "Seleccionar localidad"
+msgstr "Borrar Localidad"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1206,7 +1199,6 @@ msgid "Record Activity for Contacts"
 msgstr "Historial de actividad para los contactos."
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/Contact/Task.php
-#, fuzzy
 msgid "Remove Contacts from Group"
 msgstr "Quitar Contactos de un Grupo"
 
@@ -1567,7 +1559,7 @@ msgstr "Importar Historial de Actividad"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
-msgstr "Buscar Constructor"
+msgstr "Constructor de búsqueda"
 
 #: CRM/Core/DAO/OptionValue.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Option.php templates/CRM/Custom/Page/Option.tpl
@@ -1586,8 +1578,9 @@ msgid "Payment Processor"
 msgstr "Procesador del Pago"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
+#, fuzzy
 msgid "Suffix for PHP clas name implementation"
-msgstr ""
+msgstr "Sufijo para la implementación del nombre clas PHP "
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
@@ -1600,7 +1593,7 @@ msgstr "Fax"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr "Paginación"
+msgstr "Busca"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
@@ -1656,34 +1649,29 @@ msgid "CiviCRM Profile Field"
 msgstr "Campo de Perfil CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Message Templates"
-msgstr "Seleccionar Plantilla"
+msgstr "Plantillas de mensaje"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Find Duplicate Contacts"
-msgstr "Guardar contacto duplicado"
+msgstr "Encontrar contactos duplicados"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Duplicate Contact Rules"
-msgstr "Guardar contacto duplicado"
+msgstr "Reglas de contacto duplicado"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Contact Matching"
-msgstr "Citas del contacto"
+msgstr "Coincidencias de contacto"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
-msgstr ""
+msgstr "Fijación de precios"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
-#, fuzzy
 msgid "Price Field"
-msgstr "Editar Campo"
+msgstr "Campo de precio"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
@@ -1710,9 +1698,8 @@ msgid "The attached file has been deleted."
 msgstr "El fichero anexo ha sido borrado."
 
 #: CRM/Core/Payment/GoogleIPN.php CRM/Core/Payment/PayPalIPN.php
-#, fuzzy
 msgid "Online Event Registration:"
-msgstr "Registro de Usuario"
+msgstr "Registro online de evento"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
@@ -1750,6 +1737,8 @@ msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters."
 msgstr ""
+"Por favor, introduzca un valor válido para este campo. Puede usar desde la "
+"a-z, A - Z, 1 - 9, espacios y caracteres de linea baja ( _ )."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -1792,7 +1781,6 @@ msgid "Option value cannot be empty"
 msgstr "El valor de la opción no puede estar vacío"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Please enter a valid money value."
 msgstr "Por Favor, introduce un valor de moneda válido."
 
@@ -1933,9 +1921,8 @@ msgid "Reason"
 msgstr "Razón"
 
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
-#, fuzzy
 msgid "Delete Price Set"
-msgstr "Borrar campo de perfil"
+msgstr "Borrar configuración de precios"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
@@ -2109,22 +2096,21 @@ msgstr ""
 "La llamada telefónica seleccionada ha sido eliminada satisfactoriamente."
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
-#, fuzzy
 msgid "Field"
-msgstr "Fichero"
+msgstr "Campo"
 
 #: CRM/Admin/Form/DedupeRules.php
-#, fuzzy
 msgid "- none -"
-msgstr "- cualquier pueblo -"
+msgstr "- ninguno -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
 msgstr "Tamaño"
 
 #: CRM/Admin/Form/DedupeRules.php
+#, fuzzy
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr ""
+msgstr "Límite del umbral para considerar los contactos como coincidentes."
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
@@ -2167,38 +2153,34 @@ msgstr "El tipo de localidad \"%1\" ha sido guardado."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Title"
-msgstr "Mensaje"
+msgstr "Título del Mensaje"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Subject"
-msgstr "Asunto"
+msgstr "Asunto del mensaje"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "Text Message"
 msgstr "Texto del Mensaje"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "HTML Message"
-msgstr "Mensaje de la Izquierda"
+msgstr "Mensaje en HTML"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "The Message Template \"%1\" has been saved."
 msgstr "La Etiqueta \"%1\" ha sido guardada."
 
 #: CRM/Admin/Form/OptionGroup.php
+#, fuzzy
 msgid "Selected option group has been deleted."
 msgstr "Han suprimido al grupo seleccionado de la opción."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "The Option Group \"%1\" has been saved."
-msgstr "Se ha ahorrado el grupo \"%1\" de la opción."
+msgstr "La opción de grupo \"%1\" se guardó"
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has been deleted."
@@ -2231,39 +2213,37 @@ msgstr "El valor de opción %1 ha sido grabado."
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
 msgid "Could not find payment processor meta information"
-msgstr "No se puede interpretar los valores de vuelta de la función"
+msgstr "No se puede encontrar la información del sistema de pago"
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor active?"
-msgstr "Ajustes - Procesador de pago"
+msgstr "¿Está este sistema de pago activo?"
+
+#: CRM/Admin/Form/PaymentProcessor.php
+msgid "Is this Payment Processor the default?"
+msgstr "¿Es este sistema de pago por defecto?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 #, fuzzy
-msgid "Is this Payment Processor the default?"
-msgstr "Ajustes - Procesador de pago"
-
-#: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
-msgstr ""
+msgstr "Debe de completar al menos la parte de la prueba o la sección en vivo."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the user_name specified"
-msgstr ""
+msgstr "Debe de, al menos, especificar el nombre de usuario"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Enter a positive integer"
-msgstr "Entero Positivo"
+msgstr "introduzca un Entero Positivo"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
 msgid "User Name Label"
-msgstr "Nombre de usuario - LIVE"
+msgstr "Etiqueta de nombre de usuario"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Password Label"
-msgstr ""
+msgstr "Etiqueta de contraseña"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -2277,66 +2257,65 @@ msgstr "Seleccionar Etiqueta"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
-msgstr ""
+msgstr "Nombre de PHP class"
+
+#: CRM/Admin/Form/PaymentProcessorType.php
+msgid "Live Site URL"
+msgstr "URL de la web"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
-msgid "Live Site URL"
-msgstr "URLs del sitio"
-
-#: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Recurring Payments URL"
-msgstr ""
+msgstr "URL de la web fija de pago"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Button URL"
-msgstr ""
+msgstr "Botón de la URL"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Site URL"
-msgstr "URLs del sitio"
+msgstr "URL de prueba"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Recurring Payments URL"
-msgstr ""
-
-#: CRM/Admin/Form/PaymentProcessorType.php
-msgid "Test Button URL"
-msgstr ""
+msgstr "URL de prueba de sistema de pago"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
+msgid "Test Button URL"
+msgstr "URL del botón de prueba"
+
+#: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type active?"
-msgstr "Ajustes - Procesador de pago"
+msgstr "¿Es este el sistema de pago activo?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
-msgstr ""
+msgstr "¿Es este el sistema de pago por defecto?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Does this Payment Processor Type support recurring donations?"
-msgstr ""
+msgstr "¿Tiene este sistema de pago soporte para donaciones permantentes?"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Settings - Addresses"
 msgstr "Ajustes - Direcciones"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Number of Locations"
-msgstr "Localizaciones Máximas"
+msgstr "Número de localizaciones"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
 msgstr ""
+"Las cuentas de localizaciones tienen que ser un número positivo integer "
+"(e.j.. 1 o 2 o ...)."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
-msgstr "Formato De la Etiqueta Que envía"
+msgstr "Formato de etiqueta de envio"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Display Format"
 msgstr "Mostrar Formato"
 
@@ -2355,25 +2334,26 @@ msgstr "URL del Servicio Web"
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Address Standardization features require PHP version 5 or greater."
 msgstr ""
+"Las características de dirección de Standarización necesita la versión PHP 5 "
+"o superior"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "You must provide values for all three Address Standarization fields."
 msgstr ""
+"Necesita que nos de valores para todas las direcciones en los campos de "
+"Estandarización"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Settings - Site Preferences"
-msgstr "Ajustes - Procesador de pago"
+msgstr "Ajustes - Configuración de la web"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Viewing Contacts"
 msgstr "Ver Contacto"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Editing Contacts"
-msgstr "Encontrar Contactos"
+msgstr "Editando Contactos"
 
 #: CRM/Admin/Form/RelationshipType.php
 msgid "Relationship Label-A to B"
@@ -2404,9 +2384,8 @@ msgid "<< Disable"
 msgstr "<< Deshabilitar"
 
 #: CRM/Admin/Form/Setting/Date.php
-#, fuzzy
 msgid "Settings - Date"
-msgstr "Ajustes - Eliminar errores"
+msgstr "Ajustes - Fecha"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Complete Date and Time"
@@ -2509,9 +2488,8 @@ msgid "Mailer Batch Limit"
 msgstr "Límite de envío"
 
 #: CRM/Admin/Form/Setting/Mail.php
-#, fuzzy
 msgid "Mailer Spool Limit"
-msgstr "Periocidad de envío"
+msgstr "Limite de envío"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
@@ -2527,7 +2505,7 @@ msgstr "Clave del proveedor"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Mapping features require PHP version 5 or greater"
-msgstr ""
+msgstr "Los requisitos para Mapping requiera la versión de PHP 5 o superior"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
@@ -2567,7 +2545,7 @@ msgstr "Plantillas Personalizadas"
 
 #: CRM/Admin/Form/Setting.php
 msgid "Your changes have been saved."
-msgstr "Tus cambios han sido guardados."
+msgstr "Tus cambios se guardaron."
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - SMTP Configuration"
@@ -2664,27 +2642,22 @@ msgid "Delete Mapping"
 msgstr "Borrar localización"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Are you sure you want to disable this message tempate?"
 msgstr "¿Estás seguro que quieres deshabilitar la plantilla del Mensaje?"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Edit Message Templates"
 msgstr "Editar Plantilla de Mensaje"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Disable Message Templates"
 msgstr "Deshabilitar plantillas de Mensaje"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Enable Message Templates"
-msgstr "Incorpore el nombre para grabar la plantilla del mensaje"
+msgstr "Permitir plantillas de mensaje."
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Delete Message Templates"
 msgstr "Eliminar Plantilla de Mensaje"
 
@@ -2768,60 +2741,50 @@ msgid "%1 - Option Values"
 msgstr "%1 - Valores"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Are you sure you want to disable this payment processor?"
 msgstr "¿Estás seguro que quieres deshabilitar el proceso de pago?"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "transaction pages."
 msgstr ""
 "Los usuarios ya no podrán seleccionar este valor cuando añadan o editen "
-"localidades en los contactos."
+"pàginas de transacción"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Edit Payment Processor"
-msgstr "Editar Procesador de Pago"
+msgstr "Editar Procedimiento de Pago"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Disable Payment Processor"
-msgstr "Deshabilitar Procesador del Pago"
+msgstr "Deshabilitar Procedimiento del Pago"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Enable Payment Processor"
-msgstr "Habilitar Procesador del Pago"
+msgstr "Habilitar Procediminento del Pago"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Delete Payment Processor"
-msgstr "Borrar Procesador del Pago"
+msgstr "Borrar Procedimiento del Pago"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Edit Payment ProcessorType"
-msgstr "Editar Procesador del tipo Pago"
+msgstr "Editar Procedimiento del tipo Pago"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Disable Payment ProcessorType"
-msgstr "Deshabilitar Procesador del Tipo Pago"
+msgstr "Deshabilitar Procedimiento del Tipo Pago"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Enable Payment ProcessorType"
-msgstr "Habilitar Procesador del Pago"
+msgstr "Habilitar Procedimiento del Pago"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Delete Payment ProcessorType"
-msgstr "Borrar Procesador de Pago"
+msgstr "Borrar Procedimiento de Pago"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
