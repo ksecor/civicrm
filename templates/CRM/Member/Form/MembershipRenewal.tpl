@@ -22,7 +22,7 @@
 	<dd class="html-adjust">{$form.record_contribution.html}</dd>
 	<div>
             <dt>&nbsp;&nbsp;</dt><dd class="html-adjust">
-		<fieldset id="recordContribution"><legend>{ts}Renewal Contribution{/ts}</legend>
+		<fieldset id="recordContribution"><legend>{ts}Renewal Payment and Receipt{/ts}</legend>
 		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
 	   	    <dt class="label">&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd>
 		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}</dd>

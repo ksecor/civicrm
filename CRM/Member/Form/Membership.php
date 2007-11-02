@@ -248,7 +248,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                    );
         
         $this->add('select', 'contribution_status_id',
-                   ts('Contribution Status'), 
+                   ts('Payment Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( )
                    );
 
