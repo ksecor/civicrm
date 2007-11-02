@@ -228,20 +228,36 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                                                   $this);
         $fid = CRM_Utils_Request::retrieve('fid', 'Positive',
                                            $this, false, 0);
-        
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'
+        if ($action & ( CRM_Core_Action::DELETE)) {
+            require_once 'CRM/Core/BAO/PriceSet.php';
+            $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $this->_sid );
+            if ( empty( $usedBy ) ) {
+                     // prompt to delete
+                    $session = & CRM_Core_Session::singleton();
+                    $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $fid));
+                    $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
+                    $controller->set('fid', $fid);
+                    $controller->setEmbedded( true );
+                    $controller->process( );
+                    $controller->run( );
+                
+            }
+            else {
+                    // add breadcrumb
+                require_once 'CRM/Core/BAO/PriceField.php';
+                    $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1' );
+                    CRM_Utils_System::appendBreadCrumb( ts('Price '),
+                                                        $url );
+                    $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceField::getTitle( $fid ) );
+                    $this->assign( 'usedBy', $usedBy );
+                }
+
+           
+          }
         
-        if ($action & CRM_Core_Action::DELETE) {
-            $session = & CRM_Core_Session::singleton();
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/admin/price/field', 'reset=1&action=browse&sid=' . $this->_sid));
-            $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_DeleteField',"Delete Price Field",'' );
-            $controller->set('fid', $fid);
-            $controller->setEmbedded( true );
-            $controller->process( );
-            $controller->run( );
-        }
-        
+
         if ($this->_sid) {
             $groupTitle = CRM_Core_BAO_PriceSet::getTitle($this->_sid);
             $this->assign('sid', $this->_sid);

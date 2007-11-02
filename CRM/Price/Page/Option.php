@@ -169,20 +169,36 @@ class CRM_Price_Page_Option extends CRM_Core_Page
      */
     function edit( $action )
     {
-        // create a simple controller for editing custom data
-        require_once 'CRM/Core/BAO/PriceField.php';
+        $oid = CRM_Utils_Request::retrieve('oid', 'Positive',
+                                           $this, false, 0);
+        $params=array();
+        $params['oid'] = $oid; 
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        $sid = CRM_Core_BAO_PriceSet::getSetId($params);
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Price_Form_Option', ts('Price Field Option'), $action );
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        $usedBy  =& CRM_Core_BAO_PriceSet::getUsedBy( $sid );   
         
         // set the userContext stack
         $session =& CRM_Core_Session::singleton( );
         $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin/price/field/option', 
                                                           'reset=1&action=browse&fid=' . $this->_fid ) );
-        
         $controller->set( 'fid', $this->_fid );
         $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
         $this->browse( );
+               
+        if ( $action &  CRM_Core_Action::DELETE ) {
+            // add breadcrumb 
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            $url = CRM_Utils_System::url( 'civicrm/admin/price/field/option', 'reset=1' );
+            CRM_Utils_System::appendBreadCrumb( ts('Price Option '),
+                                                $url );
+            $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_OptionValue::getTitle($oid) );
+            $this->assign( 'usedBy', $usedBy );
+        }
+        
     }
     
     /**
@@ -220,7 +236,6 @@ class CRM_Price_Page_Option extends CRM_Core_Page
         
         $oid = CRM_Utils_Request::retrieve( 'oid', 'Positive',
                                             $this, false, 0 );
-        
         // what action to take ?
         if ( $action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | 
                          CRM_Core_Action::VIEW   | CRM_Core_Action::DELETE ) ) {
