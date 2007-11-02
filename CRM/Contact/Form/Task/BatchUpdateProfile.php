@@ -112,16 +112,31 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
                                  )
                            );
         
-        $this->assign( 'fields', $this->_fields     );
+        
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'contactIds', $this->_contactIds );
         
+        $fileFieldExists = false;
         foreach ($this->_contactIds as $contactId) {
             foreach ($this->_fields as $name => $field ) {
+                $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
+                if ( $type == 'File' ) {                        
+                    $fileFieldExists = true;
+                    unset($this->_fields[$name]);
+                }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contactId );
             }
         }
         
+        $this->assign( 'fields', $this->_fields );
+
+        // don't set the status message when form is submitted.
+        $buttonName = $this->controller->getButtonName('submit');
+
+        if ( $fileFieldExists && $buttonName != '_qf_BatchUpdateProfile_next' ) {
+            CRM_Core_Session::setStatus( "FILE type field(s) in the selected profile are not supported for Batch Update and have been excluded." );
+        }
+
         $this->addDefaultButtons( ts( 'Update Contacts' ) );
     }
 
@@ -165,10 +180,10 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         $params = $this->exportValues( );
 
         $ufGroupId = $this->get( 'ufGroupId' );
-        foreach($params['field'] as $key => $value) {
+        foreach( $params['field'] as $key => $value ) {
             CRM_Contact_BAO_Contact::createProfileContact($value, $this->_fields, $key, null, $ufGroupId );
         }
-
+        
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }
