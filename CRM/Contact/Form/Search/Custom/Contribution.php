@@ -73,12 +73,7 @@ class CRM_Contact_Form_Search_Custom_Contribution implements CRM_Contact_Form_Se
 
     function count( &$queryParams ) {
         return $this->sql( $queryParams,
-                           'count(contact_a.id) as total' );
-    }
-
-    function alphabet( &$queryParams ) {
-        return $this->sql( $queryParams,
-                           'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
+                           'count(distinct contact_a.id) as total' );
     }
 
     function contactIDs( &$queryParams,
@@ -115,7 +110,7 @@ sum( c.total_amount )  as amount
         return "
 FROM       civicrm_contact      contact_a
 INNER JOIN civicrm_contribution c                ON c.contact_id       = contact_a.id
-LEFT  JOIN civicrm_address address               ON address.contact_id = contact_a.id
+LEFT  JOIN civicrm_address address               ON ( address.contact_id = contact_a.id AND address.is_primary = 1 )
 LEFT  JOIN civicrm_state_province state_province ON state_province.id  = address.state_province_id
 ";
     }
@@ -124,8 +119,7 @@ LEFT  JOIN civicrm_state_province state_province ON state_province.id  = address
                     $includeContactIDs = false ) {
         $where = "
       c.contribution_status_id = 1
-AND   c.is_test                = 0
-AND   address.is_primary       = 1";
+AND   c.is_test                = 0";
 
         $count  = 1;
         $clause = array( );

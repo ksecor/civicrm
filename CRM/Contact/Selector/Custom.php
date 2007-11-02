@@ -327,10 +327,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     }
 
     function &alphabetQuery( ) {
-        $params = array( );
-        $sql = $this->_search->alphabet( $params, 0, 0, null );
-
-        return CRM_Core_DAO::executeQuery( $sql, $params );
+        return CRM_Core_DAO::$_nullArray;
     }
 
     function &contactIDQuery( ) {

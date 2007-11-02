@@ -70,11 +70,6 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
                            'count(contact_a.id) as total' );
     }
 
-    function alphabet( &$queryParams ) {
-        return $this->sql( $queryParams,
-                           'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
-    }
-
     function contactIDs( &$queryParams,
                          $offset, $rowcount, $sort ) {
         $selectClause = "
@@ -105,18 +100,17 @@ state_province.name    as state_province
     function from( &$queryParams ) {
         return "
 FROM      civicrm_contact contact_a
-LEFT JOIN civicrm_address address ON address.contact_id = contact_a.id
-LEFT JOIN civicrm_email           ON civicrm_email.contact_id   = contact_a.id
+LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
+                                       address.is_primary       = 1 )
+LEFT JOIN civicrm_email           ON ( civicrm_email.contact_id = contact_a.id AND
+                                       civicrm_email.is_primary = 1 )
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
 ";
     }
 
     function where( &$queryParams,
                     $includeContactIDs = false ) {
-        $where = "
-      contact_a.contact_type   = 'Household'
-AND   address.is_primary       = 1
-AND   civicrm_email.is_primary = 1";
+        $where = "contact_a.contact_type   = 'Household'";
 
         $count  = 1;
         $clause = array( );

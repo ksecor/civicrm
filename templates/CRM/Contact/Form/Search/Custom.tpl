@@ -46,8 +46,6 @@
 
 {include file="CRM/common/pager.tpl" location="top"}
 
-{include file="CRM/common/pagerAToZ.tpl"}
-
 {strip}
 <table summary="{ts}Search results listings.{/ts}">
   <tr class="columnheader">

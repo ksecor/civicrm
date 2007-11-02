@@ -58,13 +58,6 @@ interface CRM_Contact_Form_Search_Interface {
     function count     ( &$queryParams );
 
     /**
-     * Dynamic alphabet set that match the current input parameters
-     * Used by alphabetic pager. If null is returned, the alpha pager
-     * is skipped
-     */
-    function alphabet  ( &$queryParams );
-
-    /**
      * List of contact ids that match the current input parameters
      * Used by different tasks. Will be also used to optimize the
      * 'all' query below to avoid excessive LEFT JOIN blowup
