@@ -29,7 +29,7 @@
     {/if}
 
      <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
-        <dd>{if $action eq 4} {$source_contact_value} {else}{$form.source_contact.html}{/if}</dd>
+        <dd>{if $action eq 4} {$source_contact_value} {/if}{$form.source_contact.html}</dd>
      </div>
     
     <dt>{$form.target_contact.label}</dt>
@@ -41,7 +41,7 @@
     </script>
     {/if}
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$target_contact_value} {else}{$form.target_contact.html}{/if}</dd>
+        <dd>{if $action eq 4} {$target_contact_value}{/if}{$form.target_contact.html}</dd>
     </div>
 
     <dt>{$form.assignee_contact.label}</dt>
@@ -53,7 +53,7 @@
     </script>
     {/if}  
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$assignee_contact_value} {else}{$form.assignee_contact.html}{/if}        </dd>
+        <dd>{if $action eq 4} {$assignee_contact_value}{/if}{$form.assignee_contact.html}</dd>
     </div>
     {*
     <dt>{$form.case_subject.label}</dt>
@@ -77,11 +77,8 @@
         <dl class="html-adjust">
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
-        {if $action eq 4}
-            <dt>{$form.activity_date_time.label}</dt><dd>{$activity_date_time|crmDate}</dd>
-        {else}
-            <dt>{$form.activity_date_time.label}</dt>
-            <dd>{$form.activity_date_time.html}</dd>
+	<dt>{$form.activity_date_time.label}</dt><dd>{$form.activity_date_time.html | crmDate } </dd>
+        {if $action neq 4}
             <dt>&nbsp;</dt>
             <dd class="description">
                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_otheractivity_1}
