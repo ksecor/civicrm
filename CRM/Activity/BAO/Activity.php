@@ -240,7 +240,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $target =& new CRM_Activity_BAO_ActivityTarget();
 
             $targetParams = array( 'activity_id'         => $activityId,
-                                   'assignee_contact_id' => $params['target_contact_id'] );
+                                   'target_contact_id' => $params['target_contact_id'] );
             
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
                 $target->activity_id = $activityId;
@@ -257,14 +257,16 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }
 
-        // write to changelog before transation is committed/rolled back (and prepare status to display)
-        if( $operation === 'create' ) {
-            $logMsg = "Activity created for ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
-        } elseif( $operation === 'update' ) {
+        // write to changelog before transation is committed/rolled
+        // back (and prepare status to display)
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
             $logMsg = "Activity (id: {$this->id} ) updated with ";
             $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
+        } else {
+            $logMsg = "Activity created for ";
+            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         }
+        
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
         $this->_logActivityAction( $result, $logMsg );
 
