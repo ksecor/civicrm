@@ -48,14 +48,15 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
 
         list( $this->_customSearchID,
               $this->_customSearchClass,
-              $this->_formValues ) = CRM_Contact_BAO_SearchCustom::details( $csID, $ssID, $gID );
+              $formValues ) = CRM_Contact_BAO_SearchCustom::details( $csID, $ssID, $gID );
         
         if (! $this->_customSearchID ) {
             CRM_Core_Error::fatal( 'Could not get details for custom search' );
         }
 
-        // instantiate the new class
-        eval( '$this->_customClass = new ' . $this->_customSearchClass . '( CRM_Core_DAO::$_nullArray );' );
+        if ( ! empty( $formValues ) ) {
+            $this->_formValues = $formValues;
+        }
 
         // use the custom selector
         require_once 'CRM/Contact/Selector/Custom.php';
@@ -65,6 +66,10 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         $this->set( 'customSearchClass', $this->_customSearchClass );
 
         parent::preProcess( );
+
+        // instantiate the new class
+        eval( '$this->_customClass = new ' . $this->_customSearchClass . '( $this->_formValues );' );
+
     }
 
     function setDefaultValues( ) {

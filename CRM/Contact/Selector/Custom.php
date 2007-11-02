@@ -140,6 +140,10 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
                           $searchChildGroups = true ) {
+
+        $this->_formValues = $formValues;
+        $this->_includeContactIds = $includeContactIds;
+
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
         eval( '$this->_search = new ' . $customSearchClass . '( $formValues );' );
     }//end of constructor
@@ -254,20 +258,16 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      */
 
     function &getRows($action, $offset, $rowCount, $sort, $output = null) {
-        $config =& CRM_Core_Config::singleton( );
 
-
-        $params = array( );
-        $sql = $this->_search->all( $params, $offset, $rowCount, $sort );
-        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
-
+        $includeContactIDs = false;
         if ( ( $output == CRM_Core_Selector_Controller::EXPORT || 
                $output == CRM_Core_Selector_Controller::SCREEN ) &&
              $this->_formValues['radio_ts'] == 'ts_sel' ) {
-            CRM_Contact_BAO_SearchCustom::includeContactIDs( $sql, $this->_formValues );
+            $includeContactIDs = true;
         }
 
-        CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowcount, $sort );
+        $params = array( );
+        $sql = $this->_search->all( $params, $offset, $rowCount, $sort, $includeContactIDs );
 
         $dao = CRM_Core_DAO::executeQuery( $sql, $params );
 
@@ -329,7 +329,6 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     function &alphabetQuery( ) {
         $params = array( );
         $sql = $this->_search->alphabet( $params, 0, 0, null );
-        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
     }
@@ -337,7 +336,6 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     function &contactIDQuery( ) {
         $params = array( );
         $sql = $this->_search->contactIDs( $params );
-        CRM_Contact_BAO_SearchCustom::addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::executeQuery( $sql, $params );
     }

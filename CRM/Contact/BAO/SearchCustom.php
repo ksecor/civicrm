@@ -114,7 +114,7 @@ class CRM_Contact_BAO_SearchCustom {
         $params = array( );
         $from  = $customClass->from ( $params );
         $where = $customClass->where( $params );
-        self::addDomainClause( $where, $params, false );
+        self::addDomainClause( $where, $params );
 
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
@@ -156,15 +156,12 @@ class CRM_Contact_BAO_SearchCustom {
         }
     }
 
-    static function addDomainClause( &$sql, &$params, $validate = true ) {
+    static function addDomainClause( &$sql, &$params ) {
         $max = count( $params ) + 1;
         $sql .= " AND contact_a.domain_id = %{$max}";
         $params[$max] = array( CRM_Core_Config::domainID( ),
                                'Integer' );
 
-        if ( $validate ) {
-            self::validateUserSQL( $sql );
-        }
     }
 
     function includeContactIDs( &$sql, &$formValues ) {
@@ -178,12 +175,12 @@ class CRM_Contact_BAO_SearchCustom {
         
         if ( ! empty( $contactIDs ) ) {
             $contactIDs = implode( ', ', $contactIDs );
-            $sql .= " AND contact_a.if IN ( $contactIDs )";
+            $sql .= " AND contact_a.id IN ( $contactIDs )";
         }
     }
 
     static function addSortOffset( &$sql,
-                            $offset, $rowCount, $sort ) {
+                                   $offset, $rowCount, $sort ) {
         if ( ! empty( $sort ) ) {
             if ( is_string( $sort ) ) {
                 $sql .= " ORDER BY $sort ";
