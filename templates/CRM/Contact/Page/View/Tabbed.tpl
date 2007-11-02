@@ -3,9 +3,9 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 
-    <div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 1600px;" >
+<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 1600px;" >
 
-<div id="summary" dojoType="dijit.layout.ContentPane" title="Summary" selected="true" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
+<div id="summary" dojoType="dijit.layout.ContentPane" title="Summary" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
 
 {* View Contact Summary *}
 <div id="contact-name" class="section-hidden section-hidden-border">
@@ -180,7 +180,8 @@
 </div>
 
 {foreach from=$allTabs key=tabName item=tabValue}
-  <div id="{$tabValue.id}" dojoType="dijit.layout.ContentPane" href="{$tabValue.url}" title="{$tabValue.title}" class ="tundra"></div>
+  <div id="{$tabValue.id}" dojoType="dijit.layout.ContentPane" href="{$tabValue.url}" title="{$tabValue.title}" 
+class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} ></div>
 {/foreach}
 </div>
 
