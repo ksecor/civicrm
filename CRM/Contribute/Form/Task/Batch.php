@@ -107,16 +107,31 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                                  )
                            );
         
-        $this->assign( 'fields', $this->_fields     );
+        
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'contributionIds', $this->_contributionIds );
        
+        $fileFieldExists = false;
         foreach ($this->_contributionIds as $contributionId) {
             foreach ($this->_fields as $name => $field ) {
+                $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
+                if ( $type == 'File' ) {                        
+                    $fileFieldExists = true;
+                    unset($this->_fields[$name]);
+                }
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $contributionId );
             }
         }
        
+        $this->assign( 'fields', $this->_fields     );
+
+        // don't set the status message when form is submitted.
+        $buttonName = $this->controller->getButtonName('submit');
+
+        if ( $fileFieldExists && $buttonName != '_qf_Batch_next' ) {
+            CRM_Core_Session::setStatus( "FILE type field(s) in the selected profile are not supported for Batch Update and have been excluded." );
+        }
+
         $this->addDefaultButtons( ts( 'Update Contributions' ) );
     }
 
