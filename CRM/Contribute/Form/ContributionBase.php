@@ -386,7 +386,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) {
+    function buildCustom( $id, $name ) 
+    {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
@@ -403,7 +404,8 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                                      'non_deductible_amount'  => 1,
                                      'total_amount'           => 1,
                                      'amount_level'           => 1,
-                                     'contribution_status_id' => 1
+                                     'contribution_status_id' => 1,
+                                     'membership_type_id'     => 1
                                      );
 
             if ( $contactID ) {
