@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-07-25 01:37+0200\n"
-"Last-Translator: Claudiu Cristea <claudiu@cristea.info>\n"
+"PO-Revision-Date: 2007-11-01 06:15-0700\n"
+"Last-Translator: tavi toporjinschi <vasike@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || ((n%100) > 0 && (n%"
-"100) < 20)) ? 1 : 2);\n"
-"X-Generator: Pootle 1.0.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || ((n%100) > 0 && "
+"(n%100) < 20)) ? 1 : 2);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -494,7 +494,7 @@ msgstr "Configuraţie - Procesor plăţi"
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #, fuzzy
 msgid "Site URL"
-msgstr "URL site "
+msgstr "URL Sit "
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
@@ -507,7 +507,7 @@ msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Button URL"
-msgstr ""
+msgstr "URL Buton"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
@@ -530,12 +530,12 @@ msgstr "Nume"
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
 msgid "Password"
-msgstr ""
+msgstr "Parolă"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Signature"
-msgstr ""
+msgstr "Semnătură"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 msgid "Address Fields"
@@ -635,7 +635,7 @@ msgstr "Căi Fişier Sistem"
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Site URLs"
-msgstr "URL site "
+msgstr "URL-uri sit"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
@@ -910,9 +910,8 @@ msgid "Country"
 msgstr "Ţara"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Delete Location"
-msgstr "Selectaţi locaţia"
+msgstr "Şterge locaţia"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -928,7 +927,7 @@ msgstr "%1 nou"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
 msgid "Privacy"
-msgstr "Confin"
+msgstr "Confidenţialitate"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Profile/Form/ForwardMailing.php
@@ -1424,9 +1423,8 @@ msgstr ""
 "administratorul sitului dacă aveţi nevoie de asistenţă."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Type"
-msgstr "Membru"
+msgstr "Tip Membru"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #, fuzzy
@@ -1464,7 +1462,7 @@ msgstr "CiviMail"
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
-msgstr "Module"
+msgstr "Modul"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1515,7 +1513,7 @@ msgstr "Selectează"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
-msgstr "Mult-Selecţie"
+msgstr "Selecţie Multiplă"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
@@ -1541,7 +1539,7 @@ msgstr "Selectează Ţară"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/DAO/UFGroup.php
 msgid "Collapse Display"
-msgstr "Compactează Afişaj"
+msgstr "Pliază Afişaj"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
@@ -1553,7 +1551,7 @@ msgstr "Inline"
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
 msgid "Sent Date"
-msgstr "Data Trimitere"
+msgstr "Data Trimiterii"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
@@ -1655,19 +1653,16 @@ msgid "CiviCRM Profile Field"
 msgstr "CiviCRM Câmp Profil"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Message Templates"
-msgstr "Selectează şablon"
+msgstr "Şabloane pentru Mesaj"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Find Duplicate Contacts"
-msgstr "Pentru contacte duplicate"
+msgstr "Gaseşte contacte duplicate"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Duplicate Contact Rules"
-msgstr "Pentru contacte duplicate"
+msgstr "Reguli contacte duplicate"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 #, fuzzy
@@ -1676,17 +1671,16 @@ msgstr "Întâlniri contact"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php
 msgid "Price Sets"
-msgstr ""
+msgstr "Setări Preţ"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Form/Field.tpl
-#, fuzzy
 msgid "Price Field"
-msgstr "Editare câmp"
+msgstr "Câmp Preţ"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Setare Preţ"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -1709,9 +1703,8 @@ msgid "The attached file has been deleted."
 msgstr "Fişierul ataşat a fost şters."
 
 #: CRM/Core/Payment/GoogleIPN.php CRM/Core/Payment/PayPalIPN.php
-#, fuzzy
 msgid "Online Event Registration:"
-msgstr "Înregistrare eveniment nou"
+msgstr "Înregistrare Eveniment On-line:"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 #, fuzzy
@@ -1749,6 +1742,8 @@ msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters."
 msgstr ""
+"Vă rugăm introduceţi o valoare validă pentru acest câmp. Puteţi utiliza a - "
+"z, A - Z, 1 - 9, spaţii sau caractere (_)."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2162,30 +2157,25 @@ msgstr "Tipul de locaţie \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Title"
-msgstr "Mesaj"
+msgstr "Titlu Mesaj"
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
-#, fuzzy
 msgid "Message Subject"
-msgstr "Subiect"
+msgstr "Subiect Mesaj"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "Text Message"
-msgstr "Mesaj Rămas"
+msgstr "Text Mesaj"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "HTML Message"
-msgstr "Mesaj Rămas"
+msgstr "Mesajul în format HTML"
 
 #: CRM/Admin/Form/MessageTemplates.php
-#, fuzzy
 msgid "The Message Template \"%1\" has been saved."
-msgstr "Eticheta \"%1\" a fost salvată."
+msgstr "Şablonul de Mesaj \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "Selected option group has been deleted."
@@ -2193,7 +2183,7 @@ msgstr "Grupul de opţiuni selectat a fost şters."
 
 #: CRM/Admin/Form/OptionGroup.php
 msgid "The Option Group \"%1\" has been saved."
-msgstr "Frupul de Opţiuni \"%1\" a fost salvat."
+msgstr "Grupul de Opţiuni \"%1\" a fost salvat."
 
 #: CRM/Admin/Form/Options.php
 msgid "Selected %1 type has been deleted."
@@ -2228,27 +2218,24 @@ msgid "Could not find payment processor meta information"
 msgstr ""
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor active?"
-msgstr "Configuraţie - Procesor plăţi"
+msgstr "Este activ acest Procesor plăţi?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
-#, fuzzy
 msgid "Is this Payment Processor the default?"
-msgstr "Configuraţie - Procesor plăţi"
+msgstr "Este procesorul implicit acest Procesor plăţi?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
-msgstr ""
+msgstr "Trebuie să aveţi completată macar sectiunea test sau secţiunea live."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the user_name specified"
-msgstr ""
+msgstr "Trebuie să aveţi macar user_name specificat."
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Enter a positive integer"
-msgstr "Intreg pozitiv"
+msgstr "Introduceţi un Intreg pozitiv"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 #, fuzzy
