@@ -499,7 +499,6 @@ WHERE  civicrm_participant.id = {$participantId}
         self::lookupValue($defaults, 'event', CRM_Event_PseudoConstant::event(), $reverse);
         self::lookupValue($defaults, 'status', CRM_Event_PseudoConstant::participantStatus(), $reverse);
         self::lookupValue($defaults, 'role', CRM_Event_PseudoConstant::participantRole(), $reverse);
-       
     }
 
     /**

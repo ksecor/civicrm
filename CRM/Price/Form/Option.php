@@ -92,7 +92,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             CRM_Core_DAO::commonRetrieve( 'CRM_Core_DAO_OptionValue', 
                                           $params, $defaults );
         }
-        
+       
         require_once 'CRM/Core/DAO.php';
         require_once 'CRM/Utils/Weight.php';
         
@@ -141,23 +141,10 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             
             // label
             $this->add('text', 'label', ts('Option Label'),null, true);
-            
-            $this->addRule( 'label',
-                        ts( "There is an entry with the same label" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'label' ) );
-                        
+             
+            // value
             $this->add('text', 'value', ts('Option Value'),null, true);
-            $this->addRule( 'value',
-                        ts( "There is an entry with the same value" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'value' ) );
-        
-            
+                      
             // the above value is used directly by QF, so the value has to be have a rule
             // please check with Lobo before u comment this
             $this->addRule('value', ts('Please enter a monetary value for this field.'), 'money');
@@ -190,8 +177,58 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                   );
             }
         }
-    }
         
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $this->addRule( 'label',
+                            ts( "There is an entry with the same label" ),
+                            'objectExists',
+                            array( 'CRM_Core_DAO_OptionValue',
+                                   $optionGroup,
+                                   'label' ) );
+            
+            $this->addRule( 'value',
+                            ts( "There is an entry with the same value" ),
+                            'objectExists',
+                            array( 'CRM_Core_DAO_OptionValue',
+                                   $optionGroup,
+                                   'value' ) );
+        } elseif ( $this->_action & CRM_Core_Action::UPDATE ) {
+            $this->addFormRule( array( 'CRM_Price_Form_Option', 'formRule' ), $this );
+        }
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param array  $fields   (referance) posted values of the form
+     *
+     * @return array    if errors then list of errors to be posted back to the form,
+     *                  true otherwise
+     * @static
+     * @access public
+     */
+
+    static function formRule( &$fields, &$files, &$form ) 
+    {
+        $errors       = array( );
+        $customOption = array( );
+        $groupParams  = array( 'name' => "civicrm_price_field.amount.{$form->_fid}" );
+        
+        require_once 'CRM/Core/OptionValue.php';
+        CRM_Core_OptionValue::getValues( $groupParams, $customOption );
+        
+        foreach( $customOption as $key => $value ) {
+            if( !( $value['id'] == $form->_oid ) && ( $value['value'] == $fields['value'] ) ) {
+                $errors['value'] = ts( 'Duplicate option value' );  
+            }
+            if( !( $value['id']==$form->_oid ) && ( $value['label'] == $fields['label'] ) ) {
+                $errors['label'] = ts( 'Duplicate option label' );  
+            }
+        }
+        
+        return empty($errors) ? true : $errors;
+    }
+    
     /**
      * Process the form
      * 
@@ -230,7 +267,6 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         
         require_once 'CRM/Core/BAO/OptionValue.php';
         $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids );
-        
         CRM_Core_Session::setStatus( ts( 'The option "%1" has been saved', 
                                          array( 1 => $optoinValue->label ) ) );
     }

@@ -77,12 +77,12 @@ class CRM_Friend_Form extends CRM_Core_Form
         $this->_entityId = CRM_Utils_Request::retrieve( 'eid', 'Positive', $this );       
         
         $page = CRM_Utils_Request::retrieve( 'page', 'String', $this );
-               
+                      
         if ( $page == 'contribution' ) {
-            $this->_entityTable == 'civicrm_contribution_page';
+            $this->_entityTable = 'civicrm_contribution_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_entityId, 'title');
         } elseif ( $page == 'event' ) {
-            $this->_entityTable == 'civicrm_event_page';
+            $this->_entityTable = 'civicrm_event_page';
             $this->_title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_entityId, 'title' );            
         }
        
@@ -130,7 +130,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         // Details of User        
         $this->add('text', 'from_name', ts('Your Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name'), true);
         $this->add('text', 'from_email', ts('Your Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->add('textarea', 'suggested_message', ts('Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);         
+        $this->add('textarea', 'suggested_message', ts('Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);         
         
         $friend = array();
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {           
@@ -165,8 +165,9 @@ class CRM_Friend_Form extends CRM_Core_Form
      */
     public function formRule( &$values ) 
     {
-        $errorMsg = array( ); 
 
+        $errorMsg = array( ); 
+        
         $valid = false;
         foreach ( $values['friend'] as $key => $val ) {
             if ( trim( $val['first_name'] ) || trim( $val['last_name'] ) || trim( $val['email'] ) ) {
@@ -183,13 +184,13 @@ class CRM_Friend_Form extends CRM_Core_Form
                 if ( ! trim( $val['email'] ) ) {
                     $errorMsg["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
                 }
-            }
+            } 
         }
         
         if ( ! $valid ) {
             $errorMsg['friend[1][first_name]'] = "Enter atleast one friend information.";
         }
-
+        
         return empty($errorMsg) ? true : $errorMsg;
     }
        

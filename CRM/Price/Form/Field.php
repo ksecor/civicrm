@@ -281,59 +281,59 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        
-        if( $fields['html_type'] == 'Text' ) {
-            if( $fields['price'] ==  NULL ) {
-                $errors['price'] =   ts( 'Price is a required field' );
-            }
-        } else {
-            $countemptyrows = 0;
-            
-            for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
-                
-                $noLabel = $noValue = 1;
-                if ( !empty( $fields['option_label'][$index] ) ) {
-                    $noLabel    =  0;
-                    $valueIndex =  CRM_Utils_Array::key( $fields['option_label'][$index],
-                                                         $fields['option_label'] );
-                    
-                    if( ( ! ( $valueIndex === false ) ) && 
-                        ( ! ( $valueIndex == $index ) ) ){
-                        $errors["option_label[{$index}]"] = ts( 'Duplicate label value' );      
-                    }
-                }
-                
-                if ( !empty( $fields['option_value'][$index] ) ) {
-                    $noValue    =  0;
-                    $valueIndex =  CRM_Utils_Array::key( $fields['option_value'][$index],
-                                                         $fields['option_value'] );
-                    
-                    if( ( ! ( $valueIndex === false ) ) && 
-                        ( ! ( $valueIndex == $index ) ) ){
-                        $errors["option_value[{$index}]"] = ts( 'Duplicate value' );      
-                    }
-                }
-                
-                if ( ( $noLabel && !$noValue ) ) { 
-                    $errors["option_label[{$index}]"] = ts( 'Label can not be empty' );      
-                }
-                
-                if ( ( ! $noLabel && $noValue ) ) {
-                    $errors["option_value[{$index}]"] = ts( 'Value can not be empty' );
-                }
-                if ( $noLabel && $noValue ) {
-                    $countemptyrows++; 
-                }
-            }
-            
-            if ( $countemptyrows == 11 ) {
-                $errors["option_label[1]"] = 
-                    $errors["option_value[1]"] = 
-                    ts( 'Label and value can not be empty' );    
-            }
-        }
-        
+             
         if ( $form->_action & CRM_Core_Action::ADD ) {
+            
+            if( $fields['html_type'] == 'Text' ) {
+                if( $fields['price'] ==  NULL ) {
+                    $errors['price'] =   ts( 'Price is a required field' );
+                }
+            } else {
+                $countemptyrows = 0;
+            
+                for ( $index = ( self::NUM_OPTION ) ; $index > 0 ; $index-- ) { 
+                    
+                    $noLabel = $noValue = 1;
+                    if ( !empty( $fields['option_label'][$index] ) ) {
+                        $noLabel    =  0;
+                        $valueIndex =  CRM_Utils_Array::key( $fields['option_label'][$index],
+                                                             $fields['option_label'] );
+                        
+                        if( ( ! ( $valueIndex === false ) ) && 
+                            ( ! ( $valueIndex == $index ) ) ){
+                            $errors["option_label[{$index}]"] = ts( 'Duplicate label value' );      
+                        }
+                    }
+                    
+                    if ( !empty( $fields['option_value'][$index] ) ) {
+                        $noValue    =  0;
+                        $valueIndex =  CRM_Utils_Array::key( $fields['option_value'][$index],
+                                                             $fields['option_value'] );
+                        
+                        if( ( ! ( $valueIndex === false ) ) && 
+                            ( ! ( $valueIndex == $index ) ) ){
+                            $errors["option_value[{$index}]"] = ts( 'Duplicate value' );      
+                        }
+                    }
+                    
+                    if ( ( $noLabel && !$noValue ) ) { 
+                        $errors["option_label[{$index}]"] = ts( 'Label can not be empty' );      
+                    }
+                    
+                    if ( ( ! $noLabel && $noValue ) ) {
+                        $errors["option_value[{$index}]"] = ts( 'Value can not be empty' );
+                    }
+                    if ( $noLabel && $noValue ) {
+                        $countemptyrows++; 
+                    }
+                }
+                
+                if ( $countemptyrows == 11 ) {
+                    $errors["option_label[1]"] = 
+                        $errors["option_value[1]"] = 
+                        ts( 'Label and value can not be empty' );    
+                }
+            }
             
             $_showHide = & new CRM_Core_ShowHideBlocks('','');
             

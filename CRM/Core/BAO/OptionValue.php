@@ -171,6 +171,23 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         }
         return $description;
     }
+
+    /**
+     * Get the Option Value title.
+     *
+     * @param int $id id of Option Value
+     * @return string title 
+     *
+     * @access public
+     * @static
+     *
+     */
+
+    public static function getTitle( $id )
+     {
+         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', $id, 'label' );
+     }
+
     
     /**
      * updates contacts affected by the option value passed.

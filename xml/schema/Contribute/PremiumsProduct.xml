@@ -49,5 +49,14 @@
       <type>int unsigned</type> 
       <required>true</required> 
       <add>1.4</add> 
+      <drop>2.0</drop>
   </field> 
+  <field> 
+      <name>weight</name> 
+      <title>Weight</title>
+      <type>int unsigned</type> 
+      <required>true</required> 
+      <add>2.0</add> 
+  </field> 
+
 </table>

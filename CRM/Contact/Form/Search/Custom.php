@@ -40,28 +40,23 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
     protected $_customClass = null;
 
     public function preProcess( ) {
-        $this->_customSearchID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this, true );
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
+
+        $csID = CRM_Utils_Request::retrieve( 'csid', 'Integer', $this );
+        $ssID = CRM_Utils_Request::retrieve( 'ssID', 'Integer', $this );
+        $gID  = CRM_Utils_Request::retrieve( 'gid' , 'Integer', $this );
+
+        list( $this->_customSearchID,
+              $this->_customSearchClass,
+              $formValues ) = CRM_Contact_BAO_SearchCustom::details( $csID, $ssID, $gID );
         
-        // check that the csid exists in the db along with the right file
-        // and implements the right interface
-        require_once 'CRM/Core/OptionGroup.php';
-        $this->_customSearchClass = CRM_Core_OptionGroup::getLabel( 'custom_search',
-                                                                    $this->_customSearchID );
-        if ( ! $this->_customSearchClass ) {
-            CRM_Core_Error::fatal( 'Could not find implementation file record for custom search' );
+        if (! $this->_customSearchID ) {
+            CRM_Core_Error::fatal( 'Could not get details for custom search' );
         }
 
-        $customSearchFile = str_replace( '_',
-                                         DIRECTORY_SEPARATOR,
-                                         $this->_customSearchClass ) . '.php';
-        
-        $error = include_once( $customSearchFile );
-        if ( $error == false ) {
-            CRM_Core_Error::fatal( 'Could not find implementation file for custom search' );
+        if ( ! empty( $formValues ) ) {
+            $this->_formValues = $formValues;
         }
-
-        // instantiate the new class
-        eval( '$this->_customClass = new ' . $this->_customSearchClass . '( CRM_Core_DAO::$_nullArray );' );
 
         // use the custom selector
         require_once 'CRM/Contact/Selector/Custom.php';
@@ -71,6 +66,14 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         $this->set( 'customSearchClass', $this->_customSearchClass );
 
         parent::preProcess( );
+
+        // instantiate the new class
+        eval( '$this->_customClass = new ' . $this->_customSearchClass . '( $this->_formValues );' );
+
+    }
+
+    function setDefaultValues( ) {
+        return $this->_formValues;
     }
 
     function buildQuickForm( ) {
@@ -105,6 +108,9 @@ class CRM_Contact_Form_Search_Custom extends CRM_Contact_Form_Search {
         parent::postProcess( );
     }
 
+    public function getTitle( ) {
+        return ts('Custom Search');
+    }
 }
 
 ?>

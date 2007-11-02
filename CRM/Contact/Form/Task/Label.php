@@ -229,6 +229,17 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         foreach ($rows as $id => $row) {
             $row['id'] = $id;
             $formatted = CRM_Utils_Address::format( $row, 'mailing_format', null, true );
+            // CRM-2211: UFPDF doesn't have bidi support; use the PECL fribidi package to fix it.
+            // On Ubuntu (possibly Debian?) be aware of http://pecl.php.net/bugs/bug.php?id=12366
+            // Due to FriBidi peculiarities, this can't be called on
+            // a multi-line string, hence the explode+implode approach.
+            if (function_exists('fribidi_log2vis')) {
+                $lines = explode("\n", $formatted);
+                foreach($lines as $i => $line) {
+                    $lines[$i] = fribidi_log2vis($line, FRIBIDI_AUTO, FRIBIDI_CHARSET_UTF8);
+                }
+                $formatted = implode("\n", $lines);
+            }
             $rows[$id]= array( $formatted );
         }
 

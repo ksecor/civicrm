@@ -41,8 +41,6 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
     protected $_columns;
 
     function __construct( &$formValues ) {
-        CRM_Core_Error::debug_stacktrace( );
-        CRM_Core_Error::debug_var( 'fv', $formValues );
         $this->_formValues =& $formValues;
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
@@ -72,23 +70,20 @@ class CRM_Contact_Form_Search_Custom_Sample implements CRM_Contact_Form_Search_I
                            'count(contact_a.id) as total' );
     }
 
-    function alphabet( &$queryParams ) {
-        return $this->sql( $queryParams,
-                           'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
-    }
-
     function contactIDs( &$queryParams,
                          $offset, $rowcount, $sort ) {
         $selectClause = "
 contact_a.id           as contact_id
 ";
         return $this->sql( $queryParams,
-                           $selectClause );
+                           $selectClause,
+                           $offset, $rowcount, $sort );
 
     }
 
     function all( &$queryParams,
-                  $offset, $rowcount, $sort ) {
+                  $offset, $rowcount, $sort,
+                  $includeContactIDs = false ) {
         $selectClause = "
 contact_a.id           as contact_id  ,
 contact_a.contact_type as contact_type,
@@ -96,21 +91,26 @@ contact_a.sort_name    as sort_name,
 state_province.name    as state_province
 ";
         return $this->sql( $queryParams,
-                           $selectClause );
+                           $selectClause,
+                           $offset, $rowcount, $sort,
+                           $includeContactIDs, null );
 
     }
-
-
-
-    function sql( &$queryParams,
-                  $selectClause ) {
-
-        $sql = "
-SELECT    $selectClause
+    
+    function from( &$queryParams ) {
+        return "
 FROM      civicrm_contact contact_a
-LEFT JOIN civicrm_address address ON address.contact_id = contact_a.id
+LEFT JOIN civicrm_address address ON ( address.contact_id       = contact_a.id AND
+                                       address.is_primary       = 1 )
+LEFT JOIN civicrm_email           ON ( civicrm_email.contact_id = contact_a.id AND
+                                       civicrm_email.is_primary = 1 )
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
- WHERE contact_a.contact_type = 'Household'";
+";
+    }
+
+    function where( &$queryParams,
+                    $includeContactIDs = false ) {
+        $where = "contact_a.contact_type   = 'Household'";
 
         $count  = 1;
         $clause = array( );
@@ -133,9 +133,37 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
         }
 
         if ( ! empty( $clause ) ) {
-            $sql .= ' AND ' . implode( ' AND ', $clause );
+            $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
+        if ( $includeContactIDs ) {
+            CRM_Contact_BAO_SearchCustom::includeContactIDs( $where,
+                                                             $this->_formValues );
+        }
+
+        CRM_Contact_BAO_SearchCustom::addDomainClause( $where, $queryParams );
+        return $where;
+    }
+
+    function sql( &$queryParams,
+                  $selectClause,
+                  $offset = 0, $rowCount = 0, $sort = null,
+                  $includeContactIDs = false,
+                  $groupBy = null ) {
+
+        $sql =
+            "SELECT $selectClause "     .
+            self::from ( $queryParams ) .
+            " WHERE "                   .
+            self::where( $queryParams, $includeContactIDs ) ;
+
+        if ( $groupBy ) {
+            $sql .= " $groupBy ";
+        }
+        
+        require_once 'CRM/Contact/BAO/SearchCustom.php';
+        CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowCount, $sort );
         return $sql;
     }
 

@@ -24,6 +24,7 @@
         <name>job_id</name>
         <table>civicrm_mailing_job</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>email_id</name>
@@ -35,6 +36,7 @@
         <name>email_id</name>
         <table>civicrm_email</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>contact_id</name>
@@ -46,6 +48,7 @@
         <name>contact_id</name>
         <table>civicrm_contact</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>hash</name>

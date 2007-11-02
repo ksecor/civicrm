@@ -66,8 +66,10 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
             $values = $this->controller->exportValues( 'Advanced' ); 
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) { 
             $values = $this->controller->exportValues( 'Builder' ); 
+        } else if ( $this->_action == CRM_Core_Action::COPY ) {
+            $values = $this->controller->exportValues( 'Custom' ); 
         } else {
-            $values = $this->controller->exportValues( 'Search' ); 
+            $values = $this->controller->exportValues( 'Basic' ); 
         } 
          
         $this->_task = $values['task']; 
@@ -138,9 +140,17 @@ class CRM_Contact_Form_Task_Export_Select extends CRM_Contact_Form_Task {
     public function postProcess( ) {
         $exportOption = $this->controller->exportValue( $this->_name, 'exportOption' ); 
 
-        if ($exportOption == CRM_Contact_Form_Task_Export_Select::EXPORT_ALL) {
-            require_once 'CRM/Contact/BAO/Export.php';
-            $export =& new CRM_Contact_BAO_Export( );
+        require_once 'CRM/Contact/BAO/Export.php';
+        $export =& new CRM_Contact_BAO_Export( );
+
+        $customSearchID = $this->get( 'customSearchID' );
+        if ( $customSearchID ) {
+            $export->exportCustom( $this->get( 'customSearchClass' ),
+                                   $this->get( 'formValues' ),
+                                   $this->get( CRM_Utils_Sort::SORT_ORDER ) );
+        }
+
+        if ( $exportOption == CRM_Contact_Form_Task_Export_Select::EXPORT_ALL ) {
             $export->exportContacts( $this->_selectAll,
                                      $this->_contactIds,
                                      $this->get( 'queryParams' ),

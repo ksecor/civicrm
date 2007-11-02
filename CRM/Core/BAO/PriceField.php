@@ -101,12 +101,19 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
         if ( $priceField->html_type == 'Text' ) {
             $maxIndex = 1;
         }
-        
+                
         for ( $index = 1; $index <= $maxIndex; $index++ ) {
+            if ( $maxIndex == 1 ) {
+                $name = $params['label'];
+            } else {
+                $name = $params['label'] . " - " . trim($params['option_label'][$index]);
+            }
+            
             if ( ( ! empty( $params['option_label'][$index] ) ) &&
                  ( ! empty( $params['option_value'][$index] ) ) ) {
                 $options[] = array( 'label'      => trim( $params['option_label'][$index] ),
                                     'value'      => CRM_Utils_Rule::cleanMoney( trim( $params['option_value'][$index] ) ),
+                                    'name'       => $name,
                                     'weight'     => $params['option_weight'][$index],
                                     'is_active'  => 1 );
             }
@@ -365,12 +372,36 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
             
             $values = array( );
             require_once 'CRM/Core/OptionValue.php';
-            CRM_Core_OptionValue::getValues( $groupParams, $values );
+            CRM_Core_OptionValue::getValues( $groupParams, $values, 'weight', ! $inactiveNeeded );
         }
         
         return $values;
     }
-            
+    
+    public static function getOptionId( $optionLabel, $fid ) 
+    {
+        $optionGroupName = "civicrm_price_field.amount.{$fid}";
+        
+        $query = "
+SELECT 
+        option_value.id as id
+FROM 
+        civicrm_option_value option_value,
+        civicrm_option_group option_group
+WHERE 
+        option_group.name  = '" . $optionGroupName . "'
+    AND option_group.id    = option_value.option_group_id
+    AND option_value.label = '" . $optionLabel . "'";
+        
+        $params = array( );
+        
+        $dao    =& CRM_Core_DAO::executeQuery( $query, $params );
+        
+        while ( $dao->fetch( ) ) {
+            return $dao->id;
+        }
+    }
+    
     /**
      * Delete the price set field.
      *

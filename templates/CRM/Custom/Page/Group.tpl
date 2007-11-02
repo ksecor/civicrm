@@ -34,7 +34,7 @@
             <td>{if $row.is_active       eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
             <td>{$row.extends_entity_column_value}</td>
-            <td>{$row.weight}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{$row.style_display}</td>
             <td>{$row.action}</td>
         </tr>

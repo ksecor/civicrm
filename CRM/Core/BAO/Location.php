@@ -73,7 +73,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
 
         $formattedBlocks = array( );
         self::formatParams( $params, $formattedBlocks, $entity );
-        
+       
         //create location block elements
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
@@ -204,6 +204,7 @@ WHERE e.id = %1";
                 $formattedBlocks[$block][$key]                     = $value[$block            ];
                 $formattedBlocks[$block][$key]['location_type_id'] = $value['location_type_id'];
                 $formattedBlocks[$block][$key]['is_primary'      ] = $value['is_primary'      ];
+                $formattedBlocks[$block][$key]['is_billing'      ] = $value['is_billing'      ];
                 if ( !$entity ) {
                     $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
                 } else {
@@ -314,7 +315,7 @@ WHERE e.id = %1";
             
             eval( '$location[$block] = CRM_Core_BAO_' . $name . '::getValues( $entityBlock, $values );');
         }
-        
+       
         //format locations blocks for setting defaults
         $locationCount = 1;
         $locationTypes = array( );
@@ -351,9 +352,8 @@ WHERE e.id = %1";
             $values['location'][1] = array( );
             $values['location'][1]['is_primary'] = 1;
         }
-        
-
-        return $allLocations['location'];
+       
+        return $values['location'];
     }
 
 

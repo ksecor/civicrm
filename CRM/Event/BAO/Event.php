@@ -160,9 +160,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         CRM_Core_BAO_Log::add( $logParams );
         
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_event', $event->id );
-
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_event', $event->id );
+        }
+        
         $transaction->commit( );
         
         return $event;

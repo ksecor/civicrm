@@ -235,44 +235,6 @@ class CRM_Mailing_Event_BAO_Queue extends CRM_Mailing_Event_DAO_Queue {
         return $results;
     }
 
-
-    /**
-     * Delete a queue event.
-     * 
-     * This function will delete entry in civicrm_mailing_event_queue
-     * table. (Prior to 1.6 version it was deleting on basis of
-     * mail_id only. Now it can be based on any of mail_id, job_id or contact_id).
-     *
-     * @param int $id        value for the job_id or email_id or contact_id
-     * @param int $field     name of the field '$id' belongs to.
-     * 
-     * @return void
-     * @access public
-     * @static
-     */
-    public static function deleteEventQueue( $id , $field='email' ) {
-        $dao =& new CRM_Mailing_Event_BAO_Queue();
-        eval('$dao->' . $field . '_id = $id;');
-        $dao->find();
-        
-        while ($dao->fetch()) {
-            foreach (array('Bounce', 'Delivered', 'Forward', 'Opened', 'Reply',
-                'TrackableURLOpen', 'Unsubscribe') as $event) {
-                require_once "CRM/Mailing/Event/BAO/{$event}.php";
-                eval('$object =& new CRM_Mailing_Event_BAO_' . $event . '();');
-                $object->event_queue_id = $dao->id;
-                $object->delete();
-            }
-            $object =& new CRM_Mailing_Event_BAO_Forward();
-            $object->dest_queue_id = $dao->id;
-            $object->delete();
-        }
-        
-        $dao->reset();
-        eval('$dao->' . $field . '_id = $id;');
-        $dao->delete( );
-    }
-    
     /**
      * Get a domain object given a queue event
      * 

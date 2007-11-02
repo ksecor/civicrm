@@ -76,7 +76,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         } else if ( $this->_action == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' );
         } else {
-            $values = $this->controller->exportValues( 'Search' );
+            $values = $this->controller->exportValues( 'Basic' );
         }
 
         require_once 'CRM/Contact/Task.php';
@@ -112,7 +112,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             while ( $dao->fetch( ) ) {
                 $this->_contactIds[] = $dao->contact_id;
             }
-        } else if($values['radio_ts'] == 'ts_sel') {
+        } else if ( $values['radio_ts'] == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {

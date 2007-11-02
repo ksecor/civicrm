@@ -23,7 +23,7 @@
 	        <td>{$row.sku}</td>
                 <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
-	        <td>{$row.weight}</td>
+	        <td class="nowrap">{$row.weight}</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}

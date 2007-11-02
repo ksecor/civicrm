@@ -54,6 +54,11 @@
 </tr>
 
 <tr>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/uf' q='reset=1'}" id="idUF">&raquo; {ts}CMS Settings{/ts}</a></td>
+    <td>{ts}CMS version and users table name settings{/ts}</td>
+</tr>
+
+<tr>
     <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/misc' q='reset=1'}" id="idMisc">&raquo; {ts}Miscellaneous Settings{/ts}</a></td>
     <td>{ts}Enable version checking and configure optional CAPTCHA feature for Profile forms.{/ts}</td>
 </tr>

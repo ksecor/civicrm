@@ -35,19 +35,19 @@
       <queries>
       </queries>
   </uninstall>
-  <installfile><filename>install.civicrm.php</filename></installfile>
-  <uninstallfile><filename>uninstall.civicrm.php</filename></uninstallfile>
+  <installfile>install.civicrm.php</installfile>
+  <uninstallfile>uninstall.civicrm.php</uninstallfile>
   <administration>
     <menu task="civicrm/dashboard&amp;reset=1">CiviCRM</menu>
                 <submenu>
-                        <menu task="civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
-                        <menu task="civicrm/contact/search&amp;reset=1">Find Contacts</menu>
-                        <menu task="civicrm/group&amp;reset=1">Manage Groups</menu>
-                        <menu task="civicrm/import&amp;reset=1">Import Contacts</menu>
-                        <menu task="civicrm/contribute&amp;reset=1">CiviContribute</menu>
-                        <menu task="civicrm/member&amp;reset=1">CiviMember</menu>
-                        <menu task="civicrm/event&amp;reset=1">CiviEvent</menu>
-                        <menu task="civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/contact/search&amp;reset=1">Find Contacts</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/group&amp;reset=1">Manage Groups</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/import&amp;reset=1">Import Contacts</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/contribute&amp;reset=1">CiviContribute</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/member&amp;reset=1">CiviMember</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/event&amp;reset=1">CiviEvent</menu>
+                        <menu task="option=com_civicrm&amp;task=civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
                 </submenu>
     <files>
       <filename>admin.civicrm.php</filename>

@@ -830,17 +830,14 @@ $where
                 case 'CheckBox':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (is_array($customValues)) {
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['value']] = 1;
-                                    } else {
-                                        $defaults[$elementName][$val['value']] = 0;
-                                    }
+                                if (in_array($val['value'], $checkedData)) {
+                                    $defaults[$elementName][$val['value']] = 1;
+                                } else {
+                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         }
@@ -873,15 +870,12 @@ $where
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (is_array($customValues)) {
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['value']] = $val['value'];
-                                    }
+                                if (in_array($val['value'], $checkedData)) {
+                                    $defaults[$elementName][$val['value']] = $val['value'];
                                 }
                             }
                         }

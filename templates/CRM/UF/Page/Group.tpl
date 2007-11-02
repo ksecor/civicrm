@@ -53,7 +53,7 @@
             <td>{$row.id}</td>
             <td>{$row.module}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
-            <td>{$row.weight}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{$row.action}</td>
         </tr>
         {/foreach}

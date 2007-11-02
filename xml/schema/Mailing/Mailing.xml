@@ -34,6 +34,7 @@
        <name>header_id</name>
        <table>civicrm_mailing_component</table>
        <key>id</key>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
       <name>footer_id</name>
@@ -44,44 +45,50 @@
        <name>footer_id</name>
        <table>civicrm_mailing_component</table>
        <key>id</key>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
         <name>reply_id</name>
         <type>int unsigned</type>
-        <required>true</required>
         <comment>FK to the auto-responder component.</comment>
   </field>
   <foreignKey>
         <name>reply_id</name>
         <table>civicrm_mailing_component</table>
         <key>id</key>
+        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
         <name>unsubscribe_id</name>
         <type>int unsigned</type>
-        <required>true</required>
         <comment>FK to the unsubscribe component.</comment>
   </field>
   <foreignKey>
         <name>unsubscribe_id</name>
         <table>civicrm_mailing_component</table>
         <key>id</key>
+        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
         <name>resubscribe_id</name>
         <type>int unsigned</type>
-        <required>true</required>
   </field>
+  <foreignKey>
+        <name>optout_id</name>
+        <table>civicrm_mailing_component</table>
+        <key>id</key>
+        <onDelete>SET NULL</onDelete>
+  </foreignKey>
   <field>
         <name>optout_id</name>
         <type>int unsigned</type>
-        <required>true</required>
         <comment>FK to the opt-out component.</comment>
   </field>
   <foreignKey>
         <name>optout_id</name>
         <table>civicrm_mailing_component</table>
         <key>id</key>
+        <onDelete>SET NULL</onDelete>
   </foreignKey>
   <field>
        <name>name</name>
@@ -157,5 +164,6 @@
        <name>msg_template_id</name>
        <table>civicrm_msg_template</table>
        <key>id</key>
+       <onDelete>SET NULL</onDelete>
   </foreignKey>
 </table>

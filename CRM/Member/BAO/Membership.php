@@ -172,9 +172,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @static
      */
     static function &create(&$params, &$ids, $callFromAPI = false ) 
-    {
+    {  
         require_once 'CRM/Utils/Date.php';
-        
         if ( ! isset( $params['is_override'] ) ) {
             $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
             $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
@@ -209,22 +208,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         }
         
         // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_membership',
-                                  'entity_id'       => $membership->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+        if ( CRM_Utils_Array::value('custom', $params) 
+             && is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_membership', $membership->id );
         }
         
         $params['membership_id'] = $membership->id;
@@ -891,7 +878,14 @@ civicrm_membership_status.is_current_member =1";
             $dao->contribution_id = $contribution[$index]->id;
             $dao->save();
         }
-
+        
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+                                                    CRM_Core_DAO::$_nullArray,
+                                                    'civicrm_membership',
+                                                    $membership->id,
+                                                    'Membership' );
+        
         if ( ! empty( $errors ) ) {
             foreach ($errors as $error ) {
                 $message[] = $error;
@@ -904,8 +898,8 @@ civicrm_membership_status.is_current_member =1";
         
         if ( $form->_contributeMode == 'notify' &&
              ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
-            $form->_params['membershipID'] = $membership->id;
 
+            $form->_params['membershipID'] = $membership->id;
             // at this step we need to set the status to pending, since we do not know if the user will
             // pay or not. kinda sucks, since we've already done all the work, c'est la vie
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_Membership',

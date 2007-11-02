@@ -86,6 +86,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', $id, 'title' );
     }
 
+   
     /**
      * Check if the price set is in use anywhere.  Returns true in the
      * case that the group is used by an active form, or by a form which
@@ -161,7 +162,6 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) {
         $usedBy = array( );
         $today = date('Y-m-d');
-
         $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
         $queryString .= "WHERE price_set_id = %1";
         $params = array( 1 => array( $id, 'Integer') );
@@ -362,6 +362,43 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         } else {
             return false;
         }
+    }
+
+     /**
+      * Find a price_set_id associatied with the given option value or  field ID 
+      * @param array $params (reference) an assoc array of name/value pairs
+      *                      array may contain either option id or
+      *                      price field id 
+      *
+      * @return price set id on success, null  otherwise 
+      * @static
+      * @access public
+      */
+    public static function getSetId( &$params ) {
+        $fid = null;
+        
+        require_once 'CRM/Utils/Array.php';
+        if ( $oid = CRM_Utils_Array::value( 'oid', $params ) ) {
+            require_once 'CRM/Core/DAO/OptionGroup.php';
+            $optionGroup       = new CRM_Core_DAO_OptionGroup( );
+            $optionGroup->id   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
+                                                              $oid, 'option_group_id' );
+            if ( $optionGroup->find( true ) ) {
+                $groupName     = explode( ".", $optionGroup->name );
+                $fid           = $groupName[2];
+            }
+            
+        } else {
+            $fid = CRM_Utils_Array::value( 'fid', $params ) ;
+        }
+        
+        if ( isset ( $fid ) ) {
+            return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
+                                                $fid, 'price_set_id' );
+            
+        }
+        return null;
+
     }
 
     /**

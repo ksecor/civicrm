@@ -247,6 +247,7 @@ class CRM_Core_BAO_Block
         $blockIds      = array( );
         $blockIds      = self::getBlockIds( $blockName, $contactId, $entityElements );
         $isPrimary     = true;
+        $isBilling     = true;
         $locationCount = 1;
         
         foreach ( $params[$blockName] as $value ) {
@@ -284,6 +285,12 @@ class CRM_Core_BAO_Block
                     $contactFields['is_primary'] = false;
                 }
                
+                if ( $isBilling && $value['is_billing'] ) {
+                    $contactFields['is_billing'] = $value['is_billing'];
+                    $isBilling = false;
+                } else {
+                    $contactFields['is_billing'] = false;
+                }
                 $blockFields = array_merge( $val, $contactFields );
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
             }

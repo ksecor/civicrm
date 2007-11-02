@@ -285,14 +285,14 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $fields['Kabissa']  =& CRM_Kabissa_BAO_Details::exportableFields();
         }
 
-//         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
-//             require_once 'CRM/Member/BAO/Membership.php';
-//             $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
-//             unset( $membershipFields['member_is_test'] );
-//             unset( $membershipFields['is_override'] );
-//             unset( $membershipFields['status_id'] );
-//             $fields['Membership'] =& $membershipFields;
-//         }
+        if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
+            require_once 'CRM/Member/BAO/Membership.php';
+            $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
+            unset( $membershipFields['member_is_test'] );
+            unset( $membershipFields['is_override'] );
+            unset( $membershipFields['status_id'] );
+            $fields['Membership'] =& $membershipFields;
+        }
 
         $noSearchable = array();
         foreach ($fields as $key => $value) {
@@ -352,9 +352,9 @@ class CRM_UF_Form_Field extends CRM_Core_Form
             $sel1['Contribution'] = 'Contributions';
         }
         
-//         if ( ! empty($membershipFields) ) {
-//             $sel1['Membership'] = 'Membership';
-//         }
+        if ( ! empty($membershipFields) ) {
+            $sel1['Membership'] = 'Membership';
+        }
 
         foreach ($sel1 as $key=>$sel ) {
             if ($key) {

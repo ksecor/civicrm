@@ -42,7 +42,8 @@
   <field>
       <name>value</name>
       <title>Option Value</title>
-      <type>int unsigned</type>
+      <type>varchar</type>
+      <length>64</length>
       <required>true</required>
       <comment>The actual value stored (as a foreign key) in the data record. Functions which need lookup option_value.title should use civicrm_option_value.option_group_id plus civicrm_option_value.value as the key.</comment>
        <add>1.5</add>

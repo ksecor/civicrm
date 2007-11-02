@@ -80,7 +80,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                                                                 "location[$locationId][is_primary]", 
                                                                                 ts('Primary location for this contact'),  
                                                                                 ts('Primary location for this contact'), 
-                                                                                array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
+                                                                                array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_primary');" ) );
+
+                $location[$locationId]['is_billing']       =& $form->addElement(
+                                                                                'checkbox', 
+                                                                                "location[$locationId][is_billing]", 
+                                                                                ts('Billing location for this contact'),  
+                                                                                ts('Billing location for this contact'), 
+                                                                                array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_billing');" ) );
             }
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId );

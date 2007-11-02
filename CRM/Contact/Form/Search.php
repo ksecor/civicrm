@@ -447,7 +447,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form {
             if ( isset( $this->_ssID ) && $this->_context != 'smog') {
                 // we only retrieve the saved search values if out current values are null
                 $this->_formValues = CRM_Contact_BAO_SavedSearch::getFormValues( $this->_ssID );
-                
+
                 //fix for CRM-1505
                 if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $this->_ssID, 'mapping_id' ) ) {
                     $this->_params =& CRM_Contact_BAO_SavedSearch::getSearchParams( $this->_ssID );

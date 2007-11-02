@@ -100,7 +100,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         
         $url = 
             $this->_paymentProcessor['url_site'] .
-            '/cws/v2/Merchant/' . 
+            'cws/v2/Merchant/' . 
             $this->_paymentProcessor['user_name'] .
             '/checkout';
         

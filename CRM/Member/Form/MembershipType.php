@@ -122,7 +122,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         
         //rollover day
         $this->add('date', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 
-                   CRM_Core_SelectValues::date('custom', 3, 1, 'M d'), false);
+                   CRM_Core_SelectValues::date('custom', 3, 1, "M\001d"), false);
         
         $this->add('hidden','action',$this->_action); //required in form rule
 

@@ -593,6 +593,7 @@ class CRM_Core_DAO extends DB_DataObject {
             eval( '$dao   =& new ' . $daoName . '( );' );
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
+        //CRM_Core_Error::debug( 'q', $queryStr );
         $dao->query( $queryStr );
         return $dao;
     }

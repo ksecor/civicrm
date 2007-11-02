@@ -149,6 +149,7 @@ VALUES
    (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       8, 'CiviEvent Online Participant',       NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Tell a Friend{/ts}',                      9, 'Tell a Friend',                      NULL, 0, NULL, 9, '{ts escape="sql"}Tell a Friend{/ts}',                      0, 1, 1),	
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -281,7 +282,8 @@ VALUES
   (@option_group_id_honorTyp, '{ts escape="sql"}In Honor of{/ts}'        , 1, 'In Honor of'       , NULL, 0, 1,    1, NULL, 0, 0, 1),
   (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'     , 1, 'CRM/Contact/Form/Search/Custom/Sample.php', NULL, 0, NULL, 1, NULL, 0, 0, 1 );
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'      , 1, 'CRM/Contact/Form/Search/Custom/Sample.php'      , NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
@@ -327,7 +329,7 @@ VALUES
  (@domain_id,'PayPal_Standard','{ts escape="sql"}PayPal - Website Payments Standard{/ts}',NULL,1,0,'{ts escape="sql"}Merchant Account Email{/ts}',NULL,NULL,NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,'https://www.sandbox.paypal.com/',NULL,4,1),
  (@domain_id,'PayPal','{ts escape="sql"}PayPal - Website Payments Pro{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
  (@domain_id,'PayPal_Express','{ts escape="sql"}PayPal - Express{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/','https://api-3t.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/','https://api-3t.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',2,NULL),
- (@domain_id,'Google_Checkout','{ts escape="sql"}Google Checkout{/ts}',NULL,1,0,'{ts escape="sql"}Merchant ID{/ts}','{ts escape="sql"}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
+ (@domain_id,'Google_Checkout','{ts escape="sql"}Google Checkout{/ts}',NULL,1,0,'{ts escape="sql"}Merchant ID{/ts}','{ts escape="sql"}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout/',NULL,NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
  (@domain_id,'Moneris','{ts escape="sql"}Moneris{/ts}',NULL,1,0,'{ts escape="sql"}User Name{/ts}','{ts escape="sql"}Password{/ts}','{ts escape="sql"}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,NULL,1,1),
  (@domain_id,'AuthNet_AIM','{ts escape="sql"}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts escape="sql"}API Login{/ts}','{ts escape="sql"}Payment Key{/ts}','{ts escape="sql"}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll',NULL,'https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll',NULL,'https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
  (@domain_id,'PayJunction','{ts escape="sql"}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,NULL,1,1);

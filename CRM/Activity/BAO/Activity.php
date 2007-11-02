@@ -60,8 +60,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     private function _dataExists( &$params ) 
     {
-        if (CRM_Utils_Array::value( 'subject', $params) &&
-            CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'subject', $params) &&
+             CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
             return true;
         }
         return false;
@@ -87,6 +87,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
+
 
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
@@ -192,22 +193,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @return
      */
-    public function createActivity( &$params ) 
+    public function create( &$params )
     {
-        return $this->_saveActivity( $params, 'create' );
-    }
-
-
-    public function updateActivity( &$params, &$ids )
-    {
-        $this->id = CRM_Utils_Array::value( 'id', $ids );
-        return $this->_saveActivity( $params, 'update' );
-    }    
-    
-
-    private function _saveActivity( &$params, $operation )
-    {
-        require_once 'CRM/Core/Transaction.php';
 
         // check required params
         if ( ! $this->_dataExists( $params ) ) {
@@ -217,64 +204,74 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $this->copyValues( $params );
 
         // start transaction        
+        require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
         $result = $this->save( );        
+        
+        $activityId = $result->id;
 
         // attempt to save activity assignment
-        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment();
-
-            if( $operation === 'create' ) {
-                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultAssignment = $assignment->createAssignment( $this->id, $params['assignee_contact_id'] );
-                }
-
-            } elseif( $operation === 'update' ) {
-                $assignment->activity_id = $this->id;
-                if( $assignment->find( true ) ) {
-                    if( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
-                        $resultAssignment = $assignment->updateAssignment( $assignment->id, 
-                                                                           $params['assignee_contact_id'] );
+            
+            $assignmentParams = array( 'activity_id'         => $activityId,
+                                       'assignee_contact_id' => $params['assignee_contact_id'] );
+            
+            if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $assignment->activity_id = $activityId;
+                if ( $assignment->find( true ) ) {
+                    if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                        $assignmentParams['id'] = $assignment->id;
+                        $resultAssignment = $assignment->create( $assignmentParams );
                     }
-                } 
+                }            
+            } else {
+                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultAssignment = $assignment->create( $assignmentParams );
+                }
             }
         }        
 
         // attempt to save activity targets
-        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+        if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $target =& new CRM_Activity_BAO_ActivityTarget();
 
-            if( $operation === 'create' ) {
-                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultTarget = $target->createTarget( $this->id, $params['target_contact_id'] );
-                }
-
-            } elseif( $operation === 'update' ) {
-                $target->activity_id = $this->id;
-                if( $target->find( true ) ) {
-                    if( $target->target_contact_id != $params['target_contact_id'] ) {
-                        $resultTarget = $target->updateTarget( $target->id, $params['target_contact_id'] );
+            $targetParams = array( 'activity_id'         => $activityId,
+                                   'target_contact_id' => $params['target_contact_id'] );
+            
+            if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $target->activity_id = $activityId;
+                if ( $target->find( true ) ) {
+                    if ( $target->target_contact_id != $params['target_contact_id'] ) {
+                        $targetParams['id'] = $target->id;
+                        $resultTarget = $target->create( $targetParams );
                     }
+                }            
+            } else {
+                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultTarget = $target->create( $targetParams );
                 }
             }
         }
 
-        // write to changelog before transation is committed/rolled back (and prepare status to display)
-        if( $operation === 'create' ) {
-            $logMsg = "Activity created for ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
-        } elseif( $operation === 'update' ) {
+        // write to changelog before transation is committed/rolled
+        // back (and prepare status to display)
+        if ( CRM_Utils_Array::value( 'id', $params ) ) {
             $logMsg = "Activity (id: {$this->id} ) updated with ";
             $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
+        } else {
+            $logMsg = "Activity created for ";
+            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         }
+        
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
         $this->_logActivityAction( $result, $logMsg );
 
         // roll back if error occured
-        if( is_a( $result, 'CRM_Core_Error' ) ) {
+        if ( is_a( $result, 'CRM_Core_Error' ) ) {
             $transaction->rollback( );
             return $result;
         } elseif( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {

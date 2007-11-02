@@ -1859,38 +1859,29 @@ class CRM_Contact_BAO_Query {
         foreach ( array_keys( $value ) as $group_id ) { 
             $group->id = $group_id; 
             $group->find(true); 
-            if (isset($group->saved_search_id)) {
+            if ( isset( $group->saved_search_id ) ) {
                 $this->_useDistinct = true;
 
                 require_once 'CRM/Contact/BAO/SavedSearch.php';
-                if ( $config->mysqlVersion >= 4.1 ) { 
-                    $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
-                    $returnProperties = array();
-                    if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $group->saved_search_id, 'mapping_id' ) ) {
-                        require_once "CRM/Core/BAO/Mapping.php";
-                        $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
-                        $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
-                    }        
+                $ssParams =& CRM_Contact_BAO_SavedSearch::getSearchParams($group->saved_search_id);
+                $returnProperties = array();
+                if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $group->saved_search_id, 'mapping_id' ) ) {
+                    require_once "CRM/Core/BAO/Mapping.php";
+                    $fv =& CRM_Contact_BAO_SavedSearch::getFormValues($group->saved_search_id);
+                    $returnProperties = CRM_Core_BAO_Mapping::returnProperties( $fv );
+                }        
 
-                    $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
+                $query =& new CRM_Contact_BAO_Query($ssParams, $returnProperties);
                     
-                    //fix for CRM-1513
-                    //if ( $context != "smog" ) {
-                        $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
+                $smarts =& $query->searchQuery($ssParams, 0, 0, null, false, false, true, true, true);
                         
-                        $ssWhere[] = " 
-                            (contact_a.id IN ( $smarts )  
-                            AND contact_a.id NOT IN ( 
-                            SELECT contact_id FROM civicrm_group_contact 
-                            WHERE civicrm_group_contact.group_id = "  
-                            . CRM_Utils_Type::escape($group_id, 'Integer')
-                            . " AND civicrm_group_contact.status = 'Removed'))";
-                        //}
-                } else { 
-                    $ssw = CRM_Contact_BAO_SavedSearch::whereClause( $group->saved_search_id, $this->_tables, $this->_whereTables);
-                    //fix for CRM-1490                    
-                    $ssWhere[] = "$ssw";
-                }
+                $ssWhere[] = " 
+                            ( contact_a.id IN ( $smarts )  
+                              AND contact_a.id NOT IN ( 
+                              SELECT contact_id FROM civicrm_group_contact 
+                              WHERE civicrm_group_contact.group_id = "   .
+                    CRM_Utils_Type::escape($group_id, 'Integer') .
+                    " AND civicrm_group_contact.status = 'Removed' ) )";
             }
             $group->reset(); 
             $group->selectAdd('*'); 

@@ -186,20 +186,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND             $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
-        while ($ss->fetch()) {
+        while ( $ss->fetch( ) ) {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact => 1);
-            $where =
-                CRM_Contact_BAO_SavedSearch::whereClause( $ss->saved_search_id,
-                                                          $tables,
-                                                          $whereTables );
-            $from = CRM_Contact_BAO_Query::fromClause($tables);
-            $mailingGroup->query(
-                    "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              contact_a.id
-                                        $from
-                    WHERE               $where");
+            $sql =
+                CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ss->saved_search_id );
+            $mailingGroup->query( "INSERT IGNORE INTO X_$job_id (contact_id) $sql" );
         }
 
         /* Get all the group contacts we want to include */
@@ -280,16 +273,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $whereTables = array( );
         while ($ss->fetch()) {
             $tables = array($contact => 1, $location => 1, $email => 1);
-            $where = CRM_Contact_BAO_SavedSearch::whereClause(
-                                                              $ss->saved_search_id,
-                                                              $tables,
-                                                              $whereTables
-                                                              );
+            list( $from, $where ) = CRM_Contact_BAO_SavedSearch::fromWhereEmail( $ss->saved_search_id );
             $where = trim( $where );
             if ( $where ) {
                 $where = " AND $where ";
             }
-            $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
                                         contact_a.id as contact_id 
@@ -299,7 +287,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         contact_a.do_not_email = 0
                         AND             contact_a.is_opt_out = 0
-                        AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                                         $where
@@ -365,7 +352,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $eq->query("SELECT contact_id, email_id 
                     FROM I_$job_id 
                     ORDER BY contact_id, email_id");
-        
+
         /* Delete the temp table */
         $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
@@ -1057,18 +1044,6 @@ AND civicrm_contact.is_opt_out =0";
     }
     
     /**
-     * Error handler to quietly catch otherwise fatal smtp transport errors.
-     *
-     * @param object $obj       The PEAR_ERROR object
-     * @return object $obj
-     * @access public
-     * @static
-     */
-    public static function catchSMTP($obj) {
-        return $obj;
-    }
-
-    /**
      * function to add the mailings
      *
      * @param array $params reference array contains the values submitted by the form
@@ -1651,41 +1626,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function del($id) {
-        
-        $dependencies = array( 'CRM_Mailing_DAO_Job','CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_TrackableURL');
-        
-        foreach ($dependencies as $className) {
-            eval('$dao = & new ' . $className . '();');
-            $dao->mailing_id = $id;
-            
-            if ( $className == 'CRM_Mailing_DAO_Job' ) {
-                $dao->find( );
-                while ($dao->fetch()) {
-                    if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
-                        $daoSpool = new CRM_Mailing_BAO_Spool();
-                        $daoSpool->job_id = $dao->id;
-                        if ( $daoSpool->find( true ) ) {
-                            CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted as mails are still pending in spool table.'));
-                            return;
-                        }
-                    } elseif ( $dao->status == 'Running' ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing can not be deleted since it is in process.'));
-                        return;
-                    }
-                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                    $daoQueue->deleteEventQueue( $dao->id, 'job');
-                    
-                    $dao->delete();
-                }
-                continue;
-            }
-            
-            $dao->delete();
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        
+
         $dao = & new CRM_Mailing_DAO_Mailing();
         $dao->id = $id;
-        $dao->delete();
+        $dao->delete( );
         
         CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
     }
@@ -1701,14 +1648,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function delJob($id) {
-    
-        $daoJob = new CRM_Mailing_BAO_Job();
-        $daoJob->id = $id;
-        if ( $daoJob->find() ) {
-            $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-            $daoQueue->deleteEventQueue( $daoJob->id, 'job');
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        $daoJob->delete();
+
+        $dao     = new CRM_Mailing_BAO_Job();
+        $dao->id = $id;
+        $dao->delete();
     }
 
     function getReturnProperties( ) {
