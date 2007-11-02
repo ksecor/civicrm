@@ -99,8 +99,10 @@ class CRM_Core_Component
 
         $firstArg  = CRM_Utils_Array::value( 1, $args, '' ); 
         $secondArg = CRM_Utils_Array::value( 2, $args, '' ); 
-        foreach( $info as $name => $comp ) {
-            if( $comp->info['url'] === $firstArg || $comp->info['url'] === $secondArg ) {
+        foreach ( $info as $name => $comp ) {
+            if ( in_array( $name, $config->enableComponents ) &&
+                 ( ( $comp->info['url'] === $firstArg  && $type == 'main' )  ||
+                   ( $comp->info['url'] === $secondArg && $type == 'admin' ) ) ) {
                 
                 if( $type == 'main' ) {
                     // also set the smarty variables to the current component
