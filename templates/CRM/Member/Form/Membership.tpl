@@ -14,27 +14,27 @@
    {else}
     <dl>
  	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}
-    {if $member_is_test} {ts}(test){/ts}{/if}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select Membership Organization and then Membership Type.{/ts}</dd> 	
-        <dt>{$form.source.label}</dt><dd class="html-adjust">&nbsp;{$form.source.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Source of this membership. This value is searchable.{/ts}</dd>
+    {if $member_is_test} {ts}(test){/ts}{/if}<br />
+        <span class="description">{ts}Select Membership Organization and then Membership Type.{/ts}</span></dd> 	
+    <dt>{$form.source.label}</dt><dd class="html-adjust">&nbsp;{$form.source.html}<br />
+        <span class="description">{ts}Source of this membership. This value is searchable.{/ts}</span></dd>
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
 		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_1}
-		</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}When did this contact first become a member?{/ts}</dd>
+		<br />
+        <span class="description">{ts}When did this contact first become a member?{/ts}</span></dd>
  	<dt>{$form.start_date.label}</dt><dd class="html-adjust">{$form.start_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_2}
 		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_2}
-		</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}First day of current continuous membership period. Start Date will be automatically set based on Membership Type if you don't select a date.{/ts}</dd>
+		<br />
+        <span class="description">{ts}First day of current continuous membership period. Start Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
  	<dt>{$form.end_date.label}</dt><dd class="html-adjust">{$form.end_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_3}
 		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_3}
-		</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</dd>
-    <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</dd>
+		<br />
+        <span class="description">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
+    <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}<br />
+        <span class="description">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</span></dd>
     </dl>
 	
      
@@ -50,38 +50,41 @@
     {* Show editable status field when is_override is TRUE *}
     <div id="memberStatus">
         <dl>
-        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}</dd>
-        <dt>&nbsp;</dt><dd class="description html-adjust">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</dd>
+        <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}<br />
+            <span class="description">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</span></dd>
         </dl>
     </div>
     
     <div id="contri">
         <dl>
-        <dt>{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}</dd>
-	<div>
-            <dt>&nbsp;&nbsp;</dt><dd class="html-adjust">
-		<fieldset id="recordContribution"><legend>{ts}Contribution{/ts}</legend>
-		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
- 		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd><br />
-		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}</dd>
-		    <dt class="label">&nbsp;</dt><dd class="description">{ts}Actual amount given by contributor.{/ts}</dd><br />
-        	    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-		    <dt class="label">&nbsp;</dt><dd class="description">{ts}This field is blank for non-monetary contributions.{/ts}</dd><br />
-		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd><br />
-		    {if $email}
-  		        <dt class="label"></dt><dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
-	   	        <dt class="label">&nbsp;</dt> <dd class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</dd>
-		        <div id='notice'>
-		    	   <dt class="label">{$form.receipt_text.label}</dt><dd>{$form.receipt_text.html}<dt class="label"></dt><dd class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</dd>
-		        </div>
-		    {/if}
-	        </fieldset>
-	    </dd>
-	
-	</div>
+        <dt>{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}<br />
+            <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span></dd>
         </dl>
-    </div>
-      
+	<div>
+   <div class="spacer"></div>
+    <fieldset id="recordContribution"><legend>{ts}Membership Payment and Receipt{/ts}</legend>
+        <dl>
+		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}<br />
+                <span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
+                <span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
+            <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
+        </dl>
+        {if $email}
+            <dl>
+            <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
+                <span class="description">{ts}Automatically email a membership confirmation and contribution receipt to {$email}?{/ts}</span></dd>
+            </dl>
+            <div id='notice'>
+                <dl>
+                <dt class="label">{$form.receipt_text.label}</dt>
+                <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span>
+                     {$form.receipt_text.html|crmReplace:class:huge}</dd>
+                </dl>
+            </div>
+        {/if}
+    </fieldset>
     {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1} 
      
    {/if}

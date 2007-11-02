@@ -230,7 +230,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->addElement('checkbox', 
                           'record_contribution', 
-                          ts('Record Contribution?'), null, 
+                          ts('Record Membership Payment?'), null, 
                           array( 'onClick' => 'showRecordContribution()'));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -254,10 +254,10 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->addElement('checkbox', 
                           'send_receipt', 
-                          ts('Send Notice / Receipt?'), null, 
+                          ts('Send Confirmation and Receipt?'), null, 
                           array( 'onClick' => 'showReceiptText()'));
 
-        $this->add('textarea', 'receipt_text', ts('Receipt Text') );
+        $this->add('textarea', 'receipt_text', ts('Receipt Message') );
 
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
