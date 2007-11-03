@@ -640,6 +640,12 @@ class CRM_Core_DAO extends DB_DataObject {
                             $item[0] = "'{$item[0]}'";
                         }
                     }
+                    if ( $item[1] == 'Date' &&
+                         strlen( $item[0] ) == 0 ) {
+                        // set a null date to the empty string
+                        $item[0] = 'null';
+                    }
+
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {
                     CRM_Core_Error::fatal( "{$item[0]} is not of type {$item[1]}" );
