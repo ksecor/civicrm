@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Contact/Form/Search/Custom/Base.php';
+
 class CRM_Contact_Form_Search_Custom_Sample
    extends    CRM_Contact_Form_Search_Custom_Base
    implements CRM_Contact_Form_Search_Interface {
@@ -117,13 +118,6 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
         if ( ! empty( $clause ) ) {
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
-
-        if ( $includeContactIDs ) {
-            $this->includeContactIDs( $where,
-                                      $this->_formValues );
-        }
-
-        $this->addDomainClause( $where, $queryParams );
         return $where;
     }
 

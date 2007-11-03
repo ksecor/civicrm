@@ -146,14 +146,6 @@ AND   c.is_test                = 0";
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
-
-        require_once 'CRM/Contact/BAO/SearchCustom.php';
-        if ( $includeContactIDs ) {
-            $this->includeContactIDs( $where,
-                                      $this->_formValues );
-        }
-
-        $this->addDomainClause( $where, $queryParams );
         return $where;
     }
 

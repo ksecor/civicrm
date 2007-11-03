@@ -69,6 +69,13 @@ class CRM_Contact_Form_Search_Custom_Base {
             " WHERE "                   .
             $this->where( $queryParams, $includeContactIDs ) ;
 
+        $this->addDomainClause( $where, $queryParams );
+
+        if ( $includeContactIDs ) {
+            $this->includeContactIDs( $where,
+                                      $this->_formValues );
+        }
+
         if ( $groupBy ) {
             $sql .= " $groupBy ";
         }

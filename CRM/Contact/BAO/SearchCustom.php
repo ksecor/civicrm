@@ -94,6 +94,7 @@ class CRM_Contact_BAO_SearchCustom {
 
         $params = array( );
         $sql = $customClass->contactIDs( $params );
+        self::validateUserSQL( $where, true );
 
         $dao = new CRM_Core_DAO( );
         return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
@@ -116,6 +117,7 @@ class CRM_Contact_BAO_SearchCustom {
 
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
+        self::validateUserSQL( $where, true );
 
         return array( $from, $where );
     }
@@ -130,13 +132,18 @@ class CRM_Contact_BAO_SearchCustom {
     function getTotalCount( &$custom ) {
         $params = array( );
         $sql = $custom->count( $params );
+        self::validateUserSQL( $sql );
 
         return CRM_Core_DAO::singleValueQuery( $sql, $params );
     }
 
-    static function validateUserSQL( &$sql ) {
-        $includeStrings = array( 'select', 'from', 'where', 'civicrm_contact', 'contact_a' );
+    static function validateUserSQL( &$sql, $onlyWhere = false ) {
+        $includeStrings = array( 'civicrm_contact', 'contact_a', 'contact_a.domain_id = ' );
         $excludeStrings = array( 'insert', 'delete', 'update' );
+
+        if ( ! $onlyWhere ) {
+            $includeStrings += array( 'select', 'from', 'where' );
+        }
 
         foreach ( $includeStrings as $string ) {
             if ( stripos( $sql, $string ) === false ) {
