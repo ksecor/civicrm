@@ -8,18 +8,18 @@
      <p></p>
         <div class="form-item">
         {strip}
-    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    <table cellpadding="0" cellspacing="0" border="0">
 	<thead>
         <tr class="columnheader">
-            <th field="Name" dataType="String">{ts}CiviCRM Field Name{/ts}</th>
-            <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
-            <th field="Searchable" dataType="String">{ts}Searchable?{/ts}</th>
-            <th field="Selector" dataType="String">{ts}In Selector?{/ts}</th>
-            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
-            <th field="Active" dataType="String">{ts}Active{/ts}</th>	
-            <th field="Required" dataType="String">{ts}Required{/ts}</th>	
-            <th field="View" dataType="String">{ts}View Only{/ts}</th>	
-            <th datatype="html"></th>
+            <th>{ts}CiviCRM Field Name{/ts}</th>
+            <th>{ts}Visibility{/ts}</th>
+            <th>{ts}Searchable?{/ts}</th>
+            <th>{ts}In Selector?{/ts}</th>
+            <th>{ts}Order{/ts}</th>
+            <th>{ts}Active{/ts}</th>	
+            <th>{ts}Required{/ts}</th>	
+            <th>{ts}View Only{/ts}</th>	
+            <th></th>
         </tr>
     </thead>
 	

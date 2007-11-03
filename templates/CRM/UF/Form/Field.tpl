@@ -105,7 +105,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
 
        var input = document.getElementById('label');
        input.value = labelValue;
-       //alert(document.getElementsByName("field_name[1]")[0].selectedIndex);
+
        show("is_search_label");
        show("is_search_html");
        show("is_search_desDt");
