@@ -989,11 +989,7 @@ $where
                     break;
 
                 case 'Select Date':
-                    //print_r($v);
                     $date = CRM_Utils_Date::format( $v );
-                    /*if ( ! $date ) {
-                        $date = '';
-                    }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
                 default:
