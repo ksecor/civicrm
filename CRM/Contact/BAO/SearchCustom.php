@@ -94,7 +94,6 @@ class CRM_Contact_BAO_SearchCustom {
 
         $params = array( );
         $sql = $customClass->contactIDs( $params );
-        self::addDomainClause( $sql, $params );
 
         $dao = new CRM_Core_DAO( );
         return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
@@ -114,7 +113,6 @@ class CRM_Contact_BAO_SearchCustom {
         $params = array( );
         $from  = $customClass->from ( $params );
         $where = $customClass->where( $params );
-        self::addDomainClause( $where, $params );
 
         $dao = new CRM_Core_DAO( );
         $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
@@ -132,7 +130,6 @@ class CRM_Contact_BAO_SearchCustom {
     function getTotalCount( &$custom ) {
         $params = array( );
         $sql = $custom->count( $params );
-        self::addDomainClause( $sql, $params );
 
         return CRM_Core_DAO::singleValueQuery( $sql, $params );
     }
@@ -153,44 +150,6 @@ class CRM_Contact_BAO_SearchCustom {
                 CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
                                            array( 1 => $string ) ) );
             }
-        }
-    }
-
-    static function addDomainClause( &$sql, &$params ) {
-        $max = count( $params ) + 1;
-        $sql .= " AND contact_a.domain_id = %{$max}";
-        $params[$max] = array( CRM_Core_Config::domainID( ),
-                               'Integer' );
-
-    }
-
-    function includeContactIDs( &$sql, &$formValues ) {
-        $contactIDs = array( );
-        foreach ( $formValues as $id => $value ) {
-            if ( $value &&
-                 substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
-                $contactIDs[] = substr( $id, CRM_Core_Form::CB_PREFIX_LEN );
-            }
-        }
-        
-        if ( ! empty( $contactIDs ) ) {
-            $contactIDs = implode( ', ', $contactIDs );
-            $sql .= " AND contact_a.id IN ( $contactIDs )";
-        }
-    }
-
-    static function addSortOffset( &$sql,
-                                   $offset, $rowCount, $sort ) {
-        if ( ! empty( $sort ) ) {
-            if ( is_string( $sort ) ) {
-                $sql .= " ORDER BY $sort ";
-            } else {
-                $sql .= " ORDER BY " . trim( $sort->orderBy() );
-            }
-        }
-        
-        if ( $row_count > 0 && $offset >= 0 ) {
-            $sql .= " LIMIT $offset, $row_count ";
         }
     }
 
