@@ -129,7 +129,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function preProcess( ) 
     {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
+        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
         $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
         
         // current mode
