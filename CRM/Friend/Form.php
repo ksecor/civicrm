@@ -130,7 +130,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         // Details of User        
         $this->add('text', 'from_name', ts('Your Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name'), true);
         $this->add('text', 'from_email', ts('Your Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->add('textarea', 'suggested_message', ts('Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);         
+        $this->add('textarea', 'suggested_message', ts('Your Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);         
         
         $friend = array();
         for ( $i = 1; $i <= self::NUM_OPTION; $i++ ) {           

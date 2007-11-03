@@ -5,17 +5,17 @@
 <table class="form-layout-compressed" >
    <tr><td colspan=2>{$intro}</td></tr>
 
-   <tr><td>{$form.from_name.label}</td><td>{$form.from_name.html}</td></tr>
-   <tr><td>{$form.from_email.label}</td><td>{$form.from_email.html}</td></tr>     
-   <tr><td>{$form.suggested_message.label}</td><td>{$form.suggested_message.html}</td></tr>
+   <tr><td class="label">{$form.from_name.label}</td><td>{$form.from_name.html}</td></tr>
+   <tr><td class="label">{$form.from_email.label}</td><td>{$form.from_email.html}</td></tr>     
+   <tr><td class="label">{$form.suggested_message.label}</td><td>{$form.suggested_message.html}</td></tr>
 
    <tr><td></td><td>  
-    <fieldset><legend>{ts}Friend Detail(s){/ts}</legend>  
+    <fieldset><legend>{ts}Send to these Friend(s){/ts}</legend>  
     <table >
       <tr class="columnheader" >
-          <td>{ts}First Name(s){/ts}</td>
-          <td>{ts}Last Name(s){/ts}</td>
-          <td>{ts}Email Address(es){/ts}</td>
+          <td>{ts}First Name{/ts}</td>
+          <td>{ts}Last Name{/ts}</td>
+          <td>{ts}Email Address{/ts}</td>
       </tr>
     {section name=loop start=1 loop=4}
         {assign var=idx value=$smarty.section.loop.index}
