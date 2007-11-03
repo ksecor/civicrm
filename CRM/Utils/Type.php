@@ -210,6 +210,7 @@ class CRM_Utils_Type
             break;
             
         case 'String':
+        case 'Link':
             return $data;
             break;
             
