@@ -240,16 +240,6 @@ class CRM_Contact_BAO_Query {
     static $_relType;
 
     /**
-     * The set of user level sql clauses passed into the query object
-     * A late addition to this class, and hence this graft. Should be more
-     * integrated in future versions
-     *
-     * This is an array with three keys, select, from and where
-     *
-     */
-    public $_userInputSQL = null;
-
-    /**
      * The tables which have a dependency on location and/or address
      *
      * @var array
@@ -349,9 +339,6 @@ class CRM_Contact_BAO_Query {
             $this->buildParamsLookup( );
         }
 
-	if ( isset( $this->_userInputSQL['tables'] ) ) {
-	     $this->_tables = array_merge( $this->_tables, $this->_userInputSQL['tables'] );
-        }
         $this->_whereTables = $this->_tables;
 
         $this->selectClause( );
@@ -380,29 +367,6 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    function createUserInputSQL( ) {
-        $this->_userInputSQL = array( );
-        foreach ( $this->_params as $id => $value ) {
-            if ( in_array( $value[0], array( 'user_sql_from', 'user_sql_where', 'user_sql_tables' ) ) ) {
-                if ( $value[0] == 'user_sql_from' ) {
-                    $this->_userInputSQL['from'] = $value[2];
-                } else if ( $value[0] == 'user_sql_where' ) {
-                    $this->_userInputSQL['where'] = $value[2];
-                } else if ( $value[0] == 'user_sql_tables' ) {
-                    $tables = explode(',', trim( $value[2] ) );
-                    $this->_userInputSQL['tables'] = array( );
-                    foreach ( $tables as $t ) {
-                       $this->_userInputSQL['tables'][$t] = 1;
-                    }
-                }
-                unset( $this->_params[$id] );
-            }
-        }
-    }
-
-    function setUserInputSQL( &$sql ) {
-        $this->_userInputSQL = $sql;
-    }
     /**
      * Some composite fields do not appear in the fields array
      * hack to make them part of the query
@@ -858,29 +822,11 @@ class CRM_Contact_BAO_Query {
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
 
-	    if ( $this->_userInputSQL ) {
-               if ( array_key_exists( 'select', $this->_userInputSQL ) ) {
-                    $select .= ", {$this->_userInputSQL['select']}";
-               }
-            }
         }
         
         $where = '';
         if ( ! empty( $this->_whereClause ) ) {
             $where = "WHERE {$this->_whereClause}";
-        }
-
-        if ( $this->_userInputSQL ) {
-            if ( array_key_exists( 'from', $this->_userInputSQL ) ) {
-                $from .= " {$this->_userInputSQL['from']}";
-            }
-            if ( array_key_exists( 'where', $this->_userInputSQL ) ) {
-                if ( empty( $where ) ) {
-                    $where = "WHERE {$this->_userInputSQL['where']}";
-                } else {
-                    $where .= " {$this->_userInputSQL['where']}";
-                }
-            }
         }
 
         return array( $select, $from, $where );
