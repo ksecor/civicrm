@@ -22,11 +22,11 @@
             <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
             <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})
             <br />
-            <div style="position: relative;">
-                <div style="border: 1px solid black; overflow: auto;" >
-                   {$form.html_message.html}
-                </div>
-            </div>
+    <div style="border: 1px solid black;" class ="tundra">
+	
+{$form.html_message.html}
+	</div>
+         
         </td>
     </tr>
     </table>
@@ -93,9 +93,10 @@
             verify( );	
         }
     }
+ 
    
-    function selectValue( val )
-    {
+ function selectValue( val )
+    {*
         //rebuild save template block
         document.getElementById("updateDetails").style.display = 'none';
         
@@ -134,7 +135,10 @@
 			    ed.editNode.innerHTML = data[1];
 			 }
 		      });
-    }
+   *}
+ 
+    
+        
  
      function verify( )
      {
@@ -171,8 +175,8 @@
 
     dojo.addOnLoad( function( ) 
     {
-	var message = dojo.widget.byId('html_message');
-        dojo.event.connect( message, 'onLoad', 'setHTMLMessage')
+	var message = dijit.byId('html_message');
+        dojo.connect( message, 'onLoad', 'setHTMLMessage')
 
     });
 
@@ -180,7 +184,7 @@
   function setHTMLMessage ( ) {
       var message_html  = {/literal}'{$message_html}'{literal};
         
-      var ed = dojo.widget.byId('html_message');
+      var ed = dijit.byId('html_message');
       ed.editNode.innerHTML = message_html;
   }
 
