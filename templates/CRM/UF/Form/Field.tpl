@@ -1,8 +1,3 @@
-{* These jscript calls carryover the field help from the corresponding custom data field. HOWEVER
-they are currently causing sporadic failures in insert and delete - so commenting out for now. dgg *}
-{* <script type="text/javascript" src="{crmURL p='civicrm/server/uf' q="set=1&path=civicrm/server/uf"}"></script> 
-<script type="text/javascript" src="{$config->resourceBase}js/UF.js"></script> *}
-
 <fieldset><legend>{if $action eq 8}{ts}Delete CiviCRM Profile Field{/ts}{else}{ts}CiviCRM Profile Field{/ts}{/if}</legend>
 {if $action ne 8} {* do not display stuff for delete function *}
     <div id="crm-submit-buttons-top" class="form-item"> 
@@ -89,7 +84,8 @@ they are currently causing sporadic failures in insert and delete - so commentin
 {literal}
 <script type="text/javascript">
     function showLabel( ) {
-	
+
+       /* Code to set the Field Label */		
        if (document.forms.Field['field_name[0]'].options[document.forms.Field['field_name[0]'].selectedIndex].value) { 
           var labelValue = document.forms.Field['field_name[1]'].options[document.forms.Field['field_name[1]'].selectedIndex].text; 
 
@@ -106,6 +102,7 @@ they are currently causing sporadic failures in insert and delete - so commentin
        var input = document.getElementById('label');
        input.value = labelValue;
 
+       /* Code to hide searchable attribute for no searchable fields */
        show("is_search_label");
        show("is_search_html");
        show("is_search_desDt");
@@ -128,6 +125,43 @@ they are currently causing sporadic failures in insert and delete - so commentin
   	   {/literal}
 	 {/foreach}
        {literal}
+
+       /* Code to set Profile Field help, from custom data field help */
+        var custom = document.forms.Field['field_name[1]'].value;
+        var fieldId = null;
+
+        if ( custom.substring( 0, 7 ) == 'custom_' ) {
+           fieldId = custom.substring( custom.length, 7);
+        } else {
+	   return;
+	}
+
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' q='id='}"{literal} + fieldId;
+
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                }else{
+		   // on success
+                   dojo.byId('help_post').value = response;
+                }
+        }
+     });
+
+
     } 
 </script> 
 {/literal}
