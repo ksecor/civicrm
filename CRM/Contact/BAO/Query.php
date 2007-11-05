@@ -349,8 +349,6 @@ class CRM_Contact_BAO_Query {
 
     function buildParamsLookup( ) {
 
-	$this->createUserInputSQL( );
-
         foreach ( $this->_params as $value ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
             if ( $cfID ) {
@@ -2543,7 +2541,7 @@ class CRM_Contact_BAO_Query {
                 if (! $count ) {
                     $this->_useDistinct = true;
                 }
-                $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
+                $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
                 $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
         }
@@ -2560,7 +2558,7 @@ class CRM_Contact_BAO_Query {
             $where = $where . ' AND ' . $additionalWhereClause;
         }
         
-        $order = $limit = '';
+        $order = $orderBy = $limit = '';
 
         if ( ! $count ) {
             $config =& CRM_Core_Config::singleton( );
@@ -2575,14 +2573,69 @@ class CRM_Contact_BAO_Query {
                         $order = " ORDER BY $orderBy";
                     }
                 } else if ($sortByChar) { 
-                    $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
+                    $orderBy = " ORDER BY LEFT(contact_a.sort_name, 1) asc";
                 } else {
-                    $order = " ORDER BY contact_a.sort_name ";
+                    $orderBy = " ORDER BY contact_a.sort_name asc";
                 }
             }
 
             if ( $rowCount > 0 && $offset >= 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
+                
+                // ok here is a first hack at an optimization, lets get all the contact ids
+                // that are restricted and we'll then do the final clause with it
+                $limitSelect = ( $this->_useDistinct ) ?
+                    'SELECT DISTINCT(contact_a.id) as id' :
+                    'SELECT contact_a.id as id';
+
+                $doOpt = true;
+                // hack for order clause
+                if ( $orderBy ) {
+                    list( $field, $dir ) = split( ' ', $orderBy );
+                    if ( $field ) {
+                        switch ( $field ) {
+                        case 'sort_name':
+                            break;
+
+                        case 'city':
+                        case 'postal_code':
+                            $this->_whereTables["civicrm_address"] = 1;
+                            $limitSelect .= ", civicrm_address.{$field} as {$field}";
+                            break;
+
+                        case 'country':
+                        case 'state_province':
+                            $this->_whereTables["civicrm_{$field}"] = 1;
+                            $limitSelect .= ", civicrm_{$field}.name as {$field}";
+                            break;
+
+                        case 'email':
+                            $this->_whereTables["civicrm_email"] = 1;
+                            $limitSelect .= ", civicrm_email.email as email";
+                            break;
+
+                        default:
+                            $doOpt = false;
+                        }
+                    }
+                }
+
+                if ( $doOpt ) {
+                    $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null,
+                                                                 $this->_primaryLocation, $this->_mode );
+
+                    $limitQuery = "$limitSelect {$this->_simpleFromClause} $where $order $limit";
+                    $limitDAO   = CRM_Core_DAO::executeQuery( $limitQuery, CRM_Core_DAO::$_nullArray );
+                    $limitIDs   = array( );
+                    while ( $limitDAO->fetch( ) ) {
+                        $limitIDs[] = $limitDAO->id;
+                    }
+                    $limitClause = 
+                        ' AND contact_a.id IN ( ' .
+                        implode( ',', $limitIDs ) .
+                        ' ) ';
+                    $where .= $limitClause;
+                }
             }
         }
 
