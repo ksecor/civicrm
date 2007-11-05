@@ -288,6 +288,11 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         if ( CRM_Core_Permission::access( 'CiviMember' ) ) {
             require_once 'CRM/Member/BAO/Membership.php';
             $membershipFields =& CRM_Member_BAO_Membership::getMembershipFields(); 
+            unset( $membershipFields['id'] );
+            unset( $membershipFields['join_date'] );
+            unset( $membershipFields['membership_start_date'] );
+            unset( $membershipFields['membership_type_id'] );
+            unset( $membershipFields['membership_end_date'] );
             unset( $membershipFields['member_is_test'] );
             unset( $membershipFields['is_override'] );
             unset( $membershipFields['status_id'] );
