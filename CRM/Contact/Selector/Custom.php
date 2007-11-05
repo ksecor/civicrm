@@ -277,15 +277,17 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         // process the result of the query
         $rows = array( );
         while ( $dao->fetch( ) ) {
-            $row = array();
+            $row   = array();
+            $empty = true;
 
             // the columns we are interested in
             foreach ($columnNames as $property) {
+                $row[$property] = $dao->$property;
                 if ( ! empty( $dao->$property ) ) {
-                    $row[$property] = $dao->$property;
+                    $empty = false;
                 }
             }
-            if ( ! empty( $row ) ) {
+            if ( ! $empty ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $dao->contact_id;
                 $row['action']   = CRM_Core_Action::formLink( $links,
                                                               $mask ,
