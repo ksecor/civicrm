@@ -133,6 +133,7 @@
         if ( custom.substring( 0, 7 ) == 'custom_' ) {
            fieldId = custom.substring( custom.length, 7);
         } else {
+           dojo.byId('help_post').value = "";
 	   return;
 	}
 
