@@ -70,8 +70,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
         $form->assign( 'elements', array( 'name', 'state_province_id', 'start_date', 'end_date' ) );
     }
 
-    function all( &$queryParams,
-                  $offset, $rowcount, $sort,
+    function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "
 contact_a.id           as contact_id  ,
@@ -80,14 +79,13 @@ contact_a.sort_name    as sort_name,
 state_province.name    as state_province,
 sum( c.total_amount )  as amount
 ";
-        return $this->sql( $queryParams,
-                           $selectClause,
+        return $this->sql( $selectClause,
                            $offset, $rowcount, $sort,
                            $includeContactIDs,
                            'GROUP BY contact_a.id' );
     }
     
-    function from( &$queryParams ) {
+    function from( ) {
         return "
 FROM       civicrm_contact      contact_a
 INNER JOIN civicrm_contribution c                ON c.contact_id       = contact_a.id
@@ -96,21 +94,22 @@ LEFT  JOIN civicrm_state_province state_province ON state_province.id  = address
 ";
     }
 
-    function where( &$queryParams,
-                    $includeContactIDs = false ) {
+    function where( $includeContactIDs = false ) {
+
         $where = "
       c.contribution_status_id = 1
 AND   c.is_test                = 0";
 
         $count  = 1;
         $clause = array( );
+        $params = array( );
         $name   = CRM_Utils_Array::value( 'name',
                                           $this->_formValues );
         if ( $name != null ) {
             if ( strpos( $name, '%' ) === false ) {
                 $name = "%{$name}%";
             }
-            $queryParams[$count] = array( $name, 'String' );
+            $params[$count] = array( $name, 'String' );
             $clause[] = "contact_a.sort_name LIKE %{$count}";
             $count++;
         }
@@ -118,7 +117,7 @@ AND   c.is_test                = 0";
         $state = CRM_Utils_Array::value( 'state_province_id',
                                          $this->_formValues );
         if ( $state ) {
-            $queryParams[$count] = array( $state, 'Integer' );
+            $params[$count] = array( $state, 'Integer' );
             $clause[] = "state_province.id = %{$count}";
             $count++;
         }
@@ -127,7 +126,7 @@ AND   c.is_test                = 0";
                                              $this->_formValues );
         $startDate  = CRM_Utils_Date::format( $startDate );
         if ( $startDate ) {
-            $queryParams[$count] = array( $startDate, 'Date' );
+            $params[$count] = array( $startDate, 'Date' );
             $clause[] = "c.receive_date >= $startDate";
             $count++;
         }
@@ -137,7 +136,7 @@ AND   c.is_test                = 0";
         $endDate  = CRM_Utils_Date::format( $endDate );
         if ( $endDate ) {
             $endDate .= '235959';
-            $queryParams[$count] = array( $endDate, 'Date' );
+            $params[$count] = array( $endDate, 'Date' );
             $clause[] = "c.receive_date <= $endDate";
             $count++;
         }
@@ -146,7 +145,7 @@ AND   c.is_test                = 0";
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
-        return $where;
+        return $this->whereClause( $where, $params );
     }
 
 }

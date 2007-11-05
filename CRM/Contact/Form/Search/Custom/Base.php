@@ -45,31 +45,40 @@ class CRM_Contact_Form_Search_Custom_Base {
         $this->_formValues =& $formValues;
     }
 
-    function count( &$queryParams ) {
-        return $this->sql( $queryParams,
-                           'count(distinct contact_a.id) as total' );
+    function count( ) {
+        return CRM_Core_DAO::singleValueQuery( $this->sql( 'count(distinct contact_a.id) as total' ),
+                                               CRM_Core_DAO::$_nullArray );
+    }
+    
+    function alphabet( ) {
+        $sql = $this->sql( 'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
+
+        return CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
     }
 
-    function contactIDs( &$queryParams,
-                         $offset, $rowcount, $sort ) {
-        return $this->sql( $queryParams,
-                           'contact_a.id as contact_id',
-                           $offset, $rowcount, $sort );
+
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) {
+        $sql    = $this->sql( 'contact_a.id as contact_id',
+                              $offset, $rowcount, $sort );
+        $this->validateUserSQL( $sql );
+
+        $dao = new CRM_Core_DAO( );
+        return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
     }
 
-    function sql( &$queryParams,
-                  $selectClause,
+    function sql( $selectClause,
                   $offset = 0, $rowCount = 0, $sort = null,
                   $includeContactIDs = false,
                   $groupBy = null ) {
 
         $sql =
             "SELECT $selectClause "     .
-            $this->from ( $queryParams ) .
+            $this->from ( )             .
             " WHERE "                   .
-            $this->where( $queryParams, $includeContactIDs ) ;
+            $this->where( $includeContactIDs ) ;
 
-        $this->addDomainClause( $where, $queryParams );
+        $this->addDomainClause( $where );
 
         if ( $includeContactIDs ) {
             $this->includeContactIDs( $where,
@@ -93,12 +102,10 @@ class CRM_Contact_Form_Search_Custom_Base {
     }
 
 
-    function addDomainClause( &$sql, &$params ) {
-        $max = count( $params ) + 1;
-        $sql .= " AND contact_a.domain_id = %{$max}";
-        $params[$max] = array( CRM_Core_Config::domainID( ),
-                               'Integer' );
-
+    function addDomainClause( &$sql ) {
+        $sql .=
+            " AND contact_a.domain_id = " .
+            CRM_Core_Config::domainID( );
     }
 
     static function includeContactIDs( &$sql, &$formValues ) {
@@ -116,8 +123,8 @@ class CRM_Contact_Form_Search_Custom_Base {
         }
     }
 
-    static function addSortOffset( &$sql,
-                                   $offset, $rowCount, $sort ) {
+    function addSortOffset( &$sql,
+                            $offset, $rowCount, $sort ) {
         if ( ! empty( $sort ) ) {
             if ( is_string( $sort ) ) {
                 $sql .= " ORDER BY $sort ";
@@ -129,6 +136,38 @@ class CRM_Contact_Form_Search_Custom_Base {
         if ( $row_count > 0 && $offset >= 0 ) {
             $sql .= " LIMIT $offset, $row_count ";
         }
+    }
+
+    function validateUserSQL( &$sql, $onlyWhere = false ) {
+        $includeStrings = array( 'contact_a', 'contact_a.domain_id = ' );
+        $excludeStrings = array( 'insert', 'delete', 'update' );
+
+        if ( ! $onlyWhere ) {
+            $includeStrings += array( 'select', 'from', 'where', 'civicrm_contact' );
+        }
+
+        foreach ( $includeStrings as $string ) {
+            if ( stripos( $sql, $string ) === false ) {
+                CRM_Core_Error::fatal( ts( 'Could not find "%1" string in SQL clause',
+                                           array( 1 => $string ) ) );
+            }
+        }
+
+        foreach ( $excludeStrings as $string ) {
+            if ( stripos( $sql, $string ) !== false ) {
+                CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
+                                           array( 1 => $string ) ) );
+            }
+        }
+    }
+
+    function whereClause( &$where, &$params ) {
+        $dao = new CRM_Core_DAO( );
+        $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
+        $this->addDomainClause( $where );
+        $this->validateUserSQL( $where, true );
+
+        return $where;
     }
 
 }

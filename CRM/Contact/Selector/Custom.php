@@ -42,7 +42,6 @@ require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
 require_once 'CRM/Contact/BAO/Query.php';
-require_once 'CRM/Contact/BAO/SearchCustom.php';
 
 /**
  * This class is used to retrieve and display a range of
@@ -242,7 +241,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @access public
      */
     function getTotalCount( $action ) {
-        return CRM_Contact_BAO_SearchCustom::getTotalCount( $this->_search );
+        return $this->_search->count( );
     }
 
     /**
@@ -266,10 +265,9 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
             $includeContactIDs = true;
         }
 
-        $params = array( );
-        $sql = $this->_search->all( $params, $offset, $rowCount, $sort, $includeContactIDs );
+        $sql = $this->_search->all( $offset, $rowCount, $sort, $includeContactIDs );
 
-        $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
         $columns     = $this->_search->columns( );
         $columnNames = array_values( $columns );
@@ -327,7 +325,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     }
 
     function &alphabetQuery( ) {
-        return CRM_Core_DAO::$_nullArray;
+        return $this->_search->alphabet( );
     }
 
     function &contactIDQuery( ) {

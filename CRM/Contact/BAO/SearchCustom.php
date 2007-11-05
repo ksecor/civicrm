@@ -92,12 +92,7 @@ class CRM_Contact_BAO_SearchCustom {
         // instantiate the new class
         eval( '$customClass = new ' . $customSearchClass . '( $formValues );' );
 
-        $params = array( );
-        $sql = $customClass->contactIDs( $params );
-        self::validateUserSQL( $where, true );
-
-        $dao = new CRM_Core_DAO( );
-        return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
+        return $customClass->contactIDs( $params );
     }
 
     static function fromWhereEmail( $csID, $ssID ) {
@@ -111,53 +106,11 @@ class CRM_Contact_BAO_SearchCustom {
         // instantiate the new class
         eval( '$customClass = new ' . $customSearchClass . '( $formValues );' );
 
-        $params = array( );
-        $from  = $customClass->from ( $params );
-        $where = $customClass->where( $params );
+        $from  = $customClass->from ( );
+        $where = $customClass->where( );
 
-        $dao = new CRM_Core_DAO( );
-        $where = CRM_Core_DAO::composeQuery( $where, $params, true, $dao );
-        self::validateUserSQL( $where, true );
 
         return array( $from, $where );
-    }
-
-    /**
-     * Returns total number of rows for the query.
-     *
-     * @param 
-     * @return int Total number of rows 
-     * @access public
-     */
-    function getTotalCount( &$custom ) {
-        $params = array( );
-        $sql = $custom->count( $params );
-        self::validateUserSQL( $sql );
-
-        return CRM_Core_DAO::singleValueQuery( $sql, $params );
-    }
-
-    static function validateUserSQL( &$sql, $onlyWhere = false ) {
-        $includeStrings = array( 'civicrm_contact', 'contact_a', 'contact_a.domain_id = ' );
-        $excludeStrings = array( 'insert', 'delete', 'update' );
-
-        if ( ! $onlyWhere ) {
-            $includeStrings += array( 'select', 'from', 'where' );
-        }
-
-        foreach ( $includeStrings as $string ) {
-            if ( stripos( $sql, $string ) === false ) {
-                CRM_Core_Error::fatal( ts( 'Could not find "%1" string in SQL clause',
-                                           array( 1 => $string ) ) );
-            }
-        }
-
-        foreach ( $excludeStrings as $string ) {
-            if ( stripos( $sql, $string ) !== false ) {
-                CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
-                                           array( 1 => $string ) ) );
-            }
-        }
     }
 
 }
