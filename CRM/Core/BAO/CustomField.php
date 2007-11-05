@@ -976,7 +976,7 @@ SELECT id
                 $value = 
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
                     implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_keys( $value ) ) .
+                             array_values( $value ) ) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
                 $value = '';
