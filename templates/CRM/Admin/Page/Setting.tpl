@@ -49,13 +49,13 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/date' q='reset=1'}" id="idDates">&raquo; {ts}Date{/ts}</a></td>
-    <td>{ts}Format date input and display.{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/date' q='reset=1'}" id="idDates">&raquo; {ts}Date Formats{/ts}</a></td>
+    <td>{ts}Configure input and display formats for Date fields.{/ts}</td>
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/uf' q='reset=1'}" id="idUF">&raquo; {ts}CMS Settings{/ts}</a></td>
-    <td>{ts}CMS version and users table name settings{/ts}</td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/uf' q='reset=1'}" id="idUF">&raquo; {ts 1=$config->userFramework}%1 Integration Settings{/ts}</a></td>
+    <td>{ts 1=$config->userFramework}%1 version and user table name.{/ts}</td>
 </tr>
 
 <tr>
