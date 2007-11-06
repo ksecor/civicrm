@@ -8,6 +8,16 @@
         {$thankyou_text}
         </p>
     </div>
+
+    {* Show link to Tell a Friend(CRM-2153) *}
+    
+        <div class="messages status">
+         <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
+            <dd><strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong></dd>
+         </dl>
+        </div>  
+
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $contributeMode EQ 'notify'}
@@ -121,11 +131,5 @@
         {$thankyou_footer}
         </p>
     </div>
-
-	{* Show link to Tell a Friend(CRM-2153) *}
-    
-        <div class="action-link">
-            <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
-        </div>
-    	
+	
 </div>

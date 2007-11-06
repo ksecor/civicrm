@@ -113,7 +113,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                               'contact_source' => ts( 'Tell a Friend:' ) . $params['title'],
                                               'email-Primary'  => $details["email"] );  
                 
-                $mailParams['email'][$key] = $details["email"];
+                $displayName = $details["first_name"] ." ". $details["last_name"];
+                $mailParams['email'][$displayName] = $details["email"];
             }
         }
 
@@ -125,34 +126,42 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         require_once 'CRM/Activity/BAO/Activity.php';
         require_once 'CRM/Core/BAO/UFGroup.php';
         
-        $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue','Tell a Friend','id','name' );
-        //friend contacts creation
-        foreach ( $contactParams as $key => $value ) {
+        $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Tell a Friend', 'value', 'name' );
 
+        //create activity 
+        $activityParams = array ( 'source_contact_id'  => $params['source_contact_id'],
+                                  'source_record_id'   => NULL,
+                                  'activity_type_id'   => $activityTypeId,
+                                  'title'              => $params['title'],
+                                  'activity_date_time' => date("Ymd"), 
+                                  'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
+                                  'details'            => $params['suggested_message'],
+                                  'is_test'            => $params['is_test'] );
+        
+        //activity creation
+        $bao = new CRM_Activity_BAO_Activity;     
+        $activity = $bao->create( $activityParams );
+
+        //friend contacts creation
+        require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        foreach ( $contactParams as $key => $value ) {
+            
             //create contact only if it does not exits in db
             $value['email'] = $value['email-Primary'];
             $ids = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
-        
+
             if ( !$ids ) {
                 $contact = self::add( $value );
             }
-
-            //create activity corresponding to each contact
-            $activityParams = array ( 'source_contact_id'  => $params['source_contact_id'],
-                                      'source_record_id'   => NULL,
-                                      'activity_type_id'   => $activityTypeId,
-                                      'target_contact_id'  => $contact,
-                                      'title'              => $params['title'],
-                                      'activity_date_time' => date("Ymd"), 
-                                      'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
-                                      'details'            => $params['suggested_message'],
-                                      'is_test'            => $params['is_test'] );
-
-            //activity creation
-            $bao = new CRM_Activity_BAO_Activity;     
-            $activity = $bao->create( $activityParams );
+            
+            // attempt to save activity targets                       
+            $target =& new CRM_Activity_BAO_ActivityTarget();            
+            $targetParams = array( 'activity_id'       => $activity->id,
+                                   'target_contact_id' => $ids ? $ids : $contact );            
+            
+            $resultTarget = $target->create( $targetParams );           
         }
-
+        
         $transaction->commit( );
 
         //process sending of mails
@@ -162,14 +171,15 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $params['entity_id'], 'receipt_from_email', 'id' );            
-            $mailParams['page_url'  ] = CRM_Utils_System::url('civicrm/contribute/transact', "reset=1&id={$params['entity_id']}");
+            $urlPath = 'civicrm/contribute/transact';
             $mailParams['module'    ] = 'contribute';
         } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
             $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $params['entity_id'], 'confirm_from_email' );
-            $mailParams['page_url'  ] = CRM_Utils_System::url('civicrm/event/info', "reset=1&id={$params['entity_id']}");
+            $urlPath = 'civicrm/event/info';
             $mailParams['module'    ] = 'event';
         } 
 
+        $mailParams['page_url'  ] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
         list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
        
         //send mail
@@ -225,7 +235,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      *
      * @params int     $contactId      contact id
      * @params array   $values         associative array of name/value pair
-     * @params string  $module         Contribution OR Event
      * @return void
      * @access public
      */
@@ -250,10 +259,10 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $emailFrom = '"' . $fromName. ' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
         
         require_once 'CRM/Utils/Mail.php';        
-        foreach ( $values['email'] as $emailTo ) {
+        foreach ( $values['email'] as $displayName => $emailTo ) {
             if ( $emailTo ) {
                 CRM_Utils_Mail::send( $emailFrom,
-                                      "",
+                                      $displayName,
                                       $emailTo,
                                       $subject,
                                       $message,
@@ -283,8 +292,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $friendDAO =& new CRM_Friend_DAO_Friend();
        
         $friendDAO->copyValues($params);
-
-        $friendDAO->find( true );
       
         $result = $friendDAO->save();
         
