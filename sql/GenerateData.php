@@ -1569,12 +1569,12 @@ $obj1->addMembership();
 //$obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
+$obj1->addParticipant();
+/** FIXME FOR NEW address model
 $obj1->addEventLocationAddress();
+$obj1->addEventLocation();
 $obj1->addEventPhone();
 $obj1->addEventemail();
-$obj1->addParticipant();
-$obj1->addEventLocation();
-/** FIXME FOR NEW address model
 add_contributions( );
 $obj1->addEventFeeLabel();
 **/

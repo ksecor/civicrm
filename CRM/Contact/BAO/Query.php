@@ -586,6 +586,7 @@ class CRM_Contact_BAO_Query {
                     continue;
                 }
                 $lCond = "location_type_id = $locationTypeId";
+                $this->_useDistinct = true;
             }
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
@@ -608,8 +609,6 @@ class CRM_Contact_BAO_Query {
             $this->_element["{$tName}"   ]  = 1;  
             
             $locationTypeName= $tName;
-//             $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
-//             $this->_tables[ $tName ] = $locationTypeJoin;
             
             //we need to build location join to get location type from
             //various location blocks.
@@ -2635,12 +2634,21 @@ class CRM_Contact_BAO_Query {
                         implode( ',', $limitIDs ) .
                         ' ) ';
                     $where .= $limitClause;
+                    // reset limit clause since we already restrict what records we want
+                    $limit  = null;
                 }
             }
         }
 
         // building the query string
-        $query = "$select $from $where $order $limit";
+        $groupBy = null;
+        if ( $count      ||
+             $sortByChar ||
+             $groupContacts ) {
+        } else if ( $this->_useDistinct ) {
+            $groupBy = ' GROUP BY contact_a.id';
+        }
+        $query = "$select $from $where $groupBy $order $limit";
         if ( $returnQuery ) {
             return $query;
         }
