@@ -309,7 +309,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                     $activityType );
         $transaction->commit( );            
 
-        CRM_Core_Session::setStatus( $status );
+        //temporary fix, will check this later on, ideally we should
+        //set status in the form ?
+        //CRM_Core_Session::setStatus( $status );
 
         return $result;
         
