@@ -410,7 +410,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
             foreach ( $recordContribution as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
-            }            
+            }
+            $params['receive_date'] = date( 'Y-m-d H:i:s' );
         }
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
@@ -487,7 +488,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
             $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
-
+            $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign_by_ref( 'formValues', $formValues );
             
             $template =& CRM_Core_Smarty::singleton( );

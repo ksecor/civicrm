@@ -227,6 +227,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'  ] = $config->defaultCurrency;
+            $contributionParams['receive_date'] = $params['receive_date'];
+            $contributionParams['non_deductible_amount'] = 'null';
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 
@@ -236,7 +238,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
             }
-            
+          
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
             
