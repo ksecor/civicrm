@@ -162,8 +162,11 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->field_name       = $params['field_name'][1];
 
         //should not set location type id for Primary
-        if ( $locationTypeId = CRM_Utils_Array::value( 2, $params['field_name']) ) {
+        $locationTypeId = CRM_Utils_Array::value( 2, $params['field_name'] );
+        if ( $locationTypeId ) {
             $ufField->location_type_id = $locationTypeId;
+        } else {
+            $ufField->location_type_id = 'null';
         }
 
         $ufField->phone_type      = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
