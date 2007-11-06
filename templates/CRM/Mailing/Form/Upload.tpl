@@ -20,13 +20,11 @@
   	<tr><td colspan="2"><span class="font-size11pt bold">{$form.text_message.label}</span><br />{$form.text_message.html}</td></tr>
         <tr><td colspan="2">
             <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
-            <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})
+            <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})</span>
             <br />
-    <div style="border: 1px solid black;" class ="tundra">
-	
-{$form.html_message.html}
-	</div>
-         
+            <div style="border: 1px solid black;" class ="tundra">
+	        {$form.html_message.html}
+           </div>
         </td>
     </tr>
     </table>
@@ -95,8 +93,8 @@
     }
  
    
- function selectValue( val )
-    {*
+    function selectValue( val )
+    {
         //rebuild save template block
         document.getElementById("updateDetails").style.display = 'none';
         
@@ -105,40 +103,39 @@
         }
 
 	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
-
-	var _this = this;
-	var request = dojo.io.bind(
-	              {
-		         url: dataUrl,
-			 method: "get",
-			 preventCache:true,
-			 mimetype: "text/json",
-			 load: function(type, data, evt) {
-			    _this._inFlight = false;
-			    if ( !dojo.lang.isArray(data) ) {
-			       var arrData = [];
-			       for ( var key in data ) {
-				   arrData.push([data[key], key]);
-			       }
-			       data = arrData;
-			    } 
-			 
-			    if (request == _this._lastRequest){
-			      callback(data);
-			    }
-
-			    //set text message
-			    dojo.byId('text_message').value = data[0];
-
-			    //set html message
-			    var ed = dojo.widget.byId('html_message');
-			    ed.editNode.innerHTML = data[1];
-			 }
-		      });
-   *}
- 
-    
         
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                }else{
+                   console.log(response);
+		  /* TO DO 
+		   //set text message
+		   dojo.byId('text_message').value = response[0];
+
+		   //set html message
+		   var ed = dojo.widget.byId('html_message');
+		   ed.editNode.innerHTML = response[1];
+                  */
+
+               }
+         }
+      });
+    }
+         
  
      function verify( )
      {
