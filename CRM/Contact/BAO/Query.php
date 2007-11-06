@@ -2629,10 +2629,14 @@ class CRM_Contact_BAO_Query {
                     while ( $limitDAO->fetch( ) ) {
                         $limitIDs[] = $limitDAO->id;
                     }
-                    $limitClause = 
-                        ' AND contact_a.id IN ( ' .
-                        implode( ',', $limitIDs ) .
-                        ' ) ';
+                    if ( empty( $limitIDs ) ) {
+                        $limitClause = ' AND ( 0 ) ';
+                    } else {
+                        $limitClause = 
+                            ' AND contact_a.id IN ( ' .
+                            implode( ',', $limitIDs ) .
+                            ' ) ';
+                    }
                     $where .= $limitClause;
                     // reset limit clause since we already restrict what records we want
                     $limit  = null;
@@ -2657,7 +2661,7 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        //CRM_Core_Error::debug('query', $query);
+        CRM_Core_Error::debug('query', $query);
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );
