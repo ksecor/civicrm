@@ -303,28 +303,28 @@ ORDER BY title asc
                     }
                     $values[$object->id]['group_type'] = implode( ', ', $types );
                 }
-                $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
-                                                                            $action,
-                                                                            array( 'id'   => $object->id,
-                                                                                   'ssid' => $object->saved_search_id ) );
+                $values[$object->id]['action'] = CRM_Core_Action::formLink(
+                    $links, $action, array( 'id'   => $object->id,
+                    'ssid' => $object->saved_search_id ) );
             }
             $values[$object->id]['children'] = "";
-            if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-              $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-              foreach ($pgroups as $id){
-                if ($values[$object->id]['children'] != ""){
-                    $values[$object->id]['children'] .= ", ";
-                  }
-                $params = array('id' => $id);
-                //                print $id;
-                CRM_Contact_BAO_Group::retrieve($params, $default);
-                //print_r($default);
-                $values[$object->id]['children'] .= $default['title'];
+            if ( CRM_Contact_BAO_GroupNesting::hasChildGroups( $object->id ) ) {
+                $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds( $object->id, false );
+                foreach ( $pgroups as $id ) {
+                    if ( $values[$object->id]['children'] != "" ) {
+                        $values[$object->id]['children'] .= ", ";
+                    }
+                    $params = array( 'id' => $id );
+                    //print $id;
+                    CRM_Contact_BAO_Group::retrieve( $params, $default );
+                    //print_r($default);
+                    $values[$object->id]['children'] .= $default['title'];
+                }
             }
-        }
 
-        if ( isset( $values ) ) {
-            $this->assign( 'rows', $values );
+            if ( isset( $values ) ) {
+                $this->assign( 'rows', $values );
+            }
         }
     }
 
