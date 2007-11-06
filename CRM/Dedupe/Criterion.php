@@ -113,18 +113,12 @@ class CRM_Dedupe_Criterion
         case 'civicrm_contact':
             return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE id = $cid";
 
-        case 'civicrm_household':
-        case 'civicrm_individual':
-        case 'civicrm_organization':
-            return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE contact_id = $cid";
-
         case 'civicrm_address':
         case 'civicrm_email':
         case 'civicrm_im':
         case 'civicrm_phone':
             return "SELECT param.{$this->_field} AS 'match' FROM {$this->_table} param
-                INNER JOIN civicrm_location loc ON param.location_id = loc.id
-                WHERE loc.entity_table = 'civicrm_contact' AND loc.entity_id = $cid";
+                WHERE param.contact_id = $cid";
 
         case 'civicrm_note':
             return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE entity_table = 'civicrm_contact' AND entity_id = $cid";
@@ -153,17 +147,11 @@ class CRM_Dedupe_Criterion
         case 'civicrm_contact':
             return "SELECT id AS contact_id FROM {$this->_table} WHERE {$this->_field} $condition";
 
-        case 'civicrm_household':
-        case 'civicrm_individual':
-        case 'civicrm_organization':
-            return "SELECT contact_id FROM {$this->_table} WHERE {$this->_field} $condition";
-
         case 'civicrm_address':
         case 'civicrm_email':
         case 'civicrm_phone':
-            return "SELECT loc.entity_id AS contact_id FROM civicrm_location loc
-                INNER JOIN {$this->_table} param ON param.location_id = loc.id
-                WHERE loc.entity_table = 'civicrm_contact' AND param.{$this->_field} $condition";
+            return "SELECT param.contact_id AS contact_id FROM {$this->_table} param
+                WHERE param.{$this->_field} $condition";
 
         case 'civicrm_note':
             return "SELECT entity_id AS contact_id FROM {$this->_table} WHERE entity_table = 'civicrm_contact' AND {$this->_field} $condition";
