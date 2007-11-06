@@ -77,7 +77,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 	        CRM_Contact_BAO_Contact::add($params, $ids);
 	        //CRM_Core_Error::debug('calling add', $params);
         } else {
-	        CRM_Core_Error::debug('calling create', $params);
+	        //CRM_Core_Error::debug('calling create', $params);
 	        CRM_Contact_BAO_Contact::create($params, $ids, 1);
         }
         //      CRM_Core_Error::debug('p', $params);
