@@ -1,4 +1,4 @@
-{* template for custom data *}
+{* template for custom data displayed inline *}
     {if $action eq 1 or $action eq 2}
         {include file="CRM/Contact/Form/InlineCustomData.tpl"}
     {/if}
@@ -21,7 +21,7 @@
 			        {if $cd_value.options_per_line != 0 }
 		                    {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
-				    <dt></dt><dd class="html-adjust">
+                        <dd class="html-adjust">
                         {if $viewForm.$element_name}
                             {assign var="count" value="1"}
                             {assign var="no" value="1"}
@@ -33,7 +33,7 @@
                             {if $viewForm.$element_name.$index.html != "" } 
                                 {if $no != '1'} {/if}
                              	 <td class="labels font-light">{$viewForm.$element_name.$index.html}</td>
-			         {assign var="no" value=`$no+1`}
+                                {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
                                     </tr> 
                                     <tr>
@@ -66,7 +66,7 @@
                              {/if}
                             {/if}
                          {else}
-                         <dt></dt><dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd>
+                            <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd>
                          {/if}
                     {/if}
                     {/foreach}
