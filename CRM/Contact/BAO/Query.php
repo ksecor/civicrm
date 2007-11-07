@@ -232,6 +232,11 @@ class CRM_Contact_BAO_Query {
     public $_useDistinct = false;
 
     /**
+     * Should we just display one contact record
+     */
+    public $_useGroupBy  = false;
+
+    /**
      * the relationship type direction
      *
      * @var array
@@ -587,6 +592,7 @@ class CRM_Contact_BAO_Query {
                 }
                 $lCond = "location_type_id = $locationTypeId";
                 $this->_useDistinct = true;
+                $this->_useGroupBy  = true;
             }
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
@@ -2645,11 +2651,7 @@ class CRM_Contact_BAO_Query {
         }
 
         // building the query string
-        $groupBy = null;
-        if ( $count      ||
-             $sortByChar ||
-             $groupContacts ) {
-        } else if ( $this->_useDistinct ) {
+        if ( $this->_useGroupBy ) {
             $groupBy = ' GROUP BY contact_a.id';
         }
         $query = "$select $from $where $groupBy $order $limit";

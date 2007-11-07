@@ -585,7 +585,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function &executeQuery( $query, &$params, $abort = true, $daoName = null ) {
+    static function &executeQuery( $query, &$params, $abort = true, $daoName = null, $freeDAO = false ) {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
         } else {
@@ -595,6 +595,11 @@ class CRM_Core_DAO extends DB_DataObject {
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
         $dao->query( $queryStr );
+
+        if ( $freeDAO ) {
+            // we typically do this for insert/update/delete stataments
+            $dao->free( );
+        }
         return $dao;
     }
 

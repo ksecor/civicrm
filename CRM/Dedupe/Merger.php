@@ -107,7 +107,6 @@ class CRM_Dedupe_Merger
     {
         $cid = (int) $cid;
         $groups = array();
-        $dao =& new CRM_Core_DAO();
 
         $relTables =& self::relTables();
         $cidRefs   =& self::cidRefs();
@@ -126,9 +125,10 @@ class CRM_Dedupe_Merger
                     }
                 }
                 foreach ($sqls as $sql) {
-                    $dao->query($sql);
-                    $dao->fetch();
-                    if ($dao->count > 0) $groups[] = $group;
+                    if ( CRM_Core_DAO::singleValueQuery( $sql,
+                                                         CRM_Core_DAO::$_nullArray ) > 0 ) {
+                        $groups[] = $group;
+                    }
                 }
             }
         }
@@ -241,14 +241,17 @@ class CRM_Dedupe_Merger
         }
 
         // call the SQL queries in one transaction
-        $dao =& new CRM_Core_DAO();
-        $dao->transaction('BEGIN');
-        if (!isset($sqls)) $sqls = array();
-        foreach ($sqls as $sql) {
-            $dao->query($sql);
-            $dao->fetch();
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        if ( ! isset( $sqls ) ) {
+            $sqls = array( );
         }
-        $dao->transaction('COMMIT');
+        foreach ($sqls as $sql) {
+            CRM_Core_DAO::executeQuery( $sql,
+                                        CRM_Core_DAO::$_nullArray,
+                                        true, null, true );
+        }
+        $transaction->commit( );
     }
 
     /**
