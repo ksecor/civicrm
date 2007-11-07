@@ -41,7 +41,7 @@ require_once 'CRM/Utils/Mail.php';
  * BAO object for crm_email_history table
  */
 class CRM_Core_BAO_EmailHistory  {
-
+    
     static function &add( &$params ) {
         $email =& new CRM_Core_DAO_EmailHistory( );
                 
@@ -91,14 +91,52 @@ class CRM_Core_BAO_EmailHistory  {
             $fromDisplayName = $fromEmail;
         }
 
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $message,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $messageToken['contact'] ) ) {
+                        $messageToken['contact'] = array( );
+                    }
+                    $messageToken['contact'][] = $name;
+                }
+            }
+        }
+        
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $subject,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $subjectToken['contact'] ) ) {
+                        $subjectToken['contact'] = array( );
+                    }
+                    $subjectToken['contact'][] = $name;
+                }
+            }
+        }
+
         $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
 
         // create the meta level record first
-        $params =  array( 'subject'    => $subject,
-                          'message'    => $message,
-                          'contact_id' => $userID );
-        $email  =& self::add( $params );
-
+//         TO DO
+//         $params =  array( 'subject'    => $subject,
+//                               'message'    => $message,
+//                               'contact_id' => $userID );
+        
+//         $email  =& self::add( $params );
+        
         $sent = $notSent = array();
 
         require_once 'api/Contact.php';
@@ -110,17 +148,15 @@ class CRM_Core_BAO_EmailHistory  {
                 $notSent[] = $contactId;
                 continue;
             }
-            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false );
-            
-            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false );
-
+            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false, $messageToken);
+            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
             if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenMessage, $emailAddress, $email->id ) ) {
                 $sent[] =  $contactId;
             } else {
                 $notSent[] = $contactId;
             } 
         }
-
+        
         return array( count($contactIds), $sent, $notSent );
     }
     
@@ -159,29 +195,24 @@ class CRM_Core_BAO_EmailHistory  {
                                      $message ) ) {
             return false;
         }
+
+        // add activity histroy record for every mail that is send
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'Email',
+                                                          'name' );
         
-        // we need to insert an activity history record here
-        $params = array('entity_table'     => 'civicrm_contact',
-                        'entity_id'        => $toID,
-                        'activity_type'    => ts('Email Sent'),
-                        'module'           => 'CiviCRM',
-                        'callback'         => 'CRM_Core_BAO_EmailHistory::showEmailDetails',
-                        'activity_id'      => $activityID,
-                        'activity_summary' => ts('From: %1; Subject: %2', array(1 => $from, 2 => $subject)),
-                        'activity_date'    => date('YmdHis')
-                        );
-
-        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
+        $activity = array('source_contact_id'    => $fromID,
+                          'target_contact_id'    => $toID,
+                          'activity_type_id'     => $activityTypeID,
+                          'activity_date_time'   => date('YmdHis'),
+                          'subject'              => ts('From: %1; Subject: %2', array(1 => $from, 2 => $subject))
+                          );
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
             return false;
         }
-
-        // also insert an activity history record from the sender
-        $params['entity_id'] = $fromID;
-        $params['activity_summary'] = ts('To: %1; Subject: %2', array(1 => "$toDisplayName <$toEmail>", 2 => $subject) );
-        if ( is_a( crm_create_activity_history($params), CRM_Core_Error ) ) {
-            return false;
-        }
-
+        
         return true;
     }
     
