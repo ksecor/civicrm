@@ -693,10 +693,17 @@ class CRM_Core_PseudoConstant
         $condition = CRM_Contact_BAO_Group::groupTypeCondition( $groupType );
 
         if (!self::$group) {
-            self::populate( self::$group, 'CRM_Contact_DAO_Group', false, 'title',
+            self::$group = array( );
+        }
+
+        $groupKey = $groupType ? $groupType : 'null';
+        
+        if ( ! isset( self::$group[$groupKey] ) ) {
+            self::$group[$groupKey] = null;
+            self::populate( self::$group[$groupKey], 'CRM_Contact_DAO_Group', false, 'title',
                             'is_active', $condition );
         }
-        return self::$group;
+        return self::$group[$groupKey];
     }
     
     /**
