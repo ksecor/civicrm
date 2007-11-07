@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-10-29 22:05+0200\n"
 "Last-Translator: Tassos Koutlas <tassos.koutlas@gmail.com>\n"
 "Language-Team: \n"
@@ -1863,8 +1863,7 @@ msgstr "Ένα έγκυρο αρχείο πρέπει να επισυναπτε�
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "File size should be less than %1 MBytes (%2 bytes)"
 msgstr ""
-"Το μέγεθος του αρχείου θα πρέπει να είναι μικρότερο από %1 MBytes (%2 "
-"bytes)."
+"Το μέγεθος του αρχείου θα πρέπει να είναι μικρότερο από %1 MBytes (%2 bytes)."
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Input file must be in CSV format"
@@ -4381,8 +4380,9 @@ msgid "List Participants"
 msgstr ""
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr ""
+#, fuzzy
+msgid "Reports"
+msgstr "Εισαγωγή"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"

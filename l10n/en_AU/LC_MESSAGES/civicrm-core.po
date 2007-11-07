@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-10-01 11:07+1100\n"
 "Last-Translator: davemac<dave@macs.id.au>\n"
 "Language-Team: English (Australia)<Australia>\n"
@@ -4679,8 +4679,8 @@ msgstr "Print"
 
 #: CRM/Core/Block.php
 #, fuzzy
-msgid "Summary Report"
-msgstr "Summary"
+msgid "Reports"
+msgstr "Import"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -13569,6 +13569,10 @@ msgstr "Message caught by a content filter"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Error in SMTP transaction"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Summary"
 
 #~ msgid "Activity Entity Table"
 #~ msgstr "Activity Entity Table"

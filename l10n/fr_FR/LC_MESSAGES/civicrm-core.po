@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-10-27 03:36-0700\n"
 "Last-Translator: Frederic Dessy <frederic.dessy@internet.lu>\n"
 "MIME-Version: 1.0\n"
@@ -2286,7 +2286,8 @@ msgstr "Est-ce que ce Processus de paiement est par défaut?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Does this Payment Processor Type support recurring donations?"
-msgstr "Est-ce que ce Processus de paiement supporte les donations récurrentes?"
+msgstr ""
+"Est-ce que ce Processus de paiement supporte les donations récurrentes?"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Settings - Addresses"
@@ -2870,8 +2871,8 @@ msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Ce \"tag\" sera supprimé de tous les contacts marqués, et les utilisateurs ne "
-"seront plus capable d'assigner des contacts à ce \"tag\"."
+"Ce \"tag\" sera supprimé de tous les contacts marqués, et les utilisateurs "
+"ne seront plus capable d'assigner des contacts à ce \"tag\"."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -3227,8 +3228,8 @@ msgstr ""
 msgid ""
 "Email domain must use a valid internet domain format (e.g. \"example.org\")."
 msgstr ""
-"Le domaine de l'email doit être dans un format valide (ex. "
-"\"info@example.org\")"
+"Le domaine de l'email doit être dans un format valide (ex. \"info@example.org"
+"\")"
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
@@ -3556,8 +3557,7 @@ msgstr "Sélectionnez au moins un contact."
 #: CRM/Contact/Form/Relationship.php
 msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
-"La date de fin d'une Relation ne peut pas être antérieure à la date de "
-"début."
+"La date de fin d'une Relation ne peut pas être antérieure à la date de début."
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Custom Fields"
@@ -4552,8 +4552,9 @@ msgid "List Participants"
 msgstr "Imprimer"
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr ""
+#, fuzzy
+msgid "Reports"
+msgstr "Importer"
 
 #: CRM/Core/Block.php
 #, fuzzy

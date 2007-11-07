@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-11-04 03:48-0800\n"
 "Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -1737,8 +1737,8 @@ msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters."
 msgstr ""
-"Por favor, introduzca un valor válido para este campo. Puede usar desde la "
-"a-z, A - Z, 1 - 9, espacios y caracteres de linea baja ( _ )."
+"Por favor, introduzca un valor válido para este campo. Puede usar desde la a-"
+"z, A - Z, 1 - 9, espacios y caracteres de linea baja ( _ )."
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2308,8 +2308,8 @@ msgstr "Número de localizaciones"
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
 msgstr ""
-"Las cuentas de localizaciones tienen que ser un número positivo integer "
-"(e.j.. 1 o 2 o ...)."
+"Las cuentas de localizaciones tienen que ser un número positivo integer (e."
+"j.. 1 o 2 o ...)."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -3403,8 +3403,8 @@ msgstr[0] ""
 "duplicado.\""
 msgstr[1] ""
 "Se encontraron %count coincidencias: %1 Puedes especificarlas aquí mediante "
-"\"Seleccione familia existente o haciendo clic en el botón de abajo \"Guardar "
-"con familia duplicado\"."
+"\"Seleccione familia existente o haciendo clic en el botón de abajo "
+"\"Guardar con familia duplicado\"."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Shared Household-ID not found."
@@ -4487,8 +4487,9 @@ msgid "List Participants"
 msgstr "Participantes"
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr "Sumario"
+#, fuzzy
+msgid "Reports"
+msgstr "Importar"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"
@@ -5673,8 +5674,7 @@ msgstr "La clave no esta establecida para este Procesador de pago"
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
 msgstr ""
-"El procedimiento de pago duplicado no se puede usar para transacciones "
-"reales"
+"El procedimiento de pago duplicado no se puede usar para transacciones reales"
 
 #: CRM/Core/Payment/Form.php
 msgid "Billing First Name"
@@ -7408,9 +7408,9 @@ msgid ""
 "<a href=\"%2\">here</a>... and you can assign Roles to CiviCRM contacts who "
 "are users of your site <a href=\"%1\">here</a>."
 msgstr ""
-"Puede modificar o añadir su ACL´s abajo. Puede crear otros ACL "
-"adicionales.<a href=\"%2\">here</a>... y puede asignar papeles a los contactos "
-"de CiviCRM que sean usuarios de su web <a href=\"%1\">here</a>."
+"Puede modificar o añadir su ACL´s abajo. Puede crear otros ACL adicionales."
+"<a href=\"%2\">here</a>... y puede asignar papeles a los contactos de "
+"CiviCRM que sean usuarios de su web <a href=\"%1\">here</a>."
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid "Which Data"
@@ -7433,8 +7433,8 @@ msgstr ""
 "en una <strong>Operación</strong> (e.g. 'Ver' o 'Editar'), una <strong>serie "
 "de datos</strong> que la operación puede modificar en (e.j. un grupo de "
 "contactos), y un <strong>Papel</strong> que tiene permiso para hacer esta "
-"operación. Referente al <a href=\"%1\" target=\"_blank\" title=\"%2\">Accesi a la "
-"documentación de control</a> para mayor información."
+"operación. Referente al <a href=\"%1\" target=\"_blank\" title=\"%2\">Accesi "
+"a la documentación de control</a> para mayor información."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -7718,7 +7718,8 @@ msgstr "¿Estás seguro que quieres borrar esta plantilla de mensaje?"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "Descriptive title of message - used for template selection."
-msgstr "Descriptivo título para el mensaje - usado para la sección de plantilla"
+msgstr ""
+"Descriptivo título para el mensaje - usado para la sección de plantilla"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid ""
@@ -7745,8 +7746,8 @@ msgid ""
 msgstr ""
 "Puede, opcionalmente, crear un mensaje en HTML. Éste se enviará a los "
 "contactos cuya preferencia haya señalado recibirlos como \"HTML o \"Ambos\". "
-"Pueden incluirse símbolos. Tokens may be included (<a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">documentación de símbolos</a>)."
+"Pueden incluirse símbolos. Tokens may be included (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">documentación de símbolos</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "Is this template enabled."
@@ -7848,9 +7849,9 @@ msgid ""
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
 "CiviCRM incluye un plugin opcional para el correo postal de los Estados "
-"Unidos (USPS). Puede registrarse en  <a href=\"http://www.usps.com/webtools/a"
-"ddress.htm\">http://www.usps.com/webtools/address.htm</a>. Si es aceptado, le "
-"darán una identidad ID y la dirección del servicio."
+"Unidos (USPS). Puede registrarse en  <a href=\"http://www.usps.com/webtools/"
+"address.htm\">http://www.usps.com/webtools/address.htm</a>. Si es aceptado, "
+"le darán una identidad ID y la dirección del servicio."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization Provider. Currently, only 'USPS' is supported."
@@ -7886,8 +7887,8 @@ msgstr ""
 "verse un registro de contacto. EJEMPLO: Si su organización no quiere que se "
 "vea la relación entre los miembros, deberá desactivar la opción para que se "
 "muestre. Las etiquetas de Contribuyentes, Miembros y Actividades se "
-"ocultaran también si el componente no esta activado (<a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">leer más...</a>)."
+"ocultaran también si el componente no esta activado (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">leer más...</a>)."
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -8051,10 +8052,10 @@ msgid ""
 "\">CiviCRM downloads page</a> for additional translations if the one you "
 "need is not listed."
 msgstr ""
-"Los idiomas que usan esta instalación. Instalar \"traducciones\" se listan en "
-"langageCode_countryCode format. Compruebe <a href=\"%1\" target=\"_blank\">la "
-"página CiviCRM downloads</a> para otras traducciones si el que necesita no "
-"se lista aquí."
+"Los idiomas que usan esta instalación. Instalar \"traducciones\" se listan "
+"en langageCode_countryCode format. Compruebe <a href=\"%1\" target=\"_blank"
+"\">la página CiviCRM downloads</a> para otras traducciones si el que "
+"necesita no se lista aquí."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -8100,8 +8101,8 @@ msgid ""
 "box empty."
 msgstr ""
 "Los países que estarán disponibles en el campo de selección de países cuando "
-"añada una dirección de contacto. Para incluir todos los países, deje la "
-"caja de la derecha vacía."
+"añada una dirección de contacto. Para incluir todos los países, deje la caja "
+"de la derecha vacía."
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
@@ -8123,9 +8124,10 @@ msgid ""
 "information."
 msgstr ""
 "Estos ajustes se usan para configurar el componente de CiviCRM de correo "
-"CiviMail. Éstos no se usan para el sistema \"Enviar correo a los contactos\". "
-"Para más información <a href=\"%1\" target=\"_blank\" title=\"Guía de CiviMail "
-"(abre una ventana nueva)\">Guía de CiviMail</a> para mayor información."
+"CiviMail. Éstos no se usan para el sistema \"Enviar correo a los contactos"
+"\". Para más información <a href=\"%1\" target=\"_blank\" title=\"Guía de "
+"CiviMail (abre una ventana nueva)\">Guía de CiviMail</a> para mayor "
+"información."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "CiviMail Configuration"
@@ -8219,9 +8221,9 @@ msgid ""
 "your web server has write access to the directories."
 msgstr ""
 "Los valores por defecto que se suministrarán la primera vez que acceda a "
-"CiviCRM basado en CIVICRM_TEMPLATE_COMPILEDIR se especificaron en "
-"civicrm.settings.php. Si necesita modificarlos, tiene que estar seguro de "
-"que su servidor puede a estos directorios."
+"CiviCRM basado en CIVICRM_TEMPLATE_COMPILEDIR se especificaron en civicrm."
+"settings.php. Si necesita modificarlos, tiene que estar seguro de que su "
+"servidor puede a estos directorios."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid "Upload Directories"
@@ -8315,8 +8317,8 @@ msgstr ""
 "Estos ajustes definen la dirección para acceder a los recursos de CiviCRM "
 "(archivos CSS, Javascript, imágenes, etc.). Los valores por defecto se "
 "insertarán la primera vez que acceda a CiviCRM - basado en "
-"CIVICRM_UF_BASEURL specifique la configuración del archivo "
-"(civicrm.settings.php)."
+"CIVICRM_UF_BASEURL specifique la configuración del archivo (civicrm.settings."
+"php)."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -8370,8 +8372,9 @@ msgstr ""
 "un <strong>sistema de los datos</strong> que la operación se puede realizar "
 "en (ej. un grupo de contactos, de un perfil o de un sistema de campos "
 "personalizados), y un <strong>rol</strong que tenga permiso de hacer esta "
-"operación. Vaya a la <a href=\"%1\" target=\"_blank\" title=\"%2\">documentación "
-"del control de acceso</a> para más Información sobre el papel de Drupal."
+"operación. Vaya a la <a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">documentación del control de acceso</a> para más Información sobre el "
+"papel de Drupal."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -8380,8 +8383,8 @@ msgid ""
 "\" (<em>Data</em>)."
 msgstr ""
 "<strong>EJEMPLO:</strong> \"Los jefes de equipo\" (<em>ACL Role</em>) pueden "
-"\"Editar\" (<em>Operaciones</em>) a todos los contactos en el \"Grupo activo de "
-"voluntarios\" (<em>Datos</em>)."
+"\"Editar\" (<em>Operaciones</em>) a todos los contactos en el \"Grupo activo "
+"de voluntarios\" (<em>Datos</em>)."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -9373,9 +9376,9 @@ msgid ""
 "\">Search Builder documentation</a> before building your first search."
 msgstr ""
 "IMPORTANTE: El constructor de búsqueda requiere que use un formato "
-"específico para los valores. Revise <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">Documentación del constructor de busqueda</a> antes de construir "
-"su primera busqueda."
+"específico para los valores. Revise <a href=\"%1\" target=\"_blank\" title="
+"\"%2\">Documentación del constructor de busqueda</a> antes de construir su "
+"primera busqueda."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 #, fuzzy
@@ -10671,8 +10674,8 @@ msgstr ""
 "¿Se incluye este campo en el formulario componente de búsqueda avanzada? "
 "NOTA: Esta característica esta disponible para los campos personalizados de "
 "los <strong>Contactos</strong>,<strong>Contribucioness</strong>, "
-"<strong>Membrecía</strong>, y <strong>Actividades de los "
-"participantes</strong> al mismo tiempo."
+"<strong>Membrecía</strong>, y <strong>Actividades de los participantes</"
+"strong> al mismo tiempo."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 msgid "View / Edit Multiple Choice Options"
@@ -10870,7 +10873,8 @@ msgstr ""
 "Los Grupos de Datos Personalizados son usados para recoger y guardar datos "
 "adicionales no incluidos en los formularios  CiviCRM estándar. Puedes crear "
 "uno o más grupos  cada uno conteniendo un conjunto de campos de datos "
-"personalizados. (<a href=\"%1\" target=\"_blank\" title=\"%2\">leer mas...</a>)."
+"personalizados. (<a href=\"%1\" target=\"_blank\" title=\"%2\">leer mas...</"
+"a>)."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
@@ -12832,6 +12836,9 @@ msgstr "Mensaje cogido por un filtro de contenido"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Error en la transacción SMTP"
+
+#~ msgid "Summary Report"
+#~ msgstr "Sumario"
 
 #, fuzzy
 #~ msgid "Activity Entity Table"
