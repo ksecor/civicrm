@@ -1835,7 +1835,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      * @access public
      */
     
-    static function commonSendMail( $contactID, &$values ) {
+    static function commonSendMail( $contactID, &$values ) 
+    {
         if ( !$contactID || !$values ){
             return;
         }
@@ -1907,7 +1908,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 $fields = CRM_Core_BAO_UFGroup::getFields( $gid, false, CRM_Core_Action::VIEW );  
                 CRM_Core_BAO_UFGroup::getValues( $cid, $fields, $values , false, $params );
 
-                $count=0;//checks for array with only keys and not values
+                $count = 0;//checks for array with only keys and not values
                 foreach ($values as $value) {
                     if ($value) {
                         $count++;
@@ -1916,11 +1917,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'notify' );
                 $val = array(
-                                'id'     => $gid,
-                                'values' => $values,
-                                'email'  => $email
-                                );
-                return ($count && $email) ? $val : false;
+                             'id'     => $gid,
+                             'values' => $values,
+                             'email'  => $email
+                             );
+                
+                return $val;
             }
         } 
     }

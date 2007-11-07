@@ -817,7 +817,6 @@ civicrm_membership_status.is_current_member =1";
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
         
-
         $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
                                                                    $premiumParams, $contactID,
                                                                    $contributionTypeId, 
@@ -914,12 +913,13 @@ civicrm_membership_status.is_current_member =1";
                 
             $payment->doTransferCheckout( $form->_params );
         }
-                
+        
+        $form->_values['membership_id'] = $membership->id;
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values,
-                                                       $contribution[$index]->id );
+                                                       $form->_values
+                                                       );
     }
     
     /**
