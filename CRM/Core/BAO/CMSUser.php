@@ -34,7 +34,7 @@
  */
 
 /** 
- *  this file contains functions for synchronizing drupal users with CiviCRM contacts
+ *  this file contains functions for synchronizing cms users with CiviCRM contacts
  */
 
 require_once 'DB.php';
@@ -42,7 +42,7 @@ require_once 'DB.php';
 class CRM_Core_BAO_CMSUser  
 {
     /**
-     * Function for synchronizing drupal users with CiviCRM contacts
+     * Function for synchronizing cms users with CiviCRM contacts
      *  
      * @param NULL
      * 
@@ -56,36 +56,36 @@ class CRM_Core_BAO_CMSUser
         //start of schronization code
         $config =& CRM_Core_Config::singleton( );
         
-        /**
-         * Update the next line with the correct Drupal database user, password, db_server and db name
-         * for your Drupal installation.
-         */
-
-        $db_drupal = DB::connect($config->userFrameworkDSN);
-        if ( DB::isError( $db_drupal ) ) { 
-            die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+        $db_uf = DB::connect($config->userFrameworkDSN);
+        if ( DB::isError( $db_uf ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
         } 
  
         if ( $config->userFramework == 'Drupal' ) { 
             $id   = 'uid'; 
             $mail = 'mail'; 
+            $name = 'name';
         } else if ( $config->userFramework == 'Joomla' ) { 
             $id   = 'id'; 
             $mail = 'email'; 
+            $name = 'name';
         } else { 
             die( "Unknown user framework" ); 
         } 
 
 
-        $sql   = "SELECT $id, $mail FROM {$config->userFrameworkUsersTableName} where $mail != ''";
-        $query = $db_drupal->query( $sql );
+        $sql   = "SELECT $id, $mail, $name FROM {$config->userFrameworkUsersTableName} where $mail != ''";
+        $query = $db_uf->query( $sql );
         
-        $user            = null;
-        $uf              = 'Drupal';
+        $user            = new StdClass( );
+        $uf              = $config->userFramework;
         $contactCount    = 0;
         $contactCreated  = 0;
         $contactMatching = 0;
         while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            $user->$id   = $row[$id];
+            $user->$mail = $row[$mail];
+            $user->$name = $row[$name];
             $contactCount++;
             if ( CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row[$id], $row[$mail], $uf, 1 ) ) {
                 $contactCreated++;
@@ -94,7 +94,7 @@ class CRM_Core_BAO_CMSUser
             } 
         }
         
-        $db_drupal->disconnect( );
+        $db_uf->disconnect( );
         
         //end of schronization code
         $status = ts('Synchronize Users to Contacts completed.');
@@ -363,10 +363,10 @@ SELECT count(*)
     {
         $config =& CRM_Core_Config::singleton( );
         
-        $db_drupal = DB::connect($config->userFrameworkDSN);
+        $db_uf = DB::connect($config->userFrameworkDSN);
         
-        if ( DB::isError( $db_drupal ) ) { 
-            die( "Cannot connect to UF db via $dsn, " . $db_drupal->getMessage( ) ); 
+        if ( DB::isError( $db_uf ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
         } 
         
         if ( $config->userFramework != 'Drupal' ) { 
@@ -375,7 +375,7 @@ SELECT count(*)
         
         $sql   = "SELECT uid FROM {$config->userFrameworkUsersTableName} where mail='" . $contact['email'] . "'";
         
-        $query = $db_drupal->query( $sql );
+        $query = $db_uf->query( $sql );
         
         if ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $contact['user_exists'] = true;
@@ -384,7 +384,7 @@ SELECT count(*)
             $result = false;
         }
         
-        $db_drupal->disconnect( );
+        $db_uf->disconnect( );
         return $result;
     }
     
