@@ -357,7 +357,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
             $values['location'][1]['is_primary'] = 1;
         }
 
-        return $allLocations;
+        return $allLocations['location'];
     }
 
 
@@ -386,24 +386,24 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     }
     
     /**
-     * Delete the object records that are associated with this location
+     * Delete all the block associated with the location
      *
-     * @param  int  $locationId id of the location to delete
+     * @param  int  $contactId      contact id
+     * @param  int  $locationTypeId id of the location to delete
      *
      * @return void
      * @access public
      * @static
      */
-    static function deleteLocationBlocks( $locationId ) {
+    static function deleteLocationBlocks( $contactId, $locationTypeId ) {
         static $blocks = array( 'Address', 'Phone', 'IM', 'OpenID' );
+        require_once "CRM/Core/BAO/Block.php";
+        $params = array ( 'contact_id' => $contactId, 'location_type_id' => $locationTypeId);
         foreach ($blocks as $name) {
-            require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Core_DAO_" . $name) . ".php");
-            eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );
-            $object->location_id = $locationId;
-            $object->delete( );
+            CRM_Core_BAO_Block::blockDelete( $name, $params );
         }
         
-        CRM_Core_BAO_Email::deleteLocation($locationId);
+        CRM_Core_BAO_Email::deleteLocation( $params );
     }
 
     static function primaryLocationValue( $entityID, $entityTable = 'civicrm_contact', $locationID = null ) {

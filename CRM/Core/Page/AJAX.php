@@ -63,9 +63,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
 
         switch ( $args[2] ) {
 
-        case 'help':
-            return $this->help( $config );
-
         case 'search':
             return $this->search( $config );
 
@@ -89,24 +86,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         case 'caseSubject':
              return $this->caseSubject( $config );
+        case 'template':
+            return $this->template( $config );
+
         default:
             return;
         }
-    }
-
-    /**
-     * Function to get help messages
-     */
-    function help( &$config ) 
-    {
-        $id   = urldecode( $_GET['id'] );
-        $file = urldecode( $_GET['file'] );
-
-        $template =& CRM_Core_Smarty::singleton( );
-        $file = str_replace( '.tpl', '.hlp', $file );
-
-        $template->assign( 'id', $id );
-        echo $template->fetch( $file );
     }
 
     /**
@@ -415,6 +400,30 @@ ORDER BY subject";
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'name');
     }
+
+    /**
+     * Function to fetch the template text/html messages
+     */
+    function template( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $templateId = CRM_Utils_Type::escape( $_GET['tid'], 'Integer' );
+
+        require_once "CRM/Core/DAO/MessageTemplates.php";
+        $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
+        $messageTemplate->id = $templateId;
+        $messageTemplate->selectAdd( );
+        $messageTemplate->selectAdd( 'msg_text, msg_html' );
+        $messageTemplate->find( true );
+        
+        $elements = array( $messageTemplate->msg_text, $messageTemplate->msg_html );
+
+        require_once 'Services/JSON.php';
+        $json =& new Services_JSON( );
+        echo $json->encode( $elements );
+    }
+
+
 }
 
 ?>

@@ -66,7 +66,8 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         if (! $q) {
             return false;
         }
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         $contact =& new CRM_Contact_BAO_Contact();
         $contact->id = $q->contact_id;
         $contact->is_opt_out = true;
@@ -87,7 +88,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         );
         CRM_Contact_BAO_SubscriptionHistory::create($shParams);
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return true;
     }
@@ -110,9 +111,9 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         
         $contact_id = $q->contact_id;
-        
-        CRM_Core_DAO::transaction('BEGIN');
-        
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         $do =& new CRM_Core_DAO();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
         $job        = CRM_Mailing_BAO_Job::getTableName();
@@ -207,7 +208,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $ue->time_stamp = date('YmdHis');
         $ue->save();
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         return $groups;
     }
 
@@ -269,12 +270,18 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $eq->fetch();
         
         $message =& new Mail_Mime("\n");
+        list($addresses, $urls) = CRM_Mailing_BAO_Mailing::getVerpAndUrls($job, $queue_id, $eq->hash, $eq->email);
+        $bao =& new CRM_Mailing_BAO_Mailing();
+        $bao->body_text = $text;
+        $bao->body_html = $html;
+        $tokens = $bao->getTokens();
         require_once 'CRM/Utils/Token.php';
         if ($eq->format == 'HTML' || $eq->format == 'Both') {
             $html = 
                 CRM_Utils_Token::replaceDomainTokens($html, $domain, true);
             $html = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
+            $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
@@ -282,13 +289,14 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                 CRM_Utils_Token::replaceDomainTokens($text, $domain, false);
             $text = 
                 CRM_Utils_Token::replaceUnsubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
+            $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);
             $message->setTxtBody($text);
         }
         $headers = array(
             'Subject'       => $component->subject,
-            'From'          => ts('"%1 Administrator" <%2>',
-                array(  1 => $domain->name, 
-                        2 => "do-not-reply@{$domain->email_domain}")),
+            'From'          => ts('"%1" <do-not-reply@%2>',
+                                   array(  1 => $domain->email_name,
+                                           2 => $domain->email_domain) ),
             'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"
@@ -334,6 +342,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
 
@@ -399,6 +408,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
                     ON  $queue.job_id = $job.id
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
+                    AND $job.is_test = 0
             WHERE       $mailing.id = " 
             . CRM_Utils_Type::escape($mailing_id, 'Integer');
     

@@ -77,19 +77,14 @@ class CRM_Contact_Page_View_Relationship extends CRM_Contact_Page_View {
                                                                               CRM_Contact_BAO_Relationship::CURRENT  ,
                                                                               0, 0, 0,
                                                                               $links, $mask );
-        $pastRelationships    = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId,
-                                                                               CRM_Contact_BAO_Relationship::PAST     ,
-                                                                               0, 0, 0,
-                                                                               $links, $mask );
-        $disableRelationships = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId,
-                                                                               CRM_Contact_BAO_Relationship::DISABLED ,
-                                                                               0, 0, 0,
-                                                                               $links, $mask );
         
-        $this->assign( 'currentRelationships', $currentRelationships );
-        $this->assign( 'pastRelationships'   , $pastRelationships );
-        $this->assign( 'disableRelationships', $disableRelationships );
+        $inactiveRelationships = CRM_Contact_BAO_Relationship::getRelationship( $this->_contactId,
+                                                                                CRM_Contact_BAO_Relationship::INACTIVE ,        
+                                                                                0, 0, 0,
+                                                                                $links, $mask );
         
+        $this->assign( 'currentRelationships',  $currentRelationships  );
+        $this->assign( 'inactiveRelationships', $inactiveRelationships );
     }    
     
     /**

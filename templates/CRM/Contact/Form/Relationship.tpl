@@ -127,6 +127,7 @@
                 <dt>{$form.description.label}</dt>
                 <dd>{$form.description.html}</dd>
                 <dt>{$form.note.label}</dt><dd>{$form.note.html}</dd>
+		<dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>
         </dl>
 	{include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         <dl>

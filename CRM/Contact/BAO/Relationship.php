@@ -46,7 +46,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     const
         PAST              =  1,
         DISABLED          =  2,
-        CURRENT           =  4;
+        CURRENT           =  4,
+        INACTIVE          =  8;
    
     /**
      * takes an associative array and creates a relationship object 
@@ -156,12 +157,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         if ($type == 6) {
             CRM_Contact_BAO_Household::updatePrimaryContact($contact_b, $contact_a );
         }
-        
+
         $relationship =& new CRM_Contact_BAO_Relationship( );
         $relationship->contact_id_b         = $contact_b;
         $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
-        $relationship->is_active            = 1;
+        $relationship->is_active            = $params['is_active'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
         $relationship->start_date           = CRM_Utils_Date::format( CRM_Utils_Array::value( 'start_date', $params ) );
         if ( ! $relationship->start_date ) {
@@ -666,6 +667,10 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             //this case for showing current relationship
             $where .= ' AND civicrm_relationship.is_active = 1 ';
             $where .= " AND (civicrm_relationship.end_date >= '" . $date . "' OR civicrm_relationship.end_date IS NULL) ";
+        } else if ( $status == self::INACTIVE ) {
+            //this case for showing inactive relationships
+            $where .= " AND (civicrm_relationship.end_date < '" . $date . "'";
+            $where .= ' OR civicrm_relationship.is_active = 0 )';
         }
         
         if ( $direction == 'a_b' ) {
@@ -673,7 +678,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         } else {
             $where .= ' ) ';
         }
-
+        
         return array( $select, $from, $where );
     }
 
@@ -695,7 +700,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
     static function getRelationship( $contactId,
                                      $status = 0, $numRelationship = 0,
                                      $count = 0, $relationshipId = 0,
-                                     $links = null, $permissionMask = null ) 
+                                     $links = null, $permissionMask = null )
     {
         list( $select1, $from1, $where1 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'a_b' );
         list( $select2, $from2, $where2 ) = self::makeURLClause( $contactId, $status, $numRelationship, $count, $relationshipId, 'b_a' );
@@ -712,7 +717,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         // building the query string
         $queryString = '';
         $queryString = $select1 . $from1 . $where1 . $select2 . $from2 . $where2 . $order . $limit;
-        
+
         $relationship =& new CRM_Contact_DAO_Relationship( );
        
         $relationship->query($queryString);
@@ -727,22 +732,23 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $values = array( );
 
             $mask = null;
-            if ( $links ) {
-                $mask = array_sum( array_keys( $links ) );
-                if ( $mask & CRM_Core_Action::DISABLE ) {
-                    $mask -= CRM_Core_Action::DISABLE ;
+            if ( $status != self::INACTIVE ) {
+                if ( $links ) {
+                    $mask = array_sum( array_keys( $links ) );
+                    if ( $mask & CRM_Core_Action::DISABLE ) {
+                        $mask -= CRM_Core_Action::DISABLE ;
+                    }
+                    if ( $mask & CRM_Core_Action::ENABLE ) {
+                        $mask -= CRM_Core_Action::ENABLE ;
+                    }
+                    
+                    if ( $status == self::CURRENT ) {
+                        $mask |= CRM_Core_Action::DISABLE;
+                    } else if ( $status == self::DISABLED ) {
+                        $mask |= CRM_Core_Action::ENABLE;
+                    }
+                    $mask = $mask & $permissionMask;
                 }
-                if ( $mask & CRM_Core_Action::ENABLE ) {
-                    $mask -= CRM_Core_Action::ENABLE ;
-                }
-
-                if ( $status == self::CURRENT ) {
-                    $mask |= CRM_Core_Action::DISABLE;
-                } else if ( $status == self::DISABLED ) {
-                    $mask |= CRM_Core_Action::ENABLE;
-                }
-
-                $mask = $mask & $permissionMask;
             }
 
             while ( $relationship->fetch() ) {
@@ -772,9 +778,22 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 } else {
                     $values[$rid]['rtype'] = 'b_a';
                 }
-
+                
                 if ( $links ) {
-                    $replace = array( 'id' => $rid, 'rtype' => $values[$rid]['rtype'], 'cid' => $contactId );
+                    $replace = array( 'id' => $rid, 
+                                      'rtype' => $values[$rid]['rtype'], 
+                                      'cid' => $contactId );
+
+                    if ( $status == self::INACTIVE ) {
+                        // setting links for inactive relationships
+                        $mask = array_sum( array_keys( $links ) );
+                        if ( !$values[$rid]['is_active'] ) {
+                            $mask -= CRM_Core_Action::DISABLE ;  
+                        } else {
+                            $mask -= CRM_Core_Action::ENABLE ;
+                            $mask -= CRM_Core_Action::DISABLE ;
+                        }               
+                    }
                     $values[$rid]['action'] = CRM_Core_Action::formLink( $links, $mask, $replace );
                 }
             }
@@ -823,7 +842,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      *
      */
     static function relatedMemberships( $contactId, &$params, $ids, $action = CRM_Core_Action::ADD )
-    {
+    { 
         // Check the end date and set the status of the relationship
         // accrodingly.
         $status = self::CURRENT;
@@ -912,9 +931,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             $values[$cid]['memberships'] = $memberships;
         }
         // done with 'values' array.
-        
-        //CRM_Core_Error::debug( 'Values', $values );
-        //exit( );
         
         // Finally add / edit / delete memberships for the related contacts
         foreach ( $values as $cid => $details ) {

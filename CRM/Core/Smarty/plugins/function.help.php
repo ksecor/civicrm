@@ -59,12 +59,15 @@ function smarty_function_help( $params, &$smarty ) {
     }
 
     $id   = urlencode( $params['id'] );
-    $file = urlencode( $file );
-    $url = CRM_Utils_System::url( 'civicrm/ajax/help', "id=$id&file=$file" );
+    $file = str_replace( '.tpl', '.hlp', $file );
+    $smarty->assign( 'id', $params['id'] );
+    $id   = urlencode( $params['id'] );
+    $help = $smarty->fetch( $file );
     return <<< EOT
+<div class="tundra">
 <img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}/i/Help.png">
-<span dojoType="tooltip" connectId="{$id}_help" href="$url" style="width: 620px; padding: 1em;">
-</span>
+<span dojoType="dijit.Tooltip" connectId="{$id}_help">$help
+</span></div>
 EOT;
 
 }

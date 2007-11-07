@@ -379,26 +379,24 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 CRM_Utils_Array::value( 'preferred_communication_method_display', $temp );
             
             CRM_Contact_DAO_Contact::addDisplayEnums($values);
-            if ($contact->birth_date) {
-                $formatedDate = CRM_Utils_Date::customFormat($contact->birth_date,'%Y-%m-%d');
-                $bdate = explode('-',$formatedDate);
-                $birthDate      = mktime(0,0,0,$bdate['1'],$bdate['2'],$bdate['0']); 
-                $currDate      = mktime(0,0,0,date('m'),date('d'),date('Y')); 
-                $days = 0;
-                while ($birthDate<=$currDate ) { 
-                    $days++;
-                    $birthDate+=(24*3600);
-                }
-                $values['age'] = floor($days/365);
-                $values['days']=$days%365;
+            
+            // Calculating Year difference            
+            if ( $contact->birth_date ) {
+                $birthDate = CRM_Utils_Date::customFormat( $contact->birth_date,'%Y%m%d' );  
+                if ( $birthDate < date( 'Ymd' ) ) {
+                    $age =  self::findAge( $birthDate );
+                    $values['age']['y'] = $age['years'];
+                    $values['age']['m'] = $age['months'];
+                 }
             }
+
             $contact->contact_id = $contact->id;
             
             return $contact;
         }
         return null;
     }
-
+    
     /**
      * takes an associative array and creates a contact object and all the associated
      * derived objects (i.e. individual, location, email, phone etc)
@@ -509,6 +507,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $transaction->commit( );
         
+        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
+
         if ( $invokeHooks ) {
             if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
@@ -516,8 +516,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
             }
         }
-
-        $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         return $contact;
     }
@@ -547,7 +545,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
         }
 
-        CRM_Core_DAO::transaction( 'BEGIN' ); 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         if ( ! array_key_exists( 'contact_type', $params ) ) {
             $params['contact_type'] = 'Individual';
@@ -556,9 +555,8 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         $params['contact_id'] = $contact->id;
 
-        require_once "CRM/Contact/BAO/{$params['contact_type']}.php";
-        eval( 'CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
-
+        require_once "CRM/Contact/BAO/Contact.php";
+        CRM_Contact_BAO_Contact::add( $params, $ids );
         require_once 'CRM/Core/BAO/LocationType.php';
         $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
         $locationTypeId =  $locationType->id;
@@ -571,7 +569,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 break;
             }
         }
-            
+        
         $location =& new CRM_Core_DAO_Location( );
         $location->id = CRM_Utils_Array::value( 'id', $locationIds );
         $location->entity_table = 'civicrm_contact';
@@ -583,8 +581,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             $location->location_type_id = $locationTypeId;
         }
         $location->save( );
-       
-        
+              
         $address =& new CRM_Core_BAO_Address();
         CRM_Core_BAO_Address::fixAddress( $params );
         
@@ -658,7 +655,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             }
         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' ); 
+       $transaction->commit( );
 
         if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );
@@ -1360,7 +1357,9 @@ WHERE civicrm_contact.id IN $idString ";
             $case = (" and 1 ");
         }
 
-
+        // DRAFTING: Consider adding DISTINCT to this query after
+        // DRAFTING: making sure that adding and updating works fine.
+        // DRAFTING: Consider moving it out to Activity BAO
         $query = "select civicrm_activity.*,
                          sourceContact.display_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
@@ -1540,7 +1539,7 @@ WHERE civicrm_contact.id IN $idString ";
             
             //Sorting fields in alphabetical order(CRM-1507)
             foreach ( $fields as $k=>$v ) {
-                $sortArray[$k] = $v['title'];
+                $sortArray[$k] = CRM_Utils_Array::value( 'title', $v );
             }
             asort($sortArray);
             $fields = array_merge( $sortArray, $fields );
@@ -1922,7 +1921,6 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                               'address_id'      => 'address'
                               );
             $ids = array( ); 
-            
             if ( is_array($contactDetails) ) {
                 foreach ($contactDetails as $key => $value) {
                     if ( array_key_exists($key, $objects) ) {
@@ -1931,8 +1929,17 @@ LEFT JOIN civicrm_email ON (civicrm_contact.id = civicrm_email.contact_id AND ci
                     } else if (is_array($value)) {
                         
                         $locNo = array_search( $value['location_type_id'], $locationType );
-                        if ( $locNo == false ) {
-                            CRM_Core_Error::fatal( ts( 'Could not find location id' ) );
+                        if ( ! $locNo ) {
+                            if ( is_numeric( $key ) ) {
+                                $locNo = $key;
+                            } else {
+                                $locNo = array_search( $key, $locationType );
+                            }
+                        }
+                        if ( ! $locNo ) {
+                            // hack for now to get paypal to work, Kurund please fix
+                            $locNo = 5;
+                            // CRM_Core_Error::fatal( ts( 'Could not find location type id' ) );
                         }
 
                         foreach ($value as $k => $v) {
@@ -2493,6 +2500,47 @@ SELECT count( l.id )
         return $contact->id;
     }
 
+    /**
+     * Function to calculate Age in Years if greater than one year else in months
+     * 
+     * @param date $birthDate Birth Date
+     *
+     * @return int array $results contains years or months
+     * @access public
+     */
+    public function findAge($birthDate) 
+    {     
+        $results = array( );
+        $formatedBirthDate  = CRM_Utils_Date::customFormat($birthDate,'%Y-%m-%d'); 
+        
+        $bDate      = explode('-',$formatedBirthDate);
+        $birthYear  = $bDate[0]; 
+        $birthMonth = $bDate[1]; 
+        $birthDay   = $bDate[2]; 
+        $year_diff  = date("Y") - $birthYear; 
+        
+        switch ($year_diff) {
+        case 1: 
+            $month = (12 - $birthMonth) + date("m");
+            if ( $month < 12 ) { 
+                $results['months'] =  $month;
+            } elseif ( $month == 12 && (date("d") < $birthDay) ) { 
+                $results['months'] = $month-1;
+            } else { 
+                $results['years'] =  $year_diff;
+            }
+            break;
+        case 0:
+            $month = date("m") - $birthMonth;
+            $results['months'] = $month;
+            break;
+        default:
+            $results['years'] = $year_diff;
+        }
+        
+        return $results;
+    }
+    
 }
 
 ?>

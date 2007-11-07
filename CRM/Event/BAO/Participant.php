@@ -166,7 +166,8 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     { 
         require_once 'CRM/Utils/Date.php';
 
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         if ( CRM_Utils_Array::value( 'participant', $ids ) ) {
             $status = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Participant', $ids['participant'], 'status_id' );
@@ -175,7 +176,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         $participant = self::add($params, $ids);
         
         if ( is_a( $participant, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            $transaction->rollback( );
             return $participant;
         }
         
@@ -248,7 +249,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
         
         $params['participant_id'] = $participant->id;
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
         
         return $participant;
     }
@@ -333,23 +334,25 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
      */
     static function eventFull( $eventId )
     {
+        // fix for CRM-2326, participant has to be either registered or attended status
+        // for event to be full
         $query = "SELECT   count(civicrm_participant.id) as total_participants,
                            civicrm_event.max_participants as max_participants,
                            civicrm_event.event_full_text as event_full_text  
                   FROM     civicrm_participant, civicrm_event 
                   WHERE    civicrm_participant.event_id = civicrm_event.id
-                     AND   civicrm_participant.status_id!=4 
-                     AND   civicrm_participant.is_test=0 
-                     AND   civicrm_participant.event_id={$eventId} 
+                     AND   civicrm_participant.status_id IN ( 1, 2 ) 
+                     AND   civicrm_participant.is_test = 0 
+                     AND   civicrm_participant.event_id = {$eventId} 
                   GROUP BY civicrm_participant.event_id";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
-
-        while ( $dao->fetch( ) ) {
+        if ( $dao->fetch( ) ) {
             if( $dao->max_participants == NULL ) {
                 return false;
             }
+            
             if( $dao->total_participants >= $dao->max_participants ) {
                 if( $dao->event_full_text ) {
                     return $dao->event_full_text;
@@ -359,6 +362,7 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
             }
         }
         return false;
+
     }
 
     /**

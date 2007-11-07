@@ -88,8 +88,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         } else {
             $params['reminder_date'] = 'null';        
         }
+        
+        if ( ! $params['is_override'] ) {
+            $params['is_override'] = 'null';
+        }
+        
         $membership =& new CRM_Member_BAO_Membership();
         $membership->copyValues($params);
+
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
         $membership->save();
@@ -191,12 +197,14 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $params['status_id'] = $calcStatus['id'];
         }
         
-        CRM_Core_DAO::transaction('BEGIN');
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         
         $membership =& self::add($params, $ids);
         
         if ( is_a( $membership, 'CRM_Core_Error') ) {
-            CRM_Core_DAO::transaction( 'ROLLBACK' );
+            $transaction->rollback( );
             return $membership;
         }
         
@@ -270,7 +278,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             CRM_Core_Error::fatal("Failed creating Activity History for membership of id {$membership->id}");
         }
         
-        CRM_Core_DAO::transaction('COMMIT');
+        $transaction->commit( );
 
         return $membership;
     }
@@ -490,7 +498,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 }
                                 $membershipTypes[] = $mem;
                             }
-                        } else {
+                        } else if ( $memType->is_active ) {
                             $mem = array();
                             CRM_Core_DAO::storeValues($memType,$mem);
                             $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);

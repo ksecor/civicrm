@@ -229,8 +229,21 @@ class CRM_Core_BAO_Block
             $contactFields['location_type_id'] = $value['location_type_id'];
             
             foreach ( $value as $val ) {
+                if ( !is_array( $val ) ) {
+                    continue;
+                }
                 
-                if ( !is_array( $val ) || !self::dataExists( self::$requiredBlockFields[$blockName], $val ) ) {
+                if ( !empty( $contactBlockIds[ $locationCount ] ) ) {
+                    $val['id'] = array_shift( $contactBlockIds[ $locationCount ] );
+                }
+                
+                $dataExits = self::dataExists( self::$requiredBlockFields[$blockName], $val );
+                
+                if ( isset( $val['id'] ) && !$dataExits ) {
+                    //delete the existing record
+                    self::blockDelete( $name, array( 'id' => $val['id'] ) );
+                    continue;
+                } else if ( !$dataExits ) {
                     continue;
                 }
                 
@@ -240,13 +253,8 @@ class CRM_Core_BAO_Block
                 } else {
                     $contactFields['is_primary'] = false;
                 }
-
-                if ( !empty( $contactBlockIds[ $locationCount ] ) ) {
-                    $val['id'] = array_shift( $contactBlockIds[ $locationCount ] );
-                }
-                
+               
                 $blockFields = array_merge( $val, $contactFields );
-                //crm_core_error::debug('$blockFields', $blockFields);
                 eval ( '$blocks[] = CRM_Core_BAO_' . $name . '::add( $blockFields );' );
             }
             
@@ -255,7 +263,26 @@ class CRM_Core_BAO_Block
 
         return $blocks;
     }
+
+    /**
+     * Function to delete block
+     *
+     * @param  string $blockName       block name
+     * @param  int    $params          associates array
+     *
+     * @return void
+     * @static
+     */
+    static function blockDelete ( $blockName, $params ) 
+    {
+        eval ( '$block =& new CRM_Core_DAO_' . $blockName . '( );' );
+
+        $block->copyValues( $params );
+
+        $block->delete();
+    }
     
+
 }
 
 ?>

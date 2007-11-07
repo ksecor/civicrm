@@ -105,6 +105,13 @@
        <add>1.8</add>
   </field>
   <field>
+       <name>url_api</name>
+       <title>API URL</title>
+       <type>varchar</type>
+       <length>255</length>
+       <add>1.8</add>
+  </field>
+  <field>
        <name>url_recur</name>
        <title>Recurring Payments URL</title>
        <type>varchar</type>

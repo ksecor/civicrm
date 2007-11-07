@@ -24,8 +24,8 @@
     {foreach from=$rows item=row}
     <tr id='rowid{$row.id}' class="{cycle values="odd-row,even-row"}">
         {assign var=cbName value=$row.checkbox}
-        <td>{$form.$cbName.html} &nbsp; <strong>{$row.title}</strong></td>
-        <td>{$row.description}</td>
+        <td style="border-right: 1px none gray;">{$form.$cbName.html} &nbsp; <strong>{$row.title}</strong></td>
+        <td style="border-left: 1px none gray;">{$row.description}</td>
     </tr>
     {/foreach}  
     </table>

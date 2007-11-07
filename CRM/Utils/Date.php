@@ -194,8 +194,10 @@ class CRM_Utils_Date {
 
         if ( isset( $hr ) && is_numeric( $hr ) && $hr >= 0 ) {
             $value['h'] = $hr;
+            $value['H'] = $hr;
             if( $hr > 12 ) {
                 $value['h'] -= 12;
+                $value['H'] = $hr;
                 $value['A'] = 'PM';
             } else if( $hr == 0 ) {
                 $value['h'] = 12;

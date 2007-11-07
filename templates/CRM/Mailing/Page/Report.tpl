@@ -1,75 +1,8 @@
-{if $report.jobs.0.start_date}
 <fieldset>
 <legend>{ts}Delivery Summary{/ts}</legend>
-{if $report.jobs|@count > 1}
+{if $report.jobs.0.start_date}
   {strip}
-  <table>
-  <tr>
-    <th>{ts}Status{/ts}</th>
-    <th>{ts}Scheduled Date{/ts}</th>
-    <th>{ts}Start Date{/ts}</th>
-    <th>{ts}End Date{/ts}</th>
-    <th>{ts}Queued{/ts}</th>
-    <th>{ts}Delivered{/ts}</th>
-    <th>{ts}Spooled Mails{/ts}</th>
-    <th>{ts}Bounces{/ts}</th>
-    <th>{ts}Unsubscribe Requests{/ts}</th>
-    <th>{ts}Forwards{/ts}</th>
-    <th>{ts}Replies{/ts}</th>
-    {if $report.mailing.open_tracking}
-      <th>{ts}Opens{/ts}</th>
-    {/if}
-    {if $report.mailing.url_tracking}
-      <th>{ts}Click-throughs{/ts}</th>
-    {/if}
-  </tr>
-  {foreach from=$report.jobs item=job}
-  <tr class="{cycle values="odd-row,even-row"}">
-    <td>{$job.status}</td>
-    <td>{$job.scheduled_date|date_format}</td>
-    <td>{$job.start_date|date_format}</td>
-    <td>{$job.end_date|date_format}</td>
-    <td><a href="{$job.links.queue}">{$job.queue}</a></td>
-    <td><a href="{$job.links.delivered}">{$job.delivered}</a></td>
-    <td>{$job.spool}</td>
-    <td><a href="{$job.links.bounce}">{$job.bounce}</a></td>
-    <td><a href="{$job.links.unsubscribe}">{$job.unsubscribe}</a></td>
-    <td><a href="{$job.links.forward}">{$job.forward}</a></td>
-    <td><a href="{$job.links.reply}">{$job.reply}</a></td>
-    {if $report.mailing.open_tracking}
-      <td><a href="{$job.links.opened}">{$job.opened}</a></td>
-    {/if}
-    {if $report.mailing.url_tracking}
-      <td><a href="{$job.links.clicks}">{$job.url}</a></td>
-    {/if}
-  </tr>
-  {/foreach}
-  <tr>
-    <th class="label" colspan=4>{ts}Totals{/ts}</th>
-    <th><a href="{$report.event_totals.links.queue}">{$report.event_totals.queue}</a></th>
-    <th><a href="{$report.event_totals.links.delivered}">{$report.event_totals.delivered}</a></th>
-    <th><a href="{$report.event_totals.links.bounce}">{$report.event_totals.bounce}</a></th>
-    <th><a href="{$report.event_totals.links.unsubscribe}">{$report.event_totals.unsubscribe}</a></th>
-    <th><a href="{$report.event_totals.links.forward}">{$report.event_totals.forward}</a></th>
-    <th><a href="{$report.event_totals.links.reply}">{$report.event_totals.reply}</a></th>
-    {if $report.mailing.open_tracking}
-      <th><a href="{$report.event_totals.links.opened}">{$report.event_totals.opened}</a></th>
-    {/if}
-    {if $report.mailing.url_tracking}
-      <th><a href="{$report.event_totals.links.clicks}">{$report.event_totals.url}</a></th>
-    {/if}
-  </tr>
-  <tr>
-    <th colspan=5>{ts}Percentages{/ts}</th>
-    <th>{$report.event_totals.delivered_rate|string_format:"%0.2f"}%</th>
-    <th>{$report.event_totals.bounce_rate|string_format:"%0.2f"}%</th>
-    <th>{$report.event_totals.unsubscribe_rate|string_format:"%0.2f"}%</th>
-  </tr>
-  </table>
-  {/strip}
-{else}
-  {strip}
-  <table class="form-layout">
+  <table class="form-layout-compressed">
   <tr><td class="label"><a href="{$report.event_totals.links.queue}">{ts}Intended Recipients{/ts}</a></td><td>{$report.jobs.0.queue}</td></tr>
   <tr><td class="label"><a href="{$report.event_totals.links.delivered}">{ts}Succesful Deliveries{/ts}</a></td><td>{$report.jobs.0.delivered} ({$report.jobs.0.delivered_rate|string_format:"%0.2f"}%)</td></tr>
   <tr><td class="label">{ts}Spooled Mails{/ts}</td><td>{$report.jobs.0.spool}</td></tr>
@@ -89,35 +22,13 @@
   <tr><td class="label">{ts}End Date{/ts}</td><td>{$report.jobs.0.end_date}</td></tr>
   </table>
   {/strip}
+{else}
+    <div class="messages status">
+        {ts 1="http://wiki.civicrm.org/confluence//x/vyM" 2=$docURLTitle}<strong>Delivery has not yet begun for this mailing.</strong> If the scheduled delivery date and time is past, ask the system administrator or technical support
+        contact for your site to verify that the automated mailer task (&quot;cron job&quot;) is running - and how frequently. (<a href='%1' title='%2' target='_blank'>more info...</a>){/ts}
+    </div>
 {/if}
-<a href="{$report.retry}">{ts}Retry Mailing{/ts}</a>
 </fieldset>
-{/if}
-
-
-{if $report.mailing.url_tracking && $report.click_through|@count > 0}
-<fieldset>
-<legend>{ts}Click-through Summary{/ts}</legend>
-{strip}
-<table>
-<tr>
-<th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
-<th><a href="{$report.event_totals.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
-<th>{ts}Success Rate{/ts}</th>
-<th>{ts}URL{/ts}</th></tr>
-{foreach from=$report.click_through item=row}
-<tr class="{cycle values="odd-row,even-row"}">
-<td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
-<td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
-<td>{$row.rate|string_format:"%0.2f"}%</td>
-<td><a href="{$row.url}">{$row.url}</a></td>
-</tr>
-{/foreach}
-</table>
-{/strip}
-</fieldset>
-{/if}
-
 
 <fieldset>
 <legend>{ts}Recipients{/ts}</legend>
@@ -160,13 +71,68 @@
 {/if}
 </fieldset>
 
+{if $report.mailing.url_tracking && $report.click_through|@count > 0}
+<fieldset>
+<legend>{ts}Click-through Summary{/ts}</legend>
+{strip}
+<table>
+<tr>
+<th><a href="{$report.event_totals.links.clicks}">{ts}Clicks{/ts}</a></th>
+<th><a href="{$report.event_totals.links.clicks_unique}">{ts}Unique Clicks{/ts}</a></th>
+<th>{ts}Success Rate{/ts}</th>
+<th>{ts}URL{/ts}</th></tr>
+{foreach from=$report.click_through item=row}
+<tr class="{cycle values="odd-row,even-row"}">
+<td>{if $row.clicks > 0}<a href="{$row.link}">{$row.clicks}</a>{else}{$row.clicks}{/if}</td>
+<td>{if $row.unique > 0}<a href="{$row.link_unique}">{$row.unique}</a>{else}{$row.unique}{/if}</td>
+<td>{$row.rate|string_format:"%0.2f"}%</td>
+<td><a href="{$row.url}">{$row.url}</a></td>
+</tr>
+{/foreach}
+</table>
+{/strip}
+</fieldset>
+{/if}
+
+<fieldset>
+<legend>{ts}Content / Components{/ts}</legend>
+{strip}
+<table class="form-layout-compressed">
+{if $report.mailing.body_text}
+<tr>
+  <td class="label nowrap">{ts}Text Message{/ts}</td>
+  <td>
+    {$report.mailing.body_text|truncate:30|escape|nl2br}
+    <br />
+    <strong><a href='{$textViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+  </td>
+</tr>
+{/if}
+
+{if $report.mailing.body_html}
+<tr>
+  <td class="label nowrap">{ts}HTML Message{/ts}</td>
+  <td>
+    {$report.mailing.body_html|truncate:30|escape|nl2br}
+    <br/>
+    <strong><a href='{$htmlViewURL}'>&raquo; {ts}View complete message{/ts}</a></strong>
+  </td>
+</tr>
+{/if}
+
+{foreach from=$report.component item=component}
+    <tr><td class="label">{$component.type}</td><td><a href="{$component.link}">{$component.name}</a></td></tr>
+{/foreach}
+</table>
+{/strip}
+</fieldset>
 
 <fieldset>
 <legend>
     {ts}Mailing Settings{/ts}
 </legend>
 {strip}
-<table class="form-layout">
+<table class="form-layout-compressed">
 <tr><td class="label">{ts}Mailing Name{/ts}</td><td>{$report.mailing.name}</td></tr>
 <tr><td class="label">{ts}Subject{/ts}</td><td>{$report.mailing.subject}</td></tr>
 <tr><td class="label">{ts}From{/ts}</td><td>{$report.mailing.from_name} &lt;{$report.mailing.from_email}&gt;</td></tr>
@@ -181,32 +147,6 @@
 {/strip}
 </fieldset>
 
-<fieldset>
-<legend>{ts}Content / Components{/ts}</legend>
-{strip}
-<table class="form-layout">
-{foreach from=$report.component item=component}
-<tr><td class="label">{$component.type}</td><td>
-<a href="{$component.link}">{$component.name}</a></td></tr>
-{/foreach}
-{if $report.mailing.body_text}
-<tr>
-  <td class="label">{ts}Text Body{/ts}<br />
-    <small><a href='{$textViewURL}'>{ts}View Text Body{/ts}</a></small>
-  </td>
-  <td class="report">{$report.mailing.body_text|escape|nl2br}</td>
-</tr>
-{/if}
-{if $report.mailing.body_html}
-<tr>
-  <td class="label">{ts}HTML Body{/ts}<br/>
-    <small><a href='{$htmlViewURL}'>{ts}View HTML Body{/ts}</a></small>
-  </td>
-  <td class="report">{$report.mailing.body_html|escape|nl2br}</td></tr>
-{/if}
-</table>
-{/strip}
-</fieldset>
 
 
 

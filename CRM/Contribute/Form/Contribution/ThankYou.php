@@ -106,6 +106,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
           
             require_once "CRM/Core/PseudoConstant.php";
             $prefix = CRM_Core_PseudoConstant::individualPrefix();
+            $honor  = CRM_Core_PseudoConstant::honor( );             
+            $this->assign("honor_type",$honor[$params["honor_type_id"]]);
             $this->assign("honor_prefix",$prefix[$params["honor_prefix_id"]]);
             $this->assign("honor_first_name",$params["honor_first_name"]);
             $this->assign("honor_last_name",$params["honor_last_name"]);

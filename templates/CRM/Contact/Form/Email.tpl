@@ -36,7 +36,7 @@
               {if $hold neq 1}
         	      <span>{$form.location.$index.email.$innerIndex.on_hold.html}</span>
               {/if}
-                  <span>{$form.location.$index.email.$innerIndex.is_bulkmail.html}</span> 
+              <span>&nbsp;{$form.location.$index.email.$innerIndex.is_bulkmail.html}&nbsp;&nbsp;{help id="id-bulkmail"}</span> 
               {* Link to hide this field *}
               <span id="id_location_{$index}_email_{$innerIndex}_hide" class="add-remove-link element-right">
               {$form.location.$index.email.$innerIndex.hide.html}
@@ -57,4 +57,28 @@
             {* Spacer div contains floated elements *}
             <div class="spacer"></div>
         </div>
-	{/section}
+{/section}
+{literal}
+<script type="text/javascript">
+function email_is_bulkmail_onclick(formname, emailID, maxLocs, locID) {
+
+    var changedKey = 'location[' + locID + '][email][' + emailID + '][is_bulkmail]';
+
+    if (document.forms[formname].elements[changedKey][1].checked) {
+        if ( confirm('Do you want to use this email address for bulk mailing?') == true ) {
+            for (var t = 1; t <= maxLocs; t++) {
+               for (var i = 2; i <= 3; i++) {
+                  Key = 'location[' +  t +'][email][' + i + '][is_bulkmail]';
+                    if (t != locID || i != emailID) {
+                      document.forms[formname].elements[Key][1].checked = false;
+                    } 
+               }
+            }
+        } else {
+            document.forms[formname].elements[changedKey][1].checked = false;
+        }
+    } 	
+    
+}
+</script>
+{/literal}

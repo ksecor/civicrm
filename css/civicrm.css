@@ -868,9 +868,34 @@ div.crm-pager a {
   cursor: pointer;
   vertical-align: top;
 }
+/*
+commented since it is overwiting simple td
 #crm-container tbody td {
-  padding-left: 20px;
+   padding-left: 20px; 
 }
+*/
 #crm-container thead th.selectedUp, #crm-container thead th.selectedDown { 
   vertical-align: top;
+}
+
+/*
+ dojo editor specific classes
+*/
+
+#crm-container dl.dojoEditor dd.dojoEditor {
+  float: left;
+  width: 80%;
+  /*clear: right;*/
+}
+
+#crm-container table.dojoEditor {
+  margin: 0em;
+  width: 100%;	
+  border-collapse: collapse;
+  border: 0px none;
+}
+
+#crm-container td.dojoEditor {
+  padding:0px;
+  vertical-align:top;
 }

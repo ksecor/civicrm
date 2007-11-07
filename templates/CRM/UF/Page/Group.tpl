@@ -33,15 +33,14 @@
     <p></p>
         <div class="form-item">
         {strip}
-      <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+      <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
     <thead>
         <tr class="columnheader">
             <th field="Title" dataType="String" >{ts}Profile Title{/ts}</th>
             <th field="ID" dataType="Number">{ts}ID{/ts}</th>
             <th field="Used" dataType="String">{ts}Used For{/ts}</th>
             <th field="Status" dataType="String">{ts}Status?{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-
+            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th datatype="html"></th>
         </tr>
      </thead> 

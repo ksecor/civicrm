@@ -49,7 +49,12 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) 
     {
         CRM_Utils_System::setTitle(ts('Settings - Enable Components'));
-        $components = CRM_Core_SelectValues::component();
+
+        $components = $this->_getComponentSelectValues( );
+
+//            if (version_compare(phpversion(), '5') >= 0) {
+//                $components['CiviMail'] = ts('CiviMail');
+//            }
         $include =& $this->addElement('advmultiselect', 'enableComponents', 
                                       ts('Components') . ' ', $components,
                                       array('size' => 5, 
@@ -62,6 +67,20 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
         
         parent::buildQuickForm();
     }
+
+
+    private function _getComponentSelectValues( ) 
+    {
+        $ret = array();
+        require_once 'CRM/Core/Component.php';
+        $c = CRM_Core_Component::getComponents();
+        foreach( $c as $name => $object ) {
+            $ret[$name] = $object->info['translatedName'];
+        }
+
+        return $ret;
+    }
+
 
 }
 

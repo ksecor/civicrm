@@ -439,7 +439,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         $this->add('checkbox', 'in_selector', ts('In Selector?'));
        
         // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
         $this->add('textarea', 'help_post', ts('Field Help'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFField', 'help_post'));

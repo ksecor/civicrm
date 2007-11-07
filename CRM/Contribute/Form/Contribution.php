@@ -217,12 +217,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $this->_honorID = $defaults["honor_contact_id"];
             $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
-            
+            $honorType = CRM_Core_PseudoConstant::honor( );   
             $defaults["honor_prefix"]    = $honorDefault["prefix_id"];
             $defaults["honor_firstname"] = CRM_Utils_Array::value("first_name",$honorDefault);
             $defaults["honor_lastname"]  = CRM_Utils_Array::value("last_name",$honorDefault);
             $defaults["honor_email"]     = CRM_Utils_Array::value("email",$honorDefault["location"][1]["email"][1]);
-            $defaults["contribution_honor"]    = 1;
+            $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
         }
         
         if( isset($this->_groupTree) ) {
@@ -255,6 +255,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $showAdditional = 0;
         $showPremium = 0;
         $showCancel = 0;
+        $showHonoree = 0;             
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $advFields = array('note', 'thankyou_date', 'trxn_id', 'invoice_id',
                                'non_deductible_amount', 'fee_amount', 'net_amount');
@@ -269,6 +270,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
             if ( CRM_Utils_Array::value('cancel_date',$defaults) || CRM_Utils_Array::value('cancel_reason',$defaults) ) {
                 $showCancel = 1;
+            }
+            $honorFields = array('honor_type_id', 'honor_prefix', 'honor_firstname', 'honor_lastname',
+                                 'honor_email');
+            foreach($honorFields as $key) {
+                if ( !empty($defaults[$key]) ) {
+                    $showHonoree = 1;
+                    break;
+                }
             }
         }
         if ( $showAdditional ) {
@@ -285,7 +294,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $showHide->addShow( "id-premium-show" );
             $showHide->addHide( "id-premium" );
         }
-        
+        if ( $showHonoree ) {
+            $showHide->addShow( "id-honoree" );
+            $showHide->addHide( "id-honoree-show" );
+        } else {
+            $showHide->addShow( "id-honoree-show" );
+            $showHide->addHide( "id-honoree" );
+        }
         // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
         if ( !( $this->_action & CRM_Core_Action::DELETE )&& !( $this->_action & CRM_Core_Action::DISABLE )  ) {
             $showHide->addToTemplate( );
@@ -382,7 +397,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $this->addElement('checkbox','is_email_receipt', ts('Send Receipt?'),null, array('onclick' =>"return showHideByValue('is_email_receipt','','receiptDate','table-row','radio',true);") );
 
-        $this->addElement('checkbox','contribution_honor', ts('Contribution is In Honor Of'),null, array('onclick' =>"return showHideByValue('contribution_honor','','showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail','table-row','radio',false);"));
+        $honor =CRM_Core_PseudoConstant::honor( ); 
+        foreach ($honor as $key => $var) {
+            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+        }
+        $this->addGroup($honorTypes, 'honor_type_id', null);
+
         $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         $this->add('text','honor_firstname',ts(' First Name'));
         $this->add('text','honor_lastname',ts('Last Name'));
@@ -499,7 +519,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @return None 
      */ 
     public function postProcess( )  
-    { 
+    {     
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             require_once 'CRM/Contribute/BAO/Contribution.php';
             CRM_Contribute_BAO_Contribution::deleteContribution( $this->_id );
@@ -509,7 +529,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
         //$formValues = $_POST;
-
+       
         $config =& CRM_Core_Config::singleton( );
 
         $params = array( );
@@ -529,6 +549,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                          'invoice_id',
                          'cancel_reason',
                          'source',
+                         'honor_type_id'
                           );
 
         foreach ( $fields as $f ) {
@@ -565,10 +586,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params['cancel_date']   = 'null';
             $params['cancel_reason'] = 'null';
         }
-        
+   
         $ids['contribution'] = $params['id'] = $this->_id;
-        if ( CRM_Utils_Array::value( 'contribution_honor', $formValues) ) {
-            if ($formValues["contribution_honor"]) {
+        if ( CRM_Utils_Array::value( 'honor_type_id', $formValues) ) {
+            if ($formValues["honor_type_id"]) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 if ( $this->_honorID ) {
                     $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
@@ -620,7 +641,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                 }
             }
         }
-        
+
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 

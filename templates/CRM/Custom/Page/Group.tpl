@@ -15,14 +15,14 @@
     <p></p>
         <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
         <thead>
         <tr class="columnheader">
             <th field="Group Title"  dataType="String">{ts}Group Title{/ts}</th>
             <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
             <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
             <th field="Type"         dataType="String">{ts}Type{/ts}</th>
-            <th field="Weight"       dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order"        dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th field="Style"        dataType="String">{ts}Style{/ts}</th>
             <th datatype="html"></th>
         </tr>

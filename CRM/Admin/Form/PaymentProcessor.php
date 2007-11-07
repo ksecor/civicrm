@@ -103,6 +103,10 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
                                       'label' => ts( 'Site URL' ),
                                       'rule'  => 'url',
                                       'msg'   => ts( 'Enter a valid URL' ) ),
+                               array( 'name'  => 'url_api',
+                                      'label' => ts( 'API URL' ),
+                                      'rule'  => 'url',
+                                      'msg'   => ts( 'Enter a valid URL' ) ),
                                );
 
         if ( $this->_ppDAO->is_recur ) {
@@ -215,9 +219,11 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
         if ( ! $this->_id ) {
             $defaults['is_active'] = $defaults['is_default'] = 1;
             $defaults['url_site'] = $this->_ppDAO->url_site_default;
+            $defaults['url_api'] = $this->_ppDAO->url_api_default;
             $defaults['url_recur'] = $this->_ppDAO->url_recur_default;
             $defaults['url_button'] = $this->_ppDAO->url_button_default;
             $defaults['test_url_site'] = $this->_ppDAO->url_site_test_default;
+            $defaults['test_url_api'] = $this->_ppDAO->url_api_test_default;
             $defaults['test_url_recur'] = $this->_ppDAO->url_recur_test_default;
             $defaults['test_url_button'] = $this->_ppDAO->url_button_test_default;
             return $defaults;

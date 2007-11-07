@@ -105,18 +105,13 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         }
         
         if ($this->_action & CRM_Core_Action::DELETE ) { 
-            CRM_Activity_BAO_Activity::del( $this->_id, 'Activity');
+            CRM_Activity_BAO_Activity::removeActivity( $this->_activityId, 'Activity');
             CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully."));
             return;
         }
         
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
-        //$params = $_POST;
-
-        //require_once 'CRM/Case/BAO/Case.php';
-        //$this->_sourceCID = CRM_Case_BAO_Case::retrieveCid($params['from_contact']);
-        //$this->_targetCID = CRM_Case_BAO_Case::retrieveCid($params['regarding_contact']);
 
         $ids = array();
         
@@ -128,21 +123,22 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
         $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);        
 
-        if (0 or $this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['id'] = $this->_id;
-            require_once 'CRM/Case/DAO/CaseActivity.php';
-            $caseActivity = new CRM_Case_DAO_CaseActivity();
-            $caseActivity->activity_entity_table = 'civicrm_activity';
-            $caseActivity->activity_entity_id = $ids['id'];
-            $caseActivity->find(true);
-            $ids['cid'] = $caseActivity->id;
+        require_once "CRM/Activity/BAO/Activity.php";
+        $bao = new CRM_Activity_BAO_Activity();
+        if ($this->_action & CRM_Core_Action::UPDATE ) {
+            $ids['id'] = $this->_activityId;
+            $bao->updateActivity( $params, $ids );
+            return;
+//            require_once 'CRM/Case/DAO/CaseActivity.php';
+//            $caseActivity = new CRM_Case_DAO_CaseActivity();
+//            $caseActivity->activity_entity_table = 'civicrm_activity';
+//            $caseActivity->activity_entity_id = $ids['id'];
+//            $caseActivity->find(true);
+//            $ids['cid'] = $caseActivity->id;
 //            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
         }
 
-
-        require_once "CRM/Activity/BAO/Activity.php";
-        $bao = new CRM_Activity_BAO_Activity();
-        $bao->create( $params );
+        $bao->createActivity( $params );
        
 //        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 

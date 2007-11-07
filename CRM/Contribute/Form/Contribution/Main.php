@@ -124,11 +124,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         // hack to simplify credit card entry for testing
-        // $this->_defaults['credit_card_type']     = 'Visa';
-        // $this->_defaults['amount']               = 5.00;
-        // $this->_defaults['credit_card_number']   = '4807731747657838';
-        // $this->_defaults['cvv2']                 = '000';
-        // $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
+        $this->_defaults['credit_card_type']     = 'Visa';
+        $this->_defaults['amount']               = 5.00;
+        $this->_defaults['credit_card_number']   = '4807731747657838';
+        $this->_defaults['cvv2']                 = '000';
+        $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
 
         return $this->_defaults;
     }
@@ -288,8 +288,16 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         $this->assign("honor_block_title",$this->_values['honor_block_title']);
         $this->assign("honor_block_text",$this->_values['honor_block_text']);
 
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Individual');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
+        // radio button for Honor Type
+        $honorOptions = array( );
+        $honor =CRM_Core_PseudoConstant::honor( ); 
+        foreach ($honor as $key => $var) {
+            $honorTypes[$key] = HTML_QuickForm::createElement('radio', null, null, $var, $key);
+        }
+        $this->addGroup($honorTypes, 'honor_type_id', null);
+        
         // prefix
         $this->addElement('select', 'honor_prefix_id', ts('Honoree Prefix'), array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
         // first_name
@@ -579,7 +587,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
-        }         
+        }      
     }
     
 }

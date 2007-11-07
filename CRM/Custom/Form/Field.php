@@ -269,7 +269,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
             
             // weight
-            $this->add('text', "option_weight[$i]", ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'));
+            $this->add('text', "option_weight[$i]", ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'));
 
             // is active ?
             $this->add('checkbox', "option_status[$i]", ts('Active?'));
@@ -325,7 +325,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $this->addRule('note_rows', ts('Value should be a positive number') , 'positiveInteger');
 
         // weight
-        $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
+        $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
         $this->addRule('weight', ts(' is a numeric field') , 'numeric');
         
         // is required ?

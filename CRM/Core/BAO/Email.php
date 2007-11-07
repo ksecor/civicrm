@@ -56,8 +56,15 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         
         $email->copyValues($params);
 
-        // when email field is empty need to delete it
-
+        if ( $email->is_bulkmail ) {
+            $sql = "
+UPDATE civicrm_email 
+SET is_bulkmail = 0
+WHERE 
+contact_id = {$params['contact_id']}";
+            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        }
+        
         // handle if email is on hold TO DO
 //         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
 //             $values = array(
@@ -137,16 +144,17 @@ ORDER BY
     /**
      * Delete email address records from a location
      *
-     * @param int $locationId       Location ID to delete for
+     * @param array $params associated array of values
      * 
      * @return void
      * 
      * @access public
      * @static
      */
-    public static function deleteLocation( $locationId ) {
+    public static function deleteLocation( $params ) 
+    {
         $dao =& new CRM_Core_DAO_Email();
-        $dao->location_id = $locationId;
+        $dao->copyValues( $params );
         $dao->find();
 
         require_once 'CRM/Mailing/Event/BAO/Queue.php';
@@ -155,7 +163,7 @@ ORDER BY
         }
         
         $dao->reset();
-        $dao->location_id = $locationId;
+        $dao->copyValues( $params );
         $dao->delete();
     }
     
