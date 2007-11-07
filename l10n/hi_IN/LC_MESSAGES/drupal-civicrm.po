@@ -6,30 +6,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2007-09-20 05:18-0700\n"
-"Last-Translator: Ravi Sagar <ravisagar@gmail.com>\n"
+"PO-Revision-Date: 2007-05-07 11:19+0200\n"
+"Last-Translator: Automatically generated\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.1\n"
 
 msgid "add contacts"
-msgstr "पते जोडियें"
+msgstr ""
 
 msgid "view all contacts"
-msgstr "सभी पते देखिये"
+msgstr ""
 
 msgid "edit all contacts"
-msgstr "सभी पतों का संपादन कीजिये"
+msgstr ""
 
 msgid "import contacts"
-msgstr "पते आयात कीजिये"
+msgstr ""
 
 msgid "edit groups"
-msgstr "समूह संपादन"
+msgstr ""
 
 msgid "administer CiviCRM"
-msgstr "CiviCRM का प्रशासन करें"
+msgstr ""
 
 msgid "access uploaded files"
 msgstr ""

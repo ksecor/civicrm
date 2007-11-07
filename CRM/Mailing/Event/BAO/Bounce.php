@@ -58,8 +58,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
             return null;
         }
 
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
+        CRM_Core_DAO::transaction('BEGIN');
         $bounce =& new CRM_Mailing_Event_BAO_Bounce();
         $bounce->time_stamp = date('YmdHis');
         $bounce->copyValues($params);
@@ -100,7 +99,7 @@ class CRM_Mailing_Event_BAO_Bounce extends CRM_Mailing_Event_DAO_Bounce {
                 break;
             }
         }
-        $transaction->commit( );
+        CRM_Core_DAO::transaction('COMMIT');
     }
 
     /**

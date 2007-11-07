@@ -79,7 +79,7 @@
 	    <span class="status-hold">&nbsp;(On Hold)</span>
 	  {/if}
       {if $email.is_bulkmail}
-	    <span class="status-hold">&nbsp;(Bulk Mailings)</span>
+	    <span class="status-hold">&nbsp;(For Bulkmail)</span>
 	  {/if}
 	<br />
    {/foreach}
@@ -164,12 +164,9 @@
    </div>
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
-    {if $age.y}  
-    <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
+    {if $age}  
+    <label>{ts}Age :{/ts}</label> {$age}Years {if $days}{$days}Days.{/if} <br />
     {/if}
-    {if $age.m} 
-    <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
-    {/if}       
     </div>
    <div class="spacer"></div>
   </fieldset>

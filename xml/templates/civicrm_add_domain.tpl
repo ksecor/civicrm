@@ -11,8 +11,8 @@
 
 SET @domain_name := CONCAT('Domain Name ',@domain_id);
 
-INSERT INTO civicrm_domain( id, name, email_name, email_address, email_domain, version ) 
-    VALUES ( @domain_id, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0' );
+INSERT INTO civicrm_domain( id, name, contact_name, email_name, email_address, email_domain, version ) 
+    VALUES ( @domain_id, @domain_name, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0' );
 
 -- Sample location types
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( @domain_id, '{ts}Home{/ts}', 'HOME', '{ts}Place of residence{/ts}', 0, 1, 1 );
@@ -54,14 +54,14 @@ INSERT INTO civicrm_tag( domain_id, name, description, parent_id )
 INSERT INTO civicrm_mailing_component
     (domain_id,name,component_type,subject,body_html,body_text,is_default,is_active)
 VALUES
-    (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}Descriptive Title for this Header{/ts}','{ts}Sample Header for HTML formatted content.{/ts}','{ts}Sample Header for TEXT formatted content.{/ts}',1,1),
-    (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}Descriptive Title for this Footer.{/ts}','{ts}Sample Footer for HTML formatted content.{/ts}','{ts}Sample Footer for TEXT formatted content.{/ts}',1,1),
-    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription Confirmation Request{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to the {ldelim}subscribe.group{rdelim} mailing list. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}',1,1),
-    (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Your Subscription has been Activated{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}','{ts}Welcome. Your subscription to the {ldelim}welcome.group{rdelim} mailing list has been activated.{/ts}',1,1),
-    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Un-subscribe Confirmation{/ts}','{ts}You have been un-subscribed from the {ldelim}unsubscribe.group{rdelim} mailing list.{/ts}','{ts}You have been un-subscribed from the {ldelim}unsubscribe.group{rdelim} mailing list.{/ts}',1,1),
-    (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Opt-out Confirmation{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}','{ts}Your email address has been removed from {ldelim}domain.name{rdelim} mailing lists.{/ts}',1,1),
-    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Please Send Inquiries to Our Contact Email Address{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}','{ts}This is an automated reply from an un-attended mailbox. Please send any inquiries to the contact email address listed on our web-site.{/ts}',1,1),
-    (@domain_id,'{ts}Resubscribe Message{/ts}','Resubscribe','{ts}Re-subscribe Confirmation{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}','{ts}You have been re-subscribed to the {ldelim}resubscribe.group{rdelim} mailing list, as requested.{/ts}',1,1);
+    (@domain_id,'{ts}Mailing Header{/ts}','Header','{ts}This is the Header{/ts}','{ts}HTML Body of Header{/ts}','{ts}Text Body of Header{/ts}',1,1),
+    (@domain_id,'{ts}Mailing Footer{/ts}','Footer','{ts}This is the Footer{/ts}','{ts}HTML Body of Footer{/ts}','{ts}Text Body of Footer{/ts}',1,1),
+    (@domain_id,'{ts}Subscribe Message{/ts}','Subscribe','{ts}Subscription confirmation request{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click <a href="{ldelim}subscribe.url{rdelim}">here</a>.{/ts}','{ts}You have a pending subscription to {ldelim}subscribe.group{rdelim}. To confirm this subscription, reply to this email or click on this link {ldelim}subscribe.url{rdelim}.{/ts}',1,1),
+    (@domain_id,'{ts}Welcome Message{/ts}','Welcome','{ts}Welcome{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}','{ts}Welcome to {ldelim}welcome.group{rdelim}!{/ts}',1,1),
+    (@domain_id,'{ts}Unsubscribe Message{/ts}','Unsubscribe','{ts}Unsubscribe results{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}','{ts}You have been unsubscribed from {ldelim}unsubscribe.group{rdelim}.{/ts}',1,1),
+    (@domain_id,'{ts}Opt-out Message{/ts}','OptOut','{ts}Goodbye{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}','{ts}You have been removed from {ldelim}domain.name{rdelim}. Goodbye.{/ts}',1,1),
+    (@domain_id,'{ts}Auto-responder{/ts}','Reply','{ts}Automated response{/ts}','{ts}Thank you for your reply.{/ts}','{ts}Thank you for your reply.{/ts}',1,1),
+    (@domain_id,'Resubscribe Message','Resubscribe','Resubscribe results','You have been resubscribed to {ldelim}resubscribe.group{rdelim}.','You have been resubscribed to {ldelim}unsubscribe.group{rdelim}.',1,1);
 
 
 
@@ -226,21 +226,21 @@ VALUES
   (@option_group_id_ceOpt, 'Tags and Groups'          ,   3, NULL, NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
   (@option_group_id_ceOpt, 'Notes'                    ,   4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
 
-  (@option_group_id_asOpt, 'Address Fields'          ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Custom Fields'           ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Activity History'        ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Scheduled Activities'    ,   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Relationships'           ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Notes'                   ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Change Log'              ,   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Contributions'           ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Memberships'             ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, 'Events'                  ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Cases{/ts}'          ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Case Activities{/ts}',  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Kabissa{/ts}'        ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}Grants{/ts}'         ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
-  (@option_group_id_asOpt, '{ts}User SQL{/ts}'       ,  15, NULL, NULL, 0, NULL, 15, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Address Fields'      ,   1, NULL, NULL, 0, NULL,  1, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Custom Fields'       ,   2, NULL, NULL, 0, NULL,  2, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Activity History'    ,   3, NULL, NULL, 0, NULL,  3, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Scheduled Activities',   4, NULL, NULL, 0, NULL,  4, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Relationships'       ,   5, NULL, NULL, 0, NULL,  5, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Notes'               ,   6, NULL, NULL, 0, NULL,  6, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Change Log'          ,   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Contributions'       ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Memberships'         ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, 'Events'              ,  10, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Cases{/ts}'               ,  11, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Case Activities{/ts}'     ,  12, NULL, NULL, 0, NULL, 12, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Kabissa{/ts}'             ,  13, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1 ),
+  (@option_group_id_asOpt, '{ts}Grants{/ts}'              ,  14, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1 ),
+
 
   (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
@@ -284,7 +284,7 @@ VALUES
 INSERT INTO 
      civicrm_preferences(domain_id, contact_id, is_domain, location_count, contact_view_options, contact_edit_options, advanced_search_options, user_dashboard_options, address_options, address_format, mailing_format, individual_name_format, address_standardization_provider, address_standardization_userid, address_standardization_url )
 VALUES 
-     (@domain_id,NULL,1,1,'12345678910','1234','123456789101112131415','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}\n{world_region}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
+     (@domain_id,NULL,1,1,'12345678910','1234','1234567891011121314','1234','123456891011','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}\n{world_region}','{street_address}\n{supplemental_address_1}\n{supplemental_address_2}\n{city}{, }{state_province}{ }{postal_code}\n{country}','{individual_prefix}{ } {first_name}{ }{middle_name}{ }{last_name}{ }{individual_suffix}',NULL,NULL,NULL);
 {/literal}
 
 INSERT INTO `civicrm_preferences_date`
@@ -313,8 +313,7 @@ VALUES
  (@domain_id,'PayPal_Express','{ts}PayPal - Express{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Signature{/ts}',NULL,'Payment_PayPalImpl','https://www.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif','https://www.sandbox.paypal.com/',NULL,'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif',3,NULL),
  (@domain_id,'Google_Checkout','{ts}Google Checkout{/ts}',NULL,1,0,'{ts}Merchant ID{/ts}','{ts}Key{/ts}',NULL,NULL,'Payment_Google','https://checkout.google.com/',NULL,'http://checkout.google.com/buttons/checkout.gif','https://sandbox.google.com/checkout',NULL,'http://sandbox.google.com/checkout/buttons/checkout.gif',4,NULL),
  (@domain_id,'Moneris','{ts}Moneris{/ts}',NULL,1,0,'{ts}User Name{/ts}','{ts}Password{/ts}','{ts}Store ID{/ts}',NULL,'Payment_Moneris','https://www3.moneris.com/',NULL,NULL,'https://esqa.moneris.com/',NULL,NULL,1,1),
- (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://test.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,1),
- (@domain_id,'PayJunction','{ts}PayJunction{/ts}',NULL,1,0,'User Name','Password',NULL,NULL,'Payment_PayJunction','https://payjunction.com/quick_link',NULL,NULL,'https://payjunction.com/quick_link',NULL,NULL,1,1);
+ (@domain_id,'AuthNet_AIM','{ts}Authorize.Net - AIM{/ts}',NULL,1,0,'{ts}API Login{/ts}','{ts}Payment Key{/ts}','{ts}MD5 Hash{/ts}',NULL,'Payment_AuthorizeNet','https://secure.authorize.net/gateway/transact.dll','https://api.authorize.net/xml/v1/request.api',NULL,'https://secure.authorize.net/gateway/transact.dll','https://apitest.authorize.net/xml/v1/request.api',NULL,1,1);
 
 -- the default dedupe rules
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Individual', 20);

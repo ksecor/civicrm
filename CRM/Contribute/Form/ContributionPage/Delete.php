@@ -106,9 +106,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
      * @access public
      */
     public function postProcess( ) {
-        
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
+        CRM_Core_DAO::transaction('BEGIN');
         
         // first delete the join entries associated with this contribution page
         require_once 'CRM/Core/DAO/UFJoin.php';
@@ -140,7 +138,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
         $dao->id = $this->_id;
         $dao->delete( );
 
-        $transaction->commit( );
+        CRM_Core_DAO::transaction('COMMIT');
         
         CRM_Core_Session::setStatus( ts('The contribution page "%1" has been deleted.', array( 1 => $this->_title ) ) );
     }

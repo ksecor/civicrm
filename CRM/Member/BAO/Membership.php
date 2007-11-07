@@ -191,14 +191,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $params['status_id'] = $calcStatus['id'];
         }
         
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-
+        CRM_Core_DAO::transaction('BEGIN');
         
         $membership =& self::add($params, $ids);
         
         if ( is_a( $membership, 'CRM_Core_Error') ) {
-            $transaction->rollback( );
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $membership;
         }
         
@@ -272,7 +270,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             CRM_Core_Error::fatal("Failed creating Activity History for membership of id {$membership->id}");
         }
         
-        $transaction->commit( );
+        CRM_Core_DAO::transaction('COMMIT');
 
         return $membership;
     }
@@ -492,7 +490,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                 }
                                 $membershipTypes[] = $mem;
                             }
-                        } else if ( $memType->is_active ) {
+                        } else {
                             $mem = array();
                             CRM_Core_DAO::storeValues($memType,$mem);
                             $radio[$memType->id] = $form->createElement('radio',null, null, null, $memType->id , null);

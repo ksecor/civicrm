@@ -8,9 +8,7 @@
   <field> 
       <name>id</name> 
       <type>int unsigned</type> 
-      <required>true</required>
-      <import>true</import> 
-      <title>Contribution ID (match to contribution)</title>
+      <required>true</required> 
       <comment>Contribution ID</comment> 
        <add>1.3</add> 
   </field> 

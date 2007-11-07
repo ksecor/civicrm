@@ -72,7 +72,6 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Relationships')         => 'relationship'   ,
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      ,
-                            ts('User SQL')              => 'userSQL'        ,
                             ts('Cases')                 => 'caseSearch'     ,
                             ts('Case Activities')       => 'caseActivity'   ,
                             ts('Grants')                => 'grant'          );
@@ -105,7 +104,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
         foreach ( $paneNames as $name => $type ) {
-            if ( ! $this->_searchOptions[$name] && $name != ts( 'User SQL' ) ) {
+            if ( ! $this->_searchOptions[$name] ) {
                 continue;
             }
 
@@ -122,7 +121,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                 eval( 'CRM_Contact_Form_Search_Criteria::' . $type . '( $this );' );
             }
         }
-
+       
         $this->assign( 'allPanes', $allPanes );
         $this->assign( 'dojoIncludes', "dojo.require('dijit.TitlePane');dojo.require('dojo.parser');" );
 

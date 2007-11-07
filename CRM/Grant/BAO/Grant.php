@@ -243,13 +243,12 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
      */
     public static function create( &$params, &$ids) 
     {
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
+        CRM_Core_DAO::transaction('BEGIN');
         
         $grant = self::add($params, $ids);
         
         if ( is_a( $grant, 'CRM_Core_Error') ) {
-            $transaction->rollback( );
+            CRM_Core_DAO::transaction( 'ROLLBACK' );
             return $grant;
         }
         
@@ -300,7 +299,7 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
             }
         }
 
-        $transaction->commit( );
+        CRM_Core_DAO::transaction('COMMIT');
         
         return $grant;
     }

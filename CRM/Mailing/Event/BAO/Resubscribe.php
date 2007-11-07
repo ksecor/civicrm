@@ -63,8 +63,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         
         $contact_id = $q->contact_id;
         
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
+        CRM_Core_DAO::transaction('BEGIN');
         
         $do =& new CRM_Core_DAO();
         $mg         = CRM_Mailing_DAO_Group::getTableName();
@@ -160,7 +159,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
             $ue->delete();
         }
 
-        $transaction->commit( );
+        CRM_Core_DAO::transaction('COMMIT');
         return $groups;
     }
 
@@ -225,9 +224,9 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         }
         $headers = array(
             'Subject'       => $component->subject,
-            'From'          => ts('"%1" <do-not-reply@%2>',
-                                  array(  1 => $domain->email_name,
-                                          2 => $domain->email_domain) ),
+            'From'          => ts('"%1 Administrator" <%2>',
+                array(  1 => $domain->name, 
+                        2 => "do-not-reply@{$domain->email_domain}")),
             'To'            => $eq->email,
             'Reply-To'      => "do-not-reply@{$domain->email_domain}",
             'Return-Path'   => "do-not-reply@{$domain->email_domain}"

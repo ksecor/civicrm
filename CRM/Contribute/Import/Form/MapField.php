@@ -169,7 +169,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      * @access public
      */
     public function preProcess()
-    {   
+    {
         $this->_mapperFields = $this->get( 'fields' );
         asort($this->_mapperFields);
 
@@ -179,8 +179,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         $this->assign( 'dataValues'  , $this->_dataValues );
         
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-        $this->_onDuplicate = $this->get('onDuplicate',$onDuplicate);
-       
+
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
@@ -190,14 +189,6 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $this->assign( 'rowDisplayCount', 2 );
         }
         
-        //CRM-2219 removing other required fields since for updation only
-        //invoice id or trxn id or contribution id is required.
-        if ( $this->_onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
-            $remove = array('contribution_contact_id','email','first_name','last_name');
-            foreach( $remove as $value ) {
-                unset( $this->_mapperFields[$value] );
-            }
-        }
     }
 
     /**
@@ -208,8 +199,8 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      */
     public function buildQuickForm()
     {
-        //get the saved mapping details 
-       
+        //get the saved mapping details
+
         require_once "CRM/Core/BAO/Mapping.php";
         $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Contributions');
 
@@ -380,7 +371,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             $session =& CRM_Core_Session::singleton( );
             $session->setStatus( null ); 
         }
-        
+
         $this->setDefaults( $defaults );       
 
         $this->addButtons( array(
@@ -407,7 +398,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
      */
     static function formRule( &$fields ) {
         $errors  = array( );
-        
+
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
@@ -416,7 +407,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                 'contribution_contact_id' => ts('Contact ID'),
-                'total_amount'            => ts('Total Amount'),               
+                'total_amount'            => ts('Total Amount'),
                 'contribution_type'       => ts('Contribution Type')
             );
             
@@ -443,12 +434,11 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
                     if( $field == 'contribution_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) ||  in_array('external_identifier', $importKeys) ||
                              ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) || 
-                             in_array('organization_name', $importKeys) || in_array('invoice_id', $importKeys) || 
-                             in_array('trxn_id', $importKeys) || in_array('id', $importKeys) ) {
+                             in_array('household_name', $importKeys) ||
+                             in_array('organization_name', $importKeys)) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email) (OR Invoice ID or Transaction ID or Contribution ID if update mode.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
                         }
                         
                     } else if ( $field == 'contribution_contact_id' &&  ! $defaultFlag ) {

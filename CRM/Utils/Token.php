@@ -46,9 +46,7 @@ class CRM_Utils_Token {
                             'optOutUrl',
                             'reply', 
                             'unsubscribe',
-                            'unsubscribeUrl',
-                            'resubscribe',
-                            'resubscribeUrl'
+                            'unsubscribeUrl'
                         ),
         'contact'       => null,  // populate this dynamically
         'domain'        => array( 
@@ -62,9 +60,6 @@ class CRM_Utils_Token {
                             'group'
                         ),
         'unsubscribe'   => array(
-                            'group'
-                        ),
-        'resubscribe'   => array(
                             'group'
                         ),
         'welcome'       => array(
@@ -198,7 +193,7 @@ class CRM_Utils_Token {
         return $str;
     }
 
-    public static function getDomainTokenReplacement($token, &$domain, $html = false){
+    private static function getDomainTokenReplacement($token, &$domain, $html = false){
       // check if the token we were passed is valid
       // we have to do this because this function is
       // called only when we find a token in the string
@@ -207,21 +202,15 @@ class CRM_Utils_Token {
       }
 
       else if ($token == 'address') {
-          static $addressCache = array();
-
-          $cache_key = $html ? 'address-html' : 'address-text';
-          if ( array_key_exists($cache_key, $addressCache) ) {
-              return $addressCache[$cache_key];
-          }
-
           require_once 'CRM/Utils/Address.php';
           $loc =& $domain->getLocationValues();
           $value = null;
           /* Construct the address token */
           if ( CRM_Utils_Array::value( $token, $loc ) ) {
               $value = CRM_Utils_Address::format($loc[$token]);
-              if ($html) $value = str_replace("\n", '<br />', $value);
-              $addressCache[$cache_key] = $value;
+              if ( $html ) {
+                  $value = str_replace("\n", '<br />', $value);
+              }
           }
       }
       
@@ -241,6 +230,7 @@ class CRM_Utils_Token {
           }
         }
       }
+
       return $value;      
     }
     
@@ -346,7 +336,7 @@ class CRM_Utils_Token {
         return $str;
      }
 
-     public static function getMailingTokenReplacement($token, &$mailing) {
+     private static function getMailingTokenReplacement($token, &$mailing) {
       $value = '';
 
       // check if the token we were passed is valid
@@ -393,24 +383,19 @@ class CRM_Utils_Token {
         return $str;
     }
 
-    public static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
+    private static function getActionTokenReplacement($token, &$addresses, &$urls, $html = false) {
       /* If the token is an email action, use it.  Otherwise, find the
        * appropriate URL */
       if(!in_array($token,self::$_tokens['action'])){
         $value = "{action.$token}";
       } else {
         $value = CRM_Utils_Array::value($token, $addresses);
-
         if ($value == null) {
           $value = CRM_Utils_Array::value($token, $urls);
+          if($value && $html){
+            $value = "mailto:$value";  
+          }
         }
-
-        if($value && $html){
-          $value = "mailto:$value";
-        } else if($value && !$html){
-          $value = str_replace('&amp;', '&', $value);
-        }
-
       }
       return $value;
     }
@@ -444,18 +429,11 @@ class CRM_Utils_Token {
         // then we will just iterate on a list of tokens that are passed to us
         if(!$knownTokens || !$knownTokens[$key]) return $str;
 
-        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact, $html)',$str);
+        $str = preg_replace(self::tokenRegex($key),'self::getContactTokenReplacement(\'\\1\', $contact)',$str);
         return $str;
     }
     
-    public function getContactTokenReplacement($token, &$contact, $html = false){
-
-        if (self::$_tokens['contact'] == null) {
-            /* This should come from UF */
-            self::$_tokens['contact'] =
-                array_merge( array_keys(CRM_Contact_BAO_Contact::importableFields( ) ),
-                             array( 'display_name', 'checksum', 'contact_id' ) );
-        }
+    private function getContactTokenReplacement($token, &$contact){
 
         /* Construct value from $token and $contact */
         $value = null;
@@ -463,7 +441,6 @@ class CRM_Utils_Token {
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
-
         if(!in_array($token,self::$_tokens['contact'])){
           $value = "{contact.$token}";
         } else if ( $token == 'checksum' ) {
@@ -471,10 +448,6 @@ class CRM_Utils_Token {
             $value = "cs={$cs}";
         } else {
             $value = CRM_Contact_BAO_Contact::retrieveValue($contact, $token);
-        }
-
-        if(!$html){
-          $value = str_replace('&amp;', '&', $value);
         }
 
         return $value;
@@ -528,38 +501,37 @@ class CRM_Utils_Token {
                     }
                 }
                 
-#               if ($html) {
-#                   $value = '<ul>';
-#                   foreach ($groups as $gid => $name) {
-#                       $verpAddress = implode( $config->verpSeparator,
-#                                               array( 'resubscribe',
-#                                                      $domain->id,
-#                                                      $gid,
-#                                                      $hash ) ) . "@{$domain->email_domain}";
-#                       $resub = '';
-#                       if (in_array($gid, $visibleGroups)) {
-#                           $resub = "(<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)";
-#                       }
-#                       $value .= "<li>$name $resub</li>\n";
-#                   }
-#                   $value .= '</ul>';
-#               } else {
-#                   $value = "\n";
-#                   foreach ($groups as $gid => $name) {
-#                       $verpAddress = implode( $config->verpSeparator, 
-#                                               array( 'resubscribe',
-#                                                      $domain->id,
-#                                                      $gid,
-#                                                      $hash ) ) . "@{$domain->email_domain}";
-#                       $resub = '';
-#                       if (in_array($gid, $visibleGroups)) {
-#                           $resub = ts("(re-subscribe: %1)", array( 1 => "$verpAddress"));
-#                       }
-#                       $value .= "\t* $name $resub\n";
-#                   }
-#                   $value .= "\n";
-#               }
-                $value = implode(', ', $groups);
+                if ($html) {
+                    $value = '<ul>';
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator,
+                                                array( 'resubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $resub = '';
+                        if (in_array($gid, $visibleGroups)) {
+                            $resub = "(<a href=\"mailto:$verpAddress\">" . ts("re-subscribe") . "</a>)";
+                        }
+                        $value .= "<li>$name $resub</li>\n";
+                    }
+                    $value .= '</ul>';
+                } else {
+                    $value = "\n";
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator, 
+                                                array( 'resubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $resub = '';
+                        if (in_array($gid, $visibleGroups)) {
+                            $resub = ts("(re-subscribe: %1)", array( 1 => "$verpAddress"));
+                        }
+                        $value .= "\t* $name $resub\n";
+                    }
+                    $value .= "\n";
+                }
                 self::token_replace('unsubscribe', 'group', $value, $str);
             }
         }
@@ -584,36 +556,35 @@ class CRM_Utils_Token {
     {
         if (self::token_match('resubscribe', 'group', $str)) {
             if (! empty($groups)) {
-#               $config =& CRM_Core_Config::singleton();
+                $config =& CRM_Core_Config::singleton();
 
-#               if ($html) {
-#                   $value = '<ul>';
-#                   foreach ($groups as $gid => $name) {
-#                       $verpAddress = implode( $config->verpSeparator,
-#                                               array( 'unsubscribe',
-#                                                      $domain->id,
-#                                                      $gid,
-#                                                      $hash ) ) . "@{$domain->email_domain}";
-#                       $unsub = '';
-#                       $unsub = "(<a href=\"mailto:$verpAddress\">" . ts("unsubscribe") . "</a>)";
-#                       $value .= "<li>$name $unsub</li>\n";
-#                   }
-#                   $value .= '</ul>';
-#               } else {
-#                   $value = "\n";
-#                   foreach ($groups as $gid => $name) {
-#                       $verpAddress = implode( $config->verpSeparator, 
-#                                               array( 'unsubscribe',
-#                                                      $domain->id,
-#                                                      $gid,
-#                                                      $hash ) ) . "@{$domain->email_domain}";
-#                       $unsub = '';
-#                       $unsub = ts("(unsubscribe: %1)", array( 1 => "$verpAddress"));
-#                       $value .= "\t* $name $unsub\n";
-#                   }
-#                   $value .= "\n";
-#               }
-                $value = implode(', ', $groups);
+                if ($html) {
+                    $value = '<ul>';
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator,
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = "(<a href=\"mailto:$verpAddress\">" . ts("unsubscribe") . "</a>)";
+                        $value .= "<li>$name $unsub</li>\n";
+                    }
+                    $value .= '</ul>';
+                } else {
+                    $value = "\n";
+                    foreach ($groups as $gid => $name) {
+                        $verpAddress = implode( $config->verpSeparator, 
+                                                array( 'unsubscribe',
+                                                       $domain->id,
+                                                       $gid,
+                                                       $hash ) ) . "@{$domain->email_domain}";
+                        $unsub = '';
+                        $unsub = ts("(unsubscribe: %1)", array( 1 => "$verpAddress"));
+                        $value .= "\t* $name $unsub\n";
+                    }
+                    $value .= "\n";
+                }
                 self::token_replace('resubscribe', 'group', $value, $str);
             }
         }
