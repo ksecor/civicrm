@@ -148,16 +148,16 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             
             //create contact only if it does not exits in db
             $value['email'] = $value['email-Primary'];
-            $ids = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
+            $contact = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
 
-            if ( !$ids ) {
+            if ( !$contact ) {
                 $contact = self::add( $value );
             }
             
             // attempt to save activity targets                       
             $target =& new CRM_Activity_BAO_ActivityTarget();            
             $targetParams = array( 'activity_id'       => $activity->id,
-                                   'target_contact_id' => $ids ? $ids : $contact );            
+                                   'target_contact_id' => $contact );            
             
             $resultTarget = $target->create( $targetParams );           
         }
