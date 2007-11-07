@@ -114,12 +114,13 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         $cart->AddItem($item1);
 
         if ( $component == "event" ) {
-            $privateData = "contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},eventID={$params['eventID']},invoiceID={$params['invoiceID']}";
+            $privateData = "contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},eventID={$params['eventID']},participantID={$params['participantID']},invoiceID={$params['invoiceID']}";
         } elseif ( $component == "contribute" ) {
             $privateData = "contactID={$params['contactID']},contributionID={$params['contributionID']},contributionTypeID={$params['contributionTypeID']},invoiceID={$params['invoiceID']}";
 
-            if ( $params['selectMembership'] &&  $params['selectMembership'] != 'no_thanks' ) {
-                $privateData .= ",membershipTypeID={$params['selectMembership']}";
+            $membershipID = CRM_Utils_Array::value( 'membershipID', $params );
+            if ( $membershipID ) {
+                $privateData .= ",membershipID=$membershipID";
             }
         }
         

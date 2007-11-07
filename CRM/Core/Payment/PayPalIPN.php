@@ -33,8 +33,10 @@
  *
  */
 
-class CRM_Core_Payment_PayPalIPN 
-{
+require_once 'CRM/Core/Payment/BaseIPN.php';
+
+class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
+
     static $_paymentProcessor = null;
 
     static function retrieve( $name, $type, $location = 'POST', $abort = true ) 
@@ -50,35 +52,29 @@ class CRM_Core_Payment_PayPalIPN
         return $value;
     }
 
-    static function recur( $component, $contactID, &$contribution, &$contributionType, $first ) 
+    static function recur( &$input, &$ids, &$objects, $first ) 
     {
-        $contributionRecurID = self::retrieve( 'contributionRecurID', 'Integer', 'GET' , true );
-        $contributionPageID  = self::retrieve( 'contributionPageID' , 'Integer', 'GET' , true );
-        $txnType             = self::retrieve( 'txn_type'           , 'String' , 'POST', true );
+        if ( ! isset( $input['txnType'] ) ) {
+            CRM_Core_Error::debug_log_message( "Could not find txn_type in input request" );
+            echo "Failure: Invalid parameters<p>";
+            return false;
+        }
 
-        if ( $txnType == 'subscr_payment' &&
-             $_POST['payment_status'] != 'Completed' ) {
+        if ( $input['txnType']       == 'subscr_payment' &&
+             $input['paymentStatus'] != 'Completed' ) {
             CRM_Core_Error::debug_log_message( "Ignore all IPN payments that are not completed" );
             echo "Failure: Invalid parameters<p>";
-            return;
+            return false;
         }
 
-        require_once 'CRM/Contribute/DAO/ContributionRecur.php';
-        $recur =& new CRM_Contribute_DAO_ContributionRecur( );
-        $recur->id = $contributionRecurID;
-        if ( ! $recur->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find recur record: $contributionRecurID" );
-            echo "Failure: Could not find recur record: $contributionRecurID<p>";
-            return;
-        }
+        $recur =& $objects['contributionRecur'];
 
         // make sure the invoice ids match
         // make sure the invoice is valid and matches what we have in the contribution record
-        $invoice             = self::retrieve( 'invoice'           , 'String' , 'POST', true );
-        if ( $recur->invoice_id != $invoice ) {
+        if ( $recur->invoice_id != $input['invoice'] ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
             echo "Failure: Invoice values dont match between database and IPN request<p>";
-            return;
+            return false;
         }
 
         $now = date( 'YmdHis' );
@@ -119,7 +115,7 @@ class CRM_Core_Payment_PayPalIPN
         case 'subscr_modify':
             CRM_Core_Error::debug_log_message( "We do not handle modifications to subscriptions right now" );
             echo "Failure: We do not handle modifications to subscriptions right now<p>";
-            return;
+            return false;
 
         case 'subscr_payment':
             if ( $first ) {
@@ -127,6 +123,7 @@ class CRM_Core_Payment_PayPalIPN
             } else {
                 $recur->modified_date = $now;
             }
+
             // make sure the contribution status is not done
             // since order of ipn's is unknown
             if ( $recur->contribution_status_id != 1 ) {
@@ -147,321 +144,76 @@ class CRM_Core_Payment_PayPalIPN
             $contribution->domain_id = CRM_Core_Config::domainID( );
             $contribution->contact_id = $contactID;
             $contribution->contribution_type_id  = $contributionType->id;
-            $contribution->contribution_page_id  = $contributionPageID;
-            $contribution->contribution_recur_id = $contributionRecurID;
+            $contribution->contribution_page_id  = $ids['contributionPage'];
+            $contribution->contribution_recur_id = $ids['contributionRecur'];
             $contribution->receive_date          = $now;
+
+            $objects['contribution'] =& $contribution;
         }
 
-        self::single( $component, $contactID, $contribution, $contributionType,
-                      CRM_Core_DAO::$_nullObject,
-                      CRM_Core_DAO::$_nullObject,
-                      true, $first );
+        $this->single( $input, $ids, $objects, 
+                       true, $first );
     }
 
-    static function single( $component,
-                            $contactID,
-                            &$contribution,
-                            &$contributionType,
-                            &$event,
-                            &$participant,
+    static function single( &$input, &$ids, &$objects,
                             $recur = false,
                             $first = false ) 
     {
-        $membershipID = self::retrieve( 'membershipID', 'Integer', 'GET', false );
-        $membership   = null;
-        if ( $membershipID ) {
-            require_once 'CRM/Member/DAO/Membership.php';
-            $membership = new CRM_Member_DAO_Membership( );
-            $membership->id = $membershipID;
-            if ( ! $membership->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find membership record: $membershipID" );
-                echo "Failure: Could not find membership record: $membershipID<p>";
-                return;
-            }
-        }
+        $contribution =& $objects['contribution'];
 
         // make sure the invoice is valid and matches what we have in the contribution record
         if ( ( ! $recur ) || ( $recur && $first ) ) {
-            $invoice             = self::retrieve( 'invoice', 'String' , 'POST', true );
-            if ( $contribution->invoice_id != $invoice ) {
+            if ( $contribution->invoice_id != $input['invoice'] ) {
                 CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
                 echo "Failure: Invoice values dont match between database and IPN request<p>";
-                return;
+                return false;
             }
         } else {
-            $contribution->invoice_id = md5(uniqid(rand(), true));
+            $contribution->invoice_id = md5( uniqid( rand( ), true ) );
         }
 
         $now = date( 'YmdHis' );
-        $amount =  self::retrieve( 'mc_gross', 'Money', 'POST', true );
-        $contribAmount = $amount;
+        $contribAmount = $input['amount'];
         if ( ! $recur ) {
-            if ( $contribution->total_amount != $amount ) {
+            if ( $contribution->total_amount != $input['amount'] ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
                 echo "Failure: Amount values dont match between database and IPN request<p>";
-                return;
+                return false;
             }
         } else {
-            $contribution->total_amount = $amount;
-        }
-
-        // ok we are done with error checking, now let the real work begin
-        // update the contact record with the name and billing address
-
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-        $billingId     = array_search( 'Billing',  $locationTypes );
-        if ( ! $billingId ) {
-            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-        }
-        
-        $params = array( );
-        $lookup = array( "first_name"                  => 'first_name',
-                         "last_name"                   => 'last_name' ,
-                         "street_address-{$billingId}" => 'address_street',
-                         "city-{$billingId}"           => 'address_city',
-                         "state-{$billingId}"          => 'address_state',
-                         "postal_code-{$billingId}"    => 'address_zip',
-                         "country-{$billingId}"        => 'address_country_code' );
-
-        foreach ( $lookup as $name => $paypalName ) {
-            $value = self::retrieve( $paypalName, 'String', 'POST', false );
-            if ( $value ) {
-                $params[$name] = $value;
-            } else {
-                $params[$name] = null;
-            }
-        }
-
-        if ( ! empty( $params ) ) {
-            // update contact record
-            require_once "CRM/Contact/BAO/Contact.php";
-            $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactID );
+            $contribution->total_amount = $input['amount'];
         }
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        // lets keep this the same
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql( $contribution->receive_date ); 
-
-        if ( $participant ) {
-            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
+        if ( ! $this->createContact( $input, $ids, $objects ) ) {
+            return false;
         }
 
-        $status = self::retrieve( 'payment_status', 'String', 'POST', true );
+        $participant =& $objects['participant'];
+        $membership  =& $objects['membership' ];
+
+        $status = $input['payment_status'];
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
-            $contribution->contribution_status_id = 4;
-            $contribution->save( );
-
-            if ( $membership ) {
-                $membership->status_id = 4;
-                $membership->save( );
-            }
-
-            if ( $participant ) {
-                $participant->status_id = 4;
-                $participant->save( );
-            }
-            
-            $transaction->commit( );
-            CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
-            echo "Success: Setting contribution status to failed<p>";
-            return;
+            return $this->failed( $objects, $transaction );
         } else if ( $status == 'Pending' ) {
-            CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
-            echo "Success: Returning since contribution status is pending<p>";
-            return;
+            return $this->pending( $objects, $transaction );
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
-            $contribution->contribution_status_id = 3;
-            $contribution->cancel_date = $now;
-            $contribution->cancel_reason = self::retrieve( 'ReasonCode', 'String', 'POST', false );
-            $contribution->save( );
-
-            if ( $membership ) {
-                $membership->status_id = 4;
-                $membership->save( );
-            }
-
-            if ( $participant ) {
-                $participant->status_id = 4;
-                $participant->save( );
-            }
-
-            $transaction->commit( );
-            CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
-            echo "Success: Setting contribution status to cancelled<p>";
-            return;
+            return $this->cancelled( $objects, $transaction );
         } else if ( $status != 'Completed' ) {
-            // we dont handle this as yet
-            CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
-            echo "Failure: contribution status $status is not handled<p>";
-            return;
+            return $this->unhandled( $objects, $transaction );
         }
 
         // check if contribution is already completed, if so we ignore this ipn
         if ( $contribution->contribution_status_id == 1 ) {
+            $transaction->commit( );
             CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
             echo "Success: Contribution has already been handled<p>";
-            return;
+            return true;
         }
 
-        if ( $component == 'contribute' ) {
-            require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
-        
-            $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
-            
-            if ( $values['is_email_receipt'] ) {
-                $contribution->receipt_date = $now;
-            }
-
-            if ( $membership ) {
-                $membership->status_id = 2;
-                $membership->save( );
-            }
-
-        } else {
-            // event
-            $eventParams = array( 'id' => $eventID );
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
-        
-            $eventParams = array( 'event_id' => $eventID );
-            require_once 'CRM/Event/BAO/EventPage.php';
-            CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
-
-            //get location details
-            $locationParams = array( 'entity_id' => $eventID ,'entity_table' => 'civicrm_event' );
-            require_once 'CRM/Core/BAO/Location.php';
-            require_once 'CRM/Event/Form/ManageEvent/Location.php';
-            CRM_Core_BAO_Location::getValues($locationParams, $values, 
-                                             CRM_Core_DAO::$_nullArray, 
-                                             CRM_Event_Form_ManageEvent_Location::LOCATION_BLOCKS );
-
-            require_once 'CRM/Core/BAO/UFJoin.php';
-            $ufJoinParams = array( 'entity_table' => 'civicrm_event',
-                                   'entity_id'    => $eventID,
-                                   'weight'       => 1 );
-        
-            $values['custom_pre_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-        
-            $ufJoinParams['weight'] = 2;
-            $values['custom_post_id'] = CRM_Core_BAO_UFJoin::findUFGroupId( $ufJoinParams );
-
-            $contribution->source                  = ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'];
-
-            if ( $values['event_page']['is_email_confirm'] ) {
-                $contribution->receipt_date = $now;
-            }
-
-            $participant->status_id = 1;
-            $participant->save( );
-        }
-
-        $contribution->contribution_status_id  = 1;
-        $contribution->is_test    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
-        $contribution->fee_amount = self::retrieve( 'payment_fee'  , 'Money'  , 'POST', false );
-        $contribution->net_amount = self::retrieve( 'settle_amount', 'Money'  , 'POST', false );
-        $contribution->trxn_id    = self::retrieve( 'txn_id'       , 'String' , 'POST', false );
-        $contribution->save( );
-        
-        // next create the transaction record
-        $trxnParams = array(
-                            'contribution_id'   => $contribution->id,
-                            'trxn_date'         => $now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $amount,
-                            'fee_amount'        => $contribution->fee_amount,
-                            'net_amount'        => $contribution->net_amount,
-                            'currency'          => $contribution->currency,
-                            'payment_processor' => self::$_paymentProcessor['payment_processor_type'],
-                            'trxn_id'           => $contribution->trxn_id,
-                            );
-        
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-
-        if ( $component == 'contribute' ) {
-            // get the title of the contribution page
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                  $contribution->contribution_page_id,
-                                                  'title' );
-            
-            require_once 'CRM/Utils/Money.php';
-            $formattedAmount = CRM_Utils_Money::format($contribAmount);
-            
-            //should be uncommented once create activity api is fixed
-//             // also create an activity history record
-//             require_once "CRM/Core/OptionGroup.php";
-//             $ahParams = array( 'source_contact_id' => $contactID,
-//                                'source_record_id'  => $contribution->id,
-//                                'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-//                                                                                       'CiviContribute Online Contribution',
-//                                                                                       'name' ),
-//                                'module'            => 'CiviContribute', 
-//                                'callback'          => 'CRM_Contribute_Page_Contribution::details',
-//                                'subject'           => "$formattedAmount - $title (online)",
-//                                'activity_date_time'=> $now,
-//                                'is_test'           => $contribution->is_test
-//                                );
-
-//             require_once 'api/v2/Activity.php';
-//             if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
-//                 CRM_Core_Error::fatal( "Could not create a system record" );
-//             }
-        } else { // event 
-            // also create an activity history record
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
-        }
-
-
-        CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
-        $transaction->commit( );
-
-        // add the new contribution values
-        $template =& CRM_Core_Smarty::singleton( );
-        if ( $component == 'contribute' ) {
-            $template->assign( 'title', $values['title']);
-            $template->assign( 'amount' , $contribAmount );
-        } else {
-            $template->assign( 'title', $values['event']['title']);
-            $template->assign( 'amount' , $amount );
-        }
-
-        $template->assign( 'trxn_id', $contribution->trxn_id );
-        $template->assign( 'receive_date', 
-                           CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
-        $template->assign( 'contributeMode', 'notify' );
-        $template->assign( 'action', $contribution->is_test ? 1024 : 1 );
-        $template->assign( 'receipt_text', $values['receipt_text'] );
-        $template->assign( 'is_monetary', 1 );
-        $template->assign( 'is_recur', $recur );
-        if ( $recur ) {
-            require_once 'CRM/Contribute/Form/ContributionBase.php';
-            $url = CRM_Contribute_Form_ContributionBase::cancelSubscriptionURL( self::$_paymentProcessor );
-            $template->assign( 'cancelSubscriptionUrl', $url );
-        }
-
-        require_once 'CRM/Utils/Address.php';
-        $template->assign( 'address', CRM_Utils_Address::format( $params ) );
-                                                                                        
-        if ( $component == 'event' ) { 
-            $template->assign( 'event', $values['event'] );
-            $template->assign( 'eventPage', $values['event_page'] );
-            $template->assign( 'location', $values['location'] );
-            $template->assign( 'customPre', $values['custom_pre_id'] );
-            $template->assign( 'customPost', $values['custom_post_id'] );
-
-            require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $values, $participant->id );
-        } else {
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values, $contribution->id );
-        }
-
-        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
-        echo "Success: Database updated<p>";
+        $this->completeTransaction( $input, $ids, $objects, $transaction );
     }
 
     static function main( $component = 'contribute' ) 
@@ -470,114 +222,84 @@ class CRM_Core_Payment_PayPalIPN
         CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
 
         require_once 'CRM/Utils/Request.php';
+        
+        $objects = $ids = $input = array( );
+        $input['component'] = $component;
 
         // get the contribution, contact and contributionType ids from the GET params
-        $contactID          = self::retrieve( 'contactID'         , 'Integer', 'GET', true );
-        $contributionID     = self::retrieve( 'contributionID'    , 'Integer', 'GET', true );
-        $contributionTypeID = self::retrieve( 'contributionTypeID', 'Integer', 'GET', true );
+        $ids['contact']           = self::retrieve( 'contactID'         , 'Integer', 'GET' , true  );
+        $ids['contribution']      = self::retrieve( 'contributionID'    , 'Integer', 'GET' , true  );
+        
+        $this->getInput( $input, $ids );
 
         if ( $component == 'event' ) {
-            $eventID       = CRM_Core_Payment_PayPalIPN::retrieve( 'eventID'      , 'Integer', 'GET', true );
-            $participantID = CRM_Core_Payment_PayPalIPN::retrieve( 'participantID', 'Integer', 'GET', true );
-        }
-
-        // make sure contact exists and is valid
-        require_once 'CRM/Contact/DAO/Contact.php';
-        $contact =& new CRM_Contact_DAO_Contact( );
-        $contact->id = $contactID;
-        if ( ! $contact->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contact record: $contactID" );
-            echo "Failure: Could not find contact record: $contactID<p>";
-            return;
-        }
-
-        // make sure contribution exists and is valid
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        $contribution =& new CRM_Contribute_DAO_Contribution( );
-        $contribution->id = $contributionID;
-        if ( ! $contribution->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
-            echo "Failure: Could not find contribution record for $contributionID<p>";
-            return;
-        }
-        
-        // make sure contribution type exists and is valid
-        require_once 'CRM/Contribute/DAO/ContributionType.php';
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $contributionTypeID;
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
-            echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
-            return;
-        }
-
-        if ( $component == 'contribute' ) {
-            // get the contribution page id from the contribution
-            // and then initialize the payment processor from it
-            if ( ! $contribution->contribution_page_id ) {
-                CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
-                echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
-                return;
-            }
-            
-            // get the payment processor id from contribution page
-            $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                               $contribution->contribution_page_id,
-                                                               'payment_processor_id' );
+            $ids['event']       = self::retrieve( 'eventID'      , 'Integer', 'GET', true );
+            $ids['participant'] = self::retrieve( 'participantID', 'Integer', 'GET', true );
         } else {
-            // we are in event mode
-            // make sure event exists and is valid
-            require_once 'CRM/Event/DAO/Event.php';
-            $event =& new CRM_Event_DAO_Event( );
-            $event->id = $eventID;
-            if ( ! $event->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find event: $eventID" );
-                echo "Failure: Could not find event: $eventID<p>";
-                return;
-            }
-
-            require_once 'CRM/Event/DAO/Participant.php';
-            $participant =& new CRM_Event_DAO_Participant( );
-            $participant->id = $participantID;
-            if ( ! $participant->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find participant: $participantID" );
-                echo "Failure: Could not find participant: $participantID<p>";
-                return;
-            }
-                
-            // get the payment processor id from contribution page
-            $paymentProcessorID = $event->payment_processor_id;
+            // get the optional ids
+            $ids['membership']        = self::retrieve( 'membershipID'       , 'Integer', 'GET', false );
+            $ids['contributionRecur'] = self::retrieve( 'contributionRecurID', 'Integer', 'GET', false );
+            $ids['contributionPage']  = self::retrieve( 'contributionPageID' , 'Integer', 'GET', false );
         }
 
-
-        if ( ! $paymentProcessorID ) {
-            CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
-            echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
-            return;
+        if ( ! $this->validateData( $input, $ids, $objects ) ) {
+            return false;
         }
 
-        require_once 'CRM/Core/BAO/PaymentProcessor.php';
-        self::$_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
-                                                                              $contribution->is_test ? 'test' : 'live' );
-        
+        self::$_paymentProcessor =& $objects['paymentProcessor'];
+
         if ( $component == 'contribute' ) {
-            if ( array_key_exists( 'contributionRecurID', $_GET ) ) {
+            if ( array_key_exists( 'contributionRecur', $ids ) ) {
                 // check if first contribution is completed, else complete first contribution
                 $first = true;
-                if ( $contribution->contribution_status_id == 1 ) {
+                if ( $objects['contribution']->contribution_status_id == 1 ) {
                     $first = false;
                 }
-                return self::recur( $component, $contactID, $contribution, $contributionType, $first );
+                return $this->recur( $input, $ids, $objects, $first );
             } else {
-                return self::single( $component, $contactID, $contribution, $contributionType,
-                                     CRM_Core_DAO::$_nullObject,
-                                     CRM_Core_DAO::$_nullObject );
+                return $this->single( $input, $ids, $objects, true, false );
             }
         } else {
-            return self::single( $component, $contactID, $contribution, $contributionType, $event, $participant );
+            return $this->single( $input, $ids, $objects, false, false );
         }
     }
 
+    function getInput( &$input, &$ids ) {
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
+        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
+        if ( ! $ids['billing'] ) {
+            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            echo "Failure: Could not find billing location type<p>";
+            return false;
+        }
+
+        $input['txnType']       = self::retrieve( 'txn_type'          , 'String' , 'POST', false );
+        $input['paymentStatus'] = self::retrieve( 'payment_status'    , 'String' , 'POST', true  );
+        $input['invoice']       = self::retrieve( 'invoice'           , 'String' , 'POST', true  );
+        $input['amount']        = self::retrieve( 'mc_gross'          , 'Money'  , 'POST', true  );
+        $input['reasonCode']    = self::retrieve( 'ReasonCode'        , 'String' , 'POST', false );
+
+        $billingID = $ids['billing'];
+        $lookup = array( "first_name"                  => 'first_name',
+                         "last_name"                   => 'last_name' ,
+                         "street_address-{$billingID}" => 'address_street',
+                         "city-{$billingID}"           => 'address_city',
+                         "state-{$billingID}"          => 'address_state',
+                         "postal_code-{$billingID}"    => 'address_zip',
+                         "country-{$billingID}"        => 'address_country_code' );
+        foreach ( $lookup as $name => $paypalName ) {
+            $value = self::retrieve( $paypalName, 'String', 'POST', false );
+            $input[$name] = $value ? $value : null;
+        }
+
+        $input['is_test']    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
+        $input['fee_amount'] = self::retrieve( 'payment_fee'  , 'Money'  , 'POST', false );
+        $input['net_amount'] = self::retrieve( 'settle_amount', 'Money'  , 'POST', false );
+        $input['trxn_id']    = self::retrieve( 'txn_id'       , 'String' , 'POST', false );
+        
+    }
 }
 
 ?>

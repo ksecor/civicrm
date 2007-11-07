@@ -32,7 +32,9 @@
   *
   */
 
-class CRM_Core_Payment_GoogleIPN {
+require_once 'CRM/Core/Payment/BaseIPN.php';
+
+class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
 
     /**
      * We only need one instance of this object. So we use the singleton
@@ -51,6 +53,27 @@ class CRM_Core_Payment_GoogleIPN {
      */
     static protected $_mode = null;
     
+    static function retrieve( $name, $type, $object, $abort = true ) 
+    {
+        $value = CRM_Utils_Array::value( $name, $object );
+        if ( $abort && $value === null ) {
+            CRM_Core_Error::debug_log_message( "Could not find an entry for $name" );
+            echo "Failure: Missing Parameter<p>";
+            exit( );
+        }
+
+        if ( $value ) {
+            if ( ! CRM_Utils_Type::::validate( $value, $type ) ) {
+                CRM_Core_Error::debug_log_message( "Could not find a valid entry for $name" );
+                echo "Failure: Invalid Parameter<p>";
+                exit( );
+            }
+        }
+
+        return $value;
+    }
+
+
     /** 
      * Constructor 
      * 
@@ -74,127 +97,82 @@ class CRM_Core_Payment_GoogleIPN {
      *  
      */  
     function newOrderNotify( $dataRoot, $privateData, $component ) {
-        $component          = strtolower($component);
+        $ids = $input = $params = array( );
 
-        $contactID          = $privateData['contactID'];
-        $contributionID     = $privateData['contributionID'];
-
-        if ( $component == "contribute" ) {
-            $membershipTypeID   = $privateData['membershipTypeID'];
-        } elseif ( $component == "event" ) {
-            $eventID            = $privateData['eventID'];
-        }
-
-        // make sure contact exists and is valid
-        require_once 'CRM/Contact/DAO/Contact.php';
-        $contact =& new CRM_Contact_DAO_Contact( );
-        $contact->id = $contactID;
-        if ( ! $contact->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contact record: $contactID" );
-            echo "Failure: Could not find contact record: $contactID<p>";
-            return;
-        }
-
-        // make sure contribution exists and is valid
-        require_once 'CRM/Contribute/DAO/Contribution.php';
-        $contribution =& new CRM_Contribute_DAO_Contribution( );
-        $contribution->id = $contributionID;
-        if ( ! $contribution->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution record: $contributionID" );
-            echo "Failure: Could not find contribution record for $contributionID<p>";
-            return;
-        }
         
+        $input['component'] = strtolower($component);
+
+        $ids['contact']          = self::retrieve( 'contactID'     , 'Integer', $privateData, true );
+        $ids['contribution']     = self::retrieve( 'contributionID', 'Integer', $privateData, true );
+
         if ( $component == "event" ) {
-            // make sure event exists and is valid
-            require_once 'CRM/Event/DAO/Event.php';
-            $event =& new CRM_Event_DAO_Event( );
-            $event->id = $eventID;
-            if ( ! $event->find( true ) ) {
-                CRM_Core_Error::debug_log_message( "Could not find event: $eventID" );
-                echo "Failure: Could not find event: $eventID<p>";
-                return;
-            }
+            $ids['event']       = self::retrieve( 'eventID'      , 'Integer', $privateData, true );
+            $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
+            $ids['membership']  = null;
+        } else {
+            $ids['membership'] = self::retrieve( 'membershipID'       , 'Integer', $privateData, false );
+        }
+        $ids['contributionRecur'] = $ids['contributionPage'] = null;
+
+        if ( ! $this->validateData( $input, $ids, $objects ) ) {
+            return false;
         }
 
         // make sure the invoice is valid and matches what we have in the contribution record
-        $invoice = $privateData['invoiceID'];
+        $input['invoice']    =  $privateData['invoiceID'];
+        $input['newInvoice'] =  $dataRoot['google-order-number']['VALUE'];
+        $contribution        =& $objects['contribution'];
         if ( $contribution->invoice_id != $invoice ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
             echo "Failure: Invoice values dont match between database and IPN request<p>";
             return;
-        } else {
-            // lets replace invoice-id with google-order-number because thats what is common and unique 
-            // in subsequent calls or notifications send by google.
-            $contribution->invoice_id = $dataRoot['google-order-number']['VALUE'];
         }
 
-        $now    = date( 'YmdHis' );
-        $amount =  $dataRoot['order-total']['VALUE'];
+        // lets replace invoice-id with google-order-number because thats what is common and unique 
+        // in subsequent calls or notifications send by google.
+        $contribution->invoice_id = $input['newInvoice'];
+
+        $now             = date( 'YmdHis' );
+        $input['amount'] = $dataRoot['order-total']['VALUE'];
         
-        if ( $contribution->total_amount != $amount ) {
+        if ( $contribution->total_amount != $input['amount'] ) {
             CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
             echo "Failure: Amount values dont match between database and IPN request<p>";
             return;
         }
 
-        // ok we are done with error checking, now let the real work begin
-        // update the contact record with the name and billing address
-
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-        $billingId     = array_search( 'Billing',  $locationTypes );
-        if ( ! $billingId ) {
-            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+        if ( ! $this->getInput( $input, $ids ) ) {
+            return false;
         }
 
-        $params = array( );
-        $lookup = array( "first_name"                  => 'contact-name',
-                         // "last-name" not available with google (every thing in contact-name)
-                         "last_name"                   => 'last_name' , 
-                         "street_address-{$billingId}" => 'address1',
-                         "city-{$billingId}"           => 'city',
-                         "state-{$billingId}"          => 'region',
-                         "postal_code-{$billingId}"    => 'postal-code',
-                         "country-{$billingId}"        => 'country-code' );
-        foreach ( $lookup as $name => $googleName ) {
-            $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
-            if ( $value ) {
-                $params[$name] = $value;
-            } else {
-                $params[$name] = null;
-            }
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        if ( ! $this->createContact( $input, $ids, $objects ) ) {
+            return false;
         }
 
-        if ( ! empty( $params ) ) {
-            // update contact record
-            require_once "CRM/Contact/BAO/Contact.php";
-            $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactID );
-        }
-        
-        // lets keep this the same
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
-        
         // check if contribution is already completed, if so we ignore this ipn
         if ( $contribution->contribution_status_id == 1 ) {
             CRM_Core_Error::debug_log_message( "returning since contribution has already been handled" );
             echo "Success: Contribution has already been handled<p>";
-            return;
-        }
-
-        /* Since trxn_id hasn't got any use here, 
-         lets make use of it by passing the eventID/membershipTypeID to next level.
-         And change trxn_id to google-order-number before finishing db update */
-        if ( $eventID ) {
-            $contribution->trxn_id = "eid" . $eventID;
-        }
-        if ( $membershipTypeID ) {
-            $contribution->trxn_id = "mid" . $membershipTypeID;
+        } else {
+            /* Since trxn_id hasn't got any use here, 
+             * lets make use of it by passing the eventID/membershipTypeID to next level.
+             * And change trxn_id to google-order-number before finishing db update */
+            if ( $ids['event'] ) {
+                $contribution->trxn_id =
+                    $ids['event']       . CRM_Core_DAO::VALUE_SEPARATOR .
+                    $ids['participant'] ;
+            } else {
+                $contribution->trxn_id = $ids['membership'];
+            }
         }
 
         // CRM_Core_Error::debug_var( 'c', $contribution );
         $contribution->save( );
+        $transaction->commit( );
+        return true;
     }
     
     /**  
@@ -207,7 +185,9 @@ class CRM_Core_Payment_GoogleIPN {
      *  
      */  
     function orderStateChange( $status, $dataRoot, $component ) {
-        $component = strtolower($component);
+        $input = $objects = $ids = array( );
+
+        $input['component'] = strtolower($component);
 
         // CRM_Core_Error::debug_var( "$status, $component", $dataRoot );
         $orderNo   = $dataRoot['google-order-number']['VALUE'];
@@ -220,211 +200,43 @@ class CRM_Core_Payment_GoogleIPN {
             echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
             return;
         }
-        
+
+        $objects['contribution'] =& $contribution;
+        $ids['contribution']     =  $contribution->id;
+
+        $ids['event'] = $ids['participant'] = $ids['membership'] = null;
+        $ids['contributionRecur'] = $ids['contributionPage'] = null;
+
+        if ( $input['component'] == "event" ) {
+            list( $ids['event'], $ids['participant'] ) =
+                explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                         $contribution->trxn_id );
+            
+        } else {
+            $ids['membership'] = $contribution->trxn_id;
+        }
+
+        $this->loadObjects( $input, $ids, $objects );
+
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        $contribution->trxn_id = $orderNo;
+
         // CRM_Core_Error::debug_var( 'c', $contribution );        
         if ( $status == 'PAYMENT_DECLINED' || 
              $status == 'CANCELLED_BY_GOOGLE' || 
-             $status == 'CANCELLED' ) {        
-
-            $contribution->contribution_status_id = 4;
-            $contribution->trxn_id = $orderNo;
-            $contribution->save( );
-            CRM_Core_DAO::transaction( 'COMMIT' );
-            CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
-            echo "Success: Setting contribution status to failed<p>";
-            return;
+             $status == 'CANCELLED' ) {
+            return $this->failed( $objects, $transaction );
         }
 
-        require_once 'CRM/Contribute/DAO/ContributionType.php';
-        $contributionType =& new CRM_Contribute_DAO_ContributionType( );
-        $contributionType->id = $contribution->contribution_type_id;
-        if ( ! $contributionType->find( true ) ) {
-            CRM_Core_Error::debug_log_message( "Could not find contribution type record: $contributionTypeID" );
-            echo "Failure: Could not find contribution type record for $contributionTypeID<p>";
-            return;
-        }
+        $input['amount']     = $contribution->total_amount;
+        $input['fee_amount'] = null;
+        $input['net_amount'] = null;
+        $input['trxn_id']    = $orderNo;
+        $input['is_test']    = $contribution->is_test;
 
-        if ( $component == "contribute" ) {
-            // get the payment processor id from contribution page
-            $paymentProcessorID = 
-                CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                             $contribution->contribution_page_id,
-                                             'payment_processor_id' );
-            
-            if ( ! $paymentProcessorID ) {
-                CRM_Core_Error::debug_log_message( "Could not find payment processor for contribution record: $contributionID" );
-                echo "Failure: Could not find payment processor for contribution record: $contributionID<p>";
-                return;
-            }
-        }
-        
-        // lets start since payment has been made
-        $now       = date( 'YmdHis' );
-        $contactID = $contribution->contact_id;
-        $amount    = $contribution->total_amount;
-
-        if ( $component == "event" ) {
-            $eventID     = (int)str_replace('eid', "", $contribution->trxn_id);
-            
-            $eventParams = array( 'id' => $eventID );
-            require_once 'CRM/Event/BAO/Event.php';
-            CRM_Event_BAO_Event::retrieve( $eventParams, $values['event'] );
-            
-            $eventParams = array( 'event_id' => $eventID );
-            require_once 'CRM/Event/BAO/EventPage.php';
-            CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['page'] );
-            
-            $contribution->source = 
-                ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'];
-            
-        } elseif ( $component == "contribute" ) {
-            $membershipTypeID     = (int)str_replace('mid', "", $contribution->trxn_id);
-
-            require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
-        }
-
-        $contribution->receive_date           = 
-            CRM_Utils_Date::isoToMysql($contribution->receive_date); 
-
-        $contribution->contribution_status_id = 1;
-        $contribution->fee_amount             = $dataRoot['fee_amount']['VALUE']; //not available
-        $contribution->net_amount             = $dataRoot['net_amount']['VALUE']; //not available
-        
-        // storing google-order-no
-        $contribution->trxn_id                = $dataRoot['google-order-number']['VALUE']; 
-
-        if ( $values['page']['is_email_confirm'] || $values['is_email_receipt'] ) {
-            $contribution->receipt_date = $now;
-        }
-
-        CRM_Core_DAO::transaction( 'BEGIN' );
-        
-        // CRM_Core_Error::debug_var( 'CT', $contribution );
-        $contribution->save( );
-        
-        require_once 'CRM/Core/Config.php';
-        $config =& CRM_Core_Config::singleton( );
-        
-        // next create the transaction record
-        $trxnParams = array(                            
-                            'contribution_id'   => $contribution->id,
-                            'trxn_date'         => $now,
-                            'trxn_type'         => 'Debit',
-                            'total_amount'      => $amount,
-                            'fee_amount'        => $contribution->fee_amount,
-                            'net_amount'        => $contribution->net_amount,
-                            'currency'          => $contribution->currency,
-                            'payment_processor' => 'Google_Checkout',
-                            'trxn_id'           => $contribution->trxn_id,
-                            );
-        
-        require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
-        $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
-
-        if ( $component == "event" ) {
-            //create participant record
-            require_once 'CRM/Event/BAO/Participant.php';
-            
-            $domainID = CRM_Core_Config::domainID( );
-            $groupName = "participant_role";
-            $query = "
-SELECT  v.label as label ,v.value as value
-FROM   civicrm_option_value v, 
-       civicrm_option_group g 
-WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
-  AND  g.name            = %1 
-  AND  v.is_active       = 1  
-  AND  g.is_active       = 1  
-";
-            $p = array( 1 => array( $groupName , 'String' ) );
-            
-            $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-            if ( $dao->fetch( ) ) {
-                $roleID = $dao->value;
-            }
-            
-            $participantParams = array('contact_id'    => $contactID,
-                                       'event_id'      => $eventID,
-                                       'status_id'     => 1,
-                                       'role_id'       => $roleID,
-                                       'register_date' => $now,
-                                       'source'        => ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'],
-                                       'event_level'   => $contribution->amount_level,
-                                       'is_test'       => $contribution->is_test ? 1 : 0,
-                                       );
-            
-            $ids = array();
-            $participant = CRM_Event_BAO_Participant::add($participantParams, $ids);
-            
-            // also create an activity history record
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
-            
-        } elseif ( $component == "contribute" ) {
-            // get the title of the contribution page
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                  $contribution->contribution_page_id,
-                                                  'title' );
-        
-            require_once 'CRM/Utils/Money.php';
-            $formattedAmount = CRM_Utils_Money::format($amount);
-            
-            // also create an activity history record
-            $ahParams = array('entity_table'     => 'civicrm_contact', 
-                              'entity_id'        => $contactID,
-                              'activity_type'    => $contributionType->name,
-                              'module'           => 'CiviContribute', 
-                              'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                              'activity_id'      => $contribution->id, 
-                              'activity_summary' => "$formattedAmount - $title (online)",
-                              'activity_date'    => $now,
-                              );
-        
-            require_once 'api/History.php';
-            if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
-                CRM_Core_Error::debug_log_message( "error in updating activity" );
-            }
-        
-            // create membership record
-            if ( $membershipTypeID ) {
-                require_once 'CRM/Member/BAO/Membership.php';
-                CRM_Member_BAO_Membership::processIPNMembership ( $contactID, $contribution, $membershipTypeID, $amount );
-            }
-        } 
-        
-        CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
-        CRM_Core_DAO::transaction( 'COMMIT' );
-
-        // add the new contribution values
-        $template =& CRM_Core_Smarty::singleton( );
-        $template->assign( 'amount' , $amount );
-        $template->assign( 'trxn_id', $contribution->trxn_id );
-        $template->assign( 'receive_date', 
-                           CRM_Utils_Date::mysqlToIso( $contribution->receive_date ) );
-        $template->assign( 'contributeMode', 'notify' );
-        $template->assign( 'action', $contribution->is_test ? 1024 : 1 );
-        $template->assign( 'receipt_text', $values['receipt_text'] );
-        $template->assign( 'is_monetary', 1 );
-
-        require_once 'CRM/Utils/Address.php';
-        $template->assign( 'address', CRM_Utils_Address::format( $params ) );
-        
-        if ( $component == "event" ) {
-            $template->assign( 'title', $values['event']['title']);
-
-            require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $values['page'], $participant->id );
-            
-        } elseif ( $component == "contribute" ) {
-            $template->assign( 'title',   $values['title']);
-            
-            require_once 'CRM/Contribute/BAO/ContributionPage.php';
-            CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $values, $contribution->id );
-        }
-
-        CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
-        echo "Success: Database updated<p>";
+        $this->completeTransaction( $input, $ids, $objects, $transaction );
     }
 
     /**  
@@ -616,36 +428,28 @@ WHERE  v.option_group_id = g.id
         $status = $response->HttpAuthentication($headers);
         
         switch ($root) {
-        case "request-received": {
+            
+        case "request-received":
+        case "error":
+        case "diagnosis":
+        case "checkout-redirect":
+        case "merchant-calculation-callback":
             break;
-        }
-        case "error": {
-            break;
-        }
-        case "diagnosis": {
-            break;
-        }
-        case "checkout-redirect": {
-            break;
-        }
-        case "merchant-calculation-callback": {
-            break;
-        }
+
         case "new-order-notification": {
             $response->SendAck();
             $ipn->newOrderNotify($data[$root], $privateData, $module);
             break;
         }
+
         case "order-state-change-notification": {
             $response->SendAck();
             $new_financial_state = $data[$root]['new-financial-order-state']['VALUE'];
             $new_fulfillment_order = $data[$root]['new-fulfillment-order-state']['VALUE'];
             
             switch($new_financial_state) {
-            case 'REVIEWING': {
-                break;
-            }
-            case 'CHARGEABLE': {
+
+            case 'CHARGEABLE':
                 $amount = $ipn->getAmount($orderNo);
                 if ($amount) {
                     $response->SendChargeOrder($data[$root]['google-order-number']['VALUE'], 
@@ -654,106 +458,65 @@ WHERE  v.option_group_id = g.id
                                                 $message_log);
                 }
                 break;
-            }
-            case 'CHARGING': {
+
+            case 'CHARGED':
+            case 'PAYMENT_DECLINED':
+            case 'CANCELLED':
+                $ipn->orderStateChange($new_financial_state, $data[$root], $module);
                 break;
-            }
-            case 'CHARGED': {
-                $ipn->orderStateChange('CHARGED', $data[$root], $module);
+
+            case 'REVIEWING':
+            case 'CHARGING':
+            case 'CANCELLED_BY_GOOGLE':
                 break;
-            }
-            case 'PAYMENT_DECLINED': {
-                $ipn->orderStateChange('PAYMENT_DECLINED', $data[$root], $module);
-                break;
-            }
-            case 'CANCELLED': {
-                $ipn->orderStateChange('CANCELLED', $data[$root], $module);
-                break;
-            }
-            case 'CANCELLED_BY_GOOGLE': {
-                //$response->SendBuyerMessage($data[$root]['google-order-number']['VALUE'],
-                //    "Sorry, your order is cancelled by Google", true, $message_log);
-                break;
-            }
-            default:
-                break;
-            }
-            
-            switch($new_fulfillment_order) {
-            case 'NEW': {
-                break;
-            }
-            case 'PROCESSING': {
-                break;
-            }
-            case 'DELIVERED': {
-                break;
-            }
-            case 'WILL_NOT_DELIVER': {
-                break;
-            }
+
             default:
                 break;
             }
         }
-        case "charge-amount-notification": {
-            $response->SendAck();
-            //      $response->SendDeliverOrder($data[$root]['google-order-number']['VALUE'], 
-            //                                  <carrier>, <tracking-number>, <send-email>, $message_log);
-            //      $response->SendArchiveOrder($data[$root]['google-order-number']['VALUE'], 
-            //                                  $message_log);
-            break;
-        }
-        case "chargeback-amount-notification": {
+
+        case "charge-amount-notification":
+        case "chargeback-amount-notification":
+        case "refund-amount-notification":
+        case "risk-information-notification":
             $response->SendAck();
             break;
-        }
-        case "refund-amount-notification": {
-            $response->SendAck();
+
+        default:
             break;
+
         }
-        case "risk-information-notification": {
-            $response->SendAck();
-            break;
+        
+    }
+
+    function getInput( &$input, &$ids ) {
+
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
+        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
+        if ( ! $ids['billing'] ) {
+            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            echo "Failure: Could not find billing location type<p>";
+            return false;
         }
-        default: {
-            break;
-        }
+
+        $lookup = array( "first_name"                  => 'contact-name',
+                         // "last-name" not available with google (every thing in contact-name)
+                         "last_name"                   => 'last_name' , 
+                         "street_address-{$billingId}" => 'address1',
+                         "city-{$billingId}"           => 'city',
+                         "state-{$billingId}"          => 'region',
+                         "postal_code-{$billingId}"    => 'postal-code',
+                         "country-{$billingId}"        => 'country-code' );
+
+        $billingID = $ids['billing'];
+        foreach ( $lookup as $name => $googleName ) {
+            $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
+            $input[$name] = $value ? $value : null;
         }
     }
 
-
-    /**
-     * In case the XML API contains multiple open tags
-     * with the same value, then invoke this function and
-     * perform a foreach on the resultant array.
-     * This takes care of cases when there is only one unique tag
-     * or multiple tags.
-     * Examples of this are "anonymous-address", "merchant-code-string"
-     * from the merchant-calculations-callback API
-     */
-    static function get_arr_result($child_node) {
-        $result = array();
-        if(isset($child_node)) {
-            if(self::is_associative_array($child_node)) {
-                $result[] = $child_node;
-            }
-            else {
-                foreach($child_node as $curr_node){
-                    $result[] = $curr_node;
-                }
-            }
-        }
-        return $result;
-    }
-    
-    /**
-     * Returns true if a given variable represents an associative array 
-     */
-    static function is_associative_array( $var ) {
-        return is_array( $var ) && !is_numeric( implode( '', array_keys( $var ) ) );
-    }
-    
     /**
      * Converts the comma separated name-value pairs in <merchant-private-data> 
      * to an array of name-value pairs.
@@ -767,6 +530,7 @@ WHERE  v.option_group_id = g.id
         }
         return $vars;
     }
+
 }
 
 ?>
