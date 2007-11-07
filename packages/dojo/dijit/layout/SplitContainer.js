@@ -80,10 +80,10 @@ dojo.declare(
 	},
 
 	startup: function(){
+		if(this._started){ return; }
 		dojo.forEach(this.getChildren(), function(child, i, children){
 			// attach the children and create the draggers
-			child.domNode.style.position = "absolute";
-			dojo.addClass(child.domNode, "dijitSplitPane");
+			this._injectChild(child);
 
 			if(i < children.length-1){
 				this._addSizer();
@@ -140,13 +140,16 @@ dojo.declare(
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
 		dijit._Container.prototype.addChild.apply(this, arguments);
-		this._injectChild(child);
 
-		var children = this.getChildren();
-		if(children.length > 1){
-			this._addSizer();
-		}
 		if(this._started){
+			// Do the stuff that startup() does for each widget
+			this._injectChild(child);
+			var children = this.getChildren();
+			if(children.length > 1){
+				this._addSizer();
+			}
+
+			// and then reposition (ie, shrink) every pane to make room for the new guy
 			this.layout();
 		}
 	},
@@ -370,8 +373,9 @@ dojo.declare(
 		//					
 		// attach mouse events
 		//
-		this.connect(document.documentElement, "onmousemove", "changeSizing");
-		this.connect(document.documentElement, "onmouseup", "endSizing");
+		this._connects = [];
+		this._connects.push(dojo.connect(document.documentElement, "onmousemove", this, "changeSizing"));
+		this._connects.push(dojo.connect(document.documentElement, "onmouseup", this, "endSizing"));
 
 		dojo.stopEvent(e);
 	},
@@ -404,6 +408,9 @@ dojo.declare(
 		if(this.persist){
 			this._saveState(this);
 		}
+
+		dojo.forEach(this._connects,dojo.disconnect); 
+
 	},
 
 	movePoint: function(){

@@ -12,7 +12,7 @@ dojo.require("dojo.i18n");
 
 // Load the bundles containing localization information for
 // names and formats
-dojo.requireLocalization("dojo.cldr", "gregorian", null, "zh,it-it,pt,ko-kr,pt-br,de,ROOT,it,ja,es-es,es,fr,zh-cn,en-gb,en-au,en-ca,ko,en");
+dojo.requireLocalization("dojo.cldr", "gregorian", null, "en,en-au,en-gb,pt,zh-cn,zh,ko-kr,it-it,en-ca,de,ROOT,pt-br,es,es-es,fr,ko,it,ja");
 
 //NOTE: Everything in this module assumes Gregorian calendars.
 // Other calendars will be implemented in separate modules.
@@ -28,8 +28,7 @@ dojo.requireLocalization("dojo.cldr", "gregorian", null, "zh,it-it,pt,ko-kr,pt-b
 			var widthList = ["abbr", "wide", "narrow"];
 			switch(c){
 				case 'G':
-//					if(l>3){/*unimplemented*/}
-					s = bundle.eras[dateObject.getFullYear() < 0 ? 1 : 0];
+					s = bundle[(l < 4) ? "eraAbbr" : "eraNames"][dateObject.getFullYear() < 0 ? 0 : 1];
 					break;
 				case 'y':
 					s = dateObject.getFullYear();

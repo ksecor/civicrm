@@ -68,7 +68,6 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $rfp = CRM_Utils_Request::retrieve( 'rfp', 'Boolean',
                                                 CRM_Core_DAO::$_nullObject, false, null, 'GET' );
             if ( $rfp ) {
-                //require_once 'CRM/Contribute/Payment.php'; 
                 require_once 'CRM/Core/Payment.php'; 
                 $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
                 $expressParams = $payment->getExpressCheckoutDetails( $this->get( 'token' ) );
@@ -254,24 +253,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             require_once 'CRM/Core/Payment.php';
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
 
+            $pending = false;
             switch ( $this->_contributeMode ) {
             case 'express':
                 $result =& $payment->doExpressCheckout( $this->_params );
                 break;
             case 'checkout':
             case 'notify':
-                $this->_params['contactID'] = $contactID;
-                $this->_params['eventID']   = $this->_id;
-                
-                $contribution =& $this->processContribution( $this->_params, null, $contactID, true );
-                $this->_params['contributionID'    ] = $contribution->id;
-                $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
-                $this->_params['item_name'         ] = $this->_params['description'];
-                $this->_params['receive_date'      ] = $now;
-
-                // save params here also since we dont come back
-                $this->set( 'params', $this->_params );
-                $result =& $payment->doTransferCheckout( $this->_params );
+                $pending = true;
+                $result  = null;
+                $this->_params['participant_status_id'] = 5; // pending
                 break;
 
             default   :
@@ -292,44 +283,32 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
             $this->_params['receive_date'] = $now;
             
-            // transactionID & receive date required while building email template
-            $this->assign( 'trxn_id', $result['trxn_id'] );
-            $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
-          
+            if ( ! $pending ) {
+                // transactionID & receive date required while building email template
+                $this->assign( 'trxn_id', $result['trxn_id'] );
+                $this->assign( 'receive_date', CRM_Utils_Date::mysqlToIso( $this->_params['receive_date']) );
+            }
+
             // if paid event add a contribution record
-            $contribution =& $this->processContribution( $this->_params, $result, $contactID );
+            $contribution =& $this->processContribution( $this->_params, $result, $contactID, $pending );
+
+            $this->_params['contactID']          = $contactID;
+            $this->_params['eventID']            = $this->_id;
+            $this->_params['contributionID'    ] = $contribution->id;
+            $this->_params['contributionTypeID'] = $contribution->contribution_type_id;
+            $this->_params['item_name'         ] = $this->_params['description'];
         }
         $this->set( 'params', $this->_params );
         
         // insert participant record
         $participant  =& $this->addParticipant( $this->_params, $contactID );
 
-        //hack to add participant custom data which is included in profile
-        //format custom data
-        $customData = array( );
-        foreach ( $this->_params as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,$value, 'Participant');
-            }
-        }
-        
-        if ( ! empty($customData) ) {
-            foreach ( $customData as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_participant', 
-                                  'entity_id'       => $participant->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
-        }
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+                                                    CRM_Core_DAO::$_nullArray,
+                                                    'civicrm_participant',
+                                                    $participant->id,
+                                                    'Participant' );
 
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
             require_once "CRM/Core/BAO/CMSUser.php";
@@ -339,7 +318,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
       
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
-        $paymentParams = array('participant_id'       => $participant->id,
+        $paymentParams = array('participant_id'     => $participant->id,
                                'contribution_id'    => $contribution->id,                              
                                ); 
         $ids = array();       
@@ -348,10 +327,19 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         
         require_once "CRM/Event/BAO/EventPage.php";
 
-        $this->assign('action',$this->_action);
-        CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+        if ( $this->_contributeMode != 'notify' &&
+             $this->_contributeMode != 'checkout' ) {
+            $this->assign('action',$this->_action);
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+        } else {
+            // do a transfer only if a monetary payment
+            if ( $this->_values['event']['is_monetary'] ) {
+                $this->_params['participantID'] = $participant->id;
+                $payment->doTransferCheckout( $this->_params );
+            }
+        }
 
-    }//end of function
+    } //end of function
     
     /**
      * Process the contribution
@@ -361,7 +349,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
      */
     public function addParticipant( $params, $contactID ) 
     {
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
         
         $domainID = CRM_Core_Config::domainID( );
         $groupName = "participant_role";
@@ -384,9 +373,13 @@ WHERE  v.option_group_id = g.id
         
         $participantParams = array('contact_id'    => $contactID,
                                    'event_id'      => $this->_id,
-                                   'status_id'     => $params['participant_status_id'] ? $params['participant_status_id'] : 1,
-                                   'role_id'       => $params['participant_role_id'] ? $params['participant_role_id'] : $roleID,
-                                   'register_date' => $params['participant_register_date'] ? CRM_Utils_Date::format( $params['participant_register_date'] ) : date( 'YmdHis' ),
+                                   'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
+                                                                              $params, 1 ),
+                                   'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
+                                                                              $params, $roleID ),
+                                   'register_date' => isset( $params['participant_register_date'] ) ?
+                                   CRM_Utils_Date::format( $params['participant_register_date'] ) :
+                                   date( 'YmdHis' ),
                                    'source'        => isset( $params['participant_source'] ) ?
                                    $params['participant_source'] :
                                    $params['description'],
@@ -406,8 +399,8 @@ WHERE  v.option_group_id = g.id
         $ids = array();
         $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
         
-        CRM_Core_DAO::transaction( 'COMMIT' );
-
+        $transaction->commit( );
+        
         return $participant;
     }
 
@@ -419,8 +412,9 @@ WHERE  v.option_group_id = g.id
      */
     public function processContribution( $params, $result, $contactID, $pending = false ) 
     {
-        CRM_Core_DAO::transaction( 'BEGIN' );
-
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
         $config =& CRM_Core_Config::singleton( );
         $now         = date( 'YmdHis' );
         $receiptDate = null;
@@ -432,10 +426,8 @@ WHERE  v.option_group_id = g.id
         $contribParams = array(
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $this->_values['event']['contribution_type_id'],
-                               //'contribution_page_id'  => $this->_id,
                                'payment_instrument_id' => 1,
                                'receive_date'          => $now,
-                               //'non_deductible_amount' => $nonDeductibleAmount,
                                'total_amount'          => $params['amount'],
                                'amount_level'          => $params['amount_level'],
                                'invoice_id'            => $params['invoiceID'],
@@ -474,7 +466,7 @@ WHERE  v.option_group_id = g.id
 
         // return if pending
         if ( $pending ) {
-            CRM_Core_DAO::transaction( 'COMMIT' );
+            $transaction->commit( );
             return $contribution;
         }
         
@@ -494,7 +486,7 @@ WHERE  v.option_group_id = g.id
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
         
         return $contribution;
     }

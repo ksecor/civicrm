@@ -35,6 +35,7 @@
        <name>job_id</name>
        <table>civicrm_mailing_job</table>
        <key>id</key>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>recipient_email</name>

@@ -18,9 +18,6 @@ hr {
 img {
   border: 0;
 }
-table {
-  border-collapse: collapse;
-}
 th {
   text-align: left;
   padding-right: 1em;
@@ -239,11 +236,10 @@ tr.light .form-item, tr.dark .form-item {
 ** HTML elements
 */
 body {
-  margin: 0;
   padding: 0;
   color: #000;
   background-color: #fff;
-  font: 76% Verdana, Arial, Helvetica, sans-serif;
+  font: 76%;
 }
 tr.dark td, tr.light td {
   padding: 0.3em;
@@ -325,8 +321,7 @@ table {
   border: 0;
 }
 #menu {
-  padding: 0.5em 0.5em 0 0.5em;
-  text-align: right;
+  padding: 0 0 0 0;
   vertical-align: middle;
 }
 #primary {
@@ -429,3 +424,14 @@ table {
 .box .title {
   font-size: 1.1em;
 }
+
+#module-status, .version {
+	font-size:11px;
+}
+#module-status a {
+	font-weight: normal;
+}
+.main {
+	text-align:left;
+}
+

@@ -17,7 +17,7 @@
             <th field="Field Label" dataType="String">{ts}Field Label{/ts}</th>
             <th field="Data Type"   dataType="String">{ts}Data Type{/ts}</th>
             <th field="Field Type"  dataType="String">{ts}Field Type{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order"       dataType="Number" sort="asc">{ts}Order{/ts}</th>
             <th field="Req"         dataType="String">{ts}Req?{/ts}</th>
             <th field="Status"      dataType="String">{ts}Status?{/ts}</th>
             <th datatype="html">&nbsp;</th>
@@ -29,7 +29,7 @@
             <td>{$row.label}</td>
             <td>{$row.data_type}</td>
             <td>{$row.html_type}</td>
-            <td>{$row.weight}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_required eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>

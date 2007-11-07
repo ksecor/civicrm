@@ -101,15 +101,15 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             }else{
                 $url = CRM_Utils_System::url('civicrm', 'reset=1' );
             }
-        } else if ($context == 'case'){
-            
-             if($edit){
+//        } else if ($context == 'case'){
+//            
+//             if($edit){
 //                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id=1&action=view&reset=1&selectedChild=activity&id=". $this->_id."&cid=". $this->_contactId."&history={$history}&subType=1&context=".$context."&caseid=".$this->_caseID);
-             }else{
-             
-                 $url = CRM_Utils_System::url('civicrm/contact/view/case',
-                                              "show=1&action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
-             }
+//             }else{
+//             
+//                 $url = CRM_Utils_System::url('civicrm/contact/view/case',
+//                                              "show=1&action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
+//             }
              
         } else {
 

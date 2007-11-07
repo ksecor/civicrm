@@ -118,25 +118,6 @@ dojo.parser = new function(){
 		return new Function(preamble+script.innerHTML+suffix);
 	}
 
-	this._wireUpMethod = function(instance, script){
-		var nf = this._functionFromScript(script);
-		// if there's a destination, connect it to that, otherwise run it now
-		var source = script.getAttribute("event");
-		if(source){
-			var mode = script.getAttribute("type");
-			if(mode && (mode == "dojo/connect")){
-				// FIXME: need to implement EL here!!
-				d.connect(instance, source, instance, nf);
-			}else{ 
-				// otherwise we assume it's type "dojo/method", and therefore a
-				// replacement
-				instance[source] = nf;
-			}
-		}else{
-			nf.call(instance);
-		}
-	}
-
 	this.instantiate = function(nodes){
 		// summary:
 		//		Takes array of nodes, and turns them into class instances and
@@ -148,6 +129,8 @@ dojo.parser = new function(){
 			var type = node.getAttribute("dojoType");
 			if((!type)||(!type.length)){ return; }
 			var clsInfo = getClassInfo(type);
+			var clazz = clsInfo.cls;
+			var ps = clazz._noScript||clazz.prototype._noScript;
 
 			// read parameters (ie, attributes).
 			// clsInfo.params lists expected params like {"checked": "boolean", "n": "number"}
@@ -156,26 +139,44 @@ dojo.parser = new function(){
 			for(var name in clsInfo.params){
 				var item = attributes.getNamedItem(name);
 				if(!item || (!item.specified && (!dojo.isIE || name.toLowerCase()!="value"))){ continue; }
+				var value = item.value;
+				// Deal with IE quirks for 'class' and 'style'
+				switch(name){
+				case "class":
+					value = node.className;
+					break;
+				case "style":
+					value = node.style && node.style.cssText; // FIXME: Opera?
+				}
 				var _type = clsInfo.params[name];
-				params[name] = str2obj(item.value, _type);
+				params[name] = str2obj(value, _type);
 			}
 
-			// FIXME (perf): making two iterations of the DOM to find the
-			// <script> elements feels dirty. Still need a separate iteration
-			// if we do it another way, though, so we should probably benchmark
-			// the various approaches at some point.
+			// Process <script type="dojo/*"> script tags
+			// <script type="dojo/method" event="foo"> tags are added to params, and passed to
+			// the widget on instantiation.
+			// <script type="dojo/method"> tags (with no event) are executed after instantiation
+			// <script type="dojo/connect" event="foo"> tags are dojo.connected after instantiation
+			if(!ps){
+				var connects = [],	// functions to connect after instantiation
+					calls = [];		// functions to call after instantiation
 
-			// preambles are magic. Handle it.
-			var preambles = d.query("> script[type='dojo/method'][event='preamble']", node).orphan();
-			if(preambles.length){
-				// we only support one preamble. So be it.
-				params.preamble = d.parser._functionFromScript(preambles[0]);
+				d.query("> script[type^='dojo/']", node).orphan().forEach(function(script){
+					var event = script.getAttribute("event"),
+						type = script.getAttribute("type"),
+						nf = d.parser._functionFromScript(script);
+					if(event){
+						if(type == "dojo/connect"){
+							connects.push({event: event, func: nf});
+						}else{
+							params[event] = nf;
+						}
+					}else{
+						calls.push(nf);
+					}
+				});
 			}
 
-			// grab the rest of the scripts for processing later
-			var scripts = d.query("> script[type^='dojo/']", node).orphan();
-
-			var clazz = clsInfo.cls;
 			var markupFactory = clazz["markupFactory"];
 			if(!markupFactory && clazz["prototype"]){
 				markupFactory = clazz.prototype["markupFactory"];
@@ -190,10 +191,15 @@ dojo.parser = new function(){
 				d.setObject(jsname, instance);
 			}
 
-			// check to see if we need to hook up events for non-declare()-built classes
-			scripts.forEach(function(script){
-				d.parser._wireUpMethod(instance, script);
-			});
+			// process connections and startup functions
+			if(!ps){
+				dojo.forEach(connects, function(connect){
+					dojo.connect(instance, connect.event, null, connect.func);
+				});
+				dojo.forEach(calls, function(func){
+					func.call(instance);
+				});
+			}
 		});
 
 		// Call startup on each top level instance if it makes sense (as for
@@ -218,15 +224,6 @@ dojo.parser = new function(){
 		var list = d.query('[dojoType]', rootNode);
 		// go build the object instances
 		var instances = this.instantiate(list);
-		
-		// FIXME: clean up any dangling scripts that we may need to run
-		/*
-		var scripts = d.query("script[type='dojo/method']", rootNode).orphan();
-		scripts.forEach(function(script){
-			wireUpMethod(instance, script);
-		});
-		*/
-
 		return instances;
 	};
 }();

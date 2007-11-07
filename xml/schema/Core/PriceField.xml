@@ -70,12 +70,18 @@
       <name>help_pre</name>
       <type>text</type>
       <comment>Description and/or help text to display before this field.</comment>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>80</cols>
       <add>1.8</add>
   </field>
   <field>
       <name>help_post</name>
       <type>text</type>
       <comment>Description and/or help text to display after this field.</comment>
+      <htmlType>textarea</htmlType>
+      <rows>4</rows>
+      <cols>80</cols>
       <add>1.8</add>
   </field>
   <field>

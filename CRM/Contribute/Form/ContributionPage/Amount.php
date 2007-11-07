@@ -110,7 +110,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         require_once 'CRM/Core/OptionGroup.php'; 
         CRM_Core_OptionGroup::getAssoc( "civicrm_contribution_page.amount.{$this->_id}", $defaults );
         
-        if ( CRM_Utils_Array::value( 'value', $defaults ) ) {
+        if ( isset( $defaults['default_amount_id'] ) && CRM_Utils_Array::value( 'value', $defaults ) ) {
             foreach ( $defaults['value'] as $i => $v ) {
                 if ( $defaults['amount_id'][$i] == $defaults['default_amount_id'] ) {
                     $defaults['default'] = $i;

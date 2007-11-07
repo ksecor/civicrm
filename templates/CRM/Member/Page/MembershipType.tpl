@@ -21,7 +21,7 @@
             <th field="Minimum Fee" dataType="Money" align="right">{ts}Minimum Fee{/ts}</th>
             <th field="Duration" dataType="String">{ts}Duration{/ts}</th>
             <th field="Visibility" dataType="String">{ts}Visibility{/ts}</th>
-	    <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+	    <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
  	    <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
             <th datatype="html"></th>
         </tr>
@@ -35,7 +35,7 @@
 	        <td>{$row.minimum_fee}</td>
 	        <td>{$row.duration_interval} {$row.duration_unit}</td>
 	        <td>{$row.visibility}</td>
-	        <td>{$row.weight}</td>
+	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
            </tr>

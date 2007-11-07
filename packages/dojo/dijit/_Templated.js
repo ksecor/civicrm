@@ -42,12 +42,11 @@ dojo.declare("dijit._Templated",
 		// method over-ride
 		buildRendering: function(){
 			// summary:
-			//		Construct the UI for this widget from a template.
-			// description:
+			//		Construct the UI for this widget from a template, setting this.domNode.
+
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
-
 			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString);
 
 			var node;
@@ -76,25 +75,21 @@ dojo.declare("dijit._Templated",
 			// recurse through the node, looking for, and attaching to, our
 			// attachment points which should be defined on the template node.
 			this._attachTemplateNodes(node);
-			if(this.srcNodeRef){
-				dojo.style(this.styleNode || node, "cssText", this.srcNodeRef.style.cssText);
-				if(this.srcNodeRef.className){
-					node.className += " " + this.srcNodeRef.className;
-				}
+
+			var source = this.srcNodeRef;
+			if(source && source.parentNode){
+				source.parentNode.replaceChild(node, source);
 			}
 
 			this.domNode = node;
-			if(this.srcNodeRef && this.srcNodeRef.parentNode){
-				this.srcNodeRef.parentNode.replaceChild(this.domNode, this.srcNodeRef);
-			}
 			if(this.widgetsInTemplate){
-				var childWidgets = dojo.parser.parse(this.domNode);
+				var childWidgets = dojo.parser.parse(node);
 				this._attachTemplateNodes(childWidgets, function(n,p){
 					return n[p];
 				});
 			}
 
-			this._fillContent(this.srcNodeRef);
+			this._fillContent(source);
 		},
 
 		_fillContent: function(/*DomNode*/ source){
@@ -284,6 +279,7 @@ if(dojo.isIE){
 		if(!tn){
 			tn = dojo.doc.createElement("div");
 			tn.style.display="none";
+			dojo.body().appendChild(tn);
 		}
 		var tableType = "none";
 		var rtext = text.replace(/^\s+/, "");
@@ -297,7 +293,6 @@ if(dojo.isIE){
 		}
 
 		tn.innerHTML = text;
-		dojo.body().appendChild(tn);
 		if(tn.normalize){
 			tn.normalize();
 		}

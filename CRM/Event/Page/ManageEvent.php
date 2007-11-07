@@ -48,6 +48,12 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     static $_actionLinks = null;
 
+    static $_links = null;
+
+    protected $_pager = null;
+
+    protected $_sortByCharacter;
+
     /**
      * Get action Links
      *
@@ -194,25 +200,48 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
      */
     function browse()
     {
+
+        $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
+                                                               'String',
+                                                               $this );
+        if ( $this->_sortByCharacter == 1 ||
+             ! empty( $_POST ) ) {
+            $this->_sortByCharacter = '';
+            $this->set( 'sortByCharacter', '' );
+        }
+
+        $this->_force = null;
+        $this->_searchResult = null;
+      
+        $this->search( );
+
+        $config =& CRM_Core_Config::singleton( );
+        
+        $params = array( );
+        $this->_force = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                       $this, false ); 
+        $this->_searchResult = CRM_Utils_Request::retrieve( 'searchResult', 'Boolean', $this );
+      
+        $whereClause = $this->whereClause( $params, false, $this->_force );
+        $this->pagerAToZ( $whereClause, $params );
+
+        $params      = array( );
+        $whereClause = $this->whereClause( $params, true, $this->_force );
+        $this->pager( $whereClause, $params );
+        list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
+
         // get all custom groups sorted by weight
         $manageEvent = array();
-        
-        $past = false;
-                
-        require_once 'CRM/Event/DAO/Event.php';
-        $dao =& new CRM_Event_DAO_Event();
-        
-        if ( ! CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) ) {
-            $past = true;
-            $dao->whereAdd( 'end_date >= ' . date( 'YmdHis' ) );
-        } else {
-            $dao->whereAdd( 'end_date < ' . date( 'YmdHis' ) );
-        }
-        
-        $dao->find( );
-        
-        $this->assign( 'past', $past );
-        
+             
+        $query = "
+  SELECT *
+    FROM civicrm_event
+   WHERE $whereClause
+ORDER BY title asc
+   LIMIT $offset, $rowCount";
+
+        $dao = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Event_DAO_Event' );
+     
         while ($dao->fetch()) {
             $manageEvent[$dao->id] = array();
             CRM_Core_DAO::storeValues( $dao, $manageEvent[$dao->id]);
@@ -243,7 +272,6 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
                 }
             }
         }
-        
         $this->assign('rows', $manageEvent);
     }
     
@@ -261,5 +289,139 @@ class CRM_Event_Page_ManageEvent extends CRM_Core_Page
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::copy( $id );
     }
+
+
+    function search( ) {
+        if ( $this->_action &
+             ( CRM_Core_Action::ADD    |
+               CRM_Core_Action::UPDATE |
+               CRM_Core_Action::DELETE ) ) {
+            return;
+        }
+       
+        $form = new CRM_Core_Controller_Simple( 'CRM_Event_Form_SearchEvent', ts( 'Search Events' ), CRM_Core_Action::ADD );
+        $form->setEmbedded( true );
+        $form->setParent( $this );
+        $form->process( );
+        $form->run( );
+    }
+    
+    function whereClause( &$params, $sortBy = true, $force ) {
+        $values  =  array( );
+        $clauses = array( );
+        $title   = $this->get( 'title' );
+        if ( $title ) {
+            $clauses[] = "title LIKE %1";
+            if ( strpos( $title, '%' ) !== false ) {
+                $params[1] = array( trim($title), 'String', false );
+            } else {
+                $params[1] = array( trim($title), 'String', true );
+            }
+        }
+
+        $value = $this->get( 'event_type_id' );
+        $val = array( );
+        if( $value) {
+            if ( is_array( $value ) ) {
+                foreach ($value as $k => $v) {
+                    if ($v) {
+                        $val[$k] = $k;
+                    }
+                } 
+                $type = implode (',' ,$val);
+            }
+            
+            $clauses[] = "event_type_id IN ({$type})";
+        }
+        
+        $eventsByDates = $this->get( 'eventsByDates' );
+        if ($eventsByDates) {
+             require_once 'CRM/Utils/Date.php';
+        
+            $from = $this->get( 'start_date' );
+            if ( ! CRM_Utils_System::isNull( $from ) ) {
+                $from = CRM_Utils_date::format( $from );
+                $from .= '000000';
+                $clauses[] = 'start_date >= %3';
+                $params[3] = array( $from, 'String' );
+            }
+            
+            $to = $this->get( 'end_date' );
+            if ( ! CRM_Utils_System::isNull( $to ) ) {
+                $to = CRM_Utils_date::format( $to );
+                $to .= '235959';
+                $clauses[] = 'start_date <= %4';
+                $params[4] = array( $to, 'String' );
+            }
+           
+        } else {
+            $curDate = date( 'YmdHis' );
+            $clauses[5] =  "end_date >= {$curDate}";
+        }
+
+        if ( $sortBy &&
+             $this->_sortByCharacter ) {
+            $clauses[] = 'title LIKE %6';
+            $params[6] = array( $this->_sortByCharacter . '%', 'String' );
+        }
+        
+        if ( !$this->_searchResult ) {
+            $curDate = date( 'YmdHis' );
+            $clauses[] =  "end_date >= {$curDate}";
+        }
+        $clauses[] = 'domain_id = %7';
+        $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );
+
+        // dont do a the below assignement when doing a 
+        // AtoZ pager clause
+        if ( $sortBy ) {
+            if ( count( $clauses ) > 1 ) {
+                $this->assign( 'isSearch', 1 );
+            } else {
+                $this->assign( 'isSearch', 0 );
+            }
+        }
+        return implode( ' AND ', $clauses );
+    }
+
+
+     function pager( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/Pager.php';
+
+        $params['status']       = ts('Event %%StatusMessage%%');
+        $params['csvString']    = null;
+        $params['buttonTop']    = 'PagerTopButton';
+        $params['buttonBottom'] = 'PagerBottomButton';
+        $params['rowCount']     = $this->get( CRM_Utils_Pager::PAGE_ROWCOUNT );
+        if ( ! $params['rowCount'] ) {
+            $params['rowCount'] = CRM_Utils_Pager::ROWCOUNT;
+        }
+
+        $query = "
+SELECT count(id)
+  FROM civicrm_event
+ WHERE $whereClause";
+
+        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+            
+        $this->_pager = new CRM_Utils_Pager( $params );
+        $this->assign_by_ref( 'pager', $this->_pager );
+    }
+
+    function pagerAtoZ( $whereClause, $whereParams ) {
+        require_once 'CRM/Utils/PagerAToZ.php';
+        
+        $query = "
+   SELECT DISTINCT UPPER(LEFT(title, 1)) as sort_name
+     FROM civicrm_event
+    WHERE $whereClause
+ ORDER BY LEFT(title, 1)
+";
+        $dao = CRM_Core_DAO::executeQuery( $query, $whereParams );
+
+        $aToZBar = CRM_Utils_PagerAToZ::getAToZBar( $dao, $this->_sortByCharacter, true );
+        $this->assign( 'aToZ', $aToZBar );
+    }
+    
 }
 ?>

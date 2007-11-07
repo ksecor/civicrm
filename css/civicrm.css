@@ -452,6 +452,13 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
   white-space: nowrap;
 }
 
+#crm-container .order-icon {
+ height: 15px;
+ width:  10px;
+ padding-top: 4px;
+ padding-right: 4px;
+}
+ 
 #crm-container tr.columnheader {
   /*background-color: #CCCCCC;*/
   background-color: #B3D1FF;

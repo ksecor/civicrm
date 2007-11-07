@@ -60,10 +60,9 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
      * @access public
      * 
      */
-    public function createAssignment( $activity_id, $assignee_contact_id ) 
+    public function create( &$params ) 
     {
-        $this->activity_id = $activity_id;
-        $this->assignee_contact_id = $assignee_contact_id;
+        $this->copyValues( $params );
         return $this->save();
     }
 
@@ -87,26 +86,6 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
     }
 
     /**
-     * Update record for activity id in activity_assignment
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param int    $assignee_contact_id contact id for assignee
-     * 
-     * @return void
-     * 
-     * @access public
-     * 
-     */
-    public function updateAssignment( $id, $assignee_contact_id )
-    {
-        $this->id = $id;
-        if( $this->find( true ) ) {
-            $this->assignee_contact_id = $assignee_contact_id;
-            return $this->save();
-        }
-    }
-
-    /**
      * Retrieve assignee_id by activity_id
      *
      * @param int    $id  ID of the activity
@@ -124,9 +103,5 @@ class CRM_Activity_BAO_ActivityAssignment extends CRM_Activity_DAO_ActivityAssig
         }
         return null;
     }
-    
-
-
 }
-
 ?>

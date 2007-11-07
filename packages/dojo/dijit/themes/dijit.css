@@ -22,35 +22,33 @@
 }
 
 .dijitInline {
-	/* MOW: similar to InlineBox below, but this has fewer side-effects in Moz.  
+	/*  To inline block elements.
+		Similar to InlineBox below, but this has fewer side-effects in Moz.  
 		Also, apparently works on a DIV as well as a FIELDSET.
-		Consider abandoning inlineBox in favor of this.  ???
 	*/
-	display:-moz-inline-box;		/* gecko */
-	display:inline-block;			/* webkit */
-	border:0px;
-	padding:0px;
-	vertical-align:middle;
-}
-.dj_ie .dijitInline {
-	#display:inline;				/* IE */
-}
-.dj_ie6 .dijitInline {
-	#zoom: 1;								/* IE6 */
-}
-
-.dijitInlineBox {
-	/* To inline block elements, surround them with <fieldset class="dijitInlineBox"> */
-	display:inline-block;			/* webkit */
-	display: -moz-inline-stack;		/* gecko  */
-	#display:inline;				/* MSIE   */
+	display:-moz-inline-box;		/* FF2 */
+	display:inline-block;			/* webkit and FF3 */
 	border:0px;
 	padding:0px;
 	vertical-align:middle;
 }
 
-.dj_ie6 .dijitInlineBox {
-	#display:inline;				/* IE */
+.dj_ie .dijitInline { 
+	zoom: 1; /* set hasLayout:true to mimic inline-block */
+	#display:inline;
+}
+
+.dijitInlineTable {
+	/* To inline tables with a given width set (otherwise, use dijitInline above)
+	 * Must also put style="-moz-inline-stack" on the node itself to workaround FF2 bugs
+	 */
+	display: -moz-inline-stack;			/* FF2 */
+	display:inline-table;
+	display:inline-block;			/* webkit and FF3 */
+	#display:inline;				/* MSIE   (TODO: is this needed???) */
+	border:0px;
+	padding:0px;
+	vertical-align:middle;
 }
 
 .dijitTeeny {
@@ -77,6 +75,12 @@
 }
 .dj_ie .dijit_a11y .dijitPopup * {
 	filter: none;
+}
+
+.dijitInputField {
+	font-family:inherit;
+	font-size:inherit;
+	font-weight:inherit;
 }
 
 .dijitPositionOnly {
@@ -126,7 +130,7 @@
 
 .dijitContainer {
 	/* for all layout containers */
-	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed */
+	overflow: hidden;	/* need on IE so something can be reduced in size, and so scrollbars aren't temporarily displayed when resizing */
 }
 
 /**** 
@@ -137,8 +141,9 @@
 	background-color:transparent !important;
 }
 
-.dijitCalendarIncrementControl .dijitA11ySideArrow { 
+.dijit_a11y .dijitCalendarIncrementControl .dijitA11ySideArrow { 
 	padding-left:.2em; 
+	visibility:visible !important; 
 }
 
 .dijitToolbar .dijitDropDownButton .dijitA11yDownArrow{
@@ -172,7 +177,7 @@
 .dijit_a11y .dijitButton .dijitButtonNode,
 .dijit_a11y .dijitDropDownButton .dijitButtonNode,
 .dijit_a11y .dijitComboButton .dijitButtonNode,
-.dijit_a11y .dijitComboBox .dijitComboBoxInput,
+.dijit_a11y .dijitComboBox .dijitInputField,
 .dijit_a11y .dijitComboBox .dijitButtonNode {
 	border:1px solid black !important;
 	background:white !important;
@@ -182,10 +187,10 @@
 .dijit_a11y .dijitButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitDropDownButtonDisabled .dijitButtonNode,
 .dijit_a11y .dijitComboButtonDisabled .dijitButtonNode,
-.dijit_a11y .dijitComboBoxDisabled .dijitComboBoxInput,
+.dijit_a11y .dijitComboBoxDisabled .dijitInputField,
 .dijit_a11y .dijitComboBoxDisabled .dijitButtonNode,
 .dijit_a11y .dijitSpinnerDisabled .dijitButtonNode,
-.dijit_a11y .dijitSpinnerDisabled .dijitSpinnerInput {
+.dijit_a11y .dijitSpinnerDisabled .dijitInputField {
 	border:1px dotted #999999 !important;
 	color:#999999 !important;
 }
@@ -308,60 +313,62 @@ table .dijitComboButton .dijitButtonNode {
 	margin-bottom:.2em;
 }
 
+/******
+	TextBox related.
+	Everything that has an <input>
+*******/
 
-/****
-		dijit.form.NumberSpinner  (template: form/templates/Spinner.html)
-
-		Note: works differently than other TextBox types:
-			The outer fieldset element is the one that shows the border, etc.
-			rather than the actual INPUT element. 
-
- ****/
-
+.dijitTextBox,
+.dijitComboBox,
 .dijitSpinner {
-	/* outer element - also has .dijitInline */
-	vertical-align:middle;
-	padding:0px !important;
-	width:auto !important;
-	height:auto !important;
+	border: solid black 1px;
+	width: 15em;	/* need to set default size on outer node since inner nodes say <input style="width:100%"> and <td width=100%>.  user can override */
 }
 
-.dijitSpinner TABLE {
-	border-collapse: collapse;
+/* rules for safari to deal with fuzzy blue focus border */
+.dijitTextBox input:focus,
+.dijitComboBox input:focus,
+.dijitSpinner input:focus {
+	outline: none;	/* blue fuzzy line looks wrong on combobox or something w/validation icon showing */
 }
-.dijitSpinner .dijitButtonNode {
-	padding: 0;
-}
-
-.dijitSpinnerInput {
-	/* container for the input element */
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-	border:1px inset gray;
-	padding:.1em .2em .2em .2em;
+.dijitTextBoxFocused,
+.dijitComboBoxFocused,
+.dijitSpinnerFocused {
+	/* should we display focus like we do on other browsers, or use the safari standard focus indicator?? */
+	outline: auto 5px -webkit-focus-ring-color;
 }
 
+.dijitTextBox INPUT,
+.dijitComboBox INPUT,
 .dijitSpinner INPUT {
-	/* The .style assigned to the spinner dijit is actually copied 
-		on to the INPUT element as well as the outer element.
+	padding:0px;
+	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
+
+	/* The .style is assigned to the INPUT element as well as the outer element.
 		The below turns off things on the input that should apply to the outer element.
 	*/
 	display:inline;
 	position:static !important;
-	/* turn off the border on the actual input element */
-	border:0px !important;
-	
-	padding:0px;
-	margin:0px;
+	border:0px !important;	
+	margin:0px !important;
 	vertical-align:middle !important;
-	padding:0px !important;
-	margin:auto !important;
-	border:0px !important;
 	visibility:visible !important;
-	font-size:100% !important;
 	background-color:transparent !important;
 	background-image:none !important;
+	width: 100% !important;
+}
+
+/* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
+*/
+.dijitValidationIcon { display: none; }
+.dijitValidationIconText { visibility: hidden; }
+.dijit_a11y .dijitValidationIcon { display: none !important; }
+.dijit_a11y .dijitValidationIconText { display: block !important; }
+
+.dijitTextBoxError .dijitValidationIconText,
+.dijitComboBoxError .dijitValidationIconText,
+.dijitSpinnerError .dijitValidationIconText {
+	visibility: visible;
 }
 
 .dijitSpinner .dijitDownArrowButton,
@@ -386,74 +393,10 @@ table .dijitComboButton .dijitButtonNode {
     margin: 0 auto;
 }
 
-/****
-		dijit.form.ComboBox 
-
-		Note: these works differently than other TextBox types:
-			The outer fieldset element is the one that shows the border, etc.
-			rather than the actual INPUT element. 
-
- ****/
-.dijitComboBox {
-	/* Allow user to specify width without messing up defaults; other attributes are put on parent node */
-	width:auto !important;
-}
-
-.dijitComboBox TABLE {
-	/* each cell in a combo-table should have its own separate border */
-	border-collapse: separate;
-	border:0px;
-	padding:0px;
-	margin:0px;
-}
-
-.dijitComboBoxInput {
-	/* container for the input element */
-	font-family:inherit;
-	font-size:inherit;
-	font-weight:inherit;
-	border:1px inset gray;
-	padding:.1em .2em .2em .2em;
-	border-right-width:0px !important;
-}
-
-.dijitComboBox INPUT {
-	/* turn off the border on the actual input element */
-	border:0px !important;
-	background-color:transparent;
-}
-
-.dijitComboBoxNoArrow .dijitDownArrowButton {
+.dijitTextBox .dijitDownArrowButton {
+	/* this is for a combo box with no arrow displayed; we set baseClass=TextBox */
 	display:none;
 }
-
-.dijitComboBoxNoArrow table {
-	padding:0px;
-	margin:0px;
-}		 
-
-.dijitComboBoxNoArrow INPUT {
-	border:0px !important;
-	background-color:transparent;
-}		 
-
-.dijitComboBoxNoArrow .dijitComboBoxInput {
-	border-right-width:1px !important;
-}
-
-/*
-.dj_safari .dijitComboBoxInput {
-	padding:0px;
-	border:0px !important;
-}
-*/
-
-.dj_safari .dijitComboBox INPUT {
-	margin:-2px -4px -3px -3px;
-	line-height:2em;
-	font-size:1em;
-}
-
 
 /****
 		dijit.form.CheckBox
@@ -467,19 +410,22 @@ table .dijitComboButton .dijitButtonNode {
 	padding: 0;
 	border: 0;
 	width: 16px;
-	height: 15px;
-	overflow:hidden;
+	height: 16px;
+	background-position:center center;
+	background-repeat:no-repeat;
 }
 
 .dijitCheckBox INPUT,
 .dijitRadio INPUT {
 	margin: 0; 
 	padding: 0;
+	vertical-align:middle;
 } 
 
 .dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
+	overflow:hidden;
 }
 
 .dj_ie .dijitCheckBoxInput {
@@ -679,10 +625,6 @@ body .dijitAlignRight {
 
 body .dijitAlignClient { position: absolute; }
 
-.dijitAlignClient { overflow: auto; }
-
-
-
 /* SplitContainer 
 
 	'V' == container that splits vertically (up/down)
@@ -797,6 +739,10 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* Accordion */
+
+.dijitAccordionPane {
+	overflow: hidden !important;	/* prevent spurious scrollbars */
+}
 
 .dijitAccordionPane .dijitAccordionBody {
 	overflow: auto;
@@ -1022,8 +968,6 @@ body .dijitAlignClient { position: absolute; }
 	display:none;
 	padding: 0px 2px;
 	margin: 0px 2px;
-	border-left:thin solid;
-	border-right:thin solid;
 }
 .dijit_a11y .dijitTab .closeImage {
 	padding: 0px !important;
@@ -1038,7 +982,13 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .closeText:hover { 
 	border:thin solid;
 } 
+.dijit_a11y .dijitTabChecked {
+	border-style:dashed !important;
+}
 
+.dijit_a11y .dijitTabInnerDiv {
+	border-left:none !important;
+ }
 
 
 .dijitInlineEditor {
@@ -1343,7 +1293,18 @@ body .dijitAlignClient { position: absolute; }
 	display: block !important;
 }
 
+.dijitTextArea {
+	width:100%;
+}
+
 .dj_ie .dijitTextArea p {
 	margin-top:0px;
 	margin-bottom:0px;
+}
+
+/* Editor */
+.IEFixedToolbar {
+	position:absolute;
+	/* top:0; */
+	top: expression(eval((document.documentElement||document.body).scrollTop));
 }

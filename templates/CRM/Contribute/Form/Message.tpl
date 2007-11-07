@@ -13,7 +13,9 @@
 ===========================================================
 {ts}Contribution Type{/ts}: {$formValues.contributionType_name}
 {ts}Total Amount{/ts}: {$formValues.total_amount|crmMoney}
+{if $receive_date}
 {ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
+{/if}
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {/if}
@@ -50,4 +52,12 @@
 {$formValues.product_name}
 {ts}Sent{/ts}: {$fulfilled_date|crmDate}
 
+{/if}
+
+{if $formValues.receipt_text }
+===========================================================
+{ts}Receipt Text{/ts}
+
+===========================================================
+{$formValues.receipt_text}
 {/if}

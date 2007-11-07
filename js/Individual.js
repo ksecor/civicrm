@@ -32,37 +32,46 @@
  */
 
 /**
- * This function is used to set primary status to a location block.  
+ * This function is used to set primary and billing status to a location block.  
  * 
- * Upon calling this function, the is primary checkbox within the target location block will be checked while the same checkbox
+ * Upon calling this function, the is primary or is billing checkbox within the target location block will be checked while the same checkbox
  * in all the other location blocks will be unchecked. This function is used to enforce the rule that at a time only one location
- * block can be considered primary. 
+ * block can be considered primary or billing. 
  * 
  * @access public
  * @param formname Name of the form.
  * @param locid Serial number of the location block.
  * @param maxLocs How many location blocks are offered
+ * @param type is_primary or is_billing
  * @return none
  */
-function location_is_primary_onclick(formname, locid, maxLocs) {
+function location_onclick(formname, locid, maxLocs, type) {
     /*
     if (locid == 1) {
 	// don't need to confirm selecting 1st location as primary
         return;
     }
     */
-    var changedKey = 'location[' + locid + '][is_primary]';
-    var notPrimary = [];
+    var changedKey = 'location[' + locid + '][' + type +']';
+    
+    var notSet = [];
     for (var j = 1; j <= maxLocs; j++) {
         if (j != locid) {
-            notPrimary.push(j);
+            notSet.push(j);
         }
     }
 
     if (document.forms[formname].elements[changedKey].checked) {
-        if ( confirm('Do you want to make this the primary location?') == true ) {
-            for (var i = 0; i < notPrimary.length; i++) {
-                otherKey = 'location[' + notPrimary[i] + '][is_primary]';
+	var confirmText ;
+	if ( type == 'is_primary' ) {
+		confirmText = 'Do you want to make this the primary location?';
+	} else {
+		confirmText = 'Do you want to make this the billing location?';
+	}
+	
+        if ( confirm( confirmText ) == true ) {
+            for (var i = 0; i < notSet.length; i++) {
+                otherKey = 'location[' + notSet[i] + '][' + type + ']';
                 document.forms[formname].elements[otherKey].checked = null;
             }
         } else {
@@ -71,4 +80,3 @@ function location_is_primary_onclick(formname, locid, maxLocs) {
     } 	
     
 }
-

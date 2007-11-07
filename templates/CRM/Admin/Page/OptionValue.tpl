@@ -31,7 +31,7 @@
             <td>{$row.label}</td>
 	        <td>{$row.value}</td>	
 	        <td>{$row.description}</td>
-            <td>{$row.weight}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{$row.default_value}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

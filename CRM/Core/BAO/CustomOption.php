@@ -58,6 +58,7 @@ class CRM_Core_BAO_CustomOption {
      */
     static function retrieve( &$params, &$defaults )
     {
+        require_once 'CRM/Core/DAO/OptionValue.php';
         $customOption =& new CRM_Core_DAO_OptionValue( );
         $customOption->copyValues( $params );
         if ( $customOption->find( true ) ) {
@@ -109,57 +110,41 @@ class CRM_Core_BAO_CustomOption {
      * @return array $customOption all active options for fieldId
      * @static
      */
-    static function getCustomOption($fieldId, $inactiveNeeded=false, $entityTable='civicrm_custom_field')
+    static function getCustomOption( $fieldID,
+                                     $inactiveNeeded = false )
     {       
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
-        $customOption = array();
-        if ( ! $fieldId ) {
-            return $customOption;
+        $options = array();
+        if ( ! $fieldID ) {
+            return $options;
         }
 
-        $customOptionDAO =& new CRM_Core_DAO_CustomOption();
-        $customOptionDAO->entity_id    = $fieldId;
-        $customOptionDAO->entity_table = $entityTable;
-        if (!$inactiveNeeded) {
-            $customOptionDAO->is_active = 1;
+        // get the option group id
+        $optionGroupID = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                      $fieldID,
+                                                      'option_group_id' );
+        if ( ! $optionGroupID ) {
+            return $options;
         }
-        $customOptionDAO->orderBy('weight ASC, label ASC');
-        $customOptionDAO->find();
+
+        $dao =& new CRM_Core_DAO_OptionValue();
+        $dao->option_group_id = $optionGroupID;
+        if ( ! $inactiveNeeded ) {
+            $dao->is_active = 1;
+        }
+        $dao->orderBy('weight ASC, label ASC');
+        $dao->find( );
         
-        while ($customOptionDAO->fetch()) {
-            $customOption[$customOptionDAO->id] = array();
-            $customOption[$customOptionDAO->id]['id']    = $customOptionDAO->id;
-            $customOption[$customOptionDAO->id]['label'] = $customOptionDAO->label;
-            $customOption[$customOptionDAO->id]['value'] = $customOptionDAO->value;
+        while ( $dao->fetch( ) ) {
+            $options[$dao->id] = array();
+            $options[$dao->id]['id']    = $dao->id;
+            $options[$dao->id]['label'] = $dao->label;
+            $options[$dao->id]['value'] = $dao->value;
         }
-        return $customOption;
-    }
-
-    /**
-     * Function to get the values of the checkboxes
-     *
-     * param $fieldId integer field id
-     *
-     * @static
-     * @access public
-     */
-    static function getCustomValues($fieldId)
-    {
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
-
-        $customValueDAO =& new CRM_Core_DAO_CustomValue();
-        $customValueDAO->custom_field_id = $fieldId;
-        $customValueDAO->find(true);
-        $values = $customValueDAO->char_data;
-        $customValue = array();
-        $customValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$values);
-        return $customValue;
+        return $options;
     }
 
     static function getOptionLabel($fieldId, $value, $fieldType = null, $dataType = null, $entityTable = 'civicrm_custom_field')
     {
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
-
         switch ($fieldType) {
 
         case null:
@@ -167,11 +152,19 @@ class CRM_Core_BAO_CustomOption {
         case 'Multi-Select':
         case 'Radio':
         case 'Select':
-            $dao =& new CRM_Core_DAO_CustomOption();
-            $dao->entity_id    = $fieldId;
-            $dao->entity_table = $entityTable;
-            $dao->value = $value;
-            $label = $dao->find(true) ? $dao->label : $value;
+            $query = "
+SELECT v.label
+FROM   civicrm_option_value v,
+       civicrm_option_group g,
+       civicrm_custom_field f
+WHERE  f.id    = %1
+AND    v.value = %2
+AND    g.id    = f.option_group_id
+AND    g.id    = v.option_group_id";
+            $params = array( 1 => array( $fieldId, 'Integer' ),
+                             2 => array( $value  , 'String'  ) );
+            $dao   = CRM_Core_DAO::executeQuery( $query, $params );
+            $label = $dao->fetch( ) ? $dao->label : $value;
             $dao->free();
             break;
 
@@ -192,7 +185,11 @@ class CRM_Core_BAO_CustomOption {
             break;
 
         }
-        if ($dataType == 'Boolean') $label = $value ? ts('Yes') : ts('No');
+
+        if ( $dataType == 'Boolean' ) {
+            $label = $value ? ts('Yes') : ts('No');
+        }
+
         return $label;
     }
 
@@ -205,140 +202,92 @@ class CRM_Core_BAO_CustomOption {
      * @static
      * @access public
      */
-    static function del($optionId) 
+    static function del( $optionId ) 
     {
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
-
-        require_once 'CRM/Core/BAO/CustomField.php';
-        require_once 'CRM/Core/BAO/CustomValue.php';
-        
-        $optionDAO =& new CRM_Core_DAO_CustomOption();
-        $optionDAO->id = $optionId;
-        $optionDAO->entity_table = "civicrm_custom_field";
-        $optionDAO->find();
-        $optionDAO->fetch();
-        $custom_field_id = $optionDAO->entity_id;
-        $value = $optionDAO->value;
-        $fieldDAO = & new CRM_Core_DAO_CustomField();
-        $fieldDAO->id = $custom_field_id;
-        $fieldDAO->find();
-        $fieldDAO->fetch();
-        $customValueDAO = & new CRM_Core_DAO_CustomValue();
-        $customValueDeleteDAO = & new CRM_Core_DAO_CustomValue();
-        $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
-
-        //added multiselect in if-statement below
-        if( $fieldDAO->html_type !='CheckBox' && $fieldDAO->html_type !='Multi-Select' ) {
-
-            $customValueDAO->custom_field_id = $custom_field_id;
-            $customValueDAO->find();
-            while($customValueDAO->fetch()) {
-                if ($fieldDAO->data_type == 'Int') {
-                    if( $customValueDAO->int_data == $value ) {
-                        $customValueDeleteDAO->id = $customValueDAO->id;
-                        $customValueDeleteDAO->delete();
-                    }
-                } else { 
-                    if ($fieldDAO->data_type == 'Float') {
-                        if( $customValueDAO->float_data == $value ) {
-                            $customValueDeleteDAO->id = $customValueDAO->id;
-                            $customValueDeleteDAO->delete();
-                        }
-                    } else {
-                        if ($fieldDAO->data_type == 'Money') {
-                            if( $customValueDAO->decimal_data == $value ) {
-                                $customValueDeleteDAO->id = $customValueDAO->id;
-                                $customValueDeleteDAO->delete();
-                            }
-                        } else {
-                            if ($fieldDAO->data_type == 'Memo') {
-                                if( $customValueDAO->memo_data == $value ) {
-                                    $customValueDeleteDAO->id = $customValueDAO->id;
-                                    $customValueDeleteDAO->delete();
-                                }
-                            } else {
-                                if( $customValueDAO->char_data == $value ) {
-                                    $customValueDeleteDAO->id = $customValueDAO->id;
-                                    $customValueDeleteDAO->delete();
-                                }
-                            }
-                        }
-                    }
-                }
+        // get the customFieldID
+        $query = "
+SELECT f.id as id, f.data_type as dataType
+FROM   civicrm_option_value v,
+       civicrm_option_group g,
+       civicrm_custom_field f
+WHERE  v.id    = %1
+AND    g.id    = f.option_group_id
+AND    g.id    = v.option_group_id";
+        $params = array( 1 => array( $optionId, 'Integer' ) );
+        $dao    = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
+            if ( in_array( $dao->dataType,
+                           array( 'Int', 'Float', 'Money', 'Boolean' ) ) ) {
+                $value = 0;
+            } else {
+                $value = '';
             }
-        } else {
-            $customValueDAO->custom_field_id = $custom_field_id;
-            $customValueDAO->find();
-            while($customValueDAO->fetch()) {
-                $optionValues =  $customValueDAO->char_data;
-                $customValue = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ,$optionValues);
-                
-                if( in_array ($value,$customValue) ) {
-                    if( count($customValue) == 1) {
-                        $customValueDeleteDAO->id = $customValueDAO->id;
-                        $customValueDeleteDAO->delete();
-                    } else {
-                        $customValueSaveDAO = $customValueDAO;
-                        $keyArray = array_keys($customValue,$value);
-                        unset($customValue[$keyArray[0]]);
-                        $newCustomValue = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$customValue);
-                        $customValueSaveDAO->char_data = $newCustomValue;
-                        $customValueSaveDAO->save();
-                    }
-                }
-            }
-        } 
+            $params = array( 'optionId' => $optionId,
+                             'fieldId'  => $dao->id,
+                             'value'    => $value );
+            // delete this value from the tables
+            self::updateCustomValues( $params );
 
-        $optionDAO->delete();
-        return null;
+            // also delete this option value
+            $query = "
+DELETE
+FROM   civicrm_option_value
+WHERE  id = %1";
+            $params = array( 1 => array( $optionId, 'Integer' ) );
+            CRM_Core_DAO::executeQuery( $query, $params );
+        }
     }
 
     static function updateCustomValues($params) 
     {
-        CRM_Core_Error::fatal( 'This function has been obsoleted' );
-
-        // FIXME: Custom Value schema redesign
-        return;
-
         $optionDAO =& new CRM_Core_DAO_OptionValue();
         $optionDAO->id = $params['optionId'];
         $optionDAO->find( true );
         $oldValue = $optionDAO->value;
 
-        $custom_field_id = $optionDAO->entity_id;
-        $customValueDAO = & new CRM_Core_DAO_CustomValue();
-        $customValueSaveDAO = & new CRM_Core_DAO_CustomValue();
-        $customValueDAO->custom_field_id = $custom_field_id;
-        $customValueDAO->find();
+        // get the table, column, html_type and data type for this field
+        $query = "
+SELECT g.table_name  as tableName ,
+       f.column_name as columnName,
+       f.data_type   as dataType,
+       f.html_type   as htmlType
+FROM   civicrm_custom_group g,
+       civicrm_custom_field f
+WHERE  f.custom_group_id = g.id
+  AND  f.id = %1";
+        $queryParams = array( 1 => array( $params['fieldId'], 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $queryParams );
+        if ( $dao->fetch( ) ) {
+            switch ( $dao->htmlType ) {
+            case 'Select':
+            case 'Radio':
+                $query = "
+UPDATE {$dao->tableName}
+SET    {$dao->columnName} = %1
+WHERE  {$dao->columnName} = %2";
+                $queryParams = array( 1 => array( $params['value'],
+                                                  $dao->dataType ),
+                                      2 => array( $oldValue,
+                                                  $dao->dataType ) );
+                break;
 
-        while($customValueDAO->fetch()) {
-            if ($customValueDAO->int_data == $oldValue) {
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->int_data = $params['value'];
-                $customValueSaveDAO->save();
-            } else if ($customValueDAO->float_data == $oldValue) {
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->float_data = $params['value'];
-                $customValueSaveDAO->save();
-            } else if ($customValueDAO->decimal_data == $oldValue) {
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->decimal_data = $params['value'];
-                $customValueSaveDAO->save();
-            } else if ($customValueDAO->memo_data == $oldValue) {
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->memo_data = $params['value'];
-                $customValueSaveDAO->save();
-            } else {
-                if ( $customValueDAO->char_data == $oldValue) {
-                    $updateValue = $params['value'];
-                } else {
-                    $updateValue = str_replace(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $oldValue . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . $params['value'] . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValueDAO->char_data );
-                }
-                
-                $customValueSaveDAO->id = $customValueDAO->id;
-                $customValueSaveDAO->char_data = $updateValue;
-                $customValueSaveDAO->save();
+            case 'Multi-Select':
+            case 'CheckBox':
+                $oldString =
+                    CRM_Core_DAO::VALUE_SEPARATOR . $oldValue . CRM_Core_DAO::VALUE_SEPARATOR;
+                $newString = 
+                    CRM_Core_DAO::VALUE_SEPARATOR . $params['value'] . CRM_Core_DAO::VALUE_SEPARATOR;
+                $query = "
+UPDATE {$dao->tableName}
+SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
+                $queryParams = array( 1 => array( $oldString, 'String' ),
+                                      2 => array( $newString, 'String' ) );
+                break;
+
+            default:
+                CRM_Core_Error::fatal( );
             }
+            $dao = CRM_Core_DAO::executeQuery( $query, $queryParams );
         }
     }
 
@@ -356,23 +305,7 @@ class CRM_Core_BAO_CustomOption {
     static function getAssoc( $entity_table, $entity_id, &$values ) {
         CRM_Core_Error::fatal( 'This function has been obsoleted' );
 
-        require_once 'CRM/Core/DAO/CustomOption.php';  
-        $dao =& new CRM_Core_DAO_CustomOption( );  
-        $dao->entity_table = $entity_table;
-        $dao->entity_id    = $entity_id;  
-        $dao->find( ); 
-
-        // now extract the amount 
-        $values['value'] = array( ); 
-        $values['label'] = array( ); 
-        $index  = 1; 
-         
-        while ( $dao->fetch( ) ) { 
-            $values['value'    ][$index] = $dao->value; 
-            $values['label'    ][$index] = $dao->label; 
-            $values['amount_id'][$index] = $dao->id; 
-            $index++; 
-        } 
+        // check CRM_Core_OptionGroup::getAssoc for the same function in 2.0
     }
 
 }

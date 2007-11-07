@@ -185,23 +185,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
 
         $params['contribution_id'] = $contribution->id;
 
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_contribution',
-                                  'entity_id'       => $contribution->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_contribution', $contribution->id );
         }
 
         $session = & CRM_Core_Session::singleton();
@@ -235,40 +222,35 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
         }
 
-        $activitySummary = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
-        
+        $subject = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
         if ( $contribution->source != 'null' ) {
-            $activitySummary .= " - {$contribution->source}";
+            $subject .= " - {$contribution->source}";
         }
+        $subject .= " (offline)";
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'CiviContribute Online Contribution',
+                                                          'name' );
 
-        $activitySummary .= " (offline)";
-        
         $historyParams = array(
-            'entity_table'     => 'civicrm_contact',
-            'entity_id'        => $contribution->contact_id,
-            'activity_type'    => $contributionType,
-            'module'           => 'CiviContribute',
-            'callback'         => 'CRM_Contribute_Page_Contribution::details',
-            'activity_id'      => $contribution->id,
-            'activity_summary' => $activitySummary,
-            'activity_date'    => $contribution->receive_date
+            'source_contact_id'     => $contribution->contact_id,
+            'source_record_id'      => $contribution->id,
+            'activity_type_id'      => $activityTypeID,
+            'module'                => 'CiviContribute',
+            'callback'              => 'CRM_Contribute_Page_Contribution::details',
+            'subject'               => $subject,
+            'activity_date_time'    => $contribution->receive_date
         );
 
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             // this contribution should have an Activity History record already
-            $getHistoryParams = array('module' => 'CiviContribute', 'activity_id' => $contribution->id);
-            require_once "CRM/Core/BAO/History.php";
-            $getHistoryValues =& CRM_Core_BAO_History::getHistory($getHistoryParams, 0, 1, null, 'Activity');
-            if ( ! empty( $getHistoryValues ) ) {
-                $tmp = array_keys( $getHistoryValues  );
-                $ids['activity_history'] = $tmp[0];
-            }
+            // so get the existing id
+            $historyParams['update'] = true;
         }
-        
-        require_once 'CRM/Core/BAO/History.php';
-        $historyDAO =& CRM_Core_BAO_History::create($historyParams, $ids, 'Activity');
-        if (is_a($historyDAO, 'CRM_Core_Error')) {
-            CRM_Core_Error::fatal("Failed creating Activity History for contribution of id {$contribution->id}");
+
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $historyParams ),
+                   'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
         }
 
         $transaction->commit( );
@@ -618,45 +600,30 @@ GROUP BY p.id
     /**
      * Function to create is honor of
      * 
-     * @param array $params  associated array of fields
+     * @param array $params  associated array of fields (by reference)
      * @param int   $honorId honor Id
      *
      * @return contact id
-     *
      */
-    function createHonorContact( $params, $honorId = null ) 
+    function createHonorContact( &$params, $honorId = null ) 
     {
-        $honorParams = array( );
-        $honorParams["prefix_id"   ] = $params["honor_prefix"];
-        $honorParams["first_name"  ] = $params["honor_firstname"];
-        $honorParams["last_name"   ] = $params["honor_lastname"];
-        $honorParams["email"       ] = $params["honor_email"];
-        $honorParams["contact_type"] = "Individual";
-        
-        //update if contact  already exists
-        if ( $honorId ) {
-            $ids = array( );
-            $idParams = array( 'id' => $honorId, 'contact_id' => $honorId );
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-            return $contact->id;    
-        } else {
+        $honorParams = array( 'first_name'    => $params["honor_first_name"],
+                              'last_name'     => $params["honor_last_name"], 
+                              'prefix_id'     => $params["honor_prefix_id"],
+                              'email-Primary' => $params["honor_email"] );
+
+        if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
-            $contactsIDs = explode( ',', $ids );
-            if ( $contactsIDs[0] == "" || count ( $contactsIDs ) > 1) {
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-                return $contact->id;
-            } else {
-                $contact_id =  $contactsIDs[0];
-                $ids = array( );
-                $idParams = array( 'id' => $contact_id, 'contact_id' => $contact_id );
-                $defaults = array( );
-                CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-                $contact =& CRM_Contact_BAO_Contact::createFlat( $honorParams, $ids );
-                return $contact->id;    
+            $contactsIds = explode( ',', $ids );
+
+            if ( is_numeric( $contactsIds[0] ) && count ( $contactsIds ) ==  1 ) {
+                $honorId = $contactsIds[0];
             }
-         }
+        }
+
+        $contact =& CRM_Contact_BAO_Contact::createProfileContact( $honorParams, CRM_Core_DAO::$_nullArray, $honorId );
+        return $contact->id;
     }
     
     /**
@@ -764,7 +731,12 @@ SELECT count(*) as count,
      *
      * 
      */
-    public function processConfirm( &$form, &$paymentParams, &$premiumParams, $contactID, $contributionTypeId, $component='contribution' )
+    public function processConfirm( &$form, 
+                                    &$paymentParams,
+                                    &$premiumParams,
+                                    $contactID,
+                                    $contributionTypeId,
+                                    $component = 'contribution' )
     { 
         require_once 'CRM/Core/Payment/Form.php';
         CRM_Core_Payment_Form::mapParams( $form->_bltID, $form->_params, $paymentParams, true );
@@ -778,7 +750,7 @@ SELECT count(*) as count,
         if ( ! $contributionType->find( true ) ) {
             CRM_Core_Error::fatal( "Could not find a system table" );
         }
-       
+        
         // add some contribution type details to the params list
         // if folks need to use it
         $paymentParams['contributionType_name']                = 
@@ -802,7 +774,7 @@ SELECT count(*) as count,
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
                 $result =& $payment->doExpressCheckout( $paymentParams );
             }
-        } else if ( ( $form->_contributeMode == 'notify' ) && ( $component !== 'membership' ) ) {
+        } else if ( $form->_contributeMode == 'notify' ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
@@ -827,13 +799,15 @@ SELECT count(*) as count,
             $form->set( 'params', $form->_params );
             $form->postProcessPremium( $premiumParams, $contribution );
             
-            // commit the transaction before we xfer
-            CRM_Core_DAO::transaction( 'COMMIT' );
-            
             if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                // addd qfKey so we can send to paypal
+                // add qfKey so we can send to paypal
                 $form->_params['qfKey'] = $form->controller->_key;
-                $result =& $payment->doTransferCheckout( $form->_params );
+                if ( $component == 'membership' ) {
+                    $membershipResult = array( 1 => $contribution );
+                    return $membershipResult;
+                } else {
+                    $result =& $payment->doTransferCheckout( $form->_params );
+                }
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
             $result =& $payment->doDirectPayment( $paymentParams );

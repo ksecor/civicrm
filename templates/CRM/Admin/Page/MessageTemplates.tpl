@@ -4,11 +4,8 @@
    {include file="CRM/Admin/Form/MessageTemplates.tpl"}
 {else}
     <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/gCY" 2=$docURLTitle}Message templates allow you to save and re-use messages with layouts. You can use them when sending email to
-    one or more contacts. If you are using the CiviMember component, you can also use a message template to send Membership Renewal Reminders.
-    You may include tokens to represent fields (like a contact's "first name") in the message subject and body. These will be replaced with the actual value of the corresponding
-    field in the outgoing message EXAMPLE: Dear {ldelim}contact.first_name{rdelim} (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
-    <p class="font-italic description">{ts}NOTE: This template feature is not yet integrated with the CiviMail component. CiviMail message templates must be saved as local text files and uploaded.{/ts}</p>
+    {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to
+    contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
     </div>
 {/if}
 

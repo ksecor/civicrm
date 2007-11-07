@@ -47,7 +47,7 @@
 {/if}
 {* end of code to show current relationships *}
 
-{if NOT ($currentRelationships or $pastRelationships or $disableRelationships) }
+{if NOT ($currentRelationships or $inactiveRelationships) }
 
   {if $action NEQ 1} {* show 'no relationships' message - unless already in 'add' mode. *}
        <div class="messages status">
@@ -77,14 +77,14 @@
 {/if}
 <div class="spacer"></div>
 
-{* start of code to show past relationships *}
-{if $pastRelationships}
-    {* show browse table for any action *}
-      <div id="past-relationships">
-        <p></p>
-        <div class="label font-red">{ts}Past Relationships{/ts}</div>
-        <div class="description">{ts}These relationships have a past End Date.{/ts}</div>
+{* start of code to show inactive relationships *}
 
+{if $inactiveRelationships}
+    {* show browse table for any action *}
+      <div id="inactive-relationships">
+        <p></p>
+        <div class="label font-red">{ts}Inactive Relationships{/ts}</div>
+        <div class="description">{ts}These relationships are Disabled OR have a past End Date.{/ts}</div>
         {strip}
         <table>
         <tr class="columnheader">
@@ -92,12 +92,12 @@
             <th></th>
             <th>{ts}City{/ts}</th>
             <th>{ts}State/Prov{/ts}</th>
-            <th>{ts}Email{/ts}</th>
+            <th>{ts}Phone{/ts}</th>
             <th>{ts}End Date{/ts}</th>
             <th>&nbsp;</th>
         </tr>
 
-        {foreach from=$pastRelationships item=rel}
+        {foreach from=$inactiveRelationships item=rel}
           {assign var = "rtype" value = "" }
           {if $rel.contact_a > 0 }
             {assign var = "rtype" value = "b_a" }
@@ -109,50 +109,8 @@
             <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
             <td>{$rel.city}</td>
             <td>{$rel.state}</td>
-            <td>{$rel.email}</td>
-            <td>{$rel.end_date|crmDate}</td>
-            <td class="nowrap">{$rel.action}</td>
-          </tr>
-        {/foreach}
-        </table>
-        {/strip}
-        </div>    
-{/if}
-{* end of code to show past relationships *}
-
-{* start of code to show disabled relationships *}
-{if $disableRelationships}
-    {* show browse table for any action *}
-      <div id="disabled-relationships">
-        <p></p>
-        <div class="label font-red">{ts}Disabled Relationships{/ts}</div>
-        <div class="description">{ts}These relationships have been marked as disabled (no longer active).{/ts}</div>
-        {strip}
-        <table>
-        <tr class="columnheader">
-            <th>{ts}Relationship{/ts}</th>
-            <th></th>
-            <th>{ts}City{/ts}</th>
-            <th>{ts}State/Prov{/ts}</th>
-            <th>{ts}Email{/ts}</th>
-            <th>{ts}Phone{/ts}</th>
-            <th>&nbsp;</th>
-        </tr>
-
-        {foreach from=$disableRelationships item=rel}
-          {assign var = "rtype" value = "" }
-          {if $rel.contact_a > 0 }
-            {assign var = "rtype" value = "b_a" }
-          {else}
-            {assign var = "rtype" value = "a_b" }
-          {/if}
-          <tr class="{cycle values="odd-row,even-row"}">
-            <td class="label">{$rel.relation}</td>
-            <td><a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$rel.cid`"}">{$rel.name}</a></td>
-            <td>{$rel.city}</td>
-            <td>{$rel.state}</td>
-            <td>{$rel.email}</td>
-            <td>{$rel.phone}</td>
+    	    <td>{$rel.phone}</td>    
+	    <td>{$rel.end_date|crmDate}</td>
             <td class="nowrap">{$rel.action}</td>
           </tr>
         {/foreach}
@@ -161,4 +119,4 @@
         </div>    
 {/if}
 </div>
-{* end of code to show disabled relationships *}
+{* end of code to show inactive relationships *}

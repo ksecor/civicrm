@@ -52,8 +52,8 @@
   </field>
   <index>
       <name>server_url_handle_index</name>
-      <fieldName length="255">server_url</fieldName>
-      <fieldName>handle</fieldName>
+      <fieldName length="166">server_url</fieldName>
+      <fieldName length="166">handle</fieldName>
       <unique>true</unique>
       <add>1.9.kabissa</add>
   </index>

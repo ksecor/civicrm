@@ -14,7 +14,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 			dojo.mixin(this, args);
 		}
 	},
-	
+
 	editor: null,
 	iconClassPrefix: "dijitEditorIcon",
 	button: null,
@@ -27,7 +27,7 @@ dojo.declare("dijit._editor._Plugin", null, {
 	_initButton: function(){
 		if(this.command.length){
 			var label = this.editor.commands[this.command];
-			var className = this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
+			var className = "dijitEditorIcon "+this.iconClassPrefix + this.command.charAt(0).toUpperCase() + this.command.substr(1);
 			if(!this.button){
 				var props = {
 					label: label,
@@ -65,11 +65,11 @@ dojo.declare("dijit._editor._Plugin", null, {
 		this._initButton();
 
 		// FIXME: wire up editor to button here!
-		if(	(this.command.length) && 
+		if(	(this.command.length) &&
 			(!this.editor.queryCommandAvailable(this.command))
 		){
 			// console.debug("hiding:", this.command);
-			if(this.button){ 
+			if(this.button){
 				this.button.domNode.style.display = "none";
 			}
 		}

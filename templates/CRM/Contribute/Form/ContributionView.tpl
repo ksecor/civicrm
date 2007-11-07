@@ -56,7 +56,7 @@
         {/if}
 
         {if $honor_display}
-            <dt>{ts}In Honor Of{/ts}</dt><dd>{$honor_display}&nbsp;</dd>
+            <dt>{ts}{$honor_type}{/ts}</dt><dd>{$honor_display}&nbsp;</dd>
         {/if}
 
         {if $thankyou_date}

@@ -83,15 +83,18 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
     {
         if ( ! self::$_gName ) {
             self::$_gName = CRM_Utils_Request::retrieve('group','String', CRM_Core_DAO::$_nullObject,false,null,'GET');
-            if ( self::$_gName ) {
-                self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
-            }
         }
         if (self::$_gName) {
             $this->set( 'gName', self::$_gName );
         } else {
             self::$_gName = $this->get( 'gName' );
         }
+        if ( self::$_gName ) {
+            self::$_gId   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', self::$_gName, 'id', 'name');
+        } else {
+            CRM_Core_Error::fatal( );
+        }
+
         self::$_GName = ucwords(str_replace('_', ' ', self::$_gName));
 
         $this->assign('gName', self::$_gName);
@@ -184,6 +187,12 @@ class CRM_Admin_Page_Options extends CRM_Core_Page_Basic
         
         $groupParams = array( 'name' => self::$_gName );
         $optionValue = CRM_Core_OptionValue::getRows($groupParams, $this->links(), 'weight');
+        
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/options', "reset=1&group=" . self::$_gName );
+        $filter    = "option_group_id = " . self::$_gId;
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $optionValue, 'CRM_Core_DAO_OptionValue',
+                                    'id', $returnURL, $filter );
         
         $this->assign('rows', $optionValue);
     }

@@ -34,9 +34,8 @@
  */
 
 require_once 'CRM/Contact/DAO/Contact.php';
-require_once 'CRM/Contact/DAO/Household.php';
 
-class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
+class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Contact
 {
     /**
      * This is a contructor of the class.
@@ -44,54 +43,6 @@ class CRM_Contact_BAO_Household extends CRM_Contact_DAO_Household
     function __construct() 
     {
         parent::__construct();
-    }
-    
-    /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
-     *
-     * @param array  $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @return object CRM_Contact_BAO_Household object
-     * @access public
-     * @static
-     */
-    static function add( &$params, &$ids ) {
-        $household =& new CRM_Contact_BAO_Household( );
-
-        $household->copyValues( $params );
-
-        $household->id = CRM_Utils_Array::value( 'household', $ids );
-        $household->save( );
-        return $household;
-    }
-
-    /**
-     * Given the list of params in the params array, fetch the object
-     * and store the values in the values array
-     *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @return CRM_Contact_BAO_Household|null the found object or null
-     * @access public
-     * @static
-     */
-    static function getValues( &$params, &$values, &$ids ) {
-        $household =& new CRM_Contact_BAO_Household( );
-        
-        $household->copyValues( $params );
-        if ( $household->find(true) ) {
-            $ids['household'] = $household->id;
-            CRM_Core_DAO::storeValues( $household, $values );
-            return $household;
-        }
-        return null;
     }
     
     /**

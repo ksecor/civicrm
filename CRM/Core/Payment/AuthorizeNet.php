@@ -491,12 +491,10 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
     /**
      * This function checks to see if we have the right config values 
      *
-     * @param  string $mode the mode we are operating in (live or test)
-     *
      * @return string the error message if any
      * @public
      */
-    function checkConfig( $mode ) {
+    function checkConfig( ) {
         $error = array();
         if ( empty( $this->_paymentProcessor['user_name'] ) ) {
             $error[] = ts( 'APILogin is not set for this payment processor' );

@@ -8,11 +8,14 @@ dojo.declare("dijit.WidgetSet", null, {
 		//	A set of widgets indexed by id
 		this._hash={};
 	},
-	
+
 	add: function(/*Widget*/ widget){
+		if(this._hash[widget.id]){
+			throw new Error("Tried to register widget with id==" + widget.id + " but that id is already registered");
+		}
 		this._hash[widget.id]=widget;
 	},
-	
+
 	remove: function(/*String*/ id){
 		delete this._hash[id];
 	},
@@ -22,7 +25,7 @@ dojo.declare("dijit.WidgetSet", null, {
 			func(this._hash[id]);
 		}
 	},
-	
+
 	filter: function(/*Function*/ filter){
 		var res = new dijit.WidgetSet();
 		this.forEach(function(widget){
@@ -30,7 +33,7 @@ dojo.declare("dijit.WidgetSet", null, {
 		});
 		return res;		// dijit.WidgetSet
 	},
-	
+
 	byId: function(/*String*/ id){
 		return this._hash[id];
 	},

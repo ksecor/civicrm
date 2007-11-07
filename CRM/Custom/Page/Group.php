@@ -303,6 +303,12 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
                 }
             }
         }
+
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/custom/group', "reset=1&action=browse" );
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $customGroup, 'CRM_Core_DAO_CustomGroup',
+                                    'id', $returnURL );
+        
         $this->assign('rows', $customGroup);
     }
 }

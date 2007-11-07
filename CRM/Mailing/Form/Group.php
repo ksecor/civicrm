@@ -64,7 +64,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
         $defaults = array( );
         if ( $mailingID ) {
-            $defaults["name"] = CRM_Core_DAO::getFieldValue("CRM_Mailing_DAO_Mailing",$mailingID,"name","id");
+            $defaults["name"] = ts('Copy of %1', array(1 => CRM_Core_DAO::getFieldValue('CRM_Mailing_DAO_Mailing', $mailingID, 'name', 'id')));
 
             require_once "CRM/Mailing/DAO/Group.php";
             $dao =&new  CRM_Mailing_DAO_Group();
@@ -99,8 +99,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->add( 'text', 'name', ts('Name Your Mailing'),
                     CRM_Core_DAO::getAttribute( 'CRM_Mailing_DAO_Mailing', 'name' ),
                     true );
-        $this->addRule('name', ts('This mailing name has already been used. Please pick a unique name for the mailing.'),
-                       'objectExists', array('CRM_Mailing_DAO_Component', null ) );
 
         $groups         =& CRM_Core_PseudoConstant::group('Mailing');
         $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
@@ -132,13 +130,13 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
             $mailings = array();
         }
         $inM =& $this->addElement('advmultiselect', 'includeMailings', 
-                                  ts('INCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
+                                  ts('INCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
                                   array('size' => 5,
                                         'style' => 'width:240px',
                                         'class' => 'advmultiselect')
                                   );
         $outM =& $this->addElement('advmultiselect', 'excludeMailings', 
-                                   ts('EXCLUDE Recipients of these Mailing(s)') . ' ', $mailings,
+                                   ts('EXCLUDE Recipients of These Mailing(s)') . ' ', $mailings,
                                    array('size' => 5,
                                          'style' => 'width:240px',
                                          'class' => 'advmultiselect')
@@ -152,8 +150,6 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $this->addFormRule( array( 'CRM_Mailing_Form_Group', 'formRule' ));
         
         $this->addButtons( array(
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous') ),
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Next >>'),
                                          'isDefault' => true   ),
@@ -171,9 +167,9 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $params['name'] = $this->controller->exportValue($this->_name, 'name');
         $this->set('name', $params['name']);
 
-        $inGroups = $this->controller->exportValue($this->_name, 'includeGroups');
-        $outGroups = $this->controller->exportValue($this->_name, 'excludeGroups');
-        $inMailings = $this->controller->exportValue($this->_name, 'includeMailings');
+        $inGroups    = $this->controller->exportValue($this->_name, 'includeGroups');
+        $outGroups   = $this->controller->exportValue($this->_name, 'excludeGroups');
+        $inMailings  = $this->controller->exportValue($this->_name, 'includeMailings');
         $outMailings = $this->controller->exportValue($this->_name, 'excludeMailings');
         $groups = array();
         if (is_array($inGroups)) {
@@ -208,27 +204,27 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         }
         
         $daoComponent =& new CRM_Mailing_DAO_Component();
-        $components = array('Reply', 'OptOut', 'Unsubscribe');
+        $components   =  array('Reply', 'OptOut', 'Unsubscribe');
         
-        foreach ($components as $key => $value) {
+        foreach ($components as $value) {
             $findDefaultComponent =
                 "SELECT id
                 FROM    civicrm_mailing_component
                 WHERE   component_type = '$value'
-                AND     is_default = true";
+                ORDER BY is_default desc";
             
             $daoComponent->query($findDefaultComponent);
             
-            while($daoComponent->fetch()) {
+            if ( $daoComponent->fetch( ) ) {
                 $$value = $daoComponent->id;
             }
         }
         
-        $params['reply_id'] = $Reply;
-        $params['optout_id'] = $OptOut;
+        $params['reply_id']       = $Reply;
+        $params['optout_id']      = $OptOut;
         $params['unsubscribe_id'] = $Unsubscribe;
         $session =& CRM_Core_Session::singleton();
-        $params['domain_id']  = $session->get('domainID');
+        $params['domain_id']      = $session->get('domainID');
         $params['groups']         = $groups;
         $params['mailings']       = $mailings;
         

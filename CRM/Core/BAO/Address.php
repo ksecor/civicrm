@@ -50,26 +50,47 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * takes an associative array and creates a address
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
+     * @param boolean  $fixAddress   true if you need to fix (format) address values
+     *                               before inserting in db
      *
      * @return array $blocks array of created address 
      * @access public
      * @static
      */
-    static function create( &$params ) 
+    static function create( &$params, $fixAddress, $entity = null ) 
     {
-//         if ( ! self::dataExists( $params ) ) {
-//             return null;
-//         }
-
-        $contactId = $params['address']['contact_id'];
-
-        //get all the addresses for this contact
         $addresses = array( );
-        $addresses = self::allAddress( $contactId );
+        if ( ! $entity ) {
+            $contactId = $params['address']['contact_id'];
+            //get all the addresses for this contact
+            $addresses = self::allAddress( $contactId );
+        } else {
+            // get all address from location block
+            $entityElements = array( 'entity_table' => $params['entity_table'],
+                                     'entity_id'    => $params['entity_id']);
+            $addresses = self::allEntityAddress( $entityElements );
+        }
 
         $isPrimary = true;
+        $isBilling = true;
+
+        require_once "CRM/Core/BAO/Block.php";
         foreach ( $params['address'] as $value ) {
             if ( !is_array( $value ) ) {
+                continue;
+            }
+
+            if ( ! empty( $addresses ) ) {
+                $value['id'] = array_shift( $addresses );
+            }
+            
+            $addressExists = self::dataExists( $value );
+
+            if ( isset( $value['id'] ) && !$addressExists ) {
+                //delete the existing record
+                CRM_Core_BAO_Block::blockDelete( 'Address', array( 'id' => $value['id'] ) );
+                continue;
+            } else if ( !$addressExists ) {
                 continue;
             }
 
@@ -79,14 +100,16 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                 $value['is_primary'] = false;
             }
             
-            $value['contact_id'] = $contactId;
-
-            if ( !empty( $addresses ) ) {
-                $value['id'] = array_shift( $addresses );
+            if ( $isBilling && $value['is_billing'] ) {
+                $isBilling = false;
+            } else {
+                $value['is_billing'] = false;
             }
+            $value['contact_id'] = $contactId;
             
-            $blocks[] = self::add( $value );
+            $blocks[] = self::add( $value, $fixAddress );
         }
+
         return $blocks;
     }
 
@@ -94,33 +117,23 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * takes an associative array and adds phone 
      *
      * @param array  $params         (reference ) an assoc array of name/value pairs
+     * @param boolean  $fixAddress   true if you need to fix (format) address values
+     *                               before inserting in db
      *
      * @return object       CRM_Core_BAO_Address object on success, null otherwise
      * @access public
      * @static
      */
-    static function add( &$params ) 
+    static function add( &$params, $fixAddress ) 
     {
         $address =& new CRM_Core_DAO_Address( );
 
-        $address->copyValues($params);
-
-        // need to handle update mode
-
-        // when address field is empty need to delete it
-//         if ( $address->copyValues($params['location'][$locationId]['address']) ) {
-//             // we copied only null stuff, so we delete the object
-//             $address->delete( );
-//             return null;
-//         }
-
-
-
         // fixAddress mode to be done
-//         if ( $fixAddress ) {
-//             CRM_Core_BAO_Address::fixAddress( $params['location'][$locationId]['address'] );
-//         }
-
+        if ( $fixAddress ) {
+            CRM_Core_BAO_Address::fixAddress( $params );
+        }
+        
+        $address->copyValues($params);
 
         return $address->save( );
     }
@@ -137,10 +150,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
     static function fixAddress( &$params ) 
     {
         /* Split the zip and +4, if it's in US format */
-        if (CRM_Utils_Array::value( 'postal_code', $params ) &&
-            preg_match('/^(\d{4,5})[+-](\d{4})$/',
-                       $params['postal_code'], 
-                       $match)) {
+        if ( CRM_Utils_Array::value( 'postal_code', $params ) &&
+             preg_match('/^(\d{4,5})[+-](\d{4})$/',
+                        $params['postal_code'], 
+                        $match) ) {
             $params['postal_code']        = $match[1];
             $params['postal_code_suffix'] = $match[2];
         }
@@ -173,11 +186,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             
         // currently copy values populates empty fields with the string "null"
         // and hence need to check for the string null
-        if (isset( $params['state_province_id'] ) && 
-            is_numeric( $params['state_province_id'] ) &&
-            ( !isset($params['country_id']) || empty($params['country_id']))) {
+        if ( isset( $params['state_province_id'] ) && 
+             is_numeric( $params['state_province_id'] ) &&
+             ( !isset($params['country_id']) || empty($params['country_id'])) ) {
             // since state id present and country id not present, hence lets populate it
-            // jira issue http://objectledge.org/jira/browse/CRM-56
+            // jira issue http://issues.civicrm.org/jira/browse/CRM-56
             $stateProvinceDAO =& new CRM_Core_DAO_StateProvince();
             $stateProvinceDAO->id = $params['state_province_id'];
             $stateProvinceDAO->find(true);
@@ -227,32 +240,25 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
     /**
      * Check if there is data to create the object
      *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     * @param array  $locationId     
-     * @param array  $ids            the array that holds all the db ids
+     * @param array  $params    (reference ) an assoc array of name/value pairs
      *
      * @return boolean
      * 
      * @access public
      * @static
      */
-    static function dataExists(&$params, $locationId, &$ids)
+    static function dataExists( &$params )
     {
         // if we should not overwrite, then the id is not relevant.
-        if ( self::$_overwrite &&
-             is_array( $ids )  &&
-             CRM_Utils_Array::value('address', $ids['location'][$locationId]) ) {
-            return true;
-        }
-
-        // return if no data present
-        if (! array_key_exists('address' , $params['location'][$locationId])) {
-            return false;
+        if ( self::$_overwrite ) {
+            //return true;
         }
 
         $config =& CRM_Core_Config::singleton( );
-        foreach ($params['location'][$locationId]['address'] as $name => $value) {
-            if (! empty($value) ) {
+        foreach ($params as $name => $value) {
+            if ( in_array ($name, array ('is_primary', 'location_type_id', 'id' ) ) ) {
+                continue;
+            } else if ( !empty($value) ) {
                 // name could be country or country id
                 if ( substr( $name, 0, 7 ) != 'country' ) {
                     return true;
@@ -267,10 +273,10 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                         if ( $value == $defaultCountry     ||
                              $value == $defaultCountryName ||
                              $value == $config->defaultContactCountry ) {
-			  // do nothing
+                            // do nothing
                         } else {
-			  return true;
-			}
+                            return true;
+                        }
                     } else {
                         // return if null default
                         return true;
@@ -295,36 +301,41 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      * @access public
      * @static
      */
-    static function &getValues( $contactId, $microformat = false)
+    static function &getValues( &$entityBlock, $microformat = false )
     {
         $address =& new CRM_Core_BAO_Address();
-        $address->contact_id = $contactId;
-
-//         $flatten = false;
-//         if (empty($blockCount)) {
-//             $flatten = true;
-//         }
-        
-        $flatten = true;
+       
+        if ( ! $entityBlock['entity_table'] ) {
+            $address->contact_id = $entityBlock['contact_id'];
+        } else {
+            $addressIds = array();
+            $addressIds = self::allEntityAddress($entityBlock );
+           
+            if( !empty($addressIds[1]) ) {
+                $address->id = $addressIds[1];
+            } else {
+                return $addresses;
+            }
+        }
         $address->find( );
 
-        $count = 1;
         while ( $address->fetch( ) ) {
+            $stree = $address->street_address;
             $values = array( );
-
             CRM_Core_DAO::storeValues( $address, $values );
-            
+           
             // add state and country information: CRM-369
             if ( ! empty( $address->state_province_id ) ) {
                 $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id, false );
                 $address->state_name = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id, false );
             }
+
             if ( ! empty( $address->country_id ) ) {
                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
-
+                
                 //get world region 
                 $regionId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', $address->country_id, 'region_id' );
-
+                
                 $address->world_region = CRM_Core_PseudoConstant::worldregion( $regionId );
             }
             
@@ -333,54 +344,12 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             // FIXME: not sure whether non-DB values are safe to store here
             // if so, we should store state_province and country as well and
             // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
-            if ($flatten) {
-                $values['display'] = $address->display;
-            } else {
-                $values['address']['display'] = $address->display;
-            }
-            
-            $addresses[$count] = $values;
-            $count++;
+
+            $values['display'] = $address->display;
+
+            $addresses[$address->location_type_id] = $values;
         }
-       
         return $addresses;
-
-//         // we first get the primary location due to the order by clause
-//         if ($address->find(true)) {
-//             $ids['address'] = $address->id;
-//             if ($flatten) {
-//                 CRM_Core_DAO::storeValues( $address, $values );
-//             } else {
-//                 $values['address'] = array();
-//                 CRM_Core_DAO::storeValues( $address, $values['address'] );
-//             }
-//             // add state and country information: CRM-369
-//             if ( ! empty( $address->state_province_id ) ) {
-//                 $address->state      = CRM_Core_PseudoConstant::stateProvinceAbbreviation( $address->state_province_id, false );
-//                 $address->state_name = CRM_Core_PseudoConstant::stateProvince( $address->state_province_id, false );
-//             }
-//             if ( ! empty( $address->country_id ) ) {
-//                 $address->country = CRM_Core_PseudoConstant::country( $address->country_id );
-
-//                 //get world region 
-//                 $regionId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Country', $address->country_id, 'region_id' );
-
-//                 $address->world_region = CRM_Core_PseudoConstant::worldregion( $regionId );
-//             }
-            
-//             $address->addDisplay( $microformat );
-
-//             // FIXME: not sure whether non-DB values are safe to store here
-//             // if so, we should store state_province and country as well and
-//             // get rid of the relevant CRM_Contact_BAO_Contact::resolveDefaults()'s code
-//             if ($flatten) {
-//                 $values['display'] = $address->display;
-//             } else {
-//                 $values['address']['display'] = $address->display;
-//             }
-//             return $address;
-//         }
-        // return CRM_Core_DAO::$_nullObject;
     }
     
     /**
@@ -453,6 +422,45 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
 
         $addresses = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        $locationCount = 1;
+        while ( $dao->fetch( ) ) {
+            $addresses[$locationCount] = $dao->address_id;
+            $locationCount++;
+        }
+        return $addresses;
+    }
+    
+     /**
+     * Get all the addresses for a specified location_block id, with the primary address being first
+     *
+     * @param array $entityElements the array containing entity_id and
+     * entity_table name
+     *
+     * @return array  the array of adrress data
+     * @access public
+     * @static
+     */
+    static function allEntityAddress( &$entityElements ) 
+    {
+        if ( empty($entityElements) ) {
+            return $addresses;
+        }
+        
+        $entityId    = $entityElements['entity_id'];
+        $entityTable = $entityElements['entity_table'];
+
+        $sql = "
+SELECT civicrm_address.id as address_id    
+FROM civicrm_loc_block loc, civicrm_location_type ltype, civicrm_address, {$entityTable} ev
+WHERE ev.id = %1
+  AND loc.id = ev.loc_block_id
+  AND civicrm_address.id IN (loc.address_id, loc.address_2_id)
+  AND ltype.id = civicrm_address.location_type_id
+ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC, address_id ASC ";
+               
+        $params = array( 1 => array( $entityId, 'Integer' ) );
+        $addresses = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
         $locationCount = 1;
         while ( $dao->fetch( ) ) {
             $addresses[$locationCount] = $dao->address_id;

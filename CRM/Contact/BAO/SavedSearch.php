@@ -114,9 +114,11 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
     static function getSearchParams( $id ) {
         $fv =& self::getFormValues( $id );
         //check if the saved seach has mapping id
-        if (CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'mapping_id' ) ) {
+        if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch', $id, 'mapping_id' ) ) {
             require_once 'CRM/Core/BAO/Mapping.php';
             return CRM_Core_BAO_Mapping::formattedFields( $fv );
+        } else if ( CRM_Utils_Array::value( 'customSearchID', $fv ) ) {
+            return $fv;
         } else {
             require_once 'CRM/Contact/BAO/Query.php';
             return CRM_Contact_BAO_Query::convertFormValues( $fv );
@@ -140,6 +142,43 @@ class CRM_Contact_BAO_SavedSearch extends CRM_Contact_DAO_SavedSearch
             return CRM_Contact_BAO_Query::getWhereClause( $params, null, $tables, $whereTables );
         }
         return null;
+    }
+
+    static function contactIDsSQL( $id ) {
+        $params =& self::getSearchParams( $id );
+        if ( $params ) {
+            if ( CRM_Utils_Array::value( 'customSearchID', $params ) ) {
+                require_once 'CRM/Contact/BAO/SearchCustom.php';
+                return CRM_Contact_BAO_SearchCustom::contactIDSQL( null, $id );
+            } else {
+                $tables = $whereTables = array( $contact => 1 );
+                $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
+                $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
+                return "
+SELECT contact_a.id
+FROM   $from
+WHERE  $where";
+            }
+        } else {
+            CRM_Core_Error::fatal( 'No contactID clause' );
+        }
+    }
+
+    static function fromWhereEmail( $id ) {
+        $params =& self::getSearchParams( $id );
+        if ( $params ) {
+            if ( CRM_Utils_Array::value( 'customSearchID', $params ) ) {
+                require_once 'CRM/Contact/BAO/SearchCustom.php';
+                return CRM_Contact_BAO_SearchCustom::fromWhereEmail( null, $id );
+            } else {
+                $tables = $whereTables = array( $contact => 1, $email => 1 );
+                $where  = CRM_Contact_BAO_SavedSearch::whereClause( $id, $tables, $whereTables );
+                $from   = CRM_Contact_BAO_Query::fromClause( $whereTables );
+                return array( $from, $where );
+            }
+        } else {
+            CRM_Core_Error::fatal( 'No contactID clause' );
+        }
     }
 
     /**

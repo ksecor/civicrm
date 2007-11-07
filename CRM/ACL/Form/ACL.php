@@ -211,6 +211,9 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        require_once 'CRM/ACL/BAO/Cache.php';
+        CRM_ACL_BAO_Cache::resetCache( );
+
         require_once 'CRM/ACL/BAO/ACL.php';
 
         if ( $this->_action & CRM_Core_Action::DELETE ) {

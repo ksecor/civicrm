@@ -614,9 +614,6 @@ SELECT $acl.*
         /* Then, all ACLs granted through group membership */
         $result += self::getGroupACLs($contact_id, true);
         
-        /* Finally, get the domain-level ACL rules */
-        // $result += self::getACLs(null, null, true);
-
         return $result;
     }
 
@@ -658,16 +655,17 @@ SELECT $acl.*
           return false;
         }
         
-        $params  = array( 1 => array( $str, 'String' ) );
 
         $query = "
 SELECT count( a.id )
   FROM civicrm_acl_cache c, civicrm_acl a
- WHERE c.acl_id    =  a.id
-   AND a.is_active =  1
-   AND a.name      =  %1
-   AND a.id        IN ( $aclKeys )
+ WHERE c.acl_id       =  a.id
+   AND a.is_active    =  1
+   AND a.object_table =  %1
+   AND a.id           IN ( $aclKeys )
 ";
+        $params  = array( 1 => array( $str, 'String' ) );
+
         $count =& CRM_Core_DAO::singleValueQuery( $query, $params );
         return ( $count ) ? true : false;
     }
@@ -817,7 +815,6 @@ ORDER BY a.object_id
         $acl->delete();
     }
         
-
 }
 
 ?>

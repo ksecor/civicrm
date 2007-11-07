@@ -1,4 +1,6 @@
+
 {* This template is used for adding/editing/deleting offline Event Registrations *}
+
 {if $action eq 1}
     <div id="help">
         {ts}Use this form to register contacts for an event. If this is a paid event and you are accepting payment offline - you should also enter a contribution record.{/ts}
@@ -42,13 +44,74 @@
 
         <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td></tr>
         
+
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
+
+
+
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
 
-        <tr><td class="label">{$form.amount.label}</td><td>
-		{if $paid} {$form.amount.html}{else}{ts}(no fee){/ts}{/if}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
-        <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+
+{if $priceSet}
+	<tr><td class="label">{$form.amount.label}</td></tr>
+		{foreach from=$priceSet.fields item=element key=field_id}
+  		{if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
+		{assign var="element_name" value=price_$field_id}
+		{assign var="count" value="1"}
+	<tr><td class="label"> {$form.$element_name.label}</td>
+	    <td>
+                <table class="form-layout-compressed">
+               	{foreach name=outer key=key item=item from=$form.$element_name}
+		<tr>	
+        	       	{if is_numeric($key) }
+                       		<td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
+	                        	{if $count == $element.options_per_line}
+	        	                    {assign var="count" value="1"}
+				
+               </tr>
+                <tr>			
+                        	    	{else}
+                                	    {assign var="count" value=`$count+1`}
+                            		{/if}
+                        {/if}
+	      </tr>
+              {/foreach}
+                   	{if $element.help_post}
+            			<tr><td></td><td class="description">{$element.help_post}</td></tr>
+                	{/if}
+               	</table>
+	   </td>
+        	{else}	
+
+		{assign var="name" value=`$element.name`}
+            	{assign var="element_name" value="price_"|cat:$field_id}
+		<tr><td class="label"> {$form.$element_name.label}</td>
+	    <td>
+               	<table class="form-layout-compressed">
+		<tr>{$form.$element_name.html}</tr>
+		{if $element.help_post}
+           	<tr><td class="description">{$element.help_post}</td></tr>
+		{/if}
+		</table>	
+	   </td>
+                {/if}
+    	        {/foreach}
+
+{else}
+    {if $paidEvent}
+    	<table class="form-layout-compressed">
+        <tr><td class="label nowrap">{$form.amount.label}<span class="marker">*</span></td>
+            <td>&nbsp;</td>
+            <td>{$form.amount.html}</td>
+        </tr>
+    	</table>
+    {/if}
+	<tr><td class="label">{$form.amount.label}<td>
+	{$form.amount.html}
+{/if}
+
+<tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
+    <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
         <tr><td colspan=2>
         {if $action eq 4} 
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}

@@ -160,25 +160,12 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         CRM_Core_BAO_Log::add( $logParams );
         
-        // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_event',
-                                  'entity_id'       => $event->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                require_once 'CRM/Core/BAO/CustomValue.php';
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params, 'civicrm_event', $event->id );
         }
-
+        
         $transaction->commit( );
         
         return $event;
@@ -326,12 +313,14 @@ SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_e
            civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
            civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
 FROM       civicrm_event
-LEFT JOIN  civicrm_participant  ON ( civicrm_event.id = civicrm_participant.event_id AND civicrm_participant.is_test=0) 
+LEFT JOIN  civicrm_participant  ON ( civicrm_event.id = civicrm_participant.event_id ) 
 LEFT JOIN  civicrm_option_value ON (
-              civicrm_event.event_type_id = civicrm_option_value.value AND
-              civicrm_option_value.option_group_id = %1 )
-WHERE      civicrm_event.is_active = 1 AND
-           civicrm_event.domain_id = %2
+              civicrm_event.event_type_id = civicrm_option_value.value )
+WHERE      civicrm_event.is_active = 1     AND
+           civicrm_event.domain_id = %2    AND
+           civicrm_participant.is_test = 0 AND
+           civicrm_participant.status_id IN ( 1, 2 ) AND
+           civicrm_option_value.option_group_id = %1
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC
 LIMIT      0, 10

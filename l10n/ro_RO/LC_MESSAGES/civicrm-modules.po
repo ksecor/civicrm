@@ -4,8 +4,8 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.8\n"
-"POT-Creation-Date: 2007-08-14 06:18+0200\n"
+"Project-Id-Version: CiviCRM 1.9\n"
+"POT-Creation-Date: 2007-10-25 15:07+0200\n"
 "PO-Revision-Date: 2007-02-18 17:32+0200\n"
 "Last-Translator: Claudiu Cristea <clau.cristea@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -171,11 +171,6 @@ msgstr "Selectaţi un tip de relaţie."
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
 msgstr "<< Înapoi"
-
-#: CRM/Contribute/Form/Contribution/Main.php CRM/Contribute/Form/Offline.php
-#: CRM/Event/Form/Registration/Register.php CRM/Mailing/Selector/Event.php
-msgid "Email Address"
-msgstr "Adresă Email:"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
@@ -388,10 +383,6 @@ msgstr "Înregistrare utilizator"
 msgid "Export Participants"
 msgstr "Export contacte"
 
-#: CRM/Event/Import/Form/MapField.php CRM/Member/Import/Form/MapField.php
-msgid "Duplicate Import Membership Mapping Name"
-msgstr ""
-
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 #, fuzzy
 msgid "Manage Events"
@@ -439,13 +430,22 @@ msgstr "Corp HTML"
 msgid "Body Text"
 msgstr "Corp Text"
 
-#: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Subscribe.php
-msgid "\"%1 Administrator\" <do-not-reply@%2>"
-msgstr "\"%1 Administrator\" <do-not-reply@%2>"
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
+#: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
+msgid "Subscribe"
+msgstr "Abonează"
 
-#: CRM/Mailing/Event/BAO/Reply.php CRM/Mailing/Event/BAO/Unsubscribe.php
-msgid "\"%1 Administrator\" <%2>"
-msgstr "\"%1 Administrator\" <%2>"
+#: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
+#: templates/CRM/Mailing/Page/Resubscribe.tpl
+#, fuzzy
+msgid "Resubscribe"
+msgstr "Abonează"
+
+#: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
+#: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
+#, fuzzy
+msgid "\"%1\" <do-not-reply@%2>"
+msgstr "\"%1 Administrator\" <do-not-reply@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
@@ -460,23 +460,10 @@ msgstr "Motiv Lovitură"
 msgid "Time Stamp"
 msgstr "Marcă Timp"
 
-#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Name.php
+#: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
 msgstr "Următor >>"
-
-#: CRM/Mailing/Form/Retry.php CRM/Mailing/Form/Schedule.php
-msgid "Send Immediately"
-msgstr "Trimite Imediat"
-
-#: CRM/Mailing/Form/Retry.php CRM/Mailing/Invoke.php
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Retry Mailing"
-msgstr "Reîncearcă Mailing"
-
-#: CRM/Mailing/Invoke.php CRM/Mailing/Page/Browse.php
-msgid "Mailings"
-msgstr "Mailing-uri"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
@@ -491,6 +478,10 @@ msgstr "Renunţă"
 #, fuzzy
 msgid "Delete Mailing"
 msgstr "Şterge activitate"
+
+#: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
+msgid "Missing input parameters"
+msgstr ""
 
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
@@ -1990,6 +1981,10 @@ msgid "Print Participant List"
 msgstr "Tipăreşte listă contacte"
 
 #: CRM/Event/Import/Form/MapField.php
+msgid "Duplicate Import Participant Mapping Name"
+msgstr ""
+
+#: CRM/Event/Import/Form/MapField.php
 #, fuzzy
 msgid "Select saved mapping"
 msgstr "Şterge Mapare"
@@ -2158,8 +2153,33 @@ msgid "The mailing component \"%1\" has been saved."
 msgstr ""
 
 #: CRM/Mailing/BAO/Job.php
+msgid "CiviCRM Test Mailer (%1)"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
+msgid "Test Mailing:"
+msgstr ""
+
+#: CRM/Mailing/BAO/Job.php
 msgid "The mailing has been canceled."
 msgstr ""
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid "You do not have permission to access this mailing report"
+msgstr "Nu aveţi suficiente drepturi pentru a edita acest contact."
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid ""
+"Selected mailing can not be deleted as mails are still pending in spool "
+"table."
+msgstr "Contribuţia selectată a fost ştearsă."
+
+#: CRM/Mailing/BAO/Mailing.php
+#, fuzzy
+msgid "Selected mailing can not be deleted since it is in process."
+msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -2215,16 +2235,12 @@ msgid "Component Name"
 msgstr "Nume componentă"
 
 #: CRM/Mailing/DAO/Component.php
-msgid "Subscribe"
-msgstr "Abonează"
+msgid "Welcome"
+msgstr ""
 
 #: CRM/Mailing/DAO/Component.php
 msgid "OptOut"
 msgstr "OptOut"
-
-#: CRM/Mailing/DAO/Group.php
-msgid "Group Type"
-msgstr "Tip grup"
 
 #: CRM/Mailing/DAO/Group.php
 msgid "Include"
@@ -2262,6 +2278,29 @@ msgstr "Auto Responder"
 msgid "Open Tracking"
 msgstr ""
 
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Recipient Email"
+msgstr "Chitanţă de la Email"
+
+#: CRM/Mailing/DAO/Spool.php
+msgid "Headers"
+msgstr ""
+
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Body"
+msgstr "Corp HTML"
+
+#: CRM/Mailing/DAO/Spool.php
+msgid "Added At"
+msgstr ""
+
+#: CRM/Mailing/DAO/Spool.php
+#, fuzzy
+msgid "Removed At"
+msgstr "Data recepţie"
+
 #: CRM/Mailing/DAO/TrackableURL.php
 msgid "Url"
 msgstr "URL"
@@ -2271,31 +2310,57 @@ msgid "Org Unsubscribe"
 msgstr ""
 
 #: CRM/Mailing/Form/Component.php
-msgid "Body in text format"
+msgid "Body - TEXT Format"
 msgstr ""
 
 #: CRM/Mailing/Form/Component.php
-msgid "Body in html format"
+msgid "Body - HTML Format"
+msgstr ""
+
+#: CRM/Mailing/Form/Component.php
+msgid ""
+"This token can only be used in send mailing context (body, header, footer).."
+msgstr ""
+
+#: CRM/Mailing/Form/Component.php
+msgid "This message is having a invalid token - %1: %2"
+msgstr ""
+
+#: CRM/Mailing/Form/Component.php
+msgid "The following errors were detected in %1 message:"
+msgstr ""
+
+#: CRM/Mailing/Form/Component.php
+#, fuzzy
+msgid "More information on tokens..."
+msgstr "Pagină Informaţii Domeniu"
+
+#: CRM/Mailing/Form/Group.php
+msgid "Copy of %1"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Include Group(s)"
-msgstr "Include grup(uri)"
-
-#: CRM/Mailing/Form/Group.php
-msgid "Please select a group to be mailed."
+msgid "Name Your Mailing"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Exclude Group(s)"
-msgstr "Exclude grup(uri)"
-
-#: CRM/Mailing/Form/Group.php
-msgid "Include mailing(s)"
+msgid "INCLUDE Contacts in These Group(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
-msgid "Exclude mailing(s)"
+msgid "Please select at least one group to include in the mailing."
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
+msgid "EXCLUDE Contacts in These Group(s)"
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
+msgid "INCLUDE Recipients of These Mailing(s)"
+msgstr ""
+
+#: CRM/Mailing/Form/Group.php
+msgid "EXCLUDE Recipients of These Mailing(s)"
 msgstr ""
 
 #: CRM/Mailing/Form/Group.php
@@ -2310,30 +2375,14 @@ msgstr ""
 msgid "Cannot have same mail in Include mailing(s) and Exclude mailing(s)."
 msgstr ""
 
-#: CRM/Mailing/Form/Name.php
-msgid "Name Your Mailing"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Invalid Mailing ID"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Retry Date"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Retry"
-msgstr ""
-
-#: CRM/Mailing/Form/Retry.php
-msgid "Retry scheduled for mailing: %1"
-msgstr ""
-
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
 msgid "Schedule Mailing"
 msgstr "Renunţă"
+
+#: CRM/Mailing/Form/Schedule.php
+msgid "Send Immediately"
+msgstr "Trimite Imediat"
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
@@ -2348,60 +2397,107 @@ msgstr ""
 msgid "Schedule or Send"
 msgstr ""
 
+#: CRM/Mailing/Form/Search.php
+#, fuzzy
+msgid "Select a valid Sent FROM date."
+msgstr "Selectaţi o dată validă"
+
+#: CRM/Mailing/Form/Search.php
+#, fuzzy
+msgid "Select a valid Sent THROUGH date."
+msgstr "Selectaţi o dată validă"
+
+#: CRM/Mailing/Form/Settings.php
+msgid "Forward Replies?"
+msgstr ""
+
+#: CRM/Mailing/Form/Settings.php
+msgid "Track Click-throughs?"
+msgstr ""
+
+#: CRM/Mailing/Form/Settings.php
+msgid "Track Opens?"
+msgstr ""
+
+#: CRM/Mailing/Form/Settings.php
+msgid "Auto-respond to Replies?"
+msgstr ""
+
+#: CRM/Mailing/Form/Settings.php
+#, fuzzy
+msgid "Track and Respond"
+msgstr "Mulţumiri şi chitanţă (%1)"
+
+#: CRM/Mailing/Form/Subscribe.php
+msgid "Subscribe to Mailing List - %1"
+msgstr ""
+
+#: CRM/Mailing/Form/Subscribe.php
+#, fuzzy
+msgid "Mailing List Subscription"
+msgstr "Subiect mailing"
+
+#: CRM/Mailing/Form/Subscribe.php
+#, fuzzy
+msgid "Please enter a valid email address (e.g. 'yourname@example.com')."
+msgstr "Introduceţi un nume valid de Grup Opţiuni."
+
+#: CRM/Mailing/Form/Subscribe.php
+msgid "There are no public mailing list groups to display."
+msgstr ""
+
+#: CRM/Mailing/Form/Subscribe.php
+msgid ""
+"Your subscription request has been submitted. Check your inbox shortly for "
+"the confirmation email(s)."
+msgstr ""
+
+#: CRM/Mailing/Form/Subscribe.php
+msgid ""
+"We had a problem processing your subscription request. Please contact the "
+"site administrator"
+msgstr ""
+
 #: CRM/Mailing/Form/Test.php
 msgid "Send a Test Mailing?"
 msgstr ""
 
 #: CRM/Mailing/Form/Test.php
 #, fuzzy
-msgid "Send to This Address:"
+msgid "Send to This Address"
 msgstr "Adresa"
 
 #: CRM/Mailing/Form/Test.php
-msgid "Send to This Group:"
-msgstr ""
-
-#: CRM/Mailing/Form/Test.php
-msgid "CiviCRM Test Mailer (%1)"
-msgstr ""
-
-#: CRM/Mailing/Form/Test.php
-msgid "Test Mailing:"
-msgstr ""
-
-#: CRM/Mailing/Form/Test.php
-msgid "The test mailing could not be delivered due to the following error:"
-msgstr ""
+#, fuzzy
+msgid "Send to This Group"
+msgstr "Adresa"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
-msgid "FROM Name"
+msgid "FROM"
 msgstr "Nume Formular"
-
-#: CRM/Mailing/Form/Upload.php
-#, fuzzy
-msgid "FROM Email"
-msgstr "Email Formular"
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Forward Replies?"
-msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Track Click-throughs?"
-msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Track Opens?"
-msgstr ""
-
-#: CRM/Mailing/Form/Upload.php
-msgid "Auto-respond to Replies?"
-msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
 msgid "Mailing Subject"
 msgstr "Subiect mailing"
+
+#: CRM/Mailing/Form/Upload.php templates/CRM/Mailing/Form/Upload.tpl
+#, fuzzy
+msgid "Upload Content"
+msgstr "Comentariu"
+
+#: CRM/Mailing/Form/Upload.php templates/CRM/Mailing/Form/Upload.tpl
+msgid "Compose On-screen"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+msgid "I want to"
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
+#, fuzzy
+msgid "Save As New Template"
+msgstr "Şablon Mesaj"
 
 #: CRM/Mailing/Form/Upload.php
 #, fuzzy
@@ -2425,6 +2521,10 @@ msgid "Please provide either a Text or HTML formatted message - or both."
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
+msgid "Please provide a Template Name."
+msgstr ""
+
+#: CRM/Mailing/Form/Upload.php
 msgid "This message is missing a required token - {%1}: %2"
 msgstr ""
 
@@ -2441,8 +2541,13 @@ msgid "More information on required tokens..."
 msgstr ""
 
 #: CRM/Mailing/Form/Upload.php
-msgid "Upload Message"
-msgstr "Încarcă mesaj"
+#, fuzzy
+msgid "Mailing Content"
+msgstr "Subiect mailing"
+
+#: CRM/Mailing/Invoke.php
+msgid "Mailings"
+msgstr "Mailing-uri"
 
 #: CRM/Mailing/Invoke.php
 msgid "The mailing queue has been processed."
@@ -2450,7 +2555,7 @@ msgstr ""
 
 #: CRM/Mailing/Menu.php
 #, fuzzy
-msgid "Mailer Settings "
+msgid "Mailer Settings"
 msgstr "Titlu şi configuraţie"
 
 #: CRM/Mailing/Menu.php
@@ -2464,7 +2569,7 @@ msgstr ""
 #: CRM/Mailing/Menu.php
 msgid ""
 "Configure the header and footer used for mailings. Customize the content of "
-"automated Subscribe, Unsubscribe, and Opt-out messages."
+"automated Subscribe, Unsubscribe, Resubscribe and Opt-out messages."
 msgstr ""
 
 #: CRM/Mailing/Menu.php
@@ -2476,6 +2581,25 @@ msgstr "Informaţii Testare"
 msgid ""
 "Configure primary contact name, email, return-path and address information. "
 "This information is used by CiviMail to identify the sending organization."
+msgstr ""
+
+#: CRM/Mailing/Menu.php templates/CRM/Mailing/Page/Optout.tpl
+#, fuzzy
+msgid "Optout"
+msgstr "OptOut"
+
+#: CRM/Mailing/Page/Browse.php
+#, fuzzy
+msgid "Sent Mailings"
+msgstr "Reîncearcă Mailing"
+
+#: CRM/Mailing/Page/Browse.php
+#, fuzzy
+msgid "Search Mailings"
+msgstr "Reîncearcă Mailing"
+
+#: CRM/Mailing/Page/Common.php
+msgid "There was an error in your request"
 msgstr ""
 
 #: CRM/Mailing/Page/Component.php
@@ -2493,6 +2617,11 @@ msgstr ""
 #: CRM/Mailing/Page/Component.php
 msgid "Enable Mailing Component"
 msgstr ""
+
+#: CRM/Mailing/Page/Report.php
+#, fuzzy
+msgid "Selected Mailing has more than one live job."
+msgstr "Contribuţia selectată a fost ştearsă."
 
 #: CRM/Mailing/Page/Report.php
 msgid "CiviMail Report: %1"
@@ -2528,7 +2657,7 @@ msgid "View Mailing Report"
 msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
-msgid "Re-Send"
+msgid "Re-Use"
 msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
@@ -2912,6 +3041,10 @@ msgstr ""
 msgid "Print Members"
 msgstr ""
 
+#: CRM/Member/Import/Form/MapField.php
+msgid "Duplicate Import Membership Mapping Name"
+msgstr ""
+
 #: CRM/Member/Import/Parser.php
 #, fuzzy
 msgid "View Membership URL"
@@ -3293,8 +3426,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
 "Check this box if you want to give users the option to make recurring "
-"contributions. (This feature requires that you use &quot;PayPal Website "
-"Standard&quot; as your payment processor.)"
+"contributions. (This feature requires that you use 'PayPal Website Standard' "
+"OR 'PayJunction' as your payment processor.)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -4700,13 +4833,16 @@ msgstr ""
 msgid ""
 "Include additional fields on this registration form by configuring and "
 "selecting a CiviCRM Profile to be included at the top of the page "
-"(immediately after the introductory message)."
+"(immediately after the introductory message). NOTE: If you are using PayPal "
+"Standard or Google Checkout - custom fields are not supported."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "Include additional fields on this registration form by configuring and "
-"selecting a CiviCRM Profile to be included at the bottom of the page."
+"selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: "
+"If you are using PayPal Standard or Google Checkout - custom fields are not "
+"supported."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -5307,9 +5443,10 @@ msgstr ""
 msgid "New Mailing Component"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Retry.tpl
-msgid "Retry Mailing: %1"
-msgstr ""
+#: templates/CRM/Mailing/Form/Group.tpl
+#, fuzzy
+msgid "Mailing Recipients"
+msgstr "Selectează destinatari"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -5321,6 +5458,99 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
 "Set a date and time when you want CiviMail to start sending this mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Search.tpl
+#, fuzzy
+msgid "Find Mailings"
+msgstr "Mailing-uri"
+
+#: templates/CRM/Mailing/Form/Search.tpl
+msgid "Complete OR partial mailing name."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"These settings control tracking and responses to recipient actions. The "
+"number of recipients selected to receive this mailing is shown in the box to "
+"the right. If this count doesn't match your expectations, click "
+"<strong>Previous</strong> to review your selection(s)."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"Track the number of times recipients click each link in this mailing. NOTE: "
+"When this feature is enabled, all links in the message body will be "
+"automaticallly re-written to route through your CiviCRM server prior to "
+"redirecting to the target page."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"Track the number of times recipients open this mailing in their email "
+"software."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid "Responding"
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"If a recipient replies to this mailing, forward the reply to the FROM Email "
+"address specified for the mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"If a recipient replies to this mailing, send an automated reply using the "
+"selected message."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"Select the automated message to be sent when a recipient unsubscribes from "
+"this mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"Select the automated message to be sent when a recipient resubscribes to "
+"this mailing."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Settings.tpl
+msgid ""
+"Select the automated message to be sent when a recipient opts out of all "
+"mailings from your site."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Subscribe.tpl
+msgid ""
+"Enter your email address and click <strong>Subscribe</strong>. You will "
+"receive a confirmation request via email shortly. Your subscription will be "
+"activated after you respond to that email."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Subscribe.tpl
+msgid ""
+"Enter your email address and check the box next to each mailing list you "
+"want to join. Then click the <strong>Subscribe</strong> button. You will "
+"receive a confirmation request via email for each selected list. Activate "
+"your subscription to each list by responding to the corresponding "
+"confirmation email."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Subscribe.tpl
+#, fuzzy
+msgid "Group Listings."
+msgstr "Selectaţi locaţia"
+
+#: templates/CRM/Mailing/Form/Test.tpl
+msgid ""
+"It's a good idea to test your mailing by sending it to yourself and/or a "
+"selected group of people in your organization. You can also view your "
+"content by clicking (+) Preview Mailing."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Test.tpl
@@ -5350,15 +5580,22 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
-"Before completing this step, you must create one or two files containing "
-"your mailing content."
+"You can either <strong>upload</strong> the mailing content from your "
+"computer OR <strong>compose</strong> the content on this screen. Hold your "
+"mouse over the help (?) icon for more information on formats and "
+"requirements."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
-"CiviMail email messages must include an unsubscribe link, an opt-out link, "
-"and the postal address of your organization. These elements help reduce the "
-"chances of your email being categorized as SPAM."
+"Click your mouse in the upper left corner of the box below to begin editing "
+"your HTML message."
+msgstr ""
+
+#: templates/CRM/Mailing/Form/Upload.tpl
+msgid ""
+"Browse to the <strong>TEXT</strong> message file you have prepared for this "
+"mailing."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
@@ -5370,20 +5607,13 @@ msgid "More information and sample messages..."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-#, fuzzy
-msgid "Content"
-msgstr "Comentariu"
-
-#: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
-"Browse to the <strong>TEXT</strong> message file you have prepared for this "
+"Browse to the <strong>HTML</strong> message file you have prepared for this "
 "mailing."
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Browse to the <strong>HTML</strong> message file you have prepared for this "
-"mailing."
+msgid "Header / Footer"
 msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
@@ -5396,48 +5626,6 @@ msgid ""
 "You may choose to include a pre-configured Footer block below your message. "
 "This is a good place to include the required unsubscribe, opt-out and postal "
 "address tokens."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Track the number of times recipients click each link in this mailing. NOTE: "
-"When this feature is enabled, all links in the message body will be "
-"automaticallly re-written to route through your CiviCRM server prior to "
-"redirecting to the target page."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Track the number of times recipients open this mailing in their email "
-"software."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid "Responding"
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"If a recipient replies to this mailing, forward the reply to the FROM Email "
-"address specified above."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"If a recipient replies to this mailing, send an automated reply using the "
-"selected message."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Select the automated message to be sent when a recipient unsubscribes from "
-"this mailing."
-msgstr ""
-
-#: templates/CRM/Mailing/Form/Upload.tpl
-msgid ""
-"Select the automated message to be sent when a recipient opts out of all "
-"mailings from your site."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -5460,35 +5648,71 @@ msgid "New Mailing"
 msgstr "Previzualizare"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "There are no sent mails. You can <a href=\"%1\">send one</a>."
+msgid "No Sent Mailings match your search criteria. Suggestions:"
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid "Or you can <a href=\"%1\">browse all Sent Mailings</a>."
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Browse.tpl
+msgid ""
+"There are no Sent Mailings. You can <a href='%1'>create and send one</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body HTML"
 msgstr ""
 
+#: templates/CRM/Mailing/Page/Confirm.tpl
+msgid ""
+"<strong>%1 (%2)</strong> has been successfully subscribed to the <strong>%3</"
+"strong> mailing list."
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Confirm.tpl
+msgid ""
+"Oops. We encountered a problem in processing your subscription confirmation. "
+"Please contact the site administrator."
+msgstr ""
+
+#: templates/CRM/Mailing/Page/Event.tpl
+#, fuzzy
+msgid "Back to Report"
+msgstr "Raport"
+
+#: templates/CRM/Mailing/Page/Optout.tpl
+#, fuzzy
+msgid "Are you sure you want to optout: %1 (%2)"
+msgstr "Sigur ştergeţi acestă notă?"
+
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Delivery Summary"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Queued"
+msgid "Spooled Mails"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Delivered"
+msgid ""
+"<strong>Delivery has not yet begun for this mailing.</strong> If the "
+"scheduled delivery date and time is past, ask the system administrator or "
+"technical support contact for your site to verify that the automated mailer "
+"task ('cron job') is running - and how frequently. (<a href='%1' title='%2' "
+"target='_blank'>more info...</a>)"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Opens"
+msgid "Recipients"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Totals"
+msgid "Included"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Percentages"
+msgid "Excluded"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
@@ -5508,16 +5732,13 @@ msgid "Success Rate"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Recipients"
+msgid "Content / Components"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-msgid "Included"
-msgstr ""
-
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Excluded"
-msgstr ""
+#, fuzzy
+msgid "View complete message"
+msgstr "Mesaj chitanţă"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
@@ -5551,17 +5772,23 @@ msgstr ""
 msgid "URL Click-through tracking"
 msgstr ""
 
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Content / Components"
+#: templates/CRM/Mailing/Page/Resubscribe.tpl
+msgid "has been successfully resubscribed."
 msgstr ""
 
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "Text Body"
+#: templates/CRM/Mailing/Page/Resubscribe.tpl
+#, fuzzy
+msgid "Are you sure you want to resubscribe: %1 (%2)"
+msgstr "Sigur dezactivaţi acest %1?"
+
+#: templates/CRM/Mailing/Page/Unsubscribe.tpl
+msgid "has been successfully unsubscribed."
 msgstr ""
 
-#: templates/CRM/Mailing/Page/Report.tpl
-msgid "HTML Body"
-msgstr ""
+#: templates/CRM/Mailing/Page/Unsubscribe.tpl
+#, fuzzy
+msgid "Are you sure you want to unsubscribe: %1 (%2)"
+msgstr "Sigur dezactivaţi acest %1?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -5825,10 +6052,8 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
-"Select relationship type for this membership type. EXAMPLE: Select "
-"'Household Member is' for memberships where the  <strong>direct member is a "
-"Household</strong> and you want all <strong>Household Members</strong> to be "
-"automatically granted memberships."
+"Memberships can be automatically granted to related contacts by selecting a "
+"Relationship Type."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -6126,6 +6351,28 @@ msgid ""
 "There are no membership types entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
 
+#~ msgid "Email Address"
+#~ msgstr "Adresă Email:"
+
+#~ msgid "\"%1 Administrator\" <%2>"
+#~ msgstr "\"%1 Administrator\" <%2>"
+
+#~ msgid "Group Type"
+#~ msgstr "Tip grup"
+
+#~ msgid "Include Group(s)"
+#~ msgstr "Include grup(uri)"
+
+#~ msgid "Exclude Group(s)"
+#~ msgstr "Exclude grup(uri)"
+
+#, fuzzy
+#~ msgid "FROM Email"
+#~ msgstr "Email Formular"
+
+#~ msgid "Upload Message"
+#~ msgstr "Încarcă mesaj"
+
 #~ msgid "Test"
 #~ msgstr "Test"
 
@@ -6179,9 +6426,6 @@ msgstr ""
 
 #~ msgid "Membership Status"
 #~ msgstr "Stare Membru"
-
-#~ msgid "Message Templates"
-#~ msgstr "Şablon Mesaj"
 
 #, fuzzy
 #~ msgid "Credit card expiration date can not be a past date."

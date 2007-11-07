@@ -127,7 +127,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->assign( 'dojoIncludes', "dojo.require('dijit.TitlePane');dojo.require('dojo.parser');" );
 
         if ( ! $this->_formType ) {
-            $this->buildQuickFormCommon();
+            parent::buildQuickForm();
         } else {
             $this->assign( 'suppressForm', true );
         }
@@ -222,7 +222,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         require_once 'CRM/Contact/BAO/Query.php';
         $this->_params =& CRM_Contact_BAO_Query::convertFormValues( $this->_formValues );
         $this->_returnProperties =& $this->returnProperties( );
-        $this->postProcessCommon( );
+        parent::postProcess( );
     }
 
 }

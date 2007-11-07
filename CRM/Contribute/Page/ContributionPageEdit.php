@@ -117,7 +117,7 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
             break;
             
         case 'Friend':
-            $form = 'CRM_Friend_Form_Contribute_TellAFriend';
+            $form = 'CRM_Friend_Form_Contribute';
             break;
 
         case 'Membership':

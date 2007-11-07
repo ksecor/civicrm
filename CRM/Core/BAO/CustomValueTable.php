@@ -175,7 +175,67 @@ class CRM_Core_BAO_CustomValueTable {
             CRM_Core_Error::fatal( );
         }
     }
-    
+
+    function store( &$params, $entityTable, $entityID ) {
+        $cvParams = array( );
+        foreach ($params as $customValue) {
+            $cvParam = array(
+                             'entity_table'    => $entityTable,
+                             'entity_id'       => $entityID,
+                             'value'           => $customValue['value'],
+                             'type'            => $customValue['type'],
+                             'custom_field_id' => $customValue['custom_field_id'],
+                             'table_name'      => $customValue['table_name'],
+                             'column_name'     => $customValue['column_name'],
+                             'file_id'         => $customValue['file_id'],
+                             );
+            
+            if ($customValue['id']) {
+                $cvParam['id'] = $customValue['id'];
+            }
+            if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
+                $cvParams[$customValue['table_name']] = array( );
+            }
+            $cvParams[$customValue['table_name']][] = $cvParam;
+        }
+        if ( ! empty( $cvParams ) ) {
+            self::create($cvParams);
+        }
+    }
+
+    function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) {
+        $customData = array( );
+        require_once "CRM/Core/BAO/CustomField.php";
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldID,
+                                                             $customData,
+                                                             $value,
+                                                             $customFieldExtends,
+                                                             null,
+                                                             $entityID );
+            }
+        }
+
+        if ( ! empty( $customFields ) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k,
+                                                                 $customData,
+                                                                 '',
+                                                                 $customFieldExtends,
+                                                                 null,
+                                                                 $entityID );
+                }
+            }
+        }
+
+        if ( ! empty( $customData ) ) {
+            self::store( $customData, $entityTable, $entityID );
+        }
+    }
+
 }
 
 ?>

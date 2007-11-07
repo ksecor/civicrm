@@ -67,19 +67,36 @@ class CRM_Admin_Page_PreferencesDate extends CRM_Core_Page_Basic
     function &links()
     {
         if (!(self::$_links)) {
-            // helper variable for nicer formatting
-            $disableExtra = ts('Are you sure you want to disable this location type?') . '\n\n' . ts('Users will no longer be able to select this value when adding or editing contact locations.');
-
             self::$_links = array(
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/admin/setting/preferences/date',
                                                                     'qs'    => 'action=update&id=%%id%%&reset=1',
-                                                                    'title' => ts('Edit Location Type') 
+                                                                    'title' => ts('Edit Date Type') 
                                                                     ),
                                   );
         }
         return self::$_links;
+    }
+
+    /**
+        * Run the page.
+     *
+     * This method is called after the page is created. It checks for the  
+     * type of action and executes that action.
+     * Finally it calls the parent's run method.
+     *
+     * @return void
+     * @access public
+     *
+     */
+    function run()
+    {
+        // set title and breadcrumb
+        CRM_Utils_System::setTitle(ts('Settings - Date Preferences'));
+        $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin/setting', 'reset=1' );
+        CRM_Utils_System::appendBreadCrumb( ts('Global Settings'), $breadCrumbPath );
+        return parent::run();
     }
 
     /**

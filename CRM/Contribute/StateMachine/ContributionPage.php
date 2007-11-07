@@ -63,7 +63,7 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
                                   'CRM_Contribute_Form_ContributionPage_Amount'   => null,
                                   'CRM_Member_Form_MembershipBlock'               => null,
                                   'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
-                                  'CRM_Friend_Form_Contribute_TellAFriend'        => null,
+                                  'CRM_Friend_Form_Contribute'                    => null,
                                   'CRM_Contribute_Form_ContributionPage_Custom'   => null,
                                   'CRM_Contribute_Form_ContributionPage_Premium'  => null,
                                   );
@@ -72,7 +72,7 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
                                   'CRM_Contribute_Form_ContributionPage_Settings' => null,
                                   'CRM_Contribute_Form_ContributionPage_Amount'   => null,
                                   'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
-                                  'CRM_Friend_Form_Contribute_TellFriend'         => null,
+                                  'CRM_Friend_Form_Contribute'                    => null,
                                   'CRM_Contribute_Form_ContributionPage_Custom'   => null,
                                   'CRM_Contribute_Form_ContributionPage_Premium'  => null,
                                   );

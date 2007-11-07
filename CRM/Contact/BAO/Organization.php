@@ -34,9 +34,8 @@
  */
 
 require_once 'CRM/Contact/DAO/Contact.php';
-require_once 'CRM/Contact/DAO/Organization.php';
 
-class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
+class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Contact
 {
     /**
      * This is a contructor of the class.
@@ -46,55 +45,5 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Organization
         parent::__construct();
     }
     
-    /**
-     * takes an associative array and creates a contact object
-     *
-     * the function extract all the params it needs to initialize the create a
-     * contact object. the params array could contain additional unused name/value
-     * pairs
-     *
-     * @param array  $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @return object CRM_Contact_BAO_Organization object
-     * @access public
-     * @static
-     */
-    static function add( &$params, &$ids ) {
-        $organization =& new CRM_Contact_BAO_Organization( );
-
-        $organization->copyValues( $params );
-
-        $organization->id = CRM_Utils_Array::value( 'organization', $ids );
-        $organization->save( );
-        return $organization;
-    }
-
-    /**
-     * Given the list of params in the params array, fetch the object
-     * and store the values in the values array
-     *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
-     *
-     * @return CRM_Contact_BAO_Organization|null the found object or null
-     * @access public
-     * @static
-     */
-    static function getValues( &$params, &$values, &$ids ) {
-        $organization =& new CRM_Contact_BAO_Organization( );
-        
-        $organization->copyValues( $params );
-        if ( $organization->find(true) ) {
-            $ids['organization'] = $organization->id;
-            CRM_Core_DAO::storeValues( $organization, $values );
-
-            return $organization;
-        }
-        return null;
-    }
-        
 }
-
 ?>

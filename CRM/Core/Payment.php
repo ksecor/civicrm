@@ -95,7 +95,7 @@ abstract class CRM_Core_Payment {
      * @return string the error message if any
      * @public
      */
-    abstract function checkConfig( $mode );
+    abstract function checkConfig( );
 
     static function paypalRedirect( &$paymentProcessor ) {
         if ( ! $paymentProcessor ) {

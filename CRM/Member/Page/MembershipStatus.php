@@ -175,6 +175,12 @@ class CRM_Member_Page_MembershipStatus extends CRM_Core_Page_Basic
             if (isset ($membershipStatus[$dao->id]['end_event'] ) )
                 $membershipStatus[$dao->id]['end_event']   = str_replace("_", " ", $membershipStatus[$dao->id]['end_event']);
         }
+        // Add order changing widget to selector
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/member/membershipStatus', "reset=1&action=browse" );
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $membershipStatus, 'CRM_Member_DAO_MembershipStatus',
+                                    'id', $returnURL );
+
         $this->assign('rows', $membershipStatus);
     }
 

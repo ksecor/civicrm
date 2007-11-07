@@ -183,6 +183,27 @@ class CRM_Utils_File {
         return true;
     }
 
+
+    /** 
+     * Appends trailing slashed to paths
+     * 
+     * @return string
+     * @access public
+     * @static
+     */
+    static function addTrailingSlash( $name, $separator = null ) 
+    {
+        if ( ! $separator ) {
+            $separator = DIRECTORY_SEPARATOR;
+        }
+            
+        if ( substr( $name, -1, 1 ) != $separator ) {
+            $name .= $separator;
+        }
+        return $name;
+    }
+
+
     /** 
      * Function is php 4 version of php5 function  file_put_contents()
      * 

@@ -146,12 +146,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
      * @return CRM_Contact_Selector
      * @access public
      */
-    function __construct($formValues = null,
-                         $params = null,
-                         $returnProperties = null,
-                         $action = CRM_Core_Action::NONE,
-                         $includeContactIds = false,
-                         $searchChildGroups = true ) 
+    function __construct( $customSearchClass,
+                          $formValues = null,
+                          $params = null,
+                          $returnProperties = null,
+                          $action = CRM_Core_Action::NONE,
+                          $includeContactIds = false,
+                          $searchChildGroups = true )
     {
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
@@ -254,13 +255,12 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     }//end of function
 
 
-    function &getColHeads($action = null, $output = null){
-        //      print $this->_action;
+    function &getColHeads($action = null, $output = null) {
         require_once 'CRM/Contact/BAO/Group.php';
       
         $colHeads = self::_getColumnHeaders();
-        // if ($action == CRM_Core_Action::VIEW && $output != 1){
         $gid = CRM_Utils_Request::retrieve('gid', 'Positive', $this->_controller);
+
         if ( $gid ) {
             $query = "SELECT title FROM civicrm_group WHERE id = $gid";
             $dao =& new CRM_Contact_DAO_Group( );
@@ -271,7 +271,6 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
             $colHeads[] = array ('name' => ts($gtitle . " Groups"));
         }
         $colHeads[] = array('desc' => ts('Actions'), 'name' => ts('Action') );
-        //}
         return $colHeads;
     }
     
@@ -727,6 +726,20 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
     
     function &getQuery( ) {
         return $this->_query;
+    }
+
+    function &alphabetQuery( ) {
+        return $this->_query->searchQuery( null, null, null, false, false, true );
+    }
+
+    function &contactIDQuery( $params, $action, $sortID, &$ignore ) {
+        $sortOrder =& $this->getSortOrder( $this->_action );
+        $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
+
+        $query   =& new CRM_Contact_BAO_Query( $params );
+        return $query->searchQuery( 0, 0, $sort,
+                                    false, false, false,
+                                    false, false );
     }
 
     function &makeProperties( &$returnProperties ) {

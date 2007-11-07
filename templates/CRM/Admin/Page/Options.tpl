@@ -50,7 +50,7 @@
         <tr class="columnheader">
             <th field="Label" dataType="String" >{ts}Label{/ts}</th>
             <th field="Description" dataType="String" >{ts}Description{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
+            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
 	    <th field="Reserved" dataType="String" >{ts}Reserved{/ts}</th>
             <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
             <th datatype="html"></th>
@@ -62,7 +62,7 @@
         <tr class="{$row.class}{cycle values="odd-row even-row"}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.label}</td>	
 	        <td>{$row.description}</td>	
-	        <td>{$row.weight}</td>
+	        <td class="nowrap">{$row.weight}</td>
 	        <td>{if $row.is_reserved eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
