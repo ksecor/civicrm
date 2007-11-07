@@ -13,7 +13,7 @@
 	{if $element.options_per_line != 0 }
         {assign var="element_name" value="custom_"|cat:$field_id}			
         <dt>{$form.$element_name.label}</dt>
-        <dd class="html-adjust">
+        <dt></dt><dd class="html-adjust">
         {assign var="count" value="1"}
         {strip}
         <table class="form-layout-compressed">
@@ -46,8 +46,7 @@
               {assign var="name" value=`$element.name`} 
               {assign var="element_name" value="custom_"|cat:$field_id}			
               <dt>{$form.$element_name.label}</dt>
-              <dd class="html-adjust">
-              <span>{$form.$element_name.html}</span>
+              <dt></dt><dd class="html-adjust">{$form.$element_name.html}</dd>
               {if $element.data_type eq 'File'}
                 {if $element.customValue.data}
                 <span class="html-adjust"><br />
