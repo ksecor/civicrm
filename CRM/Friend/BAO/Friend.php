@@ -133,7 +133,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                   'source_record_id'   => NULL,
                                   'activity_type_id'   => $activityTypeId,
                                   'title'              => $params['title'],
-                                  'activity_date_time' => date("Ymd"), 
+                                  'activity_date_time' => date("YmdHis"), 
                                   'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
                                   'details'            => $params['suggested_message'],
                                   'is_test'            => $params['is_test'] );

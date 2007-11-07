@@ -10,13 +10,14 @@
     </div>
 
     {* Show link to Tell a Friend(CRM-2153) *}
-    
+       {if $registerText}
         <div class="messages status">
          <dl>
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
             <dd><strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong></dd>
          </dl>
-        </div>  
+        </div>
+       {/if}  
 
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
