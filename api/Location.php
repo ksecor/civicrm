@@ -330,12 +330,8 @@ function crm_get_locations(&$contact, $location_types = null) {
     $params = array();
     $params['contact_id']   = $contact->id;
     $params['entity_id']    = $contact->id;
-    $locationDAO =& new CRM_Core_DAO_Location();
-    $locationDAO->entity_table = 'civicrm_contact';
-    $locationDAO->entity_id = $contact->id;
-    $locationCount = $locationDAO->count();
     $values = array();
-    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,$locationCount); 
+    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,2);
        
     if( is_array($location_types) && count($location_types)>0 ) {
         $newLocations = array();
