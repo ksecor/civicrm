@@ -143,9 +143,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults['send_receipt'] = 1; 
         }
         if ( $defaults['membership_type_id'][1] ) {
-            $defaults['receipt_text'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+            $defaults['receipt_text_signup'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
                                                                       $defaults['membership_type_id'][1],
-                                                                      'receipt_text' );
+                                                                      'receipt_text_signup' );
         }
         
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
@@ -257,7 +257,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                           ts('Send Confirmation and Receipt?'), null, 
                           array( 'onClick' => 'showReceiptText()'));
 
-        $this->add('textarea', 'receipt_text', ts('Receipt Message') );
+        $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
 
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
@@ -318,7 +318,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-      
+
         $params = array( );
         $ids    = array( );
 
@@ -412,15 +412,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
             $params['receive_date'] = date( 'Y-m-d H:i:s' );
+            require_once 'CRM/Contact/BAO/Contact.php';
+            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $ids['userId'] );
+            $params['source'] = "Offline membership signup (by {$userName})";
         }
+
+
+        if ( $formValues['send_receipt'] ) {
+            $params['receipt_date'] = $params['receive_date'];
+        }
+        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         
         if ( $formValues['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
                                          $params['membership_type_id'], 
-                                         'receipt_text',
-                                         $formValues['receipt_text'] );
+                                         'receipt_text_signup',
+                                         $formValues['receipt_text_signup'] );
         }
 
         $relatedContacts = array( );
@@ -474,25 +484,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         
         if ($formValues['send_receipt']) {
-            require_once 'CRM/Contact/BAO/Contact.php';
-            // Retrieve the name and email of the current user - this will be the FROM for the receipt email
-            $session =& CRM_Core_Session::singleton( );
-            $userID  = $session->get( 'userID' );
-            list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
-            
-            $subject = ts('Member Contribution Receipt');
-                    
-            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                                $formValues['contribution_type_id'] );
-            
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
             $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
+            
+            $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign_by_ref( 'formValues', $formValues );
-            
+            $this->assign( 'mem_start_date', $startDate );
+            $this->assign( 'mem_end_date', $endDate );
+            $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                                           $formValues['membership_type_id'][1] ) );
             $template =& CRM_Core_Smarty::singleton( );
-            $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
+            $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
+            $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
             
 
             require_once 'CRM/Utils/Mail.php';

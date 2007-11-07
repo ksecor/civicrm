@@ -228,6 +228,8 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'  ] = $config->defaultCurrency;
             $contributionParams['receive_date'] = $params['receive_date'];
+            $contributionParams['receipt_date'] = $params['receipt_date'] ? $params['receipt_date'] : 'null';
+            $contributionParams['source']       = $params['source'] ? $params['source'] : 'null';
             $contributionParams['non_deductible_amount'] = 'null';
             $recordContribution = array(
                                         'total_amount',

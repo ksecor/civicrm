@@ -78,9 +78,9 @@
             </dl>
             <div id='notice'>
                 <dl>
-                <dt class="label">{$form.receipt_text.label}</dt>
+                <dt class="label">{$form.receipt_text_signup.label}</dt>
                 <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span>
-                     {$form.receipt_text.html|crmReplace:class:huge}</dd>
+                     {$form.receipt_text_signup.html|crmReplace:class:huge}</dd>
                 </dl>
             </div>
         {/if}
