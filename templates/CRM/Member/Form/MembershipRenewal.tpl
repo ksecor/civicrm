@@ -18,28 +18,33 @@
 	       
     <div id="contri">
         <dl>
-        <dt>{$form.record_contribution.label}</dt>
-	<dd class="html-adjust">{$form.record_contribution.html}</dd>
+        <dt>{$form.record_contribution.label}</dt><dd class="html-adjust">{$form.record_contribution.html}<br />
+   	    <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span></dd>
 	<div>
-            <dt>&nbsp;&nbsp;</dt><dd class="html-adjust">
-		<fieldset id="recordContribution"><legend>{ts}Renewal Payment and Receipt{/ts}</legend>
-		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
-	   	    <dt class="label">&nbsp;</dt><dd class="description">{ts}Select the appropriate contribution type for this transaction.{/ts}</dd>
-		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}</dd>
-        	    <dt class="label">&nbsp;</dt><dd class="description">{ts}Actual amount given by contributor.{/ts}</dd>
-       		    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
- 		    <dt class="label">&nbsp;</dt><dd class="description">{ts}This field is blank for non-monetary contributions.{/ts}</dd>
-		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
-   	   	    {if $email}	
-		        <dt class="label"></dt><dd>{$form.send_receipt.html}{$form.send_receipt.label}</dd>
-	 	        <dt class="label">&nbsp;</dt><dd class="description">{ts}Automatically email a receipt for this contribution to {$email}?{/ts}</dd>
-		        <div id='notice'>
-		    	   <dt class="label">{$form.receipt_text_renewal.label}</dt><dd>{$form.receipt_text_renewal.html}<dt class="label"><br/></dt><dd class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</dd>
-		        </div>
-		    {/if}
-	        </fieldset>
-	    </dd>
-	
+    <div class="spacer"></div>
+     <fieldset id="recordContribution"><legend>{ts}Renewal Payment and Receipt{/ts}</legend>
+	 <dl>	
+		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}<br />
+		<span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
+		<span class="description">{ts}Membership payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
+		    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+ 		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
+	</dl>
+	{if $email}	
+	    <dl>
+	    <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
+		<span class="description">{ts}Automatically email a membership confirmation and contribution receipt to {$email}?{/ts}</span></dd>
+	    </dl> 
+	    <div id='notice'>
+		<dl>		
+    	   	<dt class="label">{$form.receipt_text_renewal.label}</dt>
+		<dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span>
+		     {$form.receipt_text_renewal.html|crmReplace:class:huge}</dd> 
+		</dl>
+	    </div>
+	{/if}
+     </fieldset></dd>
 	</div>
         </dl>
     </div>
