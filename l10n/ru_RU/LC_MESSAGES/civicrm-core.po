@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-07-27 01:10-0700\n"
 "Last-Translator: Alex Tsipiniuk <tsipiniuk@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -4708,8 +4708,8 @@ msgstr "Печать"
 
 #: CRM/Core/Block.php
 #, fuzzy
-msgid "Summary Report"
-msgstr "Краткое содержание"
+msgid "Reports"
+msgstr "Импорт"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -12792,6 +12792,10 @@ msgstr "Сообщение отобрано фильтром контента"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Ошибка в транзакции SMTP"
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Краткое содержание"
 
 #, fuzzy
 #~ msgid "Activity Entity Table"

@@ -210,10 +210,16 @@ class CRM_Utils_Type
             break;
             
         case 'String':
+        case 'Link':
             return $data;
             break;
             
         case 'Date':
+            // a null date is valid
+            if ( strlen( trim( $data ) ) == 0 ) {
+                return trim( $data );
+            }
+
             if (preg_match('/^\d{8}$/', $data)) {
                 return $data;
             }

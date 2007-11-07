@@ -100,10 +100,19 @@ dojo.declare(
 	}
 );
 
-// Make a single tooltip markup on the page that is reused as appropriate
-dojo.addOnLoad(function(){
-	dijit.MasterTooltip = new dijit._MasterTooltip();
-});
+dijit.showTooltip = function(/*String*/ innerHTML, /*DomNode*/ aroundNode){
+	// summary:
+	//	Display tooltip w/specified contents to right specified node
+	//	(To left if there's no space on the right, or if LTR==right)
+	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
+	return dijit._masterTT.show(innerHTML, aroundNode);
+};
+
+dijit.hideTooltip = function(aroundNode){
+	// summary: hide the tooltip
+	if(!dijit._masterTT){ dijit._masterTT = new dijit._MasterTooltip(); }
+	return dijit._masterTT.hide(aroundNode);
+};
 
 dojo.declare(
 	"dijit.Tooltip",
@@ -122,23 +131,30 @@ dojo.declare(
 		//		the tooltip is displayed.
 		showDelay: 400,
 
-		// connectId: String
-		//		Id of domNode to attach the tooltip to.
-		//		(When user hovers over specified dom node, the tooltip will appear.)
-		connectId: "",
+		// connectId: String[]
+		//		Id(s) of domNodes to attach the tooltip to.
+		//		When user hovers over any of the specified dom nodes, the tooltip will appear.
+		connectId: [],
 
 		postCreate: function(){
-			this.srcNodeRef.style.display="none";
-
-			this._connectNode = dojo.byId(this.connectId);
-
-			if(dojo.isIE){
-				// BiDi workaround
-				this._connectNode.style.zoom = 1;
+			if(this.srcNodeRef){
+				this.srcNodeRef.style.display = "none";
 			}
 
-			dojo.forEach(["onMouseOver", "onMouseOut", "onFocus", "onBlur", "onHover", "onUnHover"], function(event){
-				this.connect(this._connectNode, event.toLowerCase(), "_"+event);
+			this._connectNodes = [];
+			
+			dojo.forEach(this.connectId, function(id) {
+				var node = dojo.byId(id);
+				if (node) {
+					this._connectNodes.push(node);
+					dojo.forEach(["onMouseOver", "onMouseOut", "onFocus", "onBlur", "onHover", "onUnHover"], function(event){
+						this.connect(node, event.toLowerCase(), "_"+event);
+					}, this);
+					if(dojo.isIE){
+						// BiDi workaround
+						node.style.zoom = 1;
+					}
+				}
 			}, this);
 		},
 
@@ -147,7 +163,7 @@ dojo.declare(
 		},
 
 		_onMouseOut: function(/*Event*/ e){
-			if(dojo.isDescendant(e.relatedTarget, this._connectNode)){
+			if(dojo.isDescendant(e.relatedTarget, e.target)){
 				// false event; just moved from target to target child; ignore.
 				return;
 			}
@@ -166,7 +182,8 @@ dojo.declare(
 
 		_onHover: function(/*Event*/ e){
 			if(!this._showTimer){
-				this._showTimer = setTimeout(dojo.hitch(this, "open"), this.showDelay);
+				var target = e.target;
+				this._showTimer = setTimeout(dojo.hitch(this, function(){this.open(target)}), this.showDelay);
 			}
 		},
 
@@ -180,18 +197,28 @@ dojo.declare(
 			this.close();
 		},
 
-		open: function(){
-			// summary: display the tooltip; usually not called directly.
+		open: function(/*DomNode*/ target){
+ 			// summary: display the tooltip; usually not called directly.
+			target = target || this._connectNodes[0];
+			if(!target){ return; }
+
 			if(this._showTimer){
 				clearTimeout(this._showTimer);
 				delete this._showTimer;
 			}
-			dijit.MasterTooltip.show(this.label || this.domNode.innerHTML, this._connectNode);
+			dijit.showTooltip(this.label || this.domNode.innerHTML, target);
+			
+			this._connectNode = target;
 		},
 
 		close: function(){
 			// summary: hide the tooltip; usually not called directly.
-			dijit.MasterTooltip.hide(this._connectNode);
+			dijit.hideTooltip(this._connectNode);
+			delete this._connectNode;
+			if(this._showTimer){
+				clearTimeout(this._showTimer);
+				delete this._showTimer;
+			}
 		},
 
 		uninitialize: function(){

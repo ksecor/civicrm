@@ -93,7 +93,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             }
         }
         
-        if ( !$htmlMessage ) {
+        if ( !$htmlMessage ) { 
             $htmlMessage = $this->getElementValue( "html_message" );
         }
         
@@ -157,16 +157,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     ts('Text Message'),
                     array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
 
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
-        
-        $dojoAttributes = array( 'dojoType'             => 'Editor2',
-                                 'style'                => 'min-height:250px',
+        $this->assign( 'dojoIncludes',"dojo.require('dijit.Editor');", "dojo.require('dojo.parser');");
+                
+        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
+                                 'height'               => '250 px',
                                  'id'                   => 'html_message',
-                                 'htmlEditing'          => 'true',
-                                 'useActiveX'           => 'true',
-                                 'shareToolbar'         => 'false',
-                                 'toolbarAlwaysVisible' => 'true',
-                                 'onkeyup'              => 'return verify( )'
+                                 'styleSheets'          => "packages/dojo/dojo/resources/dojo.css",                                
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );

@@ -58,11 +58,14 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if (!CRM_Core_Permission::check('administer CiviCRM')) {
             CRM_Core_Error::fatal('You do not have access to this page');
         }
+
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
+
         $main  =& crm_get_contact(array('contact_id' => $cid));
         $other =& crm_get_contact(array('contact_id' => $oid));
+
         $this->assign('contact_type', $main->contact_type);
         $this->assign('main_name',    $main->display_name);
         $this->assign('other_name',   $other->display_name);
@@ -92,42 +95,42 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
         }
 
-        foreach (array($main->contact_type, 'Contact') as $ct) {
-            require_once "CRM/Contact/DAO/$ct.php";
-            eval("\$fields =& CRM_Contact_DAO_$ct::fields();");
-            if ($ct == 'Contact') {
-                // FIXME: civcrm_contact.source is not being given title, 
-                // because it has a <uniqueName>contact_source</uniqueName>
-                // - bug in fields() to return uniqueName instead of name?
-                $fields['source']['title'] = $fields['contact_source']['title'];
-            } else {
-                // FIXME: there must be a better way
-                $ovFields = CRM_Core_OptionValue::getFields();
-                $fields['gender_id']['title'] = $ovFields['gender']['title'];
-                $fields['prefix_id']['title'] = $ovFields['individual_prefix']['title'];
-                $fields['suffix_id']['title'] = $ovFields['individual_suffix']['title'];
-            }
+        require_once "CRM/Contact/DAO/Contact.php";
+        $fields =& CRM_Contact_DAO_Contact::fields();
 
-            if (!isset($diffs[$ct])) $diffs[$ct] = array();
-            foreach ($diffs[$ct] as $field) {
-                foreach (array('main', 'other') as $moniker) {
-                    $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->contact_type_object->$field;
-                    $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
-                    if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
-                        $value = str_replace('-', '', $value);
-                        $label = CRM_Utils_Date::customFormat($label);
-                    } elseif ($fields[$field]['type'] == CRM_Utils_Type::T_BOOLEAN) {
-                        if ($label === '0') $label = ts('No');
-                        if ($label === '1') $label = ts('Yes');
-                    }
-                    $rows["move_$field"][$moniker] = $label;
-                    if ($moniker == 'other') {
-                        if ($value === 0 or $value === '0') $value = $this->_qfZeroBug;
-                        $this->addElement('advcheckbox', "move_$field", null, null, null, $value);
-                    }
+        // FIXME: civcrm_contact.source is not being given title, 
+        // because it has a <uniqueName>contact_source</uniqueName>
+        // - bug in fields() to return uniqueName instead of name?
+        $fields['source']['title'] = $fields['contact_source']['title'];
+
+        // FIXME: there must be a better way
+        $ovFields = CRM_Core_OptionValue::getFields();
+        $fields['gender_id']['title'] = $ovFields['gender']['title'];
+        $fields['prefix_id']['title'] = $ovFields['individual_prefix']['title'];
+        $fields['suffix_id']['title'] = $ovFields['individual_suffix']['title'];
+
+        if ( ! isset( $diffs[$ct] ) ) {
+            $diffs[$ct] = array( );
+        }
+        
+        foreach ($diffs[$ct] as $field) {
+            foreach (array('main', 'other') as $moniker) {
+                $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->contact_type_object->$field;
+                $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
+                if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
+                    $value = str_replace('-', '', $value);
+                    $label = CRM_Utils_Date::customFormat($label);
+                } elseif ($fields[$field]['type'] == CRM_Utils_Type::T_BOOLEAN) {
+                    if ($label === '0') $label = ts('No');
+                    if ($label === '1') $label = ts('Yes');
                 }
-                $rows["move_$field"]['title'] = $fields[$field]['title'];
+                $rows["move_$field"][$moniker] = $label;
+                if ($moniker == 'other') {
+                    if ($value === 0 or $value === '0') $value = $this->_qfZeroBug;
+                    $this->addElement('advcheckbox', "move_$field", null, null, null, $value);
+                }
             }
+            $rows["move_$field"]['title'] = $fields[$field]['title'];
         }
 
         // handle locations
@@ -168,6 +171,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if (!isset($diffs['custom'])) $diffs['custom'] = array();
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
+            if ( ! isset( $group['fields'] ) ) {
+                continue;
+            }
+
             foreach ($group['fields'] as $fid => $field) {
                 if (in_array($fid, $diffs['custom'])) {
                     if (!$foundField) {

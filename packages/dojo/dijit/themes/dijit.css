@@ -200,6 +200,10 @@
 	border-left:0px !important;
 }
 
+/* In high contrast mode, display the check symbol */
+.dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar { 
+	display: inline !important; 
+}
 
 
 
@@ -251,7 +255,13 @@
 .dijitComboButton,
 .dijitComboBox {
 	/* outside of button */
-	margin:.2em;
+	margin: 0.2em;
+	/* normalize line-heights inside the button */
+	line-height: 1.3em;
+}
+
+.dj_safari .dijitToolbar .dijitDropDownButton {
+	padding-left: 0.3em;
 }
 
 .dijitButtonNode {
@@ -276,6 +286,7 @@
 	/* place AFTER dijitButtonNode so it overrides */
 	padding:0em .4em;
 	margin:0px;
+	font-size: 0.7em;
 }
 
 
@@ -343,24 +354,41 @@ table .dijitComboButton .dijitButtonNode {
 .dijitSpinner INPUT {
 	padding:0px;
 	border-left: solid black 1px;	/* TODO: for RTL mode should be border-right */
-
-	/* The .style is assigned to the INPUT element as well as the outer element.
-		The below turns off things on the input that should apply to the outer element.
-	*/
 	display:inline;
 	position:static !important;
 	border:0px !important;	
 	margin:0px !important;
-	vertical-align:middle !important;
+	vertical-align:0em !important;
 	visibility:visible !important;
 	background-color:transparent !important;
 	background-image:none !important;
-	width: 100% !important;
+	width:100% !important;
+}
+
+/* #4711: prevent IE from over-expanding 100% width input boxes */
+.dj_ie .dijitTextBox .dijitInputField,
+.dj_ie .dijitComboBox .dijitInputField,
+.dj_ie .dijitSpinner .dijitInputField {
+	position:relative;
+}
+.dj_ie .dijitTextBox .dijitInputField INPUT,
+.dj_ie .dijitComboBox .dijitInputField INPUT,
+.dj_ie .dijitSpinner .dijitInputField INPUT {
+	position:absolute !important;
+	top:auto !important;
+	left:auto !important;
+	right:auto !important;
+	bottom:auto !important;
+	font-size:100%;
+}
+
+.dj_ie INPUT.dijitTextBox {
+	font-size:100%;
 }
 
 /* Display an "X" for invalid input. Themes will override these rules to display an icon instead.
 */
-.dijitValidationIcon { display: none; }
+.dijitValidationIcon { display: none; background-position-y:center; }
 .dijitValidationIconText { visibility: hidden; }
 .dijit_a11y .dijitValidationIcon { display: none !important; }
 .dijit_a11y .dijitValidationIconText { display: block !important; }
@@ -419,9 +447,9 @@ table .dijitComboButton .dijitButtonNode {
 .dijitRadio INPUT {
 	margin: 0; 
 	padding: 0;
-	vertical-align:middle;
-} 
-
+	display: block;
+}
+ 
 .dijitCheckBoxInput {
 	/* place the actual input on top, but all-but-invisible */
 	opacity: 0.01;
@@ -558,9 +586,12 @@ table .dijitComboButton .dijitButtonNode {
 	top: -10000px;
 	overflow: visible;
 }
+/*
+See http://trac.dojotoolkit.org/ticket/5006
 .dijitTooltipDialog {
 	position: relative;
 }
+*/
 .dijitTooltipContainer {
 	border: solid black 2px;
 	background: #b8b5b5;
@@ -696,17 +727,33 @@ body .dijitAlignClient { position: absolute; }
 }
 
 /* Color Palette */
+
+.dijitColorPalette {
+	border:1px solid #999;
+	background:#fff;
+	-moz-border-radius:3pt; 
+}
+
+img.dijitColorPaletteUnder {
+	border-style:none;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.dijitColorPaletteInner {
+	position: relative; 
+	overflow:hidden;
+	outline:0;
+}
 .dijitPaletteImg {
 	width: 16px; /*This is the width of one color in the provided palettes. */
-	height: 13px; /* Height of one color in the provided palettes. */
+	height: 14px; /* Height of one color in the provided palettes. */
 	position: absolute;
 	overflow: hidden;
 	cursor: default;
 	z-index: 10;
-	border-style: solid;
-	border-bottom-width: 1px;
-	border-right-width: 1px;
-	border-color: #000000;		
+	border:1px solid #999; 
+	/* -moz-border-radius:2pt; */
 }
 
 .dijitPaletteImgHighlight {
@@ -718,24 +765,26 @@ body .dijitAlignClient { position: absolute; }
 	z-index: 10;
 }
 
-.dijitPaletteImg:hover, 
+/* .dijitPaletteImg:hover, */
+.dijitPaletteImg:focus,
 .dijitPaletteImgHighlight {
 	width: 14px; /*This is the width of one color in the provided palettes. */
 	height: 12px; /* Height of one color in the provided palettes. */
-	border-style: solid;
-	border-width: 2px;
-	border-color: #ffffff;
+	border:2px solid #000; 
+	outline:2px solid #dedede;
+	/* -moz-border-radius:0; */	
 }
 
 
 .dijitColorPaletteCell {
 	width:16px;
-	height:16px;
+	height:14px;
 	border: 1px solid;
 }
 
 .dijitColorPaletteCell:hover {
 	border-style: solid;
+	outline:0;
 }
 
 /* Accordion */
@@ -746,6 +795,12 @@ body .dijitAlignClient { position: absolute; }
 
 .dijitAccordionPane .dijitAccordionBody {
 	overflow: auto;
+}
+
+
+.dijitAccordionContainer {
+	border:1px solid #b7b7b7;
+	border-top:0 !important; 
 }
 
 .dijitAccordionPane .dijitAccordionTitle:hover {
@@ -875,8 +930,11 @@ body .dijitAlignClient { position: absolute; }
 	opacity:0.3;
 	cursor:default;
 }
-.dj_ie .dijitMenuItemDisabled * {
-	filter: alpha(opacity=30);
+.dj_ie .dijit_a11y .dijitMenuItemDisabled td,
+.dj_ie .dijitMenuItemDisabled *,
+.dj_ie .dijitMenuItemDisabled td {
+	color:gray !important;
+	filter: alpha(opacity=35);
 }
 
 .dijitMenuItemLabel {
@@ -888,6 +946,13 @@ body .dijitAlignClient { position: absolute; }
 	border-width: 1px;
 	border-style: solid;
 }
+.dijit_a11y .dijitMenuItemHover {
+	border: 1px #fff dotted !important;
+}
+
+.dijit_a11y .dijitMenuExpandInner { 
+	display:block !important;
+} 
 
 /* separator can be two pixels -- set border of either one to 0px to have only one */
 .dijitMenuSeparatorTop {
@@ -1040,8 +1105,11 @@ body .dijitAlignClient { position: absolute; }
 .dijit_a11y .dijitExpandoText { 
 	float: left; 
 	display: inline; 
-	padding-right: 3px; 
-	font: 0.75em Arial; 
+	padding-left: 10px;
+	padding-right: 10px; 
+	font-family: monospace;
+	border-style: solid;
+	border-width: thin;
 } 
 
 /* Dialog */
@@ -1104,6 +1172,11 @@ body .dijitAlignClient { position: absolute; }
 	border:8px solid gray;
 	width:0px;
 	height:0px;
+}
+.dijit_a11y .dijitSliderFocused .dijitSliderImageHandle {
+	border:4px solid #000;
+	height:8px;
+	width:8px;
 }
 
 .dijitVerticalSliderImageHandle {
@@ -1205,6 +1278,10 @@ body .dijitAlignClient { position: absolute; }
 	display:block;
 }
 
+.dijit_a11y .dijitSliderButtonInner {
+	visibility:visible !important; 
+}
+
 .dijitSlider .dijitVerticalSliderTopButton {
 	vertical-align:bottom;
 }
@@ -1221,6 +1298,10 @@ body .dijitAlignClient { position: absolute; }
 .dijitSlider .dijitButtonNode {
 	padding:0px;
 	display:block;
+}
+
+.dj_ie .RuleContainer {
+	z-index: -1; /* #4809 */
 }
 
 .RuleContainer {
@@ -1290,7 +1371,7 @@ body .dijitAlignClient { position: absolute; }
 
 /* Toolbar A11y */
 .dijit_a11y .dijitButtonContents .dijitButtonText {
-	display: block !important;
+	display: inline !important;
 }
 
 .dijitTextArea {
@@ -1307,4 +1388,72 @@ body .dijitAlignClient { position: absolute; }
 	position:absolute;
 	/* top:0; */
 	top: expression(eval((document.documentElement||document.body).scrollTop));
+}
+
+/* TimePicker */
+
+.dijitTimePickerItemInner {
+	text-align:center;
+	border:0;
+	padding:2px 8px 2px 8px;
+}
+.dijitTimePickerTick {
+	/* opacity:0.1 !important; */
+	color:#dedede;	
+	border-bottom:1px solid #dedede;
+	border-top:1px solid #dedede;
+	position:relative;
+}
+.dijitTimePickerTick .dijitTimePickerItemInner {
+	font-size:0.25em;
+}
+.dijitTimePickerMarker {
+	background-color:#ededed;
+	border-top:1px solid #999;
+	border-bottom:1px solid #999;
+}
+
+.dijitTimePickerItemHover {
+	opacity:1 !important;
+	background-color:#808080;
+	color:#fff;
+	border-top:1px solid #333;
+	border-bottom:1px solid #333;
+	cursor:pointer;
+}
+.dijitTimePickerMarker.dijitTimePickerItemHover {
+	font-size:1.3em;
+}
+
+.dijitTimePickerItemHover .dijitTimePickerItemInner {
+	display:block;
+	overflow:visible;
+	background-color:#808080;
+	font-size:1em;
+}
+
+.dijitTimePickerItemSelected {
+	font-weight:bold;
+	color:#333;
+	background-color:#b7cdee !important;
+}
+
+.dijit_a11y .dijitTimePickerItem {
+	border-bottom:1px solid #333;	
+}
+
+
+/* Disable the high contrast character */
+.dijitToggleButtonIconChar {
+        display:none !important;
+}
+.dijit_a11y .dijitToggleButtonIconChar {
+	display:inline !important;
+}
+
+.dijit_a11y .dijitToggleButtonIconChar {
+	visibility:hidden; 
+}
+.dijit_a11y .dijitToggleButtonChecked .dijitToggleButtonIconChar {
+	visibility:visible !important;
 }

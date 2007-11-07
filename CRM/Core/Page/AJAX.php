@@ -86,8 +86,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         case 'caseSubject':
              return $this->caseSubject( $config );
+
         case 'template':
             return $this->template( $config );
+
+        case 'custom':
+            return $this->customField( $config );
 
         default:
             return;
@@ -440,6 +444,23 @@ ORDER BY subject";
         echo $json->encode( $elements );
     }
 
+    /**
+     * Function to fetch the custom field help 
+     */
+    function customField( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+
+        require_once "CRM/Core/DAO/CustomField.php";
+        $customField =& new CRM_Core_DAO_CustomField( );
+        $customField->id = $fieldId;
+        $customField->selectAdd( );
+        $customField->selectAdd( 'help_post' );
+        $customField->find( true );
+
+        echo $customField->help_post;
+    }
 
 }
 

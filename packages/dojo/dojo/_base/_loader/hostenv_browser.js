@@ -44,7 +44,10 @@ if(typeof window != 'undefined'){
 
 		d.isOpera = (dua.indexOf("Opera") >= 0) ? tv : 0;
 		d.isKhtml = (dav.indexOf("Konqueror") >= 0)||(dav.indexOf("Safari") >= 0) ? tv : 0;
-		d.isSafari = (dav.indexOf("Safari") >= 0) ? tv : 0;
+		if(dav.indexOf("Safari") >= 0){
+			var vi = dav.indexOf("Version/");
+			d.isSafari = (vi) ? parseFloat(dav.substring(vi+8)) : 2;
+		}
 		var geckoPos = dua.indexOf("Gecko");
 		d.isMozilla = d.isMoz = ((geckoPos >= 0)&&(!d.isKhtml)) ? tv : 0;
 		d.isFF = 0;
@@ -109,10 +112,10 @@ if(typeof window != 'undefined'){
 
 		d._isDocumentOk = function(http){
 			var stat = http.status || 0;
-			return ( (stat>=200)&&(stat<300))|| 	// allow any 2XX response code
-				(stat==304)|| 						// get it out of the cache
-				(stat==1223)|| 						// Internet Explorer mangled the status code
-				(!stat && (location.protocol=="file:" || location.protocol=="chrome:") ); // Boolean
+			return ( (stat>=200)&&(stat<300))|| 	// Boolean
+				(stat==304)|| 						// allow any 2XX response code
+				(stat==1223)|| 						// get it out of the cache
+				(!stat && (location.protocol=="file:" || location.protocol=="chrome:") ); // Internet Explorer mangled the status code
 		}
 
 		//See if base tag is in use.
@@ -123,10 +126,11 @@ if(typeof window != 'undefined'){
 		//Opera still has problems, but perhaps a larger issue of base tag support
 		//with XHR requests (hasBase is true, but the request is still made to document
 		//path, not base path).
+		var owloc = window.location+"";
 		var base = document.getElementsByTagName("base");
 		var hasBase = (base && base.length > 0);
 
-		d._getText = function(uri, fail_ok){
+		d._getText = function(/*URI*/ uri, /*Boolean*/ fail_ok){
 			// summary: Read the contents of the specified uri and return those contents.
 			// uri:
 			//		A relative or absolute uri. If absolute, it still must be in
@@ -134,6 +138,8 @@ if(typeof window != 'undefined'){
 			// fail_ok:
 			//		Default false. If fail_ok and loading fails, return null
 			//		instead of throwing.
+			// returns: The response text. null is returned when there is a
+			//		failure and failure is okay (an exception otherwise)
 
 			// alert("_getText: " + uri);
 
@@ -141,7 +147,7 @@ if(typeof window != 'undefined'){
 			var http = this._xhrObj();
 
 			if(!hasBase && dojo._Url){
-				uri = (new dojo._Url(window.location, uri)).toString();
+				uri = (new dojo._Url(owloc, uri)).toString();
 			}
 			/*
 			console.debug("_getText:", uri);
@@ -152,6 +158,7 @@ if(typeof window != 'undefined'){
 			http.open('GET', uri, false);
 			try{
 				http.send(null);
+				// alert(http);
 				if(!d._isDocumentOk(http)){
 					var err = Error("Unable to load "+uri+" status:"+ http.status);
 					err.status = http.status;

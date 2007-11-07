@@ -5,6 +5,9 @@ dojo.provide("dijit._Widget");
 dojo.require("dijit._base");
 
 dojo.declare("dijit._Widget", null, {
+	// summary:
+	//		The foundation of dijit widgets. 	
+	//
 	// id: String
 	//		a unique, opaque ID string that can be assigned by users or by the
 	//		system. If the developer passes an ID which is known not to be
@@ -159,7 +162,7 @@ dojo.declare("dijit._Widget", null, {
 		// summary:
 		//		Construct the UI for this widget, setting this.domNode.
 		//		Most widgets will mixin TemplatedWidget, which overrides this method.
-		this.domNode = this.srcNodeRef;
+		this.domNode = this.srcNodeRef || dojo.doc.createElement('div');
 	},
 
 	postCreate: function(){

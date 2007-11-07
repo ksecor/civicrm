@@ -14,8 +14,9 @@ dojo.extend(dojox.dtl.tag.html.HtmlNode, {
 		var text = this.contents.resolve(context);
 		text = text.replace(/<(\/?script)/ig, '&lt;$1').replace(/\bon[a-z]+\s*=/ig, '');
 		if(this._rendered && this._last != text){
-				buffer = this.unrender(context, buffer);
+			buffer = this.unrender(context, buffer);
 		}
+		this._last = text;
 
 		// This can get reset in the above tag
 		if(!this._rendered){
@@ -36,9 +37,11 @@ dojo.extend(dojox.dtl.tag.html.HtmlNode, {
 		if(this._rendered){
 			this._rendered = false;
 			this._last = "";
-			while(this._lasts.length){
-				buffer = buffer.remove(this._lasts.shift());
+			for(var i = 0, node; node = this._lasts[i++];){
+				buffer = buffer.remove(node);
+				dojo._destroyElement(node);
 			}
+			this._lasts = [];
 		}
 		return buffer;
 	},

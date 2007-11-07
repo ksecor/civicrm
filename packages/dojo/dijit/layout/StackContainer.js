@@ -27,6 +27,11 @@ dojo.declare(
 	// selectedChildWidget: Widget
 	//	References the currently selected child widget, if any
 
+	postCreate: function(){
+		dijit.setWaiRole((this.containerNode || this.domNode), "tabpanel");
+		this.connect(this.domNode, "onkeypress", this._onKeyPress);
+	},
+	
 	startup: function(){
 		if(this._started){ return; }
 
@@ -56,8 +61,7 @@ dojo.declare(
 
 		// Now publish information about myself so any StackControllers can initialize..
 		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
-
-		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
+		this.inherited("startup",arguments);
 		this._started = true;
 	},
 
@@ -70,10 +74,12 @@ dojo.declare(
 		// to be position:relative, or IE has problems (See bug #2033)
 		page.domNode.style.position = "relative";
 
-		return page;
+		return page; // dijit._Widget
 	},
 
 	addChild: function(/*Widget*/ child, /*Integer?*/ insertIndex){
+		// summary: Adds a widget to the stack
+		 
 		dijit._Container.prototype.addChild.apply(this, arguments);
 		child = this._setupChild(child);
 
@@ -91,6 +97,7 @@ dojo.declare(
 	},
 
 	removeChild: function(/*Widget*/ page){
+		// summary: Removes the pane from the stack
 
 		dijit._Container.prototype.removeChild.apply(this, arguments);
 
@@ -118,7 +125,7 @@ dojo.declare(
 	},
 
 	selectChild: function(/*Widget*/ page){
-		// summary
+		// summary:
 		//	Show the given widget (which must be one of my children)
 
 		page = dijit.byId(page);
@@ -145,23 +152,32 @@ dojo.declare(
 		}
 	},
 
-	forward: function(){
-		// Summary: advance to next page
+	_adjacent: function(/*Boolean*/ forward){
+		// summary: Gets the next/previous child widget in this container from the current selection
 		var children = this.getChildren();
 		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[ (index + 1) % children.length ]);
+		index += forward ? 1 : children.length - 1;
+		return children[ index % children.length ]; // dijit._Widget
+	},
+
+	forward: function(){
+		// Summary: advance to next page
+		this.selectChild(this._adjacent(true));
 	},
 
 	back: function(){
 		// Summary: go back to previous page
-		var children = this.getChildren();
-		var index = dojo.indexOf(children, this.selectedChildWidget);
-		this.selectChild(children[ (index + children.length - 1) % children.length ]);
+		this.selectChild(this._adjacent(false));
 	},
 
 	_onKeyPress: function(e){
 		dojo.publish(this.id+"-containerKeyPress", [{ e: e, page: this}]);
-		return;
+	},
+
+	layout: function(){
+		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
+			this.selectedChildWidget.resize(this._contentBox);
+		}
 	},
 
 	_showChild: function(/*Widget*/ page){
@@ -201,16 +217,15 @@ dojo.declare(
 
 	destroy: function(){
 		this._beingDestroyed = true;
-		dijit.layout.StackContainer.superclass.destroy.apply(this, arguments);
+		this.inherited("destroy",arguments);
 	}
 });
-
 
 dojo.declare(
 	"dijit.layout.StackController",
 	[dijit._Widget, dijit._Templated, dijit._Container],
 	{
-		// summary
+		// summary:
 		//	Set of buttons to select a page in a page list.
 		//	Monitors the specified StackContainer, and whenever a page is
 		//	added, deleted, or selected, updates itself accordingly.
@@ -226,7 +241,7 @@ dojo.declare(
 		buttonWidget: "dijit.layout._StackButton",
 
 		postCreate: function(){
-			dijit.wai.setAttr(this.domNode, "waiRole", "role", "tablist");
+			dijit.setWaiRole(this.domNode, "tablist");
 
 			this.pane2button = {};		// mapping from panes to buttons
 			this._subscriptions=[
@@ -246,11 +261,11 @@ dojo.declare(
 
 		destroy: function(){
 			dojo.forEach(this._subscriptions, dojo.unsubscribe);
-			dijit.layout.StackController.superclass.destroy.apply(this, arguments);
+			this.inherited("destroy",arguments);
 		},
 
 		onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
-			// summary
+			// summary:
 			//   Called whenever a page is added to the container.
 			//   Create button corresponding to the page.
 
@@ -263,10 +278,10 @@ dojo.declare(
 			this.addChild(button, insertIndex);
 			this.pane2button[page] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
-
-			var _this = this;
-			dojo.connect(button, "onClick", function(){ _this.onButtonClick(page); });
-			dojo.connect(button, "onClickCloseButton", function(){ _this.onCloseButtonClick(page); });
+			
+			dojo.connect(button, "onClick", dojo.hitch(this,"onButtonClick",page));
+			dojo.connect(button, "onClickCloseButton", dojo.hitch(this,"onCloseButtonClick",page));
+			
 			if(!this._currentChild){ // put the first child into the tab order
 				button.focusNode.setAttribute("tabIndex","0");
 				this._currentChild = page;
@@ -274,7 +289,7 @@ dojo.declare(
 		},
 
 		onRemoveChild: function(/*Widget*/ page){
-			// summary
+			// summary:
 			//   Called whenever a page is removed from the container.
 			//   Remove the button corresponding to the page.
 			if(this._currentChild === page){ this._currentChild = null; }
@@ -287,7 +302,7 @@ dojo.declare(
 		},
 
 		onSelectChild: function(/*Widget*/ page){
-			// Summary
+			// summary:
 			//	Called when a page has been selected in the StackContainer, either by me or by another StackController
 
 			if(!page){ return; }
@@ -305,14 +320,14 @@ dojo.declare(
 		},
 
 		onButtonClick: function(/*Widget*/ page){
-			// summary
+			// summary:
 			//   Called whenever one of my child buttons is pressed in an attempt to select a page
 			var container = dijit.byId(this.containerId);	// TODO: do this via topics?
-			container.selectChild(page);
+			container.selectChild(page); 
 		},
 
 		onCloseButtonClick: function(/*Widget*/ page){
-			// summary
+			// summary:
 			//   Called whenever one of my child buttons [X] is pressed in an attempt to close a page
 			var container = dijit.byId(this.containerId);
 			container.closeChild(page);
@@ -329,16 +344,15 @@ dojo.declare(
 			var current = dojo.indexOf(children, this.pane2button[this._currentChild]);
 			// pick next button to focus on
 			var offset = forward ? 1 : children.length - 1;
-			return children[ (current + offset) % children.length ];
+			return children[ (current + offset) % children.length ]; // dijit._Widget
 		},
 
 		onkeypress: function(/*Event*/ e){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
-			//   and closing the current page.
+			//   and closing the current page if the page is closable.
 
 			if(this.disabled || e.altKey ){ return; }
-			var page = e._djpage;
 			var forward = true;
 			if(e.ctrlKey || !e._djpage){
 				var k = dojo.keys;
@@ -377,25 +391,28 @@ dojo.declare(
 		},
 
 		onContainerKeyPress: function(/*Object*/ info){
-//			console.log("container key press");
 			info.e._djpage = info.page;
 			this.onkeypress(info.e);
 		}
 });
 
-dojo.declare(
-	"dijit.layout._StackButton",
+dojo.declare("dijit.layout._StackButton",
 	dijit.form.ToggleButton,
-{
+	{
 	// summary
 	//	Internal widget used by StackContainer.
 	//	The button-like or tab-like object you click to select or delete a page
 	
 	tabIndex: "-1", // StackContainer buttons are not in the tab order by default
 	
+	postCreate: function(/*Event*/ evt){
+		dijit.setWaiRole((this.focusNode || this.domNode), "tab");
+		this.inherited("postCreate", arguments);
+	},
+	
 	onClick: function(/*Event*/ evt){
-		// this is for TabContainer where the tabs are <span> rather than button,
-		// so need to set focus explicitly (on some browsers)
+		// summary: This is for TabContainer where the tabs are <span> rather than button,
+		// 	so need to set focus explicitly (on some browsers)
 		dijit.focus(this.focusNode);
 
 		// ... now let StackController catch the event and tell me what to do

@@ -858,7 +858,8 @@ SELECT count(*) as count,
         
         // finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
-        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $form->_values, $contribution->id );
+        $form->_values['contribution_id'] = $contribution->id;
+        CRM_Contribute_BAO_ContributionPage::sendMail( $contactID, $form->_values );
     }
 
 

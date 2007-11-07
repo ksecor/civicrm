@@ -409,9 +409,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             require_once "CRM/Event/BAO/EventPage.php";
             $params = array( 'event_id' => $this->_eId );
             CRM_Event_BAO_EventPage::retrieve( $params, $eventPage );
+
             //retrieve custom information
             $this->_values = array( );
-            
             require_once "CRM/Event/Form/Registration/Register.php";
             CRM_Event_Form_Registration::initPriceSet($this, $eventPage['id'] );
             CRM_Event_Form_Registration_Register::buildAmount( $this, false );

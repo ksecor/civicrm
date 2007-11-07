@@ -92,7 +92,7 @@ dojo.declare("dojox.image.SlideShow",
 	// Time, in seconds, between image transitions during a slideshow.
 	slideshowInterval: 3,
 	
-	templateString:"<div dojoAttachPoint=\"outerNode\" class=\"slideShowWrapper\">\n\t<div style=\"position:relative;\" dojoAttachPoint=\"innerWrapper\">\n\t\t<div dojoAttachPoint=\"navNode\" class=\"slideShowNav\" dojoAttachEvent=\"onclick: _handleClick\">\n\t\t\t<div class=\"dijitInline slideShowTitle\" dojoAttachPoint=\"titleNode\">${title}</div>\n\t\t</div>\n\t\t<div dojoAttachPoint=\"slideshowNode\" class=\"slideShowSlideShow\"></div>\n\t\t<div dojoAttachPoint=\"largeNode\" class=\"slideShowImageWrapper\">\n\t\t\t\n\t\t</div>\n\t\t<div dojoAttachPoint=\"navNode\" class=\"slideShowCtrl\" dojoAttachEvent=\"onclick: _handleClick\">\n\t\t\t<span dojoAttachPoint=\"navPrev\" class=\"slideShowCtrlPrev\"></span>\n\t\t\t<span dojoAttachPoint=\"navPlay\" class=\"slideShowCtrlPlay\"></span>\n\t\t\t<span dojoAttachPoint=\"navNext\" class=\"slideShowCtrlNext\"></span>\n\t\t</div>\n\t\t<div dojoAttachPoint=\"hiddenNode\" class=\"slideShowHidden\"></div>\n\t</div>\n</div>\n",
+	templateString:"<div dojoAttachPoint=\"outerNode\" class=\"slideShowWrapper\">\n\t<div style=\"position:relative;\" dojoAttachPoint=\"innerWrapper\">\n\t\t<div class=\"slideShowNav\" dojoAttachEvent=\"onclick: _handleClick\">\n\t\t\t<div class=\"dijitInline slideShowTitle\" dojoAttachPoint=\"titleNode\">${title}</div>\n\t\t</div>\n\t\t<div dojoAttachPoint=\"navNode\" class=\"slideShowCtrl\" dojoAttachEvent=\"onclick: _handleClick\">\n\t\t\t<span dojoAttachPoint=\"navPrev\" class=\"slideShowCtrlPrev\"></span>\n\t\t\t<span dojoAttachPoint=\"navPlay\" class=\"slideShowCtrlPlay\"></span>\n\t\t\t<span dojoAttachPoint=\"navNext\" class=\"slideShowCtrlNext\"></span>\n\t\t</div>\n\t\t<div dojoAttachPoint=\"largeNode\" class=\"slideShowImageWrapper\"></div>\t\t\n\t\t<div dojoAttachPoint=\"hiddenNode\" class=\"slideShowHidden\"></div>\n\t</div>\n</div>\n",
 	
 	// _tempImgPath: URL
 	//	URL to the image to display when an image is not yet fully loaded.
@@ -121,8 +121,14 @@ dojo.declare("dojox.image.SlideShow",
 		img.setAttribute("height", this.imageHeight);
 
 		if(this.hasNav){
-			dojo.connect(this.outerNode, "onmouseover", function(evt){_this._showNav();});		
-			dojo.connect(this.outerNode, "onmouseout", function(evt){_this._hideNav(evt);});
+			dojo.connect(this.outerNode, "onmouseover", function(evt){
+				try{_this._showNav();}
+				catch(e){}			
+			});		
+			dojo.connect(this.outerNode, "onmouseout", function(evt){
+				try{_this._hideNav(evt);}
+				catch(e){}
+			});
 		}
 		
 		this.outerNode.style.width = this.imageWidth + "px";
@@ -220,14 +226,16 @@ dojo.declare("dojox.image.SlideShow",
 		this.inherited("destroy",arguments);
 	},
 
-	showNextImage: function(inTimer){
+	showNextImage: function(inTimer, forceLoop){
 		// summary: Changes the image being displayed to the next image in the data store
 		// inTimer: Boolean
 		//	If true, a slideshow is active, otherwise the slideshow is inactive.
+		if(inTimer && this._timerCancelled){return false;}
+		
 		if(this.imageIndex + 1 >= this.maxPhotos){
-			if(inTimer && this.loop){ this.imageIndex = 0; 
-			}else{
-				if(this._slideId){ this._stop; }
+			if(inTimer && (this.loop || forceLoop)){ this.imageIndex = -1; }
+			else{
+				if(this._slideId){ this._stop(); }
 				return false;
 			}
 		}
@@ -243,8 +251,9 @@ dojo.declare("dojox.image.SlideShow",
 		if(this._slideId){
 			this._stop();
 		}else{
-			dojo.toggleClass(this.domNode,"slideShowPaused");
-			var success = this.showNextImage(true);
+			dojo.toggleClass(this.domNode,"slideShowPaused");			
+			this._timerCancelled = false;
+			var success = this.showNextImage(true, true);
 			if(!success){
 				this._stop();
 			}
@@ -276,7 +285,6 @@ dojo.declare("dojox.image.SlideShow",
 		var _this = this;
 		var current = this.largeNode.getElementsByTagName("div");
 		this.imageIndex = idx;
-		var navShowing = this._navShowing;
 
 		var showOrLoadIt = function() {
 			//If the image is already loaded, then show it. 
@@ -294,7 +302,7 @@ dojo.declare("dojox.image.SlideShow",
 					if(img.tagName.toLowerCase() != "img"){img = img.firstChild;}
 					title = img.getAttribute("title");
 					
-					if(navShowing){
+					if(_this._navShowing){
 						_this._showNav(true);
 					}
 					dojo.publish(_this.getShowTopicName(), [{
@@ -323,7 +331,6 @@ dojo.declare("dojox.image.SlideShow",
 		//If an image is currently showing, fade it out, then show
 		//the new image. Otherwise, just show the new image. 	
 		if(current && current.length > 0){
-			this._hideNav();
 			dojo.fadeOut({
 				node: current[0],
 				duration: 300,
@@ -408,8 +415,7 @@ dojo.declare("dojox.image.SlideShow",
 			dojo.connect(img, "onload", function(){
 				_this._fitImage(img);
 				div.setAttribute("width",_this.imageWidth);
-				div.setAttribute("height",_this.imageHeight);
-				
+				div.setAttribute("height",_this.imageHeight);				
 				
 				dojo.publish(_this.getLoadTopicName(), [idx]);
 				_this._loadNextImage();
@@ -434,6 +440,7 @@ dojo.declare("dojox.image.SlideShow",
 		// summary: Stops a running slide show.
 		if(this._slideId) { clearTimeout(this._slideId); }
 		this._slideId = null;
+		this._timerCancelled = true;
 		dojo.removeClass(this.domNode,"slideShowPaused");
 	},
 
@@ -527,15 +534,14 @@ dojo.declare("dojox.image.SlideShow",
 		var margin = this._currentImage.height - this.navPlay._size.h - 10 + this._getTopPadding();
 		
 		if(margin > this._currentImage.height){margin += 10;}
-		
 		dojo[this.imageIndex < 1 ? "addClass":"removeClass"](this.navPrev, "slideShowCtrlHide");
 		dojo[this.imageIndex + 1 >= this.maxPhotos ? "addClass":"removeClass"](this.navNext, "slideShowCtrlHide");
-		dojo.style(this.navNode, "marginTop", "-"+margin+"px");
 	
 		var _this = this;
 		if(this._navAnim) {
 			this._navAnim.stop();
 		}
+		if(this._navShowing){return;}
 		this._navAnim = dojo.fadeIn({node: this.navNode, duration: 300,
 							onEnd: function(){_this._navAnim=null;}});
 		
@@ -543,11 +549,11 @@ dojo.declare("dojox.image.SlideShow",
 		this._navShowing = true;
 	},
 	
-	_hideNav: function(evt){
+	_hideNav: function(/* Event */e){
 		// summary:	Hides the navigation controls
-		// evt: DomEvent
+		// e: Event
 		//	The DOM Event that triggered this function
-		if(!evt || !this._overElement(this.outerNode, evt)) {
+		if(!e || !this._overElement(this.outerNode, e)) {
 			var _this = this;
 			if(this._navAnim) {
 				this._navAnim.stop();
@@ -559,10 +565,14 @@ dojo.declare("dojox.image.SlideShow",
 		}
 	},
 	
-	_overElement: function(/* HTMLElement */element, /* DOMEvent */e){
+	_overElement: function(/*DomNode*/element, /*Event*/e){
 		// summary:
 		//	Returns whether the mouse is over the passed element.
 		//	Element must be display:block (ie, not a <span>)
+		
+		//When the page is unloading, if this method runs it will throw an
+		//exception.
+		if(typeof(dojo)=="undefined"){return false;}
 		element = dojo.byId(element);
 		var m = {x: e.pageX, y: e.pageY};
 		var bb = dojo._getBorderBox(element);

@@ -7,15 +7,16 @@ dojo.require("dojo._base.lang");
 dojo.require("dojo._base.query");
 
 (function(){
+	var _d = dojo;
 	function setValue(/*Object*/obj, /*String*/name, /*String*/value){
 		//summary:
 		//		For the nameed property in object, set the value. If a value
 		//		already exists and it is a string, convert the value to be an
 		//		array of values.
 		var val = obj[name];
-		if(dojo.isString(val)){
+		if(_d.isString(val)){
 			obj[name] = [val, value];
-		}else if(dojo.isArray(val)){
+		}else if(_d.isArray(val)){
 			val.push(value);
 		}else{
 			obj[name] = value;
@@ -53,19 +54,18 @@ dojo.require("dojo._base.query");
 		//				]
 		//			};
 	
-		// FIXME: seems that dojo.query needs negation operators!!
 		var ret = {};
-		var iq = "input[type!=file][type!=submit][type!=image][type!=reset][type!=button], select, textarea";
-		dojo.query(iq, formNode).filter(function(node){
+		var iq = "input:not([type=file]):not([type=submit]):not([type=image]):not([type=reset]):not([type=button]), select, textarea";
+		_d.query(iq, formNode).filter(function(node){
 			return (!node.disabled);
 		}).forEach(function(item){
 			var _in = item.name;
 			var type = (item.type||"").toLowerCase();
-			if((type == "radio")||(type == "checkbox")){
+			if(type == "radio" || type == "checkbox"){
 				if(item.checked){ setValue(ret, _in, item.value); }
 			}else if(item.multiple){
 				ret[_in] = [];
-				dojo.query("option", item).forEach(function(opt){
+				_d.query("option", item).forEach(function(opt){
 					if(opt.selected){
 						setValue(ret, _in, opt.value);
 					}
@@ -77,194 +77,266 @@ dojo.require("dojo._base.query");
 				}
 			}
 		});
-		return ret;
+		return ret; // Object
 	}
-})();
 
-dojo.objectToQuery = function(/*Object*/ map){
-	//	summary:
-	//		takes a key/value mapping object and returns a string representing
-	//		a URL-encoded version of that object.
-	//	examples:
-	//		this object:
-	//
-	//			{ 
-	//				blah: "blah",
-	//				multi: [
-	//					"thud",
-	//					"thonk"
-	//				]
-	//			};
-	//
-	//		yeilds the following query string:
-	//	
-	//			"blah=blah&multi=thud&multi=thonk"
+	dojo.objectToQuery = function(/*Object*/ map){
+		//	summary:
+		//		takes a key/value mapping object and returns a string representing
+		//		a URL-encoded version of that object.
+		//	example:
+		//		this object:
+		//
+		//		|	{ 
+		//		|		blah: "blah",
+		//		|		multi: [
+		//		|			"thud",
+		//		|			"thonk"
+		//		|		]
+		//		|	};
+		//
+		//	yeilds the following query string:
+		//	
+		//	|	"blah=blah&multi=thud&multi=thonk"
 
 
-	// FIXME: need to implement encodeAscii!!
-	var ec = encodeURIComponent;
-	var ret = "";
-	var backstop = {};
-	for(var x in map){
-		if(map[x] != backstop[x]){
-			if(dojo.isArray(map[x])){
-				for(var y=0; y<map[x].length; y++){
-					ret += ec(x) + "=" + ec(map[x][y]) + "&";
+		// FIXME: need to implement encodeAscii!!
+		var ec = encodeURIComponent;
+		var ret = "";
+		var backstop = {};
+		for(var x in map){
+			if(map[x] != backstop[x]){
+				if(_d.isArray(map[x])){
+					for(var y=0; y<map[x].length; y++){
+						ret += ec(x) + "=" + ec(map[x][y]) + "&";
+					}
+				}else{
+					ret += ec(x) + "=" + ec(map[x]) + "&";
 				}
+			}
+		}
+		if(ret.length && ret.charAt(ret.length-1) == "&"){
+			ret = ret.substr(0, ret.length-1);
+		}
+		return ret; // String
+	}
+
+	dojo.formToQuery = function(/*DOMNode||String*/ formNode){
+		// summary:
+		//		return URL-encoded string representing the form passed as either a
+		//		node or string ID identifying the form to serialize
+		return _d.objectToQuery(_d.formToObject(formNode)); // String
+	}
+
+	dojo.formToJson = function(/*DOMNode||String*/ formNode, /*Boolean?*/prettyPrint){
+		// summary:
+		//		return a serialized JSON string from a form node or string
+		//		ID identifying the form to serialize
+		return _d.toJson(_d.formToObject(formNode), prettyPrint); // String
+	}
+
+	dojo.queryToObject = function(/*String*/ str){
+		// summary:
+		//		returns an object representing a de-serialized query section of a
+		//		URL. Query keys with multiple values are returned in an array.
+		// description:
+		//		This string:
+		//
+		//			"foo=bar&foo=baz&thinger=%20spaces%20=blah&zonk=blarg&"
+		//		
+		//		returns this object structure:
+		//
+		//			{
+		//				foo: [ "bar", "baz" ],
+		//				thinger: " spaces =blah",
+		//				zonk: "blarg"
+		//			}
+		//	
+		//		Note that spaces and other urlencoded entities are correctly
+		//		handled.
+
+		// FIXME: should we grab the URL string if we're not passed one?
+		var ret = {};
+		var qp = str.split("&");
+		var dc = decodeURIComponent;
+		_d.forEach(qp, function(item){
+			if(item.length){
+				var parts = item.split("=");
+				var name = dc(parts.shift());
+				var val = dc(parts.join("="));
+				if(_d.isString(ret[name])){
+					ret[name] = [ret[name]];
+				}
+				if(_d.isArray(ret[name])){
+					ret[name].push(val);
+				}else{
+					ret[name] = val;
+				}
+			}
+		});
+		return ret; // Object
+	}
+
+	/*
+		from refactor.txt:
+
+		all bind() replacement APIs take the following argument structure:
+
+			{
+				url: "blah.html",
+
+				// all below are optional, but must be supported in some form by
+				// every IO API
+				timeout: 1000, // milliseconds
+				handleAs: "text", // replaces the always-wrong "mimetype"
+				content: { 
+					key: "value"
+				},
+
+				// browser-specific, MAY be unsupported
+				sync: true, // defaults to false
+				form: dojo.byId("someForm") 
+			}
+	*/
+
+	// need to block async callbacks from snatching this thread as the result
+	// of an async callback might call another sync XHR, this hangs khtml forever
+	// must checked by watchInFlight()
+
+	dojo._blockAsync = false;
+
+	dojo._contentHandlers = {
+		"text": function(xhr){ return xhr.responseText; },
+		"json": function(xhr){
+			if(!djConfig.usePlainJson){
+				console.debug("Consider using mimetype:text/json-comment-filtered"
+					+ " to avoid potential security issues with JSON endpoints"
+					+ " (use djConfig.usePlainJson=true to turn off this message)");
+			}
+			return _d.fromJson(xhr.responseText);
+		},
+		"json-comment-filtered": function(xhr){ 
+			// NOTE: we provide the json-comment-filtered option as one solution to
+			// the "JavaScript Hijacking" issue noted by Fortify and others. It is
+			// not appropriate for all circumstances.
+
+			var value = xhr.responseText;
+			var cStartIdx = value.indexOf("\/*");
+			var cEndIdx = value.lastIndexOf("*\/");
+			if(cStartIdx == -1 || cEndIdx == -1){
+				throw new Error("JSON was not comment filtered");
+			}
+			return _d.fromJson(value.substring(cStartIdx+2, cEndIdx));
+		},
+		"javascript": function(xhr){ 
+			// FIXME: try Moz and IE specific eval variants?
+			return _d.eval(xhr.responseText);
+		},
+		"xml": function(xhr){ 
+			if(_d.isIE && !xhr.responseXML){
+				_d.forEach(["MSXML2", "Microsoft", "MSXML", "MSXML3"], function(i){
+					try{
+						var doc = new ActiveXObject(prefixes[i]+".XMLDOM");
+						doc.async = false;
+						doc.loadXML(xhr.responseText);
+						return doc;	//	DOMDocument
+					}catch(e){ /* squelch */ };
+				});
 			}else{
-				ret += ec(x) + "=" + ec(map[x]) + "&";
+				return xhr.responseXML;
 			}
 		}
+	};
+
+	dojo._contentHandlers["json-comment-optional"] = function(xhr){
+		var handlers = _d._contentHandlers;
+		try{
+			return handlers["json-comment-filtered"](xhr);
+		}catch(e){
+			return handlers["json"](xhr);
+		}
+	};
+
+	/*=====
+	dojo.__ioArgs = function(kwArgs){
+		//	url: String
+		//		URL to server endpoint.
+		//	content: Object?
+		//		Contains properties with string values. These
+		//		properties will be serialized as name1=value2 and
+		//		passed in the request.
+		//	timeout: Integer?
+		//		Milliseconds to wait for the response. If this time
+		//		passes, the then error callbacks are called.
+		//	form: DOMNode?
+		//		DOM node for a form. Used to extract the form values
+		//		and send to the server.
+		//	preventCache: Boolean?
+		//		Default is false. If true, then a
+		//		"dojo.preventCache" parameter is sent in the request
+		//		with a value that changes with each request
+		//		(timestamp). Useful only with GET-type requests.
+		//	handleAs: String?
+		//		Acceptable values depend on the type of IO
+		//		transport (see specific IO calls for more information).
+		//	load: Function?
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type dojo.__ioCallbackArgs. The load function will be
+		//		called on a successful response.
+		//	error: Function?
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type dojo.__ioCallbackArgs. The error function will
+		//		be called in an error case. 
+		//	handle: Function
+		//		function(response, ioArgs){}. response is an Object, ioArgs
+		//		is of type dojo.__ioCallbackArgs. The handle function will
+		//		be called in either the successful or error case.  For
+		//		the load, error and handle functions, the ioArgs object
+		//		will contain the following properties: 
 	}
-	if((ret.length)&&(ret.charAt(ret.length-1)== "&")){
-		ret = ret.substr(0, ret.length-1);
+	=====*/
+
+	/*=====
+	dojo.__ioCallbackArgs = function(kwArgs){
+		//	args: Object
+		//		the original object argument to the IO call.
+		//	xhr: XMLHttpRequest
+		//		For XMLHttpRequest calls only, the
+		//		XMLHttpRequest object that was used for the
+		//		request.
+		//	url: String
+		//		The final URL used for the call. Many times it
+		//		will be different than the original args.url
+		//		value.
+		//	query: String
+		//		For non-GET requests, the
+		//		name1=value1&name2=value2 parameters sent up in
+		//		the request.
+		//	handleAs: String
+		//		The final indicator on how the response will be
+		//		handled.
+		//	id: String
+		//		For dojo.io.script calls only, the internal
+		//		script ID used for the request.
+		//	canDelete: Boolean
+		//		For dojo.io.script calls only, indicates
+		//		whether the script tag that represents the
+		//		request can be deleted after callbacks have
+		//		been called. Used internally to know when
+		//		cleanup can happen on JSONP-type requests.
+		//	json: Object
+		//		For dojo.io.script calls only: holds the JSON
+		//		response for JSONP-type requests. Used
+		//		internally to hold on to the JSON responses.
+		//		You should not need to access it directly --
+		//		the same object should be passed to the success
+		//		callbacks directly.
 	}
-	return ret; // string
-}
+	=====*/
 
-dojo.formToQuery = function(/*DOMNode||String*/ formNode){
-	// summary:
-	//		return URL-encoded string representing the form passed as either a
-	//		node or string ID identifying the form to serialize
-	return dojo.objectToQuery(dojo.formToObject(formNode)); // string
-}
 
-dojo.formToJson = function(/*DOMNode||String*/ formNode){
-	// summary:
-	//		return a serialized JSON string from a form node or string
-	//		ID identifying the form to serialize
-	return dojo.toJson(dojo.formToObject(formNode)); // string
-}
 
-dojo.queryToObject = function(/*String*/ str){
-	// summary:
-	//		returns an object representing a de-serialized query section of a
-	//		URL. Query keys with multiple values are returned in an array.
-	// description:
-	//		This string:
-	//
-	//			"foo=bar&foo=baz&thinger=%20spaces%20=blah&zonk=blarg&"
-	//		
-	//		returns this object structure:
-	//
-	//			{
-	//				foo: [ "bar", "baz" ],
-	//				thinger: " spaces =blah",
-	//				zonk: "blarg"
-	//			}
-	//	
-	//		Note that spaces and other urlencoded entities are correctly
-	//		handled.
-
-	// FIXME: should we grab the URL string if we're not passed one?
-	var ret = {};
-	var qp = str.split("&");
-	var dc = decodeURIComponent;
-	dojo.forEach(qp, function(item){
-		if(item.length){
-			var parts = item.split("=");
-			var name = dc(parts.shift());
-			var val = dc(parts.join("="));
-			if(dojo.isString(ret[name])){
-				ret[name] = [ret[name]];
-			}
-			if(dojo.isArray(ret[name])){
-				ret[name].push(val);
-			}else{
-				ret[name] = val;
-			}
-		}
-	});
-	return ret;
-}
-
-/*
-	from refactor.txt:
-
-	all bind() replacement APIs take the following argument structure:
-
-		{
-			url: "blah.html",
-
-			// all below are optional, but must be supported in some form by
-			// every IO API
-			timeout: 1000, // milliseconds
-			handleAs: "text", // replaces the always-wrong "mimetype"
-			content: { 
-				key: "value"
-			},
-
-			// browser-specific, MAY be unsupported
-			sync: true, // defaults to false
-			form: dojo.byId("someForm") 
-		}
-*/
-
-// need to block async callbacks from snatching this thread as the result
-// of an async callback might call another sync XHR, this hangs khtml forever
-// must checked by watchInFlight()
-
-dojo._blockAsync = false;
-
-dojo._contentHandlers = {
-	"text": function(xhr){ return xhr.responseText; },
-	"json": function(xhr){
-		if(!djConfig.usePlainJson){
-			console.debug("please consider using a mimetype of text/json-comment-filtered"
-				+ " to avoid potential security issues with JSON endpoints"
-				+ " (use djConfig.usePlainJson=true to turn off this message)");
-		}
-		return dojo.fromJson(xhr.responseText);
-	},
-	"json-comment-optional": function(xhr){ 
-		// NOTE: we provide the json-comment-filtered option as one solution to
-		// the "JavaScript Hijacking" issue noted by Fortify and others. It is
-		// not appropriate for all circumstances.
-		var value = xhr.responseText;
-		var cStartIdx = value.indexOf("\/*");
-		var cEndIdx = value.lastIndexOf("*\/");
-		if((cStartIdx == -1)||(cEndIdx == -1)){
-			return dojo.fromJson(xhr.responseText);
-		}
-		return dojo.fromJson(value.substring(cStartIdx+2, cEndIdx));
-	},
-	"json-comment-filtered": function(xhr){ 
-		// NOTE: we provide the json-comment-filtered option as one solution to
-		// the "JavaScript Hijacking" issue noted by Fortify and others. It is
-		// not appropriate for all circumstances.
-		var value = xhr.responseText;
-		var cStartIdx = value.indexOf("\/*");
-		var cEndIdx = value.lastIndexOf("*\/");
-		if((cStartIdx == -1)||(cEndIdx == -1)){
-			// FIXME: throw exception instead?
-			console.debug("your JSON wasn't comment filtered!"); 
-			return "";
-		}
-		return dojo.fromJson(value.substring(cStartIdx+2, cEndIdx));
-	},
-	"javascript": function(xhr){ 
-		// FIXME: try Moz and IE specific eval variants?
-		return dojo.eval(xhr.responseText);
-	},
-	"xml": function(xhr){ 
-		if(dojo.isIE && !xhr.responseXML){
-			dojo.forEach(["MSXML2", "Microsoft", "MSXML", "MSXML3"], function(i){
-				try{
-					var doc = new ActiveXObject(prefixes[i]+".XMLDOM");
-					doc.async = false;
-					doc.loadXML(xhr.responseText);
-					return doc;	//	DOMDocument
-				}catch(e){ /* squelch */ };
-			});
-		}else{
-			return xhr.responseXML;
-		}
-	}
-};
-
-(function(){
-
-	dojo._ioSetArgs = function(/*Object*/args,
+	dojo._ioSetArgs = function(/*dojo.__ioArgs*/args,
 			/*Function*/canceller,
 			/*Function*/okHandler,
 			/*Function*/errHandler){
@@ -274,71 +346,6 @@ dojo._contentHandlers = {
 		//	args:
 		//		The args object passed into the public io call. Recognized properties on
 		//		the args object are:
-		//		url:
-		//				String URL to server endpoint.
-		//		content:
-		//				Object containing properties with string values. These
-		//				properties will be serialized as name1=value2 and
-		//				passed in the request.
-		//		timeout:
-		//				Milliseconds to wait for the response. If this time
-		//				passes, the then error callbacks are called.
-		//		form:
-		//				DOM node for a form. Used to extract the form values
-		//				and send to the server.
-		//		preventCache:
-		//				Boolean. Default is false. If true, then a
-		//				"dojo.preventCache" parameter is sent in the request
-		//				with a value that changes with each request
-		//				(timestamp). Useful only with GET-type requests.
-		//		handleAs:
-		//				String. Acceptable values depend on the type of IO
-		//				transport (see below).
-		//		load:
-		//				function(response, ioArgs){}. The load function will be
-		//				called on a successful response.
-		//		error:
-		//				function(response, ioArgs){}. The error function will
-		//				be called in an error case. 
-		//		handle
-		//				function(response, ioArgs){}. The handle function will
-		//				be called in either the successful or error case.  For
-		//				the load, error and handle functions, the ioArgs object
-		//				will contain the following properties: 
-		//
-		//				args:
-		//						the original object argument to the IO call.
-		//				xhr:
-		//						For XMLHttpRequest calls only, the
-		//						XMLHttpRequest object that was used for the
-		//						request.
-		//				url:
-		//						The final URL used for the call. Many times it
-		//						will be different than the original args.url
-		//						value.
-		//				query:
-		//						For non-GET requests, the
-		//						name1=value1&name2=value2 parameters sent up in
-		//						the request.
-		//				handleAs:
-		//						The final indicator on how the response will be
-		//						handled.
-		//				id:
-		//						For dojo.io.script calls only, the internal
-		//						script ID used for the request.
-		//				canDelete:
-		//						For dojo.io.script calls only, indicates
-		//						whether the script tag that represents the
-		//						request can be deleted after callbacks have
-		//						been called. Used internally to know when
-		//						cleanup can happen on JSONP-type requests.
-		//				json:
-		//						For dojo.io.script calls only: holds the JSON
-		//						response for JSONP-type requests. Used
-		//						internally to hold on to the JSON responses.
-		//						You should not need to access it directly --
-		//						the same object should be passed to the success
-		//						callbacks directly.
 		//	canceller:
 		//		The canceller function used for the Deferred object. The function
 		//		will receive one argument, the Deferred object that is related to the
@@ -352,20 +359,17 @@ dojo._contentHandlers = {
 		//		to do cleanup on an error. It will receive two arguments: error (the 
 		//		Error object) and dfd, the Deferred object returned from this function.
 
-		var ioArgs = {};
-		ioArgs.args = args;
+		var ioArgs = {args: args, url: args.url};
 
 		//Get values from form if requestd.
 		var formObject = null;
 		if(args.form){ 
-			var form = dojo.byId(args.form);
+			var form = _d.byId(args.form);
 			//IE requires going through getAttributeNode instead of just getAttribute in some form cases, 
 			//so use it for all.  See #2844
 			var actnNode = form.getAttributeNode("action");
-			ioArgs.url = args.url || (actnNode ? actnNode.value : null); 
-			formObject = dojo.formToObject(form);
-		}else{
-			ioArgs.url = args.url;
+			ioArgs.url = ioArgs.url || (actnNode ? actnNode.value : null); 
+			formObject = _d.formToObject(form);
 		}
 
 		// set up the query params
@@ -382,13 +386,13 @@ dojo._contentHandlers = {
 		if(args.preventCache){
 			miArgs.push({"dojo.preventCache": new Date().valueOf()});
 		}
-		ioArgs.query = dojo.objectToQuery(dojo.mixin.apply(null, miArgs));
+		ioArgs.query = _d.objectToQuery(_d.mixin.apply(null, miArgs));
 	
 		// .. and the real work of getting the deferred in order, etc.
 		ioArgs.handleAs = args.handleAs || "text";
-		var d = new dojo.Deferred(canceller);
+		var d = new _d.Deferred(canceller);
 		d.addCallbacks(okHandler, function(error){
-				return errHandler(error, d);
+			return errHandler(error, d);
 		});
 
 		//Support specifying load, error and handle callback functions from the args.
@@ -396,19 +400,19 @@ dojo._contentHandlers = {
 		//The callbacks will get the deferred result value as the
 		//first argument and the ioArgs object as the second argument.
 		var ld = args.load;
-		if(ld && dojo.isFunction(ld)){
+		if(ld && _d.isFunction(ld)){
 			d.addCallback(function(value){
 				return ld.call(args, value, ioArgs);
 			});
 		}
 		var err = args.error;
-		if(err && dojo.isFunction(err)){
+		if(err && _d.isFunction(err)){
 			d.addErrback(function(value){
 				return err.call(args, value, ioArgs);
 			});
 		}
 		var handle = args.handle;
-		if(handle && dojo.isFunction(handle)){
+		if(handle && _d.isFunction(handle)){
 			d.addBoth(function(value){
 				return handle.call(args, value, ioArgs);
 			});
@@ -419,7 +423,6 @@ dojo._contentHandlers = {
 		// FIXME: need to wire up the xhr object's abort method to something
 		// analagous in the Deferred
 		return d;
-	
 	}
 
 	var _deferredCancel = function(/*Deferred*/dfd){
@@ -427,14 +430,18 @@ dojo._contentHandlers = {
 		
 		dfd.canceled = true;
 		var xhr = dfd.ioArgs.xhr;
-		if(typeof xhr.abort == "function"){
+		var _at = (typeof xhr.abort);
+		if((_at == "function")||(_at == "unknown")){
 			xhr.abort();
 		}
+		var err = new Error("xhr cancelled");
+		err.dojoType = "cancel";
+		return err;
 	}
 	var _deferredOk = function(/*Deferred*/dfd){
 		//summary: okHandler function for dojo._ioSetArgs call.
-		
-		return dojo._contentHandlers[dfd.ioArgs.handleAs](dfd.ioArgs.xhr);
+
+		return _d._contentHandlers[dfd.ioArgs.handleAs](dfd.ioArgs.xhr);
 	}
 	var _deferError = function(/*Error*/error, /*Deferred*/dfd){
 		//summary: errHandler function for dojo._ioSetArgs call.
@@ -444,11 +451,11 @@ dojo._contentHandlers = {
 		return error;
 	}
 
-	var _makeXhrDeferred = function(/*Object*/args){
+	var _makeXhrDeferred = function(/*dojo.__xhrArgs*/args){
 		//summary: makes the Deferred object for this xhr request.
-		var dfd = dojo._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
+		var dfd = _d._ioSetArgs(args, _deferredCancel, _deferredOk, _deferError);
 		//Pass the args to _xhrObj, to allow xhr iframe proxy interceptions.
-		dfd.ioArgs.xhr = dojo._xhrObj(dfd.ioArgs.args);
+		dfd.ioArgs.xhr = _d._xhrObj(dfd.ioArgs.args);
 		return dfd;
 	}
 
@@ -465,7 +472,7 @@ dojo._contentHandlers = {
 		// make sure sync calls stay thread safe, if this callback is called
 		// during a sync call and this results in another sync call before the
 		// first sync call ends the browser hangs
-		if(!dojo._blockAsync){
+		if(!_d._blockAsync){
 			// we need manual loop because we often modify _inFlight (and therefore 'i') while iterating
 			// note: the second clause is an assigment on purpose, lint may complain
 			for(var i=0, tif; (i<_inFlight.length)&&(tif=_inFlight[i]); i++){
@@ -507,7 +514,7 @@ dojo._contentHandlers = {
 		//summary: Cancels all pending IO requests, regardless of IO type
 		//(xhr, script, iframe).
 		try{
-			dojo.forEach(_inFlight, function(i){
+			_d.forEach(_inFlight, function(i){
 				i.dfd.cancel();
 			});
 		}catch(e){/*squelch*/}
@@ -515,11 +522,11 @@ dojo._contentHandlers = {
 
 	//Automatically call cancel all io calls on unload
 	//in IE for trac issue #2357.
-	if(dojo.isIE){
-		dojo.addOnUnload(dojo._ioCancelAll);
+	if(_d.isIE){
+		_d.addOnUnload(_d._ioCancelAll);
 	}
 
-	dojo._ioWatch = function(/*Deferred*/dfd,
+	_d._ioWatch = function(/*Deferred*/dfd,
 		/*Function*/validCheck,
 		/*Function*/ioCheck,
 		/*Function*/resHandle){
@@ -554,7 +561,7 @@ dojo._contentHandlers = {
 		return 4 == dfd.ioArgs.xhr.readyState; //boolean
 	}
 	var _resHandle = function(/*Deferred*/dfd){
-		if(dojo._isDocumentOk(dfd.ioArgs.xhr)){
+		if(_d._isDocumentOk(dfd.ioArgs.xhr)){
 			dfd.callback(dfd);
 		}else{
 			dfd.errback(new Error("bad http response code:" + dfd.ioArgs.xhr.status));
@@ -566,7 +573,7 @@ dojo._contentHandlers = {
 		// workaround for IE6's apply() "issues"
 		var ioArgs = dfd.ioArgs;
 		var args = ioArgs.args;
-		ioArgs.xhr.open(type, ioArgs.url, (args.sync !== true), (args.user ? args.user : undefined), (args.password ? args.password: undefined));
+		ioArgs.xhr.open(type, ioArgs.url, args.sync !== true, args.user || undefined, args.password || undefined);
 		if(args.headers){
 			for(var hdr in args.headers){
 				if(hdr.toLowerCase() === "content-type" && !args.contentType){
@@ -584,11 +591,11 @@ dojo._contentHandlers = {
 		}catch(e){
 			dfd.cancel();
 		}
-		dojo._ioWatch(dfd, _validCheck, _ioCheck, _resHandle);
+		_d._ioWatch(dfd, _validCheck, _ioCheck, _resHandle);
 		return dfd; //Deferred
 	}
 
-	dojo._ioAddQueryToUrl = function(/*Object*/ioArgs){
+	dojo._ioAddQueryToUrl = function(/*dojo.__ioCallbackArgs*/ioArgs){
 		//summary: Adds query params discovered by the io deferred construction to the URL.
 		//Only use this for operations which are fundamentally GET-type operations.
 		if(ioArgs.query.length){
@@ -597,14 +604,11 @@ dojo._contentHandlers = {
 		}		
 	}
 
-	// TODOC: FIXME!!!
-
-	dojo.xhrGet = function(/*Object*/ args){
-		//	summary: 
-		//		Sends an HTTP GET request to the server. See dojo._ioSetArgs in
-		//		this file for a list of commonly accepted properties on the
-		//		args argument. Additional properties that apply to all of the
-		//		dojo.xhr* methods:
+	/*=====
+	dojo.__xhrArgs = function(kwArgs){
+		//	summary:
+		//		In addition to the properties listed for the dojo.__ioArgs type,
+		//		the following properties are allowed for dojo.xhr* methods.
 		//	handleAs: 
 		//		String. Acceptable values are:
 		//			"text" (default)
@@ -618,24 +622,27 @@ dojo._contentHandlers = {
 		//		be a synchronous (blocking) request.
 		//	headers:
 		//		Object. Additional HTTP headers to send in the request.
+	}
+	=====*/
+
+	dojo.xhrGet = function(/*dojo.__xhrArgs*/ args){
+		//	summary: 
+		//		Sends an HTTP GET request to the server.
 		var dfd = _makeXhrDeferred(args);
-		dojo._ioAddQueryToUrl(dfd.ioArgs);
+		_d._ioAddQueryToUrl(dfd.ioArgs);
 		return _doIt("GET", dfd); // dojo.Deferred
 	}
 
-	dojo.xhrPost = function(/*Object*/ args){
+	dojo.xhrPost = function(/*dojo.__xhrArgs*/ args){
 		//summary: 
-		//		Sends an HTTP POST request to the server. See dojo.xhrGet() for
-		//		a list of commonly accepted properties on args.
+		//		Sends an HTTP POST request to the server.
 		return _doIt("POST", _makeXhrDeferred(args)); // dojo.Deferred
 	}
 
-	dojo.rawXhrPost = function(/*Object*/ args){
+	dojo.rawXhrPost = function(/*dojo.__xhrArgs*/ args){
 		//	summary:
-		//		Sends an HTTP POST request to the server. See dojo.xhrGet in
-		//		this file for a list of commonly accepted properties on the
-		//		args argument. Additional properties that apply only to this
-		//		function:
+		//		Sends an HTTP POST request to the server. In addtion to the properties
+		//		listed for the dojo.__xhrArgs type, the following property is allowed:
 		//	postData:
 		//		String. The raw data to send in the body of the POST request.
 		var dfd = _makeXhrDeferred(args);
@@ -643,18 +650,16 @@ dojo._contentHandlers = {
 		return _doIt("POST", dfd); // dojo.Deferred
 	}
 
-	dojo.xhrPut = function(/*Object*/ args){
+	dojo.xhrPut = function(/*dojo.__xhrArgs*/ args){
 		//	summary:
-		//		Sends an HTTP PUT request to the server. See dojo.xhrGet() for
-		//		a list of commonly accepted properties on args.
+		//		Sends an HTTP PUT request to the server.
 		return _doIt("PUT", _makeXhrDeferred(args)); // dojo.Deferred
 	}
 
-	dojo.rawXhrPut = function(/*Object*/ args){
+	dojo.rawXhrPut = function(/*dojo.__xhrArgs*/ args){
 		//	summary:
-		//		Sends an HTTP PUT request to the server. See dojo.xhrGet() for
-		//		a list of commonly accepted properties on args. Additional
-		//		properties that apply only to this function:
+		//		Sends an HTTP PUT request to the server. In addtion to the properties
+		//		listed for the dojo.__xhrArgs type, the following property is allowed:
 		//	putData:
 		//		String. The raw data to send in the body of the PUT request.
 		var dfd = _makeXhrDeferred(args);
@@ -666,15 +671,15 @@ dojo._contentHandlers = {
 		return _doIt("PUT", dfd); // dojo.Deferred
 	}
 
-	dojo.xhrDelete = function(/*Object*/ args){
+	dojo.xhrDelete = function(/*dojo.__xhrArgs*/ args){
 		//	summary:
-		//		Sends an HTTP DELETE request to the server. See dojo.xhrGet()
-		//		for a list of commonly accepted properties on args.
+		//		Sends an HTTP DELETE request to the server.
 		var dfd = _makeXhrDeferred(args);
-		dojo._ioAddQueryToUrl(dfd.ioArgs);
+		_d._ioAddQueryToUrl(dfd.ioArgs);
 		return _doIt("DELETE", dfd); // dojo.Deferred
 	}
 
+	/*
 	dojo.wrapForm = function(formNode){
 		//summary:
 		//		A replacement for FormBind, but not implemented yet.
@@ -684,6 +689,7 @@ dojo._contentHandlers = {
 		// set/send?
 		throw new Error("dojo.wrapForm not yet implemented");
 	}
+	*/
 })();
 
 }

@@ -435,7 +435,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     {
         $funcStruct = array('type' => null,'token' => $token);
         $matches = array();
-        if ( preg_match('/^http/i',$token) && $this->url_tracking ) {
+        if ( ( preg_match('/^href/i',$token) || preg_match('/^http/i',$token) ) && $this->url_tracking ) {
             // it is a url so we need to check to see if there are any tokens embedded
             // if so then call this function again to get the token dataFunc
             // and assign the type 'embedded'  so that the data retrieving function
@@ -450,7 +450,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             }
             
         } else if ( preg_match('/^\{(domain)\.(\w+)\}$/',$token, $matches) ) {
-
+            
             $funcStruct['type'] = $matches[1];
             $funcStruct['token'] = $matches[2];
             
@@ -508,9 +508,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                 $email = $templates[$key];
                 preg_match_all($patterns[$key],$email,$matches,PREG_PATTERN_ORDER);
                 foreach ($matches[0] as $idx => $token) {
-                    if (preg_match('/^href/i',$token)) {
-                        $token = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$token);
-                    }
                     $preg_token = '/'.preg_quote($token,'/').'/im';
                     list($split_template[],$email) = preg_split($preg_token,$email,2);
                     array_push($tokens, $this->getDataFunc($token));
@@ -905,7 +902,7 @@ AND civicrm_contact.is_opt_out =0";
 
         $pTemplates = $this->getPreparedTemplates();
         $pEmails = array( );
-
+        
         foreach( $pTemplates as $type => $pTemplate ) {
             $html = ($type == 'html') ? true : false;
             $pEmails[$type] = array( );

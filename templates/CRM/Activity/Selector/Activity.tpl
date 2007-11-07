@@ -35,7 +35,7 @@
         </td>
 
        	<td><a href="{crmURL p='civicrm/contact/view/activity' 
-                             q="action=view&selectedChild=activity&id=`$row.activity_type_id`&cid=`$row.source_contact_id`"}">
+                             q="action=view&selectedChild=activity&id=`$row.id`&cid=`$row.source_contact_id`"}">
                              {$row.subject}</a>
         </td>
 	

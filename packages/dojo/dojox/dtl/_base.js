@@ -253,9 +253,9 @@ dojox.dtl.Filter = function(token){
 			}else if(this._exists(matches, 2)){
 				// "text"
 				key = '"' + matches[2] + '"';
-			}else if(this._exists(matches, 8)){
+			}else if(this._exists(matches, 9)){
 				// 'text'
-				key = '"' + matches[8] + '"';
+				key = '"' + matches[9] + '"';
 			}
 		}else{
 			if(this._exists(matches, 7)){
@@ -267,6 +267,9 @@ dojox.dtl.Filter = function(token){
 			}else if(this._exists(matches, 6)){
 				// :"text"
 				arg = [false, dojox.dtl.replace(matches[6], '\\"', '"')];
+			}else if(this._exists(matches, 8)){
+				// :"text"
+				arg = [false, dojox.dtl.replace(matches[8], "\\'", "'")];
 			}
 			// Get a named filter
 			fn = dojox.dtl.text.getFilter(matches[4]);
@@ -279,7 +282,7 @@ dojox.dtl.Filter = function(token){
 	this.filters = filters;
 } 
 dojo.extend(dojox.dtl.Filter, {
-	_re: /(?:^_\("([^\\"]*(?:\\.[^\\"])*)"\)|^"([^\\"]*(?:\\.[^\\"]*)*)"|^([a-zA-Z0-9_.]+)|\|(\w+)(?::(?:_\("([^\\"]*(?:\\.[^\\"])*)"\)|"([^\\"]*(?:\\.[^\\"]*)*)"|([a-zA-Z0-9_.]+)))?|^'([^\\']*(?:\\.[^\\']*)*)')/g,
+	_re: /(?:^_\("([^\\"]*(?:\\.[^\\"])*)"\)|^"([^\\"]*(?:\\.[^\\"]*)*)"|^([a-zA-Z0-9_.]+)|\|(\w+)(?::(?:_\("([^\\"]*(?:\\.[^\\"])*)"\)|"([^\\"]*(?:\\.[^\\"]*)*)"|([a-zA-Z0-9_.]+)|'([^\\']*(?:\\.[^\\']*)*)'))?|^'([^\\']*(?:\\.[^\\']*)*)')/g,
 	_exists: function(arr, index){
 		if(typeof arr[index] != "undefined" && arr[index] !== ""){
 			return true;

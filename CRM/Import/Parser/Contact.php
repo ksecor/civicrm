@@ -911,12 +911,30 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     if (!empty( $value ) ) {
                         foreach($value as $stateValue ) {
                             if ( $stateValue['country'] ) {
-                                if(self::in_value($stateValue['country'], CRM_Core_PseudoConstant::countryIsoCode())
-                                   || self::in_value($stateValue['country'], CRM_Core_PseudoConstant::country())) {
-                                    continue;
-                                } else {
-                                    self::addToErrorMsg('Country', $errorMessage);
+                                CRM_Core_PseudoConstant::populate( $countryNames, 'CRM_Core_DAO_Country', 
+                                                                   true, 'name', 'is_active' );
+                                CRM_Core_PseudoConstant::populate( $countryIsoCodes, 
+                                                                   'CRM_Core_DAO_Country',true, 
+                                                                   'iso_code');
+                                $config =& CRM_Core_Config::singleton();
+                                $limitCodes = $config->countryLimit( );
+                                //If no country is selected in
+                                //localization then take all countries
+                                if ( empty($limitCodes )) {
+                                    $limitCodes = $countryIsoCodes; 
                                 }
+                              
+                                if ( self::in_value($stateValue['country'], $limitCodes) || self::in_value($stateValue['country'], CRM_Core_PseudoConstant::country())) {
+                                     continue;
+                                } else {  
+                                    if( self::in_value($stateValue['country'], $countryIsoCodes) || self::in_value($stateValue['country'], $countryNames)) {
+                                        self::addToErrorMsg('country input is in table but not "available": "This Country is valid but is NOT in the list of Available Countries currently configured for your site. This can be viewed and modifed from Global Settings >> Localization." ', $errorMessage);
+                                    }
+                                    else {
+                                        self::addToErrorMsg('country input value not in country table: "The Country value appears to be invalid. It does not match any value in CiviCRM table of countries."', $errorMessage);
+                                    }
+                                }
+                                
                             }
                         }
                     }

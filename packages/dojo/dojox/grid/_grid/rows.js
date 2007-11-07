@@ -3,6 +3,7 @@ dojo._hasResource["dojox.grid._grid.rows"] = true;
 dojo.provide("dojox.grid._grid.rows");
 
 dojo.declare("dojox.grid.rows", null, {
+	//	Stores information about grid rows. Owned by grid and used internally.
 	constructor: function(inGrid){
 		this.grid = inGrid;
 	},
@@ -14,6 +15,9 @@ dojo.declare("dojox.grid.rows", null, {
 		return '';
 	},
 	getDefaultHeightPx: function(){
+		// summmary:
+		// retrieves the default row height
+		// returns: int, default row height
 		return 32;
 		//return Math.round(this.defaultRowHeight * this.linesToEms * this.grid.contentPixelToEmRatio);
 	},

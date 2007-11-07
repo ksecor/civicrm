@@ -61,10 +61,11 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	intermediateChanges: false,
 
 	// These mixins assume that the focus node is an INPUT, as many but not all _FormWidgets are.
-	// Don't attempt to mixin the 'type' attribute here programatically -- it must be declared
-	// directly in the template as read by the parser in order to function
+	// Don't attempt to mixin the 'type', 'name' attributes here programatically -- they must be declared
+	// directly in the template as read by the parser in order to function. IE is known to specifically 
+	// require the 'name' attribute at element creation time.
 	attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-		{id:"focusNode", name:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
+		{id:"focusNode", tabIndex:"focusNode", alt:"focusNode"}),
 
 	setDisabled: function(/*Boolean*/ disabled){
 		// summary:
@@ -80,7 +81,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			this._hovering = false;
 			this._active = false;
 		}
-		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "disabled", disabled);
+		dijit.setWaiState(this.focusNode || this.domNode, "disabled", disabled);
 		this._setStateClass();
 	},
 
@@ -208,7 +209,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	},
 
 	postCreate: function(){
-		this.setValue(this.value, false);
+		this.setValue(this.value, null); // null reserved for initial value
 		this.setDisabled(this.disabled);
 		this._setStateClass();
 	},
@@ -216,8 +217,8 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 	setValue: function(/*anything*/ newValue, /*Boolean, optional*/ priorityChange){
 		// summary: set the value of the widget.
 		this._lastValue = newValue;
-		dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", this.forWaiValuenow());
-		if(this._lastValueReported == undefined){ // don't report the initial value
+		dijit.setWaiState(this.focusNode || this.domNode, "valuenow", this.forWaiValuenow());
+		if(this._lastValueReported == undefined && priorityChange === null){ // don't report the initial value
 			this._lastValueReported = newValue;
 		}
 		if((this.intermediateChanges || priorityChange) && newValue !== this._lastValueReported){
@@ -243,7 +244,7 @@ dojo.declare("dijit.form._FormWidget", [dijit._Widget, dijit._Templated],
 			// Equality comparison of objects such as dates are done by reference so
 			// two distinct objects are != even if they have the same data. So use
 			// toStrings in case the values are objects.
-			if(lv != undefined && v.toString() != lv.toString()){	
+			if((typeof lv != "undefined") && ((v!==null && v.toString)?v.toString():null) !== lv.toString()){	
 				this.undo();
 				dojo.stopEvent(e);
 				return false;

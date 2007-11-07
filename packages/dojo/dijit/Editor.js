@@ -10,17 +10,22 @@ dojo.requireLocalization("dijit._editor", "commands", null, "zh-tw,pt,zh,de,ru,h
 
 dojo.declare(
 	"dijit.Editor",
-	[ dijit._editor.RichText, dijit._Container ],
+	dijit._editor.RichText,
 	{
-		// plugins:
+	// summary: A rich-text Editing widget
+
+		// plugins: Array
 		//		a list of plugin names (as strings) or instances (as objects)
 		//		for this widget.
-//		plugins: [ "dijit._editor.plugins.DefaultToolbar" ],
 		plugins: null,
+
+		// extraPlugins: Array
+		//		a list of extra plugin names which will be appended to plugins array
 		extraPlugins: null,
+
 		constructor: function(){
 			this.plugins=["undo","redo","|","cut","copy","paste","|","bold","italic","underline","strikethrough","|",
-			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createlink"*/];
+			"insertOrderedList","insertUnorderedList","indent","outdent","|","justifyLeft","justifyRight","justifyCenter","justifyFull"/*"createLink"*/];
 
 			this._plugins=[];
 			this._editInterval = this.editActionInterval * 1000;
@@ -46,11 +51,13 @@ dojo.declare(
 
 			if(!this.toolbar){
 				// if we haven't been assigned a toolbar, create one
-				this.toolbar = new dijit.Toolbar();
-				dojo.place(this.toolbar.domNode, this.editingArea, "before");
+				var toolbarNode = dojo.doc.createElement("div");
+				dojo.place(toolbarNode, this.editingArea, "before");
+				this.toolbar = new dijit.Toolbar({}, toolbarNode);
 			}
 
 			dojo.forEach(this.plugins, this.addPlugin, this);
+			this.onNormalizedDisplayChanged(); //update toolbar button status
 //			}catch(e){ console.debug(e); }
 		},
 		destroy: function(){
@@ -60,6 +67,7 @@ dojo.declare(
 				}
 			});
 			this._plugins=[];
+			this.toolbar.destroy(); delete this.toolbar;
 			this.inherited('destroy',arguments);
 		},
 		addPlugin: function(/*String||Object*/plugin, /*Integer?*/index){
@@ -87,7 +95,7 @@ dojo.declare(
 					}
 				}
 				if(!o.plugin){
-					console.debug('Can not find plugin',plugin);
+					console.debug('Cannot find plugin',plugin);
 					return;
 				}
 				plugin=o.plugin;
@@ -135,7 +143,7 @@ dojo.declare(
 		_undoedSteps:[],
 		execCommand: function(cmd){
 			if(this.customUndo && (cmd=='undo' || cmd=='redo')){
-				return cmd=='undo'?this.undo():this.redo();
+				return this[cmd]();
 			}else{
 				try{
 					if(this.customUndo){
@@ -148,14 +156,13 @@ dojo.declare(
 					}
 					return r;
 				}catch(e){
-					if(dojo.isMoz){
-						if('copy'==cmd){
-							alert(this.commands['copyErrorFF']);
-						}else if('cut'==cmd){
-							alert(this.commands['cutErrorFF']);
-						}else if('paste'==cmd){
-							alert(this.commands['pasteErrorFF']);
-						}
+					if(dojo.isMoz && /copy|cut|paste/.test(cmd)){
+						// Warn user of platform limitation.  Cannot programmatically access keyboard. See ticket #4136
+						var sub = dojo.string.substitute,
+							accel = {cut:'X', copy:'C', paste:'V'},
+							isMac = navigator.userAgent.indexOf("Macintosh") != -1;
+						alert(sub(this.commands.systemShortcutFF,
+							[cmd, sub(this.commands[isMac ? 'appleKey' : 'ctrlKey'], [accel[cmd]])]));
 					}
 					return false;
 				}
@@ -189,7 +196,7 @@ dojo.declare(
 			dojo.withGlobal(this.window,'moveToBookmark',dijit,[b]);
 		},
 		undo: function(){
-			console.log('undo');
+//			console.log('undo');
 			this.endEditing(true);
 			var s=this._steps.pop();
 			if(this._steps.length>0){
@@ -202,7 +209,7 @@ dojo.declare(
 			return false;
 		},
 		redo: function(){
-			console.log('redo');
+//			console.log('redo');
 			this.endEditing(true);
 			var s=this._undoedSteps.pop();
 			if(s && this._steps.length>0){
@@ -334,6 +341,7 @@ dojo.declare(
 	}
 );
 
+/* the following code is to registered a handler to get default plugins */
 dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 	if(o.plugin){ return; }
 	var args=o.args, p;
@@ -349,17 +357,20 @@ dojo.subscribe("dijit.Editor.getPlugin",null,function(o){
 
 		case "bold": case "italic": case "underline": case "strikethrough":
 		case "subscript": case "superscript":
-			//shall we try to auto require here? or require user to worry about it?
-//					dojo['require']('dijit.form.Button');
 			p = new _p({ buttonClass: dijit.form.ToggleButton, command: name });
 			break;
 		case "|":
 			p = new _p({ button: new dijit.ToolbarSeparator() });
 			break;
-		case "createlink":
+		case "createLink":
 //					dojo['require']('dijit._editor.plugins.LinkDialog');
-			p = new dijit._editor.plugins.LinkDialog();
+			p = new dijit._editor.plugins.LinkDialog({ command: name });
 			break;
+		case "foreColor": case "hiliteColor":
+			p = new dijit._editor.plugins.TextColor({ command: name });
+			break;
+		case "fontName": case "fontSize": case "formatBlock":
+			p = new dijit._editor.plugins.FontChoice({ command: name });
 	}
 //	console.log('name',name,p);
 	o.plugin=p;

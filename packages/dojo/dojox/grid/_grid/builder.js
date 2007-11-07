@@ -3,17 +3,26 @@ dojo._hasResource["dojox.grid._grid.builder"] = true;
 dojo.provide("dojox.grid._grid.builder");
 dojo.require("dojox.grid._grid.drag");
 
-dojo.declare("dojox.grid.builder", null, {
+dojo.declare("dojox.grid.Builder", null, {
+	// summary:
+	//	Base class to produce html for grid content.
+	//	Also provide event decoration, providing grid related information inside the event object
+	// passed to grid events.
 	constructor: function(inView){
 		this.view = inView;
 		this.grid = inView.grid;
 	},
 	view: null,
 	// boilerplate HTML
-	_table: '<table class="dojoxGrid-row-table" border="0" cellspacing="0" cellpadding="0">',
+	_table: '<table class="dojoxGrid-row-table" border="0" cellspacing="0" cellpadding="0" role="wairole:presentation">',
 	// generate starting tags for a cell
-	generateCellMarkup: function(inCell, inMoreStyles, inMoreClasses){
-		var result = [], html = [ '<td' ];
+	generateCellMarkup: function(inCell, inMoreStyles, inMoreClasses, isHeader){
+		var result = [], html;
+		if (isHeader){
+			html = [ '<th tabIndex="-1" role="wairole:columnheader"' ];
+		}else{
+			html = [ '<td tabIndex="-1" role="wairole:gridcell"' ];
+		}
 		inCell.colSpan && html.push(' colspan="', inCell.colSpan, '"');
 		inCell.rowSpan && html.push(' rowspan="', inCell.rowSpan, '"');
 		html.push(' class="dojoxGrid-cell ');
@@ -125,7 +134,10 @@ dojo.declare("dojox.grid.builder", null, {
 	}
 });
 
-dojo.declare("dojox.grid.contentBuilder", dojox.grid.builder, {
+dojo.declare("dojox.grid.contentBuilder", dojox.grid.Builder, {
+	// summary:
+	//	Produces html for grid data content. Owned by grid and used internally 
+	//	for rendering data. Override to implement custom rendering.
 	update: function(){
 		this.prepareHtml();
 	},
@@ -135,7 +147,7 @@ dojo.declare("dojox.grid.contentBuilder", dojox.grid.builder, {
 		for(var j=0, row; (row=rows[j]); j++){
 			for(var i=0, cell; (cell=row[i]); i++){
 				cell.get = cell.get || (cell.value == undefined) && defaultGet;
-				cell.markup = this.generateCellMarkup(cell, cell.cellStyles, cell.cellClasses);
+				cell.markup = this.generateCellMarkup(cell, cell.cellStyles, cell.cellClasses, false);
 			}
 		}
 	},
@@ -178,11 +190,14 @@ dojo.declare("dojox.grid.contentBuilder", dojox.grid.builder, {
 	}
 });
 
-dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
+dojo.declare("dojox.grid.headerBuilder", dojox.grid.Builder, {
+	// summary:
+	//	Produces html for grid header content. Owned by grid and used internally 
+	//	for rendering data. Override to implement custom rendering.
 	bogusClickTime: 0,
 	overResizeWidth: 4,
 	minColWidth: 1,
-	_table: '<table class="dojoxGrid-row-table" border="0" cellspacing="0" cellpadding="0"',
+	_table: '<table class="dojoxGrid-row-table" border="0" cellspacing="0" cellpadding="0" role="wairole:presentation"',
 	update: function(){
 		this.tableMap = new dojox.grid.tableMap(this.view.structure.rows);
 	},
@@ -203,7 +218,7 @@ dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
 			for(var i=0, cell, markup; (cell=row[i]); i++){
 				cell.customClasses = [];
 				cell.customStyles = [];
-				markup = this.generateCellMarkup(cell, cell.headerStyles, cell.headerClasses);
+				markup = this.generateCellMarkup(cell, cell.headerStyles, cell.headerClasses, true);
 				// content
 				markup[5] = (inValue != undefined ? inValue : inGetValue(cell));
 				// styles
@@ -221,7 +236,7 @@ dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
 	getCellX: function(e){
 		var x = e.layerX;
 		if(dojo.isMoz){
-			var n = dojox.grid.ascendDom(e.target, dojox.grid.makeNotTagName("td"));
+			var n = dojox.grid.ascendDom(e.target, dojox.grid.makeNotTagName("th"));
 			x -= (n && n.offsetLeft) || 0;
 			//x -= getProp(ascendDom(e.target, mkNotTagName("td")), "offsetLeft") || 0;
 		}
@@ -245,7 +260,6 @@ dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
 		return true;
 	},
 	// event handlers
-	// FIXME: drag
 	// resizing
 	prepareLeftResize: function(e){
 		var i = dojox.grid.getTdIndex(e.cellNode);
@@ -284,18 +298,24 @@ dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
 			//}
 		}
 	},
+	doclick: function(e) {
+		if (new Date().getTime() < this.bogusClickTime) {
+			dojo.stopEvent(e);
+			return true;
+		}
+	},
 	// column resizing
 	beginColumnResize: function(e){
 		dojo.stopEvent(e);
 		var spanners = [], nodes = this.tableMap.findOverlappingNodes(e.cellNode);
-		for(var i=0, cell; cell=nodes[i]; i++){
+		for(var i=0, cell; (cell=nodes[i]); i++){
 			spanners.push({ node: cell, index: this.getCellNodeIndex(cell), width: cell.offsetWidth });
 			//console.log("spanner: " + this.getCellNodeIndex(cell));
 		}
 		var drag = {
 			view: e.sourceView,
 			node: e.cellNode,
-			index: e.cellIndex, 
+			index: e.cellIndex,
 			w: e.cellNode.clientWidth,
 			spanners: spanners
 		};
@@ -326,6 +346,9 @@ dojo.declare("dojox.grid.headerBuilder", dojox.grid.builder, {
 });
 
 dojo.declare("dojox.grid.tableMap", null, {
+	// summary:
+	//	Maps an html table into a structure parsable for information about cell row and col spanning.
+	//	Used by headerBuilder
 	constructor: function(inRows){
 		this.mapRows(inRows);
 	},

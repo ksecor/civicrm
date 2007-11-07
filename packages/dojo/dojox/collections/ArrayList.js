@@ -1,7 +1,7 @@
 if(!dojo._hasResource["dojox.collections.ArrayList"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojox.collections.ArrayList"] = true;
 dojo.provide("dojox.collections.ArrayList");
-dojo.require("dojox.collections");
+dojo.require("dojox.collections._base");
 
 dojox.collections.ArrayList=function(/* array? */arr){
 	//	summary

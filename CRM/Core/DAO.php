@@ -585,7 +585,7 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function &executeQuery( $query, &$params, $abort = true, $daoName = null ) {
+    static function &executeQuery( $query, &$params, $abort = true, $daoName = null, $freeDAO = false ) {
         if ( ! $daoName ) {
             $dao =& new CRM_Core_DAO( );
         } else {
@@ -595,6 +595,11 @@ class CRM_Core_DAO extends DB_DataObject {
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
         //CRM_Core_Error::debug( 'q', $queryStr );
         $dao->query( $queryStr );
+
+        if ( $freeDAO ) {
+            // we typically do this for insert/update/delete stataments
+            $dao->free( );
+        }
         return $dao;
     }
 
@@ -632,7 +637,8 @@ class CRM_Core_DAO extends DB_DataObject {
             if ( is_numeric( $key ) ) {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
                     $item[0] = $dao->escape( $item[0] );
-                    if ( $item[1] == 'String' ) {
+                    if ( $item[1] == 'String' ||
+                         $item[1] == 'Link'   ) {
                         if ( isset( $item[2] ) &&
                              $item[2] ) {
                             $item[0] = "'%{$item[0]}%'";
@@ -640,6 +646,12 @@ class CRM_Core_DAO extends DB_DataObject {
                             $item[0] = "'{$item[0]}'";
                         }
                     }
+                    if ( $item[1] == 'Date' &&
+                         strlen( $item[0] ) == 0 ) {
+                        // set a null date to the empty string
+                        $item[0] = 'null';
+                    }
+
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {
                     CRM_Core_Error::fatal( "{$item[0]} is not of type {$item[1]}" );

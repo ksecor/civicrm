@@ -283,7 +283,8 @@ VALUES
   (@option_group_id_honorTyp, '{ts escape="sql"}In Memory of{/ts}'       , 2, 'In Memory of'      , NULL, 0, NULL, 2, NULL, 0, 0, 1),
 
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'      , 1, 'CRM/Contact/Form/Search/Custom/Sample.php'      , NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 );
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
@@ -341,9 +342,9 @@ SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES
-  (@dedupe_rule_group_id, 'civicrm_individual', 'first_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_individual', 'last_name',  7),
-  (@dedupe_rule_group_id, 'civicrm_email',      'email',     10);
+  (@dedupe_rule_group_id, 'civicrm_contact', 'first_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_contact', 'last_name',  7),
+  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',     10);
 
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Organization', 10);
 
@@ -351,8 +352,8 @@ SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES
-  (@dedupe_rule_group_id, 'civicrm_organization', 'organization_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_email',        'email',             5);
+  (@dedupe_rule_group_id, 'civicrm_contact', 'organization_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',             5);
 
 INSERT INTO civicrm_dedupe_rule_group (domain_id, contact_type, threshold) VALUES (@domain_id, 'Household', 10);
 
@@ -360,6 +361,6 @@ SELECT @dedupe_rule_group_id := MAX(id) FROM civicrm_dedupe_rule_group;
 
 INSERT INTO civicrm_dedupe_rule (dedupe_rule_group_id, rule_table, rule_field, rule_weight)
 VALUES
-  (@dedupe_rule_group_id, 'civicrm_household', 'household_name', 5),
-  (@dedupe_rule_group_id, 'civicrm_email',     'email',          5);
+  (@dedupe_rule_group_id, 'civicrm_contact', 'household_name', 5),
+  (@dedupe_rule_group_id, 'civicrm_email'  , 'email',          5);
 

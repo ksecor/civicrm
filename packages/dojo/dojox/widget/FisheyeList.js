@@ -7,26 +7,26 @@ dojo.require("dijit._Templated");
 dojo.require("dijit._Container");
 
 dojo.declare("dojox.widget.FisheyeList", [dijit._Widget, dijit._Templated, dijit._Container], {
-	// summary
+	// summary:
 	//	Menu similar to the fish eye menu on the Mac OS
-	// usage
-	//	<div dojoType="FisheyeList"
-	//	itemWidth="40" itemHeight="40"
-	//	itemMaxWidth="150" itemMaxHeight="150"
-	//	orientation="horizontal"
-	//	effectUnits="2"
-	//	itemPadding="10"
-	//	attachEdge="center"
-	//	labelEdge="bottom">
-	//
-	//		<div dojoType="FisheyeListItem"
-	//			id="item1"
-	//			onclick="alert('click on' + this.label + '(from widget id ' + this.widgetId + ')!');"
-	//			label="Item 1"
-	//			iconSrc="images/fisheye_1.png">
-	//		</div>
-	//		...
-	//	</div>
+	// example:
+	// |	<div dojoType="FisheyeList"
+	// |		itemWidth="40" itemHeight="40"
+	// |		itemMaxWidth="150" itemMaxHeight="150"
+	// |		orientation="horizontal"
+	// |		effectUnits="2"
+	// |		itemPadding="10"
+	// |		attachEdge="center"
+	// |		labelEdge="bottom">
+	// |
+	// |		<div dojoType="FisheyeListItem"
+	// |			id="item1"
+	// |			onclick="alert('click on' + this.label + '(from widget id ' + this.widgetId + ')!');"
+	// |			label="Item 1"
+	// |			iconSrc="images/fisheye_1.png">
+	// |		</div>
+	// |		...
+	// |	</div>
 	//
 	constructor: function(){
 		//
@@ -258,14 +258,14 @@ dojo.declare("dojox.widget.FisheyeList", [dijit._Widget, dijit._Templated, dijit
 		this._calcHitGrid();
 	},
 
-	_overElement: function(/* HTMLElement */element, /* DOMEvent */e){
-		//	summary
+	_overElement: function(/* DomNode|String */node, /* Event */e){
+		// summary:
 		//	Returns whether the mouse is over the passed element.
-		//	Element must be display:block (ie, not a <span>)
-		element = dojo.byId(element);
+		// Node: Must must be display:block (ie, not a <span>)
+		node = dojo.byId(node);
 		var mouse = {x: e.pageX, y: e.pageY};
-		var bb = dojo._getBorderBox(element);
-		var absolute = dojo.coords(element, true);
+		var bb = dojo._getBorderBox(node);
+		var absolute = dojo.coords(node, true);
 		var top = absolute.y;
 		var bottom = top + bb.h;
 		var left = absolute.x;
@@ -602,7 +602,7 @@ dojo.declare("dojox.widget.FisheyeList", [dijit._Widget, dijit._Templated, dijit
 		dojo.disconnect(this._addChildHandle);
 		if (this.isFixed) { dojo.disconnect(this._onScrollHandle); }
 		dojo.disconnect(this._onResizeHandle); 
-		dojox.widget.FisheyeList.superclass.destroyRecursive.call(this);
+		this.inherited("destroyRecursive",arguments);
 	}
 });
 

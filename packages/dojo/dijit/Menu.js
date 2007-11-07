@@ -53,7 +53,7 @@ dojo.declare(
 
 	startup: function(){
 		dojo.forEach(this.getChildren(), function(child){ child.startup(); });
-		this.connectKeyNavChildren();
+		this.startupKeyNavChildren();
 	},
 
 	onExecute: function(){
@@ -100,7 +100,7 @@ dojo.declare(
 
 	_onChildBlur: function(item){
 		// Close all popups that are open and descendants of this menu
-		dijit.popup.closeTo(this);
+		dijit.popup.close(item.popup);
 		item._blur();
 		this._stopPopupTimer();
 	},
@@ -240,7 +240,7 @@ dojo.declare(
 		function closeAndRestoreFocus(){
 			// user has clicked on a menu or popup
 			dijit.focus(savedFocus);
-			dijit.popup.closeAll();
+			dijit.popup.close(self);
 		}
 		dijit.popup.open({
 			popup: this,
@@ -255,8 +255,8 @@ dojo.declare(
 		this._onBlur = function(){
 			// Usually the parent closes the child widget but if this is a context
 			// menu then there is no parent
-			dijit.popup.closeAll();
-			// don't try to restor focus; user has clicked another part of the screen
+			dijit.popup.close(this);
+			// don't try to restore focus; user has clicked another part of the screen
 			// and set focus there
 		}
 	},
@@ -293,15 +293,13 @@ dojo.declare(
 			popup: popup,
 			around: from_item.arrowCell,
 			orient: this.isLeftToRight() ? {'TR': 'TL', 'TL': 'TR'} : {'TL': 'TR', 'TR': 'TL'},
-			submenu: true,
 			onCancel: function(){
 				// called when the child menu is canceled
-				dijit.popup.close();
+				dijit.popup.close(popup);
 				from_item.focus();	// put focus back on my node
 				self.currentPopup = null;
 			}
 		});
-
 
 		this.currentPopup = popup;
 
@@ -328,7 +326,7 @@ dojo.declare(
 		+'<td tabIndex="-1" class="dijitReset dijitMenuItemLabel" dojoAttachPoint="containerNode" waiRole="menuitem"></td>'
 		+'<td class="dijitReset" dojoAttachPoint="arrowCell">'
 			+'<div class="dijitMenuExpand" dojoAttachPoint="expand" style="display:none">'
-			+'<span class="dijit_a11y dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
+			+'<span class="dijitInline dijitArrowNode dijitMenuExpandInner">+</span>'
 			+'</div>'
 		+'</td>'
 		+'</tr>',
@@ -393,7 +391,7 @@ dojo.declare(
 		// summary: enable or disable this menu item
 		this.disabled = value;
 		dojo[value ? "addClass" : "removeClass"](this.domNode, 'dijitMenuItemDisabled');
-		dijit.wai.setAttr(this.containerNode, 'waiState', 'disabled', value ? 'true' : 'false');
+		dijit.setWaiState(this.containerNode, 'disabled', value ? 'true' : 'false');
 	}
 });
 
@@ -429,7 +427,7 @@ dojo.declare(
 		this.popup.domNode.style.display="none";
 		dojo.addClass(this.expand, "dijitMenuExpandEnabled");
 		dojo.style(this.expand, "display", "");
-		dijit.wai.setAttr(this.containerNode, "waiState", "haspopup", "true");
+		dijit.setWaiState(this.containerNode, "haspopup", "true");
 	}
 });
 
@@ -447,6 +445,12 @@ dojo.declare(
 
 	postCreate: function(){
 		dojo.setSelectable(this.domNode, false);
+	},
+	
+	isFocusable: function(){
+		// summary:
+		//		over ride to always return false
+		return false;
 	}
 });
 

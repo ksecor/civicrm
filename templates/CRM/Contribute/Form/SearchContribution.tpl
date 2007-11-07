@@ -2,14 +2,14 @@
 <fieldset><legend>{ts}Find Contribution Pages{/ts}</legend>
 <table class="form-layout">
     <tr>
-        <td>{$form.title.label}</td>
+        <td class="label">{$form.title.label}</td>
         <td>{$form.title.html}
             <div class="description font-italic">
-                {ts}Complete OR partial Contribution Title.{/ts}
+                {ts}Complete OR partial Contribution Page title.{/ts}
             </div>
         </td>
         
-        <td><label>{ts}Contribution Type{/ts}</td>
+        <td class="label">{ts}Contribution Type{/ts}</td>
         <td>
                 <div class="listing-box">
                     {foreach from=$form.contribution_type_id item="contribution_val"}
@@ -19,10 +19,8 @@
                     {/foreach}
                 </div>
         </td>
-    
+        <td class="right">&nbsp;{$form.buttons.html}</td>  
     </tr>
-    <tr><td>&nbsp</td></tr>
  </table>
-        <div class="right">{$form.buttons.html}</div> 
 </fieldset>
 </div>

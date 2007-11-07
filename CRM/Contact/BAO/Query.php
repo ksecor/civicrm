@@ -232,22 +232,17 @@ class CRM_Contact_BAO_Query {
     public $_useDistinct = false;
 
     /**
+     * Should we just display one contact record
+     */
+    public $_useGroupBy  = false;
+
+    /**
      * the relationship type direction
      *
      * @var array
      * @static
      */
     static $_relType;
-
-    /**
-     * The set of user level sql clauses passed into the query object
-     * A late addition to this class, and hence this graft. Should be more
-     * integrated in future versions
-     *
-     * This is an array with three keys, select, from and where
-     *
-     */
-    public $_userInputSQL = null;
 
     /**
      * The tables which have a dependency on location and/or address
@@ -349,9 +344,6 @@ class CRM_Contact_BAO_Query {
             $this->buildParamsLookup( );
         }
 
-	if ( isset( $this->_userInputSQL['tables'] ) ) {
-	     $this->_tables = array_merge( $this->_tables, $this->_userInputSQL['tables'] );
-        }
         $this->_whereTables = $this->_tables;
 
         $this->selectClause( );
@@ -361,8 +353,6 @@ class CRM_Contact_BAO_Query {
     }
 
     function buildParamsLookup( ) {
-
-	$this->createUserInputSQL( );
 
         foreach ( $this->_params as $value ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $value[0] );
@@ -380,29 +370,6 @@ class CRM_Contact_BAO_Query {
         }
     }
 
-    function createUserInputSQL( ) {
-        $this->_userInputSQL = array( );
-        foreach ( $this->_params as $id => $value ) {
-            if ( in_array( $value[0], array( 'user_sql_from', 'user_sql_where', 'user_sql_tables' ) ) ) {
-                if ( $value[0] == 'user_sql_from' ) {
-                    $this->_userInputSQL['from'] = $value[2];
-                } else if ( $value[0] == 'user_sql_where' ) {
-                    $this->_userInputSQL['where'] = $value[2];
-                } else if ( $value[0] == 'user_sql_tables' ) {
-                    $tables = explode(',', trim( $value[2] ) );
-                    $this->_userInputSQL['tables'] = array( );
-                    foreach ( $tables as $t ) {
-                       $this->_userInputSQL['tables'][$t] = 1;
-                    }
-                }
-                unset( $this->_params[$id] );
-            }
-        }
-    }
-
-    function setUserInputSQL( &$sql ) {
-        $this->_userInputSQL = $sql;
-    }
     /**
      * Some composite fields do not appear in the fields array
      * hack to make them part of the query
@@ -624,6 +591,8 @@ class CRM_Contact_BAO_Query {
                     continue;
                 }
                 $lCond = "location_type_id = $locationTypeId";
+                $this->_useDistinct = true;
+                $this->_useGroupBy  = true;
             }
 
             $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
@@ -646,8 +615,6 @@ class CRM_Contact_BAO_Query {
             $this->_element["{$tName}"   ]  = 1;  
             
             $locationTypeName= $tName;
-//             $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ($aName.location_type_id = $ltName.id )";
-//             $this->_tables[ $tName ] = $locationTypeJoin;
             
             //we need to build location join to get location type from
             //various location blocks.
@@ -858,29 +825,11 @@ class CRM_Contact_BAO_Query {
             $select = 'SELECT ' . implode( ', ', $this->_select );
             $from = $this->_fromClause;
 
-	    if ( $this->_userInputSQL ) {
-               if ( array_key_exists( 'select', $this->_userInputSQL ) ) {
-                    $select .= ", {$this->_userInputSQL['select']}";
-               }
-            }
         }
         
         $where = '';
         if ( ! empty( $this->_whereClause ) ) {
             $where = "WHERE {$this->_whereClause}";
-        }
-
-        if ( $this->_userInputSQL ) {
-            if ( array_key_exists( 'from', $this->_userInputSQL ) ) {
-                $from .= " {$this->_userInputSQL['from']}";
-            }
-            if ( array_key_exists( 'where', $this->_userInputSQL ) ) {
-                if ( empty( $where ) ) {
-                    $where = "WHERE {$this->_userInputSQL['where']}";
-                } else {
-                    $where .= " {$this->_userInputSQL['where']}";
-                }
-            }
         }
 
         return array( $select, $from, $where );
@@ -2597,7 +2546,7 @@ class CRM_Contact_BAO_Query {
                 if (! $count ) {
                     $this->_useDistinct = true;
                 }
-                $this->_fromClause  = self::fromClause( $this->_tables, null, null, $this->_primaryLocation, $this->_mode ); 
+                $this->_fromClause       = self::fromClause( $this->_tables     , null, null, $this->_primaryLocation, $this->_mode ); 
                 $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null, $this->_primaryLocation, $this->_mode );
             }
         }
@@ -2614,7 +2563,7 @@ class CRM_Contact_BAO_Query {
             $where = $where . ' AND ' . $additionalWhereClause;
         }
         
-        $order = $limit = '';
+        $order = $orderBy = $limit = '';
 
         if ( ! $count ) {
             $config =& CRM_Core_Config::singleton( );
@@ -2629,19 +2578,83 @@ class CRM_Contact_BAO_Query {
                         $order = " ORDER BY $orderBy";
                     }
                 } else if ($sortByChar) { 
-                    $order = " ORDER BY LEFT(contact_a.sort_name, 1) ";
+                    $orderBy = " ORDER BY LEFT(contact_a.sort_name, 1) asc";
                 } else {
-                    $order = " ORDER BY contact_a.sort_name ";
+                    $orderBy = " ORDER BY contact_a.sort_name asc";
                 }
             }
 
             if ( $rowCount > 0 && $offset >= 0 ) {
                 $limit = " LIMIT $offset, $rowCount ";
+                
+                // ok here is a first hack at an optimization, lets get all the contact ids
+                // that are restricted and we'll then do the final clause with it
+                $limitSelect = ( $this->_useDistinct ) ?
+                    'SELECT DISTINCT(contact_a.id) as id' :
+                    'SELECT contact_a.id as id';
+
+                $doOpt = true;
+                // hack for order clause
+                if ( $orderBy ) {
+                    list( $field, $dir ) = split( ' ', $orderBy );
+                    if ( $field ) {
+                        switch ( $field ) {
+                        case 'sort_name':
+                            break;
+
+                        case 'city':
+                        case 'postal_code':
+                            $this->_whereTables["civicrm_address"] = 1;
+                            $limitSelect .= ", civicrm_address.{$field} as {$field}";
+                            break;
+
+                        case 'country':
+                        case 'state_province':
+                            $this->_whereTables["civicrm_{$field}"] = 1;
+                            $limitSelect .= ", civicrm_{$field}.name as {$field}";
+                            break;
+
+                        case 'email':
+                            $this->_whereTables["civicrm_email"] = 1;
+                            $limitSelect .= ", civicrm_email.email as email";
+                            break;
+
+                        default:
+                            $doOpt = false;
+                        }
+                    }
+                }
+
+                if ( $doOpt ) {
+                    $this->_simpleFromClause = self::fromClause( $this->_whereTables, null, null,
+                                                                 $this->_primaryLocation, $this->_mode );
+
+                    $limitQuery = "$limitSelect {$this->_simpleFromClause} $where $order $limit";
+                    $limitDAO   = CRM_Core_DAO::executeQuery( $limitQuery, CRM_Core_DAO::$_nullArray );
+                    $limitIDs   = array( );
+                    while ( $limitDAO->fetch( ) ) {
+                        $limitIDs[] = $limitDAO->id;
+                    }
+                    if ( empty( $limitIDs ) ) {
+                        $limitClause = ' AND ( 0 ) ';
+                    } else {
+                        $limitClause = 
+                            ' AND contact_a.id IN ( ' .
+                            implode( ',', $limitIDs ) .
+                            ' ) ';
+                    }
+                    $where .= $limitClause;
+                    // reset limit clause since we already restrict what records we want
+                    $limit  = null;
+                }
             }
         }
 
         // building the query string
-        $query = "$select $from $where $order $limit";
+        if ( $this->_useGroupBy ) {
+            $groupBy = ' GROUP BY contact_a.id';
+        }
+        $query = "$select $from $where $groupBy $order $limit";
         if ( $returnQuery ) {
             return $query;
         }

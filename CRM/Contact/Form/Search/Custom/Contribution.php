@@ -33,16 +33,14 @@
  *
  */
 
-require_once 'CRM/Contact/Form/Search/Interface.php';
+require_once 'CRM/Contact/Form/Search/Custom/Base.php';
 
-class CRM_Contact_Form_Search_Custom_Contribution implements CRM_Contact_Form_Search_Interface {
-
-    protected $_formValues;
-
-    protected $_columns;
+class CRM_Contact_Form_Search_Custom_Contribution
+   extends    CRM_Contact_Form_Search_Custom_Base
+   implements CRM_Contact_Form_Search_Interface {
 
     function __construct( &$formValues ) {
-        $this->_formValues =& $formValues;
+        parent::__construct( $formValues );
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'    ,
                                  ts('Contact Type') => 'contact_type'  ,
@@ -72,24 +70,7 @@ class CRM_Contact_Form_Search_Custom_Contribution implements CRM_Contact_Form_Se
         $form->assign( 'elements', array( 'name', 'state_province_id', 'start_date', 'end_date' ) );
     }
 
-    function count( &$queryParams ) {
-        return $this->sql( $queryParams,
-                           'count(distinct contact_a.id) as total' );
-    }
-
-    function contactIDs( &$queryParams,
-                         $offset, $rowcount, $sort ) {
-        $selectClause = "
-contact_a.id           as contact_id
-";
-        return $this->sql( $queryParams,
-                           $selectClause,
-                           $offset, $rowcount, $sort );
-
-    }
-
-    function all( &$queryParams,
-                  $offset, $rowcount, $sort,
+    function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "
 contact_a.id           as contact_id  ,
@@ -98,16 +79,13 @@ contact_a.sort_name    as sort_name,
 state_province.name    as state_province,
 sum( c.total_amount )  as amount
 ";
-        $sql  = $this->sql( $queryParams,
-                            $selectClause,
-                            $offset, $rowcount, $sort,
-                            $includeContactIDs,
-                            'GROUP BY contact_a.id' );
-        return $sql;
-
+        return $this->sql( $selectClause,
+                           $offset, $rowcount, $sort,
+                           $includeContactIDs,
+                           'GROUP BY contact_a.id' );
     }
     
-    function from( &$queryParams ) {
+    function from( ) {
         return "
 FROM       civicrm_contact      contact_a
 INNER JOIN civicrm_contribution c                ON c.contact_id       = contact_a.id
@@ -116,21 +94,22 @@ LEFT  JOIN civicrm_state_province state_province ON state_province.id  = address
 ";
     }
 
-    function where( &$queryParams,
-                    $includeContactIDs = false ) {
+    function where( $includeContactIDs = false ) {
+
         $where = "
       c.contribution_status_id = 1
 AND   c.is_test                = 0";
 
         $count  = 1;
         $clause = array( );
+        $params = array( );
         $name   = CRM_Utils_Array::value( 'name',
                                           $this->_formValues );
         if ( $name != null ) {
             if ( strpos( $name, '%' ) === false ) {
                 $name = "%{$name}%";
             }
-            $queryParams[$count] = array( $name, 'String' );
+            $params[$count] = array( $name, 'String' );
             $clause[] = "contact_a.sort_name LIKE %{$count}";
             $count++;
         }
@@ -138,7 +117,7 @@ AND   c.is_test                = 0";
         $state = CRM_Utils_Array::value( 'state_province_id',
                                          $this->_formValues );
         if ( $state ) {
-            $queryParams[$count] = array( $state, 'Integer' );
+            $params[$count] = array( $state, 'Integer' );
             $clause[] = "state_province.id = %{$count}";
             $count++;
         }
@@ -147,7 +126,7 @@ AND   c.is_test                = 0";
                                              $this->_formValues );
         $startDate  = CRM_Utils_Date::format( $startDate );
         if ( $startDate ) {
-            $queryParams[$count] = array( $startDate, 'Date' );
+            $params[$count] = array( $startDate, 'Date' );
             $clause[] = "c.receive_date >= $startDate";
             $count++;
         }
@@ -157,7 +136,7 @@ AND   c.is_test                = 0";
         $endDate  = CRM_Utils_Date::format( $endDate );
         if ( $endDate ) {
             $endDate .= '235959';
-            $queryParams[$count] = array( $endDate, 'Date' );
+            $params[$count] = array( $endDate, 'Date' );
             $clause[] = "c.receive_date <= $endDate";
             $count++;
         }
@@ -166,45 +145,7 @@ AND   c.is_test                = 0";
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
-
-        require_once 'CRM/Contact/BAO/SearchCustom.php';
-        if ( $includeContactIDs ) {
-            CRM_Contact_BAO_SearchCustom::includeContactIDs( $where,
-                                                             $this->_formValues );
-        }
-
-        CRM_Contact_BAO_SearchCustom::addDomainClause( $where, $queryParams );
-        return $where;
-    }
-
-    function sql( &$queryParams,
-                  $selectClause,
-                  $offset = 0, $rowCount = 0, $sort = null,
-                  $includeContactIDs = false,
-                  $groupBy = null ) {
-
-        $sql =
-            "SELECT $selectClause "     .
-            self::from ( $queryParams ) .
-            " WHERE "                   .
-            self::where( $queryParams, $includeContactIDs ) ;
-
-        if ( $groupBy ) {
-            $sql .= " $groupBy ";
-        }
-        
-        require_once 'CRM/Contact/BAO/SearchCustom.php';
-        CRM_Contact_BAO_SearchCustom::addSortOffset( $sql, $offset, $rowCount, $sort );
-
-        return $sql;
-    }
-
-    function templateFile( ) {
-        return null;
-    }
-
-    function &columns( ) {
-        return $this->_columns;
+        return $this->whereClause( $where, $params );
     }
 
 }

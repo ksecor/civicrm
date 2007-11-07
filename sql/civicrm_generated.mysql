@@ -242,7 +242,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE `civicrm_dedupe_rule` DISABLE KEYS */;
 LOCK TABLES `civicrm_dedupe_rule` WRITE;
-INSERT INTO `civicrm_dedupe_rule` (`id`, `dedupe_rule_group_id`, `rule_table`, `rule_field`, `rule_length`, `rule_weight`) VALUES (1,1,'civicrm_individual','first_name',NULL,5),(2,1,'civicrm_individual','last_name',NULL,7),(3,1,'civicrm_email','email',NULL,10),(4,2,'civicrm_organization','organization_name',NULL,5),(5,2,'civicrm_email','email',NULL,5),(6,3,'civicrm_household','household_name',NULL,5),(7,3,'civicrm_email','email',NULL,5);
+INSERT INTO `civicrm_dedupe_rule` (`id`, `dedupe_rule_group_id`, `rule_table`, `rule_field`, `rule_length`, `rule_weight`) VALUES (1,1,'civicrm_contact','first_name',NULL,5),(2,1,'civicrm_contact','last_name',NULL,7),(3,1,'civicrm_email','email',NULL,10),(4,2,'civicrm_contact','organization_name',NULL,5),(5,2,'civicrm_email','email',NULL,5),(6,3,'civicrm_contact','household_name',NULL,5),(7,3,'civicrm_email','email',NULL,5);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE `civicrm_dedupe_rule` ENABLE KEYS */;
 

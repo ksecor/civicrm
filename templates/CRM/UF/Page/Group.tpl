@@ -33,15 +33,15 @@
     <p></p>
         <div class="form-item">
         {strip}
-      <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+      <table cellpadding="0" cellspacing="0" border="0">
     <thead>
         <tr class="columnheader">
-            <th field="Title" dataType="String" >{ts}Profile Title{/ts}</th>
-            <th field="ID" dataType="Number">{ts}ID{/ts}</th>
-            <th field="Used" dataType="String">{ts}Used For{/ts}</th>
-            <th field="Status" dataType="String">{ts}Status?{/ts}</th>
-            <th field="Order" dataType="Number" sort="asc">{ts}Order{/ts}</th>
-            <th datatype="html"></th>
+            <th>{ts}Profile Title{/ts}</th>
+            <th>{ts}ID{/ts}</th>
+            <th>{ts}Used For{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Order{/ts}</th>
+            <th></th>
         </tr>
      </thead> 
 

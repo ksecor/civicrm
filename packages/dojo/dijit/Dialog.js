@@ -58,7 +58,6 @@ dojo.declare(
 
 		hide: function(){
 			this.domNode.style.display = "none";
-			this.domNode.style.width = this.domNode.style.height = "1px";
 			if(this.bgIframe.iframe){
 				this.bgIframe.iframe.style.display = "none";
 			}
@@ -107,8 +106,8 @@ dojo.declare(
 		},
 
 		onLoad: function(){
-			// when href is specified we need to reposition
-			// the dialog after the data is loaded
+			// summary: 
+			//		when href is specified we need to reposition the dialog after the data is loaded
 			this._position();
 			this.inherited("onLoad",arguments);
 		},
@@ -289,6 +288,7 @@ dojo.declare(
 		},
 
 		layout: function() {
+			// summary: position the Dialog and the underlay
 			if(this.domNode.style.display == "block"){
 				this._underlay.layout();
 				this._position();
@@ -303,9 +303,8 @@ dojo.declare(
 	{
 		// summary:
 		//		Pops up a dialog that appears like a Tooltip
-
 		// title: String
-		// Description of tooltip dialog (required for a11Y)
+		// 		Description of tooltip dialog (required for a11Y)
 		title: "",
 
 		_lastFocusItem: null,
@@ -336,7 +335,7 @@ dojo.declare(
 		},
 
 		_onKey: function(/*Event*/ evt){
-			//summary: keep keyboard focus in dialog; close dialog on escape key
+			// summary: keep keyboard focus in dialog; close dialog on escape key
 			if(evt.keyCode == dojo.keys.ESCAPE){
 				this.onCancel();
 			}else if(evt.target == this.containerNode && evt.shiftKey && evt.keyCode == dojo.keys.TAB){
@@ -352,7 +351,7 @@ dojo.declare(
 		},
 
 		_findLastFocus: function(/*Event*/ evt){
-			// summary:  called from onblur of dialog container to determine the last focusable item
+			// summary: called from onblur of dialog container to determine the last focusable item
 			this._lastFocused = evt.target;
 		},
 

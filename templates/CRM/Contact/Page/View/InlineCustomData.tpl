@@ -19,9 +19,9 @@
                     <dl>
                     {foreach from=$cd.fields item=cd_value key=field_id}
 			        {if $cd_value.options_per_line != 0 }
-			            {assign var="element_name" value="custom_"|cat:$field_id}			
+		                    {assign var="element_name" value="custom_"|cat:$field_id}			
 			            <dt>{$cd_value.label} </dt>
-			            <dd class="html-adjust">
+				    <dt></dt><dd class="html-adjust">
                         {if $viewForm.$element_name}
                             {assign var="count" value="1"}
                             {assign var="no" value="1"}
@@ -32,8 +32,8 @@
                             {assign var=index value=$smarty.section.rowLoop.index}
                             {if $viewForm.$element_name.$index.html != "" } 
                                 {if $no != '1'} {/if}
-                                <td>{$viewForm.$element_name.$index.html}</td>
-                                {assign var="no" value=`$no+1`}
+                             	 <td class="labels font-light">{$viewForm.$element_name.$index.html}</td>
+			         {assign var="no" value=`$no+1`}
                                 {if $count == $cd_value.options_per_line}
                                     </tr> 
                                     <tr>
@@ -66,7 +66,7 @@
                              {/if}
                             {/if}
                          {else}
-                         <dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd>
+                         <dt></dt><dd class="html-adjust">{$viewForm.$element_name.html}&nbsp;</dd>
                          {/if}
                     {/if}
                     {/foreach}

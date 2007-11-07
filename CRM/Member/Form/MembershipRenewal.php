@@ -203,7 +203,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         
         $this->addElement('checkbox', 
                           'record_contribution', 
-                          ts('Record Contribution for Renewal?'), null, 
+                          ts('Record Renewal Payment?'), null, 
                           array( 'onClick' => 'showRecordContribution()'));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
@@ -221,13 +221,13 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                    );
         
         $this->add('select', 'contribution_status_id',
-                   ts('Contribution Status'), 
+                   ts('Payment Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( )
                    );
 
         $this->addElement('checkbox', 
                           'send_receipt', 
-                          ts('Send Renewal Notice?'), null, 
+                          ts('Send Confirmation and Receipt?'), null, 
                           array( 'onClick' => 'showReceiptText()'));
 
         $this->add('textarea', 'receipt_text', ts('Renewal Message') );

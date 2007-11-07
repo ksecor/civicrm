@@ -109,28 +109,28 @@ dojo.declare("dijit._Container",
 
 		getChildren: function(){
 			// summary:
-			//		returns array of children widgets
+			//		Returns array of children widgets
 			return dojo.query("> [widgetId]", this.containerNode || this.domNode).map(dijit.byNode); // Array
 		},
 
 		hasChildren: function(){
 			// summary:
-			//		returns true if widget has children
+			//		Returns true if widget has children
 			var cn = this.containerNode || this.domNode;
 			return !!this._firstElement(cn); // Boolean
 		},
 
 		_getSiblingOfChild: function(/*Widget*/ child, /*int*/ dir){
 			// summary:
-			//		get the next or previous sibling of child
+			//		get the next or previous widget sibling of child
 			// dir:
 			//		if 1, get the next sibling
 			//		if -1, get the previous sibling
 			var node = child.domNode;
-			var which = (dir == -1 ? "previousSibling" : "nextSibling");
+			var which = (dir>0 ? "nextSibling" : "previousSibling");
 			do{
 				node = node[which];
-			}while(node && node.nodeType != 1);
+			}while(node && (node.nodeType != 1 || !dijit.byNode(node)));
 			return node ? dijit.byNode(node) : null;
 		}
 	}
@@ -143,9 +143,13 @@ dojo.declare("dijit._KeyNavContainer",
 		// summary:
 		//		A _Container with keyboard navigation of its children.
 		//		To use this mixin, call connectKeyNavHandlers() in
-		//		postCreate() and call connectKeyNavChildren() in startup().
+		//		postCreate() and call startupKeyNavChildren() in startup().
 
+/*=====
+		// focusedChild: Widget
+		//		The currently focused child widget, or null if there isn't one
 		focusedChild: null,
+=====*/
 
 		_keyNavCodes: {},
 
@@ -159,8 +163,10 @@ dojo.declare("dijit._KeyNavContainer",
 			//		Key codes for navigating to the next child.
 
 			var keyCodes = this._keyNavCodes = {};
-			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = -1 });
-			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = 1 });
+			var prev = dojo.hitch(this, this.focusPrev);
+			var next = dojo.hitch(this, this.focusNext);
+			dojo.forEach(prevKeyCodes, function(code){ keyCodes[code] = prev });
+			dojo.forEach(nextKeyCodes, function(code){ keyCodes[code] = next });
 			this.connect(this.domNode, "onkeypress", "_onContainerKeypress");
 			if(dojo.isIE){
 				this.connect(this.domNode, "onactivate", "_onContainerFocus");
@@ -171,16 +177,16 @@ dojo.declare("dijit._KeyNavContainer",
 			}
 		},
 
-		connectKeyNavChildren: function(){
+		startupKeyNavChildren: function(){
 			// summary:
-			//		Call in setup() to attach focus handlers to the
-			//		container's children.
-			dojo.forEach(this.getChildren(), dojo.hitch(this, "_connectChild"));
+			//		Call in startup() to set child tabindexes to -1
+			dojo.forEach(this.getChildren(), dojo.hitch(this, "_setTabIndexMinusOne"));
 		},
 
 		addChild: function(/*Widget*/ widget, /*int?*/ insertIndex){
+			// summary: Add a child to our _Container
 			dijit._KeyNavContainer.superclass.addChild.apply(this, arguments);
-			this._connectChild(widget);
+			this._setTabIndexMinusOne(widget);
 		},
 
 		focus: function(){
@@ -193,23 +199,61 @@ dojo.declare("dijit._KeyNavContainer",
 			this.focusChild(this._getFirstFocusableChild());
 		},
 
-		focusChild: function(/*Widget*/ widget){
-			// summary: Focus widget.
+		focusNext: function(){
+			// summary: Focus the next widget or focal node (for widgets
+			//		with multiple focal nodes) within this container.
+			if(this.focusedChild && this.focusedChild.hasNextFocalNode
+					&& this.focusedChild.hasNextFocalNode()){
+				this.focusedChild.focusNext();
+				return;
+			}
+			var child = this._getNextFocusableChild(this.focusedChild, 1);
+			if(child.getFocalNodes){
+				this.focusChild(child, child.getFocalNodes()[0]);
+			}else{
+				this.focusChild(child);
+			}
+		},
+
+		focusPrev: function(){
+			// summary: Focus the previous widget or focal node (for widgets
+			//		with multiple focal nodes) within this container.
+			if(this.focusedChild && this.focusedChild.hasPrevFocalNode
+					&& this.focusedChild.hasPrevFocalNode()){
+				this.focusedChild.focusPrev();
+				return;
+			}
+			var child = this._getNextFocusableChild(this.focusedChild, -1);
+			if(child.getFocalNodes){
+				var nodes = child.getFocalNodes();
+				this.focusChild(child, nodes[nodes.length-1]);
+			}else{
+				this.focusChild(child);
+			}
+		},
+
+		focusChild: function(/*Widget*/ widget, /*Node?*/ node){
+			// summary: Focus widget. Optionally focus 'node' within widget.
 			if(widget){
 				if(this.focusedChild && widget !== this.focusedChild){
 					this._onChildBlur(this.focusedChild);
 				}
 				this.focusedChild = widget;
-				widget.focus();
+				if(node && widget.focusFocalNode){
+					widget.focusFocalNode(node);
+				}else{
+					widget.focus();
+				}
 			}
 		},
 
-		_connectChild: function(/*Widget*/ widget){
-			(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
-			if(dojo.isIE){
-				this.connect(widget.domNode, "onactivate", "_onChildFocus");
+		_setTabIndexMinusOne: function(/*Widget*/ widget){
+			if(widget.getFocalNodes){
+				dojo.forEach(widget.getFocalNodes(), function(node){
+					node.setAttribute("tabIndex", -1);
+				});
 			}else{
-				this.connect(widget.domNode, "onfocus", "_onChildFocus");
+				(widget.focusNode || widget.domNode).setAttribute("tabIndex", -1);
 			}
 		},
 
@@ -217,6 +261,11 @@ dojo.declare("dijit._KeyNavContainer",
 			this.domNode.setAttribute("tabIndex", -1);
 			if(evt.target === this.domNode){
 				this.focusFirstChild();
+			}else{
+				var widget = dijit.getEnclosingWidget(evt.target);
+				if(widget && widget.isFocusable()){
+					this.focusedChild = widget;
+				}
 			}
 		},
 
@@ -228,15 +277,11 @@ dojo.declare("dijit._KeyNavContainer",
 
 		_onContainerKeypress: function(evt){
 			if(evt.ctrlKey || evt.altKey){ return; }
-			var dir = this._keyNavCodes[evt.keyCode];
-			if(dir){
-				this.focusChild(this._getNextFocusableChild(this.focusedChild, dir));
+			var func = this._keyNavCodes[evt.keyCode];
+			if(func){
+				func();
 				dojo.stopEvent(evt);
 			}
-		},
-
-		_onChildFocus: function(evt){
-			this.focusedChild = dijit.byNode(evt.currentTarget);
 		},
 
 		_onChildBlur: function(/*Widget*/ widget){

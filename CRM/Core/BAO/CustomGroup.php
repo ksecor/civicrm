@@ -323,7 +323,7 @@ SELECT $select
                             $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
                             $idName    = "{$table}_id";
                             $fieldName = "{$table}_{$column}";
-                            if ( ! empty( $dao->$fieldName ) ) {
+                            if ( isset($dao->$fieldName) ) {
                                 $dataType  = $groupTree[$groupID]['fields'][$fieldID]['data_type'];
                                 if ( $dataType == 'File' ) {
                                     require_once 'CRM/Core/DAO/File.php';
@@ -989,11 +989,7 @@ $where
                     break;
 
                 case 'Select Date':
-                    //print_r($v);
                     $date = CRM_Utils_Date::format( $v );
-                    /*if ( ! $date ) {
-                        $date = '';
-                    }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
                 default:

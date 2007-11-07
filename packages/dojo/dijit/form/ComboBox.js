@@ -32,7 +32,7 @@ dojo.declare(
 		// pageSize: Integer
 		//		Argument to data provider.
 		//		Specifies number of search results per page (before hitting "next" button)
-		pageSize: 30,
+		pageSize: Infinity,
 
 		// store: Object
 		//		Reference to data provider object used by this ComboBox
@@ -72,7 +72,7 @@ dojo.declare(
 		// TODO: get rid of this; it's unnecessary (but currently referenced in FilteringSelect)
 		_hasFocus:false,
 
-		templateString:"<table style=\"display: -moz-inline-stack;\" class=\"dijit dijitReset dijitInlineTable dijitLeft\" cellspacing=\"0\" cellpadding=\"0\"\n\tid=\"widget_${id}\" name=\"${name}\" dojoAttachEvent=\"onmouseenter:_onMouse,onmouseleave:_onMouse\" waiRole=\"presentation\">\n\t<tr>\n\t\t<td class='dijitReset dijitStretch dijitInputField' width=\"100%\"\n\t\t\t><input style=\"width: 100%\" type=\"text\" autocomplete=\"off\"\n\t\t\tdojoAttachEvent=\"onkeypress, onkeyup, onfocus, onblur, compositionend\"\n\t\t\tdojoAttachPoint=\"textbox,focusNode\" waiRole=\"combobox\"\n\t\t/></td>\n\t\t<td class=\"dijitReset dijitValidationIconField\" width=\"0%\"\n\t\t\t><div dojoAttachPoint='iconNode' class='dijitValidationIcon'></div><div class='dijitInline dijitValidationIconText'>&Chi;</div\n\t\t></td>\n\t\t<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton' width=\"0%\"\n\t\t\tdojoAttachPoint=\"downArrowNode\"\n\t\t\tdojoAttachEvent=\"ondijitclick:_onArrowClick,onmousedown:_onMouse,onmouseup:_onMouse,onmouseenter:_onMouse,onmouseleave:_onMouse\"\n\t\t\t><div class=\"dijitDownArrowButtonInner\" waiRole=\"presentation\" tabIndex=\"-1\">\n\t\t\t\t<div class=\"dijit_a11y dijitDownArrowButtonChar\">&#9660;</div>\n\t\t\t</div\n\t\t></td>\t\n\t</tr>\n</table>\n",
+		templateString:"<table style=\"display: -moz-inline-stack;\" class=\"dijit dijitReset dijitInlineTable dijitLeft\" cellspacing=\"0\" cellpadding=\"0\"\n\tid=\"widget_${id}\" name=\"${name}\" dojoAttachEvent=\"onmouseenter:_onMouse,onmouseleave:_onMouse\" waiRole=\"presentation\"\n\t><tr class=\"dijitReset\"\n\t\t><td class='dijitReset dijitStretch dijitInputField' width=\"100%\"\n\t\t\t><input type=\"text\" autocomplete=\"off\" name=\"${name}\"\n\t\t\tdojoAttachEvent=\"onkeypress, onkeyup, onfocus, onblur, compositionend\"\n\t\t\tdojoAttachPoint=\"textbox,focusNode\" waiRole=\"combobox\"\n\t\t/></td\n\t\t><td class=\"dijitReset dijitValidationIconField\" width=\"0%\"\n\t\t\t><div dojoAttachPoint='iconNode' class='dijitValidationIcon'></div><div class='dijitInline dijitValidationIconText'>&Chi;</div\n\t\t></td\n\t\t><td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton' width=\"0%\"\n\t\t\tdojoAttachPoint=\"downArrowNode\"\n\t\t\tdojoAttachEvent=\"ondijitclick:_onArrowClick,onmousedown:_onArrowMouseDown,onmouseup:_onMouse,onmouseenter:_onMouse,onmouseleave:_onMouse\"\n\t\t\t><div class=\"dijitDownArrowButtonInner\" waiRole=\"presentation\" tabIndex=\"-1\"\n\t\t\t\t><div class=\"dijitDownArrowButtonChar\">&#9660;</div\n\t\t\t></div\n\t\t></td\t\n\t></tr\n></table>\n",
 
 		baseClass:"dijitComboBox",
 
@@ -81,10 +81,6 @@ dojo.declare(
 		getValue:function(){
 			// don't get the textbox value but rather the previously set hidden value
 			return dijit.form.TextBox.superclass.getValue.apply(this, arguments);
-		},
-
-		getDisplayedValue:function(){
-			return this.textbox.value;
 		},
 
 		setDisplayedValue:function(/*String*/ value){
@@ -112,8 +108,7 @@ dojo.declare(
 					// There appears to be no workaround for this - googled for quite a while.
 					ntr.setEndPoint("EndToEnd", tr);
 					return String(ntr.text).replace(/\r/g,"").length;
-				}
-				catch(e){
+				}catch(e){
 					return 0; // If focus has shifted, 0 is fine for caret pos.
 				}
 			}
@@ -160,10 +155,13 @@ dojo.declare(
 
 		onkeypress: function(/*Event*/ evt){
 			// summary: handles keyboard events
-			if(evt.ctrlKey || evt.altKey){
+
+			//except for pasting case - ctrl + v(118)
+			if(evt.altKey || (evt.ctrlKey && evt.charCode != 118)){
 				return;
 			}
 			var doSearch = false;
+			this.item = null; // #4872
 			if(this._isShowingNow){this._popupWidget.handleKey(evt);}
 			switch(evt.keyCode){
 				case dojo.keys.PAGE_DOWN:
@@ -216,7 +214,11 @@ dojo.declare(
 				case dojo.keys.TAB:
 					var newvalue=this.getDisplayedValue();
 					// #4617: if the user had More Choices selected fall into the _onBlur handler
-					if(this._popupWidget&&(newvalue==this._popupWidget._messages["previousMessage"]||newvalue==this._popupWidget._messages["nextMessage"])){break;}
+					if(this._popupWidget &&
+						(newvalue == this._popupWidget._messages["previousMessage"] ||
+							newvalue == this._popupWidget._messages["nextMessage"])){
+						break;
+					}
 					if(this._isShowingNow){
 						this._prev_key_backspace = false;
 						this._prev_key_esc = false;
@@ -234,8 +236,9 @@ dojo.declare(
 						dojo.stopEvent(evt);
 						this._selectOption();
 						this._hideResultList();
+					}else{
+						doSearch = true;
 					}
-					else{doSearch=true;}
 					break;
 
 				case dojo.keys.ESCAPE:
@@ -243,7 +246,6 @@ dojo.declare(
 					this._prev_key_esc = true;
 					this._hideResultList();
 					if(this._lastDisplayedValue != this.getDisplayedValue()){
-						this.setValue(this._lastValueReported);
 						this.setDisplayedValue(this._lastDisplayedValue);
 						dojo.stopEvent(evt);
 					}else{
@@ -255,7 +257,7 @@ dojo.declare(
 				case dojo.keys.BACKSPACE:
 					this._prev_key_esc = false;
 					this._prev_key_backspace = true;
-					doSearch=true;
+					doSearch = true;
 					break;
 
 				case dojo.keys.RIGHT_ARROW: // fall through
@@ -268,7 +270,7 @@ dojo.declare(
 				default:// non char keys (F1-F12 etc..)  shouldn't open list
 					this._prev_key_backspace = false;
 					this._prev_key_esc = false;
-					if(evt.charCode!=0){
+					if(dojo.isIE || evt.charCode != 0){
 						doSearch=true;
 					}
 			}
@@ -303,18 +305,18 @@ dojo.declare(
 					this.focusNode.value = text;//.substr(cpos);
 					// visually highlight the autocompleted characters
 					this._setSelectedRange(this.focusNode, cpos, this.focusNode.value.length);
-					dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
+					dijit.setWaiState(this.focusNode, "valuenow", text);
 				}
 			}else{
 				// text does not autoComplete; replace the whole value and highlight
 				this.focusNode.value = text;
 				this._setSelectedRange(this.focusNode, 0, this.focusNode.value.length);
-				dijit.wai.setAttr(this.focusNode, "waiState", "valuenow", text);
+				dijit.setWaiState(this.focusNode, "valuenow", text);
 			}
 		},
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
-			if(this.disabled||dataObject.query[this.searchAttr]!=this._lastQuery){
+			if(this.disabled || dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
 			this._popupWidget.clearResultList();
@@ -329,16 +331,15 @@ dojo.declare(
 			// "California" and "ifornia" would be highlighted.
 
 			var zerothvalue=new String(this.store.getValue(results[0], this.searchAttr));
-			if(zerothvalue&&(this.autoComplete)&&
-			(!this._prev_key_backspace)&&
+			if(zerothvalue && this.autoComplete && !this._prev_key_backspace &&
 			// when the user clicks the arrow button to show the full list,
 			// startSearch looks for "*".
 			// it does not make sense to autocomplete
 			// if they are just previewing the options available.
-			(dataObject.query[this.searchAttr]!="*")){
+				(dataObject.query[this.searchAttr] != "*")){
 				this._autoCompleteText(zerothvalue);
 				// announce the autocompleted value
-				dijit.wai.setAttr(this.focusNode || this.domNode, "waiState", "valuenow", zerothvalue);
+				dijit.setWaiState(this.focusNode || this.domNode, "valuenow", zerothvalue);
 			}
 			this._popupWidget.createOptions(results, dataObject, dojo.hitch(this, this._getMenuLabelFromItem));
 
@@ -387,7 +388,7 @@ dojo.declare(
 
 		_hideResultList: function(){
 			if(this._isShowingNow){
-				dijit.popup.close();
+				dijit.popup.close(this._popupWidget);
 				this._arrowIdle();
 				this._isShowingNow=false;
 			}
@@ -395,6 +396,7 @@ dojo.declare(
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
+			this._hasFocus=false;
 			this._hasBeenBlurred = true;
 			this._hideResultList();
 			// if the user clicks away from the textbox OR tabs away, set the value to the textbox value
@@ -416,7 +418,6 @@ dojo.declare(
 
 		onblur:function(/*Event*/ evt){ /* not _onBlur! */
 			this._arrowIdle();
-			this._hasFocus=false;
 
 			// hide the Tooltip
 			// TODO: isn't this handled by ValidationTextBox?
@@ -491,6 +492,11 @@ dojo.declare(
 			}
 		},
 
+		_onArrowMouseDown: function(evt){
+			this._layoutHack();		// hack for FF2, see http://trac.dojotoolkit.org/ticket/5007
+			this._onMouse(evt);
+		},
+
 		_startSearchFromInput: function(){
 			this._startSearch(this.focusNode.value);
 		},
@@ -535,6 +541,7 @@ dojo.declare(
 		compositionend: function(/*Event*/ evt){
 			// summary: When inputting characters using an input method, such as Asian
 			// languages, it will generate this event instead of onKeyDown event
+			// Note: this event is only triggered in FF (not in IE)
 			this.onkeypress({charCode:-1});
 		},
 
@@ -549,18 +556,19 @@ dojo.declare(
 			}
 			if(!this.store){
 				// if user didn't specify store, then assume there are option tags
-				var items = dojo.query("> option", this.srcNodeRef).map(function(node){
+				var items = this.srcNodeRef ? dojo.query("> option", this.srcNodeRef).map(function(node){
 					node.style.display="none";
 					return { value: node.getAttribute("value"), name: String(node.innerHTML) };
-				});
+				}) : {};
 				this.store = new dojo.data.ItemFileReadStore({data: {identifier:this._getValueField(), items:items}});
 
 				// if there is no value set and there is an option list,
 				// set the value to the first value to be consistent with native Select
-				if(items&&items.length&&!this.value){
+				if(items && items.length && !this.value){
 					// For <select>, IE does not let you set the value attribute of the srcNodeRef (and thus dojo.mixin does not copy it).
 					// IE does understand selectedIndex though, which is automatically set by the selected attribute of an option tag
-					this.value=items[this.srcNodeRef.selectedIndex!=-1?this.srcNodeRef.selectedIndex:0][this._getValueField()];
+					this.value = items[this.srcNodeRef.selectedIndex != -1 ? this.srcNodeRef.selectedIndex : 0]
+						[this._getValueField()];
 				}
 			}
 		},
@@ -596,8 +604,8 @@ dojo.declare(
 		//	Focus-less div based menu for internal use in ComboBox
 
 		templateString:"<div class='dijitMenu' dojoAttachEvent='onclick,onmouseover,onmouseout' tabIndex='-1' style='overflow:\"auto\";'>"
-				+"<div class='dijitMenuItem' dojoAttachPoint='previousButton'></div>"
-				+"<div class='dijitMenuItem' dojoAttachPoint='nextButton'></div>"
+				+"<div class='dijitMenuItem dijitMenuPreviousButton' dojoAttachPoint='previousButton'></div>"
+				+"<div class='dijitMenuItem dijitMenuNextButton' dojoAttachPoint='nextButton'></div>"
 			+"</div>",
 		_messages:null,
 

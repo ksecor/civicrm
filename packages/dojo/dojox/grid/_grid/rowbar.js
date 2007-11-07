@@ -4,9 +4,11 @@ dojo.provide("dojox.grid._grid.rowbar");
 dojo.require("dojox.grid._grid.view");
 
 dojo.declare('dojox.GridRowView', dojox.GridView, {
+	// summary:
+	//	Custom grid view. If used in a grid structure, provides a small selectable region for grid rows.
 	defaultWidth: "3em",
 	noscroll: true,
-	padBorderWidth: 2, // FIXME: magic number
+	padBorderWidth: 2,
 	buildRendering: function(){
 		this.inherited('buildRendering', arguments);
 		this.scrollboxNode.style.overflow = "hidden";
@@ -17,7 +19,7 @@ dojo.declare('dojox.GridRowView', dojox.GridView, {
 	},
 	buildRowContent: function(inRowIndex, inRowNode){
 		var w = this.contentNode.offsetWidth - this.padBorderWidth 
-		inRowNode.innerHTML = '<table style="width:' + w + 'px;"><tr><td class="dojoxGrid-rowbar-inner"></td></tr></table>';
+		inRowNode.innerHTML = '<table style="width:' + w + 'px;" role="wairole:presentation"><tr><td class="dojoxGrid-rowbar-inner"></td></tr></table>';
 	},
 	renderHeader: function(){
 	},

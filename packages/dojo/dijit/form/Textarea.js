@@ -24,7 +24,7 @@ dojo.declare(
 	templateString: (dojo.isIE || dojo.isSafari || dojo.isMozilla) ?
 				((dojo.isIE || dojo.isSafari) ? '<fieldset id="${id}" class="dijitInline dijitInputField dijitTextArea" dojoAttachPoint="styleNode" waiRole="presentation"><div dojoAttachPoint="editNode,focusNode,eventNode" dojoAttachEvent="onpaste:_changing,oncut:_changing" waiRole="textarea" style="text-decoration:none;_padding-bottom:16px;display:block;overflow:auto;" contentEditable="true"></div>'
 					: '<span id="${id}" class="dijitReset">'+
-						'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement.postCreate;if(_postCreate)_postCreate();</script></body></html>"'+
+					'<iframe src="javascript:<html><head><title>${_iframeEditTitle}</title></head><body><script>var _postCreate=window.frameElement?window.frameElement.postCreate:null;if(_postCreate)_postCreate();</script></body></html>"'+
 							' dojoAttachPoint="iframe,styleNode" dojoAttachEvent="onblur:_onIframeBlur" class="dijitInline dijitInputField dijitTextArea"></iframe>')
 				+ '<textarea name="${name}" value="${value}" dojoAttachPoint="formValueNode" style="display:none;"></textarea>'
 				+ ((dojo.isIE || dojo.isSafari) ? '</fieldset>':'</span>')
@@ -134,12 +134,18 @@ dojo.declare(
 			this.domNode.style.overflowY = 'hidden';
 		}else if(dojo.isMozilla){
 			var w = this.iframe.contentWindow;
-			if(!w || !this.iframe.contentDocument.title){
+			try { // #4715: peeking at the title can throw a security exception during iframe setup
+				var title = this.iframe.contentDocument.title;
+			} catch(e) { var title = ''; }
+			if(!w || !title){
 				this.iframe.postCreate = dojo.hitch(this, this.postCreate);
 				return;
 			}
 			var d = w.document;
 			d.getElementsByTagName('HTML')[0].replaceChild(this.editNode, d.getElementsByTagName('BODY')[0]);
+			if(!this.isLeftToRight()){
+				d.getElementsByTagName('HTML')[0].dir = "rtl";
+			}			
 			this.iframe.style.overflowY = 'hidden';
 			this.eventNode = d;
 			// this.connect won't destroy this handler cleanly since its on the iframe's window object

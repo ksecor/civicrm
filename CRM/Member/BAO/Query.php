@@ -95,7 +95,7 @@ class CRM_Member_BAO_Query
     static function where( &$query ) 
     {
         foreach ( array_keys( $query->_params ) as $id ) {
-            if ( substr( $query->_params[$id][0], 0,7 ) == 'member_' ) {
+            if ( substr( $query->_params[$id][0], 0, 7 ) == 'member_' ) {
                 self::whereClauseSingle( $query->_params[$id], $query );
             }
         }
@@ -187,6 +187,11 @@ class CRM_Member_BAO_Query
             $query->_qill[$grouping][]  = ts('Membership Type %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
 
             $query->_where[$grouping][] = "civicrm_membership.membership_type_id {$op} {$mType}";
+            $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
+            return;
+            
+        case 'member_id':
+            $query->_where[$grouping][] = " civicrm_membership.id $op $value";
             $query->_tables['civicrm_membership'] = $query->_whereTables['civicrm_membership'] = 1;
             return;
         }

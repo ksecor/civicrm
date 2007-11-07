@@ -5,17 +5,17 @@ dojo.require("dojo._base.lang");
 
 // this file courtesy of the TurboAjax group, licensed under a Dojo CLA
 
-dojo.declare = function(/*String*/ className, /*Function||Array*/ superclass, /*Object*/ props){
+dojo.declare = function(/*String*/ className, /*Function|Function[]*/ superclass, /*Object*/ props){
 	//	summary: 
 	//		Create a feature-rich constructor from compact notation
-	//	className: String
+	//	className:
 	//		The name of the constructor (loosely, a "class")
 	//		stored in the "declaredClass" property in the created prototype
-	//	superclass: Function||Array
+	//	superclass:
 	//		May be null, a Function, or an Array of Functions. If an array, 
 	//		the first element is used as the prototypical ancestor and
 	//		any following Functions become mixin ancestors.
-	//	props: Object
+	//	props:
 	//		An object whose properties are copied to the
 	//		created prototype.
 	//		Add an instance-initialization function by making it a property 
@@ -32,19 +32,19 @@ dojo.declare = function(/*String*/ className, /*Function||Array*/ superclass, /*
 	//
 	//		"className" is cached in "declaredClass" property of the new class.
 	//
-	// usage:
-	//		dojo.declare("my.classes.bar", my.classes.foo, {
-	//			// properties to be added to the class prototype
-	//			someValue: 2,
-	//			// initialization function
-	//			constructor: function(){
-	//				this.myComplicatedObject = new ReallyComplicatedObject(); 
-	//			},
-	//			// other functions
-	//			someMethod: function(){ 
-	//				doStuff(); 
-	//			}
-	//		);
+	//	example:
+	//	|	dojo.declare("my.classes.bar", my.classes.foo, {
+	//	|		// properties to be added to the class prototype
+	//	|		someValue: 2,
+	//	|		// initialization function
+	//	|		constructor: function(){
+	//	|			this.myComplicatedObject = new ReallyComplicatedObject(); 
+	//	|		},
+	//	|		// other functions
+	//	|		someMethod: function(){ 
+	//	|			doStuff(); 
+	//	|		}
+	//	|	);
 
 	// argument juggling (deprecated)
 	if(dojo.isFunction(props)||(arguments.length>3)){ 
@@ -81,7 +81,7 @@ dojo.declare = function(/*String*/ className, /*Function||Array*/ superclass, /*
 }
 
 dojo.mixin(dojo.declare, {
-	_delegate: function(base, mixin) {
+	_delegate: function(base, mixin){
 		var bp = (base||0).prototype, mp = (mixin||0).prototype;
 		// fresh constructor, fresh prototype
 		var ctor = dojo.declare._makeCtor();
@@ -95,16 +95,15 @@ dojo.mixin(dojo.declare, {
 		ctor.prototype.constructor = ctor;
 		// name this class for debugging
 		ctor.prototype.declaredClass = (bp||0).declaredClass + '_' + (mp||0).declaredClass;
-		dojo.setObject(ctor.prototype.declaredClass, ctor); // Function
 		return ctor;
 	},
-	_extend: function(props) {
+	_extend: function(props){
 		for(var i in props){if(dojo.isFunction(fn=props[i])&&(!0[i])){fn.nom=i;}}
 		dojo.extend(this, props);
 	},
-	_makeCtor: function() {
+	_makeCtor: function(){
 		// we have to make a function, but don't want to close over anything
-		return function(){this._construct(arguments);}
+		return function(){ this._construct(arguments); }
 	},
 	_core: { 
 		_construct: function(args){
