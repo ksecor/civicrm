@@ -21,9 +21,9 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
     
     function testCustomGroupDelete( )
     {
-        $customGroupID = $this->customGroupCreate('Individual', 'test_group'); 
-        $params = array('id' => $customGroupID); 
-        $customGroup =& civicrm_custom_group_delete($params);
+        $customGroup = $this->customGroupCreate('Individual', 'test_group'); 
+        $params = array('id' => $customGroup['id']);                         
+        $customGroup =& civicrm_custom_group_delete($params);  
         $this->assertEqual($customGruup['is_error'], 0);
     } 
 }
