@@ -1,5 +1,5 @@
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence/display/CRM/CiviMail+Guide"}These settings are used to configure mailer properties for the optional CiviMail component. They are NOT used for the built-in "Send Email to Contacts" feature. Refer to the <a href="%1" target="_blank" title="CiviMail Guide (opens in a new window)">CiviMail Guide</a> for more information.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence/display/CRMDOC/CiviMail+Admin"}These settings are used to configure mailer properties for the optional CiviMail component. They are NOT used for the built-in "Send Email to Contacts" feature. Refer to the <a href="%1" target="_blank" title="CiviMail Guide (opens in a new window)">CiviMail Guide</a> for more information.{/ts}
 </div>
 <div class="form-item">
 <fieldset><legend>{ts}CiviMail Configuration{/ts}</legend>
