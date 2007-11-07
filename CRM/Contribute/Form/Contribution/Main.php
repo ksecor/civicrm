@@ -77,6 +77,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
                         continue;
                     }
+                } else if ( ( substr( $name, 0, 13 ) == 'contribution_' ) || (substr( $name, 0, 11 ) == 'membership_' ) ) { //ignore component fields
+                    continue;
                 }
                 $fields[$name] = 1;
             }
