@@ -680,14 +680,16 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             //CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
-        //add contact to gruoup
-        require_once 'CRM/Contact/BAO/GroupContact.php';
-        CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
 
-        //add contact to tags
-        require_once 'CRM/Core/BAO/EntityTag.php';
-        CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
-        
+        if ( $this->_showTagsAndGroups ) {
+            //add contact to group
+            require_once 'CRM/Contact/BAO/GroupContact.php';
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $params['contact_id'] );
+            
+            //add contact to tags
+            require_once 'CRM/Core/BAO/EntityTag.php';
+            CRM_Core_BAO_EntityTag::create( $params['tag'], $params['contact_id'] );
+        }
         
         // here we replace the user context with the url to view this contact
         $session =& CRM_Core_Session::singleton( );
