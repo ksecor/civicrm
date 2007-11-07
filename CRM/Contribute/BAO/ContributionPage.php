@@ -97,9 +97,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( isset( $values['custom_pre_id'] ) ) {
             $preProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_pre_id'] );
             if ( $preProfileType == 'Membership' ) {
-                $params = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
+                $params['custom_pre_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
             } else if ( $preProfileType == 'Contribution' ) {
-                $params = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
+                $params['custom_pre_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
             
             $gIds['custom_pre_id'] = $values['custom_pre_id'];
@@ -108,9 +108,9 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         if ( isset( $values['custom_post_id'] ) ) {
             $postProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_post_id'] );
             if ( $postProfileType == 'Membership' ) {
-                $params = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
+                $params['custom_post_id'] = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
             } else if ( $postProfileType == 'Contribution' ) {
-                $params = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
+                $params['custom_post_id'] = array( array( 'contribution_id', '=', $values['contribution_id'], 0, 0 ) );
             }
 
             $gIds['custom_post_id'] = $values['custom_post_id'];
@@ -118,10 +118,10 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
         
         //send notification email if field values are set (CRM-1941)
         require_once 'CRM/Core/BAO/UFGroup.php';
-        foreach ( $gIds as $gId ) {
+        foreach ( $gIds as $key => $gId ) {
             $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
             if ( $email ) {
-                $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params );
+                $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params[$key] );
                 CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val); 
             }
         }
@@ -131,8 +131,8 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
-            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $params );
-            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $params );
+            self::buildCustomDisplay( $values['custom_pre_id'] , 'customPre' , $contactID, $template, $params['custom_pre_id'] );
+            self::buildCustomDisplay( $values['custom_post_id'], 'customPost', $contactID, $template, $params['custom_post_id'] );
 
             // set email in the template here
             $template->assign( 'email', $email );

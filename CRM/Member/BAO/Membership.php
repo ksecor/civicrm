@@ -916,7 +916,8 @@ civicrm_membership_status.is_current_member =1";
             $payment->doTransferCheckout( $form->_params );
         }
         
-        $form->_values['membership_id'] = $membership->id;
+        $form->_values['membership_id'  ] = $membership->id;
+        $form->_values['contribution_id'] = $contribution[$index]->id;
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
