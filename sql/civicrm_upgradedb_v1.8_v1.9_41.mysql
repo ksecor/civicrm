@@ -374,3 +374,10 @@ CREATE TABLE civicrm_mailing_spool (
 -- *******************************************************/
     UPDATE civicrm_state_province SET name = 'Torfaen' WHERE name = 'Torfasn';
 
+-- /*******************************************************
+-- *
+-- * fix Google Checkout URL
+-- *
+-- *******************************************************/
+    UPDATE civicrm_payment_processor_type SET url_site_test_default = 'https://sandbox.google.com/checkout/' WHERE name = 'Google_Checkout';
+

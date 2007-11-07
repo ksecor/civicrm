@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2007-10-15 19:56-0700\n"
 "Last-Translator: A.Lindner <chtulhu@web.de>\n"
 "MIME-Version: 1.0\n"
@@ -4515,8 +4515,9 @@ msgid "List Participants"
 msgstr "Teilnehmer auflisten"
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr "Zusammenfassung"
+#, fuzzy
+msgid "Reports"
+msgstr "Importieren"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -12754,6 +12755,9 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid "Summary Report"
+#~ msgstr "Zusammenfassung"
 
 #~ msgid "Activity Entity Table"
 #~ msgstr "Aktivitätsdatentabelle"
