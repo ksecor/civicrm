@@ -35,7 +35,7 @@ tests.data.readOnlyItemFileTestTemplates.registerTestsForDatastore = function(/*
 // testFile data-sets
 tests.data.readOnlyItemFileTestTemplates.getTestData = function(name){
 	var data = null;
-	if(name === "countries"){
+	if (name === "countries") {
 		if(dojo.isBrowser){
 			data = {url: dojo.moduleUrl("tests", "data/countries.json").toString() };
 		}else{
@@ -70,23 +70,6 @@ tests.data.readOnlyItemFileTestTemplates.getTestData = function(name){
 				]
 			} };
 		}
-	}else if(name === "countries_withoutid"){
-		if(dojo.isBrowser){
-			data = {url: dojo.moduleUrl("tests", "data/countries_withoutid.json").toString() };
-		}else{
-			data = {data: { 
-				label: "name",
-				items:[
-					{abbr:"ec", name:null, capital:"Quito"},
-					{abbr:'eg', name:null, capital:'Cairo'},
-					{abbr:'sv', name:'El Salvador', capital:'San Salvador'},
-					{abbr:'gq', name:'Equatorial Guinea', capital:'Malabo'},
-					{abbr:'er', name:'Eritrea', capital:'Asmara'},
-					{abbr:'ee', name:null, capital:'Tallinn'},
-					{abbr:'et', name:'Ethiopia', capital:'Addis Ababa'}
-				]
-			} };
-		}
 	}else if (name === "countries_withBoolean"){
 		if(dojo.isBrowser){
 			data = {url: dojo.moduleUrl("tests", "data/countries_withBoolean.json").toString() };
@@ -105,7 +88,7 @@ tests.data.readOnlyItemFileTestTemplates.getTestData = function(name){
 				]
 			} };
 		}
-	}else if (name === "countries_withDates"){
+	}else if (name === "countries_withDates") {
 		if(dojo.isBrowser){
 			data = {url: dojo.moduleUrl("tests", "data/countries_withDates.json").toString() };
 		}else{
@@ -122,7 +105,7 @@ tests.data.readOnlyItemFileTestTemplates.getTestData = function(name){
 				]
 			} };
 		}
-	}else if (name === "geography_hierarchy_small"){
+	}else if (name === "geography_hierarchy_small") {
 		if(dojo.isBrowser){
 			data = {url: dojo.moduleUrl("tests", "data/geography_hierarchy_small.json").toString() };
 		}else{
@@ -145,30 +128,6 @@ tests.data.readOnlyItemFileTestTemplates.getTestData = function(name){
 						]}
 				]
 			}};
-		}
-	}else if (name === "data_multitype"){
-		if(dojo.isBrowser){
-			data = {url: dojo.moduleUrl("tests", "data/data_multitype.json").toString() };
-		}else{
-			data = {data: { 
-							"identifier": "count",
-							"label": "count", 
-							items: [
-								{ count: 1,    value: "true" },
-								{ count: 2,    value: true   },
-								{ count: 3,    value: "false"},
-								{ count: 4,    value: false  },
-								{ count: 5,    value: true   },
-								{ count: 6,    value: true   },
-								{ count: 7,    value: "true" },
-								{ count: 8,    value: "true" },
-								{ count: 9,    value: "false"},
-								{ count: 10,   value: false  },
-								{ count: 11,   value: [false, false]},
-								{ count: "12", value: [false, "true"]}
-						   ]
-						} 
-					};
 		}
 	}
 	return data;
@@ -332,30 +291,6 @@ tests.data.readOnlyItemFileTestTemplates.testTemplates = [
 		}
 	},
 	{
-		name: "Identity API: fetchItemByIdentity() withoutSpecifiedIdInData",
- 		runTest: function(datastore, t){
-			//	summary: 
-			//		Simple test of bug #4691, looking up something by assigned id, not one specified in the JSON data.
-			//	description:
-			//		Simple test of bug #4691, looking up something by assigned id, not one specified in the JSON data.
-			var store = new datastore(tests.data.readOnlyItemFileTestTemplates.getTestData("countries_withoutid"));
-
-			var d = new doh.Deferred();
-			function onItem(item){
-				t.assertTrue(item !== null);
-				var name = store.getValue(item,"name");
-				t.assertEqual(name, "El Salvador");
-				d.callback(true);
-			}
-			function onError(errData){
-				t.assertTrue(false);
-				d.errback(errData);
-			}
-			store.fetchItemByIdentity({identity: "2", onItem: onItem, onError: onError});
-			return d; // Deferred
-		}
-	},
-	{
 		name: "Identity API: getIdentity()",
  		runTest: function(datastore, t){
 			//	summary: 
@@ -375,29 +310,6 @@ tests.data.readOnlyItemFileTestTemplates.testTemplates = [
 				d.errback(errData);
 			}
 			store.fetchItemByIdentity({identity: "sv", onItem: onItem, onError: onError});
-			return d; // Deferred
-		}
-	},
-	{
-		name: "Identity API: getIdentity() withoutSpecifiedId",
- 		runTest: function(datastore, t){
-			//	summary: 
-			//		Simple test of the #4691 bug
-			//	description:
-			//		Simple test of the #4691 bug
-			var store = new datastore(tests.data.readOnlyItemFileTestTemplates.getTestData("countries_withoutid"));
-
-			var d = new doh.Deferred();
-			function onItem(item, request){
-				t.assertTrue(item !== null);
-				t.assertTrue(store.getIdentity(item) === 2);
-				d.callback(true);
-			}
-			function onError(errData, request){
-				t.assertTrue(false);
-				d.errback(errData);
-			}
-			store.fetch({ query:{abbr: "sv"}, onItem: onItem, onError: onError});
 			return d; // Deferred
 		}
 	},
@@ -754,58 +666,6 @@ tests.data.readOnlyItemFileTestTemplates.testTemplates = [
 				d.errback(errData);
 			}
 			store.fetch({onComplete: completed, onError: error});
-			return d;
-		}
-	},
-	{
-		name: "Read API: fetch() with MultiType Match",
- 		runTest: function(datastore, t){
-			//	summary: 
-			//		Simple test of a basic fetch againct an attribute that has different types for the value across items
-			//	description:
-			//		Simple test of a basic fetch againct an attribute that has different types for the value across items
-			//		Introduced because of tracker: #4931
-			var store = new datastore(tests.data.readOnlyItemFileTestTemplates.getTestData("data_multitype"));
-			
-			var d = new doh.Deferred();
-			function onComplete(items, request){
-				t.assertEqual(4, items.length);
-				d.callback(true);
-			}
-			function onError(errData, request){
-				t.assertTrue(false);
-				d.errback(errData);
-			}
-			store.fetch({ 	query: {count: "1*"}, 
-									onComplete: onComplete, 
-									onError: onError
-								});
-			return d;
-		}
-	},
-	{
-		name: "Read API: fetch() with MultiType, MultiValue Match",
- 		runTest: function(datastore, t){
-			//	summary: 
-			//		Simple test of a basic fetch againct an attribute that has different types for the value across items
-			//	description:
-			//		Simple test of a basic fetch againct an attribute that has different types for the value across items
-			//		Introduced because of tracker: #4931
-			var store = new datastore(tests.data.readOnlyItemFileTestTemplates.getTestData("data_multitype"));
-			
-			var d = new doh.Deferred();
-			function onComplete(items, request){
-				t.assertEqual(7, items.length);
-				d.callback(true);
-			}
-			function onError(errData, request){
-				t.assertTrue(false);
-				d.errback(errData);
-			}
-			store.fetch({ 	query: {value: "true"}, 
-									onComplete: onComplete, 
-									onError: onError
-								});
 			return d;
 		}
 	},

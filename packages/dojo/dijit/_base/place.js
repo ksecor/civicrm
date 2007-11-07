@@ -58,7 +58,7 @@ dijit.getViewport = function(){
 };
 
 dijit.placeOnScreen = function(
-	/* DomNode */	node,
+	/* HTMLElement */	node,
 	/* Object */		pos,
 	/* Object */		corners,
 	/* boolean? */		tryOnly){
@@ -83,7 +83,7 @@ dijit.placeOnScreen = function(
 	return dijit._place(node, choices);
 }
 
-dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ layoutNode){
+dijit._place = function(/*HtmlElement*/ node, /* Array */ choices, /* Function */ layoutNode){
 	// summary:
 	//		Given a list of spots to put node, put it at the first spot where it fits,
 	//		of if it doesn't fit anywhere then the place with the least overflow
@@ -158,8 +158,8 @@ dijit._place = function(/*DomNode*/ node, /* Array */ choices, /* Function */ la
 }
 
 dijit.placeOnScreenAroundElement = function(
-	/* DomNode */		node,
-	/* DomNode */		aroundNode,
+	/* HTMLElement */	node,
+	/* HTMLElement */	aroundNode,
 	/* Object */		aroundCorners,
 	/* Function */		layoutNode){
 

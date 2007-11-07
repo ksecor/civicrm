@@ -2,10 +2,7 @@ if(!dojo._hasResource["dojox.grid._data.fields"]){ //_hasResource checks added b
 dojo._hasResource["dojox.grid._data.fields"] = true;
 dojo.provide("dojox.grid._data.fields");
 
-dojo.declare("dojox.grid.data.Mixer", null, {
-	// summary:
-	//	basic collection class that provides a default value for items
-	
+dojo.declare("dojox.grid.data.mixer", null, {
 	constructor: function(){
 		this.defaultValue = {};
 		this.values = [];
@@ -31,14 +28,13 @@ dojo.declare("dojox.grid.data.Mixer", null, {
 		}
 	},
 	get: function(inIndex){
-		return this.values[inIndex] || this.build(inIndex);
+		return (this.values[inIndex] || this.build(inIndex));
 	},
 	_set: function(inIndex, inField /*[, inField2, ... inFieldN] */){
 		// each field argument can be a single field object of an array of field objects
 		var v = this.get(inIndex);
-		for(var i=1; i<arguments.length; i++){
+		for (var i=1; i<arguments.length; i++)
 			dojo.mixin(v, arguments[i]);
-		}
 		this.values[inIndex] = v;
 	},
 	set: function(/* inIndex, inField [, inField2, ... inFieldN] | inArray */){
@@ -46,13 +42,13 @@ dojo.declare("dojox.grid.data.Mixer", null, {
 			return;
 		}
 		var a = arguments[0];
-		if(!dojo.isArray(a)){
+		if (!dojo.isArray(a)){
 			this._set.apply(this, arguments);
 		}else{
-			if(a.length && a[0]["default"]){
+			if (a.length && a[0]["default"]){
 				this.setDefault(a.shift());
 			}
-			for(var i=0, l=a.length; i<l; i++){
+			for (var i=0, l=a.length; i<l; i++){
 				this._set(i, a[i]);
 			}
 		}
@@ -79,25 +75,26 @@ dojox.grid.data.compare = function(a, b){
 	return (a > b ? 1 : (a == b ? 0 : -1));
 }
 
-dojo.declare('dojox.grid.data.Field', null, {
+dojox.grid.data.generateComparator = function(inCompare, inColumn, inSubCompare){
+	return function(a, b){
+		var c = Math.abs(inColumn) - 1;
+		var ineq = inCompare(a[c], b[c]);
+		return ineq ? (inColumn > 0 ? ineq : -ineq) : inSubCompare && inSubCompare(a, b);
+	}
+}
+
+dojo.declare('dojox.grid.data.field', null, {
 	constructor: function(inName){
 		this.name = inName;
 		this.compare = dojox.grid.data.compare;
 	},
-	na: dojox.grid.na
+	na: '...'
 });
 
-dojo.declare('dojox.grid.data.Fields', dojox.grid.data.Mixer, {
+dojo.declare('dojox.grid.data.fields', dojox.grid.data.mixer, {
 	constructor: function(inFieldClass){
-		var fieldClass = inFieldClass ? inFieldClass : dojox.grid.data.Field;
+		var fieldClass = inFieldClass ? inFieldClass : dojox.grid.data.field;
 		this.defaultValue = new fieldClass();
-	},
-	indexOf: function(inKey){
-		for(var i=0; i<this.values.length; i++){
-			var v = this.values[i];
-			if(v && v.key == inKey){return i;}
-		}
-		return -1;
 	}
 });
 

@@ -386,14 +386,13 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function buildCustom( $id, $name ) 
-    {
+    function buildCustom( $id, $name ) {
         if ( $id ) {
             require_once 'CRM/Core/BAO/UFGroup.php';
             require_once 'CRM/Profile/Form.php';
             $session =& CRM_Core_Session::singleton( );
             $contactID = $session->get( 'userID' );
-            
+
             // we don't allow conflicting fields to be
             // configured via profile - CRM 2100
             $fieldsToIgnore = array( 'receive_date'           => 1,
@@ -413,7 +412,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                     $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD );
                     if (array_intersect_key($fields, $fieldsToIgnore)) {
                         $fields = array_diff_key( $fields, $fieldsToIgnore );
-                        CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");
+                        CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");                      
                     }
                     $this->assign( $name, $fields );
                     
@@ -426,7 +425,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $fields = CRM_Core_BAO_UFGroup::getFields( $id, false,CRM_Core_Action::ADD ); 
                 if (array_intersect_key($fields, $fieldsToIgnore)) {
                     $fields = array_diff_key( $fields, $fieldsToIgnore );
-                    CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");
+                    CRM_Core_Session::setStatus("Some of the profile fields cannot be configured for this page.");                      
                 }
                 $this->assign( $name, $fields );
                 

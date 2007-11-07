@@ -24,12 +24,12 @@ dojo.declare(
 		// In case 2, the regular html inputs are invisible but still used by
 		// the user. They are turned quasi-invisible and overlay the background-image.
 
-		templateString:"<fieldset class=\"dijitReset dijitInline\" waiRole=\"presentation\"\n\t><input\n\t \ttype=\"${type}\" name=\"${name}\"\n\t\tclass=\"dijitReset dijitCheckBoxInput\"\n\t\tdojoAttachPoint=\"inputNode,focusNode\"\n\t \tdojoAttachEvent=\"onmouseover:_onMouse,onmouseout:_onMouse,onclick:_onClick\"\n/></fieldset>\n",
+		templateString:"<span\n\t><input\n\t \ttype=\"${_type}\"\n\t\tclass=\"dijitCheckBoxInput\"\n\t\tdojoAttachPoint=\"inputNode,focusNode\"\n\t \tdojoAttachEvent=\"onmouseover:_onMouse,onmouseout:_onMouse,onclick:onClick\"\n/></span>\n",
 
 		baseClass: "dijitCheckBox",
 
 		//	Value of "type" attribute for <input>
-		type: "checkbox",
+		_type: "checkbox",
 
 		// value: Value
 		//	equivalent to value field on normal checkbox (if checked, the value is passed as
@@ -39,15 +39,16 @@ dojo.declare(
 		postCreate: function(){
 			dojo.setSelectable(this.inputNode, false);
 			this.setChecked(this.checked);
-			this.inherited(arguments);
+			dijit.form.ToggleButton.prototype.postCreate.apply(this, arguments);
 		},
 
 		setChecked: function(/*Boolean*/ checked){
+			this.checked = checked;
 			if(dojo.isIE){
 				if(checked){ this.inputNode.setAttribute('checked', 'checked'); }
 				else{ this.inputNode.removeAttribute('checked'); }
 			}else{ this.inputNode.checked = checked; }
-			this.inherited(arguments);
+			dijit.form.ToggleButton.prototype.setChecked.apply(this, arguments);
 		},
 
 		setValue: function(/*String*/ value){
@@ -73,7 +74,7 @@ dojo.declare(
 		// of all the siblings (the "context") in a group based on input
 		// events. We don't rely on browser radio grouping.
 
-		type: "radio",
+		_type: "radio",
 		baseClass: "dijitRadio",
 
 		// This shared object keeps track of all widgets, grouped by name
@@ -83,7 +84,7 @@ dojo.declare(
 			// add this widget to _groups
 			(this._groups[this.name] = this._groups[this.name] || []).push(this);
 
-			this.inherited(arguments);
+			dijit.form.CheckBox.prototype.postCreate.apply(this, arguments);
 		},
 
 		uninitialize: function(){
@@ -105,10 +106,10 @@ dojo.declare(
 					}
 				}, this);
 			}
-			this.inherited(arguments);			
+			dijit.form.CheckBox.prototype.setChecked.apply(this, arguments);			
 		},
 
-		_clicked: function(/*Event*/ e){
+		onClick: function(/*Event*/ e){
 			if(!this.checked){
 				this.setChecked(true);
 			}

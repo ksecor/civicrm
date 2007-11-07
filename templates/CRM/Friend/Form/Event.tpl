@@ -1,2 +1,2 @@
-{include file="CRM/Friend/Form/Friend.tpl" context="Event"}
+{include file="CRM/Friend/Form/Friend.tpl"}
 

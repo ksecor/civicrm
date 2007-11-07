@@ -551,7 +551,6 @@ class CRM_GCD {
         $this->strictIndividual = array_slice($this->individual, 0, $this->numStrictIndividual);
         
         // get the household to individual mapping array
-        require_once 'CRM/Utils/Array.php';
         $this->householdIndividual = array_diff($this->individual, $this->strictIndividual);
         $this->householdIndividual = array_chunk($this->householdIndividual, self::NUM_INDIVIDUAL_PER_HOUSEHOLD);
         $this->householdIndividual = CRM_Utils_Array::combine($this->household, $this->householdIndividual);
@@ -894,17 +893,17 @@ class CRM_GCD {
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75*($this->numIndividual-$this->numStrictIndividual)/100));
         foreach ($someIndividual as $contactId) {
-            $this->_addLocation(self::HOME, $contactId, false, false);
+            $this->_addLocation(self::HOME, $contactId);
         }
 
     }
 
-    private function _addLocation($locationTypeId, $contactId, $domain = false, $isPrimary = true)
+    private function _addLocation($locationTypeId, $contactId, $domain = false)
     {
-        $this->_addAddress( $locationTypeId, $contactId, $isPrimary );
+        $this->_addAddress( $locationTypeId, $contactId, true );
 
         // add two phones for each location
-        $this->_addPhone($locationTypeId, $contactId, 'Phone', $isPrimary);
+        $this->_addPhone($locationTypeId, $contactId, 'Phone', true);
         $this->_addPhone($locationTypeId, $contactId, 'Mobile', false);
 
         // need to get sort name to generate email id
@@ -916,7 +915,7 @@ class CRM_GCD {
         if ( ! empty( $sortName ) ) {
             // add 2 email for each location
             for ($emailId=1; $emailId<=2; $emailId++) {
-                $this->_addEmail($locationTypeId, $contactId, $sortName, ($emailId == 1) && $isPrimary);
+                $this->_addEmail($locationTypeId, $contactId, $sortName, ($emailId == 1));
             }
         }
     }
@@ -1569,12 +1568,12 @@ $obj1->addMembership();
 //$obj1->addMembershipLog();
 $obj1->addEvent();
 $obj1->addEventPage();
-$obj1->addParticipant();
-/** FIXME FOR NEW address model
 $obj1->addEventLocationAddress();
-$obj1->addEventLocation();
 $obj1->addEventPhone();
 $obj1->addEventemail();
+$obj1->addParticipant();
+$obj1->addEventLocation();
+/** FIXME FOR NEW address model
 add_contributions( );
 $obj1->addEventFeeLabel();
 **/

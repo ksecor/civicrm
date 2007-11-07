@@ -42,6 +42,7 @@ require_once 'CRM/Utils/Sort.php';
 
 require_once 'CRM/Contact/BAO/Contact.php';
 require_once 'CRM/Contact/BAO/Query.php';
+require_once 'CRM/Contact/BAO/SearchCustom.php';
 
 /**
  * This class is used to retrieve and display a range of
@@ -241,7 +242,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      * @access public
      */
     function getTotalCount( $action ) {
-        return $this->_search->count( );
+        return CRM_Contact_BAO_SearchCustom::getTotalCount( $this->_search );
     }
 
     /**
@@ -265,9 +266,10 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
             $includeContactIDs = true;
         }
 
-        $sql = $this->_search->all( $offset, $rowCount, $sort, $includeContactIDs );
+        $params = array( );
+        $sql = $this->_search->all( $params, $offset, $rowCount, $sort, $includeContactIDs );
 
-        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao = CRM_Core_DAO::executeQuery( $sql, $params );
 
         $columns     = $this->_search->columns( );
         $columnNames = array_values( $columns );
@@ -277,17 +279,15 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         // process the result of the query
         $rows = array( );
         while ( $dao->fetch( ) ) {
-            $row   = array();
-            $empty = true;
+            $row = array();
 
             // the columns we are interested in
             foreach ($columnNames as $property) {
-                $row[$property] = $dao->$property;
                 if ( ! empty( $dao->$property ) ) {
-                    $empty = false;
+                    $row[$property] = $dao->$property;
                 }
             }
-            if ( ! $empty ) {
+            if ( ! empty( $row ) ) {
                 $row['checkbox'] = CRM_Core_Form::CB_PREFIX . $dao->contact_id;
                 $row['action']   = CRM_Core_Action::formLink( $links,
                                                               $mask ,
@@ -327,7 +327,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     }
 
     function &alphabetQuery( ) {
-        return $this->_search->alphabet( );
+        return CRM_Core_DAO::$_nullArray;
     }
 
     function &contactIDQuery( ) {

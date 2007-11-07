@@ -6,11 +6,9 @@ dojo.isNumber = function(v){
 	return (typeof v == 'number') || (v instanceof Number);
 }
 
-// summary:
-//	grid utility library
+// grid utility library
 
 dojo.mixin(dojox.grid, {
-	na: '...',
 	nop: function() {
 	},
 	getTdIndex: function(td){
@@ -172,28 +170,6 @@ dojo.mixin(dojox.grid, {
 		var cache = inArray[inI];
 		inArray[inI] = inArray[inJ];
 		inArray[inJ] = cache;
-	},
-	initTextSizePoll: function(inInterval) {
-		var f = document.createElement("div");
-		with (f.style) {
-			top = "0px";
-			left = "0px";
-			position = "absolute";
-			visibility = "hidden";
-		}
-		f.innerHTML = "TheQuickBrownFoxJumpedOverTheLazyDog";
-		document.body.appendChild(f);
-		var fw = f.offsetWidth;
-		var job = function() {
-			if (f.offsetWidth != fw) {
-				fw = f.offsetWidth;
-				dojox.grid.textSizeChanged();
-			}
-		}
-		window.setInterval(job, inInterval||200);
-		dojox.grid.initTextSizePoll = dojox.grid.nop;
-	},
-	textSizeChanged: function() {
 	}
 });
 

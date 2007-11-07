@@ -17,7 +17,7 @@ dojo.declare(
 		//		A subclass of TextBox.
 		//		Over-ride isValid in subclasses to perform specific kinds of validation.
 
-		templateString:"<table style=\"display: -moz-inline-stack;\" class=\"dijit dijitReset dijitInlineTable\" cellspacing=\"0\" cellpadding=\"0\"\n\tid=\"widget_${id}\" name=\"${name}\"\n\tdojoAttachEvent=\"onmouseenter:_onMouse,onmouseleave:_onMouse\" waiRole=\"presentation\"\n\t><tr class=\"dijitReset\"\n\t\t><td class=\"dijitReset dijitInputField\" width=\"100%\"\n\t\t\t><input dojoAttachPoint='textbox,focusNode' dojoAttachEvent='onfocus,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress' autocomplete=\"off\"\n\t\t\ttype='${type}' name='${name}'\n\t\t/></td\n\t\t><td class=\"dijitReset dijitValidationIconField\" width=\"0%\"\n\t\t\t><div dojoAttachPoint='iconNode' class='dijitValidationIcon'></div><div class='dijitValidationIconText'>&Chi;</div\n\t\t></td\n\t></tr\n></table>\n",
+		templateString:"<table style=\"display: -moz-inline-stack;\" class=\"dijit dijitReset dijitInlineTable\" cellspacing=\"0\" cellpadding=\"0\"\n\tid=\"widget_${id}\" name=\"${name}\"\n\tdojoAttachEvent=\"onmouseenter:_onMouse,onmouseleave:_onMouse\" waiRole=\"presentation\">\n\t<tr class=\"dijitReset\">\n\t\t<td class=\"dijitReset dijitInputField\" width=\"100%\"\n\t\t\t><input dojoAttachPoint='textbox,focusNode' dojoAttachEvent='onfocus,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress' autocomplete=\"off\"\n\t\t\tstyle=\"width: 100%\" class=\"dijitInputField\" type='${type}'\n\t\t/></td>\n\t\t<td class=\"dijitReset dijitValidationIconField\" width=\"0%\"\n\t\t\t><div dojoAttachPoint='iconNode' class='dijitValidationIcon'></div><div class='dijitValidationIconText'>&Chi;</div\n\t\t></td>\n\t</tr>\n</table>\n",
 		baseClass: "dijitTextBox",
 
 		// default values for new subclass properties
@@ -29,7 +29,7 @@ dojo.declare(
 		promptMessage: "",
 		// invalidMessage: String
 		// 		The message to display if value is invalid.
-		invalidMessage: "$_unset_$", // read from the message file if not overridden
+		invalidMessage: "\x00", // read from the message file if not overridden
 		// constraints: Object
 		//		user-defined object needed to pass parameters to the validator functions
 		constraints: {},
@@ -53,9 +53,7 @@ dojo.declare(
 
 		validator: function(value,constraints){
 			// summary: user replaceable function used to validate the text input against the regular expression.
-			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value) &&
-				(!this.required || !this._isEmpty(value)) &&
-				(this._isEmpty(value) || this.parse(value, constraints) !== null);
+			return (new RegExp("^(" + this.regExpGen(constraints) + ")"+(this.required?"":"?")+"$")).test(value)&&(!this.required||!this._isEmpty(value));
 		},
 
 		isValid: function(/* Boolean*/ isFocused){
@@ -86,9 +84,9 @@ dojo.declare(
 			var message = "";
 			var isValid = this.isValid(isFocused);
 			var isEmpty = this._isEmpty(this.textbox.value);
-			this.state = (isValid || (!this._hasBeenBlurred && isEmpty)) ? "" : "Error";
+			this.state = (isValid || (!this._hasBeenBlurred && this.required && isEmpty)) ? "" : "Error";
 			this._setStateClass();
-			dijit.setWaiState(this.focusNode, "invalid", (isValid? "false" : "true"));
+			dijit.wai.setAttr(this.focusNode, "waiState", "invalid", (isValid? "false" : "true"));
 			if(isFocused){
 				if(isEmpty){
 					message = this.getPromptMessage(true);
@@ -114,9 +112,9 @@ dojo.declare(
 			//		User overridable method to display validation errors/hints.
 			//		By default uses a tooltip.
 			if(message){
-				dijit.showTooltip(message, this.domNode);
+				dijit.MasterTooltip.show(message, this.domNode);
 			}else{
-				dijit.hideTooltip(this.domNode);
+				dijit.MasterTooltip.hide(this.domNode);
 			}
 		},
 
@@ -147,7 +145,7 @@ dojo.declare(
 			this.inherited('postMixInProperties', arguments);
 			this.constraints.locale=this.lang;
 			this.messages = dojo.i18n.getLocalization("dijit.form", "validate", this.lang);
-			if(this.invalidMessage == "$_unset_$"){ this.invalidMessage = this.messages.invalidMessage; }
+			if(this.invalidMessage == "\x00"){ this.invalidMessage = this.messages.invalidMessage; }
 			var p = this.regExpGen(this.constraints);
 			this.regExp = p;
 			// make value a string for all types so that form reset works well
@@ -186,8 +184,8 @@ dojo.declare(
 			valueNode.setAttribute("value", this.toString());
 			dojo.style(valueNode, "display", "none");
 			valueNode.name = this.textbox.name;
-			this.textbox.name = "_" + this.textbox.name + "_displayed_";
 			this.textbox.removeAttribute("name");
+
 			dojo.place(valueNode, textbox, "after");
 
 			this.inherited('postCreate', arguments);
@@ -256,10 +254,10 @@ dojo.declare(
 		postCreate: function(){
 			this.inherited('postCreate', arguments);
 			if(typeof this.constraints.min != "undefined"){
-				dijit.setWaiState(this.focusNode, "valuemin", this.constraints.min);
+				dijit.wai.setAttr(this.focusNode, "waiState", "valuemin", this.constraints.min);
 			}
 			if(typeof this.constraints.max != "undefined"){
-				dijit.setWaiState(this.focusNode, "valuemax", this.constraints.max);
+				dijit.wai.setAttr(this.focusNode, "waiState", "valuemax", this.constraints.max);
 			}
 		}
 	}

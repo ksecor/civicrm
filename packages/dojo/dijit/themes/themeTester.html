@@ -3,9 +3,8 @@
 	<title>Dijit Theme Tester</title>
 	<script type="text/javascript" src="../../dojo/dojo.js" 
 		djConfig="parseOnLoad: false, isDebug: true"></script>
-	<!--
-	<script type="text/javascript" src="http://prototypejs.org/assets/2007/10/16/prototype.js"></script>
-	-->
+	<script type="text/javascript" src="../tests/_testCommon.js"></script>
+
 	<script type="text/javascript" src="../dijit.js"></script>
 	<script type="text/javascript" src="../dijit-all.js"></script>
 	<script type="text/javascript">
@@ -13,8 +12,8 @@
 		// for 'un-supported' themes, too. (eg: yours) 
 		var availableThemes = [
 			{ theme:"tundra", author:"Dojo", baseUri:"../themes/"},
-			{ theme:"soria", author:"dante", baseUri:"../themes/"}//,
-			//{ theme:"noir", author:"owen", baseUri:"../themes/"}
+			{ theme:"soria", author:"dante", baseUri:"../themes/"},
+			{ theme:"noir", author:"owen", baseUri:"../themes/"}
 		];
 	</script>
 	<style type="text/css">
@@ -51,7 +50,6 @@
 
 		hr.spacer { border:0; background-color:#ededed; width:80%; height:1px; } 
 	</style>
-	<script type="text/javascript" src="../tests/_testCommon.js"></script>
 	<script type="text/javascript"> // dojo.requires()
 
 		dojo.require("dijit.Menu");
@@ -66,7 +64,7 @@
 		dojo.require("dijit.Editor"); 
 		
 		// dnd:
-		dojo.require("dojo.dnd.Source");
+		dojo.require("dojo.dnd.source");
 
 		// various Form elemetns
 		dojo.require("dijit.form.CheckBox");
@@ -75,7 +73,7 @@
 		dojo.require("dijit.form.TextBox");
 		dojo.require("dijit.form.DateTextBox");	
 		dojo.require("dijit.form.Button");
-		dojo.require("dijit.InlineEditBox");
+		dojo.require("dijit.form.InlineEditBox");
 		dojo.require("dijit.form.NumberSpinner");
 		dojo.require("dijit.form.Slider"); 
 
@@ -189,7 +187,7 @@
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="continentStore"
 		url="../tests/_data/countries.json"></div>
 	<div dojoType="dojo.data.ItemFileReadStore" jsId="stateStore"
-		url="../tests/_data/states.json"></div>
+		url="../tests/_data/comboBoxData.json"></div>
 	<!-- contentMenu popup -->
 	<div dojoType="dijit.Menu" id="submenu1" contextMenuForWindow="true" style="display: none;">
 		<div dojoType="dijit.MenuItem" onClick="alert('Hello world');">Enabled Item</div>
@@ -620,23 +618,24 @@
 						<hr class="spacer">
 					
 
-						<h2 class="testTitle">dijit.InlineEditBox + dijit.form.TextBox</h2>
+						<h2 class="testTitle">dijit.form.InLineEditBox + dijit.form.TextBox</h2>
 	
-						This is an editable header, 
-						<h3 id="editable" style="font-size:larger;" dojoType="dijit.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
-							Edit me - I trigger the onChange callback
-						</h3>
-						And keep the text around me static. 
+						This is an InLine Sentence, 
+						<span id="editable" style="font-size:larger;" dojoType="dijit.form.InlineEditBox" onChange="myHandler(this.id,arguments[0])">
+							<input dojoType="dijit.form.TextBox" value="Edit me - I trigger the onChange callback">
+						</span>
+						And Keep the text around me satic. 
 
 						<hr class="spacer">
 	
-						<h2>dijit.InlineEditBox + dijit.form.Textarea</h2>
+						<h2>dijit.form.InlineEditBox + dijit.form.Textarea</h2>
 
 						(HTML before)
-						<p id="areaEditable" dojoType="dijit.InlineEditBox" editor="dijit.form.Textarea">
-							I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b>
-							The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...
-						</p>
+						<div style="width:300px;">
+							<p><span id="areaEditable" dojoType="dijit.form.InlineEditBox">
+							<textarea dojoType="dijit.form.Textarea">I'm one big paragraph.  Go ahead and <i>edit</i> me.  <b>I dare you.</b> The quick brown fox jumped over the lazy dog.  Blah blah blah blah blah blah blah ...</textarea>
+							</span></p>
+						</div>
 						(HTML after)
 
 						<p>
@@ -651,27 +650,27 @@
 						<h2>dijit.form.DateTextBox:</h2>
 		
 						(HTML inline before)
-						<span id="backgroundArea" dojoType="dijit.InlineEditBox" editor="dijit.form.DateTextBox" width="170px">12/30/2005</span>
-						(HTML after)
-
-						<hr class="spacer">
-
-						<h2>dijit.form.TimeTextBox:</h2>
-		
-						(HTML inline before)
-						<span id="timePicker" dojoType="dijit.InlineEditBox" editor="dijit.form.TimeTextBox" width="150px">9:00 AM</span>
+						<span id="backgroundArea" dojoType="dijit.form.InlineEditBox">
+						<input name="date" value="2005-12-30"
+							dojoType="dijit.form.DateTextBox"
+							constraints={locale:'en-us'}
+							required="true"
+							promptMessage="mm/dd/yyyy"
+							invalidMessage="Invalid date. Use mm/dd/yyyy format.">
+						</span>
 						(HTML after)
 
 						<hr class="spacer">
 
 						
 						<h2>dijit.form.FilteringSelect + Inline + remote data store:</h2>
-						(HTML inline before)
-						<span id="backgroundArea2" dojoType="dijit.InlineEditBox" editor="dijit.form.FilteringSelect"
-							editorParams="{store: stateStore, autoComplete: true, promptMessage: 'Please enter a state'}"
-							width="300px">
-							Indiana
-						</span>
+						(HTML block before)
+						<p id="backgroundArea2" dojoType="dijit.form.InlineEditBox">
+						<input searchField="name" keyField="abbreviation" id="setvaluetest"
+							dojoType="dijit.form.FilteringSelect" value="IA"
+							store="stateStore" name="state1" autoComplete="true"
+							promptMessage="Please enter a state">
+						</p>
 						(HTML after)
 	
 					</div><!-- end fourth upper tab -->
@@ -712,8 +711,9 @@
 						<p>You can explore this single page after applying a Theme
 						for use in creation of your own theme.</p>
 	
-						<p>I am whole slew of Widgets on a page. Jump to <a href="../tests/">dijit tests</a> to
-						test individual components.</p>
+						<p>I am a Split Container, containing a Split Container on
+						the right. TabContainer on the top right, Bottom-aligned Tab Container
+						bottom right. AccordionPane on the left.</p>
 	
 						<p>There is a right-click [context] pop-up menu here, as well.</p>
 					</div><!-- end:info btab1 -->

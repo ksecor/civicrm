@@ -55,27 +55,20 @@ interface CRM_Contact_Form_Search_Interface {
      * Count of records that match the current input parameters
      * Used by pager
      */
-    function count     ( );
-
-    /**
-     * List of alphabets of records that match the current input parameters
-     * Used by alpha pager
-     */
-    function alphabet ( );
+    function count     ( &$queryParams );
 
     /**
      * List of contact ids that match the current input parameters
      * Used by different tasks. Will be also used to optimize the
      * 'all' query below to avoid excessive LEFT JOIN blowup
      */
-    function contactIDs( $offset = 0, $rowcount = 0, $sort = null );
+    function contactIDs( &$queryParams, $offset, $rowcount, $sort );
 
     /**
      * Retrieve all the values that match the current input parameters
      * Used by the selector
      */
-    function all       ( $offset = 0, $rowcount = 0, $sort = null,
-                         $includeContactIDs = false );
+    function all       ( &$queryParams, $offset, $rowcount, $sort );
 
     /**
      * The below two functions (from and where) are ONLY used if you want to
@@ -89,12 +82,12 @@ interface CRM_Contact_Form_Search_Interface {
     /**
      * The from clause for the query 
      */
-    function from      ( );
+    function from      ( &$queryParams );
 
     /**
      * The where clause for the query 
      */
-    function where     ( $includeContactIDs = false );
+    function where     ( &$queryParams );
 
     /**
      * The template FileName to use to display the results

@@ -12,18 +12,12 @@ $json = new Services_JSON();
 sleep(3);
 $name = empty($_REQUEST['name'])? "default" : $_REQUEST['name'];
 if(is_array($_FILES)){
-	$ar = array(
-		'status' => "success",
-		'details' => $_FILES[$name]
-	);
+	$ar = array('status' => "success", 'details' => $_FILES[$name]);
 }else{
-	$ar = array(
-		'status' => "failed",
-		'details' => ""
-	);
+	$ar = array('status' => "failed", 'details' => "");
 }
 
-// yeah, seems you have to wrap iframeIO stuff in textareas?
 $foo = $json->encode($ar);
+// yeah, seems you have to wrap iframeIO stuff in textareas?
 ?>
 <textarea><?php print $foo; ?></textarea>

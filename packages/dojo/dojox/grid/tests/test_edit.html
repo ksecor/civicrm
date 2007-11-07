@@ -36,32 +36,11 @@
 	}
 </style>
 	<script type="text/javascript" src="../../../dojo/dojo.js" djConfig="isDebug:false, parseOnLoad: true"></script>
-	<!--<script type="text/javascript">
+	<script type="text/javascript">
 		dojo.require("dojox.grid.Grid");
 		dojo.require("dojox.grid._data.model");
 		dojo.require("dojo.parser");
-	</script>-->
-	<!-- Debugging -->
-	<script type="text/javascript" src="../_grid/lib.js"></script>
-	<script type="text/javascript" src="../_grid/drag.js"></script>
-	<script type="text/javascript" src="../_grid/scroller.js"></script>
-	<script type="text/javascript" src="../_grid/builder.js"></script>
-	<script type="text/javascript" src="../_grid/cell.js"></script>
-	<script type="text/javascript" src="../_grid/layout.js"></script>
-	<script type="text/javascript" src="../_grid/rows.js"></script>
-	<script type="text/javascript" src="../_grid/focus.js"></script>
-	<script type="text/javascript" src="../_grid/selection.js"></script>
-	<script type="text/javascript" src="../_grid/edit.js"></script>
-	<script type="text/javascript" src="../_grid/view.js"></script>
-	<script type="text/javascript" src="../_grid/views.js"></script>
-	<script type="text/javascript" src="../_grid/rowbar.js"></script>
-	<script type="text/javascript" src="../_grid/publicEvents.js"></script>
-	<script type="text/javascript" src="../VirtualGrid.js"></script>
-	<script type="text/javascript" src="../_data/fields.js"></script>
-	<script type="text/javascript" src="../_data/model.js"></script>
-	<script type="text/javascript" src="../_data/editors.js"></script>
-	<script type="text/javascript" src="../Grid.js"></script>
-	<script type="text/javascript">
+
 	// ==========================================================================
 	// Create a data model
 	// ==========================================================================
@@ -74,11 +53,9 @@
 		[ "important", false, "replied", 'To problems of corruption by', 9.12, -3, true ],
 		[ "note", false, "replied", 'Which would simply be awkward in', 12.15, -4, false ]
 	];
-	var rows = 10000;
-	for(var i=0, l=data.length; i<rows-l; i++){
-		data.push(data[i%l].slice(0));
-	}
-	model = new dojox.grid.data.Table(null, data);
+	for (var i=0; i<10; i++)
+		data = data.concat(data);
+	model = new dojox.grid.data.table(null, data);
 	// ==========================================================================
 	// Tie some UI to the data model
 	// ==========================================================================
@@ -95,24 +72,24 @@
 	// ==========================================================================
 	// Grid structure
 	// ==========================================================================
-	statusCell = { field: 2, name: 'Status', styles: 'text-align: center;', editor: dojox.grid.editors.Select, options: [ "new", "read", "replied" ] };
+	statusCell = { field: 2, name: 'Status', styles: 'text-align: center;', editor: dojox.grid.editors.select, options: [ "new", "read", "replied" ] };
 	gridLayout = [{
 		type: 'dojox.GridRowView', width: '20px'
 	},{
-		defaultCell: { width: 8, editor: dojox.grid.editors.Input, styles: 'text-align: right;'  },
+		defaultCell: { width: 8, editor: dojox.grid.editors.input, styles: 'text-align: right;'  },
 		rows: [[
 			{ name: 'Id', width: 3, get: function(inRowIndex) { return inRowIndex+1;} },
-			{ name: 'Priority', styles: 'text-align: center;', editor: dojox.grid.editors.Select, options: ["normal", "note", "important"]},
-			{ name: 'Mark', width: 3, styles: 'text-align: center;', editor: dojox.grid.editors.Bool },
+			{ name: 'Priority', styles: 'text-align: center;', editor: dojox.grid.editors.select, options: ["normal", "note", "important"]},
+			{ name: 'Mark', width: 3, styles: 'text-align: center;', editor: dojox.grid.editors.bool },
 			statusCell,
 			{ name: 'Message', styles: '', width: '100%' },
 			{ name: 'Amount', formatter: formatMoney },
 			{ name: 'Amount', field: 4, formatter: formatMoney }
 		]]
 	},{
-		defaultCell: { width: 4, editor: dojox.grid.editors.Input, styles: 'text-align: right;' },
+		defaultCell: { width: 4, editor: dojox.grid.editors.input, styles: 'text-align: right;' },
 		rows: [[
-			{ name: 'Mark', width: 3, field: 1, styles: 'text-align: center;', editor: dojox.grid.editors.Bool}, 
+			{ name: 'Mark', width: 3, field: 1, styles: 'text-align: center;', editor: dojox.grid.editors.bool}, 
 			statusCell,
 			{ name: 'Amount', field: 4, formatter: formatMoney},
 			{ name: 'Detail', value: 'Detail'}
@@ -121,9 +98,15 @@
 	// ==========================================================================
 	// UI Action
 	// ==========================================================================
-	addRow = function(){
+	addRow = function() {
 		grid.addRow([ "normal", false, "new", 'Now is the time for all good men to come to the aid of their party.', 99.99, 9.99, false ]);
 	}
+	// ==========================================================================
+	// Startup tasks
+	// ==========================================================================
+	dojo.addOnLoad(function() {
+		window["grid"] = dijit.byId("grid");
+	});
 </script>
 </head>
 <body>
@@ -141,9 +124,7 @@
 	<button onclick="grid.singleClickEdit = !grid.singleClickEdit">Toggle singleClickEdit</button>&nbsp;
 </div>
 <br />
-<div id="grid" dojoType="dojox.Grid" 
-	jsId="grid"
-	model="model" structure="gridLayout"></div>
+<div id="grid" dojoType="dojox.Grid" model="model" structure="gridLayout"></div>
 <br />
 <div id="rowCount"></div>
 </body>

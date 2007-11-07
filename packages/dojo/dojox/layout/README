@@ -1,17 +1,15 @@
 -------------------------------------------------------------------------------
 dojox.layout
 -------------------------------------------------------------------------------
-Version 1.0
-Release date: 10/31/2007
+Version 0.003
+Release date: 2007-06-01
 -------------------------------------------------------------------------------
 Project state:
-[expermental | beta]
+[expermental]
 -------------------------------------------------------------------------------
 Credits
-	Pete Higgins (dante)
+	Pete Higgins (phiggins@gmail.com)
 	Fredrik Johansson (fj.mumme@gmail.com)
-	Adam Peller (peller)
-	Bill Keese (bill)
 -------------------------------------------------------------------------------
 Project description
 
@@ -28,30 +26,27 @@ Project description
 	Supports inline scripts, inline styles, relative path adjustments
 	and having a table tag as domNode.
 
-	dojox.layout.BorderContainer - an experimental replacement for dijit.layout.BorderLayout
-	using CSS for layout. Incomplete. [experimental]
-
-	dojox.layout.RadioGroup - a stack container with sliding or fading transitions
-	(and an internal button set to mimic a tab container, but fires on hover)
-
+	dojox.layout.StretchPane -- an extension on dojox ContentPane
+	Supports animated resizing and calculated sizes for nodes see test files for examples.
+	
 -------------------------------------------------------------------------------
 Dependencies
 
-	require Dojo Core, Dojo Base (fx), and Dijit
+	require Dojo Core, Dojo Base (fx), and Dijit.TitlePane, Dijit.layout.ContentPane
+
 
 -------------------------------------------------------------------------------
 Installation:
 
 	checkout:
 
-	http://svn.dojotoolkit.org/dojo/dojox/layout/*
-	http://svn.dojotoolkit.org/dojo/dijit/*
+	http://svn.dojotoolkit.org/var/src/dojo/dojox/layout/*
+	http://svn.dojotoolkit.org/var/src/dojo/dijit/*
 
 	and require via:
 		dojo.require("dojox.layout.FloatingPane");
 	or:
 		dojo.require("dojox.layout.ContentPane");
-	etc ...
 
 -------------------------------------------------------------------------------
 Basic Usage:
@@ -70,3 +65,7 @@ Basic Usage:
 		paths in folder.html will be adjusted to match this page
 	</div>
 
+	<div id="panex" dojoType="dojox.layout.StretchPane"
+		style="border: solid blue 1px; overflow:hidden"
+		x="90" y="60" w="40+0.2*w" h="40"
+     >Stretch horiz</div>

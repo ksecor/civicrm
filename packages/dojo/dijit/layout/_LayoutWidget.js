@@ -139,12 +139,6 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 
 		dojo.addClass(container, "dijitLayoutContainer");
 
-		// Move "client" elements to the end of the array for layout.  a11y dictates that the author
-		// needs to be able to put them in the document in tab-order, but this algorithm requires that
-		// client be last.
-		children = dojo.filter(children, function(item){ return item.layoutAlign != "client"; })
-			.concat(dojo.filter(children, function(item){ return item.layoutAlign == "client"; }));
-
 		// set positions/sizes
 		dojo.forEach(children, function(child){
 			var elm = child.domNode,
@@ -176,7 +170,7 @@ dijit.layout.marginBox2contentBox = function(/*DomNode*/ node, /*Object*/ mb){
 				}else{
 					elmStyle.left = dim.l + dim.w + "px";
 				}
-			}else if(pos=="client"){
+			}else if(pos=="flood" || pos=="client"){
 				size(child, dim);
 			}
 		});

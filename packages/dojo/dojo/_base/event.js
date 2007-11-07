@@ -12,17 +12,23 @@ dojo.require("dojo._base.connect");
 			if(!node){return;} 
 			name = del._normalizeEventName(name);
 
+			// disable onmouseenter and onmouseleave until bug #4307 is fixed on FF
+			if(name == "mouseenter"){ name="mouseover"; }
+			else if(name == "mouseleave"){ name="mouseout"; }
+
 			fp = del._fixCallback(name, fp);
 
-			var oname = name;
 			if((!dojo.isIE)&&((name == "mouseenter")||(name == "mouseleave"))){
 				var oname = name;
 				var ofp = fp;
 				name = (name == "mouseenter") ? "mouseover" : "mouseout";
 				fp = function(e){
 					// thanks ben!
-					var id = dojo.isDescendant(e.relatedTarget, node);
-					if(id == false){
+					var n = e.relatedTarget;
+					while(n && n != node){
+						n = n.parentNode;
+					}
+					if(!n){
 						// e.type = oname; // FIXME: doesn't take?
 						return ofp.call(this, e);
 					}
@@ -189,7 +195,7 @@ dojo.require("dojo._base.connect");
 	
 	// IE event normalization
 	if(dojo.isIE){ 
-		var _trySetKeyCode = function(e, code){
+		_trySetKeyCode = function(e, code){
 			try{
 				// squelch errors when keyCode is read-only
 				// (e.g. if keyCode is ctrl or shift)

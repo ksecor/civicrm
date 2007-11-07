@@ -37,7 +37,7 @@ dojo.declare("dijit.form._FormMixin", null,
 		target: "",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{action: "", method: "", enctype: "", "accept-charset": "", accept: "", target: ""}),
+			{action: "", method: "", enctype: "", name: "", "accept-charset": "", accept: "", target: ""}),
 
 		// execute: Function
 		//	User defined function to do stuff when the user hits the submit button
@@ -53,7 +53,7 @@ dojo.declare("dijit.form._FormMixin", null,
 		//	(user shouldn't override)
 		onExecute: function(){},
 
-		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' name='${name}' enctype='multipart/form-data'></form>",
+		templateString: "<form dojoAttachPoint='containerNode' dojoAttachEvent='onsubmit:_onSubmit' enctype='multipart/form-data'></form>",
 
 		_onSubmit: function(/*event*/e) {
 			// summary: callback when user hits submit button

@@ -10,8 +10,6 @@ dojo.require("dijit.form.Button");
 
 dojo.requireLocalization("dijit", "common", null, "zh-tw,ROOT,pt,zh,de,ru,hu,cs,es,fr,ko,it,ja,pl");
 
-dojo.deprecated("dijit.form.InlineEditBox is deprecated, use dijit.InlineEditBox instead", "", "1.1");
-
 dojo.declare(
 	"dijit.form.InlineEditBox",
 	[dijit.form._FormWidget, dijit._Container],
@@ -26,8 +24,8 @@ dojo.declare(
 	//		Currently all textboxes that inherit from dijit.form.TextBox
 	//		are supported edit widgets.
 	//		An edit widget must support the following API to be used:
-	//		String getDisplayedValue() OR String getValue()
-	//		void setDisplayedValue(String) OR void setValue(String)
+	//		String getTextValue() OR String getValue()
+	//		void setTextValue(String) OR void setValue(String)
 	//		void focus()
 	//		It must also be able to initialize with style="display:none;" set.
 {

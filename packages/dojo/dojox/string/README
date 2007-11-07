@@ -5,14 +5,11 @@ Version 0.9
 Release date: 05/08/2007
 -------------------------------------------------------------------------------
 Project state:
-dojox.string.Builder: stable
-dojox.string.sprintf: beta
-dojox.string.tokenize: beta
+stable
 -------------------------------------------------------------------------------
 Project authors
 	Ben Lowery
 	Tom Trenka (ttrenka@gmail.com)
-	Neil Roberts
 -------------------------------------------------------------------------------
 Project description
 

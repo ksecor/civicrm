@@ -7,11 +7,6 @@
 
 @import url("../dijit.css");
 
-/* un-comment to endable webkit and ff2 builtin love */
-/* 
-@import url("rounded.css");
-*/
-
 .dj_safari .soria .dijitPopup {
 	-webkit-box-shadow: 0px 3px 7px #adadad;
 }
@@ -28,8 +23,7 @@
 .soria .dijitTooltipContainer,
 .soria .dijitHorizontalSliderRemainingBar {
 	background:#b7cdee url('images/gradientTopBg.png') repeat-x; 
-	/* background:#090 url('images/gradientTopBg.png') repeat-x; */
-	#background-image:none !important;
+	background-position:0 -1px; 
 }
 
 .soria .dijitButtonHover .dijitButtonNode,
@@ -47,8 +41,8 @@
 .soria .dijitAccordionPane-selected .dijitAccordionTitle,
 .soria .dijitProgressBarTile,
 .soria .dijitHorizontalSliderProgressBar {
-	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x; 
-
+	background:#4f8ce5 url('images/gradientTopBg.png') repeat-x;
+	background-position:0 -1px; 
 }
 
 /* all icons are here */
@@ -118,13 +112,10 @@
 .soria .dijitButtonNode {
 	/* enabled state - inner */
 	border:1px solid #4f8ce5;
-	vertical-align: middle;
-	padding: 0.2em 0.2em;
+	padding:.3em .4em .2em .4em;
 }
-
 .dj_ie6 .soria .dijitButtonNode {
-	zoom: 1;
-	padding-bottom: 0.1em;
+	position:relative; 
 }
 
 .soria .dijitButtonDisabled .dijitButtonNode,
@@ -138,6 +129,7 @@
 	/* disabled state - inner */
 	border: 1px solid #d5d5d5;
 	background:#ccc url("images/gradientTopBg.png") repeat-x top left;
+	background-position:0px -1px; 
 	opacity: 0.50; /* Safari, Opera and Mozilla */
 }
 .soria .dijitButtonDisabled .dijitButtonNode *,
@@ -174,22 +166,6 @@
 	border-color:#333;
 	background: #cbdcf7 url("images/gradientBottomBg.png") bottom repeat-x;
 }
-
-/* button inner contents - labels, icons etc. */
-.soria .dijitButtonNode * {
-	display: -moz-inline-box;
-	display: inline-block;
-	vertical-align: middle;
-}
-.dj_ie .soria .dijitButtonNode * {
-	zoom: 1;
-	display:inline;
-}
-.soria .dijitButtonText {
-	padding: 0 0.3em;
-}
-
-
 .soria .dijitToolbar {
 	border: 1px solid #333;
 }
@@ -272,28 +248,9 @@
 	font-size: inherit;
 	background:#fff url("images/gradientInverseTopBg.png") repeat-x top left;
 	background-position:0 -32px; 
-	/* border:1px solid #333; */
+	border:1px solid #333;
 	line-height: normal;
 	padding: 0.2em 0.3em;
-}
-
-.dj_ie .soria TD.dijitInputField,
-.dj_ie .soria .dijitInputField INPUT {
-	height: 1.65em; /* set height for IE since the INPUT is position:absolute */
-}
-
-.dj_safari .soria .dijitInputField {
-	padding: 0.08em 0.3em; /* looks better */
-}
-
-.soria INPUT.dijitTextBox {
-	padding: 0.2em 0.3em;
-}
-
-.dj_ie .soria .dijitTextBox INPUT,
-.dj_ie .soria .dijitComboBox INPUT,
-.dj_ie .soria .dijitSpinner INPUT {
-	width:95% !important; /* add a little padding-right for position:absolute INPUT */
 }
 
 .soria .dijitComboBoxFocused .dijitInputField {
@@ -482,7 +439,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 
 .soria .dijitTabInnerDiv {
 	padding:6px 10px 4px 10px;
-	/* border-left:1px solid #fff; */
+	border-left:1px solid #fff;
  	border-bottom:transparent; 
 }
 .dj_ie6 .soria .dijitTabInnerDiv { border-bottom:0; }
@@ -1130,6 +1087,7 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria .dijitComboBoxDisabled *
 {
 	cursor: not-allowed !important;
+	cursor: url("images/no.gif"), not-allowed, default;
 }
 
 /* DnD avatar-specific settings FIXME: need to wrap icon in a span like rest of dijits. */
@@ -1147,5 +1105,4 @@ HTML.dj_ie6 .soria .dijitInputFieldValidationError,
 .soria.dojoDndCopy .dojoDndAvatarHeader	{ background-position:-448px 0px; }
 .soria.dojoDndMove .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-464px 0px; }
 .soria.dojoDndCopy .dojoDndAvatarCanDrop .dojoDndAvatarHeader { background-position:-480px 0px; }
-
 

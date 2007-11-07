@@ -6,14 +6,10 @@ dojo.require("dijit._Templated");
 dojo.require("dojox.grid._grid.builder");
 
 dojo.declare('dojox.GridView', [dijit._Widget, dijit._Templated], {
-	// summary:
-	//	A collection of grid columns. A grid is comprised of a set of views that stack horizontally.
-	//	Grid creates views automatically based on grid's layout structure.
-	//	Users should typically not need to access individual views directly.
+	//: public
 	defaultWidth: "18em",
-	// viewWidth: string
-	// width for the view, in valid css unit
 	viewWidth: "",
+	//: private
 	templateString: '<div class="dojoxGrid-view"><div class="dojoxGrid-header" dojoAttachPoint="headerNode"><div style="width: 9000em"><div dojoAttachPoint="headerContentNode"></div></div></div><input type="checkbox" class="dojoxGrid-hidden-focus" dojoAttachPoint="hiddenFocusNode" /><input type="checkbox" class="dojoxGrid-hidden-focus" /><div class="dojoxGrid-scrollbox" dojoAttachPoint="scrollboxNode"><div class="dojoxGrid-content" dojoAttachPoint="contentNode" hidefocus="hidefocus"></div></div></div>',
 	themeable: false,
 	classTag: 'dojoxGrid',
@@ -28,6 +24,7 @@ dojo.declare('dojox.GridView', [dijit._Widget, dijit._Templated], {
 		dojox.grid.funnelEvents(this.headerNode, this, "doHeaderEvent", [ 'dblclick', 'mouseover', 'mouseout', 'mousemove', 'mousedown', 'click', 'contextmenu' ]);
 		this.content = new dojox.grid.contentBuilder(this);
 		this.header = new dojox.grid.headerBuilder(this);
+		//dojo.html.disableSelection(this.contentNode);
 	},
 	destroy: function(){
 		dojox.grid.removeNode(this.headerNode);
@@ -97,11 +94,10 @@ dojo.declare('dojox.GridView', [dijit._Widget, dijit._Templated], {
 	},
 	// note: not called in 'view' context
 	_getHeaderContent: function(inCell){
-		var n = inCell.name || inCell.grid.getCellName(inCell);
 		if(inCell.index != inCell.grid.getSortIndex()){
-			return n;
+			return inCell.name;
 		}
-		return [ '<div class="', inCell.grid.sortInfo > 0 ? 'dojoxGrid-sort-down' : 'dojoxGrid-sort-up', '">', n, '</div>' ].join('');
+		return [ '<div class="', inCell.grid.sortInfo > 0 ? 'dojoxGrid-sort-down' : 'dojoxGrid-sort-up', '">', inCell.name, '</div>' ].join('');
 	},
 	resize: function(){
 		this.resizeHeight();
@@ -148,6 +144,7 @@ dojo.declare('dojox.GridView', [dijit._Widget, dijit._Templated], {
 			}
 		}
 	},
+	// FIXME: exchange 'render' and 'build' idioms
 	renderRow: function(inRowIndex, inHeightPx){
 		var rowNode = this.createRowNode(inRowIndex);
 		this.buildRow(inRowIndex, rowNode, inHeightPx);
@@ -239,14 +236,14 @@ dojo.declare('dojox.GridView', [dijit._Widget, dijit._Templated], {
 	},
 	// event dispatch(from Grid)
 	dispatchContentEvent: function(e){
-		return this.content.dispatchEvent(e);
+		return this.content.dispatchEvent(e); 
 	},
 	dispatchHeaderEvent: function(e){
 		return this.header.dispatchEvent(e);
 	},
 	// column resizing
 	setColWidth: function(inIndex, inWidth){
-		this.grid.setCellWidth(inIndex, inWidth + 'px');
+		this.grid.getCell(inIndex).unitWidth = inWidth + 'px';
 	},
 	update: function(){
 		var left = this.scrollboxNode.scrollLeft;

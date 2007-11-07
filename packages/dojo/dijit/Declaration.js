@@ -37,7 +37,6 @@ dojo.declare(
 				propList.preamble = dojo.parser._functionFromScript(preambles[0]);
 			}
 			propList.widgetsInTemplate = true;
-			propList._skipNodeCache = true;
 			propList.templateString = "<"+srcType+" class='"+src.className+"' dojoAttachPoint='"+(src.getAttribute("dojoAttachPoint")||'')+"' dojoAttachEvent='"+(src.getAttribute("dojoAttachEvent")||'')+"' >"+src.innerHTML.replace(/\%7B/g,"{").replace(/\%7D/g,"}")+"</"+srcType+">";
 			// console.debug(propList.templateString);
 

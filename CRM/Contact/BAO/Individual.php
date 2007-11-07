@@ -36,15 +36,14 @@
 /**
  * Class contains functions for individual contact type
  */
-require_once 'CRM/Contact/DAO/Contact.php';
-
-class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
+class CRM_Contact_BAO_Individual
 {
     /**
      * This is a contructor of the class.
      */
     function __construct() 
     {
+        parent::__construct();
     }
     
     /**

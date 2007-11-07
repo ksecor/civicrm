@@ -506,9 +506,6 @@ doh.register = doh.add = function(groupOrNs, testOrNull){
 doh.t = doh.assertTrue = function(/*Object*/ condition){
 	// summary:
 	//		is the passed item "truthy"?
-	if(arguments.length != 1){ 
-		throw doh._AssertFailure("assertTrue failed because it was not passed exactly 1 argument"); 
-	} 
 	if(!eval(condition)){
 		throw doh._AssertFailure("assertTrue('" + condition + "') failed");
 	}
@@ -517,47 +514,22 @@ doh.t = doh.assertTrue = function(/*Object*/ condition){
 doh.f = doh.assertFalse = function(/*Object*/ condition){
 	// summary:
 	//		is the passed item "falsey"?
-	if(arguments.length != 1){ 
-		throw doh._AssertFailure("assertFalse failed because it was not passed exactly 1 argument"); 
-	} 
 	if(eval(condition)){
 		throw doh._AssertFailure("assertFalse('" + condition + "') failed");
 	}
 }
 
-doh.e = doh.assertError = function(/*Error object*/expectedError, /*Object*/scope, /*String*/functionName, /*Array*/args){
-	//	summary:
-	//		Test for a certain error to be thrown by the given function.
-	//	example:
-	//		t.assertError(dojox.data.QueryReadStore.InvalidAttributeError, store, "getValue", [item, "NOT THERE"]);
-	//		t.assertError(dojox.data.QueryReadStore.InvalidItemError, store, "getValue", ["not an item", "NOT THERE"]);
-	try{
-		scope[functionName].apply(scope, args);
-	}catch (e){
-		if(e instanceof expectedError){
-			return true;
-		}else{
-			throw new doh._AssertFailure("assertError() failed: expected error |"+expectedError+"| but got |"+e+"|");
-		}
-	}
-	throw new doh._AssertFailure("assertError() failed: expected error |"+expectedError+"| but no error caught.");
-}
-
-
 doh.is = doh.assertEqual = function(/*Object*/ expected, /*Object*/ actual){
 	// summary:
 	//		are the passed expected and actual objects/values deeply
 	//		equivalent?
-
-	// Compare undefined always with three equal signs, because undefined==null
-	// is true, but undefined===null is false. 
-	if((expected === undefined)&&(actual === undefined)){ 
+	if((expected == undefined)&&(actual == undefined)){ 
 		return true;
 	}
-	if(arguments.length < 2){ 
-		throw doh._AssertFailure("assertEqual failed because it was not passed 2 arguments"); 
-	} 
-	if((expected === actual)||(expected == actual)){ 
+	if(expected === actual){
+		return true;
+	}
+	if(expected == actual){ 
 		return true;
 	}
 	if(	(this._isArray(expected) && this._isArray(actual))&&
@@ -848,84 +820,81 @@ doh.run = function(){
 
 tests = doh;
 
-(function(){
-	// scop protection
+try{
+	if(typeof dojo != "undefined"){
+		dojo.platformRequire({
+			browser: ["doh._browserRunner"],
+			rhino: ["doh._rhinoRunner"],
+			spidermonkey: ["doh._rhinoRunner"]
+		});
+		var _shouldRequire = (dojo.isBrowser) ? (dojo.global == dojo.global["parent"]) : true;
+		if(_shouldRequire){
+			if(dojo.isBrowser){
+				dojo.addOnLoad(function(){
+					if(dojo.byId("testList")){
+						var _tm = ( (dojo.global.testModule && dojo.global.testModule.length) ? dojo.global.testModule : "dojo.tests.module");
+						dojo.forEach(_tm.split(","), dojo.require, dojo);
+						setTimeout(function(){
+							doh.run();
+						}, 500);
+					}
+				});
+			}else{
+				dojo.require("doh._base");
+			}
+		}
+	}else{
+		if(
+			(typeof load == "function")&&
+			(	(typeof Packages == "function")||
+				(typeof Packages == "object")	)
+		){
+			throw new Error();
+		}else if(typeof load == "function"){
+			throw new Error();
+		}
+	}
+}catch(e){
+	print("\n"+doh._line);
+	print("The Dojo Unit Test Harness, $Rev$");
+	print("Copyright (c) 2007, The Dojo Foundation, All Rights Reserved");
+	print(doh._line, "\n");
+
+	load("_rhinoRunner.js");
+
 	try{
-		if(typeof dojo != "undefined"){
-			dojo.platformRequire({
-				browser: ["doh._browserRunner"],
-				rhino: ["doh._rhinoRunner"],
-				spidermonkey: ["doh._rhinoRunner"]
-			});
-			var _shouldRequire = (dojo.isBrowser) ? (dojo.global == dojo.global["parent"]) : true;
-			if(_shouldRequire){
-				if(dojo.isBrowser){
-					dojo.addOnLoad(function(){
-						if(dojo.byId("testList")){
-							var _tm = ( (dojo.global.testModule && dojo.global.testModule.length) ? dojo.global.testModule : "dojo.tests.module");
-							dojo.forEach(_tm.split(","), dojo.require, dojo);
-							setTimeout(function(){
-								doh.run();
-							}, 500);
-						}
-					});
-				}else{
-					// dojo.require("doh._base");
+		var dojoUrl = "../../dojo/dojo.js";
+		var testUrl = "";
+		var testModule = "dojo.tests.module";
+		for(var x=0; x<arguments.length; x++){
+			if(arguments[x].indexOf("=") > 0){
+				var tp = arguments[x].split("=");
+				if(tp[0] == "dojoUrl"){
+					dojoUrl = tp[1];
+				}
+				if(tp[0] == "testUrl"){
+					testUrl = tp[1];
+				}
+				if(tp[0] == "testModule"){
+					testModule = tp[1];
 				}
 			}
-		}else{
-			if(
-				(typeof load == "function")&&
-				(	(typeof Packages == "function")||
-					(typeof Packages == "object")	)
-			){
-				throw new Error();
-			}else if(typeof load == "function"){
-				throw new Error();
+		}
+		if(dojoUrl.length){
+			if(!this["djConfig"]){
+				djConfig = {};
 			}
+			djConfig.baseUrl = dojoUrl.split("dojo.js")[0];
+			load(dojoUrl);
+		}
+		if(testUrl.length){
+			load(testUrl);
+		}
+		if(testModule.length){
+			dojo.forEach(testModule.split(","), dojo.require, dojo);
 		}
 	}catch(e){
-		print("\n"+doh._line);
-		print("The Dojo Unit Test Harness, $Rev$");
-		print("Copyright (c) 2007, The Dojo Foundation, All Rights Reserved");
-		print(doh._line, "\n");
-
-		load("_rhinoRunner.js");
-
-		try{
-			var dojoUrl = "../../dojo/dojo.js";
-			var testUrl = "";
-			var testModule = "dojo.tests.module";
-			for(var x=0; x<arguments.length; x++){
-				if(arguments[x].indexOf("=") > 0){
-					var tp = arguments[x].split("=");
-					if(tp[0] == "dojoUrl"){
-						dojoUrl = tp[1];
-					}
-					if(tp[0] == "testUrl"){
-						testUrl = tp[1];
-					}
-					if(tp[0] == "testModule"){
-						testModule = tp[1];
-					}
-				}
-			}
-			if(dojoUrl.length){
-				if(!this["djConfig"]){
-					djConfig = {};
-				}
-				djConfig.baseUrl = dojoUrl.split("dojo.js")[0];
-				load(dojoUrl);
-			}
-			if(testUrl.length){
-				load(testUrl);
-			}
-			if(testModule.length){
-				dojo.forEach(testModule.split(","), dojo.require, dojo);
-			}
-		}catch(e){
-		}
-
-		doh.run();
 	}
-})();
+
+	doh.run();
+}

@@ -21,17 +21,16 @@ dojo.declare("dojo.dnd.Moveable", null, {
 		//		skip: Boolean: skip move of form elements
 		//		mover: Object: a constructor of custom Mover
 		this.node = dojo.byId(node);
-		if(!params){ params = {}; }
-		this.handle = params.handle ? dojo.byId(params.handle) : null;
+		this.handle = (params && params.handle) ? dojo.byId(params.handle) : null;
 		if(!this.handle){ this.handle = this.node; }
-		this.delay = params.delay > 0 ? params.delay : 0;
-		this.skip  = params.skip;
-		this.mover = params.mover ? params.mover : dojo.dnd.Mover;
+		this.delay = (params && params.delay > 0) ? params.delay : 0;
+		this.skip  = params && params.skip;
+		this.mover = (params && params.mover) ? params.mover : dojo.dnd.Mover;
 		this.events = [
 			dojo.connect(this.handle, "onmousedown", this, "onMouseDown"),
 			// cancel text selection and text dragging
-			dojo.connect(this.node, "ondragstart",   this, "onSelectStart"),
-			dojo.connect(this.node, "onselectstart", this, "onSelectStart")
+			dojo.connect(this.handle, "ondragstart",   dojo, "stopEvent"),
+			dojo.connect(this.handle, "onselectstart", dojo, "stopEvent")
 		];
 	},
 
@@ -58,7 +57,7 @@ dojo.declare("dojo.dnd.Moveable", null, {
 			this._lastX = e.pageX;
 			this._lastY = e.pageY;
 		}else{
-			new this.mover(this.node, e, this);
+			new this.mover(this.node, e);
 		}
 		dojo.stopEvent(e);
 	},
@@ -67,7 +66,7 @@ dojo.declare("dojo.dnd.Moveable", null, {
 		// e: Event: mouse event
 		if(Math.abs(e.pageX - this._lastX) > this.delay || Math.abs(e.pageY - this._lastY) > this.delay){
 			this.onMouseUp(e);
-			new this.mover(this.node, e, this);
+			new this.mover(this.node, e);
 		}
 		dojo.stopEvent(e);
 	},
@@ -77,51 +76,17 @@ dojo.declare("dojo.dnd.Moveable", null, {
 		dojo.disconnect(this.events.pop());
 		dojo.disconnect(this.events.pop());
 	},
-	onSelectStart: function(e){
-		// summary: event processor for onselectevent and ondragevent
-		// e: Event: mouse event
-		if(!this.skip || !dojo.dnd.isFormElement(e)){
-			dojo.stopEvent(e);
-		}
-	},
 	
 	// local events
-	onMoveStart: function(/* dojo.dnd.Mover */ mover){
-		// summary: called before every move operation
+	onDndMoveStart: function(/* dojo.dnd.Mover */ mover){
 		dojo.publish("/dnd/move/start", [mover]);
 		dojo.addClass(dojo.body(), "dojoMove"); 
 		dojo.addClass(this.node, "dojoMoveItem"); 
 	},
-	onMoveStop: function(/* dojo.dnd.Mover */ mover){
-		// summary: called after every move operation
+	onDndMoveStop: function(/* dojo.dnd.Mover */ mover){
 		dojo.publish("/dnd/move/stop", [mover]);
 		dojo.removeClass(dojo.body(), "dojoMove");
 		dojo.removeClass(this.node, "dojoMoveItem");
-	},
-	onFirstMove: function(/* dojo.dnd.Mover */ mover){
-		// summary: called during the very first move notification,
-		//	can be used to initialize coordinates, can be overwritten.
-		
-		// default implementation does nothing
-	},
-	onMove: function(/* dojo.dnd.Mover */ mover, /* Object */ leftTop){
-		// summary: called during every move notification,
-		//	should actually move the node, can be overwritten.
-		this.onMoving(mover, leftTop);
-		dojo.marginBox(mover.node, leftTop);
-		this.onMoved(mover, leftTop);
-	},
-	onMoving: function(/* dojo.dnd.Mover */ mover, /* Object */ leftTop){
-		// summary: called before every incremental move,
-		//	can be overwritten.
-		
-		// default implementation does nothing
-	},
-	onMoved: function(/* dojo.dnd.Mover */ mover, /* Object */ leftTop){
-		// summary: called after every incremental move,
-		//	can be overwritten.
-		
-		// default implementation does nothing
 	}
 });
 

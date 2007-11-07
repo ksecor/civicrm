@@ -206,7 +206,7 @@ dojox.regexp.emailAddress = function(/*Object?*/flags){
 	flags.allowPort = false; // invalid in email addresses
 
 	// user name RE - apostrophes are valid if there's not 2 in a row
-	var usernameRE = "([\\da-zA-Z]+[-._+&'])*[\\da-zA-Z]+";
+	var usernameRE = "([\\da-z]+[-._+&'])*[\\da-z]+";
 
 	// build emailAddress RE
 	var emailAddressRE = usernameRE + "@" + dojox.regexp.host(flags);

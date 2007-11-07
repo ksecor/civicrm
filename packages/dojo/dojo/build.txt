@@ -45,14 +45,13 @@ commonWidgets.js:
 ./../../release/dojo/dojo/date/stamp.js
 ./../../release/dojo/dojo/parser.js
 ./../../release/dojo/dijit/_Templated.js
-./../../release/dojo/dijit/_Container.js
-./../../release/dojo/dijit/layout/_LayoutWidget.js
 ./../../release/dojo/dojo/i18n.js
 ./../../release/dojo/dijit/layout/ContentPane.js
 ./../../release/dojo/dijit/form/Form.js
 ./../../release/dojo/dijit/Dialog.js
 ./../../release/dojo/dijit/_editor/selection.js
 ./../../release/dojo/dijit/_editor/RichText.js
+./../../release/dojo/dijit/_Container.js
 ./../../release/dojo/dijit/Toolbar.js
 ./../../release/dojo/dijit/form/_FormWidget.js
 ./../../release/dojo/dijit/form/Button.js
@@ -63,6 +62,7 @@ commonWidgets.js:
 ./../../release/dojo/dijit/ProgressBar.js
 ./../../release/dojo/dijit/TitlePane.js
 ./../../release/dojo/dijit/layout/LinkPane.js
+./../../release/dojo/dijit/layout/_LayoutWidget.js
 ./../../release/dojo/dijit/layout/StackContainer.js
 ./../../release/dojo/dijit/layout/TabContainer.js
 ./../../release/dojo/dojo/data/util/filter.js
@@ -78,7 +78,7 @@ commonWidgets.js:
 ./../../release/dojo/dojo/date.js
 ./../../release/dojo/dojo/date/locale.js
 ./../../release/dojo/dijit/_Calendar.js
-./../../release/dojo/dijit/_TimePicker.js
+./../../release/dojo/dijit/form/_TimePicker.js
 ./../../release/dojo/dijit/form/TimeTextBox.js
 ./../../release/dojo/dijit/form/DateTextBox.js
 ./../../release/dojo/dijit/dijit.js

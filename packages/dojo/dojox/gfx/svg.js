@@ -6,6 +6,8 @@ dojo.require("dojox.gfx._base");
 dojo.require("dojox.gfx.shape");
 dojo.require("dojox.gfx.path");
 
+dojo.experimental("dojox.gfx.svg");
+
 dojox.gfx.svg.xmlns = {
 	xlink: "http://www.w3.org/1999/xlink",
 	svg:   "http://www.w3.org/2000/svg"
@@ -402,7 +404,6 @@ dojo.declare("dojox.gfx.Text", dojox.gfx.shape.Text, {
 		r.setAttribute("text-decoration", s.decoration);
 		r.setAttribute("rotate", s.rotated ? 90 : 0);
 		r.setAttribute("kerning", s.kerning ? "auto" : 0);
-		r.setAttribute("text-rendering", "optimizeLegibility");
 		r.textContent = s.text;
 		return this;	// self
 	},

@@ -4,8 +4,6 @@ dojo.provide("dojox.grid._grid.layout");
 dojo.require("dojox.grid._grid.cell");
 
 dojo.declare("dojox.grid.layout", null, {
-	// summary:
-	//	Controls grid cell layout. Owned by grid and used internally.
 	constructor: function(inGrid){
 		this.grid = inGrid;
 	},
@@ -56,7 +54,7 @@ dojo.declare("dojox.grid.layout", null, {
 		}
 		// fieldIndex progresses linearly from the last indexed field
 		// FIXME: support generating fieldIndex based a text field name (probably in Grid)
-		var fieldIndex = inDef.field != undefined ? inDef.field : (inDef.get ? -1 : this.fieldIndex);
+		var fieldIndex = (inDef.field !=undefined ? inDef.field : (inDef.get ? -1 : this.fieldIndex));
 		if((inDef.field != undefined) || !inDef.get){
 			this.fieldIndex = (inDef.field > -1 ? inDef.field : this.fieldIndex) + 1; 
 		}

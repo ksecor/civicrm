@@ -125,8 +125,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @return void
      * @access public
      */
-    public static function handle( $pearError )
+    public static function handle($pearError)
     {
+        CRM_Core_Error::backtrace( );
         // setup smarty with config, session and template location.
         $template =& CRM_Core_Smarty::singleton( );
         $config   =& CRM_Core_Config::singleton( );
@@ -175,9 +176,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
         $template->assign_by_ref('error', $error);
         
-        CRM_Core_Error::debug_var( 'Fatal Error Details', $error );
-        CRM_Core_Error::backtrace( 'backTrace', true );
-
         if ( $config->initialized ) {
             $content  = $template->fetch( 'CRM/error.tpl' );
             $content .= CRM_Core_Error::debug( 'Error Details:', $error, false );
@@ -248,9 +246,6 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         $template =& CRM_Core_Smarty::singleton( );
         $template->assign( $vars );
 
-        CRM_Core_Error::debug_var( 'Fatal Error Details', $vars );
-        CRM_Core_Error::backtrace( 'backTrace', true );
-
         print $template->fetch( $config->fatalErrorTemplate );
         exit( CRM_Core_Error::FATAL_ERROR );
     }
@@ -304,16 +299,13 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @see CRM_Core_Error::debug()
      * @see CRM_Core_Error::debug_log_message()
      */
-    static function debug_var($variable_name,
-                              &$variable,
-                              $print = true,
-                              $log   = true)
+    static function debug_var($variable_name, &$variable, $print_r=true, $log=true)
     {
         // check if variable is set
         if(!isset($variable)) {
             $out = "\$$variable_name is not set";
         } else {
-            if ( $print ) {
+            if ($print_r) {
                 $out = print_r($variable, true);
                 $out = "\$$variable_name = $out";
             } else {
@@ -332,6 +324,144 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         return self::debug_log_message($out);
     }
     
+    
+
+    /**
+     * output backtrace of the program.
+     *
+     * @param  int  max trace level.
+     * @param  bool   should we log or return the output
+     *
+     * @return string format of the backtrace
+     *
+     * @access public
+     *
+     * @static
+     */
+    static function debug_stacktrace($trace_level=0, $log=true) {
+        $backTrace = debug_backtrace();
+
+        if($trace_level) {
+            // since trace level is specified use it to slice the backtrace array.
+            $num_element = count($backtrace);
+            $backtrace = array_slice($backtrace, 0, ($num_element>$trace_level ? $trace_level : $num_element));
+        }
+
+        $msgs = array( );
+        foreach ( $backTrace as $trace ) {
+            $msgs[] = implode( ', ', array( $trace['file'], $trace['function'], $trace['line'] ) );
+        }
+
+        $message = implode( "\n", $msgs );
+        $out = "<br />backtrace<br /><pre>$message</pre>";
+        return self::debug_log_message($out);
+    }
+
+
+
+    /**
+     * log an entry into a method
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    static function le_method()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "entering method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
+        self::debug_log_message($string1);
+    }
+
+
+
+    /**
+     * log an exit out of a method
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    function ll_method()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  method " . $array1[1]['class'] . "::" . $array1[1]['function'] . "() in " . $array1[0]['file']; 
+        self::debug_log_message($string1);
+    }
+
+
+    /**
+     * log an entry into a function
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    function le_function()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "entering function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
+        self::debug_log_message($string1);
+    }
+
+
+    /**
+     * log an exit out of a function
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    function ll_function()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  function " . $array1[1]['function'] . "() in " . basename($array1[0]['file']);
+        self::debug_log_message($string1);
+    }
+
+
+    /**
+     * log an entry into a file
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    function le_file()
+    {
+        $array1 = debug_backtrace();
+        $string1 .= "entering file " . $array1[0]['file'];
+        self::debug_log_message($string1);
+    }
+
+
+    /**
+     * log an exit out of a file
+     *
+     * @return string format of the output
+     *
+     * @access public
+     *
+     * @static
+     */
+    function ll_file()
+    {
+        $array1 = debug_backtrace();
+        $string1 = "leaving  file " . $array1[0]['file'];
+        self::debug_log_message($string1);  
+    }
+
+
     /**
      * display the error message on terminal
      *
@@ -357,7 +487,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         return $str;
     }
 
-    static function backtrace( $msg = 'backTrace', $log = false ) {
+    static function backtrace( $msg = 'backTrace' ) {
         $backTrace = debug_backtrace( );
         
         $msgs = array( );
@@ -366,11 +496,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         }
 
         $message = implode( "\n", $msgs );
-        if ( ! $log ) {
-            CRM_Core_Error::debug( $msg, $message );
-        } else {
-            CRM_Core_Error::debug_var( $msg, $message );
-        }
+        CRM_Core_Error::debug( $msg, $message );
     }
 
     static function createError( $message, $code = 8000, $level = 'Fatal', $params = null ) {
@@ -440,5 +566,9 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 }
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
+
+
+     
+
 
 ?>

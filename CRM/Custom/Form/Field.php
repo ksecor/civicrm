@@ -364,7 +364,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                           );
 
         // add a form rule to check default value
-        $this->addFormRule( array( 'CRM_Custom_Form_Field', 'formRule' ), $this );
+        $this->addFormRule( array( 'CRM_Custom_Form_Field', 'formRule' ) );
 
         // if view mode pls freeze it with the done button.
         if ($this->_action & CRM_Core_Action::VIEW) {
@@ -387,7 +387,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$self ) {
+    static function formRule( &$fields ) {
         $default = CRM_Utils_Array::value( 'default_value', $fields );
         $errors  = array( );
         if ( $default ) {
@@ -452,36 +452,11 @@ SELECT count(*)
             }
         } 
 
-        /**
-         * check that date parts is valid
-         */
-        if ( self::$_dataTypeKeys[$fields['data_type'][0]] == 'Date' ) {
-            if ( ! isset( $fields['date_parts']['Y'] ) ) {
-                $errors['date_parts'] = ts( 'You must have a year selected for a custom date' );
-            } else {
-                $orderElements = array( 'M', 'd', 'h', 'i', 'A' );
-                $error    = false;
-                $okToHave = true;
-                foreach ( $orderElements as $order ) {
-                    if ( isset( $fields['date_parts'][$order] ) ) {
-                        if ( ! $okToHave ) {
-                            $error = true;
-                        }
-                    } else {
-                        $okToHave = false;
-                    }
-                }
-                if ( $error ) {
-                    $errors['date_parts'] = ts( 'The combination selected does not make a valid date' );
-                }
-            }
-        }
-
         /** Check the option values entered
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        if ( $self->_action & CRM_Core_Action::ADD ) {
+        if (CRM_Core_Action::ADD) {
             
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');

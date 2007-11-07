@@ -334,7 +334,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
-            CRM_Core_Error::fatal( );
+            /* FIXME: failure! */
+            return null;
         }
         
         if (!isset($label)) {
@@ -399,8 +400,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                          CRM_Core_SelectValues::date( 'custom', 
                                                       $field->start_date_years,
                                                       $field->end_date_years,
-                                                      $field->date_parts ),
-                         ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search ) );
+                                                      $field->date_parts),
+                         (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
             }
             break;
 
@@ -976,7 +977,7 @@ SELECT id
                 $value = 
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
                     implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_values( $value ) ) .
+                             array_keys( $value ) ) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
                 $value = '';

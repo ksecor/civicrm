@@ -3,7 +3,7 @@ dojo._hasResource["dojox.gfx._base"] = true;
 dojo.provide("dojox.gfx._base");
 
 // candidates for dojox.style (work on VML and SVG nodes)
-dojox.gfx._hasClass = function(/*DomNode*/node, /*String*/classStr){
+dojox.gfx._hasClass = function(/*HTMLElement*/node, /*String*/classStr){
 	//	summary:
 	//		Returns whether or not the specified classes are a portion of the
 	//		class list currently applied to the node. 
@@ -11,7 +11,7 @@ dojox.gfx._hasClass = function(/*DomNode*/node, /*String*/classStr){
 	return ((" "+node.getAttribute("className")+" ").indexOf(" "+classStr+" ") >= 0);  // Boolean
 }
 
-dojox.gfx._addClass = function(/*DomNode*/node, /*String*/classStr){
+dojox.gfx._addClass = function(/*HTMLElement*/node, /*String*/classStr){
 	//	summary:
 	//		Adds the specified classes to the end of the class list on the
 	//		passed node.
@@ -21,7 +21,7 @@ dojox.gfx._addClass = function(/*DomNode*/node, /*String*/classStr){
 	}
 }
 
-dojox.gfx._removeClass = function(/*DomNode*/node, /*String*/classStr){
+dojox.gfx._removeClass = function(/*HTMLElement*/node, /*String*/classStr){
 	//	summary: Removes classes from node.
 	node.setAttribute("className", node.getAttribute("className").replace(new RegExp('(^|\\s+)'+classStr+'(\\s+|$)'), "$1$2"));
 }

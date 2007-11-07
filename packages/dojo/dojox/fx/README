@@ -1,21 +1,19 @@
 -------------------------------------------------------------------------------
 dojox.fx
 -------------------------------------------------------------------------------
-Version 1.0.0
-Release date: 10/31/2007
+Version 0.9.1
+Release date: 08/02/2007
 -------------------------------------------------------------------------------
 Project state:
 prototype / expermental 
 -------------------------------------------------------------------------------
 Credits
-	Peter Higgins (dante)
-	Jonathan Bond-Caron (jbondc@gmail.com)
-	Shane O'Sullivan (shaneosullivan1@gmail.com)
+	Peter Higgins (dante@dojotoolkit.org)
+
 -------------------------------------------------------------------------------
 Project description
 
-	dojox.fx provides a class of animation effects to use, and
-	other animation addons to dojo base.
+	dojox.fx provides a class of animation effects to use.
 
 -------------------------------------------------------------------------------
 Dependencies:
@@ -23,27 +21,25 @@ Dependencies:
 	dojox.fx requires dojo (core) and the dojo.fx package
 	dojox.fx.easing requires only dojo core. 
 	
+	
 -------------------------------------------------------------------------------
 Documentation
 
 	existing API surface: 
 
-	dojox.fx._base:
+	dojo.fx._base:
 	- dojox.fx.crossFade - crossfade two nodes easily
 	- dojox.fx.sizeTo - size a node about it's center to a new width/height
 	- dojox.fx.slideBy - slide a node by a t,l offset
-	- dojox.fx.highlight - animates the background color of a node, and returns
-		it to the color it was. 
-
 	(all use standard _Animation properties, like duration, easing, node, etc)
 
-	dojox.fx._core:
+	dojo.fx._core:
 	- dojox.fx._Line - a 2-d _Line implementation, backwards compatible with
 		dojo._Line ... you might could safely do something akin to
 		dojo._Line.prototype = dojox.fx._Line.prototype;
 		and enable this for all dojo _Animations?
 
-	dojox.fx.style: - experimental CSS animation via class definitions
+	dojo.fx.style: - experimental CSS animation via class definitions
 	- dojox.fx.addClass - animate the effects of applying a class to a node
 	- dojox.fx.removeClass - "   "    "    "   removing a class from a node
 	- dojox.fx.toggleClass - wrapper for addClass/removeClass
@@ -58,12 +54,6 @@ Documentation
 -------------------------------------------------------------------------------
 Installation instructions
 
-Grab the following from the Dojo SVN Repository:
-http://svn.dojotoolkit.org/dojo/dojox/trunk/fx.js
-http://svn.dojotoolkit.org/dojo/dojox/trunk/fx/*
+	checkout dojox/fx* from SVN and place into your	sibling dojox folder.
 
-Install into the following directory structure:
-/dojox/fx/
-
-...which should be at the same level as your Dojo checkout.
--------------------------------------------------------------------------------
+	see dojox/fx/tests/* for examples, and API tool for details.

@@ -15,6 +15,8 @@
 			dojo.require("dijit.Tooltip");
 			dojo.require("dijit.form.Button");
 			dojo.require("dojo.parser");
+			logMessage = console.debug;
+
 		</script>
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
@@ -51,7 +53,7 @@
 	Buttons can do an action, display a menu, or both:
 	</p>
 	<div class="box">
-		<button id="1465" dojoType="dijit.form.Button" onClick='console.log("clicked simple")' iconClass="plusIcon">
+		<button id="1465" dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' iconClass="plusIcon">
 			Create
 		</button>
 		<span dojoType="dijit.Tooltip" connectId="1465">tooltip on button</span>
@@ -59,26 +61,11 @@
 			<span>Edit<b>!</b></span>
 			<div dojoType="dijit.Menu">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCut"
-					onClick="console.log('not actually cutting anything, just a test!')">Cut</div>
+					onClick="logMessage('not actually cutting anything, just a test!')">Cut</div>
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconCopy"
-					onClick="console.log('not actually copying anything, just a test!')">Copy</div>
+					onClick="logMessage('not actually copying anything, just a test!')">Copy</div>
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconPaste"
-					onClick="console.log('not actually pasting anything, just a test!')">Paste</div>
-				<div dojoType="dijit.MenuSeparator"></div>
-				<div dojoType="dijit.PopupMenuItem">
-					<span>Submenu</span>
-					<div dojoType="dijit.Menu" id="submenu2">
-						<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 1!')">Submenu Item One</div>
-						<div dojoType="dijit.MenuItem" onClick="console.log('Submenu 2!')">Submenu Item Two</div>
-						<div dojoType="dijit.PopupMenuItem">
-							<span>Deeper Submenu</span>
-							<div dojoType="dijit.Menu" id="submenu4"">
-								<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 1!')">Sub-sub-menu Item One</div>
-								<div dojoType="dijit.MenuItem" onClick="console.log('Sub-submenu 2!')">Sub-sub-menu Item Two</div>
-							</div>
-						</div>
-					</div>
-				</div>
+					onClick="logMessage('not actually pasting anything, just a test!')">Paste</div>
 			</div>
 		</div>
 		<div dojoType="dijit.form.DropDownButton" iconClass="noteIcon">
@@ -86,17 +73,17 @@
 			<div dojoType="dijit.ColorPalette" id="colorPalette" style="display: none" palette="3x4"
 				onChange="console.log(this.value);"></div>
 		</div>
-		<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+		<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
 				iconClass="plusBlockIcon">
 			<span>Save</span>
 			<div dojoType="dijit.Menu" id="saveMenu" style="display: none;">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconSave"
-					onClick="console.log('not actually saving anything, just a test!')">Save</div>
+					onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 				<div dojoType="dijit.MenuItem"
-					onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+					onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 			</div>
 		</div>
-		<button dojoType="dijit.form.Button" onClick='console.log("clicked simple")' disabled='true' iconClass="plusIcon">
+		<button dojoType="dijit.form.Button" onClick='logMessage("clicked simple")' disabled='true' iconClass="plusIcon">
 			Disabled
 		</button>
 	</div>
@@ -104,7 +91,7 @@
 	<h2>Buttons with no text label</h2>
 		<p>Buttons have showLabel=false so text is not displayed.  Should have title attribute displayed on mouse over</p>
 	<div class="box">
-		<button id="1466" dojoType="dijit.form.Button" onClick='console.log("clicked simple button with no text label")' 
+		<button id="1466" dojoType="dijit.form.Button" onClick='logMessage("clicked simple button with no text label")' 
 		iconClass="plusIcon" showLabel="false">
 		<span><b>Rich</b><i> Text</i> Test!</span>
 		</button>
@@ -114,14 +101,14 @@
 				onChange="console.log(this.value);">
 			</div>
 	</div>
-	<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='console.log("clicked combo save")'
+	<div dojoType="dijit.form.ComboButton" optionsTitle='save options' onClick='logMessage("clicked combo save")'
 				iconClass="plusBlockIcon" showLabel="false">
 			<span>Save</span>
 			<div dojoType="dijit.Menu" id="saveMenu2" style="display: none;">
 				<div dojoType="dijit.MenuItem"  iconClass="dijitEditorIcon dijitEditorIconSave"
-					onClick="console.log('not actually saving anything, just a test!')">Save</div>
+					onClick="logMessage('not actually saving anything, just a test!')">Save</div>
 				<div dojoType="dijit.MenuItem"
-					onClick="console.log('not actually saving anything, just a test!')">Save As</div>
+					onClick="logMessage('not actually saving anything, just a test!')">Save As</div>
 			</div>
 		</div>	
 	</div>
@@ -141,18 +128,18 @@
 	<p>Short button, tall buttons, big buttons, small buttons...
 	These buttons size to their content (just like &lt;button&gt;).</p>
 	<div class="box">
-		<button dojoType="dijit.form.Button" onclick='console.log("big");' iconClass="flatScreenIcon">
+		<button dojoType="dijit.form.Button" onclick='logMessage("big");' iconClass="flatScreenIcon">
 			<span style="font-size:xx-large">big</span>
 		</button>
-		<button id="smallButton1" dojoType="dijit.form.Button" onclick='console.log("small");'>
+		<button id="smallButton1" dojoType="dijit.form.Button" onclick='logMessage("small");'>
 			<img src="../images/arrowSmall.gif" width="15" height="5">
 			<span style="font-size:x-small">small</span>
 		</button>
-		<button dojoType="dijit.form.Button" onclick='console.log("long");'>
+		<button dojoType="dijit.form.Button" onclick='logMessage("long");'>
 			<img src="../images/tube.gif" width="150" height="16">
 			long
 		</button>
-		<button dojoType="dijit.form.Button" onclick='console.log("tall");' width2height="0.1">
+		<button dojoType="dijit.form.Button" onclick='logMessage("tall");' width2height="0.1">
 			<img src="../images/tubeTall.gif" height="75" width="35"><br>
 			<span style="font-size:medium">tall</span>
 		</button>
@@ -186,13 +173,13 @@
 		}
 	</style>
 	<div class="box">
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("short");'>
+		<button dojoType="dijit.form.Button" class="Acme" onclick='logMessage("short");'>
 			<div class="dc">short</div>
 		</button>
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("longer");'>
+		<button dojoType="dijit.form.Button" class="Acme" onclick='logMessage("longer");'>
 			<div class="dc">bit longer</div>
 		</button>
-		<button dojoType="dijit.form.Button" class="Acme" onclick='console.log("longer yet");'>
+		<button dojoType="dijit.form.Button" class="Acme" onclick='logMessage("longer yet");'>
 			<div class="dc">ridiculously long</div>
 		</button>
 		<div style="clear: both;"></div>
@@ -207,10 +194,10 @@
 		</button>
 	</div>
 	<div class="box" style="display:none;" id="hiddenNode">
-		<button dojoType="dijit.form.Button" onclick='console.log("clicked simple")' iconClass="plusIcon">
+		<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")' iconClass="plusIcon">
 			Create
 		</button>
-		<button dojoType="dijit.form.Button" onclick='console.log("clicked simple")' iconClass="plusIcon">
+		<button dojoType="dijit.form.Button" onclick='logMessage("clicked simple")' iconClass="plusIcon">
 			Create
 		</button>
 	</div>
@@ -246,41 +233,13 @@
 	<h3>Button instantiated via javacript:</h3>
 	<div id="buttonContainer"></div>
 	<script type="text/javascript">
-	// See if we can make a button in script and attach it to the DOM ourselves.
+	// See if we can make a widget in script and attach it to the DOM ourselves.
 	dojo.addOnLoad(function(){
 		var params = {
 			label: "hello!",
 			name: "programmatic"
 		};
 		var widget = new dijit.form.Button(params, document.getElementById("buttonContainer"));
-	});
-	</script>
-	<div id="dropdownButtonContainer"></div>
-	<script type="text/javascript">
-	// See if we can make a drop down button in script and attach it to the DOM ourselves.
-	dojo.addOnLoad(function(){
-		var menu = new dijit.Menu({ });
-		menu.domNode.style.display="none"; 
-		var menuItem1 = new dijit.MenuItem({
-			label: "Save",
-			iconClass:"dijitEditorIcon dijitEditorIconSave",
-			onClick: function(){ alert('save'); }
-		});
-		menu.addChild(menuItem1);      
-
-		var menuItem2 = new dijit.MenuItem({
-			label: "Cut",
-			iconClass:"dijitEditorIcon dijitEditorIconCut",
-			onClick: function(){ alert('cut'); }
-		});
-		menu.addChild(menuItem2);
-  
-		var params = {
-			label: "hello!",
-			name: "programmatic2",
-			dropDown: menu
-		};
-		var widget = new dijit.form.DropDownButton(params, document.getElementById("dropdownButtonContainer"));
 	});
 	</script>
 </body>

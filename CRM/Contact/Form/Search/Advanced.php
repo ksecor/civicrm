@@ -72,6 +72,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Relationships')         => 'relationship'   ,
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      ,
+                            ts('User SQL')              => 'userSQL'        ,
                             ts('Cases')                 => 'caseSearch'     ,
                             ts('Case Activities')       => 'caseActivity'   ,
                             ts('Grants')                => 'grant'          );

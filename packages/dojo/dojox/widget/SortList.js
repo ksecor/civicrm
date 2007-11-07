@@ -1,5 +1,6 @@
 if(!dojo._hasResource["dojox.widget.SortList"]){ //_hasResource checks added by build. Do not use _hasResource directly in your code.
 dojo._hasResource["dojox.widget.SortList"] = true;
+
 dojo.provide("dojox.widget.SortList");
 dojo.experimental("dojox.widget.SortList"); // level: prototype, designed for dijit.chat.demo
 
@@ -12,7 +13,7 @@ dojo.declare("dojox.widget.SortList",
 	// summary: a sortable <ul> with a fixed header for use in dijit.demos.chat
 	//	for demonstration purposes only for now. feel free to make API suggestions
 	//	or fixes. 
-	//
+
 	// title: String 
 	//	the title in the header
 	title: "",
@@ -56,7 +57,7 @@ dojo.declare("dojox.widget.SortList",
 			var props = {
 				onItem: dojo.hitch(this,"_addItem"),
 				onComplete: dojo.hitch(this,"onSort")
-			};
+			}
 			this.store.fetch(props);	
 		}else{ this.onSort(); }
 		this.inherited("postCreate",arguments);
@@ -81,7 +82,7 @@ dojo.declare("dojox.widget.SortList",
 		// break it: but we also don't want to run getComputedStyle or dojo.coords() every time resize() 
 		// is fired.
 		var offset = ((this._contentBox.h) - (dojo.style(this.titleNode,"height")))-10;
-		this.bodyWrapper.style.height = Math.abs(offset) + "px"; 
+		this.bodyWrapper.style.height = offset + "px"; 
 	},
 	
 	onSort: function(/* Event */e){
@@ -97,7 +98,7 @@ dojo.declare("dojox.widget.SortList",
 		}
 		var i=0;
 		dojo.forEach(arr,function(item){
-			dojo[(((i++)%2)===0)?"addClass":"removeClass"](item,"sortListItemOdd");
+			dojo[(((i++)%2)==0)?"addClass":"removeClass"](item,"sortListItemOdd");
 			this.containerNode.appendChild(item); 
 		},this);
 	},
@@ -135,13 +136,12 @@ dojo.declare("dojox.widget.SortList",
 		// summary: a basic sort function, use query sort, or keep this?
 		var aStr = a.innerHTML;
 		var bStr = b.innerHTML;
-		if(aStr>bStr){ return 1; }
-		if(aStr<bStr){ return -1; }
+		if (aStr>bStr) return 1;
+		if (aStr<bStr) return -1;
 		return 0;
 	},
 
-	setTitle: function(/* String */title){
-		// summary: Sets the widget title to a String
+	setTitle: function(title){
 		this.focusNode.innerHTML = title;
 	},
 

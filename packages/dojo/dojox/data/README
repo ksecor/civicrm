@@ -1,15 +1,14 @@
 -------------------------------------------------------------------------------
 DojoX Data
 -------------------------------------------------------------------------------
-Version 1.0
+Version 0.9
 Release date: 05/29/2007
 -------------------------------------------------------------------------------
-Project state: stable
+Project state: beta
 -------------------------------------------------------------------------------
 Project authors
 	Jared Jurkiewicz (jared.jurkiewicz@gmail.com)
-	Shane O'Sullivan (shaneosullivan1@gmail.com) (FlickrRestStore)
-	Wolfram Kriesing (wolfram@kriesing.de) (QueryReadStore)
+	Shane O'Sullivan (shaneosullivan1@gmail.com)
 -------------------------------------------------------------------------------
 Project description
 
@@ -56,7 +55,4 @@ Additional Notes:
 	dojox.data.OpmlStore - Store for reading OMPL formatted data
 	
 	dojox.data.XmlStore - datastore for XML based services or  
-	documents.
-
-	dojox.data.QueryReadStore - datastore to provide serverside URL query
-	matching.  Similar to the 0.4.X ComboBox dataUrl parameter.	         
+	documents.	         

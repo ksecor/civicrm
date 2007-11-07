@@ -28,10 +28,9 @@ dojo.experimental = function(/* String */ moduleName, /* String? */ extra){
 	//		function
 	// extra: 
 	//		some additional message for the user
-	// example:
-	//	|	dojo.experimental("dojo.data.Result");
-	// example:
-	//	|	dojo.experimental("dojo.weather.toKelvin()", "PENDING approval from NOAA");
+	// examples:
+	//		dojo.experimental("dojo.data.Result");
+	//		dojo.experimental("dojo.weather.toKelvin()", "PENDING approval from NOAA");
 	var message = "EXPERIMENTAL: " + moduleName + " -- APIs subject to change without notice.";
 	if(extra){ message += " " + extra; }
 	console.debug(message);
@@ -42,6 +41,18 @@ dojo.experimental = function(/* String */ moduleName, /* String? */ extra){
 	// description:
 	//		Opens a console for logging, debugging, and error messages.
 	//		Contains partial functionality to Firebug. See function list below.
+	//
+	// 	Added functionality:
+	//		Supports inline objects in object inspector window (only simple trace of dom nodes, however)
+	//			example:
+	//			console.log("my object", {foo:"bar"})
+	//		Option for console to open in popup window
+	//			example:
+	//			var djConfig = {isDebug: true, popup:true };
+	//		Option for console height (ignored for popup)
+	//			example:
+	//			var djConfig = {isDebug: true, debugHeight:100 };
+	//
 	//	NOTE: 
 	//			Firebug is a Firefox extension created by Joe Hewitt (see license). You do not need Dojo to run Firebug.
 	//			Firebug Lite is included in Dojo by permission from Joe Hewitt
@@ -49,16 +60,6 @@ dojo.experimental = function(/* String */ moduleName, /* String? */ extra){
 	//				functionality by reading the function comments below or visiting http://www.getfirebug.com/docs.html
 	//	NOTE:
 	//		To test Firebug Lite in Firefox, set console = null;
-	//
-	// example:
-	//		Supports inline objects in object inspector window (only simple trace of dom nodes, however)
-	//		|	console.log("my object", {foo:"bar"})
-	// example:
-	//		Option for console to open in popup window
-	//		|	var djConfig = {isDebug: true, popup:true };
-	// example:
-	//		Option for console height (ignored for popup)
-	//		|	var djConfig = {isDebug: true, debugHeight:100 };
 	
 if(
 	(
@@ -71,13 +72,7 @@ if(
 ){
 (function(){
 	// don't build a firebug frame in iframes
-	if(window != window.parent){ 
-		// but if we've got a parent logger, connect to it
-		if(window.parent["console"]){
-			window.console = window.parent.console;
-		}
-		return; 
-	}
+	if(window != window.parent){ return; }
 
 	window.console = {
 		log: function(){
@@ -184,10 +179,10 @@ if(
 			// summary: 
 			//		Starts timers assigned to name given in argument. Timer stops and displays on timeEnd(title);
 			//	example:
-			//	|	console.time("load");
-			//	|	console.time("myFunction");
-			//	|	console.timeEnd("load");
-			//	|	console.timeEnd("myFunction");
+			//		console.time("load");
+			//		console.time("myFunction");
+			//		console.timeEnd("load");
+			//		console.timeEnd("myFunction");
 			timeMap[name] = (new Date()).getTime();
 		},
 		
@@ -389,7 +384,6 @@ if(
 		try{
 			value = eval(text);
 		}catch(e){
-			console.debug(e);
 			/* squelch */
 		}
 
@@ -495,7 +489,6 @@ if(
 			appendText(" ", html);
 			
 			var object = objects[i];
-			if(!object){ continue; }
 			if(typeof(object) == "string"){
 				appendText(object, html);
 				
@@ -750,17 +743,11 @@ if(
 	function onKeyDown(event){
 		var timestamp = (new Date()).getTime();
 		if(timestamp > onKeyDownTime + 200){
-			var event = dojo.fixEvent(event);
-			var keys = dojo.keys;
-			var ekc = event.keyCode;
 			onKeyDownTime = timestamp;
-			if(ekc == keys.F12){
+			if(event.keyCode == 123){
 				toggleConsole();
-			}else if(
-				(ekc == keys.NUMPAD_ENTER || ekc == 76) &&
-				event.shiftKey && 
-				(event.metaKey || event.ctrlKey)
-			){
+			}else if((event.keyCode == 108 || event.keyCode == 76) && event.shiftKey
+				&& (event.metaKey || event.ctrlKey)){
 				focusCommandLine();
 			}else{
 				return;
@@ -821,77 +808,73 @@ if(
 	//***************************************************************************************************
 	// Print Object Helpers
 	getAtts = function(o){
-		//Get amount of items in an object
-		if(dojo.isArray(o)) { 
-			return "[array with " + o.length + " slots]"; 
-		}else{
-			var i = 0;
-			for(var nm in o){
-				i++;
-			}
-			return "{object with " + i + " items}";
-		}
-	}
-
-	printObject = function(o, i, txt){
-		
-		// Recursively trace object, indenting to represent depth for display in object inspector
-		// TODO: counter to prevent overly complex or looped objects (will probably help with dom nodes)
-		var br = "\n"; // using a <pre>... otherwise we'd need a <br />
-		var ind = "  ";
-		txt = (txt) ? txt : "";
-		i = (i) ? i : ind;
-		for(var nm in o){
-			if(typeof(o[nm]) == "object"){
-				txt += i+nm +" -> " + getAtts(o[nm]) + br;
-				txt += printObject(o[nm], i+ind);
+			//Get amount of items in an object
+			if(dojo.isArray(o)) { 
+				return "[array with " + o.length + " slots]"; 
 			}else{
-				txt += i+nm +" : "+o[nm] + br;
+				var i = 0;
+				for(var nm in o){
+					i++;
+				}
+				return "{object with " + i + " items}";
 			}
 		}
-		return txt;
-	}
-		
-		
-	getObjectAbbr = function(obj){
-		// Gets an abbreviation of an object for display in log
-		// X items in object, including id
-		// X items in an array
-		// TODO: Firebug Sr. actually goes by char count
-		var isError = (obj instanceof Error);
-		var nm = obj.id || obj.name || obj.ObjectID || obj.widgetId;
-		if(!isError && nm){ return "{"+nm+"}";	}
-
-		var obCnt = 2;
-		var arCnt = 4;
-		var cnt = 0;
-
-		if(isError){
-			nm = "[ Error: "+(obj["message"]||obj["description"]||obj)+" ]";
-		}else if(dojo.isArray(obj)){
-			nm ="[";
-			for(var i=0;i<obj.length;i++){
-				nm+=obj[i]+","
-				if(i>arCnt){
-					nm+=" ... ("+obj.length+" items)";
-					break;
+		printObject = function(o, i, txt){
+			
+			// Recursively trace object, indenting to represent depth for display in object inspector
+			// TODO: counter to prevent overly complex or looped objects (will probably help with dom nodes)
+			var br = "\n"; // using a <pre>... otherwise we'd need a <br />
+			var ind = "  ";
+			txt = (txt) ? txt : "";
+			i = (i) ? i : ind;
+			for(var nm in o){
+				if(typeof(o[nm]) == "object"){
+					txt += i+nm +" -> " + getAtts(o[nm]) + br;
+					txt += printObject(o[nm], i+ind);
+				}else{
+					txt += i+nm +" : "+o[nm] + br;
 				}
 			}
-			nm+="]";
-		}else if((!dojo.isObject(obj))||dojo.isString(obj)){
-			nm = obj+"";
-		}else{
-			nm = "{";
-			for(var i in obj){
-				cnt++
-				if(cnt > obCnt) break;
-				nm += i+"="+obj[i]+"  ";
-			}
-			nm+="}"
+			return txt;
 		}
 		
-		return nm;
-	}
+		
+		getObjectAbbr = function(obj){
+			// Gets an abbreviation of an object for display in log
+			// X items in object, including id
+			// X items in an array
+			// TODO: Firebug Sr. actually goes by char count
+			var nm = obj.id || obj.name || obj.ObjectID || obj.widgetId;
+			if(nm){ return "{"+nm+"}";	}
+
+			var obCnt = 2;
+			var arCnt = 4;
+			var cnt = 0;
+			
+			
+			if(dojo.isArray(obj)){
+				nm ="[";
+				for(var i=0;i<obj.length;i++){
+					nm+=obj[i]+","
+					if(i>arCnt){
+						nm+=" ... ("+obj.length+" items)";
+						break;
+					}
+				}
+				nm+="]";
+
+			}else{
+				nm = "{";
+				for ( var i in obj){
+					cnt++
+					if(cnt > obCnt) break;
+					nm += i+"="+obj[i]+"  ";
+				}
+				nm+="}"
+			}
+			
+			return nm;
+		}
 		
 	//*************************************************************************************
 	

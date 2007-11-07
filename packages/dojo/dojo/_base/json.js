@@ -9,7 +9,7 @@ dojo.fromJson = function(/*String*/ json){
 	//		a string literal of a JSON item, for instance:
 	//			'{ "foo": [ "bar", 1, { "baz": "thud" } ] }'
 	// return:
-	//		An object, the result of the evaluation
+	//		the result of the evaluation
 
 	// FIXME: should this accept mozilla's optional second arg?
 	try {
@@ -68,12 +68,7 @@ dojo.toJson = function(/*Object*/ it, /*Boolean?*/ prettyPrint, /*String?*/ _ind
 	}else if(it === null){
 		return "null";
 	}
-	if(dojo.isString(it)){ 
-		return dojo._escapeString(it); 
-	}
-	if(it.nodeType && it.cloneNode){ // isNode
-		return ""; // FIXME: would something like outerHTML be better here?
-	}
+	if(objtype == "string"){ return dojo._escapeString(it); }
 	// recurse
 	var recurse = arguments.callee;
 	// short-circuit for objects that support "json" serialization

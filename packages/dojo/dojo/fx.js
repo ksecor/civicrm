@@ -5,11 +5,11 @@ dojo.provide("dojo.fx.Toggler");
 
 dojo.fx.chain = function(/*dojo._Animation[]*/ animations){
 	// summary: Chain a list of dojo._Animation s to run in sequence
-	// example:
-	//	|	dojo.fx.chain([
-	//	|		dojo.fadeIn({ node:node }),
-	//	|		dojo.fadeOut({ node:otherNode })
-	//	|	]).play();
+	// examples:
+	//	dojo.fx.chain([
+	//		dojo.fadeIn({ node:node }),
+	//		dojo.fadeOut({ node:otherNode })
+	//	]).play();
 	//
 	var first = animations.shift();
 	var previous = first;
@@ -22,25 +22,26 @@ dojo.fx.chain = function(/*dojo._Animation[]*/ animations){
 
 dojo.fx.combine = function(/*dojo._Animation[]*/ animations){
 	// summary: Combine a list of dojo._Animation s to run in parallel
-	// example:
-	//	|	dojo.fx.combine([
-	//	|		dojo.fadeIn({ node:node }),
-	//	|		dojo.fadeOut({ node:otherNode })
-	//	|	]).play();
-	var ctr = new dojo._Animation({ curve: [0, 1] });
-	if(!animations.length){ return ctr; }
-	// animations.sort(function(a, b){ return a.duration-b.duration; });
-	ctr.duration = animations[0].duration;
+	// examples:
+	//	dojo.fx.combine([
+	//		dojo.fadeIn({ node:node }),
+	//		dojo.fadeOut({ node:otherNode })
+	//	]).play();
+	var first = animations.shift();
 	dojo.forEach(animations, function(current){
-		dojo.forEach([ "play", "pause", "stop" ],
-			function(e){
-				if(current[e]){
-					dojo.connect(ctr, e, current, e);
-				}
+		dojo.forEach([
+
+//FIXME: onEnd gets fired multiple times for each animation, not once for the combined animation
+//	should we return to a "container" with its own unique events?
+
+			"play", "pause", "stop"
+		], function(event){
+			if(current[event]){
+				dojo.connect(first, event, current, event);
 			}
-		);
+		}, this);
 	});
-	return ctr; // dojo._Animation
+	return first; // dojo._Animation
 };
 
 dojo.declare("dojo.fx.Toggler", null, {
@@ -49,17 +50,17 @@ dojo.declare("dojo.fx.Toggler", null, {
 	//		set of arguments about what type of animation to use in each
 	//		direction, duration, etc.
 	//
-	// example:
-	//	|	var t = new dojo.fx.Toggler({
-	//	|		node: "nodeId",
-	//	|		showDuration: 500,
-	//	|		// hideDuration will default to "200"
-	//	|		showFunc: dojo.wipeIn, 
-	//	|		// hideFunc will default to "fadeOut"
-	//	|	});
-	//	|	t.show(100); // delay showing for 100ms
-	//	|	// ...time passes...
-	//	|	t.hide();
+	// examples:
+	//		var t = new dojo.fx.Toggler({
+	//			node: "nodeId",
+	//			showDuration: 500,
+	//			// hideDuration will default to "200"
+	//			showFunc: dojo.wipeIn, 
+	//			// hideFunc will default to "fadeOut"
+	//		});
+	//		t.show(100); // delay showing for 100ms
+	//		// ...time passes...
+	//		t.hide();
 
 	// FIXME: need a policy for where the toggler should "be" the next
 	// time show/hide are called if we're stopped somewhere in the
@@ -104,7 +105,6 @@ dojo.declare("dojo.fx.Toggler", null, {
 	//	Time in milliseconds to run the hide Animation
 	hideDuration: 200,
 
-	/*=====
 	_showArgs: null,
 	_showAnim: null,
 
@@ -113,7 +113,6 @@ dojo.declare("dojo.fx.Toggler", null, {
 
 	_isShowing: false,
 	_isHiding: false,
-	=====*/
 
 	show: function(delay){
 		// summary: Toggle the node to showing
@@ -160,7 +159,7 @@ dojo.fx.wipeIn = function(/*Object*/ args){
 		}
 	}, args));
 
-	dojo.connect(anim, "onEnd", function(){ 
+	dojo.connect(anim, "onEnd", anim, function(){ 
 		s.height = "auto";
 	});
 
@@ -171,8 +170,7 @@ dojo.fx.wipeOut = function(/*Object*/ args){
 	// summary
 	//		Returns an animation that will shrink node defined in "args"
 	//		from it's current height to 1px, and then hide it.
-	var node = args.node = dojo.byId(args.node);
-	var s = node.style;
+	var node = (args.node = dojo.byId(args.node));
 
 	var anim = dojo.animateProperty(dojo.mixin({
 		properties: {
@@ -182,11 +180,13 @@ dojo.fx.wipeOut = function(/*Object*/ args){
 		}
 	}, args));
 
-	dojo.connect(anim, "beforeBegin", function(){
+	dojo.connect(anim, "beforeBegin", anim, function(){
+		var s=node.style;
 		s.overflow = "hidden";
 		s.display = "";
 	});
-	dojo.connect(anim, "onEnd", function(){
+	dojo.connect(anim, "onEnd", anim, function(){
+		var s=this.node.style;
 		s.height = "auto";
 		s.display = "none";
 	});
@@ -199,8 +199,9 @@ dojo.fx.slideTo = function(/*Object?*/ args){
 	//		Returns an animation that will slide "node" 
 	//		defined in args Object from its current position to
 	//		the position defined by (args.left, args.top).
-	// example:
-	//	|	dojo.fx.slideTo({ node: node, left:"40", top:"50", unit:"px" }).play()
+	// examples:
+	//		dojo.fx.slideTo({ node: node, left:"40", top:"50", unit:"px" }).play()
+	//		
 
 	var node = (args.node = dojo.byId(args.node));
 	

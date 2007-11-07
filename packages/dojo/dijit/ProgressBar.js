@@ -43,9 +43,11 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 
 	// public functions
 	postCreate: function(){
-		this.inherited("postCreate",arguments);
+		dijit.ProgressBar.superclass.postCreate.apply(this, arguments);
+
 		this.inteterminateHighContrastImage.setAttribute("src",
 			this._indeterminateHighContrastImagePath);
+
 		this.update();
 	},
 
@@ -58,9 +60,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 		var percent = 1, classFunc;
 		if(this.indeterminate){
 			classFunc = "addClass";
-			dijit.removeWaiState(this.internalProgress, "valuenow");
-			dijit.removeWaiState(this.internalProgress, "valuemin");
-			dijit.removeWaiState(this.internalProgress, "valuemax");
+			dijit.wai.removeAttr(this.internalProgress, "waiState", "valuenow");
 		}else{
 			classFunc = "removeClass";
 			if(String(this.progress).indexOf("%") != -1){
@@ -72,9 +72,7 @@ dojo.declare("dijit.ProgressBar", [dijit._Widget, dijit._Templated], {
 			}
 			var text = this.report(percent);
 			this.label.firstChild.nodeValue = text;
-			dijit.setWaiState(this.internalProgress, "valuenow", this.progress);
-			dijit.setWaiState(this.internalProgress, "valuemin", 0);
-			dijit.setWaiState(this.internalProgress, "valuemax", this.maximum);
+			dijit.wai.setAttr(this.internalProgress, "waiState", "valuenow", text);
 		}
 		dojo[classFunc](this.domNode, "dijitProgressBarIndeterminate");
 		this.internalProgress.style.width = (percent * 100) + "%";

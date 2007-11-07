@@ -13,8 +13,7 @@ dojox.fx.wipeOut = dojo.fx.wipeOut;
 dojox.fx.slideTo = dojo.fx.slideTo;
 
 dojox.fx.sizeTo = function(/* Object */args){
-	// summary: Create an animation that will size a node
-	// description:
+	// summary:
 	//	Returns an animation that will size "node" 
 	//	defined in args Object about it's center to
 	//	a width and height defined by (args.width, args.height), 
@@ -24,19 +23,20 @@ dojox.fx.sizeTo = function(/* Object */args){
 	//	- works best on absolutely or relatively positioned elements? 
 	//	
 	// example:
-	// |	// size #myNode to 400px x 200px over 1 second
-	// |	dojo.fx.sizeTo({ node:'myNode',
-	// |		duration: 1000,
-	// |		width: 400,
-	// |		height: 200,
-	// |		method: "chain"
-	// |	}).play();
+	//
+	//	dojo.fx.sizeTo({ node:'myNode',
+	//		duration: 1000,
+	//		width: 400,
+	//		height: 200,
+	//		method: "chain"
+	//	}).play();
+	//
 	//
 	var node = (args.node = dojo.byId(args.node));
 	var compute = dojo.getComputedStyle;
 
 	var method = args.method || "chain"; 
-	if (method=="chain"){ args.duration = Math.floor(args.duration/2); } 
+	if (method=="chain"){ args.duration = (args.duration/2); } 
 	
 	var top, newTop, left, newLeft, width, height = null;
 
@@ -49,8 +49,8 @@ dojox.fx.sizeTo = function(/* Object */args){
 			width = parseInt(dojo.style(node,'width'));
 			height = parseInt(dojo.style(node,'height'));
 
-			newLeft = left - Math.floor((args.width - width)/2); 
-			newTop = top - Math.floor((args.height - height)/2); 
+			newLeft = left - ((args.width - width)/2); 
+			newTop = top - ((args.height - height)/2); 
 
 			if(pos != 'absolute' && pos != 'relative'){
 				var ret = dojo.coords(innerNode, true);
@@ -77,26 +77,24 @@ dojox.fx.sizeTo = function(/* Object */args){
 		}
 	}, args));
 
+	// FIXME: 
+	// dojo.fx[args.method]([anim1,anim2]);
 	var anim = dojo.fx[((args.method == "combine") ? "combine" : "chain")]([anim1,anim2]);
 	dojo.connect(anim, "beforeBegin", anim, init);
 	return anim; // dojo._Animation
 };
 
 dojox.fx.slideBy = function(/* Object */args){
-	// summary: Returns an animation to slide a node by a defined offset.
+	// summary: returns an animation to slide a node by a defined offset.
 	//
 	// description:
-	//	Returns an animation that will slide a node (args.node) from it's
+	//	returns an animation that will slide a node (args.node) from it's
 	//	current position to it's current posision plus the numbers defined
 	//	in args.top and args.left. standard dojo.fx mixin's apply. 
 	//	
-	// example:
-	// |	// slide domNode 50px down, and 22px left
-	// |	dojox.fx.slideBy({ 
-	// |		node: domNode, duration:400, 
-	// |		top: 50, left: -22 
-	// |	}).play();
-
+	//	usage:
+	//	dojox.fx.slideBy({ node: domNode, duration:400, 
+	//		top: 50, left: -22 }).play();
 	var node = (args.node = dojo.byId(args.node));	
 	var compute = dojo.getComputedStyle;
 	var top = null; var left = null;
@@ -131,9 +129,9 @@ dojox.fx.slideBy = function(/* Object */args){
 };
 
 dojox.fx.crossFade = function(/* Object */args){
-	// summary: Returns an animation cross fading two element simultaneously
+	// summary: returns an animation cross fading two element simultaneously
 	// 
-	// args:
+	// args addons:
 	//	args.nodes: Array - two element array of domNodes, or id's
 	//
 	// all other standard animation args mixins apply. args.node ignored.
@@ -158,38 +156,6 @@ dojox.fx.crossFade = function(/* Object */args){
 		// improper syntax in args, needs Array
 		return false; // Boolean
 	}
-};
-
-dojox.fx.highlight = function(/*Object*/ args){
-	// summary: Highlight a node
-	// description:
-	//	Returns an animation that sets the node background to args.color
-	//	then gradually fades back the original node background color
-	//	
-	// example:
-	//	dojox.fx.highlight({ node:"foo" }).play(); 
-
-	var node = (args.node = dojo.byId(args.node));
-
-	args.duration = args.duration || 400;
-	// Assign default color light yellow
-	var startColor = args.color || '#ffff99';
-	var endColor = dojo.style(node, "backgroundColor");
-	var wasTransparent = (endColor == "transparent" || endColor == "rgba(0, 0, 0, 0)");
-
-	var anim = dojo.animateProperty(dojo.mixin({
-		properties: {
-			backgroundColor: { start: startColor, end: endColor }
-		}
-	}, args));
-
-	dojo.connect(anim, "onEnd", anim, function(){
-		if(wasTransparent){
-			node.style.backgroundColor = "transparent";
-		}
-	});
-
-	return anim; // dojo._Animation
 };
 
 }

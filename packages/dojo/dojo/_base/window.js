@@ -2,6 +2,8 @@ if(!dojo._hasResource["dojo._base.window"]){ //_hasResource checks added by buil
 dojo._hasResource["dojo._base.window"] = true;
 dojo.provide("dojo._base.window");
 
+dojo.isGears = 0;
+
 dojo._gearsObject = function(){
 	// summary: 
 	//		factory method to get a Google Gears plugin instance to
@@ -41,15 +43,17 @@ dojo._gearsObject = function(){
 	// dev roadmap for the future
 	dojo.setObject("google.gears.factory", factory);
 	return dojo.getObject("google.gears");
-};
+}
 
 // see if we have Google Gears installed, and if
 // so, make it available in the runtime environment
 // and in the Google standard 'google.gears' global object
-dojo.isGears = (!!dojo._gearsObject())||0;
+var gearsObj = dojo._gearsObject();
+if(gearsObj){
+	dojo.isGears = true;
+}
 
 // @global: dojo.doc
-
 // summary:
 //		Current document object. 'dojo.doc' can be modified
 //		for temporary context shifting. Also see dojo.withDoc().
@@ -80,7 +84,7 @@ dojo.setContext = function(/*Object*/globalObject, /*DocumentElement*/globalDocu
 
 dojo._fireCallback = function(callback, context, cbArguments){
 	// FIXME: should migrate to using "dojo.isString"!
-	if(context && dojo.isString(callback)){
+	if((context)&&((typeof callback == "string")||(callback instanceof String))){
 		callback = context[callback];
 	}
 	return (context ? callback.apply(context, cbArguments || [ ]) : callback());
@@ -128,18 +132,15 @@ dojo.withDoc = function(	/*Object*/documentObject,
 		dojo.doc = oldDoc;
 	}
 	return rval;
-};
+}
 
 //Register any module paths set up in djConfig. Need to do this
 //in the hostenvs since hostenv_browser can read djConfig from a
 //script tag's attribute.
-(function(){
-	var mp = djConfig["modulePaths"];
-	if(mp){
-		for(var param in mp){
-			dojo.registerModulePath(param, mp[param]);
-		}
+if(djConfig["modulePaths"]){
+	for(var param in djConfig["modulePaths"]){
+		dojo.registerModulePath(param, djConfig["modulePaths"][param]);
 	}
-})();
+}
 
 }

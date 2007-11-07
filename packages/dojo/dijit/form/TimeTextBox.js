@@ -5,7 +5,7 @@ dojo.provide("dijit.form.TimeTextBox");
 dojo.require("dojo.date");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.date.stamp");
-dojo.require("dijit._TimePicker");
+dojo.require("dijit.form._TimePicker");
 dojo.require("dijit.form.ValidationTextBox");
 
 dojo.declare(
@@ -28,11 +28,11 @@ dojo.declare(
 		value: new Date(""),	// NaN
 		_invalid: (new Date("")).toString(),	// NaN
 
-		_popupClass: "dijit._TimePicker",
+		_popupClass: "dijit.form._TimePicker",
 
 		postMixInProperties: function(){
-			//dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
-			this.inherited("postMixInProperties",arguments);
+			dijit.form.RangeBoundTextBox.prototype.postMixInProperties.apply(this, arguments);
+
 			var constraints = this.constraints;
 			constraints.selector = 'time';
 			if(typeof constraints.min == "string"){ constraints.min = dojo.date.stamp.fromISOString(constraints.min); }
@@ -40,7 +40,7 @@ dojo.declare(
 		},
 
 		_onFocus: function(/*Event*/ evt){
-			// summary: open the TimePicker popup
+			// open the calendar
 			this._open();
 		},
 
@@ -57,10 +57,7 @@ dojo.declare(
 
 		_open: function(){
 			// summary:
-			//	opens the TimePicker, and sets the onValueSelected value
-
-			if(this.disabled){return;}
-
+			//	opens the Calendar, and sets the onValueSelected for the Calendar
 			var self = this;
 
 			if(!this._picker){
@@ -69,7 +66,7 @@ dojo.declare(
 					onValueSelected: function(value){
 
 						self.focus(); // focus the textbox before the popup closes to avoid reopening the popup
-						setTimeout(dojo.hitch(self, "_close"), 1); // allow focus time to take
+						setTimeout(dijit.popup.close, 1); // allow focus time to take
 
 						// this will cause InlineEditBox and other handlers to do stuff so make sure it's last
 						dijit.form.TimeTextBox.superclass.setValue.call(self, value, true);
@@ -89,25 +86,15 @@ dojo.declare(
 					parent: this,
 					popup: this._picker,
 					around: this.domNode,
-					onCancel: dojo.hitch(this, this._close),
 					onClose: function(){ self._opened=false; }
 				});
 				this._opened=true;
 			}
-			
-			dojo.marginBox(this._picker.domNode,{ w:this.domNode.offsetWidth });
-		},
-
-		_close: function(){
-			if(this._opened){
-				dijit.popup.close(this._picker);
-				this._opened=false;
-			}			
 		},
 
 		_onBlur: function(){
 			// summary: called magically when focus has shifted away from this widget and it's dropdown
-			this._close();
+			dijit.popup.closeAll();
 			this.inherited('_onBlur', arguments);
 			// don't focus on <input>.  the user has explicitly focused on something else.
 		},

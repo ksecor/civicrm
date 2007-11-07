@@ -27,7 +27,7 @@ dojo.declare(
 	},
 
 	startup: function(){
-		this.startupKeyNavChildren();
+		this.connectKeyNavChildren();
 	}
 }
 );
@@ -40,8 +40,7 @@ dojo.declare(
 	// summary
 	//	A line between two menu items
 	templateString: '<div class="dijitToolbarSeparator dijitInline"></div>',
-	postCreate: function(){ dojo.setSelectable(this.domNode, false); },
-	isFocusable: function(){ return false; }
+	postCreate: function(){ dojo.setSelectable(this.domNode, false); }
 });
 
 }

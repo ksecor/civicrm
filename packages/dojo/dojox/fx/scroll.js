@@ -11,28 +11,21 @@ dojox.fx.smoothScroll = function(/* Object */args){
 	//		both. In addition, element in iframe can be scrolled to correctly.
 	// offset: {x: int, y: int} this will be added to the target position
 	// duration: Duration of the animation in milliseconds.
-	// win: a node or window object to scroll
-	
+
+	args = dojo.mixin({
+		"window": args.win
+	},args);
 	if(!args.target){ args.target = dojo.coords(args.node,true); }
-
-	var isWindow = dojo[(dojo.isIE ? "isObject" : "isFunction")](args["win"].scrollTo);
-
-	var _anim = (isWindow) ?
-		(function(val){
-			args.win.scrollTo(val[0],val[1]);
-		}) :
-		(function(val){
-			args.win.scrollLeft = val[0];
-			args.win.scrollTop = val[1];
-		});
 
 	var anim = new dojo._Animation(dojo.mixin({
 		beforeBegin: function(){
 			if(this.curve){ delete this.curve; }
-			var current = isWindow ? dojo._docScroll() : {x: args.win.scrollLeft, y: args.win.scrollTop};
+			var current = dojo._docScroll();
 			anim.curve = new dojox.fx._Line([current.x,current.y],[args.target.x,args.target.y]);
 		},
-		onAnimate: _anim
+		onAnimate: function(/* Decimal */value){
+			args.window.scrollTo(value[0],value[1]);
+		}
 	},args));
 	return anim; // dojo._Animation
 };

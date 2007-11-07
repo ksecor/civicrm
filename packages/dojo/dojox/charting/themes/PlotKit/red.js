@@ -5,14 +5,15 @@ dojo.require("dojox.charting.Theme");
 
 (function(){
 	var dxc=dojox.charting;
+	var colors=dxc.Theme.defineColors({ hue:0, saturation:60, low:40, high:88 });
 	dxc.themes.PlotKit.red=new dxc.Theme({
 		chart:{
-			stroke:null,
-			fill: "white"
+			stroke:{ width:0 },
+			fill:{ color:"white" }
 		},
 		plotarea:{
-			stroke:null,
-			fill: "#f5e6e6"
+			stroke:{ width:0 },
+			fill:{ color:"#f5e6e6" }
 		},
 		axis:{
 			stroke:{ color:"#fff",width:2 },
@@ -23,9 +24,8 @@ dojo.require("dojox.charting.Theme");
 			fontColor:"#999"
 		},
 		series:{
-			outline:{ width:1, color:"#fff" },
 			stroke:{ width:2, color:"#666" },
-			fill:new dojo.Color([0x66, 0x66, 0x66, 0.8]),
+			fill:"#666",
 			font:"normal normal normal 7pt Tahoma",	//	label
 			fontColor:"#000"
 		},
@@ -35,9 +35,8 @@ dojo.require("dojox.charting.Theme");
 			font:"normal normal normal 7pt Tahoma",	//	label
 			fontColor:"#000"
 		},
-		colors:[]
+		colors:colors
 	});
-	dxc.themes.PlotKit.red.defineColors({ hue:1, saturation:60, low:40, high:88 });
 })();
 
 }

@@ -13,14 +13,10 @@
 			// summary; searches for a <a name=""></a> attrib, and scrolls to it
 			dojo.query('a[name="'+name+'"]').forEach(function(node){
 				// first one wins
-				var anim = dojox.fx.smoothScroll({
-					node: node,
-					win:window,
-					duration:300,
-					easing:dojox.fx.easing.easeOut
-				}).play();
+				var anim = dojox.fx.smoothScroll({ node: node, window:window, duration:300, easing:dojox.fx.easeOut }).play();
 				return;
-			});
+				}
+			);
 		}
 
 		dojo.addOnLoad(function(){
@@ -34,13 +30,13 @@
 
 			dojo.connect(dojo.byId("goToHeader"), "onclick", function (e) {
 				var node = dojo.byId('targetHeader3');
-				var anim0 = dojox.fx.smoothScroll({ node: node, win: window, duration:500, easing:dojox.fx.easing.easeOut });
+				var anim0 = dojox.fx.smoothScroll({ node: node, window: window, duration:500, easing:dojox.fx.easing.easeOut });
 				anim0.play();
 			});
 
 			dojo.connect(dojo.byId("goToHeader1"), "onclick", function(/* Event */e){
 				var node = dojo.byId('targetHeader1');
-				var anim0 = dojox.fx.smoothScroll({ node: node, win: window, duration:1000, easing:dojox.fx.easing.easeOut });
+				var anim0 = dojox.fx.smoothScroll({ node: node, window: window, duration:1000, easing:dojox.fx.easing.easeOut });
 				anim0.play();
 			});
 		}); 
@@ -55,14 +51,13 @@
 	<p>neat.</p>
 	</div>
 
-	<p>dojox.fx.scroll provides:</p>
+	<p>dojox.fx.scroll provides: 
 	<ul>
 	   <li>dojox.fx.smoothScroll()</li>
 	</ul>
 	which will create and return a dojo._Animation to scroll 
-	a window to a desired offset.
-	<p></p> 
-	
+	a window to a desired offset. 
+	</p>
 	
 	<h2><code>getScroll</code></h2>
 	<p>

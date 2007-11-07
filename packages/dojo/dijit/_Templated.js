@@ -39,12 +39,6 @@ dojo.declare("dijit._Templated",
 		//		the src dom node will be placed
 		containerNode: null,
 
-		// skipNodeCache Boolean:
-		//		if using a cached widget template node poses issues for a
-		//		particular widget class, it can set this property to ensure
-		//		that its template is always re-built from a string
-		_skipNodeCache: false,
-
 		// method over-ride
 		buildRendering: function(){
 			// summary:
@@ -53,7 +47,7 @@ dojo.declare("dijit._Templated",
 			// Lookup cached version of template, and download to cache if it
 			// isn't there already.  Returns either a DomNode or a string, depending on
 			// whether or not the template contains ${foo} replacement parameters.
-			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString, this._skipNodeCache);
+			var cached = dijit._Templated.getCachedTemplate(this.templatePath, this.templateString);
 
 			var node;
 			if(dojo.isString(cached)){
@@ -63,7 +57,6 @@ dojo.declare("dijit._Templated",
 				var tstr = dojo.string.substitute(cached, this, function(value, key){
 					if(key.charAt(0) == '!'){ value = _this[key.substr(1)]; }
 					if(typeof value == "undefined"){ throw new Error(className+" template:"+key); } // a debugging aide
-					if(!value){ return ""; }
 
 					// Substitution keys beginning with ! will skip the transform step,
 					// in case a user wishes to insert unescaped markup, e.g. ${!foo}
@@ -175,18 +168,24 @@ dojo.declare("dijit._Templated",
 				}
 
 				// waiRole, waiState
-				var role = getAttrFunc(baseNode, "waiRole");
-				if(role){
-					dijit.setWaiRole(baseNode, role);
-				}
-				var values = getAttrFunc(baseNode, "waiState");
-				if(values){
-					dojo.forEach(values.split(/\s*,\s*/), function(stateValue){
-						if(stateValue.indexOf('-') != -1){
-							var pair = stateValue.split('-');
-							dijit.setWaiState(baseNode, pair[0], pair[1]);
+				var name, names = ["waiRole", "waiState"];
+				while(name=names.shift()){
+					var wai = dijit.wai[name];
+					var values = getAttrFunc(baseNode, wai.name);
+					if(values){
+						var role = "role";
+						var val;
+						values = values.split(/\s*,\s*/);
+						while(val=values.shift()){
+							if(val.indexOf('-') != -1){
+								// this is a state-value pair
+								var statePair = val.split('-');
+								role = statePair[0];
+								val = statePair[1];
+							}
+							dijit.wai.setAttr(baseNode, wai.name, role, val);
 						}
-					});
+					}
 				}
 
 			}
@@ -197,7 +196,7 @@ dojo.declare("dijit._Templated",
 // key is either templatePath or templateString; object is either string or DOM tree
 dijit._Templated._templateCache = {};
 
-dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwaysUseString){
+dijit._Templated.getCachedTemplate = function(templatePath, templateString){
 	// summary:
 	//		static method to get a template based on the templatePath or
 	//		templateString key
@@ -224,7 +223,7 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 
 	templateString = dojo.string.trim(templateString);
 
-	if(templateString.match(/\$\{([^\}]+)\}/g) || alwaysUseString){
+	if(templateString.match(/\$\{([^\}]+)\}/g)){
 		// there are variables in the template so all we can do is cache the string
 		return (tmplts[key] = templateString); //String
 	}else{
@@ -234,10 +233,9 @@ dijit._Templated.getCachedTemplate = function(templatePath, templateString, alwa
 };
 
 dijit._Templated._sanitizeTemplateString = function(/*String*/tString){
-	// summary: 
-	//		Strips <?xml ...?> declarations so that external SVG and XML
-	// 		documents can be added to a document without worry. Also, if the string
-	//		is an HTML document, only the part inside the body tag is returned.
+	//summary: Strips <?xml ...?> declarations so that external SVG and XML
+	//documents can be added to a document without worry. Also, if the string
+	//is an HTML document, only the part inside the body tag is returned.
 	if(tString){
 		tString = tString.replace(/^\s*<\?xml(\s)+version=[\'\"](\d)*.(\d)*[\'\"](\s)*\?>/im, "");
 		var matches = tString.match(/<body[^>]*>\s*([\s\S]+)\s*<\/body>/im);
@@ -275,7 +273,7 @@ if(dojo.isIE){
 	var tn;
 
 	dijit._Templated._createNodesFromText = function(/*String*/text){
-		// summary:
+		//	summary
 		//	Attempts to create a set of nodes based on the structure of the passed text.
 
 		if(!tn){

@@ -28,22 +28,22 @@ dojo.declare(
 		//		Converts the first character of each word to uppercase if true.
 		propercase: false,
 
-		// maxLength: String
-		//		HTML INPUT tag maxLength declaration.
-		maxLength: "",
+		// maxlength: String
+		//		HTML INPUT tag maxlength declaration.
+		maxlength: "",
 
-		templateString:"<input class=\"dojoTextBox\" dojoAttachPoint='textbox,focusNode' name=\"${name}\"\n\tdojoAttachEvent='onmouseenter:_onMouse,onmouseleave:_onMouse,onfocus:_onMouse,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress'\n\tautocomplete=\"off\" type=\"${type}\"\n\t/>\n",
+		templateString:"<table style=\"display: -moz-inline-stack;\" class=\"dijit dijitReset dijitInlineTable\" cellspacing=\"0\" cellpadding=\"0\"\n\tid=\"widget_${id}\" name=\"${name}\" dojoAttachEvent=\"onmouseenter:_onMouse,onmouseleave:_onMouse\" waiRole=\"presentation\">\n\t<tr class=\"dijitReset\">\n\t\t<td class=\"dijitReset dijitInputField\" width=\"100%\"\n\t\t\t><input dojoAttachPoint='textbox,focusNode' dojoAttachEvent='onfocus:_onMouse,onblur:_onMouse,onkeyup,onkeypress:_onKeyPress' autocomplete=\"off\"\n\t\t\tstyle=\"width: 100%;\" class=\"dijitInputField\" type='${type}'\n\t\t/></td>\n\t</tr>\n</table>\n",
 		baseClass: "dijitTextBox",
 
 		attributeMap: dojo.mixin(dojo.clone(dijit.form._FormWidget.prototype.attributeMap),
-			{maxLength:"focusNode"}),
+			{maxlength:"focusNode"}),
 
-		getDisplayedValue: function(){
+		getTextValue: function(){
 			return this.filter(this.textbox.value);
 		},
 
 		getValue: function(){
-			return this.parse(this.getDisplayedValue(), this.constraints);
+			return this.parse(this.getTextValue(), this.constraints);
 		},
 
 		setValue: function(value, /*Boolean, optional*/ priorityChange, /*String, optional*/ formattedValue){
@@ -57,13 +57,8 @@ dojo.declare(
 			dijit.form.TextBox.superclass.setValue.call(this, filteredValue, priorityChange);
 		},
 
-		setDisplayedValue: function(/*String*/value){
-			this.textbox.value = value;
-			this.setValue(this.getValue(), true);
-		},
-
 		forWaiValuenow: function(){
-			return this.getDisplayedValue();
+			return this.getTextValue();
 		},
 
 		format: function(/* String */ value, /* Object */ constraints){
@@ -79,28 +74,26 @@ dojo.declare(
 		postCreate: function(){
 			// setting the value here is needed since value="" in the template causes "undefined"
 			// and setting in the DOM (instead of the JS object) helps with form reset actions
-			this.textbox.setAttribute("value", this.getDisplayedValue());
+			this.textbox.setAttribute("value", this.getTextValue());
 			this.inherited('postCreate', arguments);
 
+			// textbox and domNode get the same style but the css separates the 2 using !important
 			if(this.srcNodeRef){
 				dojo.style(this.textbox, "cssText", this.style);
 				this.textbox.className += " " + this["class"];
 			}
-			this._layoutHack();
-		},
 
-		_layoutHack: function(){
-			// summary: work around table sizing bugs on FF2 by forcing redraw
 			if(dojo.isFF == 2 && this.domNode.tagName=="TABLE"){
+				// work around table sizing bugs on FF2 by forcing redraw
 				var node=this.domNode, _this = this;
 				setTimeout(function(){
 					var oldWidth = node.style.width;
-					node.style.width = "0";
+					node.style.width="30em";
 					setTimeout(function(){
 						node.style.width = oldWidth;
 					}, 0);
 				 }, 0);
-			}			
+			}
 		},
 
 		filter: function(val){

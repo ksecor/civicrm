@@ -7,16 +7,14 @@ Release date: 07/12/2007
 Project state: experimental / beta
 -------------------------------------------------------------------------------
 Credits
-	port: Peter Higgins (dante)
+	port: Peter Higgins (dante@dojotoolkit.org)
 	contributions: Kun Xi (bookstack@gmail.com)
 -------------------------------------------------------------------------------
 Project description
 
 	Provides a set of validation functions to match
 	values against known constants for use in form
-	validation, such as email address, TLD, ipAddress,
-	country-specific phone numbers and SSN, among
-	others.. 
+	validation. 
 
 -------------------------------------------------------------------------------
 Dependencies:
@@ -26,12 +24,13 @@ Dependencies:
 -------------------------------------------------------------------------------
 Installation instructions
 
-Grab the following from the Dojo SVN Repository:
+	get a current checkout of the class via:
 
-http://svn.dojotoolkit.org/dojo/dojox/trunk/validate.js
-http://svn.dojotoolkit.org/dojo/dojox/trunk/validate
+	svn co http://svn.dojotoolkit.org/dojo/trunk/dojox/validate*
 
-Install into the following directory structure:
-/dojox/validate/
+	install into your sibling-dojox folder to /dojox/validate, 
+	require into your dojo app via dojo.require("dojox.validate");
 
-...which should be at the same level as your Dojo checkout.
+	and you are on your way.
+
+	see the API tool for full description of methods provided. 

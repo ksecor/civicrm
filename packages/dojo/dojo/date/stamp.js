@@ -84,8 +84,7 @@ dojo.date.stamp.toISOString = function(/*Date*/dateObject, /*Object?*/options){
 	//
 	//	description:
 	//		When options.selector is omitted, output follows RFC3339 (http://www.ietf.org/rfc/rfc3339.txt)
-	//		The local time zone is included as an offset from GMT, except when selector=='time' (time without a date)
-	//		Does not check bounds.
+	//		Times are formatted using the local time zone.  Does not check bounds.
 	//
 	//	dateObject:
 	//		A Date object
@@ -113,7 +112,7 @@ dojo.date.stamp.toISOString = function(/*Date*/dateObject, /*Object?*/options){
 		}
 		if(options.zulu){
 			time += "Z";
-		}else if(options.selector != "time"){
+		}else{
 			var timezoneOffset = dateObject.getTimezoneOffset();
 			var absOffset = Math.abs(timezoneOffset);
 			time += (timezoneOffset > 0 ? "-" : "+") + 

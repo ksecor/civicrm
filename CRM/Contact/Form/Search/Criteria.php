@@ -146,8 +146,11 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addElement('text', 'postal_code_high', ts('To'),
                           $attributes['postal_code'] );
 
+        $form->addElement('text', 'location_name', ts('Location Name'),
+                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_Location', 'name') );
         $worldRegions =  array('' => ts('- any region -')) + CRM_Core_PseudoConstant::worldRegion( );
         $form->addElement('select', 'world_region', ts('World Region'), $worldRegions);
+            
 
         // checkboxes for location type
         $location_type = array();
@@ -241,6 +244,18 @@ class CRM_Contact_Form_Search_Criteria {
 
         $form->addElement('text', 'note', ts('Note Text'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'sort_name') );
     }
+
+    static function userSQL( &$form ) {
+        $form->add( 'hidden', 'hidden_userSQL', 1 );
+
+        $form->addElement( 'textarea', 'user_sql_from'        ,
+                           ts('From Clause'  ), array( 'rows' => 4, 'cols' => 80 ) );
+        $form->addElement( 'textarea', 'user_sql_where'       ,
+                           ts('Where Clause' ), array( 'rows' => 4, 'cols' => 80 ) );
+        $form->addElement( 'textarea', 'user_sql_tables',
+                           ts('Tables Involved'), array( 'rows' => 1, 'cols' => 80 ) );
+    }
+
 
     /**
      * Generate the custom Data Fields based

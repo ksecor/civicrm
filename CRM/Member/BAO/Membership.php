@@ -227,8 +227,6 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'  ] = $config->defaultCurrency;
-            $contributionParams['receive_date'] = $params['receive_date'];
-            $contributionParams['non_deductible_amount'] = 'null';
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 
@@ -238,7 +236,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
             }
-          
+            
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
             
@@ -817,6 +815,7 @@ civicrm_membership_status.is_current_member =1";
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
         
+
         $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
                                                                    $premiumParams, $contactID,
                                                                    $contributionTypeId, 
@@ -913,13 +912,12 @@ civicrm_membership_status.is_current_member =1";
                 
             $payment->doTransferCheckout( $form->_params );
         }
-        
-        $form->_values['membership_id'] = $membership->id;
+                
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values
-                                                       );
+                                                       $form->_values,
+                                                       $contribution[$index]->id );
     }
     
     /**
@@ -979,13 +977,9 @@ civicrm_membership_status.is_current_member =1";
                 $currentMembership['reminder_date'] = 
                     CRM_Utils_Date::customFormat($dates['reminder_date'], $format );
                 $currentMembership['is_test']       = $is_test;
-
+                
                 if ( $form ) {
-                    if ( $form->_params['membership_source'] ) {
-                        $currentMembership['source'] = $form->_params['membership_source'];
-                    } else {
-                        $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                    }
+                    $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                 }
                 if ( is_array($ipnParams) ) {
                     $currentMembership['source']    = $ipnParams['source'];
@@ -1058,7 +1052,7 @@ civicrm_membership_status.is_current_member =1";
                 $membership =& new CRM_Member_DAO_Membership();
                 $membership->id = $currentMembership['id'];
                 $membership->find( true ); 
-
+                
                 require_once 'CRM/Member/BAO/MembershipType.php';  
                 $dates = CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $membership->id , 
                                                                                           $changeToday );
@@ -1071,11 +1065,7 @@ civicrm_membership_status.is_current_member =1";
                 
                 if ( empty( $membership->source ) ) {
                     if ( $form ) {
-                        if ( $form->_params['membership_source'] ) {
-                            $params['source'] = $form->_params['membership_source'];
-                        } else {
-                            $params['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                        }
+                        $params['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                     }
                     if ( is_array($ipnParams) ) {
                         $params['source']    = $ipnParams['source'];
@@ -1152,11 +1142,7 @@ civicrm_membership_status.is_current_member =1";
             $memParams['is_test']       = $is_test;
 
             if ( $form ) {
-                if ( $form->_params['membership_source'] ) {
-                    $memParams['source'  ]  = $form->_params['membership_source'];
-                } else {
-                    $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                }
+                $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
             }
             if ( is_array($ipnParams) ) {
                 $memParams['source']    = $ipnParams['source'];

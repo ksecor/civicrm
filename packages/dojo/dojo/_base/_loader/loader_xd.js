@@ -28,8 +28,21 @@ dojo._xdCreateResource = function(/*String*/contents, /*String*/resourceName, /*
 	//summary: Internal xd loader function. Creates an xd module source given an
 	//non-xd module contents.
 
-	//Remove comments. Not perfect, but good enough for dependency resolution.
-	var depContents = contents.replace(/(\/\*([\s\S]*?)\*\/|\/\/(.*)$)/mg , "");
+	//Remove comments.
+	//Get rid of multiline comments.
+	var depContents = contents;
+	var startIndex = -1;
+	while((startIndex = depContents.indexOf("/*")) != -1){
+		var endIndex = depContents.indexOf("*/", startIndex + 2);
+		if(endIndex == -1){
+			throw "Improper comment in file: " + resourcePath;
+		}
+		depContents = depContents.substring(0, startIndex) + depContents.substring(endIndex + 2, depContents.length);
+	}
+
+	//Get rid of single line comments.
+	depContents = depContents.replace(/\/\/(.*)$/mg , "");
+
 
 	//Find dependencies.
 	var deps = [];
@@ -148,6 +161,14 @@ dojo._loadUri = function(/*String*/uri, /*Function?*/cb, /*boolean*/currentIsXDo
 	//need to be tracked. Also, don't track dojo.i18n, since it is a prerequisite
 	//and will be loaded correctly if we load it right away: it has no dependencies.
 	if(this._isXDomain && module && module != "dojo.i18n"){
+ 		//If this is a __package__.js file, then this must be
+		//a package.* request (since xdomain can only work with the first
+		//path in a package search list. However, .* module names are not
+		//passed to this function, so do an adjustment here.
+		if(uri.indexOf("__package__") != -1){
+			module += ".*";
+		}
+
 		this._xdOrderedReqs.push(module);
 
 		//Add to waiting resources if it is an xdomain resource.
@@ -552,28 +573,30 @@ dojo._xdWatchInFlight = function(){
 	//summary: Internal xd loader function.
 	//Monitors in-flight requests for xd module resources.
 
-	var noLoads = "";
+	//Make sure we haven't waited timed out.
 	var waitInterval = (djConfig.xdWaitSeconds || 15) * 1000;
-	var expired = (this._xdStartTime + waitInterval) < (new Date()).getTime();
 
-	//If any xdInFlight are true, then still waiting for something to load.
-	//Come back later. If we timed out, report the things that did not load.
-	for(var param in this._xdInFlight){
-		if(this._xdInFlight[param] === true){
-			if(expired){
+	if(this._xdStartTime + waitInterval < (new Date()).getTime()){
+		this._xdClearInterval();
+		var noLoads = "";
+		for(var param in this._xdInFlight){
+			if(this._xdInFlight[param]){
 				noLoads += param + " ";
-			}else{
-				return;
 			}
+		}
+		throw "Could not load cross-domain resources: " + noLoads;
+	}
+
+	//If any are true, then still waiting.
+	//Come back later.	
+	for(var param in this._xdInFlight){
+		if(this._xdInFlight[param]){
+			return;
 		}
 	}
 
-	//All done. Clean up and notify.
+	//All done loading. Clean up and notify that we are loaded.
 	this._xdClearInterval();
-
-	if(expired){
-		throw "Could not load cross-domain resources: " + noLoads;
-	}
 
 	this._xdWalkReqs();
 	

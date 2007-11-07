@@ -39,8 +39,8 @@ class CRM_Dedupe_Merger
         'Household'    => array('household_name'),
         'Organization' => array('organization_name', 'legal_name', 'sic_code'),
         'Individual'   => array('prefix_id', 'first_name', 'middle_name',
-                                'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
-                                'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
+            'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
+            'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
         'Contact'      => array('nick_name', 'legal_identifier', 'home_URL',
             'image_URL', 'source', 'external_identifier', 'do_not_phone', 'do_not_email',
             'do_not_mail', 'do_not_trade', 'preferred_communication_method',
@@ -57,7 +57,7 @@ class CRM_Dedupe_Merger
             $relTables = array(
                 'rel_table_contributions' => array(
                     'title'  => ts('Contributions'),
-                    'tables' => array('civicrm_contribution', 'civicrm_contribution_recur'),
+                    'tables' => array('civicrm_contribution', 'civicrm_contribution_recur', 'civicrm_financial_trxn'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=contribute'),
                 ),
                 'rel_table_memberships' => array(
@@ -72,7 +72,7 @@ class CRM_Dedupe_Merger
                 ),
                 'rel_table_activities' => array(
                     'title'  => ts('Activities'),
-                    'tables' => array('civicrm_activity' ),
+                    'tables' => array('civicrm_activity', 'civicrm_activity_history', 'civicrm_email_history', 'civicrm_meeting', 'civicrm_phonecall', 'civicrm_sms_history'),
                     'url'    => CRM_Utils_System::url('civicrm/contact/view', 'reset=1&force=1&cid=$cid&selectedChild=activity'),
                 ),
                 'rel_table_relationships' => array(
@@ -107,6 +107,7 @@ class CRM_Dedupe_Merger
     {
         $cid = (int) $cid;
         $groups = array();
+        $dao =& new CRM_Core_DAO();
 
         $relTables =& self::relTables();
         $cidRefs   =& self::cidRefs();
@@ -125,10 +126,9 @@ class CRM_Dedupe_Merger
                     }
                 }
                 foreach ($sqls as $sql) {
-                    if ( CRM_Core_DAO::singleValueQuery( $sql,
-                                                         CRM_Core_DAO::$_nullArray ) > 0 ) {
-                        $groups[] = $group;
-                    }
+                    $dao->query($sql);
+                    $dao->fetch();
+                    if ($dao->count > 0) $groups[] = $group;
                 }
             }
         }
@@ -150,7 +150,7 @@ class CRM_Dedupe_Merger
                 'civicrm_activity'                => array('source_contact_id'),
                 'civicrm_contribution'            => array('contact_id', 'solicitor_id', 'honor_contact_id'),
                 'civicrm_contribution_recur'      => array('contact_id'),
-                'civicrm_entity_tag'              => array('contact_id'),
+                'civicrm_email_history'           => array('contact_id'),
                 'civicrm_group_contact'           => array('contact_id'),
                 'civicrm_household'               => array('primary_contact_id'),
                 'civicrm_log'                     => array('modified_id'),
@@ -165,6 +165,7 @@ class CRM_Dedupe_Merger
                 'civicrm_participant'             => array('contact_id'),
                 'civicrm_phonecall'               => array('source_contact_id'),
                 'civicrm_relationship'            => array('contact_id_a', 'contact_id_b'),
+                'civicrm_sms_history'             => array('contact_id'),
                 'civicrm_subscription_history'    => array('contact_id'),
                 'civicrm_uf_match'                => array('contact_id'),
             );
@@ -184,7 +185,12 @@ class CRM_Dedupe_Merger
             $eidRefs = array(
                 'civicrm_acl'              => array('entity_table'             => 'entity_id'),
                 'civicrm_acl_entity_role'  => array('entity_table'             => 'entity_id'),
-                // 'civicrm_activity'         => array('target_entity_table'      => 'target_entity_id'),
+                'civicrm_activity'         => array('target_entity_table'      => 'target_entity_id'),
+                'civicrm_activity_history' => array('entity_table'             => 'entity_id'),
+            //  'civicrm_custom_value'     => array('entity_table'             => 'entity_id'),
+            //  'civicrm_entity_file'      => array('entity_table'             => 'entity_id'),
+                'civicrm_entity_tag'       => array('entity_table'             => 'entity_id'),
+                'civicrm_financial_trxn'   => array('entity_table'             => 'entity_id'),
                 'civicrm_log'              => array('entity_table'             => 'entity_id'),
                 'civicrm_mailing_group'    => array('entity_table'             => 'entity_id'),
                 'civicrm_meeting'          => array('target_entity_table'      => 'target_entity_id'),
@@ -241,17 +247,14 @@ class CRM_Dedupe_Merger
         }
 
         // call the SQL queries in one transaction
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-        if ( ! isset( $sqls ) ) {
-            $sqls = array( );
-        }
+        $dao =& new CRM_Core_DAO();
+        $dao->transaction('BEGIN');
+        if (!isset($sqls)) $sqls = array();
         foreach ($sqls as $sql) {
-            CRM_Core_DAO::executeQuery( $sql,
-                                        CRM_Core_DAO::$_nullArray,
-                                        true, null, true );
+            $dao->query($sql);
+            $dao->fetch();
         }
-        $transaction->commit( );
+        $dao->transaction('COMMIT');
     }
 
     /**
@@ -279,21 +282,19 @@ class CRM_Dedupe_Merger
             }
         }
 
-        if ( isset( $mail->custom_values ) ) {
-            $customIds = array();
-            foreach ($main->custom_values as $cv) {
+        $customIds = array();
+        foreach ($main->custom_values as $cv) {
+            $customIds[$cv['custom_field_id']] = $cv['value'];
+        }
+        foreach ($other->custom_values as $cv) {
+            if ($customIds[$cv['custom_field_id']] == $cv['value']) {
+                unset($customIds[$cv['custom_field_id']]);
+            } else {
                 $customIds[$cv['custom_field_id']] = $cv['value'];
             }
-            foreach ($other->custom_values as $cv) {
-                if ($customIds[$cv['custom_field_id']] == $cv['value']) {
-                    unset($customIds[$cv['custom_field_id']]);
-                } else {
-                    $customIds[$cv['custom_field_id']] = $cv['value'];
-                }
-            }
-            foreach (array_keys($customIds) as $customId) {
-                $diffs['custom'][] = $customId;
-            }
+        }
+        foreach (array_keys($customIds) as $customId) {
+            $diffs['custom'][] = $customId;
         }
 
         return $diffs;

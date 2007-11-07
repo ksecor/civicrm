@@ -82,17 +82,4 @@ dijit.byNode = function(/* DOMNode */ node){
 	return dijit.registry.byId(node.getAttribute("widgetId")); // Widget
 };
 
-dijit.getEnclosingWidget = function(/* DOMNode */ node){
-	// summary:
-	//		Returns the widget whose dom tree contains node or null if
-	//		the node is not contained within the dom tree of any widget
-	while(node){
-		if(node.getAttribute && node.getAttribute("widgetId")){
-			return dijit.registry.byId(node.getAttribute("widgetId"));
-		}
-		node = node.parentNode;
-	}
-	return null;
-};
-
 }

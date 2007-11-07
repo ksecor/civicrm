@@ -5,14 +5,9 @@ dojo.require("dojo.rpc.RpcService");
 dojo.require("dojo.io.script");
 
 dojo.declare("dojo.rpc.JsonpService", dojo.rpc.RpcService, {
-	// summary:
-	//	Generic JSONP service.  Minimally extends RpcService to allow 
-	//	easy definition of nearly any JSONP style service. Example
-	//	SMD files exist in dojox.data
-
 	constructor: function(args, requiredArgs){
 		if(this.required) {
-			if(requiredArgs){
+			if (requiredArgs){
 				dojo.mixin(this.required, requiredArgs);
 			}
 
@@ -23,20 +18,9 @@ dojo.declare("dojo.rpc.JsonpService", dojo.rpc.RpcService, {
 			});
 		}		
 	},
-
 	strictArgChecks: false,
-
 	bind: function(method, parameters, deferredRequestHandler, url){
-		//summary:
-		//              JSONP bind method. Takes remote method, parameters,
-		//              deferred, and a url, calls createRequest to make a JSON-RPC
-		//              envelope and passes that off with bind.
-		//      method: string
-		//              The name of the method we are calling
-		//      parameters: array
-		//              The parameters we are passing off to the method
-		//      deferredRequestHandler: deferred
-		//              The Deferred object for this particular request
+		//summary
 
 		var def = dojo.io.script.get({
 			url: url||this.serviceUrl,
@@ -48,15 +32,12 @@ dojo.declare("dojo.rpc.JsonpService", dojo.rpc.RpcService, {
 		});
 		def.addCallbacks(this.resultCallback(deferredRequestHandler), this.errorCallback(deferredRequestHandler));
 	},
-
 	createRequest: function(parameters){
-		// summary:
-		//      create a JSONP req
-		//      params: array
-		//              The array of parameters for this request;
-
-		var params = (dojo.isArrayLike(parameters) && parameters.length==1) ?
-				parameters[0] : {};
+		if(dojo.isArrayLike(parameters)&&(parameters.length==1)){
+			var params = parameters[0];
+		}else{
+			params = {};
+		}
 		dojo.mixin(params,this.required);
 		return params;
 	}

@@ -31,7 +31,7 @@ dojo.declare("dijit._editor.plugins.UrlTextBox",
 		required: true,
 
 		postMixInProperties: function(){
-			this.inherited("postMixInProperties", arguments);
+			dijit._editor.plugins.UrlTextBox.superclass.postMixInProperties.apply(this, arguments);
 			this.invalidMessage = dojo.i18n.getLocalization("dijit._editor", "LinkDialog", this.lang).urlInvalidMessage;
 		},
 
@@ -48,8 +48,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 	dijit._editor._Plugin,
 	{
 		buttonClass: dijit._editor.plugins.DualStateDropDownButton,
-		useDefaultCommand: false,
-		command: "createLink",
+
 		linkDialogTemplate: [
 			"<label for='urlInput'>${url}&nbsp;</label>",
 			"<input dojoType=dijit._editor.plugins.UrlTextBox name='urlInput'><br>",
@@ -58,6 +57,12 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 			"<br>",
 			"<button dojoType=dijit.form.Button type='submit'>${set}</button>"
 		].join(""),
+
+		useDefaultCommand: false,
+
+		command: "createLink",
+
+		dropDown: null,
 
 		constructor: function(){
 			var _this = this;
@@ -140,7 +145,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog",
 					var hasA = dojo.withGlobal(this.editor.window, "hasAncestorElement",dijit._editor.selection, ['a']);
 					this.button.setChecked(hasA);
 				}catch(e){
-					console.debug(e); //FIXME: probably shouldn't squelch an exception here
+					console.debug(e);
 				}
 			}
 		}

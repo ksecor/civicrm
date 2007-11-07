@@ -76,20 +76,18 @@ dojo.declare(
 	//		This is a map that is used to calculate the coordinates of the
 	//		images that make up the palette.
 	_paletteCoords: {
-		"leftOffset": 4, "topOffset": 4,
-		"cWidth": 20, "cHeight": 20
-		
+		"leftOffset": 3, "topOffset": 3,
+		"cWidth": 18, "cHeight": 16
 	},
 
 	// templatePath: String
 	//		Path to the template of this widget.
-	templateString:"<div class=\"dijitInline dijitColorPalette\">\n\t<div class=\"dijitColorPaletteInner\" dojoAttachPoint=\"divNode\" waiRole=\"grid\" tabIndex=\"-1\">\n\t\t<img class=\"dijitColorPaletteUnder\" dojoAttachPoint=\"imageNode\" waiRole=\"presentation\">\n\t</div>\t\n</div>\n",
+	templateString:"<div class=\"dijitInline\">\n\t<div style=\"position: relative; overflow:hidden\" dojoAttachPoint=\"divNode\" waiRole=\"grid\" tabIndex=\"-1\">\n\t\t<img style=\"border-style:none;position:absolute;left:0;top:0;\" dojoAttachPoint=\"imageNode\" tabIndex=\"-1\" />\n\t</div>\t\n</div>\n",
 
-	// _paletteDims: Object
-	//		Size of the supported palettes for alignment purposes.
+
 	_paletteDims: {
-		"7x10": {"width": "206px", "height": "145px"},
-		"3x4": {"width": "86px", "height": "64px"}
+		"7x10": {"width": "185px", "height": "117px"},
+		"3x4": {"width": "77px", "height": "53px"}
 	},
 
 
@@ -122,7 +120,7 @@ dojo.declare(
 				highlightStyle.left = coords.leftOffset + (col * coords.cWidth) + "px";
 				highlightNode.setAttribute("tabIndex","-1");
 				highlightNode.title = this.colorNames[color];
-				dijit.setWaiRole(highlightNode, "gridcell");
+				dijit.wai.setAttr(highlightNode, "waiRole", "role", "gridcell");
 				highlightNode.index = this._highlightNodes.length;
 				this._highlightNodes.push(highlightNode);
 			}
@@ -168,7 +166,7 @@ dojo.declare(
 		//		Callback when a color is selected.
 		// color: String
 		//		Hex value corresponding to color.
-//		console.debug("Color selected is: "+color);
+		console.debug("Color selected is: "+color);
 	},
 
 	_onColorDijitclick: function(/*Event*/ evt){
@@ -233,7 +231,8 @@ dojo.declare(
 		// 		This selects a color. It triggers the onChange event
 		// area:
 		//		The area node that covers the color being selected.
-		this.onChange(this.value = selectNode.color);
+		this.value = selectNode.color;
+		this.onChange(selectNode.color);
 	},
 
 	_navigateByKey: function(increment, typeCount){
@@ -242,7 +241,7 @@ dojo.declare(
 		// 		It changes the focus and the highlighed color.
 		// increment:
 		// 		How much the key is navigated.
-		// typeCount:
+		//	typeCount:
 		//		How many times typematic has fired.
 
 		// typecount == -1 means the key is released.
