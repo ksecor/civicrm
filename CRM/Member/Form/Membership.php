@@ -138,6 +138,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            // in this mode by default uncheck this checkbox
+            unset($defaults['record_contribution']);
             $defaults['send_receipt'] = 0; 
         } elseif ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['send_receipt'] = 1; 
