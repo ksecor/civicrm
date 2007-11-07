@@ -44,12 +44,10 @@ dojo.declare(
 	},
 
 	startup: function(){
-		if(this._started){ return; }
-
 		// wire up the tablist and its tabs
 		this.tablist.startup();
 		dijit.layout.TabContainer.superclass.startup.apply(this, arguments);
-
+		
 		if(dojo.isSafari){
 			// sometimes safari 3.0.3 miscalculates the height of the tab labels, see #4058
 			setTimeout(dojo.hitch(this, "layout"), 0);
@@ -127,12 +125,12 @@ dojo.declare(
 
 	baseClass: "dijitTab",
 
-	templateString: "<div dojoAttachEvent='onclick:onClick,onmouseenter:_onMouse,onmouseleave:_onMouse'>"
+	templateString: "<div baseClass='dijitTab' dojoAttachEvent='onclick:onClick,onmouseover:_onMouse,onmouseout:_onMouse'>"
 						+"<div class='dijitTabInnerDiv' dojoAttachPoint='innerDiv'>"
-							+"<span dojoAttachPoint='containerNode,focusNode' waiRole='tab'>${!label}</span>"
+							+"<span dojoAttachPoint='containerNode,focusNode' tabIndex='-1' waiRole='tab'>${!label}</span>"
 							+"<span dojoAttachPoint='closeButtonNode' class='closeImage'"
-							+" dojoAttachEvent='onmouseenter:_onMouse, onmouseleave:_onMouse, onclick:onClickCloseButton'"
-							+" stateModifier='CloseButton'>"
+							+" dojoAttachEvent='onmouseover:_onMouse, onmouseout:_onMouse, onclick:onClickCloseButton'"
+							+" baseClass='dijitTabCloseButton'>"
 								+"<span dojoAttachPoint='closeText' class='closeText'>x</span>"
 							+"</span>"
 						+"</div>"

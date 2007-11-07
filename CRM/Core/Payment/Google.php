@@ -59,10 +59,12 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
     /** 
      * This function checks to see if we have the right config values 
      * 
+     * @param  string $mode the mode we are operating in (live or test) 
+     * 
      * @return string the error message if any 
      * @public 
      */ 
-    function checkConfig( ) {
+    function checkConfig( $mode ) {
         $config =& CRM_Core_Config::singleton( );
 
         $error = array( );
@@ -100,7 +102,7 @@ class CRM_Core_Payment_Google extends CRM_Core_Payment {
         
         $url = 
             $this->_paymentProcessor['url_site'] .
-            'cws/v2/Merchant/' . 
+            '/cws/v2/Merchant/' . 
             $this->_paymentProcessor['user_name'] .
             '/checkout';
         

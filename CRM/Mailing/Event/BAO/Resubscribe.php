@@ -91,7 +91,7 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         
         while ($do->fetch()) {
             if ($do->entity_table == $group) {
-                $groups[$do->entity_id] = null;
+                $groups[$do->entity_id] = $do->entity_table;
             } else if ($do->entity_table == $mailing) {
                 $mailings[] = $do->entity_id;
             }
@@ -137,10 +137,16 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         }
 
         $contacts = array($contact_id);
+        
         foreach ($groups as $group_id => $group_name) {
-            if ($group_name) {
+            
+            if ( $group_name == 'civicrm_group' ) {
+                list($total, $added, $notadded) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email', 'Removed');
+            } else {
                 list($total, $added, $notadded) = CRM_Contact_BAO_GroupContact::addContactsToGroup( $contacts, $group_id, 'Email');
+                //CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email', $queue_id);
             }
+            
             if ($notadded) {
                 unset($groups[$group_id]);
             }
@@ -177,21 +183,12 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         $config =& CRM_Core_Config::singleton();
         $domain =& CRM_Mailing_Event_BAO_Queue::getDomain($queue_id);
 
-        $jobTable = CRM_Mailing_BAO_Job::getTableName();
-        $mailingTable = CRM_Mailing_DAO_Mailing::getTableName();
         $contacts = CRM_Contact_DAO_Contact::getTableName();
         $email    = CRM_Core_DAO_Email::getTableName();
         $queue    = CRM_Mailing_Event_BAO_Queue::getTableName();
         
-        $dao =& new CRM_Mailing_BAO_Mailing();
-        $dao->query("   SELECT * FROM $mailingTable 
-                        INNER JOIN $jobTable ON
-                            $jobTable.mailing_id = $mailingTable.id 
-                        WHERE $jobTable.id = $job");
-        $dao->fetch();
-
         $component =& new CRM_Mailing_BAO_Component();
-        $component->id = $dao->resubscribe_id;
+        $component->component_type = 'Resubscribe';
         $component->find(true);
 
         $html = $component->body_html;
@@ -213,34 +210,17 @@ class CRM_Mailing_Event_BAO_Resubscribe {
         WHERE       $queue.id = " 
                     . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
-        foreach ( $groups as $key => $value ) {
-            if (!$value) {
-                unset($groups[$key]);
-            }
-        }
+
         $message =& new Mail_Mime("\n");
-        list($addresses, $urls) = CRM_Mailing_BAO_Mailing::getVerpAndUrls($job, $queue_id, $eq->hash, $eq->email);
-        $bao =& new CRM_Mailing_BAO_Mailing();
-        $bao->body_text = $text;
-        $bao->body_html = $html;
-        $tokens = $bao->getTokens();
         require_once 'CRM/Utils/Token.php';
         if ($eq->format == 'HTML' || $eq->format == 'Both') {
             $html = 
-                CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['html']);
-            $html = 
                 CRM_Utils_Token::replaceResubscribeTokens($html, $domain, $groups, true, $eq->contact_id, $eq->hash);
-            $html = CRM_Utils_Token::replaceActionTokens($html, $addresses, $urls, true, $tokens['html']);
-            $html = CRM_Utils_Token::replaceMailingTokens($html, $dao, null, $tokens['html']);
             $message->setHTMLBody($html);
         }
         if (!$html || $eq->format == 'Text' || $eq->format == 'Both') {
             $text = 
-                CRM_Utils_Token::replaceDomainTokens($html, $domain, true, $tokens['text']);
-            $text = 
                 CRM_Utils_Token::replaceResubscribeTokens($text, $domain, $groups, false, $eq->contact_id, $eq->hash);
-            $text = CRM_Utils_Token::replaceActionTokens($text, $addresses, $urls, false, $tokens['text']);
-            $text = CRM_Utils_Token::replaceMailingTokens($text, $dao, null, $tokens['text']);
             $message->setTxtBody($text);
         }
         $headers = array(

@@ -202,14 +202,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 require_once 'CRM/Core/BAO/PaymentProcessor.php';
                 $this->_paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $ppID,
                                                                                       $this->_mode );
-
-                // ensure that processor has a valid config
-                $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Contribute', $this->_paymentProcessor );
-                $error = $payment->checkConfig( );
-                if ( ! empty( $error ) ) {
-                    CRM_Core_Error::fatal( $error );
-                }
-
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
                 
             }                
@@ -229,6 +221,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             $this->set( 'fields', $this->_fields );
 
         }
+
         // we do this outside of the above conditional to avoid 
         // saving the country/state list in the session (which could be huge)
         if ( ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) &&
@@ -373,11 +366,9 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         $this->assign( 'email',
                        $this->controller->exportValue( 'Main', "email-{$this->_bltID}" ) );
-        
+
         // also assign the receipt_text
-        if ( isset( $this->_values['receipt_text'] ) ) {
-            $this->assign( 'receipt_text', $this->_values['receipt_text'] );
-        }
+        $this->assign( 'receipt_text', $this->_values['receipt_text'] );
     }
 
     /**  

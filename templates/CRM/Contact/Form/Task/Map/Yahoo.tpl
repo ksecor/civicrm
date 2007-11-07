@@ -55,16 +55,16 @@
 	var count=0;	
   {foreach from=$locations item=location}	
   {literal} 
-     var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng});
+     var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng}{literal});
 
 {if $location.url and ! $profileGID}
-     var data = '<a href="{$location.url}">{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}';
+     var data = '{/literal}<a href="{$location.url}">{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}';
 {else}
      {capture assign="profileURL"}{crmURL p='civicrm/profile/view' q="reset=1&id=`$location.contactID`&gid=$profileGID"}{/capture}
-     var data = '<a href={$profileURL}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}';
+     var data = '{/literal}<a href={$profileURL}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}{literal}';
 {/if}
-     var img  = '{$location.image}';
-  {literal}
+     var img  = '{/literal}{$location.image}{literal}';
+
      var marker = createYahooMarker(GeoPoint, data, img); 
      map.addOverlay(marker); 
 	count++;

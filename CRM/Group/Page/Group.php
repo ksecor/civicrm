@@ -234,7 +234,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
      */
     function browse($action = null) 
     {
-        require_once 'CRM/Contact/BAO/GroupNesting.php';
+      require_once 'CRM/Contact/BAO/GroupNesting.php';
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -243,55 +243,46 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
             $this->_sortByCharacter = '';
             $this->set( 'sortByCharacter', '' );
         }
-        
+
         $this->search( );
-        
+
         $config =& CRM_Core_Config::singleton( );
-        
+
         $params = array( );
         $whereClause = $this->whereClause( $params, false );
         $this->pagerAToZ( $whereClause, $params );
-        
+
         $params      = array( );
         $whereClause = $this->whereClause( $params, true );
         $this->pager    ( $whereClause, $params );
-        
-        
+
+
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
-        
+
         $query = "
   SELECT *
     FROM civicrm_group
    WHERE $whereClause
 ORDER BY title asc
    LIMIT $offset, $rowCount";
-        
+
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
-        
+
         $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
-        
+
         require_once 'CRM/Core/OptionGroup.php';
-        $links =& $this->links( );
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
         while ($object->fetch()) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
-                $newLinks = $links;
                 $values[$object->id] = array( );
                 CRM_Core_DAO::storeValues( $object, $values[$object->id]);
                 if ( $object->saved_search_id ) {
                     $values[$object->id]['title'] .= ' (' . ts('Smart Group') . ')';
-                    // check if custom search, if so fix view link
-                    $customSearchID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_SavedSearch',
-                                                                   $object->saved_search_id,
-                                                                   'search_custom_id' );
-                    if ( $customSearchID ) {
-                        $newLinks[CRM_Core_Action::VIEW]['url'] = 'civicrm/contact/search/custom';
-                        $newLinks[CRM_Core_Action::VIEW]['qs' ] = "reset=1&force=1&ssID={$object->saved_search_id}";
-                    }
                 }
-                $action = array_sum(array_keys($newLinks));
+                $links =& $this->links( );
+                $action = array_sum(array_keys($links));
                 if ( array_key_exists( 'is_active', $object ) ) {
                     if ( $object->is_active ) {
                         $action -= CRM_Core_Action::ENABLE;
@@ -302,9 +293,8 @@ ORDER BY title asc
                 }
                 $action = $action & CRM_Core_Action::mask( $groupPermission );
                 
-                $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility',
-                                                                                   $values[$object->id]['visibility']);
-                if ( isset( $values[$object->id]['group_type'] ) ) {
+                $values[$object->id]['visibility'] = CRM_Contact_DAO_Group::tsEnum('visibility', $values[$object->id]['visibility']);
+                if ( $values[$object->id]['group_type'] ) {
                     $groupTypes = explode( CRM_Core_DAO::VALUE_SEPARATOR,
                                            substr( $values[$object->id]['group_type'], 1, -1 ) );
                     $types = array( );
@@ -313,32 +303,31 @@ ORDER BY title asc
                     }
                     $values[$object->id]['group_type'] = implode( ', ', $types );
                 }
-                $values[$object->id]['action'] = CRM_Core_Action::formLink( $newLinks,
+                $values[$object->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                             $action,
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
             $values[$object->id]['children'] = "";
             if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-                $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-                foreach ($pgroups as $id){
-                    if ($values[$object->id]['children'] != ""){
-                        $values[$object->id]['children'] .= ", ";
-                    }
-                    $params = array('id' => $id);
-                    //                print $id;
-                    CRM_Contact_BAO_Group::retrieve($params, $default);
-                    //print_r($default);
-                    $values[$object->id]['children'] .= $default['title'];
-                }
-            }
-            
-            if ( isset( $values ) ) {
-                $this->assign( 'rows', $values );
+              $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
+              foreach ($pgroups as $id){
+                if ($values[$object->id]['children'] != ""){
+                    $values[$object->id]['children'] .= ", ";
+                  }
+                $params = array('id' => $id);
+                //                print $id;
+                CRM_Contact_BAO_Group::retrieve($params, $default);
+                //print_r($default);
+                $values[$object->id]['children'] .= $default['title'];
             }
         }
+        
+        
+        }
+        $this->assign( 'rows', $values );
     }
-    
+
     function search( ) {
         if ( $this->_action &
              ( CRM_Core_Action::ADD    |

@@ -60,8 +60,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     private function _dataExists( &$params ) 
     {
-        if ( CRM_Utils_Array::value( 'subject', $params) &&
-             CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
+        if (CRM_Utils_Array::value( 'subject', $params) &&
+            CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
             return true;
         }
         return false;
@@ -88,7 +88,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $activity->copyValues( $params );
         if ( $activity->find( true ) ) {
 
-
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
@@ -111,6 +110,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $defaults['source_contact'] = CRM_Contact_BAO_Contact::sortName( $activity->source_contact_id );
 
             CRM_Core_DAO::storeValues( $activity, $defaults );
+
+//            CRM_Core_Error::debug( 's', $defaults );
 
             return $activity;
         }
@@ -156,6 +157,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $activity->delete();
     }
     
+    
     /**
      * delete all records for this contact id
      *
@@ -182,6 +184,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
     }
 
+
+
+
+
+
     /**
      * Function to process the activities
      *
@@ -193,8 +200,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @return
      */
-    public function create( &$params )
+    public function createActivity( &$params ) 
     {
+        return $this->_saveActivity( $params, 'create' );
+    }
+
+
+    public function updateActivity( &$params, &$ids )
+    {
+        $this->id = CRM_Utils_Array::value( 'id', $ids );
+        return $this->_saveActivity( $params, 'update' );
+    }    
+    
+
+    private function _saveActivity( &$params, $operation )
+    {
+        require_once 'CRM/Core/Transaction.php';
 
         // check required params
         if ( ! $this->_dataExists( $params ) ) {
@@ -204,74 +225,65 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $this->copyValues( $params );
 
         // start transaction        
-        require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
         $result = $this->save( );        
         
-        $activityId = $result->id;
-
         // attempt to save activity assignment
-        if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
+        if( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
             $assignment =& new CRM_Activity_BAO_ActivityAssignment();
-            
-            $assignmentParams = array( 'activity_id'         => $activityId,
-                                       'assignee_contact_id' => $params['assignee_contact_id'] );
-            
-            if ( CRM_Utils_Array::value( 'id', $params ) ) {
-                $assignment->activity_id = $activityId;
-                if ( $assignment->find( true ) ) {
-                    if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
-                        $assignmentParams['id'] = $assignment->id;
-                        $resultAssignment = $assignment->create( $assignmentParams );
-                    }
-                }            
-            } else {
-                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultAssignment = $assignment->create( $assignmentParams );
+
+            if( $operation === 'create' ) {
+                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultAssignment = $assignment->createAssignment( $this->id, $params['assignee_contact_id'] );
                 }
+
+            } elseif( $operation === 'update' ) {
+                $assignment->activity_id = $this->id;
+                if( $assignment->find( true ) ) {
+                    if( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                        $resultAssignment = $assignment->updateAssignment( $assignment->id, 
+                                                                           $params['assignee_contact_id'] );
+                    }
+                } 
             }
         }        
 
+
         // attempt to save activity targets
-        if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
+        if( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
             $target =& new CRM_Activity_BAO_ActivityTarget();
 
-            $targetParams = array( 'activity_id'         => $activityId,
-                                   'target_contact_id' => $params['target_contact_id'] );
-            
-            if ( CRM_Utils_Array::value( 'id', $params ) ) {
-                $target->activity_id = $activityId;
-                if ( $target->find( true ) ) {
-                    if ( $target->target_contact_id != $params['target_contact_id'] ) {
-                        $targetParams['id'] = $target->id;
-                        $resultTarget = $target->create( $targetParams );
+            if( $operation === 'create' ) {
+                if( ! is_a( $result, 'CRM_Core_Error' ) ) {
+                    $resultTarget = $target->createTarget( $this->id, $params['target_contact_id'] );
+                }
+
+            } elseif( $operation === 'update' ) {
+                $target->activity_id = $this->id;
+                if( $target->find( true ) ) {
+                    if( $target->target_contact_id != $params['target_contact_id'] ) {
+                        $resultTarget = $target->updateTarget( $target->id, $params['target_contact_id'] );
                     }
-                }            
-            } else {
-                if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultTarget = $target->create( $targetParams );
                 }
             }
         }
 
-        // write to changelog before transation is committed/rolled
-        // back (and prepare status to display)
-        if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            $logMsg = "Activity (id: {$this->id} ) updated with ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
-        } else {
+        // write to changelog before transation is committed/rolled back (and prepare status to display)
+        if( $operation === 'create' ) {
             $logMsg = "Activity created for ";
             $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
+        } elseif( $operation === 'update' ) {
+            $logMsg = "Activity (id: {$this->id} ) updated with ";
+            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         }
-        
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
         $this->_logActivityAction( $result, $logMsg );
 
         // roll back if error occured
-        if ( is_a( $result, 'CRM_Core_Error' ) ) {
+        if( is_a( $result, 'CRM_Core_Error' ) ) {
             $transaction->rollback( );
             return $result;
         } elseif( is_a( $resultAssignment, 'CRM_Core_Error' ) ) {
@@ -280,34 +292,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } elseif( is_a( $resultTarget, 'CRM_Core_Error' ) ) {
             $transaction->rollback( );
             return $resultTarget;
+        } else {
+            $transaction->commit( );            
         }
-
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
-        }
-
-        require_once "CRM/Core/BAO/CustomQuery.php";
-        $entityTable  = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
-        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
-
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::postProcess( $params,
-                                                    $customFields,
-                                                    $entityTable,
-                                                    $result->id,
-                                                    $activityType );
-        $transaction->commit( );            
 
         CRM_Core_Session::setStatus( $status );
 
@@ -315,6 +302,69 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
     }
         
+// custom data disabled for now
+        
+//       // format custom data
+//       // get mime type of the uploaded file
+//        if ( !empty($_FILES) ) {
+//            foreach ( $_FILES as $key => $value) {
+//                $files = array( );
+//                if ( $params[$key] ) {
+//                    $files['name'] = $params[$key];
+//                }
+//                if ( $value['type'] ) {
+//                    $files['type'] = $value['type']; 
+//                }
+//                $params[$key] = $files;
+//            }
+//        }
+
+//        $customData = array( );
+//        require_once "CRM/Core/BAO/CustomField.php";
+//        foreach ( $params as $key => $value ) {
+//            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+//                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+//                                                             $value, $activityType, null, $activity->id);
+//            }
+//        }
+
+        //special case to handle if all checkboxes are unchecked
+//        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+
+//        if ( !empty($customFields) ) {
+//            foreach ( $customFields as $k => $val ) {
+//                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') )&&
+//                     ! CRM_Utils_Array::value( $k, $customData ) ) {
+//                    CRM_Core_BAO_CustomField::formatCustomField( $k, $customData,
+//                                                                 '', $activityType, null, $activity->_id);
+//                }
+//            }
+//        }
+
+//        if ( !empty($customData) ) {
+//            //get the entity table for the custom field
+//            require_once "CRM/Core/BAO/CustomQuery.php";
+//            $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+
+            // add custom field values
+//            foreach ($customData as $customValue) {
+//                $cvParams = array(
+//                                  'entity_table'    => $entityTable,
+//                                  'entity_id'       => $activity->id,
+//                                  'value'           => $customValue['value'],
+//                                  'type'            => $customValue['type'],
+//                                  'custom_field_id' => $customValue['custom_field_id'],
+//                                  'file_id'         => $customValue['file_id'],
+//                                  );
+                
+//                if ($customValue['id']) {
+//                    $cvParams['id'] = $customValue['id'];
+//                }
+//                CRM_Core_BAO_CustomValue::create($cvParams);
+//            }
+//        }
+
+
     /**
      * compose the url to show details of activity
      *
@@ -367,6 +417,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return true;
     }
 
+   
 }
 
 ?>

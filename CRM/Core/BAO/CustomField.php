@@ -32,7 +32,7 @@
  * $Id$
  *
  */
-require_once 'CRM/Core/OptionGroup.php';
+
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
@@ -765,8 +765,7 @@ DELETE g.*
         $customField->find(true);
         
         require_once "CRM/Profile/Form.php";
-        
-        $value = null;
+
         $value = null;
         if ( ! $contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
@@ -804,6 +803,7 @@ DELETE g.*
                             $value = $co->value;
                         }
                     }
+                    //$value = $cv->decimal_data;
                     break;
                 case 'Memo':
                     $value = $cv->memo_data;
@@ -824,6 +824,7 @@ DELETE g.*
                     }
                 }
             }
+
         }
         
         //set defaults if mode is registration / edit

@@ -1,7 +1,13 @@
 {if $validCiviEvent}
     <div id="participantForm">
     <fieldset class="collapsible">
-    {include file="CRM/Event/Form/Search/Common.tpl"}
+    <table class="form-layout">
+       <tr>
+         <td> 
+          {include file="CRM/Event/Form/Search/Common.tpl"}
+         </td> 
+       </tr>
+    </table>
     </fieldset>
     </div>
 {/if}

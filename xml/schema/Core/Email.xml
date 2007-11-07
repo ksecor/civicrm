@@ -99,7 +99,6 @@
   </field>
   <field>
     <name>is_bulkmail</name>
-    <title>Use for Bulk Mail</title>
     <export>true</export>
     <type>boolean</type>
     <default>0</default>

@@ -107,21 +107,17 @@ class CRM_Member_Form extends CRM_Core_Form
         } else {
             $buttonType = 'next';
         }
-        if ( $this->_action & CRM_Core_Action::RENEW ) {
-            $name = ts('Renew');
-        } else {
-            $name = ts('Save');
-        }
+
         $this->addButtons( array(
                                  array ( 'type'      => $buttonType,
-                                         'name'      => $name,
+                                         'name'      => ts('Save'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'cancel',
                                          'name'      => ts('Cancel') ),
                                  )
                            );
      
-        if ( $this->_action & CRM_Core_Action::DELETE ) {
+        if($this->_action & CRM_Core_Action::DELETE) {
             $this->addButtons(array(
                                     array ('type'      => 'next',
                                            'name'      => ts('Delete'),

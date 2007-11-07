@@ -140,11 +140,8 @@ class CRM_Mailing_Event_BAO_TrackableURLOpen extends CRM_Mailing_Event_DAO_Track
             $query .= " GROUP BY $queue.id ";
         }
 
-        if ( $dao->fetch() ) {
-            return $dao->opened;
-        }
-        
-        return null;
+        $dao->fetch();
+        return $dao->opened;
     }
 
 

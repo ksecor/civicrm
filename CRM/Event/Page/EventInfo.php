@@ -91,8 +91,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         if ( isset ($eventPageId ) ) {
             if ( ! CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $eventPageId ) ) {
                 //retrieve custom information
-                //require_once 'CRM/Core/BAO/CustomOption.php'; 
-                //CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $values['custom'] );
+                require_once 'CRM/Core/BAO/CustomOption.php'; 
+                CRM_Core_BAO_CustomOption::getAssoc( 'civicrm_event_page', $eventPageId, $values['custom'] );
             }
         }
 
@@ -101,9 +101,9 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         CRM_Core_BAO_Location::getValues($params, $values, $ids, 1, 1);
         
         //retrieve custom field information
-        //require_once 'CRM/Core/BAO/CustomGroup.php';
-        //$groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $id, 0, $values['event']['event_type_id'] );
-        //CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree("Event", $id, 0, $values['event']['event_type_id'] );
+        CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $groupTree );
         $this->assign( 'action', CRM_Core_Action::VIEW);
         
         require_once 'CRM/Event/BAO/Participant.php';
@@ -136,18 +136,11 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
                     
                     if ( $action ==  CRM_Core_Action::PREVIEW ) {
-                        $url    = CRM_Utils_System::url( 'civicrm/event/register',
-                                                         "id={$id}&reset=1&action=preview" );
-                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1&action=preview" );
+                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1&action=preview" );
                     } else {
-                        $url = CRM_Utils_System::url( 'civicrm/event/register',
-                                                      "id={$id}&reset=1" );
-                        $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1" );
+                        $url = CRM_Utils_System::url("civicrm/event/register", "id={$id}&reset=1" );
                     }
-                    $this->assign( 'registerURL', $url    );
-                    $this->assign( 'mapURL'     , $mapURL );
+                    $this->assign( 'registerURL', $url );
                 }
             }
             

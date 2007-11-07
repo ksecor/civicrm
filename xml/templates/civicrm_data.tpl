@@ -1,13 +1,5 @@
 -- This file provides template to civicrm_data.mysql. Inserts all base data needed for a new CiviCRM DB
 
--- Add components to system wide registry
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviEvent', 'CRM_Event' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviContribute', 'CRM_Contribute' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMember', 'CRM_Member' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviMail', 'CRM_Mailing' );
-INSERT INTO civicrm_component (name, namespace) VALUES ('CiviGrant', 'CRM_Grant' );
-
-
 -- All domain-keyed values handled by this included file
 {include file="civicrm_add_domain.tpl" context="baseData"}
 
@@ -22,7 +14,7 @@ INSERT INTO civicrm_county (name, state_province_id) VALUES ('Santa Clara', 1004
 -- Bounce classification patterns
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('AOL', '{ts escape="sql"}AOL Terms of Service complaint{/ts}', 1);
+        VALUES ('AOL', '{ts}AOL Terms of Service complaint{/ts}', 1);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -30,7 +22,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Away', '{ts escape="sql"}Recipient is on vacation{/ts}', 3);
+        VALUES ('Away', '{ts}Recipient is on vacation{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -39,7 +31,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Dns', '{ts escape="sql"}Unable to resolve recipient domain{/ts}', 3);
+        VALUES ('Dns', '{ts}Unable to resolve recipient domain{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -49,7 +41,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Host', '{ts escape="sql"}Unable to deliver to destintation mail server{/ts}', 3);
+        VALUES ('Host', '{ts}Unable to deliver to destintation mail server{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -70,7 +62,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Inactive', '{ts escape="sql"}User account is no longer active{/ts}', 1);
+        VALUES ('Inactive', '{ts}User account is no longer active{/ts}', 1);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -93,7 +85,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Invalid', '{ts escape="sql"}Email address is not valid{/ts}', 1);
+        VALUES ('Invalid', '{ts}Email address is not valid{/ts}', 1);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -139,7 +131,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Loop', '{ts escape="sql"}Mail routing error{/ts}', 3);
+        VALUES ('Loop', '{ts}Mail routing error{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -152,7 +144,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Quota', '{ts escape="sql"}User inbox is full{/ts}', 3);
+        VALUES ('Quota', '{ts}User inbox is full{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -173,7 +165,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Relay', '{ts escape="sql"}Unable to reach destination mail server{/ts}', 3);
+        VALUES ('Relay', '{ts}Unable to reach destination mail server{/ts}', 3);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -187,7 +179,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Spam', '{ts escape="sql"}Message caught by a content filter{/ts}', 1);
+        VALUES ('Spam', '{ts}Message caught by a content filter{/ts}', 1);
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 
         VALUES
@@ -211,7 +203,7 @@ INSERT INTO civicrm_mailing_bounce_pattern
 
 INSERT INTO civicrm_mailing_bounce_type 
         (name, description, hold_threshold) 
-        VALUES ('Syntax', '{ts escape="sql"}Error in SMTP transaction{/ts}', 3);
+        VALUES ('Syntax', '{ts}Error in SMTP transaction{/ts}', 3);
 
 INSERT INTO civicrm_mailing_bounce_pattern 
         (bounce_type_id, pattern) 

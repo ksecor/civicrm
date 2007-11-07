@@ -57,7 +57,8 @@ class CRM_Event_StateMachine_ManageEvent extends CRM_Core_StateMachine {
                               'CRM_Event_Form_ManageEvent_Location'     => null,
                               'CRM_Event_Form_ManageEvent_Fee'          => null,
                               'CRM_Event_Form_ManageEvent_Registration' => null,
-                              'CRM_Friend_Form_Event'                   => null
+                              'CRM_Friend_Form_Event_TellAFriend'       => null,
+                              //'CRM_Event_Form_ManageEvent_CopyEvent' => null,
                               );
         
         $this->addSequentialPages( $this->_pages, $action );

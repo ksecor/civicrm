@@ -11,8 +11,7 @@
             <dt>{$form.smtpAuth.label}</dt><dd>{$form.smtpAuth.html}</dd>
             <dt>&nbsp</dt><dd class="description">{ts}Does your SMTP server require authentication (user name + password)?{/ts}</dd>    
             <dt>{$form.smtpUsername.label}</dt><dd>{$form.smtpUsername.html}</dd>
-            <dt>{$form.smtpPassword.label}</dt><dd>{$form.smtpPassword.html}</dd>
-            <dt>&nbsp</dt><dd class="description">{ts}If your SMTP server requires authentication, enter your Username and Password here.{/ts}</dd>
+            <dt>&nbsp</dt><dd class="description">{ts}If your SMTP server requires authentication, enter your Username here. You must also enter you SMTP password in the CiviCRM settings file (civicrm.settings.php).{/ts}</dd>
         </dl>
         <dl>
             <dt></dt><dd>{$form.buttons.html}</dd>

@@ -8,10 +8,10 @@ dojo.require("dijit._Templated");
 dojo.declare("dijit.form._FormMixin", null,
 	{
 		/*
-		summary:
+		summary: 
 			Widget corresponding to <form> tag, for validation and serialization
-
-		usage:
+		
+		usage: 
 			<form dojoType="dijit.form.Form" id="myForm">
 				Name: <input type="text" name="name" />
 			</form>
@@ -25,19 +25,6 @@ dojo.declare("dijit.form._FormMixin", null,
 		* people[3].sex (for a list of people [{name: Bill, sex: M}, ...])
 
 		*/
-
-		// HTML <FORM> attributes
-
-		action: "",
-		method: "",
-		enctype: "",
-		name: "",
-		"accept-charset": "",
-		accept: "",
-		target: "",
-
-		attributeMap: dojo.mixin(dojo.clone(dijit._Widget.prototype.attributeMap),
-			{action: "", method: "", enctype: "", name: "", "accept-charset": "", accept: "", target: ""}),
 
 		// execute: Function
 		//	User defined function to do stuff when the user hits the submit button
@@ -69,7 +56,7 @@ dojo.declare("dijit.form._FormMixin", null,
 
 		setValues: function(/*object*/obj) {
 			// summary: fill in form values from a JSON structure
-
+			
 			// generate map from name --> [list of widgets with that name]
 			var map = {};
 			dojo.forEach(this.getDescendants(), function(widget){
@@ -97,7 +84,7 @@ dojo.declare("dijit.form._FormMixin", null,
 					});					
 				}
 			}
-
+			
 			/***
 			 * 	TODO: code for plain input boxes (this shouldn't run for inputs that are part of widgets
 
@@ -141,7 +128,7 @@ dojo.declare("dijit.form._FormMixin", null,
 
 				switch(element.type) {
 					case "checkbox":
-						element.checked = (name in myObj) &&
+						element.checked = (name in myObj) && 
 							dojo.some(myObj[name], function(val){ return val==element.value; });
 						break;
 					case "radio":
@@ -166,8 +153,8 @@ dojo.declare("dijit.form._FormMixin", null,
 						element.value = myObj[name] || "";
 						break;
 				}
-	  		});
-	  		*/
+      		});
+      		*/
 		},
 
 		getValues: function() {
@@ -273,7 +260,7 @@ dojo.declare("dijit.form._FormMixin", null,
 	 		});
 		}
 	});
-
+	
 dojo.declare(
 	"dijit.form.Form",
 	[dijit._Widget, dijit._Templated, dijit.form._FormMixin],

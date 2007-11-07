@@ -53,20 +53,36 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
     static function add( &$params ) 
     {
         $email =& new CRM_Core_DAO_Email( );
-        $email->copyValues($params);
         
-        if ( $email->is_bulkmail && $params['contact_id']) {
+        $email->copyValues($params);
+
+        // when email field is empty need to delete it
+        if ( $email->is_bulkmail ) {
             $sql = "
 UPDATE civicrm_email 
+LEFT JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
+LEFT JOIN civicrm_contact ON  civicrm_location.entity_id = civicrm_contact.id
+AND     civicrm_location.entity_table = 'civicrm_contact'
 SET is_bulkmail = 0
 WHERE 
-contact_id = {$params['contact_id']}";
-            CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+civicrm_contact.id = {$params['contact_id']}";
+            CRM_Core_DAO::executeQuery( $sql );
         }
-
-        // handle if email is on hold
-        self::holdEmail( $email );
         
+        // handle if email is on hold TO DO
+//         if ( array_key_exists( 'on_hold', $params['location'][$locationId]['email'][$emailId]) ) {
+//             $values = array(
+//                       'location' => array( $locationId => $params['location'][$locationId]['id'] ),
+//                       'email'    => $ids['location'][$locationId]['email']
+//                       );
+            
+//             self::holdEmail( $email, $values, $locationId, $emailId,
+//                              CRM_Utils_Array::value( 'on_hold', $params['location'][$locationId]['email'][$emailId], false));
+            
+//             return $email;
+//         }
+
+
         return $email->save( );
     }
 
@@ -74,18 +90,21 @@ contact_id = {$params['contact_id']}";
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $entityBlock   input parameters to find object
+     * @param array $params        input parameters to find object
+     * @param array $values        output values of the object
+     * @param array $ids           the array that holds all the db ids
+     * @param int   $blockCount    number of blocks to fetch
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function &getValues( $entityBlock ) 
+    static function &getValues( $contactId ) 
     {
-        return CRM_Core_BAO_Block::getValues( 'email', $entityBlock );
+        $email =& new CRM_Core_BAO_Email( );
+        return CRM_Core_BAO_Block::getValues( $email, 'email', $contactId );
     }
 
-   
     /**
      * Get all the emails for a specified contact_id, with the primary email being first
      *
@@ -126,103 +145,87 @@ ORDER BY
         return $emails;
     }
     
-
-     /**
-     * Get all the emails for a specified location_block id, with the primary email being first
-     *
-     * @param array $entityElements the array containing entity_id and
-     * entity_table name
-     *
-     * @return array  the array of email id's
-     * @access public
-     * @static
-     */
-    static function allEntityEmails( &$entityElements ) 
-    {
-        if ( empty($entityElements) ) {
-            return null;
-        }
-
-        $entityId    = $entityElements['entity_id'];
-        $entityTable = $entityElements['entity_table'];
-
-
-        $sql = " SELECT email, ltype.name as locationType, e.is_primary as is_primary, e.on_hold as on_hold,e.id as email_id, e.location_type_id as locationTypeId 
-FROM civicrm_loc_block loc, civicrm_email e, civicrm_location_type ltype, {$entityTable} ev
-WHERE ev.id = %1
-AND   loc.id = ev.loc_block_id
-AND   e.id IN (loc.email_id, loc.email_2_id)
-AND   ltype.id = e.location_type_id
-ORDER BY e.is_primary DESC, email_id ASC ";
-       
-        $params = array( 1 => array( $entityId, 'Integer' ) );
-            
-        $emails = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
-        while ( $dao->fetch( ) ) {
-            $emails[$dao->email_id] = array( 'locationType'   => $dao->locationType,
-                                             'is_primary'     => $dao->is_primary,
-                                             'on_hold'        => $dao->on_hold,
-                                             'id'             => $dao->email_id,
-                                             'email'          => $dao->email,
-                                             'locationTypeId' => $dao->locationTypeId );
-        }
-        
-        return $emails;
-    }
-    
-
-
     /**
      * Delete email address records from a location
      *
-     * @param array $params associated array of values
+     * @param int $locationId       Location ID to delete for
      * 
      * @return void
      * 
      * @access public
      * @static
      */
-    public static function deleteLocation( $params ) 
-    {
+    public static function deleteLocation( $locationId ) {
         $dao =& new CRM_Core_DAO_Email();
-        $dao->copyValues( $params );
+        $dao->location_id = $locationId;
+        $dao->find();
+
+        require_once 'CRM/Mailing/Event/BAO/Queue.php';
+        while ($dao->fetch()) {
+            CRM_Mailing_Event_BAO_Queue::deleteEventQueue( $dao->id );
+        }
+        
+        $dao->reset();
+        $dao->location_id = $locationId;
         $dao->delete();
     }
-
+    
     /**
-     * Function to set / reset hold status for an email
+     * Method to hold or reset email(s)
+     * 
+     * This method is used to hold and reset the email(s) according to
+     * the 'holodStatus' value provided.
+     * 'Values' array contains values required to search for required
+     * email record in update mode.
+     * An example Values array looks like : 
+     * 
+     * Values
      *
-     * @param object $email  email object
+     * Array
+     * (
+     * [location] => Array
+     *      (
+     *       [2] => 92
+     *      )
      *
-     * @return void
-     * @static
+     * [email] => Array
+     *      (
+     *       [1] => 170
+     *       [2] => 171
+     *       [3] => 172
+     *      )
+     *
+     * )
+     * 
+     * @param object  $emailDAO          (referance) email dao object
+     * @param array   $values
+     * @param int     $locationBlockId   Location Block Number
+     * @param int     $emailBlockId      Email Block Number
+     * @param boolean $holdStatus        flag to indicate whether hold
+     *                                   an email or reset
+     *
      */
-    static function holdEmail ( &$email ) 
+    public static function holdEmail( &$emailDAO, $values, $locationBlockId = 1, $emailBlockId = 1, $holdStatus = false) 
     {
-        //check for update mode
-        if ( $email->id ) {
-            //get hold date
-            $holdDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'hold_date' );
-
-            //get reset date
-            $resetDate = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email', $email->id, 'reset_date' );
-
-            //set hold date only if it is not set
-            if ( ($email->on_hold != 'null') && !$holdDate ) {
-                $email->hold_date  = date( 'YmdHis' );
-                $email->reset_date = '';
-            } else if ( $holdDate && ( $email->on_hold == 'null' ) && !$resetDate ) {
-                //set reset date only if it is not set and if hold date is set
-                $email->on_hold     = false;
-                $email->hold_date   = '';
-                $email->reset_date  = date( 'YmdHis' );
-            }
-        } else {
-            if ( ($email->on_hold != 'null') && $email->on_hold ) {
-                $email->hold_date   = date( 'YmdHis' );
+        if ( $holdStatus ) {
+            $emailDAO->on_hold     = 1;
+            $emailDAO->hold_date   = date( 'YmdHis' );
+            $emailDAO->reset_date  = '';
+        } else if ( !empty($values['email'][$emailBlockId])) {
+            $emailDAO->save();
+            $emailDAO->location_id = $values['location'][$locationBlockId];
+            
+            $emailDAO->whereAdd('id=' . $values['email'][$emailBlockId]);
+            $emailDAO->whereAdd('hold_date IS NOT NULL');
+            if ( $emailDAO->find(true) ) {
+                $emailDAO->on_hold     = 0;
+                $emailDAO->hold_date   = '';
+                $emailDAO->reset_date  = date( 'YmdHis' );
             }
         }
+        
+        $emailDAO->save();
+        return true;
     }
 }
 ?>

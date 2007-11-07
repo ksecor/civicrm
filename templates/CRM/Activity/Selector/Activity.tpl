@@ -34,18 +34,15 @@
                              {$row.case}</a>
         </td>
 
-       	<td><a href="{crmURL p='civicrm/contact/view/activity' 
-                             q="action=view&selectedChild=activity&id=`$row.activity_type_id`&cid=`$row.source_contact_id`"}">
-                             {$row.subject}</a>
-        </td>
-	
+        <td><a href="{$viewURL}">{$row.subject}</td></a>
+      
         <td>
         {if !$row.source_contact_id}
 	  <em>n/a</em>
 	{elseif $contactId NEQ $row.source_contact_id}
           <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a>
         {else}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a> 	
+          {$row.source_contact_name}
         {/if}			
         </td>
 
@@ -55,7 +52,7 @@
         {elseif $contactId NEQ $row.target_contact_id}
           <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}</a>
         {else}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.target_contact_id`"}">{$row.target_contact_name}
+          {$row.target_contact_name}
         {/if}			
         </td>
 

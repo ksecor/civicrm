@@ -224,7 +224,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-
+       
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
@@ -417,18 +417,18 @@ SELECT $select
         $tableName = self::_getTableName($entityType);
 
         $update = array( );
-        foreach ( $groupTree as $groupID => $group ) {
+        foreach ( $groupTree as $groupID => $fields ) {
             if ( $groupID == 'info' ) {
                 continue;
             }
-            $table = $groupTree[$groupID]['table_name'];
-            foreach ( $group['fields'] as $fieldID => $field ) {
+            $table = $groupTree[$groupID]['civicrm_custom_group_table_name'];
+            foreach ( $fields as $fieldID => $field ) {
                 if ( isset( $field['customValue'] ) ) {
-                    $column    = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
+                    $column    = $groupTree[$groupID]['fields'][$fieldID]['civicrm_custom_field_column_name'];
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
-            CRM_Core_Error::debug( 'u', $update );
+
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'  ] );
                 if ( $groupTree['info']['where' ] ) {
@@ -438,7 +438,7 @@ SELECT $select
                     $sqlOP  = 'SELECT';
                     $where  = null;
                 }
-                $update = implode( ', ', $update );
+                $update = implode( ', ', $groupTree['info']['update'] );
                                    
                 $query = "
 $sqlOP $tables
@@ -792,7 +792,7 @@ $where
 
         //check wheter this contain any custom fields
         $customField = & new CRM_Core_DAO_CustomField();
-        $customField->custom_group_id = $group->id;
+        $customField->custom_group_id = $id;
         $customField->find();
         if ($customField->fetch()) {
             return false;
@@ -830,14 +830,17 @@ $where
                 case 'CheckBox':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['value']] = 1;
-                                } else {
-                                    $defaults[$elementName][$val['value']] = 0;
+                                if (is_array($customValues)) {
+                                    if (in_array($val['value'], $checkedData)) {
+                                        $defaults[$elementName][$val['value']] = 1;
+                                    } else {
+                                        $defaults[$elementName][$val['value']] = 0;
+                                    }
                                 }
                             }
                         }
@@ -870,12 +873,15 @@ $where
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
+                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
-                                    $defaults[$elementName][$val['value']] = $val['value'];
+                                if (is_array($customValues)) {
+                                    if (in_array($val['value'], $checkedData)) {
+                                        $defaults[$elementName][$val['value']] = $val['value'];
+                                    }
                                 }
                             }
                         }
@@ -929,13 +935,10 @@ $where
     }
 
     static function postProcess( &$groupTree, &$params ) {
-
+        
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
-        foreach ($groupTree as $groupID => $group) {
-            if ( $groupID == 'info' ) {
-                continue;
-            }              
+        foreach ($groupTree as $group) {
             foreach ($group['fields'] as $field) {
                 $groupId = $group['id'];
                 $fieldId = $field['id'];
@@ -1392,16 +1395,7 @@ ORDER BY weight ASC, label ASC";
             
         case 'Relationship':
             return 'civicrm_relationship';
-            
-        case 'Event':
-            return 'civicrm_event';
-        
-        case 'Membership':
-            return 'civicrm_membership';
-        
-        case 'Participant':
-            return 'civicrm_participant';
-        
+
         default:
             CRM_Core_Error::fatal( );
         }

@@ -365,16 +365,18 @@ class InstallRequirements {
         }
 		
 		if(!is_writeable($filename)) {
-            $name = null;
-            if ( function_exists( 'posix_getpwuid' ) ) {
-                $user = posix_getpwuid(posix_geteuid());
-                $name = $user['name'];
-            }
-
+			$user = posix_getpwuid(posix_geteuid());
+			$groups = posix_getgroups();
+			foreach($groups as $group) {
+				$groupInfo = posix_getgrgid($group);
+				$groupList[] = $groupInfo['name'];
+			}
+			$groupList = "'" . implode("', '", $groupList) . "'";
+			
             if ( ! isset( $testDetails[2] ) ) {
                 $testDetails[2] = null;
             }
-			$testDetails[2] .= "The web server user $name needs to write be able to write to this file:\n$filename";
+			$testDetails[2] .= "User '$user[name]' needs to write be able to write to this file:\n$filename";
 			$this->error($testDetails);
 		}
 	}

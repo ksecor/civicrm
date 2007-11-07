@@ -485,12 +485,12 @@ class CRM_Core_DAO extends DB_DataObject {
      * @static
      * @access public
      */
-    static function setFieldValue( $daoName, $id, $fieldName, $value, $idName = 'id' ) {
+    static function setFieldValue( $daoName, $id, $fieldName, $value ) {
         require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
         eval( '$object =& new ' . $daoName . '( );' );
         $object->selectAdd( );
-        $object->selectAdd( "$idName, $fieldName" );
-        $object->$idName = $id;
+        $object->selectAdd( 'id, ' . $fieldName );
+        $object->id    = $id;
         $result = false;
         if ( $object->find( true ) ) {
             $object->$fieldName = $value;
@@ -593,7 +593,6 @@ class CRM_Core_DAO extends DB_DataObject {
             eval( '$dao   =& new ' . $daoName . '( );' );
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
-        //CRM_Core_Error::debug( 'q', $queryStr );
         $dao->query( $queryStr );
         return $dao;
     }
@@ -613,15 +612,13 @@ class CRM_Core_DAO extends DB_DataObject {
         $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
-        $ret    = null;
         if ( $result ) {
             $row = $result->fetchRow();
             if ( $row ) {
-                $ret = $row[0];
+                return $row[0];
             }
         }
-        $dao->free( );
-        return $ret;
+        return null;
     }
 
     static function composeQuery( $query, &$params, $abort, &$dao ) {

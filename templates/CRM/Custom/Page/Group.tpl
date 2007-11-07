@@ -22,7 +22,7 @@
             <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
             <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
             <th field="Type"         dataType="String">{ts}Type{/ts}</th>
-            <th field="Order"        dataType="Number" sort="asc">{ts}Order{/ts}</th>
+            <th field="Weight"       dataType="Number" sort="asc">{ts}Weight{/ts}</th>
             <th field="Style"        dataType="String">{ts}Style{/ts}</th>
             <th datatype="html"></th>
         </tr>
@@ -34,7 +34,7 @@
             <td>{if $row.is_active       eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{if $row.extends eq 'Contact'}{ts}All Contact Types{/ts}{else}{$row.extends_display}{/if}</td>
             <td>{$row.extends_entity_column_value}</td>
-            <td class="nowrap">{$row.weight}</td>
+            <td>{$row.weight}</td>
             <td>{$row.style_display}</td>
             <td>{$row.action}</td>
         </tr>

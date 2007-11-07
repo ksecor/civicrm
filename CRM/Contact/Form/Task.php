@@ -73,10 +73,8 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             $values = $this->controller->exportValues( 'Advanced' );
         } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
             $values = $this->controller->exportValues( 'Builder' );
-        } else if ( $this->_action == CRM_Core_Action::COPY ) {
-            $values = $this->controller->exportValues( 'Custom' );
         } else {
-            $values = $this->controller->exportValues( 'Basic' );
+            $values = $this->controller->exportValues( 'Search' );
         }
 
         require_once 'CRM/Contact/Task.php';
@@ -86,7 +84,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
         // all contacts or action = save a search
-        if ( ( $values['radio_ts'] == 'ts_all' ) || ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
+        if (($values['radio_ts'] == 'ts_all') || ($this->_task == CRM_Contact_Task::SAVE_SEARCH)) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $sortID = null;
@@ -95,24 +93,21 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
                                                        $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
             }
 
-            $selectorName = $this->controller->selectorName( );
-            require_once( str_replace('_', DIRECTORY_SEPARATOR, $selectorName ) . '.php' );
+            require_once 'CRM/Contact/Selector.php';
+            $selector  =& new CRM_Contact_Selector( );
+            $sortOrder =& $selector->getSortOrder( $this->_action );
+            $sort      =& new CRM_Utils_Sort( $sortOrder, $sortID );
 
-            $fv          = $this->get( 'formValues' );
-            $customClass = $this->get( 'customSearchClass' );
+            $params  =  $this->get( 'queryParams' );
+            $query   =& new CRM_Contact_BAO_Query( $params );
 
-            eval( '$selector   =& new ' .
-                  $selectorName . 
-                  '( $customClass, $fv ); '
-                  );
-
-            $params    =  $this->get( 'queryParams' );
-            $dao       =& $selector->contactIDQuery( $params, $this->_action, $sortID );
-
+            $dao = $query->searchQuery( 0, 0, $sort,
+                                        false, false, false,
+                                        false, false );
             while ( $dao->fetch( ) ) {
                 $this->_contactIds[] = $dao->contact_id;
             }
-        } else if ( $values['radio_ts'] == 'ts_sel') {
+        } else if($values['radio_ts'] == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {

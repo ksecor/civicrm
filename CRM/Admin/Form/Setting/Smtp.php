@@ -54,7 +54,6 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
         $this->add('text','smtpPort', ts('SMTP Port'), null, true);  
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
-        $this->addElement('password','smtpPassword', ts('SMTP Password')); 
        
         parent::buildQuickForm();
     }

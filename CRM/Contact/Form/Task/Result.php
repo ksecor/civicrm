@@ -71,12 +71,9 @@ class CRM_Contact_Form_Task_Result extends CRM_Contact_Form_Task {
                 $fragment = 'search';
             } else if ( $this->_action == CRM_Core_Action::PROFILE ) {
                 $fragment = 'search/builder';
-            } else if ( $this->_action == CRM_Core_Action::ADVANCED ) {
-                $fragment = 'search/advanced';
             } else {
-                $fragment = 'search/custom';
+                $fragment = 'search/advanced';
             }
-
             $url = CRM_Utils_System::url( 'civicrm/contact/' . $fragment, 'reset=1&force=1&ssID=' . $ssID );
             $session->replaceUserContext( $url );
             return;

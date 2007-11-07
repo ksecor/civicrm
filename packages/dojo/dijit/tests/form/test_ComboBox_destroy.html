@@ -6,12 +6,12 @@
 
 		<style type="text/css">
 			@import "../../../dojo/resources/dojo.css";
+			@import "../../themes/tundra/tundra.css";
 			@import "../css/dijitTests.css";
 		</style>
+		<script type="text/javascript" src="../testBidi.js"></script>
 		<script type="text/javascript" src="../../../dojo/dojo.js"
 			djConfig="isDebug: true, parseOnLoad: true"></script>
-		<script type="text/javascript" src="../_testCommon.js"></script>
-
 		<script type="text/javascript">
 			dojo.require("dijit.form.ComboBox");
 			dojo.require("dojo.parser");	// scan page for widgets and instantiate them
@@ -23,7 +23,7 @@
 			});
 		</script>
 	</head>
-	<body>
+	<body class="tundra">
 		<h1>Dojo ComboBox Widget Destruction Issue</h1>
 		<p>
 			<tt>ComboBox</tt> does not destroy itself properly, leading to a
@@ -40,9 +40,9 @@
 		</p>
 		<form action="#" method="GET">
 		   <input type="button" id="killit" name="killit" value="killit" />
-			<select name="state" searchField="name" keyField="abbreviation"
-				id="combo_01" dojoType="dijit.form.ComboBox" style="width: 300px;"
-				name="foo.bar1" autoComplete="false">
+			<select name="state" searchField="name" keyField="abbreviation" 
+				id="combo_01" dojoType="dijit.form.ComboBox" style="width: 300px;" 
+				name="foo.bar1" autocomplete="false">
 				<option value="AL">Alabama</option>
 
 				<option value="AK">Alaska</option>

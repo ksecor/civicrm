@@ -187,9 +187,6 @@ class CRM_Core_I18n
         //     $text = str_replace('\'','\\\'',stripslashes($text));
         // }
 
-        // escape SQL if we were asked for it
-        if (isset($escape) and ($escape == 'sql')) $text = mysql_escape_string($text);
-
         //return '⎰' . $text . '⎱';
         return $text;
     }

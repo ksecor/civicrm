@@ -71,14 +71,14 @@
             <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
             {capture assign=browseURL}{crmURL p='civicrm/group' q="reset=1"}{/capture}
             <dd>
-                {ts}No available Groups match your search criteria. Suggestions:{/ts}
+                {ts 1=$browseURL}No available Groups match your search criteria. Suggestions:
                 <div class="spacer"></div>
                 <ul>
-                <li>{ts}Check your spelling.{/ts}</li>
-                <li>{ts}Try a different spelling or use fewer letters.{/ts}</li>
-                <li>{ts}Make sure you have enough privileges in the access control system.{/ts}</li>
+                <li>Check your spelling.</li>
+                <li>Try a different spelling or use fewer letters.</li>
+                <li>Make sure you have enough privileges in the access control system.</li>
                 </ul>
-                {ts 1=$browseURL}Or you can <a href='%1'>browse all available Groups</a>.{/ts}
+                Or you can <a href="%1">browse all available Groups</a>.{/ts}
             </dd>
         </dl>
     </div>

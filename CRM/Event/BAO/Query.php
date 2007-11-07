@@ -387,16 +387,8 @@ class CRM_Event_BAO_Query
 
         $form->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
         
-        $dojoAttributesEvent = array( 'dojoType'       => 'dijit.form.ComboBox',
-                                      'mode'           => 'remote',
-                                      'store'          => 'eventStore',
-                                      'class'          => 'tundra',
-                                      'style'          => 'width:200px; border:1px solid #cfcfcf',                             );
-        $dojoAttributesEventType = array( 'dojoType'       => 'dijit.form.ComboBox',
-                                          'mode'           => 'remote',
-                                          'store'          => 'eventTypeStore',
-                                          'class'          => 'tundra',
-                                          'style'          => 'width:200px; border:1px solid #cfcfcf',                             );
+        $dojoAttributesEvent     = " dojoType='dijit.form.ComboBox' 'store='eventStore' class='tundra' ";
+        $dojoAttributesEventType = " dojoType='dijit.form.ComboBox' 'store='eventTypeStore' class='tundra' ";
         
         $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
         $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );

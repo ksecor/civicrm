@@ -38,3 +38,4 @@
     var fname = "{$form.formName}";	
     on_load_init_check(fname);
  </script>
+</div>

@@ -86,7 +86,6 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceSet', $id, 'title' );
     }
 
-   
     /**
      * Check if the price set is in use anywhere.  Returns true in the
      * case that the group is used by an active form, or by a form which
@@ -162,6 +161,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
     public static function &getUsedBy( $id, $checkPast = false, $getInactive = false ) {
         $usedBy = array( );
         $today = date('Y-m-d');
+
         $queryString = "SELECT entity_table, entity_id FROM civicrm_price_set_entity ";
         $queryString .= "WHERE price_set_id = %1";
         $params = array( 1 => array( $id, 'Integer') );
@@ -270,7 +270,7 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
      * @access public
      * @static
      */
-    public static function deleteSet( $id )
+    public static function deleteSet($id)
     {
         // remove from all inactive forms
         $usedBy =& CRM_Core_BAO_PriceSet::getUsedBy( $id, true, true );
@@ -279,29 +279,34 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
             foreach ( $usedBy['civicrm_event_page'] as $eventId => $unused ) {
                 $eventPageDAO =& new CRM_Event_DAO_EventPage( );
                 $eventPageDAO->event_id = $eventId;
-                $eventPageDAO->find( );
-                while ( $eventPageDAO->fetch( ) ) {
+                $eventPageDAO->find();
+                while ( $eventPageDAO->fetch() ) {
                     CRM_Core_BAO_PriceSet::removeFrom( 'civicrm_event_page', $eventPageDAO->id );
                 }
             }
         }
-        
+
         // delete price fields
         require_once 'CRM/Core/DAO/PriceField.php';
         require_once 'CRM/Core/DAO/CustomOption.php';
-        $priceField =& new CRM_Core_DAO_PriceField( );
+        $priceField =& new CRM_Core_DAO_PriceField();
         $priceField->price_set_id = $id;
-        $priceField->find( );
-        while ( $priceField->fetch( ) ) {
+        $priceField->find();
+        while ( $priceField->fetch() ) {
             // delete options first
-            CRM_Core_BAO_PriceField::deleteField( $priceField->id );
+            $customOption =& new CRM_Core_DAO_CustomOption();
+            $customOption->entity_table = 'civicrm_price_field';
+            $customOption->entity_id = $priceField->id;
+            $customOption->delete();
+            $priceField->delete();
         }
-        
-        $set     =& new CRM_Core_DAO_PriceSet( );
+
+        $set =& new CRM_Core_DAO_PriceSet();
         $set->id = $id;
-        return $set->delete( );
+        $set->delete();
+        return true;
     }
-    
+
     /**
      * Link the price set with the specified table and id
      *
@@ -362,43 +367,6 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
         } else {
             return false;
         }
-    }
-
-     /**
-      * Find a price_set_id associatied with the given option value or  field ID 
-      * @param array $params (reference) an assoc array of name/value pairs
-      *                      array may contain either option id or
-      *                      price field id 
-      *
-      * @return price set id on success, null  otherwise 
-      * @static
-      * @access public
-      */
-    public static function getSetId( &$params ) {
-        $fid = null;
-        
-        require_once 'CRM/Utils/Array.php';
-        if ( $oid = CRM_Utils_Array::value( 'oid', $params ) ) {
-            require_once 'CRM/Core/DAO/OptionGroup.php';
-            $optionGroup       = new CRM_Core_DAO_OptionGroup( );
-            $optionGroup->id   = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
-                                                              $oid, 'option_group_id' );
-            if ( $optionGroup->find( true ) ) {
-                $groupName     = explode( ".", $optionGroup->name );
-                $fid           = $groupName[2];
-            }
-            
-        } else {
-            $fid = CRM_Utils_Array::value( 'fid', $params ) ;
-        }
-        
-        if ( isset ( $fid ) ) {
-            return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', 
-                                                $fid, 'price_set_id' );
-            
-        }
-        return null;
-
     }
 
     /**

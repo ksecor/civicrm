@@ -24,12 +24,7 @@ dojo.declare(
 
 	_started: false,
 
-	// selectedChildWidget: Widget
-	//	References the currently selected child widget, if any
-
 	startup: function(){
-		if(this._started){ return; }
-
 		var children = this.getChildren();
 
 		// Setup each page panel
@@ -43,19 +38,17 @@ dojo.declare(
 			return child.selected;
 		}, this);
 
-		var selected = this.selectedChildWidget;
-
 		// Default to the first child
-		if(!selected && children[0]){
-			selected = this.selectedChildWidget = children[0];
-			selected.selected = true;
+		if(!this.selectedChildWidget && children[0]){
+			this.selectedChildWidget = children[0];
+			this.selectedChildWidget.selected = true;
 		}
-		if(selected){
-			this._showChild(selected);
+		if(this.selectedChildWidget){
+			this._showChild(this.selectedChildWidget);
 		}
 
 		// Now publish information about myself so any StackControllers can initialize..
-		dojo.publish(this.id+"-startup", [{children: children, selected: selected}]);
+		dojo.publish(this.id+"-startup", [{children: children, selected: this.selectedChildWidget}]);
 
 		dijit.layout._LayoutWidget.prototype.startup.apply(this, arguments);
 		this._started = true;
@@ -77,16 +70,19 @@ dojo.declare(
 		dijit._Container.prototype.addChild.apply(this, arguments);
 		child = this._setupChild(child);
 
-		if(this._started){
+		var started = this._started;
+		if(started){
 			// in case the tab titles have overflowed from one line to two lines
 			this.layout();
+		}
 
-			dojo.publish(this.id+"-addChild", [child, insertIndex]);
+		if(started){
+			dojo.publish(this.id+"-addChild", [child]);
+		}
 
-			// if this is the first child, then select it
-			if(!this.selectedChildWidget){
-				this.selectChild(child);
-			}
+		// if this is the first child, then select it
+		if(!this.selectedChildWidget && started){
+			this.selectChild(child);
 		}
 	},
 
@@ -159,9 +155,41 @@ dojo.declare(
 		this.selectChild(children[ (index + children.length - 1) % children.length ]);
 	},
 
+	// TODO: move this logic into controller?
 	_onKeyPress: function(e){
-		dojo.publish(this.id+"-containerKeyPress", [{ e: e, page: this}]);
-		return;
+		// summary
+		//	Keystroke handling for keystrokes on the tab panel itself (that were bubbled up to me)
+		//	Ctrl-w: close tab
+		if (e.ctrlKey){
+			switch(e.keyCode){
+				case dojo.keys.PAGE_DOWN:
+				case dojo.keys.PAGE_UP:
+				case dojo.keys.TAB:
+					if ((e.keyCode == dojo.keys.PAGE_DOWN) ||
+						(e.keyCode == dojo.keys.TAB && !e.shiftKey)){
+						this.forward();
+					}else{
+						this.back();
+					}
+					dijit.focus(this.selectedChildWidget.domNode);
+					dojo.stopEvent(e);
+					return false;
+					break;
+				default:
+					if((e.keyChar == "w") &&
+						(this.selectedChildWidget.closable)){
+							this.closeChild(this.selectedChildWidget);
+							dojo.stopEvent(e);
+					}
+			}
+		}
+	},
+
+	layout: function(){
+		// Summary: called when any page is shown, to make it fit the container correctly
+		if(this.doLayout && this.selectedChildWidget && this.selectedChildWidget.resize){
+			this.selectedChildWidget.resize(this._contentBox);
+		}
 	},
 
 	_showChild: function(/*Widget*/ page){
@@ -233,8 +261,7 @@ dojo.declare(
 				dojo.subscribe(this.containerId+"-startup", this, "onStartup"),
 				dojo.subscribe(this.containerId+"-addChild", this, "onAddChild"),
 				dojo.subscribe(this.containerId+"-removeChild", this, "onRemoveChild"),
-				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild"),
-				dojo.subscribe(this.containerId+"-containerKeyPress", this, "onContainerKeyPress")
+				dojo.subscribe(this.containerId+"-selectChild", this, "onSelectChild")
 			];
 		},
 
@@ -249,7 +276,7 @@ dojo.declare(
 			dijit.layout.StackController.superclass.destroy.apply(this, arguments);
 		},
 
-		onAddChild: function(/*Widget*/ page, /*Integer?*/ insertIndex){
+		onAddChild: function(/*Widget*/ page){
 			// summary
 			//   Called whenever a page is added to the container.
 			//   Create button corresponding to the page.
@@ -260,7 +287,7 @@ dojo.declare(
 			// create an instance of the button widget
 			var cls = dojo.getObject(this.buttonWidget);
 			var button = new cls({label: page.title, closeButton: page.closable}, refNode);
-			this.addChild(button, insertIndex);
+			this.addChild(button);
 			this.pane2button[page] = button;
 			page.controlButton = button;	// this value might be overwritten if two tabs point to same container
 
@@ -332,56 +359,34 @@ dojo.declare(
 			return children[ (current + offset) % children.length ];
 		},
 
-		onkeypress: function(/*Event*/ e){
+		onkeypress: function(/*Event*/ evt){
 			// summary:
 			//   Handle keystrokes on the page list, for advancing to next/previous button
 			//   and closing the current page.
 
-			if(this.disabled || e.altKey ){ return; }
-			var page = e._djpage;
+			if(this.disabled || evt.altKey || evt.shiftKey || evt.ctrlKey){ return; }
 			var forward = true;
-			if(e.ctrlKey || !e._djpage){
-				var k = dojo.keys;
-				switch(e.keyCode){
-					case k.LEFT_ARROW:
-					case k.UP_ARROW:
-					case k.PAGE_UP:
-						forward = false;
-						// fall through
-					case k.RIGHT_ARROW:
-					case k.DOWN_ARROW:
-					case k.PAGE_DOWN:
-						this.adjacent(forward).onClick();
-						dojo.stopEvent(e);
-						break;
-					case k.DELETE:
-						if(this._currentChild.closable){
-							this.onCloseButtonClick(this._currentChild);
-						}
-						dojo.stopEvent(e);
-						break;
-					default:
-						if(e.ctrlKey){
-							if(e.keyCode == k.TAB){
-								this.adjacent(!e.shiftKey).onClick();
-								dojo.stopEvent(e);
-							}else if(e.keyChar == "w"){
-								if(this._currentChild.closable){
-									this.onCloseButtonClick(this._currentChild);
-								}
-								dojo.stopEvent(e); // avoid browser tab closing.
-							}
-						}
-				}
+			switch(evt.keyCode){				
+				case dojo.keys.LEFT_ARROW:
+				case dojo.keys.UP_ARROW:
+					forward=false;
+					// fall through
+				case dojo.keys.RIGHT_ARROW:
+				case dojo.keys.DOWN_ARROW:
+					this.adjacent(forward).onClick();
+					dojo.stopEvent(evt);
+					break;
+				case dojo.keys.DELETE:
+					if (this._currentChild.closable){
+						this.onCloseButtonClick(this._currentChild);
+						dojo.stopEvent(evt); // so we don't close a browser tab!
+					}
+				default:
+					return;
 			}
-		},
-
-		onContainerKeyPress: function(/*Object*/ info){
-//			console.log("container key press");
-			info.e._djpage = info.page;
-			this.onkeypress(info.e);
 		}
-});
+	}
+);
 
 dojo.declare(
 	"dijit.layout._StackButton",
@@ -390,10 +395,8 @@ dojo.declare(
 	// summary
 	//	Internal widget used by StackContainer.
 	//	The button-like or tab-like object you click to select or delete a page
-	
-	tabIndex: "-1", // StackContainer buttons are not in the tab order by default
-	
-	onClick: function(/*Event*/ evt){
+
+	onClick: function(/*Event*/ evt) {
 		// this is for TabContainer where the tabs are <span> rather than button,
 		// so need to set focus explicitly (on some browsers)
 		dijit.focus(this.focusNode);

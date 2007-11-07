@@ -1,0 +1,88 @@
+# translation of amavisd-new_1:2.4.2-6_debconf_ru.po to Russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Yuri Kozlov <kozlov.y@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1:2.4.2-6\n"
+"Report-Msgid-Bugs-To: bam@debian.org\n"
+"POT-Creation-Date: 2006-08-10 11:09-0300\n"
+"PO-Revision-Date: 2007-01-02 06:31+0300\n"
+"Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid "Incompatible configuration file layout detected"
+msgstr "Обнаружен несовместимый состав файлов настройки"
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid ""
+"The Debian packages have changed the way they handle configuration files for "
+"amavisd-new to a better system, which uses multiple files instead of a "
+"single, monolithic file."
+msgstr ""
+"Для лучшей систематизации в пакетах Debian был изменён способ работы с "
+"конфигурационными файлами amavisd-new. Теперь используются несколько файлов "
+"вместо одного монолитного файла."
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid ""
+"The old amavisd-new configuration files that are still present in your "
+"system (named either /etc/amavisd.conf or /etc/amavis/amavisd.conf) are "
+"incompatible with this new config file layout."
+msgstr ""
+"Старые конфигурационные файлы amavisd-new, всё ещё находящиеся в системе (с "
+"именами /etc/amavisd.conf или /etc/amavis/amavisd.conf), несовместимы с "
+"новым составом файлов настройки."
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid ""
+"You should read /usr/share/doc/amavisd-new/README.Debian to understand the "
+"new configuration layout, and after that you should port your configuration "
+"to the new layout."
+msgstr ""
+"Вы должны прочитать /usr/share/doc/amavisd-new/README.Debian, чтобы понять "
+"новый состав конфигурационных файлов, и после этого перенести старые "
+"настройки в новые конфигурационные файлы."
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid ""
+"For your safety, the old configuration files in your system have been "
+"disabled, and a \".disabled\" postfix was added to their file names.  The "
+"amavisd-new service will refuse to start until you remove (or rename) these "
+"\".disabled\" files."
+msgstr ""
+"В целях безопасности, старые конфигурационные файлы были заблокированы, к их "
+"именам было добавлено окончание \".disabled\". Служба amavisd-new не будет "
+"запускаться, пока вы не удалите (или переименуете) эти \".disabled\" файлы."
+
+#. Type: note
+#. Description
+#: ../amavisd-new.templates:1001
+msgid ""
+"This safety is in place to avoid starting an unconfigured amavisd-new in "
+"place of your previously configured one.  Do not remove the \".disabled\" "
+"files until you have read the /usr/share/doc/amavisd-new/README.Debian file "
+"and ported your old configuration to the new layout."
+msgstr ""
+"Это поможет случайно не запустить ненастроенный amavisd-new со старыми "
+"конфигурационными файлами. Не удаляйте файлы \".disabled\", пока не "
+"прочитаете файл /usr/share/doc/amavisd-new/README.Debian и не перенесёте "
+"старые настройки в новые конфигурационные файлы."

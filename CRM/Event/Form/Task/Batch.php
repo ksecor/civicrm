@@ -94,16 +94,6 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         $this->addDefaultButtons( ts('Save') );
         $this->_fields  = array( );
         $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $ufGroupId, false, CRM_Core_Action::VIEW );
-
-        // remove file type field and then limit fields
-        foreach ($this->_fields as $name => $field ) {
-            $type = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $field['title'], 'data_type', 'label' );
-            if ( $type == 'File' ) {                        
-                $fileFieldExists = true;
-                unset($this->_fields[$name]);
-            }
-        }
-
         $this->_fields  = array_slice($this->_fields, 0, $this->_maxFields);
 
         $this->addButtons( array(
@@ -115,24 +105,14 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                                  )
                            );
         
-        
+        $this->assign( 'fields', $this->_fields     );
         $this->assign( 'profileTitle', $this->_title );
         $this->assign( 'participantIds', $this->_participantIds );
         
-        $fileFieldExists = false;
         foreach ($this->_participantIds as $participantId) {
             foreach ($this->_fields as $name => $field ) {
                 CRM_Core_BAO_UFGroup::buildProfile($this, $field, null, $participantId );
             }
-        }
-        
-        $this->assign( 'fields', $this->_fields     );
-
-        // don't set the status message when form is submitted.
-        $buttonName = $this->controller->getButtonName('submit');
-
-        if ( $fileFieldExists && $buttonName != '_qf_Batch_next' ) {
-            CRM_Core_Session::setStatus( "FILE type field(s) in the selected profile are not supported for Batch Update and have been excluded." );
         }
         
         $this->addDefaultButtons( ts( 'Update Participant(s)' ) );
@@ -183,16 +163,6 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
                 }   
             }
 
-            //check for custom data
-            foreach ( $value as $name => $data ) {                
-                if ( ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($name)) && $data ) {                    
-                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, 
-                                                                 $data, 'Participant',
-                                                                 null, $key );
-                    $value['custom'] = $customData;                    
-                } 
-            }
-          
             $ids['participant'] = $key;
             if ( $value['participant_register_date'] ) {
                 $value['register_date'] = $value['participant_register_date'];
@@ -212,8 +182,8 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
             unset($value['participant_register_date']);
             unset($value['participant_status_id']);
             unset($value['participant_source']);
-            
-            CRM_Event_BAO_Participant::create( $value ,$ids );  
+
+            CRM_Event_BAO_Participant::create( $value ,$ids );   
         }
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function

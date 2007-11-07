@@ -33,7 +33,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
 
         <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
-        <tr><td class="label">&nbsp;</td><td class="description">{ts}Leave blank for non-monetary contributions.{/ts}</td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}This field is blank for non-monetary contributions.{/ts}</td></tr>
         <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Optional identifier for the contribution source (campaign name, event, mailer, etc.).{/ts}</td></tr>
         {if $email}
@@ -42,8 +42,10 @@
         {/if}
         <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}<br />
-            <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
+            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}
+        </td></tr>
+        <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</td></tr>
+
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
         <tr id="cancelInfo"> 
@@ -88,26 +90,17 @@
             {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
-    </table>
-  </fieldset>
- </div>     
 
-       
- <div id="id-honoree-show" class="section-hidden section-hidden-border" style="clear: both;">
-        <a href="#" onclick="hide('id-honoree-show'); show('id-honoree'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Honoree Information{/ts}</label><br />
- </div>
- <div id="id-honoree" class="section-shown">
-    <fieldset>
-      <legend><a href="#" onclick="hide('id-honoree'); show('id-honoree-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Honoree Information{/ts}</legend>
-      <table class="form-layout-compressed">
-        <tr id="showHonorOfDetailsType"><td class="label">{$form.honor_type_id.label}</td><td>{$form.honor_type_id.html}</td></tr>  
+        
+        <tr id="showHonorOfDetails_show"><td class="label">{$form.contribution_honor.label}</td><td>{$form.contribution_honor.html}</td></tr>
+
         <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix.label}</td><td>{$form.honor_prefix.html}</td></tr>
         <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_firstname.label}</td><td>{$form.honor_firstname.html}</td>
         <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
         <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
-      </table>
-   </fieldset>
- </div>     
+    </table>
+  </fieldset>
+</div>     
 
     {literal}
     <script type="text/javascript">
@@ -209,6 +202,15 @@
     </dl> 
 </fieldset> 
 </div> 
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="contribution_honor"
+    trigger_value       =""
+    target_element_id   ="showHonorOfDetailsPrefix|showHonorOfDetailsFname|showHonorOfDetailsLname|showHonorOfDetailsEmail" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="is_email_receipt"

@@ -1,6 +1,6 @@
-<table class='dijit dijitReset dijitInline dijitLeft'
-	cellspacing='0' cellpadding='0'
-	dojoAttachEvent="onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse">
+<table class='dijit dijitReset dijitInline dijitLeft dijitComboButton'  baseClass='dijitComboButton'
+	id="${id}" name="${name}" cellspacing='0' cellpadding='0'
+	dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse,onmousedown:_onMouse">
 	<tr>
 		<td	class="dijitStretch dijitButtonContents dijitButtonNode"
 			tabIndex="${tabIndex}"
@@ -11,9 +11,10 @@
 		</td>
 		<td class='dijitReset dijitRight dijitButtonNode dijitDownArrowButton'
 			dojoAttachPoint="popupStateNode,focusNode"
-			dojoAttachEvent="ondijitclick:_onArrowClick, onkeypress:_onKey"
-			stateModifier="DownArrow"
+			dojoAttachEvent="onmouseover:_onMouse,onmouseout:_onMouse,onmousedown:_onMouse,ondijitclick:_onArrowClick, onkeypress:_onKey"
+			baseClass="dijitComboButtonDownArrow"
 			title="${optionsTitle}"
+			tabIndex="${tabIndex}"
 			waiRole="button" waiState="haspopup-true"
 		><div waiRole="presentation">&#9660;</div>
 	</td></tr>

@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.9
+ * CiviCRM Configuration File - v1.8
  */
 
 /**
@@ -59,6 +59,11 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
 /**
  * CiviCRM Database Settings
  *
+ * MySQL Version:
+ * CiviCRM requires MySQL version 4.1 or greater.
+ * IMPORTANT: Enter closest dot release to your installed version. 4.1, 5.0 are all valid examples. Do NOT
+ * specify minor revision (second dot) - 4.1.2 is NOT a valid value for this setting. 
+ *
  * Database URL (CIVICRM_DSN) for CiviCRM Data:
  * Database URL format:
  *      define( 'CIVICRM_DSN', 'mysql://crm_db_username:crm_db_password@db_server/crm_database?new_link=true');
@@ -83,6 +88,7 @@ define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
  *
  */
  
+define( 'CIVICRM_MYSQL_VERSION', 4.1 );
 define( 'CIVICRM_DSN'          , 'mysql://%%dbUser%%:%%dbPass%%@%%dbHost%%/%%dbName%%?new_link=true' );
 define( 'CIVICRM_MYSQL_PATH', '%%mysqlPath%%' );
 
@@ -205,7 +211,15 @@ $include_path = '.'        . PATH_SEPARATOR .
                 get_include_path( );
 set_include_path( $include_path );
 
+define( 'CIVICRM_SMARTYDIR'  , $civicrm_root . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR );
 define( 'CIVICRM_TEST_DIR'   , $civicrm_root . DIRECTORY_SEPARATOR . 'test-new'   . DIRECTORY_SEPARATOR );
+define( 'CIVICRM_DAO_DEBUG'  , 0 );
+define( 'CIVICRM_TEMPLATEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'templates'   );
+define( 'CIVICRM_PLUGINSDIR' , $civicrm_root . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Smarty' . DIRECTORY_SEPARATOR . 'plugins' );
+
+define( 'CIVICRM_GETTEXT_CODESET'    , 'utf-8'   );
+define( 'CIVICRM_GETTEXT_DOMAIN'     , 'civicrm' );
+define( 'CIVICRM_GETTEXT_RESOURCEDIR', $civicrm_root . DIRECTORY_SEPARATOR . 'l10n' );
 
 if ( function_exists( 'variable_get' ) && variable_get('clean_url', '0') != '0' ) {
     define( 'CIVICRM_CLEANURL', 1 );

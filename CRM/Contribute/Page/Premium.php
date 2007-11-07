@@ -155,7 +155,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         require_once 'CRM/Contribute/DAO/PremiumsProduct.php';
         $dao =& new CRM_Contribute_DAO_PremiumsProduct();
         $dao->premiums_id = $premiumID;
-        $dao->orderBy('weight');
+        $dao->orderBy('sort_position');
         $dao->find();
 
         while ($dao->fetch()) {
@@ -165,7 +165,7 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
            
             if ($productDAO->find(true) ) {
                 $premiums[$productDAO->id] = array();
-                $premiums[$productDAO->id]['weight'] = $dao->weight;
+                $premiums[$productDAO->id]['weight'] = $dao->sort_position;
                 CRM_Core_DAO::storeValues( $productDAO, $premiums[$productDAO->id]);
                 
                 $action = array_sum(array_keys($this->links()));
@@ -182,12 +182,6 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
             $this->assign( 'products', true );
         }
         
-        // Add order changing widget to selector
-        $returnURL = CRM_Utils_System::url( 'civicrm/admin/contribute', "reset=1&action=update&id={$pageID}&subPage=Premium" );
-        $filter    = "premiums_id = {$premiumID}";
-        require_once 'CRM/Utils/Weight.php';
-        CRM_Utils_Weight::addOrder( $premiums, 'CRM_Contribute_DAO_PremiumsProduct',
-                                    'id', $returnURL, $filter );
         $this->assign('rows', $premiums);
     }
 

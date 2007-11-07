@@ -34,6 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
+require_once 'CRM/Core/BAO/PriceField.php';
 
 /**
  * This class is to build the form for Deleting Group
@@ -41,11 +42,11 @@ require_once 'CRM/Core/Form.php';
 class CRM_Price_Form_DeleteField extends CRM_Core_Form {
 
     /**
-     * the field id
+     * the group id
      *
      * @var int
      */
-    protected $_fid;
+    protected $_id;
 
     /**
      * The title of the group being deleted
@@ -61,19 +62,19 @@ class CRM_Price_Form_DeleteField extends CRM_Core_Form {
      * @return void
      * @acess protected
      */
-    function preProcess( ) 
-    {
-        $this->_fid    = $this->get( 'fid' );
+    function preProcess( ) {
+        $this->_id    = $this->get( 'id' );
+       
+        $defaults = array( );
+        $params   = array( 'id' => $this->_id );
+        CRM_Core_BAO_PriceField::retrieve( $params, $defaults );
         
-        $this->_title  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField',
-                                                      $this->_fid,
-                                                      'label', 'id' );
-        
+        $this->_title = $defaults['label'];
         $this->assign( 'name' , $this->_title );
         
         CRM_Utils_System::setTitle( ts('Confirm Price Field Delete') );
     }
-    
+
     /**
      * Function to actually build the form
      *
@@ -82,8 +83,8 @@ class CRM_Price_Form_DeleteField extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function buildQuickForm( ) 
-    {
+    public function buildQuickForm( ) {
+
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Delete Price Field'),
@@ -93,7 +94,7 @@ class CRM_Price_Form_DeleteField extends CRM_Core_Form {
                                  )
                            );
     }
-    
+
     /**
      * Process the form when submitted
      *
@@ -102,12 +103,14 @@ class CRM_Price_Form_DeleteField extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess( ) 
-    {
-        require_once 'CRM/Core/BAO/PriceField.php';
+    public function postProcess( ) {
+        $field = & new CRM_Core_DAO_PriceField();
+        $field->id = $this->_id;
+        $field->find();
+        $field->fetch();
         
-        if (CRM_Core_BAO_PriceField::deleteField( $this->_fid ) ) {
-            CRM_Core_Session::setStatus( ts('The price field "%1" has been deleted.', array(1 => $this->_title ) ) );
+        if (CRM_Core_BAO_PriceField::deleteField( $this->_id)) {
+            CRM_Core_Session::setStatus( ts('The price field "%1" has been deleted.', array(1 => $field->label)) );        
         }
     }
 }

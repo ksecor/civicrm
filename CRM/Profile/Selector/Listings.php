@@ -229,7 +229,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                                                             );
             }
 
-            if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
+            if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
                 require_once 'CRM/Kabissa/BAO/Kabissa.php';
                 CRM_Kabissa_BAO_Kabissa::buildProfileSearchRowLinks( self::$_links );
             }
@@ -445,7 +445,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
             require_once 'CRM/Quest/BAO/Student.php';
             $multipleSelectFields = CRM_Quest_BAO_Student::$multipleSelectFields;
         }
-        if ( CRM_Core_Permission::access( 'Kabissa', false ) ) {
+        if ( CRM_Core_Permission::access( 'Kabissa' ) ) {
             require_once 'CRM/Kabissa/BAO/Kabissa.php';
             $accessKabissa = true;
         }
@@ -525,7 +525,7 @@ class CRM_Profile_Selector_Listings extends CRM_Core_Selector_Base implements CR
                         $row[] = '';
                     }
                 } elseif ( (substr( $name, 0, 8 ) == 'kabissa_') && $accessKabissa ) {
-                    $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result, false);
+                    $row[] = CRM_Kabissa_BAO_Kabissa::profileSelectorListing($name, $result);
                 } else {
                     $row[] = $result->$name;
                 }

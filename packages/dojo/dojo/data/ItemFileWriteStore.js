@@ -383,21 +383,20 @@ dojo.declare("dojo.data.ItemFileWriteStore", dojo.data.ItemFileReadStore, {
 		// this._saveInProgress is set to true, briefly, from when save is first called to when it completes
 		this._saveInProgress = true;
 		
-		var self = this;
 		var saveCompleteCallback = function(){
-			self._pending = {
+			this._pending = {
 				_newItems:{}, 
 				_modifiedItems:{},
 				_deletedItems:{}
 			};
-			self._saveInProgress = false; // must come after this._pending is cleared, but before any callbacks
+			this._saveInProgress = false; // must come after this._pending is cleared, but before any callbacks
 			if(keywordArgs && keywordArgs.onComplete){
 				var scope = keywordArgs.scope || dojo.global;
 				keywordArgs.onComplete.call(scope);
 			}
 		};
 		var saveFailedCallback = function(){
-			self._saveInProgress = false;
+			this._saveInProgress = false;
 			if(keywordArgs && keywordArgs.onError){
 				var scope = keywordArgs.scope || dojo.global;
 				keywordArgs.onError.call(scope);

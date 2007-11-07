@@ -573,11 +573,6 @@ class CRM_Utils_Date {
                 return false; 
             }
             break;
-        case 32 :
-            if ( ! preg_match('/^\d\d[-\/]\d\d[-\/]\d\d\d\d/', $value) ) {
-                return false;
-            }
-            break;
         }
         
         if ( $dateType == 2 || $dateType == 4) {
@@ -633,11 +628,6 @@ class CRM_Utils_Date {
             $year   = (int) $dateArray[2];
             $day    = (int) $dateArray[0];
             $month  = (int) $monthInt;
-        }
-        if ( $dateType == 32 ) {
-            $year   = (int) substr($value,  6, 4);
-            $month  = (int) substr($value,  3, 2);
-            $day    = (int) substr($value,  0, 2);
         }
         
         $year  = ($year < 10) ? "0" . "$year"  : $year;

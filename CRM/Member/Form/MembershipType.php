@@ -122,7 +122,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         
         //rollover day
         $this->add('date', 'fixed_period_rollover_day', ts('Fixed Period Rollover Day'), 
-                   CRM_Core_SelectValues::date('custom', 3, 1, "M\001d"), false);
+                   CRM_Core_SelectValues::date('custom', 3, 1, 'M d'), false);
         
         $this->add('hidden','action',$this->_action); //required in form rule
 
@@ -135,7 +135,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $memberRel =& $this->add('select', 'relationship_type_id', ts('Relationship Type'),  array('' => ts('- select -')) + $relTypeInd);
 
         $this->add( 'select', 'visibility', ts('Visibility'), CRM_Core_SelectValues::memberVisibility( ) );
-        $this->add('text', 'weight', ts('Order'), 
+        $this->add('text', 'weight', ts('Weight'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 

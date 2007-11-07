@@ -351,13 +351,14 @@ class CRM_Utils_System {
      * @static 
      */ 
     static function mapConfigToSSL( ) {
-        $config   =& CRM_Core_Config::singleton( ); 
+      /*   $config   =& CRM_Core_Config::singleton( ); 
         $config->userFrameworkResourceURL = str_replace( 'http://', 'https://', 
                                                          $config->userFrameworkResourceURL );
         $config->resourceBase = $config->userFrameworkResourceURL;
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
         return eval( 'return ' . $config->userFrameworkClass . '::mapConfigToSSL( ); ' );
-    }
+      */
+}
 
     /**
      * Get the base URL from the system
@@ -601,14 +602,12 @@ class CRM_Utils_System {
     }
 
     static function checkURL( $url ) {
-        CRM_Core_Error::ignoreException( );
         require_once 'HTTP/Request.php';
         $params = array( 'method' => 'HEAD' );
         $request =& new HTTP_Request( $url, $params );
         $request->sendRequest( );
-        $result = $request->getResponseCode( ) == 200 ? true : false;
-        CRM_Core_Error::setCallback( );
-        return $result;
+        // CRM_Core_Error::debug( $url, $request->getResponseCode( ) );
+        return $request->getResponseCode( ) == 200 ? true : false;
     }
 
     static function checkPHPVersion( $ver = 5, $abort = true ) {
@@ -668,51 +667,6 @@ class CRM_Utils_System {
 
     static function version( ) {
         return self::VERSION;
-    }
-
-    static function getAllHeaders( ) {
-        if ( func_exists( 'getallheaders' ) ) {
-            return getallheaders( );
-        }
-
-        // emulate get all headers
-        // http://www.php.net/manual/en/function.getallheaders.php#66335
-        $headers = array( );
-        foreach ( $_SERVER as $name => $value ) {
-            if ( substr( $name, 0, 5) == 'HTTP_' ) {
-                $headers[str_replace( ' ',
-                                      '-',
-                                      ucwords( strtolower( str_replace( '_',
-                                                                        ' ',
-                                                                        substr( $name, 5 ) )
-                                                           ) )
-                                      )] = $value;
-            }
-        }
-        return $headers;
-    }
-
-    static function redirectToSSL( $abort = true ) {
-        $config = CRM_Core_Config::singleton( );
-        if ( $config->enableSSL             &&
-             ( ! isset( $_SERVER['HTTPS'] ) ||
-               strtolower( $_SERVER['HTTPS'] )  == 'off' ) ) {
-            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            // ensure that SSL is enabled on the base url (for cookie reasons etc)
-            $baseURL = str_replace( 'http://', 'https://',
-                                    $config->userFrameworkBaseURL );
-            if ( ! self::checkURL( $baseURL ) ) {
-                if ( $abort ) {
-                    CRM_Core_Error::fatal( 'HTTPS is not set up on this machine' );
-                } else {
-                    CRM_Core_Session::setStatus( 'HTTPS is not set up on this machine' );
-                    // admin should be the only one following this
-                    // since we dont want the user stuck in a bad place
-                    return;
-                }
-            }
-            CRM_Utils_System::redirect( $url );
-        }
     }
 
 }

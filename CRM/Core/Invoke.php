@@ -144,7 +144,7 @@ class CRM_Core_Invoke
             require_once 'Reports/Zend/Wrapper.php';
             break;
 
-        case 'friend':
+        case 'tell_a_friend':
             self::friend( $args );
             break;
 
@@ -170,13 +170,15 @@ class CRM_Core_Invoke
      */
     static function friend( $args ) 
     {
-        if ( $args[1] !== 'friend' ) {
+        if ( $args[1] !== 'tell_a_friend' ) {
             return;
         }
         
         $wrapper =& new CRM_Utils_Wrapper( );
         return $wrapper->run( 'CRM_Friend_Form', ts('Tell A Friend'), null);
     }
+
+        
 
     /**
      * This function contains the actions for arg[1] = contact
@@ -499,10 +501,6 @@ class CRM_Core_Invoke
             $mode    =  CRM_Core_Action::PROFILE;
             $title   = ts( 'Search Builder' );
             $url   = 'civicrm/contact/search/builder';
-        } else if ( $thirdArg == 'custom' ) {
-            $mode    =  CRM_Core_Action::COPY;
-            $title   = ts( 'Custom Search' );
-            $url   = 'civicrm/contact/search/custom';
         } else if ( $thirdArg == 'simple' ) {
             // set the userContext stack
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/search/simple' ) );
@@ -596,10 +594,7 @@ class CRM_Core_Invoke
         if ( ! CRM_Core_Permission::check('administer CiviCRM') ) {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
-
-        // check and redirect to SSL
-        CRM_Utils_System::redirectToSSL( false );
-
+       
         $view = null;
         switch ( CRM_Utils_Array::value( 2, $args, '' ) ) {
             
@@ -747,10 +742,6 @@ class CRM_Core_Invoke
             }
             break;
             
-        case 'weight':
-            require_once 'CRM/Utils/Weight.php';
-            CRM_Utils_Weight::fixOrder( );
-            break;
 
         case 'setting':
             return self::setting( $args );
@@ -1052,6 +1043,15 @@ class CRM_Core_Invoke
         exit();
     }
     
+    static function onlySSL( $args ) 
+    {
+      if ( ( $args[1] = 'contribute' && $args[2] == 'transact' ) ||
+	   ( $args[1] = 'event' && $args[2] == 'register' ) ) {
+            return true;
+        }
+        return false;
+    }
+
     /** 
      * This function contains the actions for setting arguments
      * 
@@ -1102,9 +1102,6 @@ class CRM_Core_Invoke
         case 'smtp' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Smtp', ts('Smtp Server'), null); 
             break;
-        case 'uf':
-            $wrapper =& new CRM_Utils_Wrapper( );
-            return $wrapper->run( 'CRM_Admin_Form_Setting_UF', ts('User Framework Settings'), null); 
         case 'mapping' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Mapping', ts('Mapping and Geocoding'), null); 
             break;

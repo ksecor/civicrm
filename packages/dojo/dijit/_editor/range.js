@@ -46,26 +46,6 @@ dijit.range.getIndex=function(/*DomNode*/node, /*DomNode*/parent){
 	return {o: ret, r:retR};
 }
 
-dijit.range.getNode = function(/*Array*/index, /*DomNode*/parent){
-	if(!dojo.isArray(index) || index.length==0){
-		return parent;
-	}
-	var node = parent;
-//	if(!node)debugger
-	dojo.every(index, function(i){
-		if(i>=0&&i< node.childNodes.length){
-			node = node.childNodes[i];
-		}else{
-			node = null;
-			console.debug('Error: can not find node with index',index,'under parent node',parent );
-			return false; //terminate dojo.every
-		}
-		return true; //carry on the every loop
-	});
-
-	return node;
-}
-
 dijit.range.getCommonAncestor = function(n1,n2,root){
 	var getAncestors = function(n,root){
 		var as=[];
@@ -101,7 +81,7 @@ dijit.range.getAncestor = function(/*DomNode*/node, /*RegEx?*/regex, /*DomNode?*
 		if(regex.test(name)){
 			return node;
 		}
-
+		
 		node = node.parentNode;
 	}
 	return null;
@@ -120,7 +100,7 @@ dijit.range.getBlockAncestor = function(/*DomNode*/node, /*RegEx?*/regex, /*DomN
 		if(!blockContainer && (/^(?:BODY|TD|TH|CAPTION)$/).test(name)){
 			blockContainer = node;
 		}
-
+		
 		node = node.parentNode;
 	}
 	return {blockNode:block, blockContainer:blockContainer || node.ownerDocument.body};
@@ -218,7 +198,7 @@ dijit.range.getSelection = function(win, /*Boolean?*/ignoreUpdate){
 		return s;
 	}
 }
-
+		
 if(!dijit.range._w3c){
 	dijit.range.ie={
 		cachedSelection: {},
@@ -378,7 +358,7 @@ if(!dijit.range._w3c){
 					if(offset > 0){
 						var node = container.childNodes[offset-1];
 						if(node.nodeType==3){
-							container = node;
+							container = node; 
 							offset = node.length;
 							//pass through
 						}else{
@@ -412,7 +392,7 @@ if(!dijit.range._w3c){
 					atmrange.collapse(false);
 				}
 			}
-
+			
 			return atmrange;
 		},
 		decomposeTextRange: function(range){
@@ -430,7 +410,7 @@ if(!dijit.range._w3c){
 			}
 			return [[startContainter, startOffset],[endContainter, endOffset], range.parentElement()];
 		},
-		setRange: function(range, startContainter,
+		setRange: function(range, startContainter, 
 			startOffset, endContainter, endOffset, check){
 			var startrange = dijit.range.ie.setEndPoint(range, startContainter, startOffset);
 			range.setEndPoint('StartToStart', startrange);

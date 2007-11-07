@@ -131,20 +131,15 @@ class CRM_Event_BAO_Participant extends CRM_Event_DAO_Participant
     static function getLineItems( $id ) {
         $lineItems = array();
         require_once 'CRM/Core/DAO.php';
-        $query = "
-SELECT li.label, li.qty, li.unit_price, li.line_total
-  FROM civicrm_participant AS p,
-       civicrm_participant_payment AS pp,
-       civicrm_line_item AS li
- WHERE p.id = %1
-   AND pp.participant_id = p.id
-   AND li.entity_id = pp.contribution_id
-   AND li.entity_table = 'civicrm_contribution'";
-
+        $query = "SELECT li.label, li.qty, li.unit_price, li.line_total";
+        $query .= " FROM civicrm_participant AS p,";
+        $query .= " civicrm_participant_payment AS pp,";
+        $query .= " civicrm_line_item AS li";
+        $query .= " WHERE p.id=%1 AND pp.participant_id=p.id";
+        $query .= " AND li.entity_id=pp.payment_entity_id";
+        $query .= " AND li.entity_table=pp.payment_entity_table";
         $params = array( 1 => array( $id, 'Integer' ) );
-
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
-
         while ( $dao->fetch() ) {
             $lineItems[] = array(
                 'label' => $dao->label,
@@ -196,11 +191,23 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             $id = $params['contact_id'];
         }
         
-        // add custom field values       
-         if ( CRM_Utils_Array::value( 'custom', $params ) &&
-             is_array( $params['custom'] ) ) {
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_participant', $participant->id );
+        // add custom field values
+        if (CRM_Utils_Array::value('custom', $params)) {
+            foreach ($params['custom'] as $customValue) {
+                $cvParams = array(
+                                  'entity_table'    => 'civicrm_participant',
+                                  'entity_id'       => $participant->id,
+                                  'value'           => $customValue['value'],
+                                  'type'            => $customValue['type'],
+                                  'custom_field_id' => $customValue['custom_field_id'],
+                                  'file_id'         => $customValue['file_id'],
+                                  );
+                
+                if ($customValue['id']) {
+                    $cvParams['id'] = $customValue['id'];
+                }
+                CRM_Core_BAO_CustomValue::create($cvParams);
+            }
         }
         
         if ( CRM_Utils_Array::value('note', $params) || CRM_Utils_Array::value('participant_note', $params)) {
@@ -283,10 +290,10 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                  'is_test'          => $participant->is_test
                                  );
 
-        // require_once "api/History.php";
-//         if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
-//             return false;
-//         }
+        require_once "api/History.php";
+        if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
+            return false;
+        }
     }
 
     /**
@@ -327,25 +334,23 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
      */
     static function eventFull( $eventId )
     {
-        // fix for CRM-2326, participant has to be either registered or attended status
-        // for event to be full
         $query = "SELECT   count(civicrm_participant.id) as total_participants,
                            civicrm_event.max_participants as max_participants,
                            civicrm_event.event_full_text as event_full_text  
                   FROM     civicrm_participant, civicrm_event 
                   WHERE    civicrm_participant.event_id = civicrm_event.id
-                     AND   civicrm_participant.status_id IN ( 1, 2 ) 
-                     AND   civicrm_participant.is_test = 0 
-                     AND   civicrm_participant.event_id = {$eventId} 
+                     AND   civicrm_participant.status_id!=4 
+                     AND   civicrm_participant.is_test=0 
+                     AND   civicrm_participant.event_id={$eventId} 
                   GROUP BY civicrm_participant.event_id";
         
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         
-        if ( $dao->fetch( ) ) {
+
+        while ( $dao->fetch( ) ) {
             if( $dao->max_participants == NULL ) {
                 return false;
             }
-            
             if( $dao->total_participants >= $dao->max_participants ) {
                 if( $dao->event_full_text ) {
                     return $dao->event_full_text;
@@ -355,7 +360,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             }
         }
         return false;
-
     }
 
     /**
@@ -499,6 +503,7 @@ WHERE  civicrm_participant.id = {$participantId}
         self::lookupValue($defaults, 'event', CRM_Event_PseudoConstant::event(), $reverse);
         self::lookupValue($defaults, 'status', CRM_Event_PseudoConstant::participantStatus(), $reverse);
         self::lookupValue($defaults, 'role', CRM_Event_PseudoConstant::participantRole(), $reverse);
+       
     }
 
     /**

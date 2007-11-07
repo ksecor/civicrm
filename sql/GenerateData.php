@@ -63,6 +63,7 @@ require_once 'CRM/Core/Config.php';
 require_once 'CRM/Core/Error.php';
 require_once 'CRM/Core/I18n.php';
 
+require_once 'CRM/Core/DAO/Location.php';
 require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Core/DAO/Phone.php';
@@ -70,11 +71,16 @@ require_once 'CRM/Core/DAO/Email.php';
 require_once 'CRM/Core/DAO/EntityTag.php';
 require_once 'CRM/Core/DAO/Note.php';
 require_once 'CRM/Core/DAO/Domain.php';
+require_once 'CRM/Core/DAO/CustomValue.php';
+require_once 'CRM/Core/DAO/ActivityHistory.php';
 
 require_once 'CRM/Contact/DAO/Group.php';
 require_once 'CRM/Contact/DAO/GroupContact.php';
 require_once 'CRM/Contact/DAO/SubscriptionHistory.php';
 require_once 'CRM/Contact/DAO/Contact.php';
+require_once 'CRM/Contact/DAO/Individual.php';
+require_once 'CRM/Contact/DAO/Household.php';
+require_once 'CRM/Contact/DAO/Organization.php';
 require_once 'CRM/Contact/DAO/Relationship.php';
 
 class CRM_GCD {
@@ -1374,7 +1380,7 @@ VALUES
 
     function addEventLocation()
     {
-        $event = "INSERT INTO civicrm_loc_block (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
+        $event = "INSERT INTO civicrm_location_block (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
       VALUES
       (1, NULL, 1, 1, 1, 1, 1, 1, 1),
       (2, NULL, NULL,NULL, NULL,NULL,NULL,NULL,NULL)

@@ -10,8 +10,7 @@
         {if $history eq 1}{ts}View Completed Activity{/ts}{else}{ts}View Scheduled Activity{/ts}{/if}
     {/if}
   </legend>
-   
-   <div class="tundra">
+   <div class= "form-layout">
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
       {if $action eq 1  or $form.activity_type_id.value }
@@ -28,8 +27,8 @@
         </script>
     {/if}
 
-     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
-        <dd>{if $action eq 4} {$source_contact_value} {/if}{$form.source_contact.html}</dd>
+     <div class = "form-layout" "dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
+        <dd>{if $action eq 4} {$source_contact_value} {else}{$form.source_contact.html}{/if}</dd>
      </div>
     
     <dt>{$form.target_contact.label}</dt>
@@ -41,7 +40,7 @@
     </script>
     {/if}
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$target_contact_value}{/if}{$form.target_contact.html}</dd>
+        <dd>{if $action eq 4} {$target_contact_value} {else}{$form.target_contact.html}{/if}</dd>
     </div>
 
     <dt>{$form.assignee_contact.label}</dt>
@@ -53,9 +52,9 @@
     </script>
     {/if}  
     <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" >
-        <dd>{if $action eq 4} {$assignee_contact_value}{/if}{$form.assignee_contact.html}</dd>
+        <dd>{if $action eq 4} {$assignee_contact_value} {else}{$form.assignee_contact.html}{/if}        </dd>
     </div>
-    {*
+
     <dt>{$form.case_subject.label}</dt>
     {if $subject_value}
         <script type="text/javascript">
@@ -72,13 +71,15 @@
 	<dt>{$form.activity_tag2_id.label}</dt><dd>{$form.activity_tag2_id.html}</dd>
 	<dt>{$form.activity_tag3_id.label}</dt><dd>{$form.activity_tag3_id.html}</dd>
    </dl>
-    *}
          <div class="spacer"></div>
         <dl class="html-adjust">
 	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 	    <dt>{$form.location.label}</dt><dd>{$form.location.html|crmReplace:class:large}</dd>
-	<dt>{$form.activity_date_time.label}</dt><dd>{$form.activity_date_time.html | crmDate } </dd>
-        {if $action neq 4}
+        {if $action eq 4}
+            <dt>{$form.activity_date_time.label}</dt><dd>{$activity_date_time|crmDate}</dd>
+        {else}
+            <dt>{$form.activity_date_time.label}</dt>
+            <dd>{$form.activity_date_time.html}</dd>
             <dt>&nbsp;</dt>
             <dd class="description">
                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_otheractivity_1}
@@ -137,7 +138,6 @@
     {/if} 
       </dl>
     </div>
-
     </fieldset>
     </div>
     
@@ -165,7 +165,7 @@
      }
     
     function reload(refresh) {
-        var activityType = document.getElementById("activity_type_id").value;
+        var activityType = document.getElementById("activity_type_id");
         var context = {/literal}"{$context}"{literal} 
         var caseid = {/literal}"{$caseid}"{literal}
         var url = {/literal}"{$refreshURL}"{literal}

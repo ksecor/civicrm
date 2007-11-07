@@ -26,7 +26,7 @@ dojo.declare(
 	//		milliseconds to fade in/fade out
 	duration: 250,
 
-	templateString:"<div class=\"dijitTitlePane\">\n\t<div dojoAttachEvent=\"onclick:toggle,onkeypress: _onTitleKey\" tabindex=\"0\"\n\t\t\twaiRole=\"button\" class=\"dijitTitlePaneTitle\" dojoAttachPoint=\"focusNode\">\n\t\t<span dojoAttachPoint=\"arrowNode\" class=\"dijitInline dijitArrowNode\"><span dojoAttachPoint=\"arrowNodeInner\" class=\"dijit_a11y dijitArrowNodeInner\"></span></span>\n\t\t<span dojoAttachPoint=\"titleNode\" class=\"dijitInline dijitTitleNode\"></span>\n\t</div>\n\t<div class=\"dijitTitlePaneContentOuter\" dojoAttachPoint=\"hideNode\">\n\t\t<div class=\"dijitReset\" dojoAttachPoint=\"wipeNode\">\n\t\t\t<div class=\"dijitTitlePaneContentInner\" dojoAttachPoint=\"containerNode\" waiRole=\"region\" tabindex=\"-1\">\n\t\t\t\t<!-- nested divs because wipeIn()/wipeOut() doesn't work right on node w/padding etc.  Put padding on inner div. -->\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n",
+	templateString:"<div class=\"dijitTitlePane\">\n\t<div dojoAttachEvent=\"onclick:toggle,onkeypress: _onTitleKey\" tabindex=\"0\"\n\t\t\twaiRole=\"button\" class=\"dijitTitlePaneTitle\" dojoAttachPoint=\"focusNode\">\n\t\t<span dojoAttachPoint=\"arrowNode\" class=\"dijitInline dijitArrowNode\"><span dojoAttachPoint=\"arrowNodeInner\" class=\"dijit_a11y dijitArrowNodeInner\"></span></span>\n\t\t<span dojoAttachPoint=\"titleNode\" class=\"dijitInlineBox dijitTitleNode\"></span>\n\t</div>\n\t<div class=\"dijitTitlePaneContentOuter\" dojoAttachPoint=\"hideNode\">\n\t\t<div class=\"dijitReset\" dojoAttachPoint=\"wipeNode\">\n\t\t\t<div class=\"dijitTitlePaneContentInner\" dojoAttachPoint=\"containerNode\" waiRole=\"region\" tabindex=\"-1\">\n\t\t\t\t<!-- nested divs because wipeIn()/wipeOut() doesn't work right on node w/padding etc.  Put padding on inner div. -->\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n",
 
 	postCreate: function(){
 		this.setTitle(this.title);
@@ -67,13 +67,13 @@ dojo.declare(
 			if(this._wipeIn.status() == "playing"){
 				this._wipeIn.stop();
 			}
-
+			
 			// freeze container at current height so that adding new content doesn't make it jump
 			dojo.marginBox(this.wipeNode, {h: dojo.marginBox(this.wipeNode).h});
 
 			// add the new content (erasing the old content, if any)
 			dijit.layout.ContentPane.prototype.setContent.apply(this, arguments);
-
+			
 			// call _wipeIn.play() to animate from current height to new height
 			this._wipeIn.play();
 		}
@@ -104,13 +104,13 @@ dojo.declare(
 		this.focusNode.className += " " + classes[boolIndex+0];
 
 		// provide a character based indicator for images-off mode
-		this.arrowNodeInner.innerHTML = this.open ? "-" : "+";
+		this.arrowNodeInner.innerHTML = this.open ? "-" : "+"; 
 	},
 
 	_onTitleKey: function(/*Event*/ e){
 		// summary: callback when user hits a key
 		if(e.keyCode == dojo.keys.ENTER || e.charCode == dojo.keys.SPACE){
-			this.toggle();
+			this._onTitleClick();
 		}
 		else if(e.keyCode == dojo.keys.DOWN_ARROW){
 			if(this.open){

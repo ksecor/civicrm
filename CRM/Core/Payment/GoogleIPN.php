@@ -139,25 +139,16 @@ class CRM_Core_Payment_GoogleIPN {
         }
 
         // ok we are done with error checking, now let the real work begin
-        // update the contact record with the name and billing address
-
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
-        $billingId     = array_search( 'Billing',  $locationTypes );
-        if ( ! $billingId ) {
-            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-        }
-
+        // update the contact record with the name and address
         $params = array( );
-        $lookup = array( "first_name"                  => 'contact-name',
+        $lookup = array( 'first_name'     => 'contact-name',
                          // "last-name" not available with google (every thing in contact-name)
-                         "last_name"                   => 'last_name' , 
-                         "street_address-{$billingId}" => 'address1',
-                         "city-{$billingId}"           => 'city',
-                         "state-{$billingId}"          => 'region',
-                         "postal_code-{$billingId}"    => 'postal-code',
-                         "country-{$billingId}"        => 'country-code' );
+                         'last_name'      => 'last_name' , 
+                         'street_address' => 'address1',
+                         'city'           => 'city',
+                         'state'          => 'region',
+                         'postal_code'    => 'postal-code',
+                         'country'        => 'country-code' );
         foreach ( $lookup as $name => $googleName ) {
             $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
             if ( $value ) {
@@ -169,8 +160,12 @@ class CRM_Core_Payment_GoogleIPN {
 
         if ( ! empty( $params ) ) {
             // update contact record
+            $idParams = array( 'id'         => $contactID, 
+                               'contact'    => $contactID );
+            $ids = $defaults = array( );
             require_once "CRM/Contact/BAO/Contact.php";
-            $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactID );
+            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
+            $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
         }
         
         // lets keep this the same
@@ -576,9 +571,7 @@ WHERE  v.option_group_id = g.id
         if (get_magic_quotes_gpc()) {
             $xml_response = stripslashes($xml_response);
         }
-
-        require_once 'CRM/Utils/System.php';
-        $headers = CRM_Utils_System::getAllHeaders();
+        $headers = getallheaders();
         fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
                                      $xml_response));
         

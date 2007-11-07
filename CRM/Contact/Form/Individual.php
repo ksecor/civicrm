@@ -120,18 +120,19 @@ class CRM_Contact_Form_Individual {
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
         
         if ( $action & CRM_Core_Action::UPDATE ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
-" );        
+            //TO DO: commented because of schema changes
+//             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
+// resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+// " );        
             
-            $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                              $form->_contactId, 
-                                                              'mail_to_household_id', 
-                                                              'id' );
-            if ( $mailToHouseholdID ) {
-                $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
-                $form->assign('old_mail_to_household_id', $mailToHouseholdID);
-            }
+//             $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Individual', 
+//                                                               $form->_contactId, 
+//                                                               'mail_to_household_id', 
+//                                                               'contact_id' );
+//             if ( $mailToHouseholdID ) {
+//                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
+//                 $form->assign('old_mail_to_household_id', $mailToHouseholdID);
+//             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
         }
@@ -157,21 +158,15 @@ showHideSharedOptions();
         
         // shared address element block
         $form->addElement('checkbox', 'use_household_address', null, ts('Use Household Address'), $useHouseholdExtra);
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
         
         $domainID      =  CRM_Core_Config::domainID( );   
-        $attributes    = array( 'dojoType'     => 'dijit.form.ComboBox',
+        $attributes    = array( 'dojoType'     => 'ComboBox',
                                 'mode'         => 'remote',
-                                'store'        => 'addressStore',
-                                'style'        => 'width:300px; border: 1px solid #cfcfcf;',
-                                'class'        => 'tundra',
+                                'dataUrl'      => CRM_Utils_System::url( 'civicrm/ajax/search',
+                                                                         "d={$domainID}&sh=1&s=%{searchString}",
+                                                                         true, null, false ),
                                 );
 
-        $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',
-                                           "d={$domainID}&sh=1&s=",
-                                           true, null, false );
-
-        $this->assign('dataURL',$dataURL );
         $attributes += CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'sort_name' );
 
         $form->add( 'text', 'shared_household', ts( 'Select Household' ), $attributes );
@@ -189,9 +184,9 @@ showHideSharedOptions();
         $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
 
         $form->addRule( 'external_identifier',
-                        ts('External ID already exists in Database.'), 
+			ts('External ID already exists in Database.'), 
                         'objectExists', 
-                        array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
+			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
         $config =& CRM_Core_Config::singleton();
         CRM_Core_ShowHideBlocks::links($form, 'demographics', '' , '');
     }
@@ -207,11 +202,11 @@ showHideSharedOptions();
      * @access public
      * @static
      */
-    static function formRule( &$fields, &$files, $options ) 
-    {
+    static function formRule( &$fields, &$files, $options ) {
         $errors = array( );
 
         $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        //print "Primary OpenID: $primaryOpenId<br/>";
         
         // check for state/country mapping
         CRM_Contact_Form_Address::formRule($fields, $errors);
@@ -230,8 +225,8 @@ showHideSharedOptions();
             if ( $options ) {
                 $cid = (int ) $options;
             }
-            
-            $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+            //DO TO: comment because of schema changes
+            //$ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
             if ( $ids ) {
                 $urls = array( );
                 foreach ( explode( ',', $ids ) as $id ) {
@@ -252,7 +247,7 @@ showHideSharedOptions();
         }
 
         // if use_household_address option is checked, make sure 'valid household_name' is also present.
-        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household'] ) {
+        if ( CRM_Utils_Array::value('use_household_address',$fields) && !$fields['shared_household_selected'] ) {
             if ( ! $fields['create_household'] ) {
                 if ( !array_key_exists( 'shared_option', $fields ) || $fields['shared_option'] ) {
                     if ( !$fields['old_mail_to_household_id'] || $fields['shared_household'] ) {
@@ -266,8 +261,8 @@ showHideSharedOptions();
             } else {
                 if ( ! CRM_Utils_Array::value( '_qf_Edit_next_sharedHouseholdDuplicate', $fields ) ) {
                     $dupeIDs = array();
-                    require_once "CRM/Contact/DAO/Contact.php";
-                    $contact = & new CRM_Contact_DAO_Contact();
+                    require_once "CRM/Contact/DAO/Household.php";
+                    $contact = & new CRM_Contact_DAO_Household();
                     $contact->household_name = $fields['create_household'];
                     $contact->find();
 
@@ -291,7 +286,6 @@ showHideSharedOptions();
                 }
             }
         }
-       
         return empty($errors) ? true : $errors;
     }
 
@@ -308,7 +302,7 @@ showHideSharedOptions();
     {
         if ( $params['shared_household'] ) {
             list($householdName) = 
-                explode( ":::", $params['shared_household'] );
+                explode( ",", $params['shared_household'] );
             $params['mail_to_household_id'] = 
                 CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', trim( $householdName ), 'id', 'sort_name' );
         }
@@ -350,14 +344,14 @@ showHideSharedOptions();
         $householdParams['contact_type']   = 'Household';
         $householdParams['household_name'] = $params['create_household'];
         $householdParams['location']       = $params['location'];
-
+        
         unset( $householdParams['location']['2'], 
                $householdParams['location']['1']['phone'], 
                $householdParams['location']['1']['email'], 
                $householdParams['location']['1']['im']
                );
         
-        $contact = CRM_Contact_BAO_Contact::create( $householdParams );
+        $contact = CRM_Contact_BAO_Contact::create( $householdParams, $ids, 1 );
         
         if ( $contact->id ) {
             $params['mail_to_household_id'] = $contact->id;

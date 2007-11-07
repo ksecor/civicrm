@@ -31,6 +31,5 @@
         <name>mailing_id</name>
         <table>civicrm_mailing</table>
         <key>id</key>
-        <onDelete>CASCADE</onDelete>
     </foreignKey>
 </table>

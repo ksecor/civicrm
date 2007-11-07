@@ -327,13 +327,13 @@ function markerError($file, $line, $marker, $tokens)
 function writeHeader($file)
 {
     $output = array();
+    $output[] = '# CiviCRM POT file';
     $output[] = '# Copyright CiviCRM LLC (c) 2004-2007';
     $output[] = '# This file is distributed under the same license as the CiviCRM package.';
-    $output[] = '# If you contribute heavily to a translation and deem your work copyrightable,';
-    $output[] = '# make sure you license it to CiviCRM LLC under Academic Free License 3.0.';
+    $output[] = '# ';
     $output[] = 'msgid ""';
     $output[] = 'msgstr ""';
-    $output[] = '"Project-Id-Version: CiviCRM 1.9\n"';
+    $output[] = '"Project-Id-Version: CiviCRM 1.8\n"';
     $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
     $output[] = '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"';
     $output[] = '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"';

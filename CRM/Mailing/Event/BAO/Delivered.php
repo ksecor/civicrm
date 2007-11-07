@@ -123,11 +123,8 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
             $query .= " GROUP BY $queue.id ";
         }
 
-        if ( $dao->fetch() ) {
-            return $dao->delivered;
-        }
-        
-        return null;
+        $dao->fetch();
+        return $dao->delivered;
     }
 
     /**
@@ -172,7 +169,6 @@ class CRM_Mailing_Event_BAO_Delivered extends CRM_Mailing_Event_DAO_Delivered {
                     ON  $bounce.event_queue_id = $queue.id
             INNER JOIN  $job
                     ON  $queue.job_id = $job.id
-                    AND $job.is_test = 0
             INNER JOIN  $mailing
                     ON  $job.mailing_id = $mailing.id
             WHERE       $bounce.id IS null

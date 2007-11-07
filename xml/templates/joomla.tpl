@@ -6,7 +6,7 @@
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
-  <version>1.9</version>
+  <version>1.8</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
@@ -35,19 +35,19 @@
       <queries>
       </queries>
   </uninstall>
-  <installfile>install.civicrm.php</installfile>
-  <uninstallfile>uninstall.civicrm.php</uninstallfile>
+  <installfile><filename>install.civicrm.php</filename></installfile>
+  <uninstallfile><filename>uninstall.civicrm.php</filename></uninstallfile>
   <administration>
     <menu task="civicrm/dashboard&amp;reset=1">CiviCRM</menu>
                 <submenu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/contact/search&amp;reset=1">Find Contacts</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/group&amp;reset=1">Manage Groups</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/import&amp;reset=1">Import Contacts</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/contribute&amp;reset=1">CiviContribute</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/member&amp;reset=1">CiviMember</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/event&amp;reset=1">CiviEvent</menu>
-                        <menu task="option=com_civicrm&amp;task=civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
+                        <menu task="civicrm/dashboard&amp;reset=1">CiviCRM Home</menu>
+                        <menu task="civicrm/contact/search&amp;reset=1">Find Contacts</menu>
+                        <menu task="civicrm/group&amp;reset=1">Manage Groups</menu>
+                        <menu task="civicrm/import&amp;reset=1">Import Contacts</menu>
+                        <menu task="civicrm/contribute&amp;reset=1">CiviContribute</menu>
+                        <menu task="civicrm/member&amp;reset=1">CiviMember</menu>
+                        <menu task="civicrm/event&amp;reset=1">CiviEvent</menu>
+                        <menu task="civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
                 </submenu>
     <files>
       <filename>admin.civicrm.php</filename>
