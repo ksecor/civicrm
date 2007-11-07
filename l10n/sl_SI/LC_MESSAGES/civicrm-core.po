@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-10-09 00:45-0700\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
+"PO-Revision-Date: 2007-11-04 11:13-0800\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2332,42 +2332,34 @@ msgid "Live Site URL"
 msgstr "URL žive strani"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Live Recurring Payments URL"
 msgstr "URL živih povratnih plačil"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Live Button URL"
 msgstr "URL živega gumba"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Site URL"
 msgstr "URL testne strani"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Recurring Payments URL"
 msgstr "Testiraj URL povratnih plačil"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Test Button URL"
 msgstr "URL testnega gumba"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Is this Payment Processor Type active?"
 msgstr "Je ta tip plačilnega procesorja aktiven?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Is this Payment Processor Type the default?"
 msgstr "Je ta tip plačilnega procesorja privzet?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
-#, fuzzy
 msgid "Does this Payment Processor Type support recurring donations?"
 msgstr "Ali ta tip plačilnega procesorja podpira povratne donacije?"
 
@@ -2492,9 +2484,8 @@ msgid "Enable Debugging"
 msgstr "Omogoči razhroščevanje"
 
 #: CRM/Admin/Form/Setting/Debugging.php
-#, fuzzy
 msgid "Display Backtrace"
-msgstr "Prikaži vzvratno sledenje"
+msgstr "Prikaži povratno sledenje"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 #, fuzzy
@@ -2983,12 +2974,13 @@ msgid "County (%2) %3 \"%1\""
 msgstr "Država (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
+#, fuzzy
 msgid "Individual Prefix %2 \"%1\""
-msgstr "Naziv posameznika %2 \"%1\""
+msgstr "Predpona posameznika %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix %2 \"%1\""
-msgstr ""
+msgstr "Pripona posameznika %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender %2 \"%1\""
@@ -3153,7 +3145,7 @@ msgstr ""
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Brez skupinske pošte (izpisan)"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Internal Contact ID"
@@ -3437,11 +3429,11 @@ msgstr "Datum rojstva"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Create new household"
-msgstr "Ustvari novo šolo"
+msgstr "Ustvari novo gospodinjstvo"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Select existing household"
-msgstr "Izberi obstoječo šolo"
+msgstr "Izberi obstoječe gospodinjstvo"
 
 #: CRM/Contact/Form/Individual.php
 msgid "shared options"
@@ -3449,11 +3441,11 @@ msgstr "skupne možnosti"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Use Household Address"
-msgstr "Uporabi naslov šole"
+msgstr "Uporabi naslov gospodinjstva"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Select Household"
-msgstr "Izberi šolo"
+msgstr "Izberi gospodinjstvo"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
@@ -3491,9 +3483,21 @@ msgid_plural ""
 "'Select existing household' option or click 'Save With Duplicate Household' "
 "button below."
 msgstr[0] ""
+"Najdeno je bilo eno ujemajoče gospodinjstvo: %1. Lahko ga določite skozi "
+"možnost \"Izberi obstoječe gospodinjstvo\" ali kliknete na spodnji gumb "
+"'Shrani s podvojenim gospodinjstvom'."
 msgstr[1] ""
+"Najdeni sta bili dve ujemajoči gospodinjstvi. Lahko ju določite skozi "
+"možnost \"Izberi obstoječe gospodinjstvo\" ali kliknete na spodnji gumb "
+"'Shrani s podvojenim gospodinjstvom'."
 msgstr[2] ""
+"Najdena so bila tri ujemajoča gospodinjstva. Lahko jih določite skozi "
+"možnost \"Izberi obstoječe gospodinjstvo\" ali kliknete na spodnji gumb "
+"'Shrani s podvojenim gospodinjstvom'."
 msgstr[3] ""
+"Najdenih je bilo %count ujemajočih gospodinjstev. Lahko jih določite skozi "
+"možnost \"Izberi obstoječe gospodinjstvo\" ali kliknete na spodnji gumb "
+"'Shrani s podvojenim gospodinjstvom'."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Shared Household-ID not found."
@@ -4548,8 +4552,9 @@ msgid "List Participants"
 msgstr ""
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr ""
+#, fuzzy
+msgid "Reports"
+msgstr "Uvozi"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"

@@ -71,10 +71,16 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             // let's not cache these, so they don't get &qid= appended to them
             return $url;
         } else {
-        
+            
+            $hrefExists = false;
             $config =& CRM_Core_Config::singleton( );
             
             $tracker =& new CRM_Mailing_BAO_TrackableURL();
+            if (preg_match('/^href/i',$url)) {
+                $url = preg_replace('/^href[ ]*=[ ]*[\'"](.*?)[\'"]$/','$1',$url);
+                $hrefExists = true;
+            }
+            
             $tracker->url = $url;
             $tracker->mailing_id = $mailing_id;
             
@@ -87,10 +93,16 @@ class CRM_Mailing_BAO_TrackableURL extends CRM_Mailing_DAO_TrackableURL {
             $redirect = $config->userFrameworkResourceURL . "extern/url.php?u=$id";
             $urlCache[$url] = $redirect;
         }
-
-        return $urlCache[$url] . "&qid=$queue_id";
+        
+        $returnUrl = "{$urlCache[$url]}&qid={$queue_id}";
+        
+        if ( $hrefExists ) {
+            $returnUrl = "href='{$returnUrl}'";
+        }
+        
+        return $returnUrl;
     }
-
+    
     public static function scan_and_replace(&$msg, $mailing_id, $queue_id, $onlyHrefs = false) {
         if (! $mailing_id) {
             return;

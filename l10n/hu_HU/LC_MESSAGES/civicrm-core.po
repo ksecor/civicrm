@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-11-02 05:25-0700\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
+"PO-Revision-Date: 2007-11-02 08:05-0700\n"
 "Last-Translator: Robe Dosa <robe.dosa@t-online.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1376,7 +1376,7 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
-msgstr ""
+msgstr "%1 egész szám kell legyen"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
@@ -4485,8 +4485,9 @@ msgid "List Participants"
 msgstr "Nyomtatás"
 
 #: CRM/Core/Block.php
-msgid "Summary Report"
-msgstr ""
+#, fuzzy
+msgid "Reports"
+msgstr "Import"
 
 #: CRM/Core/Block.php
 #, fuzzy
