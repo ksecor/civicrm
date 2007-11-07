@@ -43,7 +43,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
     function run ( ) {
         require_once 'CRM/Core/Menu.php';
         $items =& CRM_Core_Menu::items( );
-        $groups = array( ts('Manage'), ts('Configure'), ts('Option Lists') );
+        $groups = array( ts('Customize'), ts('Configure'), ts('Manage'), ts('Option Lists') );
 
         $config =& CRM_Core_Config::singleton( );
         if ( in_array("CiviContribute", $config->enableComponents) ) {

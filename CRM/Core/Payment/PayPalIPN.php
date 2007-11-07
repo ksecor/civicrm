@@ -33,11 +33,12 @@
  *
  */
 
-class CRM_Core_Payment_PayPalIPN {
-
+class CRM_Core_Payment_PayPalIPN 
+{
     static $_paymentProcessor = null;
 
-    static function retrieve( $name, $type, $location = 'POST', $abort = true ) {
+    static function retrieve( $name, $type, $location = 'POST', $abort = true ) 
+    {
         static $store = null;
         $value = CRM_Utils_Request::retrieve( $name, $type, $store,
                                               false, null, $location );
@@ -49,7 +50,8 @@ class CRM_Core_Payment_PayPalIPN {
         return $value;
     }
 
-    static function recur( $component, $contactID, &$contribution, &$contributionType, $first ) {
+    static function recur( $component, $contactID, &$contribution, &$contributionType, $first ) 
+    {
         $contributionRecurID = self::retrieve( 'contributionRecurID', 'Integer', 'GET' , true );
         $contributionPageID  = self::retrieve( 'contributionPageID' , 'Integer', 'GET' , true );
         $txnType             = self::retrieve( 'txn_type'           , 'String' , 'POST', true );
@@ -131,13 +133,10 @@ class CRM_Core_Payment_PayPalIPN {
                 $recur->contribution_status_id = 5;
             }
             break;
-
         }
 
         $recur->save( );
         
-        CRM_Core_DAO::transaction( 'COMMIT' );
-
         if ( $txnType != 'subscr_payment' ) {
             return;
         }
@@ -153,11 +152,33 @@ class CRM_Core_Payment_PayPalIPN {
             $contribution->receive_date          = $now;
         }
 
-        self::single( $component, $contactID, $contribution, $contributionType, null, true, $first );
+        self::single( $component, $contactID, $contribution, $contributionType,
+                      CRM_Core_DAO::$_nullObject,
+                      CRM_Core_DAO::$_nullObject,
+                      true, $first );
     }
 
-    static function single( $component, $contactID, &$contribution, &$contributionType, $eventID, $recur = false, $first = false ) {
-        $membershipTypeID   = self::retrieve( 'membershipTypeID', 'Integer', 'GET', false );
+    static function single( $component,
+                            $contactID,
+                            &$contribution,
+                            &$contributionType,
+                            &$event,
+                            &$participant,
+                            $recur = false,
+                            $first = false ) 
+    {
+        $membershipID = self::retrieve( 'membershipID', 'Integer', 'GET', false );
+        $membership   = null;
+        if ( $membershipID ) {
+            require_once 'CRM/Member/DAO/Membership.php';
+            $membership = new CRM_Member_DAO_Membership( );
+            $membership->id = $membershipID;
+            if ( ! $membership->find( true ) ) {
+                CRM_Core_Error::debug_log_message( "Could not find membership record: $membershipID" );
+                echo "Failure: Could not find membership record: $membershipID<p>";
+                return;
+            }
+        }
 
         // make sure the invoice is valid and matches what we have in the contribution record
         if ( ( ! $recur ) || ( $recur && $first ) ) {
@@ -185,15 +206,25 @@ class CRM_Core_Payment_PayPalIPN {
         }
 
         // ok we are done with error checking, now let the real work begin
-        // update the contact record with the name and address
+        // update the contact record with the name and billing address
+
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes =& CRM_Core_PseudoConstant::locationType( );
+        $billingId     = array_search( 'Billing',  $locationTypes );
+        if ( ! $billingId ) {
+            CRM_Core_Error::fatal( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+        }
+        
         $params = array( );
-        $lookup = array( 'first_name'     => 'first_name',
-                         'last_name'      => 'last_name' ,
-                         'street_address' => 'address_street',
-                         'city'           => 'address_city',
-                         'state'          => 'address_state',
-                         'postal_code'    => 'address_zip',
-                         'country'        => 'address_country_code' );
+        $lookup = array( "first_name"                  => 'first_name',
+                         "last_name"                   => 'last_name' ,
+                         "street_address-{$billingId}" => 'address_street',
+                         "city-{$billingId}"           => 'address_city',
+                         "state-{$billingId}"          => 'address_state',
+                         "postal_code-{$billingId}"    => 'address_zip',
+                         "country-{$billingId}"        => 'address_country_code' );
+
         foreach ( $lookup as $name => $paypalName ) {
             $value = self::retrieve( $paypalName, 'String', 'POST', false );
             if ( $value ) {
@@ -205,28 +236,41 @@ class CRM_Core_Payment_PayPalIPN {
 
         if ( ! empty( $params ) ) {
             // update contact record
-            $idParams = array( 'id'         => $contactID, 
-                               'contact'    => $contactID );
-            $ids = $defaults = array( );
             require_once "CRM/Contact/BAO/Contact.php";
-            CRM_Contact_BAO_Contact::retrieve( $idParams, $defaults, $ids );
-            $contact = CRM_Contact_BAO_Contact::createFlat($params, $ids );
+            $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $contactID );
         }
 
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
         // lets keep this the same
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql( $contribution->receive_date ); 
+
+        if ( $participant ) {
+            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
+        }
 
         $status = self::retrieve( 'payment_status', 'String', 'POST', true );
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
             $contribution->contribution_status_id = 4;
             $contribution->save( );
-            CRM_Core_DAO::transaction( 'COMMIT' );
+
+            if ( $membership ) {
+                $membership->status_id = 4;
+                $membership->save( );
+            }
+
+            if ( $participant ) {
+                $participant->status_id = 4;
+                $participant->save( );
+            }
+            
+            $transaction->commit( );
             CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
             echo "Success: Setting contribution status to failed<p>";
             return;
         } else if ( $status == 'Pending' ) {
             CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
-            
             echo "Success: Returning since contribution status is pending<p>";
             return;
         } else if ( $status == 'Refunded' || $status == 'Reversed' ) {
@@ -234,7 +278,18 @@ class CRM_Core_Payment_PayPalIPN {
             $contribution->cancel_date = $now;
             $contribution->cancel_reason = self::retrieve( 'ReasonCode', 'String', 'POST', false );
             $contribution->save( );
-            CRM_Core_DAO::transaction( 'COMMIT' );
+
+            if ( $membership ) {
+                $membership->status_id = 4;
+                $membership->save( );
+            }
+
+            if ( $participant ) {
+                $participant->status_id = 4;
+                $participant->save( );
+            }
+
+            $transaction->commit( );
             CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
             echo "Success: Setting contribution status to cancelled<p>";
             return;
@@ -252,7 +307,6 @@ class CRM_Core_Payment_PayPalIPN {
             return;
         }
 
-
         if ( $component == 'contribute' ) {
             require_once 'CRM/Contribute/BAO/ContributionPage.php';
             CRM_Contribute_BAO_ContributionPage::setValues( $contribution->contribution_page_id, $values );
@@ -262,6 +316,12 @@ class CRM_Core_Payment_PayPalIPN {
             if ( $values['is_email_receipt'] ) {
                 $contribution->receipt_date = $now;
             }
+
+            if ( $membership ) {
+                $membership->status_id = 2;
+                $membership->save( );
+            }
+
         } else {
             // event
             $eventParams = array( 'id' => $eventID );
@@ -295,11 +355,10 @@ class CRM_Core_Payment_PayPalIPN {
             if ( $values['event_page']['is_email_confirm'] ) {
                 $contribution->receipt_date = $now;
             }
-            
+
+            $participant->status_id = 1;
+            $participant->save( );
         }
-
-
-        CRM_Core_DAO::transaction( 'BEGIN' );
 
         $contribution->contribution_status_id  = 1;
         $contribution->is_test    = self::retrieve( 'test_ipn'     , 'Integer', 'POST', false );
@@ -333,76 +392,33 @@ class CRM_Core_Payment_PayPalIPN {
             require_once 'CRM/Utils/Money.php';
             $formattedAmount = CRM_Utils_Money::format($contribAmount);
             
-            // also create an activity history record
-            $ahParams = array('entity_table'     => 'civicrm_contact', 
-                              'entity_id'        => $contactID, 
-                              'activity_type'    => $contributionType->name,
-                              'module'           => 'CiviContribute', 
-                              'callback'         => 'CRM_Contribute_Page_Contribution::details',
-                              'activity_id'      => $contribution->id, 
-                              'activity_summary' => "$formattedAmount - $title (online)",
-                              'activity_date'    => $now,
-                              );
-            
-            require_once 'api/History.php';
-            if ( is_a( crm_create_activity_history($ahParams), 'CRM_Core_Error' ) ) { 
-                CRM_Core_Error::debug_log_message( "error in updating activity" );
-            }
+            //should be uncommented once create activity api is fixed
+//             // also create an activity history record
+//             require_once "CRM/Core/OptionGroup.php";
+//             $ahParams = array( 'source_contact_id' => $contactID,
+//                                'source_record_id'  => $contribution->id,
+//                                'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+//                                                                                       'CiviContribute Online Contribution',
+//                                                                                       'name' ),
+//                                'module'            => 'CiviContribute', 
+//                                'callback'          => 'CRM_Contribute_Page_Contribution::details',
+//                                'subject'           => "$formattedAmount - $title (online)",
+//                                'activity_date_time'=> $now,
+//                                'is_test'           => $contribution->is_test
+//                                );
 
-            // create membership record
-            if ( $membershipTypeID ) {
-                require_once 'CRM/Member/BAO/Membership.php';
-                CRM_Member_BAO_Membership::processIPNMembership ( $contactID, $contribution, $membershipTypeID, $contribAmount );
-            }
+//             require_once 'api/v2/Activity.php';
+//             if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
+//                 CRM_Core_Error::fatal( "Could not create a system record" );
+//             }
         } else { // event 
-            //create participant record
-            require_once 'CRM/Event/BAO/Participant.php';
-        
-            $domainID = CRM_Core_Config::domainID( );
-            $groupName = "participant_role";
-            $query = "
-SELECT  v.label as label ,v.value as value
-FROM   civicrm_option_value v, 
-       civicrm_option_group g 
-WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
-  AND  g.name            = %1 
-  AND  v.is_active       = 1  
-  AND  g.is_active       = 1  
-";
-            $p = array( 1 => array( $groupName , 'String' ) );
-
-            $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-            if ( $dao->fetch( ) ) {
-                $roleID = $dao->value;
-            }
-        
-            $participantParams = array('contact_id'    => $contactID,
-                                       'event_id'      => $eventID,
-                                       'status_id'     => 1,
-                                       'role_id'       => $roleID,
-                                       'register_date' => $now,
-                                       'source'        => ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'],
-                                       'event_level'   => $contribution->amount_level,
-                                       'is_test'       => $contribution->is_test ? 1 : 0,
-                                       );
-        
-            $participant = CRM_Event_BAO_Participant::add($participantParams, CRM_Core_DAO::$_nullArray);
-
-            require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentParams = array('participant_id'  => $participant->id,
-                                   'contribution_id' => $contribution->id,                                   
-                                   );   
-
-            $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, CRM_Core_DAO::$_nullArray);
-
             // also create an activity history record
             CRM_Event_BAO_Participant::setActivityHistory( $participant );
         }
 
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
 
         // add the new contribution values
         $template =& CRM_Core_Smarty::singleton( );
@@ -448,7 +464,8 @@ WHERE  v.option_group_id = g.id
         echo "Success: Database updated<p>";
     }
 
-    static function main( $component = 'contribute' ) {
+    static function main( $component = 'contribute' ) 
+    {
         CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
         CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
 
@@ -460,7 +477,8 @@ WHERE  v.option_group_id = g.id
         $contributionTypeID = self::retrieve( 'contributionTypeID', 'Integer', 'GET', true );
 
         if ( $component == 'event' ) {
-            $eventID = CRM_Core_Payment_PayPalIPN::retrieve( 'eventID'           , 'Integer', 'GET', true );
+            $eventID       = CRM_Core_Payment_PayPalIPN::retrieve( 'eventID'      , 'Integer', 'GET', true );
+            $participantID = CRM_Core_Payment_PayPalIPN::retrieve( 'participantID', 'Integer', 'GET', true );
         }
 
         // make sure contact exists and is valid
@@ -517,7 +535,16 @@ WHERE  v.option_group_id = g.id
                 echo "Failure: Could not find event: $eventID<p>";
                 return;
             }
-            
+
+            require_once 'CRM/Event/DAO/Participant.php';
+            $participant =& new CRM_Event_DAO_Participant( );
+            $participant->id = $participantID;
+            if ( ! $participant->find( true ) ) {
+                CRM_Core_Error::debug_log_message( "Could not find participant: $participantID" );
+                echo "Failure: Could not find participant: $participantID<p>";
+                return;
+            }
+                
             // get the payment processor id from contribution page
             $paymentProcessorID = $event->payment_processor_id;
         }
@@ -542,10 +569,12 @@ WHERE  v.option_group_id = g.id
                 }
                 return self::recur( $component, $contactID, $contribution, $contributionType, $first );
             } else {
-                return self::single( $component, $contactID, $contribution, $contributionType, null, false, false );
+                return self::single( $component, $contactID, $contribution, $contributionType,
+                                     CRM_Core_DAO::$_nullObject,
+                                     CRM_Core_DAO::$_nullObject );
             }
         } else {
-            return self::single( $component, $contactID, $contribution, $contributionType, $eventID );
+            return self::single( $component, $contactID, $contribution, $contributionType, $event, $participant );
         }
     }
 

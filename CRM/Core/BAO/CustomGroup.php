@@ -224,7 +224,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // final query string
         $queryString = "$strSelect $strFrom $strWhere $orderBy";
-       
+
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
 
@@ -830,17 +830,14 @@ $where
                 case 'CheckBox':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (is_array($customValues)) {
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['value']] = 1;
-                                    } else {
-                                        $defaults[$elementName][$val['value']] = 0;
-                                    }
+                                if (in_array($val['value'], $checkedData)) {
+                                    $defaults[$elementName][$val['value']] = 1;
+                                } else {
+                                    $defaults[$elementName][$val['value']] = 0;
                                 }
                             }
                         }
@@ -873,15 +870,12 @@ $where
                 case 'Multi-Select':
                     if ($viewMode) {
                         $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $customValues = CRM_Core_BAO_CustomOption::getCustomValues($field['id']);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
                         $defaults[$elementName] = array();
                         if(isset($value)) {
                             foreach($customOption as $val) {
-                                if (is_array($customValues)) {
-                                    if (in_array($val['value'], $checkedData)) {
-                                        $defaults[$elementName][$val['value']] = $val['value'];
-                                    }
+                                if (in_array($val['value'], $checkedData)) {
+                                    $defaults[$elementName][$val['value']] = $val['value'];
                                 }
                             }
                         }
@@ -995,11 +989,7 @@ $where
                     break;
 
                 case 'Select Date':
-                    //print_r($v);
                     $date = CRM_Utils_Date::format( $v );
-                    /*if ( ! $date ) {
-                        $date = '';
-                    }*/
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
                 default:
@@ -1398,7 +1388,16 @@ ORDER BY weight ASC, label ASC";
             
         case 'Relationship':
             return 'civicrm_relationship';
-
+            
+        case 'Event':
+            return 'civicrm_event';
+        
+        case 'Membership':
+            return 'civicrm_membership';
+        
+        case 'Participant':
+            return 'civicrm_participant';
+        
         default:
             CRM_Core_Error::fatal( );
         }

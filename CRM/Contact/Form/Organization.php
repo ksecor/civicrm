@@ -51,7 +51,7 @@ class CRM_Contact_Form_Organization extends CRM_Core_Form
      * @return None
      */
     public function buildQuickForm( &$form ) {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Organization');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
 
         $form->applyFilter('__ALL__','trim');
         

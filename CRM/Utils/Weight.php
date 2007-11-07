@@ -301,23 +301,28 @@ class CRM_Utils_Weight {
             $url = "{$baseURL}&src=$id";
 
             if ( $prevID != 0 ) {
-                $alt     = ts( 'Make this the first element' );
-                $links[] = "<a href=\"{$url}&dst={$firstID}&dir=first\"><img src=\"{$imageURL}/first.gif\" alt=\"$alt\"></a>";
+                $alt     = ts( 'Move to top' );
+                $links[] = "<a href=\"{$url}&dst={$firstID}&dir=first\"><img src=\"{$imageURL}/first.gif\" title=\"$alt\" alt=\"$alt\" class=\"order-icon\"></a>";
                 
-                $alt     = ts( 'Swap with the element above me' );
-                $links[] = "<a href=\"{$url}&dst={$prevID}&dir=swap\"><img src=\"{$imageURL}/up.gif\" alt=\"$alt\"></a>";
+                $alt     = ts( 'Move up one row' );
+                $links[] = "<a href=\"{$url}&dst={$prevID}&dir=swap\"><img src=\"{$imageURL}/up.gif\" title=\"$alt\" alt=\"$alt\" class=\"order-icon\"></a>";
                 
+            } else {
+                $links[] = "<img src=\"{$imageURL}/spacer.gif\" class=\"order-icon\">";
+                $links[] = "<img src=\"{$imageURL}/spacer.gif\" class=\"order-icon\">";
             }
-
+            
             if ( $nextID != 0 ) {
-                $alt     = ts( 'Swap with the element below me' );
-                $links[] = "<a href=\"{$url}&dst={$nextID}&dir=swap\"><img src=\"{$imageURL}/down.gif\" alt=\"$alt\"></a>";
+                $alt     = ts( 'Move down one row' );
+                $links[] = "<a href=\"{$url}&dst={$nextID}&dir=swap\"><img src=\"{$imageURL}/down.gif\" title=\"$alt\" alt=\"$alt\" class=\"order-icon\"></a>";
                 
-                $alt     = ts( 'Make this the last element' );
-                $links[] = "<a href=\"{$url}&dst={$lastID}&dir=last\"><img src=\"{$imageURL}/last.gif\" alt=\"$alt\"></a>";
+                $alt     = ts( 'Move to bottom' );
+                $links[] = "<a href=\"{$url}&dst={$lastID}&dir=last\"><img src=\"{$imageURL}/last.gif\" title=\"$alt\" alt=\"$alt\" class=\"order-icon\"></a>";
+            } else {
+                $links[] = "<img src=\"{$imageURL}/spacer.gif\" class=\"order-icon\">";
+                $links[] = "<img src=\"{$imageURL}/spacer.gif\" class=\"order-icon\">";
             }
-        
-            $rows[$id]['weight'] .= '&nbsp;' . implode( '&nbsp;', $links );
+            $rows[$id]['weight'] = implode( '&nbsp;', $links );
         }
     }
 

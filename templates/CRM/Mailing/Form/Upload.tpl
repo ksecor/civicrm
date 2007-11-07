@@ -1,8 +1,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {include file="CRM/Mailing/Form/Count.tpl"}
 <div id="help">
-{ts}You can either <strong>upload</strong> the mailing content from your computer OR <strong>compose</strong> the content on this screen.
-Hold your mouse over the help (?) icon for more information on formats and requirements.{/ts} {help id="content-intro"} 
+{ts}You can either <strong>upload</strong> the mailing content from your computer OR <strong>compose</strong> the content on this screen. Hold your mouse over the help (?) icon for more information on formats and requirements.{/ts} {help id="content-intro"} 
 </div>
 <div class="form-item">
   <fieldset>
@@ -23,11 +22,11 @@ Hold your mouse over the help (?) icon for more information on formats and requi
             <span class="font-size11pt bold">{$form.html_message.label}</span> &nbsp;
             <span class="description">({ts}Click your mouse in the upper left corner of the box below to begin editing your HTML message.{/ts})
             <br />
-            <div style="position: relative;">
-                <div style="border: 1px solid black; overflow: auto;" >
-                   {$form.html_message.html}
-                </div>
-            </div>
+    <div style="border: 1px solid black;" class ="tundra">
+	
+{$form.html_message.html}
+	</div>
+         
         </td>
     </tr>
     </table>
@@ -94,9 +93,10 @@ Hold your mouse over the help (?) icon for more information on formats and requi
             verify( );	
         }
     }
+ 
    
-    function selectValue( val )
-    {
+ function selectValue( val )
+    {*
         //rebuild save template block
         document.getElementById("updateDetails").style.display = 'none';
         
@@ -135,7 +135,10 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 			    ed.editNode.innerHTML = data[1];
 			 }
 		      });
-    }
+   *}
+ 
+    
+        
  
      function verify( )
      {
@@ -172,8 +175,8 @@ Hold your mouse over the help (?) icon for more information on formats and requi
 
     dojo.addOnLoad( function( ) 
     {
-	var message = dojo.widget.byId('html_message');
-        dojo.event.connect( message, 'onLoad', 'setHTMLMessage')
+	var message = dijit.byId('html_message');
+        dojo.connect( message, 'onLoad', 'setHTMLMessage')
 
     });
 
@@ -181,7 +184,7 @@ Hold your mouse over the help (?) icon for more information on formats and requi
   function setHTMLMessage ( ) {
       var message_html  = {/literal}'{$message_html}'{literal};
         
-      var ed = dojo.widget.byId('html_message');
+      var ed = dijit.byId('html_message');
       ed.editNode.innerHTML = message_html;
   }
 

@@ -51,7 +51,9 @@
                 </dl>
             {else} {* action = add *}
                 </dd>
-                <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
+                <dt>{$form.name.label}</dt>
+                <div class ="tundra" dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}">
+                <dd>{$form.name.html}</dd></div>
                 <dt> </dt>
                   <dd>
                     {$form._qf_Relationship_refresh.html}

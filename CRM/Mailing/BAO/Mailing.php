@@ -133,7 +133,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         
         $email      = CRM_Core_DAO_Email::getTableName();
         $contact    = CRM_Contact_DAO_Contact::getTableName();
-        $location   = CRM_Core_DAO_Location::getTableName();
 
         require_once 'CRM/Contact/DAO/Group.php';
         $group      = CRM_Contact_DAO_Group::getTableName();
@@ -187,20 +186,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     AND             $group.saved_search_id IS NOT null");
 
         $whereTables = array( );
-        while ($ss->fetch()) {
+        while ( $ss->fetch( ) ) {
             /* run the saved search query and dump result contacts into the temp
              * table */
             $tables = array($contact => 1);
-            $where =
-                CRM_Contact_BAO_SavedSearch::whereClause( $ss->saved_search_id,
-                                                          $tables,
-                                                          $whereTables );
-            $from = CRM_Contact_BAO_Query::fromClause($tables);
-            $mailingGroup->query(
-                    "INSERT IGNORE INTO X_$job_id (contact_id)
-                    SELECT              contact_a.id
-                                        $from
-                    WHERE               $where");
+            $sql =
+                CRM_Contact_BAO_SavedSearch::contactIDsSQL( $ss->saved_search_id );
+            $mailingGroup->query( "INSERT IGNORE INTO X_$job_id (contact_id) $sql" );
         }
 
         /* Get all the group contacts we want to include */
@@ -216,16 +208,12 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
 
         /* Get the emails with no override */
         
-        $mailingGroup->query(
-                    "REPLACE INTO       I_$job_id (email_id, contact_id)
+        $query =    "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id
                     FROM                $email
-                    INNER JOIN          $location
-                            ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
+                            ON          $email.contact_id = $contact.id
                     INNER JOIN          $g2contact
                             ON          $contact.id = $g2contact.contact_id
                     INNER JOIN          $mg
@@ -236,14 +224,15 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         $mg.group_type = 'Include'
                         AND             $g2contact.status = 'Added'
-                        AND             $g2contact.location_id IS null
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null");
+                        AND             X_$job_id.contact_id IS null";
+        $mailingGroup->query($query);
+
 
         /* Query prior mailings */
         $mailingGroup->query(
@@ -251,11 +240,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     SELECT DISTINCT     $email.id as email_id,
                                         $contact.id as contact_id
                     FROM                $email
-                    INNER JOIN          $location
-                            ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
+                            ON          $email.contact_id = $contact.id
                     INNER JOIN          $eq
                             ON          $eq.contact_id = $contact.id
                     INNER JOIN          $job
@@ -268,7 +254,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.group_type = 'Include'
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
-                        AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -288,16 +273,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $whereTables = array( );
         while ($ss->fetch()) {
             $tables = array($contact => 1, $location => 1, $email => 1);
-            $where = CRM_Contact_BAO_SavedSearch::whereClause(
-                                                              $ss->saved_search_id,
-                                                              $tables,
-                                                              $whereTables
-                                                              );
+            list( $from, $where ) = CRM_Contact_BAO_SavedSearch::fromWhereEmail( $ss->saved_search_id );
             $where = trim( $where );
             if ( $where ) {
                 $where = " AND $where ";
             }
-            $from = CRM_Contact_BAO_Query::fromClause($tables);
             $ssq = "INSERT IGNORE INTO  I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as email_id,
                                         contact_a.id as contact_id 
@@ -307,7 +287,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         contact_a.do_not_email = 0
                         AND             contact_a.is_opt_out = 0
-                        AND             $location.is_primary = 1
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                                         $where
@@ -316,19 +295,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         }
         
         /* Get the emails with only location override */
-        $mailingGroup->query(
-                    "REPLACE INTO       I_$job_id (email_id, contact_id)
+        $query =    "REPLACE INTO       I_$job_id (email_id, contact_id)
                     SELECT DISTINCT     $email.id as local_email_id,
                                         $contact.id as contact_id
                     FROM                $email
-                    INNER JOIN          $location
-                            ON          $email.location_id = $location.id
                     INNER JOIN          $contact
-                            ON          $location.entity_id = $contact.id
-                                AND     $location.entity_table = '$contact'
+                            ON          $email.contact_id = $contact.id
                     INNER JOIN          $g2contact
                             ON          $contact.id = $g2contact.contact_id
-                                AND     $location.id = $g2contact.location_id
                     INNER JOIN          $mg
                             ON          $g2contact.group_id = $mg.entity_id
                     LEFT JOIN           X_$job_id
@@ -337,14 +311,14 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'Added'
-                        AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
                         AND             $email.is_primary = 1
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null");
+                        AND             X_$job_id.contact_id IS null";
+        $mailingGroup->query($query);
                     
         /* Get the emails with full override */
         $mailingGroup->query(
@@ -364,7 +338,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.entity_table = '$group'
                         AND             $mg.group_type = 'Include'
                         AND             $g2contact.status = 'Added'
-                        AND             $g2contact.location_id IS NOT null
                         AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
@@ -379,7 +352,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         $eq->query("SELECT contact_id, email_id 
                     FROM I_$job_id 
                     ORDER BY contact_id, email_id");
-        
+
         /* Delete the temp table */
         $mailingGroup->reset();
         $mailingGroup->query("DROP TEMPORARY TABLE X_$job_id");
@@ -699,12 +672,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $query = "
                   SELECT DISTINCT contact_a.id as contact_id 
                   FROM civicrm_contact contact_a 
-                  LEFT JOIN civicrm_individual ON contact_a.id = civicrm_individual.contact_id
-                  LEFT JOIN civicrm_location   ON civicrm_location.entity_id = contact_a.id
-                  LEFT JOIN civicrm_address    ON civicrm_location.id = civicrm_address.location_id  
-                  LEFT JOIN civicrm_email      ON civicrm_location.id = civicrm_email.location_id
-                      WHERE LOWER(civicrm_email.email) = %1
-                      AND civicrm_location.entity_table = 'civicrm_contact'";
+                  LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
+                      WHERE LOWER(civicrm_email.email) = %1";
             
             $params = array( 1 => array( $testParams['test_email'], 'String' ) );
             $dao =& CRM_Core_DAO::executeQuery( $query, $params );
@@ -719,16 +688,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
             $params = array( 1 => array($testParams['test_email'], 'String' ) );
             
             if ( ! $contact_id ) {
-                $query = "SELECT        civicrm_location.id 
-                          FROM civicrm_location
-                          WHERE         civicrm_location.entity_id = $userID
-                                 AND    civicrm_location.is_primary = 1";
-                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
-                if ($dao->fetch( ) ) {
-                    $location_id = $dao->id;
-                }
-                $dao->free( );
-                $query = "INSERT INTO   civicrm_email (location_id,email) values ($location_id,%1)"; 
+                $query = "INSERT INTO   civicrm_email (contact_id, email) values ($userID,%1)"; 
                 CRM_Core_DAO::executeQuery( $query, $params );
                 $contact_id = $userID;
             } 
@@ -758,15 +718,13 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
                                  civicrm_email.is_bulkmail as is_bulkmail
 FROM civicrm_email
-INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
-INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
-AND civicrm_location.entity_table = 'civicrm_contact'
+INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_bulkmail = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                $dao =& CRM_Core_DAO::executeQuery( $query);
+                $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                 if ($dao->fetch( ) ) {
                     $params = array(
                                     'job_id'        => $testParams['job_id'],
@@ -779,15 +737,13 @@ AND civicrm_contact.is_opt_out =0";
                     "SELECT DISTINCT civicrm_email.id AS email_id, civicrm_email.is_primary as is_primary,
                                  civicrm_email.is_bulkmail as is_bulkmail
 FROM civicrm_email
-INNER JOIN civicrm_location ON civicrm_email.location_id = civicrm_location.id
-INNER JOIN civicrm_contact ON civicrm_location.entity_id = civicrm_contact.id
-AND civicrm_location.entity_table = 'civicrm_contact'
+INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_primary = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
-                    $dao =& CRM_Core_DAO::executeQuery( $query);
+                    $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
                     if ($dao->fetch( ) ) {
                         $params = array(
                                         'job_id'        => $testParams['job_id'],
@@ -858,7 +814,8 @@ AND civicrm_contact.is_opt_out =0";
      * @return (reference) array    array ref that hold array refs to the verp info, urls, and headers
      * @access private
      */
-    private function &getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email){
+    private function getVerpAndUrlsAndHeaders( $job_id, $event_queue_id, $hash, $email )
+    {
         $config =& CRM_Core_Config::singleton( );
         /**
          * Inbound VERP keys:
@@ -903,7 +860,7 @@ AND civicrm_contact.is_opt_out =0";
                          'Subject'   => $this->subject,
                          );
       
-        return array(&$verp,&$urls,&$headers);
+        return array( &$verp,&$urls,&$headers);
     }
 
     /**
@@ -965,16 +922,19 @@ AND civicrm_contact.is_opt_out =0";
             } else {
                 array_push($pEmail, $template[$idx]);
             }
-            array_push($pEmail, $template[($idx + 1)]);
+            
+            if ( isset( $template[($idx + 1)] ) ) {
+                array_push($pEmail, $template[($idx + 1)]);
+            }
         }
 
         $html = null;
-        if ( is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
+        if ( isset( $pEmails['html'] ) &&  is_array( $pEmails['html'] ) && count( $pEmails['html'] ) ) {
             $html = &$pEmails['html'];
         }
         
         $text = null;
-        if ( is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
+        if ( isset( $pEmails['text'] ) && is_array( $pEmails['text'] ) && count( $pEmails['text'] ) ){
             $text = &$pEmails['text'];
         }
         
@@ -996,7 +956,9 @@ AND civicrm_contact.is_opt_out =0";
                                     $contact['preferred_mail_format'] == 'Both') ) ) {
             $message->setHTMLBody( join( '', $html ) );
         }
-        
+
+        $message->_txtbody =  CRM_Utils_Token::replaceSubscribeInviteTokens($message->_txtbody);
+        $message->_htmlbody =  CRM_Utils_Token::replaceSubscribeInviteTokens($message->_htmlbody);
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
         
@@ -1082,18 +1044,6 @@ AND civicrm_contact.is_opt_out =0";
     }
     
     /**
-     * Error handler to quietly catch otherwise fatal smtp transport errors.
-     *
-     * @param object $obj       The PEAR_ERROR object
-     * @return object $obj
-     * @access public
-     * @static
-     */
-    public static function catchSMTP($obj) {
-        return $obj;
-    }
-
-    /**
      * function to add the mailings
      *
      * @param array $params reference array contains the values submitted by the form
@@ -1125,7 +1075,7 @@ AND civicrm_contact.is_opt_out =0";
         } else {
             CRM_Utils_Hook::post( 'create', 'Mailing', $mailing->id, $mailing );
         }
-        
+
         return $result;
     }
 
@@ -1143,30 +1093,8 @@ AND civicrm_contact.is_opt_out =0";
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
-        if( $ids['mailing_id'] ) {
-            $mailing =& new CRM_Mailing_BAO_Mailing();
-            $mailing->id = $ids['mailing_id'];
-            if ($mailing->find(true)) {
-                $job =& new CRM_Mailing_BAO_Job();
-                $job->mailing_id = $mailing->id;
-                if ($job->find(true) && ! $mailing->is_template) {
-                    $job->status = 'Scheduled';
-                    $job->is_retry = false;
-                    $job->is_test = false;
-                    if ($params['now']) {
-                        $job->scheduled_date = date('YmdHis');
-                    } else {
-                        $job->scheduled_date = CRM_Utils_Date::format($params['start_date']);
-                    }
-                    $job->save();
-                } 
-                $mailing->save();
-            }
-            $transaction->commit( );
-            return $mailing;
-        }
         $mailing = self::add($params, $ids);
-        
+
         if( is_a( $mailing, 'CRM_Core_Error') ) {
             $transaction->rollback( );
             return $mailing;
@@ -1472,10 +1400,11 @@ AND civicrm_contact.is_opt_out =0";
             LEFT JOIN  {$t['job']}
                     ON  {$t['queue']}.job_id = {$t['job']}.id
             WHERE       {$t['url']}.mailing_id = $mailing_id
+                    AND {$t['job']}.is_test = 0
             GROUP BY    {$t['url']}.id");
        
         $report['click_through'] = array();
-
+        
         while ($mailing->fetch()) {
             $report['click_through'][] = array(
                                     'url' => $mailing->url,
@@ -1632,13 +1561,10 @@ SELECT DISTINCT( m.id ) as id
                         MIN($job.scheduled_date) as scheduled_date, 
                         MIN($job.start_date) as start_date,
                         MAX($job.end_date) as end_date
-            FROM        $mailing, $job
+            FROM        $mailing 
+                        LEFT JOIN $job ON ( $job.mailing_id = $mailing.id AND $job.is_test = 0)
             WHERE       $mailing.domain_id = $domain_id
-              AND       $job.mailing_id    = $mailing.id
-              AND       $mailingACL
-              AND       ( $job.is_test <> 1
-               OR         $job.is_test IS NULL )
-                        $additionalClause
+              AND       $mailingACL $additionalClause
             GROUP BY    $mailing.id ";
         
         if ($sort) {
@@ -1649,7 +1575,7 @@ SELECT DISTINCT( m.id ) as id
         }
 
         if ($rowCount) {
-           $query .= " LIMIT $offset, $rowCount ";
+            $query .= " LIMIT $offset, $rowCount ";
         }
 
         if ( ! $additionalParams ) {
@@ -1700,41 +1626,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function del($id) {
-        
-        $dependencies = array( 'CRM_Mailing_DAO_Job','CRM_Mailing_DAO_Group', 'CRM_Mailing_DAO_TrackableURL');
-        
-        foreach ($dependencies as $className) {
-            eval('$dao = & new ' . $className . '();');
-            $dao->mailing_id = $id;
-            
-            if ( $className == 'CRM_Mailing_DAO_Job' ) {
-                $dao->find( );
-                while ($dao->fetch()) {
-                    if ( $dao->status == 'Complete' || $dao->status == 'Canceled') {
-                        $daoSpool = new CRM_Mailing_BAO_Spool();
-                        $daoSpool->job_id = $dao->id;
-                        if ( $daoSpool->find( true ) ) {
-                            CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted as mails are still pending in spool table.'));
-                            return;
-                        }
-                    } elseif ( $dao->status == 'Running' ) {
-                        CRM_Core_Session::setStatus(ts('Selected mailing  can not be deleted since it is in process.'));
-                        return;
-                    }
-                    $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-                    $daoQueue->deleteEventQueue( $dao->id, 'job');
-                    
-                    $dao->delete();
-                }
-                continue;
-            }
-            
-            $dao->delete();
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        
+
         $dao = & new CRM_Mailing_DAO_Mailing();
         $dao->id = $id;
-        $dao->delete();
+        $dao->delete( );
         
         CRM_Core_Session::setStatus(ts('Selected mailing has been deleted.'));
     }
@@ -1750,14 +1648,13 @@ SELECT DISTINCT( m.id ) as id
      * @static
      */
     public static function delJob($id) {
-    
-        $daoJob = new CRM_Mailing_BAO_Job();
-        $daoJob->id = $id;
-        if ( $daoJob->find() ) {
-            $daoQueue = new CRM_Mailing_Event_BAO_Queue();
-            $daoQueue->deleteEventQueue( $daoJob->id, 'job');
+        if ( empty( $id ) ) {
+            CRM_Core_Error::fatal( );
         }
-        $daoJob->delete();
+
+        $dao     = new CRM_Mailing_BAO_Job();
+        $dao->id = $id;
+        $dao->delete();
     }
 
     function getReturnProperties( ) {

@@ -233,24 +233,24 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         require_once 'CRM/Activity/BAO/Activity.php';
 
         foreach ( $this->_contactIds as $contactId ) {
-            $params['target_entity_id'] = $contactId; 
-            $activity = null;
-            $activityType = $params['activity_type_id'];
+//             $params['target_entity_id'] = $contactId; 
+//             $activity = null;
+//             $activityType = $params['activity_type_id'];
             
-            $activity  = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] ,true );
+//             $activity  = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] ,true );
             
-            if ( $activity ) {
-                $added++;
-                if ( $activity->status == 'Completed' ) {
-                    $completedParams['entity_id'] = $contactId;
-                    $completedParams['activity_id'] = $activity->id;
-                    if ( is_a( crm_create_activity_history($completedParams), 'CRM_Core_Error' ) ) {
-                        $added--;
-                    }
-                }
-            } else {
-                $notAdded++;
-            }
+//             if ( $activity ) {
+//                 $added++;
+//                 if ( $activity->status == 'Completed' ) {
+//                     $completedParams['entity_id'] = $contactId;
+//                     $completedParams['activity_id'] = $activity->id;
+//                     if ( is_a( crm_create_activity_history($completedParams), 'CRM_Core_Error' ) ) {
+//                         $added--;
+//                     }
+//                 }
+//             } else {
+//                 $notAdded++;
+//             }
         }
 
         $status = array(

@@ -52,9 +52,6 @@ class CRM_Admin_Form_Setting_Component extends  CRM_Admin_Form_Setting
 
         $components = $this->_getComponentSelectValues( );
 
-//            if (version_compare(phpversion(), '5') >= 0) {
-//                $components['CiviMail'] = ts('CiviMail');
-//            }
         $include =& $this->addElement('advmultiselect', 'enableComponents', 
                                       ts('Components') . ' ', $components,
                                       array('size' => 5, 

@@ -2,7 +2,6 @@
 
 {include file="CRM/common/pagerAToZ.tpl"}
 
-{strip}
 <table summary="{ts}Search results listings.{/ts}">
   <tr class="columnheader">
   <th scope="col" title="Select All Rows">{$form.toggleSelect.html}</th>
@@ -89,7 +88,6 @@
     {/foreach}
   {/if}
 </table>
-{/strip}
 
  <script type="text/javascript">
  {* this function is called to change the color of selected row(s) *}

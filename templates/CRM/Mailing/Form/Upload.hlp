@@ -1,32 +1,15 @@
 {htxt id="content-intro"}
-{ts 1="http://wiki.civicrm.org/confluence//x/nC"}
-<h1>Message Formats</h1>
-You can choose to send BOTH an <strong>HTML</strong> and a plain <strong>TEXT</strong>
-version of your mailing, OR you can send a <strong>TEXT</strong> version only.</p>
+<h1>{ts}Message Formats{/ts}</h1>
+<p>{ts}You can choose to send BOTH an <strong>HTML</strong> and a plain <strong>TEXT</strong> version of your mailing, OR you can send a <strong>TEXT</strong> version only.{/ts}</p>
 
-<p>If you create only an <strong>HTML</strong> version, CiviMail will automatically create a
-<strong>TEXT</strong> version for your recipients who have chosen NOT to receive HTML email.
-</p>
+<p>{ts}If you create only an <strong>HTML</strong> version, CiviMail will automatically create a <strong>TEXT</strong> version for your recipients who have chosen NOT to receive HTML email.{/ts}</p>
 
-<h1>Required Elements</h1>
-<p>CiviMail email messages must include an <strong>unsubscribe</strong> link,
-an <strong>opt-out</strong> link, and the <strong>postal address</strong> of your organization. These elements
-help reduce the chances of your email being categorized as SPAM. They can be included in the main message body OR
-in a re-usabe <strong>message footer</strong>. Refer to the online documentation for details on
-<a href='%1' target='_blank' title='Help on messages. Opens a new window.'>how to include required links and contact information
-as well as sample messages....</a>
-</p>
-{/ts}
+<h1>{ts}Required Elements{/ts}</h1>
+<p>{ts 1="http://wiki.civicrm.org/confluence//x/nC"}CiviMail email messages must include an <strong>unsubscribe</strong> link, an <strong>opt-out</strong> link, and the <strong>postal address</strong> of your organization. These elements help reduce the chances of your email being categorized as SPAM. They can be included in the main message body OR in a re-usabe <strong>message footer</strong>. Refer to the online documentation for details on <a href='%1' target='_blank' title='Help on messages. Opens a new window.'>how to include required links and contact information as well as sample messages....</a>{/ts}</p>
 {/htxt}
 
 {htxt id="upload-compose"}
-{ts}
-<h1>Upload or Compose On-screen</h1>
-<p>You can use your favorite editor to create content on your local computer and then <strong>Upload</strong>
-the files. OR you can <strong>Compose</strong> content directly on the screen.</p>
-<p>If you choose to compose on the screen, a basic WYSIWYG (what-you-see-is-what-you-get) editor is provided 
-which you can use create simple HTML messages. However, if you are planning on creating HTML messages with complex
-layouts - it is best to use an HTML editor on your local computer. Then locate and upload the saved file(s)
-by clicking the <strong>Browse</strong> button.</p>
-{/ts}
+<h1>{ts}Upload or Compose On-screen{/ts}</h1>
+<p>{ts}You can use your favorite editor to create content on your local computer and then <strong>Upload</strong> the files. OR you can <strong>Compose</strong> content directly on the screen.{/ts}</p>
+<p>{ts}If you choose to compose on the screen, a basic WYSIWYG (what-you-see-is-what-you-get) editor is provided which you can use create simple HTML messages. However, if you are planning on creating HTML messages with complex layouts - it is best to use an HTML editor on your local computer. Then locate and upload the saved file(s) by clicking the <strong>Browse</strong> button.{/ts}</p>
 {/htxt}

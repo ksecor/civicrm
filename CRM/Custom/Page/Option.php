@@ -195,6 +195,13 @@ ORDER BY weight, label
                                                                                   'fid' => $this->_fid,
                                                                                   'gid' => $this->_gid ) );
         }
+        
+        // Add order changing widget to selector
+        $returnURL = CRM_Utils_System::url( 'civicrm/admin/custom/group/field/option', "reset=1&action=browse&gid={$this->_gid}&fid={$this->_fid}" );
+        $filter    = "option_group_id = {$optionGroupID}";
+        require_once 'CRM/Utils/Weight.php';
+        CRM_Utils_Weight::addOrder( $customOption, 'CRM_Core_DAO_OptionValue',
+                                    'id', $returnURL, $filter );
         $this->assign('customOption', $customOption);
     }
 

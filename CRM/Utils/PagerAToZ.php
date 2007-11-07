@@ -87,8 +87,12 @@ class CRM_Utils_PagerAToZ
         if ( $isDAO ) {
             $result = $query;
         } else {
-            $result =& $query->searchQuery( null, null, null, false, false, true );
+            $result =& $query->alphabetQuery( );
         }
+        if ( ! $result ) {
+            return null;
+        }
+
         $dynamicAlphabets = array( );
         while ($result->fetch()) { 
             $dynamicAlphabets[] = $result->sort_name;
@@ -110,6 +114,10 @@ class CRM_Utils_PagerAToZ
     {
         $AToZBar          = self::getStaticCharacters();
         $dynamicAlphabets = self::getDynamicCharacters( $query, $isDAO );
+
+        if ( ! $dynamicAlphabets ) {
+            return null;
+        }
 
         $AToZBar = array_merge ( $AToZBar, $dynamicAlphabets );
         $AToZBar = array_unique( $AToZBar );

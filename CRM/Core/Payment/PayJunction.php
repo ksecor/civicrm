@@ -228,12 +228,10 @@ class CRM_Core_Payment_PayJunction extends CRM_Core_Payment
    /**
     * This function checks to see if we have the right config values 
     *
-    * @param  string $mode the mode we are operating in (live or test)
-    *
     * @return string the error message if any
     * @public
     */
-   function checkConfig( $mode ) 
+   function checkConfig( ) 
    {
        $error = array();
        if ( empty( $this->_paymentProcessor['user_name'] ) ) {

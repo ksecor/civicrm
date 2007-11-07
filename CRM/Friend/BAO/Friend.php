@@ -45,7 +45,6 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     {
         parent::__construct();
     }
-    
 
     /**
      * takes an associative array and creates a friend object
@@ -55,121 +54,145 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * pairs
      *
      * @param array  $params (reference ) an assoc array of name/value pairs
-     * @param array  $ids    the array that holds all the db ids
      *
      * @return object CRM_Friend_BAO_Friend object
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) 
+    static function add( &$params ) 
     {
-        $friendDAO =& new CRM_Friend_DAO_Friend();
-       
-        $friendDAO->copyValues($params);
-        $friendDAO->id = CRM_Utils_Array::value( 'friend', $ids );
-        $result = $friendDAO->save();
-        
-        return $result;
+        require_once 'CRM/Contact/BAO/Contact.php';        
+        $friend = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
+        return $friend;
     }
-
-    /**
-     * Given the list of params in the params array, returns the
-     * friend id 
-     *
-     * @param array $id     id of entity
-     * @param array $table  name of entity table 
-     *
-     * @return id|null the found id or null
-     * @access public
-     * @static
-     */
-    static function &getFriendId( $id, $table ) 
-    {
-        $friend =& new CRM_Friend_BAO_Friend( );  
-        $friend->entity_id    = $id;  
-        $friend->entity_table = $table;
-        
-        if ( $friend->find(true) ) {
-            $ids['friend'] = $friend->id;
-            return $ids;
-        }      
-        
-        return null;
-    }
-
-
 
     /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params input parameters to find object
-     * @param array $values output values of the object
-     * @param array $ids    the array that holds all the db ids
+     * @param array  $params input parameters to find object
+     * @param array  $values output values of the object
      *
-     * @return CRM_Friend_BAO_Friend|null the found object or null
+     * @return array $values values
      * @access public
      * @static
      */
-    static function &retrieve( &$params, &$values, &$ids ) 
+    static function retrieve( &$params, &$values ) 
     {
-        $friend =& new CRM_Friend_BAO_Friend( );
+        $friend =& new CRM_Friend_DAO_Friend( );
 
         $friend->copyValues( $params );
-        
-        if ( $friend->find(true) ) {
-            $ids['friend']    = $friend->id;            
 
-            CRM_Core_DAO::storeValues( $friend, $values );
-            
-            return $values;
-        }
-        return null;
+        $friend->find(true);
+       
+        CRM_Core_DAO::storeValues( $friend, $values );
+        
+        return $values;
     }
 
     /**
      * takes an associative array and creates a friend object
      *
      * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
      *
-     * @return object CRM_Friend_BAO_Friend object 
+     * @return object CRM_Contact_BAO_Contact object 
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) 
+    static function create( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-        
-        $friend = self::add($params, $ids);
-        
-        if ( is_a( $friend, 'CRM_Core_Error') ) {
-            $transaction->rollback( );
-            return $friend;
-        }
-        
-        $transaction->commit( );
-        
-        return $friend;
 
+        $mailParams = array( );
+        //create contact corresponding to each friend
+        foreach ( $params['friend'] as $key => $details ) {
+            if ( $details["first_name"] ) {
+                $contactParams[$key] = array( 'first_name'     => $details["first_name"],
+                                              'last_name'      => $details["last_name"], 
+                                              'contact_source' => ts( 'Tell a Friend:' ) . $params['title'],
+                                              'email-Primary'  => $details["email"] );  
+                
+                $mailParams['email'][$key] = $details["email"];
+            }
+        }
+
+        $frndParams = array( );
+        $frndParams['entity_id']    = $params['entity_id'];
+        $frndParams['entity_table'] = $params['entity_table'];  
+        self::getValues($frndParams);  
+        
+        require_once 'CRM/Activity/BAO/Activity.php';
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        
+        $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue','Tell a Friend','id','name' );
+        //friend contacts creation
+        foreach ( $contactParams as $key => $value ) {
+
+            //create contact only if it does not exits in db
+            $value['email'] = $value['email-Primary'];
+            $ids = CRM_Core_BAO_UFGroup::findContact( $value, null, true );
+        
+            if ( !$ids ) {
+                $contact = self::add( $value );
+            }
+
+            //create activity corresponding to each contact
+            $activityParams = array ( 'source_contact_id'  => $params['source_contact_id'],
+                                      'source_record_id'   => NULL,
+                                      'activity_type_id'   => $activityTypeId,
+                                      'target_contact_id'  => $contact,
+                                      'title'              => $params['title'],
+                                      'activity_date_time' => date("Ymd"), 
+                                      'subject'            => ts( 'Tell a Friend:' ) .$params['title'],
+                                      'details'            => $params['suggested_message'],
+                                      'is_test'            => $params['is_test'] );
+
+            //activity creation
+            $bao = new CRM_Activity_BAO_Activity;     
+            $activity = $bao->create( $activityParams );
+        }
+
+        $transaction->commit( );
+
+        //process sending of mails
+        $mailParams['title']        = $params['title'];       
+        $mailParams['general_link'] = $frndParams['general_link'];
+        $mailParams['message']      = $params['suggested_message'];
+        
+        if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $params['entity_id'], 'receipt_from_email', 'id' );            
+            $mailParams['page_url'  ] = CRM_Utils_System::url('civicrm/contribute/transact', "reset=1&id={$params['entity_id']}");
+            $mailParams['module'    ] = 'contribute';
+        } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $params['entity_id'], 'confirm_from_email' );
+            $mailParams['page_url'  ] = CRM_Utils_System::url('civicrm/event/info', "reset=1&id={$params['entity_id']}");
+            $mailParams['module'    ] = 'event';
+        } 
+
+        list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
+       
+        //send mail
+        self::sendMail( $params['source_contact_id'], $mailParams ); 
+        
     }
 
     /**
      * Function to build the form
      *
+     * @param object $form form object
+     *
      * @return None
      * @access public
      */
-    function buildFriendForm($form)
+    function buildFriendForm( $form )
     {
-       
         $form->addElement('checkbox', 'is_active', ts( 'Tell A Friend enabled?' ),null,array('onclick' =>"friendBlock(this)") );
         // name
         $form->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'title'), true);
         
         // intro-text and thank-you text
-        $form->add('textarea', 'intro', ts('Introductory'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
+        $form->add('textarea', 'intro', ts('Introduction'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'intro'), true);
 
         $form->add('textarea', 'suggested_message', ts('Suggested Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), false);
 
@@ -178,18 +201,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $form->add('text', 'thankyou_title', ts('Thank-you Title'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_title'), true );
 
         $form->add('textarea', 'thankyou_text', ts('Thank-you Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'thankyou_text') , true);
-        
-        $form->addButtons(array( 
-                                    array ( 'type'      => 'next',
-                                            'name'      => ts('Save'), 
-                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                            'isDefault' => true   ), 
-                                    array ( 'type'      => 'cancel', 
-                                            'name'      => ts('Cancel') ), 
-                                    ) 
-                              );
     }
-
+    
     /**
      * The function sets the deafult values of the form.
      *
@@ -199,7 +212,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function setDefaults(&$defaults)
+    static function getValues( &$defaults )
     {
         $friend =& new CRM_Friend_BAO_Friend( );
         $friend->copyValues( $defaults );        
@@ -216,30 +229,25 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @return void
      * @access public
      */
-    
     static function sendMail( $contactID, &$values )
     {   
         $template =& CRM_Core_Smarty::singleton( );
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        
-        $first_name = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'first_name');
-        $last_name  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $contactID, 'last_name');
-        $email      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Email',      $contactID, 'email', 'contact_id');
-          
+        list( $fromName, $email ) = CRM_Contact_BAO_Contact::getContactDetails( $contactID );
+
         // set details in the template here
-        $template->assign( $values['module'], $values['module'] );        
-        $template->assign( 'senderContactFirstName', $first_name ); 
-        $template->assign( 'senderContactLastName',  $last_name ); 
-        $template->assign( 'title', $values['title'] );
-        $template->assign( 'generalLink', $values['general_link'] );
-        $template->assign( 'pageURL', $values['page_url'] );
-        $template->assign( 'senderMessage', $values['message'] );
+        $template->assign( $values['module']  , $values['module'] );        
+        $template->assign( 'senderContactName', $fromName ); 
+        $template->assign( 'title',             $values['title'] );
+        $template->assign( 'generalLink',       $values['general_link'] );
+        $template->assign( 'pageURL',           $values['page_url'] );
+        $template->assign( 'senderMessage',     $values['message'] );
                 
         $subject = trim( $template->fetch( 'CRM/Friend/Form/SubjectTemplate.tpl' ) );
         $message = $template->fetch( 'CRM/Friend/Form/MessageTemplate.tpl' ); 
 
-        $emailFrom = '"' . $first_name.' '. $last_name.' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
+        $emailFrom = '"' . $fromName. ' (via '.$values['domain']. ')'. '" <' . $values['email_from'] . '>';
         
         require_once 'CRM/Utils/Mail.php';        
         foreach ( $values['email'] as $emailTo ) {
@@ -255,6 +263,32 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                       );
             }
         }            
+    }
+
+    /**
+     * takes an associative array and creates a tell a friend object
+     *
+     * the function extract all the params it needs to initialize the create/edit a
+     * friend object. the params array could contain additional unused name/value
+     * pairs
+     *
+     * @param array  $params (reference ) an assoc array of name/value pairs
+     *
+     * @return object CRM_Friend_BAO_Friend object
+     * @access public
+     * @static
+     */
+    static function addTellAFriend(&$params) 
+    {
+        $friendDAO =& new CRM_Friend_DAO_Friend();
+       
+        $friendDAO->copyValues($params);
+
+        $friendDAO->find( true );
+      
+        $result = $friendDAO->save();
+        
+        return $result;
     }
 }
 

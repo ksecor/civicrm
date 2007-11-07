@@ -227,12 +227,10 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
     /** 
      * This function checks to see if we have the right config values 
      * 
-     * @param  string $mode the mode we are operating in (live or test) 
-     * 
      * @return string the error message if any 
      * @public 
      */ 
-    function checkConfig( $mode ) {
+    function checkConfig( ) {
         $error = array( );
         if ( $this->_paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ||
              $this->_paymentProcessor['payment_processor_type'] == 'PayPal' ) {
@@ -265,15 +263,19 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             CRM_Core_Error::fatal( ts( 'Component is invalid' ) );
         }
         
-        $notifyURL = $config->userFrameworkResourceURL . "extern/ipn.php?reset=1&contactID={$params['contactID']}&contributionID={$params['contributionID']}&contributionTypeID={$params['contributionTypeID']}&module={$component}";
+        $notifyURL = 
+            $config->userFrameworkResourceURL . 
+            "extern/ipn.php?reset=1&contactID={$params['contactID']}" .
+            "&contributionID={$params['contributionID']}" .
+            "&contributionTypeID={$params['contributionTypeID']}" .
+            "&module={$component}";
 
         if ( $component == 'event' ) {
-            $notifyURL .= "&eventID={$params['eventID']}";
+            $notifyURL .= "&eventID={$params['eventID']}&participantID={$params['participantID']}";
         } else {
-            $selectMembership = CRM_Utils_Array::value( 'selectMembership', $params );
-            if ( $selectMembership &&
-                 $selectMembership != 'no_thanks' ) {
-                $notifyURL .= "&membershipTypeID=$selectMembership";
+            $membershipID = CRM_Utils_Array::value( 'membershipID', $params );
+            if ( $membershipID ) {
+                $notifyURL .= "&membershipID=$membershipID";
             }
         }
 

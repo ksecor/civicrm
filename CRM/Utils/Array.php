@@ -153,6 +153,14 @@ class CRM_Utils_Array {
                 $a3[$key] = $a1[$key];
             }
         }
+       
+        foreach ( $a2 as $key => $value) {
+            if ( array_key_exists($key, $a1) ) {
+                // already handled in above loop
+                continue;
+            }
+            $a3[$key] = $a2[$key];
+        }
 
         foreach ( $a2 as $key => $value) {
             if ( array_key_exists($key, $a1) ) {

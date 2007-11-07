@@ -57,11 +57,12 @@ $TT['TIME'] = ts('Time:');
 
 
 // generate the final JavaScript file
-
 header('Content-Type: application/x-javascript; charset=utf-8');
-//to speed up CiviCRM's apparent page rendering time, cache this
-//page of strings for an hour at a time:
-header("Cache-Control: max-age=3600, must-revalidate"); 
+
+// cache this file properly
+header('Expires: ' . date('r', time() + 86400));
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('Cache-Control: max_age=86400');
 
 print 'Calendar._DN = new Array("' . implode('", "', $DN) . "\",\"$DN[0]\");\n";
 print 'Calendar._SDN = new Array("' . implode('", "', $SDN) . "\",\"$SDN[0]\");\n";

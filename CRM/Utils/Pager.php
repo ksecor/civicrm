@@ -179,7 +179,10 @@ class CRM_Utils_Pager extends Pager_Sliding {
         $params['lastPageText']  = ts('Last &gt;&gt;') . ' ';
         $params['lastPagePost']  = '';
 
-        $params['currentPage'] = $this->getPageID      ( $params['pageID'], $params );
+        if ( isset( $params['pageID']) ) {
+            $params['currentPage'] = $this->getPageID( $params['pageID'], $params );
+        }
+
         $params['perPage']     = $this->getPageRowCount( $params['rowCount'] );
 
         return $params;

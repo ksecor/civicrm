@@ -1544,7 +1544,13 @@ function _crm_add_formatted_param(&$values, &$params) {
             /* check if it's a valid custom field id */
             if (!array_key_exists($customFieldID, $fields['custom'])) {
                 return _crm_error('Invalid custom field ID');
+            } else {
+                $customData = array( );
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $customData,
+                                                             $value, 'Individual', null, null );
+                $params['custom'] = $customData;
             }
+
             
             if (!isset($params['custom'])) {
                 $params['custom'] = array();

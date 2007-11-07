@@ -593,6 +593,7 @@ class CRM_Core_DAO extends DB_DataObject {
             eval( '$dao   =& new ' . $daoName . '( );' );
         }
         $queryStr = self::composeQuery( $query, $params, $abort, $dao );
+        //CRM_Core_Error::debug( 'q', $queryStr );
         $dao->query( $queryStr );
         return $dao;
     }
@@ -612,13 +613,15 @@ class CRM_Core_DAO extends DB_DataObject {
         $dao->query( $queryStr ); 
         
         $result = $dao->getDatabaseResult();
+        $ret    = null;
         if ( $result ) {
             $row = $result->fetchRow();
             if ( $row ) {
-                return $row[0];
+                $ret = $row[0];
             }
         }
-        return null;
+        $dao->free( );
+        return $ret;
     }
 
     static function composeQuery( $query, &$params, $abort, &$dao ) {
@@ -629,7 +632,8 @@ class CRM_Core_DAO extends DB_DataObject {
             if ( is_numeric( $key ) ) {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
                     $item[0] = $dao->escape( $item[0] );
-                    if ( $item[1] == 'String' ) {
+                    if ( $item[1] == 'String' ||
+                         $item[1] == 'Link'   ) {
                         if ( isset( $item[2] ) &&
                              $item[2] ) {
                             $item[0] = "'%{$item[0]}%'";
@@ -637,6 +641,12 @@ class CRM_Core_DAO extends DB_DataObject {
                             $item[0] = "'{$item[0]}'";
                         }
                     }
+                    if ( $item[1] == 'Date' &&
+                         strlen( $item[0] ) == 0 ) {
+                        // set a null date to the empty string
+                        $item[0] = 'null';
+                    }
+
                     $tr['%' . $key] = $item[0];
                 } else if ( $abort ) {
                     CRM_Core_Error::fatal( "{$item[0]} is not of type {$item[1]}" );

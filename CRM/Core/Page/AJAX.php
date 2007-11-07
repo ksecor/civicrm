@@ -86,8 +86,12 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         
         case 'caseSubject':
              return $this->caseSubject( $config );
+
         case 'template':
             return $this->template( $config );
+
+        case 'custom':
+            return $this->customField( $config );
 
         default:
             return;
@@ -101,24 +105,41 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) ); 
         
         $shared = null;
         if ( isset($_GET['sh']) ) {
             $shared = CRM_Utils_Type::escape( $_GET['sh'], 'Integer');
         }
+        
+        $relType = null;
+        if ( isset($_GET['reID']) ) {
+            $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
+            $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
+        }
+       
 
         if ( $shared ) {
             $query = "
-SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
-civicrm_household.contact_id 'id'
-FROM civicrm_household
-LEFT JOIN civicrm_location ON civicrm_location.entity_id=civicrm_household.contact_id 
-AND civicrm_location.is_primary=1 
-AND civicrm_location.entity_table='civicrm_contact'
-LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
-where household_name LIKE '$name%'
+SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
+civicrm_contact.id 'id'
+FROM civicrm_contact
+LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
+                                AND civicrm_address.is_primary=1
+                                 )
+WHERE civicrm_contact.contact_type='Household' AND household_name LIKE '$name%'
 ORDER BY household_name ";
+
+        } elseif($relType) {
+            $query = "
+SELECT c.sort_name, c.id
+FROM civicrm_contact c, civicrm_relationship_type r
+WHERE c.sort_name LIKE '$name%'
+AND c.domain_id = $domainID
+AND r.id = $relType
+AND c.contact_type = r.contact_type_{$rel}
+ORDER BY sort_name" ;
+            
         } else {
             $query = "
 SELECT sort_name, id
@@ -127,7 +148,7 @@ WHERE sort_name LIKE '$name%'
 AND domain_id = $domainID
 ORDER BY sort_name ";
         }
-
+        
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
@@ -143,7 +164,7 @@ ORDER BY sort_name ";
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements );
     }
-
+    
     /**
      * Function for building Event combo box
      */
@@ -423,6 +444,23 @@ ORDER BY subject";
         echo $json->encode( $elements );
     }
 
+    /**
+     * Function to fetch the custom field help 
+     */
+    function customField( &$config ) 
+    {
+        require_once 'CRM/Utils/Type.php';
+        $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
+
+        require_once "CRM/Core/DAO/CustomField.php";
+        $customField =& new CRM_Core_DAO_CustomField( );
+        $customField->id = $fieldId;
+        $customField->selectAdd( );
+        $customField->selectAdd( 'help_post' );
+        $customField->find( true );
+
+        echo $customField->help_post;
+    }
 
 }
 

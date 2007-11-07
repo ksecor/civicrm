@@ -3,6 +3,8 @@
     {include file="CRM/Member/Form/Membership.tpl"}
 {elseif $action eq 4}
     {include file="CRM/Member/Form/MembershipView.tpl"}
+{elseif $action eq 32768}  {* renew *}
+    {include file="CRM/Member/Form/MembershipRenewal.tpl"}
 {else}
     {if $permission EQ 'edit'}{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}{/if}
 
@@ -119,7 +121,7 @@
 </div>
 {/if}
 
-{if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4}
+{if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}
    <div class="messages status">
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>

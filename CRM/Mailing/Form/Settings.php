@@ -114,7 +114,7 @@ class CRM_Mailing_Form_Settings extends CRM_Core_Form
     {
         $params = $ids       = array( );
         
-        $uploadParams        = array('reply_id', 'unsubscribe_id', 'optout_id');
+        $uploadParams        = array('reply_id', 'unsubscribe_id', 'optout_id', 'resubscribe_id');
         $uploadParamsBoolean = array('forward_replies', 'url_tracking', 'open_tracking', 'auto_responder');
         
         foreach ( $uploadParams as $key ) {

@@ -88,6 +88,9 @@ foreach ( $params as $key => $value ) {
 }
 $filename = 'civicrm.settings.php';
 $fd = fopen( "$civicrm_root/" . $filename, "w" );
+if ( ! $fd ) {
+  die("Couldn't open ".$civicrm_root/$filename." for writing, check directory permissions.");
+}
 fputs( $fd, $data );
 fclose( $fd );
 
@@ -119,6 +122,7 @@ foreach ( $dbFilesToLoad as $file ) {
         $cmd .= "-S $dbSocketFile ";
     }
     $cmd .= "-D $dbName < $civicrm_root/$file";
+    //print "<p>$cmd</p>";
     exec( $cmd );
 }
 

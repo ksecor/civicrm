@@ -15,7 +15,7 @@
         <dl>
           <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
           <dd>    
-          {ts}Do you want to delete this message template ?{/ts}
+          {ts}Do you want to delete this message template?{/ts}
           </dd>
        </dl>
       </div>

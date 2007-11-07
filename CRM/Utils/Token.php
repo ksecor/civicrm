@@ -41,7 +41,6 @@ class CRM_Utils_Token
     static $_requiredTokens = null;
     
     static $_tokens = array( 'action'        => array( 
-                                                      'donate', 
                                                       'forward', 
                                                       'optOut',
                                                       'optOutUrl',
@@ -50,6 +49,10 @@ class CRM_Utils_Token
                                                       'unsubscribeUrl',
                                                       'resubscribe',
                                                       'resubscribeUrl'
+                                                      ),
+                             'mailing'       => array(
+                                                      'name',
+                                                      'group'
                                                       ),
                              'contact'       => null,  // populate this dynamically
                              'domain'        => array( 
@@ -201,6 +204,8 @@ class CRM_Utils_Token
         // check if the token we were passed is valid
         // we have to do this because this function is
         // called only when we find a token in the string
+
+        $loc =& $domain->getLocationValues();
         if ( !in_array($token, self::$_tokens['domain']) ) {
             $value = "{domain.$token}";
         } else if ($token == 'address') {
@@ -212,7 +217,6 @@ class CRM_Utils_Token
             }
             
             require_once 'CRM/Utils/Address.php';
-            $loc =& $domain->getLocationValues();
             $value = null;
             /* Construct the address token */
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
@@ -227,10 +231,8 @@ class CRM_Utils_Token
             $value = null;
             if ( CRM_Utils_Array::value( $token, $loc ) ) {
                 foreach ($loc[$token] as $index => $entity) {
-                    if ($entity->is_primary) {
-                        $value = $entity->$token;
-                        break;
-                    }
+                    $value = $entity[$token];
+                    break;
                 }
             }
         }
@@ -355,7 +357,7 @@ class CRM_Utils_Token
              $groups = $mailing  ? $mailing->getGroupNames() : array('Mailing Groups');
              $value = implode(', ', $groups);
          }
-         
+        
          return $value;
      }
 
@@ -581,6 +583,41 @@ class CRM_Utils_Token
     }
 
     /**
+     * Replace subscription-invitation tokens
+     * 
+     * @param string $str           The string with tokens to be replaced
+     * @return string               The processed string
+     * @access public
+     * @static
+     */
+    public static function &replaceSubscribeInviteTokens($str) 
+    {
+        if (preg_match('/\{action\.subscribeUrl\}/', $str )) {
+            $url   = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1' );
+            $str = preg_replace('/\{action\.subscribeUrl\}/', $url, $str );
+        }
+
+        if ( preg_match('/\{action\.subscribeUrl.\d+\}/', $str, $matches) ) {
+            foreach ( $matches as $key => $value ) {
+                $gid = substr($value, 21, -1);
+                $url = CRM_Utils_System::url( 'civicrm/mailing/subscribe', 'reset=1&gid='.$gid );
+                $url = str_replace('&amp;', '&', $url);
+                $str = preg_replace('/'.preg_quote($value).'/', $url, $str );
+            }
+        }
+
+        if ( preg_match('/\{action\.subscribe.\d+\}/', $str, $matches) ) {
+            foreach ( $matches as $key => $value ) {
+                $gid = substr($value, 18, -1);
+                $config =& CRM_Core_Config::singleton();
+                $domain = CRM_Core_BAO_Domain::getDomainByID($config->domainID());
+                $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
+            }
+        }
+        return $str;
+    }
+    
+    /**
      * Replace welcome/confirmation tokens
      * 
      * @param string $str           The string with tokens to be replaced
@@ -608,7 +645,8 @@ class CRM_Utils_Token
      */
     public static function &unmatchedTokens(&$str) 
     {
-        preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
+        //preg_match_all('/[^\{\\\\]\{(\w+\.\w+)\}[^\}]/', $str, $match);
+        preg_match_all('/\{(\w+\.\w+)\}/', $str, $match);
         return $match[1];
     }
 }

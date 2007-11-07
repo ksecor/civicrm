@@ -4,8 +4,8 @@
 
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
- {* Including the javascript source code from the Individual.js *}
- <script type="text/javascript" src="{$config->resourceBase}js/Individual.js"></script>
+ {* Including the javascript source code from the Contact.js *}
+ <script type="text/javascript" src="{$config->resourceBase}js/Contact.js"></script>
  
  <div class="crm-submit-buttons">
     {$form.buttons.html}

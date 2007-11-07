@@ -60,33 +60,11 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
      * @access public
      * 
      */
-    public function createTarget( $activity_id, $target_contact_id ) 
+    public function create( &$params ) 
     {
-        $this->activity_id = $activity_id;
-        $this->target_contact_id = $target_contact_id;
+        $this->copyValues( $params );
         return $this->save();
     }
-
-    /**
-     * Update record for activity id in activity_assignment
-     *
-     * @param int    $id  ID of the activity for which the records needs to be deleted.
-     * @param int    $assignee_contact_id contact id for assignee
-     * 
-     * @return void
-     * 
-     * @access public
-     * 
-     */
-    public function updateTarget( $id, $target_contact_id )
-    {  
-        $this->id = $id;
-        if( $this->find( true ) ) {
-            $this->target_contact_id = $target_contact_id;
-            return $this->save();
-        }
-    }
-
 
     /**
      * function to remove activity target

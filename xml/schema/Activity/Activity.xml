@@ -94,7 +94,7 @@
   </field>
 
   <field>
-       <name>scheduled_date_time</name>
+       <name>scheduled_date</name>
        <type>datetime</type>
        <comment>Date and time meeting is scheduled to occur.</comment>
        <add>1.1</add>

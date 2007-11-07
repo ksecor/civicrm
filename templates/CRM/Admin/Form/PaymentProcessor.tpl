@@ -13,7 +13,7 @@
   </div>
 {else}
   <dl>
-    <dt>{$form.payment_processor_type.label}</dt><dd>{$form.payment_processor_type.html}</dd>
+    <dt>{$form.payment_processor_type.label}</dt><dd>{$form.payment_processor_type.html} {help id='proc-type'}</dd>
     <dt>{$form.name.label}</dt><dd>{$form.name.html}</dd>
     <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_active.html} {$form.is_active.label}</dd>
@@ -21,23 +21,23 @@
 
 <fieldset>
 <legend>Processor Details for Live Payments</legend>
-    <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html}</dd>
+    <dt>{$form.user_name.label}</dt><dd>{$form.user_name.html} {help id=$ppType|cat:'-live-user-name'}</dd>
 {if $form.password}
-    <dt>{$form.password.label}</dt><dd>{$form.password.html}</dd>
+    <dt>{$form.password.label}</dt><dd>{$form.password.html} {help id=$ppType|cat:'-live-password'}</dd>
 {/if}
 {if $form.signature}
-    <dt>{$form.signature.label}</dt><dd>{$form.signature.html}</dd>
+    <dt>{$form.signature.label}</dt><dd>{$form.signature.html} {help id=$ppType|cat:'-live-signature'}</dd>
 {/if}
 {if $form.subject}
     <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
 {/if}
-    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge}</dd>
+    <dt>{$form.url_site.label}</dt><dd>{$form.url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-site'}</dd>
     <dt>{$form.url_api.label}</dt><dd>{$form.url_api.html|crmReplace:class:huge}</dd>
 {if $is_recur}
-    <dt>{$form.url_recur.label}</dt><dd>{$form.url_recur.html|crmReplace:class:huge}</dd>
+    <dt>{$form.url_recur.label}</dt><dd>{$form.url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-recur'}</dd>
 {/if}
 {if $form.url_button}
-    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html|crmReplace:class:huge}</dd>
+    <dt>{$form.url_button.label}</dt><dd>{$form.url_button.html|crmReplace:class:huge} {help id=$ppType|cat:'-live-url-button'}</dd>
 {/if}
 </fieldset>
 
@@ -45,21 +45,21 @@
 <legend>Processor Details for Test Payments</legend>
     <dt>{$form.test_user_name.label}</dt><dd>{$form.test_user_name.html} {help id=$ppType|cat:'-test-user-name'}</dd>
 {if $form.test_password}
-    <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html}</dd>
+    <dt>{$form.test_password.label}</dt><dd>{$form.test_password.html} {help id=$ppType|cat:'-test-password'}</dd>
 {/if}
 {if $form.test_signature}
-    <dt>{$form.test_signature.label}</dt><dd>{$form.test_signature.html}</dd>
+    <dt>{$form.test_signature.label}</dt><dd>{$form.test_signature.html} {help id=$ppType|cat:'-test-signature'}</dd>
 {/if}
 {if $form.test_subject}
     <dt>{$form.test_subject.label}</dt><dd>{$form.test_subject.html}</dd>
 {/if}
-    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge}</dd>
+    <dt>{$form.test_url_site.label}</dt><dd>{$form.test_url_site.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-site'}</dd>
     <dt>{$form.test_url_api.label}</dt><dd>{$form.test_url_api.html|crmReplace:class:huge}</dd>
 {if $is_recur}
-    <dt>{$form.test_url_recur.label}</dt><dd>{$form.test_url_recur.html|crmReplace:class:huge}</dd>
+    <dt>{$form.test_url_recur.label}</dt><dd>{$form.test_url_recur.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-recur'}</dd>
 {/if}
 {if $form.test_url_button}
-    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html|crmReplace:class:huge}</dd>
+    <dt>{$form.test_url_button.label}</dt><dd>{$form.test_url_button.html|crmReplace:class:huge} {help id=$ppType|cat:'-test-url-button'}</dd>
 {/if}
 </fieldset>
 

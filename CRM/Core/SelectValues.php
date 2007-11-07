@@ -427,7 +427,6 @@ class CRM_Core_SelectValues
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
         } elseif ($type == 'datetime') {
             require_once 'CRM/Utils/Date.php';
-            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -505,10 +504,10 @@ class CRM_Core_SelectValues
                                  'Footer'      => ts('Footer'),
                                  'Reply'       => ts('Reply Auto-responder'),
                                  'OptOut'      => ts('Opt-out Message'),
-                                 'Subscribe'   => ts('Subscription Message'),
+                                 'Subscribe'   => ts('Subscription Confirmation Request'),
                                  'Welcome'     => ts('Welcome Message'),
-                                 'Unsubscribe' => ts('Farewell Message'),
-                                 'Resubscribe' => ts('Resubscription Message'),
+                                 'Unsubscribe' => ts('Unsubscribe Message'),
+                                 'Resubscribe' => ts('Resubscribe Message'),
                                  );
         }
         return $components;

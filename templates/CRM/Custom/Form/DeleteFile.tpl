@@ -4,7 +4,7 @@
       <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
         <dd>
-          {ts}WARNING: Are you sure you want to delete the attached file ?{/ts}
+          {ts}WARNING: Are you sure you want to delete the attached file?{/ts}
         </dd>
       </dl>
     </div>

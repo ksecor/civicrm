@@ -32,7 +32,7 @@
  * $Id$
  *
  */
-
+require_once 'CRM/Core/OptionGroup.php';
 require_once 'CRM/Core/DAO/CustomField.php';
 require_once 'CRM/Core/DAO/CustomGroup.php';
 require_once 'CRM/Core/BAO/CustomOption.php';
@@ -334,8 +334,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         $field =& new CRM_Core_DAO_CustomField();
         $field->id = $fieldId;
         if (! $field->find(true)) {
-            /* FIXME: failure! */
-            return null;
+            CRM_Core_Error::fatal( );
         }
         
         if (!isset($label)) {
@@ -400,8 +399,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                          CRM_Core_SelectValues::date( 'custom', 
                                                       $field->start_date_years,
                                                       $field->end_date_years,
-                                                      $field->date_parts),
-                         (( $useRequired ||( $useRequired && $field->is_required) ) && !$search));
+                                                      $field->date_parts ),
+                         ( ( $useRequired ||( $useRequired && $field->is_required ) ) && !$search ) );
             }
             break;
 
@@ -765,7 +764,8 @@ DELETE g.*
         $customField->find(true);
         
         require_once "CRM/Profile/Form.php";
-
+        
+        $value = null;
         $value = null;
         if ( ! $contactId ) {
             if ($mode == CRM_Profile_Form::MODE_CREATE ) {
@@ -803,7 +803,6 @@ DELETE g.*
                             $value = $co->value;
                         }
                     }
-                    //$value = $cv->decimal_data;
                     break;
                 case 'Memo':
                     $value = $cv->memo_data;
@@ -824,7 +823,6 @@ DELETE g.*
                     }
                 }
             }
-
         }
         
         //set defaults if mode is registration / edit
@@ -978,7 +976,7 @@ SELECT id
                 $value = 
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
                     implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,
-                             array_keys( $value ) ) .
+                             array_values( $value ) ) .
                     CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
             } else {
                 $value = '';

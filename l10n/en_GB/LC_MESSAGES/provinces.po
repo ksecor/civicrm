@@ -4,7 +4,7 @@
 # make sure you license it to CiviCRM LLC under Academic Free License 3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM 1.8\n"
+"Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
 "PO-Revision-Date: 2007-05-27 11:08-0700\n"
 "Last-Translator: Alain Lasserre <alwin4711@gmx.net>\n"
@@ -4309,8 +4309,8 @@ msgstr "Thurrock"
 msgid "Torbay"
 msgstr "Torbay"
 
-msgid "Torfasn"
-msgstr "Torfasn"
+msgid "Torfaen"
+msgstr ""
 
 msgid "Tower Hamlets"
 msgstr "Tower Hamlets"

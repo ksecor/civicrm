@@ -24,6 +24,7 @@
         <name>bounce_type_id</name>
         <table>civicrm_mailing_bounce_type</table>
         <key>id</key>
+        <onDelete>CASCADE</onDelete>
     </foreignKey>
     <field>
         <name>pattern</name>

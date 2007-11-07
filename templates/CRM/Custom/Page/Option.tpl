@@ -25,7 +25,7 @@
             <td>{$row.label}</td>
             <td>{$row.value}</td>
             <td>{$row.default_value}</td>
-            <td>{$row.weight}</td>
+            <td class="nowrap">{$row.weight}</td>
             <td>{if $row.is_active eq 1} {ts}Active{/ts} {else} {ts}Inactive{/ts} {/if}</td>
             <td>{$row.action}</td>
         </tr>

@@ -1,8 +1,8 @@
 {if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
 {/if}
-
-{ts}Thanks for your support.{/ts}
-
+{if $formValues.receipt_text }
+{$formValues.receipt_text}
+{else}{ts}Thanks for your support.{/ts}{/if}
 
 {ts}Please print this receipt for your records.{/ts}
 
@@ -13,7 +13,9 @@
 ===========================================================
 {ts}Contribution Type{/ts}: {$formValues.contributionType_name}
 {ts}Total Amount{/ts}: {$formValues.total_amount|crmMoney}
+{if $receive_date}
 {ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
+{/if}
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {/if}

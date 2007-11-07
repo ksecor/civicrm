@@ -33,27 +33,30 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Component/Config.php';
 
-class CRM_Mailing_Config {
+class CRM_Mailing_Config extends CRM_Core_Component_Config {
 
     /**
-     * Function to add additional config paramters to the core Config class
-     * if CiviContribute is enabled
+      * What should be the verp separator we use
+      *
+      * @var char
+      */
+    public $verpSeparator = '.';
+
+    /**
+     * How long should we wait before checking for new outgoing mailings?
      *
-     * Note that this config class prevent code bloat in the Core Config class,
-     * however we declare all the variables assigned here, more for documentation
-     * than anything else, at some point, we'll figure out how to extend a class
-     * and properties dynamically in PHP (like Ruby)
-     *
-     * @param CRM_Core_Config (reference ) the system config object
-     *
-     * @return void
-     * @static
-     * @access public
+     * @var int
      */
-    static function add( &$config ) {
-    }
+   public $mailerPeriod    = 180;
+                           
+   /**
+    * How many emails should CiviMail deliver on a given run
+    *
+    * @var int
+    */
+   public $mailerBatchLimit = 0;
 
 }
 

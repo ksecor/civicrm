@@ -68,7 +68,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             //set in session
             $templateId = $this->get('template');
             
-            if ( $defaults['msg_template_id'] && !$templateId ) {
+            if ( isset($defaults['msg_template_id']) && !$templateId ) {
                 $defaults['template'] = $defaults['msg_template_id'];
                 $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
                 $messageTemplate->id = $defaults['msg_template_id'];
@@ -80,24 +80,25 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $htmMessage = $messageTemplate->msg_html;
             }
 
-            if ( $defaults['body_text'] ) {
+            if ( isset( $defaults['body_text'] ) ) {
                 $defaults['text_message'] = $defaults['body_text'];
                 $this->set('textFile', $defaults['body_text'] );
                 $session->set('skipTextFile', true);
             }
 
-            if ( $defaults['body_html'] ) {
+            if ( isset( $defaults['body_html'] ) ) {
                 $htmlMessage = $defaults['body_html'];
                 $this->set('htmlFile', $defaults['body_html'] );
                 $session->set('skipHtmlFile', true);
             }
         }
         
-        if ( !$htmlMessage ) {
+        if ( !$htmlMessage ) { 
             $htmlMessage = $this->getElementValue( "html_message" );
         }
         
-        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);        
+        $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
+        $htmlMessage = str_replace( "'", "\'", $htmlMessage);
         $this->assign('message_html', $htmlMessage );        
 
         $domain = new CRM_Core_DAO_Domain( );
@@ -156,16 +157,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     ts('Text Message'),
                     array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
 
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.Editor2');" );
-        
-        $dojoAttributes = array( 'dojoType'             => 'Editor2',
-                                 'style'                => 'min-height:250px',
+        $this->assign( 'dojoIncludes',"dojo.require('dijit.Editor');", "dojo.require('dojo.parser');");
+                
+        $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
+                                 'height'               => '250 px',
                                  'id'                   => 'html_message',
-                                 'htmlEditing'          => 'true',
-                                 'useActiveX'           => 'true',
-                                 'shareToolbar'         => 'false',
-                                 'toolbarAlwaysVisible' => 'true',
-                                 'onkeyup'              => 'return verify( )'
+                                 'styleSheets'          => "packages/dojo/dojo/resources/dojo.css",                                
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
@@ -187,7 +184,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
-        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'));
+        $values = array('mailing_id'    => $this->get('mailing_id'));
+
+        $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
         
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -318,7 +317,11 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         require_once 'CRM/Core/BAO/Domain.php';
 
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();
-        $mailing = null;
+
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing = & new CRM_Mailing_BAO_Mailing();
+        $mailing->id = $options['mailing_id'];
+        $mailing->find(true);
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
@@ -384,10 +387,12 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $skipTextFile = $session->get('skipTextFile');
         $skipHtmlFile = $session->get('skipHtmlFile');
 
-        if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
-             ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
-            if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
-                $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+        if( !$params['upload_type'] ) { 
+            if ( ( ! isset( $files['textFile'] ) || ! file_exists( $files['textFile']['tmp_name'] ) ) &&
+                 ( ! isset( $files['htmlFile'] ) || ! file_exists( $files['htmlFile']['tmp_name'] ) ) ) {
+                if ( ! ( $skipTextFile || $skipHtmlFile ) ) {
+                    $errors['textFile'] = ts('Please provide either a Text or HTML formatted message - or both.');
+                }
             }
         } else {
             if ( !($params['text_message']) && !($params['html_message']) ) {
@@ -443,16 +448,19 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             
             require_once 'CRM/Mailing/BAO/Mailing.php';
             $dummy_mail = new CRM_Mailing_BAO_Mailing();
-            $dummy_mail->body_text = $str;
+            $mess = "body_{$file}";
+            $dummy_mail->$mess = $str;
             $tokens = $dummy_mail->getTokens();
-            
-            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens['text']);
+
+            $str = CRM_Utils_Token::replaceSubscribeInviteTokens($str);
+            $str = CRM_Utils_Token::replaceDomainTokens($str, $domain, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceMailingTokens($str, $mailing, null, $tokens[$file]);
             $str = CRM_Utils_Token::replaceOrgTokens($str, $org);
-            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens['text']);
-            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens['text']);
+            $str = CRM_Utils_Token::replaceActionTokens($str, $verp, $urls, null, $tokens[$file]);
+            $str = CRM_Utils_Token::replaceContactTokens($str, $contact, null, $tokens[$file]);
             
             $unmatched = CRM_Utils_Token::unmatchedTokens($str);
+
             if (! empty($unmatched)) {
                 foreach ($unmatched as $token) {
                     $dataErrors[]   = '<li>'

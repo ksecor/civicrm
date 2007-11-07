@@ -80,7 +80,14 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                                                                                 "location[$locationId][is_primary]", 
                                                                                 ts('Primary location for this contact'),  
                                                                                 ts('Primary location for this contact'), 
-                                                                                array('onchange' => "location_is_primary_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks);" ) );
+                                                                                array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_primary');" ) );
+
+                $location[$locationId]['is_billing']       =& $form->addElement(
+                                                                                'checkbox', 
+                                                                                "location[$locationId][is_billing]", 
+                                                                                ts('Billing location for this contact'),  
+                                                                                ts('Billing location for this contact'), 
+                                                                                array('onchange' => "location_onclick('" . $form->getName() . "', $locationId, $maxLocationBlocks, 'is_billing');" ) );
             }
             
             CRM_Contact_Form_Address::buildAddressBlock($form, $location, $locationId );
@@ -98,7 +105,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
                 CRM_Contact_Form_IM::buildIMBlock         ($form, $location, $locationId, self::BLOCKS); 
                 CRM_Contact_Form_OpenID::buildOpenIDBlock ($form, $location, $locationId, self::BLOCKS);
             } else {
-                $blockCount = self::BLOCKS;
+                $blockCount = $maxLocationBlocks;
                 foreach ( $locationCompoments as $key) {
                     eval('CRM_Contact_Form_' . $key . '::build' . $key . 'Block( $form ,$location , $locationId , $blockCount );');
                 }
@@ -162,7 +169,7 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
      *
      * @return void
      */
-    function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null ) {
+    function updateShowHide( &$showHide, &$values, $maxLocationBlocks, $prefixBlock = null, $showHideLocation=true ) {
         if ( empty( $values ) || $maxLocationBlocks <= 0 ) {
             return;
         }
@@ -196,7 +203,9 @@ class CRM_Contact_Form_Location extends CRM_Core_Form
             if(!$locationFlag) {
                 continue;
             }
-            $showHide->addShow( "id_location_{$locationId}" );
+            if ( $showHideLocation ) {
+                $showHide->addShow( "id_location_{$locationId}" );
+            }
             if ( $locationId != 1 ) {
                 $showHide->addHide( "id_location_{$locationId}_show" );
             }

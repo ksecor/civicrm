@@ -194,10 +194,17 @@ class CRM_Profile_Form extends CRM_Core_Form
         foreach ( $this->_fields as $name => $field ) {
             if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID($name) ) {
                 
-                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
+                $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                         $customFieldID,
+                                                         'html_type',
+                                                         'id' );
                 
                 if ( !isset( $defaults[$name] ) || $htmlType == 'File') {
-                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID, $name, $defaults, $this->_id, $this->_mode );
+                    CRM_Core_BAO_CustomField::setProfileDefaults( $customFieldID,
+                                                                  $name,
+                                                                  $defaults,
+                                                                  $this->_id,
+                                                                  $this->_mode );
                 }
                 
                 if ( $htmlType == 'File') {
@@ -598,7 +605,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
         
-        if ($this->_mode == self::MODE_CREATE){
+        if ($this->_mode == self::MODE_CREATE) {
             foreach ($params as $name => $field ) {
                 if(substr( $name, 0, 5 ) == 'email' ) {                
                     $email = $name;

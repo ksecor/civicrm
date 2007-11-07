@@ -92,7 +92,7 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
      */
     public static function formRule(&$params) 
     {
-        if ( isset($params['now']) ) {
+        if ( isset($params['now']) || $params['_qf_Schedule_back'] == '<< Previous' ) {
             return true;
         }
         if (! CRM_Utils_Rule::qfDate($params['start_date'])) {
@@ -133,7 +133,6 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
             
             if ( ! $mailing->is_template) {
                 $job->status = 'Scheduled';
-                $job->is_test = false;
                 if ($params['now']) {
                     $job->scheduled_date = date('YmdHis');
                 } else {

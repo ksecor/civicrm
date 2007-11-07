@@ -88,9 +88,9 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $dao->id = $this->_pid;
             $dao->find(true);
             $defaults['product_id']    = $dao->product_id;
-            $defaults['sort_position'] = $dao->sort_position;
+            $defaults['weight'] = $dao->weight;
         }
-        if(! isset ($defaults['sort_position']) || !( $defaults['sort_position'])) {
+        if(! isset ($defaults['weight']) || !( $defaults['weight'])) {
             $pageID    = CRM_Utils_Request::retrieve('id', 'Positive',
                                                      $this, false, 0);
             require_once 'CRM/Contribute/DAO/Premium.php';
@@ -100,11 +100,11 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
             $dao->find(true);
             $premiumID = $dao->id;
                         
-            $sql = 'SELECT max( sort_position ) as max_weight FROM civicrm_premiums_product WHERE premiums_id = %1';
+            $sql = 'SELECT max( weight ) as max_weight FROM civicrm_premiums_product WHERE premiums_id = %1';
             $params = array( 1 => array( $premiumID, 'Integer' ));
             $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
             $dao->fetch();
-            $defaults['sort_position'] = $dao->max_weight + 1 ;
+            $defaults['weight'] = $dao->max_weight + 1 ;
         }
         RETURN $defaults;
     }
@@ -166,9 +166,9 @@ class CRM_Contribute_Form_ContributionPage_AddProduct extends CRM_Contribute_For
 
         $this->add('select', 'product_id', ts('Select the Product') . ' ', $this->_products ,true);
      
-        $this->addElement('text','sort_position', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'sort_position') );
+        $this->addElement('text','weight', ts('Weight'),CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_PremiumsProduct', 'weight') );
              
-        $this->addRule('sort_position',ts('Please enter integer value for weight') , 'integer');
+        $this->addRule('weight',ts('Please enter integer value for weight') , 'integer');
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
         $session->pushUserContext( CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'action=update&reset=1&id=' . $this->_id .'&subPage=Premium') );

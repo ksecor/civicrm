@@ -262,13 +262,16 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
         require_once 'CRM/Core/BAO/LocationType.php';
         $defaultLocationType =& CRM_Core_BAO_LocationType::getDefault();
-
-        $location = array();
-        for ($locationId = 1; $locationId <= self::LOCATION_BLOCKS ; $locationId++) { // start of for loop for location
-            $params['location'][$locationId]['location_type_id'] = $defaultLocationType->id;
-            $location[$locationId] = CRM_Core_BAO_Location::add($params, $this->_ids, $locationId);
-        }
         
+        $location = array();
+        $params['location'][1]['location_type_id'] = $defaultLocationType->id;
+        $location = CRM_Core_BAO_Location::create($params, $this->_ids, 'domain');
+        
+        $params['loc_block_id'] = $location['id'];
+        
+        require_once 'CRM/Core/BAO/Domain.php';
+        CRM_Core_BAO_Domain::edit($params, $this->_id);
+            
         CRM_Core_Session::setStatus( ts('Domain information for "%1" has been saved.', array( 1 => $domain->name )) );
         $session =& CRM_Core_Session::singleton( );
         $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );

@@ -169,10 +169,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         } else {
             // this is update mode, first get the id from the session
             // else get it from the REQUEST
-            $ids = $this->get('ids');
-	    //	    CRM_Core_Error::debug('p', $_REQUEST);
-
-            $this->_contactId = CRM_Utils_Array::value( 'contact', $ids );
           
             if ( ! $this->_contactId ) {
                 $this->_contactId   = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this, true );
@@ -197,8 +193,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 CRM_Utils_System::setTitle( $contactImage . ' ' . $displayName ); 
 
                 //get the no of locations for the contact
-                //TO DO: commented due to schema changes
-                //$this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
+                $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 return;
             }
 
@@ -220,7 +215,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
 
         $config =& CRM_Core_Config::singleton( );
 
-        //TO DO: commented because of schema changes
         if ( $this->_action & CRM_Core_Action::ADD ) {
             if ( $this->_showTagsAndGroups ) {
                 // set group and tag defaults if any
@@ -256,23 +250,22 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
                     }
                 }
-                $defaults['location'][1]['is_primary'] = true;
             }
         } else { 
             // this is update mode
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
-            $ids = array();
-            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults, $ids );
-            $this->set( 'ids', $ids );
+            $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
             
             $locationExists = array( );
-
-            foreach( $contact->location as $loc) {
+            
+            foreach( $contact->location as $index => $loc) {
                 $locationExists[] = $loc['location_type_id'];
+                //to get the billing location
+                $defaults['location'][$index]['is_billing'] = $defaults['location'][$index]['address']['is_billing'];
             }
             $this->assign( 'locationExists' , $locationExists );
-
+            
             $this->assign( 'contactId' , $this->_contactId );
             // also set contact_type, since this is used in showHide routines 
             // to decide whether to display certain blocks (demographics)
@@ -291,21 +284,21 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $domainID      =  CRM_Core_Config::domainID( );   
                 $query         =  "
 SELECT CONCAT_WS( ', ', household_name, LEFT( street_address, 25 ) , city ) 'shared_name', 
-civicrm_household.contact_id 'id'
-FROM civicrm_household
-LEFT JOIN civicrm_location ON civicrm_location.entity_id={$defaults['mail_to_household_id']} 
-AND civicrm_location.is_primary=1 
-AND civicrm_location.entity_table='civicrm_contact'
-LEFT JOIN civicrm_address ON civicrm_address.location_id=civicrm_location.id
-where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
+civicrm_contact.id 'id'
+FROM civicrm_contact, civicrm_address
+WHERE civicrm_address.contact_id = civicrm_contact.id 
+   AND civicrm_address.is_primary=1 AND civicrm_contact.id={$defaults['mail_to_household_id']}";
                 
-                $nullArray = array( );
-                $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 $dao->fetch( );
                 $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
         }
+        
+        //check primary for first location
+        $defaults['location'][1]['is_primary'] = true;
 
+               
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
         } else {
@@ -346,7 +339,6 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
 
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
-                        // hack, check if we have created a country element
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
                         if ( $countryValue ) {
                             if ( ! is_numeric( $countryValue ) ) {
@@ -611,13 +603,9 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
 
         // action is taken depending upon the mode
-        $ids = array();
         require_once 'CRM/Utils/Hook.php';
-        if ($this->_action & CRM_Core_Action::UPDATE) {
-            // if update get all the valid database ids
-            // from the session
-            $ids = $this->get('ids');
-            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            CRM_Utils_Hook::pre( 'edit', $params['contact_type'], null, $params );
         } else {
             CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params );
         }
@@ -681,7 +669,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
         }
         
         require_once 'CRM/Contact/BAO/Contact.php';
-        $contact =& CRM_Contact_BAO_Contact::create($params, $ids, $this->_maxLocationBlocks, true, false );
+        $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {
@@ -855,11 +843,8 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                     }
                 }
                 require_once 'CRM/Core/BAO/Location.php';
-                //  for checking duplicate location type.
-                //print "\$ids:";
-                //print_r($ids);
-                //print "<br/>";
-                if (CRM_Core_BAO_Location::dataExists( $fields, $locationId, $ids )) {
+                // for checking duplicate location type.
+                if ( CRM_Core_BAO_Location::dataExists( $fields ) ) {
                     if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
                         $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
                     }

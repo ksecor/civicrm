@@ -151,7 +151,7 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
      * @access public
      * @static
      */
-    static function &getValues( &$params, &$values, &$ids, $numNotes = self::MAX_NOTES ) {
+    static function &getValues( &$params, &$values, $numNotes = self::MAX_NOTES ) {
         $note =& new CRM_Core_BAO_Note( );
        
         $note->entity_id    = $params['contact_id'] ;        
@@ -166,11 +166,9 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
         $note->find();
 
         $notes       = array( );
-        $ids['note'] = array( );
         $count = 0;
         while ( $note->fetch() ) {
             $values['note'][$note->id] = array();
-            $ids['note'][] = $note->id;
             
             CRM_Core_DAO::storeValues( $note, $values['note'][$note->id] );
 

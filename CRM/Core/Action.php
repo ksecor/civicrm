@@ -65,7 +65,8 @@ class CRM_Core_Action {
         MAP           =   4096,
         PROFILE       =   8192,
         COPY          =  16384,
-        MAX_ACTION    =  32767;
+        RENEW         =  32768,
+        MAX_ACTION    =  65535;
    
   
     /**
@@ -92,6 +93,7 @@ class CRM_Core_Action {
                            'map'           => self::MAP,
                            'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
+                           'renew'         => self::RENEW,
                            );
 
     /**

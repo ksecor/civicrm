@@ -181,11 +181,15 @@ SELECT f.id, f.label, f.data_type,
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
-            if ( $dao->html_type == 'CheckBox' ||
-                 $dao->html_type == 'Radio'    ||
-                 $dao->html_type == 'Select'   ||
-                 $dao->html_type == 'Multi-Select' ) {
-                $optionIds[] = $dao->option_group_id;
+            if ( ( $dao->html_type == 'CheckBox' ||
+                   $dao->html_type == 'Radio'    ||
+                   $dao->html_type == 'Select'   ||
+                   $dao->html_type == 'Multi-Select' ) ) {
+                if ( $dao->option_group_id ) {
+                    $optionIds[] = $dao->option_group_id;
+                } else if ( $dao->data_type != 'Boolean' ) {
+                    CRM_Core_Error::fatal( );
+                }
             }
         }
 
