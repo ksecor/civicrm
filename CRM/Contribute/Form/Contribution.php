@@ -181,7 +181,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Contribution', $this->_id, 0, $this->_contributionType);       
     }
 
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         $defaults = array( );
         require_once 'CRM/Core/ShowHideBlocks.php';
         $showHide =& new CRM_Core_ShowHideBlocks( );
@@ -353,15 +354,6 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $element->freeze( );
         }
         
-        /*
-        $statusOption = array();
-        $statusOption[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Completed'), 1 );
-        $statusOption[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Pending'), 2 );
-        $this->addGroup( $statusOption, 'contribution_status_id', ts('Status Option') );
-        */
-        
         $this->add('select', 'contribution_status_id',
                    ts('Contribution Status'), 
                    CRM_Contribute_PseudoConstant::contributionStatus( ),
@@ -497,7 +489,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
      * @access public  
      * @static  
      */  
-    static function formRule( &$fields, &$files, $self ) {  
+    static function formRule( &$fields, &$files, $self ) 
+    {  
         $errors = array( ); 
       
         if (isset($fields["contribution_honor"])) {

@@ -211,7 +211,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
 
                 $this->set( 'paymentProcessor', $this->_paymentProcessor );
-                
             }                
             
             // this avoids getting E_NOTICE errors in php
@@ -225,6 +224,33 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 }
             }
             
+            //check if Membership Block is enabled, if Membership Fields are included in profile
+            //get membership section for this contribution page
+            require_once 'CRM/Member/DAO/MembershipBlock.php';
+            $dao =& new CRM_Member_DAO_MembershipBlock();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id    = $this->_id; 
+            
+            $membershipEnable = false;
+            
+            if ( $dao->find(true) && $dao->is_active ) {
+                $membershipEnable = true;
+            }
+            
+            require_once "CRM/Core/BAO/UFField.php";
+            if ( $this->_values['custom_pre_id'] ) {
+                $preProfileType  = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_pre_id'] );
+            }
+            
+            if ( $this->_values['custom_post_id'] ) {
+                $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
+            }
+            
+            if ( ( ( $postProfileType == 'Membership' ) || ( $preProfileType == 'Membership' ) ) && !$membershipEnable ) {
+                CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled.
+                                            Please notify the site administrator.') );
+            }
+
             $this->set( 'values', $this->_values );
             $this->set( 'fields', $this->_fields );
 

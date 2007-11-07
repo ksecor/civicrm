@@ -49,35 +49,29 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
      *
      * @return object CRM_Contribute_StateMachine_ContributionPage
      */
-    function __construct( $controller, $action = CRM_Core_Action::NONE ) {
+    function __construct( $controller, $action = CRM_Core_Action::NONE ) 
+    {
         parent::__construct( $controller, $action );
-
         
         $session =& CRM_Core_Session::singleton();
         $session->set('singleForm', false);
 
         $config =& CRM_Core_Config::singleton( );
-        if( in_array("CiviMember", $config->enableComponents )) {
-            $this->_pages = array(
-                                  'CRM_Contribute_Form_ContributionPage_Settings' => null,
-                                  'CRM_Contribute_Form_ContributionPage_Amount'   => null,
-                                  'CRM_Member_Form_MembershipBlock'               => null,
-                                  'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
-                                  'CRM_Friend_Form_Contribute'                    => null,
-                                  'CRM_Contribute_Form_ContributionPage_Custom'   => null,
-                                  'CRM_Contribute_Form_ContributionPage_Premium'  => null,
-                                  );
-        } else {
-            $this->_pages = array(
-                                  'CRM_Contribute_Form_ContributionPage_Settings' => null,
-                                  'CRM_Contribute_Form_ContributionPage_Amount'   => null,
-                                  'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
-                                  'CRM_Friend_Form_Contribute'                    => null,
-                                  'CRM_Contribute_Form_ContributionPage_Custom'   => null,
-                                  'CRM_Contribute_Form_ContributionPage_Premium'  => null,
-                                  );
-
+        
+        $this->_pages = array(
+                              'CRM_Contribute_Form_ContributionPage_Settings' => null,
+                              'CRM_Contribute_Form_ContributionPage_Amount'   => null,
+                              'CRM_Member_Form_MembershipBlock'               => null,
+                              'CRM_Contribute_Form_ContributionPage_ThankYou' => null,
+                              'CRM_Friend_Form_Contribute'                    => null,
+                              'CRM_Contribute_Form_ContributionPage_Custom'   => null,
+                              'CRM_Contribute_Form_ContributionPage_Premium'  => null
+                              );
+        
+        if ( !in_array("CiviMember", $config->enableComponents ) ) {
+            unset( $this->_pages['CRM_Member_Form_MembershipBlock'] );
         }
+        
         $this->addSequentialPages( $this->_pages, $action );
     }
 

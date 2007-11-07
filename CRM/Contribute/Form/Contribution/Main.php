@@ -69,7 +69,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $options = array( );
             $fields = array( );
             require_once "CRM/Core/BAO/CustomGroup.php";
-            $removeCustomFieldTypes = array ('Contribution');
+            $removeCustomFieldTypes = array ('Contribution', 'Membership');
             foreach ( $this->_fields as $name => $dontCare ) {
                 //don't set custom data Used for Contribution (CRM-1344)
                 if ( substr( $name, 0, 7 ) == 'custom_' ) {  

@@ -107,7 +107,6 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
 
         if ( isset( $values['custom_post_id'] ) ) {
             $postProfileType = CRM_Core_BAO_UFField::getProfileType( $values['custom_post_id'] );
-            crm_core_error::debug('$postProfileType', $postProfileType);
             if ( $postProfileType == 'Membership' ) {
                 $params = array( array( 'member_id', '=', $values['membership_id'], 0, 0 ) );
             } else if ( $postProfileType == 'Contribution' ) {
