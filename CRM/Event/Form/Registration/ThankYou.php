@@ -107,7 +107,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $params['entity_table'] = 'civicrm_event_page';
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
-        if ( isset( $data) ) {               
+        if ( $data['is_active'] ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );
             if( $this->_action & CRM_Core_Action::PREVIEW ) {

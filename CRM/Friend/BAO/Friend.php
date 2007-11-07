@@ -287,15 +287,16 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
      * @access public
      * @static
      */
-    static function addTellAFriend(&$params) 
+    static function addTellAFriend( &$params ) 
     {
         $friendDAO =& new CRM_Friend_DAO_Friend();
        
         $friendDAO->copyValues($params);
+        $friendDAO->is_active  = CRM_Utils_Array::value( 'is_active', $params, false );
       
-        $result = $friendDAO->save();
+        $friendDAO->save();
         
-        return $result;
+        return $friendDAO;
     }
 }
 

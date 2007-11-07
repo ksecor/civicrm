@@ -168,7 +168,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         $values['entity_table'] = 'civicrm_contribution_page';
         
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
-        if ( isset( $data) ) {               
+
+        if ( $data['is_active'] ) {               
             $registerText = ts( $data['title'] ) ;
             $this->assign( 'registerText', $registerText );
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
