@@ -17,6 +17,13 @@ if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
 }
 
 $openid = $_GET['openid_url'];
+$config = CRM_Core_Config::singleton( );
+$my_url = $config->userFrameworkBaseURL;
+
+$process_url = $my_url."finish_auth.php";
+$trust_root = $my_url;
+
+/*
 $process_url = sprintf("$scheme://%s:%s%s/finish_auth.php",
                        $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'],
                        dirname($_SERVER['PHP_SELF']));
@@ -24,7 +31,8 @@ $process_url = sprintf("$scheme://%s:%s%s/finish_auth.php",
 $trust_root = sprintf("$scheme://%s:%s%s",
                       $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'],
                       dirname($_SERVER['PHP_SELF']));
-
+*/
+		      
 // Begin the OpenID authentication process.
 $auth_request = $consumer->begin($openid);
 
