@@ -101,10 +101,11 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                     true );
 
         $groups         =& CRM_Core_PseudoConstant::group('Mailing');
+
         $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
         require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
         $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
-        ts('Include Group(s)') . ' ', $groupIterator,
+                                                                    ts('Include Group(s)') . ' ', $groupIterator,
         array( 'size'  => 5,
                'style' => 'width:240px',
                'class' => 'advmultiselect' )

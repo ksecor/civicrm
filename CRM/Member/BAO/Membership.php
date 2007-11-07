@@ -227,6 +227,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contributionParams['contact_id'] = $params['contact_id'];
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'  ] = $config->defaultCurrency;
+            $contributionParams['receive_date'] = $params['receive_date'];
+            $contributionParams['receipt_date'] = $params['receipt_date'] ? $params['receipt_date'] : 'null';
+            $contributionParams['source']       = $params['source'] ? $params['source'] : 'null';
+            $contributionParams['non_deductible_amount'] = 'null';
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 
@@ -236,7 +240,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $params );
             }
-            
+          
             require_once 'CRM/Contribute/BAO/Contribution.php';
             $contribution =& CRM_Contribute_BAO_Contribution::create( $contributionParams, $ids );
             
@@ -815,7 +819,6 @@ civicrm_membership_status.is_current_member =1";
             $contributionTypeId = $membershipDetails['contribution_type_id']; 
         }
         
-
         $result = CRM_Contribute_BAO_Contribution::processConfirm( $form, $membershipParams, 
                                                                    $premiumParams, $contactID,
                                                                    $contributionTypeId, 
@@ -912,12 +915,13 @@ civicrm_membership_status.is_current_member =1";
                 
             $payment->doTransferCheckout( $form->_params );
         }
-                
+        
+        $form->_values['membership_id'] = $membership->id;
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,
-                                                       $form->_values,
-                                                       $contribution[$index]->id );
+                                                       $form->_values
+                                                       );
     }
     
     /**

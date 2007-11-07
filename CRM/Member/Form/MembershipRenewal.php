@@ -136,9 +136,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $defaults['send_receipt'] = 1; 
 
         if ( $defaults['membership_type_id'] ) {
-            $defaults['receipt_text'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
+            $defaults['receipt_text_renewal'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
                                                                       $defaults['membership_type_id'],
-                                                                      'receipt_text' );
+                                                                      'receipt_text_renewal' );
         }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
@@ -230,7 +230,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                           ts('Send Confirmation and Receipt?'), null, 
                           array( 'onClick' => 'showReceiptText()'));
 
-        $this->add('textarea', 'receipt_text', ts('Renewal Message') );
+        $this->add('textarea', 'receipt_text_renewal', ts('Renewal Message') );
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $this->_contributorEmail );
@@ -290,6 +290,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
                                                                        0, $form, null );
+        $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
+
         if( $formValues['record_contribution'] ) {
             $recordContribution = array(
                                         'total_amount',
@@ -319,10 +321,11 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                 require_once 'CRM/Core/DAO.php';
                 CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
                                              $params['membership_type_id'],
-                                             'receipt_text',
-                                             $formValues['receipt_text'] );
+                                             'receipt_text_renewal',
+                                             $formValues['receipt_text_renewal'] );
             }
         }
+        
         if ($formValues['send_receipt']) {
             // Retrieve the name and email of the contact - this will be the TO for receipt email
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
@@ -333,20 +336,21 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
-            $subject = ts('Member Contribution Renewal Receipt');
-                    
-            $formValues['contributionType_name'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionType',
-                                                                                $formValues['contribution_type_id'] );
-            
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
             $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
 
             $this->assign_by_ref( 'formValues', $formValues );
             $this->assign( 'receive_date', $renewalDate );
-            $template =& CRM_Core_Smarty::singleton( );
-            $message = $template->fetch( 'CRM/Contribute/Form/Message.tpl' );
-            
+            $this->assign( 'subject', ts('Membership Renewal Confirmation and Receipt') );
+            $this->assign( 'mem_start_date', CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->start_date ) ) );
+            $this->assign( 'mem_end_date', $endDate );
+            $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
+                                                                            $renewMembership->membership_type_id ) );
 
+            $template =& CRM_Core_Smarty::singleton( );
+            $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
+            $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
+            
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
                                   $this->_contributorDisplayName,

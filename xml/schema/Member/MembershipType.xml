@@ -163,13 +163,23 @@
       <add>1.6</add>
   </field>
   <field>
-      <name>receipt_text</name>
+      <name>receipt_text_signup</name>
       <type>varchar</type>
       <htmlType>textarea</htmlType>
       <rows>6</rows>
       <cols>50</cols>
       <length>255</length>
-      <comment>Receipt Text</comment>
+      <comment>Receipt Text for membership signup</comment>
+      <add>2.0</add>
+  </field>
+  <field>
+      <name>receipt_text_renewal</name>
+      <type>varchar</type>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <length>255</length>
+      <comment>Receipt Text for membership renewal</comment>
       <add>2.0</add>
   </field>
   <field> 

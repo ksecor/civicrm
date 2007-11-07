@@ -365,7 +365,7 @@ class CRM_Core_Block {
             if ( $role == 'superadmin' ) {
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/report',
                                       'query' => 'reset=1',
-                                      'title' => ts('Summary Report')
+                                      'title' => ts('Reports')
                                       );                
                 $shortCuts[] = array( 'path'  => 'civicrm/gcc/options',
                                       'query' => 'reset=1',

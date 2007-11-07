@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-10-25 15:07+0200\n"
+"POT-Creation-Date: 2007-11-07 07:31+0100\n"
 "PO-Revision-Date: 2006-01-02 22:59+0100\n"
 "Last-Translator: Petteri Niskanen <petteri.niskanen@minomar.fi>\n"
 "MIME-Version: 1.0\n"
@@ -4738,8 +4738,8 @@ msgstr "Tulosta"
 
 #: CRM/Core/Block.php
 #, fuzzy
-msgid "Summary Report"
-msgstr "Yhteenveto"
+msgid "Reports"
+msgstr "Tuo"
 
 #: CRM/Core/Block.php
 #, fuzzy
@@ -12800,6 +12800,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Summary Report"
+#~ msgstr "Yhteenveto"
 
 #, fuzzy
 #~ msgid "Activity Entity Table"

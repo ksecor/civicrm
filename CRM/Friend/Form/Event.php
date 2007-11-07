@@ -42,10 +42,16 @@ require_once 'CRM/Event/Form/ManageEvent.php';
  */
 class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
 {
+    /** 
+     * tell a friend id in db
+     * 
+     * @var int 
+     */ 
+    private $_friendId; 
 
     public function preProcess()  
     {  
-        parent::preProcess();
+        parent::preProcess();        
     }
 
     /**
@@ -60,16 +66,17 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         
         if ( isset($this->_id)  ) {
             $defaults['entity_table'] = 'civicrm_event_page';            
-            $defaults['entity_id']    = $this->_id;            
+            $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
-        }    
-            
-        if ( ! $defaults['title']) {            
-            $defaults['intro'] = 'Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you\'re attending. Then fill in the name(s) and email address(es) and click "Send Your Message".';
-            $defaults['suggested_message'] = 'Thought you might be interested in checking out this event. I\'m planning on attending.';
-            $defaults['thankyou_text'] = 'Thanks for spreading the word about this event to your friends.';
-            $defaults['title'] = 'Tell A Friend';
-            $defaults['thankyou_title'] = 'Thanks for Spreading the Word';
+            $this->_friendId = $defaults['id'];
+        } 
+       
+        if ( !$this->_friendId ) {
+            $defaults['intro'] = ts('Help us spread the word about this event. Use the space below to personalize your email message - let your friends know why you\'re attending. Then fill in the name(s) and email address(es) and click "Send Your Message".');
+            $defaults['suggested_message'] = ts('Thought you might be interested in checking out this event. I\'m planning on attending.');
+            $defaults['thankyou_text'] = ts('Thanks for spreading the word about this event to your friends.');
+            $defaults['title'] = ts('Tell A Friend');
+            $defaults['thankyou_title'] = ts('Thanks for Spreading the Word');
         }
         
         return $defaults;
@@ -100,6 +107,10 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent
         
         $formValues['entity_table'     ] = 'civicrm_event_page';
         $formValues['entity_id'        ] = $this->_id;
+
+        if ( ($this->_action & CRM_Core_Action::UPDATE) && $this->_friendId ) {
+            $formValues['id'] = $this->_friendId ;
+        }
 
         CRM_Friend_BAO_Friend::addTellAFriend( $formValues );
     }

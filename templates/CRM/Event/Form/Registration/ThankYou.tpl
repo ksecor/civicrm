@@ -5,6 +5,15 @@
         {$eventPage.thankyou_text}
         </p>
     </div>
+    
+    {* Show link to Tell a Friend(CRM-2153) *}
+    
+        <div class="messages status">
+         <dl>
+            <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
+            <dd><strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong></dd>
+         </dl>
+        </div>   	
     {/if}
 
     <div id="help">
@@ -103,12 +112,5 @@
             <p>{$eventPage.thankyou_footer_text}</p>
         </div>
     {/if}
-
-    {* Show link to Tell a Friend(CRM-2153) *}
-    
-        <div class="action-link">
-            <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
-        </div>
-   	
 
 </div>

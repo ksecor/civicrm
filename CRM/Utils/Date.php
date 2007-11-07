@@ -36,7 +36,8 @@
 /**
  * Date utilties
  */
-class CRM_Utils_Date {
+class CRM_Utils_Date 
+{
 
     /**
      * format a date by padding it with leading '0'.
@@ -156,7 +157,8 @@ class CRM_Utils_Date {
      * @return array       a qf formatted date array
      * @static
      */     
-    static function &unformat( $date, $separator = '-' ) {
+    static function &unformat( $date, $separator = '-' ) 
+    {
         $value = array( );
         if ( empty( $date ) ) {
             return $value;
@@ -299,7 +301,8 @@ class CRM_Utils_Date {
         return $fullMonthNames;
     }
 
-    static function unixTime( $string ) {
+    static function unixTime( $string ) 
+    {
         if ( empty( $string ) ) {
             return 0;
         }
@@ -536,8 +539,8 @@ class CRM_Utils_Date {
      * @param string $dateParam  index of params
      * @static
      */
-    function convertToDefaultDate( &$params, $dateType, $dateParam ) {
-        
+    function convertToDefaultDate( &$params, $dateType, $dateParam ) 
+    {
         $now = getDate();
         $cen = substr($now['year'],  0, 2);
         
@@ -651,7 +654,8 @@ class CRM_Utils_Date {
         return true;
     }
 
-    static function isDate( &$date ) {
+    static function isDate( &$date ) 
+    {
         if ( ! is_array( $date )                    ||
              CRM_Utils_System::isNull( $date )      ||
              ! CRM_Utils_Array::value( 'Y', $date ) ||
@@ -662,7 +666,8 @@ class CRM_Utils_Date {
         return true;
     }
 
-    static function overdue( $date, $now = null ) {
+    static function overdue( $date, $now = null ) 
+    {
         $mysqlDate = self::isoToMysql( $date );
         if ( ! $now ) {
             $now = date( 'YmdHis' );
@@ -704,7 +709,8 @@ class CRM_Utils_Date {
         return $today;
     }
 
-    static function getAllDefaultValues( &$defaults, $format = null, $time = null ) {
+    static function getAllDefaultValues( &$defaults, $format = null, $time = null ) 
+    {
         if ( ! $format ) {
             // lets include EVERYTHING for now
             $format = 'a-A-d-h-H-i-g-G-j-M-S-Y';

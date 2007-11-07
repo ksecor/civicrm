@@ -45,8 +45,12 @@ class CRM_Core_Report_Excel {
      *
      * @access  public
      */
-    function makeCSVTable( &$header, &$rows, $print = true)
+    function makeCSVTable( &$header, &$rows, $titleHeader = null, $print = true )
     {
+        if ( $titleHeader ) {
+            echo $titleHeader;
+        }
+
         $result = '';
 
         $seperator     = ',';
@@ -124,10 +128,10 @@ class CRM_Core_Report_Excel {
         }
     } // end of the 'getTableCsv()' function
 
-    function writeCSVFile( $fileName, &$header, &$rows ) {
+    function writeCSVFile( $fileName, &$header, &$rows, $titleHeader = null ) {
         self::dumpCSVHeader( $fileName );
 
-        self::makeCSVTable( $header, $rows, true );
+        self::makeCSVTable( $header, $rows, $titleHeader, true );
 
         
     }
