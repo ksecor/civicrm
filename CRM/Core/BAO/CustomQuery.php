@@ -181,6 +181,7 @@ SELECT f.id, f.label, f.data_type,
             $this->_options[$dao->id]['attributes'] = array( 'label'     => $dao->label,
                                                              'data_type' => $dao->data_type, 
                                                              'html_type' => $dao->html_type );
+            $optionIds = array( );
             if ( ( $dao->html_type == 'CheckBox' ||
                    $dao->html_type == 'Radio'    ||
                    $dao->html_type == 'Select'   ||
@@ -191,30 +192,30 @@ SELECT f.id, f.label, f.data_type,
                     CRM_Core_Error::fatal( );
                 }
             }
-        }
-
-        // build the cache for custom values with options (label => value)
-        if ( ! empty( $optionIds ) ) {
-            $optionIdString = implode( ',', $optionIds );
-            $query = "
+            
+            // build the cache for custom values with options (label => value)
+            if ( ! empty( $optionIds ) ) {
+                $optionIdString = implode( ',', $optionIds );
+                $query = "
 SELECT label, value
   FROM civicrm_option_value
  WHERE option_group_id IN ( $optionIdString )
 ";
 
-            $option =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-            while ( $option->fetch( ) ) {
-                $dataType = $this->_fields[$dao->id]['data_type'];
-                if ( $dataType == 'Int' || $dataType == 'Float' ) {
-                    $num = round($option->value, 2);
-                    $this->_options[$dao->id]["$num"] = $option->label;
-                } else {
-                    $this->_options[$dao->id][$option->value] = $option->label;
+                $option =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                while ( $option->fetch( ) ) {
+                    $dataType = $this->_fields[$dao->id]['data_type'];
+                    if ( $dataType == 'Int' || $dataType == 'Float' ) {
+                        $num = round($option->value, 2);
+                        $this->_options[$dao->id]["$num"] = $option->label;
+                    } else {
+                        $this->_options[$dao->id][$option->value] = $option->label;
+                    }
                 }
             }
         }
     }
-
+    
     /**
      * generate the select clause and the associated tables
      * for the from clause
