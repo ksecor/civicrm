@@ -170,8 +170,8 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
 
         if ( $data['is_active'] ) {               
-            $registerText = ts( $data['title'] ) ;
-            $this->assign( 'registerText', $registerText );
+            $friendText = ts( $data['title'] ) ;
+            $this->assign( 'friendText', $friendText );
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
                                              "eid={$this->_id}&reset=1&action=preview&page=contribution" );
@@ -179,7 +179,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
                 $url = CRM_Utils_System::url("civicrm/friend", 
                                          "eid={$this->_id}&reset=1&page=contribution" );
             }
-            $this->assign( 'registerURL', $url );
+            $this->assign( 'friendURL', $url );
         }
         
         $this->freeze();
