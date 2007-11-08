@@ -50,7 +50,7 @@
     {* Show editable status field when is_override is TRUE *}
     <div id="memberStatus">
         <dl>
-        <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}<br />
+        <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}<br />
             <span class="description">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</span></dd>
         </dl>
     </div>
