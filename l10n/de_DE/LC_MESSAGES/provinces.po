@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-10-15 16:37-0700\n"
-"Last-Translator: A.Lindner <chtulhu@web.de>\n"
+"PO-Revision-Date: 2007-11-06 06:20-0800\n"
+"Last-Translator: Michael Walter <michaelwalter@gmx.at>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -248,58 +248,58 @@ msgid "Assam"
 msgstr ""
 
 msgid "Bihar"
-msgstr ""
+msgstr "Bihar"
 
 msgid "Chhattisgarh"
-msgstr ""
+msgstr "Chhattisgarh"
 
 msgid "Goa"
-msgstr ""
+msgstr "Goa"
 
 msgid "Gujarat"
-msgstr ""
+msgstr "Gujarat"
 
 msgid "Haryana"
-msgstr ""
+msgstr "Haryana"
 
 msgid "Himachal Pradesh"
-msgstr ""
+msgstr "Himachal Pradesh"
 
 msgid "Jammu and Kashmir"
 msgstr "Jammu und Kashmir"
 
 msgid "Jharkhand"
-msgstr ""
+msgstr "Jharkhand"
 
 msgid "Kerala"
-msgstr ""
+msgstr "Kerala"
 
 msgid "Madhya Pradesh"
-msgstr ""
+msgstr "Madhya Pradesh"
 
 msgid "Manipur"
-msgstr ""
+msgstr "Manipur"
 
 msgid "Meghalaya"
-msgstr ""
+msgstr "Meghalaya"
 
 msgid "Mizoram"
-msgstr ""
+msgstr "Mizoram"
 
 msgid "Nagaland"
-msgstr ""
+msgstr "Nagaland"
 
 msgid "Orissa"
-msgstr ""
+msgstr "Orissa"
 
 msgid "Punjab"
-msgstr ""
+msgstr "Punjab"
 
 msgid "Rajasthan"
-msgstr ""
+msgstr "Rajasthan"
 
 msgid "Sikkim"
-msgstr ""
+msgstr "Sikkim"
 
 msgid "Tamil Nadu"
 msgstr ""

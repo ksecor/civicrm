@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-10-15 19:56-0700\n"
-"Last-Translator: A.Lindner <chtulhu@web.de>\n"
+"PO-Revision-Date: 2007-11-06 06:59-0800\n"
+"Last-Translator: Michael Walter <michaelwalter@gmx.at>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -775,9 +775,8 @@ msgstr "Wo Feld"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Titel der Gruppe"
+msgstr "Gruppenart"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -945,13 +944,11 @@ msgstr "Externe Bezeichnung"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "External ID already exists in Database."
-msgstr "Dieser Name ist bereits in der Datenbank vorhanden."
+msgstr "Diese ID ist schon vergeben"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Matching Contact button below."
@@ -959,9 +956,11 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Matching Contact button below."
 msgstr[0] ""
-"Ein zutreffender Kontakt gefunden. Sie können ihn hier bearbeiten: %1"
+"Ein zutreffender Kontakt wurde gefunden. Sie können ihn hier bearbeiten: %1, "
+"oder den Kontakt speichern"
 msgstr[1] ""
-"%count zutreffende Kontakte gefunden. Sie können sie hier bearbeiten: %1"
+"%count zutreffende Kontakte gefunden. Sie können sie hier bearbeiten: %1, "
+"oder den Kontakte speichern"
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -1415,14 +1414,12 @@ msgstr ""
 "Kontaktieren Sie den Seiten Administrator für weitere Informationen."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Type"
-msgstr "Mitgliedschaft"
+msgstr "Mitglieds-Art"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
-#, fuzzy
 msgid "Membership Status"
-msgstr "Letzte Mitgliedschaften"
+msgstr "Mitgliedschaft´s Status"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1694,17 +1691,14 @@ msgid "The attached file has been deleted."
 msgstr "Die angehängte Datei wurde gelöscht."
 
 #: CRM/Core/Payment/GoogleIPN.php CRM/Core/Payment/PayPalIPN.php
-#, fuzzy
 msgid "Online Event Registration:"
-msgstr "Online Event Registrierung:"
+msgstr "Online-Registrierung:"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"%1 ist nicht eingerichtet um CiviCRM &raquo; Global Settings &raquo; Finanz "
-"Modul zu Verwalten"
+"%1 hat keine Berechtigungen um CiviCRM &raquo; Finanz Modul zu Verwalten"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
 #: CRM/Core/Payment/PayPalImpl.php
@@ -1720,7 +1714,6 @@ msgid "Delete Custom Field"
 msgstr "Lösche eigenes Feld"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group '%1' has been deleted."
 msgstr "Die Gruppe \"%1\" wurde gelöscht."
 
@@ -2261,7 +2254,7 @@ msgstr "Etikett wählen"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "PHP class name"
-msgstr ""
+msgstr "PHP class Name"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Site URL"
@@ -2306,13 +2299,12 @@ msgid "Settings - Addresses"
 msgstr "Einstellungen - Adressen"
 
 #: CRM/Admin/Form/Preferences/Address.php
-#, fuzzy
 msgid "Number of Locations"
-msgstr "Höchstzahl an Orten"
+msgstr "Anzahl an Orten"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr ""
+msgstr "Orte-Anzahl muss eine positive Ganzzahl sein (zB 1, 2, 3, ....)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -2505,7 +2497,6 @@ msgid "Provider Key"
 msgstr "Zugriffcode für Kartenanbieter"
 
 #: CRM/Admin/Form/Setting/Mapping.php
-#, fuzzy
 msgid "Mapping features require PHP version 5 or greater"
 msgstr "Verknüpfungsfeature erfordert PHP 5 oder höher"
 
@@ -2586,12 +2577,10 @@ msgid "Use Rule"
 msgstr "Regel anwenden"
 
 #: CRM/Admin/Page/DedupeFind.php
-#, fuzzy
 msgid "Use DedupeRule"
 msgstr "Dedupe Regel anwenden"
 
 #: CRM/Admin/Page/DedupeRules.php
-#, fuzzy
 msgid "Edit DedupeRule"
 msgstr "Dedupe Regel bearbeiten"
 
@@ -12746,7 +12735,7 @@ msgstr "Benutzer Mail-Eingang ist voll"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"
-msgstr ""
+msgstr "Empfänger Mailserver ist nicht erreichbar"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
@@ -12754,7 +12743,7 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
-msgstr ""
+msgstr "Fehler beim SMTP Versand"
 
 #~ msgid "Summary Report"
 #~ msgstr "Zusammenfassung"
