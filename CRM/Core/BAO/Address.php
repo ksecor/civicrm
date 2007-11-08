@@ -73,6 +73,7 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
 
         $isPrimary = true;
         $isBilling = true;
+        $blocks    = array( );
 
         require_once "CRM/Core/BAO/Block.php";
         foreach ( $params['address'] as $value ) {

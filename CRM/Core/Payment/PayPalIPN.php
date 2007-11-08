@@ -217,7 +217,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             return true;
         }
 
-        $this->completeTransaction( $input, $ids, $objects, $transaction );
+        $this->completeTransaction( $input, $ids, $objects, $transaction, $recur );
     }
 
     function main( $component = 'contribute' ) 

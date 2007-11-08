@@ -273,7 +273,7 @@ class CRM_Core_Payment_BaseIPN {
         return false;
     }
 
-    function completeTransaction( &$input, &$ids, &$objects, &$transaction ) {
+    function completeTransaction( &$input, &$ids, &$objects, &$transaction, $recur = false ) {
         $contribution =& $objects['contribution'];
         $membership   =& $objects['membership']  ;
         $participant  =& $objects['participant'] ;
@@ -367,7 +367,7 @@ class CRM_Core_Payment_BaseIPN {
                                                   'title' );
             
             require_once 'CRM/Utils/Money.php';
-            $formattedAmount = CRM_Utils_Money::format($contribAmount);
+            $formattedAmount = CRM_Utils_Money::format( $input['amount'] );
             
             //should be uncommented once create activity api is fixed
 //             // also create an activity history record
@@ -401,7 +401,7 @@ class CRM_Core_Payment_BaseIPN {
         $template =& CRM_Core_Smarty::singleton( );
         if ( $input['component'] == 'contribute' ) {
             $template->assign( 'title', $values['title']);
-            $template->assign( 'amount' , $contribAmount );
+            $template->assign( 'amount' , $input['amount'] );
         } else {
             $template->assign( 'title', $values['event']['title']);
             $template->assign( 'amount' , $input['amount'] );
@@ -422,9 +422,9 @@ class CRM_Core_Payment_BaseIPN {
         }
         
         require_once 'CRM/Utils/Address.php';
-        $template->assign( 'address', CRM_Utils_Address::format( $params ) );
-                                                                                        
-        if ( $component == 'event' ) { 
+        $template->assign( 'address', CRM_Utils_Address::format( $input ) );
+
+        if ( $input['component'] == 'event' ) { 
             $template->assign( 'event', $values['event'] );
             $template->assign( 'eventPage', $values['event_page'] );
             $template->assign( 'location', $values['location'] );
