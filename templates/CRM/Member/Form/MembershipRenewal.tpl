@@ -57,26 +57,26 @@
 </fieldset>
 </div>
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="record_contribution"
+    trigger_value       =""
+    target_element_id   ="recordContribution" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="send_receipt"
+    trigger_value       =""
+    target_element_id   ="notice" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
 {literal}
 <script type="text/javascript">
-showRecordContribution();  
-showReceiptText();
-
-function showRecordContribution() {
-	if (document.getElementsByName("record_contribution")[0].checked == true) {
-	   show('recordContribution');
-       	} else {
-	   hide('recordContribution');
-       	}
-}
-
-function showReceiptText() {
-	if (document.getElementsByName("send_receipt")[0].checked == true) {
-	   show('notice');
-       	} else {
-	   hide('notice');
-       	}
-}
 
 function reload(refresh) {
     var membershipTypeValue = document.getElementsByName("membership_type_id[1]")[0].options[document.getElementsByName("membership_type_id[1]")[0].selectedIndex].value;

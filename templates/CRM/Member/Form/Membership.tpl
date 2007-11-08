@@ -97,7 +97,6 @@
 </fieldset>
 </div>
 
-
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
     trigger_value       =""

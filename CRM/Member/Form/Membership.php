@@ -231,7 +231,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                           array( 'onClick' => 'showHideMemberStatus()'));
 
         $this->addElement('checkbox', 'record_contribution', ts('Record Membership Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',true);"));
+                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
@@ -254,7 +254,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
-                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',true);") );
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
