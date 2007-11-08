@@ -87,7 +87,17 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         if ( CRM_Contribute_BAO_ContributionPage::checkRecurPaymentProcessor( $this->_id ) ) {
             $this->addElement('checkbox', 'is_recur', ts('Enable recurring payments') );
         }
-        
+
+        // add pay later options
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ),
+                          null, array( 'onclick' => "payLater(this);" ) );
+        $this->addElement('textarea', 'pay_later_text', ts( 'Pay by Cheque message on form' ),  
+                          CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_text' ),
+                          false );
+        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay by Cheque instructions to send' ),  
+                          CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
+                          false );
+
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Amount', 'formRule' ) );
         
         parent::buildQuickForm( );
@@ -147,6 +157,14 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
             }
         }
 
+        if ( isset( $fields['is_pay_later'] ) ) {
+            if ( empty( $fields['pay_later_text'] ) ) {
+                $errors['pay_later_text'] = ts( 'Please enter the text displayed to the user' );
+            }
+            if ( empty( $fields['pay_later_receipt'] ) ) {
+                $errors['pay_later_receipt'] = ts( 'Please enter the message to be sent to the user' );
+            }
+        }
         return $errors;
     }
  
@@ -167,14 +185,16 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         
         $params['min_amount'] = CRM_Utils_Rule::cleanMoney( $params['min_amount'] );
         $params['max_amount'] = CRM_Utils_Rule::cleanMoney( $params['max_amount'] );
-        
+
+        $params['is_pay_later'] = CRM_Utils_Array::value('is_pay_later', $params, false );
+
         // if there are label / values, create custom options for them
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
         $default = CRM_Utils_Array::value( 'default', $params ); 
 
-        $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params ,false);
-        $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false);
+        $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params, false );
+        $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false );
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
 
         $options = array( );

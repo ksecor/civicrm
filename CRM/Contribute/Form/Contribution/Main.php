@@ -173,6 +173,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildAmount( $this->_separateMembershipPayment );
 
             if ( $this->_values['is_monetary'] &&
+                 $this->_values['is_pay_later'] ) {
+                $this->buildPayLater( );
+            }
+
+            if ( $this->_values['is_monetary'] &&
                  $this->_values['is_recur']    &&
                  $this->_paymentProcessor['is_recur'] ) {
                 $this->buildRecur( );
@@ -314,6 +319,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         //email
         $this->addElement('text', 'honor_email', ts('Honoree Email Address'));
         $this->addRule( "honor_email", ts('Honoree Email is not valid.'), 'email' );
+    }
+
+    /**
+     * build elements to enable pay later functionality
+     *
+     * @access public
+     */
+    function buildPayLater( ) {
+        $this->addElement( 'checkbox',
+                           'is_pay_later',
+                           $this->_values['pay_later_text'] );
     }
 
     /** 

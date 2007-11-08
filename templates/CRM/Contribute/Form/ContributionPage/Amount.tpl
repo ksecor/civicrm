@@ -29,6 +29,19 @@
             </tr>
             {/if}    
 
+            <tr><th scope="row" class="label" width="20%">{$form.is_pay_later.label}</th>
+            <td>{$form.is_pay_later.html}<br />
+            <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</td></tr>
+
+            <tr id="payLaterFields"><td>&nbsp;</td><td>
+               <table class="form-layout-compressed">
+                <tr><th scope="row" class="label">{$form.pay_later_text.label}</th>
+                <td>{$form.pay_later_text.html}</td></tr> 
+                <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
+                <td>{$form.pay_later_receipt.html}</td></tr>
+               </table>
+            </td></tr>
+
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</td></tr>
@@ -73,27 +86,35 @@
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
 	  hide('amountFields');
-    }
+        }
+	var pay_later = document.getElementsByName('is_pay_later');
+  	if ( ! pay_later[0].checked) {
+	  hide('payLaterFields');
+        }
 
 	function minMax(chkbox) {
-        if (chkbox.checked) {
-		    show('minMaxFields', 'table-row');
-		    return;
-		} else {
-		    hide('minMaxFields');
-		    document.getElementById("min_amount").value = '';
-		    document.getElementById("max_amount").value = '';
-		    return;
-		}
+           if (chkbox.checked) {
+	        show('minMaxFields', 'table-row');
+ 	   } else {
+		hide('minMaxFields');
+		document.getElementById("min_amount").value = '';
+		document.getElementById("max_amount").value = '';
+	   }
 	}	
 	function amountBlock(chkbox) {
-        if (chkbox.checked) {
-		   show('amountFields', 'block');
-		    return;
-		} else {
-		    hide('amountFields', 'block');
-    	    return;
-		}
-	}	
+            if (chkbox.checked) {
+	       show('amountFields', 'block');
+	    } else {
+	       hide('amountFields', 'block');
+	    }
+        }
+	function payLater(chkbox) {
+            if (chkbox.checked) {
+	       show('payLaterFields', 'block');
+	    } else {
+	       hide('payLaterFields', 'block');
+	    }
+        }
+
 </script>
 {/literal}

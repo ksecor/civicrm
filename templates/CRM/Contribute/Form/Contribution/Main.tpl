@@ -43,6 +43,9 @@ function clearAmountOther() {
     {if $is_allow_other_amount}
         <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.amount_other.html}</td></tr>
     {/if}
+    {if $form.is_pay_later}
+        <tr><td class="label">&nbsp;</td><td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td></tr>
+    {/if}
     {if $form.is_recur}  
         <tr>
            <td>&nbsp;</td><td><strong>{$form.is_recur.html} {ts}every{/ts} &nbsp; {$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html} &nbsp; {ts}for{/ts} &nbsp; {$form.installments.html} &nbsp; {$form.installments.label}</strong><br />
