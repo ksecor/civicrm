@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-09-13 07:04-0700\n"
-"Last-Translator: Peter Häggstrand <peter.haggstrand@vxu.se>\n"
+"PO-Revision-Date: 2007-11-06 09:51-0800\n"
+"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 1.0.1\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -265,7 +265,7 @@ msgstr "Plats"
 #: CRM/Contact/Form/Task/Record.php CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
-msgstr "Detaljer"
+msgstr "Information"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -294,7 +294,7 @@ msgstr "Bokad"
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
-msgstr "Klart"
+msgstr "Klar"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Phonecall.php
 msgid "Phone Number"
@@ -602,7 +602,7 @@ msgstr "Alternativ"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
-msgstr "Redigerings regel"
+msgstr "Redigeringsregel"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -776,9 +776,8 @@ msgstr "Vilka tabeller"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Grupp"
+msgstr "Grupptyp"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -914,7 +913,7 @@ msgstr "Administrera CiviCRM"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
 msgid "Email Domain"
-msgstr ""
+msgstr "Epost-domän"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
@@ -927,7 +926,7 @@ msgstr "Privat"
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr "E-postadressen är inte giltig"
+msgstr "Epostadressen är ogiltig"
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
@@ -1369,7 +1368,7 @@ msgstr "%1 måste vara numeriskt (helt nummer)."
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/CustomGroup.php
 #: CRM/Core/BAO/File.php
 msgid "Could not move custom file to custom upload directory"
-msgstr "Det gick inte att flytta standardfil till satndard uppladdningskatalog"
+msgstr "Det gick inte att flytta standardfil till standard uppladdningskatalog"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1389,7 +1388,7 @@ msgstr "Spara dessa fälts matchning"
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
 msgid "Update this field mapping"
-msgstr "Uppdatera dessa fälts matchning"
+msgstr "Uppdatera dessa fälts matchningar"
 
 #: CRM/Core/BAO/Mapping.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1410,8 +1409,8 @@ msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
 msgstr ""
-"Denna profil är ännu inte konfigurerad för önskad begäran. Kontaka "
-"webbplatsens administrator om du behöver hjälp."
+"Denna profil är ännu inte konfigurerad för önskad aktivitet. Kontakta "
+"webbplatsens administratör om du behöver hjälp."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
@@ -1709,12 +1708,12 @@ msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr "Radera eget fält"
+msgstr "Ta bort eget fält"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
 #, fuzzy
 msgid "The Group '%1' has been deleted."
-msgstr "Gruppen \"%1\" har raderats"
+msgstr "Gruppen '%1' har tagits bort"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
@@ -1825,7 +1824,7 @@ msgid ""
 "before continuing."
 msgstr ""
 "Datakolumnen i den här importen verkar inte stämma med sparad matchning. "
-"Verifiera att du har valt en korrekt matchning innan du fortsätter."
+"Bekräfta att du har valt en korrekt matchning innan du fortsätter."
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid "Name is required to save Import Mapping"
@@ -2374,7 +2373,7 @@ msgstr "Endast år"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Fiscal Year Start"
-msgstr "Start för fiskalt år"
+msgstr "Start för skatteår"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Settings - Debugging"
@@ -2390,11 +2389,11 @@ msgstr "Visa bakåtspårning"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Template"
-msgstr "Mall för fatala fel"
+msgstr "Mall för allvarliga fel"
 
 #: CRM/Admin/Form/Setting/Debugging.php
 msgid "Fatal Error Handler"
-msgstr "Handler för fatala fel"
+msgstr "Hanterare för allvarliga fel"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Settings - Localization"
@@ -2425,393 +2424,376 @@ msgid "<< Remove"
 msgstr "<< Ta Bort"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Available States and Provinces"
 msgstr "Landskap/Län"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Country"
-msgstr "Välj Land"
+msgstr "Standard Land"
 
 #: CRM/Admin/Form/Setting/Localization.php
-#, fuzzy
 msgid "Default Currency"
-msgstr "Valuta"
+msgstr "Standard Valuta"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Legacy Encoding"
-msgstr ""
+msgstr "Bakåtkompatibel kodning"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Settings - CiviMail"
-msgstr ""
+msgstr "Inställningar - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr ""
+msgstr "Epost-kö tider"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid " VERP Separator"
-msgstr ""
+msgstr "_VERP separator"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
-msgstr ""
+msgstr "Epostbunt storlek"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Limit"
-msgstr ""
+msgstr "Epost-kö storlek"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
-msgstr ""
+msgstr "Inställningar - Kartleverantör"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Map Provider"
-msgstr ""
+msgstr "Kartleverantör"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Provider Key"
-msgstr ""
+msgstr "Leverantörsnyckel"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Mapping features require PHP version 5 or greater"
-msgstr ""
+msgstr "Kartfunktionerna kräver PHP5 eller senare"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Settings - Miscellaneous"
-msgstr ""
+msgstr "Inställningar - Övrigt"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
-#, fuzzy
 msgid "CiviCRM Version Check"
-msgstr "CiviCRM Profil"
+msgstr "CiviCRM - versionskontroll"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font Path"
-msgstr ""
+msgstr "Sökväg till Captcha-typsnitt"
 
 #: CRM/Admin/Form/Setting/Miscellaneous.php
 msgid "Captcha Font"
-msgstr ""
+msgstr "Typsnitt för Captcha"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Settings - Upload Directories"
-msgstr ""
+msgstr "Inställningar - Uppladdningskataloger"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Temporary Files"
-msgstr "Importera datafil"
+msgstr "Temporära filer"
 
 #: CRM/Admin/Form/Setting/Path.php
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Files"
-msgstr "Egna datafält"
+msgstr "Egna Filer"
 
 #: CRM/Admin/Form/Setting/Path.php
-#, fuzzy
 msgid "Custom Templates"
-msgstr "Egna datafält"
+msgstr "Egna mallar"
 
 #: CRM/Admin/Form/Setting.php
-#, fuzzy
 msgid "Your changes have been saved."
-msgstr "Gruppen \"%1\" har raderats"
+msgstr "Dina ändringar har sparats"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Settings - SMTP Configuration"
-msgstr ""
+msgstr "Inställningar - SMTP"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Port"
-msgstr ""
+msgstr "SMTP-port"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
-msgstr ""
+msgstr "Verifiering?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP-användarnamn"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Inställningar - Resurs-URL:er"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "CiviCRM Resource URL"
-msgstr ""
+msgstr "CiviCRM Resurs-URL"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Image Upload URL"
-msgstr ""
+msgstr "Bilduppladdnings-URL"
 
 #: CRM/Admin/Form/Setting/Url.php
 msgid "Force Secure URLs (SSL)"
-msgstr ""
+msgstr "URL:er för Force Secure (SSL)"
 
 #: CRM/Admin/Page/DedupeFind.php
 msgid "Use Rule"
-msgstr ""
+msgstr "Använd regel"
 
 #: CRM/Admin/Page/DedupeFind.php
 msgid "Use DedupeRule"
-msgstr ""
+msgstr "Använd DeDupe-regel"
 
 #: CRM/Admin/Page/DedupeRules.php
 msgid "Edit DedupeRule"
-msgstr ""
+msgstr "Ändra DeDupe-regel"
 
 #: CRM/Admin/Page/DupeMatch.php
 msgid "Edit DupeMatch"
-msgstr ""
+msgstr "Ändra DupeMatchning"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av denna platsstyp"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "contact locations."
 msgstr ""
+"Användare kommer inte längre att kunna välja detta värde när de ändrar eller "
+"lägger till nya kontaktplatser."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr ""
+msgstr "Ändra Platstyp"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr ""
+msgstr "Stäng av Platstyp"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr ""
+msgstr "Aktivera Platstyp"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr ""
+msgstr "Ta bort Platstyp"
 
 #: CRM/Admin/Page/Mapping.php
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
 msgstr ""
+"Är du säker på att du vill ta bort denna mappning? Denna aktivitet kan inte "
+"ångras."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
-msgstr ""
+msgstr "Ändra mappning"
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Delete Mapping"
-msgstr ""
+msgstr "Ta bort mappning"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Are you sure you want to disable this message tempate?"
-msgstr "Är det riktigt att du vill radera denna Smartgrupp"
+msgstr "Är du säker på att du vill stänga av denna mall för meddelanden?"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Edit Message Templates"
-msgstr "Uppdatera Smartgrupp"
+msgstr "Ändra Meddelandemallar"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Disable Message Templates"
-msgstr "Spara och Ny"
+msgstr "Stäng av Meddelandemallar"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Enable Message Templates"
-msgstr "Är det riktigt att du vill radera denna Smartgrupp"
+msgstr "Aktivera Meddelandemallar"
 
 #: CRM/Admin/Page/MessageTemplates.php
-#, fuzzy
 msgid "Delete Message Templates"
-msgstr "Välj datum"
+msgstr "Ta bort Meddelandemallar"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Are you sure you want to disable this Option?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av denna funktion?"
 
 #: CRM/Admin/Page/OptionGroup.php templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Multiple Choice Options"
-msgstr ""
+msgstr "Inställningar för multipla val"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "View and Edit Multiple Choice Options"
-msgstr ""
+msgstr "Visa och Ändra Inställningar för Multipla val"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Disable Option"
-msgstr ""
+msgstr "Stäng av funktion"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Enable Option"
-msgstr ""
+msgstr "Aktivera funktion"
 
 #: CRM/Admin/Page/OptionGroup.php
 msgid "Delete Option"
-msgstr ""
+msgstr "Ta bort funktion"
 
 #: CRM/Admin/Page/Options.php
 msgid "Manage ACL Roles"
-msgstr ""
+msgstr "Hantera Kontoroller"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "%1 Options"
-msgstr "Val"
+msgstr "%1 Inställningar"
 
 #: CRM/Admin/Page/Options.php
 msgid "Are you sure you want to disable this %1?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av %1"
 
 #: CRM/Admin/Page/Options.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing %1."
 msgstr ""
+"Användare kommer inte längre kunna välja detta värde när de ändrar eller "
+"lägger till nya %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Disable %1"
-msgstr "Avaktivera"
+msgstr "Stäng av %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Enable %1"
-msgstr "Aktivera"
+msgstr "Aktivera %1"
 
 #: CRM/Admin/Page/Options.php
-#, fuzzy
 msgid "Delete %1 Type"
-msgstr "Radera %1"
+msgstr "Ta bort %1 typ"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Are you sure you want to disable this Option Value?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av denna inställnings värden?"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Edit Option Value"
-msgstr ""
+msgstr "Ändra Inställningsvärden"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Disable Option Value"
-msgstr ""
+msgstr "Stäng av Inställningsvärden"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "Enable Option Value"
-msgstr ""
+msgstr "Aktivera Inställningsvärden"
 
 #: CRM/Admin/Page/OptionValue.php templates/CRM/Admin/Form/OptionValue.tpl
 msgid "Delete Option Value"
-msgstr ""
+msgstr "Ta bort Inställningsvärden"
 
 #: CRM/Admin/Page/OptionValue.php
 msgid "%1 - Option Values"
-msgstr ""
+msgstr "%1 - Inställningsvärden"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Are you sure you want to disable this payment processor?"
-msgstr "Är det riktigt att du vill radera denna Smartgrupp"
+msgstr "Är det riktigt att du vill stänga av denna betalningsfunktion"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "transaction pages."
 msgstr ""
+"Användare kommer inte längre att kunna välja detta värde när de ändrar "
+"transaktionssidor"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Edit Payment Processor"
-msgstr "Betalingsmotor"
+msgstr "Ändra Betalningsfunktion"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Disable Payment Processor"
-msgstr "Betalingsmotor"
+msgstr "Stäng av Betalningsfunktion"
 
 #: CRM/Admin/Page/PaymentProcessor.php
-#, fuzzy
 msgid "Enable Payment Processor"
-msgstr "Betalingsmotor"
+msgstr "Aktivera Betalningsfunktion"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
-#, fuzzy
 msgid "Delete Payment Processor"
-msgstr "Betalingsmotor"
+msgstr "Ta bort Betalningsfunktion"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Edit Payment ProcessorType"
-msgstr "Betalingsmotor"
+msgstr "Ändra Betalningsfunktionstyp"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Disable Payment ProcessorType"
-msgstr "Betalingsmotor"
+msgstr "Stäng av Betalningsfunktionstyp"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Enable Payment ProcessorType"
-msgstr "Betalingsmotor"
+msgstr "Aktivera Betalningsfunktionstyp"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
-#, fuzzy
 msgid "Delete Payment ProcessorType"
-msgstr "Betalingsmotor"
+msgstr "Ta bort Betalningsfunktionstyp"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
-msgstr ""
+msgstr "Är du säker på att du vill stänga av denna relationstyp?"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid ""
 "Users will no longer be able to select this value when adding or editing "
 "relationships between contacts."
 msgstr ""
+"Användare kommer inte längre att kunna välja detta värde när de ändrar "
+"relationer mellan kontakter."
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "View Relationship Type"
-msgstr ""
+msgstr "Visa Relationstyp"
 
 #: CRM/Admin/Page/RelationshipType.php
 #: templates/CRM/Admin/Form/RelationshipType.tpl
 msgid "Edit Relationship Type"
-msgstr ""
+msgstr "Ändra Relationstyp"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Disable Relationship Type"
-msgstr ""
+msgstr "Stäng av Relationstyp"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Enable Relationship Type"
-msgstr ""
+msgstr "Aktivera Relationstyp"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Delete Reletionship Type"
-msgstr ""
+msgstr "Ta bort Relationstyp"
 
 #: CRM/Admin/Page/Setting.php
-#, fuzzy
 msgid "System Configuration"
-msgstr "Medverkan"
+msgstr "Systeminställningar"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
-msgstr ""
+msgstr "Online-betalningar"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Address Formatting"
@@ -2819,83 +2801,84 @@ msgstr "Adressformat"
 
 #: CRM/Admin/Page/Tag.php
 msgid "Are you sure you want to delete this tag?"
-msgstr ""
+msgstr "Är det riktigt att du vill ta bort denna etikett?"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
+"Denna etikett kommer att tas bort från alla kontakter som har den och "
+"användare kommer inte längre att kunna tilldela kontakter till denna "
+"etikett."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
-msgstr ""
+msgstr "Ändra etikett"
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Delete Tag"
-msgstr ""
+msgstr "Ta bort Etikett"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
-msgstr ""
+msgstr "- Kontaktfält -"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Note(s)"
-msgstr "Noteringar"
+msgstr "Anteckningar"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Could not find location id"
-msgstr "Kontaktens ID hittades inte"
+msgstr "Kunde inte hitta platsens ID"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
-msgstr ""
+msgstr "Region %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "State (%2) %3 \"%1\""
-msgstr ""
+msgstr "Region (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country %2 \"%1\""
-msgstr ""
+msgstr "Land %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country (%2) %3 \"%1\""
-msgstr ""
+msgstr "Land (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County %2 \"%1\""
-msgstr ""
+msgstr "Landskap %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County (%2) %3 \"%1\""
-msgstr ""
+msgstr "Landskap (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Prefix %2 \"%1\""
-msgstr ""
+msgstr "Induviduellt prefix %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Suffix %2 \"%1\""
-msgstr ""
+msgstr "Individuellt suffix %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender %2 \"%1\""
-msgstr ""
+msgstr "Kön %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
-msgstr ""
+msgstr "Detta är ett oväntat ställe att vara på, kontakta support"
 
 #: CRM/Contact/BAO/Query.php
 msgid "phone"
-msgstr ""
+msgstr "telefon"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contact Type -"
-msgstr ""
+msgstr "Kontakttyp - "
 
 #: CRM/Contact/BAO/Query.php
 msgid "or"
@@ -2903,112 +2886,111 @@ msgstr "eller"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
-msgstr ""
+msgstr "Medlem av grupp %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
-msgstr ""
+msgstr "Gruppstatus - "
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
-msgstr ""
+msgstr "CMS-användare"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Not a CMS User"
-msgstr ""
+msgstr "Inte CMS-användare"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Tagged %1"
-msgstr ""
+msgstr "Med etikett %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Note %2 - \"%1\""
-msgstr ""
+msgstr "Anteckning %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name like - \"%1\""
-msgstr ""
+msgstr "Namn lika som - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Email %2 - \"%1\""
-msgstr ""
+msgstr "Epost %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
-msgstr ""
+msgstr "Registrerad på Kontakter som börjar med: \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code - \"%1\""
-msgstr ""
+msgstr "Postnummer - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code greater than \"%1\""
-msgstr ""
+msgstr "Postnummer större än \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code less than \"%1\""
-msgstr ""
+msgstr "Postnummer mindre än \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location type -"
-msgstr ""
+msgstr "Platstyp - "
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location name %1 '%2'"
-msgstr ""
+msgstr "Platsnamn %1 '%2'"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Type %2 '%1'"
-msgstr ""
+msgstr "Aktivitetstyp %2 '%1'"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Changed by: %1"
-msgstr ""
+msgstr "Ändrad av: %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "%1 %2 %3"
-msgstr ""
+msgstr "%1 %2 %3"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
-msgstr ""
+msgstr "Uppgift: %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task Status: %1"
-msgstr ""
+msgstr "Uppgiftsstatus: %1"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
-msgstr ""
+msgstr "Markerade relationer har tagits bort"
 
 #: CRM/Contact/BAO/RelationshipType.php
-#, fuzzy
 msgid "Invalid relationship type"
-msgstr "Typ av relation"
+msgstr "Ogiltig relationstyp"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Email"
-msgstr ""
+msgstr "Skicka inte Epost"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Phone"
-msgstr ""
+msgstr "Ring inte"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Mail"
-msgstr ""
+msgstr "Skicka inte brev"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Contact Sub Type"
-msgstr ""
+msgstr "Kontakt undertyp"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Legal Identifier"
-msgstr ""
+msgstr "Juridisk Identifierare"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "External Identifier"
-msgstr ""
+msgstr "Extern Indentifierare"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Sort Name"
@@ -3020,199 +3002,194 @@ msgstr "Visa namn"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Home URL"
-msgstr ""
+msgstr "Hemsida"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Image Url"
-msgstr ""
+msgstr "Bild-URL"
 
 #: CRM/Contact/DAO/Contact.php xml/templates/civicrm_add_domain.tpl
 msgid "Preferred Communication Method"
-msgstr ""
+msgstr "Önskad kommunikationsmetod"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
-msgstr ""
+msgstr "Önskat epostformat"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Do Not Trade"
-msgstr ""
+msgstr "Ingen försäljning"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Hash"
-msgstr "Röra"
+msgstr "Hash"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "No Bulk Mail (Opted-out)"
-msgstr ""
+msgstr "Inga mass-mail"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Internal Contact ID"
-msgstr ""
+msgstr "Internt kontakt-ID"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Source of Contact Data"
-msgstr ""
+msgstr "Källa för Kontaktdata"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Greeting Type"
-msgstr ""
+msgstr "Hälsningstyp"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom Greeting"
-msgstr ""
+msgstr "Egna hälsningar"
 
 #: CRM/Contact/DAO/Individual.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Job Title"
-msgstr ""
+msgstr "Yrkestitel"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Birth Date"
-msgstr ""
+msgstr "Födelsedatum"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Is Deceased"
-msgstr ""
+msgstr "Är död"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Deceased Date"
-msgstr ""
+msgstr "Dödsdatum"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Formal"
-msgstr ""
+msgstr "Formell"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Informal"
-msgstr ""
+msgstr "Informell"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Honorific"
-msgstr ""
+msgstr "Artig"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Custom"
-msgstr ""
+msgstr "Egen"
 
 #: CRM/Contact/DAO/Organization.php
 msgid "Sic Code"
-msgstr ""
+msgstr "SIC-kod"
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name A B"
-msgstr ""
+msgstr "Namn A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name B A"
-msgstr ""
+msgstr "Namn B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
-msgstr ""
+msgstr "Skickade formulärdata"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Tracking"
-msgstr ""
+msgstr "Spårning"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "Web"
-msgstr ""
+msgstr "Webb"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php
 msgid "API"
-msgstr ""
+msgstr "API"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 1"
-msgstr ""
+msgstr "Extra adress 1"
 
 #: CRM/Contact/Form/Address.php
 msgid "Addt'l Address 2"
-msgstr ""
+msgstr "Extra adress 2"
 
 #: CRM/Contact/Form/Address.php
 msgid "Latitude"
-msgstr ""
+msgstr "Latitud"
 
 #: CRM/Contact/Form/Address.php
 msgid "Longitude"
-msgstr ""
+msgstr "Longitud"
 
 #: CRM/Contact/Form/DeleteLocation.php
-#, fuzzy
 msgid "The location has been deleted."
-msgstr "Den bifogade filen har raderats."
+msgstr "Platsen har tagits bort."
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "CiviMail Domain Information"
-msgstr "Kampanjbidrag"
+msgstr "CiviMail Domäninformation"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain Name"
-msgstr "Platsnamn"
+msgstr "Domännamn"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "FROM Name"
-msgstr "Förnamn"
+msgstr "FRÅN Namn"
 
 #: CRM/Contact/Form/Domain.php
 msgid "FROM Email Address"
-msgstr ""
+msgstr "FRÅN Epostadress"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "\"info@example.org\")."
 msgstr ""
+"En domän-epostadress måste ha ett giltigt adressformat (ex. "
+"info@mindoman.se)"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
 "Email domain must use a valid internet domain format (e.g. \"example.org\")."
-msgstr ""
+msgstr "Epostdomän måste använda ett giltigt domännamnsformat (ex. mindoman.se)"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Return-Path"
-msgstr ""
+msgstr "Svarsadress"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Return-Path must use a valid email address format."
-msgstr "Var god ange ett giltig namn"
+msgstr "En svarsadress måste ha ett giltigt epost-adressformat"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain information for \"%1\" has been saved."
-msgstr "Informationssida för Domän"
+msgstr "Domäninformationen för \"%1\" har sparats."
 
 #: CRM/Contact/Form/Edit.php
 msgid "contact does not exist: %1"
-msgstr ""
+msgstr "kontakten finns inte: %1"
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
-msgstr ""
+msgstr "Du har inte rättighet att ändra denna kontakt."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Could not get a contact_id and/or contact_type"
-msgstr ""
+msgstr "Kan inte erhålla kontakt-ID eller kontakttyp"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Check for Matching Contact(s)"
-msgstr ""
+msgstr "Kontrollera matchande kontakter"
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Save Matching Contact"
-msgstr "Kartlägg kontakt"
+msgstr "Spara matchande kontakt"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save With Duplicate Household"
-msgstr ""
+msgstr "Spara med dubletthushåll"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save and New"
@@ -3220,12 +3197,11 @@ msgstr "Spara och Ny"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Your %1 contact record has been saved."
-msgstr ""
+msgstr "Din kontakt %1 har sparats."
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Email Format"
-msgstr "E-post skickad"
+msgstr "Epostformat"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
