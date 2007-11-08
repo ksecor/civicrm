@@ -61,7 +61,8 @@ switch ( $value ) {
      break;
  default     :
      require_once 'CRM/Core/Error.php';
-     CRM_Core_Error::debug_log_message( "PayPalIPN path not available" );
+     CRM_Core_Error::debug_log_message( "Could not get module name from request url" );
+     echo "Could not get module name from request url<p>";
      break;
  }
 

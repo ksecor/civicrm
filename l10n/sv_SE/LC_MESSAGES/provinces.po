@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2001-09-25 18:44\n"
-"Last-Translator: Mattias Newzella <newzella@linux.nu>\n"
+"PO-Revision-Date: 2007-11-06 10:58-0800\n"
+"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr "Alabama"
@@ -19,16 +20,16 @@ msgid "Alaska"
 msgstr "Alaska"
 
 msgid "Arizona"
-msgstr ""
+msgstr "Arizona"
 
 msgid "Arkansas"
 msgstr "Arkansas"
 
 msgid "California"
-msgstr ""
+msgstr "Californien"
 
 msgid "Colorado"
-msgstr ""
+msgstr "Colorado"
 
 msgid "Connecticut"
 msgstr "Connecticut"
@@ -163,7 +164,7 @@ msgid "Wyoming"
 msgstr "Wyoming"
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "Columbiadistriktet"
 
 msgid "American Samoa"
 msgstr "Amerikanska Samoa"
@@ -181,22 +182,22 @@ msgid "Virgin Islands"
 msgstr "Jungfruöarna"
 
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "Förenta staternas avlägset belägna öar"
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "Armed Forces Europe"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "Armed Forces Americas"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "Armed Forces Pacific"
 
 msgid "Alberta"
 msgstr "Alberta"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "Brittiska Columbia"
 
 msgid "Manitoba"
 msgstr "Manitoba"
@@ -205,22 +206,22 @@ msgid "New Brunswick"
 msgstr "New Brunswick"
 
 msgid "Newfoundland and Labrador"
-msgstr ""
+msgstr "Newfoundland och Labrador"
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "Nordvästra Territorierna"
 
 msgid "Nova Scotia"
 msgstr "Nova Scotia"
 
 msgid "Nunavut"
-msgstr ""
+msgstr "Nunavut"
 
 msgid "Ontario"
 msgstr "Ontario"
 
 msgid "Prince Edward Island"
-msgstr ""
+msgstr "Prince Edward Island"
 
 msgid "Quebec"
 msgstr "Quebec"
@@ -1252,13 +1253,13 @@ msgid "Limburg"
 msgstr ""
 
 msgid "Central and Western"
-msgstr ""
+msgstr "Centrala och Västra"
 
 msgid "Eastern"
-msgstr ""
+msgstr "Östra"
 
 msgid "Southern"
-msgstr ""
+msgstr "Södra"
 
 msgid "Wan Chai"
 msgstr ""
@@ -1279,13 +1280,13 @@ msgid "Yau Tsim Mong"
 msgstr ""
 
 msgid "Islands"
-msgstr ""
+msgstr "Öarna"
 
 msgid "Kwai Tsing"
 msgstr ""
 
 msgid "North"
-msgstr ""
+msgstr "Norra"
 
 msgid "Sai Kung"
 msgstr ""
@@ -1891,7 +1892,7 @@ msgid "Zhemgang"
 msgstr ""
 
 msgid "Central"
-msgstr ""
+msgstr "Centrala"
 
 msgid "Ghanzi"
 msgstr ""
@@ -1909,13 +1910,13 @@ msgid "Ngamiland"
 msgstr ""
 
 msgid "North-East"
-msgstr ""
+msgstr "Nordöstra"
 
 msgid "North-West"
-msgstr ""
+msgstr "Nordvästra"
 
 msgid "South-East"
-msgstr ""
+msgstr "Sydöstra"
 
 msgid "Brèsckaja voblasc'"
 msgstr ""
@@ -2086,16 +2087,16 @@ msgid "Bern"
 msgstr ""
 
 msgid "Basel-Landschaft"
-msgstr ""
+msgstr "Basel-Landskap"
 
 msgid "Basel-Stadt"
-msgstr ""
+msgstr "Basel-Stad"
 
 msgid "Fribourg"
 msgstr ""
 
 msgid "Geneva"
-msgstr ""
+msgstr "Geneve"
 
 msgid "Glarus"
 msgstr ""
@@ -2242,25 +2243,25 @@ msgid "Adamaoua"
 msgstr ""
 
 msgid "Centre"
-msgstr ""
+msgstr "Centrala"
 
 msgid "East"
-msgstr ""
+msgstr "Östra"
 
 msgid "Far North"
-msgstr ""
+msgstr "Nordligaste"
 
 msgid "South"
-msgstr ""
+msgstr "Södra"
 
 msgid "South-West"
-msgstr ""
+msgstr "Sydvästra"
 
 msgid "West"
-msgstr ""
+msgstr "Västra"
 
 msgid "Beijing"
-msgstr ""
+msgstr "Peking"
 
 msgid "Chongqing"
 msgstr ""
@@ -2710,13 +2711,13 @@ msgid "Tadjoura"
 msgstr ""
 
 msgid "Frederikaberg municipality"
-msgstr ""
+msgstr "Frederika stad"
 
 msgid "Copenhagen municipality"
-msgstr ""
+msgstr "Köpenhamns Storstad"
 
 msgid "Copenhagen"
-msgstr ""
+msgstr "Köpenhamn"
 
 msgid "Frederiksborg"
 msgstr ""
@@ -2734,10 +2735,10 @@ msgid "Bornholm"
 msgstr ""
 
 msgid "Funen"
-msgstr ""
+msgstr "Fyn"
 
 msgid "Southern Jutland"
-msgstr ""
+msgstr "SydJylland"
 
 msgid "Ribe"
 msgstr ""
@@ -2755,7 +2756,7 @@ msgid "Viborg"
 msgstr ""
 
 msgid "Northern Jutland"
-msgstr ""
+msgstr "NordJylland"
 
 msgid "Distrito Nacional (Santo Domingo)"
 msgstr ""
@@ -4201,7 +4202,7 @@ msgid "Rochdale"
 msgstr ""
 
 msgid "Rotherham"
-msgstr ""
+msgstr "Rotterdam"
 
 msgid "Rutland"
 msgstr ""
@@ -5590,7 +5591,7 @@ msgid "Modena"
 msgstr ""
 
 msgid "Napoli"
-msgstr ""
+msgstr "Neapel"
 
 msgid "Novara"
 msgstr ""
@@ -8419,7 +8420,7 @@ msgid "Umm Salal"
 msgstr ""
 
 msgid "Bucuresti"
-msgstr ""
+msgstr "Bukarest"
 
 msgid "Alba"
 msgstr ""
@@ -8980,70 +8981,70 @@ msgid "Warab"
 msgstr ""
 
 msgid "Blekinge lan"
-msgstr ""
+msgstr "Blekinge"
 
 msgid "Dalarnas lan"
-msgstr ""
+msgstr "Dalarna"
 
 msgid "Gotlands lan"
-msgstr ""
+msgstr "Gotland"
 
 msgid "Gavleborge lan"
-msgstr ""
+msgstr "Gävleborg"
 
 msgid "Hallands lan"
-msgstr ""
+msgstr "Halland"
 
 msgid "Jamtlande lan"
-msgstr ""
+msgstr "Jämtland"
 
 msgid "Jonkopings lan"
-msgstr ""
+msgstr "Jönköping"
 
 msgid "Kalmar lan"
-msgstr ""
+msgstr "Kalmar"
 
 msgid "Kronoberge lan"
-msgstr ""
+msgstr "Kronoberg"
 
 msgid "Norrbottena lan"
-msgstr ""
+msgstr "Norrbotten"
 
 msgid "Skane lan"
-msgstr ""
+msgstr "Skåne"
 
 msgid "Stockholms lan"
-msgstr ""
+msgstr "Stockholm"
 
 msgid "Sodermanlands lan"
-msgstr ""
+msgstr "Södermanland"
 
 msgid "Uppsala lan"
-msgstr ""
+msgstr "Uppsala"
 
 msgid "Varmlanda lan"
-msgstr ""
+msgstr "Värmland"
 
 msgid "Vasterbottens lan"
-msgstr ""
+msgstr "Västerbotten"
 
 msgid "Vasternorrlands lan"
-msgstr ""
+msgstr "Västernorrland"
 
 msgid "Vastmanlanda lan"
-msgstr ""
+msgstr "Västmanland"
 
 msgid "Vastra Gotalands lan"
-msgstr ""
+msgstr "Västergötland"
 
 msgid "Orebro lan"
-msgstr ""
+msgstr "Örebro"
 
 msgid "Ostergotlands lan"
-msgstr ""
+msgstr "Östergötland"
 
 msgid "Saint Helena"
-msgstr ""
+msgstr "Sankta Helena"
 
 msgid "Ascension"
 msgstr ""
