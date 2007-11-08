@@ -39,6 +39,10 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
 
     static $_paymentProcessor = null;
 
+    function __construct( ) {
+        parent::__construct( );
+    }
+
     static function retrieve( $name, $type, $location = 'POST', $abort = true ) 
     {
         static $store = null;
@@ -52,7 +56,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         return $value;
     }
 
-    static function recur( &$input, &$ids, &$objects, $first ) 
+    function recur( &$input, &$ids, &$objects, $first ) 
     {
         if ( ! isset( $input['txnType'] ) ) {
             CRM_Core_Error::debug_log_message( "Could not find txn_type in input request" );
@@ -155,9 +159,9 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                        true, $first );
     }
 
-    static function single( &$input, &$ids, &$objects,
-                            $recur = false,
-                            $first = false ) 
+    function single( &$input, &$ids, &$objects,
+                     $recur = false,
+                     $first = false ) 
     {
         $contribution =& $objects['contribution'];
 
@@ -194,7 +198,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         $participant =& $objects['participant'];
         $membership  =& $objects['membership' ];
 
-        $status = $input['payment_status'];
+        $status = $input['paymentStatus'];
         if ( $status == 'Denied' || $status == 'Failed' || $status == 'Voided' ) {
             return $this->failed( $objects, $transaction );
         } else if ( $status == 'Pending' ) {
@@ -216,7 +220,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         $this->completeTransaction( $input, $ids, $objects, $transaction );
     }
 
-    static function main( $component = 'contribute' ) 
+    function main( $component = 'contribute' ) 
     {
         CRM_Core_Error::debug_var( 'GET' , $_GET , true, true );
         CRM_Core_Error::debug_var( 'POST', $_POST, true, true );
@@ -247,9 +251,8 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         self::$_paymentProcessor =& $objects['paymentProcessor'];
-
         if ( $component == 'contribute' ) {
-            if ( array_key_exists( 'contributionRecur', $ids ) ) {
+            if ( $ids['contributionRecur'] ) {
                 // check if first contribution is completed, else complete first contribution
                 $first = true;
                 if ( $objects['contribution']->contribution_status_id == 1 ) {

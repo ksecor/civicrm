@@ -50,12 +50,14 @@ $value = CRM_Utils_Array::value( 'module', $_GET );
 
 require_once 'CRM/Core/Payment/PayPalIPN.php';
 
+$paypalIPN = new CRM_Core_Payment_PayPalIPN( );
+
 switch ( $value ) {
  case 'contribute':
-     CRM_Core_Payment_PayPalIPN::main( 'contribute' );
+     $paypalIPN->main( 'contribute' );
      break;
  case 'event':
-     CRM_Core_Payment_PayPalIPN::main( 'event' );
+     $paypalIPN->main( 'event' );
      break;
  default     :
      require_once 'CRM/Core/Error.php';

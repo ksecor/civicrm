@@ -35,6 +35,12 @@
 
 class CRM_Core_Payment_BaseIPN {
 
+    static $_now = null;
+
+    function __construct( ) {
+        self::$_now = date( 'YmdHis' );
+    }
+
     function validateData( &$input, &$ids, &$objects ) {
 
         // make sure contact exists and is valid
@@ -77,7 +83,7 @@ class CRM_Core_Payment_BaseIPN {
                             "state-{$billingID}"          ,
                             "postal_code-{$billingID}"    ,
                             "country-{$billingID}"        , );
-        foreach ( $lookup as $name => $dontCare ) {
+        foreach ( $lookup as $name ) {
             $params[$name] = $input[$name];
         }
 
@@ -88,10 +94,12 @@ class CRM_Core_Payment_BaseIPN {
         }
         
         // lets keep this the same
-        $objects['contribution']->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
+        $contribution =& $objects['contribution'];
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
-        if ( $objects['participant'] ) {
-            $objects['participant']->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
+        $participant =& $objects['participant'];
+        if ( $participant ) {
+            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
         }
             
         return true;
@@ -196,6 +204,8 @@ class CRM_Core_Payment_BaseIPN {
 
         $ids['paymentProcessor']       =  $paymentProcessorID;
         $objects['paymentProcessor']   =& $paymentProcessor;
+
+        return true;
     }
 
     function failed( &$objects, &$transcation ) {
@@ -235,7 +245,7 @@ class CRM_Core_Payment_BaseIPN {
         $participant  =& $objects['participant'] ;
 
         $contribution->contribution_status_id = 3;
-        $contribution->cancel_date = $now;
+        $contribution->cancel_date = self::$_now;
         $contribution->cancel_reason = $input['reasonCode'];
         $contribution->save( );
 
@@ -255,7 +265,7 @@ class CRM_Core_Payment_BaseIPN {
         return true;
     }
 
-    function pending( &$objects, &$transcation ) {
+    function unhandled( &$objects, &$transcation ) {
         $transaction->rollback( );
         // we dont handle this as yet
         CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
@@ -276,7 +286,7 @@ class CRM_Core_Payment_BaseIPN {
             $contribution->source                  = ts( 'Online Contribution:' ) . ' ' . $values['title'];
             
             if ( $values['is_email_receipt'] ) {
-                $contribution->receipt_date = $now;
+                $contribution->receipt_date = self::$_now;
             }
 
             if ( $membership ) {
@@ -320,7 +330,7 @@ class CRM_Core_Payment_BaseIPN {
             $contribution->source                  = ts( 'Online Event Registration:' ) . ' ' . $values['event']['title'];
 
             if ( $values['event_page']['is_email_confirm'] ) {
-                $contribution->receipt_date = $now;
+                $contribution->receipt_date = self::$_now;
             }
 
             $participant->status_id = 1;
@@ -337,7 +347,7 @@ class CRM_Core_Payment_BaseIPN {
         // next create the transaction record
         $trxnParams = array(
                             'contribution_id'   => $contribution->id,
-                            'trxn_date'         => $now,
+                            'trxn_date'         => self::$_now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $input['amount'],
                             'fee_amount'        => $contribution->fee_amount,
@@ -370,7 +380,7 @@ class CRM_Core_Payment_BaseIPN {
 //                                'module'            => 'CiviContribute', 
 //                                'callback'          => 'CRM_Contribute_Page_Contribution::details',
 //                                'subject'           => "$formattedAmount - $title (online)",
-//                                'activity_date_time'=> $now,
+//                                'activity_date_time'=> self::$_now,
 //                                'is_test'           => $contribution->is_test
 //                                );
 
