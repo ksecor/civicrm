@@ -12,7 +12,7 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
     }
-
+    
     function testCustomFieldCreateNoParam()
     {
         $params = array();
@@ -23,65 +23,84 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     
     function testCustomFieldCreateWithoutGroupID( )
     {
+        $fieldParams = array('name'           => 'test_textfield1',
+                             'label'          => 'Name',
+                             'html_type'      => 'Text',
+                             'data_type'      => 'String',
+                             'default_value'  => 'abc',
+                             'weight'         => 4,
+                             'is_required'    => 1,
+                             'is_searchable'  => 0,
+                             'is_active'      => 1
+                             );
+        $params = array('fieldParams' => $fieldParams );
         
-        $params = array('name'            => 'test_textfield',
-                        'label'           => 'Name',
-                        'html_type'       => 'Text',
-                        'data_type'       => 'String',
-                        'default_value'   => 'abc',
-                        'weight'          => 4,
-                        'is_required'     => 1,
-                        'is_searchable'   => 0,
-                        'is_active'       => 1
-                        );
-        $customField =& civicrm_custom_field_create($params);  
+        $customField =& civicrm_custom_field_create($params);     
         $this->assertEqual($customField['is_error'], 1);
         $this->assertEqual( $customField['error_message'],'Missing Required field :custom_group_id' );
     }    
-    
+     
     function testCustomTextFieldCreate( )
     {
-        $customGroupID = $this->customGroupCreate('Individual','test_group');
-        $params = array('custom_group_id' => $customGroupID,
-                        'name'            => 'test_textfield',
-                        'label'           => 'Name1',
-                        'html_type'       => 'Text',
-                        'data_type'       => 'String',
-                        'default_value'   => 'abc',
-                        'weight'          => 4,
-                        'is_required'     => 1,
-                        'is_searchable'   => 0,
-                        'is_active'       => 1
-                        );
+        $customGroup = $this->customGroupCreate('Individual','text_test_group');
+        $fieldParams = array('custom_group_id' => $customGroup['id'],
+                             'name'            => 'test_textfield2',
+                             'label'           => 'Name1',
+                             'html_type'       => 'Text',
+                             'data_type'       => 'String',
+                             'default_value'   => 'abc',
+                             'weight'          => 4,
+                             'is_required'     => 1,
+                             'is_searchable'   => 0,
+                             'is_active'       => 1
+                             );
+        $params = array('fieldParams' => $fieldParams);
         
         $customField =& civicrm_custom_field_create($params);  
         $this->assertEqual($customField['is_error'],0);
-        $this->assertNotNull($customField['custom_field_id']);
-        $this->customFieldDelete($customField['custom_field_id']);
-        $this->customGroupDelete($customGroupID);
+        $this->assertNotNull($customField['id']);
+        $this->customFieldDelete($customField['id']); 
+        $this->customGroupDelete($customGroup['id']); 
     } 
-
-    function testCustomSelectFieldCreate( )
+    
+    function testCustomFieldOptionValueCreate( )
     {
-        $customGroupID = $this->customGroupCreate('Individual', 'test_group');
-        $params = array('custom_group_id' => $customGroupID,
-                        'name'            => 'test_selectfield',
-                        'label'           => 'Country',
-                        'html_type'       => 'Select',
-                        'data_type'       => 'String',
-                        'weight'          => 4,
-                        'is_required'     => 1,
-                        'is_searchable'   => 0,
-                        'is_active'       => 1
+        $customGroup = $this->customGroupCreate('Contact', 'select_test_group');
+        $fieldParams = array ('custom_group_id' => $customGroup['id'],
+                              'label'           => 'Country',
+                              'html_type'       => 'Select',
+                              'data_type'       => 'String',
+                              'weight'          => 4,
+                              'is_required'     => 1,
+                              'is_searchable'   => 0,
+                              'is_active'       => 1
+                              );
+        
+        $optionGroup = array('domain_id' => 1,
+                             'name'      => 'option_group1',
+                             'label'     => 'option_group_label1',
+                             'is_active' => 1
+                             );
+        
+        $optionValue = array ('label' => 'Label1',
+                              'value' => 'value1',
+                              'name'  => 'Name1',
+                              'weight'=> 1,
+                              'is_active'=>1
+                              );
+        
+        $params = array('fieldParams' => $fieldParams,
+                        'optionGroup' => $optionGroup,
+                        'optionValue' => $optionValue,
+                        'customGroup' => $customGroup,
                         );
-          
-        $customField =& civicrm_custom_field_create($params); 
+        
+        $customField =& civicrm_custom_field_create($params);          
         $this->assertEqual($customField['is_error'],0);
-        $this->assertNotNull($customField['custom_field_id']);
-        $this->customFieldDelete($customField['custom_field_id']);
-        $this->customGroupDelete($customGroupID);
-    } 
-   
+        $this->assertNotNull($customField['id']);
+        $this->customFieldDelete($customField['id']); 
+        $this->customGroupDelete($customGroup['id']); 
+    }     
 }
 ?>
  

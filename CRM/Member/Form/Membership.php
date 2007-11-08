@@ -138,6 +138,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            // in this mode by default uncheck this checkbox
+            unset($defaults['record_contribution']);
             $defaults['send_receipt'] = 0; 
         } elseif ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['send_receipt'] = 1; 
@@ -228,16 +230,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                           null, 
                           array( 'onClick' => 'showHideMemberStatus()'));
 
-        $this->addElement('checkbox', 
-                          'record_contribution', 
-                          ts('Record Membership Payment?'), null, 
-                          array( 'onClick' => 'showRecordContribution()'));
+        $this->addElement('checkbox', 'record_contribution', ts('Record Membership Payment?'), null, 
+                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( )
-                   );
+                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
 
         $this->add('text', 'total_amount', ts('Amount'));
         $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
@@ -255,10 +254,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
-                          array( 'onClick' => 'showReceiptText()'));
-
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $this->add('textarea', 'receipt_text_signup', ts('Receipt Message') );
-
+        
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
         $this->assign( 'email', $this->_contributorEmail );
@@ -415,7 +413,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             require_once 'CRM/Contact/BAO/Contact.php';
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $ids['userId'] );
-            $params['source'] = "Offline membership signup (by {$userName})";
+            $params['contribution_source'] = "Offline membership signup (by {$userName})";
         }
 
 

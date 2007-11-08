@@ -1,5 +1,6 @@
+{* Edit or display Profile fields, when embedded in an online contribution or event registration form. *}
 {if ! empty( $fields )}                                           
-    {strip} 
+   {strip} 
    {if $help_pre && $action neq 4}<div class="messages help">{$help_pre}</div>{/if} 
     {assign var=zeroField value="Initial Non Existent Fieldset"} 
     {assign var=fieldset  value=$zeroField} 
@@ -32,62 +33,68 @@
         <td class="option-label">{$form.$n.label}</td> 
         <td> 
              {assign var="count" value="1"} 
-        {strip} 
-        <table class="form-layout-compressed"> 
-        <tr> 
-          {* sort by fails for option per line. Added a variable to iterate through the element array*} 
-          {assign var="index" value="1"} 
-          {foreach name=outer key=key item=item from=$form.$n} 
-          {if $index < 10} 
-              {assign var="index" value=`$index+1`} 
-          {else} 
-              <td class="labels font-light">{$form.$n.$key.html}</td> 
-              {if $count == $field.options_per_line} 
-                  </tr> 
-                   <tr> 
-                   {assign var="count" value="1"} 
+            {strip} 
+            <table class="form-layout-compressed"> 
+            <tr> 
+              {* sort by fails for option per line. Added a variable to iterate through the element array*} 
+              {assign var="index" value="1"} 
+              {foreach name=outer key=key item=item from=$form.$n} 
+              {if $index < 10} 
+                  {assign var="index" value=`$index+1`} 
               {else} 
-                       {assign var="count" value=`$count+1`} 
+                  <td class="labels font-light">{$form.$n.$key.html}</td> 
+                  {if $count == $field.options_per_line} 
+                      </tr> 
+                       <tr> 
+                       {assign var="count" value="1"} 
+                  {else} 
+                        {assign var="count" value=`$count+1`} 
+                  {/if} 
               {/if} 
-          {/if} 
-          {/foreach} 
-        </tr> 
-        </table> 
-        {/strip} 
+              {/foreach} 
+            </tr> 
+            </table> 
+            {/strip} 
+            {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
+            {if $field.help_post && $action neq 4 && $action neq 1028}
+                <span class="description">{$field.help_post}</span> 
+            {/if} 
         </td> 
-    </tr> 
-        {else} 
+        </tr> 
+    {else} 
         <tr>
            <td class="label">{$form.$n.label}</td>
-	   <td>
+           <td>
              {if $n|substr:0:3 eq 'im-'}
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;
              {/if}
              {$form.$n.html}
+             {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
+             {if $field.help_post && $action neq 4 && $action neq 1028}
+                <br /><span class="description">{$field.help_post}</span> 
+             {/if} 
            </td>
         </tr> 
-        {/if} 
-        {* Show explanatory text for field if not in 'view' or 'preview' modes *} 
-        {if $field.help_post && $action neq 4 && $action neq 1028}
-            <tr><td>&nbsp;</td><td class="description">{$field.help_post}</td></tr> 
-        {/if} 
+    {/if}     
     {/foreach} 
-   </table> 
-{if $field.groupHelpPost && $action neq 4  && $action neq 1028} 
-    <div class="messages help">{$field.groupHelpPost}</div> 
-{/if} 
-{if $mode eq 4} 
-<div class="crm-submit-buttons">  
-     {$form.buttons.html} 
-</div> 
-{/if} 
-  {if $mode ne 8 && $action neq 1028} 
-    </fieldset> 
-  {/if} 
+   </table>
+   
+    {if $field.groupHelpPost && $action neq 4  && $action neq 1028} 
+        <div class="messages help">{$field.groupHelpPost}</div> 
+    {/if}
      
-        {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>
-        {/if} 
+    {if $mode eq 4} 
+        <div class="crm-submit-buttons">  
+         {$form.buttons.html} 
+        </div> 
+    {/if}
+     
+    {if $mode ne 8 && $action neq 1028} 
+        </fieldset> 
+    {/if} 
+         
+    {if $help_post && $action neq 4}<br /><div class="messages help">{$help_post}</div>{/if} 
     {/strip} 
  
 {/if} {* fields array is not empty *} 

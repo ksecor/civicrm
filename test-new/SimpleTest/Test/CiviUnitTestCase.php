@@ -591,13 +591,13 @@ class CiviUnitTestCase extends UnitTestCase {
                         'style'      => 'Inline',
                         'is_active'  => 1
                         );
-        
-        $result =& civicrm_custom_group_create($params);
+      
+        $result =& civicrm_custom_group_create($params);      
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'custom_group_id', $result) ) {
+             ! CRM_Utils_Array::value( 'id', $result) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Group' );
         }
-        return $result['custom_group_id'];    
+        return $result;    
     }
     
     /**
@@ -625,7 +625,7 @@ class CiviUnitTestCase extends UnitTestCase {
     function customFieldCreate( $customGroupID, $name ) 
     {
         require_once 'api/v2/CustomGroup.php';
-        $params = array(
+        $fieldParams = array(
                         'label'           => $name,
                         'name'            => $name,
                         'custom_group_id' => $customGroupID,
@@ -634,14 +634,16 @@ class CiviUnitTestCase extends UnitTestCase {
                         'is_searchable'   =>  1, 
                         'is_active'        => 1,
                         );
+
+	$params = array('fieldParams' =>$fieldParams);
         
         $result =& civicrm_custom_field_create($params);
         if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'custom_field_id', $result) ) {
+             ! CRM_Utils_Array::value( 'id', $result) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Field' );
         }
         
-        return $result['custom_field_id'];    
+        return $result;    
     }
     
     /**
@@ -770,8 +772,54 @@ class CiviUnitTestCase extends UnitTestCase {
             CRM_Core_Error::fatal( 'Could not delete group' );
         }
         return;
-    }    
-
+    }
+    
+    /**
+     * Function to create custom field with Option Values
+     * 
+     * @param int    $customGroupID
+     * @param string $name  name of custom field
+     */
+    function customFieldOptionValueCreate( $customGroup, $name ) 
+    {
+        require_once 'api/v2/CustomGroup.php';
+        
+        $fieldParams = array ('custom_group_id' => $customGroup['id'],
+                              'label'           => 'Country',
+                              'html_type'       => 'Select',
+                              'data_type'       => 'String',
+                              'weight'          => 4,
+                              'is_required'     => 1,
+                              'is_searchable'   => 0,
+                              'is_active'       => 1
+                              );
+        
+        $optionGroup = array('domain_id' => 1,
+                             'name'      => 'option_group1',
+                             'label'     => 'option_group_label1',
+                             'is_active' => 1
+                             );
+        
+        $optionValue = array ('label' => 'Label1',
+                              'value' => 'value1',
+                              'name'  => $name,
+                              'weight'=> 1,
+                              'is_active'=>1
+                              );
+        
+        $params = array('fieldParams'  => $fieldParams,
+                        'optionGroup'  => $optionGroup,
+                        'optionValue'  => $optionValue,
+                        'customGroup'  => $customGroup,
+                        );
+        
+        $result =& civicrm_custom_field_create($params);     
+        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
+             ! CRM_Utils_Array::value( 'id', $result) ) {
+            CRM_Core_Error::fatal( 'Could not create Custom Field' );
+        }
+        return $result;    
+    }      
 }
 
 ?>

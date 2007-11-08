@@ -324,10 +324,28 @@ class CRM_Core_Invoke
                 break;
 
             case 'activity':
-                require_once 'CRM/Contact/Page/View/Activity.php';
-                $view =& new CRM_Contact_Page_View_Activity( );
-                break;                
-
+                $activityId = CRM_Utils_Request::retrieve('activity_type_id', 'Positive',
+                                                          CRM_Core_DAO::$_nullObject );
+                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
+                                                    CRM_Core_DAO::$_nullObject );
+                
+                if(!$show) {
+                    if ($activityId)  {
+                        $session->set('activityId', $activityId);
+                    } else {
+                        $activityId = $session->get('activityId');
+                    }
+                }
+                if($activityId == 3) {
+                    $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
+                    $wrapper =& new CRM_Utils_Wrapper( );
+                    return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+                    
+                } else {
+                    require_once 'CRM/Contact/Page/View/Activity.php';
+                    $view =& new CRM_Contact_Page_View_Activity( );
+                    break;                
+                }
 // DRAFTING: All the below commented stuff should go away, however it looks so scary that I decided to keep it for now.
 
 //                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',

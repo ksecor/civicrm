@@ -77,9 +77,9 @@ function conf_init() {
 
     if ( ! file_exists( $confdir ) && ! $skipConfigError ) {
         echo "Could not find valid configuration dir, best guess: $confdir<br/><br/>\n";
-	echo "If this is a standalone installation (i.e. not a Drupal or ";
-	echo "Joomla module) and you'd like to re-initialize it, ";
-	echo "<a href=\"new_install.php\">click here</a>.\n";
+        echo "If this is a standalone installation (i.e. not a Drupal or ";
+        echo "Joomla module) and you'd like to re-initialize it, ";
+        echo "<a href=\"new_install.php\">click here</a>.\n";
         exit( );
     }
             

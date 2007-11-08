@@ -229,7 +229,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $contributionParams['currency'  ] = $config->defaultCurrency;
             $contributionParams['receive_date'] = $params['receive_date'];
             $contributionParams['receipt_date'] = $params['receipt_date'] ? $params['receipt_date'] : 'null';
-            $contributionParams['source']       = $params['source'] ? $params['source'] : 'null';
+            $contributionParams['source']       = $params['contribution_source'];
             $contributionParams['non_deductible_amount'] = 'null';
             $recordContribution = array(
                                         'total_amount',
@@ -916,7 +916,8 @@ civicrm_membership_status.is_current_member =1";
             $payment->doTransferCheckout( $form->_params );
         }
         
-        $form->_values['membership_id'] = $membership->id;
+        $form->_values['membership_id'  ] = $membership->id;
+        $form->_values['contribution_id'] = $contribution[$index]->id;
         //finally send an email receipt
         require_once "CRM/Contribute/BAO/ContributionPage.php";
         CRM_Contribute_BAO_ContributionPage::sendMail( $contactID,

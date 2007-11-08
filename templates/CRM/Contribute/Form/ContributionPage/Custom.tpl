@@ -14,8 +14,8 @@
     <dt>{$form.custom_post_id.label}</dt><dd>{$form.custom_post_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields in this online contribution page by configuring and selecting a CiviCRM Profile to be included at the bottom of the page.{/ts}</dd>
     </dl>
+    <div id="crm-submit-buttons">
+        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+    </div>
     </fieldset>
-</div>
-<div id="crm-submit-buttons">
-    {$form.buttons.html}
 </div>

@@ -88,6 +88,8 @@ class CRM_Friend_Form extends CRM_Core_Form
        
         $session =& CRM_Core_Session::singleton( );
         $this->_contactID = $session->get( 'userID' );
+        // we do not want to display recently viewed items, so turn off
+        $this->assign       ( 'displayRecent' , false );
     }
 
     /**

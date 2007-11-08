@@ -126,6 +126,7 @@ class CRM_Core_BAO_CustomOption {
             return $options;
         }
 
+        require_once 'CRM/Core/DAO/OptionValue.php';
         $dao =& new CRM_Core_DAO_OptionValue();
         $dao->option_group_id = $optionGroupID;
         if ( ! $inactiveNeeded ) {

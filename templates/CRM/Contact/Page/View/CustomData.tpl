@@ -8,7 +8,7 @@
         {if $groupTree}
             <div class="form-item">
                 
-                {foreach from=$groupTree item=cd key=group_id}
+            {foreach from=$groupTree item=cd key=group_id}
                 {if $group_id ne 'info'}
                 <div id="{$cd.name}_show" class="section-hidden section-hidden-border">
                 <a href="#" onclick="hide('{$cd.name}_show'); show('{$cd.name}'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}{$cd.title}{/ts}</label><br />
@@ -20,7 +20,7 @@
                     {foreach from=$cd.fields item=cd_value key=field_id}
         		        {if $cd_value.options_per_line != 0 }
 			               {assign var="element_name" value="custom_"|cat:$field_id}
-			               <dt>{$form.$element_name.label} </dt>
+			               <dt>{$form.$element_name.label}</dt>
 			               <dd class="html-adjust">
                            {if $form.$element_name}
                               {assign var="count" value="1"}
@@ -59,13 +59,11 @@
                             {if $form.$element_name.html}
                              <dd class="html-adjust">
                              {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
-                               {*<a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}"><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>*}
                                <a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
                              {else}
                                <a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a>
                              {/if}
                             </dd>        
-                         {* <dd class="html-adjust"><a href="{$groupTree.$group_id.fields.$field_id.customValue.fileURL}">{$groupTree.$group_id.fields.$field_id.customValue.fileName}</a></dd>*}
                             {/if}
                           {elseif $groupTree.$group_id.fields.$field_id.data_type == 'Link'}
                             <dd>
@@ -82,14 +80,15 @@
                 </fieldset>
                 </div>
                 {/if}
-                {/foreach}
-                {if $editCustomData}
-                    <div class="action-link">
-                    {if $groupId}
-                    <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
-                    {/if}
-                    </div>
-		        {/if}
+            {/foreach}
+            
+            {if $editCustomData}
+                <div class="action-link">
+                {if $groupId}
+                <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                {/if}
+                </div>
+            {/if}
             </div>
         {/if}    
     {/if}

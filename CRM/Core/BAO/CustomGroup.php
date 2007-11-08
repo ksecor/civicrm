@@ -1275,7 +1275,7 @@ ORDER BY weight ASC, label ASC";
         if ( empty( $_GET ) ) {
             return;
         }
-
+        
         $groupTree    =& CRM_Core_BAO_CustomGroup::getTree( $type );
         $customFields =& CRM_Core_BAO_CustomField::getFields( $type );
 
@@ -1283,6 +1283,9 @@ ORDER BY weight ASC, label ASC";
         $htmlType     = array('CheckBox','Multi-Select','Select','Radio');
 
         foreach ($groupTree as $group) {
+            if ( ! isset( $group['fields'] ) ) {
+                continue;
+            }
             foreach( $group['fields'] as $key => $field) {
                 $fieldName = 'custom_' . $key;
                 $value = CRM_Utils_Request::retrieve( $fieldName, 'String',

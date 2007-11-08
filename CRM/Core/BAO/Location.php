@@ -201,10 +201,14 @@ WHERE e.id = %1";
     {
         foreach ( $params['location'] as $key => $value ) {
             foreach ( self::$blocks as $block ) { 
-                $formattedBlocks[$block][$key]                     = $value[$block            ];
-                $formattedBlocks[$block][$key]['location_type_id'] = $value['location_type_id'];
-                $formattedBlocks[$block][$key]['is_primary'      ] = $value['is_primary'      ];
-                $formattedBlocks[$block][$key]['is_billing'      ] = $value['is_billing'      ];
+                $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
+                                                                                            $value );
+                $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
+                                                                                            $value );
+                $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
+                                                                                             $value );
+                $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
+                                                                                             $value );
                 if ( !$entity ) {
                     $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
                 } else {

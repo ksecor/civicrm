@@ -38,7 +38,8 @@ require_once 'CRM/Contribute/Form/ContributionPage.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_ContributionPage {
+class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_ContributionPage 
+{
     /**
      * Function to actually build the form
      *
@@ -50,6 +51,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
         $this->add( 'select', 'custom_pre_id' , ts('Profile Fields') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
         $this->add( 'select', 'custom_post_id', ts('Profile Fields') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
 
+        $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Custom', 'formRule' ) , $this->_id);
+        
         parent::buildQuickForm( );
     }
 
@@ -97,13 +100,12 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
             $params['id'] = $this->_id;
         }
 
-
         $params['domain_id'] = CRM_Core_Config::domainID( );
 
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
          
-        // also update the ProfileModule tables 
+        // also update uf join table
         $ufJoinParams = array( 'is_active'    => 1, 
                                'module'       => 'CiviContribute',
                                'entity_table' => 'civicrm_contribution_page', 
@@ -131,6 +133,54 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     public function getTitle( ) 
     {
         return ts( 'Custom Fields' );
+    }
+
+    /**  
+     * global form rule  
+     *  
+     * @param array $fields  the input form values  
+     *  
+     * @return true if no errors, else array of errors  
+     * @access public  
+     * @static  
+     */  
+    static function formRule( &$fields, &$files, $contributionPageId ) 
+    {  
+        $errors = array( );  
+        
+        // for membership profile make sure Membership section is enabled
+        // get membership section for this contribution page
+        require_once 'CRM/Member/DAO/MembershipBlock.php';
+        $dao =& new CRM_Member_DAO_MembershipBlock();
+        $dao->entity_table = 'civicrm_contribution_page';
+        $dao->entity_id    = $contributionPageId; 
+        
+        $membershipEnable = false;
+        
+        if ( $dao->find(true) && $dao->is_active ) {
+            $membershipEnable = true;
+        }
+        
+        require_once "CRM/Core/BAO/UFField.php";
+        if ( $fields['custom_pre_id'] ) {
+            $preProfileType  = CRM_Core_BAO_UFField::getProfileType( $fields['custom_pre_id'] );
+        }
+
+        if ( $fields['custom_post_id'] ) {
+            $postProfileType = CRM_Core_BAO_UFField::getProfileType( $fields['custom_post_id'] );
+        }
+        
+        $errorMsg = ts('You must enable the Membership Block for this Contribution Page if you want to include a Profile with Membership fields.');
+
+        if ( ( $preProfileType == 'Membership' ) && !$membershipEnable ) {
+            $errors['custom_pre_id'] = $errorMsg;
+        }
+        
+        if ( ( $postProfileType == 'Membership' ) && !$membershipEnable ) {
+            $errors['custom_post_id'] = $errorMsg;
+        }
+
+        return empty($errors) ? true : $errors;
     }
 }
 

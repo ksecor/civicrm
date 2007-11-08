@@ -204,7 +204,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $this->addElement('checkbox', 
                           'record_contribution', 
                           ts('Record Renewal Payment?'), null, 
-                          array( 'onClick' => 'showRecordContribution()'));
+                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
@@ -228,8 +228,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation and Receipt?'), null, 
-                          array( 'onClick' => 'showReceiptText()'));
-
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
         $this->add('textarea', 'receipt_text_renewal', ts('Renewal Message') );
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );

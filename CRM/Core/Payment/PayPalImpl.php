@@ -267,7 +267,6 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
             $config->userFrameworkResourceURL . 
             "extern/ipn.php?reset=1&contactID={$params['contactID']}" .
             "&contributionID={$params['contributionID']}" .
-            "&contributionTypeID={$params['contributionTypeID']}" .
             "&module={$component}";
 
         if ( $component == 'event' ) {

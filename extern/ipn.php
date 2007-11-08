@@ -50,16 +50,19 @@ $value = CRM_Utils_Array::value( 'module', $_GET );
 
 require_once 'CRM/Core/Payment/PayPalIPN.php';
 
+$paypalIPN = new CRM_Core_Payment_PayPalIPN( );
+
 switch ( $value ) {
  case 'contribute':
-     CRM_Core_Payment_PayPalIPN::main( 'contribute' );
+     $paypalIPN->main( 'contribute' );
      break;
  case 'event':
-     CRM_Core_Payment_PayPalIPN::main( 'event' );
+     $paypalIPN->main( 'event' );
      break;
  default     :
      require_once 'CRM/Core/Error.php';
-     CRM_Core_Error::debug_log_message( "PayPalIPN path not available" );
+     CRM_Core_Error::debug_log_message( "Could not get module name from request url" );
+     echo "Could not get module name from request url<p>";
      break;
  }
 

@@ -230,7 +230,8 @@ class CRM_Core_BAO_Block
         }
         
         $name = ucfirst( $blockName );
-        
+
+        $entityElements = array( );
         //get existing block ids if exist for this contact
         if ( !$entity ) {
             //$contactBlockIds = array( );
@@ -249,7 +250,8 @@ class CRM_Core_BAO_Block
         $isPrimary     = true;
         $isBilling     = true;
         $locationCount = 1;
-        
+        $blocks        = array( );
+
         foreach ( $params[$blockName] as $value ) {
             if ( !is_array( $value ) ) {
                 continue;

@@ -61,18 +61,17 @@
         {/if}
     {/if}
     </dl>
+    {if $action ne 4}
+        <div id="crm-submit-buttons">
+            <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+        </div>
+    {else}
+        <div id="crm-done-button">
+            <dl><dt></dt><dd>{$form.done.html}</dd></dl>  
+        </div>
+    {/if}
     </fieldset>
 </div>
-
-{if $action ne 4}
-<div id="crm-submit-buttons">
-    {$form.buttons.html}
-</div>
-{else}
-    <div id="crm-done-button">
-        {$form.done.html}
-    </div>
-{/if} {* $action ne view *}
 
 <script type="text/javascript">
  showHonor();

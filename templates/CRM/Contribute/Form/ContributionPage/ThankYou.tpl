@@ -31,11 +31,11 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a BLIND carbon copy of each emailed receipt, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org).{/ts}</dd>
     </dl>
     </div>
+    <div id="crm-submit-buttons">
+        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+    </div>
     
     </fieldset>
-</div>
-<div id="crm-submit-buttons">
-    {$form.buttons.html}
 </div>
 
 <script type="text/javascript">

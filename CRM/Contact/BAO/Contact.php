@@ -810,7 +810,6 @@ SELECT    civicrm_contact.display_name,
 FROM      civicrm_contact
 LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
     WHERE civicrm_email.is_primary = 1
-          $cond
       AND civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
 
         $dao =& new CRM_Core_DAO( );

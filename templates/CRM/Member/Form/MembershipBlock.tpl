@@ -58,19 +58,16 @@
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount. (This option is NOT available for PayPal Website Payments Standard and Google CheckOut.){/ts}</dd>
     </dl>
    </div>
+    {if $action ne 4}
+        <div id="crm-submit-buttons">
+            <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+        </div>
+    {else}
+        <div id="crm-done-button">
+             <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
+        </div>
+    {/if} {* $action ne view *}
   </fieldset>
-</div>
-
-<div>
-{if $action ne 4}
-    <div id="crm-submit-buttons">
-        <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
-    </div>
-{else}
-    <div id="crm-done-button">
-         <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
-    </div>
-{/if} {* $action ne view *}
 </div>
 
 {literal}
