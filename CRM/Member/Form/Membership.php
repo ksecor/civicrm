@@ -413,7 +413,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             require_once 'CRM/Contact/BAO/Contact.php';
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $ids['userId'] );
-            $params['source'] = "Offline membership signup (by {$userName})";
+            $params['contribution_source'] = "Offline membership signup (by {$userName})";
         }
 
 
