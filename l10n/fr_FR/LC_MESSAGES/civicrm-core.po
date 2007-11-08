@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-10-27 03:36-0700\n"
-"Last-Translator: Frederic Dessy <frederic.dessy@internet.lu>\n"
+"PO-Revision-Date: 2007-11-08 03:37-0800\n"
+"Last-Translator: Rodolphe <rodriced@free.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -774,9 +774,8 @@ msgstr "Emplacement des tables"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Groupe"
+msgstr "Type de groupe"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -911,9 +910,8 @@ msgid "Administer CiviCRM"
 msgstr "Administration CiviCRM"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Domain"
-msgstr "Page de donation"
+msgstr "Nom de domaine de l'email"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
@@ -945,13 +943,11 @@ msgstr "ID externe"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid "External ID already exists in Database."
-msgstr "Nom déjà existant dans la base de donnée."
+msgstr "ID externe déjà existant dans la base de donnée."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Matching Contact button below."
@@ -960,10 +956,10 @@ msgid_plural ""
 "Save Matching Contact button below."
 msgstr[0] ""
 "Un contact trouvé. Vous pouvez l'éditer ici : %1, ou utiliser le bouton "
-"\"Copier ce contact\" ci-dessous."
+"\"Sauvegarder le(s) contact(s) trouvé(s)\" ci-dessous."
 msgstr[1] ""
 "%count contacts trouvés. Vous pouvez les éditer ici : %1, ou utiliser le "
-"bouton \"Copier ces contacts\" ci-dessous."
+"bouton \"Sauvegarder le(s) contact(s) trouvé(s)\" ci-dessous."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -1411,8 +1407,8 @@ msgid ""
 "This profile is not configured for the requested action. Contact the site "
 "administrator if you need assistance."
 msgstr ""
-"Ce profile n'est pas configurer pour cette requête. Contactez "
-"l'administrateur du site si vous avez besoin d'assistance."
+"Ce profil n'est pas configuré pour cette requête. Contactez l'administrateur "
+"du site si vous avez besoin d'assistance."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
@@ -1611,7 +1607,7 @@ msgstr "Profile CiviCRM"
 #: CRM/Core/DAO/Validation.php CRM/Group/Form/Search.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Set.tpl
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -1714,7 +1710,6 @@ msgid "Delete Custom Field"
 msgstr "Supprimer le Champ Personnalisé"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group '%1' has been deleted."
 msgstr "Le Groupe \"%1\" a été supprimé."
 
@@ -1761,7 +1756,7 @@ msgstr "Valeur par défaut invalide pour ce pays."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Duplicate Option label"
-msgstr "Étiquette d'Option Double"
+msgstr "Étiquette Option en Double"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Option label cannot be empty"
