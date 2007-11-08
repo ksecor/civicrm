@@ -6,7 +6,7 @@
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>
   <authorUrl>civicrm.org</authorUrl>
-  <version>1.9</version>
+  <version>2.0</version>
   <description>CiviCRM</description>
   <files>
       <filename>civicrm.php</filename>
