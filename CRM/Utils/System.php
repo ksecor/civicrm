@@ -671,7 +671,7 @@ class CRM_Utils_System {
     }
 
     static function getAllHeaders( ) {
-        if ( func_exists( 'getallheaders' ) ) {
+        if ( function_exists( 'getallheaders' ) ) {
             return getallheaders( );
         }
 

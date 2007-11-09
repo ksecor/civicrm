@@ -63,7 +63,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         if ( $value ) {
-            if ( ! CRM_Utils_Type::::validate( $value, $type ) ) {
+            if ( ! CRM_Utils_Type::validate( $value, $type ) ) {
                 CRM_Core_Error::debug_log_message( "Could not find a valid entry for $name" );
                 echo "Failure: Invalid Parameter<p>";
                 exit( );
@@ -98,7 +98,6 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
      */  
     function newOrderNotify( $dataRoot, $privateData, $component ) {
         $ids = $input = $params = array( );
-
         
         $input['component'] = strtolower($component);
 
@@ -122,14 +121,14 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         $input['invoice']    =  $privateData['invoiceID'];
         $input['newInvoice'] =  $dataRoot['google-order-number']['VALUE'];
         $contribution        =& $objects['contribution'];
-        if ( $contribution->invoice_id != $invoice ) {
+        if ( $contribution->invoice_id != $input['invoice'] ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
             echo "Failure: Invoice values dont match between database and IPN request<p>";
             return;
         }
 
         // lets replace invoice-id with google-order-number because thats what is common and unique 
-        // in subsequent calls or notifications send by google.
+        // in subsequent calls or notifications sent by google.
         $contribution->invoice_id = $input['newInvoice'];
 
         $now             = date( 'YmdHis' );
@@ -407,12 +406,12 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         
         list( $mode, $module, $paymentProcessorID ) = self::getContext($xml_response, $privateData, $orderNo, $root);
         $mode   = $mode ? 'test' : 'live';
-        
+
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
                                                                        $mode );
         
-        $ipn    =& self::singleton( $mode, $paymentProcessor );
+        $ipn    =& self::singleton( $mode, $module, $paymentProcessor );
         
         // Create new response object
         $merchant_id  = $paymentProcessor['user_name'];
@@ -423,7 +422,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                                        $xml_response, $server_type);
         fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
                                      $response->root));
-        
+
         //Check status and take appropriate action
         $status = $response->HttpAuthentication($headers);
         
@@ -508,6 +507,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
             $input[$name] = $value ? $value : null;
         }
+        return true;
     }
 
     /**
