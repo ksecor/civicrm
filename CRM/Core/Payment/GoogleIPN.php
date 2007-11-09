@@ -490,27 +490,20 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
     }
 
     function getInput( &$input, &$ids ) {
-
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
-        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
-        if ( ! $ids['billing'] ) {
-            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-            echo "Failure: Could not find billing location type<p>";
+        if ( ! $this->getBillingID( $ids ) ) {
             return false;
         }
 
+        $billingID = $ids['billing'];
         $lookup = array( "first_name"                  => 'contact-name',
                          // "last-name" not available with google (every thing in contact-name)
                          "last_name"                   => 'last_name' , 
-                         "street_address-{$billingId}" => 'address1',
-                         "city-{$billingId}"           => 'city',
-                         "state-{$billingId}"          => 'region',
-                         "postal_code-{$billingId}"    => 'postal-code',
-                         "country-{$billingId}"        => 'country-code' );
+                         "street_address-{$billingID}" => 'address1',
+                         "city-{$billingID}"           => 'city',
+                         "state-{$billingID}"          => 'region',
+                         "postal_code-{$billingID}"    => 'postal-code',
+                         "country-{$billingID}"        => 'country-code' );
 
-        $billingID = $ids['billing'];
         foreach ( $lookup as $name => $googleName ) {
             $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
             $input[$name] = $value ? $value : null;
