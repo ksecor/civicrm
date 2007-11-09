@@ -42,6 +42,11 @@
             <strong>{$minimum_fee|crmMoney}</strong> 
            {/if}
         {/if}
+        { if $is_pay_later}
+       <p>
+          You have opted to pay at a later date
+       </p>
+        {/if}
         {if $is_recur}
             {if $installments}
                 <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}I want to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>

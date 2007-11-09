@@ -20,7 +20,10 @@
 
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contributeMode EQ 'notify'}
+        {if $is_pay_later}
+           <p>
+           {$pay_later_receipt}
+        {elseif $contributeMode EQ 'notify'}
             <p>
             {ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}
             {if $is_email_receipt}

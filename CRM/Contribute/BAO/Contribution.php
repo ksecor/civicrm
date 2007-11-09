@@ -770,11 +770,8 @@ SELECT count(*) as count,
         $now = date( 'YmdHis' );
 
         $result = null;
-        if ( $form->_contributeMode == 'express' ) {
-            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                $result =& $payment->doExpressCheckout( $paymentParams );
-            }
-        } else if ( $form->_contributeMode == 'notify' ) {
+        if ( $form->_contributeMode == 'notify' ||
+             $form->_params['is_pay_later'] ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
@@ -806,8 +803,17 @@ SELECT count(*) as count,
                     $membershipResult = array( 1 => $contribution );
                     return $membershipResult;
                 } else {
-                    $result =& $payment->doTransferCheckout( $form->_params );
+                    if ( ! $this->_params['is_pay_later'] ) {
+                        $result =& $payment->doTransferCheckout( $form->_params );
+                    } else {
+                        // follow similar flow as IPN
+                        return;
+                    }
                 }
+            }
+        } elseif ( $form->_contributeMode == 'express' ) {
+            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
+                $result =& $payment->doExpressCheckout( $paymentParams );
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
             $result =& $payment->doDirectPayment( $paymentParams );
