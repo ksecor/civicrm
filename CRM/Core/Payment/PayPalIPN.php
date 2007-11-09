@@ -176,8 +176,6 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             $contribution->invoice_id = md5( uniqid( rand( ), true ) );
         }
 
-        $now = date( 'YmdHis' );
-        $contribAmount = $input['amount'];
         if ( ! $recur ) {
             if ( $contribution->total_amount != $input['amount'] ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );

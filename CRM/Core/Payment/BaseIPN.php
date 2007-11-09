@@ -62,6 +62,7 @@ class CRM_Core_Payment_BaseIPN {
             echo "Failure: Could not find contribution record for $contributionID<p>";
             return false;
         }
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
         $objects['contact']          =& $contact;
         $objects['contribution']     =& $contribution;
@@ -93,15 +94,6 @@ class CRM_Core_Payment_BaseIPN {
             $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $ids['contact'] );
         }
         
-        // lets keep this the same
-        $contribution =& $objects['contribution'];
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
-
-        $participant =& $objects['participant'];
-        if ( $participant ) {
-            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
-        }
-            
         return true;
     }
 
@@ -186,6 +178,7 @@ class CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find participant: $participantID<p>";
                 return false;
             }
+            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
 
             $objects['participant'] =& $participant;
 
@@ -246,7 +239,7 @@ class CRM_Core_Payment_BaseIPN {
 
         $contribution->contribution_status_id = 3;
         $contribution->cancel_date = self::$_now;
-        $contribution->cancel_reason = $input['reasonCode'];
+        $contribution->cancel_reason = CRM_Utils_Array::value( 'reasonCode', $input );
         $contribution->save( );
 
         if ( $membership ) {

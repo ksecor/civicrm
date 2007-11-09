@@ -803,7 +803,7 @@ SELECT count(*) as count,
                     $membershipResult = array( 1 => $contribution );
                     return $membershipResult;
                 } else {
-                    if ( ! $this->_params['is_pay_later'] ) {
+                    if ( ! $form->_params['is_pay_later'] ) {
                         $result =& $payment->doTransferCheckout( $form->_params );
                     } else {
                         // follow similar flow as IPN
