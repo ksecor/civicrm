@@ -263,6 +263,8 @@ class CRM_Core_Block {
      * @access private
      */
     private function setTemplateShortcutValues( ) {
+        $config =& CRM_Core_Config::singleton( );
+
         static $shortCuts = array( );
         
         if (!($shortCuts)) {
@@ -297,6 +299,9 @@ class CRM_Core_Block {
                                                                    'title' => ts('My Contact Dashboard') ) ));
             }
 
+            $url = CRM_Utils_System::makeURL( 'snippet', false, false ) . '2';
+            $shortCuts = array_merge($shortCuts, array( array( 'url'   => $url,
+                                                               'title' => ts( 'Printer Friendly Page' ) ) ) );
             if ( empty( $shortCuts ) ) {
                 return null;
             }
@@ -306,7 +311,11 @@ class CRM_Core_Block {
         $values = array( );
         foreach ( $shortCuts as $short ) {
             $value = array( );
-            $value['url'  ] = CRM_Utils_System::url( $short['path'], $short['query'] );
+            if ( isset( $short['url'] ) ) {
+                $value['url'] = $short['url'];
+            } else {
+                $value['url'] = CRM_Utils_System::url( $short['path'], $short['query'] );
+            }
             $value['title'] = $short['title'];
             $values[] = $value;
         }

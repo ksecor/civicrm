@@ -53,10 +53,10 @@ class CRM_Utils_System {
      * @return string the url fragment
      * @access public
      */
-    static function makeURL( $urlVar ) {
+    static function makeURL( $urlVar, $includeReset = false, $includeForce = true ) {
         $config   =& CRM_Core_Config::singleton( );
         return self::url( $_GET[$config->userFrameworkURLVar],
-                          CRM_Utils_System::getLinksUrl( $urlVar ) );
+                          CRM_Utils_System::getLinksUrl( $urlVar, $includeReset, $includeForce ) );
     }
 
     /**
@@ -71,7 +71,7 @@ class CRM_Utils_System {
      * @return string
      * @access public
      */
-    static function getLinksUrl( $urlVar, $includeReset = false ) {
+    static function getLinksUrl( $urlVar, $includeReset = false, $includeForce = true ) {
         // Sort out query string to prevent messy urls
         $querystring = array();
         $qs          = array();
@@ -100,8 +100,9 @@ class CRM_Utils_System {
             }
         }
 
-        // add force=1 to force a recompute
-        $qs['force'] = 1;
+        if ($includeForce ) {
+            $qs['force'] = 1;
+        }
         foreach ($qs as $name => $value) {
             if ( $name == 'snippet' ) {
                 continue;
