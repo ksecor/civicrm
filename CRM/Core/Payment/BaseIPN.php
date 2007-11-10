@@ -243,7 +243,7 @@ class CRM_Core_Payment_BaseIPN {
         $contribution->save( );
 
         if ( $membership ) {
-            $membership->status_id = 4;
+            $membership->status_id = 6;
             $membership->save( );
         }
 
@@ -340,7 +340,7 @@ class CRM_Core_Payment_BaseIPN {
         // next create the transaction record
         $trxnParams = array(
                             'contribution_id'   => $contribution->id,
-                            'trxn_date'         => self::$_now,
+                            'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $input['amount'],
                             'fee_amount'        => $contribution->fee_amount,

@@ -49,6 +49,8 @@ class CRM_Contribute_Form_Task_Status extends CRM_Contribute_Form_Task {
      */
     public $_single = false;
 
+    protected $_rows;
+
     /**
      * build all the data structures needed to build the form
      *
@@ -102,7 +104,52 @@ AND    {$this->_contributionClause}";
                    ts('Contribution Status'), 
                    $status,
                    true );
+
+        $contribIDs = implode( ',', $this->_contributionIds );
+        $query = "
+SELECT c.id            as contact_id,
+       co.id           as contribution_id,
+       c.display_name  as display_name,
+       co.total_amount as amount
+FROM   civicrm_contact c,
+       civicrm_contribution co
+WHERE  co.contact_id = c.id
+AND    co.id IN ( $contribIDs )";
+        $dao = CRM_Core_DAO::executeQuery( $query,
+                                           CRM_Core_DAO::$_nullArray );
         
+        // build a row for each contribution id
+        $this->_rows = array( );
+        $attributes  = CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_Contribution' );
+        $defaults    = array( );
+        $now         = date( "Y-m-d" );
+        while ( $dao->fetch( ) ) {
+            $row['contact_id']      =  $dao->contact_id;
+            $row['contribution_id'] =  $dao->contribution_id;
+            $row['display_name']    =  $dao->display_name;
+            $row['amount']          =  $dao->amount;
+            $row['trxn_id']         =& $this->addElement( 'text', "trxn_id_{$row['contribution_id']}", ts( 'Check Identifier' ) );
+            $this->addRule( "trxn_id_{$row['contribution_id']}",
+                            ts( 'Transaction ID already exists in Database.' ),
+                            'objectExists', 
+                            array( 'CRM_Contribute_DAO_Contribution', $dao->contribution_id, 'trxn_id' ) );
+                            
+            
+            $row['fee_amount']      =& $this->add( 'text', "fee_amount_{$row['contribution_id']}", ts('Fee Amount'),
+                                                   $attributes['fee_amount'] );
+            $this->addRule( "fee_amount_{$row['contribution_id']}", ts('Please enter a valid amount.'), 'money');
+            $defaults["fee_amount_{$row['contribution_id']}"] = 0.0;
+
+            $row['trxn_date'] =& $this->addElement('date', "trxn_date_{$row['contribution_id']}",
+                                                   ts('Receipt Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+            $this->addRule("trxn_date_{$row['contribution_id']}", ts('Select a valid date.'), 'qfDate');
+            $defaults["trxn_date_{$row['contribution_id']}"] = $now;
+
+            $this->_rows[] = $row;
+        }
+
+        $this->assign_by_ref( 'rows', $this->_rows );
+        $this->setDefaults( $defaults );
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Update Pending Status'),
@@ -130,13 +177,13 @@ AND    {$this->_contributionClause}";
         $transaction = new CRM_Core_Transaction( );
 
         // for each contribution id, we just call the baseIPN stuff 
-        for ( $i = 0; $i < count( $this->_contributionIds ); $i++ ) {
+        foreach ( $this->_rows as $row ) {
             $input = $ids = $objects = array( );
 
             $input['component'] = 'contribute';
             
-            $ids['contact'     ] = $this->_contactIds[$i];
-            $ids['contribution'] = $this->_contributionIds[$i];
+            $ids['contact'     ] = $row['contact_id'];
+            $ids['contribution'] = $row['contribution_id'];
 
             $ids['event'] = $ids['participant'] = $ids['membership'] = null;
             $ids['contributionRecur'] = $ids['contributionPage'] = null;
@@ -166,9 +213,14 @@ AND    {$this->_contributionClause}";
             // set some fake input values so we can reuse IPN code
             $input['amount']     = $contribution->total_amount;
             $input['is_test']    = $contribution->is_test;
-            $input['fee_amount'] = $contribution->fee_amount;
-            $input['net_amount'] = $contribution->net_amount;
-            $input['trxn_id']    = $contribution->invoice_id;
+            $input['fee_amount'] = $params["fee_amount_{$row['contribution_id']}"];
+            $input['net_amount'] = $contribution->total_amount - $input['fee_amount'];
+            if ( ! empty( $params["trxn_id_{$row['contribution_id']}"] ) ) {
+                $input['trxn_id'] = trim( $params["trxn_id_{$row['contribution_id']}"] );
+            } else {
+                $input['trxn_id'] = $contribution->invoice_id;
+            }
+            $input['trxn_date'] = CRM_Utils_Date::format( $params["trxn_date_{$row['contribution_id']}"] );
 
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
         }
