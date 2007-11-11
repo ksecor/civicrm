@@ -334,7 +334,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             // do a transfer only if a monetary payment
             if ( $this->_values['event']['is_monetary'] ) {
                 $this->_params['participantID'] = $participant->id;
-                $payment->doTransferCheckout( $this->_params );
+                if ( ! $this->_params['is_pay_later'] ) {
+                    $payment->doTransferCheckout( $this->_params );
+                }
             }
         }
 

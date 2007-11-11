@@ -388,7 +388,7 @@ class CRM_Core_Payment_BaseIPN {
 //             }
         } else { // event 
             // also create an activity history record
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
+            // CRM_Event_BAO_Participant::setActivityHistory( $participant );
         }
 
 

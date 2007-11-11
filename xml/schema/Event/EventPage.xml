@@ -162,4 +162,23 @@
       <comment>Footer message.</comment>
       <add>1.7</add>     
   </field> 
+  <field>   
+      <name>is_pay_later</name>   
+      <type>boolean</type>                   
+      <default>0</default> 
+      <comment>if true - allows the user to send payment directly to the org later</comment>   
+      <add>2.0</add>   
+  </field>
+  <field>   
+      <name>pay_later_text</name>   
+      <type>text</type>                   
+      <comment>The text displayed to the user in the main form</comment>   
+      <add>2.0</add>   
+  </field>
+  <field>   
+      <name>pay_later_receipt</name>   
+      <type>text</type>                   
+      <comment>The receipt sent to the user instead of the normal receipt text</comment>   
+      <add>2.0</add>   
+  </field>
 </table>
