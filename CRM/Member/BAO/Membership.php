@@ -883,7 +883,7 @@ civicrm_membership_status.is_current_member =1";
         }
         
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+        CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
                                                     CRM_Core_DAO::$_nullArray,
                                                     'civicrm_membership',
                                                     $membership->id,
@@ -899,7 +899,8 @@ civicrm_membership_status.is_current_member =1";
                                                                '_qf_Main_display=true' ) );
         }
         
-        if ( $form->_contributeMode == 'notify' &&
+        if ( ( $form->_contributeMode == 'notify' ||
+               $form->_params['is_pay_later'] ) &&
              ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
 
             $form->_params['membershipID'] = $membership->id;
@@ -909,11 +910,15 @@ civicrm_membership_status.is_current_member =1";
                                          $membership->id,
                                          'status_id',
                                          5 );
-            // this does not return
-            require_once 'CRM/Core/Payment.php';
-            $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
-                
-            $payment->doTransferCheckout( $form->_params );
+
+            if ( ! $form->_params['is_pay_later'] ) {
+                // this does not return
+                require_once 'CRM/Core/Payment.php';
+                $payment =& CRM_Core_Payment::singleton( $form->_mode, 'Contribute', $form->_paymentProcessor );
+                $payment->doTransferCheckout( $form->_params );
+            }
+            // return in case of pay later and goto thank you page
+            return;
         }
         
         $form->_values['membership_id'  ] = $membership->id;

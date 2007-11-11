@@ -318,9 +318,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         }
       
         require_once 'CRM/Event/BAO/ParticipantPayment.php';
-        $paymentParams = array('participant_id'     => $participant->id,
-                               'contribution_id'    => $contribution->id,                              
-                               ); 
+        $paymentParams = array( 'participant_id'  => $participant->id ,
+                                'contribution_id' => $contribution->id, ); 
         $ids = array();       
 
         $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);

@@ -140,6 +140,11 @@ class CRM_Core_Payment_BaseIPN {
                     echo "Failure: Could not find membership record: $membershipID<p>";
                     return false;
                 }
+                $membership->join_date     = CRM_Utils_Date::isoToMysql( $membership->join_date      );
+                $membership->start_date    = CRM_Utils_Date::isoToMysql( $membership->start_date     );
+                $membership->end_date      = CRM_Utils_Date::isoToMysql( $membership->end_date       );
+                $membership->reminder_date = CRM_Utils_Date::isoToMysql( $membership->remninder_date );
+
                 $objects['membership'] =& $membership;
             }
             

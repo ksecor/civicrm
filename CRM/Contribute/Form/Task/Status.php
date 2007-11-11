@@ -176,18 +176,24 @@ AND    co.id IN ( $contribIDs )";
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
+        // get the missing pieces for each contribution
+        $contribIDs = implode( ',', $this->_contributionIds );
+        $details = $this->getDetails( $contribIDs );
+
         // for each contribution id, we just call the baseIPN stuff 
         foreach ( $this->_rows as $row ) {
             $input = $ids = $objects = array( );
-
-            $input['component'] = 'contribute';
             
-            $ids['contact'     ] = $row['contact_id'];
-            $ids['contribution'] = $row['contribution_id'];
+            $input['component'] = $details[$row['contribution_id']]['component'];
 
-            $ids['event'] = $ids['participant'] = $ids['membership'] = null;
-            $ids['contributionRecur'] = $ids['contributionPage'] = null;
-
+            $ids['contact'     ]      = $row['contact_id'];
+            $ids['contribution']      = $row['contribution_id'];
+            $ids['contributionRecur'] = null;
+            $ids['contributionPage']  = null;
+            $ids['membership']        = $details[$row['contribution_id']]['membership'];
+            $ids['participant']       = $details[$row['contribution_id']]['participant'];
+            $ids['event']             = $details[$row['contribution_id']]['event'];
+            
             if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
                 CRM_Core_Error::fatal( );
             }
@@ -224,6 +230,30 @@ AND    co.id IN ( $contribIDs )";
 
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
         }
+    }
+
+    function &getDetails( $contributionIDs ) {
+        $query = "
+SELECT    c.id              as contribution_id,
+          mp.membership_id  as membership_id  ,
+          pp.participant_id as participant_id ,
+          p.event_id        as event_id
+FROM      civicrm_contribution c
+LEFT JOIN civicrm_membership_payment  mp ON mp.contribution_id = c.id
+LEFT JOIN civicrm_participant_payment pp ON pp.contribution_id = c.id
+LEFT JOIN civicrm_participant         p  ON pp.participant_id  = p.id
+WHERE     c.id IN ( $contributionIDs )";
+
+        $rows = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query,
+                                           CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $rows[$dao->contribution_id] = array( 'component'   => $dao->participant_id ? 'event' : 'contribute',
+                                                  'membership'  => $dao->membership_id,
+                                                  'participant' => $dao->participant_id,
+                                                  'event'       => $dao->event_id );
+        }
+        return $rows;
     }
 
 }

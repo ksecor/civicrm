@@ -128,9 +128,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
                 }
             }
         }
-        
-        if ( ! $this->_id ) {
-            $defaults['pay_later_receipt'] = ts( 'I want to send in payment by check' );
+
+        if ( ! isset( $defaults['pay_later_text'] ) ||
+             empty( $defaults['pay_later_text'] ) ) {
+            $defaults['pay_later_text'] = ts( 'I want to send in payment by check' );
         }
 
         return $defaults;
