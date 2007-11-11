@@ -388,15 +388,10 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @static
      */
     public static function statusBounce( $status ) {
-        $config  =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Drupal' ) {
-            $session =& CRM_Core_Session::singleton();
-            $redirect = $session->readUserContext();
-            $session->setStatus($status);
-            CRM_Utils_System::redirect($redirect);
-        } else {
-            CRM_Core_Error::fatal( $status );
-        }
+        $session =& CRM_Core_Session::singleton();
+        $redirect = $session->readUserContext();
+        $session->setStatus($status);
+        CRM_Utils_System::redirect($redirect);
     }
 
     /**
