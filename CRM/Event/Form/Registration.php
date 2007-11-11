@@ -156,7 +156,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
             if ( $eventFull ) {
-                CRM_Core_Error::fatal( $eventFull );
+                CRM_Core_Error::statusBounce( $eventFull );
             }
 
             require_once 'CRM/Event/BAO/Event.php';
