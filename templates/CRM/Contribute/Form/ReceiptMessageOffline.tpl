@@ -27,3 +27,13 @@
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {/if}
+
+{if $customValues}
+===========================================================
+{ts}Membership Options{/ts}
+
+===========================================================
+{foreach from=$customValues item=value key=name}
+ {$name} : {$value}
+{/foreach}
+{/if}
