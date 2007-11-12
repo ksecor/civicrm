@@ -367,31 +367,27 @@ class CRM_Core_Payment_BaseIPN {
             require_once 'CRM/Utils/Money.php';
             $formattedAmount = CRM_Utils_Money::format( $input['amount'] );
             
-            //should be uncommented once create activity api is fixed
-            // also create an activity history record
-//             require_once "CRM/Core/OptionGroup.php";
-//             $ahParams = array( 'source_contact_id' => $ids['contact'],
-//                                'source_record_id'  => $contribution->id,
-//                                'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-//                                                                                       'CiviContribute Online Contribution',
-//                                                                                       'name' ),
-//                                'module'            => 'CiviContribute', 
-//                                'callback'          => 'CRM_Contribute_Page_Contribution::details',
-//                                'subject'           => "$formattedAmount - $title (online)",
-//                                'activity_date_time'=> self::$_now,
-//                                'is_test'           => $contribution->is_test
-//                                );
+            // also create an activity record
+            require_once "CRM/Core/OptionGroup.php";
+            $ahParams = array( 'source_contact_id' => $ids['contact'],
+                               'source_record_id'  => $contribution->id,
+                               'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                      'CiviContribute Online Contribution',
+                                                                                      'name' ),
+                               'subject'           => "$formattedAmount - $title (online)",
+                               'activity_date_time'=> self::$_now,
+                               'is_test'           => $contribution->is_test
+                               );
 
-//             require_once 'api/v2/Activity.php';
-//             if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
-//                 CRM_Core_Error::fatal( "Could not create a system record" );
-//             }
+            require_once 'api/v2/Activity.php';
+            if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
+                CRM_Core_Error::fatal( "Could not create a system record" );
+            }
         } else { // event 
-            // also create an activity history record
-//             require_once "CRM/Event/BAO/Participant.php";
-//             CRM_Event_BAO_Participant::setActivityHistory( $participant );
+            // also create an activity record
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::setActivityHistory( $participant );
         }
-
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         $transaction->commit( );

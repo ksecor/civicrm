@@ -227,28 +227,21 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             $subject .= " - {$contribution->source}";
         }
         $subject .= " (offline)";
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'CiviContribute Online Contribution',
-                                                          'name' );
-
-        $historyParams = array(
-            'source_contact_id'     => $contribution->contact_id,
-            'source_record_id'      => $contribution->id,
-            'activity_type_id'      => $activityTypeID,
-            'module'                => 'CiviContribute',
-            'callback'              => 'CRM_Contribute_Page_Contribution::details',
-            'subject'               => $subject,
-            'activity_date_time'    => $contribution->receive_date
-        );
-
-        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
-            // this contribution should have an Activity History record already
-            // so get the existing id
-            $historyParams['update'] = true;
-        }
-
+        
+        require_once "CRM/Core/OptionGroup.php";
+        
+        $activityParams = array( 'source_contact_id'     => $contribution->contact_id,
+                                 'source_record_id'      => $contribution->id,
+                                 'activity_type_id'      => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                            'CiviContribute Online Contribution',
+                                                                                            'name' ),
+                                 'subject'               => $subject,
+                                 'activity_date_time'    => $contribution->receive_date,
+                                 'is_test'               => $contribution->is_test
+                                 );
+        
         require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $historyParams ),
+        if ( is_a( civicrm_activity_create( $activityParams ),
                    'CRM_Core_Error' ) ) { 
             CRM_Core_Error::fatal( "Could not create a system record" );
         }
