@@ -9,7 +9,7 @@
   {include file="CRM/common/pager.tpl" location="top"}
 
   {strip}
-    <table border="1">
+    <table>
       <tr class="columnheader">
       {foreach from=$columnHeaders item=header}
         <th scope="col">
