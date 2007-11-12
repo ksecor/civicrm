@@ -82,8 +82,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
+        parent::__construct( );
+        
         $this->_mode = $mode;
-
         $this->_paymentProcessor = $paymentProcessor;
     }
 
@@ -109,7 +110,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
         } else {
-            $ids['membership'] = self::retrieve( 'membershipID'       , 'Integer', $privateData, false );
+            $ids['membership'] = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
         }
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
 
@@ -131,7 +132,6 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         // in subsequent calls or notifications sent by google.
         $contribution->invoice_id = $input['newInvoice'];
 
-        $now             = date( 'YmdHis' );
         $input['amount'] = $dataRoot['order-total']['VALUE'];
         
         if ( $contribution->total_amount != $input['amount'] ) {
@@ -200,8 +200,16 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             return;
         }
 
+        // Google sends the charged notification twice.
+        // So to make sure, code is not executed again.
+        if ( $contribution->contribution_status_id == 1 ) {
+            CRM_Core_Error::debug_log_message( "Contribution already handled (ContributionID = $contribution)." );
+            return;
+        }
+        
         $objects['contribution'] =& $contribution;
         $ids['contribution']     =  $contribution->id;
+        $ids['contact']          =  $contribution->contact_id;
 
         $ids['event'] = $ids['participant'] = $ids['membership'] = null;
         $ids['contributionRecur'] = $ids['contributionPage'] = null;

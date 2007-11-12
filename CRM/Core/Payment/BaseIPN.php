@@ -143,7 +143,7 @@ class CRM_Core_Payment_BaseIPN {
                 $membership->join_date     = CRM_Utils_Date::isoToMysql( $membership->join_date      );
                 $membership->start_date    = CRM_Utils_Date::isoToMysql( $membership->start_date     );
                 $membership->end_date      = CRM_Utils_Date::isoToMysql( $membership->end_date       );
-                $membership->reminder_date = CRM_Utils_Date::isoToMysql( $membership->remninder_date );
+                $membership->reminder_date = CRM_Utils_Date::isoToMysql( $membership->reminder_date  );
 
                 $objects['membership'] =& $membership;
             }
@@ -368,9 +368,9 @@ class CRM_Core_Payment_BaseIPN {
             $formattedAmount = CRM_Utils_Money::format( $input['amount'] );
             
             //should be uncommented once create activity api is fixed
-//             // also create an activity history record
+            // also create an activity history record
 //             require_once "CRM/Core/OptionGroup.php";
-//             $ahParams = array( 'source_contact_id' => $contactID,
+//             $ahParams = array( 'source_contact_id' => $ids['contact'],
 //                                'source_record_id'  => $contribution->id,
 //                                'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
 //                                                                                       'CiviContribute Online Contribution',
@@ -388,7 +388,8 @@ class CRM_Core_Payment_BaseIPN {
 //             }
         } else { // event 
             // also create an activity history record
-            // CRM_Event_BAO_Participant::setActivityHistory( $participant );
+//             require_once "CRM/Event/BAO/Participant.php";
+//             CRM_Event_BAO_Participant::setActivityHistory( $participant );
         }
 
 
