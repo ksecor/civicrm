@@ -965,7 +965,6 @@ WHERE civicrm_contact.id IN $idString ";
      */
     function deleteContact( $id, $userId = null ) 
     {
-        require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
 
         if ( ! $id ) {
@@ -1004,7 +1003,6 @@ WHERE civicrm_contact.id IN $idString ";
 
         // need to remove them from email, meeting , phonecall and other activities
         // FIX ME: Schema Change
-        // CRM_Core_BAO_EmailHistory::deleteContact($id);
         
         // CRM_Activity_BAO_Activity::deleteContact($id);
 

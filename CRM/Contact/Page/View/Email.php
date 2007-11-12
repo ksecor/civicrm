@@ -34,14 +34,13 @@
  */
 
 require_once 'CRM/Core/Page.php';
-require_once 'CRM/Core/DAO/ActivityHistory.php';
-require_once 'CRM/Core/DAO/EmailHistory.php';
 require_once 'CRM/Contact/BAO/Contact.php';
 /**
  * Dummy page for details of Email
  *
  */
-class CRM_Contact_Page_View_Email extends CRM_Core_Page {
+class CRM_Contact_Page_View_Email extends CRM_Core_Page 
+{
     /**
      * Run the page.
      *

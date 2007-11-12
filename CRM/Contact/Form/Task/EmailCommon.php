@@ -203,7 +203,7 @@ class CRM_Contact_Form_Task_EmailCommon
             $form->add('text','saveTemplateName',ts('Template Title'));
         } 
 
-        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_EmailHistory', 'subject' );
+        $attributes = CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' );
         $form->add( 'text', 'subject', ts('Subject'), $attributes, true );
 
         if ( $form->_single ) {

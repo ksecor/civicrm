@@ -41,15 +41,6 @@ require_once 'CRM/Activity/DAO/Activity.php';
  */
 class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
-    
-    /**
-     * class constructor
-     */
-    function __construct( ) 
-    {
-        parent::__construct( );
-    }
-
     /**
      * Check if there is absolute minimum of data to add the object
      *
@@ -58,7 +49,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return boolean
      * @access public
      */
-    private function _dataExists( &$params ) 
+    public function dataExists( &$params ) 
     {
         if ( CRM_Utils_Array::value( 'subject', $params) &&
              CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
@@ -197,17 +188,19 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     {
 
         // check required params
-        if ( ! $this->_dataExists( $params ) ) {
+        if ( ! self::dataExists( $params ) ) {
             CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
         }
-
-        $this->copyValues( $params );
+        
+        $activity =& new CRM_Activity_DAO_Activity( );
+        
+        $activity->copyValues( $params );
 
         // start transaction        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        $result = $this->save( );        
+        $result = $activity->save( );        
         
         $activityId = $result->id;
 
@@ -268,7 +261,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
-        $this->_logActivityAction( $result, $logMsg );
+
+        self::logActivityAction( $result, $logMsg );
 
         // roll back if error occured
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
@@ -354,7 +348,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } 
     }
 
-    private function _logActivityAction( $activity, $logMessage = null ) {
+    public function logActivityAction( $activity, $logMessage = null ) 
+    {
         $session = & CRM_Core_Session::singleton();
         $id = $session->get('userID');
         require_once 'CRM/Core/BAO/Log.php';

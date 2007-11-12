@@ -113,7 +113,7 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
-        $ids = array();
+        $ids = array( );
         
         // store the date with proper format
         $params['activity_date_time']= CRM_Utils_Date::format( $params['activity_date_time'] );
@@ -136,9 +136,7 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
         }
 
         require_once "CRM/Activity/BAO/Activity.php";
-        $bao = new CRM_Activity_BAO_Activity();
-
-        $bao->create( $params );
+        CRM_Activity_BAO_Activity::create( $params );
        
 //        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 
