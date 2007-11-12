@@ -137,7 +137,10 @@ class CRM_Activity_Form_Activity extends CRM_Activity_Form
 
         require_once "CRM/Activity/BAO/Activity.php";
         CRM_Activity_BAO_Activity::create( $params );
-       
+
+        // set status message
+        CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
+
 //        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
 
 //        require_once 'CRM/Case/BAO/Case.php';

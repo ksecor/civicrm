@@ -62,8 +62,11 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
      */
     public function create( &$params ) 
     {
-        $this->copyValues( $params );
-        return $this->save();
+        require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        $target =& new CRM_Activity_BAO_ActivityTarget();
+
+        $target->copyValues( $params );
+        return $target->save();
     }
 
     /**

@@ -186,7 +186,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function create( &$params )
     {
-
         // check required params
         if ( ! self::dataExists( $params ) ) {
             CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
@@ -207,22 +206,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // attempt to save activity assignment
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
-            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
             
             $assignmentParams = array( 'activity_id'         => $activityId,
                                        'assignee_contact_id' => $params['assignee_contact_id'] );
             
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
                 $assignment->activity_id = $activityId;
                 if ( $assignment->find( true ) ) {
                     if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
                         $assignmentParams['id'] = $assignment->id;
-                        $resultAssignment = $assignment->create( $assignmentParams );
+                        $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                     }
                 }            
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultAssignment = $assignment->create( $assignmentParams );
+                    $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                 }
             }
         }        
@@ -230,22 +229,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // attempt to save activity targets
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
-            $target =& new CRM_Activity_BAO_ActivityTarget();
 
-            $targetParams = array( 'activity_id'         => $activityId,
+            $targetParams = array( 'activity_id'       => $activityId,
                                    'target_contact_id' => $params['target_contact_id'] );
             
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $target =& new CRM_Activity_BAO_ActivityTarget( );
                 $target->activity_id = $activityId;
                 if ( $target->find( true ) ) {
                     if ( $target->target_contact_id != $params['target_contact_id'] ) {
                         $targetParams['id'] = $target->id;
-                        $resultTarget = $target->create( $targetParams );
+                        $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                     }
-                }            
+                }
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultTarget = $target->create( $targetParams );
+                    $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                 }
             }
         }
@@ -254,10 +253,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // back (and prepare status to display)
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             $logMsg = "Activity (id: {$this->id} ) updated with ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         } else {
             $logMsg = "Activity created for ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         }
         
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
@@ -303,12 +300,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                     $activityType );
         $transaction->commit( );            
 
-        //temporary fix, will check this later on, ideally we should
-        //set status in the form ?
-        //CRM_Core_Session::setStatus( $status );
-
         return $result;
-        
     }
         
     /**

@@ -124,8 +124,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         self::getValues($frndParams);  
         
         require_once 'CRM/Activity/BAO/Activity.php';
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        
+
         $activityTypeId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 'Tell a Friend', 'value', 'name' );
 
         //create activity 
@@ -139,11 +138,11 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                   'is_test'            => $params['is_test'] );
         
         //activity creation
-        $bao = new CRM_Activity_BAO_Activity;     
-        $activity = $bao->create( $activityParams );
+        $activity = CRM_Activity_BAO_Activity::create( $activityParams );
 
         //friend contacts creation
         require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        require_once 'CRM/Core/BAO/UFGroup.php';
         foreach ( $contactParams as $key => $value ) {
             
             //create contact only if it does not exits in db
@@ -155,11 +154,10 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             }
             
             // attempt to save activity targets                       
-            $target =& new CRM_Activity_BAO_ActivityTarget();            
             $targetParams = array( 'activity_id'       => $activity->id,
                                    'target_contact_id' => $contact );            
             
-            $resultTarget = $target->create( $targetParams );           
+            $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );           
         }
         
         $transaction->commit( );
