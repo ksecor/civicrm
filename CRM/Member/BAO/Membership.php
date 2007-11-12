@@ -253,20 +253,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $mpDAO->contribution_id = $contribution->id;
                 $mpDAO->save();
             }
-        } else {
-            //remove payment record & contribution for this membership
-            if ($ids['contribution']) {
-                require_once 'CRM/Member/DAO/MembershipPayment.php';
-                    $mpDAO =& new CRM_Member_DAO_MembershipPayment();    
-                    $mpDAO->membership_id   = $ids['membership'];
-                    $mpDAO->contribution_id = $ids['contribution'];
-                    if ($mpDAO->find(true) ) {
-                        CRM_Contribute_BAO_Contribution::deleteContribution($ids['contribution']);
-                        $mpDAO->delete( );
-                    }
-            }
-          
-        }  
+        }        
         
         // Create activity history record.
         require_once "CRM/Member/PseudoConstant.php";
