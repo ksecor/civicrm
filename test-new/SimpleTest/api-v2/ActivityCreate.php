@@ -70,12 +70,12 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'activity_name'       => 'Meeting',
-                        'source_contact_id'   => $this->_individualSourceId,
                         'subject'             => 'this case should fail',
                         'scheduled_date_time' => date('Ymd')
                         );
 
         $result = & civicrm_activity_create($params);
+        
         $this->assertEqual( $result['is_error'], 1 );
     }
 
@@ -95,9 +95,9 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                         'location'            => 'Pensulvania',
                         'details'             => 'a meeting activity',
                         'status'              => 'Scheduled',
-                        'activity_name'       => 'Phone Call',
+                        'activity_name'       => 'Phone Call'
                         );
-
+        
         $result = & civicrm_activity_create( $params );
         $this->assertEqual( $result['is_error'], 0 );
     }

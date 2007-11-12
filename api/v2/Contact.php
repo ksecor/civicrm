@@ -271,7 +271,8 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
  * @access public 
  * @static 
  */ 
-function &_civicrm_contact_add( &$params, $contactID = null ) {
+function &_civicrm_contact_add( &$params, $contactID = null ) 
+{
     require_once 'CRM/Utils/Hook.php';
     //    CRM_Core_Error::debug('p', 'oh');
     if ( $contactID ) {
@@ -280,116 +281,16 @@ function &_civicrm_contact_add( &$params, $contactID = null ) {
         CRM_Utils_Hook::pre( 'create', 'Individual', null, $params ); 
     }
 
-    CRM_Core_DAO::transaction( 'BEGIN' ); 
+    require_once 'CRM/Core/Transaction.php';
+    $transaction = new CRM_Core_Transaction( );
 
-    $ids = array( );
     if ( $contactID ) {
-        $ids['contact'] = $contactID;
+        $params['contact_id'] = $contactID;
     }
     require_once 'CRM/Contact/BAO/Contact.php';
-    $contact = CRM_Contact_BAO_Contact::add   ( $params, $ids );
+    $contact = CRM_Contact_BAO_Contact::create( $params );
 
-    $params['contact_id'] = $contact->id;
-    if ( $contactID ) {
-        $ids[strtolower( $params['contact_type'] ) ] =
-            CRM_Core_DAO::getFieldValue( 'CRM_Contact_BAO_' . $params['contact_type'],
-                                         $contactID,
-                                         'id',
-                                         'contact_id' );
-    }
-                                     
-    require_once "CRM/Contact/BAO/{$params['contact_type']}.php";
-    eval( 'CRM_Contact_BAO_' . $params['contact_type'] . '::add( $params, $ids );' );
-
-    $locationTypeId = CRM_Utils_Array::value( 'location_type_id', $params );
-    if ( ! $locationTypeId ) {
-        require_once 'CRM/Core/BAO/LocationType.php';
-        $locationType   =& CRM_Core_BAO_LocationType::getDefault( ); 
-        $locationTypeId =  $locationType->id;
-    }
-
-    $location =& new CRM_Core_DAO_Location( );
-    $location->location_type_id = $locationTypeId;
-    $location->entity_table     = 'civicrm_contact';
-    $location->entity_id        = $contact->id;
-    $location->is_primary       = true;
-
-    $location->find( true );
-
-    $location->save( );
-        
-    $address =& new CRM_Core_BAO_Address();
-    $address->location_id = $location->id;
-    $address->find( true );
-
-    CRM_Core_BAO_Address::fixAddress( $params );
-    if ( ! $address->copyValues( $params ) ) {
-        $address->save( );
-    }
-
-    $phone =& new CRM_Core_BAO_Phone();
-    $phone->location_id = $location->id;
-    $phone->is_primary = true;
-    $phone->find( true );
-    if ( ! $phone->copyValues( $params ) ) {
-        $phone->save( );
-    }
-        
-    $email =& new CRM_Core_BAO_Email();
-    $email->location_id = $location->id;
-    $email->is_primary = true;
-    $email->find( true );
-    if ( ! $email->copyValues( $params ) ) {
-        $email->save( );
-    }
-
-    /* Process custom field values and other values */
-    foreach ($params as $key => $value) {
-        if ( $key == 'group' ) {
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $contact->id );
-        } else if ( $key == 'tag' ) {
-            require_once 'CRM/Core/BAO/EntityTag.php';
-            CRM_Core_BAO_EntityTag::create( $params['tag'], $contact->id );
-        } else if ($cfID = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-            $custom_field_id = $cfID;
-            $cf =& new CRM_Core_BAO_CustomField();
-            $cf->id = $custom_field_id;
-            if ( $cf->find( true ) ) {
-                switch($cf->html_type) {
-
-                case 'Select Date':
-                    $date = CRM_Utils_Date::format( $value );
-                    if ( ! $date ) {
-                        $date = '';
-                    }
-                    $customValue = $date;
-                    break;
-
-                case 'CheckBox':
-                    $customValue =
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) .
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                    break;
-
-                    //added a case for Multi-Select
-                case 'Multi-Select':
-                    $customValue = 
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . 
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value)) . 
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                    break;
-
-                default:
-                    $customValue = $value;
-                }
-            }
-            
-            CRM_Core_BAO_CustomValue::updateValue($contact->id, $custom_field_id, $customValue);
-        }
-    }
-
-    CRM_Core_DAO::transaction( 'COMMIT' ); 
+    $transaction->commit( );
 
     if ( $contactID ) {
         CRM_Utils_Hook::post( 'edit', 'Individual', $contact->id, $contact );

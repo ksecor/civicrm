@@ -80,24 +80,7 @@ function &civicrm_activity_create( &$params )
         return $errors;
     }
  
-//     $ids = array();
-
-//     if ( $params['update'] ) {
-//         $q = "
-// SELECT id
-//   FROM civicrm_activity
-//  WHERE source_contact_id = %1
-//    AND source_record_id  = %2
-//    AND activity_type_id  = %3
-// ";
-//         $p = array( 1 => array( $params['source_contact_id'], 'Integer' ),
-//                     2 => array( $params['source_record_id' ], 'Integer' ),
-//                     3 => array( $params['activity_type_id' ], 'Integer' ) );
-//         $params['id'] = CRM_Core_DAO::singleValueQuery( $q, $p );
-//     }
-
-    $activity = new CRM_Activity_BAO_Activity( );
-    $activity->create( $params );
+    $activity = CRM_Activity_BAO_Activity::create( $params );
     
     $activityArray = array(); 
     _civicrm_object_to_array( $activity, $activityArray);
@@ -285,6 +268,18 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
 
     if ( ! $addMode && $params['id'] && ! is_numeric ( $params['id'] )) {
         return $errors = civicrm_create_error( ts( 'Invalid activity "id"' ) );
+    }
+
+    // check if activity type_id is passed in
+    if ( $params['activity_name'] ) {
+        require_once "CRM/Core/PseudoConstant.php";
+        $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
+        $activityId     = array_search( $params['activity_name'], $activityTypes );
+        if ( ! $activityId ) { 
+            return civicrm_create_error( ts ( 'Invalid Activity Name' ) );
+        } else {
+            $params['activity_type_id'] = $activityId;
+        }
     }
     
     // check if activity type_id is passed in
