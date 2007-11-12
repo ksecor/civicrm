@@ -343,7 +343,7 @@ SELECT $select
                                                    array(
                                                          'name'  => ts('Delete Attached File'),
                                                          'url'   => 'civicrm/file',
-                                                         'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&action=delete',
+                                                         'qs'    => 'reset=1&id=%%id%%&eid=%%eid%%&fid=%%fid%%&action=delete',
                                                          'extra' => 
                                                          'onclick = "if (confirm( \''. $deleteExtra .'\' ) ) this.href+=\'&amp;confirmed=1\'; else return false;"'
                                                          ) 
@@ -352,7 +352,8 @@ SELECT $select
                                             CRM_Core_Action::formLink( $deleteURL,
                                                                        CRM_Core_Action::DELETE,
                                                                        array( 'id'  => $fileDAO->id,
-                                                                              'eid' => $entityId ) );
+                                                                              'eid' => $dao->$entityIDName,
+                                                                              'fid' => $fieldID ) );
                                         $customValue['fileName'] = basename( $fileDAO->uri );
                                         if ( $fileDAO->mime_type =="image/jpeg" ||
                                              $fileDAO->mime_type =="image/gif"  ||

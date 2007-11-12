@@ -930,20 +930,7 @@ DELETE g.*
             return;
         }
 
-        // get the table and column name for the custom field
-        $query = "
-SELECT cg.table_name, cf.column_name
-  FROM civicrm_custom_group cg,
-       civicrm_custom_field cf
- WHERE cf.custom_group_id = cg.id
-   AND cf.id = %1";
-        $params = array( 1 => array( $customFieldId, 'Integer' ) );
-        $dao = CRM_Core_DAO::executeQuery( $query, $params );
-        if ( ! $dao->fetch( ) ) {
-            CRM_Core_Error::fatal( );
-        }
-        $tableName  = $dao->table_name;
-        $columnName = $dao->column_name;
+        list( $tableName, $columnName ) = self::getTableColumnName( $customFieldId );
         
         if ( ! $customValueId && $entityId ) {
             //get the entity table for the custom field
@@ -1114,7 +1101,22 @@ SELECT $columnName
         require_once 'CRM/Core/BAO/SchemaHandler.php';
         CRM_Core_BAO_SchemaHandler::alterFieldSQL( $params, $dropIndex );
     }
-    
+
+    static function getTableColumnName( $fieldID ) {
+        $query = "
+SELECT cg.table_name, cf.column_name
+FROM   civicrm_custom_group cg,
+       civicrm_custom_field cf
+WHERE  cf.custom_group_id = cg.id
+AND    cf.id = %1";
+        $params = array( 1 => array( $fieldID, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        
+        if ( ! $dao->fetch( ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        return array( $dao->table_name, $dao->column_name );
+    }
 }
 
 ?>

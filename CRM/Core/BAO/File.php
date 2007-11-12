@@ -163,28 +163,21 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         
     }
 
-    public function delete($fileID , $entityId, $entityTable = null) {
-        require_once "CRM/Core/DAO/CustomValue.php";
-        $customDAO =& new CRM_Core_DAO_CustomValue();
-        $customDAO->entity_id = $entityId;
-        $customDAO->file_id   = $fileID;
-        if ($entityTable) {
-            $customDAO->entity_table = $entityTable; 
-        }
-        if ( $customDAO->find(true) ) {
-            $customDAO->delete();
-        }
+    public function delete($fileID , $entityID, $fieldID ) {
+        // get the table and column name
+        require_once 'CRM/Core/BAO/CustomField.php';
+        list( $tableName, $columnName ) = CRM_Core_BAO_CustomField::getTableColumnName( $fieldID );
 
         require_once "CRM/Core/DAO/EntityFile.php";
         $entityFileDAO =& new CRM_Core_DAO_EntityFile();
-        $entityFileDAO->file_id    = $fileID;
-        $entityFileDAO->entity_id  = $entityId;
-        if ($entityTable) {
-            $entityFileDAO->entity_table = $entityTable;
-        }
+        $entityFileDAO->file_id      = $fileID;
+        $entityFileDAO->entity_id    = $entityID;
+        $entityFileDAO->entity_table = $tableName;
         
         if ( $entityFileDAO->find(true) ) {
             $entityFileDAO->delete();
+        } else {
+            CRM_Core_Error::fatal( );
         }
 
         require_once "CRM/Core/DAO/File.php";
@@ -192,7 +185,14 @@ WHERE    ( CF.file_type_id = $fileID AND CEF.entity_table = '$entityTable' AND C
         $fileDAO->id = $fileID;
         if ( $fileDAO->find(true) ) {
             $fileDAO->delete();
+        } else {
+            CRM_Core_Error::fatal( );
         }
+
+        // also set the value to null of the table and column
+        $query = "UPDATE $tableName SET $columnName = null WHERE entity_id = %1";
+        $params = array( 1 => array( $entityID, 'Integer' ) );
+        CRM_Core_DAO::executeQuery( $query, $params );
     }
 }
 
