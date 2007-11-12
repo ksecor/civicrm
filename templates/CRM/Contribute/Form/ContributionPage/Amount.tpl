@@ -24,14 +24,14 @@
             {if $form.is_recur}
             <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
                <td>{$form.is_recur.html}<br />
-                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}
+                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}</span>
                </td>
             </tr>
             {/if}    
 
             <tr><th scope="row" class="label" width="20%">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
-            <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</td></tr>
+            <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</span></td></tr>
 
             <tr id="payLaterFields"><td>&nbsp;</td><td>
                <table class="form-layout-compressed">
@@ -44,7 +44,7 @@
 
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
-            <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</td></tr>
+            <span class="description">{ts}Check this box if you want to give users the option to enter their own contribution amount. Your page will then include a text field labeled <strong>Other Amount</strong>.{/ts}</span></td></tr>
 
             <tr id="minMaxFields"><td>&nbsp;</td><td>
                <table class="form-layout-compressed">

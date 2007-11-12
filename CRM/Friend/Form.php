@@ -73,10 +73,10 @@ class CRM_Friend_Form extends CRM_Core_Form
 
     public function preProcess( )  
     {  
-        $this->_action   = CRM_Utils_Request::retrieve( 'action', 'String', $this );
-        $this->_entityId = CRM_Utils_Request::retrieve( 'eid', 'Positive', $this );       
+        $this->_action   = CRM_Utils_Request::retrieve( 'action', 'String'  , $this );
+        $this->_entityId = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );       
         
-        $page = CRM_Utils_Request::retrieve( 'page', 'String', $this );
+        $page = CRM_Utils_Request::retrieve( 'page', 'String', $this, true );
                       
         if ( $page == 'contribution' ) {
             $this->_entityTable = 'civicrm_contribution_page';
@@ -88,6 +88,13 @@ class CRM_Friend_Form extends CRM_Core_Form
        
         $session =& CRM_Core_Session::singleton( );
         $this->_contactID = $session->get( 'userID' );
+        if ( ! $this->_contactID ) {
+            $this->_contactID = $session->get( 'transaction.userID' );
+        }
+        if ( ! $this->_contactID ) {
+            CRM_Core_Error::fatal( ts( 'Could not get the contact ID' ) );
+        }
+
         // we do not want to display recently viewed items, so turn off
         $this->assign       ( 'displayRecent' , false );
     }
@@ -130,8 +137,19 @@ class CRM_Friend_Form extends CRM_Core_Form
     public function buildQuickForm( ) 
     {
         // Details of User        
-        $this->add('text', 'from_name', ts('Your Name'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name'), true);
-        $this->add('text', 'from_email', ts('Your Email'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
+        $name  =& $this->add( 'text',
+                              'from_name',
+                              ts('Your Name'),
+                              CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name') );
+        $name->freeze( );
+
+        $email =& $this->add( 'text',
+                              'from_email',
+                              ts('Your Email'),
+                              CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'),
+                              true );
+        $email->freeze( );
+
         $this->add('textarea', 'suggested_message', ts('Your Message'), CRM_Core_DAO::getAttribute('CRM_Friend_DAO_Friend', 'suggested_message'), true);         
         
         $friend = array();
@@ -165,35 +183,35 @@ class CRM_Friend_Form extends CRM_Core_Form
      * @access public
      * @static
      */
-    public function formRule( &$values ) 
+    public function formRule( &$fields ) 
     {
 
-        $errorMsg = array( ); 
+        $errors = array( ); 
         
         $valid = false;
-        foreach ( $values['friend'] as $key => $val ) {
+        foreach ( $fields['friend'] as $key => $val ) {
             if ( trim( $val['first_name'] ) || trim( $val['last_name'] ) || trim( $val['email'] ) ) {
                 $valid = true;
                 
                 if ( ! trim( $val['first_name'] ) ) {
-                    $errorMsg["friend[{$key}][first_name]"] = ts( 'Please enter the first name.' );
+                    $errors["friend[{$key}][first_name]"] = ts( 'Please enter the first name.' );
                 }
 
                 if ( ! trim( $val['last_name'] ) ) {
-                    $errorMsg["friend[{$key}][last_name]"] = ts( 'Please enter the last name.' );
+                    $errors["friend[{$key}][last_name]"] = ts( 'Please enter the last name.' );
                 }
 
                 if ( ! trim( $val['email'] ) ) {
-                    $errorMsg["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
+                    $errors["friend[{$key}][email]"] = ts( 'Please enter the email address.' );
                 }
             } 
         }
         
         if ( ! $valid ) {
-            $errorMsg['friend[1][first_name]'] = "Enter atleast one friend information.";
+            $errors['friend[1][first_name]'] = ts( "You need to enter at least one friend's information." );
         }
         
-        return empty($errorMsg) ? true : $errorMsg;
+        return empty($errors) ? true : $errors;
     }
        
     /**

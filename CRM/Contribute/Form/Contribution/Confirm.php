@@ -355,6 +355,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
                                                                          null, $ctype);
         }
+
+        // lets store the contactID in the session
+        // for things like tell a friend
+        if ( ! $session->get( 'userID' ) ) {
+            $session->set( 'transaction.userID', $contactID );
+        } else {
+            $session->set( 'transaction.userID', null );
+        }
         
         // store the fact that this is a membership and membership type is selected
         $processMembership = false;

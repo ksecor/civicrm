@@ -275,7 +275,19 @@ class CRM_Core_Menu {
                             'crmType' => self::CALLBACK, 
                             'weight'  => 0, 
                             ),
-		      array(
+
+                      array(
+                            'path'    => 'civicrm/friend',
+                            'title'   => ts( 'Tell a Friend' ),
+                            'access'  =>
+                            CRM_Core_Permission::check( 'make online contributions' ) ||
+                            CRM_Core_Permission::check( 'register for events' ),
+                            'type'    => self::CALLBACK, 
+                            'crmType' => self::CALLBACK, 
+                            'weight'  => 0, 
+                            ),
+
+                      array(
                             'path'    => 'civicrm/logout',
                             'title'   => ts('Log out'),
                             'query'   => 'reset=1',

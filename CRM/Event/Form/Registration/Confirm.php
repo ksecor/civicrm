@@ -245,6 +245,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->fixLocationFields( $params, $fields );
 
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
+        // lets store the contactID in the session
+        // we dont store in userID in case the user is doing multiple
+        // transactions etc
+        // for things like tell a friend
+        if ( ! $session->get( 'userID' ) ) {
+            $session->set( 'transaction.userID', $contactID );
+        } else {
+            $session->set( 'transaction.userID', null );
+        }
+        
         $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
 
         // required only if paid event
@@ -563,6 +573,7 @@ WHERE  v.option_group_id = g.id
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         }
+
 
         return $contactID;
     }

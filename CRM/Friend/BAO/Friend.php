@@ -170,16 +170,21 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
         $mailParams['message']      = $params['suggested_message'];
         
         if ( $params['entity_table'] == 'civicrm_contribution_page' ) {
-            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $params['entity_id'], 'receipt_from_email', 'id' );            
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                                     $params['entity_id'],
+                                                                     'receipt_from_email',
+                                                                     'id' );
             $urlPath = 'civicrm/contribute/transact';
-            $mailParams['module'    ] = 'contribute';
+            $mailParams['module'] = 'contribute';
         } elseif ( $params['entity_table'] == 'civicrm_event_page' ) {
-            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $params['entity_id'], 'confirm_from_email' );
+            $mailParams['email_from'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage',
+                                                                     $params['entity_id'],
+                                                                     'confirm_from_email' );
             $urlPath = 'civicrm/event/info';
-            $mailParams['module'    ] = 'event';
+            $mailParams['module'] = 'event';
         } 
 
-        $mailParams['page_url'  ] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
+        $mailParams['page_url'] = CRM_Utils_System::url($urlPath, "reset=1&id={$params['entity_id']}", true, null, false);
         list( $username, $mailParams['domain'] ) = split( '@', $mailParams['email_from'] );
        
         //send mail
