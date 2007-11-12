@@ -18,18 +18,16 @@
             <td>{$form.amount_block_is_active.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</span></td>
         </tr>
-            <tr><th scope="row" class="label" width="20%">{$form.is_pay_later.label}</th>
+            <tr><th scope="row" class="label">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</span></td></tr>
 
-            <tr id="payLaterFields"><td>&nbsp;</td><td>
-               <table class="form-layout-compressed">
+            <div id="payLaterFields">
                 <tr><th scope="row" class="label">{$form.pay_later_text.label}</th>
                 <td>{$form.pay_later_text.html}</td></tr> 
                 <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
                 <td>{$form.pay_later_receipt.html}</td></tr>
-               </table>
-            </td></tr>
+            </div>
     </table>
     <div id="amountFields">
         <table class="form-layout-compressed">

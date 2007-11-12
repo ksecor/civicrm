@@ -173,17 +173,17 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->buildAmount( $this->_separateMembershipPayment );
 
             if ( $this->_values['is_monetary'] &&
-                 $this->_values['is_pay_later'] ) {
-                $this->buildPayLater( );
-            }
-
-            if ( $this->_values['is_monetary'] &&
                  $this->_values['is_recur']    &&
                  $this->_paymentProcessor['is_recur'] ) {
                 $this->buildRecur( );
             }
         }
               
+        if ( $this->_values['is_monetary'] &&
+             $this->_values['is_pay_later'] ) {
+            $this->buildPayLater( );
+        }
+
         require_once 'CRM/Contribute/BAO/Premium.php';
         CRM_Contribute_BAO_Premium::buildPremiumBlock( $this , $this->_id ,true );
 
