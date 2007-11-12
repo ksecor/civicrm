@@ -638,6 +638,7 @@ class CRM_Core_DAO extends DB_DataObject {
                 if ( CRM_Utils_Type::validate( $item[0], $item[1] ) !== null ) {
                     $item[0] = $dao->escape( $item[0] );
                     if ( $item[1] == 'String' ||
+                         $item[1] == 'Memo' ||
                          $item[1] == 'Link'   ) {
                         if ( isset( $item[2] ) &&
                              $item[2] ) {
