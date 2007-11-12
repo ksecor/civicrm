@@ -18,17 +18,6 @@
             <td>{$form.amount_block_is_active.html}<br />
             <span class="description">{ts}Uncheck this box if you are using this contribution page for membership signup and renewal only - and you do NOT want users to select or enter any additional contribution amounts.{/ts}</span></td>
         </tr>
-    </table>
-    <div id="amountFields">
-        <table class="form-layout-compressed">
-            {if $form.is_recur}
-            <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
-               <td>{$form.is_recur.html}<br />
-                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}</span>
-               </td>
-            </tr>
-            {/if}    
-
             <tr><th scope="row" class="label" width="20%">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</span></td></tr>
@@ -41,6 +30,17 @@
                 <td>{$form.pay_later_receipt.html}</td></tr>
                </table>
             </td></tr>
+    </table>
+    <div id="amountFields">
+        <table class="form-layout-compressed">
+            {if $form.is_recur}
+            <tr><th scope="row" class="label" width="20%">{$form.is_recur.label}</th>
+               <td>{$form.is_recur.html}<br />
+                  <span class="description">{ts}Check this box if you want to give users the option to make recurring contributions. (This feature requires that you use 'PayPal Website Standard' OR 'PayJunction' as your payment processor.){/ts}</span>
+               </td>
+            </tr>
+            {/if}    
+
 
             <tr><th scope="row" class="label" width="20%">{$form.is_allow_other_amount.label}</th>
             <td>{$form.is_allow_other_amount.html}<br />
