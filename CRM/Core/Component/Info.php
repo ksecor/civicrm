@@ -128,7 +128,7 @@ abstract class CRM_Core_Component_Info
      * @access public
      *
      */
-    public function &getMenuObject( ) 
+    public function getMenuObject( ) 
     {
         return $this->_instantiate( self::COMPONENT_MENU_CLASS );
     }
@@ -140,7 +140,7 @@ abstract class CRM_Core_Component_Info
      * @access public
      *
      */
-    public function &getInvokeObject( ) 
+    public function getInvokeObject( ) 
     {
         return $this->_instantiate( self::COMPONENT_INVOKE_CLASS );
     }

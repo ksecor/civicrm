@@ -167,7 +167,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
     function key( $name, $addSequence = false, $ignoreKey = false ) {
         $config =& CRM_Core_Config::singleton( );
 
-        if ( $ignoreKey || $config->keyDisable ) {
+        if ( $ignoreKey ||
+             ( isset( $config->keyDisable ) && $config->keyDisable ) ) {
             return null;
         }
 

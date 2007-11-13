@@ -854,7 +854,7 @@ AND civicrm_contact.is_opt_out =0";
         // to make urls point to frontend (CRM-2367)
         if ( $config->userFramework == 'Joomla' ) {
             foreach ( $urls as $key => $value ) {
-                $urls[$key] = str_replace( '/administrator/index2.php', 'index.php' );
+                $urls[$key] = str_replace( '/administrator/index2.php', '/index.php', $value );
             }
         }
 

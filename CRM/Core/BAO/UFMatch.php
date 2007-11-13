@@ -121,7 +121,8 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             return;
         }
 
-        if ( ! $uniqId ) {
+        if ( ! isset( $uniqId ) ||
+             ! $uniqId ) {
             $uniqId = $user->$mail;
         }
 

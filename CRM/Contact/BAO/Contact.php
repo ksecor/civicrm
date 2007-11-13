@@ -1176,10 +1176,10 @@ WHERE civicrm_contact.id IN $idString ";
 
         $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
 
-        if ( $case ) {
+        if ( $caseId ) {
             $case = " and civicrm_case_activity.case_id = $caseId ";
         } else {
-            $case = (" and 1 ");
+            $case = " and 1 ";
         }
 
         // DRAFTING: Consider adding DISTINCT to this query after

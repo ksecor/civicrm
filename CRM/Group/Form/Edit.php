@@ -233,6 +233,17 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
             }
 
+            $this->addButtons( array(
+                                     array ( 'type'      => $buttonType,
+                                             'name'      =>
+                                             ( $this->_action == CRM_Core_Action::ADD ) ?
+                                             ts('Continue') : ts('Save'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'       => 'cancel',
+                                             'name'      => ts('Cancel') ),
+                                     )
+                               );
+
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
     }
