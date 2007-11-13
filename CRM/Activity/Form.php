@@ -255,7 +255,7 @@ class CRM_Activity_Form extends CRM_Core_Form
 
 
         $defaultSourceContactName = CRM_Contact_BAO_Contact::sortName( $this->_sourceContactId );
-        $sourceContactField = $this->add( 'text','source_contact', ts('Source contact'), $attributes, true );
+        $sourceContactField = $this->add( 'text','source_contact', ts('Added By'), $attributes, true );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
         } else {
@@ -264,7 +264,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
-        $targetContactField = $this->add( 'text','target_contact', ts('Target contact'), $attributes, true );
+        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, true );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -273,7 +273,7 @@ class CRM_Activity_Form extends CRM_Core_Form
         }
 
         $defaultAssigneeContactName = CRM_Contact_BAO_Contact::sortName( $this->_assigneeContactId );
-        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assignee contact'), $attributes, true );
+        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes, true );
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
         } else {

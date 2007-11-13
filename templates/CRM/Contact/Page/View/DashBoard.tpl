@@ -1,7 +1,7 @@
 <table class="no-border">
 <tr>
 <td>
-    <fieldset><legend>{ts}Scheduled Activities{/ts}</legend>
+    <fieldset><legend>{ts}Activities{/ts}</legend>
 
     {if $rows}
         <form title="activity_pager" action="{crmURL}" method="post">

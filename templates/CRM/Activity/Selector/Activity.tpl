@@ -1,8 +1,8 @@
-{* Open Activities table and Activity History are toggled on this page for now because we don't have a solution for including 2 'selectors' on one page. *}
+{* Displays Activities. *}
 
 <div>
   <fieldset>
-  <legend>{ts}Open Activities{/ts}</legend>
+  <legend>{ts}Activities{/ts}</legend>
 
 {if $rows}
   <form title="activity_pager" action="{crmURL}" method="post">
