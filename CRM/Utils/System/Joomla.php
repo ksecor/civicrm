@@ -213,20 +213,31 @@ class CRM_Utils_System_Joomla {
         
         $dbJoomla = DB::connect( $config->userFrameworkDSN );
         if ( DB::isError( $dbJoomla ) ) {
-            CRM_Core_Error::fatal( "Cannot connect to drupal db via $config->userFrameworkDSN, " . $dbJoomla->getMessage( ) ); 
+            CRM_Core_Error::fatal( "Cannot connect to joomla db via $config->userFrameworkDSN, " . $dbJoomla->getMessage( ) ); 
         }                                                      
 
-        $password  = md5( $password );
         $name      = $dbJoomla->escapeSimple( strtolower( $name ) );
         $sql = 'SELECT u.* FROM ' . $config->userFrameworkUsersTableName .
-            " u WHERE LOWER(u.username) = '$name' AND u.password = '$password'";
+            " u WHERE LOWER(u.username) = '$name'";
         $query = $dbJoomla->query( $sql );
 
         $user = null;
-        // need to change this to make sure we matched only one row
         require_once 'CRM/Core/BAO/UFMatch.php';
-        while ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) { 
-            CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['id'], $row['email'], 'Drupal' );
+        if ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
+            // now check password
+            if ( strpos( $row['password'], ':' ) === false ) {
+                if ( $row['password'] != md5( $password ) ) {
+                    return false;
+                }
+            } else {
+                list( $hash, $salt ) = explode( ':', $row['password'] );
+                $cryptpass           = md5( $password . $salt );
+                if ( $hash != $cryptpass ) {
+                    return false;
+                }
+            }
+            
+            CRM_Core_BAO_UFMatch::synchronizeUFMatch( $user, $row['id'], $row['email'], 'Joomla' );
             $contactID = CRM_Core_BAO_UFMatch::getContactId( $row['id'] );
             if ( ! $contactID ) {
                 return false;
