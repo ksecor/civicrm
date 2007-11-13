@@ -297,15 +297,19 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $userID  = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
         
-        //building contribution params 
         if( $formValues['record_contribution'] ) {
+            //building contribution params 
             $contributionParams = array( );
-            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id', 'contribution_status_id' );
             $config =& CRM_Core_Config::singleton();
-            $contributionParams['currency'  ]            = $config->defaultCurrency;
-            $contributionParams['contact_id']            = $params['contact_id'];
-            $contributionParams['source']                = "Offline membership signup (by {$userName})";
+            $contributionParams['currency'             ] = $config->defaultCurrency;
+            $contributionParams['contact_id'           ] = $params['contact_id'];
+            $contributionParams['source'               ] = "Offline membership renewal (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
+            $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
+            $contributionParams['receipt_date'         ] = $formValues['send_receipt'] ? 
+                                                           $contributionParams['receive_date'] : 'null';
+            
+            $recordContribution = array( 'total_amount', 'contribution_type_id', 'payment_instrument_id', 'contribution_status_id' );
             foreach ( $recordContribution as $f ) {
                 $contributionParams[$f] = CRM_Utils_Array::value( $f, $formValues );
             }   
