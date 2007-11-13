@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
  
-# define youe schema file name here
+# define your schema file name here
 SCHEMA=schema/Schema.xml 
 # define your database name here, will be overriden by 
 # FIRST command line argument if given
