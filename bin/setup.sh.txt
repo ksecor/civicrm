@@ -96,12 +96,12 @@ fi
 echo; echo "DONE!"
 
 # to generate a new data file do the foll:
-# mysqladmin -f -uYourDBUser -pYourDBPassword drop YourDBName
-# mysqladmin -f -uYourDBUser -pYourDBPassword create YourDBName
-# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm.mysql
-# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_data.mysql
-# mysql -uYourDBUser -pYourDBPassword YourDBName < civicrm_sample.mysql
-# mysql -uYourDBUser -pYourDBPassword YourDBName < zipcodes.mysql
+# mysqladmin -f -u $DBUSER $PASSWDSECTION drop $DBNAME
+# mysqladmin -f -u $DBUSER $PASSWDSECTION create $DBNAME
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_data.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < civicrm_sample.mysql
+# mysql -u $DBUSER $PASSWDSECTION $DBNAME < zipcodes.mysql
 # php GenerateData.php
-# echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -uYourDBUser -pYourDBPassword YourDBName
-# mysqldump -c -e -t -n -uYourDBUser -pYourDBPassword YourDBName  > civicrm_generated.mysql
+# echo "drop table zipcodes ; update civicrm_domain set config_backend = null" | mysql -u $DBUSER $PASSWDSECTION $DBNAME
+# mysqldump -c -e -t -n -u $DBUSER $PASSWDSECTION $DBNAME  > civicrm_generated.mysql

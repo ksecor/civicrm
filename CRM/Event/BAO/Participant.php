@@ -187,7 +187,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
              ( $params['status_id'] != $status ) ) {
-            self::setActivityHistory($participant);
+            self::addActivity( $participant );
         }
         
         $session = & CRM_Core_Session::singleton();
@@ -248,14 +248,14 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     }
  
     /**
-     * takes an associative array of modified participant object
+     * Function to add activity record for Event participation
      *
-     * the function sets the activity history of the modified partcipant records
+     * @param object  $participant   (reference) $participant object
      *
      * @access public
      * @static
      */
-    static function setActivityHistory( $participant ) 
+    static function addActivity( &$participant ) 
     {
         require_once "CRM/Event/BAO/Event.php";
         $event = CRM_Event_BAO_Event::getEvents( true, $participant->event_id );
@@ -271,12 +271,12 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         if ( CRM_Utils_Array::value( $participant->status_id, $status ) ) {
             $subject .= ' - ' . $status[$participant->status_id]; 
         }
-        
+
         require_once "CRM/Core/OptionGroup.php";
         $activityParams = array( 'source_contact_id' => $participant->contact_id,
                                  'source_record_id'  => $participant->id,
                                  'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                        'CiviEvent Online Participant',
+                                                                                        'Event Registration',
                                                                                         'name' ),
                                  'subject'            => $subject,
                                  'activity_date_time' => $date,

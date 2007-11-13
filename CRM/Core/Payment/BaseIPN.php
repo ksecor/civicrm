@@ -358,35 +358,13 @@ class CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
+        // create an activity record
         if ( $input['component'] == 'contribute' ) {
-            // get the title of the contribution page
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                  $contribution->contribution_page_id,
-                                                  'title' );
-            
-            require_once 'CRM/Utils/Money.php';
-            $formattedAmount = CRM_Utils_Money::format( $input['amount'] );
-            
-            // also create an activity record
-            require_once "CRM/Core/OptionGroup.php";
-            $ahParams = array( 'source_contact_id' => $ids['contact'],
-                               'source_record_id'  => $contribution->id,
-                               'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                      'CiviContribute Online Contribution',
-                                                                                      'name' ),
-                               'subject'           => "$formattedAmount - $title (online)",
-                               'activity_date_time'=> self::$_now,
-                               'is_test'           => $contribution->is_test
-                               );
-
-            require_once 'api/v2/Activity.php';
-            if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
-                CRM_Core_Error::fatal( "Could not create a system record" );
-            }
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::addActivity( $contribution );
         } else { // event 
-            // also create an activity record
             require_once "CRM/Event/BAO/Participant.php";
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
+            CRM_Event_BAO_Participant::addActivity( $participant );
         }
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
