@@ -10,7 +10,7 @@ INSERT INTO
 VALUES 
 --    (%%CIVICRM_DOMAIN_ID%%, 'custom_most_important_issue', '{ts escape="sql"}Custom Field: Most Important Issue{/ts}'     , 0, 1),
 --    (%%CIVICRM_DOMAIN_ID%%, 'custom_marital_status'      , '{ts escape="sql"}Custom Field: Marital Status{/ts}'           , 0, 1),
-   (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page.amount.1' , '{ts escape="sql"}Contribution Page Amount: 1{/ts}'            , 0, 1);
+   (%%CIVICRM_DOMAIN_ID%%, 'civicrm_contribution_page.amount.1', 'Contribution Page Amount: 1', 0, 1);
 
 -- SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
 -- SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';

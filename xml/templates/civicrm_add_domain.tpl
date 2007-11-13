@@ -104,7 +104,8 @@ VALUES
    (@domain_id, 'grant_status'                  , '{ts escape="sql"}Grant status{/ts}'                       , 0, 1),
    (@domain_id, 'grant_type'                    , '{ts escape="sql"}Grant Type{/ts}'                         , 0, 1),
    (@domain_id, 'honor_type'                    , '{ts escape="sql"}Honor Type{/ts}'                         , 0, 1),
-   (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1);
+   (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1),
+   (@domain_id, 'activity_status'               , '{ts escape="sql"}Activity Status{/ts}'                    , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -131,6 +132,7 @@ SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group wher
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group where name = 'honor_type';
 SELECT @option_group_id_csearch        := max(id) from civicrm_option_group where name = 'custom_search';
+SELECT @option_group_id_acs            := max(id) from civicrm_option_group where name = 'activity_status';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -286,7 +288,11 @@ VALUES
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'       , 4, 'CRM/Contact/Form/Search/Custom/Group.php'       , NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing', 5, 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1 );
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing', 5, 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+
+  (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1),
+  (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
+  (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1);
 
 -- sample membership status entries
 INSERT INTO
