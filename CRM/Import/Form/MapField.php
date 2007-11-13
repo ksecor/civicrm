@@ -214,11 +214,11 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
 
             
             //get loaded Mapping Fields
-            $mappingName        = $mappingName[1];
-            $mappingContactType = $mappingContactType[1];
-            $mappingLocation    = $mappingLocation[1];
-            $mappingPhoneType   = $mappingPhoneType[1];
-            $mappingRelation    = $mappingRelation[1];
+            $mappingName        = CRM_Utils_Array::value( 1, $mappingName );
+            $mappingContactType = CRM_Utils_Array::value( 1, $mappingContactType );
+            $mappingLocation    = CRM_Utils_Array::value( 1, $mappingLocation );
+            $mappingPhoneType   = CRM_Utils_Array::value( 1, $mappingPhoneType );
+            $mappingRelation    = CRM_Utils_Array::value( 1, $mappingRelation );
            
             $this->assign('loadedMapping', $savedMapping);
             
@@ -536,9 +536,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             $mapper[$i]     = $this->_mapperFields[$mapperKeys[$i][0]];
             $mapperKeysMain[$i] = $mapperKeys[$i][0];
 
-            //$mapperLocType[$i] = $mapperKeys[$i][1];
-            
-            if (is_numeric($mapperKeys[$i][1])) {
+            if ( isset( $mapperKeys[$i][1] ) &&
+                 is_numeric( $mapperKeys[$i][1] ) ) {
                 $mapperLocType[$i] = $mapperKeys[$i][1];
             } else {
                 $mapperLocType[$i] = null;
@@ -548,15 +547,20 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
                             ?   $this->_location_types[$mapperLocType[$i]]
                             :   null;
 
-            //$mapperPhoneType[$i] = $mapperKeys[$i][2];
-            if ( !is_numeric($mapperKeys[$i][2])) {
+            if ( isset( $mapperKeys[$i][2] ) &&
+                 ! is_numeric( $mapperKeys[$i][2] ) ) {
                 $mapperPhoneType[$i] = $mapperKeys[$i][2];
             } else {
                 $mapperPhoneType[$i] = null;
             }
 
             //relationship info
-            list($id, $first, $second) = explode('_', $mapperKeys[$i][0]);
+            if ( isset( $mapperKeys[$i] ) &&
+                 isset( $mapperKeys[$i][0] ) ) {
+                list($id, $first, $second) = CRM_Utils_System::explode( '_', $mapperKeys[$i][0], 3);
+            } else {
+                list($id, $first, $second) = array( null, null, null );
+            }
             if ( ($first == 'a' && $second == 'b') || ($first == 'b' && $second == 'a') ) {
                 $related[$i] = $this->_mapperFields[$mapperKeys[$i][0]];
                 $relatedContactDetails[$i] = ucwords(str_replace("_", " ",$mapperKeys[$i][1]));
@@ -588,7 +592,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
         $this->set( 'relatedContactPhoneType',$relatedContactPhoneType );
                
         // store mapping Id to display it in the preview page 
-        $this->set('loadMappingId', $params['mappingId']);
+        $this->set('loadMappingId', CRM_Utils_Array::value( 'mappingId', $params ) );
         
         //Updating Mapping Records
         if ( CRM_Utils_Array::value('updateMapping', $params)) {
