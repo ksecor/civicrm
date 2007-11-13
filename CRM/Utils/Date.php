@@ -734,6 +734,49 @@ class CRM_Utils_Date
         // for some strange reason QF wants it as M, so we oblige for now
         $defaults['M'] = $defaults['m'];
     }
+
+    /**
+     * Function to convert hours/minutes in minutes
+     *
+     * @param int $hour    hours
+     * @param int $minute  minute
+     *
+     * @return int $time time is minutes
+     * @access public
+     * @static
+     */
+    static function standardizeTime( $hour = null, $minute = null ) 
+    {
+        $time = $minute;
+        
+        if ( $hour ) {
+            $time = $time + ( $hour * 60 );
+        }
+
+        return $time;
+    }
+
+    /**
+     * Function to convert minutes to hours/minutes
+     *
+     * @param int $time  time in minutes
+     *
+     * @return array array  associated array of hours and minutes
+     * @access public
+     * @static
+     */
+    static function unstandardizeTime( $time = null ) 
+    {
+        $hour = $minute = null;
+
+        $hour   = floor( $time / 60);
+        $minute = $time - floor( $time / 60 ) * 60;
+
+        // always convert minutes in interval of 5
+        $minute = (integer)( $minute/15 ) * 15;
+
+        return array( $hour, $minute );
+    }
 }
 
 ?>

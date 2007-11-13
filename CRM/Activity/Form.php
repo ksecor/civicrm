@@ -128,9 +128,13 @@ class CRM_Activity_Form extends CRM_Core_Form
             $params = array( 'id' => $this->_activityId );
             
             require_once "CRM/Activity/BAO/Activity.php";
-            $bao = new CRM_Activity_BAO_Activity();
-            $bao->retrieveActivity( $params, $defaults, $this->_activityTypeId );
+            CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityTypeId );
 
+            if ( $defaults['duration'] ) {
+                require_once "CRM/Utils/Date.php";
+                list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
+            }
+            
 //            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             
 //            if (! $this->_subject){

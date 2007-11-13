@@ -73,13 +73,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return object CRM_Core_BAO_Meeting object
      * @access public
      */
-    public function retrieveActivity( &$params, &$defaults, $activityType ) 
+    public function retrieve ( &$params, &$defaults, $activityType ) 
     {
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
+
         if ( $activity->find( true ) ) {
-
-
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
@@ -192,7 +191,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         
         $activity =& new CRM_Activity_DAO_Activity( );
-        
+
+        //convert duration hour/ minutes to minutes
+        require_once "CRM/Utils/Date.php";
+        $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
+                                                               CRM_Utils_Array::value( 'duration_minutes', $params )
+                                                               );
+
         $activity->copyValues( $params );
 
         // start transaction        
