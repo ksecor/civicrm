@@ -99,7 +99,7 @@ class CRM_Contact_Form_GroupTag
 		                continue;
 		            }
 		        }
-		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name, array ('disabled' => 'disabled', 'checked' => 'checked'));
+		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );
 		    }
 	        if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, $fName, $groupName, '<br />' );
