@@ -294,6 +294,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         require_once "CRM/Core/BAO/CustomQuery.php";
+        require_once "CRM/Core/BAO/CustomField.php";
         $entityTable  = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
 
