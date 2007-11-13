@@ -81,14 +81,14 @@ function civicrm_check_permission( $args ) {
 
     $config = CRM_Core_Config::singleton( );
 
-    // a transaction page is also valid
+    // a transaction page is valid
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
          CRM_Utils_Array::value( 1, $args ) == 'contribute' &&
          CRM_Utils_Array::value( 2, $args ) == 'transact' ) {
         return true;
     }
 
-    // an event registration page is also valid
+    // an event registration page is valid
     if ( in_array( 'CiviEvent', $config->enableComponents ) ) {
         if ( CRM_Utils_Array::value( 1, $args ) == 'event' &&
              ( ( CRM_Utils_Array::value( 2, $args ) == 'register' ) || 
@@ -99,6 +99,17 @@ function civicrm_check_permission( $args ) {
         if ( CRM_Utils_Array::value( 1, $args ) == 'contact' &&
              CRM_Utils_Array::value( 2, $args ) == 'map'     &&
              CRM_Utils_Array::value( 3, $args ) == 'event'   ) {
+            return true;
+        }
+    }
+    
+    // allow mailing urls to be processed
+    if ( in_array( 'CiviMail', $config->enableComponents ) ) {
+        if ( CRM_Utils_Array::value( 1, $args ) == 'mailing' &&
+             ( ( CRM_Utils_Array::value( 2, $args ) == 'forward'     ) || 
+               ( CRM_Utils_Array::value( 2, $args ) == 'unsubscribe' ) || 
+               ( CRM_Utils_Array::value( 2, $args ) == 'resubscribe' ) || 
+               ( CRM_Utils_Array::value( 2, $args ) == 'optout'      ) ) ) {
             return true;
         }
     }

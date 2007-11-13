@@ -850,6 +850,14 @@ AND civicrm_contact.is_opt_out =0";
                                                                 true), 
                       );
 
+        // gross hack for joomla
+        // to make urls point to frontend (CRM-2367)
+        if ( $config->userFramework == 'Joomla' ) {
+            foreach ( $urls as $key => $value ) {
+                $urls[$key] = str_replace( '/administrator/index2.php', 'index.php' );
+            }
+        }
+
         $headers = array(
                          'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),
                          'Return-Path' => CRM_Utils_Verp::encode($verp['bounce'], $email),
@@ -857,7 +865,7 @@ AND civicrm_contact.is_opt_out =0";
                          'Subject'   => $this->subject,
                          );
       
-        return array( &$verp,&$urls,&$headers);
+        return array( &$verp, &$urls, &$headers );
     }
 
     /**
@@ -888,7 +896,7 @@ AND civicrm_contact.is_opt_out =0";
             $this->_domain =& CRM_Core_BAO_Domain::getDomainByID($this->domain_id);
         }
 
-        list($verp,$urls,$headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
+        list( $verp, $urls, $headers) = $this->getVerpAndUrlsAndHeaders($job_id, $event_queue_id, $hash, $email);
 
         if ( $contactDetails ) {
             $contact = $contactDetails;
