@@ -284,7 +284,9 @@ VALUES
 
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'      , 1, 'CRM/Contact/Form/Search/Custom/Sample.php'      , NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 );
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'       , 4, 'CRM/Contact/Form/Search/Custom/Group.php'       , NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing', 5, 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1 );
 
 -- sample membership status entries
 INSERT INTO
