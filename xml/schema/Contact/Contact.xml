@@ -447,7 +447,7 @@
        <import>true</import>
        <headerPattern>/^Open\s?ID|u(niq\w*)?\s?ID/i</headerPattern>
        <dataPattern>/^[\w\/\:\.]+$/</dataPattern>
-       <comment>the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact; mainly used for logging in to CiviCRM</comment>
+       <comment>the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact mainly used for logging in to CiviCRM</comment>
        <add>2.0</add>
   </field>
 </table>

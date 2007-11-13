@@ -43,7 +43,7 @@ if [ ! -d $TRG/sql ] ; then
 	mkdir $TRG/sql
 fi
 
-for F in $SRC/sql/civicrm_*.mysql; do 
+for F in $SRC/sql/civicrm*.mysql; do 
 	cp $F $TRG/sql
 done
 
