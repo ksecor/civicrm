@@ -421,9 +421,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params['receipt_date'] = $params['receive_date'];
             }
         }
-        
+
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
-        
         if ( $formValues['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -507,8 +506,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign( 'formValues', $formValues );
-            $this->assign( 'mem_start_date', $startDate );
-            $this->assign( 'mem_end_date', $endDate );
+            $this->assign( 'mem_start_date', CRM_Utils_Date::customFormat($calcDates['start_date']) );
+            $this->assign( 'mem_end_date', CRM_Utils_Date::customFormat($calcDates['end_date']) );
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                                            $formValues['membership_type_id'][1] ) );
             $this->assign( 'customValues', $customValues );
@@ -524,9 +523,8 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                   $message);
         }
         
-        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been changed to {$memType}. " );
+            $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been updated. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
                 $statusMsg .= ts("The new membership End Date is {$endDate}. ");

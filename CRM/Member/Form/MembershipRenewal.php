@@ -358,8 +358,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $this->assign_by_ref( 'formValues', $formValues );
             $this->assign( 'receive_date', $renewalDate );
             $this->assign( 'subject', ts('Membership Renewal Confirmation and Receipt') );
-            $this->assign( 'mem_start_date', CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->start_date ) ) );
-            $this->assign( 'mem_end_date', $endDate );
+            $this->assign( 'mem_start_date', CRM_Utils_Date::customFormat( CRM_Utils_Date::format( $renewMembership->start_date ) ) );
+            $this->assign( 'mem_end_date', CRM_Utils_Date::customFormat( $endDate ) );
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                                             $renewMembership->membership_type_id ) );
             $this->assign( 'customValues', $customValues );
