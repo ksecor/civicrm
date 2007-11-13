@@ -1,23 +1,23 @@
 {* this template is used for adding/editing other (custom) activities. *}
 <div class="form-item">
+<div id="help">{$activityTypeDescription}</div>
 <fieldset>
    <legend>
     {if $action eq 1}
-    {ts}Schedule an Activity{/ts}
-    {elseif $action eq 2}{ts}Edit Scheduled Activity{/ts}
-    {elseif $action eq 8}{ts}Delete Activity{/ts}
+    {$activityTypeName}
+    {elseif $action eq 2}{ts}Edit{/ts} {$activityTypeName}
+    {elseif $action eq 8}{ts}Delete{/ts} {$activityTypeName}
     {else}
-        {if $history eq 1}{ts}View Completed Activity{/ts}{else}{ts}View Scheduled Activity{/ts}{/if}
+        {ts}View{/ts}{$activityTypeName}
     {/if}
   </legend>
    
-   <div class="tundra">
+  <div class="tundra">
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
-      {if $action eq 1  or $form.activity_type_id.value }
-         <dt>{$form.activity_type_id.label}</dt><dd>{$form.activity_type_id.html}{$form.description.html|crmReplace:class:texttolabel}</dd>
+      {if $action eq 1 }
 
-   <dl class="html-adjust">     
+    <dl class="html-adjust">     
     <dt>{$form.source_contact.label}</dt>
     
     {if $source_contact_value}
@@ -140,45 +140,3 @@
 
     </fieldset>
     </div>
-    
-
-{if $action eq 1  or $action eq 2 or $form.activity_type_id.value } 
-    <script type="text/javascript" >
-    var activityDesc = document.getElementById("description");
-    activityDesc.readOnly = 1;
-    {literal}
-
-    function activity_get_description( )
-    {
-      var activityType = document.getElementById("activity_type_id");
-      var activityDesc = document.getElementById("description");
-      var desc = new Array();
-      desc[0] = "";
-      {/literal}
-      var index = 1;
-      {foreach from= $ActivityTypeDescription item=description key=id}{$ActivityTypeDescription}
-        {literal}desc[index]{/literal} = "{$description}"
-        {literal}index = index + 1{/literal}
-      {/foreach}
-      {literal}
-      activityDesc.value = desc[activityType.selectedIndex];
-     }
-    
-    function reload(refresh) {
-        var activityType = document.getElementById("activity_type_id").value;
-        var context = {/literal}"{$context}"{literal} 
-        var caseid = {/literal}"{$caseid}"{literal}
-        var url = {/literal}"{$refreshURL}"{literal}
-        var post = url + "&subType=" + activityType.value + "&context=" + context + "&caseid=" + caseid
-        if( refresh ) {
-            window.location= post; 
-        }
-    }
-        
-    {/literal}
-    </script >
-{/if}       
-
- <script type="text/javascript" >
-      activity_get_description( );
- </script>
