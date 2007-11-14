@@ -73,6 +73,9 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         if ( $individual->id = CRM_Utils_Array::value( 'individual', $ids ) ) {
             $individual->find(true);
         }
+
+        $params['is_deceased'] = CRM_Utils_Array::value( 'is_deceased', $params, false );
+        
         $individual->copyValues($params);
         
         if ( $date = CRM_Utils_Array::value('birth_date', $params) ) {
@@ -99,10 +102,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Individual
         // hack to make db_do save a null value to a field
         if ( ! $individual->birth_date ) {
             $individual->birth_date = 'NULL';
-        }
-
-        if (!array_key_exists('is_deceased', $params) && !$individual->is_deceased) {
-            $individual->is_deceased = 0;
         }
 
         $individual->id = CRM_Utils_Array::value( 'individual', $ids );
