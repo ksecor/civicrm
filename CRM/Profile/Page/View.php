@@ -82,7 +82,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             if ( $map ) {
                 $this->assign( 'mapURL',
                                CRM_Utils_System::url( "civicrm/profile/map",
-                                                      "reset=1&cid=$id&gid={$this->_gid}" ) );
+                                                      "reset=1&pv=1&cid=$id&gid={$this->_gid}" ) );
             }
             $this->assign( 'listingURL',
                            CRM_Utils_System::url( "civicrm/profile",

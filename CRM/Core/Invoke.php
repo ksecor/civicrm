@@ -898,16 +898,25 @@ class CRM_Core_Invoke
 
 
         if ($secondArg == 'map' ) {
-            // set the userContext stack
-            $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/profile' ) );
 
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Contact_Form_Task_Map',
                                                            ts('Map Contact'),
                                                            null, false, false, true );
-            $profileGID = CRM_Utils_Request::retrieve( 'gid', 'Integer',
-                                                       CRM_Core_DAO::$_nullObject,
+
+            $profileGID  = CRM_Utils_Request::retrieve( 'gid', 'Integer',
+                                                       $controller,
                                                        true );
+            $profileView = CRM_Utils_Request::retrieve( 'pv', 'Integer',
+                                                        $controller,
+                                                        false );
+            // set the userContext stack
+            $session =& CRM_Core_Session::singleton();
+            if ( $profileView ) {
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/profile/view' ) );
+            } else {
+                $session->pushUserContext( CRM_Utils_System::url( 'civicrm/profile' ) );
+            }
+
             $controller->set( 'profileGID', $profileGID );
             $controller->process( );
             return $controller->run( );

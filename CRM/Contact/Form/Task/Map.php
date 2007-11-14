@@ -64,7 +64,7 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
                                             $this, false );
         $eid = CRM_Utils_Request::retrieve( 'eid', 'Positive',
                                             $this, false );
-        $profileGID = CRM_Utils_Request::retrieve( 'profileGID', 'Boolean',
+        $profileGID = CRM_Utils_Request::retrieve( 'profileGID', 'Integer',
                                                    $this, false );
         $this->assign( 'profileGID', $profileGID );
 
