@@ -58,9 +58,7 @@ abstract class CRM_Core_Component_Config
      */
     public function setDefaults( $defaults ) {
         foreach( get_class_vars( get_class( $this ) ) as $key => $value ) {
-
             if ( ! isset( $defaults[$key] ) ) {
-                CRM_Core_Error::debug( $key, $value );            
                 $defaults[$key] = $value;
             }
         }
