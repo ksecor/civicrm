@@ -15,7 +15,6 @@
   <div class="tundra">
   <dl class="html-adjust">
     {if $action eq 1 or $action eq 2  or $action eq 4 }
-      {if $action eq 1 }
 
     <dl class="html-adjust">     
     <dt>{$form.source_contact.label}</dt>
@@ -114,8 +113,6 @@
            </dd>
           </dl>
         </div>
-      {/if}
-	
      {/if}
     
      {if $action eq 8 }
