@@ -129,7 +129,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         foreach ($fields as $name => $field) {
-            $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern'], $field['hasLocationType'] );
+            $this->addField( $name,
+                             $field['title'],
+                             CRM_Utils_Array::value( 'type'           , $field ),
+                             CRM_Utils_Array::value( 'headerPattern'  , $field ),
+                             CRM_Utils_Array::value( 'dataPattern'    , $field ),
+                             CRM_Utils_Array::value( 'hasLocationType', $field ) );
         }
 
         $this->_newContacts = array();
@@ -340,7 +345,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateType");
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',
+                                                                                     $params ) );
         foreach ( $params  as $key => $val ) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 if ($customFields[$customFieldID][2] == 'Date') {
@@ -490,12 +496,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $primaryContactId = $newContact->id;
             }
             
-            if ( ( self::isDuplicate($newContact)  || is_a( $newContact,CRM_Contact_BAO_Contact ) ) 
+            if ( ( self::isDuplicate($newContact)  || is_a( $newContact, 'CRM_Contact_BAO_Contact' ) ) 
                  && $primaryContactId ) {
 
                 //relationship contact insert
                 foreach ($params as $key => $field) {
-                    list($id, $first, $second) = explode('_', $key);
+                    list($id, $first, $second) = CRM_Utils_System::explode('_', $key, 3);
                     if ( !($first == 'a' && $second == 'b') && !($first == 'b' && $second == 'a') ) {
                         continue;
                     }
@@ -577,7 +583,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $this->_newRelatedContacts[] = $relContactId;
                     }
                     
-                    if ( self::isDuplicate($relatedNewContact) || is_a( $relatedNewContact ,CRM_Contact_BAO_Contact )) {
+                    if ( self::isDuplicate($relatedNewContact) ||
+                         is_a( $relatedNewContact, 'CRM_Contact_BAO_Contact' ) ) {
                         // now create the relationship record
                         $relationParams = array();
                         $relationParams = array('relationship_type_id' => $key, 
@@ -640,7 +647,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         //dupe checking      
-        if ( is_a( $newContact, CRM_Core_Error ) ) {
+        if ( is_a( $newContact, 'CRM_Core_Error' ) ) {
             $code = $newContact->_errors[0]['code'];
             if ($code == CRM_Core_Error::DUPLICATE_CONTACT) {
                 $urls = array( );
@@ -676,7 +683,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $newContact = crm_update_contact_formatted($contactId, $formatted, false);
                 } // else skip does nothing and just returns an error code.
             
-                if ($newContact && ! is_a($newContact, CRM_Core_Error)) {
+                if ($newContact && ! is_a($newContact, 'CRM_Core_Error' ) ) {
                     $this->_newContacts[] = $newContact->id;
                 }
                 //CRM-262 No Duplicate Checking  
@@ -821,7 +828,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                     }
                 }
-            } else if (is_array($params[$key]) && $params[$key]["contact_type"]) {
+            } else if ( is_array($params[$key]) &&
+                        isset( $params[$key]["contact_type"] ) ) {
                 self::isErrorInCustomData( $params[$key] ,$errorMessage );
             }
         }
@@ -965,7 +973,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         }
                     }
                 default : 
-                    if (is_array($params[$key]) && $params[$key]["contact_type"]) {
+                    if ( is_array( $params[$key] ) && 
+                         isset( $params[$key]["contact_type"] ) ) {
                         //check for any relationship data ,FIX ME
                         self::isErrorInCoreData($params[$key],$errorMessage);
                     }
