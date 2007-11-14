@@ -836,27 +836,19 @@ AND civicrm_contact.is_opt_out =0";
         }
 
         $urls = array(
-                      'forward'         => CRM_Utils_System::url('civicrm/mailing/forward', 
-                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                                                                 true),
+                      'forward'        => CRM_Utils_System::url('civicrm/mailing/forward', 
+                                                                "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+                                                                true, null, true, true),
                       'unsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                                                                true), 
+                                                                true, null, true, true),
                       'resubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/resubscribe', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                                                                true), 
+                                                                true, null, true, true),
                       'optOutUrl'      => CRM_Utils_System::url('civicrm/mailing/optout', 
                                                                 "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
-                                                                true), 
+                                                                true, null, true, true),
                       );
-
-        // gross hack for joomla
-        // to make urls point to frontend (CRM-2367)
-        if ( $config->userFramework == 'Joomla' ) {
-            foreach ( $urls as $key => $value ) {
-                $urls[$key] = str_replace( '/administrator/index2.php', '/index.php', $value );
-            }
-        }
 
         $headers = array(
                          'Reply-To'  => CRM_Utils_Verp::encode($verp['reply'], $email),

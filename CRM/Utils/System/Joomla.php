@@ -123,12 +123,15 @@ class CRM_Utils_System_Joomla {
      *                           RSS feed.
      * @param $fragment string   A fragment identifier (named anchor) to append to the link.
      * @param $htmlize  boolean  whether to convert to html eqivalant
+     * @param $frontend boolean  a gross joomla hack
      *
      * @return string            an HTML string containing a link to the given path.
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
+    function url($path = null, $query = null, $absolute = true,
+                 $fragment = null, $htmlize = true,
+                 $frontend = false ) {
         $config        =& CRM_Core_Config::singleton( );
 
         if ( $config->userFrameworkFrontend ) {
@@ -145,10 +148,17 @@ class CRM_Utils_System_Joomla {
         $separator = $htmlize ? '&amp;' : '&';
 
         if ( isset( $query ) ) {
-            return "{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$query}{$fragment}";
+            $url = "{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$query}{$fragment}";
         } else {
-            return "{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$fragment}";
+            $url ="{$base}{$script}?option=com_civicrm{$separator}task={$path}{$separator}{$fragment}";
         }
+
+        // gross hack for joomla, we are in the backend and want to send a frontend url
+        if ( $frontend &&
+             $config->userFramework == 'Joomla' ) {
+            $url = str_replace( '/administrator/index2.php', '/index.php', $url );
+        }
+        return $url;
     }
 
     /** 

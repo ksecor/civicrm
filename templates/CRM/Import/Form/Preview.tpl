@@ -31,7 +31,7 @@ setIntermediate = function(type,data,evt){
 doProgress = function(){
     dojo.io.bind({
 {/literal}
-        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID"}",
+        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 fe=1}",
 {literal}
         mimetype: "text/json",
         load: setIntermediate
@@ -65,7 +65,7 @@ submitForm = function( e ) {
     dojo.debug( "in submit form" );
     var kw = {
 {/literal}
-	url: "{crmURL p='civicrm/import/contact'}",
+	url: "{crmURL p='civicrm/import/contact' h=0}",
 {literal}
 	formNode: dojo.byId("Preview"),
 	load: setFinished,

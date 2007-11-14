@@ -160,7 +160,8 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
+    function url($path = null, $query = null, $absolute = true,
+                 $fragment = null, $htmlize = true, $frontend = false ) {
         // we have a valid query and it has not yet been transformed
         if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
             $query = htmlentities( $query );
@@ -168,7 +169,9 @@ class CRM_Utils_System {
 
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment, $htmlize );' );
+        return eval( 'return ' .
+                     $config->userFrameworkClass .
+                     '::url( $path, $query, $absolute, $fragment, $htmlize, $frontend );' );
 
     }
 
@@ -198,10 +201,11 @@ class CRM_Utils_System {
         }
 
         return self::url( $p,
-                          CRM_Utils_Array::value( 'q', $params ),
-                          CRM_Utils_Array::value( 'a', $params, true ),
-                          CRM_Utils_Array::value( 'f', $params ),
-                          CRM_Utils_Array::value( 'h', $params, true ) );
+                          CRM_Utils_Array::value( 'q' , $params        ),
+                          CRM_Utils_Array::value( 'a' , $params, true  ),
+                          CRM_Utils_Array::value( 'f' , $params        ),
+                          CRM_Utils_Array::value( 'h' , $params, true  ),
+                          CRM_Utils_Array::value( 'fe', $params, false ) );
     }
 
     /**
