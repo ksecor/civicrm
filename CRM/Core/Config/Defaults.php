@@ -33,8 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
  * This class is a temporary place to store default setting values
  * before they will be distributed in proper places (component configurations
@@ -245,6 +243,14 @@ class CRM_Core_Config_Defaults
         if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
             $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent', 'CiviMail');
         }
+
+
+        foreach( $config->componentRegistry as $name => $comp ) {
+                $co = $comp->getConfigObject();
+                $co->setDefaults( &$defaults );
+        }
+                                                                                
+
     }
     
 }

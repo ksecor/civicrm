@@ -108,7 +108,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
     { 
 
         $cfg =& CRM_Core_Config::singleton( );
-
+        
         $this->_totalCountOpenActivity = CRM_Contact_BAO_Contact::getNumOpenActivity( $id );
         $this->_contactIds             = $id;
 

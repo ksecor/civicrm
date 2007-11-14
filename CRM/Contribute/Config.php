@@ -59,20 +59,6 @@ class CRM_Contribute_Config {
     static function add( &$config, $oldMode = false ) {
     }
 
-    /**
-     * verify that the needed parameters have been set of SMS to work
-     *
-     * @param CRM_Core_Config (reference ) the system config object
-     *
-     * @return boolean
-     * @static
-     * @access public
-     */
-    static function check( &$config ) {
-        $requiredParameters = array( 'smsUsername', 'smsPassword', 'smsAPIID', 'smsAPIServer' );
-        return CRM_Core_Config::check( $config, $requiredParameters );
-    }
-
 }
 
 

@@ -203,7 +203,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 //initialize variables. for gencode we cannot load from the
                 //db since the db might not be initialized
                 if ( $loadFromDB ) {
-                    self::$_singleton->initVariables( );
+                    self::$_singleton->_initVariables( );
                     
                     // retrieve and overwrite stuff from the settings file
                     self::$_singleton->addCoreVariables( );
@@ -286,30 +286,43 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
     }
 
     /**
+     * returns the singleton logger for the application
+     *
+     * @param
+     * @access private
+     * @return object
+     */
+    static public function &getLog() 
+    {
+        if ( ! isset( self::$_log ) ) {
+            self::$_log =& Log::singleton( 'display' );
+        }
+
+        return self::$_log;
+    }
+
+    /**
      * initialize the config variables
      *
      * @return void
      * @access private
      */
-    function initVariables() 
+    private function _initVariables() 
     {
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
-        CRM_Core_BAO_Setting::retrieve( $variables );
+        CRM_Core_BAO_Setting::retrieve($variables);
 
-        // if we dont get stuff from the sttings file, apply appropriate defaults...
         if ( empty( $variables ) ) {
-            $variables = get_object_vars( $this );
+            // get system variables with their hardcoded defaults
+            $variables = get_object_vars($this);
 
             require_once 'CRM/Core/Config/Defaults.php';
             CRM_Core_Config_Defaults::setValues( $variables );
 
-            // ...and store them in the database
             CRM_Core_BAO_Setting::add($variables);
         }
         
-
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
         
@@ -325,11 +338,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 CRM_Utils_File::createDir( $this->templateCompileDir );
             }
             
-            $this->$key = $value;       
+            $this->$key = $value;
         }
-        // END FIXME
-
-        // rewrite address protocols to https if SSL is turned on
+        
         if ( $this->userFrameworkResourceURL ) {
             // we need to do this here so all blocks also load from an ssl server
             if ( isset( $_SERVER['HTTPS'] ) &&
@@ -337,153 +348,19 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                 CRM_Utils_System::mapConfigToSSL( );
             }
             $this->resourceBase = $this->userFrameworkResourceURL;
-        }
+        } 
             
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
         if ( !$this->customFileUploadDir ) {
             $this->customFileUploadDir = $this->uploadDir;
         }
-
         
-        // FIXME: check if we can kick this out to Variables.php or if it's not there already
         if ( $this->mapProvider ) {
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
-        // END FIXME
-
-        // initialise component registry...
-        // (we're doing it here instead of in initialize 
-        // since at this stage we need 'enabledComponents'
-        // property to be already set)
+        
         require_once 'CRM/Core/Component.php';
         $this->componentRegistry =& new CRM_Core_Component();
-
-        // ...and load additional config properties from components
         $this->componentRegistry->addConfig( $this );
-    }
-
-    // FIXME: This method as a whole can be probably either kicked out
-    // or merged in to Variables.php
-    function addCoreVariables( ) {
-
-        global $civicrm_root;
-
-        $this->smartyDir  =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'packages'    . DIRECTORY_SEPARATOR .
-            'Smarty'      . DIRECTORY_SEPARATOR ;
-
-        $this->pluginsDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'CRM'         . DIRECTORY_SEPARATOR . 
-            'Core'        . DIRECTORY_SEPARATOR .
-            'Smarty'      . DIRECTORY_SEPARATOR .
-            'plugins'     . DIRECTORY_SEPARATOR ;
-
-        $this->templateDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'templates'   . DIRECTORY_SEPARATOR ;
-
-        $this->gettextResourceDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'l10n'        . DIRECTORY_SEPARATOR ;
-
-        $this->gettextCodeset = 'utf-8';
-        $this->gettextDomain  = 'civicrm';
-
-        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
-
-            if ( ! empty( $this->lcMessages ) ) {
-                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
-            }
-                
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        if ( defined( 'CIVICRM_CLEANURL' ) ) {        
-            $this->cleanURL = CIVICRM_CLEANURL;
-        } else {
-            $this->cleanURL = 0;
-        }
-      
-        if ( defined( 'CIVICRM_UF' ) ) {
-            $this->userFramework       = CIVICRM_UF;
-            if ( $this->userFramework == 'Joomla' ) {
-                $this->userFrameworkURLVar = 'task';
-            } else {
-                $this->userFrameworkURLVar = 'q';
-            }
-
-            $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
-            $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
-            $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
-        }
-
-        if ( defined( 'CIVICRM_UF_VERSION' ) ) {
-            $this->userFrameworkVersion = (float ) CIVICRM_UF_VERSION;
-        }
-
-        if ( defined( 'CIVICRM_UF_USERSTABLENAME' ) ) {
-            $this->userFrameworkUsersTableName = CIVICRM_UF_USERSTABLENAME;
-        }
-
-        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-            
-            if ( isset( $_SERVER['HTTPS'] ) &&
-                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-                $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
-                                                               $this->userFrameworkBaseURL );
-            }
-        }
-        
-        if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
-            $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
-        }
-
-        if ( defined( 'CIVICRM_MYSQL_PATH' ) ) {
-            $this->mysqlPath = CRM_Utils_File::addTrailingSlash( CIVICRM_MYSQL_PATH );
-        }
-
-        if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
-            $this->sunlight = true;
-        } else {
-            $this->sunlight = false;
-        }
-
-        $size = trim( ini_get( 'upload_max_filesize' ) );
-        if ( $size ) {
-            $last = strtolower($size{strlen($size)-1});
-            switch($last) {
-                // The 'G' modifier is available since PHP 5.1.0
-            case 'g':
-                $size *= 1024;
-            case 'm':
-                $size *= 1024;
-            case 'k':
-                $size *= 1024;
-            }
-            $this->maxImportFileSize = $size;
-        }
-    }
-    // END FIXME
-
-    /**
-     * returns the singleton logger for the application
-     *
-     * @param
-     * @access private
-     * @return object
-     */
-    static function &getLog() 
-    {
-        if ( ! isset( self::$_log ) ) {
-            self::$_log =& Log::singleton( 'display' );
-        }
-
-        return self::$_log;
     }
 
     /**
