@@ -11,12 +11,20 @@
 ===========================================================
 {$event.event_title}
 {$event.event_start_date|crmDate}{if $event.event_end_date}-{if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}{$event.event_end_date|date_format:"%I:%M %p"}{else}{$event.event_end_date|crmDate}{/if}{/if}
+
 {if $isShowLocation}
 {if $location.1.name}
 
 {$location.1.name}
 {/if}
-{$location.1.address.display}
+{if $location.1.address.street_address}{$location.1.address.street_address}
+{/if}
+{if $location.1.address.supplemental_address_1}{$location.1.address.supplemental_address_1}
+{/if}
+{if $location.1.address.supplemental_address_2}{$location.1.address.supplemental_address_2}
+{/if}
+{if $location.1.address.city}{$location.1.address.city} {$location.1.address.postal_code}{if $location.1.address.postal_code_suffix} - {$location.1.address.postal_code_suffix}{/if}
+{/if}
 {/if}{*End of isShowLocation condition*}
 
 {if $location.1.phone.1.phone || $location.1.email.1.email}
