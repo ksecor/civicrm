@@ -37,28 +37,9 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Component/Config.php';
 
-class CRM_Contribute_Config {
-
-    /**
-     * Function to add additional config paramters to the core Config class
-     * if CiviContribute is enabled
-     *
-     * Note that this config class prevent code bloat in the Core Config class,
-     * however we declare all the variables assigned here, more for documentation
-     * than anything else, at some point, we'll figure out how to extend a class
-     * and properties dynamically in PHP (like Ruby)
-     *
-     * @param CRM_Core_Config (reference ) the system config object
-     *
-     * @return void
-     * @static
-     * @access public
-     */
-    static function add( &$config, $oldMode = false ) {
-    }
+class CRM_Contribute_Config extends CRM_Core_Component_Config {
 
 }
-
 

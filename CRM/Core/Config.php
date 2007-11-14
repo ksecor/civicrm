@@ -309,19 +309,36 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     private function _initVariables() 
     {
+
+        // initialize component registry early to avoid "race" 
+        // between CRM_Core_Config and CRM_Core_Component (they
+        // are co-dependant)
+        require_once 'CRM/Core/Component.php';
+        $this->componentRegistry = new CRM_Core_Component();
+
+        // retrieve serialised settings
         require_once "CRM/Core/BAO/Setting.php";
         $variables = array();
-        CRM_Core_BAO_Setting::retrieve($variables);
+        CRM_Core_BAO_Setting::retrieve($variables);  
 
+        // if settings are not available, go down the full path
         if ( empty( $variables ) ) {
-            // get system variables with their hardcoded defaults
+            // Step 1. get system variables with their hardcoded defaults
             $variables = get_object_vars($this);
 
+            // Step 2. get default values (with settings file overrides if
+            // available - handled in CRM_Core_Config_Defaults)
             require_once 'CRM/Core/Config/Defaults.php';
             CRM_Core_Config_Defaults::setValues( $variables );
 
-            CRM_Core_BAO_Setting::add($variables);
+            // add component specific settings
+            $this->componentRegistry->addConfig( $this );
+            
+            // serialise settings 
+            CRM_Core_BAO_Setting::add($variables);            
         }
+
+
         
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
@@ -358,9 +375,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
         }
         
-        require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-        $this->componentRegistry->addConfig( $this );
+
     }
 
     /**

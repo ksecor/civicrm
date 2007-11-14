@@ -228,14 +228,6 @@ class CRM_Core_Config_Defaults
             $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
         }
 
-        if ( ! isset( $defaults['mailerPeriod'] ) ) {
-            $defaults['mailerPeriod'] = 180;
-        }
-
-        if ( ! isset( $defaults['mailerBatchLimit'] ) ) {
-            $defaults['mailerBatchLimit'] = 0;
-        }
-
         if ( ! isset( $defaults['legacyEncoding'] ) ) {
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
@@ -244,12 +236,12 @@ class CRM_Core_Config_Defaults
             $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent', 'CiviMail');
         }
 
-
-        foreach( $config->componentRegistry as $name => $comp ) {
-                $co = $comp->getConfigObject();
-                $co->setDefaults( &$defaults );
+        // populate defaults for components
+        foreach( $defaults['enableComponents'] as $key => $name ) {
+            $comp = $config->componentRegistry->get( $name );
+            $co = $comp->getConfigObject();
+            $co->setDefaults( &$defaults );
         }
-                                                                                
 
     }
     

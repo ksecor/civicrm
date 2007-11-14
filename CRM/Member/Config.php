@@ -33,23 +33,9 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Component/Config.php';
 
-class CRM_Member_Config {
-
-    /**
-     * verify that the needed parameters have been set of SMS to work
-     *
-     * @param CRM_Core_Config (reference ) the system config object
-     *
-     * @return boolean
-     * @static
-     * @access public
-     */
-    static function add( &$config ) {
-        
-    }
+class CRM_Member_Config extends CRM_Core_Component_Config {
 
 }
-
-
+  
