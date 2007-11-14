@@ -245,6 +245,16 @@ class CRM_Core_Invoke
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
             
+            if ( ! $thirdArg || ($thirdArg == 'activity') ) { 
+                //build other activity select
+                $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
+                                                               ts('Activity Links'),
+                                                               null );
+                $controller->setEmbedded( true );
+                $controller->run( );
+            }
+
+            
             switch ( $thirdArg ) {
             case 'contribution':
                 if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
@@ -324,19 +334,19 @@ class CRM_Core_Invoke
                 break;
 
             case 'activity':
-                $activityId = CRM_Utils_Request::retrieve('activity_type_id', 'Positive',
+                $activityId = CRM_Utils_Request::retrieve('atype', 'Positive',
                                                           CRM_Core_DAO::$_nullObject );
                 $show = CRM_Utils_Request::retrieve('show', 'Boolean',
                                                     CRM_Core_DAO::$_nullObject );
                 
-                if(!$show) {
+                if (!$show) {
                     if ($activityId)  {
                         $session->set('activityId', $activityId);
                     } else {
                         $activityId = $session->get('activityId');
                     }
                 }
-                if($activityId == 3) {
+                if ($activityId == 3) {
                     $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
                     $wrapper =& new CRM_Utils_Wrapper( );
                     return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
@@ -571,31 +581,6 @@ class CRM_Core_Invoke
         }
     }
     
-
-// DRAFTING: This should go away as well.
-    /**
-     * This function contains the actions for history arguments
-     *
-     * @param $args array this array contains the arguments of the url 
-     *
-     * @static
-     * @access public
-     */
-//    static function history( $args ) 
-//    {
-//        if ( $args[2] == 'activity' && $args[3] == 'detail' ) {
-//            require_once 'CRM/History/Page/Activity.php';
-//            $page =& new CRM_History_Page_Activity('View Activity Details');
-//            return $page->run( );
-//        }
-//
-//        if ($args[2] == 'email') {
-//            require_once 'CRM/History/Page/Email.php';
-//            $page =& new CRM_History_Page_Email('View Email Details');
-//            return $page->run( );
-//        }
-//    }
-
 
     /**
      * This function contains the actions for admin arguments

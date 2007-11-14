@@ -41,7 +41,7 @@
 {* Include links to enter Activities if session has 'edit' permission *}
 
 {if $permission EQ 'edit'}
-    {include file="CRM/Contact/Page/View/ActivityLinks.tpl"}
+    {include file="CRM/Activity/Form/ActivityLinks.tpl"}
 {/if}
 
 {* Display populated Locations. Primary location expanded by default. *}
