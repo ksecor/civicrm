@@ -244,16 +244,14 @@ class CRM_Core_Invoke
             CRM_Utils_System::appendBreadCrumb( ts('Search Results'), $breadCrumbPath );
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
-            
-            if ( ! $thirdArg || ($thirdArg == 'activity') ) { 
+
+            if ( ! $thirdArg ) { 
                 //build other activity select
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
-                                                               ts('Activity Links'),
-                                                               null );
+                                                               ts('Activity Links'), null );
                 $controller->setEmbedded( true );
                 $controller->run( );
             }
-
             
             switch ( $thirdArg ) {
             case 'contribution':
@@ -336,69 +334,15 @@ class CRM_Core_Invoke
             case 'activity':
                 $activityId = CRM_Utils_Request::retrieve('atype', 'Positive',
                                                           CRM_Core_DAO::$_nullObject );
-                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
-                                                    CRM_Core_DAO::$_nullObject );
-                
-                if (!$show) {
-                    if ($activityId)  {
-                        $session->set('activityId', $activityId);
-                    } else {
-                        $activityId = $session->get('activityId');
-                    }
-                }
-                if ($activityId == 3) {
+                if ( $activityId == 3 ) {
                     $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
                     $wrapper =& new CRM_Utils_Wrapper( );
                     return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
-                    
                 } else {
                     require_once 'CRM/Contact/Page/View/Activity.php';
                     $view =& new CRM_Contact_Page_View_Activity( );
                     break;                
                 }
-// DRAFTING: All the below commented stuff should go away, however it looks so scary that I decided to keep it for now.
-
-//                $activityId = CRM_Utils_Request::retrieve('activity_id', 'Positive',
-//                                                          CRM_Core_DAO::$_nullObject );
-//                $show = CRM_Utils_Request::retrieve('show', 'Boolean',
-//                                                    CRM_Core_DAO::$_nullObject );
-
-//                if(!$show) {
-//                    if ($activityId)  {
-//                        $session->set('activityId', $activityId);
-//                    } else {
-//                        $activityId = $session->get('activityId');
-//                    }
-//                }
-
-//                if ($activityId == 1) {
-//                    require_once 'CRM/Contact/Page/View/Meeting.php';
-//                    $view =& new CRM_Contact_Page_View_Meeting( );
-//                } elseif($activityId == 2) {
-//                    require_once 'CRM/Contact/Page/View/Phonecall.php';
-//                    $view =& new CRM_Contact_Page_View_Phonecall( );
-//                } elseif($activityId == 3) {
-//                    $details = CRM_Utils_Request::retrieve('details', 'String',
-//                                                           CRM_Core_DAO::$_nullObject );
-//                    if ($details) {
-//                        require_once 'CRM/Contact/Page/View/Email.php';
-//                        $view =& new CRM_Contact_Page_View_Email('View Email Details'); 
-//                    } else {
-//                        $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
-//                        $wrapper =& new CRM_Utils_Wrapper( );
-//                        return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
-//                    }
-//                } elseif ($activityId == 4 ) {
-//                    require_once 'CRM/Contact/Page/View/SMS.php';
-//                    $view =& new CRM_Contact_Page_View_SMS( );
-//                } elseif ($activityId > 4) {
-//                    require_once 'CRM/Contact/Page/View/OtherActivity.php';
-//                    $view =& new CRM_Contact_Page_View_OtherActivity( );
-//                } else {
-//                    require_once 'CRM/Contact/Page/View/Activity.php';
-//                    $view =& new CRM_Contact_Page_View_Activity( );
-//                }
-
                 
             case 'vcard':
                 require_once 'CRM/Contact/Page/View/Vcard.php';

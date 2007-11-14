@@ -201,6 +201,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
+        //build other activity links
+        require_once "CRM/Activity/Form/ActivityLinks.php";
+        CRM_Activity_Form_ActivityLinks::buildQuickForm( );
+
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
