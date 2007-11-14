@@ -109,6 +109,11 @@ class CRM_Contribute_StateMachine_Search extends CRM_Core_StateMachine
                             'CRM_Contribute_Form_Task_Result');
             break;
 
+        case CRM_Contribute_Task::UPDATE_STATUS:
+            $task   = array('CRM_Contribute_Form_Task_Status',
+                            'CRM_Contribute_Form_Task_Result');
+            break;
+
         case CRM_Contribute_Task::BATCH_CONTRIBUTIONS:
             $task   = array( 'CRM_Contribute_Form_Task_PickProfile',
                              'CRM_Contribute_Form_Task_Batch',

@@ -355,6 +355,14 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups,
                                                                          null, $ctype);
         }
+
+        // lets store the contactID in the session
+        // for things like tell a friend
+        if ( ! $session->get( 'userID' ) ) {
+            $session->set( 'transaction.userID', $contactID );
+        } else {
+            $session->set( 'transaction.userID', null );
+        }
         
         // store the fact that this is a membership and membership type is selected
         $processMembership = false;
@@ -546,7 +554,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                );
 
         if ( ! $online || $form->_values['is_monetary'] ) {
-            $contribParams['payment_instrument_id'] = 1;
+            if ( $params['is_pay_later'] ) {
+                $contribParams['payment_instrument_id'] = 4;
+            } else {
+                $contribParams['payment_instrument_id'] = 1;
+            }
         }
 
         if ( ! $pending && $result ) {
@@ -627,26 +639,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
         }
 
-        // also create an activity history record
-        require_once 'CRM/Utils/Money.php';
-        $params = array( 'source_contact_id' => $contactID,
-                         'source_record_id'  => $contribution->id,
-                         'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                                                'CiviContribute Online Contribution',
-                                                                                'name' ),
-                         'module'            => 'CiviContribute', 
-                         'callback'          => 'CRM_Contribute_Page_Contribution::details',
-                         'subject'           =>
-                         CRM_Utils_Money::format($params['amount']). ' - ' . $form->_values['title'] . ' (online)',
-                         'activity_date_time'=> $now,
-                         'is_test'           => $contribution->is_test
-                        );
-
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $params ),
-                   'CRM_Core_Error' ) ) { 
-            CRM_Core_Error::fatal( "Could not create a system record" );
-        }
+        // create an activity record
+        CRM_Contribute_BAO_Contribution::addActivity( $contribution );
 
         $transaction->commit( ); 
 

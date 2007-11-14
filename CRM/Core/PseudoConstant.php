@@ -235,6 +235,14 @@ class CRM_Core_PseudoConstant
      * @static
      */
     private static $honorType;
+
+    /**
+     * activity type
+     * @var array
+     * @static
+     */
+    private static $activityStatus;
+
     
     /**
      * populate the object from the database. generic populate
@@ -353,9 +361,11 @@ class CRM_Core_PseudoConstant
      */
     public static function &activityType( )
     {
-        require_once 'CRM/Core/OptionGroup.php';
-        $activityType = CRM_Core_OptionGroup::values('activity_type');
-        return $activityType;
+        if ( ! self::$activityType ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$activityType = CRM_Core_OptionGroup::values('activity_type');
+        }
+        return self::$activityType;
     }
 
     /**
@@ -1066,6 +1076,26 @@ class CRM_Core_PseudoConstant
         }
         return self::$honorType;
     }
+
+    /**
+     * Get all Activty Statuses.
+     *
+     * The static array activityStatus is returned
+     *
+     * @access public
+     * @static
+     * @return array - array reference of all activty statuses
+     */
+    public static function &activityStatus( )
+    {
+        if ( ! self::$activityStatus ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$activityStatus = CRM_Core_OptionGroup::values('activity_status');
+        }
+
+        return self::$activityStatus;
+    }
+
 
 }
 

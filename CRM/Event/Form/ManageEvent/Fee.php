@@ -111,6 +111,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
             $defaults['fee_label'] = ts('Event Fee(s)') ;
         }
         
+        if ( ! isset( $defaults['pay_later_text'] ) ||
+             empty( $defaults['pay_later_text'] ) ) {
+            $defaults['pay_later_text'] = ts( 'I want to send in payment by check' );
+        }
+
         require_once 'CRM/Core/ShowHideBlocks.php';
         $this->_showHide =& new CRM_Core_ShowHideBlocks( );
         if ( !$defaults['is_monetary'] ) {
@@ -133,7 +138,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     public function buildQuickForm( ) 
     {
-        $this->addYesNo('is_monetary', ts('Paid Event'),null, null,array('onclick' =>"return showHideByValue('is_monetary','0','event-fees','block','radio',false);"));
+        $this->addYesNo( 'is_monetary',
+                         ts('Paid Event'),
+                         null, 
+                         null,
+                         array( 'onclick' => "return showHideByValue('is_monetary','0','event-fees','block','radio',false);" ) );
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $paymentProcessor =& CRM_Core_PseudoConstant::paymentProcessor( );
@@ -145,6 +154,15 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
+        // add pay later options
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ) );
+        $this->addElement('textarea', 'pay_later_text', ts( 'Pay by Cheque message on form' ),  
+                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_text' ),
+                          false );
+        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay by Cheque instructions to send' ),  
+                          CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_receipt' ),
+                          false );
+
         $this->add('text','fee_label',ts('Fee Label'));
 
         require_once 'CRM/Core/BAO/PriceSet.php';
@@ -192,46 +210,53 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
      */
     static function formRule( &$values ) 
     {
-        if ( $values['is_monetary'] ) {
-            if ( ! $values['payment_processor_id'] ) {
-                $errorMsg['payment_processor_id'] = ts( 'Please select a payment processor' );
+        $errors = array( );
+
+        if ( $fields['is_monetary'] ) {
+            if ( ! $fields['payment_processor_id'] ) {
+                $errors['payment_processor_id'] = ts( 'Please select a payment processor' );
             }
 
             //check if contribution type is selected
-            if ( !$values['contribution_type_id'] ) {
-                $errorMsg['contribution_type_id'] = ts( "Please select contribution type." );
+            if ( !$fields['contribution_type_id'] ) {
+                $errors['contribution_type_id'] = ts( "Please select contribution type." );
             }
             
             //check for the event fee label (mandatory)
-            if ( !$values['fee_label'] ) {
-                $errorMsg['fee_label'] = ts( "Please enter the fee label for the paid event." );
+            if ( !$fields['fee_label'] ) {
+                $errors['fee_label'] = ts( "Please enter the fee label for the paid event." );
             }
             
             //check fee label and amount
             $check = 0;
-            foreach ( $values['label'] as $key => $val ) {
-                if ( trim($val) && trim($values['value'][$key]) ) {
+            foreach ( $fields['label'] as $key => $val ) {
+                if ( trim($val) && trim($fields['value'][$key]) ) {
                     $check++;
                     break;
                 }
             }
 
-            if ( !$check && !$values['price_set_id'] ) {
-                if ( !$values['label'][1] ) {
-                    $errorMsg['label[1]'] = "Please enter a label for at least one fee level.";
+            if ( !$check && !$fields['price_set_id'] ) {
+                if ( !$fields['label'][1] ) {
+                    $errors['label[1]'] = "Please enter a label for at least one fee level.";
                 }
-                if ( !$values['value'][1] ) {
-                    $errorMsg['value[1]'] = "Please enter an amount for at least one fee level.";
+                if ( !$fields['value'][1] ) {
+                    $errors['value[1]'] = "Please enter an amount for at least one fee level.";
+                }
+            }
+
+            if ( isset( $fields['is_pay_later'] ) ) {
+                if ( empty( $fields['pay_later_text'] ) ) {
+                    $errors['pay_later_text'] = ts( 'Please enter the text displayed to the user' );
+                }
+                if ( empty( $fields['pay_later_receipt'] ) ) {
+                    $errors['pay_later_receipt'] = ts( 'Please enter the message to be sent to the user' );
                 }
             }
             
         }
-        
-        if ( !empty($errorMsg) ) {
-            return $errorMsg;
-        }
 
-        return true;
+        return empty( $errors ) ? true : $errors;
     }
     
     /**

@@ -81,19 +81,19 @@ class CRM_Utils_Type
     function typeToString( $type ) 
     {
         switch ( $type ) {
-        case 1   : $string = 'Int'      ; break;
-        case 2   : $string = 'String'   ; break;
-        case 3   : $string = 'Enum'     ; break;
-        case 4   : $string = 'Date'     ; break; 
-        case 8   : $string = 'Time'     ; break;
-        case 16  : $string = 'Boolean'  ; break;    
-        case 32  : $string = 'Text'     ; break;
-        case 64  : $string = 'Blob'     ; break;    
-        case 256 : $string = 'Timestamp'; break;
-        case 512 : $string = 'Float'    ; break;
-        case 1024: $string = 'Money'    ; break;
-        case 2048: $string = 'Date'     ; break;
-        case 4096: $string = 'Email'    ; break;
+        case     1: $string = 'Int'      ; break;
+        case     2: $string = 'String'   ; break;
+        case     3: $string = 'Enum'     ; break;
+        case     4: $string = 'Date'     ; break; 
+        case     8: $string = 'Time'     ; break;
+        case    16: $string = 'Boolean'  ; break;    
+        case    32: $string = 'Text'     ; break;
+        case    64: $string = 'Blob'     ; break;    
+        case   256: $string = 'Timestamp'; break;
+        case   512: $string = 'Float'    ; break;
+        case  1024: $string = 'Money'    ; break;
+        case  2048: $string = 'Date'     ; break;
+        case  4096: $string = 'Email'    ; break;
         case 16384: $string = 'Mediumblob'    ; break;    
         }
         
@@ -211,6 +211,7 @@ class CRM_Utils_Type
             
         case 'String':
         case 'Link':
+        case 'Memo':
             return $data;
             break;
             

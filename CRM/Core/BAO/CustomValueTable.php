@@ -33,14 +33,16 @@
  *
  */
 
-class CRM_Core_BAO_CustomValueTable {
-    function create ( &$params ) {
-        if ( empty( $params ) ||
-             ! is_array( $params ) ) {
+class CRM_Core_BAO_CustomValueTable 
+{
+    function create ( &$customParams ) 
+    {
+        if ( empty( $customParams ) ||
+             ! is_array( $customParams ) ) {
             return;
         }
 
-        foreach ( $params as $tableName => $fields ) {
+        foreach ( $customParams as $tableName => $fields ) {
             $sqlOP    = null;
             $entityID = null;
             $set      = array( );
@@ -175,8 +177,9 @@ class CRM_Core_BAO_CustomValueTable {
             CRM_Core_Error::fatal( );
         }
     }
-
-    function store( &$params, $entityTable, $entityID ) {
+    
+    function store( &$params, $entityTable, $entityID ) 
+    {
         $cvParams = array( );
         foreach ($params as $customValue) {
             $cvParam = array(
@@ -198,12 +201,14 @@ class CRM_Core_BAO_CustomValueTable {
             }
             $cvParams[$customValue['table_name']][] = $cvParam;
         }
+
         if ( ! empty( $cvParams ) ) {
             self::create($cvParams);
         }
     }
 
-    function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) {
+    function postProcess( &$params, &$customFields, $entityTable, $entityID, $customFieldExtends ) 
+    {
         $customData = array( );
         require_once "CRM/Core/BAO/CustomField.php";
         foreach ( $params as $key => $value ) {

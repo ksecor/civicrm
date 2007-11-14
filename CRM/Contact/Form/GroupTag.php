@@ -132,12 +132,15 @@ class CRM_Contact_Form_GroupTag
 		    $dao =& new CRM_Contact_DAO_Group( );
                     $dao->id = $id;
 		    
-		    if ( $dao->find( true ) ) {
-		        if ( $dao->visibility == 'User and User Admin Only' ) {
-			    continue;
-			}
-		    } else {
-		        continue;
+		            if ( $dao->find( true ) ) {
+		                if ( $dao->visibility == 'User and User Admin Only' ) {
+			                continue;
+			            }
+		            } else {
+		                continue;
+		            }
+		        }
+		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );
 		    }
 		    
 		}

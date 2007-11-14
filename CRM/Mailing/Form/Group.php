@@ -205,7 +205,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         }
         
         $daoComponent =& new CRM_Mailing_DAO_Component();
-        $components   =  array('Reply', 'OptOut', 'Unsubscribe');
+        $components = array('Reply', 'OptOut', 'Unsubscribe', 'Resubscribe');
         
         foreach ($components as $value) {
             $findDefaultComponent =
@@ -224,6 +224,7 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
         $params['reply_id']       = $Reply;
         $params['optout_id']      = $OptOut;
         $params['unsubscribe_id'] = $Unsubscribe;
+        $params['resubscribe_id'] = $Resubscribe;
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']      = $session->get('domainID');
         $params['groups']         = $groups;

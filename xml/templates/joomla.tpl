@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <mosinstall type="component">
   <name>CiviCRM</name>
-  <creationDate>04/22/2007</creationDate>
+  <creationDate>12/25/2007</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
   <author>CiviCRM LLC</author>
   <authorEmail>info@civicrm.org</authorEmail>

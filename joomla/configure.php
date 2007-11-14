@@ -128,8 +128,8 @@ function civicrm_source( $fileName ) {
     $string = file_get_contents( $fileName );
 
     //get rid of comments starting with # and --
-    $string = ereg_replace("\n#[^\n]*\n", "\n", $string );
-    $string = ereg_replace("\n\-\-[^\n]*\n", "\n", $string );
+    $string = ereg_replace("^#[^\n]*\n", "\n", $string );
+    $string = ereg_replace("^\-\-[^\n]*\n", "\n", $string );
     
     $queries  = explode( ';', $string );
     foreach ( $queries as $query ) {

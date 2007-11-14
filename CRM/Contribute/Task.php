@@ -44,7 +44,8 @@ class CRM_Contribute_Task {
         PRINT_CONTRIBUTIONS  =  2,
         EXPORT_CONTRIBUTIONS =  3,
         BATCH_CONTRIBUTIONS  =  4,
-        EMAIL_CONTACTS       =  5;
+        EMAIL_CONTACTS       =  5,
+        UPDATE_STATUS        =  6;
 
     /**
      * the task array
@@ -77,10 +78,10 @@ class CRM_Contribute_Task {
                                   3 => ts( 'Export Contributions'   ),
                                   1 => ts( 'Delete Contributions'   ),
                                   5 => ts( 'Send Email to Contacts' ),
-                                  4 => ts( 'Batch Update Contributions Via Profile' )
+                                  6 => ts( 'Update Pending Contribution Status' ),
+                                  4 => ts( 'Batch Update Contributions Via Profile' ),
                                   );
         }
-        asort(self::$_tasks);
         return self::$_tasks;
     }
 

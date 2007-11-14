@@ -126,6 +126,12 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
+
+            if ( $this->_values['event_page']['is_pay_later'] ) {
+                $this->addElement( 'checkbox',
+                                   'is_pay_later',
+                                   $this->_values['event_page']['pay_later_text'] );
+            }
             
             require_once 'CRM/Core/Payment/Form.php';
             CRM_Core_Payment_Form::buildCreditCard( $this );

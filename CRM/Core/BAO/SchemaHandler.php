@@ -122,7 +122,8 @@ class CRM_Core_BAO_SchemaHandler
             $sql .= " {$params['attributes']}";
         }
 
-        if ( CRM_Utils_Array::value( 'default', $params ) ) {
+        if ( CRM_Utils_Array::value( 'default', $params ) &&
+             $params['type'] != 'text' ) {
             $sql .= " DEFAULT {$params['default']}";
         }
 
@@ -146,6 +147,12 @@ class CRM_Core_BAO_SchemaHandler
 
     static function buildSearchIndexSQL( &$params, $separator, $prefix, $dropIndex = false ) {
         $sql     = null;
+
+        // dont index blob
+        if ( $params['type'] == 'text' ) {
+            return $sql;
+        }
+
         if ( $dropIndex ) {
             $sql .= $separator;
             $sql .= str_repeat( ' ', 8 );

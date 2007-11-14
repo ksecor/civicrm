@@ -662,32 +662,6 @@ class CiviUnitTestCase extends UnitTestCase {
     }
     
     /**
-     * Function to create option values
-     * 
-     * @param int    $customFieldID
-     * @param string $name  name of custom field
-     */
-    function OptionValueCreate($customFieldID,$name )
-    {
-        $params = array('custom_field_id' => $customFieldID,
-                        'name'            => $name,
-                        'label'           => 'Name',
-                        'default_value'   => 'abc',
-                        'weight'          => 4,
-                        'is_optgroup'     => 0,
-                        'is_reserved'     => 1,
-                        'is_active'       => 1
-                        );
-        
-        $result =& civicrm_option_value_create($params); 
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'custom_option_id', $result) ) {
-            CRM_Core_Error::fatal( 'Could not create Option Value' );
-        }    
-        return $result['custom_option_id'];
-    }    
-    
-    /**
      * Function to create note
      * 
      * @params array $params  name-value pair for an event
@@ -697,22 +671,22 @@ class CiviUnitTestCase extends UnitTestCase {
     function noteCreate( $cId )
     {
         require_once 'api/v2/Note.php';
-         if ( $params === null ) {
-             $params = array(
-                             'entity_table'  => 'civicrm_contact',
-                             'entity_id'     => $cId,
-                             'note'          => 'hello I am testing Note',
-                             'contact_id'    => $cId,
-                             'modified_date' => date('Ymd'),
-                             'subject'       =>'Test Note', 
-                             );
-         }
+        if ( $params === null ) {
+            $params = array(
+                            'entity_table'  => 'civicrm_contact',
+                            'entity_id'     => $cId,
+                            'note'          => 'hello I am testing Note',
+                            'contact_id'    => $cId,
+                            'modified_date' => date('Ymd'),
+                            'subject'       =>'Test Note', 
+                            );
+        }
         
         $note =& civicrm_note_create( $params );
         
         return $note;
     }
-
+    
     /**
      * Function to delete note
      * 
@@ -777,7 +751,7 @@ class CiviUnitTestCase extends UnitTestCase {
     /**
      * Function to create custom field with Option Values
      * 
-     * @param int    $customGroupID
+     * @param array    $customGroup
      * @param string $name  name of custom field
      */
     function customFieldOptionValueCreate( $customGroup, $name ) 
@@ -785,6 +759,7 @@ class CiviUnitTestCase extends UnitTestCase {
         require_once 'api/v2/CustomGroup.php';
         
         $fieldParams = array ('custom_group_id' => $customGroup['id'],
+                              'name'            => 'test_custom_group',
                               'label'           => 'Country',
                               'html_type'       => 'Select',
                               'data_type'       => 'String',

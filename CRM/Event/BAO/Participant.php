@@ -187,7 +187,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         if ( ( ! CRM_Utils_Array::value( 'participant', $ids ) ) ||
              ( $params['status_id'] != $status ) ) {
-            self::setActivityHistory($participant);
+            self::addActivity( $participant );
         }
         
         $session = & CRM_Core_Session::singleton();
@@ -248,45 +248,45 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
     }
  
     /**
-     * takes an associative array of modified participant object
+     * Function to add activity record for Event participation
      *
-     * the function sets the activity history of the modified partcipant records
+     * @param object  $participant   (reference) $participant object
      *
      * @access public
      * @static
      */
-    static function setActivityHistory( $participant ) 
+    static function addActivity( &$participant ) 
     {
         require_once "CRM/Event/BAO/Event.php";
-        $event = CRM_Event_BAO_Event::getEvents(true,$participant->event_id);
+        $event = CRM_Event_BAO_Event::getEvents( true, $participant->event_id );
         $date = date( 'YmdHis' );
         require_once "CRM/Event/PseudoConstant.php";
         $roles  = CRM_Event_PseudoConstant::participantRole( );
         $status = CRM_Event_PseudoConstant::participantStatus( );
 
-        $activitySummary = $event[$participant->event_id];
+        $subject = $event[$participant->event_id];
         if ( CRM_Utils_Array::value( $participant->role_id, $roles ) ) {
-            $activitySummary .= ' - ' . $roles[$participant->role_id]; 
+            $subject .= ' - ' . $roles[$participant->role_id]; 
         }
         if ( CRM_Utils_Array::value( $participant->status_id, $status ) ) {
-            $activitySummary .= ' - ' . $status[$participant->status_id]; 
+            $subject .= ' - ' . $status[$participant->status_id]; 
         }
 
-        $activityHistory = array('entity_table'     => 'civicrm_contact',
-                                 'entity_id'        => $participant->contact_id,
-                                 'activity_type'    => 'Event Registration',
-                                 'module'           => 'CiviEvent',
-                                 'callback'         => 'CRM_Event_BAO_Participant::showActivityDetails',
-                                 'activity_id'      => $participant->id,
-                                 'activity_summary' => $activitySummary,
-                                 'activity_date'    => $date,
-                                 'is_test'          => $participant->is_test
+        require_once "CRM/Core/OptionGroup.php";
+        $activityParams = array( 'source_contact_id' => $participant->contact_id,
+                                 'source_record_id'  => $participant->id,
+                                 'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                        'Event Registration',
+                                                                                        'name' ),
+                                 'subject'            => $subject,
+                                 'activity_date_time' => $date,
+                                 'is_test'            => $participant->is_test
                                  );
 
-        // require_once "api/History.php";
-//         if ( is_a( crm_create_activity_history($activityHistory), 'CRM_Core_Error' ) ) {
-//             return false;
-//         }
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+            return false;
+        }
     }
 
     /**

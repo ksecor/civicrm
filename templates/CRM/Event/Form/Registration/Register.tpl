@@ -55,6 +55,12 @@
             <td>&nbsp;</td>
             <td>{$form.amount.html}</td>
         </tr>
+        {if $form.is_pay_later}
+        <tr><td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td>
+        </tr>
+        {/if}
     </table>
     {/if}
 {/if}

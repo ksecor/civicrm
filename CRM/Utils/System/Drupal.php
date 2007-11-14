@@ -134,14 +134,17 @@ class CRM_Utils_System_Drupal {
      *                           RSS feed.
      * @param $fragment string   A fragment identifier (named anchor) to append to the link.
      * @param $htmlize  boolean  whether to convert to html eqivalant
+     * @param $frontend boolean  a gross joomla hack
      *
      * @return string            an HTML string containing a link to the given path.
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
+    function url($path = null, $query = null, $absolute = true,
+                 $fragment = null, $htmlize = true,
+                 $frontend = false ) {
         $config        =& CRM_Core_Config::singleton( );
-        static $script = 'index.php';
+        $script = 'index.php';
 
         if (isset($fragment)) {
             $fragment = '#'. $fragment;

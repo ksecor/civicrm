@@ -176,8 +176,6 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
             $contribution->invoice_id = md5( uniqid( rand( ), true ) );
         }
 
-        $now = date( 'YmdHis' );
-        $contribAmount = $input['amount'];
         if ( ! $recur ) {
             if ( $contribution->total_amount != $input['amount'] ) {
                 CRM_Core_Error::debug_log_message( "Amount values dont match between database and IPN request" );
@@ -268,13 +266,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
     }
 
     function getInput( &$input, &$ids ) {
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
-        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
-        if ( ! $ids['billing'] ) {
-            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-            echo "Failure: Could not find billing location type<p>";
+        if ( ! $this->getBillingID( $ids ) ) {
             return false;
         }
 

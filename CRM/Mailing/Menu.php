@@ -63,7 +63,7 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,
-                                 'adminGroup' => ts('CiviMail'),
+                                 'adminGroup' => 'CiviMail',
                                  'icon'    => 'admin/small/07.png',
                                  'weight'  => 400
                                  ),
@@ -75,7 +75,7 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,  
-                                 'adminGroup' => ts('CiviMail'),
+                                 'adminGroup' => 'CiviMail',
                                  'icon'    => 'admin/small/Profile.png',
                                  'weight'  => 410,
                                  ),
@@ -88,7 +88,7 @@ class CRM_Mailing_Menu {
                                  'access'  => CRM_Core_Permission::check( 'access CiviMail' ),
                                  'type'    => CRM_Core_Menu::CALLBACK,
                                  'crmType' => CRM_Core_Menu::LOCAL_TASK,  
-                                 'adminGroup' => ts('CiviMail'),
+                                 'adminGroup' => 'CiviMail',
                                  'icon'    => 'admin/small/domain.png',
                                  'weight'  => 420
                                  ),

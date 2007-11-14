@@ -1,3 +1,6 @@
+{if $smarty.get.snippet eq 2}
+{include file="CRM/common/print.tpl"}
+{else}
 <div id="crm-container-snippet" bgColor="white">
 
 {* Check for Status message for the page (stored in session->getStatus). Status is cleared on retrieval. *}
@@ -19,3 +22,4 @@
 
 
 </div> {* end crm-container-snippet div *}
+{/if}

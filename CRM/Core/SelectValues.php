@@ -461,35 +461,6 @@ class CRM_Core_SelectValues
         return $_visibility;
     }
 
-
-    /**
-     * different types of status for activities
-     * @param $type if true Call status array else Meeting status array
-     *
-     * @static
-     *
-     */
-    static function &activityStatus($type = false)
-    {
-        static $activityStatus = null;
-        if (!$activityStatus) {
-            if ($type) {
-                $activityStatus = array(
-                                        'Scheduled'         => ts('Scheduled'),
-                                        'Completed'         => ts('Completed'),
-                                        'Unreachable'       => ts('Unreachable'),
-                                        'Left Message'      => ts('Left Message')
-                                        );
-            } else {
-                $activityStatus = array(
-                                        'Scheduled'         => ts('Scheduled'),
-                                        'Completed'         => ts('Completed'),
-                                        );
-            }
-        }
-        return $activityStatus;
-    }
-
     /**
      * different type of Mailing Components
      *

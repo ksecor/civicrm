@@ -144,32 +144,28 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
 
 
     /**
-     * retrieve the id and decription
+     * Function to retrieve activity type label and decription
      *
-     * @param NULL
+     * @param int     $activityTypeId  activity type id
      * 
-     * @return Array            id and decription
+     * @return array     lable and decription
      * @static
      * @access public
      */
-    static function &getActivityDescription() 
+    static function getActivityTypeDetails(  $activityTypeId ) 
     {
-
-        // DRAFTING: What the hell is AND civicrm_option_value.value >4 condition (I assume it's supposed to omit
-        // built in activity types        
         $query =
-            "SELECT civicrm_option_value.value, civicrm_option_value.description
-             FROM civicrm_option_value
-             LEFT JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
-             WHERE civicrm_option_value.is_active = 1
-             AND civicrm_option_value.value >4
-             AND civicrm_option_group.name = 'activity_type'  ORDER BY civicrm_option_value.name";
+  "SELECT civicrm_option_value.label, civicrm_option_value.description
+   FROM civicrm_option_value
+        LEFT JOIN civicrm_option_group ON ( civicrm_option_value.option_group_id = civicrm_option_group.id )
+   WHERE civicrm_option_group.name = 'activity_type'
+         AND civicrm_option_value.value =  {$activityTypeId} ";
+
         $dao   =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-        $description =array();
-        while($dao->fetch()) {
-            $description[ $dao->value] = $dao->description;
-        }
-        return $description;
+        
+        $dao->fetch( );
+
+        return array( $dao->label, $dao->description );
     }
 
     /**

@@ -245,6 +245,16 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->fixLocationFields( $params, $fields );
 
         $contactID =& $this->updateContactFields( $contactID, $params, $fields );
+        // lets store the contactID in the session
+        // we dont store in userID in case the user is doing multiple
+        // transactions etc
+        // for things like tell a friend
+        if ( ! $session->get( 'userID' ) ) {
+            $session->set( 'transaction.userID', $contactID );
+        } else {
+            $session->set( 'transaction.userID', null );
+        }
+        
         $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
 
         // required only if paid event
@@ -317,13 +327,14 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         }
       
-        require_once 'CRM/Event/BAO/ParticipantPayment.php';
-        $paymentParams = array('participant_id'     => $participant->id,
-                               'contribution_id'    => $contribution->id,                              
-                               ); 
-        $ids = array();       
-
-        $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
+        if ( $this->_values['event']['is_monetary'] ) {
+            require_once 'CRM/Event/BAO/ParticipantPayment.php';
+            $paymentParams = array( 'participant_id'  => $participant->id ,
+                                    'contribution_id' => $contribution->id, ); 
+            $ids = array();       
+            
+            $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
+        }
         
         require_once "CRM/Event/BAO/EventPage.php";
 
@@ -335,7 +346,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             // do a transfer only if a monetary payment
             if ( $this->_values['event']['is_monetary'] ) {
                 $this->_params['participantID'] = $participant->id;
-                $payment->doTransferCheckout( $this->_params );
+                if ( ! $this->_params['is_pay_later'] ) {
+                    $payment->doTransferCheckout( $this->_params );
+                }
             }
         }
 
@@ -562,6 +575,7 @@ WHERE  v.option_group_id = g.id
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
             $this->set( 'contactID', $contactID );
         }
+
 
         return $contactID;
     }

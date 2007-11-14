@@ -16,7 +16,12 @@
 
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
-        {if $contributeMode EQ 'notify' and $paidEvent}
+        {if $is_pay_later and $paidEvent}
+           <p>{$pay_later_receipt}</p>
+            {if $is_email_confirm}
+                <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
+            {/if}
+        {elseif $contributeMode EQ 'notify' and $paidEvent}
             <p>{ts}Your registration payment has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</p>
             {if $is_email_confirm}
                 <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>

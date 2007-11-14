@@ -43,6 +43,7 @@ class CRM_Core_Page_File extends CRM_Core_Page {
         require_once 'CRM/Core/DAO.php';
 
         $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );
+        $fid         = CRM_Utils_Request::retrieve( 'fid'   , 'Positive', $this, true );
         $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
         $quest       = CRM_Utils_Request::retrieve( 'quest' , 'String',   $this );
         $action      = CRM_Utils_Request::retrieve( 'action', 'String',   $this );
@@ -60,7 +61,7 @@ class CRM_Core_Page_File extends CRM_Core_Page {
 
         if ($action & CRM_Core_Action::DELETE) {
             if (CRM_Utils_Request::retrieve('confirmed', 'Boolean', CRM_Core_DAO::$_nullObject )) {
-                CRM_Core_BAO_File::delete($id, $eid);
+                CRM_Core_BAO_File::delete($id, $eid, $fid);
                 CRM_Core_Session::setStatus( ts('The attached file has been deleted.') );
                 
                 $session =& CRM_Core_Session::singleton();   

@@ -387,7 +387,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
      * @access public
      * @static
      */
-    public static function statusBounce($status) {
+    public static function statusBounce( $status ) {
         $session =& CRM_Core_Session::singleton();
         $redirect = $session->readUserContext();
         $session->setStatus($status);

@@ -35,6 +35,15 @@
             </dl>
         </div>
 
+        <div id="payLater">
+          <dl>
+             <dt>&nbsp;</dt><dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</dd>
+             <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html}</dd>
+             <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html}</dd>
+          </dl>
+        </div>
+
         <div id="priceSet">
             <dl>
             <dt>{$form.price_set_id.label}</dt><dd>{$form.price_set_id.html}</dd>

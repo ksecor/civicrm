@@ -258,14 +258,16 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 	        }
 	    
 	        $this->add( 'select', 'select_group_org', ts('Select Organization Contact'), $this->_orgSelectValues );
-	        $this->addButtons( array(
-                                     array( 'type'      => $buttonType,
-                                            'name'      => ( $this->_action == CRM_Core_Action::ADD ) ? ts('Continue') : ts('Save'),
-                                            'isDefault' => true   ),
-                                     array( 'type'      => 'cancel',
-                                            'name'      => ts('Cancel') ),
+            $this->addButtons( array(
+                                     array ( 'type'      => $buttonType,
+                                             'name'      =>
+                                             ( $this->_action == CRM_Core_Action::ADD ) ?
+                                             ts('Continue') : ts('Save'),
+                                             'isDefault' => true   ),
+                                     array ( 'type'       => 'cancel',
+                                             'name'      => ts('Cancel') ),
                                      )
-            );
+                               );
 
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }

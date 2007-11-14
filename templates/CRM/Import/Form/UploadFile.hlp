@@ -5,6 +5,9 @@
     <p>
     {ts}Files to be imported must be in the <strong>comma-separated-values format (CSV)</strong>. Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}
     </p>
+    <p>
+    {ts}After importing contacts, you may also want to import <strong>contributions, membership info and/or event participation</strong> data for these contacts. If so, first make sure that the corresponding CiviCRM component is enabled from Administer CiviCRM &raquo; Global Settings &raquo; Enable Components. Enable CiviContribute, CiviMember, and/or CiviEvent. Then navigate to the Import option found in each component's menu (e.g. CiviContribute &raquo; Import Contributions).{/ts}
+    </p>
 {/htxt}
 
 {htxt id='contact-type'}

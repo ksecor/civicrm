@@ -104,7 +104,8 @@ VALUES
    (@domain_id, 'grant_status'                  , '{ts escape="sql"}Grant status{/ts}'                       , 0, 1),
    (@domain_id, 'grant_type'                    , '{ts escape="sql"}Grant Type{/ts}'                         , 0, 1),
    (@domain_id, 'honor_type'                    , '{ts escape="sql"}Honor Type{/ts}'                         , 0, 1),
-   (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1);
+   (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1),
+   (@domain_id, 'activity_status'               , '{ts escape="sql"}Activity Status{/ts}'                    , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -131,6 +132,7 @@ SELECT @option_group_id_grantSt        := max(id) from civicrm_option_group wher
 SELECT @option_group_id_grantTyp       := max(id) from civicrm_option_group where name = 'grant_type';
 SELECT @option_group_id_honorTyp       := max(id) from civicrm_option_group where name = 'honor_type';
 SELECT @option_group_id_csearch        := max(id) from civicrm_option_group where name = 'custom_search';
+SELECT @option_group_id_acs            := max(id) from civicrm_option_group where name = 'activity_status';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -141,15 +143,15 @@ VALUES
    (@option_group_id_pcm, '{ts escape="sql"}SMS{/ts}', 4, NULL, NULL, 0, NULL, 4, NULL, 0, 0, 1),
    (@option_group_id_pcm, '{ts escape="sql"}Fax{/ts}', 5, NULL, NULL, 0, NULL, 5, NULL, 0, 0, 1),
  
-   (@option_group_id_act, '{ts escape="sql"}Meeting{/ts}',                            1, 'Meeting',                            NULL, 0, NULL, 1, '{ts escape="sql"}Schedule a meeting{/ts}',                 0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}Phone Call{/ts}',                         2, 'Phone Call',                         NULL, 0, NULL, 2, '{ts escape="sql"}Schedule a Phone Call{/ts}',              0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',                              NULL, 0, NULL, 3, '{ts escape="sql"}Email Sent{/ts}',                         0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}SMS{/ts}',                                4, 'SMS',                                NULL, 0, NULL, 4, '{ts escape="sql"}SMS{/ts}',                                0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}Event{/ts}',                              5, 'Event',                              NULL, 0, NULL, 5, '{ts escape="sql"}Event{/ts}',                              0, 0, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 6, 'CiviContribute Online Contribution', NULL, 0, NULL, 6, '{ts escape="sql"}CiviContribute Online Contribution{/ts}', 0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviMember Online Membership{/ts}',       7, 'CiviMember Online Membership',       NULL, 0, NULL, 7, '{ts escape="sql"}CiviMember Online Membership{/ts}',       0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}CiviEvent Online Registration{/ts}',      8, 'CiviEvent Online Registration',      NULL, 0, NULL, 8, '{ts escape="sql"}CiviEvent Online Participant{/ts}',       0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}Tell a Friend{/ts}',                      9, 'Tell a Friend',                      NULL, 0, NULL, 9, '{ts escape="sql"}Tell a Friend{/ts}',                      0, 1, 1),	
+   (@option_group_id_act, '{ts escape="sql"}Meeting{/ts}',                            1, 'Meeting',             NULL, 0, NULL, 1, '{ts escape="sql"}Meeting.{/ts}',                                                             0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Phone Call{/ts}',                         2, 'Phone Call',          NULL, 0, NULL, 2, '{ts escape="sql"}Phone call.{/ts}',                                                          0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',               NULL, 0, NULL, 3, '{ts escape="sql"}Email sent.{/ts}',                                                          0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Text Message (SMS){/ts}',                 4, 'SMS',                 NULL, 0, NULL, 4, '{ts escape="sql"}Text message (SMS) sent.{/ts}',                                             0, 0, 1),
+   (@option_group_id_act, '{ts escape="sql"}Event Registration{/ts}',                 5, 'Event Registration',  NULL, 0, NULL, 5, '{ts escape="sql"}Online or offline event registration.{/ts}',                                0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Contribution{/ts}',                       6, 'Contribution',        NULL, 0, NULL, 6, '{ts escape="sql"}Online or offline contribution.{/ts}',                                      0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Membership Signup{/ts}',                  7, 'Membership Signup',   NULL, 0, NULL, 7, '{ts escape="sql"}Online or offline membership signup.{/ts}',                                 0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Membership Renewal{/ts}',                 8, 'Membership Renewal',  NULL, 0, NULL, 8, '{ts escape="sql"}Online or offline membership renewal.{/ts}',                                0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Tell a Friend{/ts}',                      9, 'Tell a Friend',       NULL, 0, NULL, 9, '{ts escape="sql"}Send information about a contribution campaign or event to a friend.{/ts}', 0, 1, 1),	
   
    (@option_group_id_gender, '{ts escape="sql"}Female{/ts}',      1, 'Female',      NULL, 0, NULL, 1, NULL, 0, 0, 1),
    (@option_group_id_gender, '{ts escape="sql"}Male{/ts}',        2, 'Male',        NULL, 0, NULL, 2, NULL, 0, 0, 1),
@@ -284,7 +286,13 @@ VALUES
 
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Sample'      , 1, 'CRM/Contact/Form/Search/Custom/Sample.php'      , NULL, 0, NULL, 1, NULL, 0, 0, 1 ),
   (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Contribution', 2, 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1 ),
-  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 );
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Basic'       , 3, 'CRM/Contact/Form/Search/Custom/Basic.php'       , NULL, 0, NULL, 3, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_Group'       , 4, 'CRM/Contact/Form/Search/Custom/Group.php'       , NULL, 0, NULL, 4, NULL, 0, 0, 1 ),
+  (@option_group_id_csearch , 'CRM_Contact_Form_Search_Custom_PostalMailing', 5, 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1 ),
+
+  (@option_group_id_acs, '{ts escape="sql"}Scheduled{/ts}',  1, 'Scheduled',  NULL, 0, 1,    1, NULL, 0, 1, 1),
+  (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
+  (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1);
 
 -- sample membership status entries
 INSERT INTO
@@ -294,7 +302,8 @@ VALUES
     (@domain_id,'{ts escape="sql"}Current{/ts}', 'start_date', null, null,'end_date', null, null, 1, 0, 2, 1, 1),
     (@domain_id,'{ts escape="sql"}Grace{/ts}', 'end_date', null, null,'end_date','month', 1, 1, 0, 3, 0, 1),
     (@domain_id,'{ts escape="sql"}Expired{/ts}', 'end_date', 'month', 1, null, null, null, 0, 0, 4, 0, 1),
-    (@domain_id,'{ts escape="sql"}Pending{/ts}', 'join_date', null, null,'join_date',null,null, 0, 0, 5, 0, 1);
+    (@domain_id,'{ts escape="sql"}Pending{/ts}', 'join_date', null, null,'join_date',null,null, 0, 0, 5, 0, 1),
+    (@domain_id,'{ts escape="sql"}Cancelled{/ts}', 'join_date', null, null,'join_date',null,null, 0, 0, 6, 0, 1);
 
 {literal}
 -- Initial state of system preferences

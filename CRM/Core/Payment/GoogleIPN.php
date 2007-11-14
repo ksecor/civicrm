@@ -63,7 +63,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         }
 
         if ( $value ) {
-            if ( ! CRM_Utils_Type::::validate( $value, $type ) ) {
+            if ( ! CRM_Utils_Type::validate( $value, $type ) ) {
                 CRM_Core_Error::debug_log_message( "Could not find a valid entry for $name" );
                 echo "Failure: Invalid Parameter<p>";
                 exit( );
@@ -82,8 +82,9 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
+        parent::__construct( );
+        
         $this->_mode = $mode;
-
         $this->_paymentProcessor = $paymentProcessor;
     }
 
@@ -98,7 +99,6 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
      */  
     function newOrderNotify( $dataRoot, $privateData, $component ) {
         $ids = $input = $params = array( );
-
         
         $input['component'] = strtolower($component);
 
@@ -110,7 +110,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
         } else {
-            $ids['membership'] = self::retrieve( 'membershipID'       , 'Integer', $privateData, false );
+            $ids['membership'] = self::retrieve( 'membershipID'  , 'Integer', $privateData, false );
         }
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
 
@@ -122,17 +122,16 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         $input['invoice']    =  $privateData['invoiceID'];
         $input['newInvoice'] =  $dataRoot['google-order-number']['VALUE'];
         $contribution        =& $objects['contribution'];
-        if ( $contribution->invoice_id != $invoice ) {
+        if ( $contribution->invoice_id != $input['invoice'] ) {
             CRM_Core_Error::debug_log_message( "Invoice values dont match between database and IPN request" );
             echo "Failure: Invoice values dont match between database and IPN request<p>";
             return;
         }
 
         // lets replace invoice-id with google-order-number because thats what is common and unique 
-        // in subsequent calls or notifications send by google.
+        // in subsequent calls or notifications sent by google.
         $contribution->invoice_id = $input['newInvoice'];
 
-        $now             = date( 'YmdHis' );
         $input['amount'] = $dataRoot['order-total']['VALUE'];
         
         if ( $contribution->total_amount != $input['amount'] ) {
@@ -201,8 +200,16 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             return;
         }
 
+        // Google sends the charged notification twice.
+        // So to make sure, code is not executed again.
+        if ( $contribution->contribution_status_id == 1 ) {
+            CRM_Core_Error::debug_log_message( "Contribution already handled (ContributionID = $contribution)." );
+            return;
+        }
+        
         $objects['contribution'] =& $contribution;
         $ids['contribution']     =  $contribution->id;
+        $ids['contact']          =  $contribution->contact_id;
 
         $ids['event'] = $ids['participant'] = $ids['membership'] = null;
         $ids['contributionRecur'] = $ids['contributionPage'] = null;
@@ -407,12 +414,12 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         
         list( $mode, $module, $paymentProcessorID ) = self::getContext($xml_response, $privateData, $orderNo, $root);
         $mode   = $mode ? 'test' : 'live';
-        
+
         require_once 'CRM/Core/BAO/PaymentProcessor.php';
         $paymentProcessor = CRM_Core_BAO_PaymentProcessor::getPayment( $paymentProcessorID,
                                                                        $mode );
         
-        $ipn    =& self::singleton( $mode, $paymentProcessor );
+        $ipn    =& self::singleton( $mode, $module, $paymentProcessor );
         
         // Create new response object
         $merchant_id  = $paymentProcessor['user_name'];
@@ -423,7 +430,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                                        $xml_response, $server_type);
         fwrite($message_log, sprintf("\n\r%s:- %s\n",date("D M j G:i:s T Y"),
                                      $response->root));
-        
+
         //Check status and take appropriate action
         $status = $response->HttpAuthentication($headers);
         
@@ -490,31 +497,25 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
     }
 
     function getInput( &$input, &$ids ) {
-
-        // get the billing location type
-        require_once "CRM/Core/PseudoConstant.php";
-        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
-        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
-        if ( ! $ids['billing'] ) {
-            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
-            echo "Failure: Could not find billing location type<p>";
+        if ( ! $this->getBillingID( $ids ) ) {
             return false;
         }
 
+        $billingID = $ids['billing'];
         $lookup = array( "first_name"                  => 'contact-name',
                          // "last-name" not available with google (every thing in contact-name)
                          "last_name"                   => 'last_name' , 
-                         "street_address-{$billingId}" => 'address1',
-                         "city-{$billingId}"           => 'city',
-                         "state-{$billingId}"          => 'region',
-                         "postal_code-{$billingId}"    => 'postal-code',
-                         "country-{$billingId}"        => 'country-code' );
+                         "street_address-{$billingID}" => 'address1',
+                         "city-{$billingID}"           => 'city',
+                         "state-{$billingID}"          => 'region',
+                         "postal_code-{$billingID}"    => 'postal-code',
+                         "country-{$billingID}"        => 'country-code' );
 
-        $billingID = $ids['billing'];
         foreach ( $lookup as $name => $googleName ) {
             $value = $dataRoot['buyer-billing-address'][$googleName]['VALUE'];
             $input[$name] = $value ? $value : null;
         }
+        return true;
     }
 
     /**

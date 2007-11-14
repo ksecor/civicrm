@@ -398,7 +398,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 }
             }
         }
-        if( $formValues['record_contribution'] ) {
+        if ( $formValues['record_contribution'] ) {
             $recordContribution = array(
                                         'total_amount',
                                         'contribution_type_id', 
@@ -409,20 +409,20 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             foreach ( $recordContribution as $f ) {
                 $params[$f] = CRM_Utils_Array::value( $f, $formValues );
             }
+            
             $params['receive_date'] = date( 'Y-m-d H:i:s' );
-            require_once 'CRM/Contact/BAO/Contact.php';
+            
             // Retrieve the name and email of the current user - this will be the FROM for the receipt email
+            require_once 'CRM/Contact/BAO/Contact.php';
             list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $ids['userId'] );
             $params['contribution_source'] = "Offline membership signup (by {$userName})";
+            
+            if ( $formValues['send_receipt'] ) {
+                $params['receipt_date'] = $params['receive_date'];
+            }
         }
 
-
-        if ( $formValues['send_receipt'] ) {
-            $params['receipt_date'] = $params['receive_date'];
-        }
-        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
-        
         if ( $formValues['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -476,27 +476,44 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
-                CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+                $membership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
-        
-        
-        if ($formValues['send_receipt']) {
+
+        $receiptSend = false;
+        if ( $formValues['record_contribution'] && $formValues['send_receipt'] ) {
+            $receiptSend = true;
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
             $formValues['paidBy'] = $paymentInstrument[$formValues['payment_instrument_id']];
+
+            // retrieve custom data
+            require_once "CRM/Core/BAO/UFGroup.php";
+            $customFields = $customValues = array( );
+            foreach ( $this->_groupTree as $groupID => $group ) {
+                if ( $groupID == 'info' ) {
+                    continue;
+                }
+                foreach ( $group['fields'] as $k => $field ) {
+                    $field['title'] = $field['label'];
+                    $customFields["custom_{$k}"] = $field;
+                }
+            }
+
+            CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, 
+                                             array( array( 'member_id', '=', $membership->id, 0, 0 ) ) );
             
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            
-            $this->assign_by_ref( 'formValues', $formValues );
-            $this->assign( 'mem_start_date', $startDate );
-            $this->assign( 'mem_end_date', $endDate );
+            $this->assign( 'formValues', $formValues );
+            $this->assign( 'mem_start_date', CRM_Utils_Date::customFormat($calcDates['start_date']) );
+            $this->assign( 'mem_end_date', CRM_Utils_Date::customFormat($calcDates['end_date']) );
             $this->assign( 'membership_name', CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType',
                                                                            $formValues['membership_type_id'][1] ) );
+            $this->assign( 'customValues', $customValues );
             $template =& CRM_Core_Smarty::singleton( );
             $subject = trim( $template->fetch( 'CRM/Contribute/Form/ReceiptSubjectOffline.tpl' ) );
             $message = $template->fetch( 'CRM/Contribute/Form/ReceiptMessageOffline.tpl' );
-            
 
             require_once 'CRM/Utils/Mail.php';
             CRM_Utils_Mail::send( $receiptFrom,
@@ -506,14 +523,13 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                   $message);
         }
         
-        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been changed to {$memType}. " );
+            $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been updated. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
                 $statusMsg .= ts("The new membership End Date is {$endDate}. ");
             }
-            if( $formValues['send_receipt'] ) {
+            if ( $receiptSend ) {
                 $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$this->_contributorEmail}." );
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
@@ -522,7 +538,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $endDate=CRM_Utils_Date::customFormat($endDate);
                 $statusMsg = ts( " The new membership End Date is {$endDate}. " );
             }
-            if( $formValues['send_receipt'] ) {
+            if ( $receiptSend ) {
                  $statusMsg = ts( "A membership confirmation and receipt has been sent to {$this->_contributorEmail}." );
             }
         }

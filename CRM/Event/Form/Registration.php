@@ -156,7 +156,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             require_once 'CRM/Event/BAO/Participant.php';
             $eventFull = CRM_Event_BAO_Participant::eventFull( $this->_id );
             if ( $eventFull ) {
-                CRM_Utils_System::fatal( $eventFull );
+                CRM_Core_Error::statusBounce( $eventFull );
             }
 
             require_once 'CRM/Event/BAO/Event.php';
@@ -165,7 +165,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
             // check if form is active
             if ( ! $this->_values['event']['is_active'] ) {
                 // form is inactive, die a fatal death
-                CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
+                CRM_Core_Error::statusBounce( ts( 'The page you requested is currently unavailable.' ) );
             }
       
             $now = time( );
@@ -174,14 +174,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                                            $this->_values['event'] ) );
             if ( $startDate &&
                  $startDate >= $now ) {
-                CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
+                CRM_Core_Error::statusBounce( ts( 'You cannot register for this event currently' ) );
             }
 
             $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
                                                                          $this->_values['event'] ) );
             if ( $endDate &&
                  $endDate < $now ) {
-                CRM_Core_Error::fatal( ts( 'You cannot register for this event currently' ) );
+                CRM_Core_Error::statusBounce( ts( 'You cannot register for this event currently' ) );
             }
 
 
@@ -381,7 +381,17 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         if ( isset ($this->_values['event_page']['is_email_confirm'] ) ) {
             $this->assign( 'is_email_confirm', $this->_values['event_page']['is_email_confirm'] );
         }
+
+        // assign pay later stuff
+        $this->_params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $this->_params, false );
+        $this->assign( 'is_pay_later', $this->_params['is_pay_later'] );
+        if ( $this->_params['is_pay_later'] ) {
+            $this->assign( 'pay_later_text'   , $this->_values['pay_later_text']    );
+            $this->assign( 'pay_later_receipt', $this->_values['pay_later_receipt'] );
+        }
+
     }
+
     /**  
      * Function to add the custom fields
      *  

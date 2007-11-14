@@ -53,10 +53,10 @@ class CRM_Utils_System {
      * @return string the url fragment
      * @access public
      */
-    static function makeURL( $urlVar ) {
+    static function makeURL( $urlVar, $includeReset = false, $includeForce = true ) {
         $config   =& CRM_Core_Config::singleton( );
         return self::url( $_GET[$config->userFrameworkURLVar],
-                          CRM_Utils_System::getLinksUrl( $urlVar ) );
+                          CRM_Utils_System::getLinksUrl( $urlVar, $includeReset, $includeForce ) );
     }
 
     /**
@@ -71,7 +71,7 @@ class CRM_Utils_System {
      * @return string
      * @access public
      */
-    static function getLinksUrl( $urlVar, $includeReset = false ) {
+    static function getLinksUrl( $urlVar, $includeReset = false, $includeForce = true ) {
         // Sort out query string to prevent messy urls
         $querystring = array();
         $qs          = array();
@@ -100,8 +100,9 @@ class CRM_Utils_System {
             }
         }
 
-        // add force=1 to force a recompute
-        $qs['force'] = 1;
+        if ($includeForce ) {
+            $qs['force'] = 1;
+        }
         foreach ($qs as $name => $value) {
             if ( $name == 'snippet' ) {
                 continue;
@@ -159,7 +160,8 @@ class CRM_Utils_System {
      * @access public
      *
      */
-    function url($path = null, $query = null, $absolute = true, $fragment = null, $htmlize = true ) {
+    function url($path = null, $query = null, $absolute = true,
+                 $fragment = null, $htmlize = true, $frontend = false ) {
         // we have a valid query and it has not yet been transformed
         if ( $htmlize && ! empty( $query ) && strpos( $query, '&amp;' ) === false ) {
             $query = htmlentities( $query );
@@ -167,7 +169,9 @@ class CRM_Utils_System {
 
         $config   =& CRM_Core_Config::singleton( );
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userFrameworkClass ) . '.php' );
-        return eval( 'return ' . $config->userFrameworkClass . '::url( $path, $query, $absolute, $fragment, $htmlize );' );
+        return eval( 'return ' .
+                     $config->userFrameworkClass .
+                     '::url( $path, $query, $absolute, $fragment, $htmlize, $frontend );' );
 
     }
 
@@ -197,10 +201,11 @@ class CRM_Utils_System {
         }
 
         return self::url( $p,
-                          CRM_Utils_Array::value( 'q', $params ),
-                          CRM_Utils_Array::value( 'a', $params, true ),
-                          CRM_Utils_Array::value( 'f', $params ),
-                          CRM_Utils_Array::value( 'h', $params, true ) );
+                          CRM_Utils_Array::value( 'q' , $params        ),
+                          CRM_Utils_Array::value( 'a' , $params, true  ),
+                          CRM_Utils_Array::value( 'f' , $params        ),
+                          CRM_Utils_Array::value( 'h' , $params, true  ),
+                          CRM_Utils_Array::value( 'fe', $params, false ) );
     }
 
     /**
@@ -671,7 +676,7 @@ class CRM_Utils_System {
     }
 
     static function getAllHeaders( ) {
-        if ( func_exists( 'getallheaders' ) ) {
+        if ( function_exists( 'getallheaders' ) ) {
             return getallheaders( );
         }
 

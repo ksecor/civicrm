@@ -13,8 +13,8 @@
 
 ===========================================================
 {ts}Membership Type{/ts}: {$membership_name}
-{ts}Membership Start Date{/ts}: {$mem_start_date|crmDate}
-{ts}Membership End Date{/ts}: {$mem_end_date|crmDate}
+{ts}Membership Start Date{/ts}: {$mem_start_date}
+{ts}Membership End Date{/ts}: {$mem_end_date}
 
 ===========================================================
 {ts}Membership Fee{/ts}
@@ -26,4 +26,14 @@
 {/if}
 {if $formValues.paidBy}
 {ts}Paid By{/ts}: {$formValues.paidBy}
+{/if}
+
+{if $customValues}
+===========================================================
+{ts}Membership Options{/ts}
+
+===========================================================
+{foreach from=$customValues item=value key=name}
+ {$name} : {$value}
+{/foreach}
 {/if}

@@ -62,6 +62,7 @@ class CRM_Core_Payment_BaseIPN {
             echo "Failure: Could not find contribution record for $contributionID<p>";
             return false;
         }
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
 
         $objects['contact']          =& $contact;
         $objects['contribution']     =& $contribution;
@@ -93,15 +94,6 @@ class CRM_Core_Payment_BaseIPN {
             $contact =& CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray, $ids['contact'] );
         }
         
-        // lets keep this the same
-        $contribution =& $objects['contribution'];
-        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
-
-        $participant =& $objects['participant'];
-        if ( $participant ) {
-            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
-        }
-            
         return true;
     }
 
@@ -148,6 +140,11 @@ class CRM_Core_Payment_BaseIPN {
                     echo "Failure: Could not find membership record: $membershipID<p>";
                     return false;
                 }
+                $membership->join_date     = CRM_Utils_Date::isoToMysql( $membership->join_date      );
+                $membership->start_date    = CRM_Utils_Date::isoToMysql( $membership->start_date     );
+                $membership->end_date      = CRM_Utils_Date::isoToMysql( $membership->end_date       );
+                $membership->reminder_date = CRM_Utils_Date::isoToMysql( $membership->reminder_date  );
+
                 $objects['membership'] =& $membership;
             }
             
@@ -186,6 +183,7 @@ class CRM_Core_Payment_BaseIPN {
                 echo "Failure: Could not find participant: $participantID<p>";
                 return false;
             }
+            $participant->register_date = CRM_Utils_Date::isoToMysql( $participant->register_date );
 
             $objects['participant'] =& $participant;
 
@@ -246,11 +244,11 @@ class CRM_Core_Payment_BaseIPN {
 
         $contribution->contribution_status_id = 3;
         $contribution->cancel_date = self::$_now;
-        $contribution->cancel_reason = $input['reasonCode'];
+        $contribution->cancel_reason = CRM_Utils_Array::value( 'reasonCode', $input );
         $contribution->save( );
 
         if ( $membership ) {
-            $membership->status_id = 4;
+            $membership->status_id = 6;
             $membership->save( );
         }
 
@@ -347,7 +345,7 @@ class CRM_Core_Payment_BaseIPN {
         // next create the transaction record
         $trxnParams = array(
                             'contribution_id'   => $contribution->id,
-                            'trxn_date'         => self::$_now,
+                            'trxn_date'         => isset( $input['trxn_date'] ) ? $input['trxn_date'] : self::$_now,
                             'trxn_type'         => 'Debit',
                             'total_amount'      => $input['amount'],
                             'fee_amount'        => $contribution->fee_amount,
@@ -360,39 +358,14 @@ class CRM_Core_Payment_BaseIPN {
         require_once 'CRM/Contribute/BAO/FinancialTrxn.php';
         $trxn =& CRM_Contribute_BAO_FinancialTrxn::create( $trxnParams );
 
+        // create an activity record
         if ( $input['component'] == 'contribute' ) {
-            // get the title of the contribution page
-            $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
-                                                  $contribution->contribution_page_id,
-                                                  'title' );
-            
-            require_once 'CRM/Utils/Money.php';
-            $formattedAmount = CRM_Utils_Money::format( $input['amount'] );
-            
-            //should be uncommented once create activity api is fixed
-//             // also create an activity history record
-//             require_once "CRM/Core/OptionGroup.php";
-//             $ahParams = array( 'source_contact_id' => $contactID,
-//                                'source_record_id'  => $contribution->id,
-//                                'activity_type_id'  => CRM_Core_OptionGroup::getValue( 'activity_type',
-//                                                                                       'CiviContribute Online Contribution',
-//                                                                                       'name' ),
-//                                'module'            => 'CiviContribute', 
-//                                'callback'          => 'CRM_Contribute_Page_Contribution::details',
-//                                'subject'           => "$formattedAmount - $title (online)",
-//                                'activity_date_time'=> self::$_now,
-//                                'is_test'           => $contribution->is_test
-//                                );
-
-//             require_once 'api/v2/Activity.php';
-//             if ( is_a( civicrm_activity_create( $ahParams ), 'CRM_Core_Error' ) ) { 
-//                 CRM_Core_Error::fatal( "Could not create a system record" );
-//             }
+            require_once "CRM/Contribute/BAO/Contribution.php";
+            CRM_Contribute_BAO_Contribution::addActivity( $contribution );
         } else { // event 
-            // also create an activity history record
-            CRM_Event_BAO_Participant::setActivityHistory( $participant );
+            require_once "CRM/Event/BAO/Participant.php";
+            CRM_Event_BAO_Participant::addActivity( $participant );
         }
-
 
         CRM_Core_Error::debug_log_message( "Contribution record updated successfully" );
         $transaction->commit( );
@@ -440,7 +413,19 @@ class CRM_Core_Payment_BaseIPN {
         CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
         echo "Success: Database updated<p>";
     }
-
+    
+    function getBillingID( &$ids ) {
+        // get the billing location type
+        require_once "CRM/Core/PseudoConstant.php";
+        $locationTypes  =& CRM_Core_PseudoConstant::locationType( );
+        $ids['billing'] =  array_search( 'Billing',  $locationTypes );
+        if ( ! $ids['billing'] ) {
+            CRM_Core_Error::debug_log_message( ts( 'Please set a location type of %1', array( 1 => 'Billing' ) ) );
+            echo "Failure: Could not find billing location type<p>";
+            return false;
+        }
+        return true;
+    }
 }
 
 ?>

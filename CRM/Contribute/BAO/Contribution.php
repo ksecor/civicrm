@@ -210,48 +210,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
         }
 
-        // let's create an (or update the relevant) Acitivity History record
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        $contributionType = CRM_Contribute_PseudoConstant::contributionType($contribution->contribution_type_id);
-        if (!$contributionType) {
-            $contributionType = ts('Contribution');
-        }
-
-        static $insertDate = null;
-        if ( ! $insertDate ) {
-            $insertDate = CRM_Utils_Date::customFormat(date('Y-m-d H:i'));
-        }
-
-        $subject = CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
-        if ( $contribution->source != 'null' ) {
-            $subject .= " - {$contribution->source}";
-        }
-        $subject .= " (offline)";
-        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
-                                                          'CiviContribute Online Contribution',
-                                                          'name' );
-
-        $historyParams = array(
-            'source_contact_id'     => $contribution->contact_id,
-            'source_record_id'      => $contribution->id,
-            'activity_type_id'      => $activityTypeID,
-            'module'                => 'CiviContribute',
-            'callback'              => 'CRM_Contribute_Page_Contribution::details',
-            'subject'               => $subject,
-            'activity_date_time'    => $contribution->receive_date
-        );
-
-        if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
-            // this contribution should have an Activity History record already
-            // so get the existing id
-            $historyParams['update'] = true;
-        }
-
-        require_once 'api/v2/Activity.php';
-        if ( is_a( civicrm_activity_create( $historyParams ),
-                   'CRM_Core_Error' ) ) { 
-            CRM_Core_Error::fatal( "Could not create a system record" );
-        }
+        // add activity record
+        self::addActivity( $contribution, 'Offline' );
 
         $transaction->commit( );
         
@@ -770,11 +730,8 @@ SELECT count(*) as count,
         $now = date( 'YmdHis' );
 
         $result = null;
-        if ( $form->_contributeMode == 'express' ) {
-            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
-                $result =& $payment->doExpressCheckout( $paymentParams );
-            }
-        } else if ( $form->_contributeMode == 'notify' ) {
+        if ( $form->_contributeMode == 'notify' ||
+             $form->_params['is_pay_later'] ) {
             // this is not going to come back, i.e. we fill in the other details
             // when we get a callback from the payment processor
             // also add the contact ID and contribution ID to the params list
@@ -806,8 +763,17 @@ SELECT count(*) as count,
                     $membershipResult = array( 1 => $contribution );
                     return $membershipResult;
                 } else {
-                    $result =& $payment->doTransferCheckout( $form->_params );
+                    if ( ! $form->_params['is_pay_later'] ) {
+                        $result =& $payment->doTransferCheckout( $form->_params );
+                    } else {
+                        // follow similar flow as IPN
+                        return;
+                    }
                 }
+            }
+        } elseif ( $form->_contributeMode == 'express' ) {
+            if ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
+                $result =& $payment->doExpressCheckout( $paymentParams );
             }
         } elseif ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) {
             $result =& $payment->doDirectPayment( $paymentParams );
@@ -894,7 +860,48 @@ SELECT count(*) as count,
         }
         return NULL;        
     }
-    
+
+    /**
+     * Function to add activity for Contribution
+     *
+     * @param object  $contribution  (reference) contribution object
+     *
+     * @return void
+     * @static
+     * @access public
+     */
+    static function addActivity( &$contribution )
+    {
+        $subject = null;
+        
+        if ( $mode == 'Online' ) {
+            $subject .= CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                                     $contribution->contribution_page_id,
+                                                     'title' );
+        }
+        
+        require_once "CRM/Utils/Money.php";
+        $subject .= CRM_Utils_Money::format($contribution->total_amount, $contribution->currency);
+        if ( $contribution->source != 'null' ) {
+            $subject .= " - {$contribution->source}";
+        }
+        
+        require_once "CRM/Core/OptionGroup.php";
+        $activityParams = array( 'source_contact_id'     => $contribution->contact_id,
+                                 'source_record_id'      => $contribution->id,
+                                 'activity_type_id'      => CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                                            'Contribution',
+                                                                                            'name' ),
+                                 'subject'               => $subject,
+                                 'activity_date_time'    => $contribution->receive_date,
+                                 'is_test'               => $contribution->is_test
+                                 );
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) { 
+            CRM_Core_Error::fatal( "Could not create a system record" );
+        }
+    }
 }
 
 ?>

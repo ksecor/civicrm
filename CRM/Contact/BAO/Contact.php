@@ -965,7 +965,6 @@ WHERE civicrm_contact.id IN $idString ";
      */
     function deleteContact( $id, $userId = null ) 
     {
-        require_once 'CRM/Core/BAO/EmailHistory.php';
         require_once 'CRM/Activity/BAO/Activity.php';
 
         if ( ! $id ) {
@@ -1004,7 +1003,6 @@ WHERE civicrm_contact.id IN $idString ";
 
         // need to remove them from email, meeting , phonecall and other activities
         // FIX ME: Schema Change
-        // CRM_Core_BAO_EmailHistory::deleteContact($id);
         
         // CRM_Activity_BAO_Activity::deleteContact($id);
 
@@ -1178,10 +1176,10 @@ WHERE civicrm_contact.id IN $idString ";
 
         $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
 
-        if ( $case ) {
+        if ( $caseId ) {
             $case = " and civicrm_case_activity.case_id = $caseId ";
         } else {
-            $case = (" and 1 ");
+            $case = " and 1 ";
         }
 
         // DRAFTING: Consider adding DISTINCT to this query after

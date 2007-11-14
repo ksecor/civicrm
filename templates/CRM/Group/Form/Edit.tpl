@@ -60,9 +60,9 @@
 </fieldset>
 </div>
 
-
-
-{$form.buttons.html}
+<div class="form-item">
+    {$form.buttons.html}
+</div>
 
 {if $action neq 1}
 <div class="action-link">

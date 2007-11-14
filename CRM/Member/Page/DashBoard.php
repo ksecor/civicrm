@@ -63,9 +63,9 @@ class CRM_Member_Page_DashBoard extends CRM_Core_Page
         }
         // need to build url
          $currentMonth    = date("Ym01");
-         $currentMonthEnd = date("Ym31");
-         $currentYear    = date("Y0101");
-         $currentYearEnd = date("Y1231");
+         $currentMonthEnd = date("Ymt");
+         $currentYear     = date("Y0101");
+         $currentYearEnd  = date("Y1231");
          
          require_once "CRM/Member/BAO/MembershipStatus.php";
          $status = CRM_Member_BAO_MembershipStatus::getMembershipStatusCurrent();

@@ -41,15 +41,6 @@ require_once 'CRM/Activity/DAO/Activity.php';
  */
 class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 {
-    
-    /**
-     * class constructor
-     */
-    function __construct( ) 
-    {
-        parent::__construct( );
-    }
-
     /**
      * Check if there is absolute minimum of data to add the object
      *
@@ -58,7 +49,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return boolean
      * @access public
      */
-    private function _dataExists( &$params ) 
+    public function dataExists( &$params ) 
     {
         if ( CRM_Utils_Array::value( 'subject', $params) &&
              CRM_Utils_Array::value( 'source_contact_id', $params ) ) {
@@ -82,13 +73,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @return object CRM_Core_BAO_Meeting object
      * @access public
      */
-    public function retrieveActivity( &$params, &$defaults, $activityType ) 
+    public function retrieve ( &$params, &$defaults, $activityType ) 
     {
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
+
         if ( $activity->find( true ) ) {
-
-
             // TODO: at some stage we'll have to deal
             // TODO: with multiple values for assignees and targets, but
             // TODO: for now, let's just fetch first row
@@ -195,41 +185,48 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      */
     public function create( &$params )
     {
-
         // check required params
-        if ( ! $this->_dataExists( $params ) ) {
+        if ( ! self::dataExists( $params ) ) {
             CRM_Core_Error::fatal( 'Not enough data to create activity object,' );
         }
+        
+        $activity =& new CRM_Activity_DAO_Activity( );
 
-        $this->copyValues( $params );
+        //convert duration hour/ minutes to minutes
+        require_once "CRM/Utils/Date.php";
+        $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
+                                                               CRM_Utils_Array::value( 'duration_minutes', $params )
+                                                               );
+
+        $activity->copyValues( $params );
 
         // start transaction        
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
 
-        $result = $this->save( );        
+        $result = $activity->save( );        
         
         $activityId = $result->id;
 
         // attempt to save activity assignment
         if ( CRM_Utils_Array::value( 'assignee_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityAssignment.php';
-            $assignment =& new CRM_Activity_BAO_ActivityAssignment();
             
             $assignmentParams = array( 'activity_id'         => $activityId,
                                        'assignee_contact_id' => $params['assignee_contact_id'] );
             
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
                 $assignment->activity_id = $activityId;
                 if ( $assignment->find( true ) ) {
                     if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
                         $assignmentParams['id'] = $assignment->id;
-                        $resultAssignment = $assignment->create( $assignmentParams );
+                        $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                     }
                 }            
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultAssignment = $assignment->create( $assignmentParams );
+                    $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                 }
             }
         }        
@@ -237,22 +234,22 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // attempt to save activity targets
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
             require_once 'CRM/Activity/BAO/ActivityTarget.php';
-            $target =& new CRM_Activity_BAO_ActivityTarget();
 
-            $targetParams = array( 'activity_id'         => $activityId,
+            $targetParams = array( 'activity_id'       => $activityId,
                                    'target_contact_id' => $params['target_contact_id'] );
             
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
+                $target =& new CRM_Activity_BAO_ActivityTarget( );
                 $target->activity_id = $activityId;
                 if ( $target->find( true ) ) {
                     if ( $target->target_contact_id != $params['target_contact_id'] ) {
                         $targetParams['id'] = $target->id;
-                        $resultTarget = $target->create( $targetParams );
+                        $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                     }
-                }            
+                }
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
-                    $resultTarget = $target->create( $targetParams );
+                    $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                 }
             }
         }
@@ -261,14 +258,13 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // back (and prepare status to display)
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
             $logMsg = "Activity (id: {$this->id} ) updated with ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         } else {
             $logMsg = "Activity created for ";
-            $status = ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) );
         }
         
         $logMsg .= "source = {$params['source_contact_id']}, target = {$params['target_contact_id']}, assignee ={$params['assignee_contact_id']}";
-        $this->_logActivityAction( $result, $logMsg );
+
+        self::logActivityAction( $result, $logMsg );
 
         // roll back if error occured
         if ( is_a( $result, 'CRM_Core_Error' ) ) {
@@ -298,6 +294,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         require_once "CRM/Core/BAO/CustomQuery.php";
+        require_once "CRM/Core/BAO/CustomField.php";
         $entityTable  = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
         $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
 
@@ -309,12 +306,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                     $activityType );
         $transaction->commit( );            
 
-        //temporary fix, will check this later on, ideally we should
-        //set status in the form ?
-        //CRM_Core_Session::setStatus( $status );
-
         return $result;
-        
     }
         
     /**
@@ -354,7 +346,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         } 
     }
 
-    private function _logActivityAction( $activity, $logMessage = null ) {
+    public function logActivityAction( $activity, $logMessage = null ) 
+    {
         $session = & CRM_Core_Session::singleton();
         $id = $session->get('userID');
         require_once 'CRM/Core/BAO/Log.php';
