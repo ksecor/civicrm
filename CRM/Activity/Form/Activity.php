@@ -201,20 +201,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
-        $this->applyFilter('__ALL__', 'trim');                                                                       
-        $urlParams = "action=add&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity&atype=";
-        
-        $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
-                                      $urlParams, true, null, false ); 
-
-        $activityType = CRM_Core_PseudoConstant::activityType(false);
-        
-        $this->applyFilter('__ALL__', 'trim');
-        $this->add('select', 'other_activity', ts('Other Activities'),
-                   array('' => ts('- select other activities -')) + $activityType,
-                   false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
-
-
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
