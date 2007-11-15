@@ -152,7 +152,8 @@ class CRM_Core_Component
                                            'create Kabissa Application',
                                            'edit Kabissa Application',
                                            'view Kabissa Application',
-                                           'review Kabissa Application' ),
+                                           'review Kabissa Application',
+                                           'create Kabissa Drupal users' ),
                        'search'  => 1,
                        'task'    => array( ) 
                        );
