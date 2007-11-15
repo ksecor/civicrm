@@ -112,7 +112,7 @@
     </div>
     {/if}
     
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0 and !$is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

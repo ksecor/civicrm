@@ -175,7 +175,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $this->assign( 'lineItem', $this->_lineItem );
 
-        if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout') {
+        if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
+             !$this->_params['is_pay_later']) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
