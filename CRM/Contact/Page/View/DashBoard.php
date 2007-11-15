@@ -106,15 +106,14 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
      */
     function browse($id, $admin)
     { 
-
-        $cfg =& CRM_Core_Config::singleton( );
-        
-        $this->_totalCountOpenActivity = CRM_Contact_BAO_Contact::getNumOpenActivity( $id );
+        require_once "CRM/Activity/BAO/Activity.php";
+        $this->_totalCountOpenActivity = CRM_Activity_BAO_Activity::getNumOpenActivity( $id );
         $this->_contactIds             = $id;
 
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
+
         require_once 'CRM/Activity/Selector/Activity.php';
         $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'Home' );
         $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
@@ -126,7 +125,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $controller->run();
         $this->_rows = $controller->getRows($controller);
         $controller->moveFromSessionToTemplate( );
-        
+
         $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
         $this->assign( 'rows',                   $this->_rows);

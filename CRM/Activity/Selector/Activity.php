@@ -40,7 +40,7 @@ require_once 'CRM/Core/Selector/API.php';
 require_once 'CRM/Utils/Pager.php';
 require_once 'CRM/Utils/Sort.php';
 
-require_once 'CRM/Contact/BAO/Contact.php';
+require_once 'CRM/Activity/BAO/Activity.php';
 
 
 /**
@@ -183,7 +183,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getTotalCount($action)
     {
-        return CRM_Contact_BAO_Contact::getNumOpenActivity($this->_contactId, $this->_admin);
+        return CRM_Activity_BAO_Activity::getNumOpenActivity($this->_contactId, $this->_admin);
     }
 
 
@@ -202,7 +202,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     {
         $params['contact_id'] = $this->_contactId;
         
-        require_once "CRM/Activity/BAO/Activity.php";
         $rows =& CRM_Activity_BAO_Activity::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
 
         if ( empty( $rows ) ) {

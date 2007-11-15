@@ -51,8 +51,9 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
      */
     function browse( )
     {
+        require_once "CRM/Activity/BAO/Activity.php";
         $this->assign( 'totalCountOpenActivity',
-                       CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
+                       CRM_Activity_BAO_Activity::getNumOpenActivity( $this->_contactId ) );
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
@@ -116,7 +117,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             if ( $edit ) {
                 
                 $url = CRM_Utils_System::url('civicrm/contact/view/activity',
-                                             "&action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context=activity");
+                                             "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context=activity");
             } else{ 
                 $url = CRM_Utils_System::url('civicrm/contact/view',
                                              "action=browse&reset=1&cid={$this->_contactId}&selectedChild=activity" );
@@ -127,8 +128,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )){
             
-            require_once 'CRM/Activity/BAO/Activity.php';
-                
             CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }

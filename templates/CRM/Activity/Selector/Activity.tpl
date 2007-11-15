@@ -88,11 +88,7 @@
 {else}
 
   <div class="messages status">
-  <dl>{ts}No Activites for this contact.{/ts} 
-  <a href="{crmURL p='civicrm/contact/view/activity/' 
-                   q="activity_id=5&action=add&reset=1&context=case&caseid=`$caseId`&cid=`$contactId`"}">
-                   {ts}Record a new Activity.{/ts}</a>
-  </dl>
+     {ts}No Activites for this contact.{/ts}
   </div>
 
 {/if}

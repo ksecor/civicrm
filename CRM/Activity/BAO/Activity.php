@@ -467,6 +467,30 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         return $values;
     }
+
+    /**
+     * Get total number of open activities
+     *
+     * @param  int $id id of the contact
+     * @return int $numRow - total number of open activities    
+     *
+     * @static
+     * @access public
+     */
+    static function getNumOpenActivity( $id, $admin = false ) 
+    {
+        $params = array( 1 => array( $id, 'Integer' ) );
+        
+        $query = "select count(civicrm_activity.id) from civicrm_activity
+                  left join civicrm_activity_target on 
+                            civicrm_activity.id = civicrm_activity_target.activity_id
+                  left join civicrm_activity_assignment on 
+                            civicrm_activity.id = civicrm_activity_assignment.activity_id
+                  where source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1;";
+
+        return CRM_Core_DAO::singleValueQuery( $query, $params );
+    }
+
 }
 
 ?>
