@@ -131,7 +131,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
             CRM_Utils_System::redirect($url);
         }
 
-        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
+        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
         
         if ( $activityTypeId != 3) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
@@ -144,6 +144,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $controller->setEmbedded( true );
 
         $controller->set( 'contactId', $this->_contactId );
+        $controller->set( 'atype'    , $activityTypeId );
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
         $controller->set( 'log'      , $this->get( 'log' ) );

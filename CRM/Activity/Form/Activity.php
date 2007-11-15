@@ -92,8 +92,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
-        //CRM_CORE_error::debug('$this->_activityTypeId', $this->_activityTypeId);
+        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
         $this->_currentlyViewedContactId = $this->get('contactId');
 
         // if we're not adding new one, there must be an id to
@@ -111,7 +110,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         //set activity type name and description to template
         require_once 'CRM/Core/BAO/OptionValue.php';
-        //list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
+        list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
         
         $this->assign( 'activityTypeName', $activityTypeName );
         $this->assign( 'activityTypeDescription', $activityTypeDescription );
