@@ -202,7 +202,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     {
         $params['contact_id'] = $this->_contactId;
         
-        $rows =& CRM_Contact_BAO_Contact::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
+        require_once "CRM/Activity/BAO/Activity.php";
+        $rows =& CRM_Activity_BAO_Activity::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
 
         if ( empty( $rows ) ) {
             return $rows;

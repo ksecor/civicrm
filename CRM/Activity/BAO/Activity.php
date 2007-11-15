@@ -362,6 +362,111 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return true;
     }
 
+    /**
+     * function to get the list of open Actvities
+     *
+     * @param array reference $params  array of parameters 
+     * @param int     $offset          which row to start from ?
+     * @param int     $rowCount        how many rows to fetch
+     * @param object|array  $sort      object or array describing sort order for sql query.
+     * @param type    $type            type of history we're interested in
+     *
+     * @return array (reference)      $values the relevant data object values of open activitie
+     *
+     * @access public
+     * @static
+     */
+    static function &getOpenActivities( &$params, $offset=null, $rowCount=null, 
+                                        $sort=null, $type='Activity', $caseId = null) 
+    {
+        $dao =& new CRM_Core_DAO();
+
+        $params = array( 1 => array( $params['contact_id'], 'Integer' ) );
+
+        if ( $caseId ) {
+            $case = " and civicrm_case_activity.case_id = $caseId ";
+        } else {
+            $case = " and 1 ";
+        }
+
+        // DRAFTING: Consider adding DISTINCT to this query after
+        // DRAFTING: making sure that adding and updating works fine.
+        $query = "select civicrm_activity.*,
+                         sourceContact.display_name as source_contact_name,
+                         civicrm_activity_target.target_contact_id,
+                         targetContact.display_name as target_contact_name,
+                         civicrm_activity_assignment.assignee_contact_id,
+                         assigneeContact.display_name as assignee_contact_name,
+                         civicrm_option_value.value as activity_type_id,
+                         civicrm_option_value.label as activity_type,
+                         civicrm_case_activity.case_id as case_id
+                  from civicrm_activity 
+                  left join civicrm_activity_target on 
+                            civicrm_activity.id = civicrm_activity_target.activity_id 
+                  left join civicrm_activity_assignment on 
+                            civicrm_activity.id = civicrm_activity_assignment.activity_id 
+                  left join civicrm_contact sourceContact on 
+                            source_contact_id = sourceContact.id 
+                  left join civicrm_contact targetContact on 
+                            target_contact_id = targetContact.id 
+                  left join civicrm_contact assigneeContact on 
+                            assignee_contact_id = assigneeContact.id
+                  left join civicrm_option_value on
+                            ( civicrm_activity.activity_type_id = civicrm_option_value.value
+                              and civicrm_option_value.option_group_id = 2 )
+                  left join civicrm_option_group on  
+                            civicrm_option_group.id = civicrm_option_value.option_group_id
+                  left join civicrm_case_activity on
+                            civicrm_case_activity.activity_id = civicrm_activity.id
+                  where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 )
+                        and civicrm_option_group.name = 'activity_type' 
+                        and is_test = 0 " . $case ;
+
+        $order = '';
+
+        if ($sort) {
+            $orderBy = $sort->orderBy();
+            if ( ! empty( $orderBy ) ) {
+                $order = " ORDER BY $orderBy";
+            }
+        }
+
+        if ( empty( $order ) ) {
+            $order = " ORDER BY activity_date_time asc ";
+        }
+
+        if ( $rowCount > 0 ) {
+            $limit = " LIMIT $offset, $rowCount ";
+        }
+
+        $queryString = $query . $order . $limit;
+        $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
+
+        $selectorFields = array( 'activity_type_id',
+                                 'activity_type',
+                                 'id',
+                                 'activity_date_time',
+                                 'status',
+                                 'subject',                                 
+                                 'source_contact_name',
+                                 'source_contact_id',
+                                 'target_contact_name',
+                                 'target_contact_id',
+                                 'assignee_contact_name',
+                                 'assignee_contact_id',
+                                 'case_id',
+                                 'case_activity' );
+
+        $values =array();
+        $rowCnt = 0;
+        while($dao->fetch()) {
+            foreach( $selectorFields as $dc => $field ) {
+                $values[$rowCnt][$field] = $dao->$field;
+            }
+            $rowCnt++;
+        }
+        return $values;
+    }
 }
 
 ?>
