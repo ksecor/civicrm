@@ -493,36 +493,32 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
         $params = array( 1 => array( $optionGroupId, 'Integer' ),
                          2 => array( CRM_Core_Config::domainID( ),
                                      'Integer' ) );
-        
         $query = "
 SELECT
-  civicrm_event.id as event_id,
-  civicrm_email.email as email,
-  civicrm_event.title as summary,
-  civicrm_event.start_date as start,
-  civicrm_event.end_date as end,
-  civicrm_event.description as description,
-  civicrm_event.is_show_location as is_show_location,
-  civicrm_option_value.label as event_type,
-  civicrm_location.name as location_name,
-  civicrm_address.street_address as street_address,
-  civicrm_address.supplemental_address_1 as supplemental_address_1,
-  civicrm_address.supplemental_address_2 as supplemental_address_2,
-  civicrm_address.city as city,
-  civicrm_address.postal_code as postal_code,
-  civicrm_address.postal_code_suffix as postal_code_suffix,
-  civicrm_state_province.abbreviation as state,
-  civicrm_country.name as country,
-  civicrm_location_type.name as location_type
+  civicrm_event.id as event_id, 
+  civicrm_email.email as email, 
+  civicrm_event.title as summary, 
+  civicrm_event.start_date as start, 
+  civicrm_event.end_date as end, 
+  civicrm_event.description as description, 
+  civicrm_event.is_show_location as is_show_location, 
+  civicrm_option_value.label as event_type, 
+  civicrm_loc_block.name as location_name, 
+  civicrm_address.street_address as street_address, 
+  civicrm_address.supplemental_address_1 as supplemental_address_1, 
+  civicrm_address.supplemental_address_2 as supplemental_address_2, 
+  civicrm_address.city as city, 
+  civicrm_address.postal_code as postal_code, 
+  civicrm_address.postal_code_suffix as postal_code_suffix, 
+  civicrm_state_province.abbreviation as state, 
+  civicrm_country.name AS country
 FROM civicrm_event
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_event' AND
-                               civicrm_event.id = civicrm_location.entity_id )
-LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
+LEFT JOIN civicrm_loc_block ON civicrm_event.loc_block_id = civicrm_loc_block.id
+LEFT JOIN civicrm_address ON civicrm_loc_block.address_id = civicrm_address.id
 LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
 LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
-LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
-LEFT JOIN civicrm_email ON civicrm_location.id = civicrm_email.location_id
-LEFT JOIN  civicrm_option_value ON (
+LEFT JOIN civicrm_email ON civicrm_loc_block.email_id = civicrm_email.id
+LEFT JOIN civicrm_option_value ON (
                                     civicrm_event.event_type_id = civicrm_option_value.value AND
                                     civicrm_option_value.option_group_id = %1 )
 WHERE civicrm_event.is_active = 1 
