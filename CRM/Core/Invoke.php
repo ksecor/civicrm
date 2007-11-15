@@ -332,17 +332,9 @@ class CRM_Core_Invoke
                 break;
 
             case 'activity':
-                $activityId = CRM_Utils_Request::retrieve('atype', 'Positive',
-                                                          CRM_Core_DAO::$_nullObject );
-                if ( $activityId == 3 ) {
-                    $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=activity' ) );
-                    $wrapper =& new CRM_Utils_Wrapper( );
-                    return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
-                } else {
-                    require_once 'CRM/Contact/Page/View/Activity.php';
-                    $view =& new CRM_Contact_Page_View_Activity( );
-                    break;                
-                }
+                require_once 'CRM/Contact/Page/View/Activity.php';
+                $view =& new CRM_Contact_Page_View_Activity( );
+                break;                
                 
             case 'vcard':
                 require_once 'CRM/Contact/Page/View/Vcard.php';

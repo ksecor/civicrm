@@ -36,12 +36,11 @@
 require_once 'CRM/Contact/Page/View.php';
 
 /**
- * Main page for viewing history of activities.
+ * Main page for viewing activities
  *
  */
-
-class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
-
+class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View 
+{
     /**
      * Browse all activities for a particular contact
      *
@@ -109,7 +108,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
 //            "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}&caseid={$this->_caseID}");
 //             }else{
 //                 $url = CRM_Utils_System::url('civicrm/contact/view/case',
-//                                              "show=1&action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
+//                                              "action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
 //             }
              
         } else {
@@ -131,8 +130,16 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
             CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }
+
+        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
+        if ( $activityTypeId != 3) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
+        } else {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+        }
+        
         $controller->reset( );
         $controller->setEmbedded( true );
 

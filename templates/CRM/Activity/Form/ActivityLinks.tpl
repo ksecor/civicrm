@@ -6,8 +6,8 @@
 <div class='spacer'></div>
 <div class= "section-hidden section-hidden-border">
 {if $config->smtpServer and $config->smtpServer != 'YOUR SMTP SERVER' and not $privacy.do_not_email}
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&cid=`$contactId`&reset=1"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
-   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&cid=`$contactId`&reset=1"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/EnvelopeIn.gif" alt="{ts}Send Email{/ts}"/></a>&nbsp;
+   <a href="{crmURL p='civicrm/contact/view/activity' q="atype=3&action=add&reset=1&cid=`$contactId`"}">{ts}Send an Email{/ts}</a>&nbsp;&nbsp;
 {/if}
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`"}"><img src="{$config->resourceBase}i/meeting.gif" alt="{ts}Meeting{/ts}"/></a>&nbsp;
    <a href="{crmURL p='civicrm/contact/view/activity' q="atype=1&action=add&reset=1&cid=`$contactId`"}">{ts}Meeting{/ts}</a>&nbsp;&nbsp;
