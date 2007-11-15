@@ -33,6 +33,8 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If you want content displayed at the bottom of the contribution page, enter it here. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.goal_amount.label}</dt><dd>{$form.goal_amount.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the goal amount for this contribution page. If enabled, the progress thermometer will track progress against this goal.{/ts}</dd>
+    <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
+    <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
     <dt>&nbsp;</dt><dd>{$form.is_thermometer.html} {$form.is_thermometer.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Display the progress thermometer block when the user is making a contribution.{/ts}</dd>
     <dt>{$form.thermometer_title.label}</dt><dd>{$form.thermometer_title.html}</dd>

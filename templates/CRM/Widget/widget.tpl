@@ -19,6 +19,7 @@ Result
 <param name="movie" value="widget.swf" />
 <param name="quality" value="high" />
 <param name="bgcolor" value="#ffffff" />
+<param name="campaignId" value="1" />
 <embed flashvars="{$flashVars}" src="widget.swf" quality="high" bgcolor="#ffffff" width="220" height="220" name="widget" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
 </object>
 </body>

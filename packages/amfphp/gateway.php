@@ -160,7 +160,9 @@
 	//If you are running into low-level issues with corrupt messages and 
 	//the like, you can add $gateway->logIncomingMessages('path/to/incoming/messages/');
 	//and $gateway->logOutgoingMessages('path/to/outgoing/messages/'); here
-	
+    //$gateway->logIncomingMessages('/tmp/');
+    //$gateway->logOutgoingMessages('/tmp/');
+
 	//If using under SSL (https) with IE6, usually the default amfphp method will 
 	//work. It is however possible that it doesn't, in which case, enable the 
 	//second SSL method, and apply the patch described here:

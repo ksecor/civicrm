@@ -7,6 +7,9 @@
  * Modified and improved upon by CiviCRM LLC (c) 2007
  */
 
+require_once '../../../civicrm.config.php';
+require_once 'CRM/Core/Config.php';
+
 class Widget {
 
     public $methodTable;
@@ -51,19 +54,50 @@ class Widget {
 	 * @param string $widgetId
 	 * @return stdClass
 	 */
-	public function getCampaignData($campaignId,$widgetId) {
-        $this->registerRequest($campaignId,$widgetId,__FUNCTION__);
+	public function getCampaignData( $campaignId, $widgetId ) {
+        $config =& CRM_Core_Config::singleton( );
+
+        CRM_Core_Error::debug_var( $campaignId, $widgetId );
+        $campaignId = 1;
+
+        $this->registerRequest( $campaignId, $widgetId, __FUNCTION__ );
+
         $data = new stdClass();
-        $data->title = "My CiviWidget";
-        $data->logo = "images/logo.png";
+        $data->title = "CiviWidget";
+        $data->logo = $config->resourceBase . "i/widget/logo.png";
         $data->button_title = "Contribute!";
-        $data->button_url = "http://en.wikipedia.org/wiki/Donate";
-        $data->about = "<p><b>About This</b></p><p>Lorem ipsum dolor sit amet, vulca nuncae sibutus. Lorem ipsum dolor sit amet, vulca nuncae sibutus.</p><p><a href='http://en.wikipedia.org/wiki/Widget'>A Link</a></p>";
-        $data->num_donors = "53";
-        $data->money_raised = "65.83";
-        $data->money_target = "195.80";
-        $data->campaign_start = "June 5, 2007";
-        $data->campaign_end = "August 12, 2008";
+        $data->button_url = CRM_Utils_System::url( 'civicrm/contribute/transact',
+                                                   "reset=1&id=$campaignId",
+                                                   true, null, false );
+        $data->about = "<p><b>About This</b></p><p>This widget is all about us. Give us money";
+
+        $query = "
+SELECT count( id ) as count,
+       sum( total_amount) as amount
+FROM   civicrm_contribution
+WHERE  is_test = 0
+AND    contribution_status_id = 1
+AND    contribution_page_id = %1";
+        $params = array( 1 => array( $campaignId, 'Integer' ) ) ;
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
+            $data->num_donors   = $dao->count;
+            $data->money_raised = $dao->amount;
+        }
+
+        $query = "
+SELECT goal_amount, start_date, end_date
+FROM   civicrm_contribution_page
+WHERE  id = %1";
+        $params = array( 1 => array( $campaignId, 'Integer' ) ) ;
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        if ( $dao->fetch( ) ) {
+            require_once 'CRM/Utils/Date.php';
+            $data->money_target   = $dao->goal_amount; 
+            $data->campaign_start = CRM_Utils_Date::customFormat( $dao->start_date );
+            $data->campaign_end   = CRM_Utils_Date::customFormat( $dao->end_date   );
+        }
+
         $data->is_active = true;
 
         // if is_active is false, show this link and hide the contribute button

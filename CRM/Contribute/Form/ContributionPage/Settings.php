@@ -110,7 +110,19 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         $this->add('textarea', 'honor_block_text', ts('Honoree Introductory Message'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_text') );
 
-        
+        // add optional start and end dates
+        $this->add('date', 'start_date',
+                   ts('Start Date'),
+                   CRM_Core_SelectValues::date('datetime'),
+                   false,
+                   array('onchange' => 'defaultDate(this);'));  
+        $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
+
+        $this->add('date', 'end_date',
+                   ts('End Date / Time'),
+                   CRM_Core_SelectValues::date('datetime') );
+        $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
+
         $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_Settings', 'formRule'));
 
         parent::buildQuickForm( );
@@ -154,7 +166,9 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
         $params['is_thermometer']        = CRM_Utils_Array::value('is_thermometer'       , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
-        $params['honor_block_is_active']   = CRM_Utils_Array::value('honor_block_is_active'  , $params, false);
+        $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);
+        $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );
+        $params['end_date'  ]            = CRM_Utils_Date::format( $params['end_date'] );
 
         if( !$params['honor_block_is_active'] ) {
             $params['honor_block_title'] = null;

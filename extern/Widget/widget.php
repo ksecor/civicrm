@@ -12,9 +12,9 @@ require_once 'CRM/Core/Config.php';
 $config   =& CRM_Core_Config::singleton( );
 $template =& CRM_Core_Smarty::singleton( );
 
-$flashVars = $config->resourceBase . "packages/amfphp/gateway.php";
-$flashVars = 'serviceUrl=' . urlencode( $flashVars );
-
+$flashVars  = $config->resourceBase . "packages/amfphp/gateway.php";
+$flashVars  = 'serviceUrl=' . urlencode( $flashVars );
+$flashVars .= '&amp;campaignId=1&amp;widgetId=CiviCRM.Contribute.1';
 $template->assign( 'flashVars', $flashVars );
 
 echo $template->fetch( 'CRM/Widget/widget.tpl' );
