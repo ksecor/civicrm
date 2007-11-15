@@ -350,20 +350,22 @@ class CRM_Core_PseudoConstant
      * Get all Activty types.
      *
      * The static array activityType is returned
+     * @param boolean $all - get All Activity  types - default is to get only active ones.
      *
      * @access public
      * @static
      *
-     * @param boolean $all - get All Activity  types - default is to get only active ones.
-     *
      * @return array - array reference of all activty types.
-     *
      */
-    public static function &activityType( )
+    public static function &activityType( $all = true )
     {
-        if ( ! self::$activityType ) {
+        if ( ! self::$activityType || !$all ) {
             require_once 'CRM/Core/OptionGroup.php';
-            self::$activityType = CRM_Core_OptionGroup::values('activity_type');
+            $condition = null;
+            if ( !$all ) {
+                $condition = 'AND filter = 0';
+            }
+            self::$activityType = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
         }
         return self::$activityType;
     }

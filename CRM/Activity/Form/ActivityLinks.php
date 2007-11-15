@@ -53,7 +53,7 @@ class CRM_Activity_Form_ActivityLinks extends CRM_Core_Form
         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', 
                                       $urlParams, true, null, false ); 
 
-        $activityType = CRM_Core_PseudoConstant::activityType( );
+        $activityType = CRM_Core_PseudoConstant::activityType( false );
         
         $this->applyFilter('__ALL__', 'trim');
         $this->add('select', 'other_activity', ts('Other Activities'),

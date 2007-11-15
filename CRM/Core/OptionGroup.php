@@ -61,7 +61,7 @@ class CRM_Core_OptionGroup {
         return self::$_values;
     }
 
-    static function &values( $name, $flip = false, $grouping = false, $localize = false ) {
+    static function &values( $name, $flip = false, $grouping = false, $localize = false, $condition = null ) {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value, v.grouping as grouping
@@ -71,9 +71,14 @@ WHERE  v.option_group_id = g.id
   AND  g.domain_id       = $domainID
   AND  g.name            = %1
   AND  v.is_active       = 1 
-  AND  g.is_active       = 1 
-  ORDER BY v.weight; 
-";
+  AND  g.is_active       = 1 ";
+        
+        if ( $condition ) {
+            $query .= $condition;
+        } 
+        
+        $query .= "  ORDER BY v.weight"; 
+
         $p = array( 1 => array( $name, 'String' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $p );
         
