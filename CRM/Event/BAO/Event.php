@@ -467,9 +467,9 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
      * @static
      * @access public
      */      
-    static function &getCompleteInfo( $start = null, $type = null ) 
-    {
-        
+    static function &getCompleteInfo( $start = null, $type =null,$eventId=null ) 
+        {
+       
         if ( $start ) {
             // get events with start_date >= requested start
             $condition =  CRM_Utils_Type::escape( $start, 'Date' );
@@ -478,7 +478,8 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
             $condition =  date("Ymd");
         }
         if ( $type ) {
-            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' );
+            $condition = $condition . " AND civicrm_event.event_type_id = " . CRM_Utils_Type::escape( $type, 'Integer' ); 
+
         }
 
         // Get the Id of Option Group for Event Types
@@ -490,9 +491,6 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
             $optionGroupId = $optionGroupDAO->id;
         }
         
-        $params = array( 1 => array( $optionGroupId, 'Integer' ),
-                         2 => array( CRM_Core_Config::domainID( ),
-                                     'Integer' ) );
         $query = "
 SELECT
   civicrm_event.id as event_id, 
@@ -524,14 +522,22 @@ LEFT JOIN civicrm_option_value ON (
 WHERE civicrm_event.is_active = 1 
       AND civicrm_event.domain_id = %2
       AND civicrm_event.is_public = 1 
-      AND civicrm_event.start_date >= ". $condition .
-" ORDER BY   civicrm_event.start_date ASC";
+      AND civicrm_event.start_date >= {$condition}"; 
+    
 
+
+
+        $params = array( 1 => array( $optionGroupId, 'Integer' ),
+                         2 => array( CRM_Core_Config::domainID( ),'Integer' )
+                         );
+        if(isset($eventId )){
+            $query .= " AND civicrm_event.id =$eventId ";
+        }
+        $query .=" ORDER BY   civicrm_event.start_date ASC";
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
-
         $all = array( );
         $config =& CRM_Core_Config::singleton( );
-
+        
         while ( $dao->fetch( ) ) {
         
             $info                     = array( );

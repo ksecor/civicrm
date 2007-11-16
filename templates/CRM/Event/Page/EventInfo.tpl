@@ -91,5 +91,10 @@
             <strong><a href="{$registerURL}" title="{$registerText}">{$registerText}</a></strong>
         </div>
     {/if}
-	</div>	
+	</div>
+{capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$id`"}{/capture}
+{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$id`"}{/capture}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+
+ <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}"></a> 
 </div>

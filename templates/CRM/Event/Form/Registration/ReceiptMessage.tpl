@@ -1,3 +1,4 @@
+
 {if $action eq 1024}{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
 {if $eventPage.confirm_email_text}{$eventPage.confirm_email_text}
@@ -40,6 +41,14 @@
 
   {ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
 {/if}
+
+
+{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
+{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
+
+ {ts}iCalendar File:{/ts} 
+ {$icalFeed} 
+
 
 
 ===========================================================

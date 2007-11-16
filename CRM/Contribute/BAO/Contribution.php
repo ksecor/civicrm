@@ -847,7 +847,7 @@ SELECT count(*) as count,
         $input = array( );
         foreach ( $params as $k=>$v ) {
             if( $v ) {
-                $clause[]  = "$k = $v";                
+                $clause[]  = "$k = '$v'";                
             } 
         }
         $clause = implode( ' AND ', $clause );
