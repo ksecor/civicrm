@@ -622,7 +622,13 @@ abstract class CRM_Import_Parser {
      */
     function &getActiveFieldParams( ) {
         $params = array( );
+        
+        //CRM_Core_Error::debug( 'Count', $this->_activeFieldCount );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
+            if ( $this->_activeFields[$i]->_name == 'do_not_import' ) {
+                continue;
+            }
+            
             if ( isset( $this->_activeFields[$i]->_value ) ) {
                 if (isset( $this->_activeFields[$i]->_hasLocationType)) {
                     if (! isset($params[$this->_activeFields[$i]->_name])) {
@@ -642,13 +648,16 @@ abstract class CRM_Import_Parser {
                     
                     $params[$this->_activeFields[$i]->_name][] = $value;
                 }
-                if (!isset($params[$this->_activeFields[$i]->_name])) {
+                
+                if ( ! isset($params[$this->_activeFields[$i]->_name] ) ) {
                     if ( !isset($this->_activeFields[$i]->_related) ) {
                         $params[$this->_activeFields[$i]->_name] = $this->_activeFields[$i]->_value;
+                        
                     }
                 }
-
-                if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {     
+                
+                if ( isset($this->_activeFields[$i]->_related) && !empty($this->_activeFields[$i]->_value) ) {
+                    //CRM_Core_Error::debug( "$i enter", "****" );
                     if (! isset($params[$this->_activeFields[$i]->_related])) {
                         $params[$this->_activeFields[$i]->_related] = array();
                     }
@@ -675,6 +684,7 @@ abstract class CRM_Import_Parser {
                 }
             }
         }
+        
         return $params;
     }
 
