@@ -293,6 +293,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 $dao->fetch( );
                 $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
+        
+            //set facebook generated key
+            $defaults['gen_key'] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Facebook', $this->_contactId, 'gen_key', 'contact_id' );
         }
         
         //check primary for first location
@@ -390,8 +393,8 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             }
         }
 
-        //DO TO: comment because of schema changes
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
+        
         return $defaults;
     }
 
@@ -488,6 +491,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
      */
     public function buildQuickForm( ) 
     {
+
+        $this->addElement('text', 'gen_key', 'Facebook Generated Key', CRM_Core_DAO::getAttribute('CRM_Core_DAO_Facebook', 'gen_key'));
+
         require_once 'CRM/Contact/Form/Location.php';
 
         // assign a few constants used by all display elements
@@ -669,6 +675,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         
         require_once 'CRM/Contact/BAO/Contact.php';
         $contact =& CRM_Contact_BAO_Contact::create($params, true, false );
+
+        //hack to add facebook entry to civicrm tabel
+        if ( $params['gen_key'] ) {
+            require_once "CRM/Core/BAO/Facebook.php";
+            CRM_Core_BAO_Facebook::create( $params );
+        }
 
         // add/edit/delete the relation of individual with household, if use-household-address option is checked/unchecked.
         if ( $this->_contactType == 'Individual' ) {

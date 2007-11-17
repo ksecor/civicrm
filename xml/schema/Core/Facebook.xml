@@ -44,4 +44,12 @@
        <comment>permanant authenticated session key of facebook user</comment>
        <add>2.0</add>
   </field>
+  <field>
+       <name>gen_key</name>
+       <title>Generated Key</title>
+       <type>varchar</type>
+       <length>16</length>
+       <comment></comment>
+       <add>2.0</add>
+  </field>
 </table>

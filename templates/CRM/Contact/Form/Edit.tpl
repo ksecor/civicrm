@@ -128,6 +128,9 @@
 </div>
 {/if}
 
+{* include facebook*}
+{include file="CRM/Contact/Form/Facebook.tpl"}
+
 {* Plugging the Communication preferences block *} 
 {if $showCommBlock}
  {include file="CRM/Contact/Form/CommPrefs.tpl"}
