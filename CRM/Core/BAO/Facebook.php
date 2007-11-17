@@ -91,6 +91,22 @@ class CRM_Core_BAO_Facebook extends CRM_Core_DAO_Facebook
     }
 
     /**
+     * Get the list of all CiviCRM Facebook friend
+     *
+     */
+    static function getCiviFaceUsers( )
+    {
+        $friends = array( );
+        $facebook =& new CRM_Core_DAO_Facebook( );
+        $facebook->find( );
+        while ( $facebook->fetch() ) {
+            $friends[$facebook->user_id] = $facebook->contact_id;
+        }
+        
+        return $friends;
+    }
+
+    /**
      * Retrieve user information (any numbers)
      */
     static function getUserInfo( $uidArray, $userFields, $sessionKey )
@@ -120,22 +136,24 @@ class CRM_Core_BAO_Facebook extends CRM_Core_DAO_Facebook
     /**
      * Retrieve the friend-list for given contactID.
      */
-    static function getUserFriends( $contactId )
+    static function getUserFriends( $contactId, $limit = null )
     {
         $facebook =& new CRM_Core_DAO_Facebook( );
         $facebook->contact_id = $contactId;
 
-        if ($facebook->find(true) && isset($facebook->session_key)) {
+        if ( $facebook->find(true) && isset($facebook->session_key) ) {
             $api  = new FacebookRestClient( self::$_key, self::$_secret, $facebook->session_key );
             
-            $friendList = $api->friends_get( );
-            $friends    = implode( ',', array_slice( $friendList, 0, 10 ) );
-            $info       = $api->users_getInfo( $friends, self::$_userFields );
+            $friendList  = $api->friends_get( );
+            if ( $limit ) {
+                $friendList  = implode( ',', array_slice( $friendList, 0, 10 ) );
+            }
+            $info        = $api->users_getInfo( $friendList, self::$_userFields );
 
             return $info;
         }
         
-        return false;
+        return null;
     }
 }
 

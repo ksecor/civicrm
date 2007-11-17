@@ -163,6 +163,12 @@ class CRM_Contact_Page_View_UserDashBoard extends CRM_Core_Page
         } else {
             $this->assign( 'showGroup', false );
         }
+
+        //add facebook friend list
+        require_once "CRM/Contact/Page/View/UserDashBoard/Facebook.php";
+        $facebook = new CRM_Contact_Page_View_UserDashBoard_Facebook( );
+        $facebook->run( );
+        
     }
         
     /**

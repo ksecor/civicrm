@@ -31,8 +31,16 @@
                   </div>	      
                   {include file="CRM/Contact/Page/View/UserDashBoard/Participant.tpl"}	
             {/if}
-      
         </td>
     </tr>
     {/foreach}
+    <tr>
+	<td>
+                 <div class="header-dark">
+                 {ts}Your Facebook friends in {/ts}CiviCRM
+                 </div>	      
+                 {include file="CRM/Contact/Page/View/UserDashBoard/Facebook.tpl"}	
+        </td>
+    </tr>
+
 </table>
