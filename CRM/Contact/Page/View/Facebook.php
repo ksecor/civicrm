@@ -33,6 +33,7 @@
  *
  */
 
+require_once 'CRM/Core/BAO/Facebook.php';
 require_once 'CRM/Contact/Page/View.php';
 
 class CRM_Contact_Page_View_Facebook extends CRM_Contact_Page_View 
@@ -55,7 +56,13 @@ class CRM_Contact_Page_View_Facebook extends CRM_Contact_Page_View
 //                                               $locations[0]['postal_code'] );
 //         $this->assign( 'rowCount', count( $rows ) );
 //         $this->assign_by_ref( 'rows', $rows );
-        crm_core_error::Debug('This is facebook page', 'test');
+
+        //crm_core_error::Debug('This is facebook page', 'test');
+
+        $userInfo    = CRM_Core_BAO_Facebook::getUserProfile($this->_contactId);
+        //$userFriends = CRM_Core_BAO_Facebook::getUserFriends($this->_contactId);
+        $this->assign('user', $userInfo);
+        $this->assign('userFriends', $userFriends);
     }
 
    /**

@@ -36,11 +36,15 @@
 require_once 'facebook/facebook.php';
 require_once 'facebook/facebookapi_php5_restlib.php';
 
-class CRM_Core_BAO_Facebook extends CRM_Core_DAO
+require_once 'CRM/Core/DAO/Facebook.php';
+
+class CRM_Core_BAO_Facebook extends CRM_Core_DAO_Facebook
 {
     static $_key    = '73e4552c69857ce0b5436f397335f301';
     static $_secret = '2f20f697438a812543b2982395f241df';
             
+    static $_userFields = 'first_name,last_name,sex,birthday,current_location,pic,pic_big,pic_small,status';
+
     /**
      * Function to add entry to facebook table
      */
@@ -86,6 +90,53 @@ class CRM_Core_BAO_Facebook extends CRM_Core_DAO
  
     }
 
+    /**
+     * Retrieve user information (any numbers)
+     */
+    static function getUserInfo( $uidArray, $userFields, $sessionKey )
+    {
+        $api  = new FacebookRestClient( self::$_key, self::$_secret, $sessionKey );
+        $info = $api->users_getInfo( $uidArray, $userFields );
+
+        return $info;
+    }
+
+    /**
+     * Retrieve the facebook-information for the given civicrm-contactID.
+     */
+    static function getUserProfile( $contactId )
+    {
+        $facebook =& new CRM_Core_DAO_Facebook( );
+        $facebook->contact_id = $contactId;
+
+        if ($facebook->find(true) && isset($facebook->session_key)) {
+            $info = self::getUserInfo( array($facebook->user_id), self::$_userFields, $facebook->session_key );
+            return $info[0];
+        }
+        
+        return false;
+    }
+
+    /**
+     * Retrieve the friend-list for given contactID.
+     */
+    static function getUserFriends( $contactId )
+    {
+        $facebook =& new CRM_Core_DAO_Facebook( );
+        $facebook->contact_id = $contactId;
+
+        if ($facebook->find(true) && isset($facebook->session_key)) {
+            $api  = new FacebookRestClient( self::$_key, self::$_secret, $facebook->session_key );
+            
+            $friendList = $api->friends_get( );
+            $friends    = implode( ',', array_slice( $friendList, 0, 10 ) );
+            $info       = $api->users_getInfo( $friends, self::$_userFields );
+
+            return $info;
+        }
+        
+        return false;
+    }
 }
 
 ?>
