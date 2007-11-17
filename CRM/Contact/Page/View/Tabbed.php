@@ -224,6 +224,13 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
             $this->_viewOptions[$title] = true;
         }
 
+        //if ( $config->sunlight ) {
+            $title = ts('Facebook');
+            $rest['facebook'] = $title;
+            $this->_viewOptions[$title] = true;
+            //}
+
+
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$v] ) {
                 continue;
