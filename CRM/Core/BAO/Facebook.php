@@ -155,6 +155,20 @@ class CRM_Core_BAO_Facebook extends CRM_Core_DAO_Facebook
         
         return null;
     }
+
+    /**
+     * Check if this user exits in civicrm facebook table
+     */
+    static function checkCiviFaceUser( $contactId )
+    {
+        $facebook =& new CRM_Core_DAO_Facebook( );
+        $facebook->contact_id = $contactId;
+        if ( $facebook->find( true) ) {
+            return true;
+        }
+        
+        return false;
+    }
 }
 
 ?>
