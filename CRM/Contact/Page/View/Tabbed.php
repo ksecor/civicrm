@@ -225,12 +225,15 @@ class CRM_Contact_Page_View_Tabbed extends CRM_Contact_Page_View {
         }
         
         require_once "CRM/Core/BAO/Facebook.php";
+        $showFaceLink = true;
         if ( CRM_Core_BAO_Facebook::checkCiviFaceUser( $this->_contactId) ) {
             $title = ts('Facebook');
             $rest['facebook'] = $title;
             $this->_viewOptions[$title] = true;
-        }
-
+            $showFaceLink = false;
+        } 
+        
+        $this->assign( 'showFaceLink', $showFaceLink );
 
         foreach ( $rest as $k => $v ) {
             if ( ! $this->_viewOptions[$v] ) {

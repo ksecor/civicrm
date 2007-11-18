@@ -44,23 +44,10 @@ class CRM_Contact_Page_View_Facebook extends CRM_Contact_Page_View
      * return null
      * @access public
      */
-    function browse( ) {
-        // get the primary city, state and zip for the contact
-//         require_once 'CRM/Contact/BAO/Contact.php';
-//         $ids = array( $this->_contactId );
-//         $locations = CRM_Contact_BAO_Contact::getMapInfo( $ids );
-        
-//         require_once 'CRM/Utils/Sunlight.php';
-//         $rows =& CRM_Utils_Sunlight::getInfo( $locations[0]['city'],
-//                                               $locations[0]['state'],
-//                                               $locations[0]['postal_code'] );
-//         $this->assign( 'rowCount', count( $rows ) );
-//         $this->assign_by_ref( 'rows', $rows );
-
-        //crm_core_error::Debug('This is facebook page', 'test');
-
+    function browse( ) 
+    {
         $userInfo    = CRM_Core_BAO_Facebook::getUserProfile($this->_contactId);
-        $userFriends = CRM_Core_BAO_Facebook::getUserFriends($this->_contactId);
+        $userFriends = CRM_Core_BAO_Facebook::getUserFriends($this->_contactId, 10);
         $this->assign('user', $userInfo);
         $this->assign('userFriends', $userFriends);
     }
