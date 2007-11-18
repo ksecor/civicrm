@@ -45,11 +45,9 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         parent::preProcess( );
 
         require_once 'CRM/Contribute/DAO/Widget.php';
-        $widget = new CRM_Contribute_DAO_Widget( );
-        $widget->contribution_page_id = $this->_id;
-        if ( $widget->find( true ) ) {
-            $this->_widget = $widget;
-        } else {
+        $this->_widget = new CRM_Contribute_DAO_Widget( );
+        $this->_widget->contribution_page_id = $this->_id;
+        if ( ! $this->_widget->find( true ) ) {
             $this->_widget = null;
         }
         
@@ -121,7 +119,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $defaults = array( );
         // check if there is a widget already created
         if ( $this->_widget ) {
-            $this->_widget->storeValues( $defaults );
+            CRM_Core_DAO::storeValues( $this->_widget, $defaults );
         } else {
             foreach ( $this->_fields as $name => $val ) {
                 $defaults[$name] = $val[3];
@@ -150,6 +148,22 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $this->assign_by_ref( 'fields', $this->_fields );
 
         parent::buildQuickForm( );
+    }
+
+    function postProcess( ) {
+        // get the submitted form values.
+        $params = $this->controller->exportValues( $this->_name );
+
+        if ( $this->_widget ) {
+            $params['id'] = $this->_widget->id;
+        }
+        $params['contribution_page_id'] = $this->_id;
+        $params['is_active']            = CRM_Utils_Array::value('is_active', $params, false);
+
+        require_once 'CRM/Contribute/DAO/Widget.php';
+        $widget = new CRM_Contribute_DAO_Widget( );
+        $widget->copyValues( $params );
+        $widget->save( );
     }
 
     /** 
