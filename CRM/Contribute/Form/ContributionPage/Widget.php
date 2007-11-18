@@ -44,6 +44,14 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
     function preProcess( ) {
         parent::preProcess( );
 
+        // check that goal amount is set before they can create a widget
+        $goal = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                             $this->_id,
+                                             'goal_amount' );
+        if ( ! $goal || $goal <= 0 ) {
+            CRM_Core_Error::statusBounce( ts( 'You need to set a valid goal amount before enabling the widget' ) );
+        }
+
         require_once 'CRM/Contribute/DAO/Widget.php';
         $this->_widget = new CRM_Contribute_DAO_Widget( );
         $this->_widget->contribution_page_id = $this->_id;
