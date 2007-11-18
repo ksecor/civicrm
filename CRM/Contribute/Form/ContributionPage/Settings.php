@@ -36,9 +36,6 @@
 require_once 'CRM/Contribute/Form/ContributionPage.php';
 require_once 'CRM/Contribute/PseudoConstant.php';
 
-/**
- * form to process actions on the group aspect of Custom Data
- */
 class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_ContributionPage {
 
     /**

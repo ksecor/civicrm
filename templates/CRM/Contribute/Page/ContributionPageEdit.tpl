@@ -51,6 +51,10 @@
     <td>{ts}Make it easy for contributors to spread the word to friends and colleagues.{/ts}</td>
 </tr>
 <tr>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Create a Widget{/ts}</a></td>
+    <td>{ts}Create a contribution widget to embed on your website and blog.{/ts}</td>
+</tr>
+<tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
     <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
 </tr>

@@ -240,7 +240,7 @@ class CRM_Core_Config_Defaults
         foreach( $defaults['enableComponents'] as $key => $name ) {
             $comp = $config->componentRegistry->get( $name );
             $co = $comp->getConfigObject();
-            $co->setDefaults( &$defaults );
+            $co->setDefaults( $defaults );
         }
 
     }

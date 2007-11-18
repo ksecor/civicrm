@@ -97,19 +97,11 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         $form = null;
         switch ( $subPage ) {
         case 'Amount':
-            $form = 'CRM_Contribute_Form_ContributionPage_Amount';
-            break;
-
         case 'Custom':
-            $form = 'CRM_Contribute_Form_ContributionPage_Custom';
-            break;
-
         case 'Settings':
-            $form = 'CRM_Contribute_Form_ContributionPage_Settings';
-            break;
-
         case 'ThankYou':
-            $form = 'CRM_Contribute_Form_ContributionPage_ThankYou';
+        case 'Widget':
+            $form = "CRM_Contribute_Form_ContributionPage_$subPage";
             break;
 
         case 'AddProductToPage':
