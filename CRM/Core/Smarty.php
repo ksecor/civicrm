@@ -102,6 +102,9 @@ class CRM_Core_Smarty extends Smarty {
         $this->assign( 'metaTpl', strtolower( $config->userFramework ) );
 
         $this->register_function ( 'crmURL' , array( 'CRM_Utils_System', 'crmURL' ) );
+
+        $printerFriendly = CRM_Utils_System::makeURL( 'snippet', false, false ) . '2';
+        $this->assign ( 'printerFriendly', $printerFriendly );
     }
 
     /**

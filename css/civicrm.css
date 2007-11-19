@@ -700,17 +700,16 @@ div.crm-pager a {
 
 /* Recently Viewed bar */
 #crm-container div#recently-viewed {
+  float: left;
+  width: 95%;
   margin: 5px 0px 10px;
   font-weight: bold;
   font-size: .95em;
-  /*color: #6e6e6e;*/
-  //color: #4A88DF;
-  /*background-color: #eee;*/
   background-color: #EDF2FF;
-  /*border: 1px solid #6e6e6e;*/
   border: 1px solid #4A88DF;
   overflow: hidden;
 }
+
 #crm-container div#alpha-filter {
   margin: 10px 0px 5px;
   text-align: center;
@@ -766,6 +765,11 @@ div.crm-pager a {
   /*color: #6e6e6e;*/
   color: #4A88DF;
   font-size: .95em
+}
+
+#crm-container div#printer-friendly {
+ float: right;
+ margin: -24px 0px 0px 0px;
 }
 
 /*
