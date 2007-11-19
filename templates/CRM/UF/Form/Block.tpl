@@ -15,7 +15,8 @@
               </fieldset> 
            {/if} 
         {/if} 
-        {if $mode ne 8 && $action ne 1028} 
+
+        {if $mode ne 8 && $action ne 1028 && $action ne 4} 
             <fieldset><legend>{$field.groupTitle}</legend> 
         {/if} 
         {assign var=fieldset  value=`$field.groupTitle`} 
