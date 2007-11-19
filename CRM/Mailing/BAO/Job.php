@@ -253,10 +253,8 @@ ORDER BY j.scheduled_date,
             $mailing->subject = ts('Test Mailing:') . ' ' . $mailing->subject;
         }
         
-        require_once 'CRM/Utils/Token.php';
-        $mailing->body_text =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_text);
-        $mailing->body_html =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_html);
-        
+        CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
+
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {

@@ -67,9 +67,7 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
 
         $mailing->find(true);
 
-        require_once 'CRM/Utils/Token.php';
-        $mailing->body_text =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_text);
-        $mailing->body_html =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_html);
+        CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
         
         $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail, true);
         

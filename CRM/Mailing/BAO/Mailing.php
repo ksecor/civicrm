@@ -980,6 +980,32 @@ AND civicrm_contact.is_opt_out =0";
 
     /**
      *
+     * get mailing object and replaces subscribeInvite,
+     * domain and mailing tokens
+     *
+     */
+    function tokenReplace( &$mailing )
+    {
+        require_once 'CRM/Core/BAO/Domain.php';
+        $domain =& CRM_Core_BAO_Domain::getDomainByID($mailing->domain_id);
+        $messageType = array('text', 'html');
+        foreach ( $messageType as $key => $type ) {
+            $msg = "body_{$type}";
+            require_once 'CRM/Utils/Token.php';
+            $mailing->$msg =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->$msg);
+            
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $dummy_mail = new CRM_Mailing_BAO_Mailing();
+            $dummy_mail->$msg = $mailing->$msg;
+            $tokens = $dummy_mail->getTokens();
+            
+            $mailing->$msg = CRM_Utils_Token::replaceDomainTokens($mailing->$msg, $domain, null, $tokens[$type]);
+            $mailing->$msg = CRM_Utils_Token::replaceMailingTokens($mailing->$msg, $mailing, null, $tokens[$type]);
+            
+        }
+    }
+    /**
+     *
      *  getTokenData receives a token from an email
      *  and returns the appropriate data for the token
      *
@@ -997,15 +1023,11 @@ AND civicrm_contact.is_opt_out =0";
             
         } else if ( $type == 'url' ) {
             $data = CRM_Mailing_BAO_TrackableURL::getTrackerURL($token, $this->id, $event_queue_id);
-        } else if ( $type == 'mailing' ) {
-          $data = CRM_Utils_Token::getMailingTokenReplacement($token, $this);
         } else if ( $type == 'contact' ) {
           $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact);
         } else if ( $type == 'action' ) {
           $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
-        } else if ( $type == 'domain' ) {
-          $data = CRM_Utils_Token::getDomainTokenReplacement($token, $this->_domain, $html);         
-        }
+        } 
         return $data;
     }
 
