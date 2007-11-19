@@ -1,7 +1,3 @@
-<div class="messages status">
-<p>{ts count=$totalSelectedContributions plural='%count contribution records selected for update.'}One contribution record selected for export.{/ts}</p>
-</div>
-
 <div class="form-item">
 <fieldset>
     <legend>{ts}Update Contribution Status{/ts}</legend>

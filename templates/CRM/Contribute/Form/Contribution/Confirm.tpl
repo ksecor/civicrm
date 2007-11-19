@@ -66,7 +66,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $is_monetary}    
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -79,7 +79,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct' and $is_monetary and $amount GT 0}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
@@ -112,7 +112,7 @@
     </div>
     {/if}
     
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0 and !$is_pay_later}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $is_monetary and $amount GT 0 and ! $is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

@@ -393,6 +393,7 @@ class CRM_Core_Session {
      * @return void
      */
     static function setStatus( $status ) {
+        CRM_Core_Error::backtrace( $status );
         if ( isset( self::$_singleton->_session[self::$_singleton->_key]['status'] ) ) {
             self::$_singleton->_session[self::$_singleton->_key]['status'] .= " $status";
         } else {

@@ -176,7 +176,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->assign( 'lineItem', $this->_lineItem );
 
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
-             !$this->_params['is_pay_later']) {
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
             $this->add('image',
                        $this->_checkoutButtonName,
@@ -265,22 +265,18 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $payment =& CRM_Core_Payment::singleton( $this->_mode, 'Event', $this->_paymentProcessor );
 
             $pending = false;
-            switch ( $this->_contributeMode ) {
-            case 'express':
-                $result =& $payment->doExpressCheckout( $this->_params );
-                break;
-            case 'checkout':
-            case 'notify':
+            $result  = null;
+            if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
+                 $this->_contributeMode == 'checkout'                     ||
+                 $this->_contributeMode == 'notify' ) {
                 $pending = true;
-                $result  = null;
                 $this->_params['participant_status_id'] = 5; // pending
-                break;
-
-            default   :
+            } else if ( $this->_contributeMode == 'express' ) {
+                $result =& $payment->doExpressCheckout( $this->_params );
+            } else {
                 require_once 'CRM/Core/Payment/Form.php';
                 CRM_Core_Payment_Form::mapParams( $this->_bltID, $this->_params, $this->_params, true );
                 $result =& $payment->doDirectPayment( $this->_params );
-                break;
             }
             
             if ( is_a( $result, 'CRM_Core_Error' ) ) {

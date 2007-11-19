@@ -469,6 +469,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        // also return if paylater mode
+        if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
+            return empty( $errors ) ? true : $errors;
+        }
+        
         // if the user has chosen a free membership or the amount is less than zero
         // i.e. we skip calling the payment processor and hence dont need credit card
         // info

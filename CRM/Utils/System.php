@@ -461,6 +461,10 @@ class CRM_Utils_System {
     }
 
     static function mungeCreditCard( $number, $keep = 4 ) {
+        $number = trim( $number );
+        if ( empty( $number ) ) {
+            return null;
+        }
         $replace = str_repeat( '*' , strlen( $number ) - $keep );
         return substr_replace( $number, $replace, 0, -$keep );
     }
