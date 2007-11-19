@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-11-13 06:47-0800\n"
+"PO-Revision-Date: 2007-11-14 05:49-0800\n"
 "Last-Translator: martin eeltink <martin.eeltink@tweesnoeken.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -12380,7 +12380,7 @@ msgstr "Andere lokatie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Billing Address location"
-msgstr "Billing Address location"
+msgstr "Factuuradres locatie"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"

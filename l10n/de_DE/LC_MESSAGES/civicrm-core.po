@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-11-06 06:59-0800\n"
-"Last-Translator: Michael Walter <michaelwalter@gmx.at>\n"
+"PO-Revision-Date: 2007-11-16 05:09-0800\n"
+"Last-Translator: AE <aeinstein@virtas.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
@@ -8972,12 +8972,19 @@ msgid ""
 "down. After selecting a country, the State / Province field provides a "
 "choice of states or provinces in that country."
 msgstr ""
+"Geben Sie die ersten Buchstaben des Landes ein und wählen Sie dann aus der "
+"Dropdown-Liste. Wenn das Land ausgewählt wurde, erscheint automatisch die "
+"richtige Auswahl an Bundesländern/Provinzen dieses Landes im Feld "
+"Bundesländer."
 
 #: templates/CRM/Contact/Form/Address/geo_code.tpl
 msgid ""
 "Latitude and longitude may be automatically populated by enabling a Mapping "
 "Provider (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
+"Längen- und Breitengrad können automatisch eingegeben werden, wenn Sie einen "
+"Mapping Provider berechtigen (<a href=\"%1\" target=\"_blank\"  "
+"title=\"%2\">mehr...</a>)."
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
 msgid ""
@@ -9010,6 +9017,8 @@ msgid ""
 "Select the email format preferred by this contact. Select 'Both' to send "
 "HTML and Text formats."
 msgstr ""
+"Wählen Sie das E-Mail-Format, das vom Kontakt bevorzut wird. Wählen Sie "
+"'Beide' wenn Sie sowohl HTML als auch Text senden wollen."
 
 #: templates/CRM/Contact/Form/CommPrefs.tpl
 msgid ""
@@ -9093,7 +9102,7 @@ msgstr "Demographische Daten"
 #: templates/CRM/Contact/Form/Edit.tpl
 #, fuzzy
 msgid "Tags and Groups"
-msgstr "Gruppen verwalten"
+msgstr "Marken und Gruppen"
 
 #: templates/CRM/Contact/Form/IM.tpl
 msgid "Select im service provider, and enter screen-name / user id."
@@ -9121,6 +9130,9 @@ msgid ""
 "Check this option if you want to use a shared household address for this "
 "individual. You can either select an existing household, or create a new one."
 msgstr ""
+"Kreuzen Sie diese Option an, wenn Sie für diese Person eine gemeinsame  "
+"Haushaltsadresse verwenden wollen. Wählen Sie eine bestehende Adresse  oder "
+"legen Sie eine neue an."
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -9289,6 +9301,11 @@ msgid ""
 "with any combination of letters'). To search by email address, use <a href="
 "\"%1\">Advanced Search</a>."
 msgstr ""
+"Um nach Vor- und Zunamen zu suchen, geben Sie den Namen in folgender Form "
+"ein: 'Nachname, Vorname'. Beispiel: 'Huber, Anna'. Für eine Suche nach "
+"Namensteilen setzen Sie '%Namensteil' ein ('%' ist Platzhalter für beliebige "
+"Zeichen). Um nach der E-Mail-Adresse zu suchen, verwenden Sie bitte die <a "
+"href=\"%1\">erweiterte Suche</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
@@ -9300,12 +9317,12 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 #, fuzzy
 msgid "Complete OR partial Contact Name."
-msgstr "Kompletter ODER Teil des Namens ODER Email"
+msgstr "Kompletter oder teilweiser Kontaktname."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 #, fuzzy
 msgid "Complete OR partial Email Address."
-msgstr "Kompletter ODER Teil des Namens ODER Email"
+msgstr "Komplette oder teilweise E-mail-Adresse."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Does the contact have a %1 Account?"
@@ -9313,7 +9330,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
-msgstr ""
+msgstr "Kontakte mit diesen Privatheits-Angaben <strong>ausschließen</strong>."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid "OR"
@@ -9325,6 +9342,8 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
+"Die Standortsuche sucht automatisch nach dem Primären Standort.Um andere "
+"Standortstypen zu finden bitte die entsprechenden Kästchen ankreuzen."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 #, fuzzy
@@ -9444,10 +9463,13 @@ msgid ""
 "assign tags, add to Groups, create Smart Groups, export contact data to a "
 "spreadsheet, etc."
 msgstr ""
-"Benutzen Sie die Suchkriterien um Kontakte nach Name, Art des Kontakts, "
-"Gruppenmitgliedschaften, Marken, etc. zu finden. Sie können dann den Kontakt "
-"ansehen, die Kontaktdetails bearbeiten, eine Kontaktliste ausdrucken, "
-"Kontakte markieren oder Kontakte in eine Tabelle exportieren."
+"Verwenden Sie Suchkriterien um Kontakte nach dem Namen, der Art des "
+"Kontaktes, der Gruppenzugehörigkeit oder nach Marken zu finden. Sie können "
+"dann Kontaktdetails betrachten oder bearbeiten, eine Kontaktliste "
+"ausdrucken, oder Sie können die „Mehr Aktionen“ der Dropdown-Liste "
+"verwenden, um Marken zu setzen, Kontakte zu  Gruppen hinzuzufügen, oder "
+"„Smart Groups“ zu schaffen, Kontakte in ein  Tabellenblatt zu  exportieren, "
+"usw."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -10060,7 +10082,7 @@ msgstr "Beiträge bearbeiten"
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #, fuzzy
 msgid "No contributions have been recorded from this contact."
-msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
+msgstr "Derzeit sind keine Aktivitäten geplant."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 #, fuzzy
@@ -10078,7 +10100,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 #, fuzzy
 msgid "Quick Search"
-msgstr "Suche"
+msgstr "Schnellsuche"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 #, fuzzy
@@ -10398,7 +10420,7 @@ msgstr "Kontakte finden"
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
 msgid "You are not currently subscribed to any Groups."
-msgstr "Dieser Kontakt gehört derzeit keiner Gruppe an."
+msgstr "Sie sind zur Zeit in keiner Gruppe eingetragen."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #, fuzzy
@@ -10905,6 +10927,11 @@ msgid ""
 "mailing list in the <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail "
 "component</a>."
 msgstr ""
+"'Zugriffskontrolle' ankreuzen, wenn Sie dieser Gruppe den Zugriff zu "
+"bestimmten Kontakten erlauben wollen. (<a href=\"%1\" target=\"_blank\" "
+"title=\"%3\">mehr...</a>). 'Mailing Liste' Ankreuzen, wenn Sie die Gruppe als "
+"MailingListe für das <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail-Modul "
+"</a>verwenden wollen."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -10915,6 +10942,13 @@ msgid ""
 "membership search and sharing in the Profile screens, select 'Public User "
 "Pages and Listings'."
 msgstr ""
+"Wählen Sie 'User and User Admin Only', wenn die Mitgliedschaft in dieser "
+"Gruppe  ausdrücklich nur von autorisierten civiCRM Benutzern kontrolliert "
+"wird. Wenn sich Kontakte  in die Gruppe selber eintragen und auch austragen "
+"können sollen via Registration und Account Profilen, dann wählen Sie 'Public "
+"User Pages'. Wenn Sie  auch die Suche nach Mitgliedschaft in Gruppen und "
+"die Veröffentlichung von Daten  in den Profilansichten erlauben möchten, "
+"wählen Sie 'Public User Pages and Listings'."
 
 #: templates/CRM/Group/Form/Edit.tpl
 #, fuzzy
@@ -10924,12 +10958,12 @@ msgstr "Suchkriterien bearbeiten"
 #: templates/CRM/Group/Form/Search.tpl
 #, fuzzy
 msgid "Find Groups"
-msgstr "Gruppen ansehen"
+msgstr "Gruppen finden"
 
 #: templates/CRM/Group/Form/Search.tpl
 #, fuzzy
 msgid "Complete OR partial group name."
-msgstr "Kompletter ODER Teil des Namens ODER Email"
+msgstr "ganzer ODER teilweiser Gruppenname."
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by group type(s)."
@@ -10937,7 +10971,7 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by visibility."
-msgstr ""
+msgstr "Filter Suche nach Sichtbarkeit."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid ""
@@ -10946,6 +10980,9 @@ msgid ""
 "is based on contact characteristics (e.g. this group consists of all people "
 "in our database who live in a specific locality)."
 msgstr ""
+"Gruppen setzt man ein, um Kontakte nach beliebigen Gesichtspunkten "
+"zuorganisieren und zu sortieren, z. B. alle  Mitglieder eines Teams, oder "
+"nach bestimmten gemeinsamen Eigenschaften, wie derselben Adresse."
 
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "ID"
@@ -11017,10 +11054,11 @@ msgid ""
 "right-hand column. Select '- do not import -' for any columns in the import "
 "file that you want ignored."
 msgstr ""
-"Betrachten Sie die Werte der ersten beiden Zeilen Ihrer Importdatei und "
-"wählen Sie die passenden CiviCRM Datenbankfelder von den Drop-Down-Listen in "
-"der Spalte auf der rechten Seite aus. Wählen Sie '-nicht importieren-' für "
-"jede Spalte aus, die Sie nicht importieren möchten."
+"Überprüfen Sie die Werte, die unten angezeigt werden, von den ersten 2 "
+"Reihen  Ihrer Importdatei und wählen Sie die entsprechenden CiviCRM "
+"Datenbankfelder  aus der Dropdown-Liste in der rechten Spalte. Wählen Sie "
+"'do not import' – 'nicht importieren' für alle Spalten der Importdatei, die "
+"Sie nicht übertragen möchten."
 
 #: templates/CRM/History/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -11037,6 +11075,10 @@ msgid ""
 "check 'Save this field mapping' at the bottom of the page before continuing. "
 "The saved mapping can then be easily reused the next time data is imported."
 msgstr ""
+"Wenn Sie später vielleicht weitere Daten aus derselben Quelle importieren "
+"möchten, kreuzen Sie 'Save this field mapping' – Diese Feldzuordnungen "
+"speichern' unten auf  der Seite an bevor Sie fortfahren. Die gespeicherte "
+"Ablage kann dann später  einfach wieder verwendet werden."
 
 #: templates/CRM/History/Import/Form/MapTable.tpl
 #: templates/CRM/Import/Form/MapTable.tpl
@@ -11352,6 +11394,13 @@ msgid ""
 "Contacts to create contact records first, if necessary. Then you can match "
 "activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
+"Der Activity History Import Wizard erlaubt es Ihnen einfach die "
+"Aktivitätshistorie  aus anderen Applikationen ins CiviCRM hochzuladen. Die "
+"Kontakte müssen bereits  in CiviCRM angelegt sein, bevor Sie die "
+"Aktivitätshistorie importieren. Verwenden Sie 'Import Contacts' – 'Kontakte "
+"importieren',um die Daten zuerst zu importieren, wenn notwendig. Dann können "
+"Sie die Aktivitäten und Kontakte mit Namen und  Email oder mit der  "
+"ContactID abgleichen. "
 
 #: templates/CRM/History/Import/Form/UploadFile.tpl
 msgid ""
@@ -11452,17 +11501,20 @@ msgstr ""
 #: templates/CRM/Import/Form/Preview.tpl
 #, fuzzy
 msgid "&raquo; <label> Create a new group from imported records</label>"
-msgstr "Neue Gruppe von den impotierten Datensätzen erstellen."
+msgstr ""
+"&raquo; <label>Legen Sie eine neue Gruppe an aus importierten Daten</label>"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "&raquo; <label> Create a new tag and assign it to imported records</label>"
 msgstr ""
+"&raquo; <label> Legen Sie eine neue Marke an und ordnen Sie sie den "
+"importierten Daten zu </label>"
 
 #: templates/CRM/Import/Form/Preview.tpl
 #, fuzzy
 msgid "Tag imported records"
-msgstr "Kontakte markieren"
+msgstr "Importierte Daten markieren"
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
@@ -11655,6 +11707,8 @@ msgstr ""
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid "Select the format that is used for date fields in your import data."
 msgstr ""
+"Wählen Sie das Dateiformat, das in den Datenfeldern verwendet wird,  die Sie "
+"importieren möchten."
 
 #: templates/CRM/Price/Form/DeleteField.tpl
 msgid ""
