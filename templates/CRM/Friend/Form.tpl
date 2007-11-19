@@ -1,13 +1,13 @@
+{* Enduser Tell-a-Friend form. *}
 {if $status eq 'thankyou' }
-{$thankYouText}
+    <p>{$thankYouText}</p>
 {else}
 
 <table class="form-layout-compressed" >
-   <tr><td colspan=2>{$intro}</td></tr>
+   <tr><td colspan=2><p>{$intro}</p></td></tr>
 
-   <tr><td class="label">{$form.from_name.label}</td><td>{$form.from_name.html}</td></tr>
-   <tr><td class="label">{$form.from_email.label}</td><td>{$form.from_email.html}</td></tr>     
-   <tr><td class="label">{$form.suggested_message.label}</td><td>{$form.suggested_message.html}</td></tr>
+   <tr><td class="right font-size12pt">{$form.from_name.label}&nbsp;&nbsp;</td><td class="font-size12pt">{$form.from_name.html} &lt;{$form.from_email.html}&gt;</td></tr>
+   <tr><td class="label font-size12pt">{$form.suggested_message.label}</td><td>{$form.suggested_message.html}</td></tr>
 
    <tr><td></td><td>  
     <fieldset><legend>{ts}Send to these Friend(s){/ts}</legend>  
