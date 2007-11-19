@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-11-04 11:13-0800\n"
+"PO-Revision-Date: 2007-11-15 15:39-0800\n"
 "Last-Translator: Martin Bozic <martin.bozic@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2414,12 +2414,10 @@ msgid "Settings - Site Preferences"
 msgstr "Nastavitve - nastavitve strani"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Viewing Contacts"
 msgstr "Ogled stikov"
 
 #: CRM/Admin/Form/Preferences/Display.php
-#, fuzzy
 msgid "Editing Contacts"
 msgstr "Urejanje stikov"
 
