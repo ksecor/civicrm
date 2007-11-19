@@ -42,13 +42,10 @@
   {ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
 {/if}
 
+{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
 
-{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
-{capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-
- {ts}iCalendar File:{/ts} 
+ {ts}Download iCalendar File:{/ts} 
  {$icalFeed} 
-
 
 
 ===========================================================

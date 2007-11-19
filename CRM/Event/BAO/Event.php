@@ -467,8 +467,8 @@ WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
      * @static
      * @access public
      */      
-    static function &getCompleteInfo( $start = null, $type =null,$eventId=null ) 
-        {
+    static function &getCompleteInfo( $start = null, $type =null, $eventId = null ) 
+    {
        
         if ( $start ) {
             // get events with start_date >= requested start
@@ -524,16 +524,16 @@ WHERE civicrm_event.is_active = 1
       AND civicrm_event.is_public = 1 
       AND civicrm_event.start_date >= {$condition}"; 
     
-
+        if(isset( $eventId )) {
+            $query .= " AND civicrm_event.id =$eventId ";
+        }
+        $query .=" ORDER BY   civicrm_event.start_date ASC";
 
 
         $params = array( 1 => array( $optionGroupId, 'Integer' ),
                          2 => array( CRM_Core_Config::domainID( ),'Integer' )
                          );
-        if(isset($eventId )){
-            $query .= " AND civicrm_event.id =$eventId ";
-        }
-        $query .=" ORDER BY   civicrm_event.start_date ASC";
+        
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         $all = array( );
         $config =& CRM_Core_Config::singleton( );

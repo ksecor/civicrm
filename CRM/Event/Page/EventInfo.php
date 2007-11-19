@@ -84,8 +84,7 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                                                      'id' );
      
         $this->assign( 'isShowLocation',$isShowLocation );
-        $this->assign( 'id',$eventPageId );
-
+        
         // do not bother with price information if price fields are used
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( isset ($eventPageId ) ) {

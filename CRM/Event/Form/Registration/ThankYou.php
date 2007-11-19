@@ -85,8 +85,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'lineItem', $this->_lineItem );
-        $this->assign('id',$this->_values['event']['id']);
-
+        
         $defaults = array( );
         $fields   = array( );
         if( ! empty($this->_fields) ) {
