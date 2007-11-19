@@ -70,7 +70,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $fields = array( );
             require_once "CRM/Core/BAO/CustomGroup.php";
             if ( ! empty($this->_fields)) {
+                $removeCustomFieldTypes = array ('Participant');
                 foreach ( $this->_fields as $name => $dontCare ) {
+                    if ( substr( $name, 0, 7 ) == 'custom_' ) {  
+                        $id = substr( $name, 7 );
+                        if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
+                            continue;
+                        }
+                    }
                     $fields[$name] = 1;
                 }
             }

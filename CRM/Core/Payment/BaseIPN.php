@@ -336,10 +336,11 @@ class CRM_Core_Payment_BaseIPN {
         }
 
         $contribution->contribution_status_id  = 1;
-        $contribution->is_test    = $input['is_test'];
-        $contribution->fee_amount = $input['fee_amount'];
-        $contribution->net_amount = $input['net_amount'];
-        $contribution->trxn_id    = $input['trxn_id'];
+        $contribution->is_test      = $input['is_test'];
+        $contribution->fee_amount   = $input['fee_amount'];
+        $contribution->net_amount   = $input['net_amount'];
+        $contribution->trxn_id      = $input['trxn_id'];
+        $contribution->receive_date = CRM_Utils_Date::isoToMysql($contribution->receive_date); 
         $contribution->save( );
         
         // next create the transaction record
