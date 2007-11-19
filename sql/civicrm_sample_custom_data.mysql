@@ -1,0 +1,41 @@
+-- /*******************************************************
+-- *
+-- * Sample Custom Data  
+-- *
+-- *******************************************************/
+ 
+ INSERT INTO civicrm_custom_group
+    (domain_id, name, title, extends, style, collapse_display, help_pre, weight, is_active, table_name, is_multiple)
+ VALUES
+    (1, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1,'civicrm_value_1_constituent_information', 0);
+
+CREATE TABLE civicrm_value_1_constituent_information
+   (id int( 10 ) NOT NULL AUTO_INCREMENT, domain_id int( 10 ) NOT NULL, entity_id int( 10 ) NOT NULL, most_important_issue varchar( 255 ), marital_status varchar( 255 ), PRIMARY KEY ( id )); 
+
+INSERT INTO 
+   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+   (1, 'custom_most_important_issue', 'Custom Field: Most Important Issue', 0, 1),
+   (1, 'custom_marital_status'      , 'Custom Field: Marital Status', 0, 1);
+
+ SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
+ SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
+
+INSERT INTO civicrm_custom_field
+     (custom_group_id, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, column_name, option_group_id)
+VALUES
+    (1, 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, 'most_important_issue', @option_most_id),
+    (1, 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, 'marital_status', @option_marital_id);
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `weight`, `is_active`, `is_default`) 
+VALUES
+    (@option_most_id   , 'Education', 'Edu', 1, 1,0),
+    (@option_most_id   , 'Environment', 'Env', 2, 1,0),
+    (@option_most_id   , 'Social Justice', 'SocJus', 3, 1,0),
+    (@option_marital_id, 'Single', 'S', 1, 1,0),
+    (@option_marital_id, 'Married', 'M', 2, 1,0),
+    (@option_marital_id, 'Domestic Partner', 'D', 3, 1,0),
+    (@option_marital_id, 'Widowed', 'W', 4, 1,0),
+    (@option_marital_id, 'Other', 'O', 5, 1,0);
+    
