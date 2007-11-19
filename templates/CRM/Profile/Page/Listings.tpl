@@ -2,7 +2,7 @@
 {if ! empty( $columnHeaders ) || $isReset }
 
 {if $search}
-{include file="CRM/Profile/Form/Search.tpl"}
+{include file="$searchTPL"}
 {/if}
 
 {* show profile listings criteria ($qill) *}
