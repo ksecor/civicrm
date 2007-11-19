@@ -754,8 +754,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                   $this->_contributorEmail,
                                   $subject,
                                   $message);
-        }        
+        }      
+        
+        if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been updated. " );
+            if ( $params['send_receipt'] ) {
+                $statusMsg .= ts("A confirmation for participation updation and receipt has been sent to {$this->_contributorEmail}." );
+            }
+        } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been added. " );
+            if ( $params['send_receipt'] ) {
+                $statusMsg .= ts( "A participation confirmation and receipt has been sent to {$this->_contributorEmail}." );
+            }
+        }
+        require_once "CRM/Core/Session.php";
+        CRM_Core_Session::setStatus( "{$statusMsg}" );
     }
 }
-
 ?>
