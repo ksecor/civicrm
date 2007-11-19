@@ -1,6 +1,9 @@
 <div class="form-item">
     <div id="help">
         <p>{ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes. Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}</p>
+{if $is_pay_later}
+        <p>{$pay_later_receipt}</p>
+{/if}
     </div>
 
     {if $eventPage.confirm_text}
@@ -47,7 +50,9 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $paidEvent}
+    {if $contributeMode ne 'notify' and
+        ! $is_pay_later             and
+        $paidEvent}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -57,7 +62,8 @@
     </div>
     {/if}
     
-    {if $contributeMode eq 'direct'}
+    {if $contributeMode eq 'direct' and
+        ! $is_pay_later}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>
@@ -87,7 +93,7 @@
     </div>
     {/if}    
    
-    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent}
+    {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout' and $paidEvent and !$is_pay_later}
         <fieldset><legend>{ts}Checkout with Google{/ts}</legend>
          <table class="form-layout-compressed">
           <tr><td class="description">{ts}Click the Google Checkout button to continue.{/ts}</td></tr>

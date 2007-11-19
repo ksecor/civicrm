@@ -502,7 +502,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
             CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, 
                                              array( array( 'member_id', '=', $membership->id, 0, 0 ) ) );
-            
+            $this->assign( 'module', 'Membership' );
             $this->assign( 'subject', ts('Membership Confirmation and Receipt') );
             $this->assign( 'receive_date', $params['receive_date'] );            
             $this->assign( 'formValues', $formValues );

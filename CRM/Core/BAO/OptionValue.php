@@ -99,10 +99,11 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
      */
     static function add(&$params, &$ids) 
     {
-        $params['is_active']   =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['is_default']  =  CRM_Utils_Array::value( 'is_default', $params, false );
+        $params['is_active'  ] =  CRM_Utils_Array::value( 'is_active', $params, false );
+        $params['is_default' ] =  CRM_Utils_Array::value( 'is_default', $params, false );
         $params['is_optgroup'] =  CRM_Utils_Array::value( 'is_optgroup', $params, false );
-        
+        $params['filter'     ] =  CRM_Utils_Array::value( 'filter', $params, false );
+
         // action is taken depending upon the mode
         $optionValue               =& new CRM_Core_DAO_OptionValue( );
         $optionValue->domain_id    = CRM_Core_Config::domainID( );

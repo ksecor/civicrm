@@ -209,4 +209,14 @@
        <key>id</key>
        <add>2.0</add>
   </foreignKey>
+  <field>
+      <name>receipt_text</name>
+      <type>varchar</type>
+      <htmlType>textarea</htmlType>
+      <rows>6</rows>
+      <cols>50</cols>
+      <length>255</length>
+      <comment>Receipt Text for off-line event participation</comment>
+      <add>2.0</add>
+  </field>
 </table>

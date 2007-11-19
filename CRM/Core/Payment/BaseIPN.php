@@ -206,7 +206,7 @@ class CRM_Core_Payment_BaseIPN {
         return true;
     }
 
-    function failed( &$objects, &$transcation ) {
+    function failed( &$objects, &$transaction ) {
         $contribution =& $objects['contribution'];
         $membership   =& $objects['membership']  ;
         $participant  =& $objects['participant'] ;
@@ -226,18 +226,18 @@ class CRM_Core_Payment_BaseIPN {
             
         $transaction->commit( );
         CRM_Core_Error::debug_log_message( "Setting contribution status to failed" );
-        echo "Success: Setting contribution status to failed<p>";
+        //echo "Success: Setting contribution status to failed<p>";
         return true;
     }
 
-    function pending( &$objects, &$transcation ) {
+    function pending( &$objects, &$transaction ) {
         $transaction->commit( );
         CRM_Core_Error::debug_log_message( "returning since contribution status is pending" );
         echo "Success: Returning since contribution status is pending<p>";
         return true;
     }
 
-    function cancelled( &$objects, &$transcation ) {
+    function cancelled( &$objects, &$transaction ) {
         $contribution =& $objects['contribution'];
         $membership   =& $objects['membership']  ;
         $participant  =& $objects['participant'] ;
@@ -259,11 +259,11 @@ class CRM_Core_Payment_BaseIPN {
 
         $transaction->commit( );
         CRM_Core_Error::debug_log_message( "Setting contribution status to cancelled" );
-        echo "Success: Setting contribution status to cancelled<p>";
+        //echo "Success: Setting contribution status to cancelled<p>";
         return true;
     }
 
-    function unhandled( &$objects, &$transcation ) {
+    function unhandled( &$objects, &$transaction ) {
         $transaction->rollback( );
         // we dont handle this as yet
         CRM_Core_Error::debug_log_message( "returning since contribution status: $status is not handled" );
@@ -411,7 +411,11 @@ class CRM_Core_Payment_BaseIPN {
         }
 
         CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );
-        echo "Success: Database updated<p>";
+
+        /* echo commented since creates problem when this method is
+           called from some other file, inside civicrm (not from files
+           in extern dir).                                            */
+        //echo "Success: Database updated<p>";
     }
     
     function getBillingID( &$ids ) {

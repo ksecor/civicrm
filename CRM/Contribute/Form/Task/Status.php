@@ -81,7 +81,7 @@ AND    {$this->_contributionClause}";
         $count = CRM_Core_DAO::singleValueQuery( $query,
                                                  CRM_Core_DAO::$_nullArray );
         if ( $count != 0 ) {
-            CRM_Core_Error::fatal( 'You can only select contributions in pending status' );
+            CRM_Core_Error::statusBounce( "You can only select contributions with Pending status" ); 
         }
 
         // we have all the contribution ids, so now we get the contact ids
@@ -203,17 +203,17 @@ AND    co.id IN ( $contribIDs )";
             if ( $statusID == 3 ) {
                 $baseIPN->cancelled( $objects, $transaction );
                 $transaction->commit( );
-                return;
+                continue;
             } else if ( $statusID == 4 ) {
                 $baseIPN->failed( $objects, $transaction );
                 $transaction->commit( );
-                return;
+                continue;
             }
 
             // status is not pending
             if ( $contribution->contribution_status_id != 2 ) {
                 $transaction->commit( );
-                return;
+                continue;
             }
 
             // set some fake input values so we can reuse IPN code
@@ -230,6 +230,8 @@ AND    co.id IN ( $contribIDs )";
 
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
         }
+
+        CRM_Core_Session::setStatus( ts('Contribution status updated.') );
     }
 
     function &getDetails( $contributionIDs ) {

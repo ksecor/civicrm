@@ -71,7 +71,8 @@
                 {assign var=groupTitlePre  value=$field.groupTitle} 
               {/if}
          {/foreach}
-        <div class="header-dark">
+        <div class="header-dark">$this->assign('id',$this->_values['event']['id']);
+
           {ts}{$groupTitlePre}{/ts}
          </div>  
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
@@ -116,4 +117,10 @@
         </div>
     {/if}
 
+    <div class="action-link">
+        {capture assign=icalFile}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
+        {capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&page=1&id=`$event.id`"}{/capture}
+
+        <a href="{$icalFile}">&raquo; {ts}Download iCalendar File{/ts}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$icalFeed}" title="{ts}iCalendar Feed{/ts}"><img src="{$config->resourceBase}i/ical_feed.gif" alt="{ts}iCalendar Feed{/ts}"></a> 
+    </div>
 </div>

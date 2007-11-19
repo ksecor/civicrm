@@ -367,7 +367,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         require_once 'CRM/Utils/Address.php';
         $this->assign('address', CRM_Utils_Address::format($addressFields));
 
-        if ( $this->_contributeMode == 'direct' ) {
+        if ( $this->_contributeMode == 'direct' &&
+             ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
             $date = CRM_Utils_Date::format( $this->_params['credit_card_exp_date'] );
             $date = CRM_Utils_Date::mysqlToIso( $date );
             $this->assign( 'credit_card_exp_date', $date );
@@ -386,8 +387,8 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $this->_params['is_pay_later'] = CRM_Utils_Array::value( 'is_pay_later', $this->_params, false );
         $this->assign( 'is_pay_later', $this->_params['is_pay_later'] );
         if ( $this->_params['is_pay_later'] ) {
-            $this->assign( 'pay_later_text'   , $this->_values['pay_later_text']    );
-            $this->assign( 'pay_later_receipt', $this->_values['pay_later_receipt'] );
+            $this->assign( 'pay_later_text'   , $this->_values['event_page']['pay_later_text']    );
+            $this->assign( 'pay_later_receipt', $this->_values['event_page']['pay_later_receipt'] );
         }
 
     }

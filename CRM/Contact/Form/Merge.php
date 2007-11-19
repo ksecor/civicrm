@@ -39,8 +39,13 @@ require_once 'api/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
+    // the id of the contact that tere's a duplicate for; this one will 
+    // possibly inherit some of $_oid's properties and remain in the system
     var $_cid         = null;
+
+    // the id of the other contact - the duplicate one that will get deleted
     var $_oid         = null;
+
     var $_contactType = null;
 
     // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
@@ -216,7 +221,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->addElement('hidden', 'deleteOther', 1);
         // alternatively, make 'em visible checkboxen - also uncomment the proper <p>s in the template
         // $this->addElement('checkbox', 'moveBelongings', ts('Move other information associated with the Duplicate Contact to the Main Contact'));
-        // $this->addElement('checkbox', 'deleteOther', ts('Delete the lleft-side ceft-side contact after merging'));
+        // $this->addElement('checkbox', 'deleteOther', ts('Delete the left-side contact after merging'));
     }
     
     function setDefaultValues()

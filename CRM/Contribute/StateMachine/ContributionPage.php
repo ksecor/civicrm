@@ -66,6 +66,7 @@ class CRM_Contribute_StateMachine_ContributionPage extends CRM_Core_StateMachine
                               'CRM_Friend_Form_Contribute'                    => null,
                               'CRM_Contribute_Form_ContributionPage_Custom'   => null,
                               'CRM_Contribute_Form_ContributionPage_Premium'  => null
+                              'CRM_Contribute_Form_ContributionPage_Widget'   => null
                               );
         
         if ( !in_array("CiviMember", $config->enableComponents ) ) {

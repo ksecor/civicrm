@@ -105,7 +105,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         $ids['contact']          = self::retrieve( 'contactID'     , 'Integer', $privateData, true );
         $ids['contribution']     = self::retrieve( 'contributionID', 'Integer', $privateData, true );
 
-        if ( $component == "event" ) {
+        if ( $input['component'] == "event" ) {
             $ids['event']       = self::retrieve( 'eventID'      , 'Integer', $privateData, true );
             $ids['participant'] = self::retrieve( 'participantID', 'Integer', $privateData, true );
             $ids['membership']  = null;
@@ -328,6 +328,11 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             $isTest = $contribution->is_test;
         }
 
+        if ($contribution->contribution_status_id == 1) {
+            //contribution already handled.
+            exit( );
+        }
+
         if ( $module == 'Contribute' ) {
             if ( ! $contribution->contribution_page_id ) {
                 CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
@@ -340,7 +345,14 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
                                                                $contribution->contribution_page_id,
                                                                'payment_processor_id' );
         } else {
-            if ( empty( $privateData['eventID'] ) ) {
+            if ($root == 'new-order-notification') {
+                $eventID = $privateData['eventID'];
+            } else {
+                list( $eventID, $participantID ) =
+                    explode( CRM_Core_DAO::VALUE_SEPARATOR,
+                             $contribution->trxn_id );
+            }
+            if ( !$eventID ) {
                 CRM_Core_Error::debug_log_message( "Could not find event ID" );
                 echo "Failure: Could not find eventID<p>";
                 exit( );
@@ -350,7 +362,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
             // make sure event exists and is valid
             require_once 'CRM/Event/DAO/Event.php';
             $event =& new CRM_Event_DAO_Event( );
-            $event->id = $privateData['eventID'];
+            $event->id = $eventID;
             if ( ! $event->find( true ) ) {
                 CRM_Core_Error::debug_log_message( "Could not find event: $eventID" );
                 echo "Failure: Could not find event: $eventID<p>";

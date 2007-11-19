@@ -64,33 +64,46 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $showHide->addShow( "id-group-acl" );
                     $showHide->addHide( "id-profile-acl" );
                     $showHide->addHide( "id-custom-acl" );
+                    $showHide->addHide( "id-event-acl" );
                     break;
                     
                 case 'civicrm_uf_group':
                     $defaults['uf_group_id'] = $defaults['object_id'];
                     $defaults['object_type'] = 2;
-                    $showHide->addShow( "id-profile-acl" );
                     $showHide->addHide( "id-group-acl" );
+                    $showHide->addShow( "id-profile-acl" );
                     $showHide->addHide( "id-custom-acl" );
+                    $showHide->addHide( "id-event-acl" );
                     break;
 
                 case 'civicrm_custom_group':
                     $defaults['custom_group_id'] = $defaults['object_id'];
                     $defaults['object_type'] = 3;
-                    $showHide->addShow( "id-custom-acl" );
                     $showHide->addHide( "id-group-acl" );
                     $showHide->addHide( "id-profile-acl" );
+                    $showHide->addShow( "id-custom-acl" );
+                    $showHide->addHide( "id-event-acl" );
                     break;
-                    
+
+                case 'civicrm_event':
+                    $defaults['event_id'] = $defaults['object_id'];
+                    $defaults['object_type'] = 4;
+                    $showHide->addHide( "id-group-acl" );
+                    $showHide->addHide( "id-profile-acl" );
+                    $showHide->addHide( "id-custom-acl" );
+                    $showHide->addShow( "id-event-acl" );
+                    break;
+
             }
         } else {
             $showHide->addHide( "id-group-acl" );
             $showHide->addHide( "id-profile-acl" );
             $showHide->addHide( "id-custom-acl" );
+            $showHide->addHide( "id-event-acl" );
         }
 
         // Don't assign showHide elements to template in DELETE mode (fields to be shown and hidden don't exist)
-        if ( !( $this->_action & CRM_Core_Action::DELETE )  ) {
+        if ( ! ( $this->_action & CRM_Core_Action::DELETE )  ) {
             $showHide->addToTemplate( );
         }
         
@@ -118,13 +131,20 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         
         require_once 'CRM/ACL/BAO/ACL.php';
         $operations   = array( '' => ts( ' -select- ' ) ) + CRM_ACL_BAO_ACL::operation( );
-        $this->add( 'select', 'operation', ts( 'Operation' ),
-                           $operations, true );
+        $this->add( 'select',
+                    'operation',
+                    ts( 'Operation' ),
+                    $operations, true );
 
-        $objTypes = array( '1' => ts('A group of contacts'),
-                           '2' => ts('A profile'),
-                           '3' => ts('A set of custom data fields')
+        $objTypes = array( '1' => ts( 'A group of contacts' ),
+                           '2' => ts( 'A profile' ),
+                           '3' => ts( 'A set of custom data fields' ),
                            );
+
+        if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
+            $objTypes['4'] = ts( 'Events' );
+        }
+
         $extra = array( 'onclick' => "showObjectSelect();");
         $this->addRadio( 'object_type',
                          ts('Type of Data'),
@@ -144,16 +164,24 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
         $group       = array( '-1' => ts( '-select-' ),
                               '0'  => ts( 'All Groups' ) )        +
             CRM_Core_PseudoConstant::group( )      ;
+
         $customGroup = array( '-1' => ts( '-select-' ),
                               '0'  => ts( 'All Custom Groups' ) ) +
             CRM_Core_PseudoConstant::customGroup( );
+
         $ufGroup     = array( '-1' => ts( '-select-' ),
                               '0'  => ts( 'All Profiles' ) )      +
             CRM_Core_PseudoConstant::ufGroup( )    ;
 
+        require_once 'CRM/Event/PseudoConstant.php';
+        $event       = array( '-1' => ts( '-select-' ),
+                              '0'  => ts( 'All Events' ) )        +
+            CRM_Event_PseudoConstant::event( );
+
         $this->add( 'select', 'group_id'       , ts( 'Group'        ), $group       );
-        $this->add( 'select', 'custom_group_id', ts( 'Custom Data' ), $customGroup );
+        $this->add( 'select', 'custom_group_id', ts( 'Custom Data'  ), $customGroup );
         $this->add( 'select', 'uf_group_id'    , ts( 'Profile'      ), $ufGroup     );
+        $this->add( 'select', 'event_id'       , ts( 'Event'        ), $event       );
 
         $this->add('checkbox', 'is_active', ts('Enabled?'));
 

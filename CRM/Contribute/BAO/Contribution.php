@@ -847,7 +847,7 @@ SELECT count(*) as count,
         $input = array( );
         foreach ( $params as $k=>$v ) {
             if( $v ) {
-                $clause[]  = "$k = $v";                
+                $clause[]  = "$k = '$v'";                
             } 
         }
         $clause = implode( ' AND ', $clause );
@@ -893,7 +893,7 @@ SELECT count(*) as count,
                                                                                             'Contribution',
                                                                                             'name' ),
                                  'subject'               => $subject,
-                                 'activity_date_time'    => $contribution->receive_date,
+                                 'activity_date_time'    => CRM_Utils_Date::isoToMysql($contribution->receive_date),
                                  'is_test'               => $contribution->is_test
                                  );
         

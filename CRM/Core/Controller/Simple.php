@@ -54,7 +54,12 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
      * @return object
      * @access public
      */
-    function __construct($path, $title, $mode , $imageUpload = false, $addSequence = false, $ignoreKey = false ) {
+    function __construct( $path,
+                          $title,
+                          $mode ,
+                          $imageUpload = false,
+                          $addSequence = false,
+                          $ignoreKey = false ) {
         // by definition a single page is modal :). We use the form name as the scope for this controller
         parent::__construct( $title, true, $path, $addSequence, $ignoreKey );
 
@@ -88,6 +93,14 @@ class CRM_Core_Controller_Simple extends CRM_Core_Controller {
 
     public function setParent( $parent ) {
         $this->_parent = $parent;
+    }
+
+    public function getTemplateFileName( ) {
+        // there is only one form here, so should be quite easy
+        $actionName = $this->getActionName( );
+        list($pageName, $action) = $actionName;
+
+        return $this->_pages[$pageName]->getTemplateFileName( );
     }
 
 }

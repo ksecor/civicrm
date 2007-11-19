@@ -269,6 +269,21 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 $errors['_qf_default'] = $error;
             }
             
+            // return if this is express mode
+            $config =& CRM_Core_Config::singleton( );
+            if ( $self->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_BUTTON ) {
+                if ( CRM_Utils_Array::value( $self->_expressButtonName . '_x', $fields ) ||
+                     CRM_Utils_Array::value( $self->_expressButtonName . '_y', $fields ) ||
+                     CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
+                    return empty( $errors ) ? true : $errors;
+                }
+            }
+
+            // also return if paylater mode
+            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
+                return empty( $errors ) ? true : $errors;
+            }
+
             foreach ( $self->_fields as $name => $fld ) {
                 if ( $fld['is_required'] &&
                      CRM_Utils_System::isNull( CRM_Utils_Array::value( $name, $fields ) ) ) {

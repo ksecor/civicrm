@@ -112,7 +112,33 @@
 
 <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
     <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
-        <tr><td colspan=2>
+    <tr><td>{$form.record_contribution.label}</td><td class="html-adjust">{$form.record_contribution.html}<br />
+            <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span></td></tr></table>
+<div class="spacer"></div>
+     <fieldset id="recordContribution"><legend>{ts}Participation Payment and Receipt{/ts}</legend>
+        <dl>
+		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}<br />
+                <span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
+                <span class="description">{ts}Participation payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
+            <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
+        </dl>
+        {if $email}
+            <dl>
+	            <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
+                <span class="description">{ts}Automatically email a participation confirmation and contribution receipt to {$email}?{/ts}</span></dd>
+            </dl>
+            <div id='notice'>
+                <dl>
+        	        <dt class="label">{$form.receipt_text.label}</dt><dd class="html-adjust">
+		<span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for participating in the event."{/ts}</span>{$form.receipt_text.html|crmReplace:class:huge}</dd>
+                </dl>
+            </div>
+        {/if}
+     </fieldset>
+
+	<tr><td colspan=2>
         {if $action eq 4} 
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
@@ -126,9 +152,27 @@
         
         <td>{$form.buttons.html}</td> 
     	</tr> 
-    </table>
+    
     </div>
 </fieldset> 
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="record_contribution"
+    trigger_value       =""
+    target_element_id   ="recordContribution" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
+
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="send_receipt"
+    trigger_value       =""
+    target_element_id   ="notice" 
+    target_element_type ="table-row"
+    field_type          ="radio"
+    invert              = 0
+}
 
 <script type="text/javascript" >
  {literal}

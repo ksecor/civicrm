@@ -52,7 +52,6 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
     function setDefaultValues( ) 
     {
         $defaults = array( );
-        //CRM_Core_Error::debug("s", $this->_name);
         $formArray = array('Component', 'Localization');
         $formMode  = false;
         if ( in_array( $this->_name, $formArray ) ) {

@@ -36,12 +36,11 @@
 require_once 'CRM/Contact/Page/View.php';
 
 /**
- * Main page for viewing history of activities.
+ * Main page for viewing activities
  *
  */
-
-class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
-
+class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View 
+{
     /**
      * Browse all activities for a particular contact
      *
@@ -51,8 +50,9 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
      */
     function browse( )
     {
+        require_once "CRM/Activity/BAO/Activity.php";
         $this->assign( 'totalCountOpenActivity',
-                       CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
+                       CRM_Activity_BAO_Activity::getNumOpenActivity( $this->_contactId ) );
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
@@ -70,11 +70,9 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         $controller->moveFromSessionToTemplate( );
     }
 
-
     function edit( )
     {
-
-        // DRAFTING: Do we need following two lines?
+        // used for dojo tabs
         $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
         $this->assign('context', $context );
 
@@ -92,33 +90,36 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         // DRAFTING: Need to sort out the situation with cases here.
         if( $edit ){
             $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-                   "activity_id=1&action=view&reset=1&selectedChild=activity&id=" . $this->_id."&cid=". $this->_contactId."&subType=1&context=".$context . "");
+                                          "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}");
         }
 
         if ( $context == 'Home' ) {
             if( $edit ) {
-                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id=1&action=view&reset=1&selectedChild=activity&id=". $this->_id."&cid=". $this->_contactId."&history={$history}&subType=1&context=".$context);
+                $url = CRM_Utils_System::url('civicrm/contact/view/activity',
+                                             "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}");
             }else{
                 $url = CRM_Utils_System::url('civicrm', 'reset=1' );
             }
 //        } else if ($context == 'case'){
 //            
 //             if($edit){
-//                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id=1&action=view&reset=1&selectedChild=activity&id=". $this->_id."&cid=". $this->_contactId."&history={$history}&subType=1&context=".$context."&caseid=".$this->_caseID);
+//                $url =
+//             CRM_Utils_System::url('civicrm/contact/view/activity',
+//            "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}&caseid={$this->_caseID}");
 //             }else{
-//             
 //                 $url = CRM_Utils_System::url('civicrm/contact/view/case',
-//                                              "show=1&action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
+//                                              "action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
 //             }
              
         } else {
 
-            if($edit){
+            if ( $edit ) {
                 
-                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id=1&action=view&reset=1&selectedChild=activity&id=". $this->_id."&cid=". $this->_contactId."&history={$history}&subType=1&context=activity");
+                $url = CRM_Utils_System::url('civicrm/contact/view/activity',
+                                             "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context=activity");
             } else{ 
                 $url = CRM_Utils_System::url('civicrm/contact/view',
-                                             "show=1&action=browse&reset=1&history={$history}&cid={$this->_contactId}&selectedChild=activity" );
+                                             "action=browse&reset=1&cid={$this->_contactId}&selectedChild=activity" );
             }
         }      
         $session->pushUserContext( $url );
@@ -126,17 +127,24 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
                                         CRM_Core_DAO::$_nullObject )){
             
-            require_once 'CRM/Activity/BAO/Activity.php';
-                
             CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
         }
+
+        $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
         
-        $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
+        if ( $activityTypeId != 3) {
+            $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
+        } else {
+            $wrapper =& new CRM_Utils_Wrapper( );
+            return $wrapper->run( 'CRM_Contact_Form_Task_Email', ts('Email a Contact'),  null );
+        }
+        
         $controller->reset( );
         $controller->setEmbedded( true );
 
         $controller->set( 'contactId', $this->_contactId );
+        $controller->set( 'atype'    , $activityTypeId );
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
         $controller->set( 'log'      , $this->get( 'log' ) );
@@ -175,7 +183,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View {
         $url     = 'civicrm/contact/view';
 
         $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&selectedChild=activity&history=1&show=1' ) );
+        $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&selectedChild=activity' ) );
 
         $controller =& new CRM_Core_Controller_Simple('CRM_Activity_Form_Activity',
                                                        ts('Delete Activity Record'),

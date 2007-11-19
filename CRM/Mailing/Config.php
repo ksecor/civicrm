@@ -49,14 +49,21 @@ class CRM_Mailing_Config extends CRM_Core_Component_Config {
      *
      * @var int
      */
-   public $mailerPeriod    = 180;
+    public $mailerPeriod    = 180;
+
+   /**
+    * TODO
+    *
+    * @var int
+    */
+    public $mailerSpoolLimit = 0;
                            
    /**
     * How many emails should CiviMail deliver on a given run
     *
     * @var int
     */
-   public $mailerBatchLimit = 0;
+    public $mailerBatchLimit = 0;
 
 }
 

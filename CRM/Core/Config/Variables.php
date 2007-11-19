@@ -26,10 +26,10 @@
 */
 
 /**
- * Config handles all the run time configuration changes that the system needs to deal with.
- * Typically we'll have different values for a user's sandbox, a qa sandbox and a production area.
- * The default values in general, should reflect production values (minimizes chances of screwing up)
- *
+ * Variables class contains definitions of all the core config settings that are allowed on 
+ * CRM_Core_Config. If you want a config variable to be present in run time config object,
+ * it need to be defined here first.
+ * 
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
  * $Id$
@@ -51,16 +51,14 @@ class CRM_Core_Config_Variables
      * the directory where Smarty and plugins are installed
      * @var string
      */
-    public $smartyDir           = '/opt/local/lib/php/Smarty/';
-    public $pluginsDir          = '/opt/local/lib/php/Smarty/plugins/';
+    public $smartyDir           = null;
+    public $pluginsDir          = null;
 
     /**
      * the root directory of our template tree
      * @var string
      */
-    public $templateDir		  = './templates/';
-
-
+    public $templateDir		  = null;
 
     /**
      * The resourceBase of our application. Used when we want to compose
@@ -328,33 +326,6 @@ class CRM_Core_Config_Variables
     public $captchaFont = null;
     
     /**
-     * the domainID for this instance. 
-     *
-     * @var int
-     */
-    private static $_domainID = 1;
-
-    /**
-     * The handle to the log that we are using
-     * @var object
-     */
-    private static $_log = null;
-
-    /**
-     * the handle on the mail handler that we are using
-     * @var object
-     */
-    private static $_mail = null;
-    
-    /**
-     * We only need one instance of this object. So we use the singleton
-     * pattern and cache the instance in this variable
-     * @var object
-     * @static
-     */
-    private static $_singleton = null;
-
-    /**
      * Optimization related variables
      */
     public $includeAlphabeticalPager = 1;
@@ -384,126 +355,6 @@ class CRM_Core_Config_Variables
      */
     public $componentRegistry  = null;
 
-
-    /**
-     * The constructor. Sets domain id if defined, otherwise assumes
-     * single instance installation.
-     *
-     * @return void
-     * @access private
-     */
-    private function __construct() 
-    {
-        require_once 'CRM/Core/Session.php';
-        $session =& CRM_Core_Session::singleton( );
-        if ( defined( 'CIVICRM_DOMAIN_ID' ) ) {
-            self::$_domainID = CIVICRM_DOMAIN_ID;
-        } else {
-            self::$_domainID = 1;
-        }
-        $session->set( 'domainID', self::$_domainID );
-    }
-
-    /**
-     * singleton function used to manage this object
-     *
-     * @param string the key in which to record session / log information
-     *
-     * @return object
-     * @static
-     *
-     */
-    static public function &singleton($key = 'crm', $loadFromDB = true ) 
-    {
-        if (self::$_singleton === null ) {
-
-            // first, attempt to get configuration object from cache
-            require_once 'CRM/Utils/Cache.php';
-            $cache =& CRM_Utils_Cache::singleton( );
-            self::$_singleton = $cache->get( 'CRM_Core_Config' );
-
-            // if not in cache, fire off config construction
-            if ( ! self::$_singleton ) {
-                self::$_singleton =& new CRM_Core_Config($key);
-                self::$_singleton->_initialize( );
-                
-                //initialize variable. for gencode we cannot load from the
-                //db since the db might not be initialized
-                if ( $loadFromDB ) {
-                    self::$_singleton->initVariables( );
-                    
-                    // retrieve and overwrite stuff from the settings file
-                    self::$_singleton->addCoreVariables( );
-                }
-                $cache->set( 'CRM_Core_Config', self::$_singleton );
-            } else {
-                // we retrieve the object from memcache, so we now initialize the objects
-                self::$_singleton->_initialize( );
-            }
-            self::$_singleton->initialized = 1;
-        }
-
-        return self::$_singleton;
-    }
-
-
-    /**
-     * Initializes the entire application.
-     *
-     * @return void
-     * @access public
-     */
-    private function _initialize() 
-    {
-        if (defined( 'CIVICRM_DSN' )) {
-            $this->dsn = CIVICRM_DSN;
-        }
-
-        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
-
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        $this->_initDAO();
-
-        // also initialize the logger
-        self::$_log =& Log::singleton( 'display' );
-
-        if ( defined( 'CIVICRM_UF' ) ) {
-            $this->userFramework       = CIVICRM_UF;
-        }
-
-        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-        }
-
-        if ( defined( 'CIVICRM_GETTEXT_RESOURCEDIR' ) ) {
-            $this->gettextResourceDir = CRM_Utils_File::addTrailingSlash( CIVICRM_GETTEXT_RESOURCEDIR );
-        }
-
-        // set the error callback
-        CRM_Core_Error::setCallback();
-    }
-
-
-    /**
-     * initialize the DataObject framework
-     *
-     * @return void
-     * @access private
-     */
-    private function _initDAO() 
-    {
-        CRM_Core_DAO::init(
-                      $this->dsn, 
-                      $this->daoDebug
-                      );
-
-        $factoryClass = $this->DAOFactoryClass;
-        CRM_Core_DAO::setFactory(new $factoryClass());
-    }
 
     function addCoreVariables( ) {
         global $civicrm_root;
@@ -607,45 +458,6 @@ class CRM_Core_Config_Variables
         }
     }
 
-    function retrieveFromSettings( ) {
-         if (defined('CIVICRM_DEBUG') ) {
-             $this->debug = CIVICRM_DEBUG;
-            
-             // check for backtrace only if debug is enabled
-             if ( defined( 'CIVICRM_BACKTRACE' ) ) {
-                 $this->backtrace = CIVICRM_BACKTRACE;
-             }
-         }
-
-         if ( defined( 'CIVICRM_UF_RESOURCEURL' ) ) {
-             $this->userFrameworkResourceURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_RESOURCEURL, '/' );
-             $this->resourceBase             = $this->userFrameworkResourceURL;
-         }
-
-        require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-        $this->componentRegistry->addConfig( $this, true );        
-
-    }
-
-
-
-
-    /**
-     * returns the singleton logger for the application
-     *
-     * @param
-     * @access private
-     * @return object
-     */
-    static function &getLog() 
-    {
-        if ( ! isset( self::$_log ) ) {
-            self::$_log =& Log::singleton( 'display' );
-        }
-
-        return self::$_log;
-    }
 
     /**
      * retrieve a mailer to send any mail from the applciation
@@ -685,206 +497,6 @@ class CRM_Core_Config_Variables
         return self::$_mail;
     }
     
-    /**
-     * get the domain Id of the current user
-     *
-     * @param
-     * @access private
-     * @return int
-     */
-    static function domainID( ) 
-    {
-        return self::$_domainID;
-    }
-
-    /**
-     * delete the web server writable directories
-     *
-     * @param int $value 1 - clean templates_c, 2 - clean upload, 3 - clean both
-     *
-     * @access public
-     * @return void
-     */
-    public function cleanup( $value ) 
-    {
-        $value = (int ) $value;
-
-        if ( $value & 1 ) {
-            // clean templates_c
-            CRM_Utils_File::cleanDir ( $this->templateCompileDir );
-            CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-        if ( $value & 2 ) {
-            // clean upload dir
-            CRM_Utils_File::cleanDir ( $this->uploadDir );
-            CRM_Utils_File::createDir( $this->uploadDir );
-        }
-    }
-
-
-    /**
-     * verify that the needed parameters are not null in the config
-     *
-     * @param CRM_Core_Config (reference ) the system config object
-     * @param array           (reference ) the parameters that need a value
-     *
-     * @return boolean
-     * @static
-     * @access public
-     */
-    static function check( &$config, &$required ) 
-    {
-        foreach ( $required as $name ) {
-            if ( CRM_Utils_System::isNull( $config->$name ) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-
-    /**
-     * initialize the config variables
-     *
-     * @return void
-     * @access private
-     */
-    function initVariables() 
-    {
-        require_once "CRM/Core/BAO/Setting.php";
-        $variables = array();
-        CRM_Core_BAO_Setting::retrieve($variables);
-
-        if ( empty( $variables ) ) {
-            $this->retrieveFromSettings( );
-            
-            $variables = get_object_vars($this);
-
-            // if we dont get stuff from the sttings file, apply appropriate defaults
-            require_once 'CRM/Core/Config/Defaults.php';
-            CRM_Core_Config_Defaults::setValues( $variables );
-
-            CRM_Core_BAO_Setting::add($variables);
-        }
-        
-        $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
-        $dirArray     = array('uploadDir','customFileUploadDir');
-        
-        foreach($variables as $key => $value) {
-            if ( in_array($key, $urlArray) ) {
-                $value = CRM_Utils_File::addTrailingSlash( $value, '/' );
-            } else if ( in_array($key, $dirArray) ) {
-                $value = CRM_Utils_File::addTrailingSlash( $value );
-                CRM_Utils_File::createDir( $value );
-            } else if ( $key == 'lcMessages' ) {
-                // reset the templateCompileDir to locale-specific and make sure it exists
-                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($value);
-                CRM_Utils_File::createDir( $this->templateCompileDir );
-            }
-            
-            $this->$key = $value;       
-        }
-        
-        if ( $this->userFrameworkResourceURL ) {
-            // we need to do this here so all blocks also load from an ssl server
-            if ( isset( $_SERVER['HTTPS'] ) &&
-                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-                CRM_Utils_System::mapConfigToSSL( );
-            }
-            $this->resourceBase = $this->userFrameworkResourceURL;
-        } 
-            
-        if ( !$this->customFileUploadDir ) {
-            $this->customFileUploadDir = $this->uploadDir;
-        }
-        
-        if ( $this->mapProvider ) {
-            $this->geocodeMethod = 'CRM_Utils_Geocode_'. $this->mapProvider ;
-        }
-        
-        require_once 'CRM/Core/Component.php';
-        $this->componentRegistry =& new CRM_Core_Component();
-        $this->componentRegistry->addConfig( $this );
-    }
-
-    function addressSequence( ) {
-        require_once 'CRM/Core/BAO/Preferences.php';
-        return CRM_Core_BAO_Preferences::value( 'address_sequence' );
-    }
-
-
-    function defaultCurrencySymbol( ) {
-        static $cachedSymbol = null;
-        if ( ! $cachedSymbol ) {
-            if ( $this->defaultCurrency ) {
-                require_once "CRM/Core/PseudoConstant.php";
-                $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
-                $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
-                
-                $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
-                
-                $cachedSymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-            } else {
-                $cachedSymbol = '$';
-            }
-        }
-        return $cachedSymbol;
-    }
-
-    function defaultContactCountry( ) {
-        static $cachedContactCountry = null;
-        if ( ! $cachedContactCountry ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $cachedContactCountry = $countryIsoCodes[$this->defaultContactCountry];
-        }
-        return $cachedContactCountry;
-    }
-
-    function defaultContactCountryName( ) {
-        static $cachedContactCountryName = null;
-        if ( ! $cachedContactCountryName ) {
-            $countryCodes = CRM_Core_PseudoConstant::country( );
-            $cachedContactCountryName = $countryCodes[$this->defaultContactCountry];
-        }
-        return $cachedContactCountryName;
-    }
-
-    function countryLimit( ) {
-        static $cachedCountryLimit = null;
-        if ( ! $cachedCountryLimit ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $country = array();
-            if ( is_array( $this->countryLimit ) ) {
-                foreach( $this->countryLimit as $val ) {
-                    $country[] = $countryIsoCodes[$val]; 
-                }
-            } else {
-                $country[] = $countryIsoCodes[$this->countryLimit];
-            }
-            $cachedCountryLimit = $country;
-        }
-        return $cachedCountryLimit;
-    }
-
-    function provinceLimit( ) {
-        static $cachedProvinceLimit = null;
-        if ( ! $cachedProvinceLimit ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $country = array();
-            if ( is_array( $this->provinceLimit ) ) {
-                foreach( $this->provinceLimit as $val ) {
-                    $country[] = $countryIsoCodes[$val]; 
-                }
-            } else {
-                $country[] = $countryIsoCodes[$this->provinceLimit];
-            }
-            $cachedProvinceLimit = $country;
-        }
-        return $cachedProvinceLimit;
-    }
-
-
 } // end CRM_Core_Config
 
 ?>

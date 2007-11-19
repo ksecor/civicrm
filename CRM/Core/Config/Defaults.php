@@ -33,8 +33,6 @@
  *
  */
 
-require_once 'CRM/Core/Form.php';
-
 /**
  * This class is a temporary place to store default setting values
  * before they will be distributed in proper places (component configurations
@@ -230,14 +228,6 @@ class CRM_Core_Config_Defaults
             $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
         }
 
-        if ( ! isset( $defaults['mailerPeriod'] ) ) {
-            $defaults['mailerPeriod'] = 180;
-        }
-
-        if ( ! isset( $defaults['mailerBatchLimit'] ) ) {
-            $defaults['mailerBatchLimit'] = 0;
-        }
-
         if ( ! isset( $defaults['legacyEncoding'] ) ) {
             $defaults['legacyEncoding'] = 'Windows-1252';
         }
@@ -245,6 +235,14 @@ class CRM_Core_Config_Defaults
         if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
             $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent', 'CiviMail');
         }
+
+        // populate defaults for components
+        foreach( $defaults['enableComponents'] as $key => $name ) {
+            $comp = $config->componentRegistry->get( $name );
+            $co = $comp->getConfigObject();
+            $co->setDefaults( $defaults );
+        }
+
     }
     
 }

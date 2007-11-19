@@ -81,6 +81,10 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         if ( $suffix_id ) {
             $suffix = $suffixes[$suffix_id];
         }
+
+        $params['is_deceased'] = CRM_Utils_Array::value( 'is_deceased', $params, false );
+        
+        $individual->copyValues($params);
         
         // a comma should only be present if both first_name and last name are present.
         if ($firstName && $lastName) {
@@ -194,10 +198,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         // hack to make db_do save a null value to a field
         if ( ! $contact->birth_date ) {
             $contact->birth_date = 'NULL';
-        }
-
-        if (!array_key_exists('is_deceased', $params) && !$contact->is_deceased) {
-            $contact->is_deceased = 0;
         }
 
         return $contact;

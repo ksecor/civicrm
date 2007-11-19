@@ -92,9 +92,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'activity_type_id', 'Positive', $this, 
-                                                              false, null, 'REQUEST' );
-
+        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
         $this->_currentlyViewedContactId = $this->get('contactId');
 
         // if we're not adding new one, there must be an id to
@@ -131,8 +129,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     {
         $defaults = array( );
         $params   = array( );
-
-        $defaults['activity_type_id'] = $this->_activityTypeId;
 
         // if we're editing...
         if ( isset( $this->_activityId ) ) {
@@ -204,6 +200,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
     public function buildQuickForm( ) 
     {
+        //build other activity links
+        require_once "CRM/Activity/Form/ActivityLinks.php";
+        CRM_Activity_Form_ActivityLinks::buildQuickForm( );
+
         if ($this->_action & CRM_Core_Action::DELETE ) { 
             return;
         }
@@ -225,22 +225,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         
         $this->add('select','status_id',ts('Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
 
-        $config =& CRM_Core_Config::singleton( );
-        $domainID = CRM_Core_Config::domainID( );
-
-        // prepare an URL for reloading after choosing activity type
-//         $urlParams = "activity_type_id={$this->_activityTypeId}&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity";
-//         if ( $this->_activity_id ) {
-//             $urlParams .= "&action=update&id={$this->_activity_id}";
-//         } else {
-//             $urlParams .= "&action=add";
-//         }
-//         $url = CRM_Utils_System::url( 'civicrm/contact/view/activity', $urlParams, true, null, false );
-//         $this->assign( "refreshURL", $url );
-        
-
-        $this->applyFilter('__ALL__', 'trim');
-        
         // we're deleting
 //        if ( $this->_action & CRM_Core_Action::DELETE ) {
 //            
@@ -258,6 +242,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 //                              ));
 //            return;
 //        }
+
+        $config =& CRM_Core_Config::singleton( );
+        $domainID = CRM_Core_Config::domainID( );
 
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
@@ -319,21 +306,20 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 //            $this->assign( 'subject_value',  $this->_subject );
 //        }
           
-        if ($this->_action == CRM_Core_Action::VIEW) {
-            $this->freeze();
-        }
-
         // if we're viewing, we're assigning different buttons than for adding/editing
-        if ( $this->_action == CRM_Core_Action::VIEW ) { 
+        if ( $this->_action & CRM_Core_Action::VIEW ) { 
+            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+            $this->freeze();
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
                                              'name'      => ts('Done') ),
                                      )
                                );
         } else {
-
+            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+            
             // DRAFTING: This probably is a hack for custom field uploads 
-           // DRAFTING: Try to eradicate it at later stage
+            // DRAFTING: Try to eradicate it at later stage
             $session =& CRM_Core_Session::singleton( );
             $uploadNames = $session->get( 'uploadNames' );
             if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
@@ -352,12 +338,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                );
         }
 
-        // add custom fields elements
-        if ($this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
-        } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-        }
         $this->addFormRule( array( 'CRM_Activity_Form_Activity', 'formRule' ), $this );
 
     }

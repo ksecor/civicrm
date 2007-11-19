@@ -1150,38 +1150,49 @@ class CRM_GCD {
      *******************************************************/
     public function addActivityHistory()
     {
-
         $contactDAO =& new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
         $contactDAO->selectAdd();
         $contactDAO->selectAdd('id');
         $contactDAO->orderBy('sort_name');
         $contactDAO->find();
-
+        
         $count = 0;
-
+        
         while($contactDAO->fetch()) {
-            if ($count++ > 2) {
+            if ($count++ > 2) {      
                 break;
             }
             for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
-                $activityHistoryDAO =& new CRM_Core_DAO_ActivityHistory();
-                $activityHistoryDAO->entity_table  = 'civicrm_contact';
-                $activityHistoryDAO->entity_id     = $contactDAO->id;
-                $activityHistoryDAO->activity_type = $this->_getRandomElement($this->activity_type);
-                $activityHistoryDAO->module = $this->_getRandomElement($this->module);
+                require_once 'CRM/Activity/DAO/Activity.php';
+                $activityDAO =& new CRM_Activity_DAO_Activity();
+                $activityDAO->source_contact_id     = $contactDAO->id;
+                $activityTypeID = mt_rand(1, 10);
+                $activityDAO->activity_type_id = $activityTypeID;
+                $activityDAO->subject = "subject_$i";$this->_getRandomElement($this->module);
+                $activityDAO->activity_date_time = $this->_getRandomDate();
+                $activityDAO->duration = mt_rand(1,6);
+                $activityDAO->status_id = mt_rand(1,3);
+                $this->_insert($activityDAO);
                 
-                if ($i % 2) {
-                    $activityHistoryDAO->callback = $this->_getRandomElement($this->callback);
+                if($activityTypeID <4) { 
+                    require_once 'CRM/Activity/DAO/ActivityTarget.php';
+                    $activityTargetDAO =& new CRM_Activity_DAO_ActivityTarget();
+                    $activityTargetDAO->activity_id = $activityDAO->id ;
+                    $activityTargetDAO->target_contact_id = mt_rand(1,101);
+                    $this->_insert($activityTargetDAO);
                 }
-                $activityHistoryDAO->activity_id = mt_rand(1,1111);
-                $activityHistoryDAO->activity_summary = $this->_getRandomString(mt_rand(55, 222));
-                $activityHistoryDAO->activity_date = $this->_getRandomDate();
-                $this->_insert($activityHistoryDAO);
+                if($activityTypeID <3) { 
+                    require_once 'CRM/Activity/DAO/ActivityAssignment.php';
+                    $activityAssignmentDAO =& new CRM_Activity_DAO_ActivityAssignment();
+                    $activityAssignmentDAO->activity_id = $activityDAO->id ;
+                    $activityAssignmentDAO->assignee_contact_id = mt_rand(1,101);
+                    $this->_insert($activityAssignmentDAO);
+                }
             }
         }
     }
-
+    
     static function getZipCodeInfo( ) {
         static $stateMap;
         
@@ -1347,11 +1358,11 @@ VALUES
     function addEvent()
     {
         $event = "INSERT INTO civicrm_event
-        (id, domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label)
+        (id, domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
         VALUES
-        (1, 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution'),
-        (2, 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee'),
-        (3, 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2007-12-27 07:00:00', '2007-12-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees')
+        (1, 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,1),
+        (2, 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, 2),
+        (3, 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2007-12-27 07:00:00', '2007-12-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, 3)
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
@@ -1377,8 +1388,9 @@ VALUES
     {
         $event = "INSERT INTO civicrm_loc_block (id, address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
       VALUES
-      (1, NULL, 1, 1, 1, 1, 1, 1, 1),
-      (2, NULL, NULL,NULL, NULL,NULL,NULL,NULL,NULL)
+      (1, 86, 1, 1, 1, 1, 1, 1, 1),
+      (2, 87, 1, 1, NULL,NULL,NULL,NULL,NULL),
+      (3, 88, 1, 1, 1, 1, 1, 1, 1)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
@@ -1417,19 +1429,27 @@ VALUES
 
     function addEventFeeLabel()
     {
-        $event = "INSERT INTO civicrm_custom_option (id, entity_table, entity_id, label, value, weight, is_active)
+        $optionGroup = "INSERT INTO civicrm_option_group (id, domain_id, name, is_reserved, is_active)
       VALUES
-      (22, 'civicrm_event_page', 1, 'Single', '50', 1, 1),
-      (23, 'civicrm_event_page', 1, 'Couple', '100', 2, 1),
-      (24, 'civicrm_event_page', 1, 'Family', '200', 3, 1),
-      (25, 'civicrm_event_page', 2, 'Bass', '25', 1, 1),
-      (26, 'civicrm_event_page', 2, 'Tenor', '40', 2, 1),
-      (27, 'civicrm_event_page', 2, 'Soprano', '50', 3, 1),
-      (31, 'civicrm_event_page', 3, 'Tiny-tots (ages 5-8)', '800', 1, 1),
-      (32, 'civicrm_event_page', 3, 'Junior Stars (ages 9-12)', '1000', 2, 1),
-      (33, 'civicrm_event_page', 3, 'Super Stars (ages 13-18)', '1500', 3, 1)
+      (27, 1, 'civicrm_event_page.amount.1', 0, 1),
+      (28, 1, 'civicrm_event_page.amount.2', 0, 1),
+      (29, 1, 'civicrm_event_page.amount.3', 0, 1)
+";
+        CRM_Core_DAO::executeQuery( $optionGroup, CRM_Core_DAO::$_nullArray );
+
+        $optionValue = "INSERT INTO civicrm_option_value (option_group_id, label, value, is_default, weight, is_optgroup, is_reserved, is_active)
+      VALUES
+      (27, 'Single', '50', 0, 1, 0, 0, 1),
+      (27, 'Couple', '100', 0, 2, 0, 0, 1),
+      (27, 'Family', '200', 0, 3, 0, 0, 1),
+      (28, 'Bass', '25', 0, 1, 0, 0, 1),
+      (28, 'Tenor', '40', 0, 2, 0, 0, 1),
+      (28, 'Soprano', '50', 0, 3, 0, 0, 1),
+      (29, 'Tiny-tots (ages 5-8)', '800', 0, 1, 0, 0, 1),
+      (29, 'Junior Stars (ages 9-12)', '1000', 0, 2, 0, 0, 1),
+      (29, 'Super Stars (ages 13-18)', '1500', 0, 3, 0, 0, 1)
       ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+        CRM_Core_DAO::executeQuery( $optionValue, CRM_Core_DAO::$_nullArray );
     }
 
 
@@ -1531,24 +1551,22 @@ VALUES
     CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
 
     $query = "
-INSERT INTO civicrm_activity_history
-    (entity_table, entity_id, activity_type, module, callback, activity_id, activity_summary, activity_date)
+INSERT INTO civicrm_activity
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id,parent_id, is_test)
 VALUES
-    ('civicrm_contact', 2, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 1, '125.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-11 00:00:00'),
-    ('civicrm_contact', 4, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 2, '50.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-03-21 00:00:00'),
-    ('civicrm_contact', 6, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 3, '25.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-29 00:00:00'),
-    ('civicrm_contact', 8, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 4, '50.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-11 00:00:00'),
-    ('civicrm_contact', 16, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 5, '500.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-15 00:00:00'),
-    ('civicrm_contact', 19, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 6, '175.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-11 00:00:00'),
-    ('civicrm_contact', 82, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 7, '50.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-03-27 00:00:00'),
-    ('civicrm_contact', 92, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 8, '10.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-03-08 00:00:00'),
-    ('civicrm_contact', 34, 'Donation', 'CiviContribute', 'CRM_Contribute_Page_Contribution::details', 9, '250.00 USD - Donation (from import on Tue, 29 Mar 2007 13:36:16)', '2007-04-22 00:00:00');
-";
+    (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
+    (4, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+    (6, 1, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
+    (8, 1, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
+    (16, 1, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+    (19, 1, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
+    (82, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+    (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
+    (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,0)
+    ";
     CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-
 }
 
- 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
 $obj1->initID();
@@ -1564,20 +1582,18 @@ $obj1->addLocation();
 $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
-//$obj1->addActivityHistory();
+$obj1->addActivityHistory();
 $obj1->addMembership();
-//$obj1->addMembershipLog();
+$obj1->addMembershipLog();
+$obj1->addEventLocationAddress();
+$obj1->addEventPhone();
+$obj1->addEventemail();
+$obj1->addEventFeeLabel();
+$obj1->addEventLocation();
 $obj1->addEvent();
 $obj1->addEventPage();
 $obj1->addParticipant();
-/** FIXME FOR NEW address model
-$obj1->addEventLocationAddress();
-$obj1->addEventLocation();
-$obj1->addEventPhone();
-$obj1->addEventemail();
-add_contributions( );
-$obj1->addEventFeeLabel();
-**/
+add_contributions();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 ?>

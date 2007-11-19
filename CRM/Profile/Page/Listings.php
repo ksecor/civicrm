@@ -243,6 +243,10 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
             $formController->setEmbedded( true );
             $formController->process( ); 
             $formController->run( ); 
+
+            // also get the search tpl name
+            $this->assign( 'searchTPL',
+                           $formController->getTemplateFileName( ) );
         }
 
         $this->assign( 'search', $this->_search );

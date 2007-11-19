@@ -51,13 +51,12 @@ class CRM_Core_Component
     private function &_info( ) {
         if( self::$_info == null ) {
             self::$_info = array( );
-
             $config =& CRM_Core_Config::singleton( );
             $c = self::getComponents();
             foreach( $c as $name => $comp ) {
-                if( in_array( $name, $config->enableComponents ) ) {
+//                if( in_array( $name, $config->enableComponents ) ) {
                     self::$_info[$name] = $comp;
-                }
+//                }
             }
         }
         return self::$_info;
