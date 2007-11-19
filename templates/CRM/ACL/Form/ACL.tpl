@@ -39,6 +39,12 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Select a specific group of custom fields, OR apply this permission to ALL custom fields.{/ts}</dd>
     </dl>
   </div>
+  <div id="id-event-acl">
+    <dl>
+    <dt>{$form.event_id.label}</dt><dd>{$form.event_id.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Select a event, OR apply this permission to ALL events.{/ts}</dd>
+    </dl>
+  </div>
   <dl>
     <dt>{$form.entity_id.label}</dt><dd>{$form.entity_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Select a Role to assign (grant) this permission to. Select the special role "Everyone" if you want to grant this permission to ALL users. "Anyone" includes anonymous (i.e. not logged in) users.{/ts}</dd>
@@ -65,16 +71,25 @@
                     show('id-group-acl');
                     hide('id-profile-acl');
                     hide('id-custom-acl');
+                    hide('id-event-acl');
                     break;
                 case "2":
-                    show('id-profile-acl');
                     hide('id-group-acl');
+                    show('id-profile-acl');
                     hide('id-custom-acl');
+                    hide('id-event-acl');
                     break;
                 case "3":
-                    show('id-custom-acl');
                     hide('id-group-acl');
                     hide('id-profile-acl');
+                    show('id-custom-acl');
+                    hide('id-event-acl');
+                    break;
+                case "4":
+                    hide('id-group-acl');
+                    hide('id-profile-acl');
+                    hide('id-custom-acl');
+                    show('id-event-acl');
                     break;
             }
         }
