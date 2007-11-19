@@ -610,6 +610,7 @@ class CRM_Utils_Token
             foreach ( $matches as $key => $value ) {
                 $gid = substr($value, 18, -1);
                 $config =& CRM_Core_Config::singleton();
+                require_once 'CRM/Core/BAO/Domain.php';
                 $domain = CRM_Core_BAO_Domain::getDomainByID($config->domainID());
                 $str = preg_replace('/'.preg_quote($value).'/','mailto:subscribe.'.$domain->id.'.'.$gid.'@'.$domain->email_domain, $str);
             }

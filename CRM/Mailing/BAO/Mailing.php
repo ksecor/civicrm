@@ -954,8 +954,6 @@ AND civicrm_contact.is_opt_out =0";
             $message->setHTMLBody( join( '', $html ) );
         }
 
-        $message->_txtbody =  CRM_Utils_Token::replaceSubscribeInviteTokens($message->_txtbody);
-        $message->_htmlbody =  CRM_Utils_Token::replaceSubscribeInviteTokens($message->_htmlbody);
         $recipient = "\"{$contact['display_name']}\" <$email>";
         $headers['To'] = $recipient;
         

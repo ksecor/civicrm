@@ -252,7 +252,11 @@ ORDER BY j.scheduled_date,
                                          array( 1 => $mailing->from_name ) );
             $mailing->subject = ts('Test Mailing:') . ' ' . $mailing->subject;
         }
-
+        
+        require_once 'CRM/Utils/Token.php';
+        $mailing->body_text =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_text);
+        $mailing->body_html =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_html);
+        
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
@@ -318,6 +322,7 @@ ORDER BY j.scheduled_date,
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],
                                            $field['contact_id'], $field['email'],
                                            $recipient, false, $details[0][$contactID] );
+            
             /* Send the mailing */
             $body    =& $message->get();
             $headers =& $message->headers();

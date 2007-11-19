@@ -66,9 +66,13 @@ class CRM_Mailing_Page_Preview extends CRM_Core_Page
         }
 
         $mailing->find(true);
- 
-        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail, true);
 
+        require_once 'CRM/Utils/Token.php';
+        $mailing->body_text =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_text);
+        $mailing->body_html =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_html);
+        
+        $mime =& $mailing->compose(null, null, null, $session->get('userID'), $fromEmail, $fromEmail, true);
+        
         // there doesn't seem to be a way to get to Mail_Mime's text and HTML
         // parts, so we steal a peek at Mail_Mime's private properties, render 
         // them and exit
