@@ -408,7 +408,8 @@ class CRM_Core_Payment_BaseIPN {
             require_once "CRM/Event/BAO/EventPage.php";
             CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id );
         } else {
-            CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values, $contribution->id );
+            $values['contribution_id'] = $contribution->id;
+            CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }
 
         CRM_Core_Error::debug_log_message( "Success: Database updated and mail sent" );

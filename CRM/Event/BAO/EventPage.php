@@ -157,8 +157,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                                   $email,
                                   $subject,
                                   $message,
-                                  $values['event_page']['cc_confirm'],
-                                  $values['event_page']['bcc_confirm']
+                                  CRM_Utils_Array::value( 'cc_confirm', $values['event_page'] ),
+                                  CRM_Utils_Array::value( 'bcc_confirm', $values['event_page'] )
                                   );
         }
     }
