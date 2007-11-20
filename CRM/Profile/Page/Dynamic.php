@@ -144,7 +144,7 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
 
             $template->assign_by_ref( 'row', $values );
         }
-
+//        CRM_Core_Error::debug('tpl', $this->getTemplateFileName( ) );
         return trim( $template->fetch(  $this->getTemplateFileName( ) ) );
     }
 
@@ -156,7 +156,8 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
                 return $templateFile;
             }
         }
-        return parent::getTemplateFileName( );
+//        return parent::getTemplateFileName( );
+          return 'CRM/Profile/Page/Dynamic.tpl';
     }
 
 }
