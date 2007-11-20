@@ -735,10 +735,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'event', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                  $params['event_id'],
                                                                  'title') );
+            $this->assign( 'receipt_text', $params['receipt_text'] );
             $role = CRM_Event_PseudoConstant::participantRole();
             $this->assign( 'role', $role[$params['role_id']] );
             $status = CRM_Event_PseudoConstant::participantStatus();
-
+            
             $this->assign( 'status', $status[$params['status_id']] );
             $this->assign( 'total_amount', $params['total_amount'] );
             $this->assign( 'register_date', CRM_Utils_Date::customFormat($params['register_date']) );
