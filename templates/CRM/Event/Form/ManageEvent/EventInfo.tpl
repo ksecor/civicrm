@@ -6,6 +6,7 @@
 <table class="form-layout-compressed">
          <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}</td></tr>
          <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
+	 <tr><td class="label">{$form.default_role_id.label}</td><td>{$form.default_role_id.html}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
          <tr><td class="label">{$form.summary.label}</td><td>{$form.summary.html}</td></tr>
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>

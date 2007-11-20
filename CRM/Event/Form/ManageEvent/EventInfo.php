@@ -94,7 +94,6 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-
         return $defaults;
     }
     /** 
@@ -126,9 +125,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
+        $participant_role = CRM_Core_OptionGroup::values('participant_role');
         
         $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, 
-                   array('onChange' => "if (this.value) reload(true); else return false"));          
+                   array('onChange' => "if (this.value) reload(true); else return false"));
+        $this->add('select','default_role_id',ts('Participant Role'), $participant_role , true); 
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
@@ -210,16 +211,17 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
-       
+        
         //format params
-        $params['start_date'] = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'  ] = CRM_Utils_Date::format($params['end_date']);
-        $params['is_map'    ] = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_active' ] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['is_public' ] = CRM_Utils_Array::value('is_public', $params, false);
-
+        $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
+        $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
+        $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
+        $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
+        
         $ids['event_id']      = $this->_id;
-
+        
         // format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {
