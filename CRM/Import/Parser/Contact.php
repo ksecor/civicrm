@@ -331,7 +331,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      */
     function import( $onDuplicate, &$values, $doGeocodeAddress = false ) 
     {
-        //require_once 'api/Contact.php';
         //CRM_Core_Error::debug( '$values', $values );
         
         // first make sure this is a valid line
@@ -372,7 +371,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $contactFields == null) {
             require_once "CRM/Contact/DAO/Contact.php";
             $contactFields =& CRM_Contact_DAO_Contact::import( );
-            //$contactFields = $tempIndieFields;
         }
         
         foreach ($params as $key => $field) {
@@ -410,11 +408,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $value['contact_type'] = $this->_contactType;
             }
             
-            /** 
-             * FIXME: fix _civicrm_add_formatted_params for 2.0 schema changes
-             * 
-             */
-            
             _civicrm_add_formatted_param($value, $formatted);
         }
         
@@ -430,6 +423,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         $relationship = false;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
+            /**
+             * FIXME: need to fix this condition for 2.0 schema
+             * did not fix it as not sure when this is going to be used
+             *
+             */
             $error = _crm_duplicate_formatted_contact($formatted);
             if ( self::isDuplicate($error) ) {
                 $matchedIDs= explode(',',$error->_errors[0]['params'][0]);
@@ -519,19 +517,9 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
         }
         
-//         CRM_Core_Error::debug( '$newContact', $newContact );
-//         CRM_Core_Error::debug( 'Check isDuplicate( )', self::isDuplicate( $newContact ) );
-//         exit( );
-        // $newContact is a crm_core_error object, due to some wierd behavior
-        // of php this variable gets overwritten when we check for duplicate
-        // contact while creating related contact which also returns
-        // crm_core_error object.
-        // if ( $newContact || is_a( $newContact,CRM_Contact_BAO_Contact ) ||
-//              self::isDuplicate( $newContact ) ) {
-//             $newContact = clone( $newContact );
-//         } 
-        
-        if ( $newContact || is_a( $newContact,CRM_Contact_BAO_Contact ) ) {
+        //         CRM_Core_Error::debug( '$newContact', $newContact );
+        //         exit( );
+        if ( is_object( $newContact ) || ( $newContact instanceof CRM_Contact_BAO_Contact ) ) {
             $newContact = clone( $newContact );
         } 
         
@@ -703,7 +691,6 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
 
         //dupe checking      
-        //if ( is_a( $newContact, 'CRM_Core_Error' ) ) {
         if ( is_array( $newContact ) && civicrm_error( $newContact ) ) {
             $code = null;
             if ( ( $code = CRM_Utils_Array::value( 'code', $newContact['error_message'] ) ) && 
@@ -732,14 +719,24 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
                 
                 // Params only had one id, so shift it out 
-                $contactId = array_shift( $newContact['error_message']['params'][0] );
+                $contactId = array_shift( $cids );
                 
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
-                    $newContact = crm_replace_contact_formatted($contactId, $formatted);
+                    //$newContact = crm_replace_contact_formatted($contactId, $formatted);
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE) {
-                    $newContact = crm_update_contact_formatted($contactId, $formatted, true);
+                    //$newContact =
+                    //crm_update_contact_formatted($contactId,
+                    //$formatted, true);
+                    $cid = CRM_Contact_BAO_Contact::createProfileContact( $formatted, $contactFields, 
+                                                                          $contactId, null, null, 
+                                                                          $formatted['conatct_type'] );
                 } else if ($onDuplicate == CRM_Import_Parser::DUPLICATE_FILL) {
-                    $newContact = crm_update_contact_formatted($contactId, $formatted, false);
+                    //$newContact =
+                    //crm_update_contact_formatted($contactId,
+                    //$formatted, false);
+                    $cid = CRM_Contact_BAO_Contact::createProfileContact( $formatted, $contactFields, 
+                                                                          $contactId, null, null, 
+                                                                          $formatted['conatct_type'] );
                 } // else skip does nothing and just returns an error code.
                 
                 if ($newContact && ! is_a($newContact, 'CRM_Core_Error' ) ) {
