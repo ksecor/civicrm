@@ -284,37 +284,13 @@ ORDER BY j.scheduled_date,
     }
 
     public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
-        // first get all the contact details in one huge query
-        $params = array( );
-        foreach ( array_keys( $fields ) as $contactID ) {
-            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
-        }
-
-        // also get the return properties
+        // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
         
-        $custom = array( );
-        foreach ( $returnProperties as $name => $dontCare ) {
-            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
-            if ( $cfID ) {
-                $custom[] = $cfID;
-            }
-        }
-
-        require_once 'api/Search.php';
-        require_once 'api/History.php';
-        $details = crm_search( $params, $returnProperties, null, 0, 0 );
-
         foreach ( $fields as $contactID => $field ) {
-            foreach ( $custom as $cfID ) {
-                if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
-                    $details[0][$contactID]["custom_{$cfID}"] = 
-                        CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$contactID]["custom_{$cfID}"],
-                                                                   $cfID, $details[1] );
-                }
-            }
-
+            
+            $details = $mailing->getDetails($contactID, $returnProperties );
+            
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],

@@ -1699,6 +1699,32 @@ SELECT DISTINCT( m.id ) as id
         return $returnProperties;
     }
 
+    function getDetails($contactID, $returnProperties) {
+        
+        $params  = array( array( 'contact_id', '=', $contactID, 0, 0 ) );
+        
+        $custom = array( );
+        foreach ( $returnProperties as $name => $dontCare ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            if ( $cfID ) {
+                $custom[] = $cfID;
+            }
+        }
+        require_once 'CRM/Contact/BAO/Query.php';
+
+        $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
+        $details = $query->apiQuery($params, $returnProperties);
+
+        foreach ( $custom as $cfID ) {
+            if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
+                $details[0][$contactID]["custom_{$cfID}"] = 
+                    CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$contactID]["custom_{$cfID}"],
+                                                               $cfID, $details[1] );
+            }
+        }
+        return $details;
+    }
+
 }
 
 ?>
