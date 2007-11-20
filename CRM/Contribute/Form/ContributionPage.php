@@ -157,11 +157,11 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             $defaults['is_active'] = 1;
         }
 
-        if( !isset ( $defaults['start_date'] ) || !isset ( $defaults['end_date'] ) ) {
+        if( !isset ( $defaults['start_date'] ) ) {
             $defaultDate = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaultDate );
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
-            $defaults['start_date'] = $defaults['end_date'] = $defaultDate;
+            $defaults['start_date'] = $defaultDate;
         }
 
         return $defaults;
