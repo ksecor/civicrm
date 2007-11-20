@@ -183,53 +183,20 @@
 
  {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
 
-
 {if $note}
-<div id="notes">
-    <div class="form-item">
-    <br/>
-    {strip}
-        <table>
-        <tr class="columnheader">
-                <th scope="col">{ts}Note{/ts}</th>
-                <th scope="col">{ts}Subject{/ts}</th>
-                <th scope="col">{ts}Date{/ts}</th>
-                <th scope="col">{ts}Created By{/ts}</th>
-                <th scope="col" title="Action Links"></th>
-        </tr>
-        {foreach from=$note item=notie}
-        <tr class="{cycle values="odd-row,even-row"}">
-            <td>
-                {$notie.note|mb_truncate:80:"...":true}
-                {* Include '(more)' link to view entire note if it has been truncated *}
-                {assign var="noteSize" value=$notie.note|count_characters:true}
-                {if $noteSize GT 80}
-                       <a href="{crmURL p='civicrm/contact/view/note' q="action=view&selectedChild=note&reset=1&cid=`$contactId`&id=`$notie.id`"}">{ts}(more){/ts}</a>
-                {/if}
-            </td>
-            <td>{$notie.subject}</td>
-            <td>{$notie.modified_date|crmDate}</td>
-            <td>
-                <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$notie.contact_id`"}">{$notie.createdBy}</a>
-            </td>
-            <td class="nowrap">{$notie.action}</td>
-        </tr>
-        {/foreach}
-        </table>
-    {/strip}
+<div id="notes" class="section-shown">
 
-    </div>
- </div>
+       <fieldset><b>{ts}Note(s){/ts}:</b><br>
+       {foreach from=$note item=notie}
+          <p><u>{ts}Subject{/ts}:</u> {$notie.subject}<br />{$notie.note}<br />
+          <i>{$notie.modified_date|crmDate} {ts}by{/ts}:
+          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$notie.contact_id`"}">{$notie.createdBy}</a></i></p>
+       {/foreach}
+       </fieldset>
 
-{elseif ! ($action eq 1)}
-   <div class="messages status">
-    <dl>
-        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-        {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q='action=add'}{/capture}
-        <dd>{ts 1=$crmURL}There are no Notes for this contact. You can <a href="%1">add one</a>.{/ts}</dd>
-    </dl>
-   </div>
+</div>
 {/if}
+
 </div>
 
 

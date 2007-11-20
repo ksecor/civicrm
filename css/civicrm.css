@@ -15,6 +15,30 @@
 #crm-container textarea.huge {width: 35em; height: 16em;}
 #crm-container .huge {width: 30em;}
 
+#sidebar-left .block {
+ font-size: 12px;
+}
+
+#wrapper #container .sidebar {
+  width: 145px !important;
+}
+
+#wrapper #container #center {
+  float: none !important;
+}
+
+body.sidebar-left #center {
+  margin-left: 0px !important;
+}
+
+body.sidebar-left #squeeze {
+  margin-left: 145px !important;
+}
+
+#crm-container div.form-item {
+  clear: none !important;
+}
+
 /*
 ** class for hiding the text box; it is used in the OtherActivity template 
 ** for showing the descrition of activity type element.

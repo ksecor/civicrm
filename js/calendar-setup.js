@@ -66,8 +66,8 @@ Calendar.setup = function (params) {
     param_default("displayArea",    null);
     param_default("button",         null);
     param_default("eventName",      "click");
-    param_default("ifFormat",       "%Y/%m/%d %k %M");
-    param_default("daFormat",       "%Y/%m/%d %k %M");
+    param_default("ifFormat",       "%Y/%m/%d %I %M");
+    param_default("daFormat",       "%Y/%m/%d %I %M");
     param_default("singleClick",    true);
     param_default("disableFunc",    null);
     param_default("dateStatusFunc", params["disableFunc"]);	// takes precedence if both are defined
@@ -118,7 +118,7 @@ Calendar.setup = function (params) {
 	    p.yearField.value   = Math.abs(cal.date.print("%Y"));
 
 	    if (p.hourField) {
-		p.hourField.value   = Math.abs(cal.date.print("%k"));
+		p.hourField.value   = Math.abs(cal.date.print("%I"));
 		p.minuteField.value = Math.abs(cal.date.print("%M"));
 		p.ampmField.value   = cal.date.print("%p");
 	    }
