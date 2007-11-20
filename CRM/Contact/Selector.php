@@ -391,9 +391,9 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                     $title = $this->_query->_fields[$prop]['title'];
                 }
 
-                self::$_columnHeaders[] = array( 'name' => $title, 'desc' => $prop );
+                self::$_columnHeaders[] = array( 'name' => $title, 'sort' => $prop );
             }
-            self::$_columnHeaders[] = array('desc' => ts('Actions'));
+            self::$_columnHeaders[] = array('name' => ts('Actions'));
             return self::$_columnHeaders;
         } else {
             return $this->getColHeads($action, $output);
@@ -711,7 +711,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                                           array(
                                                 'name'      => ts('Country'),
                                                 'sort'      => 'country',
-                                              'direction' => CRM_Utils_Sort::DONTCARE,
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
                                                 'name'      => ts('Email'),
