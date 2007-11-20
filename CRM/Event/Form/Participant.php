@@ -288,9 +288,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $defaults[$this->_id]['send_receipt'] = 0;
         }
         
-        $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                                             $defaults[$this->_id]['event_id'], 
-                                                                             'receipt_text' );
+        if( isset( $defaults[$this->_id]['event_id'] ) ) {
+            $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
+                                                                                 $defaults[$this->_id]['event_id'], 
+                                                                                 'receipt_text' );
+        }
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
