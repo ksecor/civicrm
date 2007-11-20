@@ -227,13 +227,9 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->_params["country-{$this->_bltID}"] =
             CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] );
 
-        $this->_params['year'      ] = $this->_params['credit_card_exp_date']['Y'];
-        $this->_params['month'     ] = $this->_params['credit_card_exp_date']['M'];
-        $this->_params['ip_address'] = $_SERVER['REMOTE_ADDR'];
-        // hack for safari
-        if ( $this->_params['ip_address'] == '::1' ) {
-            $this->_params['ip_address'] = '127.0.0.1';
-        }
+        $this->_params['year'      ]     = $this->_params['credit_card_exp_date']['Y'];
+        $this->_params['month'     ]     = $this->_params['credit_card_exp_date']['M'];
+        $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
         $this->_params['amount'        ] = $this->_params['total_amount'];
         $this->_params['amount_level'  ] = 0;
         $this->_params['currencyID'    ] = $config->defaultCurrency;

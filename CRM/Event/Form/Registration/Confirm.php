@@ -127,7 +127,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
                 $this->_params['month'  ]        = $this->_params['credit_card_exp_date']['M'];  
             }
             if ( $this->_values['event']['is_monetary'] ) {
-                $this->_params['ip_address']     = $_SERVER['REMOTE_ADDR']; 
+                $this->_params['ip_address']     = CRM_Utils_System::ipAddress( );
                 
                 $this->_params['amount'        ] = $this->get( 'amount' );
                 $this->_params['amount_level'  ] = $this->get( 'amount_level' );
