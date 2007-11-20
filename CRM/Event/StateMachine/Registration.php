@@ -53,13 +53,19 @@ class CRM_Event_StateMachine_Registration extends CRM_Core_StateMachine
     function __construct( $controller, $action = CRM_Core_Action::NONE ) 
     {
         parent::__construct( $controller, $action );
+        $id      = CRM_Utils_Request::retrieve( 'id', 'Positive', $controller, false, 0);
+        $is_monetary  = CRM_Core_DAO::getFieldValue('CRM_Event_DAO_Event', $id, 'is_monetary' );
         
         $this->_pages = array(
                               'CRM_Event_Form_Registration_Register'  => null,
                               'CRM_Event_Form_Registration_Confirm'   => null,
                               'CRM_Event_Form_Registration_ThankYou'  => null
                               );
-        
+    
+        if( !$is_monetary   ){
+            unset( $this->_pages['CRM_Event_Form_Registration_Confirm'] );
+                     
+        }
         $this->addSequentialPages( $this->_pages, $action );
     }
 

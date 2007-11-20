@@ -64,7 +64,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     function setDefaultValues( ) {
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
+        $contactID = $session->get( 'userID' ); 
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
@@ -410,8 +410,34 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             } else if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_NOTIFY ) {
                 $this->set( 'contributeMode', 'notify' );
             }
+        } else {
+            $session =& CRM_Core_Session::singleton( );
+            $contactID = $session->get( 'userID' ); 
+            require_once "CRM/Event/Form/Registration/Confirm.php";
+            $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+            $participant= CRM_Event_Form_Registration_Confirm::addParticipant($this->_params, $contactID);
+            
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+                                                        CRM_Core_DAO::$_nullArray,
+                                                        'civicrm_participant',
+                                                        $participant->id,
+                                                        'Participant' );
+            
+            if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
+                require_once "CRM/Core/BAO/CMSUser.php";
+                if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $this->_bltID ) ) {
+                    CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
+                }
+            }
+            $this->assign('action',$this->_action);
+            require_once "CRM/Event/BAO/EventPage.php";
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
         }
     }//end of function
+    
+
+
     
     static function processPriceSetAmount( &$fields, &$params, &$lineItem ) {
         // using price set
