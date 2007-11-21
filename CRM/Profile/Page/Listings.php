@@ -130,6 +130,7 @@ class CRM_Profile_Page_Listings extends CRM_Core_Page {
         if (  CRM_Core_Permission::access( 'Kabissa', false ) ) {
             $resetArray[] = 'kabissa_focus_id';
             $resetArray[] = 'kabissa_region_id';
+            $resetArray[] = 'kabissa_scope_id';
         }
 
         foreach ( $this->_fields as $name => $field ) {
