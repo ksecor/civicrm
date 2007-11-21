@@ -4,10 +4,8 @@
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
     {if $action eq 1}
     <div id="help">
-        {ts}Use this form to register participants for an event.{/ts}
-        {if $paidEvent}
-            {ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
-        {if}
+        {ts}If this is a Paid Event, and you are accepting offline payment from this participant, check <strong>Record Payment</strong>.
+            You will be able to fill in the payment information, and optionally send a receipt.{/ts}
     </div>  
     {/if}
     
