@@ -42,6 +42,13 @@
     <add>2.0</add>
   </index>
   <field>
+       <name>description</name>
+       <type>varchar</type>
+       <length>255</length>
+       <comment>Description of this date type.</comment>
+       <add>2.0</add>
+  </field>
+  <field>
        <name>start</name>
        <type>int</type>
        <required>true</required>
