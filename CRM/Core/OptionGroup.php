@@ -255,7 +255,9 @@ SELECT v.id, v.value, v.label
   FROM civicrm_option_group g,
        civicrm_option_value v
  WHERE g.id = v.option_group_id
-   AND g.name = %1";
+   AND g.name = %1
+ORDER BY v.weight
+";
         $params = array( 1 => array( $groupName, 'String' ) );
         $dao = CRM_Core_DAO::executeQuery( $query, $params );
 
