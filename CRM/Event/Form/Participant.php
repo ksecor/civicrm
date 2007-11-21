@@ -464,7 +464,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'next';
         }
         
-        $this->addElement('checkbox', 'record_contribution', ts('Record Participation Payment?'), null, 
+        $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
                           array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
 
         require_once 'CRM/Contribute/PseudoConstant.php';
