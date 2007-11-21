@@ -783,8 +783,12 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
      */
     static function formRule(&$fields, &$errors)
     {
+        // add a check to make tags required
+        if ( ! isset( $fields['tag']) ) {
+            $errors["tag"] = ts('Please select atleast one tag.');
+        }
+        
         $primaryEmail = null;
-
         // make sure that at least one field is marked is_primary
         if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
             $locationKeys = array_keys( $fields['location']);
@@ -832,6 +836,7 @@ where civicrm_household.contact_id={$defaults['mail_to_household_id']}";
                 $errors["location[1][is_primary]"] = ts('One location should be marked as primary.');
             }
         }
+        
         return $primaryEmail;
     }
 
