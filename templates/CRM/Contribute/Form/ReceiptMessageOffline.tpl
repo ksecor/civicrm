@@ -40,7 +40,8 @@
 
 ===========================================================
 {ts}Event{/ts}: {$event}
-{if $role neq 'Attendee'}{ts}Role{/ts}: {$role}{/if}
+{if $role neq 'Attendee'}{ts}Role{/ts}: {$role}
+{/if}
 {ts}Registration Date{/ts}: {$register_date}
 {ts}Participant Status{/ts}: {$status}
 
