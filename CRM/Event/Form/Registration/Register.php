@@ -279,23 +279,24 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $email->find(true);
             $contactID = $email->contact_id;
         }
-        require_once 'CRM/Event/BAO/Participant.php';
-        $participant =&new CRM_Event_BAO_Participant();
-        $participant->contact_id = $contactID;
-        $participant->event_id = $self->_values['event']['id'];
-        $participant->role_id = $self->_values['event']['default_role_id'];
-        if ($self->_mode == 'test') {
-            $participant->is_test = 1;
-        } else {
-            $participant->is_test = 0;
-        }
-        if ( $participant->find(true) ) { 
-            if ( $participant->status_id != 4 ) {
-                $errors['_qf_default'] = ts( "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator." );
-                return $errors;
+        if ( $contactID ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            $participant =&new CRM_Event_BAO_Participant();
+            $participant->contact_id = $contactID;
+            $participant->event_id = $self->_values['event']['id'];
+            $participant->role_id = $self->_values['event']['default_role_id'];
+            if ($self->_mode == 'test') {
+                $participant->is_test = 1;
+            } else {
+                $participant->is_test = 0;
+            }
+            if ( $participant->find(true) ) { 
+                if ( $participant->status_id != 4 ) {
+                    $errors['_qf_default'] = ts( "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator." );
+                    return $errors;
+                }
             }
         }
-
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
