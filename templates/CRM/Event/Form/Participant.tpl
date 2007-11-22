@@ -4,8 +4,7 @@
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
     {if $action eq 1}
     <div id="help">
-        {ts}If this is a Paid Event, and you are accepting offline payment from this participant, check <strong>Record Payment</strong>.
-            You will be able to fill in the payment information, and optionally send a receipt.{/ts}
+	{ts}If this is a Paid Event, and you are accepting offline payment from this participant, check <strong>Record Payment</strong>.You will be able to fill in the payment information, and optionally send a receipt.{/ts}
     </div>  
     {/if}
     
@@ -107,26 +106,26 @@
 
     <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
     <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
+    {if $paid}
     <tr><td>{$form.record_contribution.label}</td><td class="html-adjust">{$form.record_contribution.html}<br />
             <span class="description">{ts}Check this box to enter payment information. You will also be able to generate a customized receipt.{/ts}</span>
         </td>
-    </tr>
+    </tr>{/if}
     </table>
     <div class="spacer"></div>
-    <fieldset id="recordContribution"><legend>{ts}Event Payment and Receipt{/ts}</legend>
+    <fieldset id="recordContribution"><legend>{ts}{if $paid}Event Payment and {/if}Receipt{/ts}</legend>
         <div class="form-item">
         <dl>
-		    <dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}<br />
-                <span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
-		    <dt class="label">{$form.total_amount.label}</dt><dd>{$form.total_amount.html}<br />
-                <span class="description">{ts}Participation payment amount. A contribution record will be created for this amount.{/ts}</span></dd>
-            <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
-        </dl>
-        {if $email}
+	{if $paid}
+		<dt class="label">{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+		<dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+		<dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
+        {/if}
+	</dl>
+	{if $email}
             <dl>
 	            <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
-                <span class="description">{ts}Automatically email a confirmation and payment receipt to {$email}?{/ts}</span></dd>
+                <span class="description">{ts}Automatically email a confirmation {if $paid} and payment {/if}receipt to {$email}?{/ts}</span></dd>
             </dl>
             <div id='notice'>
                 <dl>

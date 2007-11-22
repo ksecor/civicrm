@@ -40,10 +40,11 @@
 
 ===========================================================
 {ts}Event{/ts}: {$event}
-{ts}Role{/ts}: {$role}
+{if $role neq 'Attendee'}{ts}Role{/ts}: {$role}{/if}
 {ts}Registration Date{/ts}: {$register_date}
 {ts}Participant Status{/ts}: {$status}
 
+{if $paid}
 ===========================================================
 {ts}Registration Fee{/ts}
 
@@ -54,6 +55,7 @@
 {/if}
 {if $paidBy}
 {ts}Paid By{/ts}: {$paidBy}
+{/if}
 {/if}
 {/if}
 
