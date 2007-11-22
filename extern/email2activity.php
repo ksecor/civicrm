@@ -2,7 +2,7 @@
 
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 1.8                                                |
+ | CiviCRM version 2.0                                                |
  +--------------------------------------------------------------------+
  | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
@@ -25,13 +25,13 @@
  +--------------------------------------------------------------------+
 */
 
-/** 
- * 
- * @package CRM 
- * @copyright CiviCRM LLC (c) 2004-2007 
- * $Id$ 
- * 
- */ 
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
 
 // This is a prototype script to convert email messages (raw/EML format)
 // to activities. In order to be able to run it, you need to download 
