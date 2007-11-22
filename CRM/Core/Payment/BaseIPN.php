@@ -408,6 +408,9 @@ class CRM_Core_Payment_BaseIPN {
             require_once "CRM/Event/BAO/EventPage.php";
             CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id );
         } else {
+            if ( $membership ) {
+                $values['membership_id'] = $membership->id;
+            }
             $values['contribution_id'] = $contribution->id;
             CRM_Contribute_BAO_ContributionPage::sendMail( $ids['contact'], $values );
         }
