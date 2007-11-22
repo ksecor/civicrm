@@ -856,6 +856,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
             }
+
             if ( $field['visibility'] == "User and User Admin Only"|| $field['visibility'] == "Public User Pages" ) {
                 $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
                  if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
