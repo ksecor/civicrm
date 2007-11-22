@@ -28,12 +28,12 @@
       <tr class="{cycle values="odd-row,even-row"}">
 
         <td>{$row.activity_type}</td>
-
-        <td><a href="{crmURL p='civicrm/contact/view/case' 
+        {if $enableCase}
+           <td><a href="{crmURL p='civicrm/contact/view/case' 
                              q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.sourceID`"}">
                              {$row.case}</a>
-        </td>
-
+           </td>
+        {/if}
        	<td><a href="{crmURL p='civicrm/contact/view/activity' 
                              q="action=view&selectedChild=activity&id=`$row.id`&cid=`$row.source_contact_id`"}">
                              {$row.subject}</a>
@@ -80,7 +80,6 @@
 
   {include file="CRM/common/pager.tpl" location="bottom"}
   </form>
-
 
 </fieldset>
 </div>

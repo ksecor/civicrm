@@ -50,9 +50,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
      */
     function browse( )
     {
-        require_once "CRM/Activity/BAO/Activity.php";
-        $this->assign( 'totalCountOpenActivity',
-                       CRM_Activity_BAO_Activity::getNumOpenActivity( $this->_contactId ) );
         require_once 'CRM/Core/Selector/Controller.php';
 
         $output = CRM_Core_Selector_Controller::SESSION;
@@ -68,6 +65,17 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $controller->setEmbedded(true);
         $controller->run();
         $controller->moveFromSessionToTemplate( );
+
+        // check if case is enabled
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+
+        $enableCase = false;
+        if ( $viewOptions['Cases'] ) { 
+            $enableCase = true;
+        }
+        
+        $this->assign( 'enableCase', $enableCase);
     }
 
     function edit( )

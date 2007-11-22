@@ -370,14 +370,15 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param int     $rowCount        how many rows to fetch
      * @param object|array  $sort      object or array describing sort order for sql query.
      * @param type    $type            type of history we're interested in
-     *
+     * @param boolean $admin           if contact is admin
+     * @param int     $caseId          case id
      * @return array (reference)      $values the relevant data object values of open activitie
      *
      * @access public
      * @static
      */
-    static function &getOpenActivities( &$params, $offset=null, $rowCount=null, 
-                                        $sort=null, $type='Activity', $caseId = null) 
+    static function &getOpenActivities( &$params, $offset = null, $rowCount = null, 
+                                        $sort = null, $type='Activity', $admin = false, $caseId = null ) 
     {
         $dao =& new CRM_Core_DAO();
 

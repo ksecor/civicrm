@@ -130,8 +130,18 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
 
         $this->assign( 'rows',                   $this->_rows);
         $this->assign( 'contactId',              $this->_contactIds);
-        $this->assign( 'totalCountOpenActivity', $this->_totalCountOpenActivity);
         $this->assign( 'display_name',           $this->_displayName);
+
+        // check if case is enabled
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+
+        $enableCase = false;
+        if ( $viewOptions['Cases'] ) { 
+            $enableCase = true;
+        }
+        
+        $this->assign( 'enableCase', $enableCase);
 
         require_once 'CRM/Core/Block.php';
         $this->assign( 'menuBlock'    , CRM_Core_Block::getContent( 1 ) );

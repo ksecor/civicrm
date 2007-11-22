@@ -76,6 +76,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     protected $_admin;
 
     protected $_context;
+    
+    protected $_viewOptions;
 
     /**
      * Class constructor
@@ -92,8 +94,11 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         $this->_permission = $permission;
         $this->_admin      = $admin;
         $this->_context    = $context;
-    }
 
+        // get all enabled view componentc (check if case is enabled)
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+    }
 
     /**
      * This method returns the action links that are given for each search row.
@@ -168,7 +173,12 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
             return $csvHeaders;
         } else {
-            return self::_getColumnHeaders();
+            $columnHeaders = self::_getColumnHeaders();
+            //unset case of not enabled
+            if ( ! $this->_viewOptions['Cases'] ) { 
+                unset( $columnHeaders[1]);
+            }
+            return $columnHeaders;
         }
         
     }
@@ -201,7 +211,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     function &getRows($action, $offset, $rowCount, $sort, $output = null, $case = null) 
     {
         $params['contact_id'] = $this->_contactId;
-        
+
         $rows =& CRM_Activity_BAO_Activity::getOpenActivities($params, $offset, $rowCount, $sort, 'Activity', $this->_admin, $case);
 
         if ( empty( $rows ) ) {
@@ -222,16 +232,16 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
 
-//            CRM_Core_Error::debug('s', $row);
-            
             //for case subject
-            if ( $row['case_id'] ) {
-                $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $row['case_id'], 'subject'); 
-            }
-
-            require_once "CRM/Core/OptionGroup.php";
-            $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
-            $row['case_activity'] = $caseActivity[$row['case_activity']];
+            if ( $this->_viewOptions['case'] ) { 
+                if ( $row['case_id'] ) {
+                    $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $row['case_id'], 'subject'); 
+                }
+                
+                require_once "CRM/Core/OptionGroup.php";
+                $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
+                $row['case_activity'] = $caseActivity[$row['case_activity']];
+            } 
 
             // retrieve to_contact
             require_once "CRM/Activity/BAO/Activity.php";
@@ -289,6 +299,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
             unset($row);
         }
+
         return $rows;
     }
     
@@ -346,6 +357,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                           array('desc' => ts('Actions')),
                                           );
         }
+
         return self::$_columnHeaders;
     }
 }
