@@ -2098,6 +2098,7 @@ AND       civicrm_openid.is_primary = 1";
         $relTypeId = $relType->id;
                 
         $relationshipParams['relationship_type_id'] = $relTypeId.'_a_b';
+        $relationshipParams['is_active'           ] = 1;
         $cid = array('contact' => $contactID );
         
         if ( empty($dupeIds) ) {
