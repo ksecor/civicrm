@@ -95,10 +95,15 @@
            {/foreach}
 
     {else} {* NOT Price Set *}
-        <tr><td class="label">{$form.amount.label}<span class="marker">*</span><td>{$form.amount.html}</td>
+	{if $paid}       
+	    <tr><td class="label">{$form.amount.label}<span class="marker">*</span></td><td>{$form.amount.html}</td>
+	{/if}
     {/if}
 
-    <tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
+    {if $paid}
+    	<tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
+    {/if}
+
     <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
     {if $paid}
        <tr>
