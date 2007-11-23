@@ -185,15 +185,16 @@ function &civicrm_contact_search( &$params ) {
  * We also need to make sure we run all the form rules on the params list
  * to ensure that the params are valid
  *
- * @param array  $params       Associative array of property name/value
- *                             pairs to insert in new contact.
- * @param string $contact_type Which class of contact is being created.
- *            Valid values = 'Individual', 'Household', 'Organization'.
- *                            '
- * @return bool|CRM_Utils_Error
+ * @param array   $params          Associative array of property name/value
+ *                                 pairs to insert in new contact.
+ * @param boolean $dupeCheck       Should we check for duplicate contacts
+ * @param boolean $dupeErrorArray  Should we return values of error
+ *                                 object in array foramt
+ *
+ * @return null on success, error message otherwise
  * @access public
  */
-function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
+function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false ) {
     $required = array(
                       'Individual'   => array(
                                               array( 'first_name', 'last_name' ),
@@ -252,6 +253,13 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true ) {
         // check for record already existing
         require_once 'CRM/Core/BAO/UFGroup.php';
         if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
+            if ( $dupeErrorArray ) {
+                $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
+                                                      CRM_Core_Error::DUPLICATE_CONTACT, 
+                                                      'Fatal', $ids );
+                return civicrm_create_error( $error->pop( ) );
+            }
+            
             return civicrm_create_error( "Found matching contacts: $ids", 8000, 'Fatal',
                                           $ids );
         }
