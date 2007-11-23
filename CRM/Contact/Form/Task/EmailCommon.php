@@ -166,20 +166,23 @@ class CRM_Contact_Form_Task_EmailCommon
         $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
         $form->assign( 'from', $from );
         
-        //Added for CRM-1393
-        $form->assign( 'dojoIncludes', "dojo.require('dojo.widget.Select');" );
+        
+//Added for CRM-1393
+        $form->assign( 'dojoIncludes',  " dojo.require('dijit.form.FilteringSelect'); ('dojo.data.ItemFileReadStore'); dojo.require('dojo.parser');"  );
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  CRM_Core_Config::domainID( );
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-        $attributes = array( 'dojoType'       => 'Select',
-                             'style'          => 'width: 300px;',
+        $attributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
+                             'store'          => 'tempStore',
                              'autocomplete'   => 'false',
-                             'onValueChanged' => 'selectValue',
-                             'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/message',
-                                                                        "d=$domainID" ),
+                             'class'          => 'tundra',
+                             'style'          => 'width:200px; border:1px solid #cfcfcf',
+                             'onChange'       => 'selectValue',
                              );
+        $dataUrl = CRM_Utils_System::url( 'civicrm/ajax/message',"d={$domainID}", true, null, false );
+        $form->assign( 'dataUrl',$dataUrl );
         
         //if no template Present then drop down select box and update template should not be displayed
         if (! empty( $form->_templates ) ){
