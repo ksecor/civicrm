@@ -352,8 +352,8 @@ class CRM_Contact_Form_Task_EmailCommon
         $text = CRM_Utils_Token::replaceDomainTokens( $message, $domain, false  );
         
         // send the mail
-        require_once 'CRM/Core/BAO/EmailHistory.php';
-        list( $total, $sent, $notSent ) = CRM_Core_BAO_EmailHistory::sendEmail( $form->_contactIds, $subject, $text, $emailAddress );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $emailAddress );
         
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));

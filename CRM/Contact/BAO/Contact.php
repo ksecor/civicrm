@@ -1212,6 +1212,13 @@ WHERE civicrm_contact.id IN $idString ";
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                     $fields = array_merge($fields, 
                                           CRM_Core_BAO_CustomField::getFieldsForImport($type));
+                    //fix for CRM-2394
+                    if ( $type == 'Individual' ) { 
+                        require_once "CRM/Core/OptionValue.php";
+                        $fields = array_merge( $fields,
+                                               CRM_Core_OptionValue::getFields( )
+                                               );
+                    }
                 }
             }
             

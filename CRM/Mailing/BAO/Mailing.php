@@ -1711,10 +1711,35 @@ SELECT DISTINCT( m.id ) as id
             }
         }
         require_once 'CRM/Contact/BAO/Query.php';
-
+        
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery($params, $returnProperties);
-
+        
+        if ( ( $returnProperties['preferred_communication_method'] == 1 ) 
+             || ( $returnProperties['note'] == 1 ) ) {
+            $parameters = array( );
+            $defaults   = array( );
+            $ids        = array( );
+            
+            $parameters['id'] = $parameters['contact_id'] = $contactID;
+            $contact = CRM_Contact_BAO_Contact::retrieve( $parameters, $defaults, $ids, true );
+            
+            if ( isset ( $defaults['preferred_communication_method_display'] )
+                 && ($returnProperties['preferred_communication_method'] == 1 ) ) {
+                $details[0][$contactID]['preferred_communication_method'] = $defaults['preferred_communication_method_display'];
+            }
+            
+            if ( isset ( $defaults['note'] ) && ( $returnProperties['note'] == 1 ) ) {
+                foreach ( $defaults['note'] as $key => $value ) {
+                    if ( isset( $details[0][$contactID]['note'] ) ) {
+                        $details[0][$contactID]['note'] = $details[0][$contactID]['note'].",".$value['note'];
+                    } else {
+                        $details[0][$contactID]['note'] = $value['note']; 
+                    }
+                }
+            }
+        }
+        
         foreach ( $custom as $cfID ) {
             if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
                 $details[0][$contactID]["custom_{$cfID}"] = 
@@ -1722,9 +1747,10 @@ SELECT DISTINCT( m.id ) as id
                                                                $cfID, $details[1] );
             }
         }
+        
         return $details;
     }
-
+    
 }
 
 ?>

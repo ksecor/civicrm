@@ -492,7 +492,184 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
+    
+    /**
+     * send the message to all the contacts and also insert a
+     * contact activity in each contacts record
+     *
+     * @param array  $contactIds   the array of contact ids to send the email
+     * @param string $subject      the subject of the message
+     * @param string $message      the message contents
+     * @param string $emailAddress use this 'to' email address instead of the default Primary address
+     * @param int    userID        use this userID if set
+     * @return array             (total, added, notAdded) count of emails sent
+     * @access public
+     * @static
+     */
+    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null ) {
+        if ( $userID == null ) {
+            $session =& CRM_Core_Session::singleton( );
+            $userID  =  $session->get( 'userID' );
+        }
+        list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+        if ( ! $fromEmail ) {
+            return array( count($contactIds), 0, count($contactIds) );
+        }
+        if ( ! trim($fromDisplayName) ) {
+            $fromDisplayName = $fromEmail;
+        }
+        
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $message,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $messageToken['contact'] ) ) {
+                        $messageToken['contact'] = array( );
+                    }
+                    $messageToken['contact'][] = $name;
+                }
+            }
+        }
+        
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $subject,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $subjectToken['contact'] ) ) {
+                        $subjectToken['contact'] = array( );
+                    }
+                    $subjectToken['contact'][] = $name;
+                }
+            }
+        }
+        require_once 'CRM/Utils/Mail.php';
+        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+        
+        // create the meta level record first
+        //         TO DO
+        //         $params =  array( 'subject'    => $subject,
+        //                               'message'    => $message,
+        //                               'contact_id' => $userID );
+        
+        //         $email  =& self::add( $params );
+        
+        $sent = $notSent = array();
+        
+        require_once 'api/Contact.php';
+        foreach ( $contactIds as $contactId ) {
+            // replace contact tokens
+            $params  = array( 'contact_id' => $contactId );
+            $contact =& crm_fetch_contact( $params );
+            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+                $notSent[] = $contactId;
+                continue;
+            }
+            
+            $returnProperties = array();
+            if( isset( $messageToken['contact'] ) ) { 
+                foreach ( $messageToken['contact'] as $key => $value ) {
+                    $returnProperties[$value] = 1; 
+                }
+            }
+            
+            if( isset( $subjectToken['contact'] ) ) { 
+                foreach ( $subjectToken['contact'] as $key => $value ) {
+                    if ( !isset( $returnProperties[$value] ) ) {
+                        $returnProperties[$value] = 1;
+                    }
+                }
+            }
+            
+            require_once 'CRM/Mailing/BAO/Mailing.php';
+            $mailing   = & new CRM_Mailing_BAO_Mailing();
+            $details   = $mailing->getDetails($contactId, $returnProperties );
+            
+            if( is_array( $details[0]["{$contactId}"] ) ) {
+                $contact = array_merge( $contact, $details[0]["{$contactId}"] );
+            }
+            
+            $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false, $messageToken);
+            $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
+            
+            require_once 'CRM/Core/BAO/EmailHistory.php';
+            if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenMessage, $emailAddress, $email->id ) ) {
+                $sent[] =  $contactId;
+            } else {
+                $notSent[] = $contactId;
+            } 
+        }
+        
+        return array( count($contactIds), $sent, $notSent );
+    }
+    
+    /**
+     * send the message to a specific contact
+     *
+     * @param string $from         the name and email of the sender
+     * @param int    $toID         the contact id of the recipient       
+     * @param string $subject      the subject of the message
+     * @param string $message      the message contents
+     * @param string $emailAddress use this 'to' email address instead of the default Primary address 
+     * @param int    $activityID   the activity ID that tracks the message
+     *
+     * @return boolean             true if successfull else false.
+     * @access public
+     * @static
+     */
+    static function sendMessage( $from, $fromID, $toID, &$subject, &$message, $emailAddress, $activityID ) {
+        list( $toDisplayName, $toEmail, $toDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $toID );
+        if ( $emailAddress ) {
+            $toEmail = trim( $emailAddress );
+        }
+        
+        // make sure both email addresses are valid
+        // and that the recipient wants to receive email
+        if ( empty( $toEmail ) or $toDoNotEmail ) {
+            return false;
+        }
+        if ( ! trim($toDisplayName) ) {
+            $toDisplayName = $toEmail;
+        }
+        
+        if ( ! CRM_Utils_Mail::send( $from,
+                                     $toDisplayName, $toEmail,
+                                     $subject,
+                                     $message ) ) {
+            return false;
+        }
 
+        // add activity histroy record for every mail that is send
+        $activityTypeID = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                          'Email',
+                                                          'name' );
+        
+        $activity = array('source_contact_id'    => $fromID,
+                          'target_contact_id'    => $toID,
+                          'activity_type_id'     => $activityTypeID,
+                          'activity_date_time'   => date('YmdHis'),
+                          'subject'              => ts('From: %1; Subject: %2', array(1 => $from, 2 => $subject))
+                          );
+        
+        require_once 'api/v2/Activity.php';
+        if ( is_a( civicrm_activity_create($activity, 'Email'), 'CRM_Core_Error' ) ) {
+            return false;
+        }
+        
+        return true;
+    }
+    
 }
 
 ?>
