@@ -67,8 +67,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $allPanes = array( );
         $paneNames = array( ts('Address Fields')        => 'location'       ,
                             ts('Custom Fields')         => 'custom'         ,
-                            ts('Activity History')      => 'activityHistory',
-                            ts('Scheduled Activities')  => 'openActivity'   ,
+                            ts('Activities')            => 'activity'       ,
                             ts('Relationships')         => 'relationship'   ,
                             ts('Notes')                 => 'notes'          ,
                             ts('Change Log')            => 'changeLog'      ,

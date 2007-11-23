@@ -988,23 +988,11 @@ class CRM_Contact_BAO_Query {
             $this->postalCode( $values );
             return;
 
-        case 'activity_type':
-            $this->activityType( $values );
-            return;
-
         case 'activity_date':
         case 'activity_date_low':
         case 'activity_date_high':
-            $this->activityDate( $values );
-            return;
-            
-        case 'open_activity_type_id':
-            $this->openActivity( $values );
-            return;
-       
-        case 'open_activity_date_low':
-        case 'open_activity_date_high':
-            $this->openActivityDate( $values );
+        case 'activity_type_id':
+            $this->activity( $values );
             return;
 
         case 'modified_date_low':
@@ -1570,6 +1558,10 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_group_contact ON contact_a.id = civicrm_group_contact.contact_id ";
                 continue;
 
+            case 'civicrm_activity':
+                $from .= " $side JOIN civicrm_activity ON civicrm_activity.source_contact_id = contact_a.id ";
+                continue;
+
             case 'civicrm_entity_tag':
                 $from .= " $side JOIN civicrm_entity_tag ON ( civicrm_entity_tag.contact_id = contact_a.id ) ";
                 continue;
@@ -1578,11 +1570,6 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_note ON ( civicrm_note.entity_table = 'civicrm_contact' AND
                                                         contact_a.id = civicrm_note.entity_id ) "; 
                 continue; 
-
-            case 'civicrm_activity_history':
-                $from .= " $side JOIN civicrm_activity_history ON ( civicrm_activity_history.entity_table = 'civicrm_contact' AND  
-                                                               contact_a.id = civicrm_activity_history.entity_id ) ";
-                continue;
 
             case 'civicrm_custom_value':
                 $from .= " $side JOIN civicrm_custom_value ON ( civicrm_custom_value.entity_table = 'civicrm_contact' AND
@@ -1629,22 +1616,6 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_log.modified_id = contact_b.id)";
                 continue;
                 
-            case 'civicrm_activity':
-                $from .= " $side JOIN civicrm_activity ON (civicrm_activity.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_activity.target_entity_id )";
-                continue;
-                
-            case 'civicrm_meeting':
-                $from .= " $side JOIN civicrm_meeting ON (civicrm_meeting.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_meeting.target_entity_id )";
-                continue;
-                
-            case 'civicrm_phonecall':
-                $from .= " $side JOIN civicrm_phonecall ON (civicrm_phonecall.target_entity_table = 'civicrm_contact' AND contact_a.id = civicrm_phonecall.target_entity_id )";
-                continue;
-
-            case 'civicrm_email_history':
-                $from .= " RIGHT JOIN civicrm_email_history ON ( contact_a.id = civicrm_email_history.contact_id )";
-                continue;
-
             case 'civicrm_entity_tag':
                 $from .= " $side  JOIN  civicrm_entity_tag  ON ( civicrm_entity_tag.contact_id = contact_a.id ) ";
                 continue; 
@@ -2125,6 +2096,8 @@ class CRM_Contact_BAO_Query {
      * @access public
      */
     function activityType( &$values ) {
+        // we need to remove this function
+        
         $this->_useDistinct = true;
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
         $name = trim( $value );
@@ -2137,6 +2110,7 @@ class CRM_Contact_BAO_Query {
     
 
     function activityDate( &$values ) {
+        // we need to remove this function
         $this->_useDistinct = true;
         $this->dateQueryBuilder( $values,
                                  'civicrm_activity_history', 'activity_date', 'activity_date', 'Activity Date' );
@@ -2179,58 +2153,31 @@ class CRM_Contact_BAO_Query {
      * @return void
      * @access public
      */
-    function openActivity( &$values ) {
+    function activity( &$values ) 
+    {
+        $this->_useDistinct = true;
+
         $types = CRM_Core_PseudoConstant::activityType( );
        
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        $this->_activityTypeId =  $value;
-        if ( $value ) {
-            switch($value) {
-            case "1" :
-                $this->_tables['civicrm_meeting'] = $this->_whereTables['civicrm_meeting'] = 1;
-                $this->_where[$grouping][] = " civicrm_meeting.status = 'Scheduled'";
-                $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $types[$value],  2 => $op ) );
-                break;
-            case "2" :
-                $this->_tables['civicrm_phonecall'] = $this->_whereTables['civicrm_phonecall'] = 1;
-                $this->_where[$grouping][] = " civicrm_phonecall.status = 'Scheduled'";
-                $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $types[$value],  2 => $op ) );
-                break;
-            case "3" :
-                $this->_tables['civicrm_email_history'] = $this->_whereTables['civicrm_email_history'] = 1;
-                $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $types[$value],  2 => $op ) );
-                break;
-            default :
-                $this->_where[$grouping][] = " LOWER(civicrm_activity.activity_type_id) $op '$value' AND civicrm_activity.status = 'Scheduled'";
-                $this->_tables['civicrm_activity'] = $this->_whereTables['civicrm_activity'] = 1; 
-                $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $types[$value],  2 => $op ) );   
-            }
+
+        $this->_tables['civicrm_activity'] = $this->_whereTables['civicrm_activity'] = 1;
+            
+        switch ( $name ) {
+        case 'activity_type_id':
+            $this->_where[$grouping][] = " civicrm_activity.activity_type_id = {$value}";
+            $this->_qill[$grouping][]  = ts( "Activity Type %2 '%1'", array( 1 => $types[$value],  2 => $op ) );
+            break;
+            
+        case 'activity_date':
+        case 'activity_date_low':
+        case 'activity_date_high':
+            $this->dateQueryBuilder( $values,
+                                     'civicrm_activity', 'activity_date', 'activity_date_time', 'Activity Date' );
+
+            break;
         }
     }
-
-    function openActivityDate( &$values ) {
-        $this->_useDistinct = true;
-        list( $name, $op, $value, $grouping, $wildcard ) = $values;
-        switch($this->_activityTypeId) {
-            case "1" :
-                $this->dateQueryBuilder( $values,
-                                         'civicrm_meeting', 'open_activity_date', 'scheduled_date_time', 'Scheduled Date' );
-                break;
-            case "2" :
-                $this->dateQueryBuilder( $values,
-                                         'civicrm_phonecall', 'open_activity_date', 'scheduled_date_time', 'Scheduled Date' );
-                break;
-            case "3" :
-                $this->dateQueryBuilder( $values,
-                                         'civicrm_email_history', 'open_activity_date', 'sent_date', 'Scheduled Date' );
-                break;
-            default :
-                $this->dateQueryBuilder( $values,
-                                         'civicrm_activity', 'open_activity_date', 'scheduled_date_time', 'Scheduled Date' );
-        } 
-    }
-
-
 
     function privacy( &$values ) {
         list( $name, $op, $value, $grouping, $wildcard ) = $values;

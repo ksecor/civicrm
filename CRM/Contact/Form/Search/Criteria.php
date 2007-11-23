@@ -153,40 +153,25 @@ class CRM_Contact_Form_Search_Criteria {
         $form->addGroup($location_type, 'location_type', ts('Location Types'), '&nbsp;');
     }
 
-    static function activityHistory( &$form ) {
-        $form->add( 'hidden', 'hidden_activityHistory', 1 );
-
-        // textbox for Activity Type
-        $form->addElement('text', 'activity_type', ts('Activity Type'),
-                          CRM_Core_DAO::getAttribute('CRM_Core_DAO_ActivityHistory', 'activity_type'));
-
-        // Date selects for activity date
-        $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
-
-        $form->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
-
-    }
-
-    static function openActivity( &$form ) {
-        $form->add( 'hidden', 'hidden_openActivity', 1 );
+    static function activity( &$form ) 
+    {
+        $form->add( 'hidden', 'hidden_activity', 1 );
 
         // textbox for open Activity Type
         $form->_activityType =
             array( ''   => ' - select activity - ' ) + 
             CRM_Core_PseudoConstant::activityType( );
 
-         $form->add('select', 'open_activity_type_id', ts('Activity Type'),
+         $form->add('select', 'activity_type_id', ts('Activity Type'),
                    $form->_activityType,
                    false);
         
         // Date selects for activity date
-        $form->add('date', 'open_activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('open_activity_date_low', ts('Select a valid date.'), 'qfDate');
+        $form->add('date', 'activity_date_low', ts('Activity Dates - From'), CRM_Core_SelectValues::date('relative'));
+        $form->addRule('activity_date_low', ts('Select a valid date.'), 'qfDate');
 
-        $form->add('date', 'open_activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
-        $form->addRule('open_activity_date_high', ts('Select a valid date.'), 'qfDate');
+        $form->add('date', 'activity_date_high', ts('To'), CRM_Core_SelectValues::date('relative'));
+        $form->addRule('activity_date_high', ts('Select a valid date.'), 'qfDate');
     }
 
     static function changeLog( &$form ) {
