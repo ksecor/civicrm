@@ -306,14 +306,12 @@ class CRM_Core_Payment_BaseIPN {
             CRM_Event_BAO_EventPage::retrieve( $eventParams, $values['event_page'] );
 
             //get location details
-            /** FIXME location schema change
-            $locationParams = array( 'entity_id' => $eventID ,'entity_table' => 'civicrm_event' );
+            $locationParams = array( 'entity_id' => $objects['event']->id, 'entity_table' => 'civicrm_event' );
             require_once 'CRM/Core/BAO/Location.php';
             require_once 'CRM/Event/Form/ManageEvent/Location.php';
             CRM_Core_BAO_Location::getValues($locationParams, $values, 
                                              CRM_Core_DAO::$_nullArray, 
                                              CRM_Event_Form_ManageEvent_Location::LOCATION_BLOCKS );
-            **/
 
             require_once 'CRM/Core/BAO/UFJoin.php';
             $ufJoinParams = array( 'entity_table' => 'civicrm_event',
@@ -399,12 +397,16 @@ class CRM_Core_Payment_BaseIPN {
         $template->assign( 'address', CRM_Utils_Address::format( $input ) );
 
         if ( $input['component'] == 'event' ) { 
+            require_once 'CRM/Core/OptionGroup.php';
+            $participant_role = CRM_Core_OptionGroup::values('participant_role');
+            $values['event']['participant_role'] = $participant_role[$participant->role_id];
+
             $template->assign( 'event', $values['event'] );
             $template->assign( 'eventPage', $values['event_page'] );
             $template->assign( 'location', $values['location'] );
             $template->assign( 'customPre', $values['custom_pre_id'] );
             $template->assign( 'customPost', $values['custom_post_id'] );
-
+            
             require_once "CRM/Event/BAO/EventPage.php";
             CRM_Event_BAO_EventPage::sendMail( $ids['contact'], $values, $participant->id );
         } else {
