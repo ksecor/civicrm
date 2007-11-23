@@ -677,7 +677,9 @@ class CRM_Contact_BAO_Query {
 
                 if ( $addWhere ) {
                     $this->_whereTables[ "{$name}-location" ] = $locationJoin;
-                    $this->_whereTables[ "{$name}-location_type" ] = $locationTypeJoin;
+                    //hack to close ON clause temporarily
+                    $tmpLocationTypeJoin = "{$locationTypeJoin} )";
+                    $this->_whereTables[ "{$name}-location_type" ] = $tmpLocationTypeJoin;
                 }
                 
                 if ( $field && isset( $field['where'] ) ) {
@@ -688,9 +690,7 @@ class CRM_Contact_BAO_Query {
                         $this->_select["{$tName}_id"]                   = "`$tName`.id as `{$tName}_id`";
                         $this->_element["{$tName}_id"]                  = 1;
                         if ( substr( $tName, -15 ) == '-state_province' ) {
-                            
                             // FIXME: hack to fix CRM-1900
-
                             require_once 'CRM/Core/BAO/Preferences.php';
                             $a = CRM_Core_BAO_Preferences::value( 'address_format' );
 
