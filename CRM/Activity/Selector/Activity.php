@@ -112,25 +112,48 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      * @access public
      *
      */
-    static function &actionLinks( $activityType ) 
+    static function &actionLinks( $activityTypeId, $sourceRecordId = null ) 
     {
-        $url = '';
-        $extra = '';
+        $activityTypes = CRM_Core_PseudoConstant::activityType( false );
 
-        // helper variable for nicer formatting
-        $deleteExtra = ts('Are you sure you want to delete this activity record?');
+        //show  edit link only for meeting/phone and other activities
+        $showUpdate = false;
+        if ( array_key_exists(  $activityTypeId,  $activityTypes ) || $activityTypeId > 9 ) {
+            $showUpdate = true;
+            $url      = 'civicrm/contact/view/activity';
+            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+            $qsUpdate = "atype={$activityTypeId}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        } elseif ( $activityTypeId == 5 )  { // event registration
+            $url      = 'civicrm/contact/view/participant';
+            $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
+        } elseif ( $activityTypeId == 6 ) { //contribution
+            $url      = 'civicrm/contact/view/contribution';
+            $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
+        } elseif ( in_array($activityTypeId, array( 7, 8 ) ) ) {  // membership
+            $url      = 'civicrm/contact/view/member';
+            $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
+        }
         
         self::$_actionLinks = array(
-                                   
-                                    CRM_Core_Action::UPDATE => array(
-                                                                     'name'     => ts('Edit'),
-                                                                     'url'      => 'civicrm/contact/view/activity',
-
-                                                                     'qs'       => "atype={$activityType}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%",
-                                                                     'title'    => ts('View Activity'),
-                                                                     ),
+                                    CRM_Core_Action::VIEW => 
+                                    array(
+                                          'name'     => ts('View'),
+                                          'url'      => $url,
+                                          'qs'       => $qsView,
+                                          'title'    => ts('View Activity'),
+                                          )
                                     );
-        
+        if ( $showUpdate ) {
+            self::$_actionLinks = array_merge( self::$_actionLinks, 
+                                               array ( CRM_Core_Action::UPDATE => 
+                                                       array(
+                                                             'name'     => ts('Edit'),
+                                                             'url'      => $qs,
+                                                             'qs'       => $qsUpdate,
+                                                             'title'    => ts('View Activity') ) )
+                                               );
+        }
+
         return self::$_actionLinks;
     }
 
@@ -252,9 +275,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 $row['to_contact'   ] = CRM_Contact_BAO_Contact::displayName( $assignCID );
                 $row['to_contact_id'] = $assignCID;
             }
-            
+
             // add class to this row if overdue
-            if ( CRM_Utils_Date::overdue( $row['date'] ) ) {
+            if ( CRM_Utils_Date::overdue( $row['activity_date_time'] ) && $row['status_id'] == 1 ) {
                 $row['overdue'] = 1;
                 $row['class']   = 'status-overdue';
             } else {
@@ -262,24 +285,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 $row['class']   = 'status-ontime';
             }
 
-            $actionLinks =& self::actionLinks($row['activity_type_id']);
+            $actionLinks =& self::actionLinks( $row['activity_type_id'], $row['source_record_id'] );
             require_once 'CRM/Contact/Page/View/Case.php';
             $caseLinks   = CRM_Contact_Page_View_Case::caseViewLinks();     
             $caseAction  = array_sum(array_keys($caseLinks));
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
-                // check if callback exists
-                if ( CRM_Utils_Array::value( 'callback', $row ) ) {
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks,
-                                                               $actionMask,
-                                                               array('activity_history_id'=>$k,
-                                                                     'callback'=>$row['callback'],
-                                                                     'module'=>$row['module'],
-                                                                     'activity_id'=>$row['activity_id'],
-                                                                     'cid' => $this->_contactId,
-                                                                     'cxt' => $this->_context ) );
-                } elseif ( $case ) {
+                if ( $case ) {
                     $row['action'] = CRM_Core_Action::formLink($caseLinks,
                                                                $caseAction,
                                                                array('aid'  => $row['case_id'],

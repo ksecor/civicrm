@@ -25,7 +25,7 @@
 
       {counter start=0 skip=1 print=false}
       {foreach from=$rows item=row}
-      <tr class="{cycle values="odd-row,even-row"}">
+      <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 
         <td>{$row.activity_type}</td>
         {if $enableCase}
@@ -34,10 +34,7 @@
                              {$row.case}</a>
            </td>
         {/if}
-       	<td><a href="{crmURL p='civicrm/contact/view/activity' 
-                             q="action=view&selectedChild=activity&id=`$row.id`&cid=`$row.source_contact_id`"}">
-                             {$row.subject}</a>
-        </td>
+       	<td>{$row.subject}</td>
 	
         <td>
         {if !$row.source_contact_id}

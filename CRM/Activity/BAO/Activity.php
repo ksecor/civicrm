@@ -447,7 +447,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'activity_type',
                                  'id',
                                  'activity_date_time',
-                                 'status',
+                                 'status_id',
                                  'subject',                                 
                                  'source_contact_name',
                                  'source_contact_id',
@@ -455,6 +455,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'target_contact_id',
                                  'assignee_contact_name',
                                  'assignee_contact_id',
+                                 'source_record_id',
                                  'case_id',
                                  'case_activity' );
 
