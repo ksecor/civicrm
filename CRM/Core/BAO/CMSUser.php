@@ -147,7 +147,7 @@ class CRM_Core_BAO_CMSUser
             }
             return true;
         } elseif ( $isJoomla ) {            
-            self::createJoomlaUser( &$params, $mail );
+            return self::createJoomlaUser( &$params, $mail );
         }
     }
 
@@ -445,10 +445,10 @@ SELECT count(*)
         $acl_query = $db_cms->query( $acl_sql );
 
         //Fetch aro_id of newly added acl
-        $aro_id_sql   = "SELECT aro_id FROM {$table} where value = '$id'";
+        $aro_id_sql   = "SELECT id FROM {$table} where value = '$id'";
         $aro_id_query = $db_cms->query( $aro_id_sql );
         $aro_id_row   = $aro_id_query->fetchRow( DB_FETCHMODE_ASSOC ) ;
-        $aro_id       = $aro_id_row['aro_id'];
+        $aro_id       = $aro_id_row['id'];
 
         //3.Insert into 'jos_core_acl_groups_aro_map' table
         $table       = "{$prefix}_core_acl_groups_aro_map";
