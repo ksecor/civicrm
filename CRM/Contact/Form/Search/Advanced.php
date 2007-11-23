@@ -70,10 +70,8 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Activities')            => 'activity'       ,
                             ts('Relationships')         => 'relationship'   ,
                             ts('Notes')                 => 'notes'          ,
-                            ts('Change Log')            => 'changeLog'      ,
-                            ts('Cases')                 => 'caseSearch'     ,
-                            ts('Case Activities')       => 'caseActivity'   ,
-                            ts('Grants')                => 'grant'          );
+                            ts('Change Log')            => 'changeLog'      
+                            );
 
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
@@ -86,6 +84,11 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         if ( CRM_Core_Permission::access( 'CiviEvent' ) ) {
             $paneNames[ts('Events')] = 'participant';
         }
+
+        if ( CRM_Core_Permission::access( 'CiviGrant' ) ) {
+            $paneNames[ts('Grants')] = 'grant';
+        }
+
         if ( CRM_Core_Permission::access( 'Quest' ) ) {
             $paneNames[ts('Quest')] = 'quest';
             $paneNames[ts('Task') ] = 'task';                
@@ -101,6 +104,13 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+
+        if ( $this->_viewOptions['Cases'] ) { 
+            $paneNames[ts('Cases')]            = 'caseSearch';
+            $paneNames[ts('Case Activities') ] = 'caseActivity';                
+        }
+
         $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
         foreach ( $paneNames as $name => $type ) {
             if ( ! $this->_searchOptions[$name] && $name != ts( 'User SQL' ) ) {
