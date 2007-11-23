@@ -39,5 +39,13 @@
                     {include file="CRM/common/calendar/body.tpl" dateVar=activity_start_date_high startDate=startYear endDate=endYear offset=5 trigger=trigger_search_caseActivity_2}
                 </td>          
             </tr>
+             <tr>
+                <td class="label">
+                    {$form.activity_activitytag3_id.label}
+                </td>
+                <td>
+                    {$form.activity_activitytag3_id.html}
+                </td>
+            </tr>
  </table>
 </fieldset>

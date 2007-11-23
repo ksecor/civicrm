@@ -115,21 +115,22 @@ class CRM_Activity_BAO_Query
             return;
 
         case 'activity_activitytag3_id':
-            $value = strtolower(addslashes(trim($value)));
-            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag3_id $op {$value} OR civicrm_activity.activity_tag3_id $op {$value} OR civicrm_phonecall.activity_tag3_id $op {$value})";
-
             require_once 'CRM/Core/OptionGroup.php' ;
             $violation = CRM_Core_OptionGroup::values('f1_case_violation');
-            $value = $violation[$value];
-            $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $value, 2 => $op) );
+            $actualValue = $violation[$value];
+            $op = 'LIKE';
+            
+            require_once 'CRM/Case/BAO/Case.php';
+            $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.$value.CRM_Case_BAO_Case::VALUE_SEPERATOR;
+            $query->_where[$grouping][] = "(civicrm_meeting.activity_tag3_id $op '%{$value}%' OR civicrm_activity.activity_tag3_id $op '%{$value}%' OR civicrm_phonecall.activity_tag3_id $op '%{$value}%')";
 
+            $query->_qill[$grouping ][] = ts( 'Violation Type %2 %1', array( 1 => $actualValue, 2 => $op) );
             $query->_tables['civicrm_meeting']   = $query->_whereTables['civicrm_meeting'] = 1;
             $query->_tables['civicrm_activity']  = $query->_whereTables['civicrm_activity'] = 1;
             $query->_tables['civicrm_phonecall'] = $query->_whereTables['civicrm_phonecall'] = 1;
             return;
 
         case 'activity_subject':
-            
             $value = strtolower(addslashes(trim($value)));
             $query->_where[$grouping][] = "(civicrm_meeting.subject $op '{$value}' OR civicrm_activity.subject $op '{$value}' OR civicrm_phonecall.subject $op '{$value}')";
             $query->_qill[$grouping ][] = ts( 'Case Activity Subject %2 %1', array( 1 => $value, 2 => $op) );
