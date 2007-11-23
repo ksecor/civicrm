@@ -2084,12 +2084,11 @@ AND       civicrm_openid.is_primary = 1";
      */
     static function makeCurrentEmployerRelationship( $contactID, $organizationName ) 
     {
-        require_once "CRM/Contact/DAO/Organization.php";
-        $org =& new CRM_Contact_DAO_Organization();
+        $org =& new CRM_Contact_DAO_Contact( );
         $org->organization_name = $organizationName;
         $org->find();
         while ($org->fetch()) {
-            $dupeIds[] = $org->contact_id;
+            $dupeIds[] = $org->id;
         }
 
         //get the relationship id

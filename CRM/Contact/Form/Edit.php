@@ -715,7 +715,6 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         if ( isset( $params['current_employer'] ) && $params['current_employer'] ) {
             CRM_Contact_BAO_Contact::makeCurrentEmployerRelationship($contact->id, 
                                                                      $params['current_employer']);
-
         }
     
         // now invoke the post hook
