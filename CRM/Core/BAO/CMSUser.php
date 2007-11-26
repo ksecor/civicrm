@@ -68,7 +68,7 @@ class CRM_Core_BAO_CMSUser
         } else if ( $config->userFramework == 'Joomla' ) { 
             $id   = 'id'; 
             $mail = 'email'; 
-            $name = 'name';
+            $name = 'username';
         } else { 
             die( "Unknown user framework" ); 
         } 
@@ -147,7 +147,7 @@ class CRM_Core_BAO_CMSUser
             }
             return true;
         } elseif ( $isJoomla ) {            
-            return self::createJoomlaUser( &$params, $mail );
+            return self::createJoomlaUser( &$params, $mail );           
         }
     }
 
@@ -196,7 +196,7 @@ class CRM_Core_BAO_CMSUser
                         if ( ( $isDrupal && !variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {       
                             $form->add('password', 'cms_pass', ts('Password') );
                             $form->add('password', 'cms_confirm_pass', ts('Confirm Password') );
-                        } 
+                            } 
                         
                         $form->addFormRule( array( 'CRM_Core_BAO_CMSUser', 'formRule' ), $form );
                     } 
@@ -266,6 +266,14 @@ class CRM_Core_BAO_CMSUser
                 }
                 
                 self::checkUserNameEmailExists( $params, $errors, $emailName );
+
+                if ( $isJoomla ) {
+                    require_once 'CRM/Core/BAO/UFGroup.php';
+                    $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+                    if ( $ids ) {
+                        $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                    }
+                }
                 
                 if ( ! empty( $errors ) ) {
                     return $errors;
@@ -350,7 +358,7 @@ SELECT count(*)
     }
     
     /**
-     * Function to check if a drupal user already exists.
+     * Function to check if a cms user already exists.
      *  
      * @param  Array $contact array of contact-details
      *
@@ -360,8 +368,11 @@ SELECT count(*)
      * @static
      */
     static function userExists( &$contact ) 
-    {
+    {        
         $config =& CRM_Core_Config::singleton( );
+
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
         
         $db_uf = DB::connect($config->userFrameworkDSN);
         
@@ -369,17 +380,29 @@ SELECT count(*)
             die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
         } 
         
-        if ( $config->userFramework != 'Drupal' ) { 
+        if ( !$isDrupal OR !$isJoomla ) { 
             die( "Unknown user framework" ); 
         }
         
-        $sql   = "SELECT uid FROM {$config->userFrameworkUsersTableName} where mail='" . $contact['email'] . "'";
+        if ( $isDrupal ) { 
+            $id   = 'uid'; 
+            $mail = 'mail';
+        } elseif ( $isJoomla ) { 
+            $id   = 'id'; 
+            $mail = 'email';
+        } 
+
+        $sql   = "SELECT $id FROM {$config->userFrameworkUsersTableName} where $mail='" . $contact['email'] . "'";
         
         $query = $db_uf->query( $sql );
         
         if ( $row = $query->fetchRow( DB_FETCHMODE_ASSOC ) ) {
             $contact['user_exists'] = true;
-            $result = $row['uid'];
+            if ( $isDrupal ) {
+                $result = $row['uid'];
+            } elseif ( $isJoomla ) {
+                $result = $row['id'];
+            }
         } else {
             $result = false;
         }
@@ -410,10 +433,10 @@ SELECT count(*)
         $pwd   = md5($params['cms_pass']);
         $email = trim($params[$mail]); 
         $date  = date('y-m-d h:i:s');
-        
-        //In Joomla, Registerd User is fixed to 18.
-        $userType   = 'Registered';
-        $userTypeId = '18';
+       
+        //In Joomla, Administrator User is fixed to 18.
+        $userType   = 'Administrator';
+        $userTypeId = '24';
 
         //Get MySQL Table Prefix eg.'jos_'
         list( $prefix, $table ) = split( '_', $config->userFrameworkUsersTableName );        
@@ -441,7 +464,7 @@ SELECT count(*)
         
         //2.Insert into 'jos_core_acl_aro' table
         $table     = "{$prefix}_core_acl_aro";
-        $acl_sql   = "INSERT INTO {$table} VALUES ('','users','$id',0,'$userType',0)";
+        $acl_sql   = "INSERT INTO {$table} VALUES ('','users','$id',0,'$uname',0)";
         $acl_query = $db_cms->query( $acl_sql );
 
         //Fetch aro_id of newly added acl
@@ -452,7 +475,7 @@ SELECT count(*)
 
         //3.Insert into 'jos_core_acl_groups_aro_map' table
         $table       = "{$prefix}_core_acl_groups_aro_map";
-        $group_sql   = "INSERT INTO {$table} VALUES (25,'','$aro_id')";
+        $group_sql   = "INSERT INTO {$table} VALUES ('$userTypeId','','$aro_id')";
         $group_query = $db_cms->query( $group_sql );
 
         $transaction->commit( );
