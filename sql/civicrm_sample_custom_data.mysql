@@ -9,8 +9,17 @@
  VALUES
     (1, 'constituent_information', 'Constituent Information', 'Individual', 'Inline', 1, 'Please enter additional constituent information as data becomes available for this contact.', 1, 1,'civicrm_value_1_constituent_information', 0);
 
-CREATE TABLE civicrm_value_1_constituent_information
-   (id int( 10 ) NOT NULL AUTO_INCREMENT, domain_id int( 10 ) NOT NULL, entity_id int( 10 ) NOT NULL, most_important_issue varchar( 255 ), marital_status varchar( 255 ), PRIMARY KEY ( id )); 
+CREATE TABLE civicrm_value_1_constituent_information (
+  id int(10) NOT NULL AUTO_INCREMENT,
+  domain_id int(10) NOT NULL,
+  entity_id int(10) NOT NULL,
+  most_important_issue varchar(255) default NULL,
+  marital_status varchar(255) default NULL,
+  PRIMARY KEY  (id),
+  KEY INDEX_marital_status (marital_status),
+  KEY INDEX_most_important_issue (most_important_issue)
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+
 
 INSERT INTO 
    `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 

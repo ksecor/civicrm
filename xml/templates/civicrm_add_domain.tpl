@@ -145,7 +145,7 @@ VALUES
  
    (@option_group_id_act, '{ts escape="sql"}Meeting{/ts}',                            1, 'Meeting',             NULL, 0, NULL, 1, '{ts escape="sql"}Meeting.{/ts}',                                                             0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Phone Call{/ts}',                         2, 'Phone Call',          NULL, 0, NULL, 2, '{ts escape="sql"}Phone call.{/ts}',                                                          0, 1, 1),
-   (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',               NULL, 0, NULL, 3, '{ts escape="sql"}Email sent.{/ts}',                                                          0, 1, 1),
+   (@option_group_id_act, '{ts escape="sql"}Email{/ts}',                              3, 'Email',               NULL, 1, NULL, 3, '{ts escape="sql"}Email sent.{/ts}',                                                          0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Text Message (SMS){/ts}',                 4, 'SMS',                 NULL, 1, NULL, 4, '{ts escape="sql"}Text message (SMS) sent.{/ts}',                                             0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Event Registration{/ts}',                 5, 'Event Registration',  NULL, 1, NULL, 5, '{ts escape="sql"}Online or offline event registration.{/ts}',                                0, 1, 1),
    (@option_group_id_act, '{ts escape="sql"}Contribution{/ts}',                       6, 'Contribution',        NULL, 1, NULL, 6, '{ts escape="sql"}Online or offline contribution.{/ts}',                                      0, 1, 1),
