@@ -80,7 +80,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
      */
     protected $_currentUserId;
 
-
     /**
      * Function to build the form
      *
@@ -92,32 +91,39 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $session =& CRM_Core_Session::singleton( );
         $this->_currentUserId = $session->get( 'userID' );
 
-        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this, true );
-        $this->_currentlyViewedContactId = $this->get('contactId');
-
-        // if we're not adding new one, there must be an id to
-        // an activity we're trying to work on.
-        if ($this->_action != CRM_Core_Action::ADD) {
-            $this->_activityId = $this->get('id');
-        }
-
         // this is used for setting dojo tabs
         $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
         $this->assign( 'context', $this->_context );
-        
-        // get the tree of custom fields
-        $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId);
 
-        //set activity type name and description to template
-        require_once 'CRM/Core/BAO/OptionValue.php';
-        list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
+        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+        if ( $this->_context != 'standalone' && $this->_activityTypeId ) {
+
+            $this->_currentlyViewedContactId = $this->get('contactId');
+            
+            // if we're not adding new one, there must be an id to
+            // an activity we're trying to work on.
+            if ($this->_action != CRM_Core_Action::ADD) {
+                $this->_activityId = $this->get('id');
+            }
+            
+            // get the tree of custom fields
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId);
+            
+            //set activity type name and description to template
+            require_once 'CRM/Core/BAO/OptionValue.php';
+            list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $this->_activityTypeId );
+            
+            $this->assign( 'activityTypeName', $activityTypeName );
+            $this->assign( 'activityTypeDescription', $activityTypeDescription );
+        }
         
-        $this->assign( 'activityTypeName', $activityTypeName );
-        $this->assign( 'activityTypeDescription', $activityTypeDescription );
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String',
+                                                     $this, false, 'browse');
+        $this->assign( 'action', $this->_action);
 
         $this->setDefaultValues();
     }
-
+    
     /**
      * This function sets the default values for the form. For edit/view mode
      * the default values are retrieved from the database
@@ -259,18 +265,28 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
 
-
+        $admin = CRM_Core_Permission::check( 'administer CiviCRM' );
+        $this->assign('admin', $admin);
+        
+        require_once "CRM/Contact/BAO/Contact.php";
         $defaultSourceContactName = CRM_Contact_BAO_Contact::sortName( $this->_sourceContactId );
-        $sourceContactField = $this->add( 'text','source_contact', ts('Added By'), $attributes, true );
+        $sourceContactField = $this->add( 'text','source_contact', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {
             $this->assign( 'source_contact_value',  $sourceContactField->getValue( ) );
         } else {
             // we're setting currently LOGGED IN user as source for this activity
             $this->assign( 'source_contact_value', $defaultSourceContactName );
         }
+        
+        $standalone = false;
+        if ( $this->_context == 'standalone' )  {
+            $standalone = true;
+        }
+        
+        $this->assign('standalone', $standalone);
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
-        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, true );
+        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, $standalone );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -307,8 +323,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 //        }
           
         // if we're viewing, we're assigning different buttons than for adding/editing
+        require_once "CRM/Core/BAO/CustomGroup.php";
+        
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
-            CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+            if ( isset( $this->_groupTree ) ) {
+                CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
+            }
+            
             $this->freeze();
             $this->addButtons( array(
                                      array ( 'type'      => 'cancel',
@@ -316,8 +337,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                      )
                                );
         } else {
-            CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
-            
+            if ( isset( $this->_groupTree ) ) {
+                CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
+            }
             // DRAFTING: This probably is a hack for custom field uploads 
             // DRAFTING: Try to eradicate it at later stage
             $session =& CRM_Core_Session::singleton( );
@@ -434,8 +456,17 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
 
         // get ids for associated contacts
-        $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
-        $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
+        if ( ! $params['source_contact'] ) {
+            $params['source_contact_id'] = $this->_currentUserId;
+        } else {
+            $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
+        }
+
+        if ( ! $params['target_contact'] ) {
+            $params['target_contact_id'] = $this->_currentlyViewedContactId;
+        } else {
+            $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
+        }
         
         if ( $params['assignee_contact'] ) {
             $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName( $params['assignee_contact'] );

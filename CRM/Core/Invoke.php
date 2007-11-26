@@ -103,10 +103,6 @@ class CRM_Core_Invoke
         case 'logout':
             self::logout($args);
             break;
-	  
-        case 'history'  : 
-            self::history ( $args );
-            break;
 
         case 'group'    : 
             self::group   ( $args );
@@ -1097,7 +1093,22 @@ class CRM_Core_Invoke
         return $view->run();
     }
 
+    /**
+     * This function is for Standalone Activity
+     *
+     *
+     * @static
+     * @access public
+     */
+    static function activity( $args ) 
+    {
+        if ( $args[1] !== 'activity' ) {
+            return;
+        }
 
+        $wrapper =& new CRM_Utils_Wrapper( );
+        return $wrapper->run( 'CRM_Activity_Form_Activity', ts('New Activity'),  null );
+    }
 }
 
 ?>

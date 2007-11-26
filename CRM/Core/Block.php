@@ -299,6 +299,11 @@ class CRM_Core_Block {
                                                                    'title' => ts('My Contact Dashboard') ) ));
             }
 
+            // add new activity creation link
+            $shortCuts = array_merge($shortCuts, array( array( 'path'  => 'civicrm/activity',
+                                                               'query' => 'action=add&reset=1&context=standalone',
+                                                               'title' => ts('New Activity') ) ));
+
             if ( empty( $shortCuts ) ) {
                 return null;
             }

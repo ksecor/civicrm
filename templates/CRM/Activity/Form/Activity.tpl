@@ -2,7 +2,7 @@
 
 
 {* added onload javascript for source contact*}
-{if $source_contact_value}
+{if $source_contact_value and $admin }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'source_contact' ).setValue( "{$source_contact_value}", "{$source_contact_value}" )
@@ -58,7 +58,7 @@
                 <td class="label">{$form.source_contact.label}</td>
 		<td>
                    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
-                       {$form.source_contact.html}
+                       {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
              </tr>
@@ -66,7 +66,7 @@
                 <td class="label">{$form.target_contact.label}</td>
 		<td>
                    <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
-                       {$form.target_contact.html}
+                       {if $standalone } {$form.target_contact.html} {else} {$target_contact_value} {/if}
                    </div>
                 </td>
              </tr>
@@ -105,7 +105,7 @@
                 </td>
              </tr> 
              <tr>
-                <td class="label">{$form.duration_hours.label}</td><td>{$form.duration_hours.html}</td>
+                <td class="label">{$form.duration_hours.label}</td><td>{$form.duration_hours.html},&nbsp;{$form.duration_minutes.html}</td>
              </tr> 
              <tr>
                 <td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td>
