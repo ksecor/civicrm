@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-11-07 07:31+0100\n"
+"POT-Creation-Date: 2007-11-19 18:04+0100\n"
 "PO-Revision-Date: 2007-11-06 09:51-0800\n"
 "Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
 "MIME-Version: 1.0\n"
@@ -2809,8 +2809,7 @@ msgid ""
 "no longer be able to assign contacts to this tag."
 msgstr ""
 "Denna etikett kommer att tas bort från alla kontakter som har den och "
-"användare kommer inte längre att kunna tilldela kontakter till denna "
-"etikett."
+"användare kommer inte längre att kunna tilldela kontakter till denna etikett."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -3147,13 +3146,13 @@ msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "\"info@example.org\")."
 msgstr ""
-"En domän-epostadress måste ha ett giltigt adressformat (ex. "
-"info@mindoman.se)"
+"En domän-epostadress måste ha ett giltigt adressformat (ex. info@mindoman.se)"
 
 #: CRM/Contact/Form/Domain.php
 msgid ""
 "Email domain must use a valid internet domain format (e.g. \"example.org\")."
-msgstr "Epostdomän måste använda ett giltigt domännamnsformat (ex. mindoman.se)"
+msgstr ""
+"Epostdomän måste använda ett giltigt domännamnsformat (ex. mindoman.se)"
 
 #: CRM/Contact/Form/Domain.php
 msgid "Return-Path"
@@ -8200,6 +8199,16 @@ msgstr ""
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "plus sign"
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid ""
+"Administer your CiviCRM site using the links on this page. Click %1 for "
+"descriptions of the options in each section."
 msgstr ""
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl

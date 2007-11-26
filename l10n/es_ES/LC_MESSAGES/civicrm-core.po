@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-11-07 07:31+0100\n"
+"POT-Creation-Date: 2007-11-19 18:04+0100\n"
 "PO-Revision-Date: 2007-11-04 03:48-0800\n"
 "Last-Translator: Antonio Pérez <nonopp@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -8467,6 +8467,16 @@ msgid ""
 msgstr ""
 "Lee sobre la nueva versión en <a href=\"%1\">nuestra web</a> y <a href=\"%2"
 "\">descárgala aquí</a>."
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "plus sign"
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid ""
+"Administer your CiviCRM site using the links on this page. Click %1 for "
+"descriptions of the options in each section."
+msgstr ""
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
