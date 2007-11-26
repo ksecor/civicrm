@@ -169,7 +169,7 @@ class CRM_Contact_Form_Task_EmailCommon {
                              'autocomplete'   => 'false',
                              'onValueChanged' => 'selectValue',
                              'dataUrl'        => CRM_Utils_System::url( 'civicrm/ajax/message',
-                                                                        "d=$domainID" ),
+                                                                        "d=$domainID", true, null, false ),
                              );
         
         //if no template Present then drop down select box and update template should not be displayed
