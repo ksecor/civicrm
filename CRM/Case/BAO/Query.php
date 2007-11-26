@@ -250,7 +250,7 @@ class CRM_Case_BAO_Query
 
         $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
         $form->add('select', 'case_status_id',  ts( 'Case Status' ),  
-                   $caseStatus );
+                   array( '' => ts( '-select-' ) ) + $caseStatus );
         $form->addElement( 'text', 'case_subject', ts( 'Subject' ) );
     
         $form->addElement('date', 'case_start_date_low', ts('Start Date - From'), CRM_Core_SelectValues::date('relative')); 
