@@ -148,9 +148,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                array ( CRM_Core_Action::UPDATE => 
                                                        array(
                                                              'name'     => ts('Edit'),
-                                                             'url'      => $qs,
+                                                             'url'      => $url,
                                                              'qs'       => $qsUpdate,
-                                                             'title'    => ts('View Activity') ) )
+                                                             'title'    => ts('Update Activity') ) )
                                                );
         }
 

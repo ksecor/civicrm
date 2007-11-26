@@ -279,7 +279,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         $defaultAssigneeContactName = CRM_Contact_BAO_Contact::sortName( $this->_assigneeContactId );
-        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes, true );
+        $assigneeContactField = $this->add( 'text','assignee_contact', ts('Assigned To'), $attributes);
         if ( $assigneeContactField->getValue( ) ) {
             $this->assign( 'assignee_contact_value',  $assigneeContactField->getValue( ) );
         } else {
@@ -364,18 +364,28 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         // make sure if associated contacts exist
         require_once 'CRM/Contact/BAO/Contact.php';
-        $source_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['source_contact'] );
-        $assignee_contact_id = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['assignee_contact']);
-        $target_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['target_contact']);
-        
-        if( !$source_contact_id ) {
-            $errors['source_contact'] = ts('Source Contact non-existant!');
-        }
-        if( !$assignee_contact_id ) {
-            $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
+        if ( $fields['source_contact'] ) {
+            $source_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['source_contact'] );
+            
+            if ( !$source_contact_id ) {
+                $errors['source_contact'] = ts('Source Contact non-existant!');
             }
-        if( !$target_contact_id ) {
-            $errors['target_contact'] = ts('Target Contact non-existant!');
+        }
+
+        if ( $fields['target_contact'] ) {
+            $target_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['target_contact'] );
+
+            if ( !$target_contact_id ) {
+                $errors['target_contact'] = ts('Target Contact non-existant!');
+            }
+        }
+
+        if ( $fields['assignee_contact'] ) {
+            $assignee_contact_id = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['assignee_contact'] );
+            
+            if ( !$assignee_contact_id ) {
+                $errors['assignee_contact'] = ts('Assignee Contact non-existant!');
+            }
         }
 
 //        if ( $fields['case_subject'] ){
@@ -415,13 +425,21 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         $ids = array( );
         
+        //set activity type id
+        if ( ! $params['activity_type_id'] ) {
+            $params['activity_type_id']   = $this->_activityTypeId;
+        }
+        
         // store the date with proper format
-        $params['activity_date_time']= CRM_Utils_Date::format( $params['activity_date_time'] );
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['activity_date_time'] );
 
         // get ids for associated contacts
         $params['source_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['source_contact']);
         $params['target_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['target_contact']);
-        $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName($params['assignee_contact']);
+        
+        if ( $params['assignee_contact'] ) {
+            $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName( $params['assignee_contact'] );
+        }
 
         if ($this->_action & CRM_Core_Action::UPDATE ) {
             $params['id'] = $this->_activityId;
