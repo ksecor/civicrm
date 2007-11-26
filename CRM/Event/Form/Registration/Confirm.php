@@ -311,7 +311,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_params['item_name'         ] = $this->_params['description'];
         }
         $this->set( 'params', $this->_params );
-        parent::ConfirmPostprocess( $this, $contactID, $contribution, $payment);
+        parent::confirmPostprocess( $this, $contactID, $contribution, $payment);
         
     } //end of function
     

@@ -455,7 +455,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
     }
 
-    function ConfirmPostprocess( $this, $contactID, $contribution = null, $payment = null )
+    function confirmPostprocess( $this, $contactID, $contribution = null, $payment = null )
     {
         require_once 'CRM/Event/Form/Registration/Confirm.php';
         $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $this->_params, $contactID );
