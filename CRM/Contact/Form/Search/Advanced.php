@@ -73,6 +73,15 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
                             ts('Change Log')            => 'changeLog'      
                             );
 
+        //check if there are any custom data searable fields
+        $groupDetails = array( );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
+                                                                  array( 'Contact', 'Individual', 'Household', 'Organization' ) );
+        // if no searable fields unset panel
+        if ( empty( $groupDetails) ) {
+            unset( $paneNames[ts('Custom Fields')] );
+        }
+
         if ( CRM_Core_Permission::access( 'CiviContribute' ) ) {
             $paneNames[ts('Contributions')] = 'contribute';
         }
