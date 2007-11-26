@@ -311,49 +311,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_params['item_name'         ] = $this->_params['description'];
         }
         $this->set( 'params', $this->_params );
+        parent::ConfirmPostprocess( $this, $contactID, $contribution, $payment);
         
-        // insert participant record
-        $participant  =& $this->addParticipant( $this->_params, $contactID );
-
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
-                                                    CRM_Core_DAO::$_nullArray,
-                                                    'civicrm_participant',
-                                                    $participant->id,
-                                                    'Participant' );
-
-        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
-            require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $this->_bltID ) ) {
-                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
-            }
-        }
-      
-        if ( $this->_values['event']['is_monetary'] ) {
-            require_once 'CRM/Event/BAO/ParticipantPayment.php';
-            $paymentParams = array( 'participant_id'  => $participant->id ,
-                                    'contribution_id' => $contribution->id, ); 
-            $ids = array();       
-            
-            $paymentPartcipant = CRM_Event_BAO_ParticipantPayment::create($paymentParams, $ids);
-        }
-        
-        require_once "CRM/Event/BAO/EventPage.php";
-
-        if ( $this->_contributeMode != 'notify' &&
-             $this->_contributeMode != 'checkout' ) {
-            $this->assign('action',$this->_action);
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
-        } else {
-            // do a transfer only if a monetary payment
-            if ( $this->_values['event']['is_monetary'] ) {
-                $this->_params['participantID'] = $participant->id;
-                if ( ! $this->_params['is_pay_later'] ) {
-                    $payment->doTransferCheckout( $this->_params );
-                }
-            }
-        }
-
     } //end of function
     
     /**

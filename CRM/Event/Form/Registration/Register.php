@@ -372,6 +372,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */
     public function postProcess() 
     {
+        // get the submitted form values. 
+        $params = $this->controller->exportValues( $this->_name ); 
         if ($this->_values['event']['is_monetary']) {
             $config =& CRM_Core_Config::singleton( );
             
@@ -379,7 +381,6 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $this->controller->resetPage( 'Confirm' );
             
             // get the submitted form values. 
-            $params = $this->controller->exportValues( $this->_name ); 
             
             $params['currencyID']     = $config->defaultCurrency;
             
@@ -440,27 +441,13 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
         } else {
             $session =& CRM_Core_Session::singleton( );
-            $contactID = $session->get( 'userID' ); 
-            require_once "CRM/Event/Form/Registration/Confirm.php";
-            $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
-            $participant= CRM_Event_Form_Registration_Confirm::addParticipant($this->_params, $contactID);
-            
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
-                                                        CRM_Core_DAO::$_nullArray,
-                                                        'civicrm_participant',
-                                                        $participant->id,
-                                                        'Participant' );
-            
-            if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
-                require_once "CRM/Core/BAO/CMSUser.php";
-                if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $this->_bltID ) ) {
-                    CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
-                }
+            $contactID = $session->get( 'userID' );
+            if ( $this->_values['event']['default_role_id'] ) {
+                $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
             }
-            $this->assign('action',$this->_action);
-            require_once "CRM/Event/BAO/EventPage.php";
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+            $this->_params                = $params;
+            $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+            parent::ConfirmPostprocess( $this, $contactID );
         }
     }//end of function
     
