@@ -20,8 +20,8 @@ coordinated by CiviCRM LLC. The project website is http://civicrm.org/
 *************************
 2. What
 *************************
-CiviCRM is released as a module that runs within the Drupal and Joomla
-content management systems. It can be downloaded from
+CiviCRM is released as a module that runs within the Drupal and
+Joomla content management systems. It can be downloaded from
 http://downloads.civicrm.org/
 
 

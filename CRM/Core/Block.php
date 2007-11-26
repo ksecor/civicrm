@@ -299,9 +299,6 @@ class CRM_Core_Block {
                                                                    'title' => ts('My Contact Dashboard') ) ));
             }
 
-            $url = CRM_Utils_System::makeURL( 'snippet', false, false ) . '2';
-            $shortCuts = array_merge($shortCuts, array( array( 'url'   => $url,
-                                                               'title' => ts( 'Printer Friendly Page' ) ) ) );
             if ( empty( $shortCuts ) ) {
                 return null;
             }

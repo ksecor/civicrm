@@ -279,7 +279,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             //contribution record exists for this participation
             if ( $recordContribution ) {
-                foreach( array('contribution_type_id', 'total_amount', 'payment_instrument_id','contribution_status_id' ) 
+                foreach( array('contribution_type_id', 'payment_instrument_id','contribution_status_id' ) 
                          as $field ) {
                     $defaults[$this->_id][$field] =  CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', 
                                                                                   $recordContribution, $field );
@@ -288,9 +288,11 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $defaults[$this->_id]['send_receipt'] = 0;
         }
         
-        $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                                             $defaults[$this->_id]['event_id'], 
-                                                                             'receipt_text' );
+        if( isset( $defaults[$this->_id]['event_id'] ) ) {
+            $defaults[$this->_id]['receipt_text'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
+                                                                                 $defaults[$this->_id]['event_id'], 
+                                                                                 'receipt_text' );
+        }
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults[$this->_id], $viewMode, $inactiveNeeded );
         }
@@ -462,16 +464,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $buttonType = 'next';
         }
         
-        $this->addElement('checkbox', 'record_contribution', ts('Record Participation Payment?'), null, 
+        $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
                           array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
                    ts( 'Contribution Type' ), 
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-        
-        $this->add('text', 'total_amount', ts('Amount'));
-        $this->addRule('total_amount', ts('Please enter a valid amount.'), 'money');
         
         $this->add('select', 'payment_instrument_id', 
                    ts( 'Paid By' ), 
@@ -509,7 +508,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if ($this->_action == CRM_Core_Action::VIEW) { 
             $this->freeze();
         }
-
     }
     
     /**
@@ -550,7 +548,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         if( $message ) {
             $errorMsg["_qf_default"] = $message;  
         }
-        
+
         return empty( $errorMsg ) ? true : $errorMsg;
     }    
        
@@ -568,7 +566,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-
         if ( $this->_event['is_monetary'] ) {
             if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
@@ -581,8 +578,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                              $params, $lineItem );
                 $this->set( 'lineItem', $lineItem );
             }
-            
-            $params['event_level']    = $params['amount_level'];
+            $params['event_level']              = $params['amount_level'];
+            $contributionParams                 = array( );
+            $contributionParams['total_amount'] = $params['amount'];
         }
         
         unset($params['amount']);
@@ -675,7 +673,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             unset($params['note']);
 
             //building contribution params 
-            $contributionParams = array( );
+            
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'             ] = $config->defaultCurrency;
             $contributionParams['contact_id'           ] = $params['contact_id'];
@@ -684,7 +682,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
                                                            $contributionParams['receive_date'] : 'null';
-            $recordContribution = array( 'total_amount', 'contribution_type_id', 
+            $recordContribution = array( 'contribution_type_id', 
                                          'payment_instrument_id', 'contribution_status_id' );
 
             foreach ( $recordContribution as $f ) {
@@ -733,12 +731,17 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->assign( 'event', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                  $params['event_id'],
                                                                  'title') );
+            $this->assign( 'receipt_text', $params['receipt_text'] );
             $role = CRM_Event_PseudoConstant::participantRole();
             $this->assign( 'role', $role[$params['role_id']] );
             $status = CRM_Event_PseudoConstant::participantStatus();
-
+            if ( $this->_event['is_monetary'] ) {
+                $paymentInstrument = CRM_Contribute_PseudoConstant::paymentInstrument();
+                $this->assign( 'paidBy', $paymentInstrument[$params['payment_instrument_id']] );
+                $this->assign( 'total_amount', $contributionParams['total_amount'] );
+            }
             $this->assign( 'status', $status[$params['status_id']] );
-            $this->assign( 'total_amount', $params['total_amount'] );
+
             $this->assign( 'register_date', CRM_Utils_Date::customFormat($params['register_date']) );
             $this->assign( 'receive_date', $contributionParams['receive_date'] );            
             $this->assign( 'subject', ts('Participation Confirmation and Receipt') );
@@ -754,8 +757,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                   $this->_contributorEmail,
                                   $subject,
                                   $message);
-        }        
+        }      
+        
+        if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
+            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been updated. " );
+            if ( $params['send_receipt'] ) {
+                $statusMsg .= ts("A confirmation for participation updation and receipt has been sent to {$this->_contributorEmail}." );
+            }
+        } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
+            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been added. " );
+            if ( $params['send_receipt'] ) {
+                $statusMsg .= ts( "A participation confirmation and receipt has been sent to {$this->_contributorEmail}." );
+            }
+        }
+        require_once "CRM/Core/Session.php";
+        CRM_Core_Session::setStatus( "{$statusMsg}" );
     }
 }
-
 ?>

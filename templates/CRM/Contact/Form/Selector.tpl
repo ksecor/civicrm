@@ -10,6 +10,7 @@
         {ts}Status{/ts}
       </th>
   {/if}
+  <th></th>
   {foreach from=$columnHeaders item=header}
     <th scope="col">
     {if $header.sort}

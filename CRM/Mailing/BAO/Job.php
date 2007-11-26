@@ -253,10 +253,8 @@ ORDER BY j.scheduled_date,
             $mailing->subject = ts('Test Mailing:') . ' ' . $mailing->subject;
         }
         
-        require_once 'CRM/Utils/Token.php';
-        $mailing->body_text =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_text);
-        $mailing->body_html =  CRM_Utils_Token::replaceSubscribeInviteTokens($mailing->body_html);
-        
+        CRM_Mailing_BAO_Mailing::tokenReplace($mailing);
+
         // make sure that there's no more than $config->mailerBatchLimit mails processed in a run
         while ($eq->fetch()) {
             // if ( ( $mailsProcessed % 100 ) == 0 ) {
@@ -286,37 +284,13 @@ ORDER BY j.scheduled_date,
     }
 
     public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
-        // first get all the contact details in one huge query
-        $params = array( );
-        foreach ( array_keys( $fields ) as $contactID ) {
-            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
-                               '=', 1, 0, 1);
-        }
-
-        // also get the return properties
+        // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
         
-        $custom = array( );
-        foreach ( $returnProperties as $name => $dontCare ) {
-            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
-            if ( $cfID ) {
-                $custom[] = $cfID;
-            }
-        }
-
-        require_once 'api/Search.php';
-        require_once 'api/History.php';
-        $details = crm_search( $params, $returnProperties, null, 0, 0 );
-
         foreach ( $fields as $contactID => $field ) {
-            foreach ( $custom as $cfID ) {
-                if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
-                    $details[0][$contactID]["custom_{$cfID}"] = 
-                        CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$contactID]["custom_{$cfID}"],
-                                                                   $cfID, $details[1] );
-                }
-            }
-
+            
+            $details = $mailing->getDetails($contactID, $returnProperties );
+            
             /* Compose the mailing */
             $recipient = null;
             $message =& $mailing->compose( $this->id, $field['id'], $field['hash'],

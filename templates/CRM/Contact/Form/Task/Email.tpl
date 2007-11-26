@@ -18,7 +18,10 @@
 {else}
 <dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
-  <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
+  <dt>{$form.template.label}</dt><dd> 
+    <div dojoType="dojo.data.ItemFileReadStore" jsId="tempStore" url="{$dataUrl}" align="left" class="tundra">
+        {$form.template.html}
+    </div></dd>
   <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
   <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
 {if $single eq false}
@@ -53,11 +56,11 @@
 {if $dojoIncludes}
 {literal}
 <script type="text/javascript" >
-     function selectValue(val)
+     function selectValue(value)
      {
-       var tokens = val.split( "^A" );
-       dojo.byId('message').value=tokens[0];
-       dojo.byId('subject').value=tokens[1];
+       var tokens = value.split( "^A" );
+       dojo.byId('message').value=tokens[1];
+       dojo.byId('subject').value=tokens[2];
      }
      function verify( select )
      {

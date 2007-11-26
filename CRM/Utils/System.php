@@ -55,6 +55,11 @@ class CRM_Utils_System {
      */
     static function makeURL( $urlVar, $includeReset = false, $includeForce = true ) {
         $config   =& CRM_Core_Config::singleton( );
+
+        if ( ! isset( $_GET[$config->userFrameworkURLVar] ) ) {
+            return '';
+        }
+
         return self::url( $_GET[$config->userFrameworkURLVar],
                           CRM_Utils_System::getLinksUrl( $urlVar, $includeReset, $includeForce ) );
     }
@@ -722,6 +727,15 @@ class CRM_Utils_System {
             }
             CRM_Utils_System::redirect( $url );
         }
+    }
+
+    static function ipAddress( ) {
+        $address = CRM_Utils_Array::value( 'REMOTE_ADDR', $_SERVER );
+        // hack for safari
+        if ( $address == '::1' ) {
+            $address = '127.0.0.1';
+        }
+        return $address;
     }
 
 }

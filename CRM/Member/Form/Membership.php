@@ -135,6 +135,9 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
+
+            // Contribution::getValues() over-writes the membership record's source field value - so we need to restore it.
+            $defaults['source'] = $defaults['membership_source'];
         }
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
@@ -527,7 +530,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $statusMsg = ts( "Membership for {$this->_contributorDisplayName} has been updated. " );
             if ( $endDate ) {
                 $endDate=CRM_Utils_Date::customFormat($endDate);
-                $statusMsg .= ts("The new membership End Date is {$endDate}. ");
+                $statusMsg .= ts("The membership End Date is {$endDate}. ");
             }
             if ( $receiptSend ) {
                 $statusMsg .= ts("A confirmation for membership updation and receipt has been sent to {$this->_contributorEmail}." );

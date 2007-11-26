@@ -1168,8 +1168,10 @@ class CRM_GCD {
                 $activityDAO =& new CRM_Activity_DAO_Activity();
                 $activityDAO->source_contact_id     = $contactDAO->id;
                 $activityTypeID = mt_rand(1, 10);
+                require_once 'CRM/Core/PseudoConstant.php';
+                $activity = CRM_Core_PseudoConstant::activityType( ); 
                 $activityDAO->activity_type_id = $activityTypeID;
-                $activityDAO->subject = "subject_$i";$this->_getRandomElement($this->module);
+                $activityDAO->subject = "subject for $activity[$activityTypeID]";
                 $activityDAO->activity_date_time = $this->_getRandomDate();
                 $activityDAO->duration = mt_rand(1,6);
                 $activityDAO->status_id = mt_rand(1,3);

@@ -267,18 +267,16 @@ LIMIT 6";
 
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
-        $count = 0;
+       
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( $dao->msg_title,
-                                 $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
-                                 $dao->id );
-            $count++;
+        while ( $dao->fetch( ) ) {
+            $elements[] = array( 'val'   => $dao->msg_title . "^A" . $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
+                                 'name'  => $dao->msg_title,
+                                 'label' => $dao->msg_title  );
+            
         }
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements,'val');
     }
 
     /**

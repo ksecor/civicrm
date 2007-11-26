@@ -84,8 +84,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
 
         $params['is_deceased'] = CRM_Utils_Array::value( 'is_deceased', $params, false );
         
-        $individual->copyValues($params);
-        
         // a comma should only be present if both first_name and last name are present.
         if ($firstName && $lastName) {
             $sortName = "$lastName, $firstName";
@@ -97,8 +95,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             } else if ( $contact->id ){
                 $individual =& new CRM_Contact_BAO_Contact();
                 $individual->contact_id = $contact->id;
-                $individual->find();
-                while ( $individual->fetch( ) ) {
+                if ( $individual->find( true ) ) {
                     $individualLastName   = $individual->last_name;
                     $individualFirstName  = $individual->first_name;
                     $individualPrefix     = $individual->prefix_id;

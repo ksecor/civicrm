@@ -1,12 +1,12 @@
-<div id="atcivityHistory">
+<div id="activity">
   <fieldset class="collapsible">
-     <table class="form-layout">
+    <table class="form-layout">
         <tr>
             <td class="label">
-                {$form.activity_type.label}
+                {$form.activity_type_id.label}
             </td>
             <td>
-                {$form.activity_type.html}
+                {$form.activity_type_id.html}
             </td>
         </tr>
         <tr>

@@ -91,6 +91,8 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
         $this->_gid      = $gid;
         $this->_restrict = $restrict;
         $this->_skipPermission = $skipPermission;
+
+        parent::__construct( );
     }
 
     /**
@@ -144,7 +146,6 @@ class CRM_Profile_Page_Dynamic extends CRM_Core_Page {
 
             $template->assign_by_ref( 'row', $values );
         }
-
         return trim( $template->fetch(  $this->getTemplateFileName( ) ) );
     }
 

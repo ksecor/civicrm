@@ -36,24 +36,27 @@
 {ts}Please print this receipt for your records.{/ts}
 
 ===========================================================
-{ts}Participation Information{/ts}
+{ts}Event Information{/ts}
 
 ===========================================================
 {ts}Event{/ts}: {$event}
-{ts}Participant Role{/ts}: {$role}
+{if $role neq 'Attendee'}{ts}Role{/ts}: {$role}
+{/if}
 {ts}Registration Date{/ts}: {$register_date}
 {ts}Participant Status{/ts}: {$status}
 
+{if $paid}
 ===========================================================
-{ts}Participation Fee{/ts}
+{ts}Registration Fee{/ts}
 
 ===========================================================
 {ts}Amount{/ts}: {$total_amount|crmMoney}
 {if $receive_date}
 {ts}Received Date{/ts}: {$receive_date|truncate:10:''|crmDate}
 {/if}
-{if $formValues.paidBy}
-{ts}Paid By{/ts}: {$formValues.paidBy}
+{if $paidBy}
+{ts}Paid By{/ts}: {$paidBy}
+{/if}
 {/if}
 {/if}
 

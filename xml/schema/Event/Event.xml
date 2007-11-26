@@ -219,4 +219,14 @@
       <comment>Receipt Text for off-line event participation</comment>
       <add>2.0</add>
   </field>
-</table>
+  <field> 
+      <name>default_role_id</name> 
+      <uniqueName>default_role_id</uniqueName>
+      <title>Participant Role</title>
+      <import>true</import>
+      <type>int unsigned</type> 
+      <default>1</default>
+      <comment>Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.</comment> 
+      <add>2.0</add> 
+  </field>
+ </table>

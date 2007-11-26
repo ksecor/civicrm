@@ -139,7 +139,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         // Details of User        
         $name  =& $this->add( 'text',
                               'from_name',
-                              ts('Your Name'),
+                              ts('From'),
                               CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'first_name') );
         $name->freeze( );
 

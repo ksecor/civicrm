@@ -292,6 +292,7 @@
       <name>prefix_id</name>
       <type>int unsigned</type>
       <comment>Prefix or Title for name (Ms, Mr...). FK to prefix ID</comment>
+      <import>true</import>\
       <headerPattern>/^(prefix|title)/i</headerPattern>
       <dataPattern>/^(mr|ms|mrs|sir|dr)\.?$/i</dataPattern>
       <add>1.2</add>
@@ -305,6 +306,7 @@
       <name>suffix_id</name>
       <type>int unsigned</type>
       <comment>Suffix for name (Jr, Sr...). FK to suffix ID</comment>
+      <import>true</import>
       <headerPattern>/^suffix$/i</headerPattern>
       <dataPattern>/^(sr|jr)\.?|i{2,}$/</dataPattern>
       <add>1.2</add>
@@ -341,6 +343,7 @@
   <field>
       <name>gender_id</name>
       <type>int unsigned</type>
+      <import>true</import>
       <headerPattern>/^gender$/i</headerPattern>
       <comment>FK to gender ID</comment>
       <add>1.2</add>

@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-11-07 07:31+0100\n"
-"PO-Revision-Date: 2007-11-02 08:05-0700\n"
-"Last-Translator: Robe Dosa <robe.dosa@t-online.hu>\n"
+"POT-Creation-Date: 2007-11-19 18:04+0100\n"
+"PO-Revision-Date: 2007-11-20 00:47-0800\n"
+"Last-Translator: Zoltan Varady <drifter@zpok.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -75,7 +75,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
 msgid "Operation"
-msgstr ""
+msgstr "Művelet"
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
 msgid "Create"
@@ -168,7 +168,7 @@ msgstr "Egyedi adat "
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -527,21 +527,21 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "User Name"
-msgstr "Keresztnév"
+msgstr "Felhasználónév"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Signature"
-msgstr ""
+msgstr "Aláírás"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 msgid "Address Fields"
-msgstr ""
+msgstr "Címmezők"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
 #, fuzzy
@@ -553,7 +553,7 @@ msgstr "Egyén "
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Advanced Search"
-msgstr ""
+msgstr "Részletes kereső"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
 #, fuzzy
@@ -852,7 +852,7 @@ msgstr "Befejezése"
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 msgid "Method"
-msgstr ""
+msgstr "Mód"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Core/SelectValues.php
 msgid "Admin"
@@ -923,7 +923,7 @@ msgstr "Helyszín"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRM adminisztráció"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
 msgid "Email Domain"
@@ -1151,7 +1151,7 @@ msgstr "Összes kiválasztott kapcsolat(ok): %1"
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "New relationship record(s) created: %1."
-msgstr "Új kapcsolatrekor(ok): %1."
+msgstr "Új kapcsolatrekord(ok): %1."
 
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -8212,6 +8212,16 @@ msgstr ""
 msgid ""
 "Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
 "\">download it here</a>."
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "plus sign"
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid ""
+"Administer your CiviCRM site using the links on this page. Click %1 for "
+"descriptions of the options in each section."
 msgstr ""
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl

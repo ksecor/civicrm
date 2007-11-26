@@ -123,11 +123,16 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                     );
         
         //send notification email if field values are set (CRM-1941)
-        foreach ($gIds as $gId) {
-            $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($gId,$contactID,$params);         
-            CRM_Core_BAO_UFGroup::commonSendMail($contactID, $val);
-        }        
-            
+        foreach ( $gIds as $gId ) {
+            if ( $gId ) {
+                $email = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gId, 'notify' );
+                if ( $email ) {
+                    $val = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues( $gId, $contactID, $params );         
+                    CRM_Core_BAO_UFGroup::commonSendMail( $contactID, $val );
+                }
+            }
+        }
+        
         if ( $values['event_page']['is_email_confirm'] ) {
             $template =& CRM_Core_Smarty::singleton( );
             require_once 'CRM/Contact/BAO/Contact.php';
@@ -157,8 +162,8 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
                                   $email,
                                   $subject,
                                   $message,
-                                  $values['event_page']['cc_confirm'],
-                                  $values['event_page']['bcc_confirm']
+                                  CRM_Utils_Array::value( 'cc_confirm', $values['event_page'] ),
+                                  CRM_Utils_Array::value( 'bcc_confirm', $values['event_page'] )
                                   );
         }
     }

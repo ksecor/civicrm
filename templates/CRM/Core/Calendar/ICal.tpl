@@ -13,6 +13,8 @@ CATEGORIES:{$event.event_type|crmICalText}
 {/if}
 {if $event.start_date}
 DTSTART:{$event.start_date|crmICalDate}
+{/if}
+{if $event.end_date}
 DTEND:{$event.end_date|crmICalDate}
 {/if}
 {if $event.is_show_location EQ 1 && $event.location}

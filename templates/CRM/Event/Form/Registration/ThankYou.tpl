@@ -71,7 +71,7 @@
                 {assign var=groupTitlePre  value=$field.groupTitle} 
               {/if}
          {/foreach}
-        <div class="header-dark">$this->assign('id',$this->_values['event']['id']);
+        <div class="header-dark">
 
           {ts}{$groupTitlePre}{/ts}
          </div>  

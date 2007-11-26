@@ -1,10 +1,10 @@
 {literal}
 <script type="text/javascript">
 var finished = 0;
-dojo.require('dojo.widget.ProgressBar');
+dojo.require("dijit.ProgressBar");
+dojo.require("dojo.parser");
 
-setFinished = function(type,data,evt){
-  finished = 1;
+setFinished = function(data){
 {/literal}
   if ( data.match( 'Fatal error' ) ) {ldelim}
     var prog = dojo.byId('error_status');
@@ -15,30 +15,35 @@ setFinished = function(type,data,evt){
   {rdelim}
 {literal}
 }
-setError = function(type,data,evt){
+setError = function(data){
   var prog = dojo.byId('error_status');
   prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
   finished = 1;
 }
-setIntermediate = function(type,data,evt){
+setIntermediate = function(data){
   var inter = dojo.byId('intermediate');
-  inter.innerHTML = data[1];
+ 
+  var dataStr = data.toString();
+  var result  = dataStr.split(",");
 
-  var bar = dojo.widget.byId("importProgressBar");
-  bar.show( );	
-  bar.setProgressValue(data[0]);
+  inter.innerHTML = result[1];
+  var bar =  dijit.byId("importProgressBar");
+  bar.domNode.style.display = "block";	
+  bar.update({progress :result[0]});
+
 }
 doProgress = function(){
-    dojo.io.bind({
+dojo.xhrGet({
 {/literal}
         url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 fe=1}",
 {literal}
-        mimetype: "text/json",
-        load: setIntermediate
+        handleAs: "json",
+        sync:true,
+        handle: setIntermediate
     });
 }
-submitForm = function( e ) {
-    e.preventDefault( );
+submitForm = function( ) {
+   
     var ok = confirm('Are you sure you want to Import now?');
     if (!ok) {
         return false;
@@ -53,6 +58,7 @@ submitForm = function( e ) {
         obj = document.getElementsByName('_qf_Preview_cancel')[0];
         if (obj.value != null) {
             obj.disabled = true;
+
         }
         obj = document.getElementsByName('_qf_Preview_back')[0];
         if (obj.value != null) {
@@ -62,30 +68,32 @@ submitForm = function( e ) {
     hide('help');
     hide('preview-info');
     show('id-processing');
-    dojo.debug( "in submit form" );
+
     var kw = {
 {/literal}
 	url: "{crmURL p='civicrm/import/contact' h=0}",
 {literal}
-	formNode: dojo.byId("Preview"),
-	load: setFinished,
+	form: dojo.byId("Preview"),
+    handleAs: "text",
+    preventCache: true,
+    sync: true,
+	handle: setFinished,
 	error: setError,
-	method: "POST",
 	multipart: false
     };
-    dojo.io.bind( kw );
+   dojo.rawXhrPost( kw );
     pollLoop( );
 }
 pollLoop = function(){
     doProgress();
-    if ( ! finished ) {
-        dojo.lang.setTimeout(pollLoop,10*1000); //10 secs
+   if ( ! finished ) {
+         window.setTimeout( pollLoop,10*1000);
     }
 }
 
 dojo.addOnLoad( function( ) {
-   dojo.event.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
-   dojo.widget.byId("importProgressBar").hide( );
+   dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
+   dijit.byId("importProgressBar").domNode.style.display = "none";
 } );
 </script>
 {/literal}
@@ -121,9 +129,11 @@ dojo.addOnLoad( function( ) {
 <h3>Importing records...</h3>
 <br />
 </div>
-
-<div height="20" width="400" hasText="true" maxProgressValue="100" id="importProgressBar" dojoType="ProgressBar">
+<div class ="tundra">
+<div style="width:400px" maximum="100" progress="0" id="importProgressBar" dojoType="dijit.ProgressBar" annotate="true">
 </div>
+</div>
+
 <div id="intermediate"></div>
 
 <div id="error_status"></div>

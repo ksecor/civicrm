@@ -356,7 +356,7 @@ ORDER BY title asc
            
         } else {
             $curDate = date( 'YmdHis' );
-            $clauses[5] =  "end_date >= {$curDate}";
+            $clauses[5] =  "end_date >= {$curDate} OR end_date IS NULL";
         }
 
         if ( $sortBy &&
@@ -367,7 +367,7 @@ ORDER BY title asc
         
         if ( !$this->_searchResult ) {
             $curDate = date( 'YmdHis' );
-            $clauses[] =  "end_date >= {$curDate}";
+            $clauses[] =  "end_date >= {$curDate} OR end_date IS NULL";
         }
         $clauses[] = 'domain_id = %7';
         $params[7] = array( CRM_Core_Config::domainID( ), 'Integer' );

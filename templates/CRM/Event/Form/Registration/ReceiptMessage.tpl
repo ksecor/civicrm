@@ -1,4 +1,3 @@
-
 {if $action eq 1024}{include file="CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl"}
 {/if}
 {if $eventPage.confirm_email_text}{$eventPage.confirm_email_text}
@@ -12,6 +11,10 @@
 ===========================================================
 {$event.event_title}
 {$event.event_start_date|crmDate}{if $event.event_end_date}-{if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}{$event.event_end_date|date_format:"%I:%M %p"}{else}{$event.event_end_date|crmDate}{/if}{/if}
+
+{if $event.participant_role neq 'Attendee'}
+{ts}Participant Role{/ts} : {$event.participant_role}
+{/if}
 
 {if $isShowLocation}
 {if $location.1.name}
@@ -42,11 +45,9 @@
   {ts}Email:{/ts} {$eventEmail.email}{/if}{/foreach}
 {/if}
 
-{capture assign=icalFeed}{crmURL p='civicrm/event/ical' q="reset=1&id=`$event.id`"}{/capture}
 
- {ts}Download iCalendar File:{/ts} 
- {$icalFeed} 
-
+{assign var="icalFeed" value=$config->userFrameworkBaseURL|cat:"civicrm/event/ical?reset=1&id="|cat:$event.id}
+{ts}Download iCalendar File:{/ts} {$icalFeed} 
 
 ===========================================================
 {ts}Registered Email{/ts}

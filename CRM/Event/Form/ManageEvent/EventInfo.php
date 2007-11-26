@@ -84,17 +84,16 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         if ( $etype ) {
             $defaults["event_type_id"] = $etype;
         }
-        if( !isset ( $defaults['start_date'] ) || !isset ( $defaults['end_date'] ) ) {
+        if( !isset ( $defaults['start_date'] ) ) {
             $defaultDate = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaultDate );
             $defaultDate['i'] = (int ) ( $defaultDate['i'] / 15 ) * 15;
-            $defaults['start_date'] = $defaults['end_date'] = $defaultDate;
+            $defaults['start_date'] = $defaultDate;
         }
 
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
-
         return $defaults;
     }
     /** 
@@ -126,9 +125,11 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
 
         require_once 'CRM/Core/OptionGroup.php';
         $event = CRM_Core_OptionGroup::values('event_type');
+        $participant_role = CRM_Core_OptionGroup::values('participant_role');
         
         $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, 
-                   array('onChange' => "if (this.value) reload(true); else return false"));          
+                   array('onChange' => "if (this.value) reload(true); else return false"));
+        $this->add('select','default_role_id',ts('Participant Role'), $participant_role , true); 
         
         $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         
@@ -140,15 +141,14 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->add('date', 'start_date',
                    ts('Start Date'),
                    CRM_Core_SelectValues::date('datetime'),
-                   true, 
-                   array('onchange' => 'defaultDate(this);'));  
+                   true);  
         $this->addRule('start_date', ts('Please select a valid start date.'), 'qfDate');
 
         $this->add('date', 'end_date',
                    ts('End Date / Time'),
-                   CRM_Core_SelectValues::date('datetime'),
-                   true);
-        $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
+                   CRM_Core_SelectValues::date('datetime')
+                   );
+        $this->addRule('end_date', ts('Please select a valid end date.'), 'qfDate');
      
         $this->add('text','max_participants', ts('Max Number of Participants'));
         $this->addRule('max_participants', ts(' is a numeric field') , 'numeric');
@@ -184,15 +184,9 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
             return $errors;
         }
 
-        if ( ! $values['end_date'] ) {
-            $errors['end_date'] = ts( 'End Date and Time are required fields.' );
-            return $errors;
-        }
-
         $start = CRM_Utils_Date::format( $values['start_date'] );
         $end   = CRM_Utils_Date::format( $values['end_date'  ] );
-
-        if ( $end < $start ) {
+        if ( ($end < $start) && ($end != 0) ) {
             $errors['end_date'] = ts( 'End date should be after Start date' );
             return $errors;
         }
@@ -210,16 +204,17 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     {
         $params = $ids = array();
         $params = $this->controller->exportValues( $this->_name );
-       
+        
         //format params
-        $params['start_date'] = CRM_Utils_Date::format($params['start_date']);
-        $params['end_date'  ] = CRM_Utils_Date::format($params['end_date']);
-        $params['is_map'    ] = CRM_Utils_Array::value('is_map', $params, false);
-        $params['is_active' ] = CRM_Utils_Array::value('is_active', $params, false);
-        $params['is_public' ] = CRM_Utils_Array::value('is_public', $params, false);
-
+        $params['start_date']      = CRM_Utils_Date::format($params['start_date']);
+        $params['end_date'  ]      = CRM_Utils_Date::format($params['end_date']);
+        $params['is_map'    ]      = CRM_Utils_Array::value('is_map', $params, false);
+        $params['is_active' ]      = CRM_Utils_Array::value('is_active', $params, false);
+        $params['is_public' ]      = CRM_Utils_Array::value('is_public', $params, false);
+        $params['default_role_id'] = CRM_Utils_Array::value('default_role_id', $params, false);
+        
         $ids['event_id']      = $this->_id;
-
+        
         // format custom data
         // get mime type of the uploaded file
         if ( !empty($_FILES) ) {

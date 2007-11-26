@@ -6,6 +6,7 @@
 <table class="form-layout-compressed">
          <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}</td></tr>
          <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
+	 <tr><td class="label">{$form.default_role_id.label}</td><td>{$form.default_role_id.html}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
          <tr><td class="label">{$form.summary.label}</td><td>{$form.summary.html}</td></tr>
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
@@ -59,16 +60,5 @@
         }
     }
 
-    function defaultDate(data) {
-        // if end date is not given then it is equal to start date 
-        if( !document.getElementsByName("end_date[M]")[0].value) {
-            document.getElementsByName("end_date[M]")[0].value =  document.getElementsByName("start_date[M]")[0].value;
-            document.getElementsByName("end_date[d]")[0].value =  document.getElementsByName("start_date[d]")[0].value;
-            document.getElementsByName("end_date[Y]")[0].value =  document.getElementsByName("start_date[Y]")[0].value;
-            document.getElementsByName("end_date[h]")[0].value =  document.getElementsByName("start_date[h]")[0].value;
-            document.getElementsByName("end_date[i]")[0].value =  document.getElementsByName("start_date[i]")[0].value;
-            document.getElementsByName("end_date[A]")[0].value =  document.getElementsByName("start_date[A]")[0].value;
-        }
-    }
 {/literal}
 </script>

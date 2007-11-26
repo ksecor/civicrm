@@ -161,7 +161,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
             require_once 'CRM/Event/BAO/Event.php';
             CRM_Event_BAO_Event::retrieve($params, $this->_values['event']);
-
+            
+            if( isset( $this->_values['event']['default_role_id'] ) ) {
+                require_once 'CRM/Core/OptionGroup.php';
+                $participant_role = CRM_Core_OptionGroup::values('participant_role');
+                $this->_values['event']['participant_role'] = $participant_role["{$this->_values['event']['default_role_id']}"];
+            }
+            
             // check if form is active
             if ( ! $this->_values['event']['is_active'] ) {
                 // form is inactive, die a fatal death

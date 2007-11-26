@@ -91,7 +91,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $is_monetary}    
+    {if $contributeMode ne 'notify' and ! $is_pay_later and $is_monetary}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -104,7 +104,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct'}
+    {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>

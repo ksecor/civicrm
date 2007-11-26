@@ -197,14 +197,14 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         if ( ! $contribution->find( true ) ) {
             CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
             echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
-            return;
+            exit( );
         }
 
         // Google sends the charged notification twice.
         // So to make sure, code is not executed again.
         if ( $contribution->contribution_status_id == 1 ) {
             CRM_Core_Error::debug_log_message( "Contribution already handled (ContributionID = $contribution)." );
-            return;
+            exit( );
         }
         
         $objects['contribution'] =& $contribution;
@@ -276,7 +276,7 @@ class CRM_Core_Payment_GoogleIPN extends CRM_Core_Payment_BaseIPN {
         if ( ! $contribution->find( true ) ) {
             CRM_Core_Error::debug_log_message( "Could not find contribution record with invoice id: $orderNo" );
             echo "Failure: Could not find contribution record with invoice id: $orderNo <p>";
-            return;
+            exit( );
         }
         return $contribution->total_amount;
     }
