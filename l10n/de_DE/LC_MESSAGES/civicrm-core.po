@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
-"POT-Creation-Date: 2007-11-07 07:31+0100\n"
+"POT-Creation-Date: 2007-11-19 18:04+0100\n"
 "PO-Revision-Date: 2007-11-16 05:09-0800\n"
 "Last-Translator: AE <aeinstein@virtas.net>\n"
 "MIME-Version: 1.0\n"
@@ -8389,6 +8389,16 @@ msgid ""
 "\">download it here</a>."
 msgstr ""
 
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid "plus sign"
+msgstr ""
+
+#: templates/CRM/Admin/Page/Admin.tpl
+msgid ""
+"Administer your CiviCRM site using the links on this page. Click %1 for "
+"descriptions of the options in each section."
+msgstr ""
+
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
 "<strong>Find Duplicate Contacts</strong> searches through your existing "
@@ -8983,8 +8993,8 @@ msgid ""
 "Provider (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
 "Längen- und Breitengrad können automatisch eingegeben werden, wenn Sie einen "
-"Mapping Provider berechtigen (<a href=\"%1\" target=\"_blank\"  "
-"title=\"%2\">mehr...</a>)."
+"Mapping Provider berechtigen (<a href=\"%1\" target=\"_blank\"  title=\"%2"
+"\">mehr...</a>)."
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
 msgid ""
@@ -10929,9 +10939,9 @@ msgid ""
 msgstr ""
 "'Zugriffskontrolle' ankreuzen, wenn Sie dieser Gruppe den Zugriff zu "
 "bestimmten Kontakten erlauben wollen. (<a href=\"%1\" target=\"_blank\" "
-"title=\"%3\">mehr...</a>). 'Mailing Liste' Ankreuzen, wenn Sie die Gruppe als "
-"MailingListe für das <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail-Modul "
-"</a>verwenden wollen."
+"title=\"%3\">mehr...</a>). 'Mailing Liste' Ankreuzen, wenn Sie die Gruppe "
+"als MailingListe für das <a href=\"%2\" target=\"_blank\" title=\"%3"
+"\">CiviMail-Modul </a>verwenden wollen."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -10946,9 +10956,9 @@ msgstr ""
 "Gruppe  ausdrücklich nur von autorisierten civiCRM Benutzern kontrolliert "
 "wird. Wenn sich Kontakte  in die Gruppe selber eintragen und auch austragen "
 "können sollen via Registration und Account Profilen, dann wählen Sie 'Public "
-"User Pages'. Wenn Sie  auch die Suche nach Mitgliedschaft in Gruppen und "
-"die Veröffentlichung von Daten  in den Profilansichten erlauben möchten, "
-"wählen Sie 'Public User Pages and Listings'."
+"User Pages'. Wenn Sie  auch die Suche nach Mitgliedschaft in Gruppen und die "
+"Veröffentlichung von Daten  in den Profilansichten erlauben möchten, wählen "
+"Sie 'Public User Pages and Listings'."
 
 #: templates/CRM/Group/Form/Edit.tpl
 #, fuzzy
