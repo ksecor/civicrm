@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/Activity/Import/Parser/ActivityHistory.php';
+require_once 'CRM/Activity/Import/Parser/Activity.php';
 
 /**
  * This class previews the uploaded file and returns summary
@@ -176,7 +176,7 @@ class CRM_Activity_Import_Form_Preview extends CRM_Core_Form
 
         }
 
-        $parser =& new CRM_Activity_Import_Parser_ActivityHistory( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Activity_Import_Parser_Activity( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
         
         $mapFields = $this->get('fields');
 

@@ -35,7 +35,8 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_Activity_Import_Controller extends CRM_Core_Controller {
+class CRM_Activity_Import_Controller extends CRM_Core_Controller 
+{
 
     /**
      * class constructor

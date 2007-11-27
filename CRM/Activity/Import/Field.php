@@ -36,7 +36,8 @@
 require_once 'CRM/Utils/Type.php';
 
 
-class CRM_History_Import_Field {
+class CRM_Activity_Import_Field 
+{
   
     /**#@+
      * @access protected

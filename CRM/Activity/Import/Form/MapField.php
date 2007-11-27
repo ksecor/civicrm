@@ -38,7 +38,7 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/DAO/Mapping.php';
 require_once 'CRM/Core/DAO/MappingField.php';
 
-require_once 'CRM/Activity/Import/Parser/ActivityHistory.php';
+require_once 'CRM/Activity/Import/Parser/Activity.php';
 
 /**
  * This class gets the name of the file to upload
@@ -577,7 +577,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
         }
 
-        $parser =& new CRM_Activity_Import_Parser_ActivityHistory( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Activity_Import_Parser_Activity( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Activity_Import_Parser::MODE_PREVIEW );
         

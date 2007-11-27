@@ -40,7 +40,7 @@ require_once 'api/crm.php';
 /**
  * class to parse activity history csv files
  */
-class CRM_Activity_Import_Parser_ActivityHistory extends CRM_Activity_Import_Parser 
+class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser 
 {
 
     protected $_mapperKeys;
