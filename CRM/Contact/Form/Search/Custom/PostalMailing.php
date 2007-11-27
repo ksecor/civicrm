@@ -63,7 +63,7 @@ class CRM_Contact_Form_Search_Custom_PostalMailing
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $selectClause = "
-contact_a.id            as contact_id  ,
+distinct(contact_a.id)  as contact_id  ,
 contact_a.contact_type  as contact_type,
 contact_a.sort_name     as sort_name,
 address.street_address  as address,
@@ -77,9 +77,8 @@ state_province.name     as state_province
     
     function from( ) {
         return "
-FROM      civicrm_contact contact_a
-LEFT JOIN civicrm_group_contact group_contact ON ( group_contact.contact_id = contact_a.id AND
-                                                   group_contact.status     = 'Added')
+FROM      civicrm_group_contact as cgc, 
+          civicrm_contact       as contact_a
 LEFT JOIN civicrm_address address             ON ( address.contact_id       = contact_a.id AND
                                                    address.is_primary       = 1 )
 LEFT JOIN civicrm_state_province state_province ON state_province.id = address.state_province_id
@@ -95,8 +94,14 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
                                            $this->_formValues );
         if ( $groupID ) {
             $params[$count] = array( $groupID, 'Integer' );
-            $clause[] = "group_contact.group_id = %{$count}";
+            $clause[] = "cgc.group_id = %{$count}";
         }
+
+        $clause[] = "cgc.status   = 'Added'";
+        $clause[] = "contact_a.id = IF( EXISTS(select cr.id, cr.contact_id_b from civicrm_relationship cr where (cr.contact_id_a = cgc.contact_id AND cr.relationship_type_id = 7)), 
+                                       (select cr.contact_id_b from civicrm_relationship cr where (cr.contact_id_a = cgc.contact_id AND cr.relationship_type_id = 7)), 
+                                        cgc.contact_id )";
+        $clause[] = "contact_a.contact_type IN ('Individual','Household')";
 
         if ( ! empty( $clause ) ) {
             $where = implode( ' AND ', $clause );
