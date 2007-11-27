@@ -54,6 +54,11 @@
           </legend>
          <table class="no-border">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
+             {if $standalone }
+		<tr>
+                   <td class="label">{$form.activity_type_id.label}</td><td>{$form.activity_type_id.html}</td>
+                </tr>
+             {/if}
              <tr>
                 <td class="label">{$form.source_contact.label}</td>
 		<td>

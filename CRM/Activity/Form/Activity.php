@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Core/Form.php';
-
+require_once "CRM/Core/BAO/CustomGroup.php";
 
 /**
  * This class generates form components for Activity
@@ -96,7 +96,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->assign( 'context', $this->_context );
 
         $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
-        if ( $this->_context != 'standalone' && $this->_activityTypeId ) {
+        if ( $this->_context != 'standalone' || $this->_activityTypeId ) {
 
             $this->_currentlyViewedContactId = $this->get('contactId');
             
@@ -180,11 +180,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
         }
 
-        $subType = CRM_Utils_Request::retrieve( 'subType', 'Positive', CRM_Core_DAO::$_nullObject );
-        if ( $subType ) {
-            $defaults["activity_type_id"] = $subType;
+        if (  $this->_activityTypeId ) {
+            $defaults["activity_type_id"] =  $this->_activityTypeId;
         }
-
         
         // DRAFTING: Check this in the template
         if ($this->_action == CRM_Core_Action::DELETE) {
@@ -281,6 +279,17 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $standalone = false;
         if ( $this->_context == 'standalone' )  {
             $standalone = true;
+
+            $urlParams = "action=add&reset=1&context=standalone&atype=";
+            
+            $url = CRM_Utils_System::url( 'civicrm/activity', 
+                                          $urlParams, true, null, false ); 
+            
+            $activityType = CRM_Core_PseudoConstant::activityType( false );
+            
+            $this->add('select', 'activity_type_id', ts('Activity Type'),
+                       array('' => ts('- select activity -')) + $activityType,
+                       false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
         }
         
         $this->assign('standalone', $standalone);
@@ -323,7 +332,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 //        }
           
         // if we're viewing, we're assigning different buttons than for adding/editing
-        require_once "CRM/Core/BAO/CustomGroup.php";
         
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
