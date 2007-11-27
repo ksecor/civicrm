@@ -14,23 +14,12 @@
            
             <tr>
                 <td class="label">
-                        {$form.case_casetag1_id.label}
+                        {$form.case_type_id.label}
                 </td>
                 <td>
-                        {$form.case_casetag1_id.html}
-                </td>
-                <td colspan="2">
-                        {$form.case_casetag2_id.label} {$form.case_casetag2_id.html}
+                        {$form.case_type_id.html}
                 </td>
             </tr>            
-            <tr>
-                <td class="label">
-                        {$form.case_casetag3_id.label} 
-                </td>
-                <td>
-                        {$form.case_casetag3_id.html} 
-                </td>
-            </tr>
             <tr>
                 <td class="label"> 
                         {$form.case_start_date_low.label} 

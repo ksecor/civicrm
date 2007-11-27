@@ -20,14 +20,9 @@
     	    <tr><td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td></tr>
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Enter the case subject {/ts}</td></tr>
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
-           <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this case{/ts}</td></tr>
-            <tr><td class="label">{$form.casetag1_id.label}</td><td>{$form.casetag1_id.html}</td></tr>     
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this case{/ts}</td></tr>
+            <tr><td class="label">{$form.case_type_id.label}</td><td>{$form.case_type_id.html}</td></tr>     
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>       
-            <tr><td class="label">{$form.casetag2_id.label}</td><td>{$form.casetag2_id.html}</td></tr>  
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate sub type of the case {/ts}</td></tr>                 
-            <tr><td class="label">{$form.casetag3_id.label}</td><td>{$form.casetag3_id.html}</td></tr> 
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the violation type of the case {/ts}</td></tr>                  
-            
             <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
     	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_case_1}       

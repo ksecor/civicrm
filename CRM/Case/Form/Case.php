@@ -57,8 +57,6 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @protected
      */
     protected $_contactID;
-    
-
 
     /** 
      * Function to set variables up before form is built 
@@ -84,10 +82,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
         }        
-        $defaults['casetag1_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag1_id'],1,-1));
-        $defaults['casetag2_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag2_id'],1,-1));
-        $defaults['casetag3_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($defaults['casetag3_id'],1,-1));
-
+        $defaults['case_type_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $defaults['case_type_id']);
+        
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['start_date'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['start_date'] );
@@ -116,22 +112,16 @@ class CRM_Case_Form_Case extends CRM_Core_Form
                               );
             return;
         }
-        
-        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
+
+        require_once 'CRM/Core/OptionGroup.php';        
+        $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
                     $caseStatus , true  );
-        require_once 'CRM/Core/OptionGroup.php';
-        $caseType = CRM_Core_OptionGroup::values('f1_case_type');
-        $this->add('select', 'casetag1_id',  ts( 'Case Type' ),  
+
+        $caseType = CRM_Core_OptionGroup::values('case_type');
+        $this->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true, array("size"=>"5",  "multiple"));
         
-        $caseSubType = CRM_Core_OptionGroup::values('f1_case_sub_type');
-        $this->add('select', 'casetag2_id',  ts( 'Case Sub Type' ),  
-                   $caseSubType , true, array("size"=>"5","multiple"));
-        
-        $caseViolation = CRM_Core_OptionGroup::values('f1_case_violation');
-        $this->add('select', 'casetag3_id',  ts( 'Violation' ),  
-                   $caseViolation , true, array("size"=>"5",  "multiple"));
         $this->add( 'text', 'subject', ts('Subject'),null, true);
         $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
                         'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
@@ -245,14 +235,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-        $formValues['contact_id'] = $this->_contactID;
-        $formValues['start_date'] = CRM_Utils_Date::format($formValues['start_date']);
-        $formValues['end_date']   = CRM_Utils_Date::format($formValues['end_date']);
-        
-        
-        for($i=1;$i<4;$i++) {
-            $formValues['casetag' . $i . '_id']   = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $formValues['casetag' . $i . '_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
-        }
+        $formValues['contact_id'  ] = $this->_contactID;
+        $formValues['start_date'  ] = CRM_Utils_Date::format($formValues['start_date']);
+        $formValues['end_date'    ] = CRM_Utils_Date::format($formValues['end_date']);
+        $formValues['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $formValues['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
         
         require_once 'CRM/Case/BAO/Case.php';
         $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
