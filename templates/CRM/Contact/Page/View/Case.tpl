@@ -15,23 +15,22 @@
 {if $cases}
     <div class="form-item" id=case_page>
     {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">  
+        <table >  
        <thead> 
         <tr class="columnheader">
-            <th field="Status" dataType="String">{ts}Case Status{/ts}</th>
-            <th field="Type" dataType="String">{ts}Case Type{/ts}</th>
-            <th field="Subject" dataType="String">{ts}Subject{/ts}</th>
-            <th datatype="html"></th>
-            <th field="Start Date" dataType="String">{ts}Start Date{/ts}</th>
-            <th datatype="html">&nbsp;</th>
+            <th>{ts}Case Status{/ts}</th>
+            <th>{ts}Case Type{/ts}</th>
+            <th>{ts}Subject{/ts}</th>
+            <th></th>
+            <th>{ts}Start Date{/ts}</th>
+            <th>&nbsp;</th>
         </tr>
        </thead>
        <tbody> 
         {foreach from=$cases item=case}
         <tr class="{cycle values="odd-row,even-row"}">
-
             <td>{$case.status_id}</td>
-            <td>{$case.casetag1_id.0} <br />{$case.casetag1_id.1}<br />{$case.casetag1_id.2}</td>  
+            <td>{$case.case_type_id}</td>  
             <td>{$case.subject}</td>
             <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">(View)</a></td>
             <td>{$case.start_date|crmDate}</td>

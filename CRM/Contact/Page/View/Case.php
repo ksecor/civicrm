@@ -57,7 +57,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function view( ) 
     {
-
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case',  
                                                        'View Case',  
                                                        $this->_action ); 
@@ -72,8 +71,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         
         $controller->run();
         
-        $this->assign( 'totalCountOpenActivity',
-                       CRM_Contact_BAO_Contact::getNumOpenActivity( $this->_contactId ) );
         $this->assign( 'caseId',$this->_id);
         require_once 'CRM/Contact/Selector/Activity.php' ;
         require_once 'CRM/Core/Selector/Controller.php';
@@ -100,25 +97,29 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         $links  =& self::links( );
         $action = array_sum(array_keys($links));
-        $caseStatus  = array( 1 => 'Ongoing', 2 => 'Resolved' ); 
-        $caseType = CRM_Core_OptionGroup::values('f1_case_type');
+        $caseStatus = CRM_Core_OptionGroup::values('case_status');
+        $caseType   = CRM_Core_OptionGroup::values('case_type');
 
         require_once 'CRM/Case/BAO/Case.php';
         $case = new CRM_Case_DAO_Case( );
         $case->contact_id = $this->_contactId;
         $case->find();
         while ( $case->fetch() ) {
-        
             CRM_Core_DAO::storeValues( $case, $values[$case->id] );
             $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,
                                                                       $action,
                                                                       array( 'id'  => $case->id,
                                                                              'cid' => $this->_contactId ) );
-            $values[$case->id]['casetag1_id'] =  explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, substr($values[$case->id]['casetag1_id'] ,1,-1));;
-            $values[$case->id]['casetag1_id'][0] = $caseType[$values[$case->id]['casetag1_id'][0]];
-            $values[$case->id]['casetag1_id'][1] = $caseType[$values[$case->id]['casetag1_id'][1]];
-            $values[$case->id]['casetag1_id'][2] = $caseType[$values[$case->id]['casetag1_id'][2]];
-            $values[$case->id]['status_id']      = $caseStatus[$values[$case->id]['status_id']];
+
+            $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $values[$case->id]['case_type_id'] );
+            foreach ( $caseTypeIds as $id => $val ) {
+                if ( $val ) {
+                    $names[] = $caseType[$val];
+                }
+            }
+            
+            $values[$case->id]['case_type_id'] = implode ( ':::' , $names);
+            $values[$case->id]['status_id']    = $caseStatus[$values[$case->id]['status_id']];
 
         } 
         
