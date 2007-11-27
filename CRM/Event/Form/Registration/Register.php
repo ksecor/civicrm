@@ -52,6 +52,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */ 
     function preProcess( ) {
         parent::preProcess( );
+
+        //To check if the user is already registered for the event(CRM-2426) 
+        self::checkRegistration(null , $this);
     }
 
     /**
@@ -270,33 +273,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      */ 
     static function formRule(&$fields, &$files, $self) {
  
-        $session =& CRM_Core_Session::singleton( );
-        $contactID = $session->get( 'userID' );
-        if (!$contactID) {
-            require_once 'CRM/Core/BAO/Email.php';
-            $email =&new CRM_Core_BAO_Email();
-            $email->email = $fields['email-5'];
-            $email->find(true);
-            $contactID = $email->contact_id;
-        }
-        if ( $contactID ) {
-            require_once 'CRM/Event/BAO/Participant.php';
-            $participant =&new CRM_Event_BAO_Participant();
-            $participant->contact_id = $contactID;
-            $participant->event_id = $self->_values['event']['id'];
-            $participant->role_id = $self->_values['event']['default_role_id'];
-            if ($self->_mode == 'test') {
-                $participant->is_test = 1;
-            } else {
-                $participant->is_test = 0;
-            }
-            if ( $participant->find(true) ) { 
-                if ( $participant->status_id != 4 ) {
-                    $errors['_qf_default'] = ts( "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator." );
-                    return $errors;
-                }
-            }
-        }
+        //To check if the user is already registered for the event(CRM-2426)
+        self::checkRegistration($fields, $self);
+
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
@@ -587,6 +566,50 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                   'unit_price'       => $price,
                                   'line_total'       => $qty * $fields['options'][$oid]['value']
                                   );
+        }
+    }
+
+    /** 
+     * Method to check if the user is already registered for the event   
+     * and if result found redirect to the event info page
+     *
+     * @param array $fields  the input form values(anonymous user) 
+     * @param array $self    event data 
+     * 
+     * @return void  
+     * @access public 
+     */ 
+    function checkRegistration($fields, $self)
+    {
+        $session =& CRM_Core_Session::singleton( );
+        $contactID = $session->get( 'userID' );
+        if (!$contactID) {
+            require_once 'CRM/Core/BAO/Email.php';
+            $email =&new CRM_Core_BAO_Email();
+            $email->email = $fields['email-5'];
+            $email->find(true);
+            $contactID = $email->contact_id;
+        }
+        if ( $contactID ) {
+            require_once 'CRM/Event/BAO/Participant.php';
+            $participant =&new CRM_Event_BAO_Participant();
+            $participant->contact_id = $contactID;
+            $participant->event_id = $self->_values['event']['id'];
+            $participant->role_id = $self->_values['event']['default_role_id'];
+            if ($self->_mode == 'test') {
+                $participant->is_test = 1;
+            } else {
+                $participant->is_test = 0;
+            }
+            if ( $participant->find(true) ) { 
+                if ( $participant->status_id != 4 ) {
+                    $status = "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."; 
+                    $session->setStatus( $status );
+                    $url = CRM_Utils_System::url( 'civicrm/event/info',
+                                                  "reset=1&id={$self->_values['event']['id']}" );
+                    CRM_Utils_System::redirect( $url );
+                }
+            }
         }
     }
 }
