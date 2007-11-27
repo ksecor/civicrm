@@ -37,12 +37,12 @@
        <length>128</length>
        <required>true</required>
        <comment>Id of first case category.</comment>
-       <add>1.8</add>
+       <add>2.0</add>
   </field>
   <index>
        <name>index_case_type_id</name>
        <fieldName>case_type_id</fieldName>
-       <add>1.8</add>
+       <add>2.0</add>
   </index>
   <field>
        <name>casetag1_id</name>

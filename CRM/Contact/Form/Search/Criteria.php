@@ -299,12 +299,6 @@ class CRM_Contact_Form_Search_Criteria {
         CRM_Case_BAO_Query::buildSearchForm( $form );
     }
 
-    static function caseActivity( &$form ) {
-        $form->add( 'hidden', 'hidden_caseActivity', 1 );
-        require_once 'CRM/Activity/BAO/Query.php';
-        CRM_Activity_BAO_Query::buildSearchForm( $form );
-    }
-
     static function grant( &$form ) {
         $form->add( 'hidden', 'hidden_grant', 1 );
         require_once 'CRM/Grant/BAO/Query.php';

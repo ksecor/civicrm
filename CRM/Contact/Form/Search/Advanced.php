@@ -116,8 +116,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
 
         if ( $this->_viewOptions['Cases'] ) { 
-            $paneNames[ts('Cases')]            = 'caseSearch';
-            $paneNames[ts('Case Activities') ] = 'caseActivity';                
+            $paneNames[ts('Cases')] = 'caseSearch';
         }
 
         $this->_searchOptions = CRM_Core_BAO_Preferences::valueOptions( 'advanced_search_options', true, null, true );
