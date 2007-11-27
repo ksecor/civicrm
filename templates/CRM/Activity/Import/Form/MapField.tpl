@@ -1,4 +1,4 @@
-{* Activity History Import Wizard - Step 2 (map incoming data fields) *}
+{* Activity Import Wizard - Step 2 (map incoming data fields) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
@@ -12,7 +12,7 @@
     <p>{ts}If you think you may be importing additional data from the same data source, check 'Save this field mapping' at the bottom of the page before continuing. The saved mapping can then be easily reused the next time data is imported.{/ts}</p>
 </div>
  {* Table for mapping data to CRM fields *}
- {include file="CRM/History/Import/Form/MapTable.tpl}
+ {include file="CRM/Activity/Import/Form/MapTable.tpl}
  <br />
 
  <div id="crm-submit-buttons">

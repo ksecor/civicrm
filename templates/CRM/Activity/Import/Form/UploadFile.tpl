@@ -1,4 +1,4 @@
-{* Activity History Import Wizard - Step 1 (upload data file) *}
+{* Activity Import Wizard - Step 1 (upload data file) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
 
  {* WizardHeader.tpl provides visual display of steps thru the wizard as well as title for current step *}
@@ -6,7 +6,7 @@
  
  <div id="help">
     <p>
-    {ts}The Activity History Import Wizard allows you to easily upload activity history from other applications into CiviCRM. Contacts must already exist in your CiviCRM database prior to importing activity history. Use Import Contacts to create contact records first, if necessary. Then you can match activities to contacts by Name and Email, or by Contact ID.{/ts}
+    {ts}The Activity Import Wizard allows you to easily upload activity from other applications into CiviCRM. Contacts must already exist in your CiviCRM database prior to importing activity. Use Import Contacts to create contact records first, if necessary. Then you can match activities to contacts by Name and Email, or by Contact ID.{/ts}
     </p>
     <p>
     {ts}Files to be imported must be in the 'comma-separated-values' format (CSV). Most applications will allow you to export records in this format. Consult the documentation for your application if you're not sure how to do this. Save this file to your local hard drive (or an accessible drive on your network) - and you are now ready for step 1 (Upload Data).{/ts}

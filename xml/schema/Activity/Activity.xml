@@ -8,6 +8,8 @@
 
   <field>
       <name>id</name>
+      <title>Activity ID</title> 
+      <import>true</import>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Unique  Other Activity ID</comment>
@@ -20,6 +22,8 @@
 
   <field>
       <name>source_contact_id</name>
+      <title>Contact ID (match to contact)</title>
+      <import>true</import>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>
@@ -47,6 +51,8 @@
 
   <field>
        <name>activity_type_id</name>
+       <title>Activity Type ID</title>
+       <import>true</import>
        <type>int unsigned</type>
        <required>true</required>
        <default>1</default>
@@ -103,6 +109,7 @@
   
   <field>
        <name>activity_date_time</name>
+       <import>true</import>
        <type>datetime</type>
        <comment>Date and time this activity is scheduled to occur. Formerly named scheduled_date_time.</comment>
        <add>2.0</add>
@@ -228,8 +235,10 @@
 
   <field>
        <name>is_test</name>
+       <title>Test</title>
        <type>boolean</type>
        <default>0</default>
+       <import>true</import>
        <add>2.0</add>
   </field>                                 
 </table>

@@ -401,9 +401,9 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
-                'entity_id'         => ts('Contact ID'),
-                'activity_type'     => ts('Activity Type'),
-                'activity_date'     => ts('Activity Date')
+                'source_contact_id'  => ts('Contact ID'),
+                'activity_type_id'   => ts('Activity Type ID'),
+                'activity_date_time' => ts('Activity Date')
             );
             
             // validation for defalut dupe matching rule
@@ -423,7 +423,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
                 $defaultFlag = false;
             }
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
-            
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'entity_id' &&  $defaultFlag ) {

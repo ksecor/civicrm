@@ -74,8 +74,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @access public
      */
     function init( ) {
-        require_once 'CRM/Contribute/BAO/Contribution.php';
-        $fields =& CRM_Core_BAO_History::importableFields( );
+        require_once 'CRM/Activity/BAO/Activity.php';
+        $fields =& CRM_Activity_BAO_Activity::importableFields( );
 
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
@@ -242,8 +242,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
-            require_once('CRM/Core/DAO/ActivityHistory.php');
-            $tempIndieFields =& CRM_Core_DAO_ActivityHistory::import();
+            require_once('CRM/Activity/DAO/Activity.php');
+            $tempIndieFields =& CRM_Activity_DAO_Activity::import();
             $indieFields = $tempIndieFields;
         }
 

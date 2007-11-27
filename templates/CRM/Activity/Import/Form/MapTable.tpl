@@ -1,4 +1,4 @@
-{* Activity History Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
+{* Activity Import Wizard - Data Mapping table used by MapFields.tpl and Preview.tpl *}
 
  <div id="map-field">
     {if $savedMapping}
