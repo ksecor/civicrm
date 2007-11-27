@@ -601,7 +601,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             } else {
                 $participant->is_test = 0;
             }
-            if ( $participant->find(true) ) { 
+            $participant->find();
+            while($participant->fetch()) {
                 if ( $participant->status_id != 4 ) {
                     $status = "Oops. It looks like you are already registered for this event. If you want to change your registration, or you feel that you've gotten this message in error, please contact the site administrator."; 
                     $session->setStatus( $status );
