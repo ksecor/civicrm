@@ -33,14 +33,15 @@
  *
  */
 
-require_once 'CRM/History/Import/Parser.php';
+require_once 'CRM/Activity/Import/Parser.php';
 
 require_once 'api/crm.php';
 
 /**
  * class to parse activity history csv files
  */
-class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parser {
+class CRM_Activity_Import_Parser_ActivityHistory extends CRM_Activity_Import_Parser 
+{
 
     protected $_mapperKeys;
 
@@ -118,7 +119,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
      * @access public
      */
     function mapField( &$values ) {
-        return CRM_History_Import_Parser::VALID;
+        return CRM_Activity_Import_Parser::VALID;
     }
 
 
@@ -145,9 +146,9 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
     function summary( &$values ) {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
-        /*if ($response != CRM_History_Import_Parser::VALID) {
+        /*if ($response != CRM_Activity_Import_Parser::VALID) {
             array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
-            return CRM_History_Import_Parser::ERROR;
+            return CRM_Activity_Import_Parser::ERROR;
         }*/
         $errorRequired = false;
         if ($this->_activityTypeIndex     < 0 or
@@ -161,7 +162,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
         
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
-            return CRM_History_Import_Parser::ERROR;
+            return CRM_Activity_Import_Parser::ERROR;
         }
 
         $params =& $this->getActiveFieldParams( );
@@ -199,7 +200,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
             return CRM_Import_Parser::ERROR;
         }
         
-        return CRM_History_Import_Parser::VALID;
+        return CRM_Activity_Import_Parser::VALID;
     }
 
     /**
@@ -214,7 +215,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
     function import( $onDuplicate, &$values) {
         // first make sure this is a valid line
         $response = $this->summary( $values );
-        if ( $response != CRM_History_Import_Parser::VALID ) {
+        if ( $response != CRM_Activity_Import_Parser::VALID ) {
             return $response;
         }
         
@@ -303,7 +304,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
                 $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
                 if (count( $matchedIDs) > 1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The activity history was not imported");
-                    return CRM_History_Import_Parser::ERROR;
+                    return CRM_Activity_Import_Parser::ERROR;
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['entity_id']    = $cid;
@@ -312,11 +313,11 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
            
                     if ( is_a( $newHistory, CRM_Core_Error ) ) {
                         array_unshift($values, $newHistory->_errors[0]['message']);
-                        return CRM_History_Import_Parser::ERROR;
+                        return CRM_Activity_Import_Parser::ERROR;
                     }
                     
                     $this->_newHistory[] = $newHistory->id;
-                    return CRM_History_Import_Parser::VALID;
+                    return CRM_Activity_Import_Parser::VALID;
                 }
                 
             } else {
@@ -335,7 +336,7 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
                     }
                 } 
                 array_unshift($values,"No matching Contact found for (".$disp.")");
-                return CRM_History_Import_Parser::ERROR;
+                return CRM_Activity_Import_Parser::ERROR;
             }
           
         } else {
@@ -343,11 +344,11 @@ class CRM_History_Import_Parser_ActivityHistory extends CRM_History_Import_Parse
             $newHistory = crm_create_activity_history ( $formatted );
             if ( is_a( $newHistory, CRM_Core_Error ) ) {
                 array_unshift($values, $newHistory->_errors[0]['message']);
-                return CRM_History_Import_Parser::ERROR;
+                return CRM_Activity_Import_Parser::ERROR;
             }
             
             $this->_newHistory[] = $newHistory->id;
-            return CRM_History_Import_Parser::VALID;
+            return CRM_Activity_Import_Parser::VALID;
         }
     }
    

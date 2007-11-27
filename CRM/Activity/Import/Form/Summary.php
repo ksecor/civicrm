@@ -34,12 +34,13 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/History/Import/Parser.php';
+require_once 'CRM/Activity/Import/Parser.php';
 
 /**
  * This class summarizes the import results
  */
-class CRM_History_Import_Form_Summary extends CRM_Core_Form {
+class CRM_Activity_Import_Form_Summary extends CRM_Core_Form 
+{
 
     /**
      * Function to set variables up before form is built
@@ -47,7 +48,8 @@ class CRM_History_Import_Form_Summary extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function preProcess( ) {
+    public function preProcess( ) 
+    {
 
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
@@ -73,10 +75,10 @@ class CRM_History_Import_Form_Summary extends CRM_Core_Form {
 
         $this->assign('dupeError', false);
         
-        if ($onDuplicate == CRM_History_Import_Parser::DUPLICATE_UPDATE) {
+        if ($onDuplicate == CRM_Activity_Import_Parser::DUPLICATE_UPDATE) {
             $dupeActionString = 
                 ts('These records have been updated with the imported data.');   
-        } else if ($onDuplicate == CRM_History_Import_Parser::DUPLICATE_FILL) {
+        } else if ($onDuplicate == CRM_Activity_Import_Parser::DUPLICATE_FILL) {
             $dupeActionString =
                 ts('These records have been filled in with the imported data.');
         } else {

@@ -34,21 +34,22 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/History/Import/Parser/ActivityHistory.php';
+require_once 'CRM/Activity/Import/Parser/ActivityHistory.php';
 
 /**
  * This class gets the name of the file to upload
  */
-class CRM_History_Import_Form_UploadFile extends CRM_Core_Form {
-   
+class CRM_Activity_Import_Form_UploadFile extends CRM_Core_Form 
+{
+
     /**
      * Function to actually build the form
      *
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
-
+    public function buildQuickForm( ) 
+    {
         //Setting Upload File Size
         $config =& CRM_Core_Config::singleton( );
         if ($config->maxImportFileSize >= 8388608 ) {
@@ -71,16 +72,16 @@ class CRM_History_Import_Form_UploadFile extends CRM_Core_Form {
 
         $duplicateOptions = array();        
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Skip'), CRM_History_Import_Parser::DUPLICATE_SKIP);
+            null, null, ts('Skip'), CRM_Activity_Import_Parser::DUPLICATE_SKIP);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Update'), CRM_History_Import_Parser::DUPLICATE_UPDATE);
+            null, null, ts('Update'), CRM_Activity_Import_Parser::DUPLICATE_UPDATE);
         $duplicateOptions[] = HTML_QuickForm::createElement('radio',
-            null, null, ts('Fill'), CRM_History_Import_Parser::DUPLICATE_FILL);
+            null, null, ts('Fill'), CRM_Activity_Import_Parser::DUPLICATE_FILL);
         
         $this->addGroup($duplicateOptions, 'onDuplicate', 
                         ts('On duplicate entries'));
         $this->setDefaults(array('onDuplicate' =>
-                                    CRM_History_Import_Parser::DUPLICATE_SKIP));
+                                    CRM_Activity_Import_Parser::DUPLICATE_SKIP));
 
         //build date formats
         require_once 'CRM/Core/Form/Date.php';
@@ -119,12 +120,12 @@ class CRM_History_Import_Form_UploadFile extends CRM_Core_Form {
         $seperator = ',';
         $mapper = array( );
 
-        $parser =& new CRM_History_Import_Parser_ActivityHistory( $mapper );
+        $parser =& new CRM_Activity_Import_Parser_ActivityHistory( $mapper );
         $parser->setMaxLinesToProcess( 100 );
         $parser->run( $fileName, $seperator,
                       $mapper,
                       $skipColumnHeader,
-                      CRM_History_Import_Parser::MODE_MAPFIELD);
+                      CRM_Activity_Import_Parser::MODE_MAPFIELD);
 
         // add all the necessary variables to the form
         $parser->set( $this );

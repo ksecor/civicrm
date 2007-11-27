@@ -34,13 +34,14 @@
  */
 
 require_once 'CRM/Core/Form.php';
-require_once 'CRM/History/Import/Parser/ActivityHistory.php';
+require_once 'CRM/Activity/Import/Parser/ActivityHistory.php';
 
 /**
  * This class previews the uploaded file and returns summary
  * statistics
  */
-class CRM_History_Import_Form_Preview extends CRM_Core_Form {
+class CRM_Activity_Import_Form_Preview extends CRM_Core_Form 
+{
 
     /**
      * Function to set variables up before form is built
@@ -110,7 +111,8 @@ class CRM_History_Import_Form_Preview extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
 
         $this->addButtons( array(
                                  array ( 'type'      => 'back',
@@ -142,7 +144,8 @@ class CRM_History_Import_Form_Preview extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function postProcess( ) {
+    public function postProcess( ) 
+    {
         $fileName         = $this->controller->exportValue( 'UploadFile', 'uploadFile' );
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
         $invalidRowCount    = $this->get('invalidRowCount');
@@ -173,7 +176,7 @@ class CRM_History_Import_Form_Preview extends CRM_Core_Form {
 
         }
 
-        $parser =& new CRM_History_Import_Parser_ActivityHistory( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Activity_Import_Parser_ActivityHistory( $mapperKeys ,$mapperLocType ,$mapperPhoneType );
         
         $mapFields = $this->get('fields');
 
@@ -188,11 +191,11 @@ class CRM_History_Import_Form_Preview extends CRM_Core_Form {
         $parser->run( $fileName, $seperator, 
                       $mapperFields,
                       $skipColumnHeader,
-                      CRM_History_Import_Parser::MODE_IMPORT,
+                      CRM_Activity_Import_Parser::MODE_IMPORT,
                       $onDuplicate);
         
         // add all the necessary variables to the form
-        $parser->set( $this, CRM_History_Import_Parser::MODE_IMPORT );
+        $parser->set( $this, CRM_Activity_Import_Parser::MODE_IMPORT );
         
         // check if there is any error occured
         

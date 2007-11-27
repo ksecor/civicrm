@@ -38,12 +38,13 @@ require_once 'CRM/Core/Form.php';
 require_once 'CRM/Core/DAO/Mapping.php';
 require_once 'CRM/Core/DAO/MappingField.php';
 
-require_once 'CRM/History/Import/Parser/ActivityHistory.php';
+require_once 'CRM/Activity/Import/Parser/ActivityHistory.php';
 
 /**
  * This class gets the name of the file to upload
  */
-class CRM_History_Import_Form_MapField extends CRM_Core_Form {
+class CRM_Activity_Import_Form_MapField extends CRM_Core_Form 
+{
 
     /**
      * cache of preview data values
@@ -244,7 +245,7 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
         
         $this->addElement('checkbox','saveMapping',$saveDetailsName, null, array('onclick' =>"showSaveDetails(this)"));
         
-        $this->addFormRule( array( 'CRM_History_Import_Form_MapField', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Activity_Import_Form_MapField', 'formRule' ) );
 
         //-------- end of saved mapping stuff ---------
 
@@ -576,9 +577,9 @@ class CRM_History_Import_Form_MapField extends CRM_Core_Form {
             }
         }
 
-        $parser =& new CRM_History_Import_Parser_ActivityHistory( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
+        $parser =& new CRM_Activity_Import_Parser_ActivityHistory( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
-                      CRM_History_Import_Parser::MODE_PREVIEW );
+                      CRM_Activity_Import_Parser::MODE_PREVIEW );
         
         // add all the necessary variables to the form
         $parser->set( $this );        

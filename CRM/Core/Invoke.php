@@ -742,8 +742,8 @@ class CRM_Core_Invoke
         if ( $secondArg == 'activityHistory' ) {
             $session->pushUserContext(CRM_Utils_System::url('civicrm/import/activityHistory', 'reset=1'));
 
-            require_once 'CRM/History/Import/Controller.php';
-            $controller =& new CRM_History_Import_Controller(ts('Import Activity History'));
+            require_once 'CRM/Activity/Import/Controller.php';
+            $controller =& new CRM_Activity_Import_Controller(ts('Import Activity History'));
         } else {
             $session->pushUserContext(CRM_Utils_System::url('civicrm/import', 'reset=1'));
 

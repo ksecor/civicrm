@@ -36,9 +36,10 @@
 require_once 'CRM/Utils/String.php';
 require_once 'CRM/Utils/Type.php';
 
-require_once 'CRM/History/Import/Field.php';
+require_once 'CRM/Activity/Import/Field.php';
 
-abstract class CRM_History_Import_Parser {
+abstract class CRM_Activity_Import_Parser 
+{
 
     const
         MAX_ERRORS      = 250,
@@ -221,7 +222,8 @@ abstract class CRM_History_Import_Parser {
 
  
 
-    function __construct() {
+    function __construct() 
+    {
         $this->_maxLinesToProcess = 0;
         $this->_maxErrorCount = self::MAX_ERRORS;
     }
@@ -233,7 +235,8 @@ abstract class CRM_History_Import_Parser {
                   &$mapper,
                   $skipColumnHeader = false,
                   $mode = self::MODE_PREVIEW,
-                  $onDuplicate = self::DUPLICATE_SKIP ) {
+                  $onDuplicate = self::DUPLICATE_SKIP ) 
+    {
 
         $this->init();
 
@@ -419,31 +422,35 @@ abstract class CRM_History_Import_Parser {
      * @return void
      * @access public
      */
-    function setActiveFields( $fieldKeys ) {
+    function setActiveFields( $fieldKeys ) 
+    {
         $this->_activeFieldCount = count( $fieldKeys );
         foreach ( $fieldKeys as $key ) {
             if ( empty( $this->_fields[$key] ) ) {
-                $this->_activeFields[] =& new CRM_History_Import_Field( '', ts( '- do not import -' ) );
+                $this->_activeFields[] =& new CRM_Activity_Import_Field( '', ts( '- do not import -' ) );
             } else {
                 $this->_activeFields[] = clone( $this->_fields[$key] );
             }
         }
     }
     
-    /*function setActiveFieldLocationTypes( $elements ) {
+    /*function setActiveFieldLocationTypes( $elements ) 
+    {
         for ($i = 0; $i < count( $elements ); $i++) {
             $this->_activeFields[$i]->_hasLocationType = $elements[$i];
         }
     }
     
-    function setActiveFieldPhoneTypes( $elements ) {
+    function setActiveFieldPhoneTypes( $elements ) 
+    {
         for ($i = 0; $i < count( $elements ); $i++) {
             $this->_activeFields[$i]->_phoneType = $elements[$i];
         }
     }*/
     
 
-    function setActiveFieldValues( $elements, &$erroneousField ) {    
+    function setActiveFieldValues( $elements, &$erroneousField ) 
+    {    
         $maxCount = count( $elements ) < $this->_activeFieldCount ? count( $elements ) : $this->_activeFieldCount;
         for ( $i = 0; $i < $maxCount; $i++ ) {
             $this->_activeFields[$i]->setValue( $elements[$i] );
@@ -473,7 +480,8 @@ abstract class CRM_History_Import_Parser {
      * @return array (reference ) associative array of name/value pairs
      * @access public
      */
-    function &getActiveFieldParams( ) {
+    function &getActiveFieldParams( ) 
+    {
         $params = array( );
         for ( $i = 0; $i < $this->_activeFieldCount; $i++ ) {
             if ( isset( $this->_activeFields[$i]->_value ) ) {
@@ -505,7 +513,8 @@ abstract class CRM_History_Import_Parser {
         return $params;
     }
 
-    function getSelectValues() {
+    function getSelectValues() 
+    {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
             $values[$name] = $field->_title;
@@ -513,7 +522,8 @@ abstract class CRM_History_Import_Parser {
         return $values;
     }
 
-    function getSelectTypes() {
+    function getSelectTypes() 
+    {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
             $values[$name] = $field->_hasLocationType;
@@ -521,7 +531,8 @@ abstract class CRM_History_Import_Parser {
         return $values;
     }
 
-    function getHeaderPatterns() {
+    function getHeaderPatterns() 
+    {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
             $values[$name] = $field->_headerPattern;
@@ -529,7 +540,8 @@ abstract class CRM_History_Import_Parser {
         return $values;
     }
 
-    function getDataPatterns() {
+    function getDataPatterns() 
+    {
         $values = array();
         foreach ($this->_fields as $name => $field ) {
             $values[$name] = $field->_dataPattern;
@@ -537,14 +549,15 @@ abstract class CRM_History_Import_Parser {
         return $values;
     }
 
-    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') {
+    function addField( $name, $title, $type = CRM_Utils_Type::T_INT, $headerPattern = '//', $dataPattern = '//') 
+    {
         if ( empty( $name ) ) {
-            $this->_fields['doNotImport'] =& new CRM_History_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
+            $this->_fields['doNotImport'] =& new CRM_Activity_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
         } else {
             
             $tempField = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             if (! array_key_exists ($name,$tempField) ) {
-                $this->_fields[$name] =& new CRM_History_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
+                $this->_fields[$name] =& new CRM_Activity_Import_Field($name, $title, $type, $headerPattern, $dataPattern);
             } else {
                 require_once 'CRM/Import/Field.php';
                 $this->_fields[$name] =& new CRM_Import_Field($name, $title, $type, $headerPattern, $dataPattern,$tempField[$name]['hasLocationType']);
@@ -561,7 +574,8 @@ abstract class CRM_History_Import_Parser {
      * @return void
      * @access public
      */
-    function setMaxLinesToProcess( $max ) {
+    function setMaxLinesToProcess( $max ) 
+    {
         $this->_maxLinesToProcess = $max;
     }
 
@@ -573,7 +587,8 @@ abstract class CRM_History_Import_Parser {
      * @return void
      * @access public
      */
-    function set( $store, $mode = self::MODE_SUMMARY ) {
+    function set( $store, $mode = self::MODE_SUMMARY ) 
+    {
         $store->set( 'fileSize'   , $this->_fileSize          );
         $store->set( 'lineCount'  , $this->_lineCount         );
         $store->set( 'seperator'  , $this->_seperator         );
@@ -617,7 +632,8 @@ abstract class CRM_History_Import_Parser {
      * @return void
      * @access public
      */
-    static function exportCSV($fileName, $header, $data) {
+    static function exportCSV($fileName, $header, $data) 
+    {
         $output = array();
         $fd = fopen($fileName, 'w');
 
@@ -645,7 +661,8 @@ abstract class CRM_History_Import_Parser {
      * @static
      * @access public
      */
-    static function encloseScrub(&$values, $enclosure = "'") {
+    static function encloseScrub(&$values, $enclosure = "'") 
+    {
         if (empty($values)) 
             return;
 

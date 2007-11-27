@@ -35,7 +35,7 @@
 
 require_once 'CRM/Core/Controller.php';
 
-class CRM_History_Import_Controller extends CRM_Core_Controller {
+class CRM_Activity_Import_Controller extends CRM_Core_Controller {
 
     /**
      * class constructor
@@ -43,8 +43,8 @@ class CRM_History_Import_Controller extends CRM_Core_Controller {
     function __construct( $title = null, $action = CRM_Core_Action::NONE, $modal = true ) {
         parent::__construct( $title, $modal );
 
-        require_once 'CRM/History/Import/StateMachine.php';
-        $this->_stateMachine =& new CRM_History_Import_StateMachine( $this, $action );
+        require_once 'CRM/Activity/Import/StateMachine.php';
+        $this->_stateMachine =& new CRM_Activity_Import_StateMachine( $this, $action );
         
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
