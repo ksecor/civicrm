@@ -32,7 +32,7 @@
        <onDelete>CASCADE</onDelete>
   </foreignKey>  
   <field>
-       <name>casetag1_id</name>
+       <name>case_type_id</name>
        <type>varchar</type>
        <length>128</length>
        <required>true</required>
@@ -40,9 +40,24 @@
        <add>1.8</add>
   </field>
   <index>
+       <name>index_case_type_id</name>
+       <fieldName>case_type_id</fieldName>
+       <add>1.8</add>
+  </index>
+  <field>
+       <name>casetag1_id</name>
+       <type>varchar</type>
+       <length>128</length>
+       <required>true</required>
+       <comment>Id of first case category.</comment>
+       <add>1.8</add>
+       <drop>2.0</drop>
+  </field>
+  <index>
        <name>index_casetag1_id</name>
        <fieldName>casetag1_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>
   </index>
   <field>
        <name>casetag2_id</name>
@@ -51,11 +66,13 @@
        <required>true</required>
        <comment>Id of second case category.</comment>
        <add>1.8</add>
+       <drop>2.0</drop>       
   </field>
   <index>
        <name>index_casetag2_id</name>
        <fieldName>casetag2_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>
   </index>
   <field>
        <name>casetag3_id</name>
@@ -64,11 +81,13 @@
        <required>true</required>
        <comment>Id of third case category.</comment>
        <add>1.8</add>
+       <drop>2.0</drop>
   </field>
   <index>
        <name>index_casetag3_id</name>
        <fieldName>casetag3_id</fieldName>
        <add>1.8</add>
+       <drop>2.0</drop>
   </index>
   <field>
       <name>subject</name>
@@ -93,7 +112,7 @@
       <name>details</name>
       <type>text</type>
       <comment>Details about the meeting (agenda, notes, etc).</comment>
-       <add>1.1</add>
+       <add>1.8</add>
   </field>
   <field>
        <name>status_id</name>
