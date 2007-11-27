@@ -217,8 +217,6 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
             }
         }
         
-        /* FIXME: query below (commented) does not work for cases where admin=NULL */
-        //$query = "SELECT * FROM `civicrm_membership_status` WHERE `is_active`=1 AND `is_admin`!=1 ORDER BY weight ASC";
         $query = "SELECT * FROM civicrm_membership_status WHERE is_active=1 ORDER BY weight ASC";
 
         $membershipStatus =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );

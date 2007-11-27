@@ -132,6 +132,12 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
      */
     public function buildQuickForm( $check = false ) 
     {
+        parent::buildQuickForm( );
+
+        if ($this->_action & CRM_Core_Action::DELETE ) { 
+            return;
+        }
+        
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PaymentProcessor' );
 
         $this->add( 'text', 'name', ts( 'Name' ),
@@ -166,10 +172,10 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
 
         $this->addFormRule( array( 'CRM_Admin_Form_PaymentProcessor', 'formRule' ) );
 
-        parent::buildQuickForm( );
     }
 
     static function formRule( &$fields ) {
+
         // make sure that at least one of live or test is present
         // and we have at least name and url_site 
         // would be good to make this processor specific
@@ -270,6 +276,12 @@ class CRM_Admin_Form_PaymentProcessor extends CRM_Admin_Form
      */
     public function postProcess() 
     {
+        if ( $this->_action & CRM_Core_Action::DELETE ) {
+            CRM_Core_BAO_PaymentProcessor::del( $this->_id );
+            CRM_Core_Session::setStatus( ts('Selected Payment Processor has been deleted.') );
+            return;
+        }
+
         $values = $this->controller->exportValues( $this->_name );
 
         $domainID = CRM_Core_Config::domainID( );
