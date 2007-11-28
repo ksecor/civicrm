@@ -199,7 +199,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
     public function buildQuickForm()
     {
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity');
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import');
 
         $this->assign('savedMapping',$mappingArray);
         $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
@@ -487,7 +487,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-              if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity')){
+              if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import')){
                      $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
@@ -644,7 +644,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form
             
             $mappingParams = array('name'         => $params['saveMappingName'],
                                    'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import Activity');
+                                   'mapping_type' => 'Import');
             
             $temp = array();
             $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
