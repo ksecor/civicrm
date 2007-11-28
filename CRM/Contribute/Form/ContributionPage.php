@@ -83,9 +83,12 @@ class CRM_Contribute_Form_ContributionPage extends CRM_Core_Form {
             $this->_single = $session->get('singleForm');
         }
  
-        // setting title for html page
+        // setting title and 3rd level breadcrumb for html page if contrib page exists
         if ( $this->_id ) {
             $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
+            $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" );
+            CRM_Utils_System::appendBreadCrumb( ts('Configure Contribution Page'),
+                                               $breadCrumbPath );
         }
         if ($this->_action == CRM_Core_Action::UPDATE) {
             CRM_Utils_System::setTitle(ts('Configure Page - %1', array(1 => $title)));

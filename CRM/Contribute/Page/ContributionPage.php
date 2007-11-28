@@ -159,7 +159,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                              'action=browse&reset=1' ) );
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
+            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
                                                 $breadCrumbPath );
             CRM_Utils_System::setTitle( ts('Manage Contribution Page') );
             return $controller->run( );
@@ -169,13 +169,13 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                              "action=update&reset=1&id={$id}") );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
+            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
                                                 $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
+            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
                                                 $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::COPY) {
