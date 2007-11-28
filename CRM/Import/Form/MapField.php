@@ -46,7 +46,8 @@ require_once 'CRM/Import/Parser/Contact.php';
 /**
  * This class gets the name of the file to upload
  */
-class CRM_Import_Form_MapField extends CRM_Core_Form {
+class CRM_Import_Form_MapField extends CRM_Core_Form 
+{
 
     /**
      * cache of preview data values
@@ -108,7 +109,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @return string
      * @access public
      */
-    public function defaultFromHeader($header, &$patterns) {
+    public function defaultFromHeader($header, &$patterns) 
+    {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if ( empty( $re ) ) {
@@ -131,7 +133,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @return string
      * @access public
      */
-    public function defaultFromData(&$patterns, $index) {
+    public function defaultFromData(&$patterns, $index) 
+    {
         $best = '';
         $bestHits = 0;
         $n = count($this->_dataValues);
@@ -196,7 +199,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
     public function buildQuickForm()
     {
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import');
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity');
 
         $this->assign('savedMapping',$mappingArray);
         $this->addElement('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray, array('onchange' =>  "if (this.value) document.getElementById('loadMapping').disabled = false; else document.getElementById('loadMapping').disabled = true;"));
@@ -475,7 +478,8 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields ) 
+    {
         $errors  = array( );
 
         if ( CRM_Utils_Array::value( 'saveMapping', $fields ) ) {
@@ -483,7 +487,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-              if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import')){
+              if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity')){
                      $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
@@ -640,7 +644,7 @@ class CRM_Import_Form_MapField extends CRM_Core_Form {
             
             $mappingParams = array('name'         => $params['saveMappingName'],
                                    'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import');
+                                   'mapping_type' => 'Import Activity');
             
             $temp = array();
             $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;
