@@ -38,7 +38,7 @@ require_once 'CRM/Activity/Import/Parser.php';
 require_once 'api/crm.php';
 
 /**
- * class to parse activity history csv files
+ * class to parse activity csv files
  */
 class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser 
 {
@@ -51,7 +51,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     //protected $_mapperLocType;
     //protected $_mapperPhoneType;
     /**
-     * Array of succesfully imported activity history id's
+     * Array of succesfully imported activity id's
      *
      * @array
      */
@@ -303,7 +303,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             if ( self::isDuplicate($error) ) {
                 $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
                 if (count( $matchedIDs) > 1) {
-                    array_unshift($values,"Multiple matching contact records detected for this row. The activity history was not imported");
+                    array_unshift($values,"Multiple matching contact records detected for this row. The activity was not imported");
                     return CRM_Activity_Import_Parser::ERROR;
                 } else {
                     $cid = $matchedIDs[0];
@@ -353,7 +353,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     }
    
     /**
-     * Get the array of succesfully imported history id's
+     * Get the array of succesfully imported activity id's
      *
      * @return array
      * @access public

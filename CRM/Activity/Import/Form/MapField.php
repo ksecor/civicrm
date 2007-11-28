@@ -203,7 +203,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
         //get the saved mapping details
     
         require_once "CRM/Core/BAO/Mapping.php";
-        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity History');
+        $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity');
 
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
@@ -457,7 +457,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             if ( empty( $nameField ) ) {
                 $errors['saveMappingName'] = ts('Name is required to save Import Mapping');
             } else {
-                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity History')){
+                if(CRM_Core_BAO_Mapping::checkMapping($nameField,'Import Activity')){
                      $errors['saveMappingName'] = ts('Duplicate Import Mapping Name');
                 }
             }
@@ -559,7 +559,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
         if ( CRM_Utils_Array::value('saveMapping', $params)) {
             $mappingParams = array('name'         => $params['saveMappingName'],
                                    'description'  => $params['saveMappingDesc'],
-                                   'mapping_type' => 'Import Activity History');
+                                   'mapping_type' => 'Import Activity');
             
             $temp = array();
             $saveMapping = CRM_Core_BAO_Mapping::add($mappingParams, $temp) ;

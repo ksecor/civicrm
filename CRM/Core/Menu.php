@@ -1050,9 +1050,9 @@ class CRM_Core_Menu {
                              'weight'  => 410,
                              ),
                        array( 
-                             'path'    => 'civicrm/import/activityHistory', 
+                             'path'    => 'civicrm/import/activity', 
                              'query'   => 'reset=1',
-                             'title'   => ts( 'Activity History' ), 
+                             'title'   => ts( 'Activity' ), 
                              'access'  => CRM_Core_Permission::check( 'import contacts' ) &&
                              CRM_Core_Permission::check( 'access CiviCRM' ), 
                              'type'    => CRM_Core_Menu::CALLBACK,  
