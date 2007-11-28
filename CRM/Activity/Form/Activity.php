@@ -95,19 +95,22 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve('context', 'String', $this );
         $this->assign( 'context', $this->_context );
 
-        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
-        if ( $this->_context != 'standalone' || $this->_activityTypeId ) {
+        $this->_action = CRM_Utils_Request::retrieve('action', 'String', $this );
+        $this->assign( 'action', $this->_action);
 
-            $this->_currentlyViewedContactId = $this->get('contactId');
-            
-            // if we're not adding new one, there must be an id to
-            // an activity we're trying to work on.
-            if ($this->_action != CRM_Core_Action::ADD) {
-                $this->_activityId = $this->get('id');
-            }
-            
+        // if we're not adding new one, there must be an id to
+        // an activity we're trying to work on.
+        if ($this->_action != CRM_Core_Action::ADD) {
+            $this->_activityId = $this->get('id');
+        }
+        
+        $this->_currentlyViewedContactId = $this->get('contactId');
+
+        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
+
+        if ( $this->_context != 'standalone' || $this->_activityTypeId ) {
             // get the tree of custom fields
-            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId);
+            $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
             
             //set activity type name and description to template
             require_once 'CRM/Core/BAO/OptionValue.php';
@@ -117,10 +120,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign( 'activityTypeDescription', $activityTypeDescription );
         }
         
-        $this->_action = CRM_Utils_Request::retrieve('action', 'String',
-                                                     $this, false, 'browse');
-        $this->assign( 'action', $this->_action);
-
         $this->setDefaultValues();
     }
     
@@ -148,6 +147,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
             
+            if ( $this->_context != 'standalone' )  {
+                $this->assign( 'target_contact_value', $defaults['target_contact'] );
+            }
 //            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
             
 //            if (! $this->_subject){
@@ -198,7 +200,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             }
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         }
-        
+
         return $defaults;
     }
 
@@ -479,8 +481,8 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         if ( $params['assignee_contact'] ) {
             $params['assignee_contact_id'] = CRM_Contact_BAO_Contact::getIdByDisplayName( $params['assignee_contact'] );
         }
-
-        if ($this->_action & CRM_Core_Action::UPDATE ) {
+        
+        if ( isset($this->_activityId) ) {
             $params['id'] = $this->_activityId;
 
 //            require_once 'CRM/Case/DAO/CaseActivity.php';

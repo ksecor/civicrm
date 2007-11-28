@@ -11,7 +11,7 @@
 {/if}
 
 {* added onload javascript for target contact*}
-{if $target_contact_value}
+{if $target_contact_value and $standalone }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
