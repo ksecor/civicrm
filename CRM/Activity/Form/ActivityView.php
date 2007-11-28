@@ -1,0 +1,95 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the Affero General Public License Version 1,    |
+ | March 2002.                                                        |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the Affero General Public License for more details.            |
+ |                                                                    |
+ | You should have received a copy of the Affero General Public       |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org.  If you have questions about the       |
+ | Affero General Public License or the licensing  of CiviCRM,        |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
+
+require_once 'CRM/Core/Form.php';
+
+/**
+ * This class handle activity view mode
+ * 
+ */
+class CRM_Activity_Form_ActivityView extends CRM_Core_Form
+{
+    /**  
+     * Function to set variables up before form is built  
+     *                                                            
+     * @return void  
+     * @access public  
+     */
+    public function preProcess( ) 
+    {
+        //get the activity values
+        $activityId = CRM_Utils_Request::retrieve('id', 'String', $this );
+
+        $params = array( 'id' => $activityId );
+            
+        require_once "CRM/Activity/BAO/Activity.php";
+        CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $activityId );
+
+        //set activity type name and description to template
+        require_once 'CRM/Core/BAO/OptionValue.php';
+        list( $activityTypeName, $activityTypeDescription ) = CRM_Core_BAO_OptionValue::getActivityTypeDetails( $defaults['activity_type_id'] );
+        
+        $this->assign( 'activityTypeName', $activityTypeName );
+        $this->assign( 'activityTypeDescription', $activityTypeDescription );
+        
+        foreach ( $defaults as $key => $value ) {
+            if ( substr( $key, -3)  != '_id' ) {
+                $values[$key] = $value;
+            }
+        }
+
+        $this->assign( 'values', $values ); 
+    }
+
+    /**
+     * Function to build the form
+     *
+     * @return None
+     * @access public
+     */
+    public function buildQuickForm( ) 
+    {
+        $this->addButtons(array(  
+                                array ( 'type'      => 'next',  
+                                        'name'      => ts('Done'),  
+                                        'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
+                                        'isDefault' => true   )
+                                )
+                          );
+    }
+
+}
+
+?>
