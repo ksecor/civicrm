@@ -597,7 +597,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
 
         if ( $this->_showDemographics ) {
             if( ! isset( $params['is_deceased'] ) || $params['is_deceased'] != 1 ) { 
-                $params['deceased_date'] = null;
+                $params['deceased_date']['M'] = $params['deceased_date']['d'] = 
+                    $params['deceased_date']['Y'] = null;
+                $params['is_deceased'] = 0;
             }
         }
 
