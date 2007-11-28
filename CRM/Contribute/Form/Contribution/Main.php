@@ -128,7 +128,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         // hack to simplify credit card entry for testing
         $this->_defaults['credit_card_type']     = 'Visa';
-        $this->_defaults['amount']               = 5.00;
+        $this->_defaults['amount']               = 168;
         $this->_defaults['credit_card_number']   = '4807731747657838';
         $this->_defaults['cvv2']                 = '000';
         $this->_defaults['credit_card_exp_date'] = array( 'Y' => '2008', 'M' => '01' );
