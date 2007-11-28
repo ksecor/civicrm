@@ -178,33 +178,20 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         
         $relationship->save( );
         
-        // add custom field values
+        // add custom field values               
         if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_relationship',
-                                  'entity_id'       => $relationship->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_relationship', $relationship->id );
         }
-
+        
         $relationship->free( );
-
+        
         if ( CRM_Utils_Array::value( 'relationship', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Relationship', $relationship->id, $relationship );
         } else {
             CRM_Utils_Hook::post( 'create', 'Contribution', $relationship->id, $relationship );
         }
-
+        
         return $relationship;
     }
 
@@ -330,16 +317,6 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             self::relatedMemberships( $relationship->contact_id_a, $params, $ids, CRM_Core_Action::DELETE );
         }
         
-        //delete Custom Data, if any
-        require_once 'CRM/Core/DAO/CustomValue.php';
-        $cutomDAO = & new CRM_Core_DAO_CustomValue();
-        $cutomDAO->entity_id = $id;
-        $cutomDAO->entity_table = 'civicrm_relationship';
-        $cutomDAO->find( );
-        while( $cutomDAO->fetch( )) {
-            $cutomDAO->delete();
-        }
-
         $relationship->delete();
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
         
