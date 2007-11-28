@@ -71,9 +71,15 @@ class CRM_Utils_Address_USPS {
         $responseBody = $request->getResponseBody( );
         
         $xml = simplexml_load_string( $responseBody );
+
+        $session =& CRM_Core_Session::singleton( );
+
+        if ( $xml->Number == '80040b1a' ) {
+            $session->setStatus( ts( 'Your API Authorization is Failed.' ) );
+            return false;
+        }
         
         if (array_key_exists('Error', $xml->Address)) {
-            $session =& CRM_Core_Session::singleton( );
             $session->setStatus( ts( 'Address not found in USPS database.' ) );
             return false;
         }
