@@ -79,15 +79,15 @@ class CRM_Activity_Import_Form_Preview extends CRM_Core_Form
         }
         
         if ($invalidRowCount) {
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=history'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=activity'));
         }
 
         if ($conflictRowCount) {
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=history'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=activity'));
         }
         
         if ($mismatchCount) {
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=history'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=activity'));
         }
 
         
@@ -205,7 +205,7 @@ class CRM_Activity_Import_Form_Preview extends CRM_Core_Form
         $errorMessage = array();
         
         $config =& CRM_Core_Config::singleton( );
-        
+       
         if( is_array( $errors ) ) {
             foreach($errors as $key => $value) {
                 $errorMessage[] = $value['message'];
@@ -219,9 +219,9 @@ class CRM_Activity_Import_Form_Preview extends CRM_Core_Form
             fclose($fd);
             
             $this->set('errorFile', $errorFile);
-            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=history'));
-            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=history'));
-            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=history'));
+            $this->set('downloadErrorRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=1&realm=activity'));
+            $this->set('downloadConflictRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=2&realm=activity'));
+            $this->set('downloadMismatchRecordsUrl', CRM_Utils_System::url('civicrm/export', 'type=4&realm=activity'));
         }
     }
 

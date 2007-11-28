@@ -972,8 +972,8 @@ class CRM_Core_Invoke
             $controller = 'CRM_Member_Import_Controller';
         } else if ( $realm == 'event' ) {
             $controller = 'CRM_Event_Import_Controller';
-        } else if ( $realm == 'history' ) {
-            $controller = 'CRM_History_Import_Controller';
+        } else if ( $realm == 'activity' ) {
+            $controller = 'CRM_Activity_Import_Controller';
         } else {
             $controller = 'CRM_Import_Controller';
         }

@@ -36,7 +36,8 @@
 
 require_once 'CRM/Core/I18n.php';
 
-class CRM_Core_Menu {
+class CRM_Core_Menu 
+{
 
     /**
      * the list of menu items
@@ -97,7 +98,8 @@ class CRM_Core_Menu {
      * @static
      * @access public
      */
-    static function &items( ) {
+    static function &items( ) 
+    {
         if ( ! self::$_items ) {
             require_once 'CRM/Core/Permission.php';
 
@@ -121,9 +123,6 @@ class CRM_Core_Menu {
 
             case 'group':
                 $items =& self::groupItems( );
-                break;
-            case 'history':
-                $items =& self::historyItems( );
                 break;
 
             case 'import':
@@ -163,7 +162,8 @@ class CRM_Core_Menu {
      * @static
      * @access public
      */
-    static function &permissionedItems( ) {
+    static function &permissionedItems( ) 
+    {
         if ( ! self::$_permissionedItems ) {
             require_once 'CRM/Core/Permission.php';
 
@@ -315,7 +315,8 @@ class CRM_Core_Menu {
      * @return void
      * @access static
      */
-    static function createLocalTasks( $path ) {
+    static function createLocalTasks( $path ) 
+    {
         if ( $path == 'civicrm/contact/view/tabbed' ) {
             return;
         }
@@ -390,7 +391,8 @@ class CRM_Core_Menu {
      * @access public
      * @static
      */
-    static function add( &$item ) {
+    static function add( &$item ) 
+    {
         // make sure the menu system is initialized before we add stuff to it
         self::items( );
 
@@ -408,7 +410,8 @@ class CRM_Core_Menu {
      * @access public
      * @static
      */
-    static function addParam( $key, $value ) {
+    static function addParam( $key, $value ) 
+    {
         if ( ! self::$_params ) {
             self::$_params = array( );
         }
@@ -422,7 +425,8 @@ class CRM_Core_Menu {
      * @static
      * @access private
      */
-    static function initialize( ) {
+    static function initialize( ) 
+    {
         self::$_rootLocalTasks = array( );
 
         for ( $i = 0; $i < count( self::$_items ); $i++ ) {
@@ -459,8 +463,8 @@ class CRM_Core_Menu {
      * @static
      * @access public
      */
-    public static function &breadcrumb( $args ) {
-
+    public static function &breadcrumb( $args ) 
+    {
         // we dont care about the current menu item
         array_pop( $args );
 
@@ -551,7 +555,8 @@ class CRM_Core_Menu {
     }
 
    
-    static function &adminItems( ) {
+    static function &adminItems( ) 
+    {
         // helper variable for nicer formatting
         $drupalSyncExtra = ts('Synchronize Users to Contacts:') . ' ' . ts('CiviCRM will check each user record for a contact record. A new contact record will be created for each user where one does not already exist.') . '\n\n' . ts('Do you want to continue?');
         $backupDataExtra = ts('Backup Your Data:') . ' ' . ts('CiviCRM will create an SQL dump file with all of your existing data, and allow you to download it to your local computer. This process may take a long time and generate a very large file if you have a large number of records.') . '\n\n' . ts('Do you want to continue?');
@@ -854,7 +859,8 @@ class CRM_Core_Menu {
         return $items;
     }
 
-    static function &miscItems( ) {
+    static function &miscItems( ) 
+    {
         $items = array(
                      array( 
                            'path'    => 'civicrm/quickreg', 
@@ -893,7 +899,8 @@ class CRM_Core_Menu {
         return $items;
     }
 
-    static function &contactItems( ) {
+    static function &contactItems( ) 
+    {
         $items = array(
                        array(
                              'path'    => 'civicrm/contact/search',
@@ -1017,7 +1024,8 @@ class CRM_Core_Menu {
         return $items;
     }
 
-    static function &groupItems( ) {
+    static function &groupItems( ) 
+    {
         $items = array(
                        array(
                              'path'   => 'civicrm/group/search',
@@ -1037,7 +1045,8 @@ class CRM_Core_Menu {
         return $items;
     }
 
-    static function &importItems( ) {
+    static function &importItems( ) 
+    {
         $items = array(
                        array( 
                              'path'    => 'civicrm/import/contact',
@@ -1063,36 +1072,8 @@ class CRM_Core_Menu {
         return $items;
     }
 
-    static function &historyItems( ) {
-        $items = array(
-                       array(
-                             'path'    => 'civicrm/history/activity/detail',
-                             'title'   => ts('Activity Detail'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/history/activity/delete',
-                             'title'   => ts('Delete Activity'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-
-                       array(
-                             'path'    => 'civicrm/history/email',
-                             'title'   => ts('Sent Email Message'),
-                             'type'    => self::CALLBACK,
-                             'crmType' => self::CALLBACK,
-                             'weight'  => 0,
-                             ),
-                       );
-        return $items;
-    }
-
-    static function &profileItems( ) {
+    static function &profileItems( ) 
+    {
         $items = array(
                        array(
                              'path'    => 'civicrm/profile/create',
