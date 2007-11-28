@@ -12,3 +12,9 @@
 -- *******************************************************/
     UPDATE civicrm_payment_processor_type SET url_site_test_default = 'https://sandbox.google.com/checkout/' WHERE name = 'Google_Checkout';
 
+-- /*******************************************************
+-- *
+-- * fix for CRM-2457
+-- *
+-- *******************************************************/
+    UPDATE civicrm_group SET group_type = INSERT(group_type, LOCATE(1,group_type)-1, IF(CHAR_LENGTH(group_type) = 3, 3, 2),'') WHERE saved_search_id IS NOT NULL AND group_type LIKE '%1%'; 
