@@ -181,9 +181,15 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                        CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Group', 'description' ) );
 
             require_once 'CRM/Core/OptionGroup.php';
+            $groupTypes = CRM_Core_OptionGroup::values( 'group_type', true );
+            if ( isset($this->_id) ) {
+                if ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group', $this->_id, 'saved_search_id' ) ) {
+                    unset($groupTypes['Access Control']);
+                }
+            }
             $this->addCheckBox( 'group_type',
                                 ts( 'Group Type' ),
-                                CRM_Core_OptionGroup::values( 'group_type', true ),
+                                $groupTypes,
                                 null, null, null, null, '&nbsp;&nbsp;&nbsp;' );
 
             $this->add( 'select', 'visibility', ts('Visibility'        ), CRM_Core_SelectValues::ufVisibility( ), true ); 
