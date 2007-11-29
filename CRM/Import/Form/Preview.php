@@ -368,7 +368,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
             require_once 'CRM/Core/BAO/Tag.php';
             $id = array();
             $addedTag =& CRM_Core_BAO_Tag::add($tagParams,$id);
-            $tag = array($addedTag->id => 1) ;            
+            $tag[$addedTag->id] = 1;            
         }
         //add Tag to Import   
         
