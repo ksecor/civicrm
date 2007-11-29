@@ -66,14 +66,26 @@ class CRM_Widget_Widget {
 
         $data = new stdClass();
 
+        if ( empty( $id ) ||
+             CRM_Utils_Type::validate( $contributionPageID, 'Integer' ) == null ) {
+            $data->is_error = true;
+            return;
+        }
+            
         require_once 'CRM/Contribute/DAO/Widget.php';
         $widget = new CRM_Contribute_DAO_Widget( );
-        $data->is_active = true;
-        if ( ! $widget->find( true ) ||
-             ! $widget->is_active ) {
+        $widget->contribution_page_id = $contributionPageID;
+        if ( ! $widget->find( true ) ) {
+            $data->is_error = true;
+            return;
+        }
+
+        $data->is_error = false;
+        if ( ! $widget->is_active ) {
             $data->is_active = false;
         }
 
+        $data->is_active = true;
         $data->title = $widget->title;
         $data->logo = $widget->url_logo;
         $data->button_title = $widget->button_title;
@@ -94,6 +106,9 @@ AND    contribution_page_id = %1";
         if ( $dao->fetch( ) ) {
             $data->num_donors   = $dao->count;
             $data->money_raised = $dao->amount;
+        } else {
+            $data->is_error = true;
+            return;
         }
 
         $query = "
@@ -148,9 +163,6 @@ WHERE  id = %1";
         $data->colors["about_link"]    = $widget->color_about_link;
         $data->colors["homepage_link"] = $widget->color_homepage_link;
 
-        // +++ this can be removed at some point
-        // $data->debug = print_r(func_get_args(),1);
-    
         require_once 'CRM/Core/Error.php';
         return $data;
 	}
