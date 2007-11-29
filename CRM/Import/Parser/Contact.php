@@ -481,8 +481,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $relationship = true;
             }
         } else {
-            //CRM_Core_Error::debug( '$formatted', $formatted );
-            
+           
+            $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', $formatted['prefix'] );
+            $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', $formatted['suffix'] );
+            $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', $formatted['gender'] );
+           
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
             
             // $error = civicrm_contact_check_params( $formatted, 
