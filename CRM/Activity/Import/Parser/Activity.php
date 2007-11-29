@@ -96,10 +96,10 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
-            case 'entity_id':
+            case 'source_contact_id':
                 $this->_contactIdIndex        = $index;
                 break;
-            case 'activity_type':
+            case 'activity_type_id':
                 $this->_activityTypeIndex     = $index;
                 break;
             case 'activity_date':
@@ -143,9 +143,11 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @return boolean      the result of this processing
      * @access public
      */
-    function summary( &$values ) {
+    function summary( &$values ) 
+    {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
+        
         /*if ($response != CRM_Activity_Import_Parser::VALID) {
             array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
             return CRM_Activity_Import_Parser::ERROR;
@@ -307,8 +309,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     return CRM_Activity_Import_Parser::ERROR;
                 } else {
                     $cid = $matchedIDs[0];
-                    $formatted['entity_id']    = $cid;
-                    $formatted['entity_table'] = 'civicrm_contact';
+                    $formatted['source_contact_id']    = $cid;
+                    //$formatted['entity_table'] = 'civicrm_contact';
                     $newHistory = crm_create_activity_history( $formatted );
            
                     if ( is_a( $newHistory, CRM_Core_Error ) ) {

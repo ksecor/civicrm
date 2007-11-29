@@ -78,7 +78,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      */
     protected $_columnCount;
 
-
     /**
      * column headers, if we have them
      *
@@ -96,8 +95,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      */
     protected $_fieldUsed;
     
-
-    
     /**
      * Attempt to resolve the header with our mapper fields
      *
@@ -106,7 +103,8 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      * @return string
      * @access public
      */
-    public function defaultFromHeader($header, &$patterns) {
+    public function defaultFromHeader($header, &$patterns) 
+    {
         foreach ($patterns as $key => $re) {
             /* Skip the first (empty) key/pattern */
             if (empty($re)) continue;
@@ -132,7 +130,8 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      * @return string
      * @access public
      */
-    public function defaultFromData(&$patterns, $index) {
+    public function defaultFromData(&$patterns, $index) 
+    {
         $best = '';
         $bestHits = 0;
         $n = count($this->_dataValues);
@@ -391,9 +390,9 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
      * @static
      * @access public
      */
-    static function formRule( &$fields ) {
+    static function formRule( &$fields ) 
+    {
         $errors  = array( );
-
         if (!array_key_exists('savedMapping', $fields)) {
             $importKeys = array();
             foreach ($fields['mapper'] as $mapperPart) {
@@ -425,14 +424,14 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'entity_id' &&  $defaultFlag ) {
+                    if( $field == 'source_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
                             continue;    
                         } else {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
                         }
                         
-                    } else if ( $field == 'entity_id' &&  ! $defaultFlag ) {
+                    } else if ( $field == 'source_contact_id' &&  ! $defaultFlag ) {
                         $flag = true;
                         foreach ( $fieldsArray as $v ) {
                             if ( in_array( trim($v), $importKeys )) {
