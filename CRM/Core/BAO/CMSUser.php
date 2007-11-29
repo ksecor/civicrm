@@ -147,7 +147,7 @@ class CRM_Core_BAO_CMSUser
             }
             return true;
         } elseif ( $isJoomla ) {            
-            return self::createJoomlaUser( &$params, $mail );           
+            return self::createJoomlaUser( $params, $mail );           
         }
     }
 
