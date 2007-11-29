@@ -41,6 +41,7 @@
     <name>parent_group_id</name>
     <table>civicrm_group</table>
     <key>id</key>
+    <onDelete>CASCADE</onDelete>
     <add>2.0</add>
   </foreignKey>
 </table>

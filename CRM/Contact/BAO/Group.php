@@ -324,22 +324,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
 
         // add custom field values
         if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_group',
-                                  'entity_id'       => $group->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                require_once 'CRM/Core/BAO/CustomValue.php';
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_group', $group->id );
         }
 
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
