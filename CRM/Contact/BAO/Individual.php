@@ -84,55 +84,41 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
 
         $params['is_deceased'] = CRM_Utils_Array::value( 'is_deceased', $params, false );
         
-        // a comma should only be present if both first_name and last name are present.
-        if ($firstName && $lastName) {
-            $sortName = "$lastName, $firstName";
-        } else {
-            if ( empty($firstName) && $lastName ) {
-                $sortName = $lastName;
-            } else if ( $firstName && empty($lastName) ) {
-                $sortName = $firstName;
-            } else if ( $contact->id ){
-                $individual =& new CRM_Contact_BAO_Contact();
-                $individual->contact_id = $contact->id;
-                if ( $individual->find( true ) ) {
-                    $individualLastName   = $individual->last_name;
-                    $individualFirstName  = $individual->first_name;
-                    $individualPrefix     = $individual->prefix_id;
-                    $individualSuffix     = $individual->suffix_id;
-                    $individualMiddleName = $individual->middle_name;
+        if ( $contact->id ) {
+            $individual =& new CRM_Contact_BAO_Contact();
+            $individual->id = $contact->id;
+            if ( $individual->find( true ) ) {
+                foreach ( array( 'last', 'middle', 'first' ) as $name ) {
+                    $phpName = "{$name}Name";
+                    $dbName  = "{$name}_name";
+                    $value   = $individual->$dbName;
+                    if ( empty( $$phpName ) &&
+                         ! CRM_Utils_Array::value( $phpName, $params ) &&
+                         ! empty( $value ) ) {
+                        $$phpName = $value;
+                    }
                 }
-                
-                if (empty($lastName) && CRM_Utils_Array::value('last_name', $params) && !empty($individualLastName)) {
-                    $lastName = $individualLastName;
-                } 
-                
-                if (empty($firstName) && CRM_Utils_Array::value('first_name', $params) && !empty($individualFirstName)) {
-                    $firstName = $individualFirstName;
-                }
-                
-                if (empty($prefix) && CRM_Utils_Array::value('prefix_id', $params) && !empty($individualPrefix)) {
-                    $prefix = $individualPrefix;
-                }
-                
-                if (empty($middleName) && CRM_Utils_Array::value('middle_name', $params) && !empty($individualMiddleName)) {
-                    $middleName = $individualMiddleName;
-                }
-                
-                if (empty($suffix) && CRM_Utils_Array::value('suffix_id', $params) && !empty($individualSuffix)) {
-                    $suffix = $individualSuffix;
-                }
-                if ( $lastName || $firstName ) {
-                    $sortName = "$lastName, $firstName";
+
+                foreach ( array( 'prefix', 'suffix' ) as $name ) {
+                    $phpName = $name;
+                    $dbName  = "{$name}_id";
+                    $value   = $individual->$dbName;
+                    if ( empty( $$phpName ) &&
+                         ! CRM_Utils_Array::value( $dbName, $params ) &&
+                         ! empty( $value ) ) {
+                        $$phpName = $value;
+                    }
                 }
             }
         }
         
-        if (trim($sortName)) {
-            $contact->sort_name    = trim($sortName);
-        }
-        
         if ( $lastName || $firstName || $middleName ) {
+            if ( $lastName && $firstName ) {
+                $contact->sort_name    = trim( "$lastName, $firstName" );
+            } else {
+                $contact->sort_name    = trim( "$lastName $firstName" );
+            }
+
             $display_name =
                 trim( "$prefix $firstName $middleName $lastName $suffix" );
             $display_name = str_replace( '  ', ' ', $display_name );
