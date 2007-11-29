@@ -438,11 +438,12 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( $self->_values['is_monetary'] ) {
-            if ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' ) {
+            if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
+                 || $fields['amount_other'] ) {
                 if ( !$amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
-
+                
                 if ( CRM_Utils_Array::value('min_amount',$self->_values) ) {
                     $min = $self->_values['min_amount'];
                     if ( $fields['amount_other'] < $min ) {
