@@ -237,6 +237,13 @@ border-top-style: none;
   vertical-align: top;
 }
 
+#crm-container .form-layout td.view-value, #crm-container .form-layout-compressed td.view-value {
+  text-align: left;
+  padding: 0em 0em 0em 0.5em;
+  border: 0px none;
+  vertical-align: top;
+}
+
 #crm-container .form-layout-compressed td.describe-image {
     vertical-align: top;
     padding: 0.5em 0em 0em 0em;
