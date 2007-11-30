@@ -254,8 +254,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
         }        
         
-        // add activity record
-        self::addActivity( $membership );
+        // add activity record only during create mode
+        if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
+            self::addActivity( $membership );
+        }
         
         $transaction->commit( );
 

@@ -134,7 +134,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } else {
             $url      = 'civicrm/activity/view';
-            $qsView   = "action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+            $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
         
         self::$_actionLinks = array(

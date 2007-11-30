@@ -35,8 +35,6 @@
 
 require_once 'CRM/Core/Page.php';
 
-require_once 'CRM/Contribute/Page/DashBoard.php';
-
 /**
  * Page for displaying list of Payment-Instrument
  */

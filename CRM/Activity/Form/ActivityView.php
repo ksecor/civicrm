@@ -50,7 +50,18 @@ class CRM_Activity_Form_ActivityView extends CRM_Core_Form
     public function preProcess( ) 
     {
         //get the activity values
-        $activityId = CRM_Utils_Request::retrieve('id', 'String', $this );
+        $activityId = CRM_Utils_Request::retrieve('id', 'Positive', $this );
+        $context    = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $cid        = CRM_Utils_Request::retrieve('cid','Positive', $this);
+        
+        $session =& CRM_Core_Session::singleton();
+        if ( $context != 'Home' ) {
+            $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid={$cid}&selectedChild=activity");
+        } else {
+            $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1');
+        }
+
+        $session->pushUserContext( $url );
 
         $params = array( 'id' => $activityId );
             

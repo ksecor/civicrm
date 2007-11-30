@@ -210,8 +210,10 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
         }
 
-        // add activity record
-        self::addActivity( $contribution, 'Offline' );
+        // add activity record only during create mode
+        if ( !CRM_Utils_Array::value( 'contribution', $ids ) ) {
+            self::addActivity( $contribution, 'Offline' );
+        }
 
         $transaction->commit( );
         
@@ -872,6 +874,11 @@ SELECT count(*) as count,
      */
     static function addActivity( &$contribution )
     {
+        //create activity record only for Completed Contributions
+        if ( $contribution->contribution_status_id != 1 ) {
+            return;
+        }
+
         $subject = null;
         
         if ( $mode == 'Online' ) {
