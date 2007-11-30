@@ -91,7 +91,7 @@
         <dt>{$form.period_type.label}<span class="marker"> *</span></dt>
         <dd>{$form.period_type.html}</dd>     
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts}</dd>
+        <dd class="description">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts} {help id="period-type"}</dd>
     </dl>   
     
     <div id="fixed_period">
