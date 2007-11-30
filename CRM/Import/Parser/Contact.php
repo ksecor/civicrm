@@ -641,6 +641,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     $matchedIDs = array(  );
                     if ( is_array( $relatedNewContact ) ) {
                         $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
+                    } else {
+                        $matchedIDs[] = $relatedNewContact->id;
                     }
                     
                     if ( self::isDuplicate($relatedNewContact) ) {
