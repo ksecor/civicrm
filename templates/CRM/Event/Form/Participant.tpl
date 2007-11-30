@@ -2,9 +2,9 @@
 {* This template is used for adding/editing/deleting offline Event Registrations *}
 
 <fieldset><legend>{if $action eq 1}{ts}New Event Registration{/ts}{elseif $action eq 8}{ts}Delete Event Registration{/ts}{else}{ts}Edit Event Registration{/ts}{/if}</legend> 
-    {if $action eq 1}
+    {if $action eq 1 AND $paid}
     <div id="help">
-	{ts}If this is a Paid Event, and you are accepting offline payment from this participant, check <strong>Record Payment</strong>.You will be able to fill in the payment information, and optionally send a receipt.{/ts}
+	{ts}If you are accepting offline payment from this participant, check <strong>Record Payment</strong>. You will be able to fill in the payment information, and optionally send a receipt.{/ts}
     </div>  
     {/if}
     
@@ -115,7 +115,7 @@
    
     <tr>
        <td class ='html-adjust' colspan=2>
-           <fieldset id="recordContribution"><legend>{ts}{if $paid}Event Payment and {/if}Receipt{/ts}</legend>
+           <fieldset id="recordContribution"><legend>{ts}Registration Confirmation{if $paid} and Receipt{/if}{/ts}</legend>
              <div class="form-item">
                {if $paid}
                  <dl>	        
@@ -127,14 +127,14 @@
                {/if}
 	       {if $email}
                  <dl>
-                    <dt class="label">{$form.send_receipt.label}</dt>
+                    <dt class="label">{ts}Send Confirmation{/ts}{if $paid}{ts} and Receipt{/ts}{/if}</dt>
                     <dd>{$form.send_receipt.html}<br />
-                    <span class="description">{ts}Automatically email a confirmation {if $paid} and payment {/if}receipt to {$email}?{/ts}</span></dd>
+                    <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
                  </dl>
                  <div id='notice' class="form-item">
                     <dl>
                       <dt class="label">{$form.receipt_text.label}</dt>
-                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for registering for this event."{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
+                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: "Thanks for registering for this event."{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
                    </dl>
                 </div>
                {/if}
@@ -159,6 +159,7 @@
      </table
 </fieldset> 
 
+{if $paid} {* Record contribution field only present if this is a paid event. *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
     trigger_value       =""
@@ -167,6 +168,7 @@
     field_type          ="radio"
     invert              = 0
 }
+{/if}
 
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"

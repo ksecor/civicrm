@@ -4,7 +4,7 @@
 <fieldset>
 <table class="form-layout-compressed">                               
 {foreach from=$row item=value key=name}
-  <tr><td class="label">{$name}</td><td>{$value}</td></tr>
+  <tr><td class="label">{$name}</td><td class="view-value">{$value}</td></tr>
 {/foreach}
 </table>
 </fieldset>

@@ -1,5 +1,5 @@
-{if $module eq 'Membership'}{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}
-{/if}
+{if $action eq 1024}{include file="CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl"}{/if}
+{if $module eq 'Membership'}
 {if $formValues.receipt_text_signup}
 {$formValues.receipt_text_signup}
 {elseif $formValues.receipt_text_renewal}
@@ -28,12 +28,12 @@
 {ts}Paid By{/ts}: {$formValues.paidBy}
 {/if}
 
-{else if $module eq 'Participation'}
+{else if $module eq 'Event Registration'}
 {if $receipt_text}
 {$receipt_text}
-{else}{ts}Thanks for your support.{/ts}{/if}
+{/if}
 
-{ts}Please print this receipt for your records.{/ts}
+{ts}Please print this confirmation for your records.{/ts}
 
 ===========================================================
 {ts}Event Information{/ts}

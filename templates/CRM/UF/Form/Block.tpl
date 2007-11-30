@@ -32,7 +32,7 @@
     {if $field.options_per_line != 0} 
         <tr> 
         <td class="option-label">{$form.$n.label}</td> 
-        <td> 
+        <td class="view-value"> 
              {assign var="count" value="1"} 
             {strip} 
             <table class="form-layout-compressed"> 
@@ -65,7 +65,7 @@
     {else} 
         <tr>
            <td class="label">{$form.$n.label}</td>
-           <td>
+           <td class="view-value">
              {if $n|substr:0:3 eq 'im-'}
                {assign var="provider" value=$n|cat:"-provider_id"}
                {$form.$provider.html}&nbsp;

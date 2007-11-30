@@ -4,9 +4,10 @@
 
 <fieldset><legend>{ts}Event Information{/ts}</legend>
 <table class="form-layout-compressed">
-         <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}</td></tr>
-         <tr><td>&nbsp</td><td class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
-	 <tr><td class="label">{$form.default_role_id.label}</td><td>{$form.default_role_id.html}</td></tr>
+         <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}<br />
+             <span class="description">{ts}After selecting an Event Type, this page will display any custom event fields for that type.{/ts}</td></tr>
+         <tr><td class="label">{$form.default_role_id.label}</td><td>{$form.default_role_id.html}<br />
+             <span class="description">{ts}The Role you select here is automatically assigned to people when they register online for this event (usually the default "Attendee" role). NOTE: You can also allow people to choose a Role by including a Profile with the Participant Role field when you configure the registration page for this event.{/ts}</td></tr>
          <tr><td class="label">{$form.title.label}</td><td>{$form.title.html}</td></tr>
          <tr><td class="label">{$form.summary.label}</td><td>{$form.summary.html}</td></tr>
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
@@ -16,14 +17,14 @@
          <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}</td></tr>
          <tr><td>&nbsp;</td><td>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
          {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_2}</td></tr>
-         <tr><td class="label">{$form.max_participants.label}</td><td>{$form.max_participants.html|crmReplace:class:four}</td></tr> 
-         <tr><td>&nbsp;</td><td class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</td></tr>
-         <tr><td class="label">{$form.event_full_text.label}</td><td>{$form.event_full_text.html}</td></tr>
-         <tr><td>&nbsp;</td><td class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</td></tr>
-         <tr><td>&nbsp;</td><td>{$form.is_map.html} {$form.is_map.label}</td></tr>
-         <tr><td>&nbsp;</td><td class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href="%1">Global Settings &raquo; Mapping</a>{/ts}</td></tr>
-         <tr><td>&nbsp;</td><td>{$form.is_public.html} {$form.is_public.label}</td></tr>
-         <tr><td>&nbsp</td><td class="description">{ts}Include this event in iCalendar feeds?{/ts}</td></tr>
+         <tr><td class="label">{$form.max_participants.label}</td><td>{$form.max_participants.html|crmReplace:class:four}<br />
+            <span class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</span></td></tr>
+         <tr><td class="label">{$form.event_full_text.label}</td><td>{$form.event_full_text.html}<br />
+            <span class="description">{ts}Text displayed on the Event Information page when the maximum number of registrations is reached. If online registration is enabled, this message will also be displayed if users attempt to register.{/ts}</span></td></tr>
+         <tr><td>&nbsp;</td><td>{$form.is_map.html} {$form.is_map.label}<br />
+            <span class="description">{ts 1=$mapURL}Include a link to map the event location? (A map provider must be configured under <a href="%1">Global Settings &raquo; Mapping</a>{/ts}</span></td></tr>
+         <tr><td>&nbsp;</td><td>{$form.is_public.html} {$form.is_public.label}<br />
+            <span class="description">{ts}Include this event in iCalendar feeds?{/ts}</span></td></tr>
          <tr><td>&nbsp</td><td>{$form.is_active.html} {$form.is_active.label}</td></tr> 
 
         {if $id}
