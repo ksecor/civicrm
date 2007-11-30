@@ -49,7 +49,8 @@ class CRM_Event_Info extends CRM_Core_Component_Info
                       'url'            => 'event',
                       'perm'           => array( 'access CiviEvent',
                                                  'edit event participants',
-                                                 'register for events' ),
+                                                 'register for events'    ,
+                                                 'view event participants' ),
                       'search'         => 1 );
     }
     
