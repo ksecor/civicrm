@@ -55,7 +55,7 @@ class CRM_Activity_Form_ActivityView extends CRM_Core_Form
         $cid        = CRM_Utils_Request::retrieve('cid','Positive', $this);
         
         $session =& CRM_Core_Session::singleton();
-        if ( $context != 'Home' ) {
+        if ( $context != 'home' ) {
             $url = CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&cid={$cid}&selectedChild=activity");
         } else {
             $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1');

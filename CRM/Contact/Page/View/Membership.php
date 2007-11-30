@@ -198,10 +198,6 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
                                                 $this, false, 'search' );
 
         switch ( $context ) {
-        case 'basic':
-            $url = CRM_Utils_System::url( 'civicrm/contact/view',
-                                          'reset=1&force=1&selectedChild=activity&cid=' . $this->_contactId . '&history=1&aid={$activityId}' );
-            break;
 
         case 'dashboard':
             $url = CRM_Utils_System::url( 'civicrm/member',
@@ -217,6 +213,10 @@ class CRM_Contact_Page_View_Membership extends CRM_Contact_Page_View {
             $url = CRM_Utils_System::url( 'civicrm/member/search', 'force=1' );
             break;
 
+        case 'home':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+            break;
+            
         default:
             $cid = null;
             if ( $this->_contactId ) {

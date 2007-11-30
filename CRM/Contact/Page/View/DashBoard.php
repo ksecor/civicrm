@@ -115,7 +115,7 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         $output = CRM_Core_Selector_Controller::SESSION;
 
         require_once 'CRM/Activity/Selector/Activity.php';
-        $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'Home' );
+        $selector   =& new CRM_Activity_Selector_Activity( $id, $this->_permission , $admin, 'home' );
         $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
 
