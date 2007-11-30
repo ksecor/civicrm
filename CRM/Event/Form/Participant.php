@@ -484,9 +484,9 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         
         $this->addElement('checkbox', 
                           'send_receipt', 
-                          ts('Send Confirmation and Receipt?'), null, 
+                          ts('Send Confirmation?'), null, 
                           array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
-        $this->add('textarea', 'receipt_text', ts('Receipt Message') );
+        $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
@@ -677,7 +677,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'             ] = $config->defaultCurrency;
             $contributionParams['contact_id'           ] = $params['contact_id'];
-            $contributionParams['source'               ] = "Offline participation (by {$userName})";
+            $contributionParams['source'               ] = "Offline registration (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
@@ -727,7 +727,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                              array( array( 'participant_id', '=', $participant->id, 0, 0 ) ) );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
-            $this->assign( 'module', 'Participation' );
+            $this->assign( 'module', 'Event Registration' );
             $this->assign( 'event', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                  $params['event_id'],
                                                                  'title') );
@@ -760,14 +760,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }      
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been updated. " );
+            $statusMsg = ts( "Event registration information for {$this->_contributorDisplayName} has been updated. " );
             if ( $params['send_receipt'] ) {
-                $statusMsg .= ts("A confirmation for participation updation and receipt has been sent to {$this->_contributorEmail}." );
+                $statusMsg .= ts("A confirmation email has been sent to {$this->_contributorEmail}." );
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
-            $statusMsg = ts( "Participation for {$this->_contributorDisplayName} has been added. " );
+            $statusMsg = ts( "Event registration for {$this->_contributorDisplayName} has been added. " );
             if ( $params['send_receipt'] ) {
-                $statusMsg .= ts( "A participation confirmation and receipt has been sent to {$this->_contributorEmail}." );
+                $statusMsg .= ts( "A confirmation email has been sent to {$this->_contributorEmail}." );
             }
         }
         require_once "CRM/Core/Session.php";

@@ -461,13 +461,13 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( $this, $contactID, $contribution = null, $payment = null )
+    function confirmPostProcess( &$form, $contactID, $contribution = null, $payment = null )
     {
         require_once 'CRM/Event/Form/Registration/Confirm.php';
-        $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $this->_params, $contactID );
+        $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $form->_params, $contactID );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
+        CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
                                                     CRM_Core_DAO::$_nullArray,
                                                     'civicrm_participant',
                                                     $participant->id,
@@ -475,12 +475,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
 
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
             require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $this->_bltID ) ) {
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
       
-        if ( $this->_values['event']['is_monetary'] ) {
+        if ( $form->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, ); 
@@ -491,16 +491,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         require_once "CRM/Event/BAO/EventPage.php";
 
-        if ( $this->_contributeMode != 'notify' &&
-             $this->_contributeMode != 'checkout' ) {
-            $this->assign('action',$this->_action);
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
+        if ( $form->_contributeMode != 'notify' &&
+             $form->_contributeMode != 'checkout' ) {
+            $form->assign('action',$form->_action);
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $form->_values, $participant->id );
         } else {
             // do a transfer only if a monetary payment
-            if ( $this->_values['event']['is_monetary'] ) {
-                $this->_params['participantID'] = $participant->id;
-                if ( ! $this->_params['is_pay_later'] ) {
-                    $payment->doTransferCheckout( $this->_params );
+            if ( $form->_values['event']['is_monetary'] ) {
+                $form->_params['participantID'] = $participant->id;
+                if ( ! $form->_params['is_pay_later'] ) {
+                    $payment->doTransferCheckout( $form->_params );
                 }
             }
         }
