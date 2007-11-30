@@ -95,6 +95,7 @@
        <type>varchar</type>
        <length>255</length>
        <comment>The subject/purpose/short description of the activity.</comment>
+       <import>true</import>
        <add>1.1</add>
        <modify>2.0</modify>
   </field>
