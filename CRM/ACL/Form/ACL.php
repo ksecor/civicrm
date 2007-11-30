@@ -267,6 +267,10 @@ class CRM_ACL_Form_ACL extends CRM_Admin_Form
                     $params['object_table'] = 'civicrm_custom_group';
                     $params['object_id']    = $params['custom_group_id'];
                     break;
+                case 4:
+                    $params['object_table'] = 'civicrm_event';
+                    $params['object_id']    = $params['event_id'];
+                    break;
                     
             }
           

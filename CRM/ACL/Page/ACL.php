@@ -158,7 +158,7 @@ class CRM_ACL_Page_ACL extends CRM_Core_Page_Basic
   SELECT *
     FROM civicrm_acl
    WHERE domain_id = %1
-     AND ( object_table IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group' ) )
+     AND ( object_table IN ( 'civicrm_saved_search', 'civicrm_uf_group', 'civicrm_custom_group', 'civicrm_event' ) )
 ORDER BY entity_id
 ";
         $params = array( 1 => array( CRM_Core_Config::domainID( ), 'Integer' ) );
@@ -167,19 +167,33 @@ ORDER BY entity_id
         require_once 'CRM/Core/OptionGroup.php';
         $roles  = CRM_Core_OptionGroup::values( 'acl_role' );
 
-        $group       = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Groups' ) )        + CRM_Core_PseudoConstant::group( )      ;
-        $customGroup = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Custom Groups' ) ) + CRM_Core_PseudoConstant::customGroup( );
-        $ufGroup     = array( '-1' => ts( '-select-' ), '0'  => ts( 'All Profiles' ) )      + CRM_Core_PseudoConstant::ufGroup( )    ;
+        $group       =
+            array( '-1' => ts( '-select-' ),
+                   '0'  => ts( 'All Groups' ) ) +
+            CRM_Core_PseudoConstant::group( )      ;
+        $customGroup =
+            array( '-1' => ts( '-select-' ),
+                   '0'  => ts( 'All Custom Groups' ) ) +
+            CRM_Core_PseudoConstant::customGroup( );
+        $ufGroup     =
+            array( '-1' => ts( '-select-' ),
+                   '0'  => ts( 'All Profiles' ) )      +
+            CRM_Core_PseudoConstant::ufGroup( )    ;
+
+        require_once 'CRM/Event/PseudoConstant.php';
+        $event       =
+            array( '-1' => ts( '-select-' ),
+                   '0'  => ts( 'All Events' ) ) +
+            CRM_Event_PseudoConstant::event( );
 
         while ( $dao->fetch( ) ) {
-
             $acl[$dao->id] = array();
             $acl[$dao->id]['name']         = $dao->name;
             $acl[$dao->id]['operation']    = $dao->operation;
             $acl[$dao->id]['entity_id']    = $dao->entity_id;
             $acl[$dao->id]['entity_table'] = $dao->entity_table;
             $acl[$dao->id]['object_table'] = $dao->object_table;
-            $acl[$dao->id]['object_id'] = $dao->object_bid;
+            $acl[$dao->id]['object_id']    = $dao->object_id;
             $acl[$dao->id]['is_active']    = $dao->is_active;
 
 
@@ -203,6 +217,11 @@ ORDER BY entity_id
             case 'civicrm_custom_group':
                 $acl[$dao->id]['object'     ] = $customGroup[$acl[$dao->id]['object_id']];
                 $acl[$dao->id]['object_name'] = ts( 'Custom Group' );
+                break;
+
+            case 'civicrm_event':
+                $acl[$dao->id]['object'     ] = $event[$acl[$dao->id]['object_id']];
+                $acl[$dao->id]['object_name'] = ts( 'Event' );
                 break;
             }
 

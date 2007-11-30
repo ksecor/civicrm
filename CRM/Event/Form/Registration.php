@@ -129,9 +129,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      */ 
     function preProcess( ) 
     {
-        $this->_id = CRM_Utils_Request::retrieve( 'id', 'Positive', $this, true );
-        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String', $this, false );
-        
+        $this->_id     = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true  );
+        $this->_action = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
+
         // current mode
         $this->_mode = ( $this->_action == 1024 ) ? 'test' : 'live';
         
@@ -145,6 +145,12 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $config  =& CRM_Core_Config::singleton( );
         
         if ( ! $this->_values ) {
+            // this is the first time we are hitting this, so check for permissions her
+            if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
+                                               $this->_id ) ) {
+                CRM_Core_Error::fatal( ts( 'You do not have permission to register for this event' ) );
+            }
+
             // get all the values from the dao object
             $this->_values = array( );
             $this->_fields = array( );

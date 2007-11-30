@@ -158,6 +158,32 @@ class CRM_Core_Permission {
         }
     }
 
+    public static function event( $type = CRM_Core_Permission::VIEW, $eventID = null ) {
+        require_once 'CRM/Event/PseudoConstant.php';
+        $events = array_keys( CRM_Event_PseudoConstant::event( ) );
+
+        // check if user has all powerful permission
+        if ( self::check( 'register for events' ) ) {
+            return $events;
+        }
+
+        require_once 'CRM/ACL/API.php';
+        $permissionedEvents = CRM_ACL_API::group( $type, null, 'civicrm_event', $events );
+        if ( ! $eventID ) {
+            return $permissionedEvents;
+        }
+        return array_search( $eventID, $permissionedEvents ) === false ? null : $eventID;
+    }
+
+    static function eventClause( $type = CRM_Core_Permission::VIEW, $prefix = null ) {
+        $events = self::event( $type );
+        if ( empty( $events ) ) {
+            return ' ( 0 ) ';
+        } else {
+            return "{$prefix}id IN ( " . implode( ',', $events ) . ' ) ';
+        }
+    }
+
     static function access( $module, $checkPermission = true ) {
         $config =& CRM_Core_Config::singleton( );
 
