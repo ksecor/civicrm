@@ -210,8 +210,13 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             CRM_Core_BAO_Note::add( $noteParams, $ids['note'] );
         }
 
-        // add activity record only during create mode
-        if ( !CRM_Utils_Array::value( 'contribution', $ids ) ) {
+        // check if activity record exist for this contribution, if
+        // not add activity
+        require_once "CRM/Activity/DAO/Activity.php";
+        $activity =& new CRM_Activity_DAO_Activity( );
+        $activity->source_record_id = $contribution->id;
+        
+        if ( ! $activity->find( ) ) {
             self::addActivity( $contribution, 'Offline' );
         }
 
