@@ -88,3 +88,11 @@ INSERT INTO civicrm_acl_entity_role
 VALUES
     (%%CIVICRM_DOMAIN_ID%%, 1, 'civicrm_group', 1, 1);
 
+-- Add sample activity type
+
+SELECT @option_group_id_act            := max(id) from civicrm_option_group where name = 'activity_type';
+
+INSERT INTO 
+   `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+VALUES
+   (@option_group_id_act, 'Event', 10, 'Event',  NULL, 0, NULL, 10, 'Event', 0, 0, 1);

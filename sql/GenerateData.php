@@ -92,7 +92,7 @@ class CRM_GCD {
     const ORGANIZATION_PERCENT = 10;
     const NUM_INDIVIDUAL_PER_HOUSEHOLD = 4;
 
-    const NUM_ACTIVITY_HISTORY = 150;
+    const NUM_ACTIVITY = 150;
 
     // relationship types from the table crm_relationship_type
     const CHILD_OF            = 1;
@@ -1143,12 +1143,12 @@ class CRM_GCD {
 
     /*******************************************************
      *
-     * addActivityHistory()
+     * addActivity()
      *
      * This method populates the crm_activity_history table
      *
      *******************************************************/
-    public function addActivityHistory()
+    public function addActivity( )
     {
         $contactDAO =& new CRM_Contact_DAO_Contact();
         $contactDAO->contact_type = 'Individual';
@@ -1163,7 +1163,7 @@ class CRM_GCD {
             if ($count++ > 2) {      
                 break;
             }
-            for ($i=0; $i<self::NUM_ACTIVITY_HISTORY; $i++) {
+            for ($i=0; $i<self::NUM_ACTIVITY; $i++) {
                 require_once 'CRM/Activity/DAO/Activity.php';
                 $activityDAO =& new CRM_Activity_DAO_Activity();
                 $activityDAO->source_contact_id     = $contactDAO->id;
@@ -1177,14 +1177,15 @@ class CRM_GCD {
                 $activityDAO->status_id = mt_rand(1,3);
                 $this->_insert($activityDAO);
                 
-                if($activityTypeID <4) { 
+                if ($activityTypeID < 4 ) { 
                     require_once 'CRM/Activity/DAO/ActivityTarget.php';
                     $activityTargetDAO =& new CRM_Activity_DAO_ActivityTarget();
                     $activityTargetDAO->activity_id = $activityDAO->id ;
                     $activityTargetDAO->target_contact_id = mt_rand(1,101);
                     $this->_insert($activityTargetDAO);
                 }
-                if($activityTypeID <3) { 
+
+                if ($activityTypeID <3 ) { 
                     require_once 'CRM/Activity/DAO/ActivityAssignment.php';
                     $activityAssignmentDAO =& new CRM_Activity_DAO_ActivityAssignment();
                     $activityAssignmentDAO->activity_id = $activityDAO->id ;
@@ -1535,19 +1536,9 @@ VALUES
         
     }
     
-}
-
-function user_access( $str = null ) {
-    return true;
-}
-
-function module_list( ) {
-    return array( );
-}
-
-function add_contributions( ) {
-    
-    $query = "
+    function addContribution( ) 
+    {
+        $query = "
 INSERT INTO civicrm_contribution
     (domain_id, contact_id, contribution_type_id, payment_instrument_id, receive_date, non_deductible_amount, total_amount, trxn_id, currency, cancel_date, cancel_reason, receipt_date, thankyou_date, source)
 VALUES
@@ -1561,9 +1552,9 @@ VALUES
     (1, 92, 1, 1, '2007-03-08 00:00:00', 0.00, 10.00, 'P40232Y3', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins'),
     (1, 34, 1, 1, '2007-04-22 00:00:00', 0.00, 250.00, 'P20193L6', 'USD', NULL, NULL, NULL, NULL, 'Online: Save the Penguins');
 ";
-    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
-
-    $query = "
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        
+        $query = "
 INSERT INTO civicrm_activity
     (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id,parent_id, is_test)
 VALUES
@@ -1577,8 +1568,19 @@ VALUES
     (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
     (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,0)
     ";
-    CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+    }
+    
 }
+
+function user_access( $str = null ) {
+    return true;
+}
+
+function module_list( ) {
+    return array( );
+}
+
 
 echo("Starting data generation on " . date("F dS h:i:s A") . "\n");
 $obj1 =& new CRM_GCD();
@@ -1595,7 +1597,7 @@ $obj1->addLocation();
 $obj1->addEntityTag();
 $obj1->addGroup();
 $obj1->addNote();
-$obj1->addActivityHistory();
+$obj1->addActivity();
 $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEventLocationAddress();
@@ -1606,7 +1608,7 @@ $obj1->addEventLocation();
 $obj1->addEvent();
 $obj1->addEventPage();
 $obj1->addParticipant();
-add_contributions();
+$obj1->addContribution();
 echo("Ending data generation on " . date("F dS h:i:s A") . "\n");
 
 ?>
