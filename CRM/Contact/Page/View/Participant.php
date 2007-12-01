@@ -152,6 +152,11 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
         case 'home':
             $url = CRM_Utils_System::url( 'civicrm/dashboard', 'force=1' );
             break;
+
+        case 'activity':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            break;
             
         default:
             $cid = null;

@@ -130,7 +130,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $url      = 'civicrm/contact/view/contribution';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } elseif ( in_array($activityTypeId, array( 7, 8 ) ) ) {  // membership
-            $url      = 'civicrm/contact/view/member';
+            $url      = 'civicrm/contact/view/membership';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } else {
             $url      = 'civicrm/activity/view';

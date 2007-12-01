@@ -671,7 +671,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                           'target_contact_id'    => $toID,
                           'activity_type_id'     => $activityTypeID,
                           'activity_date_time'   => date('YmdHis'),
-                          'subject'              => ts('From: %1; Subject: %2', array(1 => $from, 2 => $subject)),
+                          'subject'              => $subject,
                           'details'              => $message
                           );
         

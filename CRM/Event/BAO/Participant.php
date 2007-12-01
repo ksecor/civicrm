@@ -280,7 +280,8 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
                                                                                         'name' ),
                                  'subject'            => $subject,
                                  'activity_date_time' => $date,
-                                 'is_test'            => $participant->is_test
+                                 'is_test'            => $participant->is_test,
+                                 'status_id'          => 1
                                  );
 
         require_once 'api/v2/Activity.php';
