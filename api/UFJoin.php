@@ -68,10 +68,6 @@ function crm_add_uf_join($params)
         return _crm_error("uf_group_id is required field");
     }
     
-    if ( ! trim( $params['entity_table'] ) && ! trim( $params['entity_id'] ) ) {
-        return _crm_error("entity_table and entity_id are required fields");
-    }
-    
     return CRM_Core_BAO_UFJoin::create($params);
 }
 
