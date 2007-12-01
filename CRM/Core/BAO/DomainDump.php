@@ -123,7 +123,7 @@ class CRM_Core_BAO_DomainDump
         
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Description: File Transfer');
-        header("ContentType Extension='$ext' ContentType='$type'");
+        header("ContentType='$type'");
         header("Content-Length: $fileSize");
         header("Content-Disposition: attachment; filename=$fileName");
 

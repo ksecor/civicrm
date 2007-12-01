@@ -107,7 +107,8 @@ VALUES
    (@domain_id, 'custom_search'                 , '{ts escape="sql"}Custom Search{/ts}'                      , 0, 1),
    (@domain_id, 'activity_status'               , '{ts escape="sql"}Activity Status{/ts}'                    , 0, 1),
    (@domain_id, 'case_type'                     , '{ts escape="sql"}Case Type{/ts}'                          , 0, 1),
-   (@domain_id, 'case_status'                   , '{ts escape="sql"}Case Status{/ts}'                        , 0, 1);
+   (@domain_id, 'case_status'                   , '{ts escape="sql"}Case Status{/ts}'                        , 0, 1),
+   (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -137,6 +138,7 @@ SELECT @option_group_id_csearch        := max(id) from civicrm_option_group wher
 SELECT @option_group_id_acs            := max(id) from civicrm_option_group where name = 'activity_status';
 SELECT @option_group_id_ct             := max(id) from civicrm_option_group where name = 'case_type';
 SELECT @option_group_id_cas            := max(id) from civicrm_option_group where name = 'case_status';
+SELECT @option_group_id_pl             := max(id) from civicrm_option_group where name = 'participant_listing';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
@@ -300,9 +302,12 @@ VALUES
   (@option_group_id_ct, '{ts escape="sql"}Economic, Social & Cultural{/ts}',  2, 'Economic, Social & Cultural',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
   (@option_group_id_ct, '{ts escape="sql"}Gender Issues{/ts}',                3, 'Gender Issues',  NULL, 0, NULL, 3, NULL, 0, 1, 1),
 
-  (@option_group_id_cas, '{ts escape="sql"}Ongoing{/ts}',            1, 'Ongoing',  NULL, 0, 1,    1, NULL, 0, 1, 1),
-  (@option_group_id_cas, '{ts escape="sql"}Resolved{/ts}',           2, 'Resolved',  NULL, 0, NULL, 2, NULL, 0, 1, 1);
+  (@option_group_id_cas, '{ts escape="sql"}Ongoing{/ts}' , 1, 'Ongoing' ,  NULL, 0, 1,    1, NULL, 0, 1, 1),
+  (@option_group_id_cas, '{ts escape="sql"}Resolved{/ts}', 2, 'Resolved',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
 
+  (@option_group_id_pl, '{ts escape="sql"}None{/ts}'          , 1, 'None'          ,  NULL, 0, 1, 1, NULL, 0, 1, 1),
+  (@option_group_id_pl, '{ts escape="sql"}Name Only{/ts}'     , 2, 'Name Only'     ,  NULL, 0, 0, 2, NULL, 0, 1, 1),
+  (@option_group_id_pl, '{ts escape="sql"}Name and Email{/ts}', 3, 'Name and Email',  NULL, 0, 0, 3, NULL, 0, 1, 1);
 
 -- sample membership status entries
 INSERT INTO

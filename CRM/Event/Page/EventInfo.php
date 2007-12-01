@@ -54,7 +54,14 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
      */
     function run()
     {
-        $id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, false, 0);
+        $id      = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
+
+        // ensure that the user has permission to see this page
+        if ( ! CRM_Core_Permission::event( CRM_Core_Permission::VIEW,
+                                           $id ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have permission to view this event' ) );
+        }
+
         $action  = CRM_Utils_Request::retrieve( 'action', 'String'  , $this, false );
         $context = CRM_Utils_Request::retrieve( 'context', 'String'  , $this, false, 'register' );
         $this->assign( 'context', $context );
@@ -66,8 +73,10 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
         //retrieve event information
         $params = array( 'id' => $id );
         $ids = array();
+
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::retrieve($params, $values['event']);
+
         if (! $values['event']['is_active']){
             // form is inactive, die a fatal death
             CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );

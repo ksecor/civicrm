@@ -70,7 +70,7 @@ class CRM_Event_Menu {
                               'path'    => 'civicrm/event/ical', 
                               'query'   => 'reset=1',
                               'title'   => ts( 'Event Listings' ), 
-                              'access'  => 1,
+                              'access'  => CRM_Core_Permission::check( 'register for events'), 
                               'type'    => CRM_Core_Menu::CALLBACK,  
                               'crmType' => CRM_Core_Menu::CALLBACK,
                               'weight'  => 0, 

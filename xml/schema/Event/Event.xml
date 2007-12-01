@@ -70,6 +70,20 @@
     <add>1.8</add>
   </index>
   <field> 
+      <name>participant_listing_id</name> 
+      <type>int unsigned</type> 
+      <uniqueName>participant_listing_id</uniqueName>
+      <title>Participant Listing ID</title>  
+      <default>0</default>                
+      <comment>Should we expose the participant list? Implicit FK to civicrm_option_value where option_group = participant_listing.</comment> 
+      <add>2.0</add> 
+  </field> 
+  <index>
+    <name>index_participant_listing_id</name>
+    <fieldName>participant_listing_id</fieldName>
+    <add>2.0</add>
+  </index>
+  <field> 
       <name>is_public</name> 
       <type>boolean</type> 
       <title>Is Event Public</title>  
