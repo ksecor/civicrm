@@ -127,14 +127,26 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $event = CRM_Core_OptionGroup::values('event_type');
 
         
-        $this->add('select','event_type_id',ts('Event Type'),array('' => ts('- select -')) + $event, true, 
+        $this->add('select',
+                   'event_type_id',
+                   ts('Event Type'),
+                   array('' => ts('- select -')) + $event,
+                   true, 
                    array('onChange' => "if (this.value) reload(true); else return false"));
  
         $participantRole = CRM_Core_OptionGroup::values('participant_role');
-        $this->add('select','default_role_id',ts('Participant Role'), $participantRole , true); 
+        $this->add('select',
+                   'default_role_id',
+                   ts('Participant Role'),
+                   $participantRole,
+                   true); 
         
         $participantListing = CRM_Core_OptionGroup::values('participant_listing');
-        $this->add('select','participant_listing_id',ts('Participant Listing'), $participantListing , true); 
+        $this->add('select',
+                   'participant_listing_id',
+                   ts('Participant Listing'),
+                   array('' => ts('- select -')) + $participantListing ,
+                   false );
         
        $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));
         

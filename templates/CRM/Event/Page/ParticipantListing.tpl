@@ -4,7 +4,7 @@
    <thead>  
      <tr class="columnheader">
       <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
-{if $participantListingType eq 3}
+{if $participantListingType eq 2}
       <th field="Email" dataType="String" scope="col">{ts}Email{/ts}</th>
 {/if}
      </tr>
@@ -13,7 +13,7 @@
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}">
         <td>{$row.name}</td>	
-{if $participantListingType eq 3}
+{if $participantListingType eq 2}
         <td>{$row.email}</td>
 {/if}
      </tr>

@@ -305,9 +305,8 @@ VALUES
   (@option_group_id_cas, '{ts escape="sql"}Ongoing{/ts}' , 1, 'Ongoing' ,  NULL, 0, 1,    1, NULL, 0, 1, 1),
   (@option_group_id_cas, '{ts escape="sql"}Resolved{/ts}', 2, 'Resolved',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
 
-  (@option_group_id_pl, '{ts escape="sql"}None{/ts}'          , 1, 'None'          ,  NULL, 0, 1, 1, NULL, 0, 1, 1),
-  (@option_group_id_pl, '{ts escape="sql"}Name Only{/ts}'     , 2, 'Name Only'     ,  NULL, 0, 0, 2, NULL, 0, 1, 1),
-  (@option_group_id_pl, '{ts escape="sql"}Name and Email{/ts}', 3, 'Name and Email',  NULL, 0, 0, 3, NULL, 0, 1, 1);
+  (@option_group_id_pl, '{ts escape="sql"}Name Only{/ts}'     , 1, 'Name Only'     ,  NULL, 0, 0, 1, NULL, 0, 1, 1),
+  (@option_group_id_pl, '{ts escape="sql"}Name and Email{/ts}', 2, 'Name and Email',  NULL, 0, 0, 2, NULL, 0, 1, 1);
 
 -- sample membership status entries
 INSERT INTO

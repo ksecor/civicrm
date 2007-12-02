@@ -31,7 +31,7 @@
     <td>{ts 1=$participantListingURL}You can view the participant listing for this event <a href="%1">here</a>{/ts}</td>
 {else}
     <td class="nowrap">&raquo; {ts}Participant Listing{/ts}</td>
-    <td>{ts}Participant Listing is not enabled for this event. You can enable it from{/ts}<a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=EventInfo"}">{ts}Event Information and Settings{/ts}</a>.
+    <td>{ts}Participant Listing is not enabled for this event. You can enable it from{/ts} <a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=EventInfo"}">{ts}Event Information and Settings{/ts}</a>.
 {/if}
 </tr>
 
