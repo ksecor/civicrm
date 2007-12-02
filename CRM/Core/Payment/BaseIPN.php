@@ -288,6 +288,19 @@ class CRM_Core_Payment_BaseIPN {
             }
 
             if ( $membership ) {
+                $format       = '%Y%m%d';
+                require_once 'CRM/Member/BAO/MembershipType.php';  
+                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                
+                $membership->join_date     = 
+                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
+                $membership->start_date    = 
+                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
+                $membership->end_date      = 
+                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
+                $membership->reminder_date = 
+                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
+
                 $membership->status_id = 2;
                 $membership->save( );
             }

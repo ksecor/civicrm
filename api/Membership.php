@@ -501,23 +501,20 @@ function crm_update_contact_membership($params)
                                                                   'CRM_Member_DAO_MembershipStatus',
                                                                   $membershipBAO->status_id
                                                                   );
+
+    $activityParams = array( 'source_contact_id'  => $membershipBAO->contact_id,
+                             'source_record_id'   => $participant->id,
+                             'activity_type_id'   => $membershipBAO->status_id,
+                             'subject'            => $activitySummary,
+                             'activity_date_time' => $params['join_date'],
+                             'is_test'            => $membershipBAO->is_test,
+                             'status_id'          => 1
+                             );
     
-    $historyParams = array(
-                           'entity_table'     => 'civicrm_contact',
-                           'entity_id'        => $membershipBAO->contact_id,
-                           'activity_type'    => $activityType,
-                           'module'           => 'CiviMember',
-                           'callback'         => 'CRM_Member_Page_Membership::details',
-                           'activity_id'      => $membershipBAO->id,
-                           'activity_summary' => $activitySummary,
-                           'activity_date'    => $params['join_date'],
-                           );
-    require_once "api/History.php";
-    $error = crm_create_activity_history( $historyParams );
-    if ( is_a( $error, 'CRM_Core_Error' ) ) {
-        return $error;
-    }    
-    
+    require_once 'api/v2/Activity.php';
+    if ( is_a( civicrm_activity_create( $activityParams ), 'CRM_Core_Error' ) ) {
+        return false;
+    }
     
     $membership = array();
     _crm_object_to_array( $membershipBAO, $membership );

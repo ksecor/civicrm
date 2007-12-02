@@ -815,7 +815,7 @@ AND       civicrm_membership.is_test = %2
         $index = $memBlockDetails['is_separate_payment'] ? 2 : 1;
 
         if ( ! $errors[$index] ) {
-            $membership = self::renewMembership( $contactID, $membershipTypeID, $membershipParams['is_test'], $form);
+            $membership = self::renewMembership( $contactID, $membershipTypeID, $membershipParams['is_test'], $form );
 
             //insert payment record
             require_once 'CRM/Member/DAO/MembershipPayment.php';
@@ -847,13 +847,7 @@ AND       civicrm_membership.is_test = %2
              ( $form->_values['is_monetary'] && $form->_amount > 0.0 ) ) {
 
             $form->_params['membershipID'] = $membership->id;
-            // at this step we need to set the status to pending, since we do not know if the user will
-            // pay or not. kinda sucks, since we've already done all the work, c'est la vie
-            CRM_Core_DAO::setFieldValue( 'CRM_Member_DAO_Membership',
-                                         $membership->id,
-                                         'status_id',
-                                         5 );
-
+            
             if ( ! $form->_params['is_pay_later'] ) {
                 // this does not return
                 require_once 'CRM/Core/Payment.php';
@@ -892,23 +886,25 @@ AND       civicrm_membership.is_test = %2
      * 
      **/
     static function renewMembership( $contactID, $membershipTypeID, $is_test,
-                                     &$form, $changeToday = null, $ipnParams = null )
+                                     &$form, $changeToday = null )
     {                     
         require_once 'CRM/Utils/Hook.php';
         $statusFormat = '%Y-%m-%d';
         $format       = '%Y%m%d';
         
-        if ( $ipnParams ) {
-            $template =& CRM_Core_Smarty::singleton( );
-        }
-
         if ( $currentMembership = 
              CRM_Member_BAO_Membership::getContactMembership( $contactID, $membershipTypeID, $is_test ) ) {
             
-            if ( $form ) {
-                $form->set("renewal_mode", true );
-            }
+            $form->set("renewal_mode", true );
             
+            // Do NOT do anything to membership with status : PENDING/CANCELLED (CRM-2395)
+            if ( in_array($currentMembership['status_id'], array( 5, 6 )) ) {
+                $membership =& new CRM_Member_DAO_Membership();
+                $membership->id = $currentMembership['id'];
+                $membership->find(true);
+                return $membership;
+            }
+
             // Check and fix the membership if it is STALE
             self::fixMembershipStatusBeforeRenew( $currentMembership, $changeToday );
             
@@ -930,16 +926,11 @@ AND       civicrm_membership.is_test = %2
                 $currentMembership['reminder_date'] = 
                     CRM_Utils_Date::customFormat($dates['reminder_date'], $format );
                 $currentMembership['is_test']       = $is_test;
-
-                if ( $form ) {
-                    if ( $form->_params['membership_source'] ) {
-                        $currentMembership['source'] = $form->_params['membership_source'];
-                    } else {
-                        $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                    }
-                }
-                if ( is_array($ipnParams) ) {
-                    $currentMembership['source']    = $ipnParams['source'];
+                
+                if ( $form->_params['membership_source'] ) {
+                    $currentMembership['source'] = $form->_params['membership_source'];
+                } else {
+                    $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                 }
 
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
@@ -990,18 +981,10 @@ AND       civicrm_membership.is_test = %2
                 require_once 'CRM/Member/BAO/MembershipLog.php';
                 CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
                 
-                if ( $form ) {
-                    $form->assign('mem_start_date',  
-                                  CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                    $form->assign('mem_end_date', 
-                                  CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
-                }
-                if ( $ipnParams ) {
-                    $template->assign('mem_start_date',  
-                                      CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                    $template->assign('mem_end_date', 
-                                      CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
-                }
+                $form->assign('mem_start_date',  
+                              CRM_Utils_Date::customFormat($dates['start_date'], $format) );
+                $form->assign('mem_end_date', 
+                              CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
 
             } else {
                 // CURRENT Membership
@@ -1027,9 +1010,6 @@ AND       civicrm_membership.is_test = %2
                         } else {
                             $params['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                         }
-                    }
-                    if ( is_array($ipnParams) ) {
-                        $params['source']    = $ipnParams['source'];
                     }
                 }
                 
@@ -1070,58 +1050,61 @@ AND       civicrm_membership.is_test = %2
                 require_once 'CRM/Member/BAO/MembershipLog.php';
                 CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
                 
-                if ( $form ) {
-                    $form->assign('mem_start_date',  
-                                  CRM_Utils_Date::customFormat($dates['start_date'], $format));
-                    $form->assign('mem_end_date', 
-                                  CRM_Utils_Date::customFormat($dates['end_date'],   $format));
-                }
-                if ( $ipnParams ) {
-                    $template->assign('mem_start_date',  
-                                      CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                    $template->assign('mem_end_date', 
-                                      CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
-                }
+                $form->assign('mem_start_date',  
+                              CRM_Utils_Date::customFormat($dates['start_date'], $format));
+                $form->assign('mem_end_date', 
+                              CRM_Utils_Date::customFormat($dates['end_date'],   $format));
             }
         } else {
+            // NEW Membership
+            $pending = false;
+            if ( ($form->_contributeMode == 'notify' || $form->_params['is_pay_later']) &&
+                 ($form->_values['is_monetary'] && $form->_amount > 0.0) ) {
+                $pending = true;
+            }
+
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $memParams                       = array( );
             $memParams['contact_id']         = $contactID;
             $memParams['membership_type_id'] = $membershipTypeID;
+            
+            if ( !$pending ) {
+                require_once 'CRM/Member/BAO/MembershipType.php';  
+                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
+                
+                $memParams['join_date']     = 
+                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
+                $memParams['start_date']    = 
+                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
+                $memParams['end_date']      = 
+                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
+                $memParams['reminder_date'] = 
+                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
+            }
 
-            require_once 'CRM/Member/BAO/MembershipType.php';  
-            $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membershipTypeID);
-
-            $memParams['join_date']     = 
-                CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-            $memParams['start_date']    = 
-                CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-            $memParams['end_date']      = 
-                CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-            $memParams['reminder_date'] = 
-                CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
             $memParams['is_test']       = $is_test;
 
-            if ( $form ) {
-                if ( $form->_params['membership_source'] ) {
-                    $memParams['source'  ]  = $form->_params['membership_source'];
-                } else {
-                    $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
-                }
-            }
-            if ( is_array($ipnParams) ) {
-                $memParams['source']    = $ipnParams['source'];
+            if ( $form->_params['membership_source'] ) {
+                $memParams['source'  ]  = $form->_params['membership_source'];
+            } else {
+                $memParams['source'  ]  = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
             }
             
-            $status =
-                CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
-                                                                           CRM_Utils_Date::customFormat( $dates['start_date'],
-                                                                                                         $statusFormat ),
-                                                                           CRM_Utils_Date::customFormat( $dates['end_date'],
-                                                                                                         $statusFormat ),
-                                                                           CRM_Utils_Date::customFormat( $dates['join_date'],
-                                                                                                         $statusFormat )
-                                                                           );  
+            if ( !$pending ) {
+                $status =
+                    CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( 
+                                                                               CRM_Utils_Date::customFormat( $dates['start_date'],
+                                                                                                             $statusFormat ),
+                                                                               CRM_Utils_Date::customFormat( $dates['end_date'],
+                                                                                                             $statusFormat ),
+                                                                               CRM_Utils_Date::customFormat( $dates['join_date'],
+                                                                                                             $statusFormat )
+                                                                               );  
+            } else {
+                // if IPN/Pay-Later set status to: PENDING
+                $status = array( 'id' => 5 );
+            }
+
             $memParams['status_id']     = $status['id'];
             $memParams['is_override']   = false;
             
@@ -1147,18 +1130,10 @@ AND       civicrm_membership.is_test = %2
             require_once 'CRM/Member/BAO/MembershipLog.php';
             CRM_Member_BAO_MembershipLog::add( $logParams, $dontCare );
             
-            if ( $form ) {
-                $form->assign( 'mem_start_date',
-                               CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                $form->assign( 'mem_end_date'  ,
-                               CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
-            }
-            if ( $ipnParams ) {
-                $template->assign('mem_start_date',  
-                                  CRM_Utils_Date::customFormat($dates['start_date'], $format) );
-                $template->assign('mem_end_date', 
-                                  CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
-            }
+            $form->assign( 'mem_start_date',
+                           CRM_Utils_Date::customFormat($dates['start_date'], $format) );
+            $form->assign( 'mem_end_date'  ,
+                           CRM_Utils_Date::customFormat($dates['end_date'],   $format) );
         }
         
         // add activity record
@@ -1311,52 +1286,6 @@ SELECT c.contribution_page_id as pageID
         $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Membership'));
         
         return $fields;
-    }
-
-    /**
-     * 
-     * This method will process (add/edit) membership for IPN files (e.g PaypalIPN, GoogleIPN ..).
-     *
-     * @param int     $contactID           id of the contact 
-     * @param object  $contribution        contribution object
-     * @param int     $membershipTypeID    id of the membership type
-     * @param int     $contribAmount       contribution amount
-     *
-     * @return void
-     * 
-     * @static
-     * @access public
-     * 
-     **/
-    static function processIPNMembership( $contactID, &$contribution, $membershipTypeID, &$contribAmount ) 
-    {
-        $template =& CRM_Core_Smarty::singleton( );
-        $template->assign('membership_assign' , true );
-        
-        require_once 'CRM/Member/BAO/MembershipType.php';
-        $membershipDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $membershipTypeID );
-        $template->assign('membership_name',$membershipDetails['name']);
-        
-        $minimumFee = $membershipDetails['minimum_fee'];
-        $template->assign('membership_amount'  , $minimumFee);
-        $contribAmount -= $minimumFee;
-        if ( $contribAmount < 0 ) {
-            $contribAmount = 0;
-        }
-        
-        $ipnParams = array( 'source' => $contribution->source );
-        self::renewMembership( $contactID, $membershipTypeID, $contribution->is_test, $form, null, $ipnParams );
-        
-        require_once 'CRM/Member/DAO/MembershipBlock.php';
-        $dao = & new CRM_Member_DAO_MembershipBlock();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $contribution->contribution_page_id; 
-        $dao->is_active = 1;
-        if ( $dao->find(true) ) {
-            $membershipBlock   = array(); 
-            CRM_Core_DAO::storeValues($dao, $membershipBlock );
-            $template->assign( 'membershipBlock' , $membershipBlock );
-        }
     }
 
     /**

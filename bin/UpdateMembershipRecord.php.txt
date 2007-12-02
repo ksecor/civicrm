@@ -94,10 +94,13 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             }
             **/
 
-            $newStatus = crm_calc_membership_status( $dao->membership_id );
-            if ( $newStatus && ! $dao->is_override ) {
-                crm_update_contact_membership( array('id'        => $dao->membership_id,
-                                                     'status_id' => $newStatus['id']) );
+            /* Update only those membership records, where status is NOT - Pending OR Cancelled. */
+            if ( !$dao->is_override && !in_array($dao->status_id, array(5,6)) ) {
+                $newStatus = crm_calc_membership_status( $dao->membership_id );
+                if ( $newStatus ) {
+                    crm_update_contact_membership( array('id'        => $dao->membership_id,
+                                                         'status_id' => $newStatus['id']) );
+                }
             }
 
             //send reminder for membership renewal
