@@ -76,7 +76,7 @@ class CRM_Event_Menu {
                               'weight'  => 0, 
                               ),
                        array( 
-                              'path'    => 'civicrm/event/participants', 
+                              'path'    => 'civicrm/event/participant', 
                               'query'   => 'reset=1',
                               'title'   => ts( 'Event Participants List' ), 
                               'access'  => CRM_Core_Permission::check( 'view event participants' ),

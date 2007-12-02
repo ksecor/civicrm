@@ -82,6 +82,10 @@ class CRM_Event_Invoke
             require_once 'CRM/Event/Page/ICalendar.php'; 
             $view =& new CRM_Event_Page_ICalendar( );
             return $view->run();
+        } else if ( $secondArg == 'participant' ) {
+            require_once 'CRM/Event/Page/ParticipantListing.php'; 
+            $view =& new CRM_Event_Page_ParticipantListing( );
+            return $view->run();
         } else if ( $secondArg == 'register' ) { 
             CRM_Utils_System::redirectToSSL( );
 

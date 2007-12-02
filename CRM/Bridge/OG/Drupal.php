@@ -38,7 +38,8 @@ class CRM_Bridge_OG_Drupal {
     static function nodeapi( &$params, $op ) {
         require_once 'CRM/Bridge/OG/Utils.php';
 
-        CRM_Core_DAO::transaction( 'BEGIN' );
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
         // first create or update the CiviCRM group
         $groupParams               = $params;
@@ -60,7 +61,7 @@ class CRM_Bridge_OG_Drupal {
             self::updateCiviACLTables    ( $aclParams, $op );
         }
 
-        CRM_Core_DAO::transaction( 'COMMIT' );
+        $transaction->commit( );
     }
 
     static function updateCiviGroup( &$params, $op ) {

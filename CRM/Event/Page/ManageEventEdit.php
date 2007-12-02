@@ -73,9 +73,17 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $this->assign( 'title', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title'));
 
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $this->_id, 'title');
-
         CRM_Utils_System::setTitle(ts('Configure Event - %1', array(1 => $title)));
-        
+
+        $participantListingID = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                           $this->_id,
+                                                           'participant_listing_id' );
+        if ( $participantListingID ) {
+            $participantListingURL = CRM_Utils_System::url( 'civicrm/event/participant',
+                                                            "reset=1&id={$this->_id}" );
+            $this->assign( 'participantListingURL', $participantListingURL );
+        }
+
         $form = null;
         switch ( $subPage ) {
       
@@ -99,6 +107,7 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
             $form = 'CRM_Friend_Form_Event';
             break;
         }
+
         if ( $form ) {
             $session =& CRM_Core_Session::singleton( );
 
