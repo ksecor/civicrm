@@ -8,6 +8,7 @@
       <dt>{$form.dateformatFull.label}</dt><dd>{$form.dateformatFull.html}</dd>
       <dt>{$form.dateformatPartial.label}</dt><dd>{$form.dateformatPartial.html}</dd>
       <dt>{$form.dateformatYear.label}</dt><dd>{$form.dateformatYear.html}</dd>
+      <dt>{$form.dateformatTime.label}</dt><dd>{$form.dateformatTime.html}</dd>
     </dl>
 </fieldset>
 <fieldset><legend>{ts}Date Input Fields{/ts}</legend>

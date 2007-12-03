@@ -21,7 +21,7 @@
                 {* Only show end time if end date = start date *}
                 {if $event.event_end_date|date_format:"%Y%m%d" == $event.event_start_date|date_format:"%Y%m%d"}
 			<abbr class="dtend" title="{$event.event_end_date}">
-			{$event.event_end_date|crmDate|date_format:"%I:%M %p"}
+			{$event.event_end_date|crmDate:0:1}
 			</abbr>        
                 {else}
 			<abbr class="dtend" title="{$event.event_end_date}">

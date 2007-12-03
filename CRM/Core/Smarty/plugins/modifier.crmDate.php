@@ -41,10 +41,13 @@
  * @return string human readable date format | invalid date message
  * @access public
  */
-function smarty_modifier_crmDate($dateString, $dateFormat = null)
+function smarty_modifier_crmDate($dateString, $dateFormat = null, $onlyTime = false )
 {
     if ($dateString) {
-        return CRM_Utils_Date::customFormat($dateString, $dateFormat);
+        if ( $dateFormat == 0 ) {
+            $dateFormat = null;
+        }
+        return CRM_Utils_Date::customFormat( $dateString, $dateFormat, $onlyTime );
     }
     return '';
 }

@@ -148,6 +148,12 @@ class CRM_Core_Config_Variables
     public $dateformatYear = '%Y';
 
     /**
+     * String format for a time only date
+     * @var string
+     */
+    public $dateformatTime = '%l:%M %P';
+
+    /**
      * String format for date QuickForm drop-downs
      * @var string
      */
