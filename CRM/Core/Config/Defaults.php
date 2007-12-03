@@ -176,34 +176,6 @@ class CRM_Core_Config_Defaults
                                                  );
         }
 
-        if ( ! isset( $defaults['paymentExpressButton'] ) ) {
-            $defaults['paymentExpressButton'] = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif';
-        }
-
-        if ( ! isset( $defaults['paymentPayPalExpressTestUrl'] ) ) {
-            $defaults['paymentPayPalExpressTestUrl'] = 'www.sandbox.paypal.com';
-        }
-
-        if ( ! isset( $defaults['paymentPayPalExpressUrl'] ) ) {
-            $defaults['paymentPayPalExpressUrl'] = 'www.paypal.com';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutButton_test'] ) ) {
-            $defaults['googleCheckoutButton_test'] = 'http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=[MerchantID]&w=180&h=46&style=white&variant=text&loc=en_US';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutButton_live'] ) ) {
-            $defaults['googleCheckoutButton_live'] = 'http://checkout.google.com/buttons/checkout.gif?merchant_id=[MerchantID]&w=180&h=46&style=white&variant=text&loc=en_US';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutTestUrl'] ) ) {
-            $defaults['googleCheckoutTestUrl'] = 'sandbox.google.com/checkout';
-        }
-
-        if ( ! isset( $defaults['googleCheckoutUrl'] ) ) {
-            $defaults['googleCheckoutUrl'] = 'checkout.google.com';
-        }
-
         if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
             $defaults['maxLocationBlocks'] = 2;
         }
