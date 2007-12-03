@@ -210,7 +210,20 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
-        if ($this->_action & CRM_Core_Action::DELETE ) { 
+        if ( $this->_action & CRM_Core_Action::DELETE ) { 
+//             $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_activityId}&cid={$this->_currentlyViewedContactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
+//             $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
+           
+           $this->addButtons(array( 
+                                   array ( 'type'      => 'next', 
+                                           'name'      => ts('Delete'), 
+                                           'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                           'isDefault' => true   ), 
+                                   array ( 'type'      => 'cancel', 
+                                           'name'      => ts('Cancel'),
+                                           //'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) 
+                                           ),
+                             ));
             return;
         }
         
@@ -230,24 +243,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) );
         
         $this->add('select','status_id',ts('Status'), CRM_Core_PseudoConstant::activityStatus( ), true );
-
-        // we're deleting
-//        if ( $this->_action & CRM_Core_Action::DELETE ) {
-//            
-//            $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_activityId}&cid={$this->_currentlyViewedContactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
-//            $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
-//            
-//            $this->addButtons(array( 
-//                                    array ( 'type'      => 'next', 
-//                                            'name'      => ts('Delete'), 
-//                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-//                                            'isDefault' => true   ), 
-//                                    array ( 'type'      => 'cancel', 
-//                                            'name'      => ts('Cancel'),
-//                                            'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
-//                              ));
-//            return;
-//        }
 
         $config =& CRM_Core_Config::singleton( );
         $domainID = CRM_Core_Config::domainID( );

@@ -118,8 +118,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
 
         //show  edit link only for meeting/phone and other activities
         $showUpdate = false;
+        $showDelete = false;
         if ( array_key_exists(  $activityTypeId,  $activityTypes ) || $activityTypeId > 9 ) {
             $showUpdate = true;
+            $showDelete = true;
             $url      = 'civicrm/contact/view/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
             $qsUpdate = "atype={$activityTypeId}&action=update&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
@@ -133,10 +135,13 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $url      = 'civicrm/contact/view/membership';
             $qsView   = "action=view&reset=1&id={$sourceRecordId}&cid=%%cid%%&context=%%cxt%%";
         } else {
+            $showDelete = true;
             $url      = 'civicrm/activity/view';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
         
+        $qsDelete = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(
@@ -153,9 +158,19 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'url'      => $url,
                                                                        'qs'       => $qsUpdate,
                                                                        'title'    => ts('Update Activity') ) );
-                
-    }
+            
+        }
 
+        if ( $showDelete ) {
+            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::DELETE => 
+                                                                 array(
+                                                                       'name'     => ts('Delete'),
+                                                                       'url'      => $url,
+                                                                       'qs'       => $qsDelete,
+                                                                       'title'    => ts('Delete Activity') ) );
+            
+        }
+        
         return self::$_actionLinks;
     }
 

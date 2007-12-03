@@ -146,15 +146,11 @@
   </tr>
 </table>
 
-{*if $action eq 4 }
+{if $action eq 4 }
   <div class="form-item">
-    <a href="{crmURL p='civicrm/contact/view/activity' q="action=update&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&atype=`$activityID`&edit=1&caseid=`$caseid`"}">{ts}Edit Activity{/ts}</a> | 
-    <a href="{crmURL p='civicrm/contact/view/activity'
-     q="action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&atype=`$activityID`&caseid=`$caseid`"}" ">{ts}  Delete Activity {/ts}</a>
-
   {if $subject_value}  
-  | <a href="{crmURL p='civicrm/contact/view/case'
+    <a href="{crmURL p='civicrm/contact/view/case'
      q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Detach Activity from Case {/ts}</a>
   {/if}
 
-{/if *}   
+{/if }   

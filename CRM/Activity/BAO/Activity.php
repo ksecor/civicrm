@@ -120,42 +120,63 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     /**
      * Function to delete the activity
      *
-     * @param int    $id           activity id
-     * @param string $activityType activity type
+     * @param int    $activityId  activity id
      *
-     * @return null
+     * @return void
      * @access public
      *
      */
-    public function removeActivity( $id , $activityType ) 
+    public function removeActivity( $activityId ) 
     {
-        //delete Custom Data, if any
-        require_once 'CRM/Core/BAO/CustomQuery.php';
-        $entityTable = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
 
-        require_once 'CRM/Core/BAO/CustomValue.php';
-        $cutomDAO = & new CRM_Core_DAO_CustomValue();
-        $cutomDAO->entity_id = $id;
-        $cutomDAO->entity_table = $entityTable;
-        $cutomDAO->find( );
-        while( $cutomDAO->fetch( )) {
-            $cutomDAO->delete();
-        }
-              
-        $activity =& new CRM_Activity_DAO_Activity();
-        $activity->id = $id;
-        require_once 'CRM/Case/DAO/CaseActivity.php';
-        $caseActivity =  new CRM_Case_DAO_CaseActivity();
-        $caseActivity->activity_entity_table = $entityTable;
-        $caseActivity->activity_entity_id = $activity->id ;
-        if ($caseActivity->find(true)){
-            require_once 'CRM/Case/BAO/Case.php';
-            CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
-        }
-        self::deleteActivityAssignment( $entityTable,$activity->id );
-        return $activity->delete();
+        self::deleteActivityAssignment( $activityId );
+        self::deleteActivityTarget( $activityId );
+
+        require_once 'CRM/Case/BAO/Case.php';
+        CRM_Case_BAO_Case::deleteCaseActivity( $activityId );
+
+        $activity     =& new CRM_Activity_DAO_Activity( );
+        $activity->id = $activityId;
+     
+        $activity->delete( );
+        
+        $transaction->commit( );
     }
     
+    /**
+     * Delete activity assignment record
+     *
+     * @param int    $id  activity id
+     *
+     * @return null
+     * @access public
+     */
+    public function deleteActivityAssignment( $activityId ) 
+    {
+        require_once 'CRM/Activity/BAO/ActivityAssignment.php';
+        $assignment              =& new CRM_Activity_BAO_ActivityAssignment( );
+        $assignment->activity_id = $activityId;
+        $assignment->delete( );
+    }
+
+    /**
+     * Delete activity target record
+     *
+     * @param int    $id  activity id
+     *
+     * @return null
+     * @access public
+     */
+    public function deleteActivityTarget( $activityId ) 
+    {
+        require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        $target              =& new CRM_Activity_BAO_ActivityTarget( );
+        $target->activity_id = $activityId;
+        $target->delete( );
+    }
+
     /**
      * delete all records for this contact id
      *
