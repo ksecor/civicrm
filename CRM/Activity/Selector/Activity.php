@@ -147,15 +147,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                           )
                                     );
         if ( $showUpdate ) {
-            self::$_actionLinks = array_merge( self::$_actionLinks, 
-                                               array ( CRM_Core_Action::UPDATE => 
-                                                       array(
-                                                             'name'     => ts('Edit'),
-                                                             'url'      => $url,
-                                                             'qs'       => $qsUpdate,
-                                                             'title'    => ts('Update Activity') ) )
-                                               );
-        }
+            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::UPDATE => 
+                                                                 array(
+                                                                       'name'     => ts('Edit'),
+                                                                       'url'      => $url,
+                                                                       'qs'       => $qsUpdate,
+                                                                       'title'    => ts('Update Activity') ) );
+                
+    }
 
         return self::$_actionLinks;
     }
