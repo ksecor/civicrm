@@ -179,8 +179,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         // http://uf_username.domain/ construction (so that it can
         // be used as an OpenID in the future)
         require_once 'CRM/Utils/Rule.php';
-        if ( $uf == 'Standalone' &&
-             ! CRM_Utils_Rule::url( $uniqId ) ) {
+        if ( $uf == 'Standalone' ) {
+            if ( ! CRM_Utils_Rule::url( $uniqId ) ) {
+                return $status ? null : false;
+            }
+        } else if ( ! CRM_Utils_Rule::email( $uniqId ) ) {
             return $status ? null : false;
         }
         
@@ -192,11 +195,12 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
         $ufmatch->domain_id = CRM_Core_Config::domainID( );
         if ( ! $ufmatch->find( true ) ) {
             require_once 'CRM/Contact/BAO/Contact.php';
-            $dao =& CRM_Contact_BAO_Contact::matchContactOnUniqId( $uniqId, $ctype );
+            $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $uniqId, $ctype );
             if ( $dao ) {
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;
                 $ufmatch->domain_id      = $dao->domain_id ;
+                $ufmatch->email          = $mail;
                 $ufmatch->user_unique_id = $uniqId;
             } else {
                 if ( $uf == 'Drupal' ) {

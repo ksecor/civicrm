@@ -66,6 +66,9 @@ class CRM_Profile_Form_Dynamic extends CRM_Profile_Form
             $this->_skipPermission = true;
         }
 
+        // also allow dupes to be updated for edit in my account (CRM-2232)
+        $this->_isUpdateDupe = true;
+
         parent::preProcess( ); 
     } 
 

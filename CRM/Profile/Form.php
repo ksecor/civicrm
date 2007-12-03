@@ -352,12 +352,15 @@ class CRM_Profile_Form extends CRM_Core_Form
             } else if ($this->_gid ) {
                 $dao = new CRM_Core_DAO_UFGroup();
                 $dao->id = $this->_gid;
-                $dao->find(true);
-                if ( $dao->add_captcha ) {
-                    $setCaptcha = true;
-                }
-                if ($dao->is_update_dupe) {
-                    $this->_isUpdateDupe = true;
+                $dao->addSelect( );
+                $dao->addSelect( 'add_captcha', 'is_update_dupe' );
+                if ( $dao->find( true ) ) {
+                    if ( $dao->add_captcha ) {
+                        $setCaptcha = true;
+                    }
+                    if ($dao->is_update_dupe) {
+                        $this->_isUpdateDupe = true;
+                    }
                 }
             }
             
@@ -542,8 +545,10 @@ class CRM_Profile_Form extends CRM_Core_Form
             $ids = CRM_Core_BAO_UFGroup::findContact( $data, $cid, true );
             if ( $ids ) {
                 if ( $form->_isUpdateDupe ) {
-                    $idArray = explode( ',', $ids );
-                    $form->_id = $idArray[0];
+                    if ( ! $form->_id ) {
+                        $idArray = explode( ',', $ids );
+                        $form->_id = $idArray[0];
+                    }
                 } else {
                     $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
                 }
@@ -604,7 +609,7 @@ class CRM_Profile_Form extends CRM_Core_Form
     public function postProcess( ) 
     {
         $params = $this->controller->exportValues( $this->_name );
-        
+
         if ($this->_mode == self::MODE_CREATE) {
             foreach ($params as $name => $field ) {
                 if(substr( $name, 0, 5 ) == 'email' ) {                
