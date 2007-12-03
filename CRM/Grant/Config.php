@@ -1,9 +1,10 @@
 <?php
+
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 2.0                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                  |
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -25,9 +26,6 @@
 */
 
 /**
- * Config handles all the run time configuration changes that the system needs to deal with.
- * Typically we'll have different values for a user's sandbox, a qa sandbox and a production area.
- * The default values in general, should reflect production values (minimizes chances of screwing up)
  *
  * @package CRM
  * @copyright CiviCRM LLC (c) 2004-2007
@@ -35,28 +33,9 @@
  *
  */
 
-require_once 'CRM/Core/Config.php';
+require_once 'CRM/Core/Component/Config.php';
 
-class CRM_Grant_Config {
-
-    /**
-     * Function to add additional config paramters to the core Config class
-     * if CiviGrant is enabled
-     *
-     * Note that this config class prevent code bloat in the Core Config class,
-     * however we declare all the variables assigned here, more for documentation
-     * than anything else, at some point, we'll figure out how to extend a class
-     * and properties dynamically in PHP (like Ruby)
-     * 
-     * @param CRM_Core_Config (reference ) the system config object
-     *
-     * @return void
-     * @static
-     * @access public
-     */
-    static function add( &$config ) {
-        
-    }
+class CRM_Grant_Config extends CRM_Core_Component_Config {
 
 }
 
