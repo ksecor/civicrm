@@ -72,16 +72,18 @@ WHERE    civicrm_event.id = %1
 AND      civicrm_participant.status_id IN ( 1, 2 )";
         $params = array( 1 => array( $this->_id, 'Integer' ) );
         $this->pager( $fromClause, $whereClause, $params );
-        
+        $orderBy = $this->orderBy( $this->_participantListingID );
+
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
         
         $query = "
 SELECT   civicrm_contact.id           as contact_id,
          civicrm_contact.display_name as name      ,
+         civicrm_contact.sort_name    as sort_name ,
          civicrm_email.email          as email
          $fromClause
          $whereClause
-ORDER BY title asc
+ORDER BY $orderBy
 LIMIT    $offset, $rowCount";
 
         $rows = array( );
@@ -120,6 +122,37 @@ SELECT count( civicrm_contact.id )
         $this->_pager = new CRM_Utils_Pager( $params );
         $this->assign_by_ref( 'pager', $this->_pager );
     }
+
+    function orderBy( $participantListingID ) {
+        static $headers = null;
+        require_once 'CRM/Utils/Sort.php';
+        if ( ! $headers ) {
+            $headers = array( );
+            $headers[1] = array( 'name'      => ts( 'Name' ),
+                                 'sort'      => 'civicrm_contact.sort_name',
+                                 'direction' => CRM_Utils_Sort::ASCENDING );
+            if ( $participantListingID == 2 ) {
+                $headers[2] = array( 'name'      => ts( 'Email' ),
+                                     'sort'      => 'civicrm_email.email',
+                                     'direction' => CRM_Utils_Sort::DONTCARE );
+            }
+        }
+        $sortID = null;
+        if ( $this->get( CRM_Utils_Sort::SORT_ID  ) ) {
+            $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
+                                                   $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
+        }
+        $sort =& new CRM_Utils_Sort( $headers, $sortID );
+        $this->assign_by_ref( 'headers', $headers );
+        $this->assign_by_ref( 'sort'   , $sort    );
+        $this->set( CRM_Utils_Sort::SORT_ID,
+                    $sort->getCurrentSortID( ) );
+        $this->set( CRM_Utils_Sort::SORT_DIRECTION,
+                    $sort->getCurrentSortDirection( ) );
+
+        return $sort->orderBy( );
+    }
+
 
 }
 

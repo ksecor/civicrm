@@ -3,10 +3,16 @@
    <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
    <thead>  
      <tr class="columnheader">
-      <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
-{if $participantListingType eq 2}
-      <th field="Email" dataType="String" scope="col">{ts}Email{/ts}</th>
-{/if}
+  {foreach from=$headers item=header}
+    <th scope="col">
+    {if $header.sort}
+      {assign var='key' value=$header.sort}
+      {$sort->_response.$key.link}
+    {else}
+      {$header.name}
+    {/if}
+    </th>
+  {/foreach}
      </tr>
    </thead>
    <tbody>  
