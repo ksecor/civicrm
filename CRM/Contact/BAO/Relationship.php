@@ -175,7 +175,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         }
         
         $relationship->id = CRM_Utils_Array::value( 'relationship', $ids );
-        
+
         $relationship->save( );
         
         // add custom field values               

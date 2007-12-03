@@ -351,7 +351,12 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $customData = array( );
         foreach ( $params as $key => $value ) {
             if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData, $value, 'Relationship', null, $this->_relationshipId);
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId,
+                                                             $customData,
+                                                             $value,
+                                                             'Relationship',
+                                                             null,
+                                                             $this->_relationshipId);
             }
         }
         
@@ -372,7 +377,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
             }
         }
         
-        list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) = CRM_Contact_BAO_Relationship::create( $params, $ids );
+        list( $valid, $invalid, $duplicate, $saved, $relationshipIds ) =
+            CRM_Contact_BAO_Relationship::create( $params, $ids );
+
         $status = '';
         if ( $valid ) {
             $status .= ' ' . ts('%count new relationship record created.', array('count' => $valid, 'plural' => '%count new relationship records created.'));
