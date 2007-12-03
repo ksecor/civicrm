@@ -56,7 +56,7 @@ abstract class CRM_Core_Component_Config
     /**
      * TODO
      */
-    public function setDefaults( $defaults ) {
+    public function setDefaults( &$defaults ) {
         foreach( get_class_vars( get_class( $this ) ) as $key => $value ) {
             if ( ! isset( $defaults[$key] ) ) {
                 $defaults[$key] = $value;

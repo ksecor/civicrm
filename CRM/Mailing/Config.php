@@ -65,21 +65,6 @@ class CRM_Mailing_Config extends CRM_Core_Component_Config {
     */
     public $mailerBatchLimit = 0;
 
-    public function setDefaults( &$defaults ) {
-        if ( empty( $defaults['mailerPeriod'] ) ) {
-            $defaults['mailerPeriod'] = 180;
-        }
-
-        if ( empty( $defaults['mailerSpoolLimit'] ) ) {
-            $defaults['mailerSpoolLimit'] = 0;
-        }
-
-        if ( empty( $defaults['mailerBatchLimit'] ) ) {
-            $defaults['mailerBatchLimit'] = 0;
-        }
-
-    }
-
 }
 
 
