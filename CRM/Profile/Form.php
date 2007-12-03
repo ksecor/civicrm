@@ -610,22 +610,6 @@ class CRM_Profile_Form extends CRM_Core_Form
     {
         $params = $this->controller->exportValues( $this->_name );
 
-        if ($this->_mode == self::MODE_CREATE) {
-            foreach ($params as $name => $field ) {
-                if(substr( $name, 0, 5 ) == 'email' ) {                
-                    $email = $name;
-                }
-            }
-         
-            if ( CRM_Utils_Array::value( $email, $params ) ) {
-                require_once 'CRM/Contact/BAO/Contact.php';
-                $dao =& CRM_Contact_BAO_Contact::matchContactOnEmail( $params[$email], $this->_ctype );
-                if ( $dao ) {
-                    $this->_id = $dao->contact_id;
-                }
-            }
-        }
-        
         //create CMS user (if CMS user option is selected in profile)
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) &&
              $this->_mode == self::MODE_CREATE ) {
