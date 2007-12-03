@@ -60,7 +60,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) {
+    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) 
+    {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         //$this->_mapperLocType =& $mapperLocType;
@@ -73,7 +74,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @return void
      * @access public
      */
-    function init( ) {
+    function init( ) 
+    {
         require_once 'CRM/Activity/BAO/Activity.php';
         $fields =& CRM_Activity_BAO_Activity::importableFields( );
 
@@ -102,7 +104,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             case 'activity_type_id':
                 $this->_activityTypeIndex     = $index;
                 break;
-            case 'activity_date':
+            case 'activity_date_time':
                 $this->_activityDateIndex     = $index;
                 break;
             }
@@ -118,7 +120,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @return boolean
      * @access public
      */
-    function mapField( &$values ) {
+    function mapField( &$values ) 
+    {
         return CRM_Activity_Import_Parser::VALID;
     }
 
@@ -131,7 +134,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @return boolean      the result of this processing
      * @access public
      */
-    function preview( &$values ) {
+    function preview( &$values ) 
+    {
         return $this->summary($values);
     }
 
@@ -153,7 +157,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             return CRM_Activity_Import_Parser::ERROR;
         }*/
         $errorRequired = false;
-        if ($this->_activityTypeIndex     < 0 or
+        if ($this->_activityTypeIndex < 0 or
             $this->_activityDateIndex < 0) {
             $errorRequired = true;
         } else {
@@ -176,7 +180,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
         foreach ($params as $key => $val) {
-            if ( $key == 'activity_date' ) {
+            if ( $key == 'activity_date_time' ) {
                 if( $val ) {
                     if ( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
@@ -214,7 +218,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( $onDuplicate, &$values) {
+    function import( $onDuplicate, &$values) 
+    {
         // first make sure this is a valid line
         $response = $this->summary( $values );
         if ( $response != CRM_Activity_Import_Parser::VALID ) {
@@ -228,7 +233,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $dateType = $session->get("dateTypes");
         
         foreach ($params as $key => $val) {
-            if ( $key ==  'activity_date' ) {
+            if ( $key ==  'activity_date_time' ) {
                 if( $val ) {
                     if( $dateType == 1) { 
                         $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d');
@@ -254,8 +259,12 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 continue;
             }
             $value = array($key => $field);
-            _crm_add_formatted_history_param($value, $formatted);
+
+            //_crm_add_formatted_history_param($value, $formatted);
         }
+        require_once 'api/v2/Activity.php';
+        civicrm_activity_create( $params ); 
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -342,8 +351,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             }
           
         } else {
-            $formatted['entity_table'] = 'civicrm_contact';
-            $newHistory = crm_create_activity_history ( $formatted );
+            //$formatted['entity_table'] = 'civicrm_contact';
+           //  $newHistory = civicrm_activity_create ( $params );
             if ( is_a( $newHistory, CRM_Core_Error ) ) {
                 array_unshift($values, $newHistory->_errors[0]['message']);
                 return CRM_Activity_Import_Parser::ERROR;
@@ -355,22 +364,13 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     }
    
     /**
-     * Get the array of succesfully imported activity id's
-     *
-     * @return array
-     * @access public
-     */
-    function &getImportedActivityHistory() {
-        return $this->_newHistory;
-    }
-   
-    /**
      * the initializer code, called before the processing
      *
      * @return void
      * @access public
      */
-    function fini( ) {
+    function fini( ) 
+    {
     }
 
     /**
@@ -383,8 +383,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      *  @access public 
      */
 
-    function isDuplicate($error) {
-        
+    function isDuplicate($error) 
+    {
         if( is_a( $error, CRM_Core_Error ) ) {
             $code = $error->_errors[0]['code'];
             if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
