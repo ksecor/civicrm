@@ -47,7 +47,12 @@ function smarty_modifier_crmDate($dateString, $dateFormat = null, $onlyTime = fa
         if ( $dateFormat == 0 ) {
             $dateFormat = null;
         }
-        return CRM_Utils_Date::customFormat( $dateString, $dateFormat, $onlyTime );
+        if ( $onlyTime ) {
+            $config =& CRM_Core_Config::singleton( );
+            $dateFormat  = $config->dateformatTime;
+        }
+
+        return CRM_Utils_Date::customFormat( $dateString, $dateFormat );
     }
     return '';
 }

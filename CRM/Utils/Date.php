@@ -345,7 +345,7 @@ class CRM_Utils_Date
      *
      * @static
      */
-    static function customFormat($dateString, $format = null, $onlyTime = false)
+    static function customFormat($dateString, $format = null )
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
@@ -370,10 +370,6 @@ class CRM_Utils_Date
             } else {
                 $format = $config->dateformatYear;
             }
-        }
-
-        if ( $onlyTime ) {
-            $format  = "%H : %M";
         }
 
         if ($dateString) {
