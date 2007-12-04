@@ -105,10 +105,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
         
         $this->_currentlyViewedContactId = $this->get('contactId');
+        
+        if ( ! $this->_currentlyViewedContactId ) {
+            $this->_currentlyViewedContactId = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
+        }
+        
+        $this->_activityTypeId = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
 
-        $this->_activityTypeId           = CRM_Utils_Request::retrieve( 'atype', 'Positive', $this );
-
-        if ( $this->_context != 'standalone' || $this->_activityTypeId ) {
+        if ( ! in_array( $this->_context, array('standalone', 'case') )  || $this->_activityTypeId ) {
             // get the tree of custom fields
             $this->_groupTree =& CRM_Core_BAO_CustomGroup::getTree("Activity", $this->_activityId, 0, $this->_activityTypeId );
             
@@ -124,6 +128,12 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+
+        if ( $this->_context == 'standalone' ) {
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/dashboard', "reset=1" ) );
+        } else if ( $this->_context == 'case' ) {
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=case" ) );
+        }
     }
     
     /**
@@ -154,11 +164,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                 $this->assign( 'target_contact_value', $defaults['target_contact'] );
             }
 
-            if ( $defaults['case_subject'] ) {
-                $this->assign( 'subject_value', $defaults['case_subject'] );
-            }
-
-        // otherwise, we're adding new activity.
         } else {
             // if it's a new activity, we need to set default values for associated contact fields
             // since those are dojo fields, unfortunately we cannot use defaults directly
@@ -169,6 +174,16 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $defaults['activity_date_time'] = array( );
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
+
+            //set case 
+            $caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
+            if ( $caseId ) {
+                $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $caseId,'subject' );
+            }
+        }
+        
+        if ( $defaults['case_subject'] ) {
+            $this->assign( 'subject_value', $defaults['case_subject'] );
         }
 
         if (  $this->_activityTypeId ) {
@@ -200,19 +215,15 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
-//             $params = "activity_id={$this->_activityType}&action=view&selectedChild=activity&id={$this->_activityId}&cid={$this->_currentlyViewedContactId}&history=0&subType={$this->_activityType}&context={$this->_context}&caseid={$this->_caseID}&reset=1";
-//             $cancelURL = CRM_Utils_System::url('civicrm/contact/view/activity',$params ,true,null, false);
-           
-           $this->addButtons(array( 
-                                   array ( 'type'      => 'next', 
-                                           'name'      => ts('Delete'), 
-                                           'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
-                                           'isDefault' => true   ), 
-                                   array ( 'type'      => 'cancel', 
-                                           'name'      => ts('Cancel'),
-                                           //'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) 
-                                           ),
-                             ));
+            $this->addButtons(array( 
+                                    array ( 'type'      => 'next', 
+                                            'name'      => ts('Delete'), 
+                                            'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
+                                            'isDefault' => true   ), 
+                                    array ( 'type'      => 'cancel', 
+                                            'name'      => ts('Cancel'),
+                                            )
+                                    ));
             return;
         }
         
@@ -237,14 +248,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $domainID = CRM_Core_Config::domainID( );
 
         // add a dojo facility for searching contacts
-        $this->assign( 'dojoIncludes', " dojo.require('dojo.data.ItemFileReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
 
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
-                             'store'          => 'contactStore',
-                             'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
+                             'store'          => 'contactStore');
+
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
-                                          "d={$domainID}&s=",
+                                          "d={$domainID}",
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
 
@@ -260,13 +271,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             // we're setting currently LOGGED IN user as source for this activity
             $this->assign( 'source_contact_value', $defaultSourceContactName );
         }
-        
-        $standalone = false;
-        if ( $this->_context == 'standalone' )  {
-            $standalone = true;
 
-            $urlParams = "action=add&reset=1&context=standalone&atype=";
-            
+        if ( in_array( $this->_context, array('standalone', 'case') ) )  {
+            if ( $this->_currentlyViewedContactId ) {
+                $urlParams = "cid={$this->_currentlyViewedContactId}&";
+            }
+
+            $urlParams .= "action=add&reset=1&context={$this->_context}&atype=";
+
             $url = CRM_Utils_System::url( 'civicrm/activity', 
                                           $urlParams, true, null, false ); 
             
@@ -274,10 +286,8 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             
             $this->add('select', 'activity_type_id', ts('Activity Type'),
                        array('' => ts('- select activity -')) + $activityType,
-                       false, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
+                       true, array('onchange' => "if (this.value) window.location='{$url}'+ this.value; else return false"));
         }
-        
-        $this->assign('standalone', $standalone);
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
         $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, $standalone );
@@ -298,11 +308,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
         }
         
-        if ( $this->_viewOptions['Cases'] ) {
+        if ( $this->_viewOptions['Cases'] && $this->_context != 'standalone' ) {
             $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                                      'mode'           => 'remote',
-                                     'store'          => 'caseStore',
-                                     'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
+                                     'store'          => 'caseStore');
             
             $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
                                               "c={$this->_currentlyViewedContactId}",

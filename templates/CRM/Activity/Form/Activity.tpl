@@ -11,7 +11,7 @@
 {/if}
 
 {* added onload javascript for target contact*}
-{if $target_contact_value and $standalone }
+{if $target_contact_value and $context eq 'standalone' }
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'target_contact' ).setValue( "{$target_contact_value}", "{$target_contact_value}" )
@@ -29,7 +29,7 @@
 {/if}
 
 {* added onload javascript for case subject*}
-{if $subject_value}
+{if $subject_value and $context neq 'standalone'}
    <script type="text/javascript">
        dojo.addOnLoad( function( ) {ldelim}
        dijit.byId( 'case_subject' ).setValue( "{$subject_value}", "{$subject_value}" )
@@ -54,7 +54,7 @@
           </legend>
          <table class="no-border">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
-             {if $standalone }
+             {if $context eq ('standalone' or 'case') }
 		<tr>
                    <td class="label">{$form.activity_type_id.label}</td><td>{$form.activity_type_id.html}</td>
                 </tr>
@@ -62,7 +62,7 @@
              <tr>
                 <td class="label">{$form.source_contact.label}</td>
 		<td>
-                   <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
                        {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
@@ -70,27 +70,29 @@
              <tr>
                 <td class="label">{$form.target_contact.label}</td>
 		<td>
-                   <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
-                       {if $standalone } {$form.target_contact.html} {else} {$target_contact_value} {/if}
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                       {if $context eq 'standalone' } {$form.target_contact.html} {else} {$target_contact_value} {/if}
                    </div>
                 </td>
              </tr>
              <tr>
                 <td class="label">{$form.assignee_contact.label}</td>
 		<td>
-                   <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
                        {$form.assignee_contact.html}
                    </div>
                 </td>
              </tr>
-             <tr>
-                <td class="label">{$form.case_subject.label}</td>
-		<td>
-                   <div dojoType="dojo.data.ItemFileReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
-                       {$form.case_subject.html}
-                   </div>
-                </td>
-             </tr>
+             {if $context neq 'standalone' }
+               <tr>
+                  <td class="label">{$form.case_subject.label}</td>
+		  <td>
+                     <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
+                         {$form.case_subject.html}
+                     </div>
+                  </td>
+               </tr>
+             {/if}
              <tr>
                 <td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td>
              </tr> 

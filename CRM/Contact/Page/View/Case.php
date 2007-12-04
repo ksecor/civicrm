@@ -146,7 +146,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                 
         if ( $edit ) {
             $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
-        } else if( $context && $this->_action == 8 ){
+        } else if( $context && $this->_action == CRM_Core_Action::DELETE ) {
             $activity_id = CRM_Utils_Request::retrieve( 'activity_id', 'Integer',$this );
             $caseid = CRM_Utils_Request::retrieve( 'caseid', 'Integer',$this );
             $url=CRM_Utils_System::url('civicrm/contact/view/activity','activity_id='.$activity_id.'&action=view&selectedChild=activity&id='.$this->_id.'&cid='. $this->_contactId.'&subType='.$activity_id.'&context='.$context.'&caseid='.$caseid );

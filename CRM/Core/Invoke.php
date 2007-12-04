@@ -1111,8 +1111,6 @@ class CRM_Core_Invoke
         if ( $args[2] == 'view' ) {
             return $wrapper->run( 'CRM_Activity_Form_ActivityView', ts('View Activity'),  null );
         } else {
-            $session =& CRM_Core_Session::singleton();
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/dashboard', 'reset=1') );
             return $wrapper->run( 'CRM_Activity_Form_Activity', ts('New Activity'),  null );
         }
     }

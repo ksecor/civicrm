@@ -214,23 +214,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         return $case;
     }
 
-    /** 
-     * To fetch the contact id when display name is given
-     * 
-     * @param  sort name of the contact
-     * @return id id of the corresponding display name
-     *
-     */ 
-    static function retrieveCid( $params ) 
-    {
-        require_once 'CRM/Contact/DAO/Contact.php';
-        $cid = new CRM_Contact_DAO_Contact();
-        $cid->sort_name = $params;
-        $cid->find(true);
-        return $cid->id;
-    }
-
-    
     /**
      * Function to process case activity add/delete
      * takes an associative array and
