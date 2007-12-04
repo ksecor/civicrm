@@ -459,7 +459,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 if ( is_a( $contact, 'CRM_Contact_DAO_Contact' )) {
                     if ($formatted['contact_type'] == $contact->contact_type) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
-                                                            $onDuplicate, $contactId );
+                                                            $onDuplicate, $params['id'] );
                         
                         $this->_retCode = CRM_Import_Parser::VALID;
                     } else {
@@ -484,7 +484,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
-            
+           
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
         }
         
@@ -683,7 +683,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $cid       = null;
                                 
                 $vals = array( 'contact_id' => $contactId );
-                //CRM_Core_Error::debug( '$contactId', $contactId );
+               
                 if ($onDuplicate == CRM_Import_Parser::DUPLICATE_REPLACE) {
                     $result = civicrm_replace_contact_formatted( $contactId, $formatted, $contactFields );
                     $cid    = $result['result'];
@@ -1070,7 +1070,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             
             $cid = CRM_Contact_BAO_Contact::createProfileContact( $formatted, $contactFields, 
                                                                   $contactId, null, null, 
-                                                                  $formatted['conatct_type'] );
+                                                                  $formatted['contact_type'] );
             $contact    = array( 'contact_id' => $cid );
             
             $defaults   = array( );
