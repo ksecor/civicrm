@@ -323,7 +323,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                               true, null, false );
             $this->assign('caseUrl',$caseUrl );
             
-            $subject = $this->add( 'text','case_subject',ts('Case Subject'), $caseAttributes );
+            $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
             if ( $subject->getValue( ) ) {
                 $this->assign( 'subject_value',  $subject->getValue( ) );
             } else {
@@ -417,19 +417,18 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             }
         }
 
-//        if ( $fields['case_subject'] ){
-//            require_once 'CRM/Case/DAO/Case.php';
-//            $caseDAO =& new CRM_Case_DAO_Case();
-//            $caseDAO->subject = $fields['case_subject'];
-//            $caseDAO->find(true);
+        if ( $fields['case_subject'] ) {
+            require_once 'CRM/Case/DAO/Case.php';
+            $caseDAO =& new CRM_Case_DAO_Case();
+            $caseDAO->subject = $fields['case_subject'];
+            $caseDAO->find(true);
             
-//            if(!$caseDAO->id){
-//                $errors['case_subject'] = ts('Invalid Case Subject');
-//            }
-//        }
+            if ( !$caseDAO->id ) {
+                $errors['case_subject'] = ts('Invalid Case');
+            }
+        }
         return $errors;
     }
-
     
     /**
      * Function to process the form
@@ -482,30 +481,21 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         
         if ( isset($this->_activityId) ) {
             $params['id'] = $this->_activityId;
-
-//            require_once 'CRM/Case/DAO/CaseActivity.php';
-//            $caseActivity = new CRM_Case_DAO_CaseActivity();
-//            $caseActivity->activity_entity_table = 'civicrm_activity';
-//            $caseActivity->activity_entity_id = $ids['id'];
-//            $caseActivity->find(true);
-//            $ids['cid'] = $caseActivity->id;
-//            require_once 'CRM/Activity/DAO/ActivityAssignment.php';
         }
 
         require_once "CRM/Activity/BAO/Activity.php";
-        CRM_Activity_BAO_Activity::create( $params );
+        $activity = CRM_Activity_BAO_Activity::create( $params );
+
+        // add case activity
+        if ( $this->_viewOptions['Cases'] ) {
+            require_once 'CRM/Case/BAO/Case.php';
+            $caseParams['activity_id'] = $activity->id;
+            $caseParams['subject'    ] = $params['case_subject'];
+            CRM_Case_BAO_Case::createCaseActivity( $caseParams );        
+        }
 
         // set status message
         CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
-
-//        $activity = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] );
-
-//        require_once 'CRM/Case/BAO/Case.php';
-//        $caseParams['activity_entity_table'] = 'civicrm_activity';
-//        $caseParams['activity_entity_id']    = $activity->id;
-//        $caseParams['subject']               = $params['case_subject'];
-//        CRM_Activity_BAO_Activity::createActivityAssignment( &$caseParams,$ids );
-//        CRM_Case_BAO_Case::createCaseActivity( &$caseParams,$ids );        
     }
 }
 

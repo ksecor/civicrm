@@ -272,27 +272,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 case 'Event':      $row['activity_type'] = ts('Event');      break;
             }
 
-            //for case subject
-            if ( $this->_viewOptions['case'] ) { 
-                if ( $row['case_id'] ) {
-                    $row['case'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $row['case_id'], 'subject'); 
-                }
-                
-                require_once "CRM/Core/OptionGroup.php";
-                $caseActivity = CRM_Core_OptionGroup::values('case_activity_type');
-                $row['case_activity'] = $caseActivity[$row['case_activity']];
-            } 
-
-            // retrieve to_contact
-            require_once "CRM/Activity/BAO/Activity.php";
-//            $assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $row['activity_type_id'], $row['id'] );
-
-            if ( $assignCID ) {
-                require_once "CRM/Contact/BAO/Contact.php";
-                $row['to_contact'   ] = CRM_Contact_BAO_Contact::displayName( $assignCID );
-                $row['to_contact_id'] = $assignCID;
-            }
-
             // add class to this row if overdue
             if ( CRM_Utils_Date::overdue( $row['activity_date_time'] ) && $row['status_id'] == 1 ) {
                 $row['overdue'] = 1;
@@ -303,29 +282,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             }
 
             $actionLinks =& self::actionLinks( $row['activity_type_id'], $row['source_record_id'] );
-            require_once 'CRM/Contact/Page/View/Case.php';
-            $caseLinks   = CRM_Contact_Page_View_Case::caseViewLinks();     
-            $caseAction  = array_sum(array_keys($caseLinks));
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
-            if ($output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN) {
-                if ( $case ) {
-                    $row['action'] = CRM_Core_Action::formLink($caseLinks,
-                                                               $caseAction,
-                                                               array('aid'  => $row['case_id'],
-                                                                     'atype'=> $row['activity_type_id'],
-                                                                     'rid'  => $row['id'],
-                                                                     'id'  =>  $row['case_id'],
-                                                                     'cid' => $this->_contactId
-                                                                      ));
-                } else {
-                    $row['action'] = CRM_Core_Action::formLink($actionLinks,
-                                                               $actionMask,
-                                                               array('id'  => $row['id'],
-                                                                     'cid' => $this->_contactId,
-                                                                     'cxt' => $this->_context ) );
-                }
- 
+            if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
+                $row['action'] = CRM_Core_Action::formLink( $actionLinks,
+                                                            $actionMask,
+                                                            array('id'  => $row['id'],
+                                                                  'cid' => $this->_contactId,
+                                                                  'cxt' => $this->_context ) );
             }
             unset($row);
         }

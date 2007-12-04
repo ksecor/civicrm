@@ -434,7 +434,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                          assigneeContact.display_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
-                         civicrm_case_activity.case_id as case_id
+                         civicrm_case_activity.case_id as case_id,
+                         civicrm_case.subject as case_subject
                   from civicrm_activity 
                   left join civicrm_activity_target on 
                             civicrm_activity.id = civicrm_activity_target.activity_id 
@@ -453,6 +454,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_option_group.id = civicrm_option_value.option_group_id
                   left join civicrm_case_activity on
                             civicrm_case_activity.activity_id = civicrm_activity.id
+                  left join civicrm_case on
+                            civicrm_case_activity.case_id = civicrm_case.id
                   where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 )
                         and civicrm_option_group.name = 'activity_type' 
                         and is_test = 0 " . $case ;
@@ -476,7 +479,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
         $queryString = $query . $order . $limit;
         $dao =& CRM_Core_DAO::executeQuery( $queryString, $params );
-
+        
         $selectorFields = array( 'activity_type_id',
                                  'activity_type',
                                  'id',
@@ -491,7 +494,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                  'assignee_contact_id',
                                  'source_record_id',
                                  'case_id',
-                                 'case_activity' );
+                                 'case_subject' );
 
         $values =array();
         $rowCnt = 0;

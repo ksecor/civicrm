@@ -72,6 +72,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->_context = CRM_Utils_Request::retrieve('context','String',$this); 
         $this->assign('context', $this->_context);
         $this->_caseid = CRM_Utils_Request::retrieve('caseid','Integer',$this);
+        $this->assign('enableCase', true );
     }
 
     function setDefaultValues( ) 

@@ -120,7 +120,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
             
             $values[$case->id]['case_type_id'] = implode ( ':::' , $names);
             $values[$case->id]['status_id']    = $caseStatus[$values[$case->id]['status_id']];
-
         } 
         
         $this->assign( 'cases', $values );
@@ -219,27 +218,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         }
         return self::$_links;
     }
-    
-    static function &caseViewLinks()
-    {
-        if (!(self::$_links)) {
-            $deleteExtra = ts('Are you sure you want to detach this case?');
-            
-            self::$_links = array(
-                                 
-                                  CRM_Core_Action::UPDATE  => array(
-                                                                    'name'  => ts('Edit'),
-                                                                    'url'   => 'civicrm/contact/view/activity',
-                                                                    
-                                                                    'qs'    => 'activity_id=%%atype%%&action=update&reset=1&id=%%rid%%&cid=%%cid%%&subType=%%atype%%&context=case&caseid=%%id%%',
-                                                                    'title' => ts('Edit Activity')
-                                                                    ),
-
-                                  );
-        }
-        return self::$_links;
-    }
-  
 }
 
 ?>
