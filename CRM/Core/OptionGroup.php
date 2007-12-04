@@ -197,6 +197,10 @@ WHERE  v.option_group_id = g.id
     }
 
     static function getValue( $groupName, $label, $labelField = 'label' ) {
+        if ( empty( $label ) ) {
+            return null;
+        }
+
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value

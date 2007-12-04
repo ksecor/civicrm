@@ -153,15 +153,6 @@ function _civicrm_add_formatted_param(&$values, &$params)
         
         $fields[$values['contact_type']] = CRM_Contact_DAO_Contact::fields();
         
-        // if (!isset($fields[$values['contact_type']])) {
-//             require_once(str_replace('_', DIRECTORY_SEPARATOR, 
-//                                      'CRM_Contact_DAO_' .  $values['contact_type']) . '.php');
-//             eval(
-//                  '$fields['.$values['contact_type'].'] =& 
-//                     CRM_Contact_DAO_'.$values['contact_type'].'::fields();'
-//                  );
-//         }
-        
         _civicrm_store_values( $fields[$values['contact_type']], $values, $params );
         return true;
     }
