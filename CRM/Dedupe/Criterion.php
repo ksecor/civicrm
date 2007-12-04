@@ -67,11 +67,8 @@ class CRM_Dedupe_Criterion
     static $supportedTables = array( 'civicrm_address',
                                      'civicrm_contact',
                                      'civicrm_email',
-                                     'civicrm_household',
                                      'civicrm_im',
-                                     'civicrm_individual',
                                      'civicrm_note',
-                                     'civicrm_organization',
                                      'civicrm_phone');
 
     /**
@@ -150,8 +147,7 @@ class CRM_Dedupe_Criterion
         case 'civicrm_address':
         case 'civicrm_email':
         case 'civicrm_phone':
-            return "SELECT param.contact_id AS contact_id FROM {$this->_table} param
-                WHERE param.{$this->_field} $condition";
+            return "SELECT param.contact_id AS contact_id FROM {$this->_table} param WHERE param.{$this->_field} $condition";
 
         case 'civicrm_note':
             return "SELECT entity_id AS contact_id FROM {$this->_table} WHERE entity_table = 'civicrm_contact' AND {$this->_field} $condition";

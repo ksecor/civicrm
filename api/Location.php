@@ -318,38 +318,39 @@ function crm_delete_location(&$contact, $location_id) {
  */
 function crm_get_locations(&$contact, $location_types = null) {
     _crm_initialize( );
-    
+
     if( ! isset( $contact->id ) ) {
         return _crm_error('$contact is not valid contact datatype');
     }
-    
+
     if ( is_array($location_types) && ! count($location_types) ) {
         return _crm_error('Location type array can not be empty');
     }
-    
+
     $params = array();
     $params['contact_id']   = $contact->id;
     $params['entity_id']    = $contact->id;
     $values = array();
     $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,2);
-       
+
     if( is_array($location_types) && count($location_types)>0 ) {
         $newLocations = array();
+        require_once 'CRM/Core/DAO/LocationType.php';
         foreach($location_types as $locationName) {
-            $LocationTypeDAO = & new CRM_Core_DAO_LocationType();
+            $LocationTypeDAO =& new CRM_Core_DAO_LocationType();
             $LocationTypeDAO->name = $locationName;
             $LocationTypeDAO->find();
             $LocationTypeDAO->fetch();
             foreach($locations as $location) {
-            if($location->location_type_id == $LocationTypeDAO->id) {
-                $newLocations[] = $location;
+                if($location[location_type_id] == $LocationTypeDAO->id) {
+                    $newLocations[] = $location;
                 }
             }
         }
         // its ok to return an empty array of locations
         return $newLocations;
     }
-  
+
     return $locations;
 }
 

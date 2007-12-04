@@ -118,7 +118,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if (!isset($diffs['contact'])) $diffs['contact'] = array();
         foreach ($diffs['contact'] as $field) {
             foreach (array('main', 'other') as $moniker) {
-                $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->$field;
+                $value = $$moniker->$field;
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
                     $value = str_replace('-', '', $value);
@@ -144,15 +144,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                     $locValue[$moniker] = 0;
                     $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
                 } else {
-                    $locValue[$moniker] = $locations[$locTypeName][$moniker][0]->id;
-                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]->name . "\n";
-                    foreach ($locations[$locTypeName][$moniker][0]->email as $email) {
-                        $locLabel[$moniker] .= $email->email . "\n";
+                    $locValue[$moniker] = $locations[$locTypeName][$moniker][0]['id'];
+                    $locLabel[$moniker] = $locations[$locTypeName][$moniker][0]['name'] . "\n";
+                    if (!isset($locations[$locTypeName][$moniker][0]['email'])) $locations[$locTypeName][$moniker][0]['email'] = array();
+                    foreach ($locations[$locTypeName][$moniker][0]['email'] as $email) {
+                        $locLabel[$moniker] .= $email['email'] . "\n";
                     }
-                    foreach ($locations[$locTypeName][$moniker][0]->phone as $phone) {
-                        $locLabel[$moniker] .= $phone->phone . "\n";
+                    if (!isset($locations[$locTypeName][$moniker][0]['phone'])) $locations[$locTypeName][$moniker][0]['phone'] = array();
+                    foreach ($locations[$locTypeName][$moniker][0]['phone'] as $phone) {
+                        $locLabel[$moniker] .= $phone['phone'] . "\n";
                     }
-                    $locLabel[$moniker] .= $locations[$locTypeName][$moniker][0]->address->display;
+                    $locLabel[$moniker] .= $locations[$locTypeName][$moniker][0]['address']['display'];
                     // drop consecutive newlines and convert the rest to <br />s
                     $locLabel[$moniker] = preg_replace('/\n+/', "\n", $locLabel[$moniker]);
                     $locLabel[$moniker] = nl2br(trim($locLabel[$moniker]));
@@ -175,6 +177,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         foreach ($otherTree as $gid => $group) {
             $foundField = false;
             if ( ! isset( $group['fields'] ) ) {
+
                 continue;
             }
 
