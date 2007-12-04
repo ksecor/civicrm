@@ -268,6 +268,20 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
     return null;
 }
 
+function &civicrm_replace_contact_formatted($contactId, &$params, &$fields) {
+    //$contact = civcrm_get_contact(array('contact_id' => $contactId));
+    
+    $delContact = array( 'contact_id' => $contactId );
+    
+    civicrm_contact_delete($delContact);
+    
+    $cid = CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, 
+                                                          null, null, null, 
+                                                          $params['conatct_type'] );
+    return civicrm_create_success( $cid );
+}
+
+
 /** 
  * takes an associative array and creates a contact object and all the associated 
  * derived objects (i.e. individual, location, email, phone etc) 
