@@ -34,8 +34,8 @@
  */
 
 require_once 'CRM/Activity/Import/Parser.php';
-
-require_once 'api/crm.php';
+require_once 'api/v2/utils.php';
+require_once 'api/v2/Activity.php';
 
 /**
  * class to parse activity csv files
@@ -55,7 +55,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
      *
      * @array
      */
-    protected $_newHistory;
+    protected $_newActivity;
 
     /**
      * class constructor
@@ -83,7 +83,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
         }
 
-        $this->_newHistory = array();
+        $this->_newActivity = array();
 
         $this->setActiveFields( $this->_mapperKeys );
         //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
@@ -231,7 +231,6 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
-        
         foreach ($params as $key => $val) {
             if ( $key ==  'activity_date_time' ) {
                 if( $val ) {
@@ -253,18 +252,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             $tempIndieFields =& CRM_Activity_DAO_Activity::import();
             $indieFields = $tempIndieFields;
         }
-
-        foreach ($params as $key => $field) {
-            if ($field == null || $field === '') {
-                continue;
-            }
-            $value = array($key => $field);
-
-            //_crm_add_formatted_history_param($value, $formatted);
-        }
-        require_once 'api/v2/Activity.php';
-        civicrm_activity_create( $params ); 
-
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
@@ -272,8 +260,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
                 $cIndieFields = $cTempIndieFields;
             }
-
-
+            
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
                     continue;
@@ -293,7 +280,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                             $break = true;
                         }
                         if (! $break) {    
-                            _crm_add_formatted_param($value, $contactFormatted);
+                            _civicrm_add_formatted_param($value, $contactFormatted);
                             
                         }
                     }
@@ -306,28 +293,26 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                         $value['contact_type'] = 'Individual';
                     }
                 }
-                _crm_add_formatted_param($value, $contactFormatted);
+                _civicrm_add_formatted_param($value, $contactFormatted);
             }
+
             $contactFormatted['contact_type'] = 'Individual';
-            $error = _crm_duplicate_formatted_contact($contactFormatted);
-            
+            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             if ( self::isDuplicate($error) ) {
-                $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+                $matchedIDs = explode(',',$error['error_message']['params'][0]);
                 if (count( $matchedIDs) > 1) {
                     array_unshift($values,"Multiple matching contact records detected for this row. The activity was not imported");
                     return CRM_Activity_Import_Parser::ERROR;
                 } else {
                     $cid = $matchedIDs[0];
-                    $formatted['source_contact_id']    = $cid;
-                    //$formatted['entity_table'] = 'civicrm_contact';
-                    $newHistory = crm_create_activity_history( $formatted );
-           
-                    if ( is_a( $newHistory, CRM_Core_Error ) ) {
-                        array_unshift($values, $newHistory->_errors[0]['message']);
+                    $params['source_contact_id'] = $cid;
+                    $newActivity = civicrm_activity_create( $params ); 
+                    if ( isset( $newActivity['is_error'] ) ) {
+                        array_unshift($values, $newActivity['error_message']);
                         return CRM_Activity_Import_Parser::ERROR;
                     }
                     
-                    $this->_newHistory[] = $newHistory->id;
+                    $this->_newActivity[] = $newActivity->id;
                     return CRM_Activity_Import_Parser::VALID;
                 }
                 
@@ -351,18 +336,17 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             }
           
         } else {
-            //$formatted['entity_table'] = 'civicrm_contact';
-           //  $newHistory = civicrm_activity_create ( $params );
-            if ( is_a( $newHistory, CRM_Core_Error ) ) {
-                array_unshift($values, $newHistory->_errors[0]['message']);
+            $newActivity = civicrm_activity_create( $params ); 
+            if ( is_a( $newActivity, CRM_Core_Error ) ) {
+                array_unshift($values, $newActivity->_errors[0]['message']);
                 return CRM_Activity_Import_Parser::ERROR;
             }
             
-            $this->_newHistory[] = $newHistory->id;
+            $this->_newActivity[] = $newActivity->id;
             return CRM_Activity_Import_Parser::VALID;
         }
     }
-   
+    
     /**
      * the initializer code, called before the processing
      *
@@ -385,16 +369,19 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
 
     function isDuplicate($error) 
     {
-        if( is_a( $error, CRM_Core_Error ) ) {
-            $code = $error->_errors[0]['code'];
-            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
+            return false;
+        }
+        
+        if ( is_array( $error )  && civicrm_error( $error ) ) {
+            $code = $error['error_message']['code'];
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
                 return true ;
             }
         }
-        return false;
+        
+        return false;     
     }
-
-
 }
 
 ?>

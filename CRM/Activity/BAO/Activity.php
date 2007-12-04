@@ -733,6 +733,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             
             require_once 'CRM/Activity/DAO/Activity.php';
             $tmpFields     = CRM_Activity_DAO_Activity::import( );
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             require_once 'CRM/Core/DAO/DupeMatch.php';
             $dao = & new CRM_Core_DAO_DupeMatch();;
