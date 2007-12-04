@@ -366,7 +366,7 @@ function _civicrm_add_formatted_param(&$values, &$params)
         return true;
     }
     
-    /* Check for custom field values */
+        /* Check for custom field values */
     if ($fields['custom'] == null) {
         $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
     }
@@ -377,50 +377,15 @@ function _civicrm_add_formatted_param(&$values, &$params)
             if (!array_key_exists($customFieldID, $fields['custom'])) {
                 return civicrm_create_error('Invalid custom field ID');
             } else {
-                $customData = array( );
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $customData,
-                                                             $value, 'Individual', null, null );
-                $params['custom'] = $customData;
+                //$customData = array( );
+                //CRM_Core_BAO_CustomField::formatCustomField( $customFieldID, $customData,
+                //                                             $value, 'Individual', null, null );
+                $params[$key] = $value;
             }
-
-            
-            if (!isset($params['custom'])) {
-                $params['custom'] = array();
-            }
-            // fixed for Import
-            
-            $newMulValues = array();
-            if ( $fields['custom'][$customFieldID][3] == 'CheckBox' || $fields['custom'][$customFieldID][3] =='Multi-Select') {
-                $value = str_replace("|",",",$value);
-                $mulValues = explode( ',' , $value );
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $mulValues as $v1 ) {
-                    foreach( $custuomOption as $v2 ) {
-                        if (( strtolower($v2['label']) == strtolower(trim($v1)))||(strtolower($v2['value']) == strtolower(trim($v1)))) {
-                            $newMulValues[] = $v2['value'];
-                        }
-                    }
-                }
-                $value = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$newMulValues).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-            } else if( $fields['custom'][$customFieldID][3] == 'Select' || $fields['custom'][$customFieldID][3] == 'Radio' ) {
-                $custuomOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
-                foreach( $custuomOption as $v2 ) {
-                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||( strtolower($v2['value']) == strtolower(trim($value)) )) {
-                        $value = $v2['value'];
-                        break;
-                    }
-                }
-            }
-            
-            $customBlock = count($params['custom']) + 1;
-            $params['custom'][$customBlock] = array(
-                'custom_field_id'    => $customFieldID,
-                'value' => $value,
-                'type' => $fields['custom'][$customFieldID][2],
-                'name' => $fields['custom'][$customFieldID][0]
-            );
         }
     }
+    
+    
 }
 
 /**
