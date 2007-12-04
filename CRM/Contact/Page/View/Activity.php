@@ -155,7 +155,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $controller->set( 'atype'    , $activityTypeId );
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
-        $controller->set( 'log'      , $this->get( 'log' ) );
+        $controller->set( 'action'   , $this->_action );
 
         $controller->process( );
         $controller->run( );
