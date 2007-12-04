@@ -132,8 +132,8 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         }      
         $session->pushUserContext( $url );
         
-        if (CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                        CRM_Core_DAO::$_nullObject )){
+        if ( CRM_Utils_Request::retrieve('confirmed', 'Boolean',
+                                         CRM_Core_DAO::$_nullObject )) {
             
             CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
             CRM_Utils_System::redirect($url);
@@ -141,7 +141,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
 
         $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
         
-        if ( $activityTypeId != 3) {
+        if ( $activityTypeId != 3 ) {
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_Activity', ts('Contact Activities'), $this->_action );
         } else {
             $wrapper =& new CRM_Utils_Wrapper( );

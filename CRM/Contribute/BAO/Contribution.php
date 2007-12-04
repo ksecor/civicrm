@@ -433,15 +433,27 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
     /**                                                           
      * Delete the indirect records associated with this contribution first
      * 
-     * @return boolean  true if deleted, false otherwise
+     * @return void
      * @access public 
      * @static 
      */ 
     static function deleteContribution( $id ) 
     {
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        //delete activity record
+        require_once "CRM/Activity/BAO/Activity.php";
+        $params = array( 'source_record_id' => $id,
+                         'activity_type_id' => 6 );// activity type id for contribution
+
+        CRM_Activity_BAO_Activity::deleteActivity( $params );
+        
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
-        return $dao->delete( );
+        $dao->delete( );
+        
+        $transaction->commit( );
     }
     
     /**

@@ -537,15 +537,27 @@ WHERE  civicrm_participant.id = {$participantId}
      * 
      * @param  int  $id id of the participation to delete                                                                           
      * 
-     * @return Int      Count of no of participant deleted.
+     * @return void
      * @access public 
      * @static 
      */ 
     static function deleteParticipant( $id ) 
     {
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        //delete activity record
+        require_once "CRM/Activity/BAO/Activity.php";
+        $params = array( 'source_record_id' => $id,
+                         'activity_type_id' => 5 );// activity type id for event registration
+
+        CRM_Activity_BAO_Activity::deleteActivity( $params );
+
         $participant = new CRM_Event_DAO_Participant( );
         $participant->id = $id;
         $participant->delete( );
+
+        $transaction->commit( );
     }
     
     /**

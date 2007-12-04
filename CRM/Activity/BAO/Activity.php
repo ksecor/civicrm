@@ -120,26 +120,29 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     /**
      * Function to delete the activity
      *
-     * @param int    $activityId  activity id
+     * @param array  $params  associated array 
      *
      * @return void
      * @access public
      *
      */
-    public function removeActivity( $activityId ) 
+    public function deleteActivity( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
+        
+        $activityId = CRM_Utils_Array::value( 'id', $params );
 
-        self::deleteActivityAssignment( $activityId );
-        self::deleteActivityTarget( $activityId );
+        if ( isset($activityId) ) {
+            self::deleteActivityAssignment( $activityId );
+            self::deleteActivityTarget( $activityId );
 
-        require_once 'CRM/Case/BAO/Case.php';
-        CRM_Case_BAO_Case::deleteCaseActivity( $activityId );
-
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCaseActivity( $activityId );
+        }
+        
         $activity     =& new CRM_Activity_DAO_Activity( );
-        $activity->id = $activityId;
-     
+        $activity->copyValues( $params );
         $activity->delete( );
         
         $transaction->commit( );

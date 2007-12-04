@@ -441,9 +441,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             return;
         }
         
-        if ($this->_action & CRM_Core_Action::DELETE ) { 
-            CRM_Activity_BAO_Activity::removeActivity( $this->_activityId, 'Activity');
-            CRM_Core_Session::setStatus( ts("Selected Meeting is deleted sucessfully."));
+        if ( $this->_action & CRM_Core_Action::DELETE ) { 
+            $deleteParams = array( 'id' => $this->_activityId );
+            CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
+            CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
             return;
         }
         
