@@ -176,6 +176,9 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $this->assign_by_ref( 'fields', $this->_fields );
         $this->assign_by_ref( 'colorFields', $this->_colorFields );
 
+        if ( isset( $this->_widget)  ) {
+            $this->addElement('submit', 'preview', ts('Preview') );
+        }
         parent::buildQuickForm( );
     }
 
@@ -193,6 +196,12 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $widget = new CRM_Contribute_DAO_Widget( );
         $widget->copyValues( $params );
         $widget->save( );
+
+        if ( isset( $params['preview'] ) )  {
+            require_once 'CRM/Utils/System.php';            
+            CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ) ) );
+            
+        }
     }
 
     /** 

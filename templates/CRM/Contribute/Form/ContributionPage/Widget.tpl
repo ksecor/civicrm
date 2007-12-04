@@ -43,9 +43,9 @@
                 <br />
                 <strong><a href="#" onclick="Widget.widget_code.select(); return false;">&raquo; Select Code</a></strong>
             </div>
-            <div class="col2">
+            <div class="col2"> 
                 <strong>{ts}Preview {/ts}</strong><br />
-                {$widget_code}
+                {$widget_code} <br /> {$form.preview.html}
             </div>
             </fieldset>
         </div>
