@@ -107,17 +107,21 @@ ORDER BY j.scheduled_date,
 
             /* Queue up recipients for all jobs being launched */
             if ($job->status != 'Running') {
-               
                 require_once 'CRM/Core/Transaction.php';
                 $transaction = new CRM_Core_Transaction( );
+
                 $job->queue($testParams);
 
                 /* Start the job */
-                $job->start_date = date('YmdHis');
-                $job->status = 'Running';
-                // CRM-992 - MySQL can't eat its own dates
-                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-                $job->save();
+                // use a seperate DAO object to protect the loop
+                // integrity. I think transactions messes it up
+                // check CRM-2469
+                $saveJob = new CRM_Mailing_DAO_Job( );
+                $saveJob->id         = $job->id;
+                $saveJob->start_date = date('YmdHis');
+                $saveJob->status     = 'Running';
+                $saveJob->save();
+
                 $transaction->commit( );
             }
             
@@ -134,12 +138,15 @@ ORDER BY j.scheduled_date,
                 require_once 'CRM/Core/Transaction.php';
                 $transaction = new CRM_Core_Transaction( );
 
-                $job->end_date = date('YmdHis');
-                $job->status = 'Complete';
-                // CRM-992 - MySQL can't eat its own dates
-                $job->scheduled_date = CRM_Utils_Date::isoToMysql($job->scheduled_date);
-                $job->start_date = CRM_Utils_Date::isoToMysql($job->start_date);
-                $job->save();
+                // use a seperate DAO object to protect the loop
+                // integrity. I think transactions messes it up
+                // check CRM-2469
+                $saveJob = new CRM_Mailing_DAO_Job( );
+                $saveJob->id   = $job->id;
+                $saveJob->end_date = date('YmdHis');
+                $saveJob->status   = 'Complete';
+                $saveJob->save();
+
                 $mailing->reset();
                 $mailing->id = $job->mailing_id;
                 $mailing->is_completed = true;
