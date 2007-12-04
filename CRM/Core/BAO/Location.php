@@ -343,20 +343,32 @@ WHERE e.id = %1";
                     $locationTypes[ $locationCount ]  = $locationTypeId;
                     $locationNo = $locationCount;
                 }
-
+                
                 $locations[ $locationNo ]['location_type_id'] = $locationTypeId;
                 $locations[ $locationNo ][$key] = $val;
+                
+                if ( $val['is_primary'] ) { 
+                    $primary_location_type = $locationTypeId;
+                }
             }
         }
         
         $values['location'] = $allLocations['location'] = $locations;
-       
+        
+        foreach($values['location'] as $key => $val) {
+            if($val['location_type_id'] == $primary_location_type) {
+                $primary_loc_val = $values['location'][$key];
+                $values['location'][$key] = $values['location'][1];
+                $values['location'][1] = $primary_loc_val;
+                $values['location'][1]['is_primary'] = true;
+            }
+        }
         if ( empty( $values['location'] ) ) {
             // mark the first location as primary if none exists
             $values['location'][1] = array( );
             $values['location'][1]['is_primary'] = 1;
         }
-       
+        
         return $values['location'];
     }
 

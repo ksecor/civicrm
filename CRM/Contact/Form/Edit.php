@@ -295,10 +295,6 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             }
         }
         
-        //check primary for first location
-        $defaults['location'][1]['is_primary'] = true;
-
-               
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
         } else {
