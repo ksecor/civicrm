@@ -105,7 +105,8 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
     {
         require_once 'CRM/Utils/Type.php';
         $domainID  = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name      = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) ); 
+        $name      = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) ); 
+        $name      = str_replace( '*', '%', $name );
         
         $shared = null;
         if ( isset($_GET['sh']) ) {
@@ -144,7 +145,7 @@ ORDER BY sort_name" ;
             $query = "
 SELECT sort_name, id
 FROM civicrm_contact
-WHERE sort_name LIKE '$name%'
+WHERE sort_name LIKE '$name'
 AND domain_id = $domainID
 ORDER BY sort_name ";
         }
@@ -152,13 +153,13 @@ ORDER BY sort_name ";
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        //$count = 0;
+        $count = 0;
         $elements = array( );
-        //while ( $dao->fetch( ) && $count < 5 ) {
-        while ( $dao->fetch( ) ) {
+        while ( $dao->fetch( ) && $count < 5 ) {
+        //while ( $dao->fetch( ) ) {
             $elements[] = array( 'name' => $dao->sort_name,
-                                 'id'    => $dao->id );
-            //$count++;
+                                 'id'   => $dao->id );
+            $count++;
         }
         
         require_once "CRM/Utils/JSON.php";

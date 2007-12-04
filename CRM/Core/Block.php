@@ -239,7 +239,7 @@ class CRM_Core_Block {
                 'advancedSearchURL' => CRM_Utils_System::url( 'civicrm/contact/search/advanced',
                                                               'reset=1' ),
                 'dataURL'           => CRM_Utils_System::url( 'civicrm/ajax/search',
-                                                              "d={$domainID}&s=" ),
+                                                              "d={$domainID}" ),
             );
             // add the drupal form token hidden value to allow form submits to work
             $config =& CRM_Core_Config::singleton( );

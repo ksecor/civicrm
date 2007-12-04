@@ -1,13 +1,13 @@
 <div class="block-crm">
 {if $config->includeDojo}
 <script type="text/javascript"> 
-  dojo.require("dojo.data.ItemFileReadStore");
+  dojo.require("dojox.data.QueryReadStore");
   dojo.require("dijit.form.ComboBox");
   dojo.require("dojo.parser");
 </script>
 {/if}
     <form action="{$postURL}" method="post">
-    <div dojoType="dojo.data.ItemFileReadStore" jsId="searchStore" url="{$dataURL}" ></div>
+    <div dojoType="dojox.data.QueryReadStore" jsId="searchStore" url="{$dataURL}" ></div>
     <div class="tundra">
         <input type="hidden" name="contact_type" value="" />
         {* Add the required Drupal form security token, if defined by Block.php *}
