@@ -51,7 +51,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     // FIXME: QuickForm can't create advcheckboxes with value set to 0 or '0' :(
     // see HTML_QuickForm_advcheckbox::setValues() - but patching that doesn't 
     // help, as QF doesn't put the 0-value elements in exportValues() anyway...
-    var $_qfZeroBug   = 'QuickFormCantMakeAdvcheckboxesWithZeroValue';
+    // to side-step this, we use the below UUID as a (re)placeholder
+    var $_qfZeroBug = 'e8cddb72-a257-11dc-b9cc-0016d3330ee9';
 
     function preProcess()
     {
@@ -94,9 +95,9 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         );
         foreach (array('main', 'other') as $moniker) {
             $specialValues[$moniker] = array('preferred_communication_method' => $$moniker->preferred_communication_method,
-                                             'gender_id'                      => $$moniker->contact_type_object->gender_id,
-                                             'prefix_id'                      => $$moniker->contact_type_object->prefix_id,
-                                             'suffix_id'                      => $$moniker->contact_type_object->suffix_id);
+                                             'gender_id'                      => $$moniker->gender_id,
+                                             'prefix_id'                      => $$moniker->prefix_id,
+                                             'suffix_id'                      => $$moniker->suffix_id);
             CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
         }
 
@@ -114,13 +115,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $fields['prefix_id']['title'] = $ovFields['individual_prefix']['title'];
         $fields['suffix_id']['title'] = $ovFields['individual_suffix']['title'];
 
-        if ( ! isset( $diffs[$ct] ) ) {
-            $diffs[$ct] = array( );
-        }
-        
-        foreach ($diffs[$ct] as $field) {
+        if (!isset($diffs['contact'])) $diffs['contact'] = array();
+        foreach ($diffs['contact'] as $field) {
             foreach (array('main', 'other') as $moniker) {
-                $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->contact_type_object->$field;
+                $value = isset($$moniker->$field) ? $$moniker->$field : $$moniker->$field;
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
                     $value = str_replace('-', '', $value);

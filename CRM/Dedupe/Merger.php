@@ -35,16 +35,14 @@
 class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
-    static $validFields = array(
-        'Household'    => array('household_name'),
-        'Organization' => array('organization_name', 'legal_name', 'sic_code'),
-        'Individual'   => array('prefix_id', 'first_name', 'middle_name',
-                                'last_name', 'suffix_id', 'greeting_type', 'custom_greeting',
-                                'job_title', 'gender_id', 'birth_date', 'is_deceased', 'deceased_date'),
-        'Contact'      => array('nick_name', 'legal_identifier', 'home_URL',
-            'image_URL', 'source', 'external_identifier', 'do_not_phone', 'do_not_email',
-            'do_not_mail', 'do_not_trade', 'preferred_communication_method',
-            'preferred_mail_format', 'is_opt_out'),
+    static $validFields = array('birth_date', 'custom_greeting',
+        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_phone',
+        'do_not_trade', 'external_identifier', 'first_name', 'gender_id',
+        'greeting_type', 'home_URL', 'household_name', 'image_URL',
+        'is_deceased', 'is_opt_out', 'job_title', 'last_name',
+        'legal_identifier', 'legal_name', 'middle_name', 'nick_name',
+        'organization_name', 'preferred_communication_method',
+        'preferred_mail_format', 'prefix_id', 'sic_code', 'source', 'suffix_id'
     );
 
     // FIXME: consider creating a common structure with cidRefs() and eidRefs()
@@ -260,22 +258,16 @@ class CRM_Dedupe_Merger
     function findDifferences($mainId, $otherId)
     {
         require_once 'api/Contact.php';
-        $main  = crm_get_contact(array('contact_id' => (int) $mainId));
-        $other = crm_get_contact(array('contact_id' => (int) $otherId));
+        $main  =& crm_get_contact(array('contact_id' => (int) $mainId));
+        $other =& crm_get_contact(array('contact_id' => (int) $otherId));
         if ($main->contact_type != $other->contact_type) {
             return false;
         }
-        $cType = $main->contact_type;
 
         $diffs = array();
-        foreach (self::$validFields['Contact'] as $validField) {
+        foreach (self::$validFields as $validField) {
             if ($main->$validField != $other->$validField) {
-                $diffs['Contact'][] = $validField;
-            }
-        }
-        foreach (self::$validFields[$cType] as $validField) {
-            if ($main->contact_type_object->$validField != $other->contact_type_object->$validField) {
-                $diffs[$cType][] = $validField;
+                $diffs['contact'][] = $validField;
             }
         }
 

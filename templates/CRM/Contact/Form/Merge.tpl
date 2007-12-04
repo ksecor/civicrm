@@ -1,6 +1,5 @@
 <div id="help">
-{ts}Click <strong>Merge</strong> to move data from the Duplicate Contact on the left into the Main Contact. In addition to the contact data (address, phone, email...), you
-may choose to move all or some of the related activity records (groups, contributions, memberships, etc.).{/ts} {help id="intro"}
+{ts}Click <strong>Merge</strong> to move data from the Duplicate Contact on the left into the Main Contact. In addition to the contact data (address, phone, email...), you may choose to move all or some of the related activity records (groups, contributions, memberships, etc.).{/ts} {help id="intro"}
 </div>
 <table>
   <tr class="columnheader">
