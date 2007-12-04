@@ -232,15 +232,15 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
 
     
     /**
+     * Function to process case activity add/delete
      * takes an associative array and
      *
      * @param array $params (reference ) an assoc array of name/value pairs
-     * @param array $ids    the array that holds all the db ids
      *
      * @access public
      * @static
      */
-    static function &createCaseActivity( &$params ) 
+    static function processCaseActivity( &$params ) 
     {
         require_once 'CRM/Case/DAO/CaseActivity.php';
         $caseActivityDAO =& new CRM_Case_DAO_CaseActivity();
@@ -260,33 +260,24 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             $caseActivityDAO->delete( );
         }
     } 
-    /*
-     * @param Integer $activityType activity type id
-     * @param Integer $id activity id
-     * @return Integer case_id of CRM_Case_DAO_CaseActivity
+
+    /**
+     * Function to get the case subject for Activity
+     *
+     * @param int $activityId  activity id
+     * @return  case subject or null
      * @access public
      * @static
      */
-     
-    static function &getCaseID($activityType, $id)
+    static function getCaseSubject ( $activityId )
     {
-         if ( $activityType == 1) {
-            $entityTable = "civicrm_meeting";
-        } else if($activityType == 2) {
-            $entityTable = "civicrm_phonecall";
-        } else {
-            $entityTable = "civicrm_activity";
-        }
-         
         require_once 'CRM/Case/DAO/CaseActivity.php';
         $caseActivity =  new CRM_Case_DAO_CaseActivity();
-        $caseActivity->activity_entity_table = $entityTable;
-        $caseActivity->activity_entity_id = $id;
-        if ($caseActivity->find(true)){
-            return $caseActivity->case_id;
+        $caseActivity->activity_id = $activityId;
+        if ( $caseActivity->find(true) ) {
+            return CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $caseActivity->case_id,'subject' );
         }
         return null;
-         
     }
 
     /**                                                           
@@ -299,7 +290,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @static 
      */ 
     static function deleteCaseContact( $id ) 
-        {
+    {
         require_once 'CRM/Case/DAO/Case.php';
         $case     = & new CRM_Case_DAO_Case( );
         $case->contact_id = $id; 
@@ -326,24 +317,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             return $case->delete();
         }
         return false;
-    }
-
-    /**                                                           
-     * Delete the record that are associated with this case Activity 
-     * record are deleted from case activity
-     *
-     * @param  int  $activityId  id of the caseActivity to delete
-     * 
-     * @return boolean  true if deleted, false otherwise
-     * @access public 
-     * @static 
-     */ 
-    static function deleteCaseActivity( $activityId ) 
-    {
-        require_once 'CRM/Case/DAO/CaseActivity.php';
-        $caseActivity              = & new CRM_Case_DAO_CaseActivity( );
-        $caseActivity->activity_id = $activityId; 
-        $caseActivity->delete( );
     }
 }
 

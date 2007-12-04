@@ -109,6 +109,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
 
             $defaults['source_contact'] = CRM_Contact_BAO_Contact::sortName( $activity->source_contact_id );
+            
+            //get case subject
+            require_once "CRM/Case/BAO/Case.php";
+            $defaults['case_subject'] = CRM_Case_BAO_Case::getCaseSubject( $activity->id );
 
             CRM_Core_DAO::storeValues( $activity, $defaults );
 

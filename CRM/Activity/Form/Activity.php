@@ -153,24 +153,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact'] );
             }
-//            $this->_assignCID = CRM_Activity_BAO_Activity::retrieveActivityAssign( $this->_activityType,$defaults['id']);
-            
-//            if (! $this->_subject){
-//                require_once "CRM/Case/BAO/Case.php";
-//                $subjectID = CRM_Case_BAO_Case::getCaseID($this->_activityType, $defaults['id']);
-//                if ($subjectID){
-//                    $this->_subject = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $subjectID,'subject' );
-//                }
-//                
-//            }
 
-//            if ( CRM_Utils_Array::value( 'activity_date_time', $defaults ) ) {
-//                $this->assign('activity_date_time', $defaults['scheduled_date_time']);
-//            }
-            
-            // change _currentlyViewedContactId to be the target of the activity
-//            $this->_sourceContactId = $defaults['source_contact_id'];
-//            $this->_targetContactId = $defaults['target_contact_id'];
+            if ( $defaults['case_subject'] ) {
+                $this->assign( 'subject_value', $defaults['case_subject'] );
+            }
 
         // otherwise, we're adding new activity.
         } else {
@@ -195,7 +181,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
        
         // Set defaults for custom values
-        if( isset($this->_groupTree) ) {
+        if ( isset($this->_groupTree) ) {
             if ($this->_action & ( CRM_Core_Action::VIEW | CRM_Core_Action::BROWSE ) ) {
                 $inactiveNeeded = true; $viewMode = true;
             } else {
@@ -319,18 +305,16 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                                      'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
             
             $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                              "c={$this->_currentlyViewedContactId}&s=",
+                                              "c={$this->_currentlyViewedContactId}",
                                               true, null, false );
             $this->assign('caseUrl',$caseUrl );
             
             $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
             if ( $subject->getValue( ) ) {
                 $this->assign( 'subject_value',  $subject->getValue( ) );
-            } else {
-                $this->assign( 'subject_value',  $this->_subject );
             }
         }
-          
+
         // if we're viewing, we're assigning different buttons than for adding/editing
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
@@ -491,7 +475,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             require_once 'CRM/Case/BAO/Case.php';
             $caseParams['activity_id'] = $activity->id;
             $caseParams['subject'    ] = $params['case_subject'];
-            CRM_Case_BAO_Case::createCaseActivity( $caseParams );        
+            CRM_Case_BAO_Case::processCaseActivity( $caseParams );        
         }
 
         // set status message
