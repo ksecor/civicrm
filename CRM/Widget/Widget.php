@@ -66,10 +66,11 @@ class CRM_Widget_Widget {
 
         $data = new stdClass();
 
-        if ( empty( $id ) ||
+        if ( empty( $contributionPageID ) ||
              CRM_Utils_Type::validate( $contributionPageID, 'Integer' ) == null ) {
             $data->is_error = true;
-            return;
+CRM_Core_Error::debug_log_message( "$contributionPageID is not set" );
+            return $data;
         }
             
         require_once 'CRM/Contribute/DAO/Widget.php';
@@ -77,7 +78,8 @@ class CRM_Widget_Widget {
         $widget->contribution_page_id = $contributionPageID;
         if ( ! $widget->find( true ) ) {
             $data->is_error = true;
-            return;
+CRM_Core_Error::debug_log_message( "$contributionPageID is not found" );
+            return $data;
         }
 
         $data->is_error = false;
@@ -107,8 +109,7 @@ AND    contribution_page_id = %1";
             $data->num_donors   = $dao->count;
             $data->money_raised = $dao->amount;
         } else {
-            $data->is_error = true;
-            return;
+            $data->num_donors = $data->money_raised = 0;
         }
 
         $query = "

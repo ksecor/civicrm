@@ -57,6 +57,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $this->_widget->contribution_page_id = $this->_id;
         if ( ! $this->_widget->find( true ) ) {
             $this->_widget = null;
+        } else {
+            $this->assign( 'widget_id', $this->_widget->id );
         }
         
         $config =& CRM_Core_Config::singleton( );
@@ -68,7 +70,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                                                 'text',
                                                                 true,
                                                                 $title ),
-                                'url_logo'            => array( ts( 'URL to an image logo' ),
+                                'url_logo'            => array( ts( 'URL to Logo Image' ),
                                                                 'text',
                                                                 false ,
                                                                 null ),
@@ -84,43 +86,46 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                                                 'text',
                                                                 true,
                                                                 $config->userFrameworkBaseURL ),
-                                'color_title'         => array( ts( 'Title Text Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0x000000' ),
-                                'color_button'        => array( ts( 'Button Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0xCC9900' ),
-                                'color_bar'           => array( ts( 'Progress Bar Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0xCC9900' ),
-                                'color_main_text'     => array( ts( 'Additional Text Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0x000000' ),
-                                'color_main'          => array( ts( 'Inner Background Gradient from Bottom' ),
-                                                                'text',
-                                                                true,
-                                                                '0x96E0E0' ),
-                                'color_main_bg'       => array( ts( 'Inner Background Top Area' ),
-                                                                'text',
-                                                                true,
-                                                                '0xFFFFFF' ),
-                                'color_bg'            => array( ts( 'Border Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0x66CCCC' ),
-                                'color_about_link'    => array( ts( 'About Link Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0x336699' ),
-                                'color_homepage_link' => array( ts( 'Homepage Link Color' ),
-                                                                'text',
-                                                                true,
-                                                                '0x336699' ),
                                 );
+        
+        $this->_colorFields = array( 'color_title'   => array( ts( 'Title Text Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0x000000' ),
+                                     'color_button'  => array( ts( 'Button Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0xCC9900' ),
+                                     'color_bar'     => array( ts( 'Progress Bar Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0xCC9900' ),
+                                     'color_main_text' => array( ts( 'Additional Text Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0x000000' ),
+                                     'color_main'     => array( ts( 'Inner Background Gradient from Bottom' ),
+                                                              'text',
+                                                              true,
+                                                              '0x96E0E0' ),
+                                     'color_main_bg'  => array( ts( 'Inner Background Top Area' ),
+                                                              'text',
+                                                              true,
+                                                              '0xFFFFFF' ),
+                                     'color_bg'       => array( ts( 'Border Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0x66CCCC' ),
+                                     'color_about_link' => array( ts( 'About Link Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0x336699' ),
+                                     'color_homepage_link' => array( ts( 'Homepage Link Color' ),
+                                                              'text',
+                                                              true,
+                                                              '0x336699' ),
+                               );
+        
     }
 
     function setDefaultValues( ) {
@@ -132,7 +137,15 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
             foreach ( $this->_fields as $name => $val ) {
                 $defaults[$name] = $val[3];
             }
+            foreach ( $this->_colorFields as $name => $val ) {
+                $defaults[$name] = $val[3];
+            }
         }
+        require_once 'CRM/Core/ShowHideBlocks.php';
+        $showHide =& new CRM_Core_ShowHideBlocks( );
+        $showHide->addHide( "id-colors" );
+        $showHide->addToTemplate( );
+
         return $defaults;
     }
 
@@ -152,8 +165,16 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                         $attributes[$name],
                         $val[2] );
         }
-
+        foreach ( $this->_colorFields as $name => $val ) {
+            $this->add( $val[1],
+                       $name,
+                       $val[0],
+                       $attributes[$name],
+                       $val[2] );
+        }
+        
         $this->assign_by_ref( 'fields', $this->_fields );
+        $this->assign_by_ref( 'colorFields', $this->_colorFields );
 
         parent::buildQuickForm( );
     }

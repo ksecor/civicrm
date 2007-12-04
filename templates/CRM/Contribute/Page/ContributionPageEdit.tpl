@@ -52,7 +52,7 @@
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Create a Widget{/ts}</a></td>
-    <td>{ts}Create a contribution widget to embed on your website and blog.{/ts}</td>
+    <td>{ts}Create a contribution widget which you and your supporters can embed in websites and blogs.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
