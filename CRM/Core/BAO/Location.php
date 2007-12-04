@@ -360,7 +360,6 @@ WHERE e.id = %1";
                 $primary_loc_val = $values['location'][$key];
                 $values['location'][$key] = $values['location'][1];
                 $values['location'][1] = $primary_loc_val;
-                $values['location'][1]['is_primary'] = true;
             }
         }
         if ( empty( $values['location'] ) ) {

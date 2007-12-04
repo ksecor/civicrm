@@ -294,6 +294,9 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 $this->assign('defaultSharedHousehold', trim( $dao->shared_name ));
             }
         }
+      
+        //check primary for first location
+        $defaults['location'][1]['is_primary'] = true;
         
         if ( ! empty( $_POST ) ) {
             $this->setShowHide( $_POST, true );
