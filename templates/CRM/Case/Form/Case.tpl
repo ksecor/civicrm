@@ -1,4 +1,4 @@
-* this template is used for adding/editing/deleting case *} 
+{* this template is used for adding/editing/deleting case *} 
 <fieldset>
 {if $action eq 1}
     <legend>{ts}New Case Registration{/ts}</legend>

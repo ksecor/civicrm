@@ -103,7 +103,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
-                                            'name'      => ts('Remove'), 
+                                            'name'      => ts('Delete'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     array ( 'type'      => 'cancel', 

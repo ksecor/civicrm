@@ -72,10 +72,10 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $controller->run();
         
         $this->assign( 'caseId',$this->_id);
-        require_once 'CRM/Contact/Selector/Activity.php' ;
+        require_once 'CRM/Activity/Selector/Activity.php' ;
         require_once 'CRM/Core/Selector/Controller.php';
         $output = CRM_Core_Selector_Controller::SESSION;
-        $selector   =& new CRM_Contact_Selector_Activity($this->_contactId, $this->_permission );
+        $selector   =& new CRM_Activity_Selector_Activity($this->_contactId, $this->_permission );
         $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
                                                         $sortID, CRM_Core_Action::VIEW, $this,  $output, null, $this->_id);
         
@@ -144,14 +144,13 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $session =& CRM_Core_Session::singleton();
         $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
         $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
-        $history = CRM_Utils_Request::retrieve( 'history', 'Integer',$this );
                 
         if ( $edit ) {
             $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
         } else if( $context && $this->_action == 8 ){
             $activity_id = CRM_Utils_Request::retrieve( 'activity_id', 'Integer',$this );
             $caseid = CRM_Utils_Request::retrieve( 'caseid', 'Integer',$this );
-            $url=CRM_Utils_System::url('civicrm/contact/view/activity','activity_id='.$activity_id.'&action=view&selectedChild=activity&id='.$this->_id.'&cid='. $this->_contactId.'&history='.$history.'&subType='.$activity_id.'&context='.$context.'&caseid='.$caseid );
+            $url=CRM_Utils_System::url('civicrm/contact/view/activity','activity_id='.$activity_id.'&action=view&selectedChild=activity&id='.$this->_id.'&cid='. $this->_contactId.'&subType='.$activity_id.'&context='.$context.'&caseid='.$caseid );
         
         }else {
             $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
@@ -173,7 +172,6 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function run( ) 
     {
-        $this->assign( 'dojoIncludes', "dojo.require('dojo.widget.SortableTable');" );
         $this->preProcess( );
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
@@ -201,16 +199,22 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                   CRM_Core_Action::UPDATE  => array(
                                                                     'name'  => ts('Edit'),
                                                                     'url'   => 'civicrm/contact/view/case',
-
                                                                     'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
                                                                     'title' => ts('Edit Case')
                                                                     ),
                                   CRM_Core_Action::FOLLOWUP  => array(
                                                                     'name'  => ts('Add Activity'),
-                                                                    'url'   => 'civicrm/contact/view/activity',
-                                                                    'qs'    => 'activity_id=5&action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
+                                                                    'url'   => 'civicrm/activity',
+                                                                    'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
                                                                     'title' => ts('Add Activity')
                                                                     ),
+                                  CRM_Core_Action::DELETE  => array(
+                                                                    'name'  => ts('Delete'),
+                                                                    'url'   => 'civicrm/contact/view/case',
+                                                                    'qs'    => 'action=delete&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
+                                                                    'title' => ts('Add Activity')
+                                                                    ),
+                                  
                                   );
         }
         return self::$_links;

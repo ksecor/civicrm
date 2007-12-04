@@ -86,7 +86,7 @@
              <tr>
                 <td class="label">{$form.case_subject.label}</td>
 		<td>
-                   <div dojoType="dojo.data.ItemFileReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojo.data.ItemFileReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
                        {$form.case_subject.html}
                    </div>
                 </td>

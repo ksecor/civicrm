@@ -121,6 +121,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
         
         $this->setDefaultValues();
+
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
     }
     
     /**
@@ -253,7 +256,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
-                            
                              'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}&s=",
@@ -310,26 +312,26 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
         }
         
-//        $attributeCase = array( 'dojoType'       => 'dijit.form.ComboBox',
-//                                'mode'           => 'remote',
-//                                'store'          => 'caseStore',
-//                                'class'          => 'tundra',
-//                             );
-                                
-//        $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-//                                          "c={$contactID}&s=",
-//                                          true, null, false );
-//        $this->assign('caseUrl',$caseUrl );
-
-//        $subject = $this->add( 'text','case_subject',ts('Case Subject'),$attributeCase );
-//        if ( $subject->getValue( ) ) {
-//            $this->assign( 'subject_value',  $subject->getValue( ) );
-//        } else {
-//            $this->assign( 'subject_value',  $this->_subject );
-//        }
+        if ( $this->_viewOptions['Cases'] ) {
+            $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                                     'mode'           => 'remote',
+                                     'store'          => 'caseStore',
+                                     'style'          => 'width:200px; border: 1px solid #cfcfcf;' );
+            
+            $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
+                                              "c={$this->_currentlyViewedContactId}&s=",
+                                              true, null, false );
+            $this->assign('caseUrl',$caseUrl );
+            
+            $subject = $this->add( 'text','case_subject',ts('Case Subject'), $caseAttributes );
+            if ( $subject->getValue( ) ) {
+                $this->assign( 'subject_value',  $subject->getValue( ) );
+            } else {
+                $this->assign( 'subject_value',  $this->_subject );
+            }
+        }
           
         // if we're viewing, we're assigning different buttons than for adding/editing
-        
         if ( $this->_action & CRM_Core_Action::VIEW ) { 
             if ( isset( $this->_groupTree ) ) {
                 CRM_Core_BAO_CustomGroup::buildViewHTML( $this, $this->_groupTree );
