@@ -65,7 +65,10 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                               $this->_id,
                                               'title' );
-
+        $intro = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
+                                             $this->_id,
+                                             'intro_text' );
+        
         $this->_fields = array( 'title'               => array( ts( 'Title' ),
                                                                 'text',
                                                                 true,
@@ -81,7 +84,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
                                 'about'               => array( ts( 'About' ),
                                                                 'textarea',
                                                                 true,
-                                                                null ),
+                                                                $intro ),
                                 'url_homepage'        => array( ts( 'URL to Home Page' ),
                                                                 'text',
                                                                 true,
@@ -154,7 +157,7 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         
         $this->addElement( 'checkbox',
                            'is_active',
-                           ts( 'Widget enabled?' ),
+                           ts( 'Enable Widget?' ),
                            null,
                            array( 'onclick' => "widgetBlock(this)" ) );
 
@@ -176,9 +179,9 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $this->assign_by_ref( 'fields', $this->_fields );
         $this->assign_by_ref( 'colorFields', $this->_colorFields );
 
-        if ( isset( $this->_widget)  ) {
-            $this->addElement('submit', 'preview', ts('Preview') );
-        }
+        // if ( isset( $this->_widget)  ) {
+            $this->addElement('submit', 'preview', ts('Save and Preview') );
+        // }
         parent::buildQuickForm( );
     }
 

@@ -3,6 +3,12 @@
 <div id="wizard-steps">
    <ul class="wizard-bar{if $wizard.style.barClass}-{$wizard.style.barClass}{/if}">
     {section name=step loop=$wizard.steps}
+        {if count ( $wizard.steps ) > 5 }
+            {* truncate step titles so header isn't too wide *}
+            {assign var="title" value=$wizard.steps[step].title|truncate:5:"":false}
+        {else}
+            {assign var="title" value=$wizard.steps[step].title}
+        {/if}
         {* Show each wizard link unless collapsed value is true. Also excluding quest app submit steps. Should create separate WizardHeader for Quest at some point.*}
         {if !$wizard.steps[step].collapsed && $wizard.steps[step].name NEQ 'Submit' && $wizard.steps[step].name NEQ 'PartnerSubmit'}
             {assign var=i value=$smarty.section.step.iteration}
@@ -45,7 +51,7 @@
             {/if}
             {* This code w/in link will submit current form...need to define targetPage hidden field on all forms. onclick="submitCurrentForm('{$form.formName}','{$wizard.steps[step].link}'); return false;" *}
             {* wizard.steps[step].link value is passed for wizards/steps which allow clickable navigation *} 
-            <li class="{$stepClass}">{$stepPrefix}{if $wizard.steps[step].link}<a href="{$wizard.steps[step].link}">{/if}{$wizard.steps[step].title}{if $wizard.steps[step].link}</a>{/if}</li>
+            <li class="{$stepClass}">{$stepPrefix}{if $wizard.steps[step].link}<a href="{$wizard.steps[step].link}">{/if}{$title}{if $wizard.steps[step].link}</a>{/if}</li>
         {/if} 
     {/section}
    </ul>

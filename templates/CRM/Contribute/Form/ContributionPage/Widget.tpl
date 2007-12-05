@@ -16,40 +16,54 @@
 <div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Widget{/ts}</legend>
     <div id="help">
-        {ts}Enabling a widget for this contribution page allows you and your supporters to embed a dynamic
-        Flash widget in any page. Configure the title, descriptive text and colors of the widget using the fields
-        below. Then copy and paste the "Widget Code" into any web page. Embedded widgets dynamically display
-        progress toward your fund-raising goals, and include a "Contribute" button.{/ts}
+        {ts}CiviContribute widgets allow you and your supporters to easily promote this fund-raising campaign. Widget code can be added to
+        any web page - and will provide a real-time display of current contribution results, and a direct link to this contribution page.{/ts} {help id="id-intro"}
     </div>
-    <dl>
-    	<dt></dt><dd>{$form.is_active.html}&nbsp;{$form.is_active.label}</dd>
-    </dl>
+    <table class="form-layout-compressed">
+    	<tr><td style="width: 12em;">&nbsp;</td><td class="font-size11pt">{$form.is_active.html}&nbsp;{$form.is_active.label}</dd>
+    </table>
+    <div class="spacer"></div>
     
     <div id="widgetFields">
-        <dl>
+        <table class="form-layout-compressed">
         {foreach from=$fields item=field key=name}
-          <dt>{$form.$name.label}</dt><dd>{$form.$name.html}</dd>   
+          <tr><td class="label">{$form.$name.label}</td><td>{$form.$name.html}</td></tr>   
         {/foreach}
-        </dl>
+        </table>
         
-        {* Include "get widget code" section if widget has been created for this page and is_active. *}
-        {if $widget_id}
         <div id="id-get_code">
             <fieldset>
             <legend>{ts}Preview Widget and Get Code{/ts}</legend>
-            <div class="col1" style="padding-right: 10px">
-                <strong>{ts}Add this widget to any web page by copying and pasting the code below.{/ts}</strong><br />
-                <textarea rows="8" cols="50" name="widget_code" id="widget_code">{$widget_code}</textarea>
-                <br />
-                <strong><a href="#" onclick="Widget.widget_code.select(); return false;">&raquo; Select Code</a></strong>
+            <div class="col1">
+                {if $widget_id}
+                    <div class="description">
+                        {ts}Click <strong>Save & Preview</strong> to save any changes to your settings, and preview the widget again on this page.{/ts}
+                    </div>
+                    {$widget_code}<br />
+                {else}
+                    <div class="description">
+                        {ts}Click <strong>Save & Preview</strong> to save your settings and preview the widget on this page.{/ts}<br />
+                    </div>
+                {/if}
+                <div style="text-align: center;width:260px">{$form.preview.html}</div>
             </div>
-            <div class="col2"> 
-                <strong>{ts}Preview {/ts}</strong><br />
-                {$widget_code} <br /> {$form.preview.html}
+            <div class="col2">
+                {* Include "get widget code" section if widget has been created for this page and is_active. *}
+                {if $widget_id}
+                    <div class="description">
+                        {ts}Add this widget to any web page by copying and pasting the code below.{/ts}
+                    </div>
+                    <textarea rows="8" cols="50" name="widget_code" id="widget_code">{$widget_code}</textarea>
+                    <br />
+                    <strong><a href="#" onclick="Widget.widget_code.select(); return false;">&raquo; Select Code</a></strong>
+                {else}
+                    <div class="description">
+                        {ts}The code for adding this widget to web pages will be displayed here after you click <strong>Save and Preview</strong>.{/ts}
+                    </div>
+                {/if}
             </div>
             </fieldset>
         </div>
-        {/if}
 
         
         <div id="id-colors-show" class="section-hidden section-hidden-border" style="clear: both;">
@@ -58,11 +72,15 @@
         <div id="id-colors" class="section-shown">
         <fieldset>
         <legend><a href="#" onclick="hide('id-colors'); show('id-colors-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Widget Colors{/ts}</legend>
-        <dl>
+        <div class="description">
+            {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search
+            on "hexadecimal colors" to find a chart of color codes.{/ts}
+        </div>
+        <table class="form-layout-compressed">
         {foreach from=$colorFields item=field key=name}
-          <dt>{$form.$name.label}</dt><dd>{$form.$name.html}</dd>   
+          <tr><td class="label">{$form.$name.label}</td><td>{$form.$name.html}</td></tr>   
         {/foreach}
-        </dl>
+        </table>
         </fieldset>
         </div>
 
