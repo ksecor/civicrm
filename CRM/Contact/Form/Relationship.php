@@ -226,8 +226,8 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
-                            
-                             'style'          => 'width:200px; border: 1px solid #cfcfcf;'                             );
+                             );
+                             
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}&reID={$relTypeID[0]}&retyp={$relTypeID[2]}&s=",
                                           true, null, false );

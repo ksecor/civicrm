@@ -178,7 +178,6 @@ class CRM_Contact_Form_Task_EmailCommon
                              'store'          => 'tempStore',
                              'autocomplete'   => 'false',
                              'class'          => 'tundra',
-                             'style'          => 'width:200px; border:1px solid #cfcfcf',
                              'onChange'       => 'selectValue',
                              );
         $dataUrl = CRM_Utils_System::url( 'civicrm/ajax/message',"d={$domainID}", true, null, false );

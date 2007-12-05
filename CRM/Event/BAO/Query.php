@@ -391,12 +391,13 @@ class CRM_Event_BAO_Query
                                       'mode'           => 'remote',
                                       'store'          => 'eventStore',
                                       'class'          => 'tundra',
-                                      'style'          => 'width:200px; border:1px solid #cfcfcf',                             );
+                                      );
+                                      
         $dojoAttributesEventType = array( 'dojoType'       => 'dijit.form.ComboBox',
                                           'mode'           => 'remote',
                                           'store'          => 'eventTypeStore',
                                           'class'          => 'tundra',
-                                          'style'          => 'width:200px; border:1px solid #cfcfcf',                             );
+                                          );
         
         $title =& $form->add('text', 'event_title', ts('Event Name'), $dojoAttributesEvent );
         $type  =& $form->add('text', 'event_type',  ts('Event Type'), $dojoAttributesEventType );
