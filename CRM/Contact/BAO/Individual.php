@@ -210,9 +210,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 $values['birth_date'] = CRM_Utils_Date::unformat( $individual->birth_date );
             }
 
-            CRM_Contact_DAO_Individual::addDisplayEnums($values);
             return $individual;
-
         }
         return null;
     }

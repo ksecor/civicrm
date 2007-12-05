@@ -37,13 +37,11 @@
    </script>
 {/if}
 
-<div id="help">{$activityTypeDescription}</div>
-<table class="no-border" >
-  <tr>
-     <td>
-        <fieldset>
+       <fieldset>
           <legend>
-           {if $action eq 2}
+           {if $action eq 1}
+              {ts}New{/ts} 
+           {elseif $action eq 2}
               {ts}Edit{/ts} 
            {elseif $action eq 8}
               {ts}Delete{/ts}
@@ -52,7 +50,10 @@
            {/if}
            {$activityTypeName}
           </legend>
-         <table class="no-border">
+          { if $activityTypeDescription }  
+              <div id="help">{$activityTypeDescription}</div>
+          {/if}
+         <table class="form-layout">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
              {if $context eq ('standalone' or 'case') }
 		<tr>
@@ -144,9 +145,6 @@
              </tr> 
          </table>   
       </fieldset> 
-     </td> 
-  </tr>
-</table>
 
 {if $action eq 4 }
   <div class="form-item">
