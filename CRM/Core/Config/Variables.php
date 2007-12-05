@@ -36,7 +36,9 @@
  *
  */
 
-class CRM_Core_Config_Variables
+require_once 'CRM/Core/Config/Defaults.php';
+
+class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
 {
 
 
@@ -95,21 +97,24 @@ class CRM_Core_Config_Variables
 
     /**
      * List of country codes limiting the country list.
+     * 1228 is an id for United States.
      * @var string
      */
-    public $countryLimit = array();
+    public $countryLimit = array( '1228' );
 
     /**
      * List of country codes limiting the province list.
+     * 1228 is an id for United States.     
      * @var string
      */
-    public $provinceLimit = array( 'US' );
+    public $provinceLimit = array( '1228' );
 
     /**
      * ISO code of default country for contact.
+     * 1228 is an id for United States.     
      * @var int
      */
-    public $defaultContactCountry = 'US';
+    public $defaultContactCountry = '1228';
 
     /**
      * ISO code of default currency.
@@ -165,6 +170,11 @@ class CRM_Core_Config_Variables
      */
     public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
 
+    /**
+     * Month and day on which fiscal year starts.
+     *
+     * @var array
+     */
     public $fiscalYearStart = array(
                                     'M' => 01,
                                     'd' => 01
@@ -216,7 +226,7 @@ class CRM_Core_Config_Variables
      * Default smtp server and port
      */
     public $smtpServer         = null;
-    public $smtpPort           = 25;
+    public $smtpPort           = 250;
     public $smtpAuth           = false;
     public $smtpUsername       = null;
     public $smtpPassword       = null;
@@ -267,6 +277,14 @@ class CRM_Core_Config_Variables
      * @var boolean
      */
     public $geocodeMethod    = '';
+    
+    /**
+     *
+     * 
+     * @var boolean
+     */
+    public $mapGeoCoding = 1;
+    
 
     /**
      * Whether CiviCRM should check for newer versions
@@ -280,7 +298,7 @@ class CRM_Core_Config_Variables
      *
      * @var array
      */
-    public $enableComponents = array();     
+    public $enableComponents = array( 'CiviContribute','CiviMember','CiviEvent', 'CiviMail', 'CiviGrant' );
 
     /**
      * Should payments be accepted only via SSL?
@@ -322,14 +340,14 @@ class CRM_Core_Config_Variables
      *
      * @var string
      */
-    public $captchaFontPath = null;
+    public $captchaFontPath = '/usr/X11R6/lib/X11/fonts/';
 
     /**
      * the font to use for captcha
      *
      * @var string
      */
-    public $captchaFont = null;
+    public $captchaFont = 'HelveticaBold.ttf';
     
     /**
      * Optimization related variables
@@ -362,145 +380,115 @@ class CRM_Core_Config_Variables
     public $componentRegistry  = null;
 
 
-    function addCoreVariables( ) {
-        global $civicrm_root;
-
-        $this->smartyDir  =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'packages'    . DIRECTORY_SEPARATOR .
-            'Smarty'      . DIRECTORY_SEPARATOR ;
-
-        $this->pluginsDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'CRM'         . DIRECTORY_SEPARATOR . 
-            'Core'        . DIRECTORY_SEPARATOR .
-            'Smarty'      . DIRECTORY_SEPARATOR .
-            'plugins'     . DIRECTORY_SEPARATOR ;
-
-        $this->templateDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'templates'   . DIRECTORY_SEPARATOR ;
-
-        $this->gettextResourceDir =
-            $civicrm_root . DIRECTORY_SEPARATOR .
-            'l10n'        . DIRECTORY_SEPARATOR ;
-
-        $this->gettextCodeset = 'utf-8';
-        $this->gettextDomain  = 'civicrm';
-
-        if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
-            $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
-
-            if ( ! empty( $this->lcMessages ) ) {
-                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
-            }
-                
-            // make sure this directory exists
-            CRM_Utils_File::createDir( $this->templateCompileDir );
-        }
-
-        if ( defined( 'CIVICRM_CLEANURL' ) ) {        
-            $this->cleanURL = CIVICRM_CLEANURL;
-        } else {
-            $this->cleanURL = 0;
-        }
-      
-        if ( defined( 'CIVICRM_UF' ) ) {
-            $this->userFramework       = CIVICRM_UF;
-            $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
-            $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
-            $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;
-        }
-
-        if ( defined( 'CIVICRM_UF_VERSION' ) ) {
-            $this->userFrameworkVersion = (float ) CIVICRM_UF_VERSION;
-        }
-
-        if ( defined( 'CIVICRM_UF_URLVAR' ) ) {
-            $this->userFrameworkURLVar = CIVICRM_UF_URLVAR;
-        }
-
-        if ( defined( 'CIVICRM_UF_DSN' ) ) { 
-            $this->userFrameworkDSN = CIVICRM_UF_DSN;
-        }
-
-        if ( defined( 'CIVICRM_UF_USERSTABLENAME' ) ) {
-            $this->userFrameworkUsersTableName = CIVICRM_UF_USERSTABLENAME;
-        }
-
-        if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
-            $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
-            
-            if ( isset( $_SERVER['HTTPS'] ) &&
-                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-                $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
-                                                               $this->userFrameworkBaseURL );
-            }
-        }
-        
-        if ( defined( 'CIVICRM_UF_FRONTEND' ) ) {
-            $this->userFrameworkFrontend = CIVICRM_UF_FRONTEND;
-        }
-
-        if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
-            $this->sunlight = true;
-        } else {
-            $this->sunlight = false;
-        }
-
-        $size = trim( ini_get( 'upload_max_filesize' ) );
-        if ( $size ) {
-            $last = strtolower($size{strlen($size)-1});
-            switch($last) {
-                // The 'G' modifier is available since PHP 5.1.0
-            case 'g':
-                $size *= 1024;
-            case 'm':
-                $size *= 1024;
-            case 'k':
-                $size *= 1024;
-            }
-            $this->maxImportFileSize = $size;
-        }
-    }
-
-
     /**
-     * retrieve a mailer to send any mail from the applciation
+     * Provide addressSequence
      *
      * @param
-     * @access private
-     * @return object
+     * @return string
      */
-    static function &getMailer() 
-    {
-        if ( ! isset( self::$_mail ) ) {
-            $config =& CRM_Core_Config::singleton();
-            if ( defined( 'CIVICRM_MAILER_SPOOL' ) &&
-                 CIVICRM_MAILER_SPOOL ) {
-                require_once 'CRM/Mailing/BAO/Spool.php';
-                self::$_mail = & new CRM_Mailing_BAO_Spool();
+    public function addressSequence( ) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        return CRM_Core_BAO_Preferences::value( 'address_sequence' );
+    }
+
+    /**
+     * Provide cached default currency symbol
+     *
+     * @param
+     * @return string
+     */
+    public function defaultCurrencySymbol( ) {
+        static $cachedSymbol = null;
+        if ( ! $cachedSymbol ) {
+            if ( $this->defaultCurrency ) {
+                require_once "CRM/Core/PseudoConstant.php";
+                $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
+                $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
+                
+                $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
+                
+                $cachedSymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
             } else {
-                if ( self::$_singleton->smtpServer == '' ||
-                     ! self::$_singleton->smtpServer ) {
-                    CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
-                }
-                
-                $params['host'] = self::$_singleton->smtpServer;
-                $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
-                
-                if (self::$_singleton->smtpAuth) {
-                    $params['username'] = self::$_singleton->smtpUsername;
-                    $params['password'] = self::$_singleton->smtpPassword;
-                    $params['auth']     = true;
-                } else {
-                    $params['auth']     = false;
-                }
-                
-                self::$_mail =& Mail::factory( 'smtp', $params );
+                $cachedSymbol = '$';
             }
         }
-        return self::$_mail;
+        return $cachedSymbol;
+    }
+
+    /**
+     * Provide cached default currency symbol
+     *
+     * @param
+     * @return string
+     */
+    public function defaultContactCountry( ) {
+        static $cachedContactCountry = null;
+        if ( ! $cachedContactCountry ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $cachedContactCountry = $countryIsoCodes[$this->defaultContactCountry];
+        }
+        return $cachedContactCountry;
+    }
+
+    /**
+     * Provide cached default country name
+     *
+     * @param
+     * @return string
+     */
+    public function defaultContactCountryName( ) {
+        static $cachedContactCountryName = null;
+        if ( ! $cachedContactCountryName ) {
+            $countryCodes = CRM_Core_PseudoConstant::country( );
+            $cachedContactCountryName = $countryCodes[$this->defaultContactCountry];
+        }
+        return $cachedContactCountryName;
+    }
+
+    /**
+     * Provide cached country limit translated to names
+     *
+     * @param
+     * @return array
+     */
+    public function countryLimit( ) {
+        static $cachedCountryLimit = null;
+        if ( ! $cachedCountryLimit ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $country = array();
+            if ( is_array( $this->countryLimit ) ) {
+                foreach( $this->countryLimit as $val ) {
+                    $country[] = $countryIsoCodes[$val]; 
+                }
+            } else {
+                $country[] = $countryIsoCodes[$this->countryLimit];
+            }
+            $cachedCountryLimit = $country;
+        }
+        return $cachedCountryLimit;
+    }
+
+    /**
+     * Provide cached province limit translated to names
+     *
+     * @param
+     * @return array
+     */
+    public function provinceLimit( ) {
+        static $cachedProvinceLimit = null;
+        if ( ! $cachedProvinceLimit ) {
+            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
+            $country = array();
+            if ( is_array( $this->provinceLimit ) ) {
+                foreach( $this->provinceLimit as $val ) {
+                    $country[] = $countryIsoCodes[$val]; 
+                }
+            } else {
+                $country[] = $countryIsoCodes[$this->provinceLimit];
+            }
+            $cachedProvinceLimit = $country;
+        }
+        return $cachedProvinceLimit;
     }
     
 } // end CRM_Core_Config

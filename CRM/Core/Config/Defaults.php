@@ -43,6 +43,56 @@
 class CRM_Core_Config_Defaults
 {
 
+
+    function setCoreVariables( ) {
+        global $civicrm_root;
+
+        // set of base directories relying on $civicrm_root
+        $this->smartyDir  =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'packages'    . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR ;
+
+        $this->pluginsDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'CRM'         . DIRECTORY_SEPARATOR . 
+            'Core'        . DIRECTORY_SEPARATOR .
+            'Smarty'      . DIRECTORY_SEPARATOR .
+            'plugins'     . DIRECTORY_SEPARATOR ;
+
+        $this->templateDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'templates'   . DIRECTORY_SEPARATOR ;
+
+        $this->gettextResourceDir =
+            $civicrm_root . DIRECTORY_SEPARATOR .
+            'l10n'        . DIRECTORY_SEPARATOR ;
+
+        // This should be moved to database config.
+        if ( defined( 'CIVICRM_SUNLIGHT' ) ) {
+            $this->sunlight = true;
+        } else {
+            $this->sunlight = false;
+        }
+
+        // 
+        $size = trim( ini_get( 'upload_max_filesize' ) );
+        if ( $size ) {
+            $last = strtolower($size{strlen($size)-1});
+            switch($last) {
+                // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $size *= 1024;
+            case 'm':
+                $size *= 1024;
+            case 'k':
+                $size *= 1024;
+            }
+            $this->maxImportFileSize = $size;
+        }
+    }
+
+
     /**
      * Function to set the default values
      *
@@ -91,7 +141,15 @@ class CRM_Core_Config_Defaults
                              DIRECTORY_SEPARATOR . 'sites' .
                              DIRECTORY_SEPARATOR . 'all'   .
                              DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/"; 
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
+                // FIXME: placeholder hack to make sure that we have
+                // FIXME: another case served: the one where civicrm is installed
+                // FIXME: for single specific site in Drupal
+                } elseif ( strpos( $civicrm_root,
+                             DIRECTORY_SEPARATOR . 'sites' .
+                             DIRECTORY_SEPARATOR . 'trunk'   .
+                             DIRECTORY_SEPARATOR . 'modules' ) !== false ){
+                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/trunk/modules/civicrm/";                             
                 } else {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
                 }
@@ -128,84 +186,6 @@ class CRM_Core_Config_Defaults
             
             CRM_Utils_File::createDir( $customDir );
             $defaults['customFileUploadDir'] = $customDir;
-        }
-
-        if ( ! isset( $defaults['smtpPort'] ) ) {
-            $defaults['smtpPort'] = 25;
-        }
-
-        if ( ! isset( $defaults['smtpAuth'] ) ) {
-            $defaults['smtpAuth'] = 0;
-        }
-
-        if ( ! isset( $defaults['countryLimit'][0] ) && !$formMode ) {
-            $defaults['countryLimit'] = 1228;
-        }
-
-        if ( ! isset( $defaults['provinceLimit'][0] ) && !$formMode ) {
-            $defaults['provinceLimit'] = 1228;
-        }
-
-        if ( ! isset( $defaults['defaultContactCountry'] ) ) {
-            $defaults['defaultContactCountry'] = 1228;
-        }
-
-        if ( ! isset( $defaults['defaultCurrency'] ) ) {
-            $defaults['defaultCurrency'] = 'USD';
-        }
-
-        if ( ! isset( $defaults['lcMonetary'] ) ) {
-            $defaults['lcMonetary'] = 'en_US';
-        }
-
-        if ( ! isset( $defaults['mapGeoCoding'] ) ) {
-            $defaults['mapGeoCoding'] = 1;
-        }
-
-        if ( ! isset( $defaults['versionCheck'] ) ) {
-            $defaults['versionCheck'] = 1;
-        }
-
-        if ( ! isset( $defaults['enableSSL'] ) ) {
-            $defaults['enableSSL'] = 0;
-        }
-        if ( empty( $defaults['fiscalYearStart']) ) {
-            $defaults['fiscalYearStart'] = array(
-                                                 'M' => 01,
-                                                 'd' => 01
-                                                 );
-        }
-
-        if ( ! isset( $defaults['maxLocationBlocks'] ) ) {
-            $defaults['maxLocationBlocks'] = 2;
-        }
-
-        if ( ! isset( $defaults['captchaFontPath'] ) ) {
-            $defaults['captchaFontPath'] = '/usr/X11R6/lib/X11/fonts/';
-        }
-
-        if ( ! isset( $defaults['captchaFont'] ) ) {
-            $defaults['captchaFont'] = 'HelveticaBold.ttf';
-        }
-
-        if ( ! isset( $defaults['debug'] ) ) {
-            $defaults['debug'] = 0;
-        }
-
-        if ( ! isset( $defaults['backtrace'] ) ) {
-            $defaults['backtrace'] = 0;
-        }
-
-        if ( ! isset( $defaults['fatalErrorTemplate'] ) ) {
-            $defaults['fatalErrorTemplate'] = 'CRM/error.tpl';
-        }
-
-        if ( ! isset( $defaults['legacyEncoding'] ) ) {
-            $defaults['legacyEncoding'] = 'Windows-1252';
-        }
-        
-        if ( empty ( $defaults['enableComponents'] ) && !$formMode ) {
-            $defaults['enableComponents'] = array('CiviContribute','CiviMember','CiviEvent', 'CiviMail');
         }
 
         // populate defaults for components

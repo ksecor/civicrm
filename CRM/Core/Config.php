@@ -206,7 +206,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                     self::$_singleton->_initVariables( );
                     
                     // retrieve and overwrite stuff from the settings file
-                    self::$_singleton->addCoreVariables( );
+                    self::$_singleton->setCoreVariables( );
                 }
                 $cache->set( 'CRM_Core_Config', self::$_singleton );
             } else {
@@ -230,6 +230,10 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
      */
     private function _initialize() 
     {
+
+        // following variables should be set in CiviCRM settings and
+        // as crucial ones, are defined upon initialisation
+        // instead of in CRM_Core_Config_Defaults
         if (defined( 'CIVICRM_DSN' )) {
             $this->dsn = CIVICRM_DSN;
         }
@@ -237,16 +241,30 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         if (defined('CIVICRM_TEMPLATE_COMPILEDIR')) {
             $this->templateCompileDir = CRM_Utils_File::addTrailingSlash(CIVICRM_TEMPLATE_COMPILEDIR);
 
+            // we're automatically prefixing compiled templates directories with country/language code
+            if ( ! empty( $this->lcMessages ) ) {
+                $this->templateCompileDir .= CRM_Utils_File::addTrailingSlash($this->lcMessages);
+            }
+
             // make sure this directory exists
             CRM_Utils_File::createDir( $this->templateCompileDir );
         }
 
+
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
+            $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
+            $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
+            $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;            
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
             $this->userFrameworkBaseURL = CRM_Utils_File::addTrailingSlash( CIVICRM_UF_BASEURL, '/' );
+            if ( isset( $_SERVER['HTTPS'] ) &&
+                 strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
+                $this->userFrameworkBaseURL     = str_replace( 'http://', 'https://', 
+                                                               $this->userFrameworkBaseURL );
+            }            
         }
 
         if ( defined( 'CIVICRM_UF_DSN' ) ) { 
@@ -256,6 +274,13 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
          if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
              $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
          }
+
+        // this is dynamically figured out in the civicrm.settings.php file
+        if ( defined( 'CIVICRM_CLEANURL' ) ) {        
+            $this->cleanURL = CIVICRM_CLEANURL;
+        } else {
+            $this->cleanURL = 0;
+        }
 
         $this->_initDAO();
 
@@ -337,8 +362,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             // serialise settings 
             CRM_Core_BAO_Setting::add($variables);            
         }
-
-
         
         $urlArray     = array('userFrameworkResourceURL', 'imageUploadURL');
         $dirArray     = array('uploadDir','customFileUploadDir');
@@ -472,84 +495,6 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
         }
         return true;
     }
-
-
-    function addressSequence( ) {
-        require_once 'CRM/Core/BAO/Preferences.php';
-        return CRM_Core_BAO_Preferences::value( 'address_sequence' );
-    }
-
-
-    function defaultCurrencySymbol( ) {
-        static $cachedSymbol = null;
-        if ( ! $cachedSymbol ) {
-            if ( $this->defaultCurrency ) {
-                require_once "CRM/Core/PseudoConstant.php";
-                $currencySymbolName = CRM_Core_PseudoConstant::currencySymbols( 'name' );
-                $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
-                
-                $this->currencySymbols = CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
-                
-                $cachedSymbol = CRM_Utils_Array::value($this->defaultCurrency, $this->currencySymbols, '');
-            } else {
-                $cachedSymbol = '$';
-            }
-        }
-        return $cachedSymbol;
-    }
-
-    function defaultContactCountry( ) {
-        static $cachedContactCountry = null;
-        if ( ! $cachedContactCountry ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $cachedContactCountry = $countryIsoCodes[$this->defaultContactCountry];
-        }
-        return $cachedContactCountry;
-    }
-
-    function defaultContactCountryName( ) {
-        static $cachedContactCountryName = null;
-        if ( ! $cachedContactCountryName ) {
-            $countryCodes = CRM_Core_PseudoConstant::country( );
-            $cachedContactCountryName = $countryCodes[$this->defaultContactCountry];
-        }
-        return $cachedContactCountryName;
-    }
-
-    function countryLimit( ) {
-        static $cachedCountryLimit = null;
-        if ( ! $cachedCountryLimit ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $country = array();
-            if ( is_array( $this->countryLimit ) ) {
-                foreach( $this->countryLimit as $val ) {
-                    $country[] = $countryIsoCodes[$val]; 
-                }
-            } else {
-                $country[] = $countryIsoCodes[$this->countryLimit];
-            }
-            $cachedCountryLimit = $country;
-        }
-        return $cachedCountryLimit;
-    }
-
-    function provinceLimit( ) {
-        static $cachedProvinceLimit = null;
-        if ( ! $cachedProvinceLimit ) {
-            $countryIsoCodes = CRM_Core_PseudoConstant::countryIsoCode( );
-            $country = array();
-            if ( is_array( $this->provinceLimit ) ) {
-                foreach( $this->provinceLimit as $val ) {
-                    $country[] = $countryIsoCodes[$val]; 
-                }
-            } else {
-                $country[] = $countryIsoCodes[$this->provinceLimit];
-            }
-            $cachedProvinceLimit = $country;
-        }
-        return $cachedProvinceLimit;
-    }
-
 
 } // end CRM_Core_Config
 
