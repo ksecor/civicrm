@@ -327,20 +327,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
 
         $session =& CRM_Core_Session::singleton();
         $values = array('contact_id' => $session->get('userID'));
-        require_once 'api/Contact.php';
-        //$contact =& crm_fetch_contact( $values );
-        $contact = array (
-                          'contact_id'            => 102,
-                          'contact_type'          => 'Individual',
-                          'sort_name'             => 'pankaj.sharma@webaccess.co.in',
-                          'display_name'          => 'pankaj.sharma@webaccess.co.in',
-                          'location_id'           => 90,
-                          'email_id'              => 152, 
-                          'email'                 => 'pankaj.sharma@webaccess.co.in',
-                          'on_hold'               => 0,
-                          'preferred_mail_format' => 'Both'
-                          );
-        
+        require_once 'api/v2/Contact.php';
+        $contact =& civicrm_contact_get( $values );
+
         $verp = array_flip(array(  'optOut', 'reply', 'unsubscribe', 'resubscribe', 'owner'));
         foreach($verp as $key => $value) {
             $verp[$key]++;
