@@ -157,12 +157,14 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                     ts('Text Message'),
                     array('cols' => '80', 'rows' => '8','onkeyup' => "return verify(this)"));
 
-        $this->assign( 'dojoIncludes',"dojo.require('dijit.Editor');", "dojo.require('dojo.parser');");
+        $this->assign( 'dojoIncludes',
+                       "dojo.require('dijit.Editor'); dojo.require('dojo.parser'); dojo.require('dijit._editor.plugins.FontChoice');
+                        dojo.require('dijit._editor.plugins.TextColor'); dojo.require('dijit._editor.plugins.LinkDialog');");
                 
         $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
                                  'height'               => '250 px',
                                  'id'                   => 'html_message',
-                                 'styleSheets'          => "packages/dojo/dojo/resources/dojo.css",                                
+                                 'extraPlugins'       => '["createLink","foreColor","hiliteColor","formatBlock"]'
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
