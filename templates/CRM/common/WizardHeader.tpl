@@ -5,7 +5,7 @@
     {section name=step loop=$wizard.steps}
         {if count ( $wizard.steps ) > 5 }
             {* truncate step titles so header isn't too wide *}
-            {assign var="title" value=$wizard.steps[step].title|truncate:5:"":false}
+            {assign var="title" value=$wizard.steps[step].title|crmFirstWord}
         {else}
             {assign var="title" value=$wizard.steps[step].title}
         {/if}
