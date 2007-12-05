@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <list-property name="libraries">
@@ -42,13 +42,31 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="membershipsByEndDate" id="5">
             <text-property name="displayName">statusBasedMember</text-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="alias">membership_type</property>
+                </structure>
+                <structure>
+                    <property name="columnName">name_8</property>
+                    <property name="alias">membership_status</property>
+                </structure>
+                <structure>
+                    <property name="columnName">end_date</property>
+                    <property name="alias">expires</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id</property>
+                    <property name="alias">contact_id</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -120,8 +138,8 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">contact_id</property>
-                    <property name="nativeName">contact_id</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
@@ -162,22 +180,22 @@
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">membership_type</property>
-                    <property name="nativeName">membership_type</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
-                    <property name="name">membership_status</property>
-                    <property name="nativeName">membership_status</property>
+                    <property name="name">name_8</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">expires</property>
-                    <property name="nativeName">expires</property>
+                    <property name="name">end_date</property>
+                    <property name="nativeName">end_date</property>
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
                 </structure>
@@ -196,11 +214,10 @@ FROM
   civicrm_membership_status ms,
   civicrm_contact c
   INNER JOIN civicrm_membership m ON m.contact_id = c.id
-  LEFT JOIN  civicrm_location l ON ( l.entity_table = 'civicrm_contact' AND c.id = l.entity_id AND l.is_primary = 1 )
-  LEFT JOIN  civicrm_address a ON l.id = a.location_id
+  LEFT JOIN  civicrm_address a ON ( c.id = a.contact_id AND a.is_primary = 1 )
   LEFT JOIN  civicrm_state_province sp ON a.state_province_id = sp.id 
-  LEFT JOIN  civicrm_email e ON ( l.id = e.location_id AND e.is_primary = 1 )
-  LEFT JOIN  civicrm_phone p ON ( l.id = p.location_id AND p.is_primary = 1 )
+  LEFT JOIN  civicrm_email e ON ( c.id = e.contact_id AND e.is_primary = 1 )
+  LEFT JOIN  civicrm_phone p ON ( c.id = e.contact_id AND p.is_primary = 1 )
 WHERE
    m.membership_type_id = mt.id AND
    m.status_id = ms.id AND

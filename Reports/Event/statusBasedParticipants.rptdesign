@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.0.v20070620 Build &lt;2.2.0.v20070625-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -14,7 +14,6 @@
                     <property name="hidden">false</property>
                     <property name="valueType">dynamic</property>
                     <property name="dataType">string</property>
-                    <text-property name="promptText">Event</text-property>
                     <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">eventTitle</property>
@@ -55,12 +54,22 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">dbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="civi" id="7">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">label</property>
+                    <property name="alias">STATUS</property>
+                </structure>
+                <structure>
+                    <property name="columnName">label_10</property>
+                    <property name="alias">ROLE</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -194,8 +203,8 @@
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">STATUS</property>
-                    <property name="nativeName">STATUS</property>
+                    <property name="name">label</property>
+                    <property name="nativeName">label</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -215,8 +224,8 @@
                 </structure>
                 <structure>
                     <property name="position">10</property>
-                    <property name="name">ROLE</property>
-                    <property name="nativeName">ROLE</property>
+                    <property name="name">label_10</property>
+                    <property name="nativeName">label</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -323,6 +332,13 @@ order by c.display_name</property>
                 <design:queryText>select title 
 from civicrm_event</design:queryText>
               </design:query>
+              <design:publicProperties>
+                <design:properties>
+                  <design:nameValue>
+                    <design:name>queryTimeOut</design:name>
+                  </design:nameValue>
+                </design:properties>
+              </design:publicProperties>
               <design:resultSets>
                 <design:resultSetDefinitions>
                   <design:resultSetColumns>
@@ -346,7 +362,7 @@ from civicrm_event</design:queryText>
           </design:uiHints>
         </design:elementAttributes>
         <design:uiHints>
-          <design:groupPromptDisplayName>aa</design:groupPromptDisplayName>
+          <design:groupPromptDisplayName>Select Event and Status</design:groupPromptDisplayName>
         </design:uiHints>
       </design:inputAttributes>
     </design:parameterDefinitions>

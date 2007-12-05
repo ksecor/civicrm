@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
@@ -78,13 +78,23 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="findParticipantData" id="11">
             <text-property name="displayName">findParticipantData</text-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="alias">statusName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">name_10</property>
+                    <property name="alias">typeName</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -264,8 +274,8 @@
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">statusName</property>
-                    <property name="nativeName">statusName</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -285,8 +295,8 @@
                 </structure>
                 <structure>
                     <property name="position">10</property>
-                    <property name="name">typeName</property>
-                    <property name="nativeName">typeName</property>
+                    <property name="name">name_10</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -363,7 +373,7 @@ AND p.is_test = ? )</property>
         <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
-          <design:displayName>Enter Date of Registration</design:displayName>
+          <design:displayName>Registration Date FROM</design:displayName>
           <design:description>Enter date in dd/mm/yy format</design:description>
         </design:uiHints>
       </design:attributes>
@@ -386,7 +396,7 @@ AND p.is_test = ? )</property>
         <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
-          <design:displayName>Enter Date of Registration</design:displayName>
+          <design:displayName>Registration Date TO</design:displayName>
           <design:description>Enter date in dd/mm/yy Format</design:description>
         </design:uiHints>
       </design:attributes>
@@ -409,7 +419,7 @@ AND p.is_test = ? )</property>
         <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
         <design:nullability>Unknown</design:nullability>
         <design:uiHints>
-          <design:displayName>Select Participant status</design:displayName>
+          <design:displayName>Participant Status</design:displayName>
         </design:uiHints>
       </design:attributes>
       <design:inputAttributes>

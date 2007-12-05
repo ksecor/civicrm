@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.N20060628-1351 Build &lt;20060628-1537></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <parameters>
@@ -63,13 +63,63 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="contactDataset" id="5">
             <text-property name="displayName">contactDataset</text-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id</property>
+                    <property name="alias">contact_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value</property>
+                    <property name="alias">gender_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">label</property>
+                    <property name="alias">gender</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_9</property>
+                    <property name="alias">address_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_18</property>
+                    <property name="alias">state_province_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">abbreviation</property>
+                    <property name="alias">state_province</property>
+                </structure>
+                <structure>
+                    <property name="columnName">name</property>
+                    <property name="alias">state_province_name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_21</property>
+                    <property name="alias">country_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">name_22</property>
+                    <property name="alias">country</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_23</property>
+                    <property name="alias">phone_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_26</property>
+                    <property name="alias">email_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id_33</property>
+                    <property name="alias">group_contact_id</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -100,12 +150,12 @@
                     <structure>
                         <property name="position">6</property>
                         <property name="name">birth_date</property>
-                        <property name="dataType">date-time</property>
+                        <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
                         <property name="name">gender_id</property>
-                        <property name="dataType">integer</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
@@ -114,136 +164,131 @@
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">location_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
                         <property name="name">address_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">11</property>
+                        <property name="position">10</property>
                         <property name="name">street_address</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">12</property>
+                        <property name="position">11</property>
                         <property name="name">supplemental_address_1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">12</property>
                         <property name="name">supplemental_address_2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">13</property>
                         <property name="name">city</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">14</property>
                         <property name="name">postal_code_suffix</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">15</property>
                         <property name="name">postal_code</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">16</property>
                         <property name="name">geo_code_1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">18</property>
+                        <property name="position">17</property>
                         <property name="name">geo_code_2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">19</property>
+                        <property name="position">18</property>
                         <property name="name">state_province_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">19</property>
                         <property name="name">state_province</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">21</property>
+                        <property name="position">20</property>
                         <property name="name">state_province_name</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">22</property>
+                        <property name="position">21</property>
                         <property name="name">country_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">23</property>
+                        <property name="position">22</property>
                         <property name="name">country</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">24</property>
+                        <property name="position">23</property>
                         <property name="name">phone_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">25</property>
+                        <property name="position">24</property>
                         <property name="name">phone_type</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">26</property>
+                        <property name="position">25</property>
                         <property name="name">phone</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">27</property>
+                        <property name="position">26</property>
                         <property name="name">email_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">28</property>
+                        <property name="position">27</property>
                         <property name="name">email</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">29</property>
+                        <property name="position">28</property>
                         <property name="name">on_hold</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">30</property>
+                        <property name="position">29</property>
                         <property name="name">legal_identifier</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">31</property>
+                        <property name="position">30</property>
                         <property name="name">external_identifier</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">32</property>
+                        <property name="position">31</property>
                         <property name="name">home_URL</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">33</property>
+                        <property name="position">32</property>
                         <property name="name">preferred_mail_format</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">34</property>
+                        <property name="position">33</property>
                         <property name="name">group_contact_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">35</property>
+                        <property name="position">34</property>
                         <property name="name">status</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -277,8 +322,8 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">contact_id</property>
-                    <property name="nativeName">contact_id</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
@@ -314,207 +359,200 @@
                     <property name="position">6</property>
                     <property name="name">birth_date</property>
                     <property name="nativeName">birth_date</property>
-                    <property name="dataType">date-time</property>
+                    <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">gender_id</property>
-                    <property name="nativeName">gender_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
+                    <property name="name">value</property>
+                    <property name="nativeName">value</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
-                    <property name="name">gender</property>
-                    <property name="nativeName">gender</property>
+                    <property name="name">label</property>
+                    <property name="nativeName">label</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">location_id</property>
-                    <property name="nativeName">location_id</property>
+                    <property name="name">id_9</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
-                    <property name="name">address_id</property>
-                    <property name="nativeName">address_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
                     <property name="name">street_address</property>
                     <property name="nativeName">street_address</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">11</property>
                     <property name="name">supplemental_address_1</property>
                     <property name="nativeName">supplemental_address_1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">13</property>
+                    <property name="position">12</property>
                     <property name="name">supplemental_address_2</property>
                     <property name="nativeName">supplemental_address_2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">13</property>
                     <property name="name">city</property>
                     <property name="nativeName">city</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">14</property>
                     <property name="name">postal_code_suffix</property>
                     <property name="nativeName">postal_code_suffix</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">16</property>
+                    <property name="position">15</property>
                     <property name="name">postal_code</property>
                     <property name="nativeName">postal_code</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">17</property>
+                    <property name="position">16</property>
                     <property name="name">geo_code_1</property>
                     <property name="nativeName">geo_code_1</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
+                    <property name="position">17</property>
                     <property name="name">geo_code_2</property>
                     <property name="nativeName">geo_code_2</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">19</property>
-                    <property name="name">state_province_id</property>
-                    <property name="nativeName">state_province_id</property>
+                    <property name="position">18</property>
+                    <property name="name">id_18</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
+                    <property name="position">19</property>
+                    <property name="name">abbreviation</property>
+                    <property name="nativeName">abbreviation</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
                     <property name="position">20</property>
-                    <property name="name">state_province</property>
-                    <property name="nativeName">state_province</property>
+                    <property name="name">name</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">21</property>
-                    <property name="name">state_province_name</property>
-                    <property name="nativeName">state_province_name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
+                    <property name="name">id_21</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">22</property>
-                    <property name="name">country_id</property>
-                    <property name="nativeName">country_id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">23</property>
-                    <property name="name">country</property>
-                    <property name="nativeName">country</property>
+                    <property name="name">name_22</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">24</property>
-                    <property name="name">phone_id</property>
-                    <property name="nativeName">phone_id</property>
+                    <property name="position">23</property>
+                    <property name="name">id_23</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">25</property>
+                    <property name="position">24</property>
                     <property name="name">phone_type</property>
                     <property name="nativeName">phone_type</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">26</property>
+                    <property name="position">25</property>
                     <property name="name">phone</property>
                     <property name="nativeName">phone</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">27</property>
-                    <property name="name">email_id</property>
-                    <property name="nativeName">email_id</property>
+                    <property name="position">26</property>
+                    <property name="name">id_26</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">28</property>
+                    <property name="position">27</property>
                     <property name="name">email</property>
                     <property name="nativeName">email</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">29</property>
+                    <property name="position">28</property>
                     <property name="name">on_hold</property>
                     <property name="nativeName">on_hold</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">-6</property>
                 </structure>
                 <structure>
-                    <property name="position">30</property>
+                    <property name="position">29</property>
                     <property name="name">legal_identifier</property>
                     <property name="nativeName">legal_identifier</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">31</property>
+                    <property name="position">30</property>
                     <property name="name">external_identifier</property>
                     <property name="nativeName">external_identifier</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">32</property>
+                    <property name="position">31</property>
                     <property name="name">home_URL</property>
                     <property name="nativeName">home_URL</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">33</property>
+                    <property name="position">32</property>
                     <property name="name">preferred_mail_format</property>
                     <property name="nativeName">preferred_mail_format</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">34</property>
-                    <property name="name">group_contact_id</property>
-                    <property name="nativeName">group_contact_id</property>
+                    <property name="position">33</property>
+                    <property name="name">id_33</property>
+                    <property name="nativeName">id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">35</property>
+                    <property name="position">34</property>
                     <property name="name">status</property>
                     <property name="nativeName">status</property>
                     <property name="dataType">string</property>
@@ -526,10 +564,9 @@
         contact_a.contact_sub_type  as `contact_sub_type`,
         contact_a.sort_name as `sort_name`,
         contact_a.display_name as display_name,
-        civicrm_individual.birth_date as `birth_date`,
+        contact_a.birth_date as `birth_date`,
         gender.value as gender_id,
         gender.label as gender,
-        civicrm_location.id as location_id,
         civicrm_address.id as address_id,
         civicrm_address.street_address as `street_address`,
         civicrm_address.supplemental_address_1 as `supplemental_address_1`,
@@ -547,7 +584,7 @@
         civicrm_phone.id as phone_id,
         civicrm_phone.phone_type as phone_type,
         civicrm_phone.phone as `phone`,
-        civicrm_email.id as email_id,
+        civicrm_email.id as `email_id`,
         civicrm_email.email as `email`, 
         civicrm_email.on_hold as `on_hold`,
         contact_a.legal_identifier  as `legal_identifier`,
@@ -557,24 +594,19 @@
         `civicrm_group_contact-3`.id as group_contact_id,
         `civicrm_group_contact-3`.status as status 
 FROM civicrm_contact contact_a
-        LEFT JOIN civicrm_individual ON (contact_a.id = civicrm_individual.contact_id) 
-        LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_contact' AND
-                  contact_a.id = civicrm_location.entity_id AND
-                  civicrm_location.is_primary = 1)
-        LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id 
+        LEFT JOIN civicrm_address ON ( contact_a.id = civicrm_address.contact_id AND civicrm_address.is_primary = 1 )
         LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id 
         LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id 
-        LEFT JOIN civicrm_email ON (civicrm_location.id = civicrm_email.location_id AND civicrm_email.is_primary = 1) 
-        LEFT JOIN civicrm_phone ON (civicrm_location.id = civicrm_phone.location_id AND civicrm_phone.is_primary = 1) 
-        LEFT JOIN civicrm_im ON (civicrm_location.id = civicrm_im.location_id AND civicrm_im.is_primary = 1)  
+        LEFT JOIN civicrm_email ON (contact_a.id = civicrm_email.contact_id AND civicrm_email.is_primary = 1) 
+        LEFT JOIN civicrm_phone ON (contact_a.id = civicrm_phone.contact_id AND civicrm_phone.is_primary = 1) 
+        LEFT JOIN civicrm_im ON (contact_a.id = civicrm_im.contact_id AND civicrm_im.is_primary = 1)  
         LEFT JOIN civicrm_group_contact `civicrm_group_contact-3` ON contact_a.id = `civicrm_group_contact-3`.contact_id  
         LEFT JOIN civicrm_option_group option_group_gender ON (option_group_gender.name = 'gender')
-        LEFT JOIN civicrm_option_value gender ON (civicrm_individual.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) 
+        LEFT JOIN civicrm_option_value gender ON (contact_a.gender_id = gender.value AND option_group_gender.id = gender.option_group_id) 
 WHERE  ( `civicrm_group_contact-3`.group_id IN (?)
         AND `civicrm_group_contact-3`.status IN ("Added") )
         AND contact_a.contact_type = ?
-ORDER BY display_name asc 
-</property>
+ORDER BY display_name asc </property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DS_groupId" id="139">
             <structure name="cachedMetaData">
@@ -906,11 +938,6 @@ order by name;</property>
                                     <property name="dataType">string</property>
                                 </structure>
                                 <structure>
-                                    <property name="name">location_id</property>
-                                    <expression name="expression">dataSetRow["location_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
                                     <property name="name">address_id</property>
                                     <expression name="expression">dataSetRow["address_id"]</expression>
                                     <property name="dataType">integer</property>
@@ -1097,11 +1124,6 @@ order by name;</property>
                                     <property name="name">gender</property>
                                     <expression name="expression">dataSetRow["gender"]</expression>
                                     <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">location_id</property>
-                                    <expression name="expression">dataSetRow["location_id"]</expression>
-                                    <property name="dataType">integer</property>
                                 </structure>
                                 <structure>
                                     <property name="name">address_id</property>
