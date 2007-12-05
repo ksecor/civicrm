@@ -169,10 +169,6 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 CRM_Core_Error::fatal( ts( 'The page you requested is currently unavailable.' ) );
             }
 
-            if (isset( $this->_values['is_thermometer'] ) ) {
-                $session->set( 'pastContributionThermometer', $this->_values['is_thermometer'] );
-            }
-
             // also check for billing informatin
             // get the billing location type
             $locationTypes =& CRM_Core_PseudoConstant::locationType( );

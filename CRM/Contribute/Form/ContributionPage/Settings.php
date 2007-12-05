@@ -92,11 +92,6 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->add('text', 'goal_amount', ts('Goal Amount'), array( 'size' => 8, 'maxlength' => 8 ) ); 
         $this->addRule( 'goal_amount', ts( 'Please enter a valid money value (e.g. 99.99).' ), 'money' );
         
-        // should the thermometer be enabled
-        $this->addElement('checkbox', 'is_thermometer', ts( 'Should a thermometer block be displayed during a contribution?' ) );
-        // thermometer block title
-        $this->add('text', 'thermometer_title', ts('Thermometer Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'thermometer_title') );
-
         // is this page active ?
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
@@ -120,28 +115,8 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
                    CRM_Core_SelectValues::date('datetime') );
         $this->addRule('end_date', ts('Please select a end valid date.'), 'qfDate');
 
-        $this->addFormRule(array('CRM_Contribute_Form_ContributionPage_Settings', 'formRule'));
-
         parent::buildQuickForm( );
     }
-    /**
-    * Function for validation
-     *
-     * @param array $params (ref.) an assoc array of name/value pairs
-     *
-     * @return mixed true or array of errors
-     * @access public
-     * @static
-     */
-    public function formRule(&$params)
-    {
-        $errors = array( );
-        if ( ! $params['goal_amount'] && isset($params['is_thermometer']) ) {
-            $errors['goal_amount'] = ts('You must enter a contribution page Goal Amount if you want to track progress by enabling the Progress Thermometer block.');
-        }
-        
-        return empty($errors) ? true : $errors;
-    } 
 
     /**
      * Process the form
@@ -161,7 +136,6 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         $params['domain_id']             = CRM_Core_Config::domainID( );
         $params['is_active']             = CRM_Utils_Array::value('is_active'            , $params, false);
-        $params['is_thermometer']        = CRM_Utils_Array::value('is_thermometer'       , $params, false);
         $params['is_credit_card_only']   = CRM_Utils_Array::value('is_credit_card_only'  , $params, false);
         $params['honor_block_is_active'] = CRM_Utils_Array::value('honor_block_is_active', $params, false);
         $params['start_date']            = CRM_Utils_Date::format( $params['start_date'] );

@@ -35,10 +35,6 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Enter the goal amount for this contribution page. If enabled, the progress thermometer will track progress against this goal.{/ts}</dd>
     <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
     <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
-    <dt>&nbsp;</dt><dd>{$form.is_thermometer.html} {$form.is_thermometer.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Display the progress thermometer block when the user is making a contribution.{/ts}</dd>
-    <dt>{$form.thermometer_title.label}</dt><dd>{$form.thermometer_title.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Set a title for the progress thermometer block.{/ts}</dd>
     
     <dt>&nbsp;</dt><dd>{$form.honor_block_is_active.html} {$form.honor_block_is_active.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If you want to allow contributors to specify a person whom they are honoring with their gift, check this box. An optional Honoree section will be included in the form. Honoree information is automatically saved and linked with the contribution record.{/ts}</dd>

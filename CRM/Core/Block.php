@@ -91,10 +91,6 @@ class CRM_Core_Block {
                                                                    'info'     => ts('CiviCRM Menu'),
                                                                    'subject'  => ts('CiviCRM'),
                                                                    'active'   => true ),
-                                       self::CONTRIBUTE  => array( 'template' => 'Contribute.tpl',
-                                                                   'info'     => ts( 'CiviContribute Progress Meter' ),
-                                                                   'subject'  => ts( 'CiviContribute Progress Meter' ),
-                                                                   'active'   => true )
                                        );
             // seems like this is needed for drupal 4.7, have not tested
             require_once 'CRM/Core/Permission.php';
@@ -173,30 +169,6 @@ class CRM_Core_Block {
             }
         }
         return $block;
-    }
-
-    static function hideContributeBlock( ) {
-        // make sure it is a transactions and online contributions is enables
-        $config =& CRM_Core_Config::singleton( );
-        $args = explode ( '/', $_GET[$config->userFrameworkURLVar] );
-        if ( $args[1] != 'contribute' ||
-             $args[2] != 'transact'   ||
-             ! CRM_Core_Permission::check( 'make online contributions' ) ) {
-            return true;
-        }
-
-        // also make sure that there is a pageID and that page has thermometer enabled
-        $session =& CRM_Core_Session::singleton( );
-        $id = $session->get( 'pastContributionID' );
-        if ( ! $id ||  
-             ! $session->get( 'pastContributionThermometer' ) ) {
-            return true;
-        }
-        
-        $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $id, 'thermometer_title');
-        self::$_properties[self::CONTRIBUTE]['subject'] = $title;
-
-        return false;
     }
 
     /**
@@ -571,11 +543,7 @@ class CRM_Core_Block {
             return null;
         }
 
-        if ( $id == self::CONTRIBUTE ) {
-            if ( self::hideContributeBlock( ) ) {
-                return null;
-            }
-        } else if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
+        if ( ! CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             return null;
         } else if ( ( $id == self::ADD || $id == self::SHORTCUTS ) &&
                     ( ! CRM_Core_Permission::check( 'add contacts' ) ) && ( ! CRM_Core_Permission::check('edit groups') ) ) {
