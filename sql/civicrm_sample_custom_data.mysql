@@ -25,10 +25,10 @@ CREATE TABLE civicrm_value_1_constituent_information (
 
 
 INSERT INTO 
-   `civicrm_option_group` (`domain_id`, `name`, `description`, `is_reserved`, `is_active`) 
+   `civicrm_option_group` (`domain_id`, `name`, `label`, `is_reserved`, `is_active`) 
 VALUES 
-   (1, 'custom_most_important_issue', 'Custom Field: Most Important Issue', 0, 1),
-   (1, 'custom_marital_status'      , 'Custom Field: Marital Status', 0, 1);
+   (1, 'custom_most_important_issue', 'Most Important Issue', 0, 1),
+   (1, 'custom_marital_status'      , 'Marital Status', 0, 1);
 
  SELECT @option_most_id    := max(id) from civicrm_option_group where name = 'custom_most_important_issue';
  SELECT @option_marital_id := max(id) from civicrm_option_group where name = 'custom_marital_status';
