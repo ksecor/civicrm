@@ -1117,6 +1117,29 @@ AND    cf.id = %1";
         }
         return array( $dao->table_name, $dao->column_name );
     }
+
+    public static function &customOptionGroup( )
+    {
+        static $customOptionGroup = null;
+
+        if ( ! $customOptionGroup ) {
+            $query = "
+SELECT g.id, g.name
+FROM   civicrm_option_group g,
+       civicrm_custom_field f
+WHERE  g.id = f.option_group_id
+AND    g.is_active = 1
+AND    f.is_active = 1";
+            $dao = CRM_Core_DAO::executeQuery( $query, 
+                                               CRM_Core_DAO::$_nullArray );
+            $customOptionGroup = array( );
+            while ( $dao->fetch( ) ) {
+                $customOptionGroup[$dao->id] = $dao->name;
+            }
+        }
+        return $customOptionGroup;
+    }
+
 }
 
 ?>

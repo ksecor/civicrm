@@ -594,15 +594,16 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
         self::$_template->assign_by_ref($var, $value);
     }
 
-    function addRadio( $name, $title, &$values, $attributes = null, $separator = null, $required = false ) {
+    function &addRadio( $name, $title, &$values, $attributes = null, $separator = null, $required = false ) {
         $options = array( );
         foreach ( $values as $key => $var ) {
             $options[] =& HTML_QuickForm::createElement('radio', null, null, $var, $key, $attributes);
         }
-        $this->addGroup($options, $name, $title, $separator);
+        $group =& $this->addGroup($options, $name, $title, $separator);
         if ($required) {
             $this->addRule($name, ts('%1 is a required field.', array(1 => $title)), 'required');
         }           
+        return $group;
     }
 
     function addYesNo( $id, $title, $dontKnow = null ,$required = null, $attribute = null) {

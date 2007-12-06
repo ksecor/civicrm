@@ -243,9 +243,6 @@ class CRM_Core_PseudoConstant
      */
     private static $activityStatus;
 
-    private static $optionGroup;
-
-    
     /**
      * populate the object from the database. generic populate
      * method
@@ -1101,16 +1098,6 @@ class CRM_Core_PseudoConstant
     }
 
                                                 
-    public static function &optionGroup( )
-    {
-        if ( ! self::$optionGroup ) {
-            self::populate( self::$optionGroup,
-                            'CRM_Core_DAO_OptionGroup',
-                            false,
-                            'description' );
-        }
-        return self::$optionGroup;
-    }
 
 }
 

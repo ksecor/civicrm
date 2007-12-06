@@ -1,12 +1,14 @@
 <dl>
 <dt>{$form.option_type.label}</dt><dd>{$form.option_type.html}</dd>
 </dl>
+{if $form.option_group_id}
 <div id="option_group">
   <dl>
       <dt>{$form.option_group_id.label}</dt>
       <dd>{$form.option_group_id.html}</dd>
   </dl>
 </div>
+{/if}
 
 <div id="multiple">
 <fieldset><legend>{ts}Multiple Choice Options{/ts}</legend>
@@ -71,6 +73,7 @@
     {* hide and display the appropriate blocks as directed by the php code *}
     on_load_init_blocks( showRows, hideBlocks, '' );
 
+{if $form.option_group_id}
 {literal}
 function showOptionSelect( ) {
    if ( document.getElementsByName("option_type")[0].checked ) {
@@ -83,6 +86,7 @@ function showOptionSelect( ) {
 }
 showOptionSelect( );
 {/literal}
+{/if}
 </script>
 
 
