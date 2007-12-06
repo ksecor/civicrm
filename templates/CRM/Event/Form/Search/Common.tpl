@@ -9,7 +9,7 @@
     </script>
     {/if}
     <td class="tundra" >
-       <div dojoType="dojo.data.ItemFileReadStore" jsId="eventStore" url="{$dataURLEvent}" >
+       <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" >
         {$form.event_title.html}
         </div>
     </td>
@@ -22,7 +22,7 @@
     </script>
     {/if}
     <td class ="tundra" align ="left">
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left">
+        <div dojoType="dojox.data.QueryReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left">
         {$form.event_type.html}
         </div>
     </td>

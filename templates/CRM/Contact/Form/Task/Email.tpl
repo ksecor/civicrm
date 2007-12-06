@@ -19,7 +19,7 @@
 <dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
   <dt>{$form.template.label}</dt><dd> 
-    <div dojoType="dojo.data.ItemFileReadStore" jsId="tempStore" url="{$dataUrl}" align="left" class="tundra">
+    <div dojoType="dojox.data.QueryReadStore" jsId="tempStore" url="{$dataUrl}" align="left" class="tundra">
         {$form.template.html}
     </div></dd>
   <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
