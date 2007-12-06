@@ -206,12 +206,6 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         if ( $buttonName = $this->_refreshButtonName ) {
             return;
         }
-
-        if ( isset( $params['preview'] ) )  {
-            require_once 'CRM/Utils/System.php';            
-            CRM_Utils_System::redirect( CRM_Utils_System::url( CRM_Utils_System::currentPath( ) ) );
-            
-        }
     }
 
     /** 
