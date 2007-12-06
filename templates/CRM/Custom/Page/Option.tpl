@@ -2,6 +2,9 @@
     {include file="CRM/Custom/Form/Option.tpl"}
 {/if}
 
+{if $reusedNames}
+    <div class="message status">{ts}This option group is being reused by multiple custom groups{/ts}</div>
+{/if}
 {if $customOption}
     
     <div id="field_page">

@@ -150,6 +150,25 @@ class CRM_Custom_Page_Option extends CRM_Core_Page {
                                                       'option_group_id' );
         
         $query = "
+SELECT id, label
+FROM   civicrm_custom_field
+WHERE  option_group_id = %1";
+        $params = array( 1 => array( $optionGroupID, 'Integer' ),
+                         2 => array( $this->_fid, 'Integer' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        $reusedNames = array( );
+        if ( $dao->N > 1 ) {
+            while ( $dao->fetch( ) ) {
+                $reusedNames[] = $dao->label;
+            }
+            $reusedNames = implode( ', ', $reusedNames );
+            $newTitle = ts( '%1 - Multiple Choice Options',
+                            array( 1 => $reusedNames ) );
+            CRM_Utils_System::setTitle( $newTitle );
+            $this->assign( 'reusedNames', $reusedNames );
+        }
+        
+        $query = "
 SELECT   *
   FROM   civicrm_option_value
  WHERE   option_group_id = %1

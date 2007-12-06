@@ -640,7 +640,8 @@ SELECT count(*)
 FROM   civicrm_custom_field
 WHERE  data_type != %1
 AND    option_group_id = %2";
-                    $params = array( 1 => array( $fields['data_type'], 'String' ),
+                    $params = array( 1 => array( self::$_dataTypeKeys[$fields['data_type'][0]],
+                                                 'String' ),
                                      2 => array( $fields['option_group_id'], 'Integer' ) );
                     $count = CRM_Core_DAO::singleValueQuery( $query, $params );
                     if ( $count > 0 ) {
