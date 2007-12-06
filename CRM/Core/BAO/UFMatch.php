@@ -200,7 +200,7 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;
                 $ufmatch->domain_id      = $dao->domain_id ;
-                $ufmatch->email          = $mail;
+                $ufmatch->uf_name        = $mail;
                 $ufmatch->user_unique_id = $uniqId;
             } else {
                 if ( $uf == 'Drupal' ) {

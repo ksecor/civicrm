@@ -480,6 +480,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     'Participant' );
 
         if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
+            $params['contactID'] = $contactID;
             require_once "CRM/Core/BAO/CMSUser.php";
             if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );

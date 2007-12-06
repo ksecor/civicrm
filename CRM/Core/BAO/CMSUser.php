@@ -124,30 +124,22 @@ class CRM_Core_BAO_CMSUser
         $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
         $version  = $config->userFrameworkVersion;
 
-        if ( $isDrupal && $version >= 5.1 ) {
-            $values = array( 
-                            'name' => $params['cms_name'],
-                            'mail' => $params[$mail],
-                            );
-            if ( !variable_get('user_email_verification', TRUE )) {
-                $values['pass'] = array('pass1' => $params['cms_pass'],
-                                        'pass2' => $params['cms_confirm_pass']);
-                
-            }
-            
-            // we also need to redirect b
-            $config->inCiviCRM = true;
-            
-            $res = drupal_execute( 'user_register', $values );
-            
-            $config->inCiviCRM = false;
-            
-            if ( form_get_errors( ) ) {
-                return false;
-            }
-            return true;
+        if ( $isDrupal ) {
+            $ufID = self::createDrupalUser( $params, $mail, $version );
         } elseif ( $isJoomla ) {            
-            return self::createJoomlaUser( $params, $mail );           
+            $ufID = self::createJoomlaUser( $params, $mail );           
+        }
+
+        if ( $ufID !== false &&
+             isset( $params['contactID'] ) ) {
+            // create the UF Match record
+            $ufmatch                 =& new CRM_Core_DAO_UFMatch( );
+            $ufmatch->domain_id      =  CRM_Core_Config::domainID( );
+            $ufmatch->uf_id          =  $ufID;
+            $ufmatch->contact_id     =  $params['contactID'];
+            $ufmatch->uf_name        =  $params[$mail];
+            $ufmatch->user_unique_id =  $params[$mail];
+            $ufmatch->save( );
         }
     }
 
@@ -298,42 +290,37 @@ class CRM_Core_BAO_CMSUser
     {
         $config  =& CRM_Core_Config::singleton( );
 
-        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
-        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? true : false;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? true : false;
         $version  = $config->userFrameworkVersion;
         
+        $dao =& new CRM_Core_DAO( );
+        $name = $dao->escape( $params['name'] );
+
         if ( $isDrupal && $version >= 5.1 ) {
             _user_edit_validate(null, $params );
             $errors = form_get_errors( );
-        }
         
-        if ( $errors ) {
-            if ( CRM_Utils_Array::value( 'name', $errors ) ) {
-                $errors['cms_name'] = $errors['name'];
-            } 
+            if ( $errors ) {
+                if ( CRM_Utils_Array::value( 'name', $errors ) ) {
+                    $errors['cms_name'] = $errors['name'];
+                } 
             
-            if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
-                $errors[$emailName] = $errors['mail'];
-            } 
+                if ( CRM_Utils_Array::value( 'mail', $errors ) ) {
+                    $errors[$emailName] = $errors['mail'];
+                } 
             
-            // also unset drupal messages to avoid twice display of errors
-            unset( $_SESSION['messages'] );
-        }
+                // also unset drupal messages to avoid twice display of errors
+                unset( $_SESSION['messages'] );
+            }
         
-        // drupal api sucks
-        // do the name check manually
-        //$nameError = user_validate_name( $fields['cms_name'] );
-        if ( $isDrupal && $version >= 5.1 ) {
+            // drupal api sucks
+            // do the name check manually
             $nameError = user_validate_name( $params['name'] );
             if ( $nameError ) {
                 $errors['cms_name'] = $nameError;
             }
-        }
         
-        
-        $dao =& new CRM_Core_DAO( );
-        $name = $dao->escape( $params['name'] );
-        if ($isDrupal && $version >= 5.1 ) {
             $sql = "
 SELECT count(*)
   FROM {$config->userFrameworkUsersTableName}
@@ -345,7 +332,8 @@ SELECT count(*)
   FROM {$config->userFrameworkUsersTableName}
  WHERE LOWER(username) = LOWER('$name')
 ";
-                }
+        }
+
         $db_cms = DB::connect($config->userFrameworkDSN);
         if ( DB::isError( $db_cms ) ) { 
             die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
@@ -371,8 +359,8 @@ SELECT count(*)
     {        
         $config =& CRM_Core_Config::singleton( );
 
-        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
-        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? true : false;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? true : false;
         
         $db_uf = DB::connect($config->userFrameworkDSN);
         
@@ -412,6 +400,58 @@ SELECT count(*)
     }
     
     /**
+     * Function to create a user in Drupal.
+     *  
+     * @param array  $params associated array 
+     * @param string $mail email id for cms user
+     *
+     * @return uid if user exists, false otherwise
+     * 
+     * @access public
+     * @static
+     */
+    static function createDrupalUser( &$params, $mail, $version ) {
+        if ( $version < 5.1 ) {
+            return false;
+        }
+
+        $values = array( 
+                        'name' => $params['cms_name'],
+                        'mail' => $params[$mail],
+                         );
+        if ( !variable_get('user_email_verification', TRUE )) {
+            $values['pass'] = array('pass1' => $params['cms_pass'],
+                                    'pass2' => $params['cms_confirm_pass']);
+            
+        }
+
+        $config =& CRM_Core_Config::singleton( );
+
+        // we also need to redirect b
+        $config->inCiviCRM = true;
+        
+        $res = drupal_execute( 'user_register', $values );
+        
+        $config->inCiviCRM = false;
+        
+        if ( form_get_errors( ) ) {
+            return false;
+        }
+
+        // looks like we created a drupal user, lets make another db call to get the user id!
+        $db_cms = DB::connect($config->userFrameworkDSN);
+        if ( DB::isError( $db_cms ) ) { 
+            die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
+        }
+
+        //Fetch id of newly added user
+        $id_sql   = "SELECT uid FROM {$config->userFrameworkUsersTableName} where name = '{$params['cms_name']}'";
+        $id_query = $db_cms->query( $id_sql );
+        $id_row   = $id_query->fetchRow( DB_FETCHMODE_ASSOC ) ;
+        return $id_row['uid'];
+    }
+
+    /**
      * Function to create a user of Joomla.
      *  
      * @param array  $params associated array 
@@ -422,7 +462,7 @@ SELECT count(*)
      * @access public
      * @static
      */
-    static function createJoomlaUser( &$params, $mail ) 
+    static function createJoomlaUser( &$params, $mail, $version ) 
     {
         $config =& CRM_Core_Config::singleton( );
         $dao =& new CRM_Core_DAO( );
@@ -442,7 +482,6 @@ SELECT count(*)
         list( $prefix, $table ) = split( '_', $config->userFrameworkUsersTableName );        
        
         $db_cms = DB::connect($config->userFrameworkDSN);
-        
         if ( DB::isError( $db_cms ) ) { 
             die( "Cannot connect to UF db via $dsn, " . $db_cms->getMessage( ) ); 
         }
@@ -480,7 +519,7 @@ SELECT count(*)
 
         $transaction->commit( );
 
-        return true;
+        return $id;
     }
     
 }
