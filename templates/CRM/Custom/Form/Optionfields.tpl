@@ -1,3 +1,7 @@
+<dl>
+<dt>{$form.option_type.label}</dt><dd>{$form.option_type.html}</dd>
+<dt>{$form.option_group_id.label}</dt><dd>{$form.option_group_id.html}</dd>
+</dl>
 <fieldset><legend>{ts}Multiple Choice Options{/ts}</legend>
     <div class="description">
         {ts}Enter up to ten (10) multiple choice options in this table (click 'another choice' for each additional choice). If you need more than ten options, you can create an unlimited number of additional choices using the Edit Multiple Choice Options link after saving this new field. If desired, you can mark one of the choices as the default choice. The option 'label' is displayed on the form, while the option 'value' is stored in the contact record. The label and value may be the same or different. Inactive options are hidden when the field is presented.{/ts}

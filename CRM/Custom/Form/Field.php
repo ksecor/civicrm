@@ -244,7 +244,29 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('data_type');
         }
-      
+
+        $optionTypes = array( '1' => ts( 'Create a new Option Group' ),
+                              '2' => ts( 'Reuse an existing Option Group' ) );
+        $extra = array( 'onclick' => "showOptionSelect();");
+        $this->addRadio( 'option_type',
+                         ts('Option Type'),
+                         $optionTypes,
+                         $extra,
+                         '<br/>', true
+                         );
+                                                
+        $optionGroups = CRM_Core_PseudoConstant::optionGroup( );
+        
+        foreach ( $optionGroups as $key => $value ) {
+            if ( trim( $value ) == '' ) {
+                unset( $optionGroups[$key] );
+            }
+        }
+        $this->add( 'select',
+                    'option_group_id',
+                    ts( 'Option Groups' ),
+                    array( '' => ts( ' -select- ' ) ) + $optionGroups );
+
         // form fields of Custom Option rows
         $defaultOption = array();
         $_showHide =& new CRM_Core_ShowHideBlocks('','');
