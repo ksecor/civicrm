@@ -60,7 +60,8 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         } else {
             $this->assign( 'widget_id', $this->_widget->id );
         }
-        
+        $this->assign( 'id', $this->_id );
+
         $config =& CRM_Core_Config::singleton( );
         $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                               $this->_id,
@@ -179,16 +180,17 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $this->assign_by_ref( 'fields', $this->_fields );
         $this->assign_by_ref( 'colorFields', $this->_colorFields );
 
-        // if ( isset( $this->_widget)  ) {
-            $this->addElement('submit', 'preview', ts('Save and Preview') );
-        // }
+        $this->_refreshButtonName = $this->getButtonName( 'refresh' );
+        $this->addElement('submit',
+                          $this->_refreshButtonName,
+                          ts('Save and Preview') );
         parent::buildQuickForm( );
     }
 
     function postProcess( ) {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-
+        
         if ( $this->_widget ) {
             $params['id'] = $this->_widget->id;
         }
@@ -199,6 +201,11 @@ class CRM_Contribute_Form_ContributionPage_Widget extends CRM_Contribute_Form_Co
         $widget = new CRM_Contribute_DAO_Widget( );
         $widget->copyValues( $params );
         $widget->save( );
+
+        $buttonName = $this->controller->getButtonName( );
+        if ( $buttonName = $this->_refreshButtonName ) {
+            return;
+        }
 
         if ( isset( $params['preview'] ) )  {
             require_once 'CRM/Utils/System.php';            
