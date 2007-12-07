@@ -17,13 +17,14 @@
     </div>
 	{strip}
 	<table>
-	<tr><th>&nbsp;</th>
-	    <th> {ts}Default{/ts}</th>
-        <th> {ts}Label{/ts}</th>
-        <th> {ts}Value{/ts}</th>
-        <th> {ts}Weight{/ts}</th>
-	    <th> {ts}Active?{/ts}</th>
-    </tr>
+	<tr>
+           <th>&nbsp;</th>
+	   <th> {ts}Default{/ts}</th>
+           <th> {ts}Label{/ts}</th>
+           <th> {ts}Value{/ts}</th>
+           <th> {ts}Weight{/ts}</th>
+	   <th> {ts}Active?{/ts}</th>
+       </tr>
 	
 	{section name=rowLoop start=1 loop=12}
 	{assign var=index value=$smarty.section.rowLoop.index}

@@ -242,8 +242,6 @@ class CRM_Custom_Page_Field extends CRM_Core_Page {
      */
     function run()
     {
-        
-       
         require_once 'CRM/Core/BAO/CustomGroup.php';
        
         // get the group id

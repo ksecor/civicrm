@@ -272,7 +272,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                              '<br/>', true
                              );
             
-            
             $this->add( 'select',
                         'option_group_id',
                         ts( 'Multiple Choice Option Sets' ),
@@ -301,7 +300,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             // Below rule is uncommented for CRM-1313
             $this->addRule('option_value['.$i.']', ts('Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, spaces and underline ( _ ) characters.'), 'qfVariable');
-            
             // weight
             $this->add('text', "option_weight[$i]", ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'));
 
@@ -316,7 +314,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
         //default option selection
         $this->addGroup($defaultOption, 'default_option');
-        
         
         $_showHide->addToTemplate();                
 

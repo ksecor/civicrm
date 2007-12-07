@@ -3,9 +3,20 @@
 <script type="text/Javascript">
     function custom_option_html_type(form) { 
         var html_type = document.getElementsByName("data_type[1]")[0];
-        var html_type_name = html_type.options[html_type.selectedIndex].value;
         var data_type = document.getElementsByName("data_type[0]")[0];
-        if (data_type.selectedIndex < 4) {
+        if ( html_type.selectedIndex ) {   
+            var html_type_name = html_type.options[html_type.selectedIndex].value;
+        } else {
+            var html_type_name = html_type.value;
+        }
+       
+        if ( data_type.selectedIndex ) {
+           var data_type_id = data_type.selectedIndex;
+        } else {
+           var data_type_id = data_type.value  
+        }
+
+        if ( data_type_id < 4) {
             if (html_type_name != "Text") {
 	    	document.getElementById("showoption").style.display="block";		
                 document.getElementById("hideDefaultValTxt").style.display="none";
@@ -27,7 +38,7 @@
             }
         } else {
 
-	    if (data_type.selectedIndex == 9 ) {
+	    if ( data_type_id == 9 ) {
 	        document.getElementById("is_searchable").style.display = "none";
             } else {
  	        document.getElementById("is_searchable").style.display = "block";
@@ -58,7 +69,7 @@
 	    }
 	}
 
-	if (data_type.selectedIndex < 4) {	
+	if ( data_type_id < 4) {	
 		if (html_type_name == "CheckBox" || html_type_name == "Radio") {
 			document.getElementById("optionsPerLine").style.display="block";
 			document.getElementById("optionsPerLineDef").style.display="block";
@@ -68,7 +79,7 @@
 		}
 	}
 	
-	if(data_type.selectedIndex == 5) {
+	if ( data_type_id == 5) {
 	     document.getElementById("startDateRange").style.display="block";
 	     document.getElementById("startDateRangeDef").style.display="block";
 	     document.getElementById("endDateRange").style.display="block";
@@ -85,7 +96,7 @@
 			
 	}
 
-	if (data_type.selectedIndex == 4) {
+	if ( data_type_id == 4 ) {
 	      document.getElementById("noteColumns").style.display="block";
 	      document.getElementById("noteColumnsDef").style.display="block";
 	      document.getElementById("noteRows").style.display="block";
@@ -113,7 +124,7 @@
         {/if}
         </dl>
 
-    {if $action eq 1}
+    {if $action eq 1 or $action eq 2 }
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}
         <div id='showoption' class="hide-block">{ include file="CRM/Custom/Form/Optionfields.tpl"}</div>
     {/if}
