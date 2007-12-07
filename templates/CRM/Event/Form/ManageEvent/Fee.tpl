@@ -39,6 +39,11 @@
           <dl>
              <dt>&nbsp;</dt><dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
              <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</dd>
+          </dl>
+        </div>
+
+        <div id="payLaterOptions">
+          <dl>
              <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html}</dd>
              <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html}</dd>
           </dl>
@@ -84,3 +89,11 @@ if ( document.getElementsByName('is_monetary')[0].checked ) {
 </script>
 {/literal} 
 
+{include file="CRM/common/showHideByFieldValue.tpl" 
+    trigger_field_id    ="is_pay_later"
+    trigger_value       =""
+    target_element_id   ="payLaterOptions" 
+    target_element_type ="block"
+    field_type          ="radio"
+    invert              = 0
+}

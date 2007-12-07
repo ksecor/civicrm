@@ -155,7 +155,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
         // add pay later options
-        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ) );
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ), null, array( 'onclick' => "return showHideByValue('is_pay_later','','payLaterOptions','block','radio',false);" ));
         $this->addElement('textarea', 'pay_later_text', ts( 'Pay by Cheque message on form' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_text' ),
                           false );
