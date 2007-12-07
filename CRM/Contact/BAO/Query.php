@@ -2370,6 +2370,19 @@ class CRM_Contact_BAO_Query {
                                                                'on_hold'                => 1, 
                                                                'phone'                  => 1, 
                                                                'im'                     => 1, 
+                                                               'household_name'         => 1,
+                                                               'organization_name'      => 1,
+                                                               'deceased_date'          => 1,
+                                                               'is_deceased'            => 1,
+                                                               'job_title'              => 1,
+                                                               'legal_name'             => 1,
+                                                               'sic_code'               => 1,
+                                                               // FIXME: should we use defaultHierReturnProperties() for the below?
+                                                               'do_not_email'           => 1,
+                                                               'do_not_mail'            => 1,
+                                                               'do_not_phone'           => 1,
+                                                               'do_not_trade'           => 1,
+                                                               'is_opt_out'             => 1,
                                                                ); 
             }
         }
