@@ -52,7 +52,7 @@ class CRM_Contact_Form_Household
      */
     public function buildQuickForm( &$form ) 
     {
-        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Household');
+        $attributes = CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact');
         
         $form->applyFilter('__ALL__','trim');  
       
@@ -60,14 +60,13 @@ class CRM_Contact_Form_Household
         $form->add('text', 'household_name', ts('Household Name'), $attributes['household_name']);
         
         // nick_name
-        $form->addElement('text', 'nick_name', ts('Nick Name'),
-                          CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'nick_name') );
-        $form->addElement('text', 'contact_source', ts('Source'));
-        $form->add('text', 'external_identifier', ts('External Id'), CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'external_identifier'), false);
+        $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name'] );
+        $form->addElement('text', 'contact_source', ts('Source'), $attributes['source'] );
+        $form->add('text', 'external_identifier', ts('External Id'), $attributes['external_identifier'], false);
         $form->addRule( 'external_identifier',
-			ts('External ID already exists in Database.'), 
+                        ts('External ID already exists in Database.'), 
                         'objectExists', 
-			array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
+                        array( 'CRM_Contact_DAO_Contact', $form->_contactId, 'external_identifier' ) );
     }
     
     /**

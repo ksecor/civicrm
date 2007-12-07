@@ -92,15 +92,24 @@ class CRM_Case_BAO_Query
         switch( $name ) {
             
         case 'case_subject':
-            
             $value = strtolower(addslashes(trim($value)));
             $query->_where[$grouping][] = "civicrm_case.subject $op '{$value}'";
             $query->_qill[$grouping ][] = ts( 'Case Subject %2 %1', array( 1 => $value, 2 => $op) );
             $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
             return;
 
-        case 'case_type_id':
+        case 'case_status_id':
+            require_once 'CRM/Core/OptionGroup.php' ;
+            $caseStatus = CRM_Core_OptionGroup::values('case_status');
 
+            $query->_where[$grouping][] = "civicrm_case.status_id {$op} $value ";
+
+            $value = $caseStatus[$value];
+            $query->_qill[$grouping ][] = ts( 'Case Status %2 %1', array( 1 => $value, 2 => $op) );
+            $query->_tables['civicrm_case'] = $query->_whereTables['civicrm_case'] = 1;
+            return;
+            
+        case 'case_type_id':
             require_once 'CRM/Core/OptionGroup.php' ;
             $caseType = CRM_Core_OptionGroup::values('case_type');
             $names = array( );
@@ -110,7 +119,6 @@ class CRM_Case_BAO_Query
             require_once 'CRM/Case/BAO/Case.php';
             $value = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $value) .CRM_Case_BAO_Case::VALUE_SEPERATOR;
             $query->_where[$grouping][] = "civicrm_case.case_type_id LIKE '%{$value}%'";
-            require_once 'CRM/Core/OptionGroup.php' ;
 
             $value = $caseType[$value];
             $query->_qill[$grouping ][] = ts( 'Case Type %1', array( 1 => $op))  . ' ' . implode( ' ' . ts('or') . ' ', $names );
@@ -152,14 +160,12 @@ class CRM_Case_BAO_Query
     
     static function defaultReturnProperties( $mode ) 
     {
-        $properties = null;
-        
         $properties = array(  
-                                'contact_type'              => 1, 
-                                'sort_name'                 => 1, 
-                                'display_name'              => 1,
-                                'case_subject'              => 1,
-                                );
+                            'contact_type'              => 1, 
+                            'sort_name'                 => 1, 
+                            'display_name'              => 1,
+                            'case_subject'              => 1,
+                            );
         return $properties;
     }
     
