@@ -254,6 +254,12 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
             'required'  => $required,
             'error'     => $error
         );
+
+        $id = $element->getAttribute('id');
+        if ( $id ) {
+            $ret['id'] = $id;
+        }
+
         // render label(s)
         $labels = $element->getLabel();
         if (is_array($labels) && $this->_staticLabels) {
