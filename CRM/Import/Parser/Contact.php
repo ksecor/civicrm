@@ -409,6 +409,36 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }
             
             _civicrm_add_formatted_param($value, $formatted);
+
+            //Handling Custom Data
+            if ( ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) && array_key_exists($customFieldID,$customFields) ) {
+                $type = $customFields[$customFieldID][3];
+                if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
+                    $mulValues = explode( ',' , $field );
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                    $formatted[$key] = array();
+                    foreach( $mulValues as $v1 ) {
+                        foreach( $customOption as $v2 ) {
+                            if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
+                                ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                                if ( $type == 'CheckBox' ) {
+                                    $formatted[$key][$v2['value']] = 1;
+                                } else {
+                                    $formatted[$key][] = $v2['value'];
+                                }
+                            }
+                        }
+                    }
+                } else if ( $type == 'Select' || $type == 'Radio' ) {
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                    foreach( $customOption as $v2 ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($field)) )||
+                            ( strtolower($v2['value']) == strtolower(trim($field)) )) {
+                            $formatted[$key] = $v2['value'];
+                        }
+                    }
+                }
+            }
         }
         
         //check if external identifier exists in database
