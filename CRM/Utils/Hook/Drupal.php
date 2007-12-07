@@ -53,15 +53,20 @@ class CRM_Utils_Hook_Drupal {
      * @access public 
      */ 
     static function pre( $op, $objectName, $id, &$params ) {
+        $result = array( );
         // copied from user_module_invoke
         if (function_exists('module_list')) {
             foreach ( module_list() as $module) { 
                 $function = $module . '_civicrm_pre';
                 if ( function_exists( $function ) ) {
-                    $function( $op, $objectName, $id, $params );
+                    $fResult = $function( $op, $objectName, $id, $params );
+                    if ( $fResult !== true ) {
+                        $result = array_merge( $result, $fResult );
+                    }
                 }
             }
         }
+        return empty( $result ) ? true : $result;
     }
 
     /** 
@@ -107,6 +112,23 @@ class CRM_Utils_Hook_Drupal {
      */
     static function links( $op, $objectName, $objectId ) {
         return module_invoke_all( 'civicrm_links', $op, $objectName, $objectId ); 
+    }
+
+    static function validate( $formName, &$fields, &$files, &$form ) {
+        $result = array( );
+        // copied from user_module_invoke
+        if (function_exists('module_list')) {
+            foreach ( module_list() as $module) { 
+                $function = $module . '_civicrm_validate';
+                if ( function_exists( $function ) ) {
+                    $fResult = $function( $formName, $fields, $files, $form );
+                    if ( $fResult !== true ) {
+                        $result = array_merge( $result, $fResult );
+                    }
+                }
+            }
+        }
+        return empty( $result ) ? true : $result;
     }
 
 }

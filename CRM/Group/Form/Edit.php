@@ -252,6 +252,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
 
             CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         }
+
     }
     
     /**

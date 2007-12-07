@@ -48,7 +48,7 @@ class CRM_Utils_Hook {
      * @param object $id         the object id if available
      * @param array  $params     the parameters used for object creation / editing
      *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
+     * @return mixed             based on op. pre-hooks return a boolean or
      *                           an error message which aborts the operation
      * @access public 
      */ 
@@ -72,7 +72,7 @@ class CRM_Utils_Hook {
      * @param int    $objectId   the unique identifier for the object 
      * @param object $objectRef  the reference to the object if available 
      *  
-     * @return mixed             based on op. pre-hooks return a boolean and/or
+     * @return mixed             based on op. pre-hooks return a boolean or
      *                           an error message which aborts the operation
      * @access public 
      */ 
@@ -101,6 +101,24 @@ class CRM_Utils_Hook {
         $objectRef = null;
         return   
             eval( 'return ' . $config->userHookClass . '::links( $op, $objectName, $objectId, $objectRef );' );  
+    }
+
+    /** 
+     * 
+     * @param string $formName the name of the form
+     * @param array  &$fields   the POST parameters as filtered by QF
+     * @param array  &$files    the FILES parameters as sent in by POST
+     * @param array  &$form     the form object
+     * @param array  $
+     * @return mixed             formRule hooks return a boolean or
+     *                           an array of error messages which display a QF Error
+     * @access public 
+     */ 
+    static function validate( $formName, &$fields, &$files, &$form ) {
+        $config =& CRM_Core_Config::singleton( );
+        require_once( str_replace( '_', DIRECTORY_SEPARATOR, $config->userHookClass ) . '.php' );
+        return   
+            eval( 'return ' . $config->userHookClass . '::validate( $formName, $fields, $files, $form );' );  
     }
 
 }

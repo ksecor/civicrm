@@ -271,6 +271,20 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     function addRules() {
     }
 
+    function validate( ) {
+        $error = parent::validate( );
+
+        require_once 'CRM/Utils/Hook.php';
+        $hookErrors = CRM_Utils_Hook::validate( get_class( $this ),
+                                                $this->_submitValues, $this->_submitFiles, $this );
+        if ( $hookErrors !== true ) {
+            $this->_errors += $hookErrors;
+            return false;
+        }
+
+        return $error;
+    }
+
     /**
      * Core function that builds the form. We redefine this function
      * here and expect all CRM forms to build their form in the function
@@ -387,7 +401,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
     }
 
     /**
-     * getter function for title. Should be over-ridden by derived class
+<     * getter function for title. Should be over-ridden by derived class
      *
      * @return string
      * @access public
