@@ -7,7 +7,7 @@
       <dt>{$form.option_group_id.label}</dt>
       <dd>{$form.option_group_id.html}</dd>
   </dl>
-</div>
+</div><div class="spacer"></div>
 {/if}
 
 <div id="multiple">

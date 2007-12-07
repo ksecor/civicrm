@@ -252,7 +252,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
         $optionGroups = CRM_Core_BAO_CustomField::customOptionGroup( );
 
         if ( empty( $optionGroups ) ) {
-            $optionTypes = array( '1' => ts( 'Create a new Option Group' ) );
+            $optionTypes = array( '1' => ts( 'Create a new set of options' ) );
             $extra = array( 'onclick' => "showOptionSelect();");
             $element =& $this->addRadio( 'option_type',
                                          ts('Option Type'),
@@ -633,7 +633,7 @@ SELECT count(*)
                 }
             } else {
                 if ( ! $fields['option_group_id'] ) {
-                    $errors['option_group_id'] = ts( 'Option Group field is required if reuse is chosen' );
+                    $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse and existing set.' );
                 } else {
                     $query = "
 SELECT count(*)
@@ -645,7 +645,7 @@ AND    option_group_id = %2";
                                      2 => array( $fields['option_group_id'], 'Integer' ) );
                     $count = CRM_Core_DAO::singleValueQuery( $query, $params );
                     if ( $count > 0 ) {
-                        $errors['option_group_id'] = ts( 'Data type mismatch between option group and custom field' );
+                        $errors['option_group_id'] = ts( 'The data type of the multiple choice option set you\'ve selected does not match the data type assigned to this field.' );
                     }
 
                 }
