@@ -132,6 +132,8 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         if ( $this->_context == 'standalone' ) {
             $session->pushUserContext( CRM_Utils_System::url('civicrm/dashboard', "reset=1" ) );
         } else if ( $this->_context == 'case' ) {
+            //set case 
+            $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
             $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=case" ) );
         }
     }
@@ -175,11 +177,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             CRM_Utils_Date::getAllDefaultValues( $defaults['activity_date_time'] );
             $defaults['activity_date_time']['i'] = (int ) ( $defaults['activity_date_time']['i'] / 15 ) * 15;
 
-            //set case 
-            $caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-            if ( $caseId ) {
-                $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $caseId,'subject' );
-            }
+        }
+
+        if ( $this->_caseId ) {
+            $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseId,'subject' );
         }
         
         if ( $defaults['case_subject'] ) {
@@ -191,7 +192,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
         
         // DRAFTING: Check this in the template
-        if ($this->_action == CRM_Core_Action::DELETE) {
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::RENEW ) ) {
             $this->assign( 'delName', $defaults['subject'] );
         }
        
@@ -214,10 +215,14 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
-        if ( $this->_action & CRM_Core_Action::DELETE ) { 
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETTACH ) ) { 
+            $button = ts('Delete');
+            if ( $this->_action & CRM_Core_Action::DETTACH ) {
+                $button = ts('Dettach');
+            }
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
-                                            'name'      => ts('Delete'), 
+                                            'name'      => $button, 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
                                     array ( 'type'      => 'cancel', 
@@ -275,6 +280,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         if ( in_array( $this->_context, array('standalone', 'case') ) )  {
             if ( $this->_currentlyViewedContactId ) {
                 $urlParams = "cid={$this->_currentlyViewedContactId}&";
+            }
+            
+            if ( $this->_caseId ) {
+                $urlParams .= "caseid={$this->_caseId}&";
             }
 
             $urlParams .= "action=add&reset=1&context={$this->_context}&atype=";
@@ -439,6 +448,13 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );
             CRM_Core_Session::setStatus( ts("Selected Activity is deleted sucessfully.") );
+            return;
+        }
+
+        if ( $this->_action & CRM_Core_Action::DETTACH ) { 
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );
+            CRM_Core_Session::setStatus( ts("Selected Activity is dettached sucessfully from a case.") );
             return;
         }
         

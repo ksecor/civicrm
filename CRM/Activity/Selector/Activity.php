@@ -140,7 +140,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
         
-        $qsDelete = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        $qsDettach = "atype={$activityTypeId}&action=dettach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
 
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
@@ -158,7 +159,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'url'      => $url,
                                                                        'qs'       => $qsUpdate,
                                                                        'title'    => ts('Update Activity') ) );
-            
         }
 
         if ( $showDelete ) {
@@ -168,8 +168,18 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'url'      => $url,
                                                                        'qs'       => $qsDelete,
                                                                        'title'    => ts('Delete Activity') ) );
-            
         }
+        
+        $showDettach = true;
+        if ( $showDettach ) {
+            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::RENEW => 
+                                                                 array(
+                                                                       'name'     => ts('Dettach'),
+                                                                       'url'      => $url,
+                                                                       'qs'       => $qsDettach,
+                                                                       'title'    => ts('Dettach Activity') ) );
+        }
+
         
         return self::$_actionLinks;
     }
@@ -287,9 +297,10 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
                 $row['action'] = CRM_Core_Action::formLink( $actionLinks,
                                                             $actionMask,
-                                                            array('id'  => $row['id'],
-                                                                  'cid' => $this->_contactId,
-                                                                  'cxt' => $this->_context ) );
+                                                            array('id'     => $row['id'],
+                                                                  'cid'    => $this->_contactId,
+                                                                  'cxt'    => $this->_context,
+                                                                  'caseid' => $row['case_id']) );
             }
             unset($row);
         }

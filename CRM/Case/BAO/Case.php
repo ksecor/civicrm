@@ -280,6 +280,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $case->delete();
         return true;
     }
+
    /**                                                           
      * Delete the record that are associated with this case 
      * record are deleted from case 
@@ -300,6 +301,23 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
             return $case->delete();
         }
         return false;
+    }
+
+   /**                                                           
+     * Delete the activities related to case
+     *
+     * @param  int  $activityId id of the activity
+     * 
+     * @return void
+     * @access public 
+     * @static 
+     */ 
+    static function deleteCaseActivity( $activityId ) 
+    {
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $case              = & new CRM_Case_DAO_CaseActivity( );
+        $case->activity_id = $activityId; 
+        $case->delete( );
     }
 }
 

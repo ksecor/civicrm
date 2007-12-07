@@ -66,6 +66,7 @@ class CRM_Core_Action {
         PROFILE       =   8192,
         COPY          =  16384,
         RENEW         =  32768,
+        DETTACH       =  32768,
         MAX_ACTION    =  65535;
    
   
@@ -94,6 +95,7 @@ class CRM_Core_Action {
                            'copy'          => self::COPY,
                            'profile'       => self::PROFILE,
                            'renew'         => self::RENEW,
+                           'dettach'       => self::DETTACH
                            );
 
     /**

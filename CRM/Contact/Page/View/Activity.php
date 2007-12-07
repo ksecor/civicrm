@@ -194,8 +194,8 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&selectedChild=activity' ) );
 
         $controller =& new CRM_Core_Controller_Simple('CRM_Activity_Form_Activity',
-                                                       ts('Delete Activity Record'),
-                                                       $this->_action );
+                                                      ts('Activity Record'),
+                                                      $this->_action );
         $controller->set('id', $this->_id);
         $controller->setEmbedded( true );
         $controller->process( );
@@ -217,7 +217,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         if ( $this->_action & 
            ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW ) ) {
             $this->edit( );
-        } elseif ( $this->_action & CRM_Core_Action::DELETE ) {
+        } elseif ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETTACH ) ) {
             $this->delete( );
         } else {
             $this->browse( );
