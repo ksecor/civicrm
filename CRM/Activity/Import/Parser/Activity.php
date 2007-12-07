@@ -101,7 +101,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             case 'source_contact_id':
                 $this->_contactIdIndex        = $index;
                 break;
-            case 'activity_type_id':
+            case 'activity_name' :
+            case 'activity_type_id' :
                 $this->_activityTypeIndex     = $index;
                 break;
             case 'activity_date_time':
@@ -222,12 +223,17 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     {
         // first make sure this is a valid line
         $response = $this->summary( $values );
+        
         if ( $response != CRM_Activity_Import_Parser::VALID ) {
             return $response;
         }
         
         $params =& $this->getActiveFieldParams( );
-
+        $activityName = array_search( 'activity_name',$this->_mapperKeys);
+        if ( $activityName ) {
+            $params = array_merge( $params, array( 'activity_name' => $values[$activityName]) );
+        }
+        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");

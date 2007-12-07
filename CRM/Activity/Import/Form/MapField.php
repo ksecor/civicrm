@@ -171,6 +171,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
+        $this->_mapperFields = array_merge( $this->_mapperFields, array( 'activity_name' => 'Activity Name' ) );
         asort($this->_mapperFields);
         
         $this->_columnCount = $this->get( 'columnCount' );
@@ -203,7 +204,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
     
         require_once "CRM/Core/BAO/Mapping.php";
         $mappingArray = CRM_Core_BAO_Mapping::getMappings('Import Activity');
-
         $this->assign('savedMapping',$mappingArray);
         $this->add('select','savedMapping', ts('Mapping Option'), array('' => ts('- select -'))+$mappingArray);
         $this->addElement('submit','loadMapping',ts('Load Mapping'), null, array('onclick'=>'checkSelect()'));
@@ -250,6 +250,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
 
         $defaults = array( );
         $mapperKeys      = array_keys( $this->_mapperFields );
+
         $hasHeaders      = !empty($this->_columnHeaders);
         $headerPatterns  = $this->get( 'headerPatterns' );
         $dataPatterns    = $this->get( 'dataPatterns' );
@@ -401,7 +402,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                 'source_contact_id'  => ts('Contact ID'),
-                'activity_type_id'   => ts('Activity Type ID'),
                 'activity_date_time' => ts('Activity Date')
             );
             
@@ -524,7 +524,6 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
         }
 
         $this->set( 'mapper'    , $mapper     );
-               
         // store mapping Id to display it in the preview page 
         $this->set('loadMappingId', $params['mappingId']);
         
@@ -576,10 +575,11 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
         }
 
+        
         $parser =& new CRM_Activity_Import_Parser_Activity( $mapperKeysMain ,$mapperLocType ,$mapperPhoneType );
         $parser->run( $fileName, $seperator, $mapper, $skipColumnHeader,
                       CRM_Activity_Import_Parser::MODE_PREVIEW );
-        
+       
         // add all the necessary variables to the form
         $parser->set( $this );        
     }

@@ -269,24 +269,37 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     if ( ! $addMode && $params['id'] && ! is_numeric ( $params['id'] )) {
         return $errors = civicrm_create_error( ts( 'Invalid activity "id"' ) );
     }
-
+    
     // check if activity type_id is passed in
-    if ( $params['activity_name'] ) {
-        require_once "CRM/Core/PseudoConstant.php";
+    if ( ! isset($params['activity_name'] )  && ! isset($params['activity_type_id'] ) ) {
+        //when name AND id are both absent
+        return civicrm_create_error( ts ( 'Missing Activity' ) );
+    } else if ( isset( $params['activity_name'] )  && isset( $params['activity_type_id'] ) ) {
+        //when name AND id are both present - check for the match
         $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
         $activityId     = array_search( $params['activity_name'], $activityTypes );
-        if ( ! $activityId ) { 
-            return civicrm_create_error( ts ( 'Invalid Activity Name' ) );
+        if ( $activityId != $params['activity_type_id'] ) {
+            return civicrm_create_error( ts ( 'Mismatch in Activity' ) );
+        }
+    } else {
+        //either name OR id is present
+        if ( $params['activity_name'] ) {
+            require_once "CRM/Core/PseudoConstant.php";
+            $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
+            $activityId     = array_search( $params['activity_name'], $activityTypes );
+            
+            if ( ! $activityId ) { 
+                return civicrm_create_error( ts ( 'Invalid Activity Name' ) );
+            } else {
+                $params['activity_type_id'] = $activityId;
+            }
         } else {
-            $params['activity_type_id'] = $activityId;
+            if ( !is_numeric( $params['activity_type_id'] ) ) {
+                return  civicrm_create_error( ts ( 'Invalid Activity Type ID' ) );
+            }
         }
     }
     
-    // check if activity type_id is passed in
-    if ( empty( $params['activity_type_id'] ) ) {
-        return civicrm_create_error( ts ( 'Missing Activity Type ID' ) );
-    }
-
     // check for source contact id
     if ( $addMode && empty( $params['source_contact_id'] ) ) {
         return  civicrm_create_error( ts ( 'Missing Source Contact' ) );
