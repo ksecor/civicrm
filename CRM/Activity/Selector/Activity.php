@@ -112,7 +112,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      * @access public
      *
      */
-    static function &actionLinks( $activityTypeId, $sourceRecordId = null ) 
+    function actionLinks( $activityTypeId, $sourceRecordId = null ) 
     {
         $activityTypes = CRM_Core_PseudoConstant::activityType( false );
 
@@ -139,9 +139,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $url      = 'civicrm/activity/view';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
-        
-        $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-        $qsDettach = "atype={$activityTypeId}&action=dettach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
 
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
@@ -162,6 +159,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         }
 
         if ( $showDelete ) {
+            $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::DELETE => 
                                                                  array(
                                                                        'name'     => ts('Delete'),
@@ -170,8 +169,9 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'title'    => ts('Delete Activity') ) );
         }
         
-        $showDettach = true;
-        if ( $showDettach ) {
+        if ( $this->_context == 'case' ) {
+            $qsDettach = "atype={$activityTypeId}&action=dettach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
+
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::RENEW => 
                                                                  array(
                                                                        'name'     => ts('Dettach'),
@@ -180,10 +180,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                                                        'title'    => ts('Dettach Activity') ) );
         }
 
-        
         return self::$_actionLinks;
     }
-
 
     /**
      * getter for array of the parameters required for creating pager.
@@ -291,7 +289,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 $row['class']   = 'status-ontime';
             }
 
-            $actionLinks =& self::actionLinks( $row['activity_type_id'], $row['source_record_id'] );
+            $actionLinks = $this->actionLinks( $row['activity_type_id'], $row['source_record_id'] );
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
             
             if ( $output != CRM_Core_Selector_Controller::EXPORT && $output != CRM_Core_Selector_Controller::SCREEN ) {
