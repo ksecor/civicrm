@@ -262,11 +262,11 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
                                          );
             $element->freeze( );
         } else {
-            $optionTypes = array( '1' => ts( 'Create a new Option Group' ),
-                                  '2' => ts( 'Reuse an existing Option Group' ) );
+            $optionTypes = array( '1' => ts( 'Create a new set of options' ),
+                                  '2' => ts( 'Reuse an existing set' ) );
             $extra = array( 'onclick' => "showOptionSelect();");
             $this->addRadio( 'option_type',
-                             ts('Option Type'),
+                             ts('Multipe Choice Options'),
                              $optionTypes,
                              $extra,
                              '<br/>', true
@@ -275,7 +275,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
             
             $this->add( 'select',
                         'option_group_id',
-                        ts( 'Option Groups' ),
+                        ts( 'Multiple Choice Option Sets' ),
                         array( '' => ts( ' -select- ' ) ) + $optionGroups );
         }
 

@@ -2,10 +2,12 @@
     {include file="CRM/Custom/Form/Option.tpl"}
 {/if}
 
-{if $reusedNames}
-    <div class="message status">{ts}This option group is being reused by multiple custom groups{/ts}</div>
-{/if}
 {if $customOption}
+    {if $reusedNames}
+        <div class="message status">
+            <dl><dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt><dd>{ts 1=$reusedNames}These Multiple Choice Options are shared by the following custom fields: %1{/ts}</dd></dl>
+        </div>
+    {/if}
     
     <div id="field_page">
      <p></p>

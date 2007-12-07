@@ -1,7 +1,4 @@
-{* Master tpl for Advanced Search *}
-
-{include file="CRM/Contact/Form/Search/Intro.tpl"}
-
+{* Base template for custom search components. This template is used unless an alternate template is specified by the component. *}
 {assign var="showBlock" value="'searchForm'"}
 {assign var="hideBlock" value="'searchForm_show','searchForm_hide'"}
 
