@@ -1124,7 +1124,7 @@ AND    cf.id = %1";
 
         if ( ! $customOptionGroup ) {
             $query = "
-SELECT g.id, g.name
+SELECT g.id, g.label
 FROM   civicrm_option_group g,
        civicrm_custom_field f
 WHERE  g.id = f.option_group_id
@@ -1134,9 +1134,10 @@ AND    f.is_active = 1";
                                                CRM_Core_DAO::$_nullArray );
             $customOptionGroup = array( );
             while ( $dao->fetch( ) ) {
-                $customOptionGroup[$dao->id] = $dao->name;
+                $customOptionGroup[$dao->id] = $dao->label;
             }
         }
+        
         return $customOptionGroup;
     }
 
