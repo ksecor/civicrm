@@ -67,15 +67,11 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * @static
      */
-    static function add(&$params, &$ids) 
+    static function add( &$params ) 
     {
         $caseDAO =& new CRM_Case_DAO_Case();
-        
         $caseDAO->copyValues($params);
-        $caseDAO->id = CRM_Utils_Array::value( 'case', $ids );
-        $result = $caseDAO->save();
-        
-        return $result;
+        return $caseDAO->save();
     }
 
     /**
@@ -117,12 +113,12 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
      * @access public
      * @static
      */
-    static function &create(&$params, &$ids) 
+    static function &create( &$params ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( ); 
         
-        $case = self::add($params, $ids);
+        $case = self::add( $params );
         
         if ( is_a( $case, 'CRM_Core_Error') ) {
             $transaction->rollback( );
@@ -133,6 +129,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         if ( !$id ) {
             $id = $params['contact_id'];
         } 
+
         // Log the information on successful add/edit of Case
         require_once 'CRM/Core/BAO/Log.php';
         $logParams = array(
@@ -146,7 +143,6 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         $transaction->commit( );
         
         return $case;
-
     }
 
     /**
@@ -284,23 +280,29 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
    /**                                                           
      * Delete the record that are associated with this case 
      * record are deleted from case 
-     * @param  int  $id id of the case to delete
+     * @param  int  $caseId id of the case to delete
      * 
-     * @return boolean  true if deleted, false otherwise
+     * @return void
      * @access public 
      * @static 
      */ 
-    static function deleteCase( $id ) 
+    static function deleteCase( $caseId ) 
     {
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        //delete from case activity table
+        require_once 'CRM/Case/DAO/CaseActivity.php';
+        $case          = & new CRM_Case_DAO_CaseActivity( );
+        $case->case_id = $caseId; 
+        $case->delete( );
+
         require_once 'CRM/Case/DAO/Case.php';
         $case     = & new CRM_Case_DAO_Case( );
-        $case->id = $id; 
-        
-        $case->find();
-        while ($case->fetch() ) {
-            return $case->delete();
-        }
-        return false;
+        $case->id = $caseId; 
+        $case->delete( );
+
+        $transaction->commit( );
     }
 
    /**                                                           

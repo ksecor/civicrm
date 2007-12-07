@@ -30,7 +30,7 @@
         <td>{$row.activity_type}</td>
         {if $enableCase}
            <td><a href="{crmURL p='civicrm/contact/view/case' 
-                             q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.source_contact_id`"}">
+                             q="action=view&selectedChild=case&id=`$row.case_id`&cid=`$row.source_contact_id`&context=$context"}">
                              {$row.case_subject}</a>
            </td>
         {/if}

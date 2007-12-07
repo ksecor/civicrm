@@ -76,6 +76,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         }
         
         $this->assign( 'enableCase', $enableCase);
+        $this->assign( 'context',      'activity');        
     }
 
     function edit( )

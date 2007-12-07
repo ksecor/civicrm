@@ -141,14 +141,14 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
             $this->addButtons(array(  
-                                    array ( 'type'      => 'next',  
+                                    array ( 'type'      => 'cancel',  
                                             'name'      => ts('Done'),  
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',  
-
+                                            
                                             'isDefault' => true   )
                                     )
                               );
-        }else {
+        } else {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next',
                                             'name'      => ts('Save'), 
@@ -177,7 +177,6 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         return $errors;
     }
     
-    
     /** 
      * Function to process the form 
      * 
@@ -186,63 +185,30 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      */ 
     public function postProcess( )
     {
-        if( $this->_action & CRM_Core_Action::VIEW ) {
+        if ( $this->_action & CRM_Core_Action::DELETE ) { 
+            require_once 'CRM/Case/BAO/Case.php';
+            CRM_Case_BAO_Case::deleteCase( $this->_id );
+            CRM_Core_Session::setStatus( ts("Selected Case has been deleted."));
             return;
         }
-        if ($this->_action & CRM_Core_Action::DELETE ) { 
-            $session =& CRM_Core_Session::singleton();
-            if (!$this->_context) {
-                $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactID );
-                $session->pushUserContext( $url );
-                require_once 'CRM/Case/BAO/Case.php';
-                require_once 'CRM/Case/DAO/CaseActivity.php';
-                $caseAcitivity = new CRM_Case_DAO_CaseActivity();
-                $caseAcitivity->case_id = $this->_id;
-                $caseAcitivity->find();
-                while ( $caseAcitivity->fetch() ) {
-                    $caseAcitivity->delete();
-                }
-                CRM_Case_BAO_Case::deleteCase( $this->_id );
-                CRM_Utils_System::redirect($url);
-            }else{
-                require_once 'CRM/Case/BAO/Case.php';
-                if ($this->_activityID == 1){
-                    $entityTable = 'civicrm_meeting';
-                } else if ($this->_activityID == 2){
-                    $entityTable = 'civicrm_phonecall';
-                } else {
-                    $entityTable = 'civicrm_activity';
-                }
-                
-                require_once 'CRM/Case/DAO/CaseActivity.php';
-                $caseActivity = new CRM_Case_DAO_CaseActivity();
-                $caseActivity->activity_entity_table = $entityTable;
-                $caseActivity->activity_entity_id = $this->_id;
-                $caseActivity->find(true);
-                
-                $url = CRM_Utils_System::url('civicrm/contact/view/activity',"activity_id={$this->_activityID}&action=view&reset=1&selectedChild=activity&id={$this->_id}&cid=". $this->_contactID ."&history=0&subType={$this->_activityID}&context={$this->_context}&caseid={$this->_caseid}");
-                
-                $session->pushUserContext( $url );
-                
-                CRM_Case_BAO_Case::deleteCaseActivity( $caseActivity->id );
-                CRM_Core_Session::setStatus( ts("Selected Activity has been detached from case."));
-                CRM_Utils_System::redirect($url);
-            }
-            return;
-        }
+
+        // get the submitted form values.  
+        $params = $this->controller->exportValues( $this->_name );
+        
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $ids['case'] = $this->_id ;
+            $$params['id'] = $this->_id ;
         }
         
-        // get the submitted form values.  
-        $formValues = $this->controller->exportValues( $this->_name );
-        $formValues['contact_id'  ] = $this->_contactID;
-        $formValues['start_date'  ] = CRM_Utils_Date::format($formValues['start_date']);
-        $formValues['end_date'    ] = CRM_Utils_Date::format($formValues['end_date']);
-        $formValues['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $formValues['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
+        $params['contact_id'  ] = $this->_contactID;
+        $params['start_date'  ] = CRM_Utils_Date::format($formValues['start_date']);
+        $params['end_date'    ] = CRM_Utils_Date::format($formValues['end_date']);
+        $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
         
         require_once 'CRM/Case/BAO/Case.php';
-        $case =  CRM_Case_BAO_Case::create($formValues ,$ids);
+        $case = CRM_Case_BAO_Case::create( $params );
+
+        // set status message
+        CRM_Core_Session::setStatus( ts('Case "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
     }
 }
 

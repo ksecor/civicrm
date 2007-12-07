@@ -446,10 +446,6 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
      */
     public function postProcess() 
     {
-        if ( $this->_action & CRM_Core_Action::VIEW ) { 
-            return;
-        }
-        
         if ( $this->_action & CRM_Core_Action::DELETE ) { 
             $deleteParams = array( 'id' => $this->_activityId );
             CRM_Activity_BAO_Activity::deleteActivity( $deleteParams );

@@ -61,14 +61,8 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                        'View Case',  
                                                        $this->_action ); 
         $controller->setEmbedded( true ); 
-
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
-        $session->pushUserContext( $url ); 
         $controller->set( 'id' , $this->_id );  
         $controller->set( 'cid', $this->_contactId );
-        
         $controller->run();
         
         $this->assign( 'caseId',$this->_id);
@@ -84,7 +78,8 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
 
         $controller->run();
         $controller->moveFromSessionToTemplate( );
-        
+
+        $this->assign( 'context', 'case');
     }
 
     /**
@@ -133,29 +128,11 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
      */
     function edit( ) 
     {
+        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
         $controller =& new CRM_Core_Controller_Simple( 'CRM_Case_Form_Case', 
                                                        'Create Case', 
                                                        $this->_action );
         $controller->setEmbedded( true );
-        $this->_id = CRM_Utils_Request::retrieve('id', 'Integer',
-                                                 $this);
-        // set the userContext stack
-        $session =& CRM_Core_Session::singleton();
-        $edit = CRM_Utils_Request::retrieve( 'edit', 'String',$this );
-        $context =  CRM_Utils_Request::retrieve( 'context', 'String',$this );
-                
-        if ( $edit ) {
-            $url =  CRM_Utils_System::url('civicrm/contact/view/case', 'action=view&reset=1&cid=' . $this->_contactId . '&id=' . $this->_id . '&selectedChild=case' );  
-        } else if( $context && $this->_action == CRM_Core_Action::DELETE ) {
-            $activity_id = CRM_Utils_Request::retrieve( 'activity_id', 'Integer',$this );
-            $caseid = CRM_Utils_Request::retrieve( 'caseid', 'Integer',$this );
-            $url=CRM_Utils_System::url('civicrm/contact/view/activity','activity_id='.$activity_id.'&action=view&selectedChild=activity&id='.$this->_id.'&cid='. $this->_contactId.'&subType='.$activity_id.'&context='.$context.'&caseid='.$caseid );
-        
-        }else {
-            $url = CRM_Utils_System::url('civicrm/contact/view', 'action=browse&selectedChild=case&cid=' . $this->_contactId );
-        }
-        $session->pushUserContext( $url );
-        
         $controller->set( 'id' , $this->_id ); 
         $controller->set( 'cid', $this->_contactId ); 
         
@@ -172,6 +149,9 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
     function run( ) 
     {
         $this->preProcess( );
+
+        $this->setContext( );
+
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->view( );
         } else if ( $this->_action & ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::DELETE ) ) {
@@ -217,6 +197,34 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                   );
         }
         return self::$_links;
+    }
+
+    function setContext( ) 
+    {
+        $context = CRM_Utils_Request::retrieve( 'context', 'String', $this );
+        $url = null;
+
+        switch ( $context ) {
+        case 'home':
+            $url = CRM_Utils_System::url( 'civicrm/dashboard', 'reset=1' );
+
+            break;
+
+        case 'activity':
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=activity" );
+            break;
+
+        default :
+            $url = CRM_Utils_System::url( 'civicrm/contact/view',
+                                          "reset=1&force=1&cid={$this->_contactId}&selectedChild=case" );
+            break;
+        }
+        
+        $session =& CRM_Core_Session::singleton( ); 
+        if ( $url ) {
+            $session->pushUserContext( $url );
+        }
     }
 }
 

@@ -128,9 +128,10 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
 
         $this->_displayName = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact', $id, 'display_name');
 
-        $this->assign( 'rows',                   $this->_rows);
-        $this->assign( 'contactId',              $this->_contactIds);
-        $this->assign( 'display_name',           $this->_displayName);
+        $this->assign( 'rows',         $this->_rows);
+        $this->assign( 'contactId',    $this->_contactIds);
+        $this->assign( 'display_name', $this->_displayName);
+        $this->assign( 'context',      'home');
 
         // check if case is enabled
         require_once 'CRM/Core/BAO/Preferences.php';
