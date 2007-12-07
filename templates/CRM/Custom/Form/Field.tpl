@@ -54,10 +54,10 @@
 	var radioOption, checkBoxOption;
 
 	for (var i=1; i<=11; i++) {
-	    radioOption = 'radio'+i;
-	    checkBoxOption = 'checkbox'+i	
-	    if (data_type.selectedIndex < 4) {
-           if (html_type_name != "Text") {
+	  radioOption = 'radio'+i;
+	  checkBoxOption = 'checkbox'+i	
+	  if (  data_type_id < 4) {
+               if (html_type_name != "Text") {
 		      if (html_type_name == "CheckBox" || html_type_name == "Multi-Select") {
 	             document.getElementById(checkBoxOption).style.display="block";
 		         document.getElementById(radioOption).style.display="none";
@@ -65,7 +65,7 @@
                  document.getElementById(radioOption).style.display="block";	
 		         document.getElementById(checkBoxOption).style.display="none";
 		      }
-		  }
+	       }
 	    }
 	}
 

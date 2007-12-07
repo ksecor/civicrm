@@ -63,7 +63,6 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      */
     protected $_id;
 
-
     /**
      * Array for valid combinations of data_type & html_type
      *
@@ -194,13 +193,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
 
             $defaults['option_type'] = 2;
         } else {
-            $defaults['is_active'] = 1;
-            for($i=1; $i<=self::NUM_OPTION; $i++) {
-                $defaults['option_status['.$i.']'] = 1;
-                $defaults['option_weight['.$i.']'] = $i;
-            }
-
             $defaults['option_type'] = 1;
+        }
+
+        // set defaults for weight and active
+        $defaults['is_active'] = 1;
+        for($i=1; $i<=self::NUM_OPTION; $i++) {
+            $defaults['option_status['.$i.']'] = 1;
+            $defaults['option_weight['.$i.']'] = $i;
         }
 
         if ($this->_action & CRM_Core_Action::ADD) {
@@ -512,7 +512,7 @@ SELECT count(*)
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        if ( $self->_action & CRM_Core_Action::ADD ) {
+        //if ( $self->_action & CRM_Core_Action::ADD ) {
             
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
@@ -682,7 +682,7 @@ AND    option_group_id = %2";
                 }
                 $_showHide->addToTemplate();
             }
-        }      
+            //}      
         return empty($errors) ? true : $errors;
     }
     
@@ -754,31 +754,29 @@ SELECT id
         }    
 
         // special for checkbox options
-        if ($this->_action & CRM_Core_Action::ADD) {
-            if ( ( $customField->html_type == 'CheckBox' ||
-                   $customField->html_type == 'Multi-Select' ) &&
-                 isset($params['default_checkbox_option'] ) ) {
-                $tempArray = array_keys($params['default_checkbox_option']);
-                $defaultArray = array();
-                foreach ($tempArray as $k => $v) {
-                    if ( $params['option_value'][$v] ) {
-                        $defaultArray[] = $params['option_value'][$v];
-                    }
+        if ( ( $customField->html_type == 'CheckBox' ||
+               $customField->html_type == 'Multi-Select' ) &&
+             isset($params['default_checkbox_option'] ) ) {
+            $tempArray = array_keys($params['default_checkbox_option']);
+            $defaultArray = array();
+            foreach ($tempArray as $k => $v) {
+                if ( $params['option_value'][$v] ) {
+                    $defaultArray[] = $params['option_value'][$v];
                 }
-
-                if ( ! empty( $defaultArray ) ) {
-                    // also add the seperator before and after the value per new conventio (CRM-1604)
-                    $customField->default_value =
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
-                        implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
-                        CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
-                }
+            }
+            
+            if ( ! empty( $defaultArray ) ) {
+                // also add the seperator before and after the value per new conventio (CRM-1604)
+                $customField->default_value =
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR .
+                    implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $defaultArray) .
+                    CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+            }
+        } else {
+            if ( isset($params['option_value'][$params['default_option']]) ) {
+                $customField->default_value = $params['option_value'][$params['default_option']];
             } else {
-                if ( isset($params['option_value'][$params['default_option']]) ) {
-                    $customField->default_value = $params['option_value'][$params['default_option']];
-                } else {
-                    $customField->default_value = $params['default_value'];
-                }
+                $customField->default_value = $params['default_value'];
             }
         }
 
@@ -823,58 +821,60 @@ SELECT id
         // need the FKEY - custom group id
         $customField->custom_group_id = $this->_gid;
         
-        if ($this->_action & CRM_Core_Action::UPDATE) {
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $customField->id = $this->_id;
+        }
+
+        if ( $this->_action & CRM_Core_Action::ADD ) {
+            $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
+        } else if ( $this->_action & CRM_Core_Action::UPDATE ) { 
+            $customField->column_name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                                     $customField->id,
+                                                                     'column_name' );
+        }
+
+        if ( $customField->html_type != 'Text' &&
+             in_array( $customField->data_type,
+                       array( 'String', 'Int', 'Float', 'Money' ) ) &&
+             ! empty( $params['option_value'] ) ) {
+
+            $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                                      $this->_gid,
+                                                      'table_name' );
+                                                                        
+            if ( $params['option_type'] == 1 ) {
+                // first create an option group for this custom group
+                require_once 'CRM/Core/BAO/OptionGroup.php';
+                $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
+                $optionGroup->domain_id =  CRM_Core_Config::domainID( );
+                $optionGroup->name      =  "{$tableName}: {$customField->column_name}_". date( 'YmdHis' );
+                $optionGroup->label     =  $customField->label;
+                $optionGroup->is_active = 1;
+                $optionGroup->save( );
+                $optionGroupID = $optionGroup->id;
+                
+                foreach ($params['option_value'] as $k => $v) {
+                    if (strlen(trim($v))) {
+                        $optionValue                  =& new CRM_Core_DAO_OptionValue( );
+                        $optionValue->option_group_id =  $optionGroup->id;
+                        $optionValue->label           =  $params['option_label'][$k];
+                        $optionValue->value           =  $v;
+                        $optionValue->weight          =  $params['option_weight'][$k];
+                        $optionValue->is_active       =  $params['option_status'][$k];
+                        $optionValue->save( );
+                    }
+                }
+            } else {
+                $optionGroupID = $params['option_group_id'];
+            }                                               
+            
+            $customField->option_group_id = $optionGroupID;
         }
 
         //Start Storing the values of Option field if the selected option is Multi Select
         if ( $this->_action & CRM_Core_Action::ADD ) {
-            $customField->column_name = strtolower( CRM_Utils_String::munge( $customField->label, '_', 32 ) );
             CRM_Core_BAO_CustomField::createField( $customField, 'add' );
-
-            if ( $customField->html_type != 'Text' &&
-                 in_array( $customField->data_type,
-                           array( 'String', 'Int', 'Float', 'Money' ) ) &&
-                 ! empty( $params['option_value'] ) ) {
-
-                $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                          $this->_gid,
-                                                          'table_name' );
-                                                                        
-                if ( $params['option_type'] == 1 ) {
-                    // first create an option group for this custom group
-                    require_once 'CRM/Core/BAO/OptionGroup.php';
-                    $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
-                    $optionGroup->domain_id =  CRM_Core_Config::domainID( );
-                    $optionGroup->name      =  "{$tableName}: {$customField->column_name}";
-                    $optionGroup->label     =  $customField->label;
-                    $optionGroup->is_active = 1;
-                    $optionGroup->save( );
-                    $optionGroupID = $optionGroup->id;
-                    
-                    foreach ($params['option_value'] as $k => $v) {
-                        if (strlen(trim($v))) {
-                            $optionValue                  =& new CRM_Core_DAO_OptionValue( );
-                            $optionValue->option_group_id =  $optionGroup->id;
-                            $optionValue->label           =  $params['option_label'][$k];
-                            $optionValue->value           =  $v;
-                            $optionValue->weight          =  $params['option_weight'][$k];
-                            $optionValue->is_active       =  $params['option_status'][$k];
-                            $optionValue->save( );
-                        }
-                    }
-                } else {
-                    $optionGroupID = $params['option_group_id'];
-                }                                               
-
-                $customField->option_group_id = $optionGroupID;
-
-            }
-        } else { // action is update
-            $customField->column_name = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
-                                                                     $customField->id,
-                                                                     'column_name' );
-
+        } else {
             $dropIndex = false;
 
             // drop the index if it existed (not the most efficient, but the logic is easy)
@@ -886,7 +886,7 @@ SELECT id
 
             CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
         }
-
+        
         // since we need to save option group id :)
         $customField->save();
 
