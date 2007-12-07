@@ -128,14 +128,20 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         require_once 'CRM/Core/BAO/Preferences.php';
         $this->_viewOptions = CRM_Core_BAO_Preferences::valueOptions( 'contact_view_options', true, null, true );
+        
+        $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
+        
+        if ( in_array( $this->_context, array( 'standalone', 'home') ) ) {
+            $url = CRM_Utils_System::url('civicrm/dashboard', 'reset=1' );
+        } else if ( $this->_context == 'case') {
+            $url = CRM_Utils_System::url('civicrm/contact/view/case',
+                                         "action=view&reset=1&cid={$this->_currentlyViewedContactId}&id={$this->_caseId}&selectedChild=case" );
+        } else {
+            $url = CRM_Utils_System::url('civicrm/contact/view',
+                                         "action=browse&reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=activity" );
+        }      
 
-        if ( $this->_context == 'standalone' ) {
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/dashboard', "reset=1" ) );
-        } else if ( $this->_context == 'case' ) {
-            //set case 
-            $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Positive', $this );
-            $session->pushUserContext( CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid={$this->_currentlyViewedContactId}&selectedChild=case" ) );
-        }
+        $session->pushUserContext( $url );
     }
     
     /**
@@ -161,7 +167,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
                 require_once "CRM/Utils/Date.php";
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
-            
+
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact'] );
             }

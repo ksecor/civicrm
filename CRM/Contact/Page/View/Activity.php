@@ -84,61 +84,10 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $context = CRM_Utils_Request::retrieve( 'context', 'String',$this );
         $this->assign('context', $context );
 
-        // DRAFTING: Do we need following line?
         $this->_id = CRM_Utils_Request::retrieve('id', 'Integer', $this);
         
-        // DRAFTING: There might be smarter way to incorporate case infomation - investigate this.
-        $this->_caseID = CRM_Utils_Request::retrieve( 'caseid', 'Integer', $this );
-        $this->assign('caseid', $this->_caseID );
-
-        // DRAFTING: Why the hell do we need user context here?
-        $session =& CRM_Core_Session::singleton();
-        $edit = CRM_Utils_Request::retrieve( 'edit', 'Integer',$this );
-
-        // DRAFTING: Need to sort out the situation with cases here.
-        if( $edit ){
-            $url = CRM_Utils_System::url( 'civicrm/contact/view/activity',
-                                          "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}");
-        }
-
-        if ( $context == 'Home' ) {
-            if( $edit ) {
-                $url = CRM_Utils_System::url('civicrm/contact/view/activity',
-                                             "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}");
-            }else{
-                $url = CRM_Utils_System::url('civicrm', 'reset=1' );
-            }
-//        } else if ($context == 'case'){
-//            
-//             if($edit){
-//                $url =
-//             CRM_Utils_System::url('civicrm/contact/view/activity',
-//            "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context={$context}&caseid={$this->_caseID}");
-//             }else{
-//                 $url = CRM_Utils_System::url('civicrm/contact/view/case',
-//                                              "action=view&reset=1&cid={$this->_contactId}&id={$this->_caseID}&selectedChild=case" );
-//             }
-             
-        } else {
-
-            if ( $edit ) {
-                
-                $url = CRM_Utils_System::url('civicrm/contact/view/activity',
-                                             "action=view&reset=1&selectedChild=activity&id={$this->_id}&cid={$this->_contactId}&context=activity");
-            } else{ 
-                $url = CRM_Utils_System::url('civicrm/contact/view',
-                                             "action=browse&reset=1&cid={$this->_contactId}&selectedChild=activity" );
-            }
-        }      
-        $session->pushUserContext( $url );
+        $this->_caseId = CRM_Utils_Request::retrieve( 'caseid', 'Integer', $this );
         
-        if ( CRM_Utils_Request::retrieve('confirmed', 'Boolean',
-                                         CRM_Core_DAO::$_nullObject )) {
-            
-            CRM_Activity_BAO_Activity::del( $this->_id, 'Meeting');
-            CRM_Utils_System::redirect($url);
-        }
-
         $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
         
         if ( $activityTypeId != 3 ) {
@@ -156,6 +105,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         $controller->set( 'id'       , $this->_id );
         $controller->set( 'pid'      , $this->get( 'pid' ) );
         $controller->set( 'action'   , $this->_action );
+        $controller->set( 'context'  , $context );
 
         $controller->process( );
         $controller->run( );
@@ -188,11 +138,6 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
 
     function delete( )
     {
-        $url     = 'civicrm/contact/view';
-
-        $session =& CRM_Core_Session::singleton();
-        $session->pushUserContext( CRM_Utils_System::url($url, 'action=browse&selectedChild=activity' ) );
-
         $controller =& new CRM_Core_Controller_Simple('CRM_Activity_Form_Activity',
                                                       ts('Activity Record'),
                                                       $this->_action );
@@ -222,7 +167,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         } else {
             $this->browse( );
         }
-        
+
         return parent::run( );
     }
 }

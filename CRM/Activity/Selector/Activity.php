@@ -140,6 +140,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
 
+        $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
+        
+        if ( $this->_context == 'case' ) {
+            $qsView   .= "&caseid=%%caseid%%";
+            $qsUpdate .= "&caseid=%%caseid%%";
+            $qsDelete .= "&caseid=%%caseid%%";
+        }
+        
         self::$_actionLinks = array(
                                     CRM_Core_Action::VIEW => 
                                     array(
@@ -159,8 +167,6 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         }
 
         if ( $showDelete ) {
-            $qsDelete  = "atype={$activityTypeId}&action=delete&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
-
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::DELETE => 
                                                                  array(
                                                                        'name'     => ts('Delete'),

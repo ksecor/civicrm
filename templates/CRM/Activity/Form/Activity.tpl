@@ -154,11 +154,3 @@
          </table>   
       </fieldset> 
 
-{if $action eq 4 }
-  <div class="form-item">
-  {if $subject_value}  
-    <a href="{crmURL p='civicrm/contact/view/case'
-     q="activity_id=`$activityID`&action=delete&reset=1&id=`$id`&cid=`$contactId`&context=`$context`&subType=`$activityID`&caseid=`$caseid`"}" ">{ts}  Detach Activity from Case {/ts}</a>
-  {/if}
-
-{/if }   
