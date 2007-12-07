@@ -35,14 +35,16 @@
 class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
-    static $validFields = array('birth_date', 'custom_greeting',
-        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_phone',
-        'do_not_trade', 'external_identifier', 'first_name', 'gender_id',
-        'greeting_type', 'home_URL', 'household_name', 'image_URL',
-        'is_deceased', 'is_opt_out', 'job_title', 'last_name',
-        'legal_identifier', 'legal_name', 'middle_name', 'nick_name',
-        'organization_name', 'preferred_communication_method',
-        'preferred_mail_format', 'prefix_id', 'sic_code', 'source', 'suffix_id'
+    static $validFields = array(
+        'birth_date', 'deceased_date', 'do_not_email', 'do_not_mail', 
+        'do_not_phone', 'do_not_trade', 'external_identifier', 'first_name', 
+        'gender', 'gender_id', 'home_URL', 'household_name', 'image_URL', 
+        'is_deceased', 'is_opt_out', 'job_title', 'last_name', 
+        'legal_identifier', 'legal_name', 'middle_name', 'nick_name', 
+        'organization_name', 'preferred_mail_format', 'sic_code',
+        // not supported in API 2:
+        // 'custom_greeting', 'greeting_type', 'preferred_communication_method', 
+        // 'prefix', 'prefix_id', 'suffix', 'suffix_id', 'source'
     );
 
     // FIXME: consider creating a common structure with cidRefs() and eidRefs()
@@ -257,21 +259,25 @@ class CRM_Dedupe_Merger
      */
     function findDifferences($mainId, $otherId)
     {
-        require_once 'api/Contact.php';
-        $main  =& crm_get_contact(array('contact_id' => (int) $mainId));
-        $other =& crm_get_contact(array('contact_id' => (int) $otherId));
-        if ($main->contact_type != $other->contact_type) {
+        require_once 'api/v2/Contact.php';
+        $mainParams  = array('contact_id' => (int) $mainId);
+        $otherParams = array('contact_id' => (int) $otherId);
+        $main  =& civicrm_contact_get($mainParams);
+        $other =& civicrm_contact_get($otherParams);
+        if ($main['contact_type'] != $other['contact_type']) {
             return false;
         }
 
         $diffs = array();
         foreach (self::$validFields as $validField) {
-            if ($main->$validField != $other->$validField) {
+            if ($main[$validField] != $other[$validField]) {
                 $diffs['contact'][] = $validField;
             }
         }
 
-        if ( isset( $mail->custom_values ) ) {
+        // FIXME: retireve custom data either with the new API or in some other 
+        // way (note: CRM_Core_BAO_CustomValue::getContactValues() doesn't work)
+        if ( isset( $main->custom_values ) ) {
             $customIds = array();
             foreach ($main->custom_values as $cv) {
                 $customIds[$cv['custom_field_id']] = $cv['value'];
