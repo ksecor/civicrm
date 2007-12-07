@@ -36,6 +36,7 @@
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Dedupe/Merger.php';
 require_once 'api/Location.php';
+require_once 'api/v2/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {
@@ -57,6 +58,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     function preProcess()
     {
         require_once 'api/Contact.php';
+        require_once 'api/v2/Contact.php';
         require_once 'api/Search.php';
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/OptionGroup.php';
@@ -69,8 +71,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
-        $main  =& crm_get_contact(array('contact_id' => $cid));
-        $other =& crm_get_contact(array('contact_id' => $oid));
+        $mainParams  = array('contact_id' => $cid);
+        $otherParams = array('contact_id' => $oid);
+        $main  =& civicrm_contact_get($mainParams);
+        $other =& civicrm_contact_get($otherParams);
 
         $this->assign('contact_type', $main->contact_type);
         $this->assign('main_name',    $main->display_name);
@@ -136,6 +140,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $rows["move_$field"]['title'] = $fields[$field]['title'];
         }
 
+        $mainLocations =& civicrm_location_get(array('contact_id' => $cid));
+        CRM_Core_Error::debug('$mainLocations', $mainLocations);
         // handle locations
         foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
             foreach (array('main', 'other') as $moniker) {
