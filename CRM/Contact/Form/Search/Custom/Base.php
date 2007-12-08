@@ -101,7 +101,6 @@ class CRM_Contact_Form_Search_Custom_Base {
         return $this->_columns;
     }
 
-
     function addDomainClause( &$sql ) {
         $sql .=
             " AND contact_a.domain_id = " .
