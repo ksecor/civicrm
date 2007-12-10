@@ -33,119 +33,123 @@
  *
  */
 
-require_once 'CRM/Contact/Form/Search/Custom/Base.php';
+require_once 'CRM/Contact/Form/Search/Interface.php';
 
 class CRM_Contact_Form_Search_Custom_Contribution
-   extends    CRM_Contact_Form_Search_Custom_Base
    implements CRM_Contact_Form_Search_Interface {
 
-    function __construct( &$formValues ) {
-        parent::__construct( $formValues );
+    protected $_formValues;
 
-        $this->_columns = array( ts('Contact Id')   => 'contact_id'    ,
-                                 ts('Contact Type') => 'contact_type'  ,
-                                 ts('Name')         => 'sort_name'     ,
-                                 ts('State')        => 'state_province',
-                                 ts('Total Amount') => 'amount'          );
+    function __construct( &$formValues ) {     
+        $this->_formValues = $formValues;
+
+        $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
+                                 ts('Name'      )   => 'display_name',
+                                 ts('Donation Count') => 'donation_count',
+                                 ts('Donation Amount') => 'donation_amount' );
     }
 
     function buildForm( &$form ) {
         $form->add( 'text',
-                    'name',
-                    ts( 'Name' ),
-                    true );
+                    'min_amount',
+                    ts( 'Min Amount' ) );
+        $form->add( 'text',
+                    'max_amount',
+                    ts( 'Max Amount' ) );
 
-        $stateProvince = array('' => ts('- any state/province -')) + CRM_Core_PseudoConstant::stateProvince( );
-        $form->addElement('select', 'state_province_id', ts('State/Province'), $stateProvince);
-
-        $form->add('date', 'start_date', ts('Start Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );
+        $form->add( 'date',
+                    'start_date',
+                    ts('Start Date'),
+                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
-        $form->add('date', 'end_date', ts('End Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );
+
+        $form->add( 'date',
+                    'end_date',
+                    ts('End Date'),
+                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
         $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
-        
-        /**
-         * if you are using the standard template, this array tells the template what elements
-         * are part of the search criteria
-         */
-        $form->assign( 'elements', array( 'name', 'state_province_id', 'start_date', 'end_date' ) );
+
+        $tag = array('' => ts('- any tag -')) + CRM_Core_PseudoConstant::tag( );
+        $form->add('select', 'tag', ts('Tagged'), $tag);
+
+        $form->assign( 'elements', array( 'min_amount', 'max_amount', 'start_date', 'end_date', 'tag' ) );
     }
 
-    function all( $offset = 0, $rowcount = 0, $sort = null,
-                  $includeContactIDs = false ) {
-        $selectClause = "
-contact_a.id           as contact_id  ,
-contact_a.contact_type as contact_type,
-contact_a.sort_name    as sort_name,
-state_province.name    as state_province,
-sum( c.total_amount )  as amount
-";
-        return $this->sql( $selectClause,
-                           $offset, $rowcount, $sort,
-                           $includeContactIDs,
-                           'GROUP BY contact_a.id' );
+    function count( ) {
+        $where = $this->where( );
+        if ( ! empty( $where ) ) {
+            $where = " AND $where";
+        }
+        $sql = "
+SELECT c.id as contact_id, c.display_name as display_name,
+       SUM(contrib.total_amount) as donation_amount, COUNT(contrib.id) donation_count
+FROM civicrm_contact c
+LEFT JOIN civicrm_contribution contrib ON (c.id = contrib.contact_id)
+WHERE
+contrib.is_test = 0 AND
+contrib.contribution_status_id = 1
+GROUP BY c.id
+ORDER BY c.sort_name ASC
+HAVING donation_amount > 100";
+
+        $dao = CRM_Core_DAO::executeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray );
+        return $dao->N;
+    }
+
+    function alphabet( ) {
+    }
+
+
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
     }
     
+    function all( $offset = 0, $rowcount = 0, $sort = null,
+                  $includeContactIDs = false ) {
+        $where = $this->where( );
+        if ( ! empty( $where ) ) {
+            $where = " AND $where";
+        }
+        $sql = "
+SELECT c.id as contact_id, c.display_name as display_name,
+       SUM(contrib.total_amount) as donation_amount, COUNT(contrib.id) donation_count
+FROM civicrm_contact c
+LEFT JOIN civicrm_contribution contrib ON (c.id = contrib.contact_id)
+WHERE
+contrib.is_test = 0 AND
+contrib.contribution_status_id = 1
+GROUP BY c.id
+ORDER BY c.sort_name ASC
+HAVING donation_amount > 100";
+
+        return $sql;
+    }
+
     function from( ) {
-        return "
-FROM       civicrm_contact      contact_a
-INNER JOIN civicrm_contribution c                ON c.contact_id       = contact_a.id
-LEFT  JOIN civicrm_address address               ON ( address.contact_id = contact_a.id AND address.is_primary = 1 )
-LEFT  JOIN civicrm_state_province state_province ON state_province.id  = address.state_province_id
-";
+        return '';
     }
 
     function where( $includeContactIDs = false ) {
-
-        $where = "
-      c.contribution_status_id = 1
-AND   c.is_test                = 0";
-
-        $count  = 1;
-        $clause = array( );
-        $params = array( );
-        $name   = CRM_Utils_Array::value( 'name',
-                                          $this->_formValues );
-        if ( $name != null ) {
-            if ( strpos( $name, '%' ) === false ) {
-                $name = "%{$name}%";
-            }
-            $params[$count] = array( $name, 'String' );
-            $clause[] = "contact_a.sort_name LIKE %{$count}";
-            $count++;
+        $clauses = array( );
+        $min = CRM_Utils_Array::value( 'min_amount', $this->_formValues );
+        if ( $min ) {
+            $clauses[] = "donation_amount >= $min";
         }
 
-        $state = CRM_Utils_Array::value( 'state_province_id',
-                                         $this->_formValues );
-        if ( $state ) {
-            $params[$count] = array( $state, 'Integer' );
-            $clause[] = "state_province.id = %{$count}";
-            $count++;
-        }
-        
-        $startDate = CRM_Utils_Array::value( 'start_date',
-                                             $this->_formValues );
-        $startDate  = CRM_Utils_Date::format( $startDate );
-        if ( $startDate ) {
-            $params[$count] = array( $startDate, 'Date' );
-            $clause[] = "c.receive_date >= $startDate";
-            $count++;
-        }
-        
-        $endDate = CRM_Utils_Array::value( 'end_date',
-                                           $this->_formValues );
-        $endDate  = CRM_Utils_Date::format( $endDate );
-        if ( $endDate ) {
-            $endDate .= '235959';
-            $params[$count] = array( $endDate, 'Date' );
-            $clause[] = "c.receive_date <= $endDate";
-            $count++;
+        $max = CRM_Utils_Array::value( 'max_amount', $this->_formValues );
+        if ( $max ) {
+            $clauses[] = "donation_amount <= $max";
         }
 
-        if ( ! empty( $clause ) ) {
-            $where .= ' AND ' . implode( ' AND ', $clause );
-        }
+        return implode( ' AND ', $clauses );
+    }
 
-        return $this->whereClause( $where, $params );
+    function &columns( ) {
+        return $this->_columns;
+    }
+
+    function templateFile( ) {
+        return null;
     }
 
 }
