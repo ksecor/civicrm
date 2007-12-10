@@ -293,6 +293,7 @@ LIMIT 6";
 
         if ( isset( $_GET['name'] ) ) {
             $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
+            $stateName    = str_replace( '*', '%', $stateName );
         }
 
         //temporary fix to handle locales other than default US,
@@ -323,7 +324,7 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
  WHERE civicrm_state_province.country_id = civicrm_country.id
   AND  LOWER(civicrm_country.name) = LOWER('$countryName')";
 
-        if ( isset( $_GET['s'] ) ) {
+        if ( isset( $_GET['name'] ) ) {
             $query .= " AND  civicrm_state_province.name LIKE LOWER('$stateName%') ";
         }
 
@@ -335,17 +336,17 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( ts($dao->name), $dao->id );
+            $elements[] = array( 'name'  => ts($dao->name),
+                                 'value' => $dao->id );
             $count++;
         }
 
         if ( empty( $elements ) ) {
-            $elements[] = array( $stateName, $stateName );
+            //$elements[] = array( $stateName, $stateName );
         }
 
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
 
     /**
@@ -368,6 +369,7 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
 
         require_once 'CRM/Utils/Type.php';
         $name     = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
+        $name      = str_replace( '*', '%', $name );
 
         $query = "
 SELECT id, name
@@ -382,18 +384,19 @@ ORDER BY name";
         $count = 0;
         $elements = array( );
         while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( ts($dao->name), $dao->id );
+            $elements[] = array( 'name'  => ts($dao->name),
+                                 'value' => $dao->id );
             $count++;
         }
 
         if ( empty( $elements ) ) {
-            $elements[] = array( $name, $name );
+            //$elements[] = array( $name, $name );
         }
 
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        require_once "CRM/Utils/JSON.php";
+        echo CRM_Utils_JSON::encode( $elements, 'value');
     }
+
     /**
      * Function for Case Subject combo box
      */

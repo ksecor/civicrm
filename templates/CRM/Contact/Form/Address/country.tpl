@@ -15,7 +15,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
        var widget = dijit.byId('location_' + lno + '_address_state_province_id');
 
        //enable state province only if country value exists
-       widget.enable( );
+       widget.setDisabled( false );
     
        //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
 
@@ -28,12 +28,15 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
        }
 
        //clear state province combo list
-       widget._clearResultList( );
+       //widget._clearResultList( );
 
        //data url for state
-       var res = {/literal}"{$stateURL}"{literal};
+       var res = {/literal}"{$stateUrl}"{literal};
 
-       widget.dataProvider.searchUrl = res + '&node=' + value;
+       var queryUrl = res + '&node=' + value;
+
+       var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
+       widget.store   = queryStore;
    } 
 }
 
