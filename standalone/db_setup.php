@@ -114,6 +114,9 @@ $query = "GRANT ALL ON $dbName.* TO $dbUser@`$grantHost` IDENTIFIED BY '$dbPass'
 mysql_query( $query, $dbLink );
 
 foreach ( $dbFilesToLoad as $file ) {
+    if (! is_executable("$mysqlPath/mysql")) {
+        die( "Error: Could not locate mysql executable in $mysqlPath" );
+    }    
     $cmd = "$mysqlPath/mysql -h $dbHost -u $dbAdminUser ";
     if ( $dbAdminPass != '' ) {
         $cmd .= "-p$dbAdminPass ";
