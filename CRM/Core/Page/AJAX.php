@@ -291,8 +291,8 @@ LIMIT 6";
             $countryName  = CRM_Utils_Type::escape( $_GET['node'], 'String');
         }
 
-        if ( isset( $_GET['s'] ) ) {
-            $stateName    = trim (CRM_Utils_Type::escape( $_GET['s']   , 'String') );
+        if ( isset( $_GET['name'] ) ) {
+            $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
         }
 
         //temporary fix to handle locales other than default US,
@@ -367,7 +367,7 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
         }
 
         require_once 'CRM/Utils/Type.php';
-        $name     = CRM_Utils_Type::escape( $_GET['s'], 'String'  );
+        $name     = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
 
         $query = "
 SELECT id, name

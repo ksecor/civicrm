@@ -12,7 +12,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     //load state province only if couuntry value exits
     if ( value ) {
        //get state province id
-       var widget = dojo.widget.byId('location_' + lno + '_address_state_province_id');
+       var widget = dijit.byId('location_' + lno + '_address_state_province_id');
 
        //enable state province only if country value exists
        widget.enable( );
@@ -24,7 +24,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
 
        //set state province combo if it is not set
        if ( !widget.getValue( ) ) {
-           widget.setAllValues( sel,'' );
+           widget.setValue( sel,'' );
        }
 
        //clear state province combo list
@@ -44,6 +44,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     <span class="labels">
     {$form.location.$index.address.country_id.label}
     </span>
+    <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="country_idStore" url="{$countryUrl}">
     <span class="fields">
         {$form.location.$index.address.country_id.html}
         <br class="spacer"/>
