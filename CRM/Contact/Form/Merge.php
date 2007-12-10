@@ -247,13 +247,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
     {
         $formValues = $this->exportValues();
 
-        // get submitted contact values and clear them
-        $validFields = array_merge(CRM_Dedupe_Merger::$validFields['Contact'], CRM_Dedupe_Merger::$validFields[$this->_contactType]);
         $relTables =& CRM_Dedupe_Merger::relTables();
         $moveTables = array();
         foreach ($formValues as $key => $value) {
             if ($value == $this->_qfZeroBug) $value = '0';
-            if ((in_array(substr($key, 5), $validFields) or substr($key, 0, 12) == 'move_custom_') and $value != null) {
+            if ((in_array(substr($key, 5), CRM_Dedupe_Merger::$validFields) or substr($key, 0, 12) == 'move_custom_') and $value != null) {
                 $submitted[substr($key, 5)] = $value;
             } elseif (substr($key, 0, 14) == 'move_location_' and $value != null) {
                 $locations[substr($key, 14)] = $value;
@@ -276,7 +274,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         // FIXME: fix custom fields so they're edible by crm_update_contact
         // there should be an easier way (and API should consume its own output in the first place)
         $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
-        foreach ($cgTree as $group) {
+        foreach ($cgTree as $key => $group) {
+            if (!isset($group['fields'])) continue;
             foreach ($group['fields'] as $fid => $field) {
                 $cFields[$fid]['attributes'] = $field;
             }
@@ -337,12 +336,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         // handle the 'move belongings' and 'delete other' checkboxes
         if ($formValues['moveBelongings']) {
-            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
+#           CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
         }
 
         if ($formValues['deleteOther']) {
             $other =& crm_get_contact(array('contact_id' => $this->_oid));
-            crm_delete_contact($other);
+#           crm_delete_contact($other);
         }
 
         // move file custom fields

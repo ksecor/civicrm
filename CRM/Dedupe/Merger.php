@@ -38,12 +38,12 @@ class CRM_Dedupe_Merger
     static $validFields = array(
         'birth_date', 'deceased_date', 'do_not_email', 'do_not_mail', 
         'do_not_phone', 'do_not_trade', 'external_identifier', 'first_name', 
-        'gender', 'gender_id', 'home_URL', 'household_name', 'image_URL', 
+        'gender_id', 'home_URL', 'household_name', 'image_URL', 
         'is_deceased', 'is_opt_out', 'job_title', 'last_name', 
         'legal_identifier', 'legal_name', 'middle_name', 'nick_name', 
         'organization_name', 'preferred_mail_format', 'sic_code',
         // not supported in API 2:
-        // 'custom_greeting', 'greeting_type', 'preferred_communication_method', 
+        // 'custom_greeting', 'gender', 'greeting_type', 'preferred_communication_method', 
         // 'prefix', 'prefix_id', 'suffix', 'suffix_id', 'source'
     );
 
