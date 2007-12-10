@@ -1141,6 +1141,42 @@ AND    f.is_active = 1";
         return $customOptionGroup;
     }
 
+    /**
+     * Function to fix orphan groups
+     * 
+     * @params int $customFieldId custom field id
+     * @params int $optionGroupId option group id
+     *
+     * @access public
+     * @static
+     */
+    static function fixOptionGroups( $customFieldId, $optionGroupId )
+    {
+        // check if option group belongs to any custom Field else delete
+        // get the current option group
+        $currentOptionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',$customFieldId, 'option_group_id' );
+        // get the updated option group
+        // if both are same return
+        if ( $currentOptionGroupId == $optionGroupId ) {
+            return;
+        }
+
+        // else check if option group is related to any other field
+        // if yes return
+        $query = "
+SELECT count(*)
+FROM   civicrm_custom_field
+WHERE  option_group_id = {$currentOptionGroupId}";
+        
+        $count = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+
+        if ( $count > 1 ) {
+            return;
+        } else { //else delete the option group
+            require_once "CRM/Core/BAO/OptionGroup.php";
+            CRM_Core_BAO_OptionGroup::del( $currentOptionGroupId );
+        }
+    }
 }
 
 ?>

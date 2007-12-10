@@ -847,7 +847,7 @@ SELECT id
                 require_once 'CRM/Core/BAO/OptionGroup.php';
                 $optionGroup            =& new CRM_Core_DAO_OptionGroup( );
                 $optionGroup->domain_id =  CRM_Core_Config::domainID( );
-                $optionGroup->name      =  "{$tableName}: {$customField->column_name}_". date( 'YmdHis' );
+                $optionGroup->name      =  "{$customField->column_name}_". date( 'YmdHis' );
                 $optionGroup->label     =  $customField->label;
                 $optionGroup->is_active = 1;
                 $optionGroup->save( );
@@ -885,6 +885,11 @@ SELECT id
             }
 
             CRM_Core_BAO_CustomField::createField( $customField, 'modify', $dropIndex );
+        }
+        
+        //check for orphan option groups
+        if ( $customField->id && $customField->option_group_id ) {
+            CRM_Core_BAO_CustomField::fixOptionGroups( $customField->id, $customField->option_group_id ) ;
         }
         
         // since we need to save option group id :)
