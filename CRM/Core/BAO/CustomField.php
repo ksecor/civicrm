@@ -555,23 +555,9 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     { 
         // first delete the custom option group and values associated with this field
         if ( $field->option_group_id ) {
-            $params = array( 1 => array( $field->option_group_id, 'Integer' ) );
-
-            // first delete all option values
-            $query = "
-DELETE v.*
-  FROM civicrm_option_value v
- WHERE v.option_group_id = %1";
-            CRM_Core_DAO::executeQuery( $query, $params );
-
-            // next delete the option group
-            $query = "
-DELETE g.*
-  FROM civicrm_option_group g
- WHERE g.id = %1";
-            CRM_Core_DAO::executeQuery( $query, $params );
-
-
+            //check if option group is related to any other field, if
+            //not delete the option group and related option values
+            self::checkOptionGroup(  $field->option_group_id );
         }
 
         // next drop the column from the custom value table
@@ -1148,6 +1134,7 @@ AND    f.is_active = 1";
      * @params int $optionGroupId option group id
      *
      * @access public
+     * @return void
      * @static
      */
     static function fixOptionGroups( $customFieldId, $optionGroupId )
@@ -1161,20 +1148,32 @@ AND    f.is_active = 1";
             return;
         }
 
-        // else check if option group is related to any other field
-        // if yes return
+        // check if option group is related to any other field
+        self::checkOptionGroup( $currentOptionGroupId );
+    }
+
+    /**
+     * Function to check if option group is related to more than one
+     * custom field
+     *
+     * @params int $optionGroupId option group id
+     *
+     * @return
+     * @static
+     */
+    static function checkOptionGroup( $optionGroupId )
+    {
         $query = "
 SELECT count(*)
 FROM   civicrm_custom_field
-WHERE  option_group_id = {$currentOptionGroupId}";
+WHERE  option_group_id = {$optionGroupId}";
         
         $count = CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
 
-        if ( $count > 1 ) {
-            return;
-        } else { //else delete the option group
+        if ( $count < 2 ) {
+            //delete the option group
             require_once "CRM/Core/BAO/OptionGroup.php";
-            CRM_Core_BAO_OptionGroup::del( $currentOptionGroupId );
+            CRM_Core_BAO_OptionGroup::del( $optionGroupId );
         }
     }
 }
