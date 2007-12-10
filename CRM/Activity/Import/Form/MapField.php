@@ -402,10 +402,11 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
                 'source_contact_id'  => ts('Contact ID'),
-                'activity_date_time' => ts('Activity Date')
+                'activity_date_time' => ts('Activity Date'),
+                'subject'            => ts('Subject')                
             );
             
-            // validation for defalut dupe matching rule
+            // validation for default dupe matching rule
             $defaultFlag = true;
             $defaultDupeMatch = array("first_name","last_name","email");
             require_once 'CRM/Core/DAO/DupeMatch.php';
