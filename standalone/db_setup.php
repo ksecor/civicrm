@@ -49,7 +49,7 @@ $mysqlPath          = $_POST['mysql_path'   ];
 $dbAdminUser        = $_POST['db_admin_user'];
 $dbAdminPass        = $_POST['db_admin_pass'];
 $dbFilesToLoad      = array( );
-$dbFilesToLoad[]    = 'sql/civicrm_41.mysql';
+$dbFilesToLoad[]    = 'sql/civicrm.mysql';
 $dbFilesToLoad[]    = 'sql/civicrm_generated.mysql';
 
 if ( $dbHost == 'localhost' ) {
