@@ -196,12 +196,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $params = $this->controller->exportValues( $this->_name );
         
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $$params['id'] = $this->_id ;
+            $params['id'] = $this->_id ;
         }
         
         $params['contact_id'  ] = $this->_contactID;
-        $params['start_date'  ] = CRM_Utils_Date::format($formValues['start_date']);
-        $params['end_date'    ] = CRM_Utils_Date::format($formValues['end_date']);
+        $params['start_date'  ] = CRM_Utils_Date::format( $params['start_date'] );
+        $params['end_date'    ] = CRM_Utils_Date::format( $params['end_date'] );
         $params['case_type_id'] = CRM_Case_BAO_Case::VALUE_SEPERATOR.implode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $params['case_type_id'] ).CRM_Case_BAO_Case::VALUE_SEPERATOR;
         
         require_once 'CRM/Case/BAO/Case.php';

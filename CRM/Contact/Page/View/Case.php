@@ -181,12 +181,12 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                     'qs'    => 'action=update&reset=1&cid=%%cid%%&id=%%id%%&selectedChild=case',
                                                                     'title' => ts('Edit Case')
                                                                     ),
-                                  CRM_Core_Action::FOLLOWUP  => array(
-                                                                    'name'  => ts('Add Activity'),
-                                                                    'url'   => 'civicrm/activity',
-                                                                    'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
-                                                                    'title' => ts('Add Activity')
-                                                                    ),
+//                                   CRM_Core_Action::FOLLOWUP  => array(
+//                                                                     'name'  => ts('Add Activity'),
+//                                                                     'url'   => 'civicrm/activity',
+//                                                                     'qs'    => 'action=add&reset=1&context=case&caseid=%%id%%&cid=%%cid%%',
+//                                                                     'title' => ts('Add Activity')
+//                                                                     ),
                                   CRM_Core_Action::DELETE  => array(
                                                                     'name'  => ts('Delete'),
                                                                     'url'   => 'civicrm/contact/view/case',
