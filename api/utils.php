@@ -770,43 +770,43 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
 
     // it is possible that an contact type object record does not exist
     // if the contact_type_object is null etc, if so we create one
-    if ( $contact->contact_type_object == null ) {
-        require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
-        eval('$contact->contact_type_object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
-        $contact->contact_type_object->contact_id = $contact->id;
-    }
+#   if ( $contact->contact_type_object == null ) {
+#       require_once(str_replace('_', DIRECTORY_SEPARATOR, "CRM_Contact_BAO_" . $contact->contact_type) . ".php");
+#       eval('$contact->contact_type_object =& new CRM_Contact_BAO_' . $contact->contact_type . '( );' );
+#       $contact->contact_type_object->contact_id = $contact->id;
+#   }
     
     $sortNameArray = array();
     // fix sort_name and display_name
     if ( $contact->contact_type == 'Individual' ) {
-        if ($overwrite || ! isset($contact->contact_type_object->first_name)) {
+        if ($overwrite || ! isset($contact->first_name)) {
             $firstName = CRM_Utils_Array::value( 'first_name', $values );
         } else {
             $firstName = null;
         }
         if ( ! $firstName ) {
-            $firstName = isset( $contact->contact_type_object->first_name ) ? $contact->contact_type_object->first_name : '';
+            $firstName = isset( $contact->first_name ) ? $contact->first_name : '';
         }
         
-        if ($overwrite || ! isset($contact->contact_type_object->middle_name)) {
+        if ($overwrite || ! isset($contact->middle_name)) {
             $middleName = CRM_Utils_Array::value( 'middle_name', $values );
         } else {
             $middleName = null;
         }
         if ( ! $middleName ) {
-            $middleName = isset( $contact->contact_type_object->middle_name ) ? $contact->contact_type_object->middle_name : '';
+            $middleName = isset( $contact->middle_name ) ? $contact->middle_name : '';
         }
          
-        if ($overwrite || ! isset($contact->contact_type_object->last_name)) {
+        if ($overwrite || ! isset($contact->last_name)) {
             $lastName = CRM_Utils_Array::value( 'last_name', $values );
         } else {
             $lastName = null;
         }
         if ( ! $lastName ) {
-            $lastName = isset( $contact->contact_type_object->last_name ) ? $contact->contact_type_object->last_name : '';
+            $lastName = isset( $contact->last_name ) ? $contact->last_name : '';
         }
 
-        if ( $overwrite || ! isset($contact->contact_type_object->prefix_id)) {
+        if ( $overwrite || ! isset($contact->prefix_id)) {
             $prefix_id = CRM_Utils_Array::value( 'prefix_id', $values );
             if ( $prefix_id ) {
                 $prefixes = array( );
@@ -820,14 +820,14 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
 
         if ( ! $prefix ) {
-            if ( isset( $contact->contact_type_object->prefix_id ) ) {
+            if ( isset( $contact->prefix_id ) ) {
                 $prefixGrp = & new CRM_Core_DAO_OptionGroup();
                 $prefixGrp->name = 'individual_prefix';
                 $prefixGrp->find(true); 
 
                 $prefix = & new CRM_Core_DAO_OptionValue();
                 $prefix->option_group_id = $prefixGrp->id;
-                $prefix->value = $contact->contact_type_object->prefix_id;
+                $prefix->value = $contact->prefix_id;
                 $prefix->find(true);
                 $prefix = $prefix->name; 
             } else {
@@ -835,7 +835,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             }
         }
 
-        if ( $overwrite || ! isset($contact->contact_type_object->suffix_id) ) {
+        if ( $overwrite || ! isset($contact->suffix_id) ) {
             $suffix_id = CRM_Utils_Array::value( 'suffix_id', $values );
             if ( $suffix_id ) {
                 $suffixes = array( );
@@ -850,14 +850,14 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
 
         if ( !$suffix ) {
-            if ( isset( $contact->contact_type_object->suffix_id ) )  {
+            if ( isset( $contact->suffix_id ) )  {
                 $suffixGrp = & new CRM_Core_DAO_OptionGroup();
                 $suffixGrp->name = 'individual_suffix';
                 $suffixGrp->find(true); 
 
                 $suffix = & new CRM_Core_DAO_OptionValue();
                 $suffix->option_group_id = $suffixGrp->id;
-                $suffix->value = $contact->contact_type_object->suffix_id;
+                $suffix->value = $contact->suffix_id;
                 $suffix->find(true);
                 $suffix = $suffix->name; 
             } else {
@@ -865,7 +865,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
             }
         }
 
-        if ( $overwrite || ! isset($contact->contact_type_object->gender_id) ) {
+        if ( $overwrite || ! isset($contact->gender_id) ) {
             $gender_id = CRM_Utils_Array::value( 'gender_id', $values );
             if ( $gender_id ) {
                 $genders = array( );
@@ -879,7 +879,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         
         if ( !$gender ) {
-            if ( isset( $contact->contact_type_object->gender_id ) ) {
+            if ( isset( $contact->gender_id ) ) {
                 $genderGrp = & new CRM_Core_DAO_OptionGroup();
                 $genderGrp->name = 'gender';
                 $genderGrp->find(true); 
@@ -903,28 +903,28 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
         }
         $values['display_name'] = "$prefix $firstName $middleName $lastName $suffix ";
 
-        $contact->contact_type_object->birth_date = CRM_Utils_Date::isoToMysql($contact->contact_type_object->birth_date);
+        $contact->birth_date = CRM_Utils_Date::isoToMysql($contact->birth_date);
 
-        $contact->contact_type_object->deceased_date = CRM_Utils_Date::isoToMysql($contact->contact_type_object->deceased_date);
+        $contact->deceased_date = CRM_Utils_Date::isoToMysql($contact->deceased_date);
  
     } else if ( $contact->contact_type == 'Household' ) {
-        if ($overwrite || ! isset($contact->contact_type_object->household_name)) {
+        if ($overwrite || ! isset($contact->household_name)) {
             $householdName = CRM_Utils_Array::value( 'household_name', $values );
         } else {
             $householdName = null;
         }
         if ( ! $householdName ) {
-            $householdName = isset( $contact->contact_type_object->household_name ) ? $contact->contact_type_object->household_name : '';
+            $householdName = isset( $contact->household_name ) ? $contact->household_name : '';
         }
         $values['sort_name'] = $householdName;
     } else {
-        if ($overwrite || ! isset($contact->contact_type_object->organization_name)) {
+        if ($overwrite || ! isset($contact->organization_name)) {
             $organizationName = CRM_Utils_Array::value( 'organization_name', $values );
         } else {
             $organizationName = null;
         }
         if ( ! $organizationName ) {
-            $organizationName = isset( $contact->contact_type_object->organization_name ) ? $contact->contact_type_object->organization_name : '';
+            $organizationName = isset( $contact->organization_name ) ? $contact->organization_name : '';
         }
         $values['sort_name'] = $organizationName;
     }
@@ -943,7 +943,7 @@ function _crm_update_contact( $contact, $values, $overwrite = true )
 
     _crm_update_object( $contact, $values );
 
-    _crm_update_object( $contact->contact_type_object, $values );
+#   _crm_update_object( $contact->contact_type_object, $values );
 
 
     if ( ! isset( $contact->location ) ) {
