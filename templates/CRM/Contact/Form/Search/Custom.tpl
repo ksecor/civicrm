@@ -57,6 +57,7 @@
     {/if}
     </th>
   {/foreach}
+  <th>&nbsp;</th>
   </tr>
 
   {counter start=0 skip=1 print=false}
