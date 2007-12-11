@@ -214,9 +214,7 @@ WHERE openid = %1";
                 
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                $params = array( 'email-Primary'  => $user->$mail,
-                                 'openid-Primary' => $uniqId 
-                                 );
+                $params = array( 'email-Primary'  => $user->$mail );
                 
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
@@ -246,6 +244,10 @@ WHERE openid = %1";
                 }
                 
                 if ( $uf == 'Standalone' ) {
+                    $params['openid-Primary'] = $uniqId;
+                    
+                    //need to delete below code once profile is
+                    //exposed on signup page
 		            if ( ( ! empty( $user->first_name ) ) || ( ! empty( $user->last_name ) ) ) {
 		                $params['first_name'] = $user->first_name;
 		                $params['last_name'] = $user->last_name;
@@ -264,13 +266,12 @@ WHERE openid = %1";
 	                    }
 	                }
 		        }
-		    
-                $contact = CRM_Contact_BAO_Contact::create( $params );
 
-                $ufmatch->contact_id     = $contact->id;
-                $ufmatch->domain_id      = $contact->domain_id;
-                //$ufmatch->user_unique_id = $uniqId;
+                $contactId = CRM_Contact_BAO_Contact::createProfileContact( $params, CRM_Core_DAO::$_nullArray );
+                $ufmatch->contact_id     = $contactId;
+                $ufmatch->domain_id      = CRM_Core_Config::domainID( );
             }
+
             $ufmatch->save( );
             $newContact   = true;
         }
@@ -525,7 +526,7 @@ WHERE openid = %1";
         $result = $dao->getDatabaseResult( );
         if ( $result ) {
             $row = $result->fetchRow( );
-            if ( $row ) {
+            if ( isset($row) ) {
                 $ufId = $row[0];
             }
         }

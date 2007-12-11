@@ -149,16 +149,16 @@ ORDER BY
   civicrm_openid.is_primary DESC, civicrm_openid.location_type_id DESC, openid_id ASC ";
         $params = array( 1 => array( $id, 'Integer' ) );
 
-        $emails = array( );
+        $openids = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         while ( $dao->fetch( ) ) {
-            $emails[$dao->email_id] = array( 'locationType'   => $dao->locationType,
-                                             'is_primary'     => $dao->is_primary,
-                                             'id'             => $dao->openid_id,
-                                             'openid'          => $dao->openid,
-                                             'locationTypeId' => $dao->locationTypeId );
+            $openids[$dao->openid_id] = array( 'locationType'   => $dao->locationType,
+                                               'is_primary'     => $dao->is_primary,
+                                               'id'             => $dao->openid_id,
+                                               'openid'         => $dao->openid,
+                                               'locationTypeId' => $dao->locationTypeId );
         }
-        return $emails;
+        return $openids;
     }
     
 }

@@ -40,9 +40,10 @@ class CRM_Core_BAO_Block
     /**
      * Fields that are required for a valid block
      */
-    static $requiredBlockFields = array ( 'email' => array( 'email' ),
-                                          'phone' => array( 'phone' ),
-                                          'im'    => array( 'name' )
+    static $requiredBlockFields = array ( 'email'  => array( 'email' ),
+                                          'phone'  => array( 'phone' ),
+                                          'im'     => array( 'name' ),
+                                          'openid' => array( 'openid' )
                                           );
 
     /**
