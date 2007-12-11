@@ -234,15 +234,10 @@ class CRM_Core_BAO_Block
         $entityElements = array( );
         //get existing block ids if exist for this contact
         if ( !$entity ) {
-            //$contactBlockIds = array( );
             $contactId = $params[$blockName]['contact_id'];
-            // $contactBlockIds = self::getBlockIds( $blockName, $contactId );
         } else {
-            // $entityBlockIds = array();
             $entityElements = array( 'entity_table' => $params['entity_table'],
                                      'entity_id'    => $params['entity_id']);
-                                     
-            // $moduleBlockIds = self::getBlockIds( $blockName, null, $moduleElements );
         }
         
         $blockIds      = array( );

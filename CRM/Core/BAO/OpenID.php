@@ -40,45 +40,6 @@ require_once 'CRM/Core/DAO/OpenID.php';
  */
 class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID 
 {
-    /**
-     * takes an associative array and creates a OpenId
-     *
-     * @param array  $params         (reference ) an assoc array of name/value pairs
-     *
-     * @return object       CRM_Core_BAO_OpenID object on success, null otherwise
-     * @access public
-     * @static
-     */
-    static function create( &$params ) 
-    {
-        if ( ! self::dataExists( $params ) ) {
-            return null;
-        }
-                
-        $isPrimary = true;
-        foreach ( $params['openid'] as $value ) {
-            $contactFields = array( );
-            $contactFields['contact_id'      ] = $value['contact_id'];
-            $contactFields['location_type_id'] = $value['location_type_id'];
-            
-            foreach ( $value as $val ) {
-                if ( !CRM_Core_BAO_Block::dataExists( array( 'openid' ), $val ) ) {
-                    continue;
-                }
-                if ( is_array( $val ) ) {
-                    if ( $isPrimary && $value['is_primary'] ) {
-                        $contactFields['is_primary'] = $value['is_primary'];
-                        $isPrimary = false;
-                    } else {
-                        $contactFields['is_primary'] = false;
-                    }
-
-                    $openIdFields = array_merge( $val, $contactFields);
-                    self::add( $openIdFields );
-                }
-            }
-        }
-    }
 
     /**
      * takes an associative array and adds phone 
@@ -119,48 +80,19 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
     }
 
     /**
-     * Check if there is data to create the object
-     *
-     * @param array  $params         (reference) an assoc array of name/value pairs
-     *
-     * @return boolean
-     * @access public
-     * @static
-     */
-    static function dataExists( &$params ) 
-    {
-        // return if no data present
-        if ( ! array_key_exists( 'openid', $params ) ) {
-	        return false;
-        }
-
-        return true;
-    }
-    
-    /**
      * Given the list of params in the params array, fetch the object
      * and store the values in the values array
      *
-     * @param array $params        input parameters to find object
-     * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $blockCount    number of blocks to fetch
+     * @param array $entityBlock   input parameters to find object
      *
      * @return boolean
      * @access public
      * @static
      */
-    static function &getValues( $contactId ) 
+    static function &getValues( $entityBlock ) 
     {
-        $openId =& new CRM_Core_BAO_OpenID( );
-        $blocks = CRM_Core_BAO_Block::getValues( $openId, 'openid', $contactId );
-//         require_once 'CRM/Core/BAO/UFMatch.php';
-//         foreach ( $values['openid'] as $idx => $oid ) {
-//             $values['openid'][$idx]['allowed_to_login'] = CRM_Core_BAO_UFMatch::getAllowedToLogin( $oid['openid'] ) ? 1 : 0;
-//         }
-        return $blocks;
+        return CRM_Core_BAO_Block::getValues( 'openid', $entityBlock );
     }
-
     
     /**
      * Method to set whether or not an OpenID is allowed to login or not
@@ -189,5 +121,45 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
         }
         return true;
     }
+
+    /**
+     * Get all the emails for a specified contact_id, with the primary openid being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of openid id's
+     * @access public
+     * @static
+     */
+    static function allOpenids( $id ) 
+    {
+        if ( ! $id ) {
+            return null;
+        }
+
+        $query = "
+SELECT openid, civicrm_location_type.name as locationType, civicrm_openid.is_primary as is_primary, 
+civicrm_openid.id as openid_id, civicrm_openid.location_type_id as locationTypeId
+FROM      civicrm_contact
+LEFT JOIN civicrm_openid ON ( civicrm_openid.contact_id = civicrm_contact.id )
+LEFT JOIN civicrm_location_type ON ( civicrm_openid.location_type_id = civicrm_location_type.id )
+WHERE
+  civicrm_contact.id = %1
+ORDER BY
+  civicrm_openid.is_primary DESC, civicrm_openid.location_type_id DESC, openid_id ASC ";
+        $params = array( 1 => array( $id, 'Integer' ) );
+
+        $emails = array( );
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+        while ( $dao->fetch( ) ) {
+            $emails[$dao->email_id] = array( 'locationType'   => $dao->locationType,
+                                             'is_primary'     => $dao->is_primary,
+                                             'id'             => $dao->openid_id,
+                                             'openid'          => $dao->openid,
+                                             'locationTypeId' => $dao->locationTypeId );
+        }
+        return $emails;
+    }
+    
 }
 ?>

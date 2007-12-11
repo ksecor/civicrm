@@ -74,7 +74,10 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
             $key = 'id';
             $mail = 'email';
             $uniqId = $user->identity_url;
-            $query = "SELECT uf_id FROM civicrm_uf_match WHERE user_unique_id = %1";
+            $query = "SELECT uf_id 
+FROM civicrm_uf_match 
+   LEFT JOIN civicrm_openid ON ( civicrm_uf_match.contact_id = civicrm_openid.contact_id ) 
+WHERE openid = %1";
             $p = array( 1 => array( $uniqId, 'String' ) );
             $dao = CRM_Core_DAO::executeQuery( $query, $p );
             $result = $dao->getDatabaseResult( );
@@ -211,8 +214,10 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
                 
                 require_once 'CRM/Core/BAO/LocationType.php';
                 $locationType   =& CRM_Core_BAO_LocationType::getDefault( );  
-                $params = array( 'user_unique_id' => $uniqId, 'location_type' => $locationType->name, 
-                                 'email' => $user->$mail, 'openid' => $uniqId );
+                $params = array( 'email-Primary'  => $user->$mail,
+                                 'openid-Primary' => $uniqId 
+                                 );
+                
                 if ( $ctype == 'Organization' ) {
                     $params['organization_name'] = $uniqId;
                 } else if ( $ctype == 'Household' ) {
@@ -260,17 +265,11 @@ class CRM_Core_BAO_UFMatch extends CRM_Core_DAO_UFMatch {
 	                }
 		        }
 		    
-                require_once 'api/Contact.php';
+                $contact = CRM_Contact_BAO_Contact::create( $params );
 
-                $contact =& crm_create_contact( $params, $ctype, false );
-                
-                if ( is_a( $contact, 'CRM_Core_Error' ) ) {
-                    CRM_Core_Error::debug( 'error', $contact );
-                    exit(1);
-                }
                 $ufmatch->contact_id     = $contact->id;
                 $ufmatch->domain_id      = $contact->domain_id;
-                $ufmatch->user_unique_id = $uniqId;
+                //$ufmatch->user_unique_id = $uniqId;
             }
             $ufmatch->save( );
             $newContact   = true;

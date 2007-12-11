@@ -48,8 +48,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Location block element array
      */
-    //static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
-    static $blocks = array( 'phone', 'email', 'im', 'address' );
+    static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
     
     /**
      * Function to create various elements of location block
