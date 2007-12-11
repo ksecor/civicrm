@@ -12,7 +12,7 @@
 {/if}
 
 <div id="help" class="description section-hidden-border">
-{capture assign=plusImg}<img src="{$config->resourceBase}/i/TreePlus.gif" alt="{ts}plus sign{/ts}" style="vertical-align: bottom; height: 20px; width: 20px;" />{/capture}
+{capture assign=plusImg}<img src="{$config->resourceBase}i/TreePlus.gif" alt="{ts}plus sign{/ts}" style="vertical-align: bottom; height: 20px; width: 20px;" />{/capture}
 {ts 1=$plusImg}Administer your CiviCRM site using the links on this page. Click %1 for descriptions of the options in each section.{/ts}
 </div>
 

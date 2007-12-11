@@ -24,8 +24,8 @@
 
 {* Dojo is required for the blocs. *}
 {literal}<script type="text/javascript">var djConfig = { isDebug: false };</script>{/literal}
-<script type="text/javascript" src="{$config->resourceBase}/packages/dojo/dojo.js"></script>
-<script type="text/javascript" src="{$config->resourceBase}/js/Common.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo.js"></script>
+<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
 <form action="{crmURL p='civicrm/contact/view' q="&cid=`$contactId`&reset=1"}" method="post" id="Print1" >
   <div class="form-item">
