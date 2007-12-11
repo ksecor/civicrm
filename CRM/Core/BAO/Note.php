@@ -187,20 +187,21 @@ class CRM_Core_BAO_Note extends CRM_Core_DAO_Note {
 
     /**
      * Function to delete the notes
-     *
-     * @param int $id note id
-     *
-     * @return null
+     * 
+     * @param int $id    note id
+     * 
+     * @return $return   no of deleted notes on success, false otherwise
      * @access public
      * @static
-     *
+     * 
      */
     static function del ( $id ) {
-        // delete from relationship table
-        $note =& new CRM_Core_DAO_Note( );
+        $return   = null;
+        $note     =& new CRM_Core_DAO_Note( );
         $note->id = $id;
-        $note->delete();
-        CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );        
+        $return   = $note->delete();
+        CRM_Core_Session::setStatus( ts('Selected Note has been Deleted Successfuly.') );
+        return $return;
     }
 
     /**
