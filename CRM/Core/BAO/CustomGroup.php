@@ -429,7 +429,7 @@ SELECT $select
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
-            CRM_Core_Error::debug( 'u', $update );
+            
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'  ] );
                 if ( $groupTree['info']['where' ] ) {
