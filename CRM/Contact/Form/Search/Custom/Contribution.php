@@ -44,7 +44,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
         $this->_formValues = $formValues;
 
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
-                                 ts('Name'      )   => 'display_name',
+                                 ts('Name'      )   => 'sort_name',
                                  ts('Donation Count') => 'donation_count',
                                  ts('Donation Amount') => 'donation_amount' );
     }
@@ -104,7 +104,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
 
         $sql = "
 SELECT distinct(contact.id) as contact_id,
-       contact.display_name as display_name,
+       contact.sort_name as sort_name,
        sum(contrib.total_amount) AS donation_amount,
        count(contrib.id) AS donation_count
 FROM civicrm_contribution AS contrib,
@@ -159,7 +159,7 @@ ORDER BY donation_amount desc";
     }
 
     function templateFile( ) {
-        return null;
+        return 'CRM/Contact/Form/Search/Custom/Contribution.tpl';
     }
 
 }
