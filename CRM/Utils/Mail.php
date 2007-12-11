@@ -116,14 +116,18 @@ class CRM_Utils_Mail {
         }
     }
 
-    static function send( $from, $toDisplayName, $toEmail, $subject, $message, $cc = null, $bcc = null, $replyTo = null  ) {
-        require_once 'CRM/Core/DAO/Domain.php';
-        $dao = new CRM_Core_DAO_Domain();
-        $dao->id = 1;
-        $dao->find(true);
-        $returnPath = $dao->email_return_path;
-
-        if (!$returnPath) {
+    static function send( $from,
+                          $toDisplayName,
+                          $toEmail,
+                          $subject,
+                          $message,
+                          $cc = null,
+                          $bcc = null,
+                          $replyTo = null  ) {
+        $returnPath = CRMC_ore_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
+                                                   CRM_Core_Config::domainID( ),
+                                                   'email_return_path' );
+        if ( ! $returnPath ) {
             $returnPath = self::_pluckEmailFromHeader($from);
         }
 
@@ -144,6 +148,7 @@ class CRM_Utils_Mail {
         if ( $cc ) {
             $to[] = $cc;
         }
+
         if ( $bcc ) {
             $to[] = $bcc;
         }
