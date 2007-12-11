@@ -121,8 +121,8 @@ define( 'CIVICRM_MYSQL_PATH', '%%mysqlPath%%' );
  * the $civicrm_root setting would be:
  *      $civicrm_root = '/var/www/htdocs/civicrm/';
  *
- * the CIVICRM_TEMPLATE_COMPILEDIR would be:
- *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicrm/templates_c/' );
+ * the CIVICRM_TEMPLATE_COMPILEDIR might be:
+ *      define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/htdocs/civicrm/standalone/files/templates_c/' );
  */
 
 global $civicrm_root;
@@ -133,8 +133,7 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 /**
  * Site URLs:
  *
- * This section defines absolute and relative URLs to access the host CMS (Drupal or Joomla)
- * resources. Also you can use Standalone to access the host CMS resources. 
+ * This section defines absolute and relative URLs to access the host CMS (Drupal or Joomla) resources.
  *
  * IMPORTANT: Trailing slashes should be used on all URL settings.
  * 
