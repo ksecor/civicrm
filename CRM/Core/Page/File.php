@@ -35,15 +35,16 @@
 
 require_once 'CRM/Core/Page.php';
 
-class CRM_Core_Page_File extends CRM_Core_Page {
-  
-    function run( ) {
+class CRM_Core_Page_File extends CRM_Core_Page 
+{
 
+    function run( ) 
+    {
         require_once 'CRM/Utils/Request.php';
         require_once 'CRM/Core/DAO.php';
 
         $eid         = CRM_Utils_Request::retrieve( 'eid'   , 'Positive', $this, true );
-        $fid         = CRM_Utils_Request::retrieve( 'fid'   , 'Positive', $this, true );
+        $fid         = CRM_Utils_Request::retrieve( 'fid'   , 'Positive', $this, false );
         $id          = CRM_Utils_Request::retrieve( 'id'    , 'Positive', $this, true );
         $quest       = CRM_Utils_Request::retrieve( 'quest' , 'String',   $this );
         $action      = CRM_Utils_Request::retrieve( 'action', 'String',   $this );
