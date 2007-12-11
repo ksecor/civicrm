@@ -20,7 +20,7 @@ class TestofUpdateNote extends UnitTestCase
         $params = array('email' => 'aa@yahoo.com');
         $contact =& crm_create_contact($params, 'Individual');
 
-        $this->assertIsA($contact, 'CRM_Contact_BAO_Contact');
+        $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
         $this->_individual = $contact;
     }
 
