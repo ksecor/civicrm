@@ -1,4 +1,11 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+ <head>
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
+<link rel="stylesheet" href="{$config->resourceBase}css/standalone.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo/commonWidgets.js"></script>
@@ -9,6 +16,15 @@
 
 {include file="CRM/common/dojo.tpl"}
 
+</head>
+<body>
+
+{if $config->debug}
+{include file="CRM/common/debug.tpl"}
+{/if}
+
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">
   <tr>
@@ -52,3 +68,7 @@
 
   </tr>
 </table>
+
+</div> {* end crm-container div *}
+</body>
+</html>

@@ -1,3 +1,10 @@
+{if $config->debug}
+{include file="CRM/common/debug.tpl"}
+{/if}
+
+<div id="crm-container" lang="{$config->lcMessages|truncate:2:"":true}" xml:lang="{$config->lcMessages|truncate:2:"":true}">
+<script type="text/javascript" src="{$config->resourceBase}js/Common.js"></script>
+
 {* Only include joomla.css in administrator (backend). Page layout style id's and classes conflict with typical front-end css and break the page layout. *}
 
 {if ! $config->userFrameworkFrontend}
@@ -60,3 +67,4 @@
 
 </tr>
 </table>
+</div> {* end crm-container div *}

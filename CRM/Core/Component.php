@@ -107,9 +107,6 @@ class CRM_Core_Component
                     // also set the smarty variables to the current component
                     $template =& CRM_Core_Smarty::singleton( );
                     $template->assign( 'activeComponent', $name );
-                    if( CRM_Utils_Array::value( 'metaTpl', $comp->info[$name] ) ) {
-                        $template->assign( 'metaTpl', $comp->info[$name]['metaTpl'] );
-                    }
                     if( CRM_Utils_Array::value( 'formTpl', $comp->info[$name] ) ) {
                         $template->assign( 'formTpl', $comp->info[$name]['formTpl'] );
                     }

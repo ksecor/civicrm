@@ -530,7 +530,8 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
                 return 'CRM/common/print.tpl';
             }
         } else {
-            return 'CRM/index.tpl';
+            $config =& CRM_Core_Config::singleton();
+            return 'CRM/common/'. strtolower($config->userFramework) .'.tpl';
         }
     }
 
