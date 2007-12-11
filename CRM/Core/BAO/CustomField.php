@@ -965,6 +965,11 @@ SELECT id
             $value = $date;
         }
         
+        if ( ($customFields[$customFieldId][2] == 'StateProvince' || 
+              $customFields[$customFieldId][2] == 'Country') && empty($value) ) {
+            return;
+        }
+
         if ( $customFields[$customFieldId][2] == 'File' ) {
             if ( empty($value) ) {
                 return;
