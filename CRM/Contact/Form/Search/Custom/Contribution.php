@@ -60,7 +60,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
         $form->add( 'date',
                     'start_date',
                     ts('Start Date'),
-                    CRM_Core_SelectValues::date('custom', 10, 0 ) );
+                    CRM_Core_SelectValues::date('custom', 10, 3 ) );
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
         $form->add( 'date',
@@ -76,21 +76,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
     }
 
     function count( ) {
-        $where = $this->where( );
-        if ( ! empty( $where ) ) {
-            $where = " AND $where";
-        }
-        $sql = "
-SELECT c.id as contact_id, c.display_name as display_name,
-       SUM(contrib.total_amount) as donation_amount, COUNT(contrib.id) donation_count
-FROM civicrm_contact c
-LEFT JOIN civicrm_contribution contrib ON (c.id = contrib.contact_id)
-WHERE
-contrib.is_test = 0 AND
-contrib.contribution_status_id = 1
-GROUP BY c.id
-ORDER BY c.sort_name ASC
-HAVING donation_amount > 100";
+        $sql = $this->all( );
 
         $dao = CRM_Core_DAO::executeQuery( $sql,
                                            CRM_Core_DAO::$_nullArray );
@@ -110,17 +96,25 @@ HAVING donation_amount > 100";
         if ( ! empty( $where ) ) {
             $where = " AND $where";
         }
+
+        $having = $this->having( );
+        if ( $having ) {
+            $having = " HAVING $having ";
+        }
+
         $sql = "
-SELECT c.id as contact_id, c.display_name as display_name,
-       SUM(contrib.total_amount) as donation_amount, COUNT(contrib.id) donation_count
-FROM civicrm_contact c
-LEFT JOIN civicrm_contribution contrib ON (c.id = contrib.contact_id)
-WHERE
-contrib.is_test = 0 AND
-contrib.contribution_status_id = 1
-GROUP BY c.id
-ORDER BY c.sort_name ASC
-HAVING donation_amount > 100";
+SELECT distinct(contact.id) as contact_id,
+       contact.display_name as display_name,
+       sum(contrib.total_amount) AS donation_amount,
+       count(contrib.id) AS donation_count
+FROM civicrm_contribution AS contrib,
+civicrm_contact AS contact
+WHERE contrib.contact_id = contact.id
+AND contrib.is_test = 0 
+$where
+GROUP BY contact.id
+$having
+ORDER BY donation_amount desc";
 
         return $sql;
     }
@@ -131,14 +125,30 @@ HAVING donation_amount > 100";
 
     function where( $includeContactIDs = false ) {
         $clauses = array( );
+
+        $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
+        if ( $startDate ) {
+            $clauses[] = "contrib.receive_date >= $startDate";
+        }
+
+        $endDate = CRM_Utils_Date::format( $this->_formValues['end_date'] );
+        if ( $endDate ) {
+            $clauses[] = "contrib.receive_date <= $endDate";
+        }
+
+        return implode( ' AND ', $clauses );
+    }
+
+    function having( $includeContactIDs = false ) {
+        $clauses = array( );
         $min = CRM_Utils_Array::value( 'min_amount', $this->_formValues );
         if ( $min ) {
-            $clauses[] = "donation_amount >= $min";
+            $clauses[] = "sum(contrib.total_amount) >= $min";
         }
 
         $max = CRM_Utils_Array::value( 'max_amount', $this->_formValues );
         if ( $max ) {
-            $clauses[] = "donation_amount <= $max";
+            $clauses[] = "sum(contrib.total_amount) <= $max";
         }
 
         return implode( ' AND ', $clauses );
