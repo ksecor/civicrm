@@ -422,7 +422,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
                     CRM_Core_Error::fatal( ts( 'There is no valid smtp server setting. Click <a href="%1">Administer CiviCRM >> Global Settings</a> to set the SMTP Server.', array( 1 => CRM_Utils_System::url('civicrm/admin/setting', 'reset=1')))); 
                 }
                 
-                $params['host'] = self::$_singleton->smtpServer;
+                $params['host'] = self::$_singleton->smtpServer ? self::$_singleton->smtpServer : 'localhost';
                 $params['port'] = self::$_singleton->smtpPort ? self::$_singleton->smtpPort : 25;
                 
                 if (self::$_singleton->smtpAuth) {
