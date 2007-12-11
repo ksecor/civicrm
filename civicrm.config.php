@@ -44,12 +44,11 @@ function conf_init() {
     }
 
     /**
-     * Just do a quick test to see if the config file is right under our nose
-     * (helps support standalone UF better)
+     * Quick test to see if the config file is in the standalone directory
      */
-    $currentDir = dirname( __FILE__ ) . '/';
-    if ( file_exists( $currentDir . 'civicrm.settings.php' ) ) {
-      	return $currentDir;
+    $saDir = dirname( __FILE__ ) . '/standalone/';
+    if ( file_exists( $saDir . 'civicrm.settings.php' ) ) {
+      	return $saDir;
     }
 
     /**

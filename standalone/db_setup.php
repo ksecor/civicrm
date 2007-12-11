@@ -67,11 +67,11 @@ $params = array(
                 'cmsURLVar'  => 'q',
                 'usersTable' => '',
                 'crmRoot' => "$civicrm_root",
-                'templateCompileDir' => "$civicrm_root/templates_c",
-                'uploadDir' => "$civicrm_root/upload",
+                'templateCompileDir' => "$civicrm_root/standalone/files/templates_c",
+                'uploadDir' => "$civicrm_root/standalone/files/upload",
                 'imageUploadDir' => '',
                 'imageUploadURL' => '',
-                'customFileUploadDir' => "$civicrm_root/custom",
+                'customFileUploadDir' => "$civicrm_root/standalone/files/custom",
                 'baseURL' => "$baseURL",
                 'resourceURL' => "$baseURL",
                 'frontEnd' => 0,
@@ -87,9 +87,9 @@ foreach ( $params as $key => $value ) {
     $data = str_replace( '%%' . $key . '%%', $value, $data );
 }
 $filename = 'civicrm.settings.php';
-$fd = fopen( "$civicrm_root/" . $filename, "w" );
+$fd = fopen( "$civicrm_root/standalone/" . $filename, "w" );
 if ( ! $fd ) {
-  die("Couldn't open ".$civicrm_root/$filename." for writing, check directory permissions.");
+  die("Couldn't open $civicrm_root/standalone/$filename for writing, check directory permissions.");
 }
 fputs( $fd, $data );
 fclose( $fd );
