@@ -108,8 +108,9 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function addHTMLHead( $head ) {
-        // nop -- we'll do this in the template like the Joomla UF does
-	    return;
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->append( 'pageHTMLHead', $head );
+        return;
     }
 
     /** 
