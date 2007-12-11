@@ -48,10 +48,10 @@ class CRM_Utils_System_Standalone {
      * @access public
      */
     function setTitle( $title, $pageTitle = null ) {
-      $template =& CRM_Core_Smarty::singleton( );
-      $template->assign( 'pageTitle', $title );
+        $template =& CRM_Core_Smarty::singleton( );
+        $template->assign( 'pageTitle', $title );
 
-      return;
+        return;
     }
     
     /**
@@ -108,8 +108,8 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function addHTMLHead( $head ) {
-      // nop -- we'll do this in the template like the Joomla UF does
-			return;
+        // nop -- we'll do this in the template like the Joomla UF does
+	    return;
     }
 
     /** 
@@ -210,11 +210,11 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getUserID( $user ) {
-      require_once 'CRM/Core/BAO/UFMatch.php';
+        require_once 'CRM/Core/BAO/UFMatch.php';
       
-      // this puts the appropriate values in the session, so
-      // no need to return anything
-      CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
+        // this puts the appropriate values in the session, so
+        // no need to return anything
+        CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
     }
 
     /**
@@ -227,11 +227,11 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getAllowedToLogin( $user ) {
-      require_once 'CRM/Core/BAO/UFMatch.php';
+        require_once 'CRM/Core/BAO/UFMatch.php';
       
-      // this returns true if the user is allowed to log in, false o/w
-      $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
-	  return $allow_login;
+        // this returns true if the user is allowed to log in, false o/w
+        $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
+        return $allow_login;
     }
 
     /**   
