@@ -15,7 +15,7 @@
 <script type="text/javascript" src="{$config->resourceBase}js/calendar-setup.js"></script> 
 
 {include file="CRM/common/dojo.tpl"}
-
+  <title>{$pageTitle}</title>
 </head>
 <body>
 
