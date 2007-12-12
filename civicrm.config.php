@@ -51,7 +51,7 @@ function conf_init() {
     if ( file_exists( $currentDir . 'settings_location.php' ) ) {
         include $currentDir . 'settings_location.php';
     }
-  
+
     if ( defined( 'CIVICRM_CONFDIR' ) && ! isset( $confdir ) ) {
       	$confdir = CIVICRM_CONFDIR;
     } else {
@@ -64,6 +64,10 @@ function conf_init() {
         } else {
             $confdir = $currentDir . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'sites';
         }
+    }
+
+    if ( file_exists( $confdir . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
+        return $confdir;
     }
 
     if ( ! file_exists( $confdir ) && ! $skipConfigError ) {
