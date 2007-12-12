@@ -460,7 +460,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                             civicrm_case_activity.activity_id = civicrm_activity.id
                   left join civicrm_case on
                             civicrm_case_activity.case_id = civicrm_case.id
-                  where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 )
+                  where ( source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1 or civicrm_case.contact_id = %1 )
                         and civicrm_option_group.name = 'activity_type' 
                         and is_test = 0 " . $case ;
 

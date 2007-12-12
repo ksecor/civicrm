@@ -137,6 +137,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         } else {
             $showDelete = true;
             $url      = 'civicrm/activity/view';
+            $delUrl   = 'civicrm/activity';
             $qsView   = "atype={$activityTypeId}&action=view&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%";
         }
 
@@ -167,10 +168,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         }
 
         if ( $showDelete ) {
+            if ( ! $delUrl ) {
+                $delUrl = $url;
+            }
+            
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::DELETE => 
                                                                  array(
                                                                        'name'     => ts('Delete'),
-                                                                       'url'      => $url,
+                                                                       'url'      => $delUrl,
                                                                        'qs'       => $qsDelete,
                                                                        'title'    => ts('Delete Activity') ) );
         }
@@ -178,7 +183,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         if ( $this->_context == 'case' ) {
             $qsDetach = "atype={$activityTypeId}&action=detach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
 
-            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::RENEW => 
+            self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::DETACH => 
                                                                  array(
                                                                        'name'     => ts('Detach'),
                                                                        'url'      => $url,
