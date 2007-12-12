@@ -50,7 +50,7 @@ class CRM_Group_Controller extends CRM_Core_Controller {
         $this->addPages( $this->_stateMachine, $action );
 
         // hack for now, set Search to Basic mode
-        $this->_pages['Search']->setAction( CRM_Core_Action::BASIC );
+        $this->_pages['Basic']->setAction( CRM_Core_Action::BASIC );
 
         // add all the actions
         $config =& CRM_Core_Config::singleton( );

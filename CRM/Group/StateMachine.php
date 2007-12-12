@@ -45,7 +45,7 @@ class CRM_Group_StateMachine extends CRM_Core_StateMachine {
         
         $this->_pages = array(
                               'CRM_Group_Form_Edit' => null,
-                              'CRM_Contact_Form_Search' => null,
+                              'CRM_Contact_Form_Search_Basic' => null,
                               'CRM_Contact_Form_Task_AddToGroup' => null,
                               'CRM_Contact_Form_Task_Result' => null,
                               );
