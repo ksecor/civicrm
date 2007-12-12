@@ -221,10 +221,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
-        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETTACH ) ) { 
+        if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) { 
             $button = ts('Delete');
-            if ( $this->_action & CRM_Core_Action::DETTACH ) {
-                $button = ts('Dettach');
+            if ( $this->_action & CRM_Core_Action::DETACH ) {
+                $button = ts('Detach');
             }
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -453,10 +453,10 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             return;
         }
 
-        if ( $this->_action & CRM_Core_Action::DETTACH ) { 
+        if ( $this->_action & CRM_Core_Action::DETACH ) { 
             require_once 'CRM/Case/BAO/Case.php';
             CRM_Case_BAO_Case::deleteCaseActivity( $this->_activityId );
-            CRM_Core_Session::setStatus( ts("Selected Activity is dettached sucessfully from a case.") );
+            CRM_Core_Session::setStatus( ts("Selected Activity has been sucessfully detached from a case.") );
             return;
         }
         

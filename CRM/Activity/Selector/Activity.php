@@ -176,14 +176,14 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
         }
         
         if ( $this->_context == 'case' ) {
-            $qsDettach = "atype={$activityTypeId}&action=dettach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
+            $qsDetach = "atype={$activityTypeId}&action=detach&reset=1&id=%%id%%&cid=%%cid%%&context=%%cxt%%&caseid=%%caseid%%";
 
             self::$_actionLinks = self::$_actionLinks +  array ( CRM_Core_Action::RENEW => 
                                                                  array(
-                                                                       'name'     => ts('Dettach'),
+                                                                       'name'     => ts('Detach'),
                                                                        'url'      => $url,
-                                                                       'qs'       => $qsDettach,
-                                                                       'title'    => ts('Dettach Activity') ) );
+                                                                       'qs'       => $qsDetach,
+                                                                       'title'    => ts('Detach Activity') ) );
         }
 
         return self::$_actionLinks;

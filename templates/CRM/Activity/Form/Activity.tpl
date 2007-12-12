@@ -48,7 +48,7 @@
            {elseif $action eq 4}
               {ts}View{/ts}
            {elseif $action eq 32768}
-              {ts}Dettach{/ts}
+              {ts}Detach{/ts}
            {/if}
            {$activityTypeName}
           </legend>
@@ -144,7 +144,7 @@
            {elseif $action eq 32768}
              <tr>
                 <td colspan="2">
-                    <div class="status">{ts 1=$delName}Are you sure you want to dettach "%1"?{/ts}</div>
+                    <div class="status">{ts 1=$delName}Are you sure you want to detach "%1" from this case?{/ts}</div>
                 </td>
              </tr>  
            {/if}

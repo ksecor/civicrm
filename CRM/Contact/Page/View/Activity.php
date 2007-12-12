@@ -163,7 +163,7 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         if ( $this->_action & 
            ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW ) ) {
             $this->edit( );
-        } elseif ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETTACH ) ) {
+        } elseif ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) {
             $this->delete( );
         } else {
             $this->browse( );
