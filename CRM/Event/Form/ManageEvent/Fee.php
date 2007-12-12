@@ -35,6 +35,7 @@
 
 require_once 'CRM/Event/Form/ManageEvent.php';
 require_once 'CRM/Event/BAO/EventPage.php';
+require_once 'CRM/Core/OptionGroup.php';
 
 /**
  * This class generates form components for Event Fees
