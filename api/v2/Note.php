@@ -147,7 +147,7 @@ function &civicrm_note_delete( &$params )
     }
 
     $result = new CRM_Core_BAO_Note();
-    return $result->del( $params ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Note');
+    return $result->del( $params['id'] ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Note');
 }
 
 /**
