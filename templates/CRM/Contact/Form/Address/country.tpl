@@ -28,7 +28,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
        }
 
        //clear state province combo list
-       //widget._clearResultList( );
+       //widget.clearResultList( );
 
        //data url for state
        var res = {/literal}"{$stateUrl}"{literal};
@@ -37,6 +37,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
 
        var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
        widget.store   = queryStore;
+
    } 
 }
 

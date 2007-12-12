@@ -53,7 +53,7 @@ class CRM_Utils_JSON
         $jsonObject = '{ identifier: "'. $identifier .'", items: [';
         
         foreach ( $params as $value ) {
-            $jsonObject .= '{ name: "' . $value['name'] . '", label: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" },';
+            $jsonObject .= '{ name: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" },';
         }
 
         $jsonObject .= ' ]}';

@@ -90,7 +90,7 @@ class CRM_Contact_Form_Address
             if ( ! $select ) {
                 if ( $name == 'country_id' || $name == 'state_province_id' ) {
                     $onValueChanged = null;
-                    $countryUrl        = null;
+                    $countryUrl     = null;
                     
                     if ( $name == 'country_id') {
                         $countryUrl =  CRM_Utils_System::url( "civicrm/ajax/country", null, true, null, false );
@@ -109,10 +109,15 @@ class CRM_Contact_Form_Address
                                          'store'          => "{$name}Store",
                                          'style'          => 'width: 230px;',
                                          'value'          => '',
-                                         '_onBlurInput'   => $onValueChanged,
-                                         'onValueChanged' => $onValueChanged,
+                                         'onBlur'         => $onValueChanged,
+                                         'onChange'       => $onValueChanged,
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
+
                     $form->assign( 'countryUrl', $countryUrl );
+                    
+                    if ( $name == 'state_province_id' ) {
+                        unset( $attributes['onChange'] );
+                    }
                 }
 
                 $location[$locationId]['address'][$name] =
