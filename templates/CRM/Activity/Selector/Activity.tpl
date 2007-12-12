@@ -84,7 +84,11 @@
 {else}
 
   <div class="messages status">
-     {ts}No Activites for this contact.{/ts}
+    {if $caseview}
+      {ts}There is no activities attached to this case record. Go to Activities tab to attach some activity records.{/ts}
+    {else}
+      {ts}No Activites for this contact.{/ts}
+    {/if}
   </div>
 
 {/if}

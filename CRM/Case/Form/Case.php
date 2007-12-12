@@ -114,6 +114,10 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             return;
         }
 
+        $this->add( 'text', 'subject', ts('Subject'), 'maxlength=128', true);
+        $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
+                        'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
+
         require_once 'CRM/Core/OptionGroup.php';        
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');
         $this->add('select', 'status_id',  ts( 'Case Status' ),  
@@ -123,9 +127,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->add('select', 'case_type_id',  ts( 'Case Type' ),  
                    $caseType , true, array("size"=>"5",  "multiple"));
         
-        $this->add( 'text', 'subject', ts('Subject'),null, true);
-        $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
-                        'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
+
+                        
         $this->add( 'date', 'start_date', ts('Start Date'),
                     CRM_Core_SelectValues::date('manual',20,10 ),
                     true);   
@@ -137,6 +140,8 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add('textarea', 'details', ts('Notes'));
+
+        $this->addFormRule( array( 'CRM_Case_Form_Case', 'formRule' ) );
         
         if ( $this->_action & CRM_Core_Action::VIEW ) {
             $this->freeze( );
@@ -172,9 +177,18 @@ class CRM_Case_Form_Case extends CRM_Core_Form
      * @access public  
      * @static  s
      */  
-    static function formRule( &$fields, &$files, $self ) {
+    static function formRule( &$values ) {
+
         $errors = array( ); 
-        return $errors;
+
+        $start = CRM_Utils_Date::format( $values['start_date'] );
+        $end   = CRM_Utils_Date::format( $values['end_date'  ] );
+        if ( ($end < $start) && ($end != 0) ) {
+            $errors['end_date'] = ts( 'End date should be later than Start date' );
+            return $errors;
+        }
+        
+        return true;
     }
     
     /** 

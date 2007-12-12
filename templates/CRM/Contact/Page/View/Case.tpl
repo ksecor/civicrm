@@ -1,4 +1,7 @@
 <div class="view-content">
+
+{capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
+
 {if $action eq 1 or $action eq 2 or $action eq 8} {* add, update, delete*}            
     {include file="CRM/Case/Form/Case.tpl"}
 {elseif $action eq 4 }
@@ -6,10 +9,7 @@
 
 {else}
 <div id="help">
- 
-     {capture assign=newCaseURL}{crmURL p="civicrm/contact/view/case" q="reset=1&action=add&cid=`$contactId`&context=case"}{/capture}
-     {ts 1=$newCaseURL}Click <a href="%1">Register Case</a> for this contact.{/ts}
-
+     {ts 1=$displayName 2=$newCaseURL}This page lists all case records for %1. Click <a href="%2">Add New Case</a> to register new case record for this contact.{/ts}
 </div>
 
 {if $cases}
@@ -49,7 +49,7 @@
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
-            {ts}No cases have been recorded from this contact.{/ts}
+            {ts 1=$newCaseURL}There are no case records for this contact. You can <a href="%1">enter one now</a>.{/ts}
        </dd>
        </dl>
   </div>
