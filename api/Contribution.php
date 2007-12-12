@@ -289,7 +289,7 @@ function crm_get_contributions() {
     $dao->query( $query );
     $contributions = array();
     while ( $dao->fetch( ) ) {
-        $ontributions[$dao->id] = $dao->id;
+        $contributions[$dao->id] = $dao->id;
     }
     return $contributions;
 }
