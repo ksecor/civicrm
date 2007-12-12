@@ -36,6 +36,7 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $params = array();
         $contribution =& civicrm_contribution_get($params);
         $this->assertEqual( $contribution['is_error'], 1 );
+        $this->assertEqual( $contribution['error_message'], 'No input parameters present' );
     }
     
     
@@ -44,6 +45,7 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $params = 'domain_id= 1';                            
         $contribution =& civicrm_contribution_get($params);
         $this->assertEqual( $contribution['is_error'], 1 );
+        $this->assertEqual( $contribution['error_message'], 'Input parameters is not an array' );
     }
  
 
@@ -80,8 +82,8 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $this->assertEqual($contribution['contribution_source'],'SSF');
         $this->assertEqual($contribution['contribution_status_id'],  1);
        
-        $params = array('contribution_id' =>$this->_contributionId);
-        $contribution1 =& civicrm_contribution_get($params);         
+        $params1 = array('contribution_id' =>$this->_contributionId);
+        $contribution1 =& civicrm_contribution_get($params1);         
         $this->assertEqual($contribution1['contact_id'],$this->_individualId); 
         $this->assertEqual($contribution1['total_amount'],100.00);
         $this->assertEqual($contribution1['contribution_type_id'],$this->_contributionTypeId);        
@@ -91,15 +93,14 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $this->assertEqual($contribution1['trxn_id'],12345);
         $this->assertEqual($contribution1['invoice_id'],67890);
         $this->assertEqual($contribution1['contribution_source'],'SSF');
-        $this->assertEqual($contribution1['contribution_status_id'],  1);        
+        $this->assertEqual($contribution1['contribution_status_id'],  1);  
+        
+        $params2 = array( 'contribution_id' => $this->_contribution['id'] );
+        $contribution2 =& civicrm_contribution_delete( $params2 );
+        $this->assertEqual($contribution2['is_error'], 0);
+        $this->assertEqual($contribution2['result'], 1);
+        
     }
  
-
-    function testDeleteContribution()
-    {
-        $params = array( 'contribution_id' => $this->_contribution['id'] );
-        $val =& civicrm_contribution_delete( $params );
-        $this->assertEqual($val['is_error'], 0);  
-    }    
 }
 ?>
