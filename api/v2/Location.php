@@ -47,9 +47,12 @@ require_once 'api/v2/utils.php';
 function civicrm_location_add( &$params ) {
     _civicrm_initialize( );
     $error = _civicrm_location_check_params( $params );
+    
     if ( civicrm_error( $error ) ) {
         return $error;
     }  
+    
+    require_once 'CRM/Core/DAO/LocationType.php';
     $locationTypeDAO = & new CRM_Core_DAO_LocationType();
     $locationTypeDAO->name      = $params['location_type'];
     $locationTypeDAO->domain_id = CRM_Core_Config::domainID( );
@@ -212,21 +215,29 @@ function &_civicrm_location_add( &$params ,$locationTypeId) {
             }
         }
     }
-    
-    $ids = array();
+        
     require_once 'CRM/Core/BAO/Location.php';
     require_once 'CRM/Contact/BAO/Contact.php';
+    
     CRM_Contact_BAO_Contact::resolveDefaults($values, true);
-    $location = CRM_Core_BAO_Location::add($values, $ids,1);
-    $locArray=array();
-    if ( ! $location ) {
-        return civicrm_create_error( ts ("Location object not created" ) );
-    } elseif ( is_a($location, 'CRM_Core_BAO_Location') ) {
-        // building location array
-        $locArray = array();
-        $locArray = &_civicrm_location_object_to_array( $location );
+    
+    $location = CRM_Core_BAO_Location::create( $values );
+    
+    if ( empty( $location ) ) {
+        return civicrm_create_error( ts ("Location not created" ) );
     }
-    return $locArray ;
+            
+    $locArray = array( );
+    
+    $blocks = array( 'phone', 'email', 'im' );
+    
+    foreach( $blocks as $block ) {
+        for ( $i = 0; $i < count( $location[$block] ); $i++ ) {
+            $locArray[$block][$i] = $location[$block][$i]->id;
+        }
+    }
+    
+    return civicrm_create_success( $locArray );
 }
 
 function &_civicrm_location_update( $params,$locationArray ) {
