@@ -433,7 +433,7 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
     /**                                                           
      * Delete the indirect records associated with this contribution first
      * 
-     * @return void
+     * @return $results no of deleted Contribution on success, false otherwise
      * @access public 
      * @static 
      */ 
@@ -441,7 +441,8 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
+        $results = null;
         //delete activity record
         require_once "CRM/Activity/BAO/Activity.php";
         $params = array( 'source_record_id' => $id,
@@ -451,9 +452,10 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         
         $dao     = new CRM_Contribute_DAO_Contribution( );
         $dao->id = $id;
-        $dao->delete( );
+        $results = $dao->delete( );
         
         $transaction->commit( );
+        return $results;
     }
     
     /**
