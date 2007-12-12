@@ -124,7 +124,7 @@ class CRM_Utils_Mail {
                           $cc = null,
                           $bcc = null,
                           $replyTo = null  ) {
-        $returnPath = CRMC_ore_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
+        $returnPath = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
                                                    CRM_Core_Config::domainID( ),
                                                    'email_return_path' );
         if ( ! $returnPath ) {
