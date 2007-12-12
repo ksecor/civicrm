@@ -105,7 +105,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
                                                                       $action,
                                                                       array( 'id'  => $case->id,
                                                                              'cid' => $this->_contactId ) );
-
+            $names = array( );
             $caseTypeIds =  explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, $values[$case->id]['case_type_id'] );
             foreach ( $caseTypeIds as $id => $val ) {
                 if ( $val ) {
