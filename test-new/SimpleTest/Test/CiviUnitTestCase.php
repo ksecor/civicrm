@@ -152,6 +152,9 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result['id'];
     }
+
+   
+
     
     function contactMembershipCreate( $params ) 
     {
@@ -223,6 +226,36 @@ class CiviUnitTestCase extends UnitTestCase {
         return;
     }
     
+
+    function relationshipTypeCreate( &$params ) 
+    {  
+
+        $result= civicrm_relationship_type_add($params);
+        
+        if ( civicrm_error( $params ) ) {
+            CRM_Core_Error::fatal( 'Could not create relationship type' );
+        }
+        return $result['id'];
+    }
+    
+   /**
+     * Function to delete Relatinship Type
+     * 
+     * @param int $relationshipTypeID
+     */
+    function relationshipTypeDelete( $relationshipTypeID )
+    {
+        $params['id'] = $relationshipTypeID;
+        $result = civicrm_relationship_type_delete( $params );
+        
+        if (civicrm_error( $params ) ) {
+            CRM_Core_Error::fatal( 'Could not delete relationship type' );
+        }
+        return;
+    }
+
+
+
     /** 
      * Function to create Participant 
      *
@@ -271,8 +304,7 @@ class CiviUnitTestCase extends UnitTestCase {
     
     /**
      * Function to delete contribution Types 
-     * 
-     * @param int $contributionTypeId
+     *      * @param int $contributionTypeId
      */
     function contributionTypeDelete($contributionTypeID) 
     {
