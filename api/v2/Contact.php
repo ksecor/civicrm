@@ -50,10 +50,10 @@ function &civicrm_contact_add( &$params ) {
     _civicrm_initialize( );
     //    CRM_Core_Error::debug('p', 'satan');
     $contactID = CRM_Utils_Array::value( 'contact_id', $params );
-    $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
-
+    
     if ( ! $contactID ) {
-        $values = civicrm_contact_check_params( $params, $dupeCheck );
+        $dupeCheck = CRM_Utils_Array::value( 'dupe_check', $params, false );
+        $values    = civicrm_contact_check_params( $params, $dupeCheck );
         if ( $values ) {
             return $values;
         }

@@ -155,15 +155,8 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
         
         $location = & civicrm_location_add($params); 
        
-        $this->assertNotNull($location);
-        $this->assertEqual($location['phone'][2]['phone'], '91-20-234-657686');
-        $this->assertEqual($location['phone'][1]['phone_type'], 'Phone');
-        $this->asSertequal($location['im'][1]['name'], 'abc');
-        $this->assertEqual($location['im'][2]['provider_id'], 3);
-        $this->assertEqual($location['email'][3]['email'], 'yashi@yahoo.com');
+        $this->assertEqual( $location['is_error'], 0 );
     }
-   
 }
  
-?> 
-       
+?>

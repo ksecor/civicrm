@@ -127,13 +127,14 @@ function civicrm_location_delete( &$contact ) {
     if( ! isset( $contact['contact_id'] ) ) {
         return civicrm_create_error( ts('$contact is not valid contact datatype') );
     } 
-    $locationId = $contact['location_type'];
-
-
-    if (! $locationId ) {
-        return civicrm_create_error('missing or invalid $location_id');
+    
+    require_once 'CRM/Utils/Rule.php';
+    if ( ! ( CRM_Utils_Array::value( 'location_type', $contact ) ) && 
+         ! ( CRM_Utils_Rule::integer( $locationTypeId ) ) ) {
+        return civicrm_create_error( ts('missing or invalid location') );
     }
-    $result =& _civicrm_location_delete( $contact, $locationId );
+    
+    $result =& _civicrm_location_delete( $contact );
 
     return $result;
 }
@@ -227,9 +228,11 @@ function &_civicrm_location_add( &$params ,$locationTypeId) {
         return civicrm_create_error( ts ("Location not created" ) );
     }
             
-    $locArray = array( );
+    $locArray                     = array( );
     
-    $blocks = array( 'phone', 'email', 'im' );
+    $locArray['location_type_id'] = $locationTypeId;
+    
+    $blocks = array( 'address', 'phone', 'email', 'im' );
     
     foreach( $blocks as $block ) {
         for ( $i = 0; $i < count( $location[$block] ); $i++ ) {
@@ -348,50 +351,31 @@ function &_civicrm_location_update( $params,$locationArray ) {
     return $locArray ;
 }
 
-function &_civicrm_location_delete( $contact,$locationId ) {
-    require_once "CRM/Core/DAO/Location.php";
-    $locationDAO =& new CRM_Core_DAO_Location();
-    $locationDAO->entity_table = 'civicrm_contact';
-    $locationDAO->entity_id    = $contact['contact_id'];
-    $locationDAO->location_type_id = $locationId;
-    if (!$locationDAO->find()) {
-        return civicrm_create_error( ts('invalid $location_id') );
+function &_civicrm_location_delete( &$contact ) {
+    require_once 'CRM/Core/DAO/LocationType.php';
+    $locationTypeDAO     =& new CRM_Core_DAO_LocationType( );
+    $locationTypeDAO->id = $contact['location_type'];
+    
+    if ( ! $locationTypeDAO->find( ) ) {
+        return civicrm_create_error( ts('invalid location type') );
     }
-    $locationDAO->fetch();
-
-    CRM_Core_BAO_Location::deleteLocationBlocks($locationDAO->id);
-    // if we're deleting primary, lets change another one to primary
-    if ($locationDAO->is_primary) {
-        $otherLocationDAO =& new CRM_Core_DAO_Location();
-        $otherLocationDAO->entity_table = 'civicrm_contact';
-        $otherLocationDAO->entity_id    =  $contact['contact_id'];
-        $otherLocationDAO->whereAdd("id != $locationId");
-        $otherLocationDAO->orderBy('id');
-        if ($otherLocationDAO->find()) {
-            $otherLocationDAO->fetch();
-            $otherLocationDAO->is_primary = 1;
-            $otherLocationDAO->save();
-        }
-    }
-    $locationDAO->delete();
+    
+    CRM_Core_BAO_Location::deleteLocationBlocks( $contact['contact_id'], $contact['location_type'] );
     
     return null;
 }
 
 function &_civicrm_location_get( $contact, $location_types ) {
-    $params = array();
-    $params['contact_id']   = $contact['contact_id'];
-    $params['entity_id']    = $contact['contact_id'];
-    $locationDAO =& new CRM_Core_DAO_Location();
-    $locationDAO->entity_table = 'civicrm_contact';
-    $locationDAO->entity_id = $contact['contact_id'];
-    $locationCount = $locationDAO->count();
-    $values = array();
-    $locations = CRM_Core_BAO_Location::getValues($params,$values,$ids,$locationCount);
+    $params                    = array();
+    $params['contact_id']      = $contact['contact_id'];
+    $params['entity_id']       = $contact['contact_id'];
+        
+    $locationBAO               =& new CRM_Core_BAO_Location();
     
+    $values                    = array();
+    $locations                 = CRM_Core_BAO_Location::getValues( $params, $values );
     
     if( is_array($location_types) && count($location_types)>0 ) {
-        
         foreach($location_types as $locationName) {
             $newLocations = array();
             $LocationTypeDAO = & new CRM_Core_DAO_LocationType();

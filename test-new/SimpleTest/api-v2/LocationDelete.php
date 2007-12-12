@@ -26,7 +26,7 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         
         $locationDelete =& civicrm_location_delete($location);
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        $this->assertEqual( $locationDelete['error_message'], 'invalid $location_id' );        
+        $this->assertEqual( $locationDelete['error_message'], 'missing or invalid location' );        
     }
 
     function testLocationDeleteWithMissingContactId( )
@@ -44,7 +44,7 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         $locationDelete =& civicrm_location_delete( $params );
 
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        $this->assertEqual( $locationDelete['error_message'], 'missing or invalid $location_id' );
+        $this->assertEqual( $locationDelete['error_message'], 'missing or invalid location' );
     }
 
 
@@ -57,7 +57,7 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
         $locationDelete =& civicrm_location_delete( $params );
 
         $this->assertEqual( $locationDelete['is_error'], 1 );
-        $this->assertEqual( $locationDelete['error_message'], 'invalid $location_id' );                
+        $this->assertEqual( $locationDelete['error_message'], 'invalid location type' );                
         $this->assertNotNull( $locationDelete );
     }
 
@@ -65,9 +65,10 @@ class TestOfLocationDeleteAPIV2 extends CiviUnitTestCase
     function testLocationDelete( )
     {
         $location  = $this->locationAdd(  $this->_contactID ); 
+        
         $params = array(
                         'contact_id'    => $this->_contactID,
-                        'location_type' => $location['location_type_id']
+                        'location_type' => $location['result']['location_type_id']
                         );
         $locationDelete =& civicrm_location_delete( $params );
         

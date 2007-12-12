@@ -534,9 +534,9 @@ class CiviUnitTestCase extends UnitTestCase {
                         'supplemental_address_2' => 'Jersey Village'
                         );
         
+        require_once 'api/v2/Location.php';
         $result = civicrm_location_add( $params );
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'id', $result) ) {
+        if ( civicrm_error( $result ) ) {
             CRM_Core_Error::fatal( 'Could not create location' );
         }
         
