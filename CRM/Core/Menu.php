@@ -328,7 +328,7 @@ class CRM_Core_Menu
         self::items( );
 
         $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Joomla' ) {
+        if ( $config->userFramework == 'Joomla'  || $config->userFramework == 'Standalone') {
             static $processed = false;
             if ( ! $processed ) {                
                 $processed = true;
