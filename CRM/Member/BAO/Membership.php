@@ -375,14 +375,15 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
      * @param int $membershipId membership id that needs to be deleted 
      *
      * @static
-     * @return void
+     * @return $results   no of deleted Membership on success, false otherwise
      * @access public
      */
     static function deleteMembership( $membershipId ) 
     {
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
+        
+        $results = null;
         //delete activity record
         require_once "CRM/Activity/BAO/Activity.php";
         $params = array( 'source_record_id' => $membershipId,
@@ -393,9 +394,10 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
         require_once 'CRM/Member/DAO/Membership.php';
         $membership = & new CRM_Member_DAO_Membership( );
         $membership->id = $membershipId;
-        $membership->delete( );
-        
+        $results = $membership->delete( );
         $transaction->commit( );
+        return $results;
+        
     }
 
     /** 

@@ -530,7 +530,7 @@ function civicrm_membership_delete(&$membershipID)
     $membership = new CRM_Member_BAO_Membership();
     $result = $membership->deleteMembership($membershipID);
     
-    return $result ?   null :civicrm_create_error('Error while deleting Membership') ;
+    return $result ? civicrm_create_success( ) : civicrm_create_error('Error while deleting Membership');
 }
 
 /**
