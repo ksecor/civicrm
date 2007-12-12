@@ -56,26 +56,6 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
         
         $openId->copyValues($params);
 
-        // need to handle update mode
-
-        // when open id field is empty need to delete it
-
-        // fix allowed login to do
-//         if ( array_key_exists( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId]) ) {
-            
-//             if ( !empty( $params['contact_id'] ) ) {
-//                 $contactId = $params['contact_id'];
-
-//                 self::setAllowedToLogin( $openId, $contactId,
-//                 CRM_Utils_Array::value( 'allowed_to_login', $params['location'][$locationId]['openid'][$openIdId], false));
-                
-//                 // Copied from Email.php, but I don't think we want to do
-//                 // this here (i.e. return)
-//                 //return $openId;
-//             }
-//         }
-        
-
         return $openId->save( );
     }
 
@@ -94,34 +74,6 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
         return CRM_Core_BAO_Block::getValues( 'openid', $entityBlock );
     }
     
-    /**
-     * Method to set whether or not an OpenID is allowed to login or not
-     * 
-     * This method is used to set the allowed_to_login bit on the UFMatch
-     * record according to the 'allowedToLogin' value provided.
-     * 
-     * @param object  $openIdDAO         (reference) OpenID dao object
-     * @param int     $contactId         id of the contact to update
-     * @param boolean $allowedToLogin    flag to indicate whether this
-     *                                   OpenID can be used for login
-     *
-     */
-    public static function setAllowedToLogin( &$openIdDAO, $contactId, $allowedToLogin = false ) 
-    {
-        // first make sure a ufmatch record exists, if not,
-        // this will create one
-        require_once 'CRM/Core/BAO/UFMatch.php';
-        require_once 'standalone/user.php';
-        $user =& new Standalone_User( $openIdDAO->openid );
-        CRM_Core_BAO_UFMatch::synchronize( $user, true, 'Standalone', 'Individual' );
-        if ( $allowedToLogin ) {
-            CRM_Core_BAO_UFMatch::setAllowedToLogin( $contactId, 1 );
-        } else {
-            CRM_Core_BAO_UFMatch::setAllowedToLogin( $contactId, 0 );
-        }
-        return true;
-    }
-
     /**
      * Get all the emails for a specified contact_id, with the primary openid being first
      *

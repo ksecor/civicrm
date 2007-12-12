@@ -313,36 +313,6 @@ WHERE openid = %1";
     }
     
     /**
-     * set whether this user is allowed to login or not
-     *
-     * @param int    $contactId id of the contact to update
-     * @param bool   $allowedToLogin whether or not this user should be 
-     *                  allowed to login
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function setAllowedToLogin( $contactId, $allowedToLogin ) {
-        $ufmatch =& new CRM_Core_DAO_UFMatch( );
-        $ufmatch->contact_id = $contactId;
-        
-        $allowedToLoginValue = $allowedToLogin ? 1 : 0;
-        
-        if ( ! $ufmatch->find( true ) ||
-             $ufmatch->allowed_to_login == $allowedToLoginValue ) {
-            // if object does not exist or the login permission
-            // has not changed
-            return;
-        }
-        
-        // save the updated ufmatch object
-        $ufmatch->allowed_to_login = $allowedToLoginValue;
-        $ufmatch->save( );
-        $config =& CRM_Core_Config::singleton( );
-    }
-    
-    /**
      * Update the email value for the contact and user profile
      *  
      * @param  $contactId  Int     Contact ID of the user
