@@ -113,7 +113,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
         $tag = $this->_tag;
         $entity =& crm_get_entities_by_tag($tag, 'Individual');
         foreach ($entity as $id => $obj) {
-            $this->assertIsA($obj->contact_type_object, 'CRM_Contact_BAO_Individual');
+            $this->assertIsA($obj, 'CRM_Contact_BAO_Contact');
         }
     }
     
@@ -122,7 +122,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
         $tag = $this->_tag;
         $entity =& crm_get_entities_by_tag($tag, 'Household');
         foreach ($entity as $id => $obj) {
-            $this->assertIsA($obj->contact_type_object, 'CRM_Contact_BAO_Household');
+             $this->assertIsA($obj, 'CRM_Contact_BAO_Contact');
         }
     }
     
@@ -131,7 +131,7 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
         $tag = $this->_tag;
         $entity =& crm_get_entities_by_tag($tag, 'Organization');
         foreach ($entity as $id => $obj) {
-            $this->assertIsA($obj->contact_type_object, 'CRM_Contact_BAO_Organization');
+             $this->assertIsA($obj, 'CRM_Contact_BAO_Contact');
         }
     }
     

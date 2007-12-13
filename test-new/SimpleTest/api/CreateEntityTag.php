@@ -134,7 +134,7 @@ class TestOfCreateEntityTagAPI extends UnitTestCase
         
         $this->assertIsA($tagEntity, 'CRM_Core_BAO_EntityTag');
         $this->assertEqual($tagEntity->tag_id, $tag->id);
-        $this->assertEqual($tagEntity->entity_id, $entity->id);
+        $this->assertEqual($tagEntity->contact_id, $entity->id);
     }
     
     function testCreateEntityTagHousehold()
@@ -145,7 +145,7 @@ class TestOfCreateEntityTagAPI extends UnitTestCase
         
         $this->assertIsA($tagEntity, 'CRM_Core_BAO_EntityTag');
         $this->assertEqual($tagEntity->tag_id, $tag->id);
-        $this->assertEqual($tagEntity->entity_id, $entity->id);
+        $this->assertEqual($tagEntity->contact_id, $entity->id);
     }
     
     function testCreateEntityTagOrganization()
@@ -156,7 +156,7 @@ class TestOfCreateEntityTagAPI extends UnitTestCase
         
         $this->assertIsA($tagEntity, 'CRM_Core_BAO_EntityTag');
         $this->assertEqual($tagEntity->tag_id, $tag->id);
-        $this->assertEqual($tagEntity->entity_id, $entity->id);
+        $this->assertEqual($tagEntity->contact_id, $entity->id);
     }
     
     // Deleting the tags and contacts created for the test case. 
