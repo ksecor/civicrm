@@ -284,11 +284,12 @@ ORDER BY civicrm_custom_group.weight,
             if ( $entityID ) {
                 $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
                 foreach ( $blockTables as $keyTable ) {
-                    unset( $customValueTables[$keyTable] );
+                    // commented temporarily 
+                    //unset( $customValueTables[$keyTable] );
                 }
             }
             $groupTree['info'] = array( 'tables' => $customValueTables );
-            
+
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
@@ -305,18 +306,18 @@ ORDER BY civicrm_custom_group.weight,
             $groupTree['info']['select'] = $select;
             $groupTree['info']['from'  ] = $from  ;
             $groupTree['info']['where' ] = null   ;
-            
+
             if ( $entityID ) {
                 $groupTree['info']['where' ] = $where ;
                 $from   = implode( ', '   , $from   );
                 $select = implode( ', '   , $select );
                 $where  = implode( ' AND ', $where  );
+
                 $query = "
 SELECT $select
   FROM $from
  WHERE $where
 ";
-                
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch( ) ) {
                     foreach ( $groupTree as $groupID => $group ) {
