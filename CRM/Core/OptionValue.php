@@ -164,11 +164,15 @@ class CRM_Core_OptionValue {
                 CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_OptionValue', $oldWeight, $params['weight'], $fieldValues);
         }
         $params['option_group_id'] = $optionGroupID;
-
-        if ( $action & CRM_Core_Action::ADD ) {
+        
+        if ( ($action & CRM_Core_Action::ADD) && !$params['value'] ) {
             $fieldValues = array('option_group_id' => $optionGroupID);
             // use the next available value
-            $params['value'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues, 'value');
+            /* CONVERT(value, DECIMAL) is used to convert varchar
+               field 'value' to decimal->integer                    */
+            $params['value'] = (int) CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', 
+                                                                        $fieldValues, 
+                                                                        'CONVERT(value, DECIMAL)');
         }
         if ( !$params['label'] ) {
             $params['label'] = $params['name'];
