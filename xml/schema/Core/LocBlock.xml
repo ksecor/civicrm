@@ -22,81 +22,97 @@
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_address</name>
-    <fieldName>address_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>address_id</name> 
+       <table>civicrm_address</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>email_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_email</name>
-    <fieldName>email_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>email_id</name> 
+       <table>civicrm_email</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>phone_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_phone</name>
-    <fieldName>phone_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>phone_id</name> 
+       <table>civicrm_phone</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>im_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_im</name>
-    <fieldName>im_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>im_id</name> 
+       <table>civicrm_im</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>address_2_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_address_2</name>
-    <fieldName>address_2_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>address_2_id</name> 
+       <table>civicrm_address</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>email_2_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_email_2</name>
-    <fieldName>email_2_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>email_2_id</name> 
+       <table>civicrm_email</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>phone_2_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_phone_2</name>
-    <fieldName>phone_2_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>phone_2_id</name> 
+       <table>civicrm_phone</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
       <name>im_2_id</name>
       <type>int unsigned</type>
       <add>2.0</add>
   </field>
-  <index>
-    <name>index_im_2</name>
-    <fieldName>im_2_id</fieldName>
-    <add>2.0</add>
-  </index>
+  <foreignKey> 
+       <name>im_2_id</name> 
+       <table>civicrm_im</table> 
+       <key>id</key> 
+       <add>2.0</add> 
+       <onDelete>CASCADE</onDelete>
+  </foreignKey> 
   <field>
        <name>name</name>
        <uniqueName>location_name</uniqueName>
