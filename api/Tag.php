@@ -154,9 +154,10 @@ function crm_create_entity_tag(&$tag, &$entity)
     }
 
     $params = array ('tag_id' => $tag->id,
-                     'entity_id' => $entity->id,
+                     'contact_id' => $entity->id,
                      'entity_table' => 'civicrm_contact'
                      );
+
     return CRM_Core_BAO_EntityTag::add($params);
 }
 
