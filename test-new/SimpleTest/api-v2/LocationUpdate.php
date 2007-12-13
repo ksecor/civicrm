@@ -25,7 +25,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         
         $locationUpdate =& civicrm_location_update($location);
         $this->assertEqual( $locationUpdate['is_error'], 1 );
-        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid $location_id' );        
+        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
         
     }
 
@@ -46,7 +46,7 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
 
         $this->assertEqual( $locationUpdate['is_error'], 1 );
         $this->assertNotNull( $locationUpdate );
-        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid $location_id' );        
+        $this->assertEqual( $locationUpdate['error_message'], 'missing or invalid location_type_id' );        
     }
 
     function testLocationUpdate()
@@ -65,20 +65,16 @@ class TestOfLocationUpdateAPIV2 extends CiviUnitTestCase
         $emails = array($workEmailFirst,$workEmailSecond);
         
         $params = array(
-                        'phone'            => $phones,
-                        'city'             => 'Mumbai',
-                        'email'            => $emails,
-                        'contact_id'       => $this->_contactID,
-                        'location_id'      => $location['id']
+                        'phone'                 => $phones,
+                        'city'                  => 'Mumbai',
+                        'email'                 => $emails,
+                        'contact_id'            => $this->_contactID,
+                        'location_type_id'      => $location['result']['location_type_id']
                         );
         
-        
         $locationUpdate =& civicrm_location_update( $params );
-       
-        $this->assertEqual($locationUpdate['phone'][1]['phone'], '02327276048');
-        $this->assertEqual($locationUpdate['phone'][1]['phone_type'], 'Phone');
-        $this->assertEqual($locationUpdate['email'][1]['email'], 'xyz@indiatimes.com');
-        $this->assertEqual($locationUpdate['email'][2]['email'], 'abcdef@hotmail.com');
+        
+        $this->assertEqual( $locationUpdate['is_error'], 0 );
     }
     
     function tearDown( ) 

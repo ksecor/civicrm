@@ -48,7 +48,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
     /**
      * Location block element array
      */
-    static $blocks = array( 'phone', 'email', 'im', 'openid', 'address' );
+    static $blocks = array( 'phone', 'email', 'im',  'address' );
     
     /**
      * Function to create various elements of location block
@@ -66,13 +66,13 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         if ( ! self::dataExists( $params ) ) {
             return null;
         }
-
+        
         //format the params accord to new format. ie. we create all
         //email at one time, then move to another block element.
 
         $formattedBlocks = array( );
         self::formatParams( $params, $formattedBlocks, $entity );
-       
+        
         //create location block elements
         foreach ( self::$blocks as $block ) {
             $name = ucfirst( $block );
@@ -199,7 +199,7 @@ WHERE e.id = %1";
     static function formatParams( &$params, &$formattedBlocks, $entity = null ) 
     {
         foreach ( $params['location'] as $key => $value ) {
-            foreach ( self::$blocks as $block ) { 
+            foreach ( self::$blocks as $block ) {
                 $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
                                                                                             $value );
                 $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
@@ -302,8 +302,6 @@ WHERE e.id = %1";
      *
      * @param array $params        input parameters to find object
      * @param array $values        output values of the object
-     * @param array $ids           the array that holds all the db ids
-     * @param int   $locationCount number of locations to fetch
      *
      * @return array   array of objects(CRM_Core_BAO_Location)
      * @access public

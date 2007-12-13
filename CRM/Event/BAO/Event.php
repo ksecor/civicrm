@@ -182,9 +182,6 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     static function del( $id )
     { 
-        require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::deleteContact( $id, 'civicrm_event' );
-        
         $dependencies = array(
                   'CRM_Core_DAO_CustomOption'  => 
                              array( 

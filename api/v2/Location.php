@@ -86,17 +86,17 @@ function civicrm_location_update( $params ) {
         return civicrm_create_error( ts ('$contact is not valid contact datatype') );
     } 
     
-    $locationId = (int) $params['location_id'];
-    if (! $locationId ) {
-        return civicrm_create_error( ts('missing or invalid $location_id') );
+    if ( ! ( $locationTypeId = CRM_Utils_Array::value( 'location_type_id', $params ) ) && 
+         ! ( CRM_Utils_Rule::integer( $locationTypeId ) ) ) {
+        return civicrm_create_error( ts('missing or invalid location_type_id') );
     }
     
     // $locationObj is the original location object that we are updating
     $locationArray = array();
-    $locations =& civicrm_location_get( $params );
+    $locations     =& civicrm_location_get( $params );
     
     foreach ( $locations as $locNumber => $locValue ) {
-        if ( $locValue['id'] == $locationId) {
+        if ( $locValue['location_type_id'] == $locationTypeId) {
             $locationArray = $locValue;
             break;
         }
@@ -105,7 +105,9 @@ function civicrm_location_update( $params ) {
     if ( ! $locationArray ) {
         return civicrm_create_error( ts( 'invalid $location_id') );
     }
-    $location =& _civicrm_location_update( $params,$locationArray );
+    
+    $location =& _civicrm_location_update( $params, $locationArray );
+    
     return $location ;
 }
 
@@ -244,7 +246,6 @@ function &_civicrm_location_add( &$params ,$locationTypeId) {
 }
 
 function &_civicrm_location_update( $params,$locationArray ) {
-    
     $values = array(
                     'contact_id'    => $params['contact_id'],
                     'location'      => array(1 => array()),
@@ -320,35 +321,25 @@ function &_civicrm_location_update( $params,$locationArray ) {
         }
     }
     
-    $par = array('id' => $params['contact_id'], 'contact_id' => $params['contact_id']);
-    $ids = $defaults = array( );
-    $contact = CRM_Contact_BAO_Contact::retrieve( $par , $defaults , $ids );
+    $location = CRM_Core_BAO_Location::create( $values );
     
-    CRM_Contact_BAO_Contact::resolveDefaults($values, true);
+    if ( empty( $location ) ) {
+        return civicrm_create_error( ts ("Location not created" ) );
+    }
     
-    $ids['newLocation'] = array( );
-    foreach ( array_keys( $ids['location'] ) as $lid ) {
-        if ( $ids['location'][$lid]['id'] == $params['location_id'] ) {
-            $ids['newLocation'][1] = $ids['location'][$lid];
+    $locArray                     = array( );
+    
+    $locArray['location_type_id'] = $locationTypeId;
+    
+    $blocks = array( 'address', 'phone', 'email', 'im' );
+    
+    foreach( $blocks as $block ) {
+        for ( $i = 0; $i < count( $location[$block] ); $i++ ) {
+            $locArray[$block][$i] = $location[$block][$i]->id;
         }
     }
-    unset( $ids['location'] );
-    $ids['location'] = $ids['newLocation'];
     
-    if ( count( $ids['location'] ) != 1 ) {
-        civicrm_create_error( ts ("Could not retrieve ids for that location" ) );
-    }
-    
-    $location = CRM_Core_BAO_Location::add($values, $ids, 1);
-    $locArray= array();
-    //need to convert $location into array
-    if ( ! $location ) {
-        return civicrm_create_error( ts ("Location object not created" ) );
-    } elseif ( is_a($location, 'CRM_Core_BAO_Location') ) {
-        $locArray = &_civicrm_location_object_to_array( $location );
-    }
-
-    return $locArray ;
+    return civicrm_create_success( $locArray );
 }
 
 function &_civicrm_location_delete( &$contact ) {
@@ -471,6 +462,4 @@ function _civicrm_location_check_params( &$params ) {
     
     return array();
 }
-
-
 ?>
