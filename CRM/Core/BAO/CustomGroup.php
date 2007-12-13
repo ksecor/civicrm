@@ -281,9 +281,11 @@ ORDER BY civicrm_custom_group.weight,
               
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
-            $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
-            foreach ( $blockTables as $keyTable ) {
-                unset( $customValueTables[$keyTable] );
+            if ( $entityID ) {
+                $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
+                foreach ( $blockTables as $keyTable ) {
+                    unset( $customValueTables[$keyTable] );
+                }
             }
             $groupTree['info'] = array( 'tables' => $customValueTables );
             
