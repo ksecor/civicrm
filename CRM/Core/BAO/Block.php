@@ -186,7 +186,7 @@ class CRM_Core_BAO_Block
         $name = ucfirst( $blockName );
         if ( $contactId ) {
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::all' . $name . 's( $contactId );');
-        } else if ( !empty($entityElements) ) {
+        } else if ( !empty($entityElements) && $blockName != 'openid' ) {
             eval ( '$allBlocks = CRM_Core_BAO_' . $name . '::allEntity' . $name . 's( $entityElements );');
         }
 
