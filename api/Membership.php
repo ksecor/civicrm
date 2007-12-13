@@ -377,7 +377,7 @@ function crm_create_contact_membership($params, $contactID)
                                                             );
     }
     
-    foreach ( $relatedContacts as $contactId ) {
+    foreach ( $relatedContacts as $contactId => $status ) {
         $params['contact_id'         ] = $contactId;
         $params['owner_membership_id'] = $membershipBAO->id;
         unset( $params['id'] );
