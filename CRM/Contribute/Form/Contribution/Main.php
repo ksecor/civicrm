@@ -424,7 +424,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $memBlock       = CRM_Member_BAO_Membership::getMembershipBlock( $self->_id );
             $memTypeDetails = CRM_Member_BAO_MembershipType::getMembershipTypeDetails( $fields['selectMembership']);
             if ( $self->_values['amount_block_is_active'] &&
-                 CRM_Utils_Array::value( 'is_separate_payment', $memBlock ) ) {
+                 ! CRM_Utils_Array::value( 'is_separate_payment', $memBlock ) ) {
                 require_once 'CRM/Utils/Money.php';
                 if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
                     $errors['selectMembership'] =
