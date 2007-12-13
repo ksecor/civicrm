@@ -39,7 +39,8 @@ require_once 'CRM/Core/ShowHideBlocks.php';
 /**
  * form to process actions on the field aspect of Custom
  */
-class CRM_Custom_Form_Field extends CRM_Core_Form {
+class CRM_Custom_Form_Field extends CRM_Core_Form 
+{
 
     /**
      * Constants for number of options for data types of multiple option.
@@ -418,7 +419,8 @@ class CRM_Custom_Form_Field extends CRM_Core_Form {
      * @static
      * @access public
      */
-    static function formRule( &$fields, &$files, &$self ) {
+    static function formRule( &$fields, &$files, &$self ) 
+    {
         $default = CRM_Utils_Array::value( 'default_value', $fields );
         $errors  = array( );
         if ( $default ) {

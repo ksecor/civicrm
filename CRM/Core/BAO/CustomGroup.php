@@ -227,7 +227,7 @@ ORDER BY civicrm_custom_group.weight,
 
         // dummy dao needed
         $crmDAO =& CRM_Core_DAO::executeQuery( $queryString, $params );
-
+        
         $customValueTables = array( );
 
         // process records
@@ -278,11 +278,14 @@ ORDER BY civicrm_custom_group.weight,
         if ( $entityID ) {
             $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
         }
-
+              
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
+            $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
+            foreach ( $blockTables as $keyTable ) {
+                unset( $customValueTables[$keyTable] );
+            }
             $groupTree['info'] = array( 'tables' => $customValueTables );
-
             
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
@@ -387,7 +390,6 @@ SELECT $select
                 }
             }
         }
-        
         //hack for field type File
         $session = & CRM_Core_Session::singleton( );
         $session->set('uploadNames', $uploadNames);
@@ -490,6 +492,36 @@ $where
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'title' );
     }
 
+    /**
+     * Get the all the tables to be blocked
+     * on the basis of passed entity id
+     *
+     * @param int    $entityID          - entity_id to be searched in the table.
+     * @param array  $customValueTables - all custom data tables
+
+     * @return array $blockTables       - custom data tables in which passed
+     *                                    entity id not present
+     * @access public
+     * @static
+     *
+     */
+
+    public static function blockTablesFromGroupTree( $entityID, $customValueTables ) 
+    {
+        $blockTables = array();
+        foreach ( $customValueTables as $tableName ) {
+            $query = "
+SELECT entity_id 
+FROM   {$tableName} 
+WHERE  {$tableName}.entity_id = {$entityID}";
+            
+            $crmDAO =& CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
+            if ( !$crmDAO ) {
+                $blockTables[] = $tableName;
+            }
+        }
+        return $blockTables;
+    }
 
     /**
      * Get custom group details for a group.
