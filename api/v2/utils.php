@@ -623,8 +623,132 @@ function _civicrm_check_required_fields( &$params, $daoName)
     return true;
 }
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Event_BAO_Participant:create()
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_participant_formatted_param( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+        
+    $fields =& CRM_Event_DAO_Participant::fields( );
+    _civicrm_store_values( $fields, $params, $values );
+    
+    require_once 'CRM/Core/OptionGroup.php';
+    $customFields = CRM_Core_BAO_CustomField::getFields( 'Participant' );
 
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
 
-
+        //Handling Custom Data
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            $values[$key] = $value;
+            $type = $customFields[$customFieldID][3];
+            if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
+                $mulValues = explode( ',' , $value );
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                $values[$key] = array();
+                foreach( $mulValues as $v1 ) {
+                    foreach( $customOption as $v2 ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
+                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                            if ( $type == 'CheckBox' ) {
+                                $values[$key][$v2['value']] = 1;
+                            } else {
+                                $values[$key][] = $v2['value'];
+                            }
+                        }
+                    }
+                }
+            } else if ( $type == 'Select' || $type == 'Radio' ) {
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $customOption as $v2 ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
+                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
+                        $values[$key] = $v2['value'];
+                    }
+                }
+            }
+        }
+        
+        switch ($key) {
+        case 'participant_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            $values['contact_id'] = $values['participant_contact_id'];
+            unset ($values['participant_contact_id']);
+            break;
+        case 'participant_register_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+        case 'event_title':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Event", $value, 'id', 'title' );
+            $values['event_id'] = $id;
+            break;
+        case 'participant_status_id':
+            $id = CRM_Core_OptionGroup::getValue('participant_status', $value);
+            $values[$key] = $id;
+            break;
+        case 'participant_role_id':
+            $id = CRM_Core_OptionGroup::getValue('participant_role', $value);
+            $values['role_id'] = $id;
+            unset($values[$key]);
+            break;
+        default:
+            break;
+        }    
+    }
+    
+    if ( array_key_exists( 'participant_note', $params ) ) {
+        $values['participant_note'] = $params['participant_note'];
+    }
+      
+    if ( $create ) {
+        // CRM_Event_BAO_Participant::create() handles register_date,
+        // status_id and source. So, if $values contains
+        // participant_register_date, participant_status_id or participant_source,
+        // convert it to register_date, status_id or source
+        $changes = array('participant_register_date' => 'register_date',
+                         'participant_source'        => 'source',
+                         'participant_status_id'     => 'status_id',
+                         'participant_role_id'       => 'role_id'
+                         );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
 
 ?>

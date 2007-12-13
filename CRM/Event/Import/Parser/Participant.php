@@ -275,11 +275,23 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             
             $values[$key] = $field;
         }
-        $formatError = _crm_format_participant_params( $values, $formatted, true);
-        if ( $formatError ) {
-            array_unshift($values, $formatError->_errors[0]['message']);
+        $formatError = _civicrm_participant_formatted_param( $values, $formatted, true );
+        if ( !CRM_Utils_Rule::integer($formatted['event_id']) ) {
+            array_unshift($values, ts('Invalid value for Event ID') );
             return CRM_Event_Import_Parser::ERROR;
         }
+        if ( $formatError ) {
+            array_unshift($values, $formatError['error_message']);
+            return CRM_Event_Import_Parser::ERROR;
+        }
+
+        foreach ( $formatted as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                             $value, 'Participant', null, null );
+            }
+        }
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
