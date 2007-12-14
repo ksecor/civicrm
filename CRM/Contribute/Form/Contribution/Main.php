@@ -452,7 +452,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 if ( CRM_Utils_Array::value('min_amount',$self->_values) ) {
                     $min = $self->_values['min_amount'];
                     if ( $fields['amount_other'] < $min ) {
-                        $errors['amount_other'] = ts( 'This amount has to be greater than %1', 
+                        $errors['amount_other'] = ts( 'Contribution amount must be greater than %1', 
                                                       array ( 1 => $min ) );
                     }
                 }
@@ -460,7 +460,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 if ( CRM_Utils_Array::value('max_amount',$self->_values) > 0 ) {
                     $max = $self->_values['max_amount'];
                     if ( $fields['amount_other'] > $max ) {
-                        $errors['amount_other'] = ts( 'This amount has to be less than %1', 
+                        $errors['amount_other'] = ts( 'Contribution amount can not be greater than %1', 
                                                       array ( 1 => $max ) );
                     }
                 }
