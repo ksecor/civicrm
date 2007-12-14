@@ -514,7 +514,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             $formatted['individual_prefix'] = CRM_Core_OptionGroup::getValue( 'individual_prefix', (string)$formatted['prefix'] );
             $formatted['individual_suffix'] = CRM_Core_OptionGroup::getValue( 'individual_suffix', (string)$formatted['suffix'] );
             $formatted['gender']            = CRM_Core_OptionGroup::getValue( 'gender', (string)$formatted['gender'] );
-           
+            
             $newContact = $this->createContact( $formatted, $contactFields, $onDuplicate );
         }
         
@@ -1097,7 +1097,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             if ( $contactId ) {
                 $this->formatParams( $formatted, $onDuplicate, (int)$contactId );
             }
-            
+           
             $cid = CRM_Contact_BAO_Contact::createProfileContact( $formatted, $contactFields, 
                                                                   $contactId, null, null, 
                                                                   $formatted['contact_type'] );
@@ -1128,7 +1128,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         $defaults         = array( );
         $contactObj       = CRM_Contact_BAO_Contact::retrieve( $contactParams, $defaults );
-        
+      
         $modeUpdate       = $modeFill   = false;
         
         if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
@@ -1138,13 +1138,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
             $modeFill     = true;
         }
-        
+       
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTree = CRM_Core_BAO_CustomGroup::getTree($params['contact_type'],$cid,0,null);
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
+      
         $contact = get_object_vars( $contactObj );
-        
+
         $location = null;
         foreach( $params as $key => $value ) {
             if ( $key == 'location' ) {
                 $location = true;
+            } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                $custom = true;
             } else {
                 $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact, $key);
                 
@@ -1154,7 +1160,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 }
             }
         }
-        
+       
         if ( $location ) {
             for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
                 $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc], 'location_type_id');
@@ -1177,45 +1183,22 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                 }
                 
-                if ( array_key_exists( 'email', $contact['location'][$loc] ) ) {
-                    for ( $c = 1; $c <= count( $params['location'][$loc]['email'] ); $c++ ) {
-                        $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc]['email'][$c], 
-                                                                           'email');
-                        if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                             ( $modeFill   &&   isset( $getValue ) ) ) {
-                            unset( $params['location'][$loc]['email'][$c]['email'] );
+                $fields = array( 'email' => 'email', 'phone' => 'phone', 'im' => 'name' );
+                foreach( $fields as $key => $field ) {
+                    if ( array_key_exists( $key, $contact['location'][$loc] ) ) {
+                        for ( $c = 1; $c <= count( $params['location'][$loc][$key] ); $c++ ) {
+                            $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc][$key][$c], 
+                                                                               $field);
+                            if ( ( $modeUpdate && ! isset( $getValue ) ) || 
+                                 ( $modeFill   &&   isset( $getValue ) ) ) {
+                                unset( $params['location'][$loc]['email'][$c][$field] );
+                            }
                         }
+                    } else {
+                        unset( $params['location'][$loc][$key] );
                     }
-                } else {
-                    unset( $params['location'][$loc]['email'] );
                 }
-                
-                if ( array_key_exists( 'phone', $contact['location'][$loc] ) ) {
-                    for ( $c = 1; $c <= count( $params['location'][$loc]['phone'] ); $c++ ) {
-                        $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc]['phone'][$c], 
-                                                                           'phone');
-                        if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                             ( $modeFill   &&   isset( $getValue ) ) ) {
-                            unset( $params['location'][$loc]['phone'][$c]['phone'] );
-                        }
-                    }
-                } else {
-                    unset( $params['location'][$loc]['phone'] );
-                }
-                
-                if ( array_key_exists( 'im', $contact['location'][$loc] ) ) {
-                    for ( $c = 1; $c <= count( $params['location'][$loc]['im'] ); $c++ ) {
-                        $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc]['im'][$c], 
-                                                                           'name');
-                        if ( ( $modeUpdate && ! isset( $getValue ) ) || 
-                             ( $modeFill   &&   isset( $getValue ) ) ) {
-                            unset( $params['location'][$loc]['im'][$c]['name'] );
-                        }
-                    }
-                } else {
-                    unset( $params['location'][$loc]['im'] );
-                }
-            }
+            }              
         }
     }
 }
