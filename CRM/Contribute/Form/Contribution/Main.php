@@ -444,7 +444,8 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
 
         if ( $self->_values['is_monetary'] ) {
             if ( ( CRM_Utils_Array::value('amount',$fields) == 'amount_other_radio' )
-                 || $fields['amount_other'] ) {
+                 || isset( $fields['amount_other'] ) ) {
+
                 if ( !$amount ) {
                     $errors['amount_other'] = ts('Amount is required field.');
                 }
