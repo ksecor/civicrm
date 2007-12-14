@@ -117,7 +117,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         $this->addGroup($membership, 'membership_type', ts('Membership Types'));
         $this->addGroup($membershipDefault, 'membership_type_default', ts('Membership Types Default'));
         
-        $this->addFormRule(array('CRM_Member_Form_MembershipBlock', 'formRule'));
+        $this->addFormRule(array('CRM_Member_Form_MembershipBlock', 'formRule') , $this->_id);
        
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
@@ -146,7 +146,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      * @access public
      * @static
      */
-    public function formRule(&$params, &$files) {
+    public function formRule(&$params, &$files, $contributionPageId = null ) {
         $errors = array( );
         if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
             if ( !  isset ( $params['membership_type'] ) ||
@@ -155,7 +155,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             } else {
                 $membershipType = array_values($params['membership_type']);
                 if ( array_sum($membershipType) == 0 ) {
-                    $errors['membership_type'] = 'Please select at least one Membership Type to include in the Membership section of this page.';
+                    $errors['membership_type'] = ts( 'Please select at least one Membership Type to include in the Membership section of this page.' );
                 }
             }
 
@@ -164,14 +164,24 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $dao =& new CRM_Member_BAO_MembershipStatus();
             if ( ! $dao->find( ) ) {
-                $errors['_qf_default'] = 'Add status rules, before configuring membership';               
+                $errors['_qf_default'] = ts( 'Add status rules, before configuring membership' );
             }    
             
             //give error if default is selected for an unchecked membership type
             if ( isset($params['membership_type_default']) && !$params['membership_type'][$params['membership_type_default']] ) {
-                $errors['membership_type_default'] = 'Can\'t set default option for an unchecked membership type.';
+                $errors['membership_type_default'] = ts( 'Can\'t set default option for an unchecked membership type.' );
+            }
+
+            if ( $contributionPageId ) {
+                require_once "CRM/Contribute/DAO/ContributionPage.php";
+                $amountBlock = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $contributionPageId, 'amount_block_is_active' );
+                
+                if ( !$amountBlock &&  $params['is_separate_payment'] ) {
+                    $errors['is_separate_payment'] = ts( 'Please enable the contribution amount section to use this option.' );
+                }
             }
         }
+
         return empty($errors) ? true : $errors;
     }
     

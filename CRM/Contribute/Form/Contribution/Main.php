@@ -267,8 +267,13 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 }
                 $this->add('text', 'amount_other', ts( 'Other Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();') );
             } else {
-                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'),true );             
+                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'));
+                
+                if ( ! $separateMembershipPayment ) {
+                    $this->addRule( 'amount_other', ts('%1 is a required field.', array(1 => ts('Contribution Amount'))), 'required' );
+                }
             }
+
             $this->assign( 'is_allow_other_amount', true );
 
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
