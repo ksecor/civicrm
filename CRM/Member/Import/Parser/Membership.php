@@ -310,11 +310,21 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             
             $values[$key] = $field;
         }
+       
+        $formatError = _civicrm_membership_formatted_param( $values, $formatted, true);
         
-        $formatError = _crm_format_membership_params( $values, $formatted, true);
         if ( $formatError ) {
-            array_unshift($values, $formatError->_errors[0]['message']);
+            array_unshift($values, $formatError['error_message']);
             return CRM_Member_Import_Parser::ERROR;
+        }
+
+        if ( $onDuplicate != CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
+            foreach ( $formatted as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                 $value, 'Membership', null, null );
+                }
+            }
         }
        
         //fix for CRM-2219 Update Membership
@@ -329,6 +339,14 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                         $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership' , $values['id'], $v );
                     }
                 }
+
+                foreach ( $formatted as $key => $value ) {
+                        if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                            CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                         $value, 'Membership', null, $values['id'] );
+                        }
+                }
+                
                 if ( $dao->find( true ) ) { 
                     $ids = array(
                                  'membership' => $values['id'],

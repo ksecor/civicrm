@@ -295,13 +295,22 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
             $values[$key] = $field;
         }
         
-        $formatError = _crm_format_contrib_params($values, $formatted, true);
-        
-        if ( $formatError ) {
-            array_unshift($values, $formatError->_errors[0]['message']);
-            return CRM_Contribute_Import_Parser::ERROR;
-       }
+        $formatError = _civicrm_contribute_formatted_param($values, $formatted, true);
        
+        if ( $formatError ) {
+            array_unshift($values, $formatError['error_message']);
+            return CRM_Contribute_Import_Parser::ERROR;
+        }
+        
+        if ( $onDuplicate != CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
+            foreach ( $formatted as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                 $value, 'Contribution', null, null );
+                }
+            }
+        }
+
         //fix for CRM-2219 - Update Contribution
         if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
             if ( $values['invoice_id'] || $values['trxn_id'] || $values['id'] ) {
@@ -312,9 +321,38 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                                  'invoice_id' => CRM_Utils_Array::value('invoice_id',$values)
                                  );              
                 
-                $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );
-                if ( $ids['contribution'] ) {
+                $ids['contribution'] = CRM_Contribute_BAO_Contribution::checkDuplicateIds( $dupeIds );                 
+                if ( $ids['contribution'] ) {     
                     $formatted['id'] = $ids['contribution'];
+                    foreach ( $formatted as $key => $value ) {
+                        if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                            CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                         $value, 'Contribution', null, $formatted['id'] );
+                        }
+                    }
+
+                     //process note
+                    if ( $values['note'] ) {
+                        $noteID = array();
+                        $contactID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_Contribution', $ids['contribution'], 'contact_id' );                       
+                        require_once 'CRM/Core/BAO/Note.php';
+                        $daoNote = & new CRM_Core_BAO_Note();
+                        $daoNote->entity_table = 'civicrm_contribution';
+                        $daoNote->entity_id    = $ids['contribution'];
+                        if ( $daoNote->find(true) ) {
+                            $noteID['id'] = $daoNote->id;                            
+                        }
+                                               
+                        $noteParams = array(
+                                            'entity_table' => 'civicrm_contribution', 
+                                            'note'         => $values['note'], 
+                                            'entity_id'    => $ids['contribution'],
+                                            'contact_id'   => $contactID
+                                            );
+                        CRM_Core_BAO_Note::add($noteParams, $noteID);
+                        unset($formatted['note']);
+                    }
+                    
                     $newContribution =& CRM_Contribute_BAO_Contribution::create( $formatted , $ids );
                     $this->_newContributions[] = $newContribution->id;
                     return CRM_Contribute_Import_Parser::VALID;

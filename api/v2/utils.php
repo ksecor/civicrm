@@ -751,4 +751,272 @@ function _civicrm_participant_formatted_param( &$params, &$values, $create=false
     return null;
 }
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *                            '
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_contribute_formatted_param( &$params, &$values, $create=false ) {
+    // copy all the contribution fields as is
+   
+    $fields =& CRM_Contribute_DAO_Contribution::fields( );
+
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+    
+    _civicrm_store_values( $fields, $params, $values );
+
+    require_once 'CRM/Core/OptionGroup.php';
+    $customFields = CRM_Core_BAO_CustomField::getFields( 'Contribution' );
+    
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+
+        //Handling Custom Data
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            $values[$key] = $value;
+            $type = $customFields[$customFieldID][3];
+            if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
+                $mulValues = explode( ',' , $value );
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                $values[$key] = array();
+                foreach( $mulValues as $v1 ) {
+                    foreach( $customOption as $v2 ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
+                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                            if ( $type == 'CheckBox' ) {
+                                $values[$key][$v2['value']] = 1;
+                            } else {
+                                $values[$key][] = $v2['value'];
+                            }
+                        }
+                    }
+                }
+            } else if ( $type == 'Select' || $type == 'Radio' ) {
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $customOption as $v2 ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
+                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
+                        $values[$key] = $v2['value'];
+                    }
+                }
+            }
+        }
+
+        switch ($key) {
+
+        case 'contribution_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            
+            $values['contact_id'] = $values['contribution_contact_id'];
+            unset ($values['contribution_contact_id']);
+            break;
+
+        case 'receive_date':
+        case 'cancel_date':
+        case 'receipt_date':
+        case 'thankyou_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+
+        case 'non_deductible_amount':
+        case 'total_amount':
+        case 'fee_amount':
+        case 'net_amount':
+            if (!CRM_Utils_Rule::money($value)) {
+                return civicrm_create_error("$key not a valid amount: $value");
+            }
+            break;
+        case 'currency':
+            if (!CRM_Utils_Rule::currencyCode($value)) {
+                return civicrm_create_error("currency not a valid code: $value");
+            }
+            break;
+        case 'contribution_type':            
+            $values['contribution_type_id'] = CRM_Utils_Array::key( ucwords( $value ),
+                                                                    CRM_Contribute_PseudoConstant::contributionType( )
+                                                                    );          
+            break;
+        case 'payment_instrument': 
+            require_once 'CRM/Core/OptionGroup.php';
+            $values['payment_instrument_id'] = CRM_Core_OptionGroup::getValue( 'payment_instrument', $value );
+            break;
+        case 'contribution_status_id':  
+            require_once 'CRM/Core/OptionGroup.php';
+            if (!$values['contribution_status_id'] = CRM_Core_OptionGroup::getValue( 'contribution_status', $value )) {
+                return civicrm_create_error("Contribution Status is not valid: $value");
+            }
+            break;
+        case 'honor_type_id': 
+            require_once 'CRM/Core/OptionGroup.php';
+            $values['honor_type_id'] = CRM_Core_OptionGroup::getValue( 'honor_type', $value );
+            break;
+        default:
+            break;
+        }
+    }
+    if ( array_key_exists( 'note', $params ) ) {
+        $values['note'] = $params['note'];
+    }
+       
+    if ( $create ) {
+        // CRM_Contribute_BAO_Contribution::add() handles contribution_source
+        // So, if $values contains contribution_source, convert it to source
+        $changes = array( 'contribution_source' => 'source' );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
+
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Member_BAO_Membership:create()
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_membership_formatted_param( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+    
+    require_once "CRM/Member/DAO/Membership.php";
+    $fields =& CRM_Member_DAO_Membership::fields( );
+
+    _civicrm_store_values( $fields, $params, $values );
+    
+    require_once 'CRM/Core/OptionGroup.php';
+    $customFields = CRM_Core_BAO_CustomField::getFields( 'Membership' );
+
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+        
+        //Handling Custom Data
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            $values[$key] = $value;
+            $type = $customFields[$customFieldID][3];
+            if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
+                $mulValues = explode( ',' , $value );
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                $values[$key] = array();
+                foreach( $mulValues as $v1 ) {
+                    foreach( $customOption as $v2 ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
+                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                            if ( $type == 'CheckBox' ) {
+                                $values[$key][$v2['value']] = 1;
+                            } else {
+                                $values[$key][] = $v2['value'];
+                            }
+                        }
+                    }
+                }
+            } else if ( $type == 'Select' || $type == 'Radio' ) {
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $customOption as $v2 ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
+                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
+                        $values[$key] = $v2['value'];
+                    }
+                }
+            }
+        }
+
+        switch ($key) {
+        case 'membership_contact_id':
+            if (!CRM_Utils_Rule::integer($value)) {
+                return civicrm_create_error("contact_id not valid: $value");
+            }
+            $dao =& new CRM_Core_DAO();
+            $qParams = array();
+            $svq = $dao->singleValueQuery("SELECT id FROM civicrm_contact WHERE domain_id = $domainID AND id = $value",$qParams);
+            if (!$svq) {
+                return civicrm_create_error("Invalid Contact ID: There is no contact record with contact_id = $value.");
+            }
+            $values['contact_id'] = $values['membership_contact_id'];
+            unset($values['membership_contact_id']);
+            break;
+        case 'join_date':
+        case 'membership_start_date':
+        case 'membership_end_date':
+            if (!CRM_Utils_Rule::date($value)) {
+                return civicrm_create_error("$key not a valid date: $value");
+            }
+            break;
+        case 'membership_type_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipType", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        case 'status_id':
+            $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipStatus", $value, 'id', 'name' );
+            $values[$key] = $id;
+            break;
+        default:
+            break;
+        }
+    }
+    
+    if ( $create ) {
+        // CRM_Member_BAO_Membership::create() handles membership_start_date,
+        // membership_end_date and membership_source. So, if $values contains
+        // membership_start_date, membership_end_date  or membership_source,
+        // convert it to start_date, end_date or source
+        $changes = array('membership_start_date' => 'start_date',
+                         'membership_end_date'   => 'end_date',
+                         'membership_source'     => 'source',
+                         );
+        
+        foreach ($changes as $orgVal => $changeVal) {
+            if ( isset($values[$orgVal]) ) {
+                $values[$changeVal] = $values[$orgVal];
+                unset($values[$orgVal]);
+            }
+        }
+    }
+    
+    return null;
+}
+
 ?>
