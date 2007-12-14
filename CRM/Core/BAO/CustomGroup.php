@@ -1436,7 +1436,10 @@ ORDER BY weight ASC, label ASC";
         
         case 'Participant':
             return 'civicrm_participant';
-        
+            
+        case 'Grant':
+            return 'civicrm_grant';
+            
         default:
             CRM_Core_Error::fatal( );
         }

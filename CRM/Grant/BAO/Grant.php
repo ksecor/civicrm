@@ -282,24 +282,11 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
         CRM_Core_BAO_Log::add( $logParams );
         
         // add custom field values
-        if (CRM_Utils_Array::value('custom', $params)) {
-            foreach ($params['custom'] as $customValue) {
-                $cvParams = array(
-                                  'entity_table'    => 'civicrm_grant',
-                                  'entity_id'       => $grant->id,
-                                  'value'           => $customValue['value'],
-                                  'type'            => $customValue['type'],
-                                  'custom_field_id' => $customValue['custom_field_id'],
-                                  'file_id'         => $customValue['file_id'],
-                                  );
-                if ($customValue['id']) {
-                    $cvParams['id'] = $customValue['id'];
-                }
-                require_once 'CRM/Core/BAO/CustomValue.php';
-                CRM_Core_BAO_CustomValue::create($cvParams);
-            }
+        if (CRM_Utils_Array::value('custom', $params) && is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store($params['custom'], 'civicrm_grant', $grant->id);
         }
-
+        
         $transaction->commit( );
         
         return $grant;
