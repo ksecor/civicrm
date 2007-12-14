@@ -57,9 +57,46 @@ function &civicrm_contact_add( &$params ) {
         if ( $values ) {
             return $values;
         }
-            
+        
     }
-
+    
+    if( isset( $params['email'] ) ) {
+        $location['1']['location_type_id'] = 1;
+        $location['1']['is_primary'] = 1;
+        $location['1']['email']['1']['email'] = $params['email'];
+        $location['1']['email']['1']['is_primary'] = 1;
+        if( is_array( $location ) ) {
+            $params['location'] =  $location;
+            unset($params['email']);
+        }
+    }
+    
+    if ( array_key_exists( 'suffix', $params ) ) {
+        $params['suffix_id'] = $params['suffix'];
+        unset( $params['suffix'] );
+    }
+    if ( !( is_numeric( $params['suffix_id'] ) ) 
+         && isset( $params['suffix_id'] ) ) {
+        $params['suffix_id'] = array_search( $params['suffix_id'] , CRM_Core_PseudoConstant::individualSuffix() );
+    }
+    
+    if ( array_key_exists( 'prefix', $params ) ) { 
+        $params['prefix_id'] = $params['prefix'];
+        unset( $params['prefix'] );
+    }
+    if ( !( is_numeric( $params['prefix_id'] ) ) 
+         && isset( $params['prefix_id'] ) ) {
+        $params['prefix_id'] = array_search( $params['prefix_id'] , CRM_Core_PseudoConstant::individualPrefix() );
+    } 
+    
+    if ( isset( $params['gender'] ) ) {
+        if ( is_numeric( $params['gender'] ) ) {
+            $params['gender_id'] = $params['gender'];
+        } else { 
+            $params['gender_id'] = array_search( $params['gender'] , CRM_Core_PseudoConstant::gender() );
+        }
+    }
+    
     $contact =& _civicrm_contact_add( $params, $contactID );
     if ( is_a( $contact, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( $contact->_errors[0]['message'] );

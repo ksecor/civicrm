@@ -15,7 +15,7 @@ class testContactAdd extends CiviUnitTestCase
     protected $contactAllParams = array(
 //                'id' => '',
                 'nick_name' => 'This is nickname',
-                'domain_id' => '5',
+                'domain_id' => '1',
 //                'contact_type' => '',
                 'do_not_email' => '1',
                 'do_not_phone' => '1',
@@ -32,7 +32,7 @@ class testContactAdd extends CiviUnitTestCase
                 'do_not_trade' => '1',
 //                'hash' => '',
                 'is_opt_out' => '1',
-                'source' => 'Just some source.'
+                'contact_source' => 'Just some source.'
                 
                 );
 
@@ -48,7 +48,7 @@ class testContactAdd extends CiviUnitTestCase
                 'greeting_type' => 'Informal',
                 'custom_greeting' => 'Dear Pal',
                 'job_title' => 'President',
-                'gender_id' => '12',
+                'gender' => 'Male',
                 'birth_date' => '1977-03-12',
                 'is_deceased' => '1',
                 'deceased_date' => '2499-12-12',
@@ -353,7 +353,7 @@ class testContactAdd extends CiviUnitTestCase
 
     private function _verifyApiCallResult( $returned, $modifiedParams, $error_message = false ) {
 
-//        CRM_Core_Error::debug( 'c', $returned );
+        //CRM_Core_Error::debug( 'c', $returned );
 
         $this->assertIsA( $returned, 'Array' );
         if( array_key_exists( 'contact_id', $modifiedParams ) && 
@@ -368,20 +368,66 @@ class testContactAdd extends CiviUnitTestCase
             $this->assertEqual( $returned['error_message'], $error_message );
         }
     }
-
+    
     private function _verifyContactAttributes( $contactId, $params ) {
         $retrievedId = array( 'contact_id' => $contactId );
-        $retrieved = &civicrm_contact_get( $retrievedId );
-
-//        CRM_Core_Error::debug( 'c', $retrieved );
-
+        
+        $returnProperties = array();
+        $retrievedParams  = array();
+        
+        foreach ( $params as $name => $value ) {
+            if ( $name == 'prefix' ) {
+                $returnProperties['return.individual_prefix'] = 1;
+            } elseif ( $name == 'suffix' ) {
+                $returnProperties['return.individual_suffix'] = 1;
+            } elseif ( $name == 'gender' ) {
+                $returnProperties['return.gender'] = 1;
+            } else {
+                $returnProperties['return.'."{$name}"] = 1;
+            }
+        }
+        
+        if ( empty( $returnProperties ) ) {
+            $retrievedParams = $retrievedId;
+        } else {
+            $retrievedParams = array_merge( $retrievedId, $returnProperties );
+        }
+        
+        $retrieved = &civicrm_contact_get( $retrievedParams );
+        
+        if ( isset( $params['prefix'] ) && isset( $retrieved['individual_prefix'] ) ) {
+            if ( is_numeric( $params['prefix'] ) ) {
+                $retrieved['prefix'] = $retrieved['individual_prefix_id'];
+            } else {
+                $retrieved['prefix'] = $retrieved['individual_prefix']; 
+            }
+            unset( $retrieved['individual_prefix'] );
+        }
+        
+        if ( isset( $params['suffix'] ) && isset( $retrieved['individual_suffix'] ) ) {
+            if ( is_numeric( $params['suffix'] ) ) {
+                $retrieved['suffix'] = $retrieved['individual_suffix_id']; 
+            } else {
+                $retrieved['suffix'] = $retrieved['individual_suffix']; 
+            }
+            unset( $retrieved['individual_suffix'] );
+        }
+        
+        if ( isset( $params['gender'] ) && isset( $retrieved['gender'] ) ) {
+            if ( is_numeric( $params['gender'] ) ) {
+                unset( $retrieved['gender'] );
+                $retrieved['gender'] = $retrieved['gender_id']; 
+            }
+        }
+        
+        //CRM_Core_Error::debug( 'c', $retrieved );
         // FIXME: Wanted to use assertIdentical, but $retrieved['contact_id']
         // is a string - is it intended?
         $this->assertEqual( $contactId, $retrieved['contact_id'] );
         $this->_assertAttributesEqual( $params, $retrieved );
-
+        
     }
-
+    
     private function _assertAttributesEqual( $params, $target ) {
 
 //            CRM_Core_Error::debug( 'p', $params );
