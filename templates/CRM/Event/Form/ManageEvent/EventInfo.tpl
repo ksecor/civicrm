@@ -2,6 +2,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {capture assign=mapURL}{crmURL p='civicrm/admin/setting/mapping' q="reset=1"}{/capture}
 
+<div class="form-item"> 
 <fieldset><legend>{ts}Event Information{/ts}</legend>
 <table class="form-layout-compressed">
          <tr><td class="label">{$form.event_type_id.label}</td><td>{$form.event_type_id.html}<br />
@@ -42,15 +43,18 @@
         {/if}
         </tr>
         <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
 	    {if $action eq 4}
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
         {else}
             {include file="CRM/Contact/Page/View/CustomData.tpl" mainEditForm=1}
         {/if}
-        <tr><td>&nbsp;</td><td>{$form.buttons.html}</td></tr>        
-</table>
-</fieldset>     
 
+    <dl>    
+       <dt></dt><dd class="html-adjust">{$form.buttons.html}</dd>   
+    </dl> 
+</fieldset>     
+</div>
 <script type="text/javascript">
 {literal}
     function reload(refresh) {
