@@ -61,9 +61,9 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
      * @static
      */
     static function create( &$params, &$ids ) 
-    {
+    {  
         $valid = $invalid = $duplicate = $saved = 0;
-
+        require_once 'CRM/Utils/Array.php';
         $relationshipId = CRM_Utils_Array::value( 'relationship', $ids );
         
         if ( ! $relationshipId ) {
@@ -80,15 +80,15 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
                 // step 2: check the if two contacts already have a relationship if yes skip and keep the count
                 // step 3: if valid relationship then add the relation and keep the count
                 
-                $errors = CRM_Contact_BAO_Relationship::checkValidRelationship( $params, $ids, $key ); // step 1
+                $errors = self::checkValidRelationship( $params, $ids, $key ); // step 1
                 if ( $errors ) {
                     $invalid++;
                     continue;
                 }
                 
-                if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,
-                                                                               CRM_Utils_Array::value( 'contact', $ids ),
-                                                                               $key )) { // step 2
+                if ( self::checkDuplicateRelationship( $params ,
+                                                       CRM_Utils_Array::value( 'contact', $ids ),
+                                                       $key )) { // step 2
                     $duplicate++;
                     continue;
                 }
@@ -100,12 +100,12 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             
             //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         } else { //editing the relationship
-            
             // check for duplicate relationship
-            if ( CRM_Contact_BAO_Relationship::checkDuplicateRelationship( $params ,
-                                                                           CRM_Utils_Array::value( 'contact', $ids ),
-                                                                           $ids['contactTarget'],
-                                                                           $relationshipId ) 
+            
+            if ( self::checkDuplicateRelationship( $params ,
+                                                   CRM_Utils_Array::value( 'contact', $ids ),
+                                                   $ids['contactTarget'],
+                                                   $relationshipId ) 
                  ) { 
                 $duplicate++;
                 return array( $valid, $invalid, $duplicate );
@@ -118,8 +118,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
         
-        return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
-        
+        // return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+        return $relationship;
     }
     
     
@@ -159,8 +159,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         }
 
         $relationship =& new CRM_Contact_BAO_Relationship( );
-        $relationship->contact_id_b         = $contact_b;
-        $relationship->contact_id_a         = $contact_a;
+        $relationship->contact_id_b         = $params['contact_id_b'];
+        $relationship->contact_id_a         = $params['contact_id_a'];
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = $params['is_active'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
@@ -321,6 +321,7 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         CRM_Core_Session::setStatus( ts('Selected Relationship has been Deleted Successfuly.') );
         
         CRM_Utils_Hook::post( 'delete', 'Relationship', $relationship->id, $relationship );
+        return $relationship;
     }
 
     /**

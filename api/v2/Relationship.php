@@ -48,30 +48,45 @@ require_once 'CRM/Contact/BAO/RelationshipType.php';
  * @static void
  * @access public
  */
-function &civicrm_relationship_add( &$params ) {
+function &civicrm_relationship_create( &$params ) {
     _civicrm_initialize( );
 
-    if ( empty( $params ) ) {
-        return civicrm_create_error('No input parameter present' );
+    if ( empty( $params ) ) { 
+        return civicrm_create_error( 'No input parameter present' );
     }
-
+    
     if ( ! is_array( $params ) ) {
         return civicrm_create_error( ts( 'Input parameter is not an array' ) );
     }
-
+    
     if( ! isset( $params['contact_id_a'] ) &&
         ! isset( $params['contact_id_b'] ) &&
-        ! isset( $params['relationship_type_id'] )) {
+        ! isset( $params['relationship_type_id'] )) { 
+        
         return civicrm_create_error( ts('Missing required parameters'));
+    }
+    
+    require_once 'CRM/Utils/Rule.php';
+    if( !CRM_Utils_Rule::integer( $params['relationship_type_id'] ) ) {
+       
+        return civicrm_create_error( 'Invalid value for relationship type ID' );
     }
 
     $ids = array( );
-    if( CRM_Utils_Array::value( 'id', $params ) ){
-        $ids['relationship'] = $params['id'];
+    require_once 'CRM/Utils/Array.php';
+    
+    if( CRM_Utils_Array::value( 'id', $params ) ) {
+        
+        $ids['relationship']  = $params['id'];
+        $ids['contactTarget'] = $params['contact_id_b'];
     }
+       
+    $params['relationship_type_id'] = $params['relationship_type_id'].'_a_b';
+    $params['contact_check']        = array ( $params['contact_id_b'] => $params['contact_id_b'] );
+    $ids   ['contact'      ]        = $params['contact_id_a'];
     
     $relationshipBAO = CRM_Contact_BAO_Relationship::create( $params, $ids );
- 
+    
     if ( is_a( $relationshipBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Relationship can not be created" );
     } 
@@ -81,6 +96,39 @@ function &civicrm_relationship_add( &$params ) {
     
     return $relation;
     
+}
+
+
+/**
+ * Delete a relationship 
+ *
+ * @param  id of relationship  $id
+ *
+ * @return boolean  true if success, else false
+ * @static void
+ * @access public
+ */
+
+function civicrm_relationship_delete( &$params ) {
+     
+    if ( empty( $params ) ) { 
+        return civicrm_create_error( 'No input parameter present' );
+    }
+
+    if ( ! is_array( $params ) ) {
+        return civicrm_create_error( ts( 'Input parameter is not an array' ) );
+    }
+        
+    if( ! CRM_Utils_Array::value( 'id',$params )  ) {
+        return civicrm_create_error( 'Missing required parameter' );
+    }
+    if( $params['id'] != null && ! CRM_Utils_Rule::integer( $params['id'] ) ) {
+        return civicrm_create_error( 'Invalid value for relationship ID' );
+    }
+    
+    $relationBAO = new CRM_Contact_BAO_Relationship( );
+    return $relationBAO->del( $params['id'] ) ? civicrm_create_success( ts( 'Deleted relationship successfully' ) ):civicrm_create_error( ts( 'Could not delete relationship' ) );
+
 }
 
 /**
@@ -94,7 +142,7 @@ function &civicrm_relationship_add( &$params ) {
  *
  */
 function civicrm_relationship_type_add( $params ) {
-   
+    
     if ( empty( $params ) ) {
         return civicrm_create_error( ts( 'No input parameters present' ) );
     }
@@ -116,6 +164,7 @@ function civicrm_relationship_type_add( $params ) {
     } else {
         $ids['relationshipType'] = $params['id'];
     }
+    
     require_once 'CRM/Contact/BAO/RelationshipType.php';
     $relationType = CRM_Contact_BAO_RelationshipType::add( $params, $ids );
     
@@ -145,5 +194,5 @@ function civicrm_relationship_type_delete( &$params ) {
     }
     
     $relationTypeBAO = new CRM_Contact_BAO_RelationshipType( );
-    return $relationTypeBAO->del( $params['id'] ) ? civicrm_create_success( ):civicrm_create_error( ts( 'Could not delete relationship type' ) );
+    return $relationTypeBAO->del( $params['id'] ) ? civicrm_create_success( ts( 'Deleted relationship type successfully' )  ):civicrm_create_error( ts( 'Could not delete relationship type' ) );
 }
