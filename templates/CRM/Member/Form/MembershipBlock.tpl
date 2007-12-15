@@ -55,7 +55,11 @@
     <dt>&nbsp;</dt><dd class="description">{ts}Display the minimum membership fee along with the membership name and description for each membership option?{/ts}</dd>
 
     <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
-    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Should the membership fee be processed as a separate transaction? If this option is checked AND the contribution page includes a separate contribution amount block - two transactions will be generated: one for the membership fee amount; and one for the selected contribution amount. (This option is NOT available for PayPal Website Payments Standard and Google CheckOut.){/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">
+        {ts}Check this box if you are including both Membership Signup/Renewal AND a Contribution Amount section, AND you want the membership fee to be handled as a separate transaction.
+        With this configuration, the membership fee is automatically included and users have an option to make an addtional contribution (two separate payment transactions will be generated).
+        (NOTE: This option is NOT available for PayPal Website Payments Standard and Google CheckOut.) If this option is NOT checked and you include a Contribution Amount section,
+        then a single transaction is processed for their contribution amount which must at least cover the selected membership fee.{/ts}</dd>
     </dl>
    </div>
     {if $action ne 4}

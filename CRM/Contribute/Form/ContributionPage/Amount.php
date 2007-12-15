@@ -89,12 +89,12 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         }
 
         // add pay later options
-        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ),
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay later option?' ),
                           null, array( 'onclick' => "payLater(this);" ) );
-        $this->addElement('textarea', 'pay_later_text', ts( 'Pay by Cheque message on form' ),  
+        $this->addElement('textarea', 'pay_later_text', ts( 'Pay later label' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_text' ),
                           false );
-        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay by Cheque instructions to send' ),  
+        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay later instructions' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Contribute_DAO_ContributionPage', 'pay_later_receipt' ),
                           false );
 
@@ -131,7 +131,7 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         if ( ! isset( $defaults['pay_later_text'] ) ||
              empty( $defaults['pay_later_text'] ) ) {
-            $defaults['pay_later_text'] = ts( 'I want to send in payment by check' );
+            $defaults['pay_later_text'] = ts( 'I will send payment by check' );
         }
 
         return $defaults;
@@ -164,10 +164,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         if ( isset( $fields['is_pay_later'] ) ) {
             if ( empty( $fields['pay_later_text'] ) ) {
-                $errors['pay_later_text'] = ts( 'Please enter the text displayed to the user' );
+                $errors['pay_later_text'] = ts( 'Please enter the text for the "pay later" checkbox displayed on the contribution form.' );
             }
             if ( empty( $fields['pay_later_receipt'] ) ) {
-                $errors['pay_later_receipt'] = ts( 'Please enter the message to be sent to the user' );
+                $errors['pay_later_receipt'] = ts( 'Please enter the instructions to be sent to the contributor when they choose to "pay later".' );
             }
         }
         return $errors;

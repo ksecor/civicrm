@@ -452,7 +452,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 
                 if ( CRM_Utils_Array::value('min_amount',$self->_values) ) {
                     $min = $self->_values['min_amount'];
-                    if ( $fields['amount_other'] < $min ) {
+                    if ( $fields['amount_other'] != '' && $fields['amount_other'] < $min ) {
                         $errors['amount_other'] = ts( 'Contribution amount must be greater than %1', 
                                                       array ( 1 => $min ) );
                     }

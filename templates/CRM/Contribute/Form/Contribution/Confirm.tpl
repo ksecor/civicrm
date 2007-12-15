@@ -27,22 +27,25 @@
     </div>
     <div class="display-block">
         {if $is_separate_payment }
-             {if $amount_block_is_active }   
-              {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
-              {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
-              <strong> -------------------------------------------</strong><br />
-              {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
-             {else}
-              {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
-             {/if}         
+            {if $amount AND $minimum_fee}
+                  {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong><br />
+                  {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
+                  <strong> -------------------------------------------</strong><br />
+                  {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
+            {elseif $amount }
+                {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+            {else}
+                  {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
+            {/if}
         {else}
            {if $amount }
-            {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+                {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
            {else}
-            <strong>{$minimum_fee|crmMoney}</strong> 
+                {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
            {/if}
         {/if}
-        {if $is_recur}
+        {if $is_pay_later}<br /><span class="bold">({$pay_later_text})</span>{/if}
+        {if $is_recur }
             {if $installments}
                 <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}I want to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>
             {else}
@@ -74,11 +77,16 @@
         <strong>{$name}</strong><br />
         {$address|nl2br}
     </div>
+    {/if}
+    {if $email}
+    <div class="header-dark">
+        {ts}Your Email{/ts}
+    </div>
     <div class="display-block">
         {$email}
     </div>
     {/if}
-
+    
     {if $contributeMode eq 'direct' and ! $is_pay_later and $is_monetary and $amount GT 0}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}

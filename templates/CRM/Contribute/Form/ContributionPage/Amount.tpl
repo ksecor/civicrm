@@ -21,16 +21,17 @@
             <tr><th scope="row" class="label">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
             <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</span></td></tr>
+        <tr id="payLaterFields"><td>&nbsp;</td><td>
+            <table class="form-layout-compressed">
+                <tr><th scope="row" class="label">{$form.pay_later_text.label}</th>
+                <td>{$form.pay_later_text.html|crmReplace:class:big}<br />
+                    <span class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</span></td></tr> 
+                <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
+                <td>{$form.pay_later_receipt.html|crmReplace:class:big}<br />
+                    <span class="description">{ts}Instructions added to email receipt when "pay later" option is selected.{/ts}</span>/td></tr>
+            </table>
+            </td></tr>
     </table>
-
-    <div id="payLaterFields">
-        <table class="form-layout-compressed">
-            <tr><th scope="row" class="label" width="20%">{$form.pay_later_text.label}</th>
-            <td>{$form.pay_later_text.html}</td></tr> 
-            <tr><th scope="row" class="label" width="20%">{$form.pay_later_receipt.label}</th>
-            <td>{$form.pay_later_receipt.html}</td></tr>
-        </table>
-    </div>
 
     <div id="amountFields">
         <table class="form-layout-compressed">
@@ -82,7 +83,7 @@
 <script type="text/javascript">
 	var element_other_amount = document.getElementsByName('is_allow_other_amount');
   	if (! element_other_amount[0].checked) {
-	   hide('minMaxFields');
+	   hide('minMaxFields', 'table-row');
 	}
 	var amount_block = document.getElementsByName('amount_block_is_active');
   	if ( ! amount_block[0].checked) {
@@ -90,7 +91,7 @@
     }
 	var pay_later = document.getElementsByName('is_pay_later');
   	if ( ! pay_later[0].checked) {
-	    hide('payLaterFields');
+	    hide('payLaterFields', 'table-row');
     }
 
 	function minMax(chkbox) {
@@ -111,9 +112,9 @@
     }
 	function payLater(chkbox) {
         if (chkbox.checked) {
-	       show('payLaterFields',  'block');
+	       show('payLaterFields',  'table-row');
 	    } else {
-	       hide('payLaterFields',  'block');
+	       hide('payLaterFields',  'table-row');
 	    }
     }
 

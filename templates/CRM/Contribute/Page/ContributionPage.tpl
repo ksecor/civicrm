@@ -1,31 +1,21 @@
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 {capture assign=newPageURL}{crmURL q='action=add&reset=1'}{/capture}
 <div id="help">
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc. (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</p>
-  
-    {include file="CRM/Contribute/Form/SearchContribution.tpl"}  
-    {if $rows}
-    {ts}For existing pages{/ts}:
-    <ul class="indented">
-    <li>{ts}Click <strong>Configure</strong> to view and modify settings, amounts, and text for existing pages.{/ts}</li>
-    <li>{ts}Click <strong>Test-drive</strong> to try out the page in <strong>test mode</strong>. This allows you to go through the full contribution process using a dummy credit card on a test server.{/ts}</li>
-    <li>{ts}If your page is enabled, click <strong>Live Page</strong> to view to the page in <strong>live mode</strong>.{/ts}</li>
-    </ul>
-    <p>{ts 1=$newPageURL}Click <a href="%1">New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard.{/ts}</p>
-    {/if}
+    {ts}CiviContribute allows you to create and maintain any number of Online Contribution Pages. You can create different pages for different programs or campaigns - and customize text, amounts, types of information collected from contributors, etc.{/ts} {help id="id-intro"}
 </div>
+
+{include file="CRM/Contribute/Form/SearchContribution.tpl"}  
 
 {if $rows}
     <div class="form-item" id="configure_contribution_page">
         {strip}
 
         {if NOT ($action eq 1 or $action eq 2) }
-        
-        <div class="action-link">
-        <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
-        </div>
-        
+            <div class="action-link">
+            <a href="{$newPageURL}" id="newContributionPage">&raquo;  {ts}New Contribution Page{/ts}</a>
+            </div>
         {/if}
+        
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl} 
         <table  headClass="fixedHeader" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
