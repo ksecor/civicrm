@@ -1079,8 +1079,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         $dupeCheck = false;
         
-        if ( is_null( $contactId ) ) {
-            $dupeCheck = (bool)($onDuplicate !== CRM_Import_Parser::DUPLICATE_NOCHECK);
+        if ( is_null( $contactId ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) ) {
+            $dupeCheck = (bool)($onDuplicate);
         }
         
         require_once 'api/v2/Contact.php';
