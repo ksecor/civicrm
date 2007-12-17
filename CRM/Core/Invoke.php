@@ -241,14 +241,6 @@ class CRM_Core_Invoke
             $thirdArg = CRM_Utils_Array::value( 3, $args, '' );
             $fourthArg = CRM_Utils_Array::value(4, $args, 0);
 
-            if ( ! $thirdArg || ($thirdArg == 'activity') ) { 
-                //build other activity select
-                $controller =& new CRM_Core_Controller_Simple( 'CRM_Activity_Form_ActivityLinks',
-                                                               ts('Activity Links'), null );
-                $controller->setEmbedded( true );
-                $controller->run( );
-            }
-            
             switch ( $thirdArg ) {
             case 'contribution':
                 if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
