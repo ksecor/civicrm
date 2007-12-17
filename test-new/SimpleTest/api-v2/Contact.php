@@ -171,7 +171,130 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
         $this->assertNotNull( $contact['contact_id'] );
         $this->_contacts[] = $contact['contact_id'];
     }
+    
+    function testUpdateIndividualwithAll()
+    {
+        $params = array(
+                        'first_name'            => 'abcd',
+                        'last_name'             => 'wxyz', 
+                        'contact_type'          => 'Individual',
+                        'nick_name'             => 'This is nickname first',
+                        'do_not_email'          => '1',
+                        'do_not_phone'          => '1',
+                        'do_not_mail'           => '1',
+                        'do_not_trade'          => '1',
+                        'contact_sub_type'      => 'CertainSubType',
+                        'legal_identifier'      => 'ABC23853ZZ2235',
+                        'external_identifier'   => '1928837465',
+                        'home_URL'              => 'http://some.url.com',
+                        'image_URL'             => 'http://some.url.com/image.jpg',
+                        'preferred_mail_format' => 'HTML',
+                        'do_not_trade'          => '1',
+                        'is_opt_out'            => '1'
+                        );
+        
+        $contact =& civicrm_contact_add($params);
+        $this->assertNotNull( $contact['contact_id'] );
+        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
+        $retrieved = &civicrm_contact_get( $retrievedId );
+        
+        $params1 = array('contact_id'            => $contact['contact_id'],
+                         'first_name'            => 'efgh',
+                         'last_name'             => 'stuv', 
+                         'contact_type'          => 'Individual',
+                         'nick_name'             => 'This is nickname second',
+                         'do_not_email'          => '0',
+                         'do_not_phone'          => '0',
+                         'do_not_mail'           => '0',
+                         'do_not_trade'          => '0',
+                         'contact_sub_type'      => 'CertainSubType',
+                         'legal_identifier'      => 'DEF23853XX2235',
+                         'external_identifier'   => '123456789',
+                         'home_URL'              => 'http://some1.url.com',
+                         'image_URL'             => 'http://some1.url.com/image1.jpg',
+                         'preferred_mail_format' => 'Both',
+                         'is_opt_out'            => '0'
+                         );
+        
+        $contact1 =& civicrm_contact_add($params1);
+        $this->assertNotNull( $contact1['contact_id'] );
+        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
+        $target = &civicrm_contact_get( $retrievedId1 );
+        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $target );
+        $this->_contacts[] = $target['contact_id'];
+    }        
+    
+    function testUpdateOrganizationwithAll()
+    {
+        $params = array(
+                        'organization_name' => 'WebAccess India Pvt Ltd',
+                        'legal_name'        => 'WebAccess',
+                        'sic_code'          => 'ABC12DEF',
+                        'contact_type'      => 'Organization'
+                        );
+        
+        $contact =& civicrm_contact_add($params);
+        $this->assertNotNull( $contact['contact_id'] );
+        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
+        $retrieved = &civicrm_contact_get( $retrievedId );
+        
+        $params1 = array(
+                         'contact_id'        => $contact['contact_id'],
+                         'organization_name' => 'WebAccess Inc Pvt Ltd',
+                         'legal_name'        => 'WebAccess Global',
+                         'sic_code'          => 'GHI34JKL',
+                         'contact_type'      => 'Organization'
+                         );
+        
+        $contact1 =& civicrm_contact_add($params1);
+        $this->assertNotNull( $contact1['contact_id'] );
+        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
+        $target = &civicrm_contact_get( $retrievedId1 );
+        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $target );
+        $this->_contacts[] = $target['contact_id'];
+    }
+    
+    function testUpdateHouseholdwithAll()
+    {
+        $params = array(
+                        'household_name' => 'ABC household',
+                        'nick_name'      => 'ABC House',
+                        'contact_type'   => 'Household',
+                        );
+        
+        $contact =& civicrm_contact_add($params);
+        $this->assertNotNull( $contact['contact_id'] );
+        $retrievedId = array( 'contact_id' => $contact['contact_id'] );
+        $retrieved = &civicrm_contact_get( $retrievedId );
+        
+        $params1 = array(
+                         'contact_id'     => $contact['contact_id'],
+                         'household_name' => 'XYZ household',
+                         'nick_name'      => 'XYZ House',
+                         'contact_type'   => 'Household',
+                         );
 
+        $contact1 =& civicrm_contact_add($params1);
+        $this->assertNotNull( $contact1['contact_id'] );
+        $retrievedId1 = array( 'contact_id' => $contact1['contact_id'] );
+        $target = &civicrm_contact_get( $retrievedId1 );
+        $this->assertEqual( $contact1['contact_id'], $target['contact_id'] );
+        $this->_assertAttributesEqual( $params1, $target );
+        $this->_contacts[] = $target['contact_id'];
+    }
+    
+    private function _assertAttributesEqual( $params, $target ) {
+        foreach( $params as $paramName => $paramValue ) {
+            if( isset( $target[$paramName] ) ) {
+                $this->assertEqual( $paramValue, $target[$paramName] );
+            } else {
+                $this->fail( "Attribute $paramName not available in results, but present in API call parameters."  );
+            }
+        }        
+    }
+    
     function testDeleteContacts() 
     {
         foreach ($this->_contacts as $id) {
@@ -185,7 +308,7 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
         $result = civicrm_contact_delete( $params );
         $this->assertEqual( $result['is_error'], 1 );
     }
-
+    
 }
 
 ?>
