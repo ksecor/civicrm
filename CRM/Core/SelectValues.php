@@ -403,9 +403,9 @@ class CRM_Core_SelectValues
             $maxOffset = $max; 
             if( $dateParts ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
-                $format = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-                $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
-                                                                 $format );
+                $filter = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
+                $format = str_replace( CRM_Core_DAO::VALUE_SEPARATOR, ' ',$dateParts );
+                $newDate['format'] = CRM_Utils_Date::posixToPhp( $format, $filter );
             }
         } elseif ($type == 'fixed') {
             $minOffset = $dao->start;
