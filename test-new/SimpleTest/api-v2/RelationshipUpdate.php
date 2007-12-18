@@ -109,10 +109,9 @@ class TestOfRelationshipUpdateAPIV2 extends CiviUnitTestCase
                                );
 
         $result = & civicrm_relationship_create( $relParams );
-                
-        $this->_relationID =$result['id'];
+        $this->_relationID =$result['result']['id'];
         $this->assertEqual( $result['is_error'], 0 );
-        $this->assertNotNull( $result['id'] );  
+        $this->assertNotNull( $result['result']['id'] );  
 
 
         $params = array(
@@ -124,12 +123,12 @@ class TestOfRelationshipUpdateAPIV2 extends CiviUnitTestCase
                         'end_date'             => array('d'=>'11','M'=>'1','Y'=>'2006'),
                         'is_active'            => 0
                         );
-        $result = & civicrm_relationship_create( $params );
+        $result = & civicrm_relationship_create( $params ); 
         $this->assertEqual( $result['is_error'], 0 );
-        $this->assertNotNull( $result['id'] );   
+        $this->assertNotNull( $result['result']['id'] );   
         
         // assertDBState compares expected values in $result to actual values in the DB          
-        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['id'], $relationParams ); 
+        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $relationParams ); 
         
         //delete created relationship
         $params['id']=$this->_relationID;

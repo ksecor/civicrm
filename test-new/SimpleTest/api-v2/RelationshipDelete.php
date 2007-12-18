@@ -49,9 +49,9 @@ class TestOfRelationshipDeleteAPIV2 extends CiviUnitTestCase
                            'is_active'            => 1
                            );
         $result = & civicrm_relationship_create( $relParams );
-        $this->_relationID =$result['id'];
+        $this->_relationID =$result['result']['id'];
         $this->assertEqual( $result['is_error'], 0 );
-        $this->assertNotNull( $result['id'] );   
+        $this->assertNotNull( $result['result']['id'] );   
     }
     
     /**

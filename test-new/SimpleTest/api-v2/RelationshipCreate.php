@@ -109,14 +109,14 @@ class TestOfRelationshipCreateAPIV2 extends CiviUnitTestCase
         
         $result = & civicrm_relationship_create( $params );
         $this->assertEqual( $result['is_error'], 0 );
-        $this->assertNotNull( $result['id'] );   
+        $this->assertNotNull( $result['result']['id'] );   
         $relationParams = array(
-                                'id'     => CRM_Utils_Array::value('id', $result)
+                                'id'     => CRM_Utils_Array::value('id', $result['result'])
                            );
         // assertDBState compares expected values in $result to actual values in the DB          
-        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['id'], $relationParams ); 
+        $this->assertDBState( 'CRM_Contact_DAO_Relationship', $result['result']['id'], $relationParams ); 
         
-        $params['id']=   $result['id'] ; 
+        $params['id']=   $result['result']['id'] ; 
         $result = & civicrm_relationship_delete( $params );
         
         $this->assertEqual( $result['is_error'], 0 );
