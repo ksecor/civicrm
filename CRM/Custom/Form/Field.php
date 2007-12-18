@@ -520,7 +520,8 @@ SELECT count(*)
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
             $dataField = $fields['data_type'][1];
-            
+            $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
+
             if ( $fields['option_type'] == 1 ) {
 
                 //capture duplicate Custom option values
@@ -631,7 +632,7 @@ SELECT count(*)
                 
                     $_flagOption = $_emptyRow = 0;
                 }
-            } elseif ( ($dataField == 'Select' || $dataField == 'Multi-Select' || $dataField == 'CheckBox' || $dataField == 'Radio') && $dataType != 'Boolean' ) {
+            } elseif ( in_array( $dataField, $optionFields ) && $dataType != 'Boolean' ) {
                 if ( ! $fields['option_group_id'] ) {
                     $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse and existing set.' );
                 } else {
