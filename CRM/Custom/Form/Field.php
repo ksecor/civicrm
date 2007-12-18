@@ -438,7 +438,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                     $errors['default_value'] = ts( 'Please enter a valid number as default value.' );
                 }
                 break;
-
+                
             case 'Money':
                 if ( ! CRM_Utils_Rule::money( $default ) ) {
                     $errors['default_value'] = ts( 'Please enter a valid number value.' );
@@ -519,6 +519,7 @@ SELECT count(*)
             $_flagOption = $_rowError = 0;
             $_showHide =& new CRM_Core_ShowHideBlocks('','');
             $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
+            $dataField = $fields['data_type'][1];
             
             if ( $fields['option_type'] == 1 ) {
 
@@ -630,7 +631,7 @@ SELECT count(*)
                 
                     $_flagOption = $_emptyRow = 0;
                 }
-            } else {
+            } elseif ( ($dataField == 'Select' || $dataField == 'Multi-Select' || $dataField == 'CheckBox' || $dataField == 'Radio') && $dataType != 'Boolean' ) {
                 if ( ! $fields['option_group_id'] ) {
                     $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse and existing set.' );
                 } else {
@@ -685,7 +686,7 @@ AND    option_group_id = %2";
                 $_showHide->addToTemplate();
             }
             //}      
-        return empty($errors) ? true : $errors;
+            return empty($errors) ? true : $errors;
     }
     
     /**
