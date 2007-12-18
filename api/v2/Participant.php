@@ -78,7 +78,9 @@ function &civicrm_participant_create(&$params)
     }
 
     $ids= array();
-
+    if( CRM_Utils_Array::value( 'id', $params ) ) {
+        $ids['participant']  = $params['id'];
+    }
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = CRM_Event_BAO_Participant::create($params, $ids);
 
@@ -276,7 +278,6 @@ function &civicrm_participant_delete( &$params )
         $error = civicrm_create_error( 'Required parameter missing' );
         return $error;
     }
-
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = new CRM_Event_BAO_Participant();
     $result = $participant->deleteParticipant( $params['id'] );
@@ -315,7 +316,9 @@ function &civicrm_participant_payment_create(&$params)
     }
    
     $ids= array();
-    
+    if( CRM_Utils_Array::value( 'id', $params ) ) {
+        $ids['id'] = $params['id']; 
+    }
     require_once 'CRM/Event/BAO/ParticipantPayment.php';
     $participantPayment = CRM_Event_BAO_ParticipantPayment::create($params, $ids);
     

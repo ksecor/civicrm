@@ -76,7 +76,7 @@ class CRM_Event_BAO_ParticipantPayment extends CRM_Event_DAO_ParticipantPayment
             $participantPayment->delete( ); 
         }
         
-        return true;
+        return $participantPayment;
     }
 }
 ?>

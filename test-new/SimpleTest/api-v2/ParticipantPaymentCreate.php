@@ -67,14 +67,12 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
                         'participant_id'  => $this->_participantID,
                         'contribution_id' => $contributionID
                         );
-        
         $participantPayment = & civicrm_participant_payment_create( $params );
-        
         $this->assertEqual( $participantPayment['is_error'], 0 );
         $this->assertTrue( array_key_exists( 'id', $participantPayment ) );
         
         //delete created contribution
-        $this->contributionDelete( $entityID );
+        $this->contributionDelete( $contributionID );
         
         // delete created contribution type
         $this->contributionTypeDelete( $contributionTypeID );

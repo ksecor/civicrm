@@ -246,6 +246,13 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
         
         return $participant;
     }
+
+    static function deleteParticipantSubobjects( $contribId ) 
+    {
+        require_once 'CRM/Contribute/BAO/Contribution.php';
+        CRM_Contribute_BAO_Contribution::deleteContribution( $contribId );
+        return;
+    }
  
     /**
      * Function to add activity record for Event participation
@@ -558,6 +565,7 @@ WHERE  civicrm_participant.id = {$participantId}
         $participant->delete( );
 
         $transaction->commit( );
+        return $participant;
     }
     
     /**
