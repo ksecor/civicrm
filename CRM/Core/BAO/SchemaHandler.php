@@ -112,7 +112,7 @@ class CRM_Core_BAO_SchemaHandler
         $sql .= $separator;
         $sql .= str_repeat( ' ', 8 );
         $sql .= $prefix;
-        $sql .= "{$params['name']} {$params['type']}";
+        $sql .= "`{$params['name']}` {$params['type']}";
 
         if ( CRM_Utils_Array::value( 'required', $params ) ) {
             $sql .= " NOT NULL";
@@ -130,7 +130,7 @@ class CRM_Core_BAO_SchemaHandler
         if ( CRM_Utils_Array::value( 'comment', $params ) ) {
             $sql .= " COMMENT '{$params['comment']}'";
         }
-
+        
         return $sql;
     }
 
