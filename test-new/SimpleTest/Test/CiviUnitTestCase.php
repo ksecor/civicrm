@@ -666,15 +666,13 @@ class CiviUnitTestCase extends UnitTestCase {
                         'is_searchable'   =>  1, 
                         'is_active'        => 1,
                         );
-
-	$params = array('fieldParams' =>$fieldParams);
         
+        $params = array('fieldParams' =>$fieldParams);
         $result =& civicrm_custom_field_create($params);
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'id', $result) ) {
+        if ( civicrm_error( $result ) 
+             || !( CRM_Utils_Array::value( 'customFieldId' , $result['result'] ) ) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Field' );
         }
-        
         return $result;    
     }
     
@@ -685,9 +683,9 @@ class CiviUnitTestCase extends UnitTestCase {
      */
     function customFieldDelete( $customFieldID ) 
     {
-        $params['id'] = $customFieldID;
+        $params['result']['customFieldId'] = $customFieldID;
         $result = & civicrm_custom_field_delete($params);
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
+        if ( civicrm_error( $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete custom field' );
         }
         return;
@@ -807,12 +805,12 @@ class CiviUnitTestCase extends UnitTestCase {
                              'is_active' => 1
                              );
         
-        $optionValue = array ('label' => 'Label1',
-                              'value' => 'value1',
-                              'name'  => $name,
-                              'weight'=> 1,
-                              'is_active'=>1
-                              );
+        $optionValue[] = array ('label'     => 'Label1',
+                                'value'     => 'value1',
+                                'name'      => $name,
+                                'weight'    => 1,
+                                'is_active' => 1
+                                );
         
         $params = array('fieldParams'  => $fieldParams,
                         'optionGroup'  => $optionGroup,
@@ -821,8 +819,8 @@ class CiviUnitTestCase extends UnitTestCase {
                         );
         
         $result =& civicrm_custom_field_create($params);     
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ||
-             ! CRM_Utils_Array::value( 'id', $result) ) {
+        if ( civicrm_error( $result ) 
+             || !( CRM_Utils_Array::value( 'customFieldId', $result['result'] ) ) ) {
             CRM_Core_Error::fatal( 'Could not create Custom Field' );
         }
         return $result;    

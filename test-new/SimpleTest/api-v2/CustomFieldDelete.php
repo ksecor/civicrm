@@ -24,10 +24,10 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
     
     function testCustomFieldDelete( )
     {
-        $customGroup = $this->customGroupCreate('Individual','test_group'); 
-        $customFields = $this->customFieldCreate($customGroup['id'],'test_name'); 
-        $params = array('id' => $customFields['id']);
-        $customField =& civicrm_custom_field_delete($params); 
+        $customGroup = $this->customGroupCreate('Individual','test_group');
+        $customField = $this->customFieldCreate($customGroup['id'],'test_name'); 
+        $this->assertNotNull($customField['result']['customFieldId']);
+        $customField =& civicrm_custom_field_delete( $customField );
         $this->assertEqual($customField['is_error'], 0);
         $this->customGroupDelete($customGroup['id']);
     } 
