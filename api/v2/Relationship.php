@@ -86,14 +86,12 @@ function &civicrm_relationship_create( &$params ) {
     $ids   ['contact'      ]        = $params['contact_id_a'];
     
     $relationshipBAO = CRM_Contact_BAO_Relationship::create( $params, $ids );
-    
     if ( is_a( $relationshipBAO, 'CRM_Core_Error' ) ) {
         return civicrm_create_error( "Relationship can not be created" );
     } 
     $relation = array( );
-    
-    _civicrm_object_to_array( $relationshipBAO, $relation );
-    
+    $relation['id']       = implode(",", $relationshipBAO[4]);
+    $relation['is_error'] = 0;
     return $relation;
     
 }

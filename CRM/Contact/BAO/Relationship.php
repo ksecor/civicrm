@@ -118,8 +118,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
             //return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
         }
         
-        // return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
-        return $relationship;
+        return array( $valid, $invalid, $duplicate, $saved, $relationshipIds );
+       
     }
     
     
@@ -159,8 +159,8 @@ class CRM_Contact_BAO_Relationship extends CRM_Contact_DAO_Relationship
         }
 
         $relationship =& new CRM_Contact_BAO_Relationship( );
-        $relationship->contact_id_b         = $params['contact_id_b'];
-        $relationship->contact_id_a         = $params['contact_id_a'];
+        $relationship->contact_id_b         = $contact_b;
+        $relationship->contact_id_a         = $contact_a;
         $relationship->relationship_type_id = $type;
         $relationship->is_active            = $params['is_active'] ? 1 : 0;
         $relationship->description          = CRM_Utils_Array::value( 'description', $params );
