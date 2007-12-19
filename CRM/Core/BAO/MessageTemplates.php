@@ -181,62 +181,82 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
         if ( $messageTemplates->find(true) ) {
             $body_text = $messageTemplates->msg_text;
             $body_html = $messageTemplates->msg_html;
-            if ( $body_html ) {
-                $html = CRM_Utils_Token::replaceDomainTokens($html,
-                                                             $domain, true);
-               
-            }
+            $body_subject = $messageTemplates->msg_subject;
             if (!$body_text) {
                 $body_text = CRM_Utils_String::htmlToText($body_html);
             }
-            $body_text = CRM_Utils_Token::replaceDomainTokens($body_text,
-                                                               $domain, false);
-            $html = $body_html;
-            $text = $body_text;
-
+            
             $params  = array( 'contact_id' => $contactId );
-            $contact =& crm_fetch_contact( $params );
+            require_once 'api/v2/Contact.php';
+            $contact =& civicrm_contact_get( $params );
+            
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
+            
+            $type = array('html', 'text');
+            
+            foreach( $type as $key => $value ) {
+                require_once 'CRM/Mailing/BAO/Mailing.php';
+                $dummy_mail = new CRM_Mailing_BAO_Mailing();
+                $bodyType = "body_{$value}";
+                $dummy_mail->$bodyType = $$bodyType;
+                $tokens = $dummy_mail->getTokens();
+                
+                if ( $$bodyType ) {
+                    $$bodyType = CRM_Utils_Token::replaceDomainTokens($$bodyType, $domain, true, $tokens[$value] );
+                    $$bodyType = CRM_Utils_Token::replaceContactTokens($$bodyType, $contact, false, $tokens[$value] );
+                }
+            }
+            $html = $body_html;
+            $text = $body_text;
+            
             $message =& new Mail_Mime("\n");
-
+            
             /* Do contact-specific token replacement in text mode, and add to the
              * message if necessary */
             if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
-                $contact['preferred_mail_format'] == 'Both') 
+                 $contact['preferred_mail_format'] == 'Both') 
                 {
-                    $text = CRM_Utils_Token::replaceContactTokens(
-                                                                  $text, $contact, false);
                     // render the &amp; entities in text mode, so that the links work
                     $text = str_replace('&amp;', '&', $text);
-                }
-            
-            if ( !$html || $contact['preferred_mail_format'] == 'Text' ||
-                $contact['preferred_mail_format'] == 'Both') 
-                {
                     $message->setTxtBody($text);
                     
                     unset( $text );
                 }
             
             if ($html && ( $contact['preferred_mail_format'] == 'HTML' ||
-                          $contact['preferred_mail_format'] == 'Both'))
+                           $contact['preferred_mail_format'] == 'Both'))
                 {
-                    $html = CRM_Utils_Token::replaceContactTokens(
-                                                                  $html, $contact, false);
                     $message->setHTMLBody($html);
                     
                     unset( $html );
                 }
             $recipient = "\"{$contact['display_name']}\" <$email>";
             
-            $messageSubject = CRM_Utils_Token::replaceContactTokens(
-                                                                  $messageTemplates->msg_subject, $contact, false);
+            $matches = array();
+            preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                            $body_subject,
+                            $matches,
+                            PREG_PATTERN_ORDER);
+            
+            if ( $matches[1] ) {
+                foreach ( $matches[1] as $token ) {
+                    list($type,$name) = split( '\.', $token, 2 );
+                    if ( $name ) {
+                        if ( ! isset( $subjectToken['contact'] ) ) {
+                            $subjectToken['contact'] = array( );
+                        }
+                        $subjectToken['contact'][] = $name;
+                    }
+                }
+            }
+            
+            $messageSubject = CRM_Utils_Token::replaceContactTokens($body_subject, $contact, false, $subjectToken);
             $headers = array(
                              'From'      => $from,
                              'Subject'   => $messageSubject,
-                         );
+                             );
             $headers['To'] = $recipient;
             
             $mailMimeParams = array(
