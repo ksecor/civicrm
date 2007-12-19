@@ -86,10 +86,12 @@ class CRM_Contact_Form_Search_Criteria {
         $componentProfiles = array( );
         $componentProfiles = CRM_Core_BAO_UFGroup::getProfiles($types);
 
-        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);
+        $ufGroups           =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Search Profile', 1);
+        $accessibleUfGroups = CRM_Core_Permission::ufGroup( CRM_Core_Permission::VIEW );
+
         $searchProfiles = array ( );
         foreach ($ufGroups as $key => $var) {
-            if ( ! array_key_exists($key, $componentProfiles) ) {
+            if ( ! array_key_exists($key, $componentProfiles) && in_array($key, $accessibleUfGroups) ) {
                 $searchProfiles[$key] = $var['title'];
             }
         }
