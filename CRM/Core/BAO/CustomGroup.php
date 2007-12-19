@@ -39,12 +39,15 @@ require_once 'CRM/Core/DAO/CustomGroup.php';
  * Business object for managing custom data groups
  *
  */
-class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup {
+class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup 
+{
 
+    const VALUE_SEPERATOR = "";
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
 
@@ -283,13 +286,14 @@ ORDER BY civicrm_custom_group.weight,
         if ( ! empty( $customValueTables ) ) {
             if ( $entityID ) {
                 $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
-                foreach ( $blockTables as $keyTable ) {
-                    // commented temporarily 
-                    //unset( $customValueTables[$keyTable] );
-                }
-            }
+                            }
             $groupTree['info'] = array( 'tables' => $customValueTables );
 
+            foreach ( $blockTables as $keyTable ) {
+                // commented temporarily 
+                //   unset($groupTree['info']['tables'][$keyTable] );
+            }
+            
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
@@ -964,8 +968,8 @@ WHERE  {$tableName}.entity_id = {$entityID}";
         }
     }
 
-    static function postProcess( &$groupTree, &$params ) {
-
+    static function postProcess( &$groupTree, &$params ) 
+    {
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
         foreach ($groupTree as $groupID => $group) {
@@ -990,18 +994,12 @@ WHERE  {$tableName}.entity_id = {$entityID}";
 
                 switch ( $groupTree[$groupId]['fields'][$fieldId]['html_type'] ) {
 
+                //added for CheckBox
                 case 'CheckBox':  
-                    $optionDAO =& new CRM_Core_DAO_CustomOption();
-                    $optionDAO->custom_field_id = $fieldId;
-                    $optionDAO->find();
-                    $optionValue = array();
-                    while($optionDAO->fetch() ) {
-                        $optionValue[$optionDAO->label] = $optionDAO->value;
-                    }
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                            self::VALUE_SEPERATOR.implode(self::VALUE_SEPERATOR, $customValue).self::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -1009,16 +1007,9 @@ WHERE  {$tableName}.entity_id = {$entityID}";
 
                 //added for Multi-Select
                 case 'Multi-Select':  
-                    $optionDAO =& new CRM_Core_DAO_CustomOption();
-                    $optionDAO->custom_field_id = $fieldId;
-                    $optionDAO->find();
-                    $optionValue = array();
-                    while($optionDAO->fetch() ) {
-                        $optionValue[$optionDAO->label] = $optionDAO->value;
-                    }
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
+                            self::VALUE_SEPERATOR.implode(self::VALUE_SEPERATOR, $v).self::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -1028,6 +1019,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                     $date = CRM_Utils_Date::format( $v );
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
+         
                 default:
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                     break;
