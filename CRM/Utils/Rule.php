@@ -517,7 +517,8 @@ class CRM_Utils_Rule
         }
 
         $purifiedValue = $purifier->purify( $value );
-        return ( $purifiedValue != $value ) ? false : true;
+//        return ( $purifiedValue != $value ) ? false : true;
+        return true;
     }
 }
 

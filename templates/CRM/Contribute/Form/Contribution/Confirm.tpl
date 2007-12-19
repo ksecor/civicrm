@@ -18,6 +18,9 @@
             {/if}
         </p> 
     </div>
+    {if $is_pay_later}
+        <div class="bold">{$pay_later_receipt}</div>
+    {/if}
     
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
    
@@ -44,7 +47,6 @@
                 {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
            {/if}
         {/if}
-        {if $is_pay_later}<br /><span class="bold">({$pay_later_text})</span>{/if}
         {if $is_recur }
             {if $installments}
                 <p><strong>{ts 1=$frequency_interval 2=$frequency_unit 3=$installments}I want to contribute this amount every %1 %2(s) for %3 installments.{/ts}</strong></p>

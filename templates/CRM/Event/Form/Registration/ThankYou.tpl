@@ -17,7 +17,7 @@
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $is_pay_later and $paidEvent}
-           <p>{$pay_later_receipt}</p>
+           <div class="bold">{$pay_later_receipt}</div>
             {if $is_email_confirm}
                 <p>{ts 1=$email}A registration confirmation email will be sent to %1 once the transaction is processed successfully.{/ts}</p>
             {/if}
@@ -52,7 +52,7 @@
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify'}
+        {if $contributeMode ne 'notify' AND $trxn_id}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
     </div>
@@ -78,7 +78,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $paidEvent}    
+    {if $contributeMode ne 'notify' and $paidEvent and ! $is_pay_later}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>
@@ -88,7 +88,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct' and $paidEvent}
+    {if $contributeMode eq 'direct' and $paidEvent and ! $is_pay_later}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>

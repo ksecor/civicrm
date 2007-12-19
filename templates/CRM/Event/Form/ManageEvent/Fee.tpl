@@ -29,23 +29,24 @@
             <dl>
             <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This contribution type will be assigned to payments made by participants when they register online.{/ts}
-            <dt>{$form.fee_label.label}<span class="marker"> *</span>
-	    </dt><dd>{$form.fee_label.html}</dd>
+            <dt>{$form.fee_label.label}<span class="marker"> *</span></dt><dd>{$form.fee_label.html}</dd>
             <dt>&nbsp;</dt><dd class="description">{ts}This label is displayed with the list of event fees.{/ts}
             </dl>
         </div>
 
         <div id="payLater">
           <dl>
-             <dt>&nbsp;</dt><dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
-             <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</dd>
+             <dt class="extra-long-fourty">&nbsp;</dt><dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}<br />
+                <span class="description">{ts}Check this box if you want to give users the option to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</span></dd>
           </dl>
         </div>
 
         <div id="payLaterOptions">
           <dl>
-             <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html}</dd>
-             <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html}</dd>
+             <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</dd>
+             <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to email receipt when "pay later" option is selected.{/ts}</dd>
           </dl>
         </div>
 

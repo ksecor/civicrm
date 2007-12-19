@@ -20,7 +20,7 @@
         </tr>
             <tr><th scope="row" class="label">{$form.is_pay_later.label}</th>
             <td>{$form.is_pay_later.html}<br />
-            <span class="description">{ts}Check this box if you want to give users the option to mail in their payment.{/ts}</span></td></tr>
+            <span class="description">{ts}Check this box if you want to give users the option to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</span></td></tr>
         <tr id="payLaterFields"><td>&nbsp;</td><td>
             <table class="form-layout-compressed">
                 <tr><th scope="row" class="label">{$form.pay_later_text.label}</th>
@@ -28,7 +28,7 @@
                     <span class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</span></td></tr> 
                 <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
                 <td>{$form.pay_later_receipt.html|crmReplace:class:big}<br />
-                    <span class="description">{ts}Instructions added to email receipt when "pay later" option is selected.{/ts}</span>/td></tr>
+                    <span class="description">{ts}Instructions added to email receipt when "pay later" option is selected.{/ts}</span></td></tr>
             </table>
             </td></tr>
     </table>

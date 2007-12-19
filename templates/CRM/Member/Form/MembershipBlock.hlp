@@ -1,0 +1,27 @@
+{htxt id="id-separate-pay"}
+{ts}
+<p>Check this box if you are including both Membership Signup/Renewal AND a Contribution Amount section, AND you want the membership fee to be handled
+as a separate transaction.</p>
+
+<p>With this configuration, the membership fee is automatically charged, and users have an option
+to make an addtional contribution (two separate payment transactions will be generated).</p>
+
+</p>If this option is NOT checked and you include a Contribution Amount section, then a single transaction is processed for
+their contribution amount which must at least cover the selected membership fee.</p>
+
+<p><strong>NOTE: This option is NOT available for PayPal Website Payments Standard and Google Checkout.</strong></p>
+{/ts}
+{/htxt}
+
+{htxt id="id-display-fee"}
+{ts}
+<p>When this box is checked, the membership fee is included in the listing of each membership option on the signup
+and renewal page. This is recommended for most configurations.</p>
+<p>If the page is configured with "Separate Membership Payment" enabled - then just the fee amount
+is displayed:</p>
+<p><strong> &nbsp; General Membership - $100.00</strong></p>
+<p>If the page "Separate Membership Payment" is NOT enabled AND the Contribution Amount is enabled so that user's
+can opt to give more than the minimum membership fee - then the display looks like this:</p?
+<p><strong> &nbsp; General Membership (contribute at least $100.00 to be eligible for this membership)</strong></p>
+{/ts}
+{/htxt}

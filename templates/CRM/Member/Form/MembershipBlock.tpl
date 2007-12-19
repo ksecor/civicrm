@@ -51,16 +51,15 @@
     <dt></dt><dd>{$form.is_required.html}&nbsp;{$form.is_required.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If checked, user must signup for one of the displayed membership options before continuing.{/ts}</dd>
 
-    <dt></dt><dd>{$form.display_min_fee.html}&nbsp;{$form.display_min_fee.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Display the minimum membership fee along with the membership name and description for each membership option?{/ts}</dd>
-
-    <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} </dd>
-    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">
-        {ts}Check this box if you are including both Membership Signup/Renewal AND a Contribution Amount section, AND you want the membership fee to be handled as a separate transaction.
-        With this configuration, the membership fee is automatically included and users have an option to make an addtional contribution (two separate payment transactions will be generated).
-        (NOTE: This option is NOT available for PayPal Website Payments Standard and Google CheckOut.) If this option is NOT checked and you include a Contribution Amount section,
-        then a single transaction is processed for their contribution amount which must at least cover the selected membership fee.{/ts}</dd>
+    <dt></dt><dd>{$form.is_separate_payment.html}&nbsp;{$form.is_separate_payment.label} {help id="id-separate-pay"}</dd>
+    <dt>&nbsp;</dt><dd class="description">
+        {ts}Check this box if you are including both Membership Signup/Renewal AND a Contribution Amount section, AND you want the membership fee to be charged separately from any
+        additional contribution amount.{/ts}</dd>
     </dl>
+
+    <dt></dt><dd>{$form.display_min_fee.html}&nbsp;{$form.display_min_fee.label} {help id="id-display-fee"}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Display the membership fee along with the membership name and description for each membership option?{/ts}</dd>
+
    </div>
     {if $action ne 4}
         <div id="crm-submit-buttons">

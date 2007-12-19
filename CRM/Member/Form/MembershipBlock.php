@@ -95,7 +95,7 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
         $this->add('textarea', 'renewal_text', ts('Introductory Message - Renewals'), 'rows=5, cols=50');
 
         $this->addElement('checkbox', 'is_required', ts('Require Membership Signup') );
-        $this->addElement('checkbox', 'display_min_fee', ts('Display Minimum Membership Fee') );
+        $this->addElement('checkbox', 'display_min_fee', ts('Display Membership Fee') );
         $this->addElement('checkbox', 'is_separate_payment', ts('Separate Membership Payment') );
 
         require_once 'CRM/Member/BAO/MembershipType.php';

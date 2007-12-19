@@ -114,7 +114,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         
         if ( ! isset( $defaults['pay_later_text'] ) ||
              empty( $defaults['pay_later_text'] ) ) {
-            $defaults['pay_later_text'] = ts( 'I want to send in payment by check' );
+            $defaults['pay_later_text'] = ts( 'I will send payment by check' );
         }
 
         require_once 'CRM/Core/ShowHideBlocks.php';
@@ -156,11 +156,11 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
         
         // add pay later options
-        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable pay by cheque / later option' ), null, array( 'onclick' => "return showHideByValue('is_pay_later','','payLaterOptions','block','radio',false);" ));
-        $this->addElement('textarea', 'pay_later_text', ts( 'Pay by Cheque message on form' ),  
+        $this->addElement('checkbox', 'is_pay_later', ts( 'Enable Pay Later option?' ), null, array( 'onclick' => "return showHideByValue('is_pay_later','','payLaterOptions','block','radio',false);" ));
+        $this->addElement('textarea', 'pay_later_text', ts( 'Pay Later Label' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_text' ),
                           false );
-        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay by Cheque instructions to send' ),  
+        $this->addElement('textarea', 'pay_later_receipt', ts( 'Pay Later Instructions' ),  
                           CRM_Core_DAO::getAttribute( 'CRM_Event_DAO_EventPage', 'pay_later_receipt' ),
                           false );
 

@@ -21,19 +21,16 @@
     <div id="help">
         {* PayPal_Standard sets contribution_mode to 'notify'. We don't know if transaction is successful until we receive the IPN (payment notification) *}
         {if $is_pay_later}
-           <p>
-           {$pay_later_receipt}
+           <div class="bold">{$pay_later_receipt}</div>
         {elseif $contributeMode EQ 'notify'}
-            <p>
-            {ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}
+            <div>{ts}Your contribution has been submitted to {if $paymentProcessor.payment_processor_type EQ 'Google_Checkout'}Google{else}PayPal{/if} for processing. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
-                {ts 1=$email} An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}</p>
+                <div>{ts 1=$email} An email receipt will be sent to %1 once the transaction is processed successfully.{/ts}</div>
             {/if}
-            </p>
         {else}
-            <p>{ts}Your transaction has been processed successfully. Please print this page for your records.{/ts}</p>
+            <div>{ts}Your transaction has been processed successfully. Please print this page for your records.{/ts}</div>
             {if $is_email_receipt}
-                <p>{ts 1=$email}An email receipt has also been sent to %1{/ts}</p>
+                <div>{ts 1=$email} An email receipt has also been sent to %1{/ts}</div>
             {/if}
         {/if}
     </div>
@@ -54,7 +51,7 @@
               {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
          {/if}
           {ts}Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
-        {if $contributeMode ne 'notify' and $is_monetary}
+        {if $contributeMode ne 'notify' and $is_monetary and ! $is_pay_later}
           {ts}Transaction #{/ts}: {$trxn_id}<br />
         {/if}
         {if $membership_trx_id}

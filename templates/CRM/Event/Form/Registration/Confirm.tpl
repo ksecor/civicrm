@@ -1,15 +1,15 @@
 <div class="form-item">
     <div id="help">
         <p>{ts}Please verify the information below. Click <strong>Go Back</strong> if you need to make changes. Otherwise, click the <strong>Continue</strong> button below to complete your registration.{/ts}</p>
-{if $is_pay_later}
-        <p>{$pay_later_receipt}</p>
-{/if}
     </div>
 
     {if $eventPage.confirm_text}
         <div id="intro_text">
         <p>{$eventPage.confirm_text}</p>
         </div>
+    {/if}
+    {if $is_pay_later}
+        <div class="bold">{$pay_later_receipt}</div>
     {/if}
     
     <div class="header-dark">

@@ -80,6 +80,13 @@ class CRM_Event_Form_ManageEvent extends CRM_Core_Form
 
         $this->_single = $this->get( 'single' );
 
+        // setting 3rd level breadcrumb for html page if Event exists
+        if ( $this->_id ) {
+            $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), "action=update&reset=1&id={$this->_id}" );
+            CRM_Utils_System::appendBreadCrumb( ts('Configure Event'),
+                                               $breadCrumbPath );
+        }
+        
     }
     
     /**

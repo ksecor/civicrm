@@ -50,17 +50,17 @@
                 {assign var="pid" value=$row.id}
                 <td>{$form.selectMembership.$pid.html}</td>
             {/if}
-           <td>
-                <strong>{$row.name}</strong><br />
-                {$row.description} &nbsp;
+           <td width="95%">
+                <span class="bold">{$row.name} &nbsp;
                 {if ($membershipBlock.display_min_fee AND $context EQ "makeContribution") AND $row.minimum_fee GT 0 }
                     {if $is_separate_payment OR ! $form.amount.label}
-                        {ts 1=$row.minimum_fee|crmMoney}(membership fee - %1){/ts}
+                        - {$row.minimum_fee|crmMoney}
                     {else}
                         {ts 1=$row.minimum_fee|crmMoney}(contribute at least %1 to be eligible for this membership){/ts}
                     {/if}
                 {/if}
-                        
+                </span><br />
+                {$row.description} &nbsp;                      
            </td>
             
             <td>
