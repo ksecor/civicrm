@@ -10,14 +10,17 @@
           </dd>
        </dl>
       </div>
-     {else}
+    {else}
   	<dl>
-	<dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-	<dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
-	<dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
+        <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}The option Label is displayed to users.{/ts}</dd>
+        <dt>{$form.value.label}</dt><dd>{$form.value.html}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}The option Value is stored in the database.{/ts}</dd>
+        <dt>{$form.description.label}</dt><dd>{$form.description.html}</dd>
+        <dt>{$form.weight.label}</dt><dd>{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt><dd>{$form.is_active.html}</dd>        
-       </dl>
-      {/if}
+    </dl>
+    {/if}
 	<dl><dt></dt><dd>{$form.buttons.html}</dd></dl>
 </fieldset>
 </div>

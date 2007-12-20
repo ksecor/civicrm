@@ -58,13 +58,13 @@
          <table class="form-layout">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
              {if $context eq ('standalone' or 'case') }
-		<tr>
+                <tr>
                    <td class="label">{$form.activity_type_id.label}</td><td>{$form.activity_type_id.html}</td>
                 </tr>
              {/if}
              <tr>
                 <td class="label">{$form.source_contact.label}</td>
-		<td>
+                <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
                        {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
                    </div>
@@ -72,7 +72,7 @@
              </tr>
              <tr>
                 <td class="label">{$form.target_contact.label}</td>
-		<td>
+                <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
                        {if $context eq 'standalone' } {$form.target_contact.html} {else} {$target_contact_value} {/if}
                    </div>
@@ -80,16 +80,17 @@
              </tr>
              <tr>
                 <td class="label">{$form.assignee_contact.label}</td>
-		<td>
+                <td class="view-value">
                    <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
                        {$form.assignee_contact.html}
                    </div>
+                   {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              </tr>
              {if $context neq 'standalone' }
                <tr>
                   <td class="label">{$form.case_subject.label}</td>
-		  <td>
+                  <td class="view-value">
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
                          {$form.case_subject.html}
                      </div>
@@ -97,14 +98,14 @@
                </tr>
              {/if}
              <tr>
-                <td class="label">{$form.subject.label}</td><td>{$form.subject.html}</td>
+                <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 
              <tr>
-                <td class="label">{$form.location.label}</td><td>{$form.location.html}</td>
+                <td class="label">{$form.location.label}</td><td class="view-value">{$form.location.html}</td>
              </tr> 
              <tr>
                 <td class="label">{$form.activity_date_time.label}</td>
-                <td>{$form.activity_date_time.html | crmDate }</br>
+                <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
                     {if $action neq 4}
                       <span class="description">
                       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity}
@@ -115,13 +116,21 @@
                 </td>
              </tr> 
              <tr>
-                <td class="label">{$form.duration_hours.label}</td><td>{$form.duration_hours.html},&nbsp;{$form.duration_minutes.html}</td>
+                <td class="label">{$form.duration_hours.label}</td>
+                <td class="view-value">
+                    {if $action eq 4}
+                        {if $form.duration_hours.value}{$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{/if}
+                        {if $form.duration_minutes.value}{$form.duration_minutes.html} {ts}Mins{/ts}{/if}
+                    {else}
+                        {$form.duration_hours.html} {ts}Hrs{/ts}&nbsp;&nbsp;{$form.duration_minutes.html} {ts}Mins{/ts}
+                    {/if}
+                </td>
              </tr> 
              <tr>
-                <td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td>
+                <td class="label">{$form.status_id.label}</td><td class="view-value">{$form.status_id.html}</td>
              </tr> 
              <tr>
-                <td class="label">{$form.details.label}</td><td>{$form.details.html|crmReplace:class:huge}</td>
+                <td class="label">{$form.details.label}</td><td class="view-value">{$form.details.html|crmReplace:class:huge}</td>
              </tr> 
              <tr>
                 <td colspan="2">

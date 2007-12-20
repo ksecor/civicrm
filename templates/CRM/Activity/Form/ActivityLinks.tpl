@@ -16,7 +16,7 @@
    {* Only display next link if there are activity_type entries for this domain. *}
    {if $showOtherActivityLink}
         &nbsp;&nbsp;
-        <img src="{$config->resourceBase}i/custom_activity.gif" alt="{ts}Other Activities{/ts}"/></a>&nbsp;{if $selectedChild}&nbsp;<a href="{crmURL p='civicrm/contact/view' q="action=browse&reset=1&cid=`$contactId`&selectedChild=activity"}">{ts}Other Activities{/ts}</a>{else}{$form.other_activity.label}&nbsp;{$form.other_activity.html}{/if}
+        <img src="{$config->resourceBase}i/custom_activity.gif" alt="{ts}Other Activities{/ts}"/>&nbsp;{if $selectedChild}&nbsp;<a href="{crmURL p='civicrm/contact/view' q="action=browse&reset=1&cid=`$contactId`&selectedChild=activity"}">{ts}Other Activities{/ts}</a>{else}{$form.other_activity.label}&nbsp;&nbsp;{$form.other_activity.html}{/if}
    {/if}
 
 {* add hook links if any *}
