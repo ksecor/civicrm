@@ -58,11 +58,11 @@
 
         <td>
         {if !$row.assignee_contact_id}
-	  <em>n/a</em>
+            <em>n/a</em>
         {elseif $contactId NEQ $row.assignee_contact_id}
-          <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_contact_name}</a>
+            <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.assignee_contact_id`"}">{$row.assignee_contact_name}</a>
         {else}
-          {$row.assignee_contact_name}
+            {$row.assignee_contact_name}
         {/if}			
         </td>
 
@@ -85,9 +85,9 @@
 
   <div class="messages status">
     {if $caseview}
-      {ts}There is no activities attached to this case record. Go to Activities tab to attach some activity records.{/ts}
+      {ts}There are no Activities attached to this case record.{/ts}{if $permission EQ 'edit'} {ts}You can go to the Activities tab to attach some activity records.{/ts}{/if}
     {else}
-      {ts}No Activites for this contact.{/ts}
+      {ts}There are no Activites recorded for this contact.{/ts}{if $permission EQ 'edit'} {ts}You can use the links above to schedule or record an activity.{/ts}{/if}
     {/if}
   </div>
 
