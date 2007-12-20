@@ -150,7 +150,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
          
         $this->add('textarea', 'details', ts('Details'), CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'details' ) ); 
          
-        $this->add('select','status',ts('Status'), CRM_Core_SelectValues::activityStatus(), true); 
+        $this->add('select','status',ts('Status'), CRM_Core_PseudoConstant::activityStatus(), true); 
 
         CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks1', 'hideBlocks1' );
         
@@ -206,51 +206,23 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
      */
     public function postProcess() {
         $params = $this->controller->exportValues( $this->_name );
-
-        $dateTime = CRM_Utils_Date::format($dateTime); 
- 
+        
         // store the date with proper format 
-        $params['scheduled_date_time']= CRM_Utils_Date::format( $params['scheduled_date_time'] );
+        $params['activity_date_time'] = CRM_Utils_Date::format( $params['scheduled_date_time'] );
+        $params['status_id']          = $params['status'];
  
         // store the contact id and current drupal user id 
         $params['source_contact_id'] = $this->_userID; 
-        $params['target_entity_table'] = 'civicrm_contact'; 
-        $ids = array( );
+       
+        list( $total, $added ) = array( count( $this->_contactIds ), 0 );
 
-        if ( $params['status'] == 'Completed' ) {
-            $completedParams = array( 'entity_table'     => 'civicrm_contact', 
-                                      'activity_type'    => $this->_activityType[$params['activity_type_id']], 
-                                      'module'           => 'CiviCRM', 
-                                      'activity_summary' => $params['subject'],
-                                      'activity_date'    => $params['scheduled_date_time'],
-                                      'callback'         => 'CRM_Activity_BAO_Activity::showActivityDetails'
-                                      );
-        }
-            
-        list( $total, $added, $notAdded ) = array( count( $this->_contactIds ), 0, 0 );
-
-
-        require_once 'CRM/Activity/BAO/Activity.php';
-
+        require_once 'CRM/Activity/BAO/Activity.php';        
         foreach ( $this->_contactIds as $contactId ) {
-//             $params['target_entity_id'] = $contactId; 
-//             $activity = null;
-//             $activityType = $params['activity_type_id'];
-            
-//             $activity  = CRM_Activity_BAO_Activity::createActivity($params, $ids,$params["activity_type_id"] ,true );
-            
-//             if ( $activity ) {
-//                 $added++;
-//                 if ( $activity->status == 'Completed' ) {
-//                     $completedParams['entity_id'] = $contactId;
-//                     $completedParams['activity_id'] = $activity->id;
-//                     if ( is_a( crm_create_activity_history($completedParams), 'CRM_Core_Error' ) ) {
-//                         $added--;
-//                     }
-//                 }
-//             } else {
-//                 $notAdded++;
-//             }
+            $params['target_contact_id'] = $contactId;  
+            $activity = CRM_Activity_BAO_Activity::create( $params );
+            if ( $activity ) {
+                $added++;
+            } 
         }
 
         $status = array(
