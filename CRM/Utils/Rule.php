@@ -56,6 +56,22 @@ class CRM_Utils_Rule
         return true;
     }
 
+    static function longTitle( $str ) 
+    {
+        
+        // check length etc
+        if ( empty( $str ) || strlen( $str ) < 3 || strlen( $str ) > 255 ) {
+            return false;
+        }
+        
+        // Make sure it consists of valid characters, alpha numeric and underscores (and !)
+        if ( ! preg_match('/^[a-z][\w\s\'\&\,\$\#\-\.\"\!\?]+$/i', $str ) ) {
+            return false;
+        }
+        
+        return true;
+    }
+    
     static function variable( $str ) 
     {
         // check length etc

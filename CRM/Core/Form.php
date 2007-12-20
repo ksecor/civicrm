@@ -162,7 +162,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      *
      */
     function registerRules( ) {
-        static $rules = array( 'title', 'variable', 'qfVariable', 
+        static $rules = array( 'title', 'longTitle', 'variable', 'qfVariable', 
                                'phone', 'integer', 'query',
                                'url', 'wikiURL',
                                'domain','numberOfDigit',

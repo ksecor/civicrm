@@ -71,6 +71,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
 
         // name
         $this->add('text', 'title', ts('Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'title'), true);
+        $this->addRule( 'title', ts( 'Page title can not be longer than 255 characters and must consist of letters, numbers, spaces and simple punctuation characters.' ), 'longTitle' );
 
         $this->add('select', 'contribution_type_id',
                    ts( 'Contribution Type' ),

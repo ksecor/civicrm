@@ -28,7 +28,7 @@
                     <span class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</span></td></tr> 
                 <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
                 <td>{$form.pay_later_receipt.html|crmReplace:class:big}<br />
-                    <span class="description">{ts}Instructions added to email receipt when "pay later" option is selected.{/ts}</span></td></tr>
+                    <span class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the "pay later" option (e.g. "Mail your check to ... within 3 business days.").{/ts}</span></td></tr>
             </table>
             </td></tr>
     </table>
