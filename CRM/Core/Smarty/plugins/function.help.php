@@ -64,10 +64,10 @@ function smarty_function_help( $params, &$smarty ) {
     $id   = urlencode( $params['id'] );
     $help = $smarty->fetch( $file );
     return <<< EOT
-<div class="tundra">
-<img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/Help.png">
-<span dojoType="dijit.Tooltip" connectId="{$id}_help">$help
-</span></div>
+
+<span id="{$id}_help" class="tundra" ><img id="{$id}_help" class="action-icon" src="{$smarty->_tpl_vars[ 'config']->resourceBase}i/Help.png"></span >
+<div dojoType="dijit.Tooltip" connectId="{$id}_help" class="tundra" >$help
+</div>
 EOT;
 
 }

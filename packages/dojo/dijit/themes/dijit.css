@@ -577,13 +577,13 @@ See http://trac.dojotoolkit.org/ticket/5006
 	position: relative;
 }
 */
-.dijitTooltipContainer {
+/*.dijitTooltipContainer {
 	border: solid black 2px;
 	background: #b8b5b5;
 	color: black;
 	font-size: small;
 }
-
+*/
 .dijitTooltipFocusNode {
 	padding: 2px 2px 2px 2px;
 }
