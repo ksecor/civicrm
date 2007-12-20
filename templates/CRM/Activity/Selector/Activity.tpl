@@ -86,6 +86,8 @@
   <div class="messages status">
     {if $caseview}
       {ts}There are no Activities attached to this case record.{/ts}{if $permission EQ 'edit'} {ts}You can go to the Activities tab to attach some activity records.{/ts}{/if}
+    {elseif $context eq 'home'}
+      {ts}There are no Activities to display.{/ts}
     {else}
       {ts}There are no Activites recorded for this contact.{/ts}{if $permission EQ 'edit'} {ts}You can use the links above to schedule or record an activity.{/ts}{/if}
     {/if}
