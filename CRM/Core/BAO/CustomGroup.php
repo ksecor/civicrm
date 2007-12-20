@@ -423,9 +423,7 @@ SELECT $select
      */
     public static function updateCustomData(&$groupTree, $entityType, $entityId)
     {
-
         $tableName = self::_getTableName($entityType);
-
         $update = array( );
         foreach ( $groupTree as $groupID => $group ) {
             if ( $groupID == 'info' ) {
@@ -438,12 +436,25 @@ SELECT $select
                     $update[] = "{$table}.{$column} = '{$field['customValue']['data']}'";
                 }
             }
-            
+
+            $query = "
+SELECT entity_id 
+FROM   {$table} 
+WHERE  {$table}.entity_id = {$entityId}";
+
+            $crmDAO =& CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray ); 
             if ( ! empty( $update ) ) {
                 $tables = implode( ', ', $groupTree['info']['from'  ] );
                 if ( $groupTree['info']['where' ] ) {
-                    $sqlOP = 'UPDATE';
-                    $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
+                    if( $crmDAO ) {
+                        $sqlOP = 'UPDATE';
+                        $where = ' WHERE ' . implode( ', ', $groupTree['info']['where' ] );
+                    } else {
+                        $sqlOP = 'INSERT INTO';
+                        $where  = null;
+                        $update[] = "{$table}.domain_id = " . CRM_Core_Config::domainID();
+                        $update[] = "{$table}.entity_id = '{$entityId}'";
+                    }
                 } else {
                     $sqlOP  = 'SELECT';
                     $where  = null;
@@ -1026,6 +1037,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                 }
             }
         }
+    
     }
 
     /**
