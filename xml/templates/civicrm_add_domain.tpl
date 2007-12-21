@@ -298,9 +298,9 @@ VALUES
   (@option_group_id_acs, '{ts escape="sql"}Completed{/ts}',  2, 'Completed',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
   (@option_group_id_acs, '{ts escape="sql"}Cancelled{/ts}',  3, 'Cancelled',  NULL, 0, NULL, 3, NULL, 0, 1, 1),
 
-  (@option_group_id_ct, '{ts escape="sql"}Civil & Political{/ts}',            1, 'Civil & Political',  NULL, 0, 1,    1, NULL, 0, 1, 1),
-  (@option_group_id_ct, '{ts escape="sql"}Economic, Social & Cultural{/ts}',  2, 'Economic, Social & Cultural',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
-  (@option_group_id_ct, '{ts escape="sql"}Gender Issues{/ts}',                3, 'Gender Issues',  NULL, 0, NULL, 3, NULL, 0, 1, 1),
+  (@option_group_id_ct, '{ts escape="sql"}Civil & Political{/ts}',            1, 'Civil & Political',  NULL, 0, 1,    1, NULL, 0, 0, 1),
+  (@option_group_id_ct, '{ts escape="sql"}Economic, Social & Cultural{/ts}',  2, 'Economic, Social & Cultural',  NULL, 0, NULL, 2, NULL, 0, 0, 1),
+  (@option_group_id_ct, '{ts escape="sql"}Gender Issues{/ts}',                3, 'Gender Issues',  NULL, 0, NULL, 3, NULL, 0, 0, 1),
 
   (@option_group_id_cas, '{ts escape="sql"}Ongoing{/ts}' , 1, 'Ongoing' ,  NULL, 0, 1,    1, NULL, 0, 1, 1),
   (@option_group_id_cas, '{ts escape="sql"}Resolved{/ts}', 2, 'Resolved',  NULL, 0, NULL, 2, NULL, 0, 1, 1),
