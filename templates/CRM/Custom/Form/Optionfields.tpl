@@ -1,11 +1,12 @@
+{* Included in Custom/Form/Field.tpl - used for fields with multiple choice options. *}
 <dl>
-<dt>{$form.option_type.label}</dt><dd>{$form.option_type.html}</dd>
+    <dt>{$form.option_type.label}</dt><dd>{$form.option_type.html}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}You can create new multiple choice options for this field, or select an existing set of options which you've already created for another custom field.{/ts}</dd>
 </dl>
 {if $form.option_group_id}
 <div id="option_group">
   <dl>
-      <dt>{$form.option_group_id.label}</dt>
-      <dd>{$form.option_group_id.html}</dd>
+      <dt>{$form.option_group_id.label}</dt><dd>{$form.option_group_id.html}</dd>
   </dl>
 </div><div class="spacer"></div>
 {/if}

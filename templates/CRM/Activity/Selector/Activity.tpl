@@ -38,8 +38,8 @@
 	
         <td>
         {if !$row.source_contact_id}
-	  <em>n/a</em>
-	{elseif $contactId NEQ $row.source_contact_id}
+          <em>n/a</em>
+        {elseif $contactId NEQ $row.source_contact_id}
           <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a>
         {else}
           <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$row.source_contact_id`"}">{$row.source_contact_name}</a> 	

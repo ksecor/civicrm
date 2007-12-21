@@ -59,7 +59,7 @@
            {if $action eq 1 or $action eq 2  or $action eq 4 }
              {if $context eq ('standalone' or 'case') }
                 <tr>
-                   <td class="label">{$form.activity_type_id.label}</td><td>{$form.activity_type_id.html}</td>
+                   <td class="label">{$form.activity_type_id.label}</td><td class="view-value">{$form.activity_type_id.html}</td>
                 </tr>
              {/if}
              <tr>
