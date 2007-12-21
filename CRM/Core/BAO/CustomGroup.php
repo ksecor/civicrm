@@ -288,12 +288,12 @@ ORDER BY civicrm_custom_group.weight,
                 $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
                             }
             $groupTree['info'] = array( 'tables' => $customValueTables );
-
-            foreach ( $blockTables as $keyTable ) {
-                // commented temporarily 
-                //   unset($groupTree['info']['tables'][$keyTable] );
+            if( is_array( $blockTables ) ) {
+                foreach ( $blockTables as $keyTable ) {
+                    // commented temporarily 
+                    //   unset($groupTree['info']['tables'][$keyTable] );
+                }
             }
-            
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
@@ -1031,13 +1031,43 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $date;
                     break;
          
+                case 'File':
+                    //store the file in d/b
+                    $entityId   = explode( '=', $groupTree['info']['where'][0] );
+                    $fileParams = array( 'uri'        =>  $filename,
+                                         'mime_type'  => $_FILES['custom_' . $fieldId]['type'],
+                                         'upload_date'=> date('Ymdhis') );
+                    
+                    if ( $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'] ) {
+                        $fileParams['id'] = $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'];
+                    }     
+                    require_once 'CRM/Core/BAO/File.php';
+                    CRM_Core_BAO_File::filePostProcess($v, 
+                                                       $groupTree[$groupId]['fields'][$fieldId]['customValue']['fid'], 
+                                                       $groupTree[$groupId]['table_name'],
+                                                       $entityId[1],
+                                                       false,
+                                                       true,
+                                                       $fileParams,
+                                                       'custom_' . $fieldId
+                                                       );
+                    $defaults   = array( );
+                    $paramsFile =  array( 'entity_table' => $groupTree[$groupId]['table_name'],
+                                          'entity_id'    => $entityId[1] );
+                    
+                    CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_EntityFile',
+                                                 $paramsFile,
+                                                 $defaults);
+                    
+                    $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $defaults['file_id'];
+                    break;
+                    
                 default:
                     $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = $v;
                     break;
                 }
             }
         }
-    
     }
 
     /**
