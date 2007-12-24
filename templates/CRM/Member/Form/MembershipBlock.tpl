@@ -55,10 +55,10 @@
     <dt>&nbsp;</dt><dd class="description">
         {ts}Check this box if you are including both Membership Signup/Renewal AND a Contribution Amount section, AND you want the membership fee to be charged separately from any
         additional contribution amount.{/ts}</dd>
-    </dl>
 
     <dt></dt><dd>{$form.display_min_fee.html}&nbsp;{$form.display_min_fee.label} {help id="id-display-fee"}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Display the membership fee along with the membership name and description for each membership option?{/ts}</dd>
+    </dl>
 
    </div>
     {if $action ne 4}
