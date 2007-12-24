@@ -1480,7 +1480,7 @@ class CRM_Contact_BAO_Query {
         }
 
         $tables = $newTables;
-       
+        
         foreach ( $tables as $name => $value ) {
             if ( ! $value ) {
                 continue;
@@ -1524,7 +1524,10 @@ class CRM_Contact_BAO_Query {
                 $from .= " $side JOIN civicrm_option_group option_group_imProvider ON (option_group_imProvider.name = 'instant_messenger_service')";
                 $from .= " $side JOIN civicrm_im_provider im_provider ON (civicrm_im.provider_id = im_provider.id AND option_group_imProvider.id = im_provider.option_group_id)";
                 continue;
-
+                
+            case 'civicrm_openid':
+                $from .= " $side JOIN civicrm_openid ON ( civicrm_openid.contact_id = contact_a.id AND civicrm_openid.is_primary = 1 )";
+                continue;
             case 'payment_instrument':
                 $from .= " $side JOIN civicrm_option_group option_group_paymentInstrument ON (option_group_paymentInstrument.name = 'payment_instrument')";
                 $from .= " $side JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value AND option_group_paymentInstrument.id = payment_instrument.option_group_id)";
@@ -1642,7 +1645,7 @@ class CRM_Contact_BAO_Query {
                 continue;
             }
         }
-       
+        
         return $from;
     }
 
