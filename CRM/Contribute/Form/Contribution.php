@@ -637,10 +637,77 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         require_once 'CRM/Contribute/BAO/Contribution.php';
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
+        //process associated membership / participant
+        require_once 'CRM/Core/Payment/BaseIPN.php';
+        $baseIPN = new CRM_Core_Payment_BaseIPN( );
+        
+        $input = $ids = $objects = array( );
+        $IdDetails = $this->getDetails( $contribution->id );
+        
+        $input['component']       = $IdDetails['component'];
+        $ids['contact'     ]      = $contribution->contact_id;
+        $ids['contribution']      = $contribution->id;
+        $ids['contributionRecur'] = null;
+        $ids['contributionPage']  = null;
+        $ids['membership']        = $IdDetails['membership'];
+        $ids['participant']       = $IdDetails['participant'];
+        $ids['event']             = $IdDetails['event'];
+        
+        if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
+            CRM_Core_Error::fatal( );
+        }
+        
+        $membership   =& $objects['membership']  ;
+        $participant  =& $objects['participant'] ;
+        
+        if ( $contribution->contribution_status_id == 3 ) {
+            if ( $membership ) {
+                $membership->status_id = 6;
+                $membership->save( );
+            }
+            if ( $participant ) {
+                $participant->status_id = 4;
+                $participant->save( );
+            }
+        } elseif ( $contribution->contribution_status_id == 4 ) {
+            if ( $membership ) {
+                $membership->status_id = 4;
+                $membership->save( );
+            }
+            if ( $participant ) {
+                $participant->status_id = 4;
+                $participant->save( );
+            }
+        } elseif ( $contribution->contribution_status_id == 1 ) {
+            if ( $membership ) {
+                $format       = '%Y%m%d';
+                require_once 'CRM/Member/BAO/MembershipType.php';  
+                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                
+                $membership->join_date     = 
+                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
+                $membership->start_date    = 
+                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
+                $membership->end_date      = 
+                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
+                $membership->reminder_date = 
+                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
+                
+                $membership->status_id = 2;
+                $membership->save( );
+            }
+            if ( $participant ) {
+                $participant->status_id = 1;
+                $participant->save( );
+            }
+        }
+
         //process note
         require_once 'CRM/Core/BAO/Note.php';
-        $noteParams = array('entity_table' => 'civicrm_contribution', 'note' => $formValues['note'], 'entity_id' => $contribution->id,
-                            'contact_id' => $this->_contactID);
+        $noteParams = array('entity_table' => 'civicrm_contribution', 
+                            'note'         => $formValues['note'], 
+                            'entity_id'    => $contribution->id,
+                            'contact_id'   => $this->_contactID);
         $noteID = array();
         if( $this->_noteId ) {
             $noteID = array("id" => $this->_noteId);
@@ -811,6 +878,36 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $form->assign('initHideBoxes', $js);
         $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
         $form->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
+    }
+
+
+    function &getDetails( $contributionID ) {
+        $query = "
+SELECT    c.id                 as contribution_id,
+          mp.membership_id     as membership_id,
+          m.membership_type_id as membership_type_id,
+          pp.participant_id    as participant_id,
+          p.event_id           as event_id
+FROM      civicrm_contribution c
+LEFT JOIN civicrm_membership_payment  mp ON mp.contribution_id = c.id
+LEFT JOIN civicrm_participant_payment pp ON pp.contribution_id = c.id
+LEFT JOIN civicrm_participant         p  ON pp.participant_id  = p.id
+LEFT JOIN civicrm_membership          m  ON m.id  = mp.membership_id
+WHERE     c.id = $contributionID";
+
+        $rows = array( );
+        $dao = CRM_Core_DAO::executeQuery( $query,
+                                           CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {
+            $rows = array(
+                          'component'       => $dao->participant_id ? 'event' : 'contribute',
+                          'membership'      => $dao->membership_id,
+                          'membership_type' => $dao->membership_type_id,
+                          'participant'     => $dao->participant_id,
+                          'event'           => $dao->event_id,
+                          );
+        }
+        return $rows;
     }
 
 }
