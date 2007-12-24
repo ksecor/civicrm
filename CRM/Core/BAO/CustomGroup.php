@@ -42,7 +42,6 @@ require_once 'CRM/Core/DAO/CustomGroup.php';
 class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup 
 {
 
-    const VALUE_SEPERATOR = "";
     /**
      * class constructor
      */
@@ -1010,7 +1009,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                     if ( ! empty( $v ) ) {
                         $customValue = array_keys( $v );
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            self::VALUE_SEPERATOR.implode(self::VALUE_SEPERATOR, $customValue).self::VALUE_SEPERATOR;
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $customValue).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
@@ -1020,7 +1019,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                 case 'Multi-Select':  
                     if ( ! empty( $v ) ) {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = 
-                            self::VALUE_SEPERATOR.implode(self::VALUE_SEPERATOR, $v).self::VALUE_SEPERATOR;
+                            CRM_Core_BAO_CustomOption::VALUE_SEPERATOR.implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $v).CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
                     } else {
                         $groupTree[$groupId]['fields'][$fieldId]['customValue']['data'] = null;
                     }
