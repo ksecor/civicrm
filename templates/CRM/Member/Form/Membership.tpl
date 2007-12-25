@@ -20,17 +20,17 @@
         <span class="description">{ts}Source of this membership. This value is searchable.{/ts}</span></dd>
 	<dt>{$form.join_date.label}</dt><dd class="html-adjust">{$form.join_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_1}
+		{include file="CRM/common/calendar/body.tpl" dateVar=join_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_1}
 		<br />
         <span class="description">{ts}When did this contact first become a member?{/ts}</span></dd>
  	<dt>{$form.start_date.label}</dt><dd class="html-adjust">{$form.start_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_2}
-		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_2}
+		{include file="CRM/common/calendar/body.tpl" dateVar=start_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_2}
 		<br />
         <span class="description">{ts}First day of current continuous membership period. Start Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
  	<dt>{$form.end_date.label}</dt><dd class="html-adjust">{$form.end_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_3}
-		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_3}
+		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_3}
 		<br />
         <span class="description">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
     <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}<br />

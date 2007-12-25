@@ -419,7 +419,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                    array('onchange' => "if (this.value) reload(true); else return false") );
         
         $this->add( 'date', 'register_date', ts('Registration Date and Time'),
-                    CRM_Core_SelectValues::date('datetime' ),
+                    CRM_Core_SelectValues::date('activityDatetime' ),
                     true);   
         $this->addRule('register_date', ts('Select a valid date.'), 'qfDate');
          

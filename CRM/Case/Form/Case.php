@@ -130,12 +130,12 @@ class CRM_Case_Form_Case extends CRM_Core_Form
 
                         
         $this->add( 'date', 'start_date', ts('Start Date'),
-                    CRM_Core_SelectValues::date('manual',20,10 ),
+                    CRM_Core_SelectValues::date('activityDate' ),
                     true);   
         $this->addRule('start_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add( 'date', 'end_date', ts('End Date'),
-                    CRM_Core_SelectValues::date('manual',20,10 ),
+                    CRM_Core_SelectValues::date('activityDate' ),
                     false); 
         $this->addRule('end_date', ts('Select a valid date.'), 'qfDate');
         

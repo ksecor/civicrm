@@ -38,7 +38,7 @@
         <tr><td class="label">{$form.register_date.label}</td><td>{$form.register_date.html}
     	{if $hideCalender neq true}<br />
 	      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event}
-    	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=3 doTime=1  trigger=trigger_event}       
+    	  {include file="CRM/common/calendar/body.tpl" dateVar=register_date  offset=10 doTime=1  trigger=trigger_event}       
 	    {/if}    
      	    </td>
 	    </tr>

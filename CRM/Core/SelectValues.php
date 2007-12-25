@@ -407,6 +407,9 @@ class CRM_Core_SelectValues
                 $format = str_replace( CRM_Core_DAO::VALUE_SEPARATOR, ' ',$dateParts );
                 $newDate['format'] = CRM_Utils_Date::posixToPhp( $format, $filter );
             }
+        } elseif ($type == 'activityDate') {
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'fixed') {
             $minOffset = $dao->start;
             $maxOffset = $dao->end;
@@ -425,6 +428,13 @@ class CRM_Core_SelectValues
             $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDate,
                                                              $format );
             $newDate['optionIncrement']['i'] = $dao->minute_increment;
+        } elseif ($type == 'activityDatetime') {
+            require_once 'CRM/Utils/Date.php';
+            //for datetime use datetime format from config
+            $newDate['format'] = CRM_Utils_Date::posixToPhp( $config->dateformatQfDatetime );
+            $newDate['optionIncrement']['i'] = $dao->minute_increment;
+            $minOffset = $dao->start;
+            $maxOffset = $dao->end;
         } elseif ($type == 'datetime') {
             require_once 'CRM/Utils/Date.php';
             //for datetime use datetime format from config

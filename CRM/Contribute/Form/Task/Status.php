@@ -141,7 +141,7 @@ AND    co.id IN ( $contribIDs )";
             $defaults["fee_amount_{$row['contribution_id']}"] = 0.0;
 
             $row['trxn_date'] =& $this->addElement('date', "trxn_date_{$row['contribution_id']}",
-                                                   ts('Receipt Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+                                                   ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
             $this->addRule("trxn_date_{$row['contribution_id']}", ts('Select a valid date.'), 'qfDate');
             $defaults["trxn_date_{$row['contribution_id']}"] = $now;
 

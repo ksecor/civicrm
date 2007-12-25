@@ -12,7 +12,7 @@
 	<dt>{ts}Membership End Date{/ts}</dt><dd class="html-adjust">&nbsp;{$endDate}</dd>
 	<dt>{$form.renewal_date.label}</dt><dd class="html-adjust">{$form.renewal_date.html}
 		{include file="CRM/common/calendar/desc.tpl" trigger=trigger_membership_1}
-		{include file="CRM/common/calendar/body.tpl" dateVar=renewal_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_membership_1}
+		{include file="CRM/common/calendar/body.tpl" dateVar=renewal_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_1}
 		</dd>
     </dl>
 	       

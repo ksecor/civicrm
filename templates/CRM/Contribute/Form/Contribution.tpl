@@ -27,7 +27,7 @@
         <tr><td class="label">{$form.receive_date.label}</td><td>{$form.receive_date.html}
         {if $hideCalender neq true}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_1}
-            {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_1}
+            {include file="CRM/common/calendar/body.tpl" dateVar=receive_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_1}
         {/if}    
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}The date this contribution was received.{/ts}</td></tr>
@@ -42,7 +42,7 @@
         {/if}
         <tr id="receiptDate"><td class="label">{$form.receipt_date.label}</td><td>{$form.receipt_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_2}
-            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_2}<br />
+            {include file="CRM/common/calendar/body.tpl" dateVar=receipt_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_2}<br />
             <span class="description">{ts}Date that a receipt was sent to the contributor.{/ts}</span></td></tr>
         <tr><td class="label">{$form.contribution_status_id.label}</td><td>{$form.contribution_status_id.html}</td></tr>
         {* Cancellation fields are hidden unless contribution status is set to Cancelled *}
@@ -53,7 +53,7 @@
                   <tr id="cancelDate"><td class="label">{$form.cancel_date.label}</td><td>{$form.cancel_date.html}
                    {if $hideCalendar neq true}
                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_4}
-                     {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_4}
+                     {include file="CRM/common/calendar/body.tpl" dateVar=cancel_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_4}
                    {/if}
                    </td></tr>
                   <tr id="cancelDescription"><td class="label">&nbsp;</td><td class="description">{ts}Enter the cancellation date, or you can skip this field and the cancellation date will be automatically set to TODAY.{/ts}</td></tr>
@@ -85,7 +85,7 @@
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Unique payment ID for this transaction. The Payment Processor's transaction ID will be automatically stored here on online contributions.{/ts}<br />{ts}For offline contributions, you can enter an account+check number, bank transfer identifier, etc.{/ts}</td></tr>
         <tr><td class="label">{$form.thankyou_date.label}</td><td>{$form.thankyou_date.html}
             {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_3}
-            {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_3}
+            {include file="CRM/common/calendar/body.tpl" dateVar=thankyou_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_3}
         </td></tr>
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Date that a thank-you message was sent to the contributor.{/ts}</td></tr>
     </table>
@@ -160,7 +160,7 @@
            <dl>
            <dt class="label">{$form.fulfilled_date.label}</dt><dd>{$form.fulfilled_date.html}
            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_contribution_5}
-           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=5 trigger=trigger_contribution_5}      
+           {include file="CRM/common/calendar/body.tpl" dateVar=fulfilled_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_contribution_5}      
            </dd>
            </dl>
 

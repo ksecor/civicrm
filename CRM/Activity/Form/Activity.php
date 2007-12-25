@@ -247,7 +247,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true );
 
-        $this->add('date', 'activity_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true);
+        $this->add('date', 'activity_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('activityDatetime'), true);
         $this->addRule('activity_date_time', ts('Select a valid date.'), 'qfDate');
         
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours());

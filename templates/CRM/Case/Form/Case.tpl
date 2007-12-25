@@ -25,11 +25,12 @@
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the case {/ts}</td></tr>       
             <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_case_1}       
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=10 doTime=1 trigger=trigger_case_1}       
                 </td>
             </tr>
-            <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}                            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_2}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1  trigger=trigger_case_2}       
+            <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}
+                {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case_2}
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=10 doTime=1  trigger=trigger_case_2}       
                 </td>
             </tr>
           <tr><td class="label">{$form.details.label}</td><td>{$form.details.html|crmReplace:class:huge}</td></tr>

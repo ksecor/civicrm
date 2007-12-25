@@ -198,7 +198,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->add('date', 'renewal_date', ts('Renewal Date'), CRM_Core_SelectValues::date('manual', 20, 1), false );    
+        $this->add('date', 'renewal_date', ts('Renewal Date'), CRM_Core_SelectValues::date('activityDate'), false );    
         $this->addRule('renewal_date', ts('Select a valid date.'), 'qfDate');
         
         $this->addElement('checkbox', 

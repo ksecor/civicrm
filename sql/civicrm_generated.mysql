@@ -809,7 +809,18 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_preferences_date` WRITE;
 /*!40000 ALTER TABLE `civicrm_preferences_date` DISABLE KEYS */;
-INSERT INTO `civicrm_preferences_date` (`id`, `domain_id`, `name`, `description`, `start`, `end`, `minute_increment`, `format`) VALUES (1,1,'birth',NULL,100,0,0,NULL),(2,1,'creditCard',NULL,0,10,0,'M Y'),(3,1,'custom',NULL,20,20,15,'Y M d H i'),(4,1,'datetime',NULL,10,3,15,NULL),(5,1,'duration',NULL,0,0,15,'H i'),(6,1,'fixed',NULL,0,5,0,NULL),(7,1,'mailing',NULL,0,1,15,'Y M d H i'),(8,1,'relative',NULL,20,20,0,NULL),(9,1,'manual',NULL,20,20,0,NULL);
+INSERT INTO `civicrm_preferences_date` (`id`, `domain_id`, `name`, `start`, `end`, `minute_increment`, `format`, `description`) VALUES
+  (1, 1, 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel; membership: join, start, renew; case: start, end.'         ),
+  (2, 1, 'activityDatetime',  20, 10, 15, null,        'Date and time for activity: scheduled; participant: registered.'                                                                  ),
+  (3, 1, 'birth'           , 100,  0,  0, null,        'Birth and deceased dates.'                                                                                                        ),
+  (4, 1, 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
+  (5, 1, 'custom'          ,  20, 20, 15, 'Y M d H i', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),
+  (6, 1, 'datetime'        ,  10,  3, 15, null,        'General date and time.'                                                                                                           ),
+  (7, 1, 'duration'        ,   0,  0, 15, 'H i',       'Durations in hours and minutes.'                                                                                                  ),
+  (8, 1, 'fixed'           ,   0,  5,  0, null,        'Not used ?'                                                                                                                       ),
+  (9, 1, 'mailing'         ,   0,  1, 15, 'Y M d H i', 'Date and time. Used for scheduling mailings.'                                                                                      ),
+  (10, 1, 'manual'          ,  20, 20,  0, null,        'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.'       ),
+  (11, 1, 'relative'        ,  20, 20,  0, null,        'Used in search forms.'                                                                                                            );
 /*!40000 ALTER TABLE `civicrm_preferences_date` ENABLE KEYS */;
 UNLOCK TABLES;
 

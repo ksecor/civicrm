@@ -110,7 +110,7 @@
                       <span class="description">
                       {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity}
                       {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
-                                      endDate=endYear offset=3 doTime=1 trigger=trigger_activity}
+                                      endDate=endYear offset=10 doTime=1 trigger=trigger_activity}
                       </span>
                    {/if}  
                 </td>

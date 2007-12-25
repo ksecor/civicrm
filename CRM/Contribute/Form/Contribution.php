@@ -369,20 +369,20 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
 
         // add various dates
-        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('manual', 3, 1), false );         
+        $element =& $this->add('date', 'receive_date', ts('Received'), CRM_Core_SelectValues::date('activityDate'), false );         
         $this->addRule('receive_date', ts('Select a valid date.'), 'qfDate');
         if ( $this->_online ) {
             $this->assign("hideCalender" , true );
             $element->freeze( );
         }
 
-        $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'receipt_date', ts('Receipt Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('receipt_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'thankyou_date', ts('Thank-you Sent'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('thankyou_date', ts('Select a valid date.'), 'qfDate');
 
-        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('manual', 3, 1)); 
+        $this->addElement('date', 'cancel_date', ts('Cancelled Date'), CRM_Core_SelectValues::date('activityDate')); 
         $this->addRule('cancel_date', ts('Select a valid date.'), 'qfDate');
         
         $this->add('textarea', 'cancel_reason', ts('Cancellation Reason'), $attributes['cancel_reason'] );
@@ -876,7 +876,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $sel->setOptions(array($sel1, $sel2 ));
         $js .= "</script>\n";
         $form->assign('initHideBoxes', $js);
-        $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('manual', 3, 1));
+        $form->addElement('date', 'fulfilled_date', ts('Fulfilled'), CRM_Core_SelectValues::date('activityDate'));
         $form->addElement('text', 'min_amount', ts('Minimum Contribution Amount'));
     }
 
