@@ -92,13 +92,7 @@
   <field>
       <name>loc_block_id</name>
       <type>int unsigned</type>
-      <comment>FK to Location Block ID</comment>
+      <comment>FK to Location Block ID. This is specifically not an FK to avoid circular constraints</comment>
       <add>2.0</add>
   </field>
-  <foreignKey>
-       <name>loc_block_id</name>
-       <table>civicrm_loc_block</table>
-       <key>id</key>
-       <add>2.0</add>
-  </foreignKey>
 </table>
