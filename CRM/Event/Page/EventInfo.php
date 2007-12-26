@@ -142,17 +142,26 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     
                     $this->assign( 'registerText', $registerText );
                     $this->assign( 'is_online_registration', $values['event']['is_online_registration'] );
-                    
+
+                    // we always generate urls for the front end in joomla
                     if ( $action ==  CRM_Core_Action::PREVIEW ) {
                         $url    = CRM_Utils_System::url( 'civicrm/event/register',
-                                                         "id={$id}&reset=1&action=preview" );
+                                                         "id={$id}&reset=1&action=preview",
+                                                         true, null, true,
+                                                         true );
                         $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1&action=preview" );
+                                                         "eid={$id}&reset=1&action=preview",
+                                                         true, null, true,
+                                                         true );
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/event/register',
-                                                      "id={$id}&reset=1" );
+                                                      "id={$id}&reset=1",
+                                                         true, null, true,
+                                                         true );
                         $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
-                                                         "eid={$id}&reset=1" );
+                                                         "eid={$id}&reset=1",
+                                                         true, null, true,
+                                                         true );
                     }
                     $this->assign( 'registerURL', $url    );
                     $this->assign( 'mapURL'     , $mapURL );
