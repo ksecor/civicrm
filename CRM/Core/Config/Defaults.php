@@ -140,16 +140,20 @@ class CRM_Core_Config_Defaults
                              DIRECTORY_SEPARATOR . 'all'   .
                              DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
-                // FIXME: placeholder hack to make sure that we have
-                // FIXME: another case served: the one where civicrm is installed
-                // FIXME: for single specific site in Drupal
-                } elseif ( strpos( $civicrm_root,
-                             DIRECTORY_SEPARATOR . 'sites' .
-                             DIRECTORY_SEPARATOR . 'trunk'   .
-                             DIRECTORY_SEPARATOR . 'modules' ) !== false ){
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/trunk/modules/civicrm/";                             
                 } else {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
+                    $startPos = strpos( $civicrm_root,
+                                        DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR );
+                    $endPos   = strpos( $civicrm_root,
+                                        DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR );
+                    if ( $startPos && $endPos ) {
+                        // if component is in sites/SITENAME/modules
+                        $siteName = substr( $civicrm_root,
+                                            $startPos + 7,
+                                            $endPos - $startPos - 7 );
+                        $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/civicrm/";
+                    } else {
+                        $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
+                    }
                 }
             }
         }
