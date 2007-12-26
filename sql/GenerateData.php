@@ -1411,16 +1411,16 @@ VALUES
 
     function addEventPhone()
     {
-        $event = "INSERT INTO civicrm_phone (id, contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
       VALUES
-      (121, 87, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (122, 88, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (123, 89, 1, 0, 0, NULL,'303 323-1000', 'Phone')
+      (87, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
+      (88, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
+      (89, 1, 0, 0, NULL,'303 323-1000', 'Phone')
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
 
-    function addEventemail()
+    function addEventEmail()
     {
         $event = "INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
       VALUES
@@ -1429,7 +1429,18 @@ VALUES
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
-
+    
+    function addEventIM()
+    {
+        $event = 
+            "INSERT INTO civicrm_im (contact_id, location_type_id, name, provider_id, is_primary, is_billing)
+            VALUES
+                                    (87, 1, 'Merry Christmas', 3, 1, NULL),
+                                    (89, 1, 'John', 1, 1, NULL)
+            ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+    }
+        
     function addEventFeeLabel()
     {
         $optionGroup = "INSERT INTO civicrm_option_group ( domain_id, name, is_reserved, is_active)
@@ -1602,7 +1613,8 @@ $obj1->addMembership();
 $obj1->addMembershipLog();
 $obj1->addEventLocationAddress();
 $obj1->addEventPhone();
-$obj1->addEventemail();
+$obj1->addEventEmail();
+$obj1->addEventIM();
 $obj1->addEventFeeLabel();
 $obj1->addEventLocation();
 $obj1->addEvent();
