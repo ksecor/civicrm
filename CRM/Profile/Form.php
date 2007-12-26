@@ -157,7 +157,7 @@ class CRM_Profile_Form extends CRM_Core_Form
             $this->_fields  = CRM_Core_BAO_UFGroup::getFields( $this->_gid, false, null,
                                                                null, null,
                                                                false, null,
-                                                               true );
+                                                               $this->_skipPermission );
         }
         if (! is_array($this->_fields)) {
             $session =& CRM_Core_Session::singleton( );
