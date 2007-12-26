@@ -66,7 +66,9 @@ class CRM_Admin_Form_PreferencesDate extends CRM_Admin_Form
         
         $attribute  = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'start' );
         $formatAttr = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'format' );
+        $descAttr = CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_PreferencesDate', 'description' );
 
+        $this->add('text', 'description'     , ts('Description'     ), $descAttr  , false );
         $this->add('text', 'start'           , ts('Start Offset'    ), $attribute , true  );
         $this->add('text', 'end'             , ts('End Offset'      ), $attribute , true  );
         $this->add('text', 'minute_increment', ts('Minute Increment'), $attribute , false );
@@ -97,6 +99,7 @@ class CRM_Admin_Form_PreferencesDate extends CRM_Admin_Form
         // action is taken depending upon the mode
         $dao                   =& new CRM_Core_DAO_PreferencesDate( );
         $dao->id               =  $this->_id;
+        $dao->description      =  $params['description'];  
         $dao->start            =  $params['start'];  
         $dao->end              =  $params['end'];
         $dao->minute_increment =  $params['minute_increment'];

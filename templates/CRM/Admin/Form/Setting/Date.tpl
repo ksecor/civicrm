@@ -16,6 +16,9 @@
       <dt>{$form.dateformatQfDate.label}</dt><dd>{$form.dateformatQfDate.html}</dd>
       <dt>{$form.dateformatQfDatetime.label}</dt><dd>{$form.dateformatQfDatetime.html}</dd>
     </dl>
+    <div class="action-link">
+    	<a href="{crmURL p="civicrm/admin/setting/preferences/date" q="reset=1"}" id="advDateSetting" title="{ts}Manage available date ranges and input formats for different types of date fields.{/ts}">&raquo; {ts}Advanced Date Input Settings{/ts}</a>
+    </div>
 </fieldset>
 <fieldset>
 <dt>{$form.fiscalYearStart.label}</dt><dd>{$form.fiscalYearStart.html}</dd>

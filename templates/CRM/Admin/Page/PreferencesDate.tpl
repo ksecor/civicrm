@@ -10,10 +10,11 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
 	<thead> 
         <tr class="columnheader">
             <th field="Class" dataType="String" >{ts}Date Class{/ts}</th>
+            <th field="Description" dataType="String" >{ts}Description{/ts}</th>
             <th field="Start" dataType="String">{ts}Start Offset{/ts}</th>
             <th field="End" dataType="String">{ts}End Offset{/ts}</th>
             <th field="Format" dataType="String">{ts}Format{/ts}</th>
@@ -25,15 +26,16 @@
 	<tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
-	        <td>{$row.name}</td>	
+	        <td>{$row.name}</td>
+            <td>{$row.description}</td>
 	        <td>{$row.start}</td>	
 	        <td>{$row.end}</td>	
-	        <td>{$row.format}</td>	
+	        <td class="nowrap">{$row.format}</td>	
 	        <td>{$row.minute_increment}</td>	
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
 	<tbody>
-        </table>
+    </table>
         {/strip}
 </div>
