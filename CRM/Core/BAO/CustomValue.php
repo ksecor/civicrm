@@ -349,33 +349,7 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
      */
     public static function getContactValues($contactId) 
     {
-        if ( ! $contactId ) {
-            // adding this year since an empty contact id could have serious repurcussions
-            // like looping forever
-            CRM_Core_Error::backtrace( );
-            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
-            return null;
-        }
-
-        $customValue =& new CRM_Core_BAO_CustomValue();
-        
-        $customValue->entity_id = $contactId;
-        $customValue->entity_table = 'civicrm_contact';
-        
-        $customValue->find();
-        $values = array();
-
-        require_once 'api/utils.php';
-        while ($customValue->fetch()) {
-            $value = array( );
-            _crm_object_to_array( $customValue, $value );
-            // this is the last time we have access to the BAO object,
-            // so add the value to the result array (CRM-1840)
-            $value['value'] = $customValue->getValue();
-            $values[] = $value;
-        }
-        $customValue->free( );
-        return $values;
+        CRM_Core_Error::fatal( ts( 'This function is obsolete, use getEntityValues in CustomValueTable' ) );
     }
     
     /**

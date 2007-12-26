@@ -241,6 +241,69 @@ class CRM_Core_BAO_CustomValueTable
         }
     }
 
+    public static function getEntityValues( $entityID, $entityType = null ) {
+        if ( ! $entityID ) {
+            // adding this year since an empty contact id could have serious repurcussions
+            // like looping forever
+            CRM_Core_Error::fatal( 'Please file an issue with the backtrace' );
+            return null;
+        }
+
+        if ( ! $entityType ) {
+            $entityType = "'Contact', 'Individual', 'Household', 'Organization'";
+        }
+
+        // first find all the contact fields that extend a contact
+        $query = "
+SELECT cg.table_name,
+       cg.id as groupID,
+       cf.column_name,
+       cf.id as fieldID
+FROM   civicrm_custom_group cg,
+       civicrm_custom_field cf
+WHERE  cf.custom_group_id = cg.id
+AND    cg.is_active = 1
+AND    cf.is_active = 1
+AND    cg.extends IN ( $entityType )
+";
+        $dao = CRM_Core_DAO::executeQuery( $query,
+                                           CRM_Core_DAO::$_nullArray );
+
+        $select = array( );
+        $where  = array( );
+        $tables = array( );
+        $fields = array( );
+        while ( $dao->fetch( ) ) {
+            if ( ! array_key_exists( $dao->groupID, $select ) ) {
+                $select[$dao->groupID] = array( );
+                $where[]               = "{$dao->table_name}.id = $entityID";
+                $tables[]              = $dao->table_name;
+            }
+            $fields[]                = "custom_{$dao->fieldID}";
+            $select[$dao->groupID][] = "{$dao->table_name}.{$dao->column_name} as custom_{$dao->fieldID}";
+        }
+
+        $result = array( );
+        if ( ! empty( $tables ) ) {
+            $select = implode( ', ', $select );
+            $from   = implode( ', ', $tables );
+            $where  = implode( ' AND ', $where  );
+            $query = "
+SELECT $select
+FROM   $from
+WHERE  $where
+";
+            $dao = CRM_Core_DAO::executeQuery( $query,
+                                               CRM_Core_DAO::$_nullArray );
+            if ( $dao->fetch( ) ) {
+                foreach ( $fields as $field ) {
+                    $result[$field] = $dao->$field;
+                }
+            }
+        }
+        return $result;
+    }
+
 }
 
 ?>
