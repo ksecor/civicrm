@@ -22,17 +22,17 @@
     <dt>{$form.title.label}</dt><dd>{$form.title.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}This title will be displayed at the top of the page.{/ts}</dd>
     <dt>{$form.contribution_type_id.label}</dt><dd>{$form.contribution_type_id.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
+    <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Select the corresponding contribution type for contributions made using this page (e.g. donation, membership fee, etc.). You can add or modify available types using the <strong>Contribution Type</strong> option from the CiviCRM Administrator Control Panel.{/ts}</dd>
     {if $paymentProcessor}
         <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
         <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}Select the payment processor to be used for contributions submitted from this contribution page (unless you are soliciting non-monetary / in-kind contributions only). (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</dd>
     {/if}
     <dt>{$form.intro_text.label}</dt><dd>{$form.intro_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
+    <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}Enter content for the introductory message. This will be displayed below the page title. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.footer_text.label}</dt><dd>{$form.footer_text.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}If you want content displayed at the bottom of the contribution page, enter it here. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
+    <dt class="extra-long-twenty">&nbsp;</dt><dd class="description">{ts}If you want content displayed at the bottom of the contribution page, enter it here. You may include HTML formatting tags. You can also include images, as long as they are already uploaded to a server - reference them using complete URLs.{/ts}</dd>
     <dt>{$form.goal_amount.label}</dt><dd>{$form.goal_amount.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Enter the goal amount for this contribution page. If enabled, the progress thermometer will track progress against this goal.{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Enter an optional goal amount for this contribution page (e.g. for this "campaign"). If you enable a contribution widget for this page, the widget will track progress against this goal. Otherwise, the goal will display as "no limit".{/ts}</dd>
     <dt>{$form.start_date.label}</dt><dd>{$form.start_date.html}</dd>
     <dt>{$form.end_date.label}</dt><dd>{$form.end_date.html}</dd>
     
