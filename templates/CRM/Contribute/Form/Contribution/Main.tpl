@@ -24,6 +24,7 @@ function clearAmountOther() {
 //-->
 </script>
 {/literal}
+
 {if $action & 1024}
     {include file="CRM/Contribute/Form/Contribution/PreviewHeader.tpl"}
 {/if}
@@ -152,3 +153,17 @@ function clearAmountOther() {
     </div>
 {/if}
 </div>
+
+
+{* Disable pay later option if not monetary *}
+{literal}
+<script type="text/javascript">
+
+var is_monetary = {/literal}{$is_monetary}{literal}
+
+if (! is_monetary) {
+  document.getElementsByName("is_pay_later")[0].disabled = true;
+}
+
+</script>
+{/literal}

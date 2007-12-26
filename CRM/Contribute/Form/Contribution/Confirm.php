@@ -556,9 +556,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                                );
 
         if ( ! $online || $form->_values['is_monetary'] ) {
-            if ( $params['is_pay_later'] ) {
-                $contribParams['payment_instrument_id'] = 4;
-            } else {
+            if ( ! $params['is_pay_later'] ) {
                 $contribParams['payment_instrument_id'] = 1;
             }
         }

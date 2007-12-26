@@ -638,67 +638,69 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $contribution =& CRM_Contribute_BAO_Contribution::create( $params, $ids );
 
         //process associated membership / participant
-        require_once 'CRM/Core/Payment/BaseIPN.php';
-        $baseIPN = new CRM_Core_Payment_BaseIPN( );
+        if ( $this->_action & CRM_Core_Action::UPDATE ) {
+            require_once 'CRM/Core/Payment/BaseIPN.php';
+            $baseIPN = new CRM_Core_Payment_BaseIPN( );
         
-        $input = $ids = $objects = array( );
-        $IdDetails = $this->getDetails( $contribution->id );
-        
-        $input['component']       = $IdDetails['component'];
-        $ids['contact'     ]      = $contribution->contact_id;
-        $ids['contribution']      = $contribution->id;
-        $ids['contributionRecur'] = null;
-        $ids['contributionPage']  = null;
-        $ids['membership']        = $IdDetails['membership'];
-        $ids['participant']       = $IdDetails['participant'];
-        $ids['event']             = $IdDetails['event'];
-        
-        if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
-            CRM_Core_Error::fatal( );
-        }
-        
-        $membership   =& $objects['membership']  ;
-        $participant  =& $objects['participant'] ;
-        
-        if ( $contribution->contribution_status_id == 3 ) {
-            if ( $membership ) {
-                $membership->status_id = 6;
-                $membership->save( );
+            $input = $ids = $objects = array( );
+            $IdDetails = $this->getDetails( $contribution->id );
+            
+            $input['component']       = $IdDetails['component'];
+            $ids['contact'     ]      = $contribution->contact_id;
+            $ids['contribution']      = $contribution->id;
+            $ids['contributionRecur'] = null;
+            $ids['contributionPage']  = null;
+            $ids['membership']        = $IdDetails['membership'];
+            $ids['participant']       = $IdDetails['participant'];
+            $ids['event']             = $IdDetails['event'];
+            
+            if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
+                CRM_Core_Error::fatal( );
             }
-            if ( $participant ) {
-                $participant->status_id = 4;
-                $participant->save( );
-            }
-        } elseif ( $contribution->contribution_status_id == 4 ) {
-            if ( $membership ) {
-                $membership->status_id = 4;
-                $membership->save( );
-            }
-            if ( $participant ) {
-                $participant->status_id = 4;
-                $participant->save( );
-            }
-        } elseif ( $contribution->contribution_status_id == 1 ) {
-            if ( $membership ) {
-                $format       = '%Y%m%d';
-                require_once 'CRM/Member/BAO/MembershipType.php';  
-                $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
-                
-                $membership->join_date     = 
-                    CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
-                $membership->start_date    = 
-                    CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
-                $membership->end_date      = 
-                    CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
-                $membership->reminder_date = 
-                    CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
-                
-                $membership->status_id = 2;
-                $membership->save( );
-            }
-            if ( $participant ) {
-                $participant->status_id = 1;
-                $participant->save( );
+            
+            $membership   =& $objects['membership']  ;
+            $participant  =& $objects['participant'] ;
+            
+            if ( $contribution->contribution_status_id == 3 ) {
+                if ( $membership ) {
+                    $membership->status_id = 6;
+                    $membership->save( );
+                }
+                if ( $participant ) {
+                    $participant->status_id = 4;
+                    $participant->save( );
+                }
+            } elseif ( $contribution->contribution_status_id == 4 ) {
+                if ( $membership ) {
+                    $membership->status_id = 4;
+                    $membership->save( );
+                }
+                if ( $participant ) {
+                    $participant->status_id = 4;
+                    $participant->save( );
+                }
+            } elseif ( $contribution->contribution_status_id == 1 ) {
+                if ( $membership ) {
+                    $format       = '%Y%m%d';
+                    require_once 'CRM/Member/BAO/MembershipType.php';  
+                    $dates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($membership->membership_type_id);
+                    
+                    $membership->join_date     = 
+                        CRM_Utils_Date::customFormat( $dates['join_date'],     $format );
+                    $membership->start_date    = 
+                        CRM_Utils_Date::customFormat( $dates['start_date'],    $format );
+                    $membership->end_date      = 
+                        CRM_Utils_Date::customFormat( $dates['end_date'],      $format );
+                    $membership->reminder_date = 
+                        CRM_Utils_Date::customFormat( $dates['reminder_date'], $format );
+                    
+                    $membership->status_id = 2;
+                    $membership->save( );
+                }
+                if ( $participant ) {
+                    $participant->status_id = 1;
+                    $participant->save( );
+                }
             }
         }
 

@@ -400,7 +400,6 @@ WHERE  v.option_group_id = g.id
         $contribParams = array(
                                'contact_id'            => $contactID,
                                'contribution_type_id'  => $this->_values['event']['contribution_type_id'],
-                               'payment_instrument_id' => 1,
                                'receive_date'          => $now,
                                'total_amount'          => $params['amount'],
                                'amount_level'          => $params['amount_level'],
@@ -409,6 +408,10 @@ WHERE  v.option_group_id = g.id
                                'source'                => $params['description'],
                                );
         
+        if ( ! $params['is_pay_later'] ) {
+            $contribParams['payment_instrument_id'] = 1;
+        }
+
         if ( ! $pending && $result ) {
             $contribParams += array(
                                     'fee_amount'   => CRM_Utils_Array::value( 'fee_amount', $result ),

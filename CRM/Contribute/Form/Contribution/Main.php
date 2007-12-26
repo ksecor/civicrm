@@ -179,8 +179,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
               
-        if ( $this->_values['is_monetary'] &&
-             $this->_values['is_pay_later'] ) {
+        if ( $this->_values['is_pay_later'] ) {
             $this->buildPayLater( );
         }
 
@@ -420,6 +419,11 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             if ( $fields['frequency_unit'] == '0' ) {
                 $errors['frequency_unit'] = ts('Please select a period (e.g. months, years ...) for how often you want to make this recurring contribution (EXAMPLE: Every 3 MONTHS).'); 
             }
+        }
+
+        if ( $fields['is_recur'] && $fields['is_pay_later'] ) {
+            $errors['is_pay_later'] = ts(' ');
+            $errors['_qf_default'] = ts('You can not set up a recurring contribution if you are not paying online by credit card.'); 
         }
 
         if ( CRM_Utils_Array::value('selectMembership', $fields) && 
