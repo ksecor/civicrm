@@ -1084,7 +1084,13 @@ AND civicrm_contact.is_opt_out =0";
         $mailing->domain_id = CRM_Core_Config::domainID( );
         $mailing->id = CRM_Utils_Array::value( 'mailing_id', $ids );
         
+        if (  ! isset( $params['replyto_email'] ) &&
+              isset( $params['from_email'] ) ) {
+            $params['replyto_email'] = $params['from_email'];
+        }
+
         $mailing->copyValues( $params );
+
         $result = $mailing->save( );
 
         if ( CRM_Utils_Array::value( 'mailing', $ids ) ) {

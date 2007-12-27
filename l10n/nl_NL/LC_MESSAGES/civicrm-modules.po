@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-11-14 22:46-0800\n"
-"Last-Translator: martin eeltink <martin.eeltink@tweesnoeken.nl>\n"
+"PO-Revision-Date: 2007-12-19 04:03-0800\n"
+"Last-Translator: Gerard <translucent@xs4all.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -248,7 +248,7 @@ msgstr "Kwitantie verzonden?"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 #, fuzzy
 msgid "Contribution Receipt"
-msgstr "Kwintantie bijdrage"
+msgstr "Kwitantie bijdrage"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -456,7 +456,7 @@ msgstr "Inschrijven"
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
 #, fuzzy
 msgid "Resubscribe"
-msgstr "Uitschrijven"
+msgstr "Opnieuw inschrijven"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
@@ -489,12 +489,12 @@ msgstr "Rapporteer"
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #, fuzzy
 msgid "Cancel Mailing"
-msgstr "Naam mailing"
+msgstr "Mailing afbreken"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #, fuzzy
 msgid "Delete Mailing"
-msgstr "Verwijder bijeenkomst"
+msgstr "Mailing verwijderen"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
@@ -519,8 +519,9 @@ msgid "Start Event"
 msgstr "Start activiteit"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+#, fuzzy
 msgid "Start Event Adjust Interval"
-msgstr ""
+msgstr "Start activiteit interval aanpassen"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -529,13 +530,14 @@ msgid "End Event"
 msgstr "Eind activiteit"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
+#, fuzzy
 msgid "End Event Adjust Interval"
-msgstr ""
+msgstr "Eind activiteit interval aanpassen"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #, fuzzy
 msgid "Current Membership?"
-msgstr "Huidige lidmaatschappen"
+msgstr "Huidige lidmaatschap?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -602,7 +604,7 @@ msgstr "Nee, bedankt"
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Contribution Total Amount %1 %2"
-msgstr "Totaalbedrag bijdrages - %1"
+msgstr "Totaalbedrag bijdrages - %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -612,7 +614,7 @@ msgstr "Informatie mbt. de bijdrage"
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Contribution Receipt date is null"
-msgstr "Kwitantie van de bijdrage"
+msgstr "Kwitantie: datum niet bekend"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Type - %1"
@@ -6310,7 +6312,7 @@ msgstr ""
 #: templates/CRM/Mailing/Page/Event.tpl
 #, fuzzy
 msgid "Back to Report"
-msgstr "Rapporteer"
+msgstr "Terug naar Rapportage"
 
 #: templates/CRM/Mailing/Page/Optout.tpl
 #, fuzzy
@@ -6367,9 +6369,8 @@ msgid "Content / Components"
 msgstr "Inhoud / Onderdelen"
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "View complete message"
-msgstr "Bekijk het bericht"
+msgstr "Bekijk het volledige bericht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"

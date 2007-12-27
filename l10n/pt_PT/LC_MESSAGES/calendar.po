@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-04-18 07:33+0200\n"
-"PO-Revision-Date: 2007-10-08 06:56-0700\n"
+"PO-Revision-Date: 2007-12-18 07:43-0800\n"
 "Last-Translator: Adalberto Machado <betosm@terra.com.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +109,7 @@ msgstr "Hoje"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr "(Shift-)Click ou arraste para mudar valor"
+msgstr "(Shift-)Clique ou arraste para mudar valor"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
