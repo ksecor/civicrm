@@ -230,24 +230,26 @@ class CRM_Core_BAO_OptionValue extends CRM_Core_DAO_OptionValue
         if ($fieldName == '') return true;
         
         if (array_key_exists($gName, $individuals)) {
-            // query for the affected individuals
-            require_once 'CRM/Contact/BAO/Individual.php';
-            $individual =& new CRM_Contact_BAO_Individual();
-            $individual->$fieldName = $value;
-            $individual->find();
-            
-            // iterate through the affected individuals and rebuild their display_names
             require_once 'CRM/Contact/BAO/Contact.php';
-            while ($individual->fetch()) {
-                $contact =& new CRM_Contact_BAO_Contact();
-                $contact->id = $individual->contact_id;
+            $contactDAO =& new CRM_Contact_DAO_Contact();
+            
+            $contactDAO->$fieldName = $value;
+            $contactDAO->find();
+            
+            while ($contactDAO->fetch()) {
                 if ($action == CRM_Core_Action::DELETE) {
-                    $individual->$fieldName = 'NULL';
-                    $individual->save();
+                    $contact = new CRM_Contact_DAO_Contact();
+                    $contact->id = $contactDAO->id;
+                    $contact->find(true);
+                    
+                    // make sure dates doesn't get reset
+                    $contact->birth_date    = CRM_Utils_Date::isoToMysql($contact->birth_date); 
+                    $contact->deceased_date = CRM_Utils_Date::isoToMysql($contact->deceased_date); 
+                    $contact->$fieldName = 'NULL';
+                    $contact->save();
                 }
-                $contact->display_name = $individual->displayName();
-                $contact->save();
             }
+
             return true;
         }
         
