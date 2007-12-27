@@ -41,7 +41,7 @@ class CRM_Core_Payment_BaseIPN {
         self::$_now = date( 'YmdHis' );
     }
 
-    function validateData( &$input, &$ids, &$objects ) {
+    function validateData( &$input, &$ids, &$objects, $required = true ) {
 
         // make sure contact exists and is valid
         require_once 'CRM/Contact/DAO/Contact.php';
@@ -67,7 +67,7 @@ class CRM_Core_Payment_BaseIPN {
         $objects['contact']          =& $contact;
         $objects['contribution']     =& $contribution;
 
-        if ( ! $this->loadObjects( $input, $ids, $objects ) ) {
+        if ( ! $this->loadObjects( $input, $ids, $objects, $required ) ) {
             return false;
         }
 
@@ -97,7 +97,7 @@ class CRM_Core_Payment_BaseIPN {
         return true;
     }
 
-    function loadObjects( &$input, &$ids, &$objects ) {
+    function loadObjects( &$input, &$ids, &$objects, $required ) {
         $contribution =& $objects['contribution'];
 
         $objects['membership']        = null;
@@ -120,17 +120,21 @@ class CRM_Core_Payment_BaseIPN {
             // get the contribution page id from the contribution
             // and then initialize the payment processor from it
             if ( ! $contribution->contribution_page_id ) {
+                // return if we are just doing an optional validation
+                if ( ! $required ) {
+                    return true;
+                }
                 CRM_Core_Error::debug_log_message( "Could not find contribution page for contribution record: $contributionID" );
                 echo "Failure: Could not find contribution page for contribution record: $contributionID<p>";
                 return false;
             }
-
+                
             // get the payment processor id from contribution page
             $paymentProcessorID = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage',
                                                                $contribution->contribution_page_id,
                                                                'payment_processor_id' );
-
-            // now retrieve the optional objects
+                
+            // now retrieve the other optional objects
             if ( isset( $ids['membership'] ) ) {
                 require_once 'CRM/Member/DAO/Membership.php';
                 $membership = new CRM_Member_DAO_Membership( );

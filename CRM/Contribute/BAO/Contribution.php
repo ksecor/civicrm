@@ -82,7 +82,8 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         require_once 'CRM/Utils/Hook.php';
         
         $duplicates = array( );
-        if ( self::checkDuplicate( $params, $duplicates ) ) {
+        if ( self::checkDuplicate( $params, $duplicates,
+                                   CRM_Utils_Array::value( 'contribution', $ids ) ) ) {
             $error =& CRM_Core_Error::singleton( ); 
             $d = implode( ', ', $duplicates );
             $error->push( CRM_Core_Error::DUPLICATE_CONTRIBUTION, 'Fatal', array( $d ), "Found matching contribution(s): $d" );
@@ -468,9 +469,11 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      * @access public
      * static
      */
-    static function checkDuplicate( $input, &$duplicates ) 
+    static function checkDuplicate( $input, &$duplicates, $id = null ) 
     {
-        $id         = CRM_Utils_Array::value( 'id'        , $input );
+        if ( ! $id ) {
+            $id         = CRM_Utils_Array::value( 'id'        , $input );
+        }
         $trxn_id    = CRM_Utils_Array::value( 'trxn_id'   , $input );
         $invoice_id = CRM_Utils_Array::value( 'invoice_id', $input );
 

@@ -654,7 +654,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $ids['participant']       = $IdDetails['participant'];
             $ids['event']             = $IdDetails['event'];
             
-            if ( ! $baseIPN->validateData( $input, $ids, $objects ) ) {
+            if ( ! $baseIPN->validateData( $input, $ids, $objects, false ) ) {
                 CRM_Core_Error::fatal( );
             }
             

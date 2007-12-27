@@ -1,37 +1,37 @@
 <?php 
 
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
- +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the GNU Affero General Public License           |
- | Version 3, 19 November 2007.                                       |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the GNU Affero General Public License for more details.        |
- |                                                                    |
- | You should have received a copy of the GNU Affero General Public   |
- | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org. If you have questions about the        |
- | GNU Affero General Public License or the licensing of CiviCRM,     |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
- +--------------------------------------------------------------------+
-*/
+  /*
+   +--------------------------------------------------------------------+
+   | CiviCRM version 2.0                                                |
+   +--------------------------------------------------------------------+
+   | Copyright CiviCRM LLC (c) 2004-2007                                |
+   +--------------------------------------------------------------------+
+   | This file is a part of CiviCRM.                                    |
+   |                                                                    |
+   | CiviCRM is free software; you can copy, modify, and distribute it  |
+   | under the terms of the GNU Affero General Public License           |
+   | Version 3, 19 November 2007.                                       |
+   |                                                                    |
+   | CiviCRM is distributed in the hope that it will be useful, but     |
+   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+   | See the GNU Affero General Public License for more details.        |
+   |                                                                    |
+   | You should have received a copy of the GNU Affero General Public   |
+   | License along with this program; if not, contact CiviCRM LLC       |
+   | at info[AT]civicrm[DOT]org. If you have questions about the        |
+   | GNU Affero General Public License or the licensing of CiviCRM,     |
+   | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+   +--------------------------------------------------------------------+
+  */
 
-/**
- *
- * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
- * $Id$
- *
- */
+  /**
+   *
+   * @package CRM
+   * @copyright CiviCRM LLC (c) 2004-2007
+   * $Id$
+   *
+   */
 
 require_once 'CRM/Core/DAO/Address.php'; 
 require_once 'CRM/Core/DAO/Phone.php'; 
@@ -402,8 +402,9 @@ class CRM_Contact_BAO_Query {
 
         $this->addSpecialFields( );
 
-        //CRM_Core_Error::debug( 'f', $this->_fields );
+        // CRM_Core_Error::debug( 'f', $this->_fields );
         // CRM_Core_Error::debug( 'p', $this->_params );
+        // CRM_Core_Error::debug( 'p', $this->_paramLookup );
         
         foreach ($this->_fields as $name => $field) {
 
@@ -419,14 +420,14 @@ class CRM_Contact_BAO_Query {
             }
 
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
-            
+
             if ( CRM_Utils_Array::value( $name, $this->_paramLookup ) ||
                  CRM_Utils_Array::value( $name, $this->_returnProperties ) ) {
 
                 if ( $cfID ) {
                     // add to cfIDs array if not present
                     if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
-                        $this->_cfIDs[$cfID] = null;
+                        $this->_cfIDs[$cfID] = array( );
                     }
                 } else if ( isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 ); 
@@ -491,48 +492,49 @@ class CRM_Contact_BAO_Query {
                     $this->_select[$name   ] = "GROUP_CONCAT(DISTINCT(civicrm_note.note)) AS notes";
                     $this->_tables['civicrm_note'        ] = 1;
                 }
-            } else if ( CRM_Utils_Array::value( 'is_search_range', $field ) ) {
+            } 
+            
+            if ( $cfID &&
+                 CRM_Utils_Array::value( 'is_search_range', $field ) ) {
                 // this is a custom field with range search enabled, so we better check for two/from values
-                if ( $cfID ) {
-                    if ( CRM_Utils_Array::value( $name . '_from', $this->_paramLookup ) ) {
-                        if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
-                            $this->_cfIDs[$cfID] = array( );
+                if ( CRM_Utils_Array::value( $name . '_from', $this->_paramLookup ) ) {
+                    if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
+                        $this->_cfIDs[$cfID] = array( );
+                    }
+                    foreach ( $this->_paramLookup[$name . '_from'] as $pID => $p ) {
+                        // search in the cdID array for the same grouping
+                        $fnd = false;
+                        foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
+                            if ( $c[3] == $p[3] ) {
+                                $this->_cfIDs[$cfID][$cID][2]['from'] = $p[2];
+                                $fnd = true;
+                            }
                         }
-                        foreach ( $this->_paramLookup[$name . '_from'] as $pID => $p ) {
-                            // search in the cdID array for the same grouping
-                            $fnd = false;
-                            foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
-                                if ( $c[3] == $p[3] ) {
-                                    $this->_cfIDs[$cfID][$cID][2]['from'] = $p[2];
-                                    $fnd = true;
-                                }
-                            }
-                            if ( ! $fnd ) {
-                                $p[2] = array( 'from' => $p[2] );
-                                $this->_cfIDs[$cfID][] = $p;
-                            }
+                        if ( ! $fnd ) {
+                            $p[2] = array( 'from' => $p[2] );
+                            $this->_cfIDs[$cfID][] = $p;
                         }
                     }
-                    if ( CRM_Utils_Array::value( $name . '_to', $this->_paramLookup ) ) {
-                        if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
-                            $this->_cfIDs[$cfID] = array( );
-                        }
-                        foreach ( $this->_paramLookup[$name . '_to'] as $pID => $p ) {
-                            // search in the cdID array for the same grouping
-                            $fnd = false;
-                            foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
-                                if ( $c[4] == $p[4] ) {
-                                    $this->_cfIDs[$cfID][$cID][2]['to'] = $p[2];
-                                    $fnd = true;
-                                }
-                            }
-                            if ( ! $fnd ) {
-                                $p[2] = array( 'to' => $p[2] );
-                                $this->_cfIDs[$cfID][] = $p;
+                }
+                if ( CRM_Utils_Array::value( $name . '_to', $this->_paramLookup ) ) {
+                    if ( ! array_key_exists( $cfID, $this->_cfIDs ) ) {
+                        $this->_cfIDs[$cfID] = array( );
+                    }
+                    foreach ( $this->_paramLookup[$name . '_to'] as $pID => $p ) {
+                        // search in the cdID array for the same grouping
+                        $fnd = false;
+                        foreach ( $this->_cfIDs[$cfID] as $cID => $c ) {
+                            if ( $c[4] == $p[4] ) {
+                                $this->_cfIDs[$cfID][$cID][2]['to'] = $p[2];
+                                $fnd = true;
                             }
                         }
+                        if ( ! $fnd ) {
+                            $p[2] = array( 'to' => $p[2] );
+                            $this->_cfIDs[$cfID][] = $p;
+                        }
+                    }
 
-                    }
                 }
             }
         }
@@ -2618,6 +2620,8 @@ class CRM_Contact_BAO_Query {
             $groupBy = ' GROUP BY contact_a.id';
         }
         $query = "$select $from $where $groupBy $order $limit";
+        // CRM_Core_Error::debug('query', $query);
+
         if ( $returnQuery ) {
             return $query;
         }
@@ -2626,7 +2630,6 @@ class CRM_Contact_BAO_Query {
             return CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
         }
 
-        //CRM_Core_Error::debug('query', $query);
         $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         if ( $groupContacts ) {
             $ids = array( );

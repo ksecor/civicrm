@@ -367,6 +367,7 @@ class CRM_Contribute_BAO_Query
         case 'civicrm_payment_instrument':
             $from = " $side  JOIN civicrm_payment_instrument ON civicrm_contribution.payment_instrument_id =civicrm_payment_instrument.id ";
             break;
+
         case 'civicrm_contact_b':
             $from .= " $side JOIN civicrm_contact contact_b ON (civicrm_contribution.honor_contact_id = contact_b.id )";
             
