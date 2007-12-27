@@ -185,14 +185,6 @@ define( 'CIVICRM_SMTP_PASSWORD', ''    );
 define('CIVICRM_DOMAIN_ID' , 1 );
 
 /**
- * Joomla! Front-end Component Flag
- * If this configuration file is being used by a Joomla! front-end CiviCRM component
- * instance, set this value to 1.
- */
-
-define( 'CIVICRM_UF_FRONTEND', %%frontEnd%% );
-
-/**
  * 
  * Do not change anything below this line. Keep as is
  *

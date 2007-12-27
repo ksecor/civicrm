@@ -116,4 +116,4 @@ class CRM_Utils_Hook_Joomla {
     }
 
 }
-}
+

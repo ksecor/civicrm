@@ -330,8 +330,8 @@ VALUES
 INSERT INTO `civicrm_preferences_date`
   (domain_id, name, start, end, minute_increment, format, description)
 VALUES
-  ( @domain_id, 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel; membership: join, start, renew; case: start, end.'         ),
-  ( @domain_id, 'activityDatetime',  20, 10, 15, null,        'Date and time for activity: scheduled; participant: registered.'                                                                  ),
+  ( @domain_id, 'activityDate'    ,  20, 10,  0, null,        'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.'         ),
+  ( @domain_id, 'activityDatetime',  20, 10, 15, null,        'Date and time for activity: scheduled. participant: registered.'                                                                  ),
   ( @domain_id, 'birth'           , 100,  0,  0, null,        'Birth and deceased dates.'                                                                                                        ),
   ( @domain_id, 'creditCard'      ,   0, 10,  0, 'M Y',       'Month and year only for credit card expiration.'                                                                                  ),
   ( @domain_id, 'custom'          ,  20, 20, 15, 'Y M d H i', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.'),

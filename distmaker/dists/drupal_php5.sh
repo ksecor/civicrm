@@ -51,7 +51,7 @@ done
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
 # copy docs
-cp $SRC/affero_gpl.txt $TRG
+cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG 
 cp $SRC/README.txt $TRG
 cp $SRC/civicrm.config.php $TRG

@@ -24,6 +24,9 @@ function civicrm_init( ) {
     $config =& CRM_Core_Config::singleton();
     CRM_Core_DAO::init($config->dsn, $config->daoDebug);
 
+    // this is the front end, so let others know
+    $config->userFrameworkFrontend = 1;
+
     $factoryClass = 'CRM_Contact_DAO_Factory';
 
     CRM_Core_DAO::setFactory(new $factoryClass());
@@ -80,7 +83,7 @@ function civicrm_check_permission( $args ) {
     }
 
     $config = CRM_Core_Config::singleton( );
-
+    
     // a transaction page is valid
     if ( in_array( 'CiviContribute', $config->enableComponents ) &&
          CRM_Utils_Array::value( 1, $args ) == 'contribute' &&

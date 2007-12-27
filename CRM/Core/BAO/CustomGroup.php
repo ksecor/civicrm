@@ -280,7 +280,7 @@ ORDER BY civicrm_custom_group.weight,
         if ( $entityID ) {
             $entityID = CRM_Utils_Type::escape( $entityID, 'Integer' );
         }
-              
+
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
             $groupTree['info'] = array( 'tables' => $customValueTables );
@@ -291,11 +291,12 @@ ORDER BY civicrm_custom_group.weight,
                 
                 if ( is_array( $blockTables ) ) {
                     foreach ( $blockTables as $keyTable ) {
-                        unset($groupTree['info']['tables'][$keyTable] );
+                        // this fails for joomla administrator
+                        // unset($groupTree['info']['tables'][$keyTable] );
                     }
                 }
             }
-            
+
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
