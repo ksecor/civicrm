@@ -182,11 +182,20 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
      */
     static function del( $id )
     { 
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $extends   = array('event');
+        $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
+        
+        foreach( $groupTree as $values ) {
+            $query = "DELETE FROM " . $values['table_name'] . " WHERE entity_id = " . $id ; 
+                        
+            $params = array( 1 => array( $values['table_name'], 'string'),
+                             2 => array( $id, 'integer') );
+            
+            CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        }
+        
         $dependencies = array(
-                  'CRM_Core_DAO_CustomOption'  => 
-                             array( 
-                                   'event_id'       => $id,
-                                   'entity_table'   => 'civicrm_event_page' ),
                   'CRM_Event_DAO_EventPage'    => 
                              array( 
                                    'event_id'       => $id ),
@@ -589,7 +598,7 @@ WHERE civicrm_event.is_active = 1
     static function copy( $id )
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-                
+        
         $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', array( 'id' => $id ), null, $fieldsToPrefix );
         $copyEventPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_EventPage', 
                                                       array( 'event_id'    => $id),
@@ -610,26 +619,28 @@ WHERE civicrm_event.is_active = 1
              
         require_once 'CRM/Core/BAO/Location.php';
         require_once 'CRM/Event/Form/ManageEvent/Location.php';
-        $params  = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
+        $params   = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
+        
         $location = CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
         
         $values['entity_id']    = $copyEvent->id ;
         $values['entity_table'] = 'civicrm_event';
         
-        $values['location'][1]['id'] = null;
-        $values['location'][1]['contact_id'] = null;
+        $values['location'][1]['id']                      = null;
+        $values['location'][1]['contact_id']              = null;
+        
         unset($values['location'][1]['address']['id']);
         unset($values['location'][1]['address']['location_id']);
-        $values['location'][1]['phone'][1]['id'] = null;
+        
+        $values['location'][1]['phone'][1]['id']          = null;
         $values['location'][1]['phone'][1]['location_id'] = null;
-        $values['location'][1]['email'][1]['id'] = null;
+        $values['location'][1]['email'][1]['id']          = null;
         $values['location'][1]['email'][1]['location_id'] = null;
-        $values['location'][1]['im'][1]['id'] = null;
-        $values['location'][1]['im'][1]['location_id'] = null;
+        $values['location'][1]['im'][1]['id']             = null;
+        $values['location'][1]['im'][1]['location_id']    = null;
         
-        $ids = array();
-        
-        CRM_Core_BAO_Location::add( $values, $ids, 1, false );
+        $loc = CRM_Core_BAO_Location::create( $values, null, 'event' );
+        $values['loc_block_id'] = $loc['id'];
     }
 
 }

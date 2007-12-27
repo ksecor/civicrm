@@ -550,7 +550,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
      *
      * @param int     $groupId    - group id whose details are needed
      * @param boolean $searchable - is this field searchable
-     * @param extends $extends    - which table does it extend if any 
+     * @param array   $extends    - which table does it extend if any 
      * @return array $groupTree - array consisting of all group and field details
      *
      * @access public
@@ -558,7 +558,7 @@ WHERE  {$tableName}.entity_id = {$entityID}";
      * @static
      *
      */
-    public static function getGroupDetail($groupId = null, $searchable = null, $extends = null)
+    public static function &getGroupDetail($groupId = null, $searchable = null, &$extends = null)
     {
         // create a new tree
         $groupTree = array();
@@ -585,7 +585,8 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                         'is_search_range',
                         'date_parts',
                         'note_columns',
-                        'note_rows'),
+                        'note_rows',
+                        'column_name' ),
                   'civicrm_custom_group' =>
                   array('id',
                         'name',
@@ -594,7 +595,8 @@ WHERE  {$tableName}.entity_id = {$entityID}";
                         'help_post',
                         'collapse_display',
                         'extends',
-                        'extends_entity_column_value' ),
+                        'extends_entity_column_value',
+                        'table_name' ),
                   );
 
         // create select
@@ -646,13 +648,17 @@ WHERE  {$tableName}.entity_id = {$entityID}";
             if (!array_key_exists($groupId, $groupTree)) {
                 $groupTree[$groupId] = array();
                 $groupTree[$groupId]['id'] = $groupId;
-                $groupTree[$groupId]['name'] = $crmDAO->civicrm_custom_group_name;
-                $groupTree[$groupId]['title'] = $crmDAO->civicrm_custom_group_title;
-                $groupTree[$groupId]['help_pre'] = $crmDAO->civicrm_custom_group_help_pre;
-                $groupTree[$groupId]['help_post'] = $crmDAO->civicrm_custom_group_help_post;
-                $groupTree[$groupId]['collapse_display'] = $crmDAO->civicrm_custom_group_collapse_display;       
-                $groupTree[$groupId]['extends'] = $crmDAO->civicrm_custom_group_extends;
-                $groupTree[$groupId]['extends_entity_column_value'] = $crmDAO->civicrm_custom_group_extends_entity_column_value;
+                
+                foreach ($tableData['civicrm_custom_group'] as $v) {
+                    $fullField = "civicrm_custom_group_" . $v;
+                    
+                    if ($v == 'id' || is_null($crmDAO->$fullField)) {
+                        continue;
+                    }
+                    
+                    $groupTree[$groupId][$v] = $crmDAO->$fullField;                    
+                }
+                
                 $groupTree[$groupId]['fields'] = array();
                 
             }
