@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-08-01 14:27+0200\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-12-03 08:05-0800\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -23,6 +24,9 @@ msgid ""
 "Used for mailing labels only. Replaced by the configurable Individual Name "
 "format for individuals and the display name for Organizations and Households."
 msgstr ""
+"Usato solo per le etichette dei mailing. Sostituiti dal formato di Nome "
+"Individuo configurabile per gli individui e dal nome visualizzato per le "
+"Organizzazioni e le Famiglie."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
@@ -85,6 +89,9 @@ msgid ""
 "The following tokens are available to control the format of individuals' "
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
+"Per controllare il formato dei nomi dei contatti individuo quando vengono "
+"inclusi nelle <strong>etichette di mailing</strong> sono disponibili i "
+"seguenti token."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
@@ -175,6 +182,11 @@ msgid ""
 "string. Make sure you have pop-up blocking disabled in your browser for the "
 "CiviCRM site URL."
 msgstr ""
+"Carica tutte le variabili disponibili nel modello di pagina corrente in una "
+"finestra a pop-up. Per attivarlo, aggiungi <em>&smartyDebug=1</em> a "
+"qualsiasi stringa di query in un URL di CiviCRM. Assicurati di avere "
+"disabilitato il blocco dei pop-up nel browser per l'indirizzo del sito "
+"CiviCRM."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
@@ -191,10 +203,13 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Empties template cache and/or temporary upload file folders."
 msgstr ""
+"Svuota la cache dei modelli e/o le cartelle di upload dei file temporanei."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "To empty template cache (civicrm/templates_c folder), add <em>%1</em>"
 msgstr ""
+"Per svuotare la cache dei template (civicrm/templates_c folder), aggiungi "
+"<em>%1</em>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
@@ -258,6 +273,12 @@ msgid ""
 "documentation for more information on obtaining and installing SSL "
 "certificates."
 msgstr ""
+"Se usate uno strumento di pagamento in cui le informazioni di fatturazione e "
+"quelle relative alla carta di credito sono raccolte SUL VOSTRO SITO (PayPal "
+"Website Payments Pro o Moneris) <strong>si raccomanda di utilizzare "
+"connessioni SSL</strong>. Consultate il vostro provider o la documentazione "
+"del server Web per ulteriori informazioni su come ottenere e installare i "
+"certificati SSL. "
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
@@ -298,6 +319,12 @@ msgid ""
 "processor's website before proceeding. If your preferred processor is not in "
 "the list, consider partnering with a developer and contributing a plugin."
 msgstr ""
+"Controlla qui la <a href='%1' target='_blank' title='%2'>procedura di "
+"configurazione per ciascuno Strumento di pagamento</a>. Se non siete sicuri "
+"di quale strumento usare, vi consigliamo di rivedere i termini, le "
+"limitazioni e le aree coperte sul sito Web dei vari strumenti prima di "
+"continuare. Se il vostro strumento preferito non è nella lista, considerate "
+"la possibilità di sviluppare un plugin insieme con un programmatore."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (LIVE account):"
@@ -359,7 +386,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Username:"
-msgstr ""
+msgstr "Nome utente API LIVE Account:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -719,6 +746,10 @@ msgid ""
 "Event Registration pages prior to selecting and configuring a real payment "
 "processor. You can enter any values for User Name and Site URL."
 msgstr ""
+"Impostate uno strumento \"di prova\" se volete provare le pagine di contributi "
+"online o di registrazione eventi prima di scegliere e configurare uno "
+"strumento di pagamento reale. Potete inserire qualsiasi valore per il nome "
+"utente e per l'URL del sito."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -785,6 +816,13 @@ msgid ""
 "strong> criteria (e.g. selecting Tag is 'Major Donor' AND Country is "
 "'Mexico' returns only those contacts who meet both criteria)."
 msgstr ""
+"Se sono spuntate più caselle per Tipi di Contatto, Gruppi,  Tag e tipi di "
+"Località, le selezioni vengono combinate con il criterio <strong>OR</strong> "
+"(cioè spuntando 'Gruppo A' e 'Gruppo B' si troveranno i contatti che "
+"appartengono al gruppo A O al gruppo B). Tutti gli altri campi di ricerca "
+"sono combinati con il criterio <strong>AND</strong> (cioè selezionando il "
+"Tag 'Donatore' E la nazione 'Messico' vengono restituiti solo i contatti che "
+"soddisfano entrambi i criteri)."
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -819,6 +857,13 @@ msgid ""
 "want to collect information specific to this contribution (e.g. target one "
 "or several projects or funds to support with this contribution)."
 msgstr ""
+"Se volete raccogliere informazioni aggiuntive dai vostri contribuenti, "
+"dovrete configurare uno o due profili di CiviCRM (sequenze di campi standard "
+"o personalizzati). Potete raccogliere informazioni sulla persona (nome o "
+"indirizzo se non sono già richiesti dallo strumento di pagamento usato, "
+"l'interesse a iscriversi ad una newsletter o a fare volontariato). Potete "
+"anche raccogliere informazioni specifiche sul contributo (es. progetto a cui "
+"destinare i fondi)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1157,6 +1202,12 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"Si possono aggiungere contatti ad un gruppo da un qualsiasi insieme di "
+"risultati (o quando si visualizza un contatto singolo). Si può anche fare in "
+"modo che i contatti stessi si iscrivano a determinati gruppi impostando la "
+"visibilità dei gruppi a \"Pagine utente pubbliche\" (usando il link "
+"<strong>Impostazioni</strong>) e includendo l'elemento "
+"<strong>Groups</strong> nel profilo di CiviCRM."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1190,6 +1241,10 @@ msgid ""
 "file represents and individual person - even if the file also contains "
 "related Organization data (e.g. Employer Name, Employer Address, etc.)."
 msgstr ""
+"Selezionate <strong>Individuo</strong> come tipo di contatto se ciascun "
+"record del file rappresenta una persona, anche se contiene dei dati di "
+"Organizzazioni correlate (es. nome del datore di lavoro, indirizzo del "
+"datore di lavoro etc)"
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1474,11 +1529,11 @@ msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "an individual"
-msgstr ""
+msgstr "un individuo"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Children' of that individual"
-msgstr ""
+msgstr "'Figli' di quell'individuo"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""

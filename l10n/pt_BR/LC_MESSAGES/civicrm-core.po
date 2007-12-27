@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2007-10-06 15:28-0700\n"
-"Last-Translator: João Seabra <johnnyseabra@gmail.com>\n"
+"PO-Revision-Date: 2007-12-06 01:26-0800\n"
+"Last-Translator: André Cymbalista <andrecymb@yahoo.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
@@ -12965,7 +12965,7 @@ msgstr "Impossível entregar ao servidor de destino "
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
-msgstr "conta de usuário não mais ativa"
+msgstr "Conta de usuário não mais ativa"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Email address is not valid"
@@ -12977,7 +12977,7 @@ msgstr "Erro no roteamento de mail"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User inbox is full"
-msgstr "caixa postal de usuário cheia"
+msgstr "Caixa postal de usuário cheia"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to reach destination mail server"

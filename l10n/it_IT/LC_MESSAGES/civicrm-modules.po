@@ -6,18 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-05-29 12:19-0700\n"
-"Last-Translator: Chiara Salatin <chiarasalatin@fastmail.fm>\n"
+"PO-Revision-Date: 2007-11-30 06:31-0800\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 0.10\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
-msgstr "Origine Contributo"
+msgstr "Fonte Contributo"
 
 #: CRM/Contribute/BAO/Query.php
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -245,7 +245,7 @@ msgstr "Origine Contributo"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Premium"
-msgstr "Premium"
+msgstr "Incentivi"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
 msgid "Minimum Contribution Amount"
@@ -261,7 +261,7 @@ msgstr "Tipologia di Contributo"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Manage Premiums"
-msgstr "Amministra Premiums"
+msgstr "Gestisci Incentivi"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
@@ -290,20 +290,19 @@ msgstr "Il seguito"
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid "Edit Premium"
-msgstr "Modifica Premium"
+msgstr "Modifica Incentivo"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Preview Premium"
-msgstr "Anteprima Premium"
+msgstr "Anteprima Incentivo"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 msgid "Disable Premium"
-msgstr "Disabilita Premium"
+msgstr "Disabilita Incentivo"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Participant Source"
-msgstr "Note Contatto"
+msgstr "Fonte Partecipante"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
 msgid "Event ID"
@@ -480,7 +479,7 @@ msgstr ""
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
 msgid "Membership Types"
-msgstr "Tipi di Appartenenza"
+msgstr "Tipi di Iscrizione"
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
@@ -507,7 +506,7 @@ msgstr ""
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 msgid "Current Membership?"
-msgstr ""
+msgstr "Iscrizione corrente?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 #: templates/CRM/Member/Page/MembershipType.tpl
@@ -547,12 +546,18 @@ msgid ""
 "Pages, or Membership Types. Consider disabling this type instead if you no "
 "longer want it used."
 msgstr ""
+"Questo tipo di contributo non può essere cancellato dato che vi fanno "
+"riferimento alcuni dei seguenti tipi di record: Contributi, Pagine "
+"Contributi, Tipi Iscrizione. Considerate la possibilità di disabilitare il "
+"tipo di contributo, se non lo volete usare."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
 msgid ""
 "This Premium is being linked to <a href=\"%1\">Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
+"L'Incentivo è collegato alla <a href=\"%1\">Pagina di contributo online</a>. "
+"Rimuoverla per cancellare l'incentivo."
 
 #: CRM/Contribute/BAO/Premium.php
 #, fuzzy
@@ -800,32 +805,28 @@ msgid "Credit"
 msgstr "Crea"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Active"
-msgstr "<< Precedente"
+msgstr "Incentivi Attivi"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Title for Premiums section"
-msgstr ""
+msgstr "Titolo della sezione Incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Intro Text"
-msgstr ""
+msgstr "Testo introduttivo agli Incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Email"
-msgstr "Modulo per Contatto"
+msgstr "Email di contatto per gli incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Contact Phone"
-msgstr "Modulo per Contatto"
+msgstr "Telefono di contatto per gli incentivi"
 
 #: CRM/Contribute/DAO/Premium.php
-#, fuzzy
 msgid "Premiums Display Min Contribution"
-msgstr "Contributo"
+msgstr "Contributo minimo visualizzato per gli incentivi"
 
 #: CRM/Contribute/DAO/PremiumsProduct.php
 #, fuzzy
@@ -886,6 +887,9 @@ msgid ""
 "Amount section or Membership section. Please check with the site "
 "administrator for assistance."
 msgstr ""
+"Nella pagina di contributi online richiesta mancano le sezioni richieste "
+"Ammontare del Contributo o Iscrizione. Prego comunicarlo all'amministratore "
+"del sito."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -894,6 +898,10 @@ msgid ""
 "currently support multiple simultaneous payments. Please contact the site "
 "administrator and notify them of this error"
 msgstr ""
+"Questa pagina di contributi è configurata per accettare pagamenti separati "
+"per i contributi e le iscrizioni. Il plugin PayPal Website Payments Standard "
+"non supporta al momento pagamenti multipli simultanei. Contattare "
+"l'amministratore e comunicargli questo errore."
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
@@ -989,7 +997,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "L'incentivo selezionato richiede un contributo minimo di %1."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1010,7 +1018,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid " The Membership you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "L'Iscrizione richiesta richiede un contributo minimo di %1."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #, fuzzy
@@ -1027,7 +1035,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
-msgstr ""
+msgstr "L'Incentivo selezionato è stato rimosso da questa pagina di contributo."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 #, fuzzy
@@ -1040,9 +1048,8 @@ msgid "Please enter integer value for weight"
 msgstr "Prego inserire una cifra valida (es. 9.99)"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#, fuzzy
 msgid "Add Premium to Contribution Page"
-msgstr "Configura le pagine per la donazione Online"
+msgstr "Aggiungi incentivo alla pagina di contributo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -1104,13 +1111,12 @@ msgid "Delete Page - %1"
 msgstr "Elimina %1"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Premiums (%1)"
-msgstr "<< Precedente"
+msgstr "Incentivi (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums Section Enabled?"
-msgstr ""
+msgstr "Sezione incentivi abilitata?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #, fuzzy
@@ -1133,9 +1139,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Premiums"
-msgstr "<< Precedente"
+msgstr "Incentivi"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Title and Settings (%1)"
@@ -1309,12 +1314,11 @@ msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Premium Image"
-msgstr ""
+msgstr "Immagine incentivo"
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Please select an option for the premium image."
-msgstr "Prego selezionare una tipologia di relazione."
+msgstr "Prego inserire un'opzione per l'immagine dell'incentivo."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Image URL"
@@ -1387,9 +1391,8 @@ msgid "Please enter the Frequency Interval for this subscription or service."
 msgstr "Prego inserire un Oggetto valido."
 
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Selected Premium Product type has been deleted."
-msgstr "Il Gruppo \"%1\" è stato eliminato."
+msgstr "Il tipo di incentivo selezionato è stato eliminato."
 
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid ""
@@ -1923,9 +1926,8 @@ msgid "Registration Date and Time"
 msgstr "Date e ora"
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "Event Source"
-msgstr "Note Contatto"
+msgstr "Fonte Evento"
 
 #: CRM/Event/Form/Participant.php
 #, fuzzy
@@ -2763,33 +2765,37 @@ msgid ""
 "The membership can not be saved.<br/> No valid membership status for given "
 "dates."
 msgstr ""
+"Impossibile salvare l'Iscrizione.<br/>Non esiste uno stato di iscrizione "
+"valido per le date indicate."
 
 #: CRM/Member/BAO/Membership.php
 msgid ""
 "The membership can not be saved. No valid membership status for given dates"
 msgstr ""
+"Impossibile salvare l'Iscrizione. Non esiste uno stato di iscrizione valido "
+"per le date indicate"
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "Please select one of the memberships"
-msgstr "Prego selezionare una tipologia di relazione."
+msgstr "Prego selezionare un'iscrizione"
 
 #: CRM/Member/BAO/Membership.php
-#, fuzzy
 msgid "- Membership Fields -"
-msgstr "Tipologia di Relazione"
+msgstr "- Campi iscrizione -"
 
 #: CRM/Member/BAO/Membership.php
 msgid "There are no status present, You can not add membership."
-msgstr ""
+msgstr "Nessuno stato presente. Impossibile aggiungere l'iscrizione."
 
 #: CRM/Member/BAO/MembershipStatus.php
 msgid "This membership status can not be deleted"
-msgstr ""
+msgstr "Lo stato di iscrizione non può essere cancellato."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid "This membership type cannot be deleted due to following reason(s):"
 msgstr ""
+"Il tipo di iscrizione non può essere cancellato a causa della seguente "
+"ragione: "
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
@@ -2800,6 +2806,12 @@ msgid ""
 "To delete the membership type, all memberships of this type should be "
 "deleted."
 msgstr ""
+"<br/>%2. Ci sono alcuni contatti a cui è stato assegnato questo tipo di "
+"iscrizione. Ricercateli sulla pagina <a href=\"%1\">CiviMember >> Trova "
+"iscritti</a>. Se cancellate tutte le iscrizioni di questo tipo potrete "
+"cancellare il tipo di iscrizione in questa pagina. Per cancellare il tipo di "
+"iscrizione, tutte le iscrizioni di questo tipo devono essere "
+"precedentemente cancellate."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
@@ -2807,24 +2819,25 @@ msgid ""
 "Contribution page</a>. Please change/delete it in order to delete this "
 "Membership Type."
 msgstr ""
+"<br/>%2. Questo tipo di iscrizione viene collegato alla <a href=\"%1\">pagina "
+"di contributi online</a>. Si prega di cambiarlo/cancellarlo in modo da "
+"eliminare questo tipo di Iscrizione."
 
 #: CRM/Member/BAO/Query.php
 msgid "Member Since %2 %1"
 msgstr ""
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Source %2 %1"
-msgstr "Sorgente"
+msgstr "Fonte %2 %1"
 
 #: CRM/Member/BAO/Query.php
 msgid "Membership Status %1"
-msgstr ""
+msgstr "Stato di iscrizione %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Membership Type %1"
-msgstr "Aggiungi Membri: %1"
+msgstr "Tipo di iscrizione %1"
 
 #: CRM/Member/BAO/Query.php
 #, fuzzy
@@ -2837,13 +2850,12 @@ msgid "End Date - From"
 msgstr "Data fine"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Find Test Memberships Only?"
-msgstr "Contributo"
+msgstr "Cerca solo iscrizioni di prova?"
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Membership Type Default"
-msgstr ""
+msgstr "Tipo di iscrizione predefinito"
 
 #: CRM/Member/DAO/MembershipBlock.php
 #, fuzzy
@@ -2876,7 +2888,7 @@ msgstr "Obbligatorio?"
 
 #: CRM/Member/DAO/MembershipLog.php
 msgid "Membership Change Date"
-msgstr ""
+msgstr "Data di modifica iscrizione"
 
 #: CRM/Member/DAO/MembershipLog.php
 #, fuzzy
@@ -2885,13 +2897,12 @@ msgstr "Ricevuto"
 
 #: CRM/Member/DAO/Membership.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#, fuzzy
 msgid "Membership Start Date"
-msgstr "Data inizio"
+msgstr "Data di inizio iscrizione"
 
 #: CRM/Member/DAO/Membership.php
 msgid "Membership Expiration Date"
-msgstr ""
+msgstr "Data di scadenza iscrizione"
 
 #: CRM/Member/DAO/Membership.php
 msgid "Status Override"
@@ -2944,15 +2955,15 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Section Enabled?"
-msgstr ""
+msgstr "Sezione Iscrizioni abilitata?"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Title - New Membership"
-msgstr ""
+msgstr "Titolo - Nuova iscrizione"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Introductory Message - New Memberships"
-msgstr ""
+msgstr "Messaggio introduttivo - Nuove iscrizioni"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Title - Renewals"
@@ -2964,39 +2975,39 @@ msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Require Membership Signup"
-msgstr ""
+msgstr "Richiesta firma iscrizione"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Display Minimum Membership Fee"
-msgstr ""
+msgstr "Visualizza minimo contributo iscrizione"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Separate Membership Payment"
-msgstr ""
+msgstr "Pagamento iscrizione separato"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Types Default"
-msgstr ""
+msgstr "Tipi di iscrizione di default"
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid ""
 "Please select at least one Membership Type to include in the Membership "
 "section of this page."
 msgstr ""
+"Selezionare almeno un tipo di iscrizione da includere nella sezione di "
+"iscrizione di questa pagina"
 
 #: CRM/Member/Form/Membership.php
 msgid "-- select --"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "Membership Organization and Type"
-msgstr "Nuova Organizzazione"
+msgstr "Organizzazione e tipo iscrizione"
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "Join Date"
-msgstr "Data fine"
+msgstr "Data di prima iscrizione"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
@@ -3004,15 +3015,16 @@ msgid "Status Hold?"
 msgstr "Status"
 
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "The membership information has been saved."
-msgstr "La Riunione \"%1\" è stata salvata."
+msgstr "Le informazioni sull'iscrizione sono state salvate."
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid ""
 "A membership status with this name already exists. Please select another "
 "name."
 msgstr ""
+"Già esiste uno stato di iscrizione con questo nome. Si prega di selezionarne "
+"un altro."
 
 #: CRM/Member/Form/MembershipStatus.php
 msgid "Start Event Adjustment"
@@ -3028,19 +3040,19 @@ msgid "Administrator Only?"
 msgstr "\"% 1 Amministratore\"<%2>"
 
 #: CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "Selected membership status has been deleted."
-msgstr "Il Gruppo \"%1\" è stato eliminato."
+msgstr "Lo stato di iscrizione selezionato è stato eliminato."
 
 #: CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "The membership status \"%1\" has been saved."
-msgstr "La Riunione \"%1\" è stata salvata."
+msgstr "Lo stato di iscrizione \"%1\"  è stato salvato."
 
 #: CRM/Member/Form/MembershipType.php
 msgid ""
 "A membership type with this name already exists. Please select another name."
 msgstr ""
+"Un tipo di iscrizione con quel nome già esiste. Si prega di sceglierne un "
+"altro."
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -3072,14 +3084,12 @@ msgid "Please enter a valid fixed period rollover day"
 msgstr "Prego inserisci un numero di carta di credito valido"
 
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Selected membership type has been deleted."
-msgstr "Il tipo di attività selezionato è stato eliminato."
+msgstr "Il tipo di iscrizione selezionato è stato eliminato."
 
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "The membership type \"%1\" has been saved."
-msgstr "Il tipo di attività \"%1\" è stato salvato."
+msgstr "Il tipo di iscrizione \"%1\" è stato salvato."
 
 #: CRM/Member/Form/Task/Delete.php
 #, fuzzy
@@ -3087,13 +3097,12 @@ msgid "Deleted Member(s): %1"
 msgstr "Aggiungi Membri: %1"
 
 #: CRM/Member/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Membership(s): %1"
-msgstr "Totale Contatto/i selezionato/i: %1"
+msgstr "Totale Iscrizioni selezionate: %1"
 
 #: CRM/Member/Form/Task/Export.php
 msgid "Membership ID"
-msgstr ""
+msgstr "ID iscrizione"
 
 #: CRM/Member/Form/Task/Export.php
 #, fuzzy
@@ -3106,14 +3115,12 @@ msgid "Print Members"
 msgstr "Membri del Gruppo"
 
 #: CRM/Member/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Membership Mapping Name"
-msgstr "Riscontro duplicato"
+msgstr "Nome di mappatura di importazione iscrizioni duplicato"
 
 #: CRM/Member/Import/Parser.php
-#, fuzzy
 msgid "View Membership URL"
-msgstr "Aggiungi Membri: %1"
+msgstr "Visualizza URL Iscrizione"
 
 #: CRM/Member/Menu.php
 msgid ""
@@ -3121,10 +3128,13 @@ msgid ""
 "specify a \"name\" (Gold Member, Honor Society Member...), a description, "
 "duration, and a minimum fee."
 msgstr ""
+"Definite i tipi di iscrizione da offrire. Per ciascun tipo si possono "
+"indicare un \"nome\" (Sostenitore, Onorario, ...), una descrizione, una durata "
+"e un contributo minimo."
 
 #: CRM/Member/Menu.php
 msgid "Membership Status Rules"
-msgstr ""
+msgstr "Regole dello stato di iscrizione"
 
 #: CRM/Member/Menu.php
 msgid ""
@@ -3132,6 +3142,9 @@ msgid ""
 "membership's start and end dates. You can adjust the default status options "
 "and rules as needed to meet your needs."
 msgstr ""
+"Le \"regole\" di stato definiscono lo stato corrente per un'iscrizione, "
+"basandosi sulle date di inizio e fine dell'iscrizione stessa. Si possono "
+"modificare le opzioni e regole di stato predefinite come necessario."
 
 #: CRM/Member/Menu.php templates/CRM/Member/Form/Search.tpl
 #, fuzzy
@@ -3139,50 +3152,48 @@ msgid "Find Members"
 msgstr "Aggiungi Membri: %1"
 
 #: CRM/Member/Page/MembershipStatus.php
-#, fuzzy
 msgid "Are you sure you want to disable this membership status rule?"
-msgstr "Vuoi davvero disabilitare tipo di appartenenza?"
+msgstr "Vuoi davvero disabilitare questa regola di stato di iscrizione?"
 
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Edit Membership Status"
-msgstr "Modifica Stato Appartenenza"
+msgstr "Modifica Stato Iscrizione"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Disable Membership Status"
-msgstr "Disabilita Stato Appartenenza"
+msgstr "Disabilita Stato Iscrizione"
 
 #: CRM/Member/Page/MembershipStatus.php
 msgid "Enable Membership Status"
-msgstr "Abilita Stato Appartenenza"
+msgstr "Abilita Stato Iscrizione"
 
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Delete Membership Status"
-msgstr "Cancella Stato Appartenenza"
+msgstr "Cancella Stato Iscrizione"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Are you sure you want to disable this membership type?"
-msgstr "Vuoi davvero disabilitare tipo di appartenenza?"
+msgstr "Vuoi davvero disabilitare questo tipo di iscrizione?"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Edit Membership Type"
-msgstr ""
+msgstr "Modifica Tipo Iscrizione"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Disable Membership Type"
-msgstr ""
+msgstr "Disabilta Tipo Iscrizione"
 
 #: CRM/Member/Page/MembershipType.php
 msgid "Enable Membership Type"
-msgstr ""
+msgstr "Abilita Tipo Iscrizione"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid "Delete Membership Type"
-msgstr "Tipologia di Relazione"
+msgstr "Cancella Tipo Iscrizione"
 
 #: CRM/Member/Selector/Search.php
 #, fuzzy
@@ -3253,9 +3264,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Membership Fee"
-msgstr "Tipo di Appartenenza"
+msgstr "Contributo Iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -3399,28 +3409,27 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Renewal Level"
-msgstr ""
+msgstr "Selezionare un livello di rinnovo iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Select a Membership Level"
-msgstr ""
+msgstr "Selezionare un livello di iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
-#, fuzzy
 msgid "(membership fee - %1)"
-msgstr "Aggiungi Membri: %1"
+msgstr "(contributo iscrizione - %1)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
-msgstr ""
+msgstr "(contributo minimo di iscrizione - %1)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expired on %1."
-msgstr ""
+msgstr "La tua iscrizione <strong>%2</strong> è scaduta il %1."
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "Your <strong>%2</strong> membership expires on %1."
-msgstr ""
+msgstr "La tua iscrizione <strong>%2</strong> scadrà il %1."
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
@@ -3484,6 +3493,9 @@ msgid ""
 "signup ONLY, or to solicit in-kind / non-monetary donations such as "
 "furniture, equipment.. etc."
 msgstr ""
+"Togliete la spunta alla casella se state usando questa pagina di contributi "
+"SOLO per l'iscrizione gratuita, o per sollecitare donazioni in natura, non "
+"monetarie, come mobilio, attrezzatura etc."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3491,6 +3503,9 @@ msgid ""
 "signup and renewal only - and you do NOT want users to select or enter any "
 "additional contribution amounts."
 msgstr ""
+"Togliete la spunta alla casella se state usando questa pagina di contributi "
+"solo per l'iscrizione e il rinnovo, e non volete che gli utenti paghino "
+"contributi maggiori."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3574,6 +3589,12 @@ msgid ""
 "page, you first need to search for and delete all of the contribution "
 "transactions associated with this page in CiviContribute."
 msgstr ""
+"Impossibile cancellare questa pagina di contributi, perché è già stata usata "
+"per inviare il pagamento di un contributo o di un'iscrizione. Si consiglia "
+"di disabilitare la pagina invece di eliminarla, per preservare l'integrità "
+"dei dati. Se volete cancellarla completamente, dovete prima ricercare e "
+"cancellare tutte le transazioni di contributi ad essa associate in "
+"CiviContribute."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -3675,6 +3696,10 @@ msgid ""
 "types using the <strong>Contribution Type</strong> option from the CiviCRM "
 "Administrator Control Panel."
 msgstr ""
+"Selezionate il tipo di contributo corrispondente ai contributi fatti usando "
+"questa pagina (es. donazioni, contributi di iscrizione, etc). Potete "
+"aggiungere o modificare i tipi usando l'opzione <strong>Tipo "
+"contributi</strong> da  Amministra CiviCRM."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
@@ -3858,12 +3883,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "Membership Information"
-msgstr ""
+msgstr "Informazioni sull'iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#, fuzzy
 msgid "Membership End Date"
-msgstr "Data inizio"
+msgstr "Data di termine iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -3872,9 +3896,8 @@ msgid "Contribution Information"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-#, fuzzy
 msgid "%1 Membership"
-msgstr "Membri del Gruppo"
+msgstr "Iscrizione %1"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -3885,9 +3908,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Membership Transaction #"
-msgstr "ID Transazione"
+msgstr "# transazione iscrizione"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
@@ -4000,6 +4022,8 @@ msgid ""
 "Optional identifier for the contribution source (campaign name, event, "
 "mailer, etc.)."
 msgstr ""
+"Identificatore opzionale per la fonte del contributo (nome campagna, evento, "
+"ecc...)"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a receipt was sent to the contributor."
@@ -4063,6 +4087,9 @@ msgid ""
 "any Contributions, Contribution Pages or Membership Types. Consider "
 "disabling this option instead."
 msgstr ""
+"ATTENZIONE: non si può eliminare un tipo di contributo che sia usato da dei "
+"Contributi, Pagine di contributo o Tipi di iscrizione. Si consiglia di "
+"disabilitare l'opzione."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 #, fuzzy
@@ -4507,11 +4534,11 @@ msgstr "Elimina Contributi"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Membership Settings"
-msgstr ""
+msgstr "Impostazioni Iscrizioni"
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Configure membership sign-up and renewal options."
-msgstr ""
+msgstr "Configura le opzioni di iscrizione e rinnovo iscrizione."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
@@ -4633,6 +4660,12 @@ msgid ""
 "system. Commonly used contribution types are: Donation, Campaign "
 "Contribution, Membership Dues..."
 msgstr ""
+"I tipi di contributo sono usati per creare categorie di contributo ai fini "
+"organizzativi e contabili. Ci si può riferire ad esse anche come "
+"<strong>Fondi</strong>. Si possono impostare tutti i tipi di contributo che "
+"si vuole, e ciascuno può essere associato ad un codice di contabilità per il "
+"sistema gestionale. I tipi di contributo più usati sono: donazione, "
+"contributo campagna, contributi di iscrizione, ..."
 
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 msgid "Acctg Code"
@@ -4720,6 +4753,11 @@ msgid ""
 "gifts. Premiums may be tangible items (i.e. a coffee mug or t-shirt), or "
 "they may be a membership or subscription with a pre-determined duration."
 msgstr ""
+"CiviContribute permette di configurare un qualsiasi numero di "
+"<strong>Incentivi</strong>, che possono venire offerti ai contribuenti come "
+"ringraziamento. Si può trattare di oggetti tangibili (tazze da caffè o "
+"magliette), oppure possono consistere nell'iscrizione per una durata "
+"predeterminata."
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 msgid ""
@@ -5027,9 +5065,8 @@ msgid "Include past event(s) in this select list."
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Source for this registration (if applicable)."
-msgstr "Descrizione Lavoro (se applicabile)"
+msgstr "Fonte registrazione (se applicabile)"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Event/Form/Selector.tpl
@@ -5173,7 +5210,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
 #: templates/CRM/Member/Form/Search/EmptyResults.tpl
 msgid "No matching memberships found."
-msgstr ""
+msgstr "Nessuna iscrizione corrispondente trovata."
 
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
 msgid "if you are searching by participant name, check your spelling"
@@ -5353,7 +5390,6 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "You can also input and track offline Events. To enter events manually for "
 "individual contacts, use <a href=\"%1\">Find Contacts</a> to locate the "
@@ -5361,13 +5397,12 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href=\"%2"
 "\"><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
-"Puoi anche immettere e tracciare le iscrizioni off-line. Per registrare le "
-"iscrizioni manualmente per contatti individuali, usa <a href=\"%1\">Find "
-"Contacts</a> per localizzare il contatto. Poi clicca <strong>View</strong> "
-"per andare alla pagina con il riassunto e clicca sul link <strong>New "
-"Membership</strong>Puoi anche <a href=\"%3\"> importare un gruppo di "
-"registrazioni </a> di iscrizioni da altre fonti.Per maggiori informazioni "
-"vai a <a href=\"%2\" target=\"_blank\" title=\"%4\">CiviMember Guide</a>."
+"Potete anche immettere e tracciare gli Eventi off-line. Per registrare gli "
+"eventi manualmente per contatti individuo, usate <a href=\"%1\">Trova "
+"Contatti</a> per localizzare il contatto. Poi cliccate "
+"<strong>Visualizza</strong> per andare alla pagina con il riassunto e "
+"cliccate sul link <strong>Nuovo evento</strong>Potete anche <a href=\"%3\"> "
+"importare un gruppo di partecipanti</a> da altre fonti. "
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid ""
@@ -5879,43 +5914,52 @@ msgid ""
 "membership signup, leave the <strong>Enabled</strong> box un-checked (<a "
 "href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
+"Usate questo form per abilitare e configurare una sezione di Iscrizione e "
+"Rinnovo per questa pagina di contributi online. Se non state usando la "
+"pagina per l'iscrizione dei membri, lasciate la casella "
+"<strong>Abilitato</strong> non spuntata (<a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">leggi tutto...</a>)."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Configure Membership Section"
-msgstr ""
+msgstr "Configura Sezione di Iscrizione"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
-#, fuzzy
 msgid "Include a Membership Signup section in this Online Contribution page?"
-msgstr "Configura le pagine per la donazione Online"
+msgstr ""
+"Includere una sezione di Iscrizione in questa pagina di contributi online?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - for new member signups."
-msgstr ""
+msgstr "Titolo della sezione di Iscrizione, per i nuovi membri"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - for new member signups."
-msgstr ""
+msgstr "Testo della sezione di Iscrizione, per i nuovi membri"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section title - displayed to renewing members."
-msgstr ""
+msgstr "Titolo della sezione di Iscrizione, per i membri che rinnovano"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid "Membership section introductory text - displayed to renewing members."
-msgstr ""
+msgstr "Testo della sezione di Iscrizione, per i membri che rinnovano"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
 "If checked, user must signup for one of the displayed membership options "
 "before continuing."
 msgstr ""
+"Se spuntato, l'utente deve segnare una delle opzioni di iscrizione proposte "
+"prima di continuare."
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
 "Display the minimum membership fee along with the membership name and "
 "description for each membership option?"
 msgstr ""
+"Visualizza il contributo minimo per l'iscrizione insieme al nome e alla "
+"descrizione di ciascuna opzione di iscrizione?"
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
 msgid ""
@@ -5925,29 +5969,41 @@ msgid ""
 "fee amount; and one for the selected contribution amount. (This option is "
 "NOT available for PayPal Website Payments Standard and Google CheckOut.)"
 msgstr ""
+"Il contributo di iscrizione deve essere elaborato come transazione separata? "
+"Se questa opzione è spuntata E la pagina di contributo include l'entità del "
+"contributo, verranno generate due transazioni separate, una per il "
+"contributo di iscrizione e una per il resto (questa opzione NON è "
+"disponibile per PayPal Website Payments Standard e Google CheckOut)."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid "New Membership Status"
-msgstr ""
+msgstr "Nuovo Stato di Iscrizione"
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this status."
 msgstr ""
+"ATTENZIONE: cancellare questa opzione provocherà la perdita di tutti i "
+"record di iscrizione di questo stato."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
+#, fuzzy
 msgid ""
 "Display name for this Membership status (e.g. New, Current, Grace, "
 "Expired...)."
 msgstr ""
+"Visualizza il nome per questo stato di iscrizione (Nuovo, Corrente, Grace, "
+"Expired...)."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status begin? EXAMPLE: <strong>New</strong> status begins at "
 "the membership \"join date\"."
 msgstr ""
+"Quando inizia questo stato?  ESEMPIO:  lo stato di iscrizione "
+"<strong>Nuovo</strong> inizia alla data di prima iscrizione del membro."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -5955,12 +6011,18 @@ msgid ""
 "EXAMPLE: <strong>Current</strong> status might begin at \"join date\" PLUS 3 "
 "months (to distinguish Current from New members)."
 msgstr ""
+"Periodo opzionale di aggiustamento, da aggiungere o sottrarre dall'Evento di "
+"Inizio. ESEMPIO: lo stato di <strong>Corrente</strong> puòiniziare alla "
+"data di prima iscrizione PIU' 3 mesi (per distinguere i membri Nuovi da "
+"quelli Correnti)"
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status end? EXAMPLE: <strong>Current</strong> status ends at "
 "the membership \"end date\"."
 msgstr ""
+"Quando termina questo stato? ESEMPIO: lo stato di <strong>Corrente</strong> "
+"termina alla data di termine dell'iscrizione."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -5969,10 +6031,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
+#, fuzzy
 msgid ""
 "Should this status be considered a current membership in good standing. "
 "EXAMPLE: New, Current and Grace could all be considered \"current\"."
 msgstr ""
+"Se questo stato deve essere considerato un'iscrizione effettiva. ESEMPIO: "
+"Nuovo, Corrente, Grace possono essere tutti considerati \"correnti\"."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -5990,12 +6055,19 @@ msgid ""
 "meet both status range criteria are assigned the status with the lower "
 "weight."
 msgstr ""
+"Il peso imposta l'ordine di precedenza per l'assegnazione automatica dello "
+"stato di un'iscrizione, e imposta l'ordine della visualizzazione degli "
+"stati. ESEMPIO: Gli stati di default \"Nuovo\" e \"Corrente\" hanno intervalli "
+"che si sovrappongono. Alle iscrizioni che soddisfano entrambi i criteri "
+"viene assegnato lo stato con il peso minore."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "The default status is assigned when there are no matching status rules for a "
 "membership."
 msgstr ""
+"Lo stato predefinito viene assegnato quando non ci sono regole di stato che "
+"corrispondono all'iscrizione."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid "Is this status enabled."
@@ -6008,14 +6080,18 @@ msgid ""
 "membership status instead if you want to maintain a record of this "
 "membership."
 msgstr ""
+"ATTENZIONE: Cancellare questa iscrizione cancellerà anche i relativi log e "
+"record di pagamento. Questa azione non può essere annullata. Se volete "
+"mantenere il record è preferibile modificare lo stato dell'iscrizione."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Select Membership Organization and then Membership Type."
-msgstr ""
+msgstr "Seleziona Organizzazione di Iscrizione e poi Tipo di Iscrizione."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Source of this membership. This value is searchable."
 msgstr ""
+"Fonte di questa iscrizione. Valore su cui si possono effettuare ricerche."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "When did this contact first become a member?"
@@ -6026,12 +6102,18 @@ msgid ""
 "First day of current continuous membership period. Start Date will be "
 "automatically set based on Membership Type if you don't select a date."
 msgstr ""
+"Primo giorno del corrente periodo di iscrizione continua. Se non si indica "
+"una data, la Data di Inizio sarà impostata automaticamente in base al Tipo "
+"di Iscrizione."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
 "Latest membership period expiration date. End Date will be automatically set "
 "based on Membership Type if you don't select a date."
 msgstr ""
+"Ultima data di scadenza del periodo di iscrizione. Se non si imposta una "
+"data, la Data di Fine verrà impostata automaticamente in base al Tipo di "
+"Iscrizione."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
@@ -6040,6 +6122,11 @@ msgid ""
 "and manually set a status for this membership. The selected status which "
 "will remain in force unless it is again modified on this screen."
 msgstr ""
+"Lo stato di iscrizione viene impostato ed aggiornato automaticamente in base "
+"alle regole configurate per esso. Spuntate questa casella se volete "
+"bypassare questo processo e impostare manualmente uno stato per "
+"l'iscrizione, che resterà attivo fino a che non verrà modificato di nuovo in "
+"questa schermata."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
@@ -6050,13 +6137,15 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid "New Membership Type"
-msgstr ""
+msgstr "Nuovo Tipo di Iscrizione"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this type."
 msgstr ""
+"ATTENZIONE: Cancellare questa opzione provocherà la perdita di tutti i "
+"record di iscrizione di questo tipo."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "e.g. \"Student\", \"Senior\", \"Honor Society\"..."
@@ -6067,6 +6156,9 @@ msgid ""
 "Description of this membership type for display on signup forms. May include "
 "eligibility, benefits, terms, etc."
 msgstr ""
+"La descrizione di questo tipo di iscrizione da inserire nelle form; include "
+"eventuali informazioni sulle elezioni, i termini, le condizioni, i benefit "
+"ecc."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6075,14 +6167,19 @@ msgid ""
 "This organization/group/chapter must exist as a CiviCRM Organization type "
 "contact."
 msgstr ""
+"A quale organizzazione appartengono i membri a cui è assegnato questo tipo "
+"di iscrizione (es. \"Salvate le balene - Gruppo Nordest). NOTA: Questa "
+"organizzazione/gruppo/sezione deve esistere come contatto di tipo "
+"Organizzazione in CiviCRM."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
+#, fuzzy
 msgid "Select Target Contact for the Membership-Organization"
-msgstr ""
+msgstr "Seleziona il contatto per l'organizzazione"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Organization, who is the owner for this membership type."
-msgstr ""
+msgstr "Organizzazione proprietaria di questo tipo di iscrizione."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
@@ -6182,7 +6279,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 msgid "Join date"
-msgstr ""
+msgstr "Data di prima iscrizione"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
 #, fuzzy

@@ -6,17 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2006-12-11 14:21+0100\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-12-01 23:55+0900\n"
+"Last-Translator: Shinji Ricard Yamane <s-yamane@computer.org>\n"
+"Language-Team: CiviCRM Translators group <civicrm-"
+"translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
+#, fuzzy
 msgid "Contact"
-msgstr ""
+msgstr "コンタクト"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/Form/EntityRole.php
 #: templates/CRM/ACL/Page/EntityRole.tpl xml/templates/civicrm_add_domain.tpl
@@ -30,13 +34,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
+#, fuzzy
 msgid "Group"
-msgstr ""
+msgstr "グループ"
 
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
+#, fuzzy
 msgid "Import"
-msgstr ""
+msgstr "インポート"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Admin/Page/RelationshipType.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Membership.php
@@ -44,8 +50,9 @@ msgstr ""
 #: CRM/Contact/Selector.php CRM/Custom/Page/Option.php
 #: CRM/Price/Page/Option.php CRM/Profile/Selector/Listings.php
 #: templates/CRM/Contact/Page/View/Group.tpl
+#, fuzzy
 msgid "View"
-msgstr ""
+msgstr "表示"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACL.php
 #: CRM/ACL/Page/EntityRole.php CRM/Admin/Page/LocationType.php
@@ -59,8 +66,9 @@ msgstr ""
 #: CRM/Group/Page/Group.php CRM/Profile/Selector/Listings.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
+#, fuzzy
 msgid "Edit"
-msgstr ""
+msgstr "編集"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/DAO/EntityRole.php
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/CustomOption.php
@@ -77,8 +85,9 @@ msgid "Operation"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php CRM/UF/Page/Group.php
+#, fuzzy
 msgid "Create"
-msgstr ""
+msgstr "作成"
 
 #: CRM/ACL/DAO/ACL.php CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Activity/Form.php CRM/Admin/Form.php CRM/Admin/Form/Tag.php
@@ -99,12 +108,13 @@ msgstr ""
 #: CRM/Price/Page/Option.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
 #: CRM/UF/Page/Group.php templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
+#, fuzzy
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: CRM/ACL/DAO/Cache.php CRM/Core/DAO/Log.php CRM/Core/DAO/Note.php
 msgid "Modified Date"
-msgstr ""
+msgstr "更新日"
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
@@ -133,17 +143,19 @@ msgstr ""
 #: templates/CRM/Admin/Page/Tag.tpl templates/CRM/Contact/Page/SavedSearch.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
 msgid "Description"
-msgstr ""
+msgstr "説明"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 msgid " -select- "
-msgstr ""
+msgstr " - 選択 - "
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/SelectValues.php CRM/UF/Form/Preview.php
+#, fuzzy
 msgid "-select-"
-msgstr ""
+msgstr "- 選択 -"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
@@ -162,8 +174,9 @@ msgid "Custom Data"
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Profile"
-msgstr ""
+msgstr "プロフィール"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -177,14 +190,15 @@ msgstr ""
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
+#, fuzzy
 msgid "Enabled?"
-msgstr ""
+msgstr "有効"
 
 #: CRM/ACL/Form/EntityRole.php CRM/Contact/Form/GroupContact.php
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "- select group -"
-msgstr ""
+msgstr "- グループ選択 -"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -195,8 +209,9 @@ msgstr ""
 #: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#, fuzzy
 msgid "Disable"
-msgstr ""
+msgstr "無効"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
@@ -207,13 +222,15 @@ msgstr ""
 #: CRM/Custom/Page/Group.php CRM/Custom/Page/Option.php
 #: CRM/Group/Page/Group.php CRM/Price/Page/Field.php CRM/Price/Page/Option.php
 #: CRM/Price/Page/Set.php CRM/UF/Page/Field.php CRM/UF/Page/Group.php
+#, fuzzy
 msgid "Enable"
-msgstr ""
+msgstr "有効"
 
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php CRM/Admin/Page/Options.php
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Access Control"
-msgstr ""
+msgstr "アクセスコントロール"
 
 #: CRM/ACL/Page/ACL.php CRM/Custom/Page/Group.php
 msgid "Custom Group"
@@ -234,13 +251,14 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
+#, fuzzy
 msgid "Subject"
-msgstr ""
+msgstr "件名"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
 msgid "Scheduled Date Time"
-msgstr ""
+msgstr "予定日時"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php
@@ -255,16 +273,18 @@ msgstr ""
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
+#, fuzzy
 msgid "Location"
-msgstr ""
+msgstr "場所"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
 #: CRM/Activity/Form/OtherActivity.php CRM/Activity/Form/Phonecall.php
 #: CRM/Contact/Form/Task/Record.php CRM/History/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid "Details"
-msgstr ""
+msgstr "詳細"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Meeting.php
@@ -280,24 +300,26 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
+#, fuzzy
 msgid "Status"
-msgstr ""
+msgstr "状態"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Contact/Selector/Activity.php
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Scheduled"
-msgstr ""
+msgstr "予約済み"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/DAO/Meeting.php
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Completed"
-msgstr ""
+msgstr "完了"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Activity/Form/Phonecall.php
 msgid "Phone Number"
-msgstr ""
+msgstr "電話番号"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Left Message"
@@ -309,8 +331,9 @@ msgstr ""
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
+#, fuzzy
 msgid "Date and Time"
-msgstr ""
+msgstr "日付と時間"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php
@@ -345,8 +368,9 @@ msgstr ""
 #: CRM/UF/Form/Group.php templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
+#, fuzzy
 msgid "Done"
-msgstr ""
+msgstr "完了"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/DedupeRules.php CRM/Admin/Form.php
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
@@ -357,8 +381,9 @@ msgstr ""
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php
 #: CRM/Profile/Form/Dynamic.php CRM/Profile/Form/Edit.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
+#, fuzzy
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/CMSUser.php
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/DomainDump.php
@@ -383,12 +408,14 @@ msgstr ""
 #: CRM/Price/Form/Option.php CRM/Price/Form/Set.php CRM/Profile/Form/Edit.php
 #: CRM/Profile/Form/ForwardMailing.php CRM/Tag/Form/Tag.php
 #: CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#, fuzzy
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: CRM/Admin/Form/CMSUser.php CRM/Admin/Form/DomainDump.php
+#, fuzzy
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: CRM/Admin/Form/DedupeRules.php CRM/Admin/Form/Options.php
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomField.php
@@ -406,8 +433,9 @@ msgstr ""
 #: templates/CRM/Price/Form/OptionFields.tpl
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Weight"
-msgstr ""
+msgstr "優先順位"
 
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/OptionValue.php
@@ -430,8 +458,9 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Form/Task.tpl templates/CRM/Group/Page/Group.tpl
+#, fuzzy
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/Mapping.php
 #: CRM/Admin/Form/OptionGroup.php CRM/Admin/Form/Options.php
@@ -455,7 +484,7 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Label"
-msgstr ""
+msgstr "ラベル"
 
 #: CRM/Admin/Form/Options.php CRM/Custom/Form/Field.php
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
@@ -470,16 +499,18 @@ msgstr ""
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 #: templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
+#, fuzzy
 msgid "Title"
-msgstr ""
+msgstr "タイトル"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/CustomOption.php
 #: CRM/Core/DAO/MappingField.php CRM/Custom/Form/Field.php
 #: CRM/Price/Form/Field.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
+#, fuzzy
 msgid "Value"
-msgstr ""
+msgstr "値"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
 msgid "Option Grouping Name"
@@ -518,17 +549,19 @@ msgstr ""
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "User Name"
-msgstr ""
+msgstr "ユーザ名"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/BAO/CMSUser.php
 #: CRM/Core/DAO/PaymentProcessor.php xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Signature"
-msgstr ""
+msgstr "署名"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Contact/Form/Search/Advanced.php
 msgid "Address Fields"
@@ -542,8 +575,9 @@ msgstr ""
 #: CRM/Core/Menu.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
+#, fuzzy
 msgid "Advanced Search"
-msgstr ""
+msgstr "絞込み検索"
 
 #: CRM/Admin/Form/Preferences/Display.php CRM/Core/Menu.php
 msgid "Contact Dashboard"
@@ -552,8 +586,9 @@ msgstr ""
 #: CRM/Admin/Form/Preferences.php CRM/Admin/Form/Setting.php
 #: CRM/Admin/Page/PaymentProcessor.php CRM/Admin/Page/Setting.php
 #: CRM/Core/Menu.php
+#, fuzzy
 msgid "Global Settings"
-msgstr ""
+msgstr "全般の設定"
 
 #: CRM/Admin/Form/RelationshipType.php CRM/Contact/DAO/RelationshipType.php
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -578,28 +613,32 @@ msgstr ""
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: CRM/Core/SelectValues.php CRM/History/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php CRM/UF/Form/Group.php CRM/UF/Form/Preview.php
+#, fuzzy
 msgid "- select -"
-msgstr ""
+msgstr "- 選択 -"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
 msgstr ""
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Manage"
-msgstr ""
+msgstr "管理"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Configure"
-msgstr ""
+msgstr "設定"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Option Lists"
 msgstr ""
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
+#, fuzzy
 msgid "Edit Rule"
-msgstr ""
+msgstr "ルールの編集"
 
 #: CRM/Admin/Page/DomainDump.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/DomainDump.tpl
@@ -618,7 +657,7 @@ msgstr ""
 #: CRM/Admin/Page/Options.php CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 #: templates/CRM/Contact/Page/View/CustomData.tpl
 msgid "Edit %1"
-msgstr ""
+msgstr "編集 %1"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 msgid "File System Paths"
@@ -637,20 +676,23 @@ msgstr ""
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
+#, fuzzy
 msgid "Localization"
-msgstr ""
+msgstr "ローカライズ"
 
 #: CRM/Admin/Page/Setting.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php templates/CRM/Admin/Page/Setting.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
+#, fuzzy
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
+#, fuzzy
 msgid "Miscellaneous"
-msgstr ""
+msgstr "その他の設定"
 
 #: CRM/Admin/Page/Setting.php CRM/Core/Invoke.php
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -662,7 +704,7 @@ msgstr ""
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: CRM/Dedupe/DAO/RuleGroup.php CRM/Import/Form/UploadFile.php
 msgid "Individual"
-msgstr ""
+msgstr "個人"
 
 #: CRM/Contact/BAO/Contact.php CRM/Contact/DAO/Contact.php
 #: CRM/Contact/DAO/RelationshipType.php CRM/Contact/Form/Relationship.php
@@ -678,7 +720,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomGroup.php CRM/Dedupe/DAO/RuleGroup.php
 #: CRM/Import/Form/UploadFile.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Organization"
-msgstr ""
+msgstr "団体"
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/History.php
 #: CRM/History/Import/Form/MapField.php CRM/History/Import/Parser.php
@@ -690,13 +732,13 @@ msgstr ""
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Group(s)"
-msgstr ""
+msgstr "グループ"
 
 #: CRM/Contact/BAO/Contact.php CRM/Core/BAO/UFGroup.php CRM/UF/Form/Field.php
 #: CRM/UF/Page/Field.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Tag(s)"
-msgstr ""
+msgstr "タグ"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
@@ -705,7 +747,7 @@ msgstr ""
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 msgid "Nick Name"
-msgstr ""
+msgstr "ニックネーム"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
@@ -718,7 +760,7 @@ msgstr ""
 #: CRM/Core/DAO/PriceField.php CRM/Core/SelectValues.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Text"
-msgstr ""
+msgstr "テキスト"
 
 #: CRM/Contact/DAO/Contact.php CRM/Core/SelectValues.php
 msgid "HTML"
@@ -742,7 +784,7 @@ msgstr ""
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Pending"
-msgstr ""
+msgstr "承認待ち"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -751,13 +793,14 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Source"
-msgstr ""
+msgstr "情報ソース"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php CRM/Group/Form/Edit.php
 #: CRM/Group/Form/Search.php CRM/UF/Form/Field.php
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid "Visibility"
-msgstr ""
+msgstr "閲覧の制限"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/DAO/SavedSearch.php
 msgid "Where Clause"
@@ -797,25 +840,28 @@ msgid "Household Name"
 msgstr ""
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid "First Name"
-msgstr ""
+msgstr "名"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
 msgid "Middle Name"
-msgstr ""
+msgstr "ミドルネーム"
 
 #: CRM/Contact/DAO/Individual.php CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid "Last Name"
-msgstr ""
+msgstr "姓"
 
 #: CRM/Contact/DAO/Individual.php CRM/Core/Form.php
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Other"
-msgstr ""
+msgstr "その他"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Organization Name"
-msgstr ""
+msgstr "団体名"
 
 #: CRM/Contact/DAO/Organization.php CRM/Contact/Form/Organization.php
 msgid "Legal Name"
@@ -825,14 +871,14 @@ msgstr ""
 #: CRM/Project/DAO/Project.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Start Date"
-msgstr ""
+msgstr "開始日"
 
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
 #: CRM/Project/DAO/Project.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "End Date"
-msgstr ""
+msgstr "終了日"
 
 #: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Edit.php
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -854,8 +900,9 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Email"
-msgstr ""
+msgstr "Eメール"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Address.php CRM/Core/Payment/Form.php
@@ -870,12 +917,13 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Relationship.tpl
+#, fuzzy
 msgid "City"
-msgstr ""
+msgstr "市町村"
 
 #: CRM/Contact/Form/Address.php CRM/Core/Form.php
 msgid "Zip / Postal Code"
-msgstr ""
+msgstr "郵便番号:"
 
 #: CRM/Contact/Form/Address.php CRM/Core/DAO/Address.php
 msgid "Postal Code Suffix"
@@ -884,12 +932,12 @@ msgstr ""
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
 msgid "County"
-msgstr ""
+msgstr "地域"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 msgid "State / Province"
-msgstr ""
+msgstr "都道府県"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/StateCountry.php
@@ -898,7 +946,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "国"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
@@ -906,7 +954,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr ""
+msgstr "CiviCRMの管理"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
 msgid "Email Domain"
@@ -914,11 +962,12 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
-msgstr ""
+msgstr "新着 %1"
 
 #: CRM/Contact/Form/Edit.php CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "Privacy"
-msgstr ""
+msgstr "プライバシー"
 
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Profile/Form/ForwardMailing.php
@@ -933,7 +982,7 @@ msgstr ""
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 #: CRM/Core/BAO/UFGroup.php CRM/Core/Form.php CRM/UF/Form/Preview.php
 msgid "%1 is a required field."
-msgstr ""
+msgstr "フィールド %1 は必須項目です。"
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
@@ -958,13 +1007,14 @@ msgstr[0] ""
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
 msgid "Gender"
-msgstr ""
+msgstr "ジェンダー"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
+#, fuzzy
 msgid "Website"
-msgstr ""
+msgstr "ウェブサイト"
 
 #: CRM/Contact/Form/Location.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Location.php
@@ -984,8 +1034,9 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid "No"
-msgstr ""
+msgstr "いいえ"
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1000,15 +1051,17 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Set.tpl templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 #: CRM/Contact/Form/Note.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php CRM/Dedupe/Merger.php
 #: CRM/Note/Form/Note.php templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid "Notes"
-msgstr ""
+msgstr "付記"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1025,7 +1078,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Phone"
-msgstr ""
+msgstr "電話"
 
 #: CRM/Contact/Form/Relationship.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
@@ -1040,8 +1093,9 @@ msgstr ""
 #: CRM/Group/Form/Search.php CRM/Group/Page/Group.php
 #: CRM/Profile/Form/Search.php templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
+#, fuzzy
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Core/Menu.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -1078,11 +1132,11 @@ msgstr ""
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr ""
+msgstr "イベント"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
-msgstr ""
+msgstr "タスク"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
@@ -1090,23 +1144,25 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr ""
+msgstr "都道府県"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
 msgid "Postal Code"
-msgstr ""
+msgstr "郵便番号"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
+#, fuzzy
 msgid "To"
-msgstr ""
+msgstr "宛先"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
+#, fuzzy
 msgid "and"
-msgstr ""
+msgstr "さらに"
 
 #: CRM/Contact/Form/Search.php CRM/Core/Menu.php
 msgid "Find Contacts"
@@ -1115,7 +1171,7 @@ msgstr ""
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/RemoveFromGroup.php
 msgid "Select Group"
-msgstr ""
+msgstr "グループ選択"
 
 #: CRM/Contact/Form/Task/AddToGroup.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
@@ -1162,21 +1218,22 @@ msgstr ""
 #: CRM/SMS/DAO/History.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
+#, fuzzy
 msgid "Message"
-msgstr ""
+msgstr "メッセージ"
 
 #: CRM/Contact/Form/Task/Export/Map.php CRM/History/Import/Form/MapField.php
 #: CRM/History/Import/Form/Preview.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/Preview.php
 msgid "<< Previous"
-msgstr ""
+msgstr "<< 前"
 
 #: CRM/Contact/Form/Task/Export/Select.php
 #: CRM/Contact/Form/Task/PickProfile.php CRM/History/Import/Form/MapField.php
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/MapField.php
 #: CRM/Import/Form/UploadFile.php
 msgid "Continue >>"
-msgstr ""
+msgstr "続き >>"
 
 #: CRM/Contact/Form/Task/Label.php CRM/Core/BAO/Mapping.php
 msgid "Primary"
@@ -1239,14 +1296,15 @@ msgstr ""
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Groups"
-msgstr ""
+msgstr "グループ一覧"
 
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/Menu.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl templates/CRM/Tag/Form/Tag.tpl
+#, fuzzy
 msgid "Tags"
-msgstr ""
+msgstr "タグ"
 
 #: CRM/Contact/Selector/Activity.php CRM/Core/Menu.php
 #: templates/CRM/Activity/Form/OtherActivity.tpl
@@ -1262,7 +1320,7 @@ msgstr ""
 #: CRM/Contact/Selector/Activity.php CRM/Core/DAO/CustomGroup.php
 #: CRM/History/Selector/Activity.php xml/templates/civicrm_add_domain.tpl
 msgid "Meeting"
-msgstr ""
+msgstr "会議"
 
 #: CRM/Contact/Selector/Activity.php CRM/History/Selector/Activity.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -1291,12 +1349,13 @@ msgstr ""
 
 #: CRM/Contact/Selector/Activity.php CRM/Contact/Selector.php
 #: CRM/History/Selector/Activity.php CRM/Profile/Selector/Listings.php
+#, fuzzy
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 #: CRM/Contact/Selector.php CRM/Profile/Selector/Listings.php
 msgid "Map"
-msgstr ""
+msgstr "地図"
 
 #: CRM/Contact/Selector.php CRM/Core/Invoke.php
 msgid "Map Contact"
@@ -1309,8 +1368,9 @@ msgstr ""
 #: CRM/Contact/Selector.php CRM/Core/DAO/CustomGroup.php
 #: templates/CRM/Contact/Form/Address.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
+#, fuzzy
 msgid "Address"
-msgstr ""
+msgstr "アドレス"
 
 #: CRM/Contact/Selector.php CRM/Core/DAO/StateProvince.php
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -1318,8 +1378,9 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 #: templates/CRM/Contact/Form/Task/Print.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid "State"
-msgstr ""
+msgstr "都道府県"
 
 #: CRM/Contact/Task.php CRM/Core/Menu.php
 msgid "Export Contacts"
@@ -1338,17 +1399,19 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Note"
-msgstr ""
+msgstr "ノート"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Link"
-msgstr ""
+msgstr "リンク"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1438,7 +1501,7 @@ msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php CRM/Core/DAO/UFJoin.php
 msgid "Module"
-msgstr ""
+msgstr "モジュール"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1461,8 +1524,9 @@ msgid "Help Post"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Mask"
-msgstr ""
+msgstr "マスク"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Core/DAO/PriceSet.php
@@ -1476,7 +1540,7 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Memo"
-msgstr ""
+msgstr "メモ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "TextArea"
@@ -1485,7 +1549,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Select"
-msgstr ""
+msgstr "選択"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Multi-Select"
@@ -1494,16 +1558,17 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "Radio"
-msgstr ""
+msgstr "ラジオ"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+#, fuzzy
 msgid "CheckBox"
-msgstr ""
+msgstr "チェックボックス"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select Date"
-msgstr ""
+msgstr "日付の選択"
 
 #: CRM/Core/DAO/CustomField.php CRM/Custom/Form/Field.php
 msgid "Select State/Province"
@@ -1523,16 +1588,16 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Inline"
-msgstr ""
+msgstr "インラインにする"
 
 #: CRM/Core/DAO/EmailHistory.php CRM/SMS/DAO/History.php
 msgid "Sent Date"
-msgstr ""
+msgstr "送信日"
 
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr ""
+msgstr "電話種別"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity History"
@@ -1564,16 +1629,16 @@ msgstr ""
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
-msgstr ""
+msgstr "携帯電話"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Pager"
-msgstr ""
+msgstr "Pager"
 
 #: CRM/Core/DAO/PriceField.php CRM/Price/Form/Field.php
 #: templates/CRM/Price/Page/Field.tpl
@@ -1587,7 +1652,7 @@ msgstr ""
 
 #: CRM/Core/DAO/UFField.php CRM/UF/Form/Field.php
 msgid "Field Name"
-msgstr ""
+msgstr "項目名"
 
 #: CRM/Core/DAO/UFGroup.php CRM/Core/Menu.php templates/CRM/UF/Form/Group.tpl
 msgid "CiviCRM Profile"
@@ -1595,8 +1660,9 @@ msgstr ""
 
 #: CRM/Core/DAO/Validation.php CRM/Group/Form/Search.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Set.tpl
+#, fuzzy
 msgid "Type"
-msgstr ""
+msgstr "タイプ"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -1607,12 +1673,13 @@ msgid "Map Event Location"
 msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Search Results"
-msgstr ""
+msgstr "検索結果"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr ""
+msgstr "新しい連絡先"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -1657,15 +1724,15 @@ msgstr ""
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
-msgstr ""
+msgstr "グループ管理"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
-msgstr ""
+msgstr "連絡先"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "グループメンバー"
 
 #: CRM/Core/Page/AJAX.php CRM/Import/Parser.php
 msgid "No processing status reported yet."
@@ -1715,11 +1782,11 @@ msgstr ""
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Price/Form/OptionFields.tpl
 msgid "Active?"
-msgstr ""
+msgstr "アクティブ?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Required?"
-msgstr ""
+msgstr "必須"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid " must be a numeric value"
@@ -1755,7 +1822,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
-msgstr ""
+msgstr "プレビュー %1"
 
 #: CRM/Custom/Form/Group.php CRM/UF/Form/Group.php
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
@@ -1786,17 +1853,19 @@ msgstr ""
 #: CRM/Custom/Page/Group.php CRM/History/Import/Form/Preview.php
 #: CRM/Import/Form/Preview.php CRM/Price/Page/Set.php CRM/UF/Page/Field.php
 #: CRM/UF/Page/Group.php
+#, fuzzy
 msgid "Preview"
-msgstr ""
+msgstr "プレビュー"
 
 #: CRM/Custom/Page/Group.php CRM/Group/Page/Group.php CRM/Price/Page/Set.php
 #: CRM/UF/Page/Group.php
+#, fuzzy
 msgid "Settings"
-msgstr ""
+msgstr "環境設定"
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
-msgstr ""
+msgstr "グループ削除"
 
 #: CRM/History/Import/Form/MapField.php CRM/Import/Form/MapField.php
 msgid ""
@@ -1835,7 +1904,7 @@ msgstr ""
 
 #: CRM/History/Import/Form/Summary.php CRM/Import/Form/Summary.php
 msgid "Summary"
-msgstr ""
+msgstr "概要"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Import Data File"
@@ -1862,8 +1931,9 @@ msgid "Skip"
 msgstr ""
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
+#, fuzzy
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: CRM/History/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "Fill"
@@ -1898,16 +1968,18 @@ msgid "Contact Group"
 msgstr ""
 
 #: CRM/ACL/BAO/ACL.php
+#, fuzzy
 msgid "Administer"
-msgstr ""
+msgstr "管理セクション"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "ACL Name"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
+#, fuzzy
 msgid "Deny"
-msgstr ""
+msgstr "拒否"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Object Table"
@@ -1918,8 +1990,9 @@ msgid "Acl Table"
 msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
+#, fuzzy
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Grant"
@@ -1934,8 +2007,9 @@ msgid "A group of contacts"
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php
+#, fuzzy
 msgid "A profile"
-msgstr ""
+msgstr "プロフィール"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A set of custom data fields"
@@ -1946,12 +2020,13 @@ msgid "Type of Data"
 msgstr ""
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
+#, fuzzy
 msgid "Role"
-msgstr ""
+msgstr "権限"
 
 #: CRM/ACL/Form/ACL.php
 msgid " -select role- "
-msgstr ""
+msgstr " - 役職を選択 - "
 
 #: CRM/ACL/Form/ACL.php
 msgid "Everyone"
@@ -2043,7 +2118,7 @@ msgstr ""
 
 #: CRM/Activity/Form/OtherActivity.php
 msgid "- select activity type -"
-msgstr ""
+msgstr "- 活動タイプを選択 -"
 
 #: CRM/Activity/Form/Phonecall.php
 msgid "Select Phone Number"
@@ -2059,11 +2134,11 @@ msgstr ""
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Field"
-msgstr ""
+msgstr "項目"
 
 #: CRM/Admin/Form/DedupeRules.php
 msgid "- none -"
-msgstr ""
+msgstr "- 無し -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
@@ -2099,7 +2174,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "Default?"
-msgstr ""
+msgstr "デフォルト?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
@@ -2272,8 +2347,9 @@ msgid "Provider"
 msgstr ""
 
 #: CRM/Admin/Form/Preferences/Address.php
+#, fuzzy
 msgid "User ID"
-msgstr ""
+msgstr "ユーザーID"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Web Service URL"
@@ -2321,11 +2397,11 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Enable >>"
-msgstr ""
+msgstr "有効 >>"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "<< Disable"
-msgstr ""
+msgstr "<< 無効"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Settings - Date"
@@ -2393,11 +2469,11 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Add >>"
-msgstr ""
+msgstr "追加 >>"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "<< Remove"
-msgstr ""
+msgstr "<<削除"
 
 #: CRM/Admin/Form/Setting/Localization.php
 msgid "Available States and Provinces"
@@ -2501,7 +2577,7 @@ msgstr ""
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "Authentication?"
-msgstr ""
+msgstr "認証?"
 
 #: CRM/Admin/Form/Setting/Smtp.php
 msgid "SMTP Username"
@@ -2630,7 +2706,7 @@ msgstr ""
 
 #: CRM/Admin/Page/Options.php
 msgid "%1 Options"
-msgstr ""
+msgstr "%1 設定"
 
 #: CRM/Admin/Page/Options.php
 msgid "Are you sure you want to disable this %1?"
@@ -2643,11 +2719,11 @@ msgstr ""
 
 #: CRM/Admin/Page/Options.php
 msgid "Disable %1"
-msgstr ""
+msgstr "%1 を無効にする"
 
 #: CRM/Admin/Page/Options.php
 msgid "Enable %1"
-msgstr ""
+msgstr "%1 を有効にする"
 
 #: CRM/Admin/Page/Options.php
 msgid "Delete %1 Type"
@@ -2754,8 +2830,9 @@ msgid "Delete Reletionship Type"
 msgstr ""
 
 #: CRM/Admin/Page/Setting.php
+#, fuzzy
 msgid "System Configuration"
-msgstr ""
+msgstr "システムの設定情報"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
@@ -2789,7 +2866,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Contact.php
 msgid "Note(s)"
-msgstr ""
+msgstr "ノート"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "Could not find location id"
@@ -2797,27 +2874,27 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
-msgstr ""
+msgstr "都道府県 %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "State (%2) %3 \"%1\""
-msgstr ""
+msgstr "都道府県 (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country %2 \"%1\""
-msgstr ""
+msgstr "国 %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Country (%2) %3 \"%1\""
-msgstr ""
+msgstr "国 (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County %2 \"%1\""
-msgstr ""
+msgstr "国名 %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County (%2) %3 \"%1\""
-msgstr ""
+msgstr "都道府県 (%2) %3 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Individual Prefix %2 \"%1\""
@@ -2829,7 +2906,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Gender %2 \"%1\""
-msgstr ""
+msgstr "ジェンダー %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
@@ -2837,15 +2914,16 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "phone"
-msgstr ""
+msgstr "電話"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Contact Type -"
 msgstr ""
 
 #: CRM/Contact/BAO/Query.php
+#, fuzzy
 msgid "or"
-msgstr ""
+msgstr "もしくは"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
@@ -2869,7 +2947,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Note %2 - \"%1\""
-msgstr ""
+msgstr "ノート %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Name like - \"%1\""
@@ -2877,7 +2955,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Email %2 - \"%1\""
-msgstr ""
+msgstr "Eメール %2 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Restricted to Contacts starting with: \"%1\""
@@ -2885,7 +2963,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code - \"%1\""
-msgstr ""
+msgstr "郵便番号 - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Postal code greater than \"%1\""
@@ -2917,7 +2995,7 @@ msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task: %1"
-msgstr ""
+msgstr "タスク: %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Task Status: %1"
@@ -3011,7 +3089,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Job Title"
-msgstr ""
+msgstr "職業"
 
 #: CRM/Contact/DAO/Individual.php
 msgid "Birth Date"
@@ -3038,8 +3116,9 @@ msgid "Honorific"
 msgstr ""
 
 #: CRM/Contact/DAO/Individual.php
+#, fuzzy
 msgid "Custom"
-msgstr ""
+msgstr "カスタム"
 
 #: CRM/Contact/DAO/Organization.php
 msgid "Sic Code"
@@ -3047,11 +3126,11 @@ msgstr ""
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name A B"
-msgstr ""
+msgstr "名前 A B"
 
 #: CRM/Contact/DAO/RelationshipType.php
 msgid "Name B A"
-msgstr ""
+msgstr "名前 B A"
 
 #: CRM/Contact/DAO/SavedSearch.php
 msgid "Submitted Form Values"
@@ -3201,8 +3280,9 @@ msgid "Use for Bulk Mailings"
 msgstr ""
 
 #: CRM/Contact/Form/GroupContact.php
+#, fuzzy
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Contact has been added to the selected group."
@@ -3226,7 +3306,7 @@ msgstr ""
 
 #: CRM/Contact/Form/IM.php
 msgid "- select service -"
-msgstr ""
+msgstr "- サービスを選択 -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Prefix"
@@ -3238,11 +3318,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Suffix"
-msgstr ""
+msgstr "敬称"
 
 #: CRM/Contact/Form/Individual.php
 msgid "- suffix -"
-msgstr ""
+msgstr "- 敬称 -"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Greeting"
@@ -3250,7 +3330,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Job title"
-msgstr ""
+msgstr "職業"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Contact is deceased"
@@ -3328,11 +3408,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Merge.php
 msgid "EMPTY"
-msgstr ""
+msgstr "（空）"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Location: %1"
-msgstr ""
+msgstr "場所: %1"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Merge Contacts"
@@ -3340,7 +3420,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Merge.php
 msgid "Merge"
-msgstr ""
+msgstr "マージする"
 
 #: CRM/Contact/Form/Merge.php
 msgid "The contacts have been merged."
@@ -3418,8 +3498,9 @@ msgid "The relationship end date cannot be prior to the start date."
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
+#, fuzzy
 msgid "Custom Fields"
-msgstr ""
+msgstr "カスタムフィールド"
 
 #: CRM/Contact/Form/Search/Advanced.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -3518,11 +3599,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
-msgstr ""
+msgstr "グループメンバー: %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Members: %1"
-msgstr ""
+msgstr "メンバーを追加: %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Contacts to %1"
@@ -3530,24 +3611,25 @@ msgstr ""
 
 #: CRM/Contact/Form/Search.php
 msgid "Actions:"
-msgstr ""
+msgstr "Actions:"
 
 #: CRM/Contact/Form/Search.php templates/CRM/common/pager.tpl
 msgid "Go"
-msgstr ""
+msgstr "進む"
 
 #: CRM/Contact/Form/Search.php templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Print"
-msgstr ""
+msgstr "印刷"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any group -"
 msgstr ""
 
 #: CRM/Contact/Form/Search.php
+#, fuzzy
 msgid "in"
-msgstr ""
+msgstr "in"
 
 #: CRM/Contact/Form/Search.php
 msgid "- any tag -"
@@ -3679,7 +3761,7 @@ msgstr ""
 #: CRM/Contact/Form/Task/EmailCommon.php
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send Email"
-msgstr ""
+msgstr "E-メールを送信する"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid ""
@@ -3710,7 +3792,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Export >>"
-msgstr ""
+msgstr "エクスポート>>"
 
 #: CRM/Contact/Form/Task/Export/Map.php
 msgid "Duplicate Export Mapping Name"
@@ -3750,7 +3832,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
-msgstr ""
+msgstr "場所の選択"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Map Location(s)"
@@ -3776,11 +3858,11 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "- select profile -"
-msgstr ""
+msgstr "- プロファイル選択 -"
 
 #: CRM/Contact/Form/Task/PickProfile.php
 msgid "Select Profile"
-msgstr ""
+msgstr "プロファイル選択"
 
 #: CRM/Contact/Form/Task/Print.php
 msgid "CiviCRM Contact Listing"
@@ -3847,8 +3929,9 @@ msgid "Delete Contribution"
 msgstr ""
 
 #: CRM/Contact/Page/View/Delete.php
+#, fuzzy
 msgid "Contact Delete"
-msgstr ""
+msgstr "コンタクトの削除"
 
 #: CRM/Contact/Page/View/Meeting.php
 msgid "Contact Meetings"
@@ -3947,7 +4030,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "Dashboard - %1"
-msgstr ""
+msgstr "ダッシュボード - %1"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Are you sure you want to delete this activity record?"
@@ -4068,12 +4151,14 @@ msgid "Create an account?"
 msgstr ""
 
 #: CRM/Core/BAO/CMSUser.php
+#, fuzzy
 msgid "Username"
-msgstr ""
+msgstr "ユーザ名"
 
 #: CRM/Core/BAO/CMSUser.php
+#, fuzzy
 msgid "Confirm Password"
-msgstr ""
+msgstr "パスワードの確認"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Could not find an email address."
@@ -4104,8 +4189,9 @@ msgid "Alphanumeric"
 msgstr ""
 
 #: CRM/Core/BAO/CustomField.php
+#, fuzzy
 msgid "Number"
-msgstr ""
+msgstr "Number"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "Yes or No"
@@ -4114,8 +4200,9 @@ msgstr ""
 #: CRM/Core/BAO/CustomField.php templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
+#, fuzzy
 msgid "From"
-msgstr ""
+msgstr "送信元"
 
 #: CRM/Core/BAO/CustomField.php
 msgid "%1 From must be an integer (whole number)."
@@ -4286,7 +4373,7 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
 msgid "Copy of "
-msgstr ""
+msgstr "Copy of "
 
 #: CRM/Core/BAO/UFMatch.php
 msgid "Please set the user framework variable"
@@ -4354,7 +4441,7 @@ msgstr ""
 
 #: CRM/Core/Block.php
 msgid "Reports"
-msgstr ""
+msgstr "レポート"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"
@@ -4365,12 +4452,14 @@ msgid "Update FAT"
 msgstr ""
 
 #: CRM/Core/Block.php
+#, fuzzy
 msgid "My Account"
-msgstr ""
+msgstr "アカウント情報"
 
 #: CRM/Core/Block.php
+#, fuzzy
 msgid "Log out"
-msgstr ""
+msgstr "ログアウト"
 
 #: CRM/Core/Block.php
 msgid "Send Mailing"
@@ -4404,7 +4493,7 @@ msgstr ""
 
 #: CRM/Core/DAO/ActivityHistory.php
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number"
@@ -4460,15 +4549,15 @@ msgstr ""
 
 #: CRM/Core/DAO/Address.php
 msgid "Timezone"
-msgstr ""
+msgstr "タイムゾーン"
 
 #: CRM/Core/DAO/Country.php
 msgid "Iso Code"
-msgstr ""
+msgstr "ISOコード"
 
 #: CRM/Core/DAO/Country.php
 msgid "Country Code"
-msgstr ""
+msgstr "国コード"
 
 #: CRM/Core/DAO/Country.php
 msgid "Idd Prefix"
@@ -4484,11 +4573,11 @@ msgstr ""
 
 #: CRM/Core/DAO/Currency.php
 msgid "Currency"
-msgstr ""
+msgstr "通貨"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Symbol"
-msgstr ""
+msgstr "シンボル"
 
 #: CRM/Core/DAO/Currency.php
 msgid "Numeric Code"
@@ -4496,7 +4585,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Currency.php
 msgid "Full Name"
-msgstr ""
+msgstr "氏名"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
@@ -4527,8 +4616,9 @@ msgid "Note Rows"
 msgstr ""
 
 #: CRM/Core/DAO/CustomField.php
+#, fuzzy
 msgid "String"
-msgstr ""
+msgstr "文字列"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "Int"
@@ -4578,7 +4668,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Membership"
-msgstr ""
+msgstr "メンバーシップ"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Participant"
@@ -4614,7 +4704,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Address"
-msgstr ""
+msgstr "Eメール・アドレス"
 
 #: CRM/Core/DAO/Domain.php
 msgid "Email Return Path"
@@ -4646,7 +4736,7 @@ msgstr ""
 
 #: CRM/Core/DAO/File.php
 msgid "Mime Type"
-msgstr ""
+msgstr "Mime 型"
 
 #: CRM/Core/DAO/File.php
 msgid "Uri"
@@ -4769,8 +4859,9 @@ msgid "<="
 msgstr ""
 
 #: CRM/Core/DAO/MappingField.php
+#, fuzzy
 msgid "IN"
-msgstr ""
+msgstr "IN"
 
 #: CRM/Core/DAO/MappingField.php
 msgid "NOT IN"
@@ -4785,8 +4876,9 @@ msgid "NOT LIKE"
 msgstr ""
 
 #: CRM/Core/DAO/Mapping.php
+#, fuzzy
 msgid "Export"
-msgstr ""
+msgstr "エクスポート"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Export Contributions"
@@ -4833,8 +4925,9 @@ msgid "Option Name"
 msgstr ""
 
 #: CRM/Core/DAO/OptionValue.php
+#, fuzzy
 msgid "Filter"
-msgstr ""
+msgstr "フィルタ"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
@@ -4978,8 +5071,9 @@ msgid "Function Name"
 msgstr ""
 
 #: CRM/Core/DAO/Validation.php
+#, fuzzy
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: CRM/Core/DAO/Validation.php
 msgid "Positive Integer"
@@ -5040,7 +5134,7 @@ msgstr ""
 
 #: CRM/Core/Form.php
 msgid "Previous"
-msgstr ""
+msgstr "前"
 
 #: CRM/Core/Form.php
 msgid "Processing"
@@ -5099,8 +5193,9 @@ msgid "View Contact"
 msgstr ""
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "Delete Contact"
-msgstr ""
+msgstr "コンタクトの削除"
 
 #: CRM/Core/Invoke.php
 msgid "Could not retrieve a valid contact"
@@ -5108,11 +5203,12 @@ msgstr ""
 
 #: CRM/Core/Invoke.php
 msgid "Merge Contact"
-msgstr ""
+msgstr "連絡先のマージ"
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "Simple Search"
-msgstr ""
+msgstr "シンプル検索"
 
 #: CRM/Core/Invoke.php
 msgid "View Location Types"
@@ -5163,8 +5259,9 @@ msgid "View Option Values"
 msgstr ""
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "Options"
-msgstr ""
+msgstr "設定"
 
 #: CRM/Core/Invoke.php
 msgid "CiviMail Settings"
@@ -5204,7 +5301,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Contact Information"
-msgstr ""
+msgstr "連絡先の情報"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/CMSUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -5441,8 +5538,9 @@ msgid "Contact Summary"
 msgstr ""
 
 #: CRM/Core/Menu.php
+#, fuzzy
 msgid "Create New Group"
-msgstr ""
+msgstr "新しいグループの作成"
 
 #: CRM/Core/Menu.php
 msgid "Activity Detail"
@@ -5617,15 +5715,15 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "day"
-msgstr ""
+msgstr "日"
 
 #: CRM/Core/SelectValues.php
 msgid "month"
-msgstr ""
+msgstr "月"
 
 #: CRM/Core/SelectValues.php
 msgid "year"
-msgstr ""
+msgstr "年"
 
 #: CRM/Core/SelectValues.php
 msgid "life time"
@@ -5641,15 +5739,15 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php templates/CRM/Price/Page/Set.tpl
 msgid "Public"
-msgstr ""
+msgstr "公開"
 
 #: CRM/Core/SelectValues.php
 msgid "start date"
-msgstr ""
+msgstr "開始日"
 
 #: CRM/Core/SelectValues.php
 msgid "end date"
-msgstr ""
+msgstr "終了日"
 
 #: CRM/Core/SelectValues.php
 msgid "join date"
@@ -5716,12 +5814,14 @@ msgid "Static"
 msgstr ""
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Header"
-msgstr ""
+msgstr "見出し"
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Footer"
-msgstr ""
+msgstr "フッター"
 
 #: CRM/Core/SelectValues.php
 msgid "Reply Auto-responder"
@@ -5777,7 +5877,7 @@ msgstr ""
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: CRM/Core/SelectValues.php
 msgid "Google"
@@ -5817,7 +5917,7 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Select File"
-msgstr ""
+msgstr "ファイルの選択"
 
 #: CRM/Custom/Form/Field.php
 msgid "Data and Input Field Type"
@@ -5833,15 +5933,15 @@ msgstr ""
 
 #: CRM/Custom/Form/Field.php
 msgid "Month"
-msgstr ""
+msgstr "月"
 
 #: CRM/Custom/Form/Field.php
 msgid "Day"
-msgstr ""
+msgstr "日"
 
 #: CRM/Custom/Form/Field.php
 msgid "Year"
-msgstr ""
+msgstr "年"
 
 #: CRM/Custom/Form/Field.php
 msgid "Included date parts"
@@ -5938,8 +6038,9 @@ msgstr ""
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
 #: templates/CRM/Custom/Page/Option.tpl
+#, fuzzy
 msgid "Default"
-msgstr ""
+msgstr "デフォルト"
 
 #: CRM/Custom/Form/Option.php
 msgid "There is an entry with the same label."
@@ -5982,8 +6083,9 @@ msgid "Are you sure you want to delete this custom data field?"
 msgstr ""
 
 #: CRM/Custom/Page/Field.php
+#, fuzzy
 msgid "Edit Field"
-msgstr ""
+msgstr "フィールドの編集"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Custom Field"
@@ -6015,11 +6117,11 @@ msgstr ""
 
 #: CRM/Custom/Page/Field.php
 msgid "Custom Field"
-msgstr ""
+msgstr "カスタムフィールド"
 
 #: CRM/Custom/Page/Field.php
 msgid "%1 - Custom Fields"
-msgstr ""
+msgstr "%1 - カスタムフィールド"
 
 #: CRM/Custom/Page/Group.php
 msgid ""
@@ -6049,7 +6151,7 @@ msgstr ""
 
 #: CRM/Custom/Page/Group.php
 msgid "-- Any --"
-msgstr ""
+msgstr "--すべて--"
 
 #: CRM/Custom/Page/Option.php
 msgid ""
@@ -6109,16 +6211,19 @@ msgid "Group Settings: %1"
 msgstr ""
 
 #: CRM/Group/Form/Edit.php
+#, fuzzy
 msgid "Name:"
-msgstr ""
+msgstr "名前:"
 
 #: CRM/Group/Form/Edit.php templates/CRM/Contact/Form/Relationship.tpl
+#, fuzzy
 msgid "Description:"
-msgstr ""
+msgstr "説明:"
 
 #: CRM/Group/Form/Edit.php
+#, fuzzy
 msgid "Continue"
-msgstr ""
+msgstr "継続"
 
 #: CRM/Group/Form/Edit.php
 msgid "The Group '%1' has been saved."
@@ -6137,8 +6242,9 @@ msgid "Are you sure you want to disable this Group?"
 msgstr ""
 
 #: CRM/Group/Page/Group.php
+#, fuzzy
 msgid "Members"
-msgstr ""
+msgstr "メンバー"
 
 #: CRM/Group/Page/Group.php
 msgid "Disable Group"
@@ -6221,7 +6327,7 @@ msgstr ""
 
 #: CRM/Import/Form/Preview.php templates/CRM/Admin/Page/Tag.tpl
 msgid "Tag"
-msgstr ""
+msgstr "タグ"
 
 #: CRM/Import/Form/Preview.php
 msgid "Group \"%1\" already exists."
@@ -6264,12 +6370,13 @@ msgid "Record duplicates multiple contacts"
 msgstr ""
 
 #: CRM/Import/Parser.php
+#, fuzzy
 msgid "minutes"
-msgstr ""
+msgstr "分"
 
 #: CRM/Import/Parser.php
 msgid "seconds"
-msgstr ""
+msgstr "秒"
 
 #: CRM/Import/Parser.php
 msgid "%1 of %2 records - %3 remaining"
@@ -6281,7 +6388,7 @@ msgstr ""
 
 #: CRM/Note/Form/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "Subject:"
-msgstr ""
+msgstr "件名:"
 
 #: CRM/Note/Form/Note.php
 msgid "Your Note has been saved."
@@ -6493,11 +6600,11 @@ msgstr ""
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email %1"
-msgstr ""
+msgstr "Eメール %1"
 
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Forward"
-msgstr ""
+msgstr "転送"
 
 #: CRM/Profile/Form.php
 msgid "This feature is not currently available."
@@ -6544,8 +6651,9 @@ msgid "CiviCRM Profile Listings"
 msgstr ""
 
 #: CRM/Project/DAO/Project.php
+#, fuzzy
 msgid "Logo"
-msgstr ""
+msgstr "ロゴ"
 
 #: CRM/Project/DAO/Project.php
 msgid "Project Owner ID"
@@ -6569,11 +6677,12 @@ msgstr ""
 
 #: CRM/Project/DAO/Task.php
 msgid "Due Date"
-msgstr ""
+msgstr "期日"
 
 #: CRM/Project/DAO/Task.php
+#, fuzzy
 msgid "Priority"
-msgstr ""
+msgstr "優先度"
 
 #: CRM/Project/DAO/Task.php
 msgid "Task Class"
@@ -6589,15 +6698,16 @@ msgstr ""
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Target"
-msgstr ""
+msgstr "ターゲット"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Status Details"
-msgstr ""
+msgstr "ステータスの詳細"
 
 #: CRM/Project/DAO/TaskStatus.php
+#, fuzzy
 msgid "Created"
-msgstr ""
+msgstr "作成"
 
 #: CRM/Project/DAO/TaskStatus.php
 msgid "Last Modified"
@@ -6862,7 +6972,7 @@ msgstr ""
 
 #: CRM/Utils/Pager.php
 msgid "Page %1 of %2"
-msgstr ""
+msgstr "ページ %1 / %2"
 
 #: CRM/Utils/Pager.php
 msgid "&lt; Previous"
@@ -6902,7 +7012,7 @@ msgstr ""
 
 #: CRM/Utils/REST.php
 msgid "Unknown error"
-msgstr ""
+msgstr "特定できないエラー"
 
 #: CRM/Utils/REST.php
 msgid "Unknown function called"
@@ -6934,27 +7044,27 @@ msgstr ""
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day-"
-msgstr ""
+msgstr "-日-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-month-"
-msgstr ""
+msgstr "- 月 -"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-year-"
-msgstr ""
+msgstr "-年-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-hour-"
-msgstr ""
+msgstr "-時間-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-min-"
-msgstr ""
+msgstr "-分-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-sec-"
-msgstr ""
+msgstr "-秒-"
 
 #: templates/CRM/ACL/Form/ACL.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "New ACL"
@@ -7022,8 +7132,9 @@ msgstr ""
 #: templates/CRM/Profile/Page/Listings.tpl templates/CRM/UF/Form/Field.tpl
 #: templates/CRM/UF/Form/Group.tpl templates/CRM/UF/Page/Field.tpl
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "status"
-msgstr ""
+msgstr "状態"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -7171,7 +7282,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/Meeting.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule a Meeting"
-msgstr ""
+msgstr "会議のスケジュール"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Edit Scheduled Meeting"
@@ -7197,7 +7308,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/Phonecall.tpl
 #: templates/CRM/Contact/Form/Task/Record.tpl
 msgid "Min"
-msgstr ""
+msgstr "- 分 -"
 
 #: templates/CRM/Activity/Form/Meeting.tpl
 msgid "Meeting will be moved to Activity History when status is 'Completed'."
@@ -7299,7 +7410,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeFind.tpl
 msgid "select"
-msgstr ""
+msgstr "選択"
 
 #: templates/CRM/Admin/Form/DedupeFind.tpl
 msgid "Merge %1 with"
@@ -7307,7 +7418,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/DedupeFind.tpl
 msgid "merge"
-msgstr ""
+msgstr "マージする"
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Matching Rules for %1 Contacts"
@@ -8417,18 +8528,20 @@ msgid "There are no Tags present. You can <a href=\"%1\">add one</a>."
 msgstr ""
 
 #: templates/CRM/Block/Add.tpl
+#, fuzzy
 msgid "First Name:"
-msgstr ""
+msgstr "名:"
 
 #: templates/CRM/Block/Add.tpl
+#, fuzzy
 msgid "Last Name:"
-msgstr ""
+msgstr "姓:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Email:"
-msgstr ""
+msgstr "Eメール:"
 
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
@@ -8436,8 +8549,9 @@ msgid "Go to Advanced Search"
 msgstr ""
 
 #: templates/CRM/common/calendar/desc.tpl
+#, fuzzy
 msgid "Calendar"
-msgstr ""
+msgstr "カレンダー"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
@@ -8463,11 +8577,12 @@ msgstr ""
 msgid ""
 "Your preferred username; punctuation is not allowed except for periods, "
 "hyphens, and underscores."
-msgstr ""
+msgstr "あなたが希望するユーザ名を入力してください。ピリオド、ハイフン、アンダースコア（下線）を除き、句読点は使用できません。"
 
 #: templates/CRM/common/CMSUser.tpl
+#, fuzzy
 msgid "Provide a password for the new account in both fields."
-msgstr ""
+msgstr "新しいアカウントのパスワードを、上の両方のフィールドに入力してください。"
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
@@ -8672,7 +8787,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid "move?"
-msgstr ""
+msgstr "移動?"
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid "Main Contact"
@@ -8688,27 +8803,29 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
-msgstr ""
+msgstr "開始日:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "End Date:"
-msgstr ""
+msgstr "終了日"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Note:"
-msgstr ""
+msgstr "ノート:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Status:"
-msgstr ""
+msgstr "状態:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
+#, fuzzy
 msgid "Enabled"
-msgstr ""
+msgstr "有効"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
+#, fuzzy
 msgid "Disabled"
-msgstr ""
+msgstr "無効"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -8781,8 +8898,9 @@ msgstr ""
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
 #: templates/CRM/Contact/Form/Search.tpl templates/CRM/Profile/Form/Search.tpl
+#, fuzzy
 msgid "Search Criteria"
-msgstr ""
+msgstr "検索基準"
 
 #: templates/CRM/Contact/Form/Search/Advanced.tpl
 msgid "Edit %1 Smart Group Criteria"
@@ -8828,8 +8946,9 @@ msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
+#, fuzzy
 msgid "OR"
-msgstr ""
+msgstr "もしくは"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Location.tpl
 msgid ""
@@ -9027,7 +9146,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Send an Email"
-msgstr ""
+msgstr "Eメールを送信する"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
@@ -9041,7 +9160,7 @@ msgstr[0] ""
 #: templates/CRM/Contact/Form/Task/Email.tpl
 #: templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "Recipient(s)"
-msgstr ""
+msgstr "宛先"
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid "Email will NOT be sent to %count contact."
@@ -9176,7 +9295,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Meeting"
-msgstr ""
+msgstr "会議のスケジュール"
 
 #: templates/CRM/Contact/Page/View/ActivityLinks.tpl
 msgid "Schedule Call"
@@ -9239,7 +9358,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Privacy:"
-msgstr ""
+msgstr "プライバシー:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -9260,7 +9379,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Gender:"
-msgstr ""
+msgstr "ジェンダー:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -9441,8 +9560,9 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Note.tpl
+#, fuzzy
 msgid "(more)"
-msgstr ""
+msgstr "続き..."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "View All Notes..."
@@ -9487,7 +9607,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Overdue"
-msgstr ""
+msgstr "期限切れ"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "No activities are currently scheduled."
@@ -9498,8 +9618,9 @@ msgid "Quick Search"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
+#, fuzzy
 msgid "Menu"
-msgstr ""
+msgstr "メニュー"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
@@ -9519,7 +9640,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "Date Sent"
-msgstr ""
+msgstr "送信日"
 
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
@@ -9540,7 +9661,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Joining these group(s) is pending confirmation by this contact."
@@ -9633,7 +9754,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Date:"
-msgstr ""
+msgstr "日付:"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 msgid "Are you sure you want to delete the note \"%1\"?"
@@ -9726,7 +9847,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Received date"
-msgstr ""
+msgstr "受信日"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Receipt Sent"
@@ -9750,8 +9871,9 @@ msgid "Contributions made in your honor."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
+#, fuzzy
 msgid "Contributor"
-msgstr ""
+msgstr "投稿者"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Amount"
@@ -9779,7 +9901,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribe"
-msgstr ""
+msgstr "購読停止"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Pending Subscriptions"
@@ -9794,8 +9916,9 @@ msgid "Are you sure you want to remove from %1?"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
+#, fuzzy
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Unsubscribed Groups"
@@ -9860,16 +9983,18 @@ msgid "Listing of current and upcoming public events."
 msgstr ""
 
 #: templates/CRM/Core/Calendar/Rss.tpl
+#, fuzzy
 msgid "When"
-msgstr ""
+msgstr "投稿日時"
 
 #: templates/CRM/Core/Calendar/Rss.tpl
 msgid "through"
 msgstr ""
 
 #: templates/CRM/Core/Calendar/Rss.tpl
+#, fuzzy
 msgid "Where"
-msgstr ""
+msgstr "その"
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
 msgid ""
@@ -9883,8 +10008,9 @@ msgstr ""
 #: templates/CRM/Custom/Form/Option.tpl
 #: templates/CRM/Price/Form/DeleteField.tpl
 #: templates/CRM/Price/Form/DeleteSet.tpl templates/CRM/Price/Form/Option.tpl
+#, fuzzy
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "この操作は元に戻すことができませんので、十分に注意して実行してください。"
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
 msgid "WARNING: Are you sure you want to delete the attached file?"
@@ -10022,8 +10148,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Form/Option.tpl templates/CRM/Price/Form/Option.tpl
+#, fuzzy
 msgid "Selection Options"
-msgstr ""
+msgstr "選択オプション"
 
 #: templates/CRM/Custom/Form/Option.tpl
 msgid ""
@@ -10057,14 +10184,15 @@ msgstr ""
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Status?"
-msgstr ""
+msgstr "状態?"
 
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Active"
-msgstr ""
+msgstr "アクティブ"
 
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Custom/Page/Group.tpl
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Field.tpl
@@ -10149,8 +10277,9 @@ msgid "Please correct the following errors in the form fields below:"
 msgstr ""
 
 #: templates/CRM/Form/label.tpl
+#, fuzzy
 msgid "This field is required."
-msgstr ""
+msgstr "このフィールドの入力は必須です。"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
@@ -10235,8 +10364,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No available Groups match your search criteria. Suggestions:"
@@ -10596,7 +10726,7 @@ msgstr ""
 
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "(test)"
-msgstr ""
+msgstr "(テスト)"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
@@ -10885,8 +11015,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Price/Page/Set.tpl
+#, fuzzy
 msgid "Date(s)"
-msgstr ""
+msgstr "日付"
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid "Set Title"
@@ -10914,8 +11045,9 @@ msgid "Please enter up to 5 email addresses to receive the mailing."
 msgstr ""
 
 #: templates/CRM/Profile/Form/Search.tpl
+#, fuzzy
 msgid "New Search"
-msgstr ""
+msgstr "新規検索"
 
 #: templates/CRM/Profile/Form/Search.tpl
 msgid ""
@@ -11204,8 +11336,9 @@ msgid "CiviCRM Field Name"
 msgstr ""
 
 #: templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid "Required"
-msgstr ""
+msgstr "必須"
 
 #: templates/CRM/UF/Page/Field.tpl
 msgid "View Only"
@@ -11255,16 +11388,18 @@ msgid ""
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Place of residence"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Work"
-msgstr ""
+msgstr "仕事"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
@@ -11276,7 +11411,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "本部事務局の住所"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Other location"
@@ -11284,7 +11419,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Billing Address location"
-msgstr ""
+msgstr "支払い時の住所"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
@@ -11364,7 +11499,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"
-msgstr ""
+msgstr "非営利"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
@@ -11372,15 +11507,15 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
-msgstr ""
+msgstr "会社"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "For-profit organization."
-msgstr ""
+msgstr "営利団体"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
-msgstr ""
+msgstr "政府団体"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any governmental entity."
@@ -11396,11 +11531,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer"
-msgstr ""
+msgstr "ボランティア"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
-msgstr ""
+msgstr "アクティブボランティア"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Header"
@@ -11502,11 +11637,11 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
-msgstr ""
+msgstr "支払い方法"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Type"
-msgstr ""
+msgstr "イベントの種類"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Addressing Options"
@@ -11518,47 +11653,48 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Schedule a meeting"
-msgstr ""
+msgstr "会議のスケジュール"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
-msgstr ""
+msgstr "女性"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Male"
-msgstr ""
+msgstr "男性"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Transgender"
-msgstr ""
+msgstr "トランスジェンダー"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mrs"
-msgstr ""
+msgstr "Mrs"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ms"
-msgstr ""
+msgstr "Ms"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mr"
-msgstr ""
+msgstr "Mr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Jr"
-msgstr ""
+msgstr "Jr"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sr"
-msgstr ""
+msgstr "Sr"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Administrator"
-msgstr ""
+msgstr "管理者"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Authenticated"
@@ -11566,19 +11702,19 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
-msgstr ""
+msgstr "クレジットカード"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Debit Card"
-msgstr ""
+msgstr "デビットカード"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
-msgstr ""
+msgstr "現金"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Check"
-msgstr ""
+msgstr "チェック"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
@@ -11594,7 +11730,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Progress"
-msgstr ""
+msgstr "作業中"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Registered"
@@ -11610,39 +11746,42 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Attendee"
-msgstr ""
+msgstr "参加者"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Host"
-msgstr ""
+msgstr "ホスト"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Speaker"
-msgstr ""
+msgstr "講演者"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Conference"
-msgstr ""
+msgstr "会議"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "展示"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Performance"
-msgstr ""
+msgstr "パフォーマンス"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Workshop"
-msgstr ""
+msgstr "ワークショップ"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "New"
-msgstr ""
+msgstr "新規"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Current"
@@ -11669,8 +11808,9 @@ msgid "Merchant ID"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Key"
-msgstr ""
+msgstr "キー"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Store ID"
