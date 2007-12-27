@@ -52,7 +52,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
     function preProcess( )
     {
         parent::preProcess( );
-        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );        
+        $eventType = CRM_Utils_Request::retrieve( 'etype', 'Positive', $this );   
         
         if ( ! $eventType ) {
             if ( $this->_id ) {
@@ -60,7 +60,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
                                                           $this->_id,
                                                           'event_type_id' );
             } else {
-                $eventType = 'Event';
+                $eventType = 'null';
             }
         }     
         $showLocation = false;
