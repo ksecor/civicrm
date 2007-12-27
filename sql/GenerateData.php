@@ -1174,7 +1174,7 @@ class CRM_GCD {
                 $activityDAO->subject = "subject for $activity[$activityTypeID]";
                 $activityDAO->activity_date_time = $this->_getRandomDate();
                 $activityDAO->duration = mt_rand(1,6);
-                $activityDAO->status_id = mt_rand(1,3);
+                $activityDAO->status_id = 2;
                 $this->_insert($activityDAO);
                 
                 if ($activityTypeID < 4 ) { 

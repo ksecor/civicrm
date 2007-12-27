@@ -1352,7 +1352,7 @@ SELECT c.contribution_page_id as pageID
                                  'subject'            => $subject,
                                  'activity_date_time' => $membership->start_date,
                                  'is_test'            => $membership->is_test,
-                                 'status_id'          => 1
+                                 'status_id'          => 2
                                );
         
         require_once 'api/v2/Activity.php';

@@ -921,7 +921,7 @@ SELECT count(*) as count,
                                  'subject'               => $subject,
                                  'activity_date_time'    => CRM_Utils_Date::isoToMysql($contribution->receive_date),
                                  'is_test'               => $contribution->is_test,
-                                 'status_id'             => 1
+                                 'status_id'             => 2
                                  );
         
         require_once 'api/v2/Activity.php';

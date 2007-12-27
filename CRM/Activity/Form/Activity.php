@@ -174,6 +174,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
             if ( $this->_context != 'standalone' )  {
                 $this->assign( 'target_contact_value', $defaults['target_contact'] );
+                $this->assign( 'source_contact_value', $defaults['source_contact'] );
             }
 
         } else {
@@ -278,6 +279,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         $this->assign('admin', $admin);
         
         require_once "CRM/Contact/BAO/Contact.php";
+
         $defaultSourceContactName = CRM_Contact_BAO_Contact::sortName( $this->_sourceContactId );
         $sourceContactField = $this->add( 'text','source_contact', ts('Added By'), $attributes, $admin );
         if ( $sourceContactField->getValue( ) ) {

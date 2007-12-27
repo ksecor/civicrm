@@ -474,7 +474,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
 
         if ( empty( $order ) ) {
-            $order = " ORDER BY activity_date_time asc ";
+            $order = " ORDER BY status_id asc, activity_date_time asc ";
         }
 
         if ( $rowCount > 0 ) {
@@ -703,7 +703,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                           'activity_type_id'     => $activityTypeID,
                           'activity_date_time'   => date('YmdHis'),
                           'subject'              => $subject,
-                          'details'              => $message
+                          'details'              => $message,
+                          'status_id'            => 2
                           );
         
         require_once 'api/v2/Activity.php';

@@ -277,6 +277,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             return $rows;
         }
 
+        $activityStatus = CRM_Core_PseudoConstant::activityStatus( );
+        
         foreach ($rows as $k => $row) {
             $row =& $rows[$k];
 
@@ -299,6 +301,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 $row['overdue'] = 0;
                 $row['class']   = 'status-ontime';
             }
+            
+            $row['status'] = $activityStatus[$row['status_id']];
 
             $actionLinks = $this->actionLinks( $row['activity_type_id'], $row['source_record_id'] );
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
@@ -366,6 +370,11 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                                           array(
                                                 'name'      => ts('Date'),
                                                 'sort'      => 'activity_date_time',
+                                                'direction' => CRM_Utils_Sort::DONTCARE,
+                                                ),
+                                          array(
+                                                'name'      => ts('Status'),
+                                                'sort'      => 'status_id',
                                                 'direction' => CRM_Utils_Sort::ASCENDING,
                                                 ),
                                           array('desc' => ts('Actions')),

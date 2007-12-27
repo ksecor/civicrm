@@ -179,7 +179,7 @@ LEFT JOIN civicrm_custom_field ON (civicrm_custom_field.custom_group_id = civicr
         } else {
             $in = "'$entityType'";
         }
-        
+
         $domainID = CRM_Core_Config::domainID( );
         if ( $subType ) {
             $strWhere = "
@@ -187,7 +187,7 @@ WHERE civicrm_custom_group.domain_id = $domainID
   AND civicrm_custom_group.is_active = 1 
   AND civicrm_custom_field.is_active = 1 
   AND civicrm_custom_group.extends IN ($in)
-  AND ( civicrm_custom_group.extends_entity_column_value = '$subType' 
+  AND ( civicrm_custom_group.extends_entity_column_value = {$subType}
    OR   civicrm_custom_group.extends_entity_column_value IS NULL )
 ";
         } else {
@@ -283,16 +283,19 @@ ORDER BY civicrm_custom_group.weight,
               
         // add info to groupTree
         if ( ! empty( $customValueTables ) ) {
+            $groupTree['info'] = array( 'tables' => $customValueTables );
+            
             if ( $entityID ) {
                 $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
-                            }
-            $groupTree['info'] = array( 'tables' => $customValueTables );
-            if( is_array( $blockTables ) ) {
-                foreach ( $blockTables as $keyTable ) {
-                    // commented temporarily 
-                    //   unset($groupTree['info']['tables'][$keyTable] );
+                
+                if ( is_array( $blockTables ) ) {
+                    foreach ( $blockTables as $keyTable ) {
+                        // commented temporarily 
+                        //unset($groupTree['info']['tables'][$keyTable] );
+                    }
                 }
             }
+            
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
@@ -381,7 +384,7 @@ SELECT $select
                 }
             }
         }
-        
+
         $uploadNames = array();
         foreach ($groupTree as $key1 => $group) { 
             if ( $key1 == 'info' ) {
