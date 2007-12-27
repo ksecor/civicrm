@@ -233,9 +233,9 @@ class CRM_Contact_Form_Search_Criteria {
      */
     static function custom( &$form ) {
         $form->add( 'hidden', 'hidden_custom', 1 ); 
-
+        $extends      = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
-                                                                  array( 'Contact', 'Individual', 'Household', 'Organization' ) );
+                                                                  $extends );
 
         $form->assign('groupTree', $groupDetails);
 

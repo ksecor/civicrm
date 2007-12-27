@@ -443,7 +443,8 @@ class CRM_Event_BAO_Query
 
         // add all the custom  searchable fields
         require_once 'CRM/Core/BAO/CustomGroup.php';
-        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, array( 'Participant' ) );
+        $extends      = array( 'Participant' );
+        $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true, $extends );
         if ( $groupDetails ) {
             require_once 'CRM/Core/BAO/CustomField.php';
             $form->assign('participantGroupTree', $groupDetails);

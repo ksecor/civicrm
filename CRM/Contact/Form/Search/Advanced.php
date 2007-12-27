@@ -75,8 +75,9 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
 
         //check if there are any custom data searable fields
         $groupDetails = array( );
+        $extends      = array( 'Contact', 'Individual', 'Household', 'Organization' );
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail( null, true,
-                                                                  array( 'Contact', 'Individual', 'Household', 'Organization' ) );
+                                                                  $extends );
         // if no searable fields unset panel
         if ( empty( $groupDetails) ) {
             unset( $paneNames[ts('Custom Fields')] );
