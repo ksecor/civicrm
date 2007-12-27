@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.8\n"
 "POT-Creation-Date: 2007-08-31 13:16+0200\n"
-"PO-Revision-Date: 2007-10-17 17:17-0700\n"
+"PO-Revision-Date: 2007-12-18 07:45-0800\n"
 "Last-Translator: Ilidio Nunes <inunes@tremazul.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11685,7 +11685,7 @@ msgstr "Não foi possível resolver o domínio do recipiente"
 # destintation? tem a ver com tinta ? um T a mais, não? :P
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
-msgstr "Não foi possível entregar ao server de correio destinatário"
+msgstr "Não foi possível entregar ao servidor de correio destinatário"
 
 #: xml/templates/civicrm_data.tpl
 msgid "User account is no longer active"
