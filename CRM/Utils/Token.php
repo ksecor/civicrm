@@ -279,9 +279,9 @@ class CRM_Utils_Token
                 if ( $cv === null ) {
                     $cv =& CRM_Core_BAO_CustomValue::getContactValues($org['contact_id']);
                 }
-                foreach ($cv as $customValue) {
-                    if ($customValue['custom_field_id'] == $cfID) {
-                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $customValue['value']);
+                foreach ($cv as $cvFieldID => $value ) {
+                    if ($cvFieldID == $cfID) {
+                        $value = CRM_Core_BAO_CustomOption::getOptionLabel($cfID, $value );
                         break;
                     }
                 }

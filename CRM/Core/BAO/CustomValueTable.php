@@ -241,7 +241,7 @@ class CRM_Core_BAO_CustomValueTable
         }
     }
 
-    public static function getEntityValues( $entityID, $entityType = null ) {
+    public static function &getEntityValues( $entityID, $entityType = null ) {
         if ( ! $entityID ) {
             // adding this year since an empty contact id could have serious repurcussions
             // like looping forever
@@ -272,15 +272,16 @@ AND    cg.extends IN ( $entityType )
         $select = array( );
         $where  = array( );
         $tables = array( );
+        $seen   = array( );
         $fields = array( );
         while ( $dao->fetch( ) ) {
-            if ( ! array_key_exists( $dao->groupID, $select ) ) {
-                $select[$dao->groupID] = array( );
-                $where[]               = "{$dao->table_name}.id = $entityID";
+            if ( ! array_key_exists( $dao->groupID, $seen ) ) {
+                $where[]               = "{$dao->table_name}.entity_id = $entityID";
                 $tables[]              = $dao->table_name;
+                $seen[$dao->groupID]   = 1;
             }
-            $fields[]                = "custom_{$dao->fieldID}";
-            $select[$dao->groupID][] = "{$dao->table_name}.{$dao->column_name} as custom_{$dao->fieldID}";
+            $fields[]                = $dao->fieldID;
+            $select[] = "{$dao->table_name}.{$dao->column_name} as custom_{$dao->fieldID}";
         }
 
         $result = array( );
@@ -296,8 +297,9 @@ WHERE  $where
             $dao = CRM_Core_DAO::executeQuery( $query,
                                                CRM_Core_DAO::$_nullArray );
             if ( $dao->fetch( ) ) {
-                foreach ( $fields as $field ) {
-                    $result[$field] = $dao->$field;
+                foreach ( $fields as $fieldID ) {
+                    $fieldName = "custom_{$fieldID}";
+                    $result[$fieldID] = $dao->$fieldName;
                 }
             }
         }
