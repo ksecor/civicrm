@@ -167,7 +167,47 @@ WHERE e.id = %1";
 
         return $locBlock->save( );
     }
-
+     /**
+     *  This function deletes the Location Block
+     *
+     * @param  int  $locBlockId    id of the Location Block
+     *
+     * @return void
+     * @access public
+     * @static
+     */
+    
+    public static function deleteLocBlock( $locBlockId )
+    {
+        require_once 'CRM/Core/DAO/LocBlock.php';
+        $locBlock     = new CRM_Core_DAO_LocBlock( );
+        $locBlock->id = $locBlockId;
+        
+        $locBlock->find( true );
+         
+        $store = array( $locBlock->address_id   => 'Address',
+                        $locBlock->address_2_id => 'Address', 
+                        $locBlock->phone_id     => 'Phone',
+                        $locBlock->phone_2_id   => 'Phone',
+                        $locBlock->im_id        => 'IM',
+                        $locBlock->im_2_id      => 'IM',
+                        $locBlock->email_id     => 'Email',
+                        $locBlock->email_2_id   => 'Email' );
+        
+        $locBlock->delete( );
+        
+        foreach ( $store as $id => $daoName ) {
+            if ( $id ) {
+                eval( '$dao = new CRM_Core_DAO_' . $daoName . '( );' );
+                $dao->id = $id;
+                $dao->find( true );
+                $dao->delete( );
+                $dao->free( );
+            }
+        }
+        
+    }
+    
     /**
      * Check if there is data to create the object
      *

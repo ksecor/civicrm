@@ -240,11 +240,15 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
         
-        $event->find();
-        while ($event->fetch() ) {
-            return $event->delete();
-        }
-        return false;
+        $event->find( true );
+        $locBlockId = $event->loc_block_id;
+        
+        $result = $event->delete( );
+        
+        require_once 'CRM/Core/BAO/Location.php';
+        CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+        
+        return $result;
     }
     
     /**
