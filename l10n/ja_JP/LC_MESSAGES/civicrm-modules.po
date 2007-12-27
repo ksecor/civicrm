@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-11-28 05:04+0900\n"
+"PO-Revision-Date: 2007-11-28 22:15-0800\n"
 "Last-Translator: Shinji Ricard Yamane <s-yamane@computer.org>\n"
 "Language-Team: CiviCRM Translators group <civicrm-"
 "translators@lists.civicrm.org>\n"
@@ -14,6 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/Form/Offline.php
@@ -111,7 +112,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 msgid "Receipt Date"
-msgstr ""
+msgstr "受領日"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -224,7 +225,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 #: templates/CRM/Contribute/Page/ContributionHonor.tpl
 msgid "Received"
-msgstr ""
+msgstr "受信済み"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -378,7 +379,7 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr ""
+msgstr "完了"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
@@ -386,12 +387,12 @@ msgstr ""
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Canceled"
-msgstr ""
+msgstr "キャンセル済み"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr ""
+msgstr "不明"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 #, fuzzy
@@ -418,7 +419,7 @@ msgstr ""
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
 #: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Subscribe"
-msgstr ""
+msgstr "購読"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
@@ -787,7 +788,7 @@ msgstr ""
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Image"
-msgstr ""
+msgstr "画像"
 
 #: CRM/Contribute/DAO/Product.php
 #, fuzzy
@@ -892,7 +893,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Every"
-msgstr ""
+msgstr "毎"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
@@ -912,7 +913,7 @@ msgstr "週"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "month(s)"
-msgstr ""
+msgstr "月"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "year(s)"
@@ -1164,7 +1165,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
 msgid " First Name"
-msgstr "名"
+msgstr " 名"
 
 #: CRM/Contribute/Form/Contribution.php
 msgid "Honor First Name and Last Name OR an email should be set."
@@ -1562,7 +1563,7 @@ msgstr ""
 
 #: CRM/Event/DAO/Event.php
 msgid "Event Description"
-msgstr ""
+msgstr "イベントの詳細"
 
 #: CRM/Event/DAO/Event.php
 msgid "Event Type ID"
@@ -1596,7 +1597,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Event Information"
-msgstr ""
+msgstr "イベントの情報"
 
 #: CRM/Event/DAO/Event.php
 msgid "show location"
@@ -1724,9 +1725,8 @@ msgid "Introductory Text"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Title "
-msgstr "タイトル"
+msgstr "タイトル "
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Send Confirmation Email?"
@@ -2106,7 +2106,7 @@ msgstr ""
 
 #: CRM/Mailing/DAO/Spool.php
 msgid "Headers"
-msgstr ""
+msgstr "ヘッダ"
 
 #: CRM/Mailing/DAO/Spool.php
 #, fuzzy
@@ -2122,7 +2122,6 @@ msgid "Removed At"
 msgstr ""
 
 #: CRM/Mailing/DAO/TrackableURL.php
-#, fuzzy
 msgid "Url"
 msgstr "URL"
 
@@ -2157,7 +2156,7 @@ msgstr ""
 
 #: CRM/Mailing/Form/Group.php
 msgid "Copy of %1"
-msgstr ""
+msgstr "%1 のコピー"
 
 #: CRM/Mailing/Form/Group.php
 msgid "Name Your Mailing"
@@ -2437,7 +2436,7 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
 msgid "Completed Date"
-msgstr ""
+msgstr "完了日"
 
 #: CRM/Mailing/Selector/Browse.php
 #, fuzzy
@@ -2579,7 +2578,7 @@ msgstr ""
 
 #: CRM/Member/BAO/Query.php
 msgid "Source %2 %1"
-msgstr ""
+msgstr "情報ソース %2 %1"
 
 #: CRM/Member/BAO/Query.php
 msgid "Membership Status %1"
@@ -2989,7 +2988,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 msgid "Total"
-msgstr ""
+msgstr "合計"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid "I want to contribute this amount every %1 %2(s) for %3 installments."
@@ -3037,7 +3036,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Expires"
-msgstr ""
+msgstr "有効期限"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 msgid ""
@@ -3057,7 +3056,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "every"
-msgstr ""
+msgstr "毎"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 msgid "for"
@@ -3797,7 +3796,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid " (test) "
-msgstr ""
+msgstr " (テスト) "
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "pending"
@@ -3925,7 +3924,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Received Date"
-msgstr ""
+msgstr "受信日"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
@@ -3934,7 +3933,7 @@ msgstr "追加インフォメーション"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Sent"
-msgstr ""
+msgstr "送信済み"
 
 #: templates/CRM/Contribute/Form/Offline.tpl
 msgid ""
@@ -4740,8 +4739,9 @@ msgstr ""
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
+#, fuzzy
 msgid "Item"
-msgstr ""
+msgstr "項目"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 msgid "Event Level"
@@ -5136,21 +5136,21 @@ msgid "iCalendar Feed"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "RSS 2.0 Feed"
 msgstr "RSS フィード"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Public?"
-msgstr ""
+msgstr "公開?"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Starts"
 msgstr "開始"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
+#, fuzzy
 msgid "Ends"
-msgstr ""
+msgstr "終了"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "ID:"
@@ -5340,7 +5340,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid "Header / Footer"
-msgstr ""
+msgstr "ヘッダ/フッタ"
 
 #: templates/CRM/Mailing/Form/Upload.tpl
 msgid ""
@@ -5769,7 +5769,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "None"
-msgstr "無し "
+msgstr "無し"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
