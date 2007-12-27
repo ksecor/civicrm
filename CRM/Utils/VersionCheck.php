@@ -99,7 +99,9 @@ class CRM_Utils_VersionCheck
                 // the users would be presented with an unsuppressable warning
                 ini_set('default_socket_timeout', self::CHECK_TIMEOUT);
                 set_error_handler(array('CRM_Utils_VersionCheck', 'downloadError'));
-                $this->latestVersion = file_get_contents(self::LATEST_VERSION_AT);
+                $hash = md5($config->userFrameworkBaseURL);
+                $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&hash=$hash";
+                $this->latestVersion = file_get_contents($url);
                 ini_restore('default_socket_timeout');
                 restore_error_handler();
 
