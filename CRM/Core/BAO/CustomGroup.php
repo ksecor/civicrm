@@ -286,12 +286,12 @@ ORDER BY civicrm_custom_group.weight,
             $groupTree['info'] = array( 'tables' => $customValueTables );
             
             if ( $entityID ) {
+                // fix for CRM-2518
                 $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
                 
                 if ( is_array( $blockTables ) ) {
                     foreach ( $blockTables as $keyTable ) {
-                        // commented temporarily 
-                        //unset($groupTree['info']['tables'][$keyTable] );
+                        unset($groupTree['info']['tables'][$keyTable] );
                     }
                 }
             }
