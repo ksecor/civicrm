@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2007-10-24 06:32-0700\n"
-"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
+"PO-Revision-Date: 2007-12-18 16:57-0800\n"
+"Last-Translator: Gab <adq@yamba.ca>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
@@ -306,7 +306,7 @@ msgstr "A laissé un message"
 
 #: CRM/Activity/DAO/Phonecall.php CRM/Core/SelectValues.php
 msgid "Unreachable"
-msgstr "Injoignable"
+msgstr "N'a pu être contacté"
 
 #: CRM/Activity/Form/Meeting.php CRM/Activity/Form/OtherActivity.php
 #: CRM/Activity/Form/Phonecall.php CRM/Contact/Form/Task/Record.php
@@ -485,7 +485,7 @@ msgstr "Valeur"
 #: CRM/Admin/Form/OptionValue.php CRM/Core/DAO/OptionValue.php
 #, fuzzy
 msgid "Option Grouping Name"
-msgstr "Options par ligne"
+msgstr "Nom du groupe d'options"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
@@ -598,7 +598,7 @@ msgstr "Configurer"
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Option Lists"
-msgstr "Actions"
+msgstr "Listes d'options"
 
 #: CRM/Admin/Page/DedupeRules.php CRM/Admin/Page/DupeMatch.php
 msgid "Edit Rule"
@@ -703,7 +703,7 @@ msgstr "Étiquette(s)"
 
 #: CRM/Contact/BAO/Export.php CRM/Contact/Selector.php
 msgid "CiviCRM Contact Search"
-msgstr "Recherche de contact CiviCRM"
+msgstr "Recherche de contacts CiviCRM"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -779,7 +779,7 @@ msgstr ""
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Group Type"
-msgstr "Titre du groupe"
+msgstr "Type du groupe"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -908,7 +908,7 @@ msgstr "Pays"
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 #, fuzzy
 msgid "Delete Location"
-msgstr "Lieu"
+msgstr "Supprimer le lieu"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -917,7 +917,7 @@ msgstr "Administrer CiviCRM"
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
 #, fuzzy
 msgid "Email Domain"
-msgstr "Courriel:"
+msgstr "Modifier le domaine"
 
 #: CRM/Contact/Form/Edit.php CRM/Core/Invoke.php
 msgid "New %1"
@@ -930,7 +930,7 @@ msgstr "Confidentialité"
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Profile/Form/ForwardMailing.php
 msgid "Email is not valid."
-msgstr "Adresse électronique invalide."
+msgstr "Adresse électronique non valide."
 
 #: CRM/Contact/Form/Email.php CRM/Core/DAO/Email.php
 msgid "On Hold"
@@ -9223,12 +9223,14 @@ msgstr "section fermée"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "The name of the organization or entity which owns this CiviCRM domain."
-msgstr ""
+msgstr "Le nom de l'organisme ou de l'entité qui gère ce domaine CiviCRM."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
 "Optional description of this domain (useful for sites with multiple domains)."
 msgstr ""
+"Description optionnelle de ce domaine (pratique pour les sites ayant de "
+"nombreux domaines)."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "System-generated Mail Settings"
@@ -9247,7 +9249,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "Edit Domain Information"
-msgstr "Modifier les informations du domaines"
+msgstr "Modifier les informations du domaine"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"

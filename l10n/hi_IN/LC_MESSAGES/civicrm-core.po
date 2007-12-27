@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2007-09-21 05:08-0700\n"
-"Last-Translator: Mohd Nizam <786.nizam@gmail.com>\n"
+"PO-Revision-Date: 2007-12-06 20:15-0800\n"
+"Last-Translator: kurund jalmi <kurund.jalmi@webaccess.co.in>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 1.0.1\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -886,12 +886,12 @@ msgstr ""
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
 msgid "County"
-msgstr "देश"
+msgstr ""
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/StateCountry.php
 #: CRM/Contact/Form/Test.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 msgid "State / Province"
-msgstr ""
+msgstr "राज्य"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Simple.php CRM/Contact/Form/StateCountry.php
@@ -900,7 +900,7 @@ msgstr ""
 #: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Country"
-msgstr ""
+msgstr "देश"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
@@ -961,7 +961,7 @@ msgstr[1] ""
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
 msgid "Gender"
-msgstr ""
+msgstr "लिंग"
 
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -1056,7 +1056,7 @@ msgstr ""
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Relationships"
-msgstr ""
+msgstr "संबंध"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
@@ -1081,7 +1081,7 @@ msgstr ""
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr ""
+msgstr "कार्यक्रम"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
@@ -1089,23 +1089,23 @@ msgstr "पाठ"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Search.php
 msgid "Find..."
-msgstr ""
+msgstr "खोजें"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomField.php
 msgid "State/Province"
-msgstr ""
+msgstr "राज्य"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Address.php
 #: CRM/Core/Payment/Form.php
 msgid "Postal Code"
-msgstr ""
+msgstr "पिन कोड"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/EmailCommon.php
 #: CRM/Core/BAO/CustomField.php CRM/SMS/Form/Task/SMS.php
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "To"
-msgstr ""
+msgstr "प्रति"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
@@ -1217,7 +1217,7 @@ msgstr ""
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
-msgstr ""
+msgstr "CiviCRM होम"
 
 #: CRM/Contact/Page/View/Email.php CRM/Core/BAO/EmailHistory.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -1421,7 +1421,7 @@ msgstr ""
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/SelectValues.php
 msgid "CiviContribute"
@@ -1567,7 +1567,7 @@ msgstr ""
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 msgid "Mobile"
-msgstr ""
+msgstr "सेल फ़ोन"
 
 #: CRM/Core/DAO/Phone.php CRM/Core/SelectValues.php
 #: xml/templates/civicrm_add_domain.tpl

@@ -6,8 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2005-10-13 17:52+0200\n"
-"PO-Revision-Date: 2007-11-25 13:24-0800\n"
+"PO-Revision-Date: 2007-11-28 22:17-0800\n"
 "Last-Translator: Shinji Ricard Yamane <s-yamane@computer.org>\n"
+"Language-Team: CiviCRM Translators group <civicrm-"
+"translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +21,7 @@ msgstr "カレンダーについて"
 
 #: js/lang/calendar-lang.php
 msgid "For latest version visit: %1"
-msgstr ""
+msgstr "最新バージョン: %1"
 
 #: js/lang/calendar-lang.php
 msgid "Distributed under GNU LGPL. See %1 for details."
@@ -47,15 +49,15 @@ msgstr "時間の選択:"
 
 #: js/lang/calendar-lang.php
 msgid "- click on any of the time parts to increase it"
-msgstr ""
+msgstr "- 時間をクリックすると値が増えます"
 
 #: js/lang/calendar-lang.php
 msgid "- or Shift-click to decrease it"
-msgstr ""
+msgstr "- Shift-クリックで値は減ります"
 
 #: js/lang/calendar-lang.php
 msgid "- or click and drag for faster selection."
-msgstr ""
+msgstr "- クリックしてドラッグすると素早く変更できます"
 
 #: js/lang/calendar-lang.php
 msgid "hold for menu"
@@ -63,35 +65,35 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Prev. year"
-msgstr ""
+msgstr "前の年"
 
 #: js/lang/calendar-lang.php
 msgid "Prev. month"
-msgstr ""
+msgstr "先月"
 
 #: js/lang/calendar-lang.php
 msgid "Go Today"
-msgstr ""
+msgstr "今日"
 
 #: js/lang/calendar-lang.php
 msgid "Next month"
-msgstr ""
+msgstr "翌年"
 
 #: js/lang/calendar-lang.php
 msgid "Next year"
-msgstr ""
+msgstr "翌年"
 
 #: js/lang/calendar-lang.php
 msgid "Select date"
-msgstr ""
+msgstr "日付を選択"
 
 #: js/lang/calendar-lang.php
 msgid "Drag to move"
-msgstr ""
+msgstr "ドラッグで移動"
 
 #: js/lang/calendar-lang.php
 msgid "today"
-msgstr ""
+msgstr "今日"
 
 #: js/lang/calendar-lang.php
 msgid "Display %s first"
@@ -99,15 +101,15 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Close"
-msgstr ""
+msgstr "終了"
 
 #: js/lang/calendar-lang.php
 msgid "Today"
-msgstr ""
+msgstr "今日"
 
 #: js/lang/calendar-lang.php
 msgid "(Shift-)Click or drag to change value"
-msgstr ""
+msgstr "(Shift-)クリックまたはドラッグで変更できます"
 
 #: js/lang/calendar-lang.php
 msgid "wk"
@@ -115,4 +117,4 @@ msgstr ""
 
 #: js/lang/calendar-lang.php
 msgid "Time:"
-msgstr ""
+msgstr "時間:"

@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2005-12-29 13:48+0100\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2007-12-01 06:38-0800\n"
+"Last-Translator: Shinji Ricard Yamane <s-yamane@computer.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "add contacts"
 msgstr ""
@@ -25,22 +26,23 @@ msgid "import contacts"
 msgstr ""
 
 msgid "edit groups"
-msgstr ""
+msgstr "グループの編集"
 
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "CiviCRMの管理"
 
 msgid "access uploaded files"
-msgstr ""
+msgstr "アップロードされたファイル"
 
+#, fuzzy
 msgid "profile listings and forms"
-msgstr ""
+msgstr "リストやフォームの設定"
 
 msgid "access all custom data"
-msgstr ""
+msgstr "すべてのカスタムデータ"
 
 msgid "access CiviCRM"
-msgstr ""
+msgstr "CiviCRMにアクセスする"
 
 msgid "access Contact Dashboard"
 msgstr ""
@@ -78,23 +80,26 @@ msgstr ""
 
 #: drupal/civicrm.module
 msgid "You can:"
-msgstr ""
+msgstr "以下の作業が可能です:"
 
 #: drupal/civicrm.module
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
-msgstr ""
+msgstr "<a href=\"!1\">CiviCRM管理者ガイド</a>を読む"
 
 #: drupal/civicrm.module
 msgid ""
 "enable CiviCRM blocks at <a href=\"!1\">Administer &raquo; Site Building "
 "&raquo; Blocks</a>."
 msgstr ""
+"<a href=\"!1\">Administer &raquo; サイト構築 &raquo; ブロック</a>でCiviCRMブロックを有効にする"
 
 #: drupal/civicrm.module
 msgid ""
 "read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM access permissions</a>を読んで<a href=\"!2\">Administer "
+"CiviCRM &raquo; Access Control</a>のアクセス権限を設定する"
 
 #: drupal/civicrm.module
 msgid ""
@@ -122,6 +127,8 @@ msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM &raquo; 管理 &raquo; タグ</a>でタグ(organizer, foundation, "
+"environmentなど)の設定と管理"
 
 #: drupal/civicrm.module
 msgid ""
@@ -129,12 +136,16 @@ msgid ""
 "member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; "
 "Relationship Types</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM &raquo; Administer &raquo; Relationship "
+"Types</a>で関与者のタイプ(household member, board member, spouseなど)を設定・管理"
 
 #: drupal/civicrm.module
 msgid ""
 "create or administer location types (e.g. home, work, school...) <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
+" <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Location Types</a> で場所タイプ "
+"(home, work, schoolなど)を設定・管理"
 
 #: drupal/civicrm.module
 msgid ""
@@ -142,6 +153,8 @@ msgid ""
 "interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
 "Types</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity Types</a> "
+"で活動タイプ(house meeting, intake interviewなど)を設定・管理"
 
 #: drupal/civicrm.module
 msgid ""
@@ -149,6 +162,8 @@ msgid ""
 "contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom "
 "Data</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom Data</a> "
+"でカスタムデータフィールド(volunteer skills, emergency contact infoなど) を設定・管理"
 
 #: drupal/civicrm.module
 msgid ""
@@ -156,13 +171,16 @@ msgid ""
 "during user registration and included in My Account) at <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
+"<a href=\"!1\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a> "
+"でCiviCRMプロファイル(i.e. what contact data is collected during user registration "
+"and included in My Account)を設定・管理"
 
 #: drupal/civicrm.module
 msgid ""
 "For more information please refer to the <a href=\"!1\">CiviCRM web-site</a> "
 "which includes project information, documentation and support resources and "
 "more."
-msgstr ""
+msgstr "さらに詳しい情報は、<a href=\"!1\">CiviCRM ウェブサイト</a>にてプロジェクト紹介、文書、サポート情報などを入手できます。"
 
 #: drupal/civicrm.module
 msgid ""
@@ -172,6 +190,9 @@ msgid ""
 "the <a href=\"!2\">CiviCRM web-site</a> which includes project information, "
 "documentation and support resources and more."
 msgstr ""
+"Constituent Relationship Management (CiviCRM !1). "
+"人材やグループの管理を支援するともに、活動、貢献、メンバーシップ、イベントの継続を支援します。さらに詳しい情報は、<a "
+"href=\"!2\">CiviCRM ウェブサイト</a>にてプロジェクト紹介、文書、サポート情報などを入手できます。"
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
