@@ -758,48 +758,58 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $value = $customField->default_value;
             }
         } else {
-            // make sure the custom value exists
-            $cv =& new CRM_Core_BAO_CustomValue();
-            $cv->custom_field_id = $customFieldId;
-            $cv->entity_table    = 'civicrm_contact';
-            $cv->entity_id       = $contactId;
+            $info   = self::getTableColumnName( $customFieldId );
             
-            if ( $cv->find( true ) ) {
-                switch ($customField->data_type) {
-                case 'File':
-                case 'String':
-                    $value = $cv->char_data;
-                    break;
-                case 'Int':
-                case 'Boolean':
-                case 'StateProvince':
-                case 'Country':
-                    $value = $cv->int_data;
-                    break;
-                case 'Float':
-                    $value = $cv->float_data;
-                    break;
-                case 'Money':
-                    $co =& new CRM_Core_BAO_CustomOption();
-                    $co->entity_table = 'civicrm_custom_field';
-                    $co->entity_id = $customFieldId;
-                    $co->find();
-                    while ($co->fetch()) {
-                        if (round($co->value,2) == $cv->decimal_data) {
-                            $value = $co->value;
-                        }
-                    }
-                    break;
-                case 'Memo':
-                    $value = $cv->memo_data;
-                    break;
-                case 'Date':
-                    $value = $cv->date_data;
-                    break;
-                case 'Link':
-                    $value = $cv->char_data;
-                }
+            $query  = "SELECT {$info[0]}.{$info[1]} as value FROM {$info[0]} WHERE {$info[0]}.entity_id = {$contactId}";
+            
+            $result = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            if ( $result->fetch( ) ) {
+                $value = $result->value;
             }
+            
+            // make sure the custom value exists
+//             $cv =& new CRM_Core_BAO_CustomValue();
+//             $cv->custom_field_id = $customFieldId;
+//             $cv->entity_table    = 'civicrm_contact';
+//             $cv->entity_id       = $contactId;
+            
+//             if ( $cv->find( true ) ) {
+//                 switch ($customField->data_type) {
+//                 case 'File':
+//                 case 'String':
+//                     $value = $cv->char_data;
+//                     break;
+//                 case 'Int':
+//                 case 'Boolean':
+//                 case 'StateProvince':
+//                 case 'Country':
+//                     $value = $cv->int_data;
+//                     break;
+//                 case 'Float':
+//                     $value = $cv->float_data;
+//                     break;
+//                 case 'Money':
+//                     $co =& new CRM_Core_BAO_CustomOption();
+//                     $co->entity_table = 'civicrm_custom_field';
+//                     $co->entity_id = $customFieldId;
+//                     $co->find();
+//                     while ($co->fetch()) {
+//                         if (round($co->value,2) == $cv->decimal_data) {
+//                             $value = $co->value;
+//                         }
+//                     }
+//                     break;
+//                 case 'Memo':
+//                     $value = $cv->memo_data;
+//                     break;
+//                 case 'Date':
+//                     $value = $cv->date_data;
+//                     break;
+//                 case 'Link':
+//                     $value = $cv->char_data;
+//                 }
+//            }
 
             if ( $customField->data_type == 'Country' ) {
                 if ( ! $value ) {
