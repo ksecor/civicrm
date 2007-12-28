@@ -41,7 +41,7 @@ function civicrm_main( &$config ) {
 
     $dsn = "mysql://{$config['mysql']['username']}:{$config['mysql']['password']}@{$config['mysql']['server']}/{$config['mysql']['database']}?new_link=true";
 
-    civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_41.mysql'   );
+    civicrm_source( $dsn, $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'   );
 
     if ( isset( $config['loadGenerated'] ) &&
          $config['loadGenerated'] ) {
