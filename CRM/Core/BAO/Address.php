@@ -306,8 +306,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
     {
         $address =& new CRM_Core_BAO_Address();
        
-        if ( ! $entityBlock['entity_table'] ) {
-            $address->contact_id = $entityBlock['contact_id'];
+        if ( ! CRM_Utils_Array::value( 'entity_table' , $entityBlock ) ) {
+            $address->contact_id = CRM_Utils_Array::value( 'contact_id' ,$entityBlock );
         } else {
             $addressIds = array();
             $addressIds = self::allEntityAddress($entityBlock );

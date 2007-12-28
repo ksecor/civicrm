@@ -103,6 +103,7 @@ class CRM_Core_BAO_Block
         $block->find( );
         
         $locationTypes = array( );
+        $blocks =array( );
         $count = 1;
         while ( $block->fetch( ) ) {
             $values = array( );
@@ -125,7 +126,7 @@ class CRM_Core_BAO_Block
             $blocks[$block->location_type_id][$count] = $values;
         }
       
-        return $blocks;
+        return $blocks ;
     }
     
    
