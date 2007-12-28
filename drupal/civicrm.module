@@ -253,8 +253,6 @@ function civicrm_initialize( $requireAPI = false )
         
         // Add module-specific header elements
         drupal_set_html_head(civicrm_html_head());
-
-        return true;
     }
 
     if ( $requireAPI && ! $initializedAPI ) {
