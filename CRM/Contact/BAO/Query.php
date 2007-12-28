@@ -908,10 +908,11 @@ class CRM_Contact_BAO_Query {
         } else if ( $id == 'group' ) {
             foreach ( $values as $groupIds => $val ) {
                 $matches = array( );
-                preg_match( '/-(\d+)$/', $groupIds, $matches );
-                if ( strlen( $matches[1] ) > 0 ) {
-                   $values[$matches[1]] = 1;
-                   unset( $values[$groupIds] );
+                if ( preg_match( '/-(\d+)$/', $groupIds, $matches ) ) {
+                    if ( strlen( $matches[1] ) > 0 ) {
+                        $values[$matches[1]] = 1;
+                        unset( $values[$groupIds] );
+                    }
                 }
             }
             $result = array( $id, 'IN', $values, 0, 0 );
@@ -2616,6 +2617,7 @@ class CRM_Contact_BAO_Query {
         }
 
         // building the query string
+        $groupBy = null;
         if ( $this->_useGroupBy ) {
             $groupBy = ' GROUP BY contact_a.id';
         }

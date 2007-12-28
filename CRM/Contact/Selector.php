@@ -728,7 +728,7 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         return $this->_query;
     }
 
-    function &alphabetQuery( ) {
+    function alphabetQuery( ) {
         return $this->_query->searchQuery( null, null, null, false, false, true );
     }
 
