@@ -281,23 +281,12 @@ class CRM_Dedupe_Merger
             }
         }
 
-        // FIXME: retireve custom data either with the new API or in some other 
-        // way (note: CRM_Core_BAO_CustomValue::getContactValues() doesn't work)
-        if ( isset( $main->custom_values ) ) {
-            $customIds = array();
-            foreach ($main->custom_values as $cv) {
-                $customIds[$cv['custom_field_id']] = $cv['value'];
-            }
-            foreach ($other->custom_values as $cv) {
-                if ($customIds[$cv['custom_field_id']] == $cv['value']) {
-                    unset($customIds[$cv['custom_field_id']]);
-                } else {
-                    $customIds[$cv['custom_field_id']] = $cv['value'];
-                }
-            }
-            foreach (array_keys($customIds) as $customId) {
-                $diffs['custom'][] = $customId;
-            }
+        require_once 'CRM/Core/BAO/CustomValueTable.php';
+        $mainEvs  =& CRM_Core_BAO_CustomValueTable::getEntityValues($mainId);
+        $otherEvs =& CRM_Core_BAO_CustomValueTable::getEntityValues($otherId);
+        $keys = array_keys($mainEvs) + array_keys($otherEvs);
+        foreach ($keys as $key) {
+            if ($mainEvs[$key] != $otherEvs[$key]) $diffs['custom'][] = $key;
         }
 
         return $diffs;
