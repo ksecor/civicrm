@@ -273,7 +273,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             }
         }
         
-        if($this->_fields['email-Primary']) {  
+        if(CRM_Utils_Array::value('email-Primary',$this->_fields)) {  
             $emailPresent =true;
             require_once 'CRM/Core/BAO/CMSUser.php';
             CRM_Core_BAO_CMSUser::buildForm($this,$this->_gid,$emailPresent,CRM_Core_Action::PREVIEW);

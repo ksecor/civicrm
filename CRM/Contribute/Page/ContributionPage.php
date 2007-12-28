@@ -300,11 +300,13 @@ ORDER BY title asc
             $contribution[$dao->id]['action'] = CRM_Core_Action::formLink(self::actionLinks(), $action, 
                                                                           array('id' => $dao->id));
         }
-        $this->assign('rows', $contribution);
+        if (isset($contribution)) {
+            $this->assign('rows', $contribution);
+        }
     }
 
      function search( ) {
-        if ( $this->_action &
+        if ( isset($this->_action) &
              ( CRM_Core_Action::ADD    |
                CRM_Core_Action::UPDATE |
                CRM_Core_Action::DELETE ) ) {
