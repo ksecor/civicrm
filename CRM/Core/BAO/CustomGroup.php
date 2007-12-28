@@ -285,18 +285,6 @@ ORDER BY civicrm_custom_group.weight,
         if ( ! empty( $customValueTables ) ) {
             $groupTree['info'] = array( 'tables' => $customValueTables );
             
-            if ( $entityID ) {
-                // fix for CRM-2518
-                $blockTables = self::blockTablesFromGroupTree( $entityID, array_keys($customValueTables) );
-                
-                if ( is_array( $blockTables ) ) {
-                    foreach ( $blockTables as $keyTable ) {
-                        // this fails for joomla administrator
-                        // unset($groupTree['info']['tables'][$keyTable] );
-                    }
-                }
-            }
-
             $select = $from = $where = array( );
             foreach ( $groupTree['info']['tables'] as $table => $fields ) {
                 $from[]   = $table;
@@ -316,15 +304,23 @@ ORDER BY civicrm_custom_group.weight,
 
             if ( $entityID ) {
                 $groupTree['info']['where' ] = $where ;
-                $from   = implode( ', '   , $from   );
                 $select = implode( ', '   , $select );
-                $where  = implode( ' AND ', $where  );
+
+                $firstTable = null;
+                $fromSQL    = null;
+                foreach ( $from as $table ) {
+                    if ( ! $firstTable ) {
+                        $firstTable = $fromSQL = $table;
+                    } else {
+                        $fromSQL .= "\nLEFT JOIN $table ON {$table}.entity_id = $entityID";
+                    }
+                }
 
                 $query = "
 SELECT $select
-  FROM $from
- WHERE $where
+  FROM $fromSQL
 ";
+
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch( ) ) {
                     foreach ( $groupTree as $groupID => $group ) {
@@ -511,37 +507,6 @@ $where
     public static function getTitle( $id )
     {
         return CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup', $id, 'title' );
-    }
-
-    /**
-     * Get the all the tables to be blocked
-     * on the basis of passed entity id
-     *
-     * @param int    $entityID          - entity_id to be searched in the table.
-     * @param array  $customValueTables - all custom data tables
-
-     * @return array $blockTables       - custom data tables in which passed
-     *                                    entity id not present
-     * @access public
-     * @static
-     *
-     */
-
-    public static function blockTablesFromGroupTree( $entityID, $customValueTables ) 
-    {
-        $blockTables = array();
-        foreach ( $customValueTables as $tableName ) {
-            $query = "
-SELECT entity_id 
-FROM   {$tableName} 
-WHERE  {$tableName}.entity_id = {$entityID}";
-            
-            $crmDAO =& CRM_Core_DAO::singleValueQuery( $query, CRM_Core_DAO::$_nullArray );
-            if ( !$crmDAO ) {
-                $blockTables[] = $tableName;
-            }
-        }
-        return $blockTables;
     }
 
     /**
