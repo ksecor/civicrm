@@ -188,7 +188,7 @@ class CRM_Utils_System {
      */
     static function currentPath( ) {
         $config =& CRM_Core_Config::singleton( );
-        return trim( $_GET[$config->userFrameworkURLVar], '/' );
+        return trim( CRM_Utils_Array::value($config->userFrameworkURLVar,$_GET), '/' );
     }
 
     /**
