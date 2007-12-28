@@ -65,7 +65,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
      *
      * @param array $entityBlock   input parameters to find object
      *
-     * @return boolean
+     * @return mixed
      * @access public
      * @static
      */
@@ -75,15 +75,34 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
     }
     
     /**
-     * Get all the emails for a specified contact_id, with the primary openid being first
+     * Returns whether or not this OpenID is allowed to login
      *
-     * @param int $id the contact id
+     * @param  string  $identity_url the OpenID to check
      *
-     * @return array  the array of openid id's
+     * @return boolean
      * @access public
      * @static
      */
-    static function allOpenids( $id ) 
+    static function isAllowedToLogin( $identity_url ) {
+        $openId =& new CRM_Core_DAO_OpenID( );
+        $openId->openid = $identity_url;
+        $openId->find( );
+        if ( $openId ) {
+            return $openId->allowed_to_login == 1;
+        }
+        return false;
+    }
+    
+    /**
+     * Get all the openids for a specified contact_id, with the primary openid being first
+     *
+     * @param int $id the contact id
+     *
+     * @return array  the array of openid's
+     * @access public
+     * @static
+     */
+    static function allOpenIDs( $id ) 
     {
         if ( ! $id ) {
             return null;

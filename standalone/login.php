@@ -14,7 +14,16 @@ exit(0);
 
 <head>
   <title>CiviCRM User Authentication</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+    <!--
+    /* TODO: Move this to a better location so it doesn't have to be repeated */
+    /* OpenID logo for login / registration */
+    #openid_url {
+      background: #FFFFFF url('i/openid-icon-small.gif') no-repeat scroll 0pt 50%;
+      padding-left: 18px;
+    }
+    -->
+    </style>
 </head>
 <body>
   <h1 class="title">CiviCRM Login</h1>
@@ -24,7 +33,7 @@ exit(0);
    <form method="get" action="try_auth.php">
         Identity&nbsp;URL:
         <input type="hidden" name="action" value="verify" />
-        <input type="text" name="openid_url" value="" />
+        <input id="openid_url" type="text" name="openid_url" value="" />
         <input type="submit" value="Verify" />
       </form>
     </div>

@@ -44,6 +44,14 @@ function conf_init() {
     }
 
     /**
+     * Quick test to see if the config file is in the standalone directory
+     */
+    $saDir = dirname( __FILE__ ) . '/standalone/';
+    if ( file_exists( $saDir . 'civicrm.settings.php' ) ) {
+      	return $saDir;
+    }
+
+    /**
      * We are within the civicrm module, the drupal root is 2 links
      * above us, so use that
      */

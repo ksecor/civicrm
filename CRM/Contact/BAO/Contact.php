@@ -822,7 +822,6 @@ LEFT JOIN civicrm_email ON ( civicrm_contact.id = civicrm_email.contact_id )
         return array( null, null, null, null );
     }
 
-
     /**
      * function to get the sms number and display name of a contact
      *
@@ -1019,7 +1018,6 @@ WHERE civicrm_contact.id IN $idString ";
 
         return true;
     }
-
 
     /**
      * Get contact type for a contact.

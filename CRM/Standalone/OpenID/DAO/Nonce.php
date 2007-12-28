@@ -86,14 +86,19 @@ class CRM_Standalone_OpenID_DAO_Nonce extends CRM_Core_DAO
     public $id;
     /**
      *
-     * @var string
+     * @var blob
      */
-    public $nonce;
+    public $server_url;
     /**
      *
      * @var int
      */
-    public $expires;
+    public $timestamp;
+    /**
+     *
+     * @var string
+     */
+    public $salt;
     /**
      * class constructor
      *
@@ -119,18 +124,22 @@ class CRM_Standalone_OpenID_DAO_Nonce extends CRM_Core_DAO
                     'type' => CRM_Utils_Type::T_INT,
                     'required' => true,
                 ) ,
-                'nonce' => array(
-                    'name' => 'nonce',
-                    'type' => CRM_Utils_Type::T_STRING,
-                    'title' => ts('Nonce') ,
-                    'required' => true,
-                    'maxlength' => 8,
-                    'size' => CRM_Utils_Type::EIGHT,
+                'server_url' => array(
+                    'name' => 'server_url',
+                    'type' => CRM_Utils_Type::T_BLOB,
+                    'title' => ts('Server Url') ,
                 ) ,
-                'expires' => array(
-                    'name' => 'expires',
+                'timestamp' => array(
+                    'name' => 'timestamp',
                     'type' => CRM_Utils_Type::T_INT,
-                    'title' => ts('Expires') ,
+                    'title' => ts('Timestamp') ,
+                ) ,
+                'salt' => array(
+                    'name' => 'salt',
+                    'type' => CRM_Utils_Type::T_STRING,
+                    'title' => ts('Salt') ,
+                    'maxlength' => 40,
+                    'size' => CRM_Utils_Type::BIG,
                 ) ,
             );
         }

@@ -601,17 +601,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     static function getContainingGroups($contactId, $parentGroupId){
       $groups = CRM_Contact_BAO_Group::getGroups( );
       $containingGroups = array( );
-      foreach ($groups as $group){
-	if (self::isDescendentGroup($parentGroupId, $group->id)){
-	  $members = CRM_Contact_BAO_Group::getMember($group->id);
-	  if ($members[$contactId]){
-	    $containingGroups[] = $group->title;
-	  }
-	}
+      foreach ($groups as $group) {
+    	  if (self::isDescendentGroup($parentGroupId, $group->id)) {
+	          $members = CRM_Contact_BAO_Group::getMember($group->id);
+	          if ($members[$contactId]) {
+	              $containingGroups[] = $group->title;
+	          }
+	      }
       }
-      //      print "\n<br>ContGroups is: ";
-      //print_r ($containingGroups);
-      //print "\n<br>";
+      
       return $containingGroups;
     }
         

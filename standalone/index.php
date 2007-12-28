@@ -8,6 +8,10 @@ require_once 'CRM/Core/Session.php';
 
 $session =& CRM_Core_Session::singleton();
 
+if ( !isset( $_GET[CIVICRM_UF_URLVAR] ) ) {
+    $_GET[CIVICRM_UF_URLVAR] = '';
+}
+
 if ( !empty( $error ) ) {
     print "<div class=\"error\">$error</div>\n";
 }

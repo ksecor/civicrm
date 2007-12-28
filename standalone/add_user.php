@@ -1,4 +1,11 @@
 <?php
+
+/********************************************
+ * This is currently not used; ignore.
+ *
+ * WSM - 12/27/07
+ ********************************************/
+
 require_once 'auth_common.php';
 require_once 'CRM/Core/BAO/UFMatch.php';
 $ar = CRM_Core_BAO_UFMatch::getContactIDs();

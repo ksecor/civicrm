@@ -143,13 +143,11 @@ class CRM_Standalone_OpenID_DAO_Associations extends CRM_Core_DAO
                     'name' => 'server_url',
                     'type' => CRM_Utils_Type::T_BLOB,
                     'title' => ts('Server Url') ,
-                    'required' => true,
                 ) ,
                 'handle' => array(
                     'name' => 'handle',
                     'type' => CRM_Utils_Type::T_STRING,
                     'title' => ts('Handle') ,
-                    'required' => true,
                     'maxlength' => 255,
                     'size' => CRM_Utils_Type::HUGE,
                 ) ,

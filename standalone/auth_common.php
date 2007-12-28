@@ -27,7 +27,7 @@ $associations_table = "civicrm_openid_associations";
 $nonces_table = "civicrm_openid_nonces";
 
 $store = new Auth_OpenID_MySQLStore($connection,
-    $settings_table,$associations_table,$nonces_table);
+    $associations_table,$nonces_table);
 
 /**
  * Create a consumer object using the store object created earlier.

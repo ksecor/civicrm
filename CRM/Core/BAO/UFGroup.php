@@ -456,9 +456,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $doNotProcess  = false,
                                  $ctype = null ) 
     {
+        
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
+            print "Register is true<br/>";
             require_once "CRM/Core/Controller/Simple.php";
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
                                                            ts('Dynamic Form Creator'),
@@ -485,9 +487,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             if ( ( $reset || $doNotProcess ) && $oldQFDefault ) {
                 $_POST['_qf_default'] = $_REQUEST['_qf_default'] = $oldQFDefault;
             }
-
+            
             $template =& CRM_Core_Smarty::singleton( );
-
+            print "About to return processed template<br/>";
+            //$fields = array('first_name', 'last_name');
+            //$template->assign_by_ref( 'fields', $fields );
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
             if ( ! $profileID ) {

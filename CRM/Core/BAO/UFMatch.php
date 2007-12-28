@@ -148,13 +148,8 @@ WHERE openid = %1";
                 $ufmatch->save( );
                 
                 /* I don't think we should do this here anymore, since
-                   we don't use email address as the user identifier.
-                   ----
-                   However, we should revisit this (and probably 
-                   make it start updating the OpenID) once we move
-                   to using the OpenID associated w/ the contact
-                   (rather than storing it as a field in civicrm_contact).
-                   That's awaiting the schema re-design for 2.0.
+                   we no longer use email address as the user identifier.
+                   -- Wes Morgan, FFPIR
                 */
                 //CRM_Contact_BAO_Contact::updatePrimaryEmail( $ufmatch->contact_id, $user->$mail );
             }
