@@ -78,6 +78,8 @@ class CRM_Grant_BAO_Grant extends CRM_Grant_DAO_Grant
                
         require_once 'CRM/Grant/PseudoConstant.php';
         $status = array( );
+        $summary = array( );
+        $summary['total_grants'] = null;
         $status = CRM_Grant_PseudoConstant::grantStatus( );
      
         foreach( $status as $id => $name ) {

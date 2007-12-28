@@ -69,7 +69,7 @@ class CRM_Grant_Form_Grant extends CRM_Core_Form
     {  
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
         $this->_id        = CRM_Utils_Request::retrieve( 'id', 'Positive', $this );
-
+        $this->_noteId =null;
         if ( $this->_id) {
             require_once 'CRM/Core/BAO/Note.php';
             $noteDAO               = & new CRM_Core_BAO_Note();

@@ -190,11 +190,11 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         }
 
-        if ( $this->_caseId ) {
+        if ( isset( $this->_caseId ) ) {
             $defaults['case_subject'] = CRM_Core_DAO::getFieldValue('CRM_Case_BAO_Case', $this->_caseId,'subject' );
         }
         
-        if ( $defaults['case_subject'] ) {
+        if ( CRM_Utils_Array::value( 'case_subject' , $defaults ) ){
             $this->assign( 'subject_value', $defaults['case_subject'] );
         }
 

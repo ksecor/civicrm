@@ -83,7 +83,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             CRM_Case_BAO_Case::retrieve($params, $defaults, $ids);
         }        
-        $defaults['case_type_id'] = explode(CRM_Case_BAO_Case::VALUE_SEPERATOR, $defaults['case_type_id']);
+        $defaults['case_type_id'] = explode( CRM_Case_BAO_Case::VALUE_SEPERATOR, CRM_Utils_Array::value( 'case_type_id' , $defaults ) );
         
         if ( $this->_action & CRM_Core_Action::ADD ) {
             $defaults['start_date'] = array( );
