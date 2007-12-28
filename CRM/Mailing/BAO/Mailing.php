@@ -1721,8 +1721,8 @@ SELECT DISTINCT( m.id ) as id
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery($params, $returnProperties);
         
-        if ( ( $returnProperties['preferred_communication_method'] == 1 ) 
-             || ( $returnProperties['note'] == 1 ) ) {
+        if ( ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) 
+             || ( CRM_Utils_Array::value('note',$returnProperties) == 1 ) ) {
             $parameters = array( );
             $defaults   = array( );
             $ids        = array( );

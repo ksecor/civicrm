@@ -301,8 +301,8 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
                 $row['overdue'] = 0;
                 $row['class']   = 'status-ontime';
             }
-            
-            $row['status'] = $activityStatus[$row['status_id']];
+                  
+            $row['status'] = $row['status_id']?$activityStatus[$row['status_id']]:null;
 
             $actionLinks = $this->actionLinks( $row['activity_type_id'], $row['source_record_id'] );
             $actionMask  = array_sum(array_keys($actionLinks)) & CRM_Core_Action::mask( $this->_permission );
