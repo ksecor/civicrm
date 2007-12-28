@@ -267,7 +267,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                     $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                 }
             }
-        }        
+        } else {       
+            $resultAssignment = array();  
+            $params['assignee_contact_id'] = null;
+        }
 
         // attempt to save activity targets
         if ( CRM_Utils_Array::value( 'target_contact_id', $params ) ) {
@@ -342,8 +345,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                                                     $entityTable,
                                                     $result->id,
                                                     $activityType );
-        $transaction->commit( );            
-
+        $transaction->commit( );  
+        
         return $result;
     }
         
