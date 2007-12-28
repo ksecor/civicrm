@@ -607,20 +607,33 @@ WHERE civicrm_event.is_active = 1
         $copyEventPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_EventPage', 
                                                       array( 'event_id'    => $id),
                                                       array( 'event_id'    => $copyEvent->id ));
-        $copyCustom     =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomOption',  
-                                                      array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event_page'),
-                                                      array( 'entity_id'    => $copyEvent->id ));
+
         $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
                                                       array( 'entity_id'    => $copyEvent->id ));
-        $copyCustomData =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomValue',
-                                                      array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event'),
-                                                      array( 'entity_id'    => $copyEvent->id ));
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $extends   = array('event');
+        $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
+        if ( $groupTree ) {
+            foreach ( $groupTree as $groupID => $group ) {
+                $table[$groupTree[$groupID]['table_name']] = array( 'domain_id', 'entity_id');
+                foreach ( $group['fields'] as $fieldID => $field ) {
+                    $table[$groupTree[$groupID]['table_name']][] = $groupTree[$groupID]['fields'][$fieldID]['column_name'];
+                }
+            }
+            
+            foreach ( $table as $tableName => $tableColumns ) {
+                $insert = 'INSERT INTO ' . $tableName. ' (' .implode(', ',$tableColumns). ') '; 
+                $tableColumns[1] = $copyEvent->id;
+                $select = 'SELECT ' . implode(', ',$tableColumns); 
+                $from = ' FROM '  . $tableName;
+                $where = " WHERE {$tableName}.entity_id = {$id}"  ;
+                $query = $insert . $select . $from . $where;
+                $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
+            }
+        }
 
-             
         require_once 'CRM/Core/BAO/Location.php';
         require_once 'CRM/Event/Form/ManageEvent/Location.php';
         $params   = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
