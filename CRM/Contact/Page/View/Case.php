@@ -99,6 +99,7 @@ class CRM_Contact_Page_View_Case extends CRM_Contact_Page_View
         $case = new CRM_Case_DAO_Case( );
         $case->contact_id = $this->_contactId;
         $case->find();
+        $values = array( );
         while ( $case->fetch() ) {
             CRM_Core_DAO::storeValues( $case, $values[$case->id] );
             $values[$case->id]['action'] = CRM_Core_Action::formLink( $links,

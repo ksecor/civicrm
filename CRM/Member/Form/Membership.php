@@ -114,7 +114,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $defaults["membership_type_id"]    =  $this->_memType;
         }
         
-        if ( $defaults['id'] ) {
+        if ( CRM_Utils_Array::value( 'id' , $defaults ) ) {
             $defaults['record_contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipPayment', 
                                                                             $defaults['id'], 
                                                                             'contribution_id', 
@@ -129,7 +129,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                                                                  $this->_memType, 
                                                                  'minimum_fee' );
         
-        if ( $defaults['record_contribution'] ) {
+        if ( CRM_Utils_Array::value( 'record_contribution', $defaults ) ) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
             

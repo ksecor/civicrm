@@ -262,7 +262,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             foreach( $contact->location as $index => $loc) {
                 $locationExists[] = $loc['location_type_id'];
                 //to get the billing location
-                $defaults['location'][$index]['is_billing'] = $defaults['location'][$index]['address']['is_billing'];
+                $defaults['location'][$index]['is_billing'] = CRM_Utils_Array::value( 'is_billing' , $defaults['location'][$index]['address'] );
             }
             $this->assign( 'locationExists' , $locationExists );
             

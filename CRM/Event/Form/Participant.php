@@ -260,7 +260,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             $defaults[$this->_id]['register_date']['h'] = $registerDate['hours'];
             $defaults[$this->_id]['register_date']['i'] = (integer)($registerDate['minutes']/15) *15;
-            if ( $defaults[$this->_id]['event_id'] ) {
+            if ( CRM_Utils_Array::value( 'event_id' , $defaults[$this->_id] ) ) {
                 $contributionTypeId =  CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
                                                                     $defaults[$this->_id]['event_id'], 
                                                                     'contribution_type_id' );
