@@ -297,7 +297,8 @@ SELECT label, value
 
                 case 'String':
                     $sql = "LOWER($fieldName)";
-                    // if we are coming in from listings, for checkboxes the value is already in the right format and is NOT an array 
+                    // if we are coming in from listings,
+                    // for checkboxes the value is already in the right format and is NOT an array 
                     if ( is_array( $value ) ) {
                         require_once 'CRM/Core/BAO/CustomOption.php';
 
@@ -318,9 +319,19 @@ SELECT label, value
                         }                    
                     } else {
                         if ( $field['is_search_range'] && is_array( $value ) ) {
-                            $this->searchRange( $field['id'], $field['label'], $field['data_type'], $fieldName, $value, $grouping );
+                            $this->searchRange( $field['id'],
+                                                $field['label'],
+                                                $field['data_type'],
+                                                $fieldName,
+                                                $value,
+                                                $grouping );
                         } else {
                             $val = CRM_Utils_Type::escape( strtolower(trim($value)), 'String' );
+                            if ( $wildcard ) {
+                                $val = strtolower( addslashes( $val ) );
+                                $val = "%$val%";
+                                $op  = 'LIKE';
+                            }
                             $this->_where[$grouping][] = "{$sql} {$op} '{$val}'";
                             $this->_qill[$grouping][]  = "$field[label] $op $qillValue";
                         }
