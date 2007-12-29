@@ -157,7 +157,7 @@ class CRM_Core_BAO_CustomGroup extends CRM_Core_DAO_CustomGroup
                         'collapse_display', ),
                   );
 
-        // create select
+       // create select
         $select = array( );
         foreach ($tableData as $tableName => $tableColumn) {
             foreach ($tableColumn as $columnName) {
@@ -320,6 +320,11 @@ ORDER BY civicrm_custom_group.weight,
 SELECT $select
   FROM $fromSQL
 ";
+                if ( count( $from ) == 1 ) {
+                    $query .= " WHERE {$firstTable}.entity_id = $entityID ";
+                }
+
+                CRM_Core_Error::debug( 'q', $query );
 
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch( ) ) {
@@ -1172,7 +1177,9 @@ $where
                      $field['data_type'] == 'Money') {
 
                     //added check for Multi-Select in the below if-statement
-                    if ($field['html_type'] == 'Radio' || $field['html_type'] == 'CheckBox' || $field['html_type'] == 'Multi-Select') {
+                    if ( $field['html_type'] == 'Radio'    ||
+                         $field['html_type'] == 'CheckBox' ||
+                         $field['html_type'] == 'Multi-Select' ) {
                         $freezeString =  "";
                         $freezeStringChecked = "";
                         $customData = array();
