@@ -129,7 +129,8 @@ class CRM_Core_Config_Defaults
                 if ( CRM_Utils_System::checkURL( "{$baseURL}components/com_civicrm/civicrm/{$testIMG}" ) ) {
                     $defaults['userFrameworkResourceURL'] = $baseURL . "components/com_civicrm/civicrm/";
                 }
-            } else if ( $config->userFramework == 'Drupal' ) {
+            } else {
+                // lets keep it the same for drupal and standalone
                 // check and see if we are installed in sites/all (for D5 and above)
                 // we dont use checkURL since drupal generates an error page and throws
                 // the system for a loop on lobo's macosx box

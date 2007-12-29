@@ -1056,6 +1056,12 @@ class CRM_Core_Invoke
         case 'debug' : 
             $output = $wrapper->run( 'CRM_Admin_Form_Setting_Debugging', ts('Debugging'), null); 
             break;
+        case 'updateConfigBackend':
+            $output = $wrapper->run( 'CRM_Admin_Form_Setting_UpdateConfigBackend',
+                                     ts('Update Config Backend'),
+                                     null ); 
+            break;
+            
         default : 
             require_once 'CRM/Admin/Page/Setting.php';
             $view =& new CRM_Admin_Page_Setting();

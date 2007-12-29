@@ -42,6 +42,8 @@ require_once 'CRM/Core/Form.php';
 class CRM_Admin_Form_Setting extends CRM_Core_Form
 {
 
+    protected $_defaults;
+
     /**
      * This function sets the default values for the form.
      * default values are retrieved from the database
@@ -51,18 +53,21 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
      */
     function setDefaultValues( ) 
     {
-        $defaults = array( );
-        $formArray = array('Component', 'Localization');
-        $formMode  = false;
-        if ( in_array( $this->_name, $formArray ) ) {
-            $formMode = true;
-        }
+        if ( ! $this->_defaults ) {
+            $this->_defaults = array( );
+            $formArray = array('Component', 'Localization');
+            $formMode  = false;
+            if ( in_array( $this->_name, $formArray ) ) {
+                $formMode = true;
+            }
+            
+            require_once "CRM/Core/BAO/Setting.php";
+            CRM_Core_BAO_Setting::retrieve($this->_defaults);
 
-        require_once "CRM/Core/BAO/Setting.php";
-        CRM_Core_BAO_Setting::retrieve($defaults);
-        require_once "CRM/Core/Config/Defaults.php";
-        CRM_Core_Config_Defaults::setValues($defaults, $formMode);
-        return $defaults;
+            require_once "CRM/Core/Config/Defaults.php";
+            CRM_Core_Config_Defaults::setValues($this->_defaults, $formMode);
+        }
+        return $this->_defaults;
     }
 
     /**
@@ -98,9 +103,12 @@ class CRM_Admin_Form_Setting extends CRM_Core_Form
     public function postProcess() 
     {
         // store the submitted values in an array
-        $params = array();
         $params = $this->controller->exportValues($this->_name);
 
+        self::commonProcess( $params );
+    }
+
+    public function commonProcess( &$params ) {
         require_once "CRM/Core/BAO/Setting.php";
         CRM_Core_BAO_Setting::add($params);
 
