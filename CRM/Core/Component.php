@@ -54,9 +54,9 @@ class CRM_Core_Component
             $config =& CRM_Core_Config::singleton( );
             $c = self::getComponents();
             foreach( $c as $name => $comp ) {
-//                if( in_array( $name, $config->enableComponents ) ) {
+                if ( in_array( $name, $config->enableComponents ) ) {
                     self::$_info[$name] = $comp;
-//                }
+                }
             }
         }
         return self::$_info;
