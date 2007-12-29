@@ -324,8 +324,6 @@ SELECT $select
                     $query .= " WHERE {$firstTable}.entity_id = $entityID ";
                 }
 
-                CRM_Core_Error::debug( 'q', $query );
-
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch( ) ) {
                     foreach ( $groupTree as $groupID => $group ) {
