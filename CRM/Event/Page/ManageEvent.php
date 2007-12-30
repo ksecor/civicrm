@@ -288,6 +288,8 @@ ORDER BY title asc
         
         require_once 'CRM/Event/BAO/Event.php';
         CRM_Event_BAO_Event::copy( $id );
+
+        return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/event/manage', 'reset=1' ) );
     }
 
 
