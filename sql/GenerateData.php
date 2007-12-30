@@ -1365,7 +1365,7 @@ VALUES
         VALUES
         ( 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,1),
         ( 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, 2),
-        ( 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2007-12-27 07:00:00', '2007-12-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, 3)
+        ( 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2008-05-27 07:00:00', '2008-05-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, 3)
          ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
@@ -1389,11 +1389,11 @@ VALUES
 
     function addEventLocation()
     {
-        $event = "INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, im_id, address_2_id, email_2_id, phone_2_id, im_2_id)
+        $event = "INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, email_2_id, phone_2_id)
       VALUES
-      ( 86, 1, 1, 1, 1, 1, 1, 1),
-      ( 87, 1, 1, NULL,NULL,NULL,NULL,NULL),
-      ( 88, 1, 1, 1, 1, 1, 1, 1)
+      ( 86, 1, 1, 1, 1, 1),
+      ( 87, 1, 1, NULL,NULL,NULL),
+      ( 88, 1, 1, 1, 1, 1)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
@@ -1427,17 +1427,6 @@ VALUES
       (87, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
       (89, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL)
       ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-    
-    function addEventIM()
-    {
-        $event = 
-            "INSERT INTO civicrm_im (contact_id, location_type_id, name, provider_id, is_primary, is_billing)
-            VALUES
-                                    (87, 1, 'Merry Christmas', 3, 1, NULL),
-                                    (89, 1, 'John', 1, 1, NULL)
-            ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
     }
         
@@ -1567,17 +1556,17 @@ VALUES
         
         $query = "
 INSERT INTO civicrm_activity
-    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, status_id, priority_id,parent_id, is_test)
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
 VALUES
-    (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (4, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (6, 1, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (8, 1, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (16, 1, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (19, 1, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,  0),
-    (82, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-    (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,0)
+    (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (4, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (6, 1, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (8, 1, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (16, 1, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (19, 1, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (82, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
     ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
@@ -1614,7 +1603,6 @@ $obj1->addMembershipLog();
 $obj1->addEventLocationAddress();
 $obj1->addEventPhone();
 $obj1->addEventEmail();
-$obj1->addEventIM();
 $obj1->addEventFeeLabel();
 $obj1->addEventLocation();
 $obj1->addEvent();
