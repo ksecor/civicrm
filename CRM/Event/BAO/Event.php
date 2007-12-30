@@ -602,16 +602,40 @@ WHERE civicrm_event.is_active = 1
     static function copy( $id )
     {
         $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+        $loc_blk        = $defaults = array();
+        $loc_blk['id']  = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', $id, 'loc_block_id' );
         
-        $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', array( 'id' => $id ), null, $fieldsToPrefix );
+        CRM_Core_DAO::commonRetrieve('CRM_Core_DAO_LocBlock', $loc_blk, $defaults);
+        // copy all location blocks (email, phone, address, etc)
+        foreach ( $defaults as $key => $value ) {
+            if ( $key != 'id') {
+                $tbl  = explode("_", $key);
+                $name = ucfirst( $tbl[0] );
+                $copy =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_' . $name, array( 'id' => $value ), null, null );
+                $copyLocationParams[$key] = $copy->id;                            
+            }
+        }
+        
+        $copyLocation   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_LocBlock', 
+                                                      array( 'id' => $loc_blk['id'] ), 
+                                                      $copyLocationParams ) ;
+        
+        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+        $copyEvent      =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_Event', 
+                                                      array( 'id' => $id ), 
+                                                      array( 'loc_block_id' => $copyLocation->id ), 
+                                                      $fieldsToPrefix );
+        
         $copyEventPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Event_DAO_EventPage', 
                                                       array( 'event_id'    => $id),
-                                                      array( 'event_id'    => $copyEvent->id ));
-
+                                                      array( 'event_id'    => $copyEvent->id ) );
+        
         $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
-                                                      array( 'entity_id'    => $copyEvent->id ));
+                                                      array( 'entity_id'    => $copyEvent->id ) );
+        
+        //copy custom data
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends   = array('event');
         $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
@@ -633,32 +657,7 @@ WHERE civicrm_event.is_active = 1
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
             }
         }
-
-        require_once 'CRM/Core/BAO/Location.php';
-        require_once 'CRM/Event/Form/ManageEvent/Location.php';
-        $params   = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
-        
-        $location = CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
-        
-        $values['entity_id']    = $copyEvent->id ;
-        $values['entity_table'] = 'civicrm_event';
-        
-        $values['location'][1]['id']                      = null;
-        $values['location'][1]['contact_id']              = null;
-        
-        unset($values['location'][1]['address']['id']);
-        unset($values['location'][1]['address']['location_id']);
-        
-        $values['location'][1]['phone'][1]['id']          = null;
-        $values['location'][1]['phone'][1]['location_id'] = null;
-        $values['location'][1]['email'][1]['id']          = null;
-        $values['location'][1]['email'][1]['location_id'] = null;
-        $values['location'][1]['im'][1]['id']             = null;
-        $values['location'][1]['im'][1]['location_id']    = null;
-        
-        $loc = CRM_Core_BAO_Location::create( $values, null, 'event' );
-        $values['loc_block_id'] = $loc['id'];
     }
-
+    
 }
 ?>
