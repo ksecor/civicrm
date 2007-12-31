@@ -201,13 +201,11 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                                                                     'entity_id'    => $id,
                                                                     'entity_table' => 'civicrm_event' ),
                               );
-        require_once 'CRM/Core/DAO/OptionGroup.php';
         require_once 'CRM/Core/BAO/OptionGroup.php';
         foreach ( $dependencies as $daoName => $values ) {
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
             eval('$dao =& new ' . $daoName . '( );');
             if ( $daoName == 'CRM_Core_DAO_OptionGroup' ) {
-                eval('$dao =& new ' . $daoName . '( );');
                 $dao->name = $values['name'];
                 $dao->find( );
                 while ( $dao->fetch( ) ) {
