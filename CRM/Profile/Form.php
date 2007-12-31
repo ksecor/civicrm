@@ -646,8 +646,10 @@ class CRM_Profile_Form extends CRM_Core_Form
         
         require_once 'CRM/Core/BAO/UFGroup.php'; 
         if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {
-            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);                
-            CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
+            $values = CRM_Core_BAO_UFGroup::checkFieldsEmptyValues($this->_gid,$this->_id,null);
+            if ( ! is_null( $values['email'] ) ) {
+                CRM_Core_BAO_UFGroup::commonSendMail($this->_id, $values);
+            }
         } 
     }
 }
