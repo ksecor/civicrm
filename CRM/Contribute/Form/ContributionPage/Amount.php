@@ -38,7 +38,8 @@ require_once 'CRM/Contribute/Form/ContributionPage.php';
 /**
  * form to process actions on the group aspect of Custom Data
  */
-class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_ContributionPage {
+class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_ContributionPage 
+{
     /** 
      * Constants for number of options for data types of multiple option. 
      */ 
