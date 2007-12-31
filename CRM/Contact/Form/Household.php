@@ -61,7 +61,7 @@ class CRM_Contact_Form_Household
         
         // nick_name
         $form->addElement('text', 'nick_name', ts('Nick Name'), $attributes['nick_name'] );
-        $form->addElement('text', 'contact_source', ts('Source'), $attributes['source'] );
+        $form->addElement('text', 'contact_source', ts('Source'), CRM_Utils_Array::value( 'source', $attributes ) );
         $form->add('text', 'external_identifier', ts('External Id'), $attributes['external_identifier'], false);
         $form->addRule( 'external_identifier',
                         ts('External ID already exists in Database.'), 

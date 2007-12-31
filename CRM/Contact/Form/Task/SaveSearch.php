@@ -69,9 +69,9 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
             $values = $this->controller->exportValues( 'Search' );
         }
 
-        $this->_task = $values['task'];
+        $this->_task = CRM_Utils_Array::value( 'task', $values );
         $crmContactTaskTasks = CRM_Contact_Task::taskTitles();
-        $this->assign('taskName', $crmContactTaskTasks[$this->_task]);
+        $this->assign( 'taskName', CRM_Utils_Array::value( $this->_task , $crmContactTaskTasks ) );
     }
 
     /**

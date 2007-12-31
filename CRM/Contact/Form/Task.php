@@ -66,7 +66,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
     function preProcess( ) 
     {
         $this->_contactIds = array( );
-
+      
         // get the submitted values of the search form
         // we'll need to get fv from either search or adv search in the future
         if ( $this->_action == CRM_Core_Action::ADVANCED ) {
@@ -86,7 +86,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
         $this->assign( 'taskName', $crmContactTaskTasks[$this->_task] );
 
         // all contacts or action = save a search
-        if ( ( $values['radio_ts'] == 'ts_all' ) || ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
+        if ( ( CRM_Utils_Array::value('radio_ts', $values ) == 'ts_all' ) || ( $this->_task == CRM_Contact_Task::SAVE_SEARCH ) ) {
             // need to perform action on all contacts
             // fire the query again and get the contact id's + display name
             $sortID = null;
@@ -112,7 +112,7 @@ class CRM_Contact_Form_Task extends CRM_Core_Form
             while ( $dao->fetch( ) ) {
                 $this->_contactIds[] = $dao->contact_id;
             }
-        } else if ( $values['radio_ts'] == 'ts_sel') {
+        } else if ( CRM_Utils_Array::value( 'radio_ts' , $values ) == 'ts_sel') {
             // selected contacts only
             // need to perform action on only selected contacts
             foreach ( $values as $name => $value ) {
