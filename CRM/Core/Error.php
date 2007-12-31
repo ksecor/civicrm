@@ -362,7 +362,7 @@ class CRM_Core_Error extends PEAR_ErrorStack {
         
         $msgs = array( );
         foreach ( $backTrace as $trace ) {
-            $msgs[] = implode( ', ', array( CRM_Utils_Array::value('file',$trace), $trace['function'], $trace['line'] ) );
+            $msgs[] = implode( ', ', array( CRM_Utils_Array::value('file',$trace), CRM_Utils_Array::value('function',$trace), CRM_Utils_Array::value('line',$trace) ) );
         }
 
         $message = implode( "\n", $msgs );

@@ -149,9 +149,9 @@ class CRM_Utils_VersionCheck
         // for trunk versions ('trunk' is greater than '1')
         // we only do major / minor version comparison, so stick to 2
         for ($i = 0; $i < 2; $i++) {
-            if ($local[$i] > $latest[$i]) {
+            if ( CRM_Utils_Array::value($i,$local) > CRM_Utils_Array::value($i,$latest) ) {
                 return null;
-            } elseif ($local[$i] < $latest[$i] and preg_match('/^\d+\.\d+\.\d+$/', $this->latestVersion)) {
+            } elseif (CRM_Utils_Array::value($i,$local) < CRM_Utils_Array::value($i,$latest) and preg_match('/^\d+\.\d+\.\d+$/', $this->latestVersion)) {
                 return $this->latestVersion;
             }
         }

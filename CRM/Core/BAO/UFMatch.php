@@ -138,7 +138,7 @@ WHERE openid = %1";
         $session->set( 'ufID'    , $ufmatch->uf_id          );
         $session->set( 'userID'  , $ufmatch->contact_id     );
         $session->set( 'domainID', $ufmatch->domain_id      ); 
-        $session->set( 'ufUniqID', $ufmatch->user_unique_id ? $ufmatch->user_unique_id : "");
+        $session->set( 'ufUniqID', isset($ufmatch->user_unique_id) ? $ufmatch->user_unique_id : "");
 
         if ( $update ) {
             // the only information we care about is uniqId, so lets check that
