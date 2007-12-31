@@ -185,10 +185,9 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends   = array('event');
         $groupTree = CRM_Core_BAO_CustomGroup::getGroupDetail( null, null, $extends );
-        
         foreach( $groupTree as $values ) {
             $query = "DELETE FROM " . $values['table_name'] . " WHERE entity_id = " . $id ; 
-                        
+            
             $params = array( 1 => array( $values['table_name'], 'string'),
                              2 => array( $id, 'integer') );
             
@@ -196,34 +195,25 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
         
         $dependencies = array(
-                  'CRM_Event_DAO_EventPage'    => 
-                             array( 
-                                   'event_id'       => $id ),
-                  'CRM_Core_DAO_UFJoin'        => 
-                             array(
-                                   'entity_id'      => $id,
-                                   'entity_table'   => 'civicrm_event' ),
-                  );
-        
+                              'CRM_Core_DAO_OptionGroup'   => array( 'name'        => 'civicrm_event_page.amount.'.$id ),
+                              'CRM_Event_DAO_EventPage'    => array( 'event_id'    => $id ),
+                              'CRM_Core_DAO_UFJoin'        => array(
+                                                                    'entity_id'    => $id,
+                                                                    'entity_table' => 'civicrm_event' ),
+                              );
+        require_once 'CRM/Core/DAO/OptionGroup.php';
+        require_once 'CRM/Core/BAO/OptionGroup.php';
         foreach ( $dependencies as $daoName => $values ) {
             require_once (str_replace( '_', DIRECTORY_SEPARATOR, $daoName ) . ".php");
             eval('$dao =& new ' . $daoName . '( );');
-
-            if ( $daoName == 'CRM_Core_DAO_CustomOption' ) {
-                require_once 'CRM/Event/DAO/EventPage.php';
-                $eventPage = new CRM_Event_DAO_EventPage( );
-                $eventPage->event_id = $values['event_id'];
-                $eventPage->find( );
-                while ( $eventPage->fetch( ) ) {
-                    eval('$dao =& new ' . $daoName . '( );');
-                    $dao->entity_id    = $eventPage->id;
-                    $dao->entity_table = $values['entity_table'];
-                    $dao->find( );
-                    while ( $dao->fetch( ) ) {
-                        $dao->delete( );
-                    }
+            if ( $daoName == 'CRM_Core_DAO_OptionGroup' ) {
+                eval('$dao =& new ' . $daoName . '( );');
+                $dao->name = $values['name'];
+                $dao->find( );
+                while ( $dao->fetch( ) ) {
+                    CRM_Core_BAO_OptionGroup::del( $dao->id );
                 }
-            } else {
+            } else { 
                 foreach ( $values as $fieldName => $fieldValue ) {
                     $dao->$fieldName = $fieldValue;
                 }
@@ -235,7 +225,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 }
             }
         }
-        
+       
         require_once 'CRM/Event/DAO/Event.php';
         $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
