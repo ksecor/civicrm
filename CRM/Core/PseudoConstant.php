@@ -607,7 +607,7 @@ class CRM_Core_PseudoConstant
                 $countryIsoCodes =& self::countryIsoCode();
                 $defaultID = array_search($config->defaultContactCountry( ), $countryIsoCodes); 
                 if ( $defaultID !== false ) {
-                    $default[$defaultID] = self::$country[$defaultID];
+                    $default[$defaultID] = CRM_Utils_Array::value($defaultID,self::$country);
                     self::$country = $default + self::$country;
                 }
             }

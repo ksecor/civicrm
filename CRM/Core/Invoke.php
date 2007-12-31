@@ -957,7 +957,7 @@ class CRM_Core_Invoke
         
         // FIXME: a hack until we have common import
         // mechanisms for contacts and contributions
-        $realm = $_GET['realm'];
+        $realm = CRM_Utils_Array::value('realm',$_GET);
         if ($realm == 'contribution') {
             $controller = 'CRM_Contribute_Import_Controller';
         } else if ( $realm == 'membership' ) {

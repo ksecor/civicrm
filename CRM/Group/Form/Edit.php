@@ -132,7 +132,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $params = array( 'id' => $this->_id );
             CRM_Contact_BAO_Group::retrieve( $params, $defaults );
 
-            if ( $defaults['group_type'] ) {
+            if ( CRM_Utils_Array::value('group_type',$defaults) ) {
                 $types = explode( CRM_Core_DAO::VALUE_SEPARATOR,
                                   substr( $defaults['group_type'], 1, -1 ) );
                 $defaults['group_type'] = array( );

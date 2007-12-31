@@ -381,7 +381,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
                 if ( $birthDate < date( 'Ymd' ) ) {
                     $age =  self::findAge( $birthDate );
                     $values['age']['y'] = $age['years'];
-                    $values['age']['m'] = $age['months'];
+                    $values['age']['m'] = CRM_Utils_Array::value('months',$age);
                  }
             }
 
