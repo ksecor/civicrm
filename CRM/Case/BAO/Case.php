@@ -94,7 +94,7 @@ class CRM_Case_BAO_Case extends CRM_Case_DAO_Case
         
         if ( $case->find(true) ) {
             $ids['case']    = $case->id;
-            $ids['domain' ] = $case->domain_id;
+            $ids['domain' ] = isset($case->domain_id) ? $case->domain_id : "";
 
             CRM_Core_DAO::storeValues( $case, $values );
             

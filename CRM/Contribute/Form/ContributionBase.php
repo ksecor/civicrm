@@ -242,7 +242,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
                 $postProfileType = CRM_Core_BAO_UFField::getProfileType( $this->_values['custom_post_id'] );
             }
             
-            if ( ( ( $postProfileType == 'Membership' ) || ( $preProfileType == 'Membership' ) ) && !$membershipEnable ) {
+            if ( ( ( isset($postProfileType) && $postProfileType == 'Membership' ) || ( isset($preProfileType) && $preProfileType == 'Membership' ) ) && !$membershipEnable ) {
                 CRM_Core_Error::fatal( ts('This page includes a Profile with Membership fields - but the Membership Block is NOT enabled.
                                             Please notify the site administrator.') );
             }

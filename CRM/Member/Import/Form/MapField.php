@@ -179,7 +179,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $this->assign( 'dataValues'  , $this->_dataValues );
         
         $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-        $this->_onDuplicate = $this->get('onDuplicate',$onDuplicate);
+        $this->_onDuplicate = $this->get('onDuplicate',isset($onDuplicate) ? $onDuplicate : "");
 
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
@@ -311,19 +311,17 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
                 if ( isset($mappingName[$i]) ) {
                     if ( $mappingName[$i] != ts('- do not import -')) {                                
                         
-                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);
+                        $mappingHeader = array_keys($this->_mapperFields, $mappingName[$i]);                        
                         
-                        if ( ! isset($locationId) || ! $locationId ) {
-                            $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
-                        }
+                        //When locationType is not set
+                        $js .= "{$formName}['mapper[$i][1]'].style.display = 'none';\n";
 
-                        if ( ! isset($phoneType) || ! $phoneType ) {
-                            $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
-                        }
-                        
+                        //When phoneType is not set                           
+                        $js .= "{$formName}['mapper[$i][2]'].style.display = 'none';\n";
+                                                
                         $js .= "{$formName}['mapper[$i][3]'].style.display = 'none';\n";
                         
-                        $defaults["mapper[$i]"] = array( $mappingHeader[0], $locationId, $phoneType );
+                        $defaults["mapper[$i]"] = array( $mappingHeader[0] );
                         $jsSet = true;
                     } else {
                         $defaults["mapper[$i]"] = array();

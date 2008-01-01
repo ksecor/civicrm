@@ -72,7 +72,7 @@ class CRM_Friend_Form_Contribute extends CRM_Contribute_Form_ContributionPage
             $defaults['entity_table'] = 'civicrm_contribution_page';            
             $defaults['entity_id']    = $this->_id; 
             CRM_Friend_BAO_Friend::getValues($defaults);
-            $this->_friendId = $defaults['id'];
+            $this->_friendId = CRM_Utils_Array::value('id',$defaults);
         } 
 
          if ( !$this->_friendId ) {
