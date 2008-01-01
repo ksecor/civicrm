@@ -1108,7 +1108,7 @@ class CRM_Core_Invoke
         
         $wrapper =& new CRM_Utils_Wrapper( );
         
-        if ( $args[2] == 'view' ) {
+        if ( CRM_Utils_Array::value(2,$args) == 'view' ) {
             return $wrapper->run( 'CRM_Activity_Form_ActivityView', ts('View Activity'),  null );
         } else {
             return $wrapper->run( 'CRM_Activity_Form_Activity', ts('New Activity'),  null );

@@ -227,9 +227,9 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                              'mode'           => 'remote',
                              'store'          => 'contactStore',
                              );
-                             
+        
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
-                                          "d={$domainID}&reID={$relTypeID[0]}&retyp={$relTypeID[2]}&s=",
+                                          "d={$domainID}&reID={$relTypeID[0]}&retyp={CRM_Utils_Array::value(2,$relTypeID)}&s=",
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
         

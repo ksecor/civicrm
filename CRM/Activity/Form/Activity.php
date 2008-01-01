@@ -167,7 +167,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             require_once "CRM/Activity/BAO/Activity.php";
             CRM_Activity_BAO_Activity::retrieve( $params, $defaults, $this->_activityTypeId );
 
-            if ( $defaults['duration'] ) {
+            if ( CRM_Utils_Array::value('duration',$defaults) ) {
                 require_once "CRM/Utils/Date.php";
                 list( $defaults['duration_hours'], $defaults['duration_minutes'] ) = CRM_Utils_Date::unstandardizeTime( $defaults['duration'] );
             }
@@ -311,7 +311,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         $defaultTargetContactName   = CRM_Contact_BAO_Contact::sortName( $this->_targetContactId );
-        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, $standalone );
+        $targetContactField = $this->add( 'text','target_contact', ts('With Contact'), $attributes, isset($standalone) ? $standalone : "" );
         if ( $targetContactField->getValue( ) ) {
             $this->assign( 'target_contact_value',  $targetContactField->getValue( ) );
         } else {
@@ -399,7 +399,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     static function formRule( &$fields ) 
     {  
         // skip form rule if deleting
-        if  ( $fields['_qf_Activity_next_'] == 'Delete' ) {
+        if  ( CRM_Utils_Array::value( '_qf_Activity_next_',$fields) == 'Delete' ) {
             return true;
         }
         
@@ -415,7 +415,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             }
         }
 
-        if ( $fields['target_contact'] ) {
+        if ( CRM_Utils_Array::value('target_contact',$fields) ) {
             $target_contact_id   = CRM_Contact_BAO_Contact::getIdByDisplayName( $fields['target_contact'] );
 
             if ( !$target_contact_id ) {
