@@ -11,8 +11,32 @@
 
 SET @domain_name := CONCAT('Domain Name ',@domain_id);
 
-INSERT INTO civicrm_domain( id, name, email_name, email_address, email_domain, version ) 
-    VALUES ( @domain_id, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0' );
+INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
+      VALUES
+      ( NULL, 1, 1, 1, 'S 15S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL);
+
+SELECT @addId := id from civicrm_address where street_address = 'S 15S El Camino Way E';
+
+INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
+      VALUES
+      (NULL, 1, 'domainemail@example.org', 0, 0, 0, NULL, NULL);
+
+SELECT @emailId := id from civicrm_email where email = 'domainemail@example.org';
+
+INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+      VALUES
+      (NULL, 1, 0, 0, NULL,'204 222-1001', 'Phone');
+
+SELECT @phoneId := id from civicrm_phone where phone = '204 222-1001';
+
+INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, email_2_id, phone_2_id)
+      VALUES
+      ( @addId, @emailId, @phoneId, NULL,NULL,NULL);
+
+SELECT @locBlockId := id from civicrm_loc_block where phone_id = @phoneId AND email_id = @emailId AND address_id = @addId;
+
+INSERT INTO civicrm_domain( id, name, email_name, email_address, email_domain, version, loc_block_id ) 
+    VALUES ( @domain_id, 'Domain Contact Name', 'FIXME', 'info@FIXME.ORG', 'FIXME.ORG', '2.0', @locBlockId);
 
 -- Sample location types
 INSERT INTO civicrm_location_type( domain_id, name, vcard_name, description, is_reserved, is_active, is_default ) VALUES( @domain_id, '{ts escape="sql"}Home{/ts}', 'HOME', '{ts escape="sql"}Place of residence{/ts}', 0, 1, 1 );

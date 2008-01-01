@@ -1358,21 +1358,6 @@ VALUES
         
     }
 
-    function addEvent()
-    {
-        $event = "INSERT INTO civicrm_event
-        ( domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
-        VALUES
-        ( 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,1),
-        ( 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, 2),
-        ( 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2008-05-27 07:00:00', '2008-05-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, 3)
-         ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-    
-
-
-
 
     function addEventPage()
     {
@@ -1387,49 +1372,80 @@ VALUES
     }
 
 
-    function addEventLocation()
-    {
-        $event = "INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, email_2_id, phone_2_id)
-      VALUES
-      ( 86, 1, 1, 1, 1, 1),
-      ( 87, 1, 1, NULL,NULL,NULL),
-      ( 88, 1, 1, 1, 1, 1)
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-    function addEventLocationAddress()
+    function addEventAndLocation()
     {
         $event = "INSERT INTO civicrm_address ( contact_id, location_type_id, is_primary, is_billing, street_address, street_number, street_number_suffix, street_number_predirectional, street_name, street_type, street_number_postdirectional, street_unit, supplemental_address_1, supplemental_address_2, supplemental_address_3, city, county_id, state_province_id, postal_code_suffix, postal_code, usps_adc, country_id, geo_code_1, geo_code_2, timezone)
       VALUES
-      ( 87, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL),
-      ( 88, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 39.7531, -84.2471, NULL),
-      ( 89, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 35.5212, -105.982, NULL)
+      ( NULL, 1, 1, 1, 'S 14S El Camino Way E', 14, 'S', NULL, 'El Camino', 'Way', NULL, NULL, NULL, NULL, NULL, 'Collinsville', NULL, 1006, NULL, '6022', NULL, 1228, 41.8328, -72.9253, NULL),
+      ( NULL, 1, 1, 1, 'E 11B Woodbridge Path SW', 11, 'B', NULL, 'Woodbridge', 'Path', NULL, NULL, NULL, NULL, NULL, 'Dayton', NULL, 1034, NULL, '45417', NULL, 1228, 39.7531, -84.2471, NULL),
+      ( NULL, 1, 1, 1, 'E 581O Lincoln Dr SW', 581, 'O', NULL, 'Lincoln', 'Dr', NULL, NULL, NULL, NULL, NULL, 'Santa Fe', NULL, 1030, NULL, '87594', NULL, 1228, 35.5212, -105.982, NULL)
       ";
         CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
-    }
-
-    function addEventPhone()
-    {
-        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
-      VALUES
-      (87, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (88, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
-      (89, 1, 0, 0, NULL,'303 323-1000', 'Phone')
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
-
-    function addEventEmail()
-    {
-        $event = "INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
-      VALUES
-      (87, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
-      (89, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL)
-      ";
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
-    }
         
+        $sql = "SELECT id from civicrm_address where street_address = 'S 14S El Camino Way E'";
+        $eventAdd1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_address where street_address = 'E 11B Woodbridge Path SW'";
+        $eventAdd2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_address where street_address = 'E 581O Lincoln Dr SW'";
+        $eventAdd3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        $event = "INSERT INTO civicrm_email (contact_id, location_type_id, email, is_primary, is_billing, on_hold, hold_date, reset_date)
+       VALUES
+       (NULL, 1, 'development@example.org', 0, 0, 0, NULL, NULL),
+       (NULL, 1, 'tournaments@example.org', 0, 0, 0, NULL, NULL),
+       (NULL, 1, 'celebration@example.org', 0, 0, 0, NULL, NULL)
+       ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+        
+        $sql = "SELECT id from civicrm_email where email = 'development@example.org'";
+        $eventEmail1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_email where email = 'tournaments@example.org'";
+        $eventEmail2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_email where email = 'celebration@example.org'";
+        $eventEmail3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        $event = "INSERT INTO civicrm_phone (contact_id, location_type_id, is_primary, is_billing, mobile_provider_id, phone, phone_type)
+       VALUES
+       (NULL, 1, 0, 0, NULL,'204 222-1000', 'Phone'),
+       (NULL, 1, 0, 0, NULL,'204 223-1000', 'Phone'),
+       (NULL, 1, 0, 0, NULL,'303 323-1000', 'Phone')
+       ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+        
+        $sql = "SELECT id from civicrm_phone where phone = '204 222-1000'";
+        $eventPhone1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_phone where phone = '204 223-1000'";
+        $eventPhone2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_phone where phone = '303 323-1000'";
+        $eventPhone3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        
+        $event = "INSERT INTO civicrm_loc_block ( address_id, email_id, phone_id, address_2_id, email_2_id, phone_2_id)
+       VALUES
+      ( $eventAdd1, $eventEmail1, $eventPhone1, NULL,NULL,NULL),
+      ( $eventAdd2, $eventEmail2, $eventPhone2, NULL,NULL,NULL),
+      ( $eventAdd3, $eventEmail3, $eventPhone3, NULL,NULL,NULL)
+       ";
+
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone1 AND email_id = $eventEmail1 AND address_id = $eventAdd1";
+        $eventLok1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone2 AND email_id = $eventEmail2 AND address_id = $eventAdd2";
+        $eventLok2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+        $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone3 AND email_id = $eventEmail3 AND address_id = $eventAdd3";
+        $eventLok3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
+
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+
+        $event = "INSERT INTO civicrm_event
+        ( domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
+        VALUES
+        ( 1, 'Fall Fundraiser Dinner', 'Kick up your heels at our Fall Fundraiser Dinner/Dance at Glen Echo Park! Come by yourself or bring a partner, friend or the entire family!', 'This event benefits our teen programs. Admission includes a full 3 course meal and wine or soft drinks. Grab your dancing shoes, bring the kids and come join the party!', 3, 1, '2007-09-21 17:00:00', '2007-09-21 23:00:00', 1, 'Register Now', 100, 'Sorry! The Fall Fundraiser Dinner is full. Please call Jane at 204 222-1000 ext 33 if you want to be added to the waiting list.', 1, 4, 1, 1, 'Dinner Contribution', 1 ,$eventLok1),
+        ( 1, 'Summer Solstice Festival Day Concert', 'Festival Day is coming! Join us and help support your parks.', 'We will gather at noon, learn a song all together,  and then join in a joyous procession to the pavilion. We will be one of many groups performing at this wonderful concert which benefits our city parks.', 5, 1, '2007-11-17 12:00:00', '2007-11-17 17:00:00', 1, 'Register Now', 50, 'We have all the singers we can handle. Come to the pavilion anyway and join in from the audience.', 1, 2, NULL, 1, 'Festival Fee', 1, $eventLok2),
+        ( 1, 'Rain-forest Cup Youth Soccer Tournament', 'Sign up your team to participate in this fun tournament which benefits several Rain-forest protection groups in the Amazon basin.', 'This is a FYSA Sanctioned Tournament, which is open to all USSF/FIFA affiliated organizations for boys and girls in age groups: U9-U10 (6v6), U11-U12 (8v8), and U13-U17 (Full Sided).', 3, 1, '2008-05-27 07:00:00', '2008-05-29 17:00:00', 1, 'Register Now', 500, 'Sorry! All available team slots for this tournament have been filled. Contact Jill Futbol for information about the waiting list and next years event.', 1, 4, NULL, 1, 'Tournament Fees',1, $eventLok3)
+         ";
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray );      
+     
+    }
+    
     function addEventFeeLabel()
     {
         $optionGroup = "INSERT INTO civicrm_option_group ( domain_id, name, is_reserved, is_active)
@@ -1600,12 +1616,8 @@ $obj1->addNote();
 $obj1->addActivity();
 $obj1->addMembership();
 $obj1->addMembershipLog();
-$obj1->addEventLocationAddress();
-$obj1->addEventPhone();
-$obj1->addEventEmail();
 $obj1->addEventFeeLabel();
-$obj1->addEventLocation();
-$obj1->addEvent();
+$obj1->addEventAndLocation();
 $obj1->addEventPage();
 $obj1->addParticipant();
 $obj1->addContribution();
