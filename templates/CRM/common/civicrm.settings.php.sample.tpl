@@ -11,7 +11,6 @@
  * Settings for Drupal 5.1:
  *      define( 'CIVICRM_UF'        , 'Drupal' );
  *      define( 'CIVICRM_UF_VERSION', '5.1' );
- *      define( 'CIVICRM_UF_URLVAR' , 'q'  );
  *
  * For Drupal 4.7.x, same as above except
  *      define( 'CIVICRM_UF_VERSION', '4.7' );
@@ -19,12 +18,10 @@
  * Settings for Joomla 1.0.x and 1.5.x:
  *      define( 'CIVICRM_UF'        , 'Joomla' );
  *      define( 'CIVICRM_UF_VERSION', '1' );
- *      define( 'CIVICRM_UF_URLVAR' , 'task'  );
  *
  * Settings for Standalone:
  *		define( 'CIVICRM_UF'	, 'Standalone');
  *		(Leave out CIVICRM_UF_VERSION.)
- *		define( 'CIVICRM_UF_URLVAR', 'q');
  *
  * You may have issues with images in CiviCRM. If this is the case, be sure
  * to update the CiviCRM Resource URL field (in Administer CRM: Global
@@ -33,7 +30,6 @@
 
 define( 'CIVICRM_UF'               , '%%cms%%'        );
 define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
-define( 'CIVICRM_UF_URLVAR'        , '%%cmsURLVar%%'  );
 
 /**
  * Content Management System (CMS) Datasource:

@@ -67,6 +67,8 @@ class CRM_Core_Invoke
         $i18n   =& CRM_Core_I18n::singleton( );
 
         if ( $config->userFramework == 'Joomla' ) {
+            $config->userFrameworkURLVar = 'task';
+
             require_once 'CRM/Core/Joomla.php';
             // joomla 1.5RC1 seems to push this in the POST variable, which messes
             // QF and checkboxes

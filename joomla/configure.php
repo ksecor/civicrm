@@ -153,8 +153,7 @@ function civicrm_config( $frontend = false ) {
 
     $params = array(
                 'cms' => 'Joomla',
-                'cmsVersion' => '1.0.11',
-                'cmsURLVar'  => 'task',
+                'cmsVersion' => '1.0',
                 'usersTable' => $mosConfig_dbprefix . 'users',
                 'crmRoot' => $crmPath,
                 'templateCompileDir' => $compileDir,

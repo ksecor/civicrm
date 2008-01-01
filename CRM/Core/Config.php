@@ -253,6 +253,9 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
         if ( defined( 'CIVICRM_UF' ) ) {
             $this->userFramework       = CIVICRM_UF;
+            if ( $this->userFramework == 'Joomla' ) {
+                $this->userFrameworkURLVar = 'task';
+            }
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;            

@@ -107,9 +107,10 @@ class CRM_Core_Menu
             self::$_items = self::permissionedItems( );
             $config =& CRM_Core_Config::singleton( );
 
-            $args     = explode( '/', CRM_Utils_Array::value($config->userFrameworkURLVar,$_GET) );
+            $args     = explode( '/', CRM_Utils_Array::value( $config->userFrameworkURLVar,
+                                                              $_GET ) );
             $firstArg = CRM_Utils_Array::value( 1, $args );
-            
+
             switch ( $firstArg ) {
             case 'admin':
                 $items =& self::adminItems( );

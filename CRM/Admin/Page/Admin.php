@@ -95,7 +95,7 @@ class CRM_Admin_Page_Admin extends CRM_Core_Page
         }
 
        if ( isset($this->_contactType) && $this->_contactType == 'Individual' ) {
-        }
+       }
         
         require_once 'CRM/Utils/VersionCheck.php';
         $versionCheck =& CRM_Utils_VersionCheck::singleton();

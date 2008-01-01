@@ -112,7 +112,6 @@ function civicrm_config( &$config ) {
     $params = array(
                 'cms' => 'Drupal',
                 'cmsVersion' => '5.2',
-                'cmsURLVar'  => 'q',
                 'usersTable' => 'users',
                 'crmRoot' => $crmPath,
                 'templateCompileDir' => $compileDir,
