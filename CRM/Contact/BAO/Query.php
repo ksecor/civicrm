@@ -616,7 +616,7 @@ class CRM_Contact_BAO_Query
                 $this->_useGroupBy  = true;
             }
 
-            $locationJoin = $locationTypeJoin = $addressJoin = $locationIndex = null;
+            $locationTypeJoin = $addressJoin = $locationIndex = null;
 
             $name = str_replace( ' ', '_', $name );
             $locationIndex = $index;
@@ -701,13 +701,6 @@ class CRM_Contact_BAO_Query
                     }
                 }
 
-                if ( $addWhere ) {
-                    $this->_whereTables[ "{$name}-location" ] = $locationJoin;
-                    //hack to close ON clause temporarily
-                    $tmpLocationTypeJoin = "{$locationTypeJoin} )";
-                    $this->_whereTables[ "{$name}-location_type" ] = $tmpLocationTypeJoin;
-                }
-                
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
@@ -745,6 +738,7 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_email':
                             case 'civicrm_im':
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
+
                                 //build locationType join
                                 $locationTypeJoin[] = " ( `$tName`.location_type_id = $ltName.id )";
                                 
@@ -782,7 +776,6 @@ class CRM_Contact_BAO_Query
                                     $this->_whereTables[ "{$name}-address" ] = $addressJoin;
                                 }
                                 break;
-
                             }
                         }
                     }
