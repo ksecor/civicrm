@@ -114,7 +114,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     static function getRegistrationFields( $action, $mode, $ctype = null ) 
     {
         if ( $mode & CRM_Profile_Form::MODE_REGISTER) {
-        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+            $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
         } else {
             $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('Profile');  
         }
@@ -488,9 +488,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             }
             
             $template =& CRM_Core_Smarty::singleton( );
-            
-            //$fields = array('first_name', 'last_name');
-            //$template->assign_by_ref( 'fields', $fields );
+
             return trim( $template->fetch( 'CRM/Profile/Form/Dynamic.tpl' ) );
         } else {
             if ( ! $profileID ) {
