@@ -37,9 +37,11 @@ require_once 'CRM/Core/DAO/Address.php';
 require_once 'CRM/Core/DAO/Phone.php'; 
 require_once 'CRM/Core/DAO/Email.php';
 
-
-class CRM_Contact_BAO_Query {
-  
+/**
+ * This class is a heart of search query building mechanism.
+ */
+class CRM_Contact_BAO_Query 
+{
     /**
      * The various search modes
      *
@@ -259,7 +261,24 @@ class CRM_Contact_BAO_Query {
                                    'civicrm_im'             => 1,
                                    'civicrm_location_type'  => 1,
                                    );
-
+    
+    /**
+     * List of location specific fields
+     */
+    static $_locationSpecificFields = array ( 'street_address',
+                                              'supplemental_address_1',
+                                              'supplemental_address_2',
+                                              'city',
+                                              'postal_code',
+                                              'postal_code_suffix',
+                                              'geo_code_1',
+                                              'geo_code_2',
+                                              'state_province',
+                                              'country',
+                                              'phone',
+                                              'email',
+                                              'im');
+    
     /**
      * class constructor which also does all the work
      *
@@ -602,13 +621,6 @@ class CRM_Contact_BAO_Query {
             $name = str_replace( ' ', '_', $name );
             $locationIndex = $index;
 
-            $tName = "$name-address";
-            $aName = "`$name-address`";
-            $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
-            $this->_element["{$tName}_id"] = 1; 
-            $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id AND $aName.$lCond)";
-            $this->_tables[ $tName ] = $addressJoin;
-
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
             $this->_select["{$tName}_id" ]  = "`$tName`.id as `{$tName}_id`"; 
@@ -616,17 +628,29 @@ class CRM_Contact_BAO_Query {
             $this->_element["{$tName}_id"]  = 1;
             $this->_element["{$tName}"   ]  = 1;  
             
-            $locationTypeName= $tName;
+            $locationTypeName = $tName;
+            $locationTypeJoin = array( );
             
-            //we need to build location join to get location type from
-            //various location blocks.
-            $locationTypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( ($aName.location_type_id = $ltName.id) ";
-            
-            $processed[$lName] = $processed[$aName] = 1;
+            $processed[$lName] = 1;
+
+            $addAddress = false;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
                 $cond = "is_primary = 1";
                 $elementName = $elementFullName;
+
+                //add address table only once
+                if ( in_array( $elementName, self::$_locationSpecificFields ) && ! $addAddress ) {
+                    $tName = "$name-address";
+                    $aName = "`$name-address`";
+                    $this->_select["{$tName}_id"]  = "`$tName`.id as `{$tName}_id`"; 
+                    $this->_element["{$tName}_id"] = 1; 
+                    $addressJoin = "\nLEFT JOIN civicrm_address $aName ON ($aName.contact_id = contact_a.id AND $aName.$lCond)";
+                    $this->_tables[ $tName ] = $addressJoin;
+                    $locationTypeJoin[] = " ( $aName.location_type_id = $ltName.id ) ";
+                    $processed[$aName] = 1;
+                    $addAddress = true;
+                }
 
                 $elementType = '';
                 if ( strpos( $elementName, '-' ) ) {
@@ -722,8 +746,8 @@ class CRM_Contact_BAO_Query {
                             case 'civicrm_im':
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
                                 //build locationType join
-                                $locationTypeJoin .= " OR ( `$tName`.location_type_id = $ltName.id ) ";
-                                    
+                                $locationTypeJoin[] = " ( `$tName`.location_type_id = $ltName.id )";
+                                
                                 if ( $addWhere ) {
                                     $this->_whereTables[$tName] = $this->_tables[$tName];
                                 }
@@ -766,8 +790,8 @@ class CRM_Contact_BAO_Query {
             }
 
             // add location type  join
-            $locationTypeJoin .= " ) ";
-            $this->_tables[ $locationTypeName ] = $locationTypeJoin;
+            $ltypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( " . implode( 'OR', $locationTypeJoin ) . " )";
+            $this->_whereTables[ $locationTypeName ] = $this->_tables[ $locationTypeName ] = $ltypeJoin;
         }
     }
 
