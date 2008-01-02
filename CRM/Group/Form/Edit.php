@@ -40,15 +40,6 @@ require_once 'CRM/Contact/BAO/GroupNesting.php';
  * This class is to build the form for adding Group
  */
 class CRM_Group_Form_Edit extends CRM_Core_Form {
-
-
-
-    /**
-     * values for selecting an organization to associate with a group
-     * 
-     *
-     */
-    protected $_orgSelectValues;
     
     /**
      * the group id, used when editing a group

@@ -44,22 +44,6 @@
 </fieldset>
 </div>
 
-<div id="group_org_add" class="form-item">
-<fieldset><legend>{ts}Organization{/ts}</legend>
- 
-    <dl>
-    <dt>{$form.add_group_org.label}</dt>
-    <dd>{$form.add_group_org.html}</dd>
-    </dl>
-
-    <dl>
-    <dt>{$form.select_group_org.label}</dt>
-    <dd>{$form.select_group_org.html}</dd>
-    </dl>
-    
-</fieldset>
-</div>
-
 <div class="form-item">
     {$form.buttons.html}
 </div>
