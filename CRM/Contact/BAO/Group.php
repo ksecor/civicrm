@@ -239,6 +239,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
             foreach ( $params as $k => $v ) {
                 if ( $k == 'name' || $k == 'title' ) {
                     $dao->whereAdd( $k . ' LIKE "' . addslashes( $v ) . '"' );
+                } else if ( is_array( $v ) ) {
+                    $dao->whereAdd( $k . ' IN (' . implode(',', $v ) . ')' );
                 } else {
                     $dao->$k = $v;
                 }
@@ -252,7 +254,6 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
         while ( $dao->fetch( ) ) { 
             $group =& new CRM_Contact_DAO_Group();
             if ( $flag ) {
-	      print "Calling memberCount";
                 $dao->member_count = CRM_Contact_BAO_Group::memberCount( $dao->id );
             }
             $groups[] = clone( $dao );
