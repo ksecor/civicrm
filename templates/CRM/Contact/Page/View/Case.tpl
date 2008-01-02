@@ -21,7 +21,6 @@
             <th>{ts}Case Status{/ts}</th>
             <th>{ts}Case Type{/ts}</th>
             <th>{ts}Subject{/ts}</th>
-            <th></th>
             <th>{ts}Start Date{/ts}</th>
             <th>&nbsp;</th>
         </tr>
@@ -31,8 +30,7 @@
         <tr class="{cycle values="odd-row,even-row"}">
             <td>{$case.status_id}</td>
             <td>{$case.case_type_id}</td>  
-            <td>{$case.subject}</td>
-            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">(View)</a></td>
+            <td><a href="{crmURL p='civicrm/contact/view/case' q="action=view&selectedChild=case&id=`$case.id`&cid=$contactId"}">{$case.subject}</a></td>
             <td>{$case.start_date|crmDate}</td>
             <td>{$case.action}</td>
         </tr>
