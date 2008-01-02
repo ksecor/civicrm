@@ -1167,7 +1167,7 @@ class CRM_GCD {
                 require_once 'CRM/Activity/DAO/Activity.php';
                 $activityDAO =& new CRM_Activity_DAO_Activity();
                 $activityDAO->source_contact_id     = $contactDAO->id;
-                $activityTypeID = mt_rand(1, 10);
+                $activityTypeID = mt_rand(1, 3);
                 require_once 'CRM/Core/PseudoConstant.php';
                 $activity = CRM_Core_PseudoConstant::activityType( ); 
                 $activityDAO->activity_type_id = $activityTypeID;
