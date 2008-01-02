@@ -1311,6 +1311,39 @@ VALUES
         ( ". $randomContacts[24]  .", 3, '2007-04-05', '2007-04-05', '2006-01-04', 'Check', 1);
 ";
         $result = CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
+
+$query = "
+INSERT INTO civicrm_activity
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+VALUES
+    ($randomContacts[0], 1, 7, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[1], 2, 7, 'NULL', '2007-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[2], 3, 7, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[3], 4, 7, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[4], 5, 7, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[5], 6, 7, 'NULL', '2007-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[6], 7, 7, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[7], 8, 7, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[8], 9, 7, 'NULL', '2007-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[9], 10, 7, 'NULL', '2007-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[10], 11, 7, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[11], 12, 7, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[12], 13, 7, 'NULL', '2007-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[13], 14, 7, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[14], 15, 7, 'NULL', '2007-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[15], 16, 7, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[16], 17, 7, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[17], 18, 7, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[18], 19, 7, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[19], 20, 7, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[20], 21, 7, 'NULL', '2007-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[21], 22, 7, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[22], 23, 7, 'NULL', '2006-1-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[23], 24, 7, 'NULL', '2007-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[24], 25, 7, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
+    ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+
         require_once 'CRM/Member/DAO/Membership.php';
         require_once 'api/crm.php';
         $membership = new CRM_Member_DAO_Membership();
@@ -1426,15 +1459,15 @@ VALUES
       ( $eventAdd3, $eventEmail3, $eventPhone3, NULL,NULL,NULL)
        ";
 
+        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
+        
         $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone1 AND email_id = $eventEmail1 AND address_id = $eventAdd1";
         $eventLok1 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
         $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone2 AND email_id = $eventEmail2 AND address_id = $eventAdd2";
         $eventLok2 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
         $sql = "SELECT id from civicrm_loc_block where phone_id = $eventPhone3 AND email_id = $eventEmail3 AND address_id = $eventAdd3";
         $eventLok3 = CRM_Core_DAO::singleValueQuery( $sql, CRM_Core_DAO::$_nullArray ); 
-
-        CRM_Core_DAO::executeQuery( $event, CRM_Core_DAO::$_nullArray ); 
-
+        
         $event = "INSERT INTO civicrm_event
         ( domain_id, title, summary, description, event_type_id, is_public, start_date, end_date, is_online_registration, registration_link_text, max_participants, event_full_text, is_monetary, contribution_type_id, is_map, is_active, fee_label, is_show_location, loc_block_id)
         VALUES
@@ -1549,7 +1582,64 @@ VALUES
         ( ". $randomContacts[24]  .", 3, 2, 2, '2007-04-05', '', 'Tiny-tots (ages 5-8)', 0);
 ";
         CRM_Core_DAO::executeQuery( $participant, CRM_Core_DAO::$_nullArray );
-        
+   
+        $query = "
+INSERT INTO civicrm_activity
+    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+VALUES
+    ($randomContacts[0], 1, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[1], 2, 5, 'NULL', '2005-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[2], 3, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[3], 4, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[4], 5, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[5], 6, 5, 'NULL', '2005-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[6], 7, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[7], 8, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[8], 9, 5, 'NULL', '2005-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[9], 10, 5, 'NULL', '2005-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[10], 11,5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[11], 12, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[12], 13, 5, 'NULL', '2005-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[13], 14, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[14], 15, 5, 'NULL', '2005-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[15], 16, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[16], 17, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[17], 18, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[18], 19, 5, 'NULL', '2005-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[19], 20, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[20], 21, 5, 'NULL', '2005-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[21], 22, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[22], 23, 5, 'NULL', '2005-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[23], 24, 5, 'NULL', '2005-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[24], 25, 5, 'NULL', '2005-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[0], 26, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[1], 27, 5, 'NULL', '2007-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[2], 28, 5, 'NULL', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[3], 29, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[4], 30, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[5], 31, 5, 'NULL', '2007-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[6], 32, 5, 'NULL', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[7], 33, 5, 'NULL', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[8], 34, 5, 'NULL', '2007-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[9], 35, 5, 'NULL', '2007-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[10], 36, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[11], 37, 5, 'NULL', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[12], 38, 5, 'NULL', '2007-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[13], 39, 5, 'NULL', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[14], 40, 5, 'NULL', '2007-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[15], 41, 5, 'NULL', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[16], 42, 5, 'NULL', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[17], 43, 5, 'NULL', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[18], 44, 5, 'NULL', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[19], 45, 5, 'NULL', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[20], 46, 5, 'NULL', '2007-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[21], 47, 5, 'NULL', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[22], 48, 5, 'NULL', '2006-1-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[23], 49, 5, 'NULL', '2007-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    ($randomContacts[24], 50, 5, 'NULL', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
+    ";
+        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+ 
     }
     
     function addContribution( ) 
@@ -1575,14 +1665,14 @@ INSERT INTO civicrm_activity
     (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
 VALUES
     (2, 1, 6, '$ 125.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (4, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (6, 1, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (8, 1, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (16, 1, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (19, 1, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (82, 1, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (92, 1, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    (34, 1, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
+    (4, 2, 6, '$ 50.00-Online: Save the Penguins', '2007-03-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (6, 3, 6, '$ 25.00-Apr 2007 Mailer 1', '2007-04-29 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (8, 4, 6, '$ 50.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (16, 5, 6, '$ 500.00-Apr 2007 Mailer 1', '2007-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (19, 6, 6, '$ 175.00-Apr 2007 Mailer 1', '2007-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (82, 7, 6, '$ 50.00-Online: Save the Penguins', '2007-03-27 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (92, 8, 6, '$ 10.00-Online: Save the Penguins', '2007-03-08 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
+    (34, 9, 6, '$ 250.00-Online: Save the Penguins', '2007-04-22 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
     ";
         CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
     }
