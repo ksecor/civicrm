@@ -1463,12 +1463,14 @@ WHERE civicrm_contact.id IN $idString ";
             $defaultLocationId = $defaultLocation->id;
         }
         
-        $phoneLoc = 0;
+        $phoneLoc   = 0;
         $phoneReset = array( );
+        static $imLoc      = 1; 
         
         foreach ($params as $key => $value) {
-            list($fieldName, $locTypeId, $phoneTypeId) = CRM_Utils_System::explode('-', $key, 3);
-            
+            $fieldName = $locTypeId = $typeId = null;
+            list($fieldName, $locTypeId, $typeId) = CRM_Utils_System::explode('-', $key, 3);
+                        
             if ($locTypeId == 'Primary') {
                 if ( $contactID ) {
                     $locTypeId = $primaryLocationType; 
@@ -1512,8 +1514,8 @@ WHERE civicrm_contact.id IN $idString ";
                     } else {
                         $phoneLoc++;
                     }
-                    if ( $phoneTypeId ) {
-                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $phoneTypeId;
+                    if ( $typeId ) {
+                        $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = $typeId;
                     } else {
                         $data['location'][$loc]['phone'][$phoneLoc]['phone_type'] = '';
                         $data['location'][$loc]['phone'][$phoneLoc]['is_primary'] = 1;
@@ -1523,9 +1525,22 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['location'][$loc]['email'][1]['email'] = $value;
                     $data['location'][$loc]['email'][1]['is_primary'] = 1;
                 } else if ($fieldName == 'im') {
-                    $data['location'][$loc]['im'][1]['name']        = $value;
-                    $data['location'][$loc]['im'][1]['provider_id'] = $params[$key . '-provider_id'];
-                    $data['location'][$loc]['im'][1]['is_primary']  = 1;
+                    if ( $typeId ) {
+                        // this is im_provider_id
+                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $value;
+                    } else {
+                        // this is name 
+                        $data['location'][$loc]['im'][$imLoc]['name']        = $value;
+                        
+                        // FIXME: we are assuming that provider_id will
+                        // always comes before name in $params
+                        // array. we need some better logic here                        
+                        $imLoc++;
+                    }
+                    
+                    if ( $imLoc == 1 ) {
+                        $data['location'][$loc]['im'][$imLoc]['is_primary']  = 1;
+                    }
                 } else if ($fieldName == 'openid') {
                     $data['location'][$loc]['openid'][1]['openid']     = $value;
                     $data['location'][$loc]['openid'][1]['is_primary'] = 1;
@@ -1566,7 +1581,7 @@ WHERE civicrm_contact.id IN $idString ";
                 }
             }
         }
-
+        
         //get the custom fields for the contact
         $customFields = CRM_Core_BAO_CustomField::getFields( $data['contact_type'] );
 
