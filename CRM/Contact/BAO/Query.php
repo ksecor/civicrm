@@ -600,10 +600,6 @@ class CRM_Contact_BAO_Query
         // CRM_Core_Error::debug( 'r', $this->_returnProperties );
 
         foreach ( $this->_returnProperties['location'] as $name => $elements ) {
-            $index++;
-            $lName = "`$name-location`";
-            $lName = str_replace( ' ', '_', $lName );
-
             $lCond = self::getPrimaryCondition( $name );
 
             if ( !$lCond ) {
@@ -615,11 +611,8 @@ class CRM_Contact_BAO_Query
                 $this->_useDistinct = true;
                 $this->_useGroupBy  = true;
             }
-
-            $locationTypeJoin = $addressJoin = $locationIndex = null;
-
+            
             $name = str_replace( ' ', '_', $name );
-            $locationIndex = $index;
 
             $tName  = "$name-location_type";
             $ltName ="`$name-location_type`";
@@ -631,8 +624,6 @@ class CRM_Contact_BAO_Query
             $locationTypeName = $tName;
             $locationTypeJoin = array( );
             
-            $processed[$lName] = 1;
-
             $addAddress = false;
             foreach ( $elements as $elementFullName => $dontCare ) {
                 $index++;
@@ -700,7 +691,7 @@ class CRM_Contact_BAO_Query
                         }
                     }
                 }
-
+                
                 if ( $field && isset( $field['where'] ) ) {
                     list( $tableName, $fieldName ) = explode( '.', $field['where'], 2 );  
                     $tName = $name . '-' . substr( $tableName, 8 ) . $elementType;
@@ -737,6 +728,7 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_phone':
                             case 'civicrm_email':
                             case 'civicrm_im':
+
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
 
                                 //build locationType join
