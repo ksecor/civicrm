@@ -99,6 +99,7 @@ class CRM_Utils_Address
             $replacements =
                 array( // replacements in case of Individual Name Format
                       'contact_name'           => $contactName,
+                      'display_name'           => CRM_Utils_Array::value( 'display_name', $fields ),
                       'individual_prefix'      => CRM_Utils_Array::value( 'individual_prefix', $fields ),
                       'first_name'             => CRM_Utils_Array::value( 'first_name', $fields ),
                       'middle_name'            => CRM_Utils_Array::value( 'middle_name', $fields ),

@@ -131,10 +131,13 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         //get the contact information
         foreach ( $this->_contactIds as $value ) {
             // fetch the contacts
-            $params = array( 'contact_id'=> $value );
-            require_once 'api/Contact.php';
-            $contact =& crm_fetch_contact( $params, $returnProperties );
-
+            
+            require_once 'CRM/Contact/BAO/Query.php';
+            $params  = array( array( 'contact_id', '=', $value, 0, 0 ) );
+            $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
+            $details = $query->apiQuery($params, $returnProperties);
+            $contact = $details['0']["{$value}"];
+            
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }
@@ -181,6 +184,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                     $rows[$value]['first_name']           = $contact['first_name'];
                     $rows[$value]['middle_name']          = $contact['middle_name'];
                     $rows[$value]['last_name']            = $contact['last_name'];
+                    $rows[$value]['display_name']         = $contact['display_name'];
                     $rows[$value]['individual_prefix']    = $contact['individual_prefix'];
                     $rows[$value]['individual_suffix']    = $contact['individual_suffix'];
                 } else {
