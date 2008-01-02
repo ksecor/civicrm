@@ -102,7 +102,7 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $nestingLevel = $this->getCurrentNestingLevel( );
             $indent = "";
             while ( $nestingLevel-- ) {
-                $indent .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+                $indent .= "&nbsp;--&nbsp;";
             }
             $styledGroup->title = $indent . $styledGroup->title;
 
@@ -495,6 +495,33 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
         return $parentGroupIds;
     }
     
+    /**
+     * Returns array of ancestor groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupArray   List of ancestor groups
+     *
+     * @access public
+     */
+     
+    static function getAncestorGroups( $groupIds, $includeSelf = true ) {
+        $groupIds = self::getAncestorGroupIds( $groupIds, $includeSelf );
+        $params['id'] = $groupIds;
+        require_once 'CRM/Contact/BAO/Group.php';
+        return CRM_Contact_BAO_Group::getGroups( $params );
+    }
+    
+    /**
+     * Returns array of group ids of child groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupIdArray List of groupIds that represent the requested group and its children
+     *
+     * @access public
+     */
+     
     static function getChildGroupIds( $groupIds ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -510,17 +537,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
 
     /**
-     * Returns array of group ids of child groups of the specified group.
+     * Returns array of group ids of parent groups of the specified group.
      *
      * @param             $groupIds               An array of valid group ids (passed by reference)
      *
-     * @return            $groupIdArray         List of groupIds that represent the requested group and its children
+     * @return            $groupIdArray         List of groupIds that represent the requested group and its parents
      *
      * @access public
      */
-
-
-  
+     
     static function getParentGroupIds( $groupIds ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -536,16 +561,15 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
     }
 
     /**
-     * Returns array of group ids of parent groups of the specified group.
+     * Returns array of group ids of descendent groups of the specified group.
      *
      * @param             $groupIds               An array of valid group ids (passed by reference)
      *
-     * @return            $groupIdArray         List of groupIds that represent the requested group and its parents
+     * @return            $groupIdArray         List of groupIds that represent the requested group and its descendents
      *
      * @access public
      */
-
-
+     
     static function getDescendentGroupIds( $groupIds, $includeSelf = true ) {
         if ( ! is_array( $groupIds ) ) {
             $groupIds = array( $groupIds );
@@ -569,6 +593,23 @@ class CRM_Contact_BAO_GroupNesting extends CRM_Contact_DAO_GroupNesting implemen
             $childGroupIds = array_merge($childGroupIds,$newChildGroupIds);
         }
         return $childGroupIds;
+    }
+    
+    /**
+     * Returns array of descendent groups of the specified group.
+     *
+     * @param             $groupIds     An array of valid group ids (passed by reference)
+     *
+     * @return            $groupArray   List of descendent groups
+     *
+     * @access public
+     */
+     
+    static function getDescendentGroups( $groupIds, $includeSelf = true ) {
+        $groupIds = self::getDescendentGroupIds( $groupIds, $includeSelf );
+        $params['id'] = $groupIds;
+        require_once 'CRM/Contact/BAO/Group.php';
+        return CRM_Contact_BAO_Group::getGroups( $params );
     }
     
     /**
