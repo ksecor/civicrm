@@ -1465,7 +1465,7 @@ WHERE civicrm_contact.id IN $idString ";
         
         $phoneLoc   = 0;
         $phoneReset = array( );
-        static $imLoc      = 1; 
+        $imLoc      = 1; 
         
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
