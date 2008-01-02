@@ -102,6 +102,7 @@ function civicrm_source( $dsn, $fileName, $lineMode = false ) {
             }
         }
     }
+
 }
 
 function civicrm_config( &$config ) {

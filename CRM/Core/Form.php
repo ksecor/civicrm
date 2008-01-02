@@ -130,7 +130,10 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
 
-    function __construct($state = null, $action = CRM_Core_Action::NONE, $method = 'post', $name = null ) {
+    function __construct( $state = null,
+                          $action = CRM_Core_Action::NONE,
+                          $method = 'post',
+                          $name = null ) {
         if ( $name ) {
             $this->_name  = $name;
         } else {

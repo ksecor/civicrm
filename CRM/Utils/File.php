@@ -247,6 +247,48 @@ class CRM_Utils_File {
             return file_put_contents( $fileName, $data );
         }
     }
+
+    function sourceSQLFile( $dsn, $fileName, $lineMode = false ) {
+        require_once 'DB.php';
+
+        $db  =& DB::connect( $dsn );
+        if ( PEAR::isError( $db ) ) {
+            die( "Cannot open $dsn: " . $db->getMessage( ) );
+        }
+
+        if ( ! $lineMode ) {
+            $string = file_get_contents( $fileName );
+        
+            //get rid of comments starting with # and --
+            $string = ereg_replace("\n#[^\n]*\n", "\n", $string );
+            $string = ereg_replace("\n\-\-[^\n]*\n", "\n", $string );
+        
+            $queries  = explode( ';', $string );
+            foreach ( $queries as $query ) {
+                $query = trim( $query );
+                if ( ! empty( $query ) ) {
+                    $res =& $db->query( $query );
+                    if ( PEAR::isError( $res ) ) {
+                        die( "Cannot execute $query: " . $res->getMessage( ) );
+                    }
+                }
+            }
+        } else {
+            $fd = fopen( $fileName, "r" );
+            while ( $string = fgets( $fd ) ) {
+                $string = ereg_replace("\n#[^\n]*\n", "\n", $string );
+                $string = ereg_replace("\n\-\-[^\n]*\n", "\n", $string );
+                $string = trim( $string );
+                if ( ! empty( $string ) ) {
+                    $res =& $db->query( $string );
+                    if ( PEAR::isError( $res ) ) {
+                        die( "Cannot execute $string: " . $res->getMessage( ) );
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 ?>
