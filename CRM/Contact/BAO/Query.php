@@ -216,7 +216,7 @@ class CRM_Contact_BAO_Query
      *
      * @var boolean
      */
-    public $_searchChildGroups = true;
+    public $_searchDescendentGroups = true;
 
     /**
      * reference to the query object for custom values
@@ -294,7 +294,7 @@ class CRM_Contact_BAO_Query
      */
     function __construct( $params = null, $returnProperties = null, $fields = null,
                           $includeContactIds = false, $strict = false, $mode = 1,
-                          $skipPermission = false, $searchChildGroups = true ) 
+                          $skipPermission = false, $searchDescendentGroups = true ) 
     {
         require_once 'CRM/Contact/BAO/Contact.php';
 
@@ -311,11 +311,11 @@ class CRM_Contact_BAO_Query
             $this->_returnProperties =& $returnProperties;
         }
 
-        $this->_includeContactIds = $includeContactIds;
-        $this->_strict            = $strict;
-        $this->_mode              = $mode;
-        $this->_skipPermission    = false;
-        $this->_searchChildGroups = $searchChildGroups;
+        $this->_includeContactIds       = $includeContactIds;
+        $this->_strict                  = $strict;
+        $this->_mode                    = $mode;
+        $this->_skipPermission          = false;
+        $this->_searchDescendentGroups  = $searchDescendentGroups;
 
         if ( $fields ) {
             $this->_fields =& $fields;
@@ -959,7 +959,7 @@ class CRM_Contact_BAO_Query
             if ( $subgroupsDummy ) {
                 $subgroup = $this->getWhereValues( 'subgroups', $grouping );
                 if ( ! $subgroup ) {
-                    $this->_searchChildGroups = false;
+                    $this->_searchDescendentGroups = false;
                 }
             }
             $this->group( $values );
@@ -1715,11 +1715,21 @@ class CRM_Contact_BAO_Query
         //   return;
         // }
         
+        $groupNames =& CRM_Core_PseudoConstant::group();
+        
         // add child group ids to the query, if requested
-        if ( $this->_searchChildGroups ) {
+        if ( $this->_searchDescendentGroups ) {
             $groupIds = array_keys($value);
             require_once 'CRM/Contact/BAO/GroupNesting.php';
-            $groupIds = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds );
+            $descGroups = CRM_Contact_BAO_GroupNesting::getDescendentGroupIds( $groupIds, false );
+            $descendentGroupNames = array( );
+            foreach ( $descGroups as $id ) {
+                array_push( $groupIds, $id );
+                if ( array_key_exists( $id, $groupNames ) ) {
+                    $descendentGroupNames[] = $groupNames[$id];
+                }
+            }
+            $groupIds = array_merge( $groupIds, array_keys( $value ) );
         } else {
             $groupIds = array_keys($value);
         }
@@ -1727,16 +1737,22 @@ class CRM_Contact_BAO_Query
         $gcTable = "`civicrm_group_contact-" .implode( ',', array_keys($value) ) ."`";
         $this->_tables[$gcTable] = $this->_whereTables[$gcTable] = " LEFT JOIN civicrm_group_contact {$gcTable} ON contact_a.id = {$gcTable}.contact_id ";
        
-        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', $groupIds ) . ')'; 
+        $groupClause = "{$gcTable}.group_id $op (" . implode( ',', $groupIds ) . ')';
 
         $names = array( );
-        $groupNames =& CRM_Core_PseudoConstant::group();
         foreach ( $value as $id => $dontCare ) {
             if ( array_key_exists( $id, $groupNames ) ) {
                 $names[] = $groupNames[$id];
             }
         }
-        $this->_qill[$grouping][]  = ts('Member of Group %1', array( 1 => $op ) ) . ' ' . implode( ' ' . ts('or') . ' ', $names );
+        
+        $qill = ts( 'Member of Group %1', array( 1 => $op ) );
+        $qill .= ' ' . implode( ' ' . ts('or') . ' ', $names );
+        if ( $this->_searchDescendentGroups ) {
+            $qill .= ' (' . ts("or Member of 1 or more Subgroups %1", array( 1 => $op ) );
+            $qill .= ' ' . implode( ', ', $descendentGroupNames ) . ')';
+        }
+        $this->_qill[$grouping][] = $qill;
         
         $statii    =  array(); 
         $in        =  false; 
