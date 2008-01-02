@@ -178,9 +178,11 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 
                 //Add contact Details
                 if( CRM_Contact_BAO_Contact::getContactType( $value ) == 'Individual' ) {
-                    $rows[$value]['first_name']   = $contact['first_name'];
-                    $rows[$value]['middle_name']  = $contact['middle_name'];
-                    $rows[$value]['last_name']    = $contact['last_name'];
+                    $rows[$value]['first_name']           = $contact['first_name'];
+                    $rows[$value]['middle_name']          = $contact['middle_name'];
+                    $rows[$value]['last_name']            = $contact['last_name'];
+                    $rows[$value]['individual_prefix']    = $contact['individual_prefix'];
+                    $rows[$value]['individual_suffix']    = $contact['individual_suffix'];
                 } else {
                     $rows[$value]['display_name'] = $contact['display_name'];
                 }
