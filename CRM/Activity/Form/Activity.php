@@ -226,6 +226,9 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         require_once "CRM/Activity/Form/ActivityLinks.php";
         CRM_Activity_Form_ActivityLinks::buildQuickForm( );
 
+        //enable form element
+        $this->assign( 'suppressForm', false );
+
         if ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) { 
             $button = ts('Delete');
             if ( $this->_action & CRM_Core_Action::DETACH ) {
