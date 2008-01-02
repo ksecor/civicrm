@@ -148,7 +148,7 @@ class CRM_Dedupe_Merger
                 'civicrm_acl_cache'               => array('contact_id'),
                 'civicrm_activity'                => array('source_contact_id'),
                 'civicrm_activity_assignment'     => array('assignee_contact_id'),
-                'civicrm_activity_target'         => array('civicrm_contact'),
+                'civicrm_activity_target'         => array('target_contact_id'),
                 'civicrm_address'                 => array('contact_id'),
                 'civicrm_case'                    => array('contact_id'),
                 'civicrm_contact'                 => array('primary_contact_id'),
