@@ -101,9 +101,9 @@
       <legend><a href="#" onclick="hide('id-honoree'); show('id-honoree-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Honoree Information{/ts}</legend>
       <table class="form-layout-compressed">
         <tr id="showHonorOfDetailsType"><td class="label">{$form.honor_type_id.label}</td><td>{$form.honor_type_id.html}</td></tr>  
-        <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix.label}</td><td>{$form.honor_prefix.html}</td></tr>
-        <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_firstname.label}</td><td>{$form.honor_firstname.html}</td>
-        <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_lastname.label}</td><td>{$form.honor_lastname.html}</td>
+        <tr id="showHonorOfDetailsPrefix"><td class="label">{$form.honor_prefix_id.label}</td><td>{$form.honor_prefix_id.html}</td></tr>
+        <tr id="showHonorOfDetailsFname"><td class="label">{$form.honor_first_name.label}</td><td>{$form.honor_first_name.html}</td>
+        <tr id="showHonorOfDetailsLname"><td class="label">{$form.honor_last_name.label}</td><td>{$form.honor_last_name.html}</td>
         <tr id="showHonorOfDetailsEmail"><td class="label">{$form.honor_email.label}</td><td>{$form.honor_email.html}</td>
       </table>
    </fieldset>

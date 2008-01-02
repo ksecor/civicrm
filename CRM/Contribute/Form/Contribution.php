@@ -219,9 +219,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $idParams = array( 'id' => $defaults["honor_contact_id"], 'contact_id' => $defaults["honor_contact_id"] );
             CRM_Contact_BAO_Contact::retrieve( $idParams, $honorDefault, $ids );
             $honorType = CRM_Core_PseudoConstant::honor( );   
-            $defaults["honor_prefix"]    = $honorDefault["prefix_id"];
-            $defaults["honor_firstname"] = CRM_Utils_Array::value("first_name",$honorDefault);
-            $defaults["honor_lastname"]  = CRM_Utils_Array::value("last_name",$honorDefault);
+            $defaults["honor_prefix_id"]    = $honorDefault["prefix_id"];
+            $defaults["honor_first_name"] = CRM_Utils_Array::value("first_name",$honorDefault);
+            $defaults["honor_last_name"]  = CRM_Utils_Array::value("last_name",$honorDefault);
             $defaults["honor_email"]     = CRM_Utils_Array::value("email",$honorDefault["location"][1]["email"][1]);
             $defaults["honor_type"]      = $honorType[$defaults["honor_type_id"]];
         }
@@ -272,7 +272,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( CRM_Utils_Array::value('cancel_date',$defaults) || CRM_Utils_Array::value('cancel_reason',$defaults) ) {
                 $showCancel = 1;
             }
-            $honorFields = array('honor_type_id', 'honor_prefix', 'honor_firstname', 'honor_lastname',
+            $honorFields = array('honor_type_id', 'honor_prefix_id', 'honor_first_name', 'honor_lastname',
                                  'honor_email');
             foreach($honorFields as $key) {
                 if ( !empty($defaults[$key]) ) {
@@ -395,9 +395,9 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         }
         $this->addGroup($honorTypes, 'honor_type_id', null);
 
-        $this->add('select','honor_prefix',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
-        $this->add('text','honor_firstname',ts(' First Name'));
-        $this->add('text','honor_lastname',ts('Last Name'));
+        $this->add('select','honor_prefix_id',ts('Prefix') ,array('' => ts('- prefix -')) + CRM_Core_PseudoConstant::individualPrefix());
+        $this->add('text','honor_first_name',ts(' First Name'));
+        $this->add('text','honor_last_name',ts('Last Name'));
         $this->add('text','honor_email',ts('Email'));
         $this->addRule( "honor_email", ts('Email is not valid.'), 'email' );
 
@@ -494,8 +494,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         $errors = array( ); 
       
         if (isset($fields["contribution_honor"])) {
-            if ( !((  CRM_Utils_Array::value( 'honor_firstname', $fields ) && 
-                      CRM_Utils_Array::value( 'honor_lastname' , $fields )) ||
+            if ( !((  CRM_Utils_Array::value( 'honor_first_name', $fields ) && 
+                      CRM_Utils_Array::value( 'honor_last_name' , $fields )) ||
                       CRM_Utils_Array::value( 'honor_email' , $fields ) )) {
                 $errors['_qf_default'] = ts('Honor First Name and Last Name OR an email should be set.');
             }
@@ -581,15 +581,13 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
    
         $ids['contribution'] = $params['id'] = $this->_id;
         if ( CRM_Utils_Array::value( 'honor_type_id', $formValues) ) {
-            if ($formValues["honor_type_id"]) {
-                require_once 'CRM/Contribute/BAO/Contribution.php';
-                if ( $this->_honorID ) {
-                    $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
-                } else {
-                    $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
-                }
-                $params["honor_contact_id"] = $honorId;
+            require_once 'CRM/Contribute/BAO/Contribution.php';
+            if ( $this->_honorID ) {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues , $this->_honorID );
+            } else {
+                $honorId = CRM_Contribute_BAO_Contribution::createHonorContact( $formValues );
             }
+            $params["honor_contact_id"] = $honorId;
         } else {
             $params["honor_contact_id"] = 'null';
         }
@@ -788,7 +786,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             require_once 'CRM/Core/BAO/OptionGroup.php';
             CRM_Core_BAO_OptionGroup::retrieve($individualPrefixGroup, $individualPrefixGroup);
             $individualPrefix = array();
-            $individualPrefix['value']            = $formValues['honor_prefix'];      
+            $individualPrefix['value']            = $formValues['honor_prefix_id'];      
             $individualPrefix['option_group_id']  = $individualPrefixGroup['id'];
             require_once 'CRM/Core/BAO/OptionValue.php';
             CRM_Core_BAO_OptionValue::retrieve($individualPrefix,$individualPrefix );

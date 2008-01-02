@@ -32,13 +32,13 @@
  {$name}: {$value}
 {/foreach}
 {/if}
-{if $formValues.honor_firstname }
+{if $formValues.honor_first_name }
 
 ===========================================================
 {ts}In Honor Of{/ts}
 
 ===========================================================
-{$formValues.honor_prefix} {$formValues.honor_firstname} {$formValues.honor_lastname}
+{$formValues.honor_prefix} {$formValues.honor_first_name} {$formValues.honor_last_name}
 {if $formValues.honor_email}
 {ts}Honoree Email{/ts}: {$formValues.honor_email}
 {/if}

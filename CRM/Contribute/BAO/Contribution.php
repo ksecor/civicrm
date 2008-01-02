@@ -595,19 +595,18 @@ GROUP BY p.id
                               'last_name'     => $params["honor_last_name"], 
                               'prefix_id'     => $params["honor_prefix_id"],
                               'email-Primary' => $params["honor_email"] );
-
         if ( !$honorId ) {
             require_once "CRM/Core/BAO/UFGroup.php";
             $ids = CRM_Core_BAO_UFGroup::findContact( $honorParams );
             $contactsIds = explode( ',', $ids );
-
+            
             if ( is_numeric( $contactsIds[0] ) && count ( $contactsIds ) ==  1 ) {
                 $honorId = $contactsIds[0];
             }
         }
-
+        
         $contact =& CRM_Contact_BAO_Contact::createProfileContact( $honorParams, CRM_Core_DAO::$_nullArray, $honorId );
-        return $contact->id;
+        return $contact;
     }
     
     /**
