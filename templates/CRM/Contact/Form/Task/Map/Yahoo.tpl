@@ -58,10 +58,10 @@
      var GeoPoint = new YGeoPoint({/literal}{$location.lat},{$location.lng});
 
 {if $location.url and ! $profileGID}
-     var data = '<a href="{$location.url}">{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}';
+     var data = "<a href='{$location.url}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}";
 {else}
      {capture assign="profileURL"}{crmURL p='civicrm/profile/view' q="reset=1&id=`$location.contactID`&gid=$profileGID"}{/capture}
-     var data = '<a href={$profileURL}>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}';
+     var data = "<a href='{$profileURL}'>{$location.displayName}</a><br />{$location.location_type}<br />{$location.address}";
 {/if}
      var img  = '{$location.image}';
   {literal}
