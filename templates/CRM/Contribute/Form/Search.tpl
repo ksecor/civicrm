@@ -22,7 +22,7 @@
             <td class="font-size12pt label">{$form.sort_name.label}</td>
             <td>{$form.sort_name.html|crmReplace:class:'twenty'}
                 <div class="description font-italic">
-                    {ts}Complete OR partial name OR email.{/ts}
+                    {ts}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').{/ts}
                 </div>
             </td>
             <td>{$form.buttons.html}</td>       
