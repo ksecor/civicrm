@@ -733,12 +733,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 if ( $htmlType == 'File') {
                                     $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
                                                                                      $cfID );
-                                }
-
-                                if ( $fileURL ) {
                                     $params[$index] = $values[$index] = $fileURL['file_url'];
                                 } else {
-                                    // 
                                     if (is_numeric( $details->{$name} ) ) {
                                         // check if there is a . and hence a float
                                         if ( strpos( $details->{$name}, '.' ) ) {
