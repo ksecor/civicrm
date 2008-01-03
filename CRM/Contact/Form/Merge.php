@@ -301,13 +301,28 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
 
+        $main =& crm_get_contact(array('contact_id' => $this->_cid));
+
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
         if (!isset($locations)) $locations = array();
         foreach ($locations as $locTypeId => $value) {
-            // if the new location is 0, we're done; the old 
-            // location(s) will be deleted along with the other contact
-            if ($value == 0) continue;
+            $mainLocation = crm_get_locations($main, array($locTypes[$locTypeId]));
+            // delete the old location (if it exists)
+            if (isset($mainLocation[0])) {
+                // FIXME: use API 2 here when it's done
+                foreach (array('Address', 'Email', 'IM', 'Phone') as $component) {
+                    eval("\$dao =& new CRM_Core_DAO_$component();");
+                    $dao->contact_id = $this->_cid;
+                    $dao->location_type_id = $locTypeId;
+                    $dao->delete();
+                    $dao->free();
+                }
+            }
+            // if the new one is 0, we're done
+            if ($value == 0) {
+                continue;
+            }
             // otherwise, move the existing components 
             // of the other's location to main contact
             // FIXME: handle the proper primariness 
