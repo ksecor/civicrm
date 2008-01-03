@@ -50,7 +50,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         parent::preProcess( );
 
         //To check if the user is already registered for the event(CRM-2426) 
@@ -64,7 +65,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @access public
      * @return None
      */
-    function setDefaultValues( ) {
+    function setDefaultValues( ) 
+    {
         // check if the user is registered and we have a contact ID
         $session =& CRM_Core_Session::singleton( );
         $contactID = $session->get( 'userID' ); 
@@ -195,7 +197,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @access private
      */
     
-    static public function buildAmount( &$form, $required = true ) {
+    static public function buildAmount( &$form, $required = true ) 
+    {
         $elements = array( );
         $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );      
         if ( isset($form->_priceSetId) ) {
@@ -234,7 +237,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @return None 
      * @access public 
      */
-    function buildCreditCard( ) {
+    function buildCreditCard( ) 
+    {
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_paymentProcessor['billing_mode'] & CRM_Core_Payment::BILLING_MODE_FORM ) {
             foreach ( $this->_fields as $name => $field ) {
@@ -271,8 +275,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
      * @access public 
      * @static 
      */ 
-    static function formRule(&$fields, &$files, $self) {
- 
+    static function formRule(&$fields, &$files, $self) 
+    {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
 
@@ -434,7 +438,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
 
 
     
-    static function processPriceSetAmount( &$fields, &$params, &$lineItem ) {
+    static function processPriceSetAmount( &$fields, &$params, &$lineItem ) 
+    {
         // using price set
         $totalPrice    = 0;
         $radioLevel    = $checkboxLevel = $selectLevel = array( );

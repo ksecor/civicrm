@@ -203,7 +203,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     /**
      * global validation rules for the form
      *
-     * @param array $fields posted values of the form
+     * @param array $values posted values of the form
      *
      * @return array list of errors to be posted back to the form
      * @static
@@ -213,44 +213,44 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
     {
         $errors = array( );
 
-        if ( $fields['is_monetary'] ) {
-            if ( ! $fields['payment_processor_id'] ) {
+        if ( $values['is_monetary'] ) {
+            if ( ! $values['payment_processor_id'] ) {
                 $errors['payment_processor_id'] = ts( 'Please select a payment processor' );
             }
 
             //check if contribution type is selected
-            if ( !$fields['contribution_type_id'] ) {
+            if ( !$values['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = ts( "Please select contribution type." );
             }
             
             //check for the event fee label (mandatory)
-            if ( !$fields['fee_label'] ) {
+            if ( !$values['fee_label'] ) {
                 $errors['fee_label'] = ts( "Please enter the fee label for the paid event." );
             }
             
             //check fee label and amount
             $check = 0;
-            foreach ( $fields['label'] as $key => $val ) {
-                if ( trim($val) && trim($fields['value'][$key]) ) {
+            foreach ( $values['label'] as $key => $val ) {
+                if ( trim($val) && trim($values['value'][$key]) ) {
                     $check++;
                     break;
                 }
             }
-
-            if ( !$check && !$fields['price_set_id'] ) {
-                if ( !$fields['label'][1] ) {
+            
+            if ( !$check && !$values['price_set_id'] ) {
+                if ( !$values['label'][1] ) {
                     $errors['label[1]'] = "Please enter a label for at least one fee level.";
                 }
-                if ( !$fields['value'][1] ) {
+                if ( !$values['value'][1] ) {
                     $errors['value[1]'] = "Please enter an amount for at least one fee level.";
                 }
             }
 
-            if ( isset( $fields['is_pay_later'] ) ) {
-                if ( empty( $fields['pay_later_text'] ) ) {
+            if ( isset( $values['is_pay_later'] ) ) {
+                if ( empty( $values['pay_later_text'] ) ) {
                     $errors['pay_later_text'] = ts( 'Please enter the text displayed to the user' );
                 }
-                if ( empty( $fields['pay_later_receipt'] ) ) {
+                if ( empty( $values['pay_later_receipt'] ) ) {
                     $errors['pay_later_receipt'] = ts( 'Please enter the message to be sent to the user' );
                 }
             }

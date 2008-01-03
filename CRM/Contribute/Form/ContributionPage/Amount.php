@@ -150,7 +150,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      * @access public  
      * @static  
      */  
-    static function formRule( &$fields, &$files, $options ) {  
+    static function formRule( &$fields, &$files, $options ) 
+    {  
         $errors = array( );  
 
         $minAmount = CRM_Utils_Array::value( 'min_amount', $fields );
@@ -198,30 +199,28 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
         $labels  = CRM_Utils_Array::value( 'label'  , $params );
         $values  = CRM_Utils_Array::value( 'value'  , $params );
         $default = CRM_Utils_Array::value( 'default', $params ); 
-
+        
         $params['amount_block_is_active']  = CRM_Utils_Array::value( 'amount_block_is_active', $params, false );
         $params['is_monetary']  = CRM_Utils_Array::value( 'is_monetary', $params ,false );
         $params['is_recur']  = CRM_Utils_Array::value( 'is_recur', $params ,false);
-
+     
         $options = array( );
-        if ( ! CRM_Utils_System::isNull( $values ) ) {
-            for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
-                if ( isset( $values[$i] ) &&
-                     ( strlen( trim( $values[$i] ) ) > 0 ) ) {
-                    $options[] = array( 'label'      => trim( $labels[$i] ),
-                                        'value'      => CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) ),
-                                        'weight'     => $i,
-                                        'is_active'  => 1,
-                                        'is_default' => $default == $i );
-                }
-            }
-            if ( ! empty( $options ) ) {
-                $params['default_amount_id'] = null;
-                CRM_Core_OptionGroup::createAssoc( "civicrm_contribution_page.amount.{$this->_id}",
-                                                   $options,
-                                                   $params['default_amount_id'] );
+        
+        for ( $i = 1; $i < self::NUM_OPTION; $i++ ) {
+            if ( isset( $values[$i] ) &&
+                 ( strlen( trim( $values[$i] ) ) > 0 ) ) {
+                $options[] = array( 'label'      => trim( $labels[$i] ),
+                                    'value'      => CRM_Utils_Rule::cleanMoney( trim( $values[$i] ) ),
+                                    'weight'     => $i,
+                                    'is_active'  => 1,
+                                    'is_default' => $default == $i );
             }
         }
+        
+        $params['default_amount_id'] = null;
+        CRM_Core_OptionGroup::createAssoc( "civicrm_contribution_page.amount.{$this->_id}",
+                                           $options,
+                                           $params['default_amount_id'] );
         
         require_once 'CRM/Contribute/BAO/ContributionPage.php';
         $dao = CRM_Contribute_BAO_ContributionPage::create( $params );
@@ -233,7 +232,8 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
      * @return string 
      * @access public 
      */ 
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Amounts' );
     }
     

@@ -33,10 +33,12 @@
  *
  */
 
-class CRM_Core_OptionGroup {
+class CRM_Core_OptionGroup 
+{
     static $_values = array( );
 
-    static function &valuesCommon( $dao, $flip = false, $grouping = false, $localize = false ) {
+    static function &valuesCommon( $dao, $flip = false, $grouping = false, $localize = false ) 
+    {
         self::$_values = array( );
 
         while ( $dao->fetch( ) ) {
@@ -61,7 +63,8 @@ class CRM_Core_OptionGroup {
         return self::$_values;
     }
 
-    static function &values( $name, $flip = false, $grouping = false, $localize = false, $condition = null ) {
+    static function &values( $name, $flip = false, $grouping = false, $localize = false, $condition = null ) 
+    {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value, v.grouping as grouping
@@ -85,7 +88,8 @@ WHERE  v.option_group_id = g.id
         return self::valuesCommon( $dao, $flip, $grouping, $localize );
     }
 
-    static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false ) {
+    static function &valuesByID( $id, $flip = false, $grouping = false, $localize = false ) 
+    {
         $query = "
 SELECT  v.label as label ,v.value as value, v.grouping as grouping
 FROM   civicrm_option_value v,
@@ -125,7 +129,8 @@ WHERE  v.option_group_id = g.id
      * @access public
      * @static
      */
-    static function lookupValues( &$params, &$names, $flip = false ) {
+    static function lookupValues( &$params, &$names, $flip = false ) 
+    {
         require_once "CRM/Core/BAO/CustomOption.php";
         $domainID = CRM_Core_Config::domainID( );
         foreach ($names as $postName => $value) {
@@ -173,7 +178,8 @@ WHERE  v.option_group_id = g.id
         }
     }
 
-    static function getLabel( $groupName, $value ) {
+    static function getLabel( $groupName, $value ) 
+    {
         $domainID = CRM_Core_Config::domainID( );
         $query = "
 SELECT  v.label as label ,v.value as value
@@ -196,7 +202,8 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function getValue( $groupName, $label, $labelField = 'label' ) {
+    static function getValue( $groupName, $label, $labelField = 'label' ) 
+    {
         if ( empty( $label ) ) {
             return null;
         }
@@ -223,37 +230,42 @@ WHERE  v.option_group_id = g.id
         return null;
     }
 
-    static function createAssoc( $groupName, &$values, &$defaultID ) {
+    static function createAssoc( $groupName, &$values, &$defaultID ) 
+    {
         // delete groupName if already present
         self::deleteAssoc( $groupName );
-
-        require_once 'CRM/Core/DAO/OptionGroup.php';
-        $group = new CRM_Core_DAO_OptionGroup( );
-        $group->domain_id   = CRM_Core_Config::domainID( );
-        $group->name        = $groupName;
-        $group->is_reserved = 1;
-        $group->is_active   = 1;
-        $group->save( );
-        
-        require_once 'CRM/Core/DAO/OptionValue.php';
-        foreach ( $values as $v ) {
-            $value = new CRM_Core_DAO_OptionValue( );
-            $value->option_group_id = $group->id;
-            $value->label           = $v['label'];
-            $value->value           = $v['value'];
-            $value->name            = $v['name'];
-            $value->weight          = $v['weight'];
-            $value->is_default      = $v['is_default'];
-            $value->is_active       = $v['is_active'];
-            $value->save( );
-
-            if ( $value->is_default ) {
-                $defaultID = $value->id;
+        if ( ! empty( $values ) ) {
+            require_once 'CRM/Core/DAO/OptionGroup.php';
+            $group = new CRM_Core_DAO_OptionGroup( );
+            $group->domain_id   = CRM_Core_Config::domainID( );
+            $group->name        = $groupName;
+            $group->is_reserved = 1;
+            $group->is_active   = 1;
+            $group->save( );
+            
+            require_once 'CRM/Core/DAO/OptionValue.php';
+            foreach ( $values as $v ) {
+                $value = new CRM_Core_DAO_OptionValue( );
+                $value->option_group_id = $group->id;
+                $value->label           = $v['label'];
+                $value->value           = $v['value'];
+                $value->name            = $v['name'];
+                $value->weight          = $v['weight'];
+                $value->is_default      = $v['is_default'];
+                $value->is_active       = $v['is_active'];
+                $value->save( );
+                
+                if ( $value->is_default ) {
+                    $defaultID = $value->id;
+                }
             }
+        } else {
+            $defaultID = 'null';   
         }
     }
-
-    static function getAssoc( $groupName, &$values ) {
+    
+    static function getAssoc( $groupName, &$values ) 
+    {
         $query = "
 SELECT v.id, v.value, v.label
   FROM civicrm_option_group g,
@@ -278,7 +290,8 @@ ORDER BY v.weight
         } 
     }
 
-    static function deleteAssoc( $groupName ) {
+    static function deleteAssoc( $groupName ) 
+    {
         $query = "
 DELETE g, v
   FROM civicrm_option_group g,
