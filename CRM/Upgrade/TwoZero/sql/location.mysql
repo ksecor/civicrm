@@ -1,0 +1,121 @@
+-- /********************************************************************
+-- *
+-- * MySQL Script for location tables upgradation, from 1.9 -> 2.0
+-- *
+-- *********************************************************************/
+
+
+
+-- /*******************************************************
+-- *
+-- * Add civicrm_loc_block table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_loc_block` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `address_id` int(10) unsigned NULL DEFAULT NULL,
+    `email_id` int(10) unsigned NULL DEFAULT NULL,
+    `phone_id` int(10) unsigned NULL DEFAULT NULL,
+    `im_id` int(10) unsigned NULL DEFAULT NULL,
+    `address_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `email_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `phone_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `im_2_id` int(10) unsigned NULL DEFAULT NULL,
+    name varchar(255) NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT `FK_civicrm_loc_block_address_id` FOREIGN KEY (`address_id`) REFERENCES `civicrm_address` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_email_id` FOREIGN KEY (`email_id`) REFERENCES `civicrm_email` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_phone_id` FOREIGN KEY (`phone_id`) REFERENCES `civicrm_phone` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_im_id` FOREIGN KEY (`im_id`) REFERENCES `civicrm_im` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_address_2_id` FOREIGN KEY (`address_2_id`) REFERENCES `civicrm_address` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_email_2_id` FOREIGN KEY (`email_2_id`) REFERENCES `civicrm_email` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_phone_2_id` FOREIGN KEY (`phone_2_id`) REFERENCES `civicrm_phone` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_im_2_id` FOREIGN KEY (`im_2_id`) REFERENCES `civicrm_im` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Alter civicrm_address table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_address`
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    ADD `location_type_id` int(10) unsigned NULL DEFAULT NULL AFTER contact_id,
+    ADD `is_primary` tinyint(4) NULL DEFAULT '0' AFTER location_type_id,
+    ADD `is_billing` tinyint(4) NULL DEFAULT '0' AFTER is_primary,
+    DROP FOREIGN KEY `FK_civicrm_address_location_id`,
+    DROP `location_id`,
+    DROP FOREIGN KEY `FK_civicrm_address_geo_coord_id`,
+    DROP `geo_coord_id`,
+    DROP note,
+    ADD INDEX `index_location_type` (`location_type_id`),
+    ADD INDEX `index_is_primary` (`is_primary`),
+    ADD INDEX `index_is_billing` (`is_billing`),
+    DROP INDEX UI_location,
+    DROP FOREIGN KEY `FK_civicrm_address_county_id`,
+    DROP FOREIGN KEY `FK_civicrm_address_state_province_id`,
+    DROP FOREIGN KEY `FK_civicrm_address_country_id`,
+    ADD CONSTRAINT `FK_civicrm_address_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `civicrm_address`
+    ADD CONSTRAINT `FK_civicrm_address_county_id` FOREIGN KEY (`county_id`) REFERENCES `civicrm_county` (`id`) ON DELETE SET NULL,
+    ADD CONSTRAINT `FK_civicrm_address_state_province_id` FOREIGN KEY (`state_province_id`) REFERENCES `civicrm_state_province` (`id`) ON DELETE SET NULL,
+    ADD CONSTRAINT `FK_civicrm_address_country_id` FOREIGN KEY (`country_id`) REFERENCES `civicrm_country` (`id`) ON DELETE SET NULL;
+
+
+-- /*******************************************************
+-- *
+-- * Alter civicrm_email table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_email`
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    ADD `location_type_id` int(10) unsigned NULL DEFAULT NULL AFTER contact_id,
+    ADD `is_billing` tinyint(4) NULL DEFAULT '0' AFTER is_primary,
+    DROP FOREIGN KEY `FK_civicrm_email_location_id`,
+    DROP `location_id`,
+    ADD INDEX `index_location_type` (`location_type_id`),
+    ADD INDEX `index_is_primary` (`is_primary`),
+    ADD INDEX `index_is_billing` (`is_billing`),
+    ADD CONSTRAINT `FK_civicrm_email_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Alter civicrm_phone table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_phone`
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    ADD `location_type_id` int(10) unsigned NULL DEFAULT NULL AFTER contact_id,
+    ADD `is_billing` tinyint(4) NULL DEFAULT '0' AFTER is_primary,
+    DROP FOREIGN KEY `FK_civicrm_phone_location_id`,
+    DROP `location_id`,
+    ADD INDEX `index_location_type` (`location_type_id`),
+    ADD INDEX `index_is_primary` (`is_primary`),
+    ADD INDEX `index_is_billing` (`is_billing`),
+    ADD CONSTRAINT `FK_civicrm_phone_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Alter civicrm_im table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_im`
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    ADD `location_type_id` int(10) unsigned NULL DEFAULT NULL AFTER contact_id,
+    ADD `is_billing` tinyint(4) NULL DEFAULT '0' AFTER is_primary,
+    DROP FOREIGN KEY `FK_civicrm_im_location_id`,
+    DROP `location_id`,
+    ADD INDEX `index_location_type` (`location_type_id`),
+    ADD INDEX `index_is_primary` (`is_primary`),
+    ADD INDEX `index_is_billing` (`is_billing`),
+    ADD CONSTRAINT `FK_civicrm_im_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
