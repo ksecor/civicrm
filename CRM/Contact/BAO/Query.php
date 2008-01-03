@@ -2570,6 +2570,12 @@ class CRM_Contact_BAO_Query
                         $orderBy = trim( $sort->orderBy() );
                     }
                     if ( ! empty( $orderBy ) ) {
+                        // this is special case while searching for
+                        // changelog CRM-1718
+                        if ( preg_match ( '/sort_name/i', $orderBy) ) {
+                            $orderBy = str_replace( 'sort_name', 'contact_a.sort_name', $orderBy );
+                        } 
+
                         $order = " ORDER BY $orderBy";
                     }
                 } else if ($sortByChar) { 
