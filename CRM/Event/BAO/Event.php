@@ -403,26 +403,27 @@ LIMIT      0, 10
     {
         
         $sql = "
-SELECT
-  civicrm_event.id as event_id,
-  civicrm_event.title as display_name,
-  civicrm_address.street_address as street_address,
-  civicrm_address.city as city,
-  civicrm_address.postal_code as postal_code,
-  civicrm_address.postal_code_suffix as postal_code_suffix,
-  civicrm_address.geo_code_1 as latitude,
-  civicrm_address.geo_code_2 as longitude,
-  civicrm_state_province.abbreviation as state,
-  civicrm_country.name as country,
-  civicrm_location_type.name as location_type
-FROM civicrm_event
-LEFT JOIN civicrm_location ON (civicrm_location.entity_table = 'civicrm_event' AND
-                               civicrm_event.id = civicrm_location.entity_id )
-LEFT JOIN civicrm_address ON civicrm_location.id = civicrm_address.location_id
-LEFT JOIN civicrm_state_province ON civicrm_address.state_province_id = civicrm_state_province.id
-LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
-LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_location.location_type_id
-WHERE civicrm_event.id =" . CRM_Utils_Type::escape( $id, 'Integer' );
+SELECT 
+   civicrm_event.id AS event_id, 
+   civicrm_event.title AS display_name, 
+   civicrm_address.street_address AS street_address, 
+   civicrm_address.city AS city, 
+   civicrm_address.postal_code AS postal_code, 
+   civicrm_address.postal_code_suffix AS postal_code_suffix, 
+   civicrm_address.geo_code_1 AS latitude, 
+   civicrm_address.geo_code_2 AS longitude, 
+   civicrm_state_province.abbreviation AS state, 
+   civicrm_country.name AS country, 
+   civicrm_location_type.name AS location_type
+FROM 
+   civicrm_event
+   LEFT JOIN civicrm_loc_block ON ( civicrm_event.loc_block_id = civicrm_loc_block.id )
+   LEFT JOIN civicrm_address ON ( civicrm_loc_block.address_id = civicrm_address.id )
+   LEFT JOIN civicrm_state_province ON ( civicrm_address.state_province_id = civicrm_state_province.id )
+   LEFT JOIN civicrm_country ON civicrm_address.country_id = civicrm_country.id
+   LEFT JOIN civicrm_location_type ON ( civicrm_location_type.id = civicrm_address.location_type_id )
+WHERE 
+   civicrm_event.id = " . CRM_Utils_Type::escape( $id, 'Integer' );
        
         $dao =& new CRM_Core_DAO( );
         $dao->query( $sql );
