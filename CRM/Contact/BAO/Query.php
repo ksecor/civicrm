@@ -776,7 +776,11 @@ class CRM_Contact_BAO_Query
 
             // add location type  join
             $ltypeJoin = "\nLEFT JOIN civicrm_location_type $ltName ON ( " . implode( 'OR', $locationTypeJoin ) . " )";
-            $this->_whereTables[ $locationTypeName ] = $this->_tables[ $locationTypeName ] = $ltypeJoin;
+            $this->_tables[ $locationTypeName ] = $ltypeJoin;
+            
+            if ( $addWhere ) {
+                $this->_whereTables[ $locationTypeName ] = $this->_tables[ $locationTypeName ];
+            }
         }
     }
 
