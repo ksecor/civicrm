@@ -728,13 +728,15 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } else {
                             require_once 'CRM/Core/BAO/CustomField.php';
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                $customOptionValueId = "custom_value_{$cfID}_id";
+                                $htmlType  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $cfID, 'html_type', 'id'  );
 
-                                $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
-                                                                                 $details->$name,
-                                                                                 $details->$customOptionValueId );
+                                if ( $htmlType == 'File') {
+                                    $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
+                                                                                     $cfID );
+                                }
+
                                 if ( $fileURL ) {
-                                    $params[$index] = $values[$index] = $fileURL;
+                                    $params[$index] = $values[$index] = $fileURL['file_url'];
                                 } else {
                                     // 
                                     if (is_numeric( $details->{$name} ) ) {

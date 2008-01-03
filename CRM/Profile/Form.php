@@ -184,7 +184,7 @@ class CRM_Profile_Form extends CRM_Core_Form
      */ 
     function setDefaultsValues( ) 
     {
-        $defaults = array( );        
+        $defaults = array( );   
         if ( $this->_id ) {
             CRM_Core_BAO_UFGroup::setProfileDefaults( $this->_id, $this->_fields, $defaults, true );
         }
@@ -208,24 +208,19 @@ class CRM_Profile_Form extends CRM_Core_Form
                 }
                 
                 if ( $htmlType == 'File') {
-                    $customOptionValueId = "custom_value_{$customFieldID}_id";
-                    $url = CRM_Core_BAO_CustomField::getFileURL( $this->_id,
-                                                                 $defaults[$name],
-                                                                 $defaults[$customOptionValueId] );
+                    $url = CRM_Core_BAO_CustomField::getFileURL( $this->_id, $customFieldID );
                     
                     if ( $url ) {
-                        $customFiles[$field['name']]['displayURL'] = "Attached File : $url";
+                        $customFiles[$field['name']]['displayURL'] = "Attached File : {$url['file_url']}";
                         
                         $deleteExtra = "Are you sure you want to delete attached file ?";
-                        $fileId      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomValue',
-                                                                    $defaults[$customOptionValueId],
-                                                                    'file_id', 'id' );
+                        $fileId      = $url['file_id'];
                         $deleteURL   = CRM_Utils_System::url( 'civicrm/file',
                                                               "reset=1&id={$fileId}&eid=$this->_id&action=delete" );
                         $customFiles[$field['name']]['deleteURL'] =
                             "<a href=\"{$deleteURL}\" onclick = \"if (confirm( ' $deleteExtra ' )) this.href+='&amp;confirmed=1'; else return false;\">Delete Attached File</a>";
                     }
-                }
+                } 
             }
         }
         if ( isset( $customFiles ) ) {
