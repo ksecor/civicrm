@@ -388,7 +388,7 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
         if (isset($submitted)) {
             $submitted['contact_id'] = $this->_cid;
-            CRM_Contact_BAO_Contact::createProfileContact($submitted, CRM_Core_DAO::$_nullArray);
+            CRM_Contact_BAO_Contact::createProfileContact($submitted, CRM_Core_DAO::$_nullArray, $this->_cid);
         }
         CRM_Core_Session::setStatus(ts('The contacts have been merged.'));
     }

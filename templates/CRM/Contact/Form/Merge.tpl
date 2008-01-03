@@ -24,6 +24,6 @@
   <!--<p>{$form.deleteOther.html} {$form.deleteOther.label}</p>-->
 </div>
 <div class='form-item'>
-    <p><strong>{ts}WARNING: The Duplicate Contact record WILL BE DELETED after the Merge is complete.</strong>{/ts}</strong><br />
+    <p><strong>{ts}WARNING: The duplicate contact record WILL BE DELETED after the merge is complete.{/ts}</strong></strong><br />
     {$form.buttons.html}</p>
 </div>
