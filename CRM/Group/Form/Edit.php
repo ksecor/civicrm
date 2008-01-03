@@ -208,7 +208,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             $this->assign_by_ref( 'child_groups', $childGroups );
             
             require_once 'CRM/Contact/BAO/Group.php';
-            $childGroupSelectValues = array( '' => '' );
+            $childGroupSelectValues = array( '' => '- ' . ts('select') . ' -' );
             if ( isset( $this->_id ) ) {
                 $potentialChildGroupIds = CRM_Contact_BAO_GroupNesting::getPotentialChildGroupIds( $this->_id );
             } else {
@@ -220,14 +220,20 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
             }
             
             foreach ( $potentialChildGroupIds as $potentialChildGroupId ) {
-                $potentialChildGroupInfo = array( );
                 $params = array( 'id' => $potentialChildGroupId );
+                require_once 'CRM/Core/PseudoConstant.php';
+                $groupNames =& CRM_Core_PseudoConstant::group();
+                if ( array_key_exists( $potentialChildGroupId, $groupNames ) ) {
+                    $childGroupSelectValues[$potentialChildGroupId] = $groupNames[$potentialChildGroupId];
+                }
+                /*
                 CRM_Contact_BAO_Group::retrieve( $params, $potentialChildGroupInfo );
                 $childGroupSelectValues[$potentialChildGroupId] = $potentialChildGroupInfo['title'];
+                */
             }
             
             if ( count( $childGroupSelectValues ) > 1 ) {
-                $this->add( 'select', 'add_child_group', ts('Add Child Group'), $childGroupSelectValues );
+                $this->add( 'select', 'add_child_group', ts('Add Subgroup'), $childGroupSelectValues );
             }
 
             $this->addButtons( array(

@@ -27,10 +27,10 @@
 </fieldset>
 </div>
 <div class="form-item">
-<fieldset><legend>{ts}Child Groups{/ts}</legend>
+<fieldset><legend>{ts}Subgroups{/ts}</legend>
     {if $child_groups|@count > 0}
     <dl>
-        <dt>Remove?</dt><dd>Child Group</dd>
+        <dt>Remove?</dt><dd>Subgroup</dd>
         {foreach from=$child_groups item=cgroup key=group_id}
             {assign var="element_name" value="remove_child_group_"|cat:$group_id}
             <dt>{$form.$element_name.html}</dt><dd>{$form.$element_name.label}</dd>
