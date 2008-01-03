@@ -100,18 +100,21 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
             if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
             if ($location['is_primary']) $vcard->addParam('TYPE', 'PREF');
 
-            foreach ($location['phone'] as $phone) {
-                $vcard->addTelephone($phone['phone']);
-                if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
-                if ($phone['is_primary']) $vcard->addParam('TYPE', 'PREF');
+            if ( CRM_Utils_Array::value( 'phone', $location ) ) {
+                foreach ($location['phone'] as $phone) {
+                    $vcard->addTelephone($phone['phone']);
+                    if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
+                    if ($phone['is_primary']) $vcard->addParam('TYPE', 'PREF');
+                }
             }
-
-            foreach ($location['email'] as $email) {
-                $vcard->addEmail($email['email']);
-                if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
-                if ($email['is_primary']) $vcard->addParam('TYPE', 'PREF');
+            
+            if ( CRM_Utils_Array::value( 'email', $location ) ) {
+                foreach ($location['email'] as $email) {
+                    $vcard->addEmail($email['email']);
+                    if ($location['vcard_name']) $vcard->addParam('TYPE', $location['vcard_name']);
+                    if ($email['is_primary']) $vcard->addParam('TYPE', 'PREF');
+                }
             }
-
         }
 
         // all that's left is sending the vCard to the browser
