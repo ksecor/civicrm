@@ -39,8 +39,8 @@ require_once 'CRM/Contribute/PseudoConstant.php';
 /**
  * form to process actions on Membership
  */
-class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPage {
-    
+class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPage 
+{
     /**
      * This function sets the default values for the form. Note that in edit/view mode
      * the default values are retrieved from the database
@@ -150,7 +150,8 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      * @access public
      * @static
      */
-    public function formRule(&$params, &$files, $contributionPageId = null ) {
+    public function formRule(&$params, &$files, $contributionPageId = null ) 
+    {
         $errors = array( );
         if ( CRM_Utils_Array::value( 'is_active', $params ) ) {
             if ( !  isset ( $params['membership_type'] ) ||
@@ -217,12 +218,14 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
                     $membershipTypes[] = $k;
                 }
             }
-                }
+        }
+        
+        $params['membership_type_default']       =  CRM_Utils_Array::value( 'membership_type_default', $params, 'null' );
         $params['membership_types']              =  implode(',', $membershipTypes);
         $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
         $params['is_active']                     =  CRM_Utils_Array::value( 'is_active', $params, false );
         $params['display_min_fee']               =  CRM_Utils_Array::value( 'display_min_fee', $params, false );
-        $params['is_separate_payment']              =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
+        $params['is_separate_payment']           =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
         $params['entity_table']                  = 'civicrm_contribution_page';
         $params['entity_id']                     =  $this->_id;
         
@@ -237,7 +240,8 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
      * @return string 
      * @access public 
      */ 
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts( 'Memberships' );
     }
 }
