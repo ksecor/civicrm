@@ -442,6 +442,42 @@ class CRM_Core_DAO extends DB_DataObject {
     }
 
     /**
+     * Check if there is a given column in a specific table
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * 
+     * @return boolean true if exists, else false
+     * @static
+     */
+      function checkFieldExists( $tableName, $columnName ) {
+          $query = "
+SHOW COLUMNS
+FROM %1
+LIKE %2
+";
+          $params = array( 1 => array( $tableName , 'String' ),
+                           2 => array( $columnName, 'String' ) );
+          $dao = CRM_Core_DAO::executeQuery( $query, $params );
+          $result = $dao->fetch( ) ? true : false;
+          $dao->free( );
+          return $result;
+      }
+
+      function checkVersion( $version ) {
+          $query = "
+SELECT version
+FROM   civicrm_domain
+WHERE  id = %1
+";
+          $params = array( 1 => array( CRM_Core_Config::domainID( ),
+                                       'Integer' ) );
+          $dbVersion = CRM_Core_DAO::singleValueQuery( $query, $params );
+          return trim( $version ) == trim( $dbVersion ) ? true : false;
+      }
+
+
+    /**
      * Given a DAO name and its id, get the value of the field requested
      *
      * @param string $daoName   the name of the DAO

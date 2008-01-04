@@ -146,6 +146,10 @@ class CRM_Core_Invoke
             self::friend( $args );
             break;
 
+        case 'upgrade':
+            self::upgrade( $args );
+            break;
+
         default         :
             if ( CRM_Core_Component::invoke( $args, 'main' ) ) {
                 break;
@@ -174,6 +178,25 @@ class CRM_Core_Invoke
         
         $wrapper =& new CRM_Utils_Wrapper( );
         return $wrapper->run( 'CRM_Friend_Form', ts('Tell A Friend'), null);
+    }
+
+     /**
+     * This function contains the upgrade options
+     *
+     * @param $args array this array contains the arguments of the url 
+     *
+     * @static
+     * @access public
+     */
+    static function upgrade( $args ) 
+    {
+        if ( $args[1] !== 'upgrade' ) {
+            return;
+        }
+
+        require_once 'CRM/Upgrade/Controller/TwoZero/Controller.php';
+        $controller =& new CRM_Upgrade_Controller_TwoZero_Controller( );
+        return $controller->run( );
     }
 
     /**

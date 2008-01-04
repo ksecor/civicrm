@@ -33,32 +33,27 @@
  *
  */
 
-require_once 'CRM/Upgrade/Base.php';
+require_once 'CRM/Core/Controller.php';
 
-class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
+class CRM_Upgrade_Controller_Base extends CRM_Core_Controller {
 
-    function verifyPreDBState( ) {
-    }
+    /**
+     * class constructor
+     */
+    function __construct( $title = null,
+                          $action = CRM_Core_Action::NONE,
+                          $modal = true ) {
+        parent::__construct( $title, $modal );
 
-    function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
-        $sqlFile = implode( DIRECTORY_SEPARATOR,
-                            array( $currentDir, 'sql', 'main.sql' ) );
-        $this->source( $sqlFile );
-    }
+        require_once 'CRM/Upgrade/StateMachine/Base.php';
+        $this->_stateMachine =& new CRM_Upgrade_StateMachine_Base( $this,
+                                                                   $this->getPages( ), 
+                                                                   $action );
 
-    function verifyPostDBState( ) {
-    }
-
-    function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step One' );
-    }
-
-    function getButtonTitle( ) {
-        return ts( 'Proceed to Step Two' );
+        // create and instantiate the pages
+        $this->addPages( $this->_stateMachine, $action );
     }
 
 }
-
 
 ?>

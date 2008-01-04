@@ -35,7 +35,7 @@
 
 require_once 'CRM/Upgrade/Base.php';
 
-class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
+class CRM_Upgrade_TwoZero_Step3 extends CRM_Upgrade_Base {
 
     function verifyPreDBState( ) {
     }
@@ -51,11 +51,11 @@ class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step One' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Three' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Proceed to Step Two' );
+        return ts( 'Proceed to Step Four' );
     }
 
 }

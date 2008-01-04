@@ -65,36 +65,6 @@ class CRM_Upgrade_Base extends CRM_Core_Form {
           return true;
       }
 
-      function checkFieldExists( $tableName, $columnName ) {
-          $query = "
-SHOW COLUMNS
-FROM %1
-LIKE %2
-";
-          $params = array( 1 => array( $tableName , 'String' ),
-                           2 => array( $columnName, 'String' ) );
-          $dao = CRM_Core_DAO::executeQuery( $query, $params );
-          $result = $dao->fetch( ) ? true : false;
-          $dao->free( );
-          return $result;
-      }
-
-      function checkVersion( $version ) {
-          $query = "
-SELECT version
-FROM   civicrm_domain
-WHERE  id = %1
-";
-          $params = array( 1 => array( CRM_Core_Config::domainID( ),
-                                       'Integer' ) );
-          $dbVersion = CRM_Core_DAO::singleValueQuery( $query, $params );
-          if ( trim( $version ) != trim( $dbVersion ) ) {
-              CRM_Core_Error::statusBounce( ts( 'Your DB version did not match the expected version. Please restore your DB from the backup and try again' ) );
-          }
-
-          return true;
-      }
-
       function source( $fileName ) {
           require_once 'CRM/Utils/File.php';
 
