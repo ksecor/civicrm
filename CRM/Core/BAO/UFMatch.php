@@ -328,36 +328,32 @@ WHERE openid = %1";
             
             //check if the primary email for the contact exists 
             //$contactDetails[1] - email 
-            //$contactDetails[3] - location id
-            $contactDetails = CRM_Contact_BAO_Contact::getEmailDetails($contactId);
+            //$contactDetails[3] - email id
+            $contactDetails = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
 
-            if (trim($contactDetails[1])) {
+            if ( trim($contactDetails[1]) ) {
+                $emailID = $contactDetails[3];
                 //update if record is found
-                $query ="UPDATE  civicrm_contact, civicrm_location,civicrm_email
+                $query ="UPDATE  civicrm_email
                      SET email = %1
-                     WHERE civicrm_location.entity_table = 'civicrm_contact' 
-                       AND civicrm_contact.id  = civicrm_location.entity_id 
-                       AND civicrm_location.is_primary = 1 
-                       AND civicrm_location.id = civicrm_email.location_id 
-                       AND civicrm_email.is_primary = 1   
-                       AND civicrm_contact.id =  %2";
+                     WHERE id =  %2";
                 $p = array( 1 => array( $emailAddress, 'String'  ),
-                            2 => array( $contactId   , 'Integer' ) );
+                            2 => array( $emailID, 'Integer' ) );
                 $dao =& CRM_Core_DAO::executeQuery( $query, $p );
             } else {
                 //else insert a new email record
                 $email =& new CRM_Core_DAO_Email();
-                $email->location_id = $contactDetails[3];
+                $email->contact_id  = $contactId;
                 $email->is_primary  = 1;
                 $email->email       = $emailAddress; 
                 $email->save( );
                 $emailID = $email->id;
             }
+
             require_once 'CRM/Core/BAO/Log.php';
-            // we dont know the email id, so we use the location id
             CRM_Core_BAO_Log::register( $contactId,
-                                        'civicrm_location',
-                                        $contactDetails[3] );
+                                        'civicrm_email',
+                                        $emailID  );
         }
     }
     
