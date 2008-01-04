@@ -1,0 +1,427 @@
+-- /********************************************************************
+-- *
+-- * MySQL Script for civicrm_contact table upgradation from 1.9 -> 2.0
+-- *
+-- *********************************************************************/
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_component table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_component` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Component ID',
+  `name` varchar(64) collate utf8_unicode_ci NOT NULL COMMENT 'Name of the component.',
+  `namespace` varchar(128) collate utf8_unicode_ci default NULL COMMENT 'Path to components main directory in a form of a class\nnamespace.',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_contribution table
+-- *
+-- *******************************************************/
+ALTER TABLE `civicrm_contribution`
+    ADD `honor_type_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Implicit FK to civicrm_option_value.' AFTER contribution_status_id;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_contribution_page table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_contribution_page`
+    ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' COMMENT 'if true - allows the user to send payment directly to the org later' AFTER is_recur,
+    ADD `pay_later_text` text NULL DEFAULT NULL COMMENT 'The text displayed to the user in the main form' COLLATE utf8_unicode_ci AFTER is_pay_later,
+    ADD `pay_later_receipt` text NULL DEFAULT NULL COMMENT 'The receipt sent to the user instead of the normal receipt text' COLLATE utf8_unicode_ci AFTER pay_later_text,
+    MODIFY `default_amount_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
+    DROP `is_thermometer`,
+    DROP `thermometer_title`;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_contribution_widget table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_contribution_widget` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Contribution Id' auto_increment,
+    `contribution_page_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'The Contribution Page which triggered this contribution',
+    `is_active` tinyint(4) NULL DEFAULT NULL COMMENT 'Is this property active?',
+    `title` varchar(255) NULL DEFAULT NULL COMMENT 'Widget title.' COLLATE utf8_unicode_ci,
+    `url_logo` varchar(255) NULL DEFAULT NULL COMMENT 'URL to Widget logo' COLLATE utf8_unicode_ci,
+    `button_title` varchar(255) NULL DEFAULT NULL COMMENT 'Button title.' COLLATE utf8_unicode_ci,
+    `about` text NULL DEFAULT NULL COMMENT 'About description.' COLLATE utf8_unicode_ci,
+    `url_homepage` varchar(255) NULL DEFAULT NULL COMMENT 'URL to Homepage.' COLLATE utf8_unicode_ci,
+    `color_title` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_button` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_bar` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_main_text` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_main` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_main_bg` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_bg` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_about_link` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `color_homepage_link` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    PRIMARY KEY (`id`),
+    INDEX `FK_civicrm_contribution_widget_contribution_page_id` (`contribution_page_id`),
+    CONSTRAINT `FK_civicrm_contribution_widget_contribution_page_id` FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page` (`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_grant table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_grant` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Unique Grant id' auto_increment,
+    `contact_id` int(10) unsigned NOT NULL COMMENT 'Contact ID of contact record given grant belongs to.',
+    `application_received_date` date NULL DEFAULT NULL COMMENT 'Date on which grant application was received by donor.',
+    `decision_date` date NULL DEFAULT NULL COMMENT 'Date on which grant decision was made.',
+    `money_transfer_date` date NULL DEFAULT NULL COMMENT 'Date on which grant money transfer was made.',
+    `grant_due_date` date NULL DEFAULT NULL COMMENT 'Date on which grant report is due.',
+    `grant_report_received` tinyint(4) NULL DEFAULT NULL COMMENT 'Yes/No field stating whether grant report was received by donor.',
+    `grant_type_id` int(10) unsigned NOT NULL COMMENT 'Id of first case category.',
+    `amount_total` decimal(20,2) NOT NULL  COMMENT 'Total amount, in default currency.',
+    `amount_requested` decimal(20,2) NOT NULL COMMENT 'Requested amount, in default currency.',
+    `amount_granted` decimal(20,2) NOT NULL COMMENT 'Granted amount, in default currency.',
+    `rationale` text NULL DEFAULT NULL COMMENT 'Grant rationale.' COLLATE utf8_unicode_ci,
+    `status_id` int(10) unsigned NOT NULL COMMENT 'Id of Grant status.',
+    PRIMARY KEY (`id`),
+    INDEX `index_grant_type_id` (`grant_type_id`),
+    INDEX `index_status_id` (`status_id`),
+    INDEX `FK_civicrm_grant_contact_id` (`contact_id`),
+    CONSTRAINT `FK_civicrm_grant_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_group_nesting table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_group_nesting` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Relationship ID' auto_increment,
+    `child_group_id` int(10) unsigned NOT NULL COMMENT 'ID of the child group',
+    `parent_group_id` int(10) unsigned NOT NULL  COMMENT 'ID of the parent group',
+    PRIMARY KEY (`id`),
+    INDEX `FK_civicrm_group_nesting_child_group_id` (`child_group_id`),
+    INDEX `FK_civicrm_group_nesting_parent_group_id` (`parent_group_id`),
+    CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`),
+    CONSTRAINT `FK_civicrm_group_nesting_parent_group_id` FOREIGN KEY (`parent_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_group_organization table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_group_organization` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Relationship ID' auto_increment,
+    `group_id` int(10) unsigned NOT NULL COMMENT 'ID of the group',
+    `organization_id` int(10) unsigned NOT NULL COMMENT 'ID of the Organization Contact',
+    PRIMARY KEY (`id`),
+    INDEX `FK_civicrm_group_organization_group_id` (`group_id`),
+    INDEX `FK_civicrm_group_organization_organization_id` (`organization_id`),
+    CONSTRAINT `FK_civicrm_group_organization_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`),
+    CONSTRAINT `FK_civicrm_group_organization_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `civicrm_contact` (`id`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_openid table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_openid` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Unique OpenID ID' auto_increment,
+    `contact_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Contact ID',
+    `location_type_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Which Location does this email belong to.',
+    `openid` varchar(255) NULL DEFAULT NULL COMMENT 'the OpenID (or OpenID-style http://username.domain/) unique identifier for this contact mainly used for logging in to CiviCRM' COLLATE utf8_unicode_ci,
+    `allowed_to_login` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Whether or not this user is allowed to login',
+    `is_primary` tinyint(4) NULL DEFAULT '0' COMMENT 'Is this the primary email for this contact and location.',
+    PRIMARY KEY (`id`),
+    INDEX `index_location_type` (`location_type_id`),
+    INDEX `UI_openid` (`openid`),
+    INDEX `FK_civicrm_openid_contact_id` (`contact_id`),
+    CONSTRAINT `FK_civicrm_openid_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_openid_associations table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_openid_associations` (
+    `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
+    `server_url` blob NULL DEFAULT NULL COMMENT '',
+    `handle` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    `secret` blob NULL DEFAULT NULL COMMENT '',
+    `issued` int(11) NULL DEFAULT NULL COMMENT '',
+    `lifetime` int(11) NULL DEFAULT NULL COMMENT '',
+    `assoc_type` varchar(64) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    PRIMARY KEY (`id`),
+    UNIQUE `server_url_handle_index` (`server_url`(166), `handle`(166))
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_openid_nonces table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_openid_nonces` (
+    `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
+    `server_url` blob NULL DEFAULT NULL COMMENT '',
+    `timestamp` int(11) NULL DEFAULT NULL COMMENT '',
+    `salt` char(40) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
+    PRIMARY KEY (`id`),
+    UNIQUE `nonce_index` (`server_url`(255), `timestamp`, `salt`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_preferences_date table
+-- *
+-- *******************************************************/
+
+
+CREATE TABLE `civicrm_preferences_date` (
+    `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
+    `domain_id` int(10) unsigned NOT NULL COMMENT '',
+    `name` varchar(64) NOT NULL DEFAULT '' COMMENT 'The meta name for this date (fixed in code)' COLLATE utf8_unicode_ci,
+    `description` varchar(255) NULL DEFAULT NULL COMMENT 'Description of this date type.' COLLATE utf8_unicode_ci,
+    `start` int(11) NOT NULL COMMENT 'The start offset relative to current year',
+    `end` int(11) NOT NULL COMMENT 'The end offset relative to current year, can be negative',
+    `minute_increment` int(11) NULL DEFAULT NULL COMMENT 'The minute increment number',
+    `format` varchar(64) NULL DEFAULT NULL COMMENT 'The date type' COLLATE utf8_unicode_ci,
+    PRIMARY KEY (`id`),
+    INDEX `index_name` (`name`),
+    INDEX `FK_civicrm_preferences_date_domain_id` (`domain_id`),
+    CONSTRAINT `FK_civicrm_preferences_date_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_tell_friend table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_tell_friend` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Friend ID',
+  `entity_table` varchar(64) collate utf8_unicode_ci NOT NULL COMMENT 'Name of table where item being referenced is stored.',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the referenced item.',
+  `title` varchar(255) collate utf8_unicode_ci default NULL,
+  `intro` text collate utf8_unicode_ci COMMENT 'Introductory message to contributor or participant displayed on the Tell a Friend form.',
+  `suggested_message` text collate utf8_unicode_ci COMMENT 'Suggested message to friends, provided as default on the Tell A Friend form.',
+  `general_link` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'URL for general info about the organization - included in the email sent to friends.',
+  `thankyou_title` varchar(255) collate utf8_unicode_ci default NULL COMMENT 'Text for Tell a Friend thank you page header and HTML title.',
+  `thankyou_text` text collate utf8_unicode_ci COMMENT 'Thank you message displayed on success page.',
+  `is_active` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_timezone table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_timezone` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Timezone Id' auto_increment,
+    `name` varchar(64) NULL DEFAULT NULL COMMENT 'Timezone full name' COLLATE utf8_unicode_ci,
+    `abbreviation` char(3) NULL DEFAULT NULL COMMENT 'ISO Code for timezone abbreviation' COLLATE utf8_unicode_ci,
+    `gmt` varchar(64) NULL DEFAULT NULL COMMENT 'GMT name of the timezone' COLLATE utf8_unicode_ci,
+    `offset` int(11) NULL DEFAULT NULL COMMENT '',
+    `country_id` int(10) unsigned NOT NULL COMMENT 'Country Id',
+    PRIMARY KEY (`id`),
+    INDEX `FK_civicrm_timezone_country_id` (`country_id`),
+    CONSTRAINT `FK_civicrm_timezone_country_id` FOREIGN KEY (`country_id`) REFERENCES `civicrm_country` (`id`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_uf_match table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_uf_match`
+    ADD `uf_name` varchar(128) NULL DEFAULT NULL COMMENT 'UF Name' COLLATE utf8_unicode_ci AFTER uf_id,
+    MODIFY `contact_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Contact ID',
+    DROP `email`,
+    ADD UNIQUE `UI_uf_name_domain_id` (`uf_name`, `domain_id`);
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_worldregion table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_worldregion` (
+    `id` int(10) unsigned NOT NULL COMMENT 'Country Id' auto_increment,
+    `name` varchar(128) NULL DEFAULT NULL COMMENT 'Region name to be associated with countries' COLLATE utf8_unicode_ci,
+    PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_country table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_country`
+    ADD `region_id` int(10) unsigned NOT NULL COMMENT 'Country Id' AFTER ndd_prefix,
+    ADD INDEX `FK_civicrm_country_region_id` (`region_id`);
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_domain table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_domain`
+    ADD `version` varchar(8) NULL DEFAULT NULL COMMENT 'The civicrm version this instance is running' COLLATE utf8_unicode_ci AFTER config_backend,
+    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER version,
+    DROP `config_frontend`;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_event table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_event`
+    ADD `participant_listing_id` int(10) unsigned NULL DEFAULT '0' COMMENT 'Should we expose the participant list? Implicit FK to civicrm_option_value where option_group = participant_listing.' AFTER event_type_id,
+    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID' AFTER is_show_location,
+    ADD `receipt_text` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for off-line event participation' COLLATE utf8_unicode_ci AFTER loc_block_id,
+    ADD `default_role_id` int(10) unsigned NULL DEFAULT '1' COMMENT 'Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.' AFTER receipt_text,
+    ADD INDEX `index_participant_listing_id` (`participant_listing_id`),
+    ADD INDEX `FK_civicrm_event_loc_block_id` (`loc_block_id`),
+    ADD CONSTRAINT `FK_civicrm_event_loc_block_id` FOREIGN KEY (`loc_block_id`) REFERENCES `civicrm_loc_block` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_event_page table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_event_page`
+    ADD `is_pay_later` tinyint(4) NULL DEFAULT '0' COMMENT 'if true - allows the user to send payment directly to the org later' AFTER thankyou_footer_text,
+    ADD `pay_later_text` text NULL DEFAULT NULL COMMENT 'The text displayed to the user in the main form' COLLATE utf8_unicode_ci AFTER is_pay_later,
+    ADD `pay_later_receipt` text NULL DEFAULT NULL COMMENT 'The receipt sent to the user instead of the normal receipt text' COLLATE utf8_unicode_ci AFTER pay_later_text,
+    MODIFY `default_fee_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
+    ADD INDEX `FK_civicrm_event_page_event_id` (`event_id`),
+    ADD CONSTRAINT `FK_civicrm_event_page_event_id` FOREIGN KEY (`event_id`) REFERENCES `civicrm_event` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_line_item table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_line_item`
+    ADD `option_group_id` int(10) unsigned NOT NULL COMMENT 'FK to option group' AFTER price_field_id,
+    DROP FOREIGN KEY FK_civicrm_line_item_custom_option_id,
+    DROP `custom_option_id`,
+    DROP INDEX `FK_civicrm_line_item_custom_option_id`;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_mailing table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_mailing`
+    MODIFY `reply_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to the auto-responder component.',
+    MODIFY `unsubscribe_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to the unsubscribe component.',
+    MODIFY `resubscribe_id` int(10) unsigned NULL DEFAULT NULL COMMENT '',
+    MODIFY `optout_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to the opt-out component.';
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_mapping table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_mapping`
+    MODIFY `mapping_type` enum('Export','Import','Export Contributions','Import Contributions','Import Activity','Search Builder','Import Memberships','Import Participants') NULL DEFAULT NULL COMMENT 'Type of Mapping.' COLLATE utf8_unicode_ci;
+    
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_membership_type table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_membership_type`
+    ADD `receipt_text_signup` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership signup' COLLATE utf8_unicode_ci AFTER renewal_reminder_day,
+    ADD `receipt_text_renewal` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership renewal' COLLATE utf8_unicode_ci AFTER receipt_text_signup;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_payment_processor table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_payment_processor`
+    ADD `url_api` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci AFTER url_site;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_payment_processor_type table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_payment_processor_type`
+    ADD `url_api_default` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci AFTER url_site_default,
+    ADD `url_api_test_default` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci AFTER url_site_test_default;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_premiums_product table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_premiums_product`
+    ADD `weight` int(10) unsigned NOT NULL COMMENT '' AFTER product_id,
+    DROP `sort_position`;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_saved_search table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_saved_search`
+    ADD `search_custom_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Foreign key to civicrm_option value table used for saved custom searches.' AFTER mapping_id;
+
+
