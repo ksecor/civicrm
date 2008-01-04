@@ -1578,7 +1578,8 @@ class CRM_Contact_BAO_Query
                 continue;
 
             case 'civicrm_activity':
-                $from .= " $side JOIN civicrm_activity ON civicrm_activity.target_contact_id = contact_a.id ";
+                $from .= " $side JOIN civicrm_activity_target ON civicrm_activity_target.target_contact_id = contact_a.id ";
+                $from .= " $side JOIN civicrm_activity ON civicrm_activity.id = civicrm_activity_target.activity_id ";
                 continue;
 
             case 'civicrm_entity_tag':
