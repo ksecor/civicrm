@@ -194,8 +194,8 @@ class CRM_Core_Invoke
             return;
         }
 
-        require_once 'CRM/Upgrade/Controller/TwoZero/Controller.php';
-        $controller =& new CRM_Upgrade_Controller_TwoZero_Controller( );
+        require_once 'CRM/Upgrade/TwoZero/Controller.php';
+        $controller =& new CRM_Upgrade_TwoZero_Controller( );
         return $controller->run( );
     }
 

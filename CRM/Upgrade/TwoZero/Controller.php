@@ -35,13 +35,12 @@
 
 require_once 'CRM/Upgrade/Controller/Base.php';
 
-class CRM_Upgrade_Controller_TwoZero_Controller extends CRM_Upgrade_Controller_Base {
+class CRM_Upgrade_TwoZero_Controller extends CRM_Upgrade_Controller_Base {
 
     function &getPages( ) {
         return array( 'CRM_Upgrade_TwoZero_Step1' => null,
                       'CRM_Upgrade_TwoZero_Step2' => null,
-                      'CRM_Upgrade_TwoZero_Step3' => null,
-                      'CRM_Upgrade_TwoZero_Step4' => null );
+                      'CRM_Upgrade_TwoZero_Step3' => null );
     }
 
 }
