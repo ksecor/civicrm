@@ -57,18 +57,17 @@ require_once 'api/v2/utils.php';
 function &civicrm_participant_create(&$params)
 {
     _civicrm_initialize();
-    $contactID = CRM_Utils_Array::value( 'contact_id', $params );
-
+    
     if ( !is_array( $params ) ) {
         $error = civicrm_create_error( 'Parameters is not an array' );
         return $error;
     }
     
-
     if ( !isset($params['event_id']) || !isset($params['contact_id'])) {
         $error = civicrm_create_error( 'Required parameter missing' );
         return $error;
     }
+    
     if ( !isset($params['status_id'] )) {
         $params['status_id'] = 1;
     } 
@@ -78,23 +77,20 @@ function &civicrm_participant_create(&$params)
     }
 
     $ids= array();
+    
     if( CRM_Utils_Array::value( 'id', $params ) ) {
         $ids['participant']  = $params['id'];
     }
+    
     require_once 'CRM/Event/BAO/Participant.php';
     $participant = CRM_Event_BAO_Participant::create($params, $ids);
-
+    
     if ( is_a( $participant, 'CRM_Core_Error' ) ) {
-        $error = civicrm_create_error( "Participant is not created" );
-        return $error;
+        return civicrm_create_error( "Participant is not created" );
     } else {
-        $values = array( );
-        $values['id'] = $participant->id;
-        $values['is_error']   = 0;
+        return civicrm_create_success( $participant->id );
     }
-    return $values;
 }
-
 
 /**
  * Retrieve a specific participant, given a set of input params
@@ -398,5 +394,41 @@ function civicrm_participant_payment_delete( &$params )
     
     return $participant->deleteParticipantPayment( $params ) ? civicrm_create_success( ) : civicrm_create_error('Error while deleting participantPayment');
 }
+
+function civicrm_create_participant_formatted( &$params , $onDuplicate ) 
+{
+    _civicrm_initialize( );
+
+    // return error if we have no params
+    if ( empty( $params ) ) {
+        return civicrm_create_error( 'Input Parameters empty' );
+    }
+
+    require_once 'CRM/Event/Import/Parser.php';
+    if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_NOCHECK) {
+        CRM_Core_Error::reset( );
+        $error = civicrm_participant_check_params( $params );
+        if ( civicrm_error( $error ) ) {
+            return $error;
+        }
+    }
+    
+    return civicrm_participant_create( $params );
+}
+
+function civicrm_participant_check_params( &$params ) 
+{
+    require_once 'CRM/Event/BAO/Participant.php';
+    
+    $result = array( );
+    
+    if( CRM_Event_BAO_Participant::checkDuplicate( $params, $result ) ) {
+        $error = CRM_Core_Error::createError( "Found matching records{$params['contact_id']}", CRM_Core_Error::DUPLICATE_PARTICIPANT, 'Fatal',$params['contact_id']);
+        return civicrm_create_error( $error->pop( ) );
+    }
+    
+    return true;
+}
+
 
 ?>

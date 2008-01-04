@@ -261,8 +261,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Event/BAO/Participant.php');
-            $tempIndieFields =& CRM_Event_BAO_Participant::import();
-            $indieFields = $tempIndieFields;
+            $indieFields =& CRM_Event_BAO_Participant::import();
         }
         
         $values    = array();
@@ -296,8 +295,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
-                $cTempIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
-                $cIndieFields = $cTempIndieFields;
+                $cIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
             }
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
@@ -318,7 +316,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                             $break = true;
                         }
                         if (! $break) {    
-                            _crm_add_formatted_param($value, $contactFormatted);
+                            _civicrm_add_formatted_param($value, $contactFormatted);
                         }
                     }
                     continue;
@@ -327,7 +325,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 if (array_key_exists($key, $cIndieFields)) {
                     $value['contact_type'] = $this->_contactType;
                 }
-                _crm_add_formatted_param($value, $contactFormatted);
+                _civicrm_add_formatted_param($value, $contactFormatted);
             }
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _crm_duplicate_formatted_contact($contactFormatted);
@@ -336,7 +334,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
                         $formatted['contact_id'] = $contactId;
-                        $newParticipant = crm_create_participant_formatted($formatted, $onDuplicate);
+                        $newParticipant = civicrm_create_participant_formatted( $formatted, $onDuplicate );
                     }
                 }  
                 
@@ -376,20 +374,22 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     return CRM_Event_Import_Parser::ERROR;
                 }
             }
-            $newParticipant = crm_create_participant_formatted($formatted, $onDuplicate);
+            $newParticipant = civicrm_create_participant_formatted($formatted, $onDuplicate);
         }
-        if ( is_a( $newParticipant, CRM_Core_Error ) ) {
-            $code = $newParticipant->_errors[0]['code'];
+        
+        if ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) {
             if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP){
-                array_unshift($values, $newParticipant->_errors[0]['message']);
+                array_unshift($values, $newParticipant['message']);
                 return CRM_Event_Import_Parser::ERROR;
             } else if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE) {
-                $newParticipant = crm_update_participant_formatted( $formatted );
+                $newParticipant = civicrm_participant_update( $formatted );
             }
         }
-        if ( $newParticipant && ! is_a( $newParticipant, 'CRM_Core_Error' ) ) {
+        
+        if ( ! ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) ) {
             $this->_newParticipants[] = $newParticipant['id'];
         }  
+        
         return CRM_Event_Import_Parser::VALID;
     }
     
