@@ -69,18 +69,20 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
-        $main  =& crm_get_contact(array('contact_id' => $cid));
-        $other =& crm_get_contact(array('contact_id' => $oid));
+        $mainParams  = array('contact_id' => $cid);
+        $otherParams = array('contact_id' => $oid);
+        $main  =& civicrm_contact_get($mainParams);
+        $other =& civicrm_contact_get($otherParams);
 
-        $this->assign('contact_type', $main->contact_type);
-        $this->assign('main_name',    $main->display_name);
-        $this->assign('other_name',   $other->display_name);
-        $this->assign('main_cid',     $main->contact_id);
-        $this->assign('other_cid',    $other->contact_id);
+        $this->assign('contact_type', $main['contact_type']);
+        $this->assign('main_name',    $main['display_name']);
+        $this->assign('other_name',   $other['display_name']);
+        $this->assign('main_cid',     $main['contact_id']);
+        $this->assign('other_cid',    $other['contact_id']);
 
         $this->_cid         = $cid;
         $this->_oid         = $oid;
-        $this->_contactType = $main->contact_type;
+        $this->_contactType = $main['contact_type'];
         $this->addElement('checkbox', 'toggleSelect', null, null, array('onchange' => "return toggleCheckboxVals('move_',this.form);"));
 
         // FIXME: there must be a better way
@@ -94,10 +96,11 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                                                                  'groupName' => 'individual_suffix'),
         );
         foreach (array('main', 'other') as $moniker) {
-            $specialValues[$moniker] = array('preferred_communication_method' => $$moniker->preferred_communication_method,
-                                             'gender_id'                      => $$moniker->gender_id,
-                                             'prefix_id'                      => $$moniker->prefix_id,
-                                             'suffix_id'                      => $$moniker->suffix_id);
+            $contact =& $$moniker;
+            $specialValues[$moniker] = array('preferred_communication_method' => $contact['preferred_communication_method'],
+                                             'gender_id'                      => $contact['gender_id'],
+                                             'prefix_id'                      => $contact['prefix_id'],
+                                             'suffix_id'                      => $contact['suffix_id']);
             CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
         }
 
@@ -118,7 +121,8 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         if (!isset($diffs['contact'])) $diffs['contact'] = array();
         foreach ($diffs['contact'] as $field) {
             foreach (array('main', 'other') as $moniker) {
-                $value = $$moniker->$field;
+                $contact =& $$moniker;
+                $value = $contact[$field];
                 $label = isset($specialValues[$moniker][$field]) ? $specialValues[$moniker]["{$field}_display"] : $value;
                 if ($fields[$field]['type'] == CRM_Utils_Type::T_DATE) {
                     $value = str_replace('-', '', $value);
@@ -138,36 +142,42 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         }
 
         // handle locations
+        require_once 'api/v2/Location.php';
+        $locations['main']  =& civicrm_location_get($mainParams);
+        $locations['other'] =& civicrm_location_get($otherParams);
         foreach (CRM_Core_PseudoConstant::locationType() as $locTypeId => $locTypeName) {
             foreach (array('main', 'other') as $moniker) {
-                $location[$moniker] = crm_get_locations($$moniker, array($locTypeName));
-                if (empty($location[$moniker])) {
+                $location = array();
+                foreach ($locations[$moniker] as $loc) {
+                    if ($loc['location_type_id'] == $locTypeId) {
+                        $location = $loc;
+                    }
+                }
+                if (empty($location)) {
                     $locValue[$moniker] = 0;
                     $locLabel[$moniker] = '[' . ts('EMPTY') . ']';
                 } else {
                     $locValue[$moniker] = $locTypeId;
-                    $locLabel[$moniker] = $location[$moniker][0]['name'] . "\n";
-                    if (!isset($location[$moniker][0]['email'])) $location[$moniker][0]['email'] = array();
-                    foreach ($location[$moniker][0]['email'] as $email) {
+                    $locLabel[$moniker] = $location['name'] . "\n";
+                    if (!isset($location['email'])) $location['email'] = array();
+                    foreach ($location['email'] as $email) {
                         $locLabel[$moniker] .= $email['email'] . "\n";
                     }
-                    if (!isset($location[$moniker][0]['phone'])) $location[$moniker][0]['phone'] = array();
-                    foreach ($location[$moniker][0]['phone'] as $phone) {
+                    if (!isset($location['phone'])) $location['phone'] = array();
+                    foreach ($location['phone'] as $phone) {
                         $locLabel[$moniker] .= $phone['phone'] . "\n";
                     }
-                    $locLabel[$moniker] .= $location[$moniker][0]['address']['display'];
+                    $locLabel[$moniker] .= $location['address']['display'];
                     // drop consecutive newlines and convert the rest to <br />s
                     $locLabel[$moniker] = preg_replace('/\n+/', "\n", $locLabel[$moniker]);
                     $locLabel[$moniker] = nl2br(trim($locLabel[$moniker]));
                 }
             }
-            if (!empty($location['main']) or !empty($location['other'])) {
+            if ($locValue['other'] != 0) {
                 $rows["move_location_$locTypeId"]['main']  = $locLabel['main'];
                 $rows["move_location_$locTypeId"]['other'] = $locLabel['other'];
                 $rows["move_location_$locTypeId"]['title'] = ts('Location: %1', array(1 => $locTypeName));
-                if (!empty($location['other'])) {
-                    $this->addElement('advcheckbox', "move_location_$locTypeId", null, null, null, $locValue['other']);
-                }
+                $this->addElement('advcheckbox', "move_location_$locTypeId", null, null, null, $locValue['other']);
             }
         }
 
@@ -265,15 +275,14 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             $submitted['contact_source'] = $submitted['source'];
             unset($submitted['source']);
         }
-        // FIXME: crm_update_contact() cannot eat preferred_communication_method generated by crm_get_contact()
+        // FIXME: this is from API 1; API 2 doesn't handle preferred_communication_method at all yet
         if (isset($submitted['preferred_communication_method'])) {
             $pcm =& $submitted['preferred_communication_method'];
             $pcm = trim($pcm, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
             $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
             $pcm = array_flip($pcm);
         }
-        // FIXME: fix custom fields so they're edible by crm_update_contact
-        // there should be an easier way (and API should consume its own output in the first place)
+        // FIXME: fix custom fields so they're edible by createProfileContact()
         $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
         foreach ($cgTree as $key => $group) {
             if (!isset($group['fields'])) continue;
@@ -301,28 +310,17 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             }
         }
 
-        $main =& crm_get_contact(array('contact_id' => $this->_cid));
-
         // FIXME: the simplest approach to locations
         $locTypes =& CRM_Core_PseudoConstant::locationType();
         if (!isset($locations)) $locations = array();
         foreach ($locations as $locTypeId => $value) {
-            $mainLocation = crm_get_locations($main, array($locTypes[$locTypeId]));
             // delete the old location (if it exists)
-            if (isset($mainLocation[0])) {
-                // FIXME: use API 2 here when it's done
-                foreach (array('Address', 'Email', 'IM', 'Phone') as $component) {
-                    eval("\$dao =& new CRM_Core_DAO_$component();");
-                    $dao->contact_id = $this->_cid;
-                    $dao->location_type_id = $locTypeId;
-                    $dao->delete();
-                    $dao->free();
-                }
-            }
+            $mainParams = array('contact_id' => $this->_cid, 'location_type' => $locTypeId);
+            civicrm_location_delete($mainParams);
+
             // if the new one is 0, we're done
-            if ($value == 0) {
-                continue;
-            }
+            if ($value == 0) continue;
+
             // otherwise, move the existing components 
             // of the other's location to main contact
             // FIXME: handle the proper primariness 
@@ -345,15 +343,10 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);
         }
 
-        // handle the 'move belongings' and 'delete other' checkboxes
-        if ($formValues['moveBelongings']) {
-            CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
-        }
-
-        if ($formValues['deleteOther']) {
-            $other =& crm_get_contact(array('contact_id' => $this->_oid));
-            crm_delete_contact($other);
-        }
+        // move other's belongings and delete the other contact
+        CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
+        $otherParams = array('contact_id' => $this->_oid);
+        civicrm_contact_delete($otherParams);
 
         // move file custom fields
         // FIXME: move this someplace else (one of the BAOs) after discussing
