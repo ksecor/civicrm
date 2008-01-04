@@ -151,6 +151,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
 
         // set breadcrumb to append to 2nd layer pages
         $breadCrumbPath = CRM_Utils_System::url( CRM_Utils_System::currentPath( ), 'reset=1' );
+        CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'), $breadCrumbPath );
 
         // what action to take ?
         if ( $action & CRM_Core_Action::ADD ) {
@@ -159,8 +160,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                              'action=browse&reset=1' ) );
             require_once 'CRM/Contribute/Controller/ContributionPage.php';
             $controller =& new CRM_Contribute_Controller_ContributionPage( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
-                                                $breadCrumbPath );
             CRM_Utils_System::setTitle( ts('Manage Contribution Page') );
             return $controller->run( );
         } else if ($action & CRM_Core_Action::UPDATE ) {
@@ -169,14 +168,10 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
                                                              "action=update&reset=1&id={$id}") );
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
-                                                $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::PREVIEW) {
             require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
             $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-            CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Pages'),
-                                                $breadCrumbPath );
             return $page->run( );
         } else if ($action & CRM_Core_Action::COPY) {
             $session =& CRM_Core_Session::singleton();
@@ -188,8 +183,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
             if ( $subPage == 'AddProductToPage' ) {
                 require_once 'CRM/Contribute/Page/ContributionPageEdit.php';
                 $page =& new CRM_Contribute_Page_ContributionPageEdit( );
-                CRM_Utils_System::appendBreadCrumb( ts('Manage Contribution Page'),
-                                                    $breadCrumbPath );
                 return $page->run( );
             } else {
                 $session =& CRM_Core_Session::singleton();
@@ -247,7 +240,6 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
      */
     function browse($action=null)
     {
-
         $this->_sortByCharacter = CRM_Utils_Request::retrieve( 'sortByCharacter',
                                                                'String',
                                                                $this );
@@ -368,7 +360,6 @@ ORDER BY title asc
         }
         return implode( ' AND ', $clauses );
     }
-
 
      function pager( $whereClause, $whereParams ) {
         require_once 'CRM/Utils/Pager.php';

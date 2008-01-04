@@ -48,7 +48,6 @@ class CRM_Contribute_Invoke {
             CRM_Core_Error::fatal( 'You do not have access to this page' );
         }
 
-        
         $view = null;
 
         switch ( CRM_Utils_Array::value( 3, $args, '' ) ) {
@@ -58,16 +57,6 @@ class CRM_Contribute_Invoke {
             $view =& new CRM_Contribute_Page_ContributionType(ts('Contribution Types'));
             break;
             
-        case 'paymentInstrument':
-            require_once 'CRM/Contribute/Page/PaymentInstrument.php';
-            $view =& new CRM_Contribute_Page_PaymentInstrument(ts('Payment Instruments'));
-            break;
-            
-        case 'acceptCreditCard':
-            require_once 'CRM/Contribute/Page/AcceptCreditCard.php';
-            $view =& new CRM_Contribute_Page_AcceptCreditCard(ts('Accept Credit Cards'));
-            break;
-
         case 'managePremiums':
             require_once 'CRM/Contribute/Page/ManagePremiums.php';
             $view =& new CRM_Contribute_Page_ManagePremiums(ts('Manage Premiums'));

@@ -122,9 +122,6 @@ class CRM_Contribute_Page_Premium extends CRM_Core_Page_Basic
         
         $this->edit($action, $id, false, false) ;
 
-        // finally browse the custom groups
-        $this->browse();
-        
         // parent run 
         parent::run();
     }

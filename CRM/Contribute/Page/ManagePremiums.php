@@ -119,7 +119,7 @@ class CRM_Contribute_Page_ManagePremiums extends CRM_Core_Page_Basic
      */
     function run()
     {
-               
+
         // get the requested action
         $action = CRM_Utils_Request::retrieve('action', 'String',
                                               $this, false, 'browse'); // default to 'browse'

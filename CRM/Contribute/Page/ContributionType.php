@@ -126,9 +126,7 @@ class CRM_Contribute_Page_ContributionType extends CRM_Core_Page_Basic
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD)) {
             $this->edit($action, $id) ;
         } 
-        // finally browse the custom groups
-        $this->browse();
-        
+
         // parent run 
         parent::run();
     }

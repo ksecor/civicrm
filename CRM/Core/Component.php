@@ -103,7 +103,7 @@ class CRM_Core_Component
                  ( ( $comp->info['url'] === $firstArg  && $type == 'main' )  ||
                    ( $comp->info['url'] === $secondArg && $type == 'admin' ) ) ) {
                 
-                if( $type == 'main' ) {
+                if ( $type == 'main' ) {
                     // also set the smarty variables to the current component
                     $template =& CRM_Core_Smarty::singleton( );
                     $template->assign( 'activeComponent', $name );
