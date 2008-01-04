@@ -45,7 +45,7 @@ class CRM_Upgrade_Base extends CRM_Core_Form {
                           $name = null ) {
         $this->_config =& CRM_Core_Config::singleton( );
 
-        parent::__construct( $state, $action, $methos, $name );
+        parent::__construct( $state, $action, $method, $name );
     }
 
       function checkSQLConstraints( &$constraints ) {

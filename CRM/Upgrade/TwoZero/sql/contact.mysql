@@ -38,7 +38,7 @@ ALTER TABLE `civicrm_contact`
     ADD INDEX `UI_gender` (`gender_id`),
     ADD INDEX `index_household_name` (`household_name`),
     ADD INDEX `index_organization_name` (`organization_name`),
-    ADD INDEX `FK_civicrm_contact_primary_contact_id` (`primary_contact_id`);
+    ADD CONSTRAINT `FK_civicrm_contact_primary_contact_id` FOREIGN KEY (`primary_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
 
 
 -- /**********************************************************
