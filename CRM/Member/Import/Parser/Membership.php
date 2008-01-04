@@ -389,7 +389,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                             $break = true;
                         }
                         if (! $break) {    
-                            _crm_add_formatted_param($value, $contactFormatted);
+                            _civicrm_add_formatted_param($value, $contactFormatted);
                         }
                     }
                     continue;
@@ -399,7 +399,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 if (array_key_exists($key, $cIndieFields)) {
                     $value['contact_type'] = $this->_contactType;
                 } 
-                _crm_add_formatted_param($value, $contactFormatted);
+                _civicrm_add_formatted_param($value, $contactFormatted);
             }
             
             $contactFormatted['contact_type'] = $this->_contactType;

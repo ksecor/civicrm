@@ -402,7 +402,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                             $break = true;
                         }
                         if (! $break) {    
-                            _crm_add_formatted_param($value, $contactFormatted);
+                            _civicrm_add_formatted_param($value, $contactFormatted);
                             
                         }
                     }
@@ -414,7 +414,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     //$value['contact_type'] = 'Individual';
                     $value['contact_type'] = $this->_contactType;
                 }
-                _crm_add_formatted_param($value, $contactFormatted);
+                _civicrm_add_formatted_param($value, $contactFormatted);
             }
 
             //$contactFormatted['contact_type'] = 'Individual';
