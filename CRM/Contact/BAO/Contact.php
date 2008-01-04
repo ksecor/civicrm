@@ -1465,12 +1465,16 @@ WHERE civicrm_contact.id IN $idString ";
         
         $phoneLoc   = 0;
         $phoneReset = array( );
-        $imLoc      = 1; 
-        
+        $imLoc      = 0; 
+        $imReset    = array( );
+
         foreach ($params as $key => $value) {
             $fieldName = $locTypeId = $typeId = null;
             list($fieldName, $locTypeId, $typeId) = CRM_Utils_System::explode('-', $key, 3);
-                        
+            
+            //store original location type id
+            $actualLocTypeId = $locTypeId;
+
             if ($locTypeId == 'Primary') {
                 if ( $contactID ) {
                     $locTypeId = $primaryLocationType; 
@@ -1489,6 +1493,7 @@ WHERE civicrm_contact.id IN $idString ";
                 
                 if ( isset($data['location']) && is_array($data['location']) && !array_key_exists($loc, $data['location']) ) {
                     $phoneLoc = 0;
+                    $imLoc    = 0;
                 }
                                 
                 $data['location'][$loc]['location_type_id'] = $locTypeId;
@@ -1525,22 +1530,27 @@ WHERE civicrm_contact.id IN $idString ";
                     $data['location'][$loc]['email'][1]['email'] = $value;
                     $data['location'][$loc]['email'][1]['is_primary'] = 1;
                 } else if ($fieldName == 'im') {
-                    if ( $typeId ) {
-                        // this is im_provider_id
-                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $value;
+                    if ( !in_array($loc, $imReset) ) {
+                        $imReset[] = $loc;
+                        $imLoc = 1;
                     } else {
-                        // this is name 
-                        $data['location'][$loc]['im'][$imLoc]['name']        = $value;
-                        
-                        // FIXME: we are assuming that provider_id will
-                        // always comes before name in $params
-                        // array. we need some better logic here                        
                         $imLoc++;
+                    }
+
+                    if ( $typeId ) {
+                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $value;
+                        $data['location'][$loc]['im'][$imLoc]['name'       ] = $params["{$fieldName}-{$actualLocTypeId}"];
+                        unset( $params["{$fieldName}-{$actualLocTypeId}"] );
+                    } else {
+                        $data['location'][$loc]['im'][$imLoc]['name'       ] = $value;
+                        $data['location'][$loc]['im'][$imLoc]['provider_id'] = $params["{$fieldName}-{$actualLocTypeId}-provider_id"];
+                        unset( $params["{$fieldName}-{$actualLocTypeId}-provider_id"] );
                     }
                     
                     if ( $imLoc == 1 ) {
                         $data['location'][$loc]['im'][$imLoc]['is_primary']  = 1;
                     }
+                    
                 } else if ($fieldName == 'openid') {
                     $data['location'][$loc]['openid'][1]['openid']     = $value;
                     $data['location'][$loc]['openid'][1]['is_primary'] = 1;
