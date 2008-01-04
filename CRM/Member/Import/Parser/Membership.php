@@ -211,7 +211,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                     }
                     break;
                 case 'email':
-                    $email = CRM_Utils_Array::value( 'email', $val[0]['email'] );
+                    $email = CRM_Utils_Array::value( 'email', $val[0] );
                     if (! CRM_Utils_Rule::email($email)) {
                         CRM_Import_Parser_Contact::addToErrorMsg('Email Address', $errorMessage);
                     }
