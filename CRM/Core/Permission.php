@@ -115,13 +115,13 @@ class CRM_Core_Permission {
     }
 
     public static function customGroup( $type = CRM_Core_Permission::VIEW ) {
-        $customGroups = array_keys( CRM_Core_PseudoConstant::customGroup( ) );
+        $customGroups = CRM_Core_PseudoConstant::customGroup( );
 
         // check if user has all powerful permission
         // or administer civicrm permission (CRM-1905)
         if ( self::check( 'access all custom data' ) ||
              self::check( 'administer CiviCRM' ) ) {
-            return $customGroups;
+            return array_keys( $customGroups );
         }
 
         require_once 'CRM/ACL/API.php';
@@ -138,11 +138,11 @@ class CRM_Core_Permission {
     }
 
     public static function ufGroup( $type = CRM_Core_Permission::VIEW ) {
-        $ufGroups = array_keys( CRM_Core_PseudoConstant::ufGroup( ) );
+        $ufGroups = CRM_Core_PseudoConstant::ufGroup( );
 
         // check if user has all powerful permission
         if ( self::check( 'profile listings and forms' ) ) {
-            return $ufGroups;
+            return array_keys( $ufGroups );
         }
 
         require_once 'CRM/ACL/API.php';
@@ -160,11 +160,11 @@ class CRM_Core_Permission {
 
     public static function event( $type = CRM_Core_Permission::VIEW, $eventID = null ) {
         require_once 'CRM/Event/PseudoConstant.php';
-        $events = array_keys( CRM_Event_PseudoConstant::event( ) );
+        $events = CRM_Event_PseudoConstant::event( );
 
         // check if user has all powerful permission
         if ( self::check( 'register for events' ) ) {
-            return $events;
+            return array_keys( $events );
         }
 
         require_once 'CRM/ACL/API.php';
