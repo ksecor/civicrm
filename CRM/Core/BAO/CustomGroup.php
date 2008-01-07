@@ -327,7 +327,7 @@ SELECT $select
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
                 if ( $dao->fetch( ) ) {
                     foreach ( $groupTree as $groupID => $group ) {
-                        if ( $groupID == 'info' ) {
+                        if ( $groupID === 'info' ) {
                             continue;
                         }
                         $table = $groupTree[$groupID]['table_name'];
@@ -387,7 +387,7 @@ SELECT $select
 
         $uploadNames = array();
         foreach ($groupTree as $key1 => $group) { 
-            if ( $key1 == 'info' ) {
+            if ( $key1 === 'info' ) {
                 continue;
             }
 
@@ -428,7 +428,7 @@ SELECT $select
         $tableName = self::_getTableName($entityType);
         $update = array( );
         foreach ( $groupTree as $groupID => $group ) {
-            if ( $groupID == 'info' ) {
+            if ( $groupID === 'info' ) {
                 continue;
             }
             $table = $groupTree[$groupID]['table_name'];
@@ -835,12 +835,13 @@ $where
         return true;
     }
 
-    static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) {
+    static function setDefaults( &$groupTree, &$defaults, $viewMode, $inactiveNeeded ) 
+    {
         foreach ( $groupTree as $id => $group ) {
-            if ( $id == 'info' ) {
+            if ( $id === 'info' ) {
                 continue;
             }
-
+            
             $groupId = $group['id'];
             foreach ($group['fields'] as $field) {
                 if ( CRM_Utils_Array::value( 'customValue', $field ) !== null ) {
@@ -856,13 +857,13 @@ $where
                 switch($field['html_type']) {
 
                 case 'CheckBox':
+                    $defaults[$elementName] = array( );
+                    $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                     if ($viewMode) {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
                         $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr($value,1,-1));
-                        $defaults[$elementName] = array();
-                        if(isset($value)) {
-                            foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
+                        if ( isset($value) ) {
+                            foreach( $customOption as $val ) {
+                                if ( in_array( $val['value'], $checkedData ) ) {
                                     $defaults[$elementName][$val['value']] = 1;
                                 } else {
                                     $defaults[$elementName][$val['value']] = 0;
@@ -870,12 +871,10 @@ $where
                             }
                         }
                     } else {
-                        $customOption = CRM_Core_BAO_CustomOption::getCustomOption($field['id'], $inactiveNeeded);
-                        $defaults[$elementName] = array();
-                        if (isset($field['customValue']['data'])) {
+                        if ( isset( $field['customValue']['data'] ) ) {
                             $checkedData = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,substr($field['customValue']['data'],1,-1));
-                            foreach($customOption as $val) {
-                                if (in_array($val['value'], $checkedData)) {
+                            foreach( $customOption as $val ) {
+                                if ( in_array( $val['value'], $checkedData ) ) {
                                     $defaults[$elementName][$val['value']] = 1;
                                 } else {
                                     $defaults[$elementName][$val['value']] = 0;
@@ -961,7 +960,7 @@ $where
         // Get the Custom form values and groupTree        
         // first reset all checkbox and radio data
         foreach ($groupTree as $groupID => $group) {
-            if ( $groupID == 'info' ) {
+            if ( $groupID === 'info' ) {
                 continue;
             }              
             foreach ($group['fields'] as $field) {
@@ -1065,7 +1064,7 @@ $where
 
         //this is fix for calendar for date field
         foreach ($groupTree as $key1 => $group) { 
-            if ( $key1 == 'info' ) {
+            if ( $key1 === 'info' ) {
                 continue;
             }
 
@@ -1097,7 +1096,7 @@ $where
        
         require_once 'CRM/Core/ShowHideBlocks.php'; 
         foreach ($groupTree as $id => $group) { 
-            if ( $id == 'info' ) {
+            if ( $id === 'info' ) {
                 continue;
             }
 
@@ -1157,7 +1156,7 @@ $where
         $form = array();
 
         foreach ($groupTree as $key => $group) {
-            if ( $key == 'info' ) {
+            if ( $key === 'info' ) {
                 continue;
             }
 
