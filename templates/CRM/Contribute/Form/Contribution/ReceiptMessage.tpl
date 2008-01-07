@@ -15,11 +15,13 @@
 
 {/if}
 ===========================================================
-{if $membershipBlock AND !$is_separate_payment}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
+{if $membershipBlock AND !$amount}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
 
 ===========================================================
 {if $membership_amount } 
+{if $amount}
 {ts}Contribution Amount{/ts}: {$amount|crmMoney}
+{/if}
 {ts 1=$membership_name}%1 Membership{/ts}: {$membership_amount|crmMoney} 
 -------------------------------------------
 {ts}Total{/ts}: {$amount+$membership_amount|crmMoney}

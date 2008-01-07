@@ -23,11 +23,11 @@
     {/if}
     
     {include file="CRM/Contribute/Form/Contribution/MembershipBlock.tpl" context="confirmContribution"}
-   
+
     {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {if $amount_block_is_active }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts}{/if}
-    </div>
+        {if $membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
+    </div>{debug}
     <div class="display-block">
         {if $is_separate_payment }
             {if $amount AND $minimum_fee}

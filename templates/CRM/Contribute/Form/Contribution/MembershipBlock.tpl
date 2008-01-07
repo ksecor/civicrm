@@ -82,7 +82,7 @@
             {if $showRadioNoThanks }
             <tr class="odd-row">
               <td>{$form.selectMembership.no_thanks.html}</td>
-              <td colspan="2"><strong>No thank you</strong></td>      
+              <td colspan="2"><strong>{ts}No thank you{/ts}</strong></td>      
             </tr> 
             {/if}
         {/if}          

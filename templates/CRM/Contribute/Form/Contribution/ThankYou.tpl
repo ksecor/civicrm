@@ -42,15 +42,17 @@
 
     {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {if $membershipBlock AND !$is_separate_payment}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
+        {if $membershipBlock AND !$amount}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
     </div>
     <div class="display-block">
         {if $membership_amount } 
-              {if ! $is_separate_payment }
+              {if $amount}
+                 {if ! $is_separate_payment }
 		    {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
-	      {else}
+	         {else}
 		    {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
-	      {/if} 		
+  	         {/if}
+              {/if} 		
               {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
               <strong> -------------------------------------------</strong><br />
               {ts}Total{/ts}: <strong>{$amount+$membership_amount|crmMoney}</strong><br />
