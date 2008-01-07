@@ -403,7 +403,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             }
             
             $contactFormatted['contact_type'] = $this->_contactType;
-            $error = _crm_duplicate_formatted_contact($contactFormatted);
+            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
 
             if ( self::isDuplicate($error) ) { 
