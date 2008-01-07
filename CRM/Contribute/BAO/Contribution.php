@@ -216,7 +216,9 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
         require_once "CRM/Activity/DAO/Activity.php";
         $activity =& new CRM_Activity_DAO_Activity( );
         $activity->source_record_id = $contribution->id;
-        
+        $activity->activity_type_id = CRM_Core_OptionGroup::getValue( 'activity_type',
+                                                                      'Contribution',
+                                                                      'name' );
         if ( ! $activity->find( ) ) {
             self::addActivity( $contribution, 'Offline' );
         }
