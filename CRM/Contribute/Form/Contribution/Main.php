@@ -250,6 +250,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             }
         }
 
+        if ( $separateMembershipPayment ) {
+            $elements[''] = $this->createElement('radio',null,null,ts('No thank you'),'no_thanks', null);
+        }
+
         if ( isset( $this->_values['default_amount_id'] ) ) {
             $this->_defaults['amount'] = $this->_values['default_amount_id'];
         }
