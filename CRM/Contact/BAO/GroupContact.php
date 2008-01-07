@@ -354,7 +354,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
 
         $order = $limit = '';
         if (! $count ) {
-            $order = ' ORDER BY civicrm_group.title ';
+            $order = ' ORDER BY civicrm_group.title, civicrm_subscription_history.date ASC';
 
             if ( $numGroupContact ) {
                 $limit = " LIMIT 0, $numGroupContact";
