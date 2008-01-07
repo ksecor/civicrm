@@ -500,14 +500,7 @@ function checkSelectedBox (chkName, form)
 
 function on_load_init_checkboxes(form) 
 {
-  if (form == 'Search') {
     var formName = form;
-  } else if (form == 'Advanced') {
-    var formName = "Advanced";
-  } else {
-    var formName = "Builder";
-  } 
-
     var fldPrefix = 'mark_x';
     for( i=0; i < document.forms[formName].elements.length; i++) {
 	fpLen = fldPrefix.length;
