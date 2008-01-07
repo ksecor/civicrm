@@ -279,7 +279,11 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         }
         $this->_location_types = & CRM_Core_PseudoConstant::locationType();
         $sel1 = $this->_mapperFields;
-
+        
+        if ( !$this->get('onDuplicate') ) {
+            unset($sel1['id']);
+        }
+        
         $sel2[''] = null;
         /*$phoneTypes = CRM_Core_SelectValues::phoneType();
         foreach ($this->_location_types as $key => $value) {

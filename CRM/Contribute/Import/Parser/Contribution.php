@@ -419,7 +419,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
             //$contactFormatted['contact_type'] = 'Individual';
             $contactFormatted['contact_type'] = $this->_contactType;
-            $error = _crm_duplicate_formatted_contact($contactFormatted);
+            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
             $matchedIDs = explode(',',$error->_errors[0]['params'][0]);        
             if ( self::isDuplicate($error) ) {
                 if (count( $matchedIDs) >1) {
