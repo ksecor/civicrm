@@ -117,7 +117,8 @@ class CRM_Core_BAO_CMSUser
      * @access public
      * @static
      */
-    static function create ( &$params, $mail ) {
+    static function create( &$params, $mail ) 
+    {
         $config  =& CRM_Core_Config::singleton( );
         
         $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
@@ -138,9 +139,10 @@ class CRM_Core_BAO_CMSUser
             $ufmatch->uf_id          =  $ufID;
             $ufmatch->contact_id     =  $params['contactID'];
             $ufmatch->uf_name        =  $params[$mail];
-            $ufmatch->user_unique_id =  $params[$mail];
             $ufmatch->save( );
         }
+        
+        return $ufID;
     }
 
     /**
@@ -410,7 +412,8 @@ SELECT count(*)
      * @access public
      * @static
      */
-    static function createDrupalUser( &$params, $mail, $version ) {
+    static function createDrupalUser( &$params, $mail, $version ) 
+    {
         if ( $version < 5.1 ) {
             return false;
         }
@@ -462,7 +465,7 @@ SELECT count(*)
      * @access public
      * @static
      */
-    static function createJoomlaUser( &$params, $mail, $version ) 
+    static function createJoomlaUser( &$params, $mail ) 
     {
         $config =& CRM_Core_Config::singleton( );
         $dao =& new CRM_Core_DAO( );
