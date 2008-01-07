@@ -102,16 +102,19 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
                 foreach ( array( 'prefix', 'suffix' ) as $name ) {
                     $phpName = $name;
                     $dbName  = "{$name}_id";
+                    $vals    = "{$name}es";
+
                     $value   = $individual->$dbName;
                     if ( empty( $$phpName ) &&
-                         ! CRM_Utils_Array::value( $dbName, $params ) &&
+                         ! isset( $params[$dbName] ) &&
                          ! empty( $value ) ) {
-                        $$phpName = $value;
+                        $temp = $$vals;
+                        $$phpName = $temp[$value];
                     }
                 }
             }
         }
-        
+
         if ( $lastName || $firstName || $middleName ) {
             if ( $lastName && $firstName ) {
                 $contact->sort_name    = trim( "$lastName, $firstName" );
@@ -128,7 +131,7 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
             trim( $display_name ) ) {
             $contact->display_name = trim( $display_name );
         }
-        
+
         if ( CRM_Utils_Array::value( 'location', $params ) ) {
             foreach ($params['location'] as $locBlock) {
                 if (! isset($locBlock['is_primary']) || ! ($locBlock['is_primary']) ) {
