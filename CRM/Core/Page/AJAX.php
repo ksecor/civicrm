@@ -287,62 +287,52 @@ LIMIT 6";
     {
         require_once 'CRM/Utils/Type.php';
         $countryName  = $stateName = null;
+        $elements = array( );
+        $countryClause = " 1 ";
         if ( isset( $_GET['node'] ) ) {
-            $countryName  = CRM_Utils_Type::escape( $_GET['node'], 'String');
-        }
+            $countryId     = CRM_Utils_Type::escape( $_GET['node'], 'String');
+            $countryClause = " civicrm_state_province.country_id = {$countryId}";
+        } 
 
         if ( isset( $_GET['name'] ) ) {
             $stateName    = trim (CRM_Utils_Type::escape( $_GET['name']   , 'String') );
-            $stateName    = str_replace( '*', '%', $stateName );
         }
 
-        //temporary fix to handle locales other than default US,
-        //trying to emulate anti ts() function, will make it cleaner
-        //in v2.0
-        if ( $config->lcMessages != 'en_US') {
-            //get all the countries
+        if ( isset( $_GET['id'] ) ) {
+            $stateId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false  );
+        }
+        
+        $validValue = true;
+        if ( !$stateName && !$stateId ) {
+            $validValue = false;
+        }
+
+        if ( $validValue ) {
+            $stateClause = " 1 ";
+            if ( !$stateId ) {
+                $stateName = str_replace( '*', '%', $stateName );        
+                $stateClause = " civicrm_state_province.name LIKE LOWER('$stateName%') ";
+            } else {
+                $stateClause = " civicrm_state_province.id = {$stateId} ";
+            }
+            
             $query = "
-SELECT id, name
-  FROM civicrm_country
+SELECT civicrm_state_province.name name, civicrm_state_province.id id
+  FROM civicrm_state_province
+WHERE {$countryClause}
+    AND {$stateClause}
 ORDER BY name";
 
             $nullArray = array( );
             $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
             
-            $countries = array( );
-            while ( $dao->fetch( ) ) {
-                $countries[$dao->name] = ts($dao->name);
+            $count = 0;
+            
+            while ( $dao->fetch( ) && $count < 5 ) {
+                $elements[] = array( 'name'  => ts($dao->name),
+                                     'value' => $dao->id );
+                $count++;
             }
-
-            // get the country name in en_US, since db has this locale
-            $countryName = array_search( $countryName, $countries );
-        }
-
-        $query = "
-SELECT civicrm_state_province.name name, civicrm_state_province.id id
-  FROM civicrm_state_province, civicrm_country
- WHERE civicrm_state_province.country_id = civicrm_country.id
-  AND  LOWER(civicrm_country.name) = LOWER('$countryName')";
-
-        if ( isset( $_GET['name'] ) ) {
-            $query .= " AND  civicrm_state_province.name LIKE LOWER('$stateName%') ";
-        }
-
-        $query .= " ORDER BY name";
-
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
-        $count = 0;
-        $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( 'name'  => ts($dao->name),
-                                 'value' => $dao->id );
-            $count++;
-        }
-
-        if ( empty( $elements ) ) {
-            //$elements[] = array( $stateName, $stateName );
         }
 
         require_once "CRM/Utils/JSON.php";
@@ -367,30 +357,43 @@ SELECT civicrm_state_province.name name, civicrm_state_province.id id
             $whereClause = " 1";
         }
 
+        $elements = array( );
         require_once 'CRM/Utils/Type.php';
-        $name     = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
-        $name      = str_replace( '*', '%', $name );
+        $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
+        
+        if ( isset( $_GET['id'] ) ) {
+            $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
+        }
 
-        $query = "
+        $validValue = true;
+        if ( !$name && !$countryId ) {
+            $validValue = false;
+        }
+
+        if ( $validValue ) {
+            if ( !$countryId ) {
+                $name = str_replace( '*', '%', $name );
+                $countryClause = " civicrm_country.name LIKE LOWER('$name%') ";
+            } else {
+                $countryClause = " civicrm_country.id = {$countryId} ";
+            }
+            
+            $query = "
 SELECT id, name
   FROM civicrm_country
- WHERE civicrm_country.name LIKE LOWER('$name%')
+ WHERE {$countryClause}
    AND {$whereClause} 
 ORDER BY name";
 
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-
-        $count = 0;
-        $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-            $elements[] = array( 'name'  => ts($dao->name),
-                                 'value' => $dao->id );
-            $count++;
-        }
-
-        if ( empty( $elements ) ) {
-            //$elements[] = array( $name, $name );
+            $nullArray = array( );
+            $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
+            
+            $count = 0;
+            while ( $dao->fetch( ) && $count < 5 ) {
+                $elements[] = array( 'name'  => ts($dao->name),
+                                     'value' => $dao->id );
+                $count++;
+            }
         }
 
         require_once "CRM/Utils/JSON.php";

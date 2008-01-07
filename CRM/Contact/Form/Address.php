@@ -104,7 +104,7 @@ class CRM_Contact_Form_Address
                         $form->assign( 'stateUrl', $stateUrl );
                     }
                     
-                    $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                    $attributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
                                          'mode'           => 'remote',
                                          'store'          => "{$name}Store",
                                          'style'          => 'width: 230px;',
@@ -114,10 +114,10 @@ class CRM_Contact_Form_Address
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
 
                     $form->assign( 'countryUrl', $countryUrl );
-                    
-                    if ( $name == 'state_province_id' ) {
-                        unset( $attributes['onChange'] );
-                    }
+                }
+
+                if ( $name == 'state_province_id' ) {
+                    unset( $attributes['onChange'] );
                 }
 
                 $location[$locationId]['address'][$name] =

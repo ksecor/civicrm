@@ -9,7 +9,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     // get the typed value
     var value = obj.getValue( );
 
-    //load state province only if couuntry value exits
+    //load state province only if country value exits
     if ( value ) {
        //get state province id
        var widget = dijit.byId('location_' + lno + '_address_state_province_id');
@@ -24,9 +24,9 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
 
        //set state province combo if it is not set
        if ( !widget.getValue( ) ) {
-           widget.setValue( sel,'' );
+           widget.setDisplayedValue( sel );
        } 
-
+ 
        //data url for state
        var res = {/literal}"{$stateUrl}"{literal};
 

@@ -3,8 +3,8 @@
 </script>
 
 {if $form.location.$index.address.state_province_id }
+  <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="state_province_idStore" url="{$stateUrl}">
   <div class="form-item">
-    <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="state_province_idStore" url="{$stateUrl}">
     <span class="labels">
     {$form.location.$index.address.state_province_id.label}
     </span>
@@ -36,15 +36,16 @@
       {
        	 if ( !stateValue1 && !countryValue1 && stateEnabled ) { 
     	   widget1 = dijit.byId( 'location_1_address_state_province_id' );
-    	   widget1.setDisabled( true );
+           widget1.setDisabled( true );
+
     	   //widget1.downArrowNode.style.width = "0px"; 
          } else {
 	       if ( countryValue1 ) {
-	          dijit.byId( 'location_1_address_country_id' ).setValue( countryValue1, countryId1 );
+	          dijit.byId( 'location_1_address_country_id' ).setValue( countryId1 );
 	       }
 	   
 	       if ( stateValue1 && stateEnabled ) {
-	          dijit.byId( 'location_1_address_state_province_id' ).setValue( stateValue1, stateId1 );
+	          dijit.byId( 'location_1_address_state_province_id' ).setValue( stateId1 );
 	       }
 	    }
      });
@@ -56,23 +57,24 @@
       var stateValue2   = {/literal}"{$state_province_2_value}"{literal};
       var countryId2    = {/literal}"{$country_2_id}"{literal};
       var stateId2      = {/literal}"{$state_province_2_id}"{literal};
-
+      
       dojo.addOnLoad( function( ) 
       {
-	     if ( !stateValue2 && !countryValue2 && stateEnabled ) { 
-	        widget2 = dijit.byId( 'location_2_address_state_province_id' );
-                widget2.setDisabled( true );
-	        //widget2.downArrowNode.style.width = "0px";
-	     } else {
+       	 if ( !stateValue2 && !countryValue2 && stateEnabled ) { 
+    	   widget2 = dijit.byId( 'location_2_address_state_province_id' );
+           widget2.setDisabled( true );
+
+    	   //widget2.downArrowNode.style.width = "0px"; 
+         } else {
 	       if ( countryValue2 ) {
-	          dijit.byId( 'location_2_address_country_id' ).setValue( countryValue2, countryId2 );
+	          dijit.byId( 'location_2_address_country_id' ).setValue( countryId2 );
 	       }
 	   
-    	       if ( stateValue2 && stateEnabled ) {
-    	          dijit.byId( 'location_2_address_state_province_id' ).setValue( stateValue2, stateId2 );
+	       if ( stateValue2 && stateEnabled ) {
+	          dijit.byId( 'location_2_address_state_province_id' ).setValue( stateId2 );
 	       }
 	    }
-      } );
+     });
 
   {/literal}
   {elseif $index eq '3' } 
@@ -84,20 +86,21 @@
       
       dojo.addOnLoad( function( ) 
       {
-    	 if ( !stateValue3 && !countryValue3 && stateEnabled ) { 
-    	    widget3 = dijit.byId( 'location_3_address_state_province_id' );
-            widget3.setDisabled( true );
-            //widget3.downArrowNode.style.width = "0px";
-    	 } else {
-    	   if ( countryValue3 ) {
-	      dijit.byId( 'location_3_address_country_id' ).setValue( countryValue3, countryId3 );
-           }
+       	 if ( !stateValue3 && !countryValue3 && stateEnabled ) { 
+    	   widget3 = dijit.byId( 'location_3_address_state_province_id' );
+           widget3.setDisabled( true );
+
+    	   //widget1.downArrowNode.style.width = "0px"; 
+         } else {
+	       if ( countryValue3 ) {
+	          dijit.byId( 'location_3_address_country_id' ).setValue( countryId3 );
+	       }
 	   
-    	   if ( stateValue3 && stateEnabled ) {
-    	      dijit.byId( 'location_3_address_state_province_id' ).setValue( stateValue3, stateId3 );
-    	   }
-    	 }
-      });
+	       if ( stateValue3 && stateEnabled ) {
+	          dijit.byId( 'location_3_address_state_province_id' ).setValue( stateId3 );
+	       }
+	    }
+     });
 
   {/literal}
   { elseif $index eq '4' } 
@@ -109,20 +112,22 @@
       
       dojo.addOnLoad( function( ) 
       {
-   	if ( !stateValue4 && !countryValue4 && stateEnabled ) { 
-	    widget4 = dijit.byId( 'location_4_address_state_province_id' );
-            widget4.setDisabled( true );
-            //widget4.downArrowNode.style.width = "0px";
-        } else {
-	      if ( countryValue4 ) {
-	         dijit.byId( 'location_4_address_country_id' ).setValue( countryValue4, countryId4 );
-	      }
-	  
-	      if ( stateValue4 && stateEnabled ) {
-	         dijit.byId( 'location_4_address_state_province_id' ).setValue( stateValue4, stateId4 );
-	      }
-	   }
-      } );
+       	 if ( !stateValue4 && !countryValue4 && stateEnabled ) { 
+    	   widget4 = dijit.byId( 'location_4_address_state_province_id' );
+           widget4.setDisabled( true );
+
+    	   //widget4.downArrowNode.style.width = "0px"; 
+         } else {
+	       if ( countryValue4 ) {
+	          dijit.byId( 'location_4_address_country_id' ).setValue( countryId4 );
+	       }
+	   
+	       if ( stateValue4 && stateEnabled ) {
+	          dijit.byId( 'location_4_address_state_province_id' ).setValue( stateId4 );
+	       }
+	    }
+     });
+
   {/literal}
   { /if } 
   {literal}
