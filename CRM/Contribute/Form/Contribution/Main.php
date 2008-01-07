@@ -253,23 +253,25 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         if ( isset( $this->_values['default_amount_id'] ) ) {
             $this->_defaults['amount'] = $this->_values['default_amount_id'];
         }
-        
+        $title = ts('Contribution Amount');
         if ( $this->_values['is_allow_other_amount'] ) {
             if ( ! empty($this->_values['label'] ) ) {
                 $elements[] =& $this->createElement('radio', null, '',
                                                     ts('Other Amount'), 'amount_other_radio');
 
-                $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
+                $this->addGroup( $elements, 'amount', $title, '<br />' );
 
                 if ( ! $separateMembershipPayment ) {
                     $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );
                 }
                 $this->add('text', 'amount_other', ts( 'Other Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();') );
             } else {
-                $this->add('text', 'amount_other', ts( 'Contribution Amount' ), array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'));
-                
+                if ( $separateMembershipPayment ) {
+                    $title = ts('Additional Contribution');
+                }
+                $this->add('text', 'amount_other', $title, array( 'size' => 10, 'maxlength' => 10, 'onfocus'=>'useAmountOther();'));
                 if ( ! $separateMembershipPayment ) {
-                    $this->addRule( 'amount_other', ts('%1 is a required field.', array(1 => ts('Contribution Amount'))), 'required' );
+                    $this->addRule( 'amount_other', ts('%1 is a required field.', array(1 => $title)), 'required' );
                 }
             }
 
@@ -278,7 +280,10 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
             $this->addRule( 'amount_other', ts( 'Please enter a valid amount (numbers and decimal point only).' ), 'money' );
         } else {
             if ( ! empty($this->_values['label'] ) ) {
-                $this->addGroup( $elements, 'amount', ts('Contribution Amount'), '<br />' );
+                if ( $separateMembershipPayment ) {
+                    $title = ts('Additional Contribution');
+                }
+                $this->addGroup( $elements, 'amount', $title, '<br />' );
             
                 if ( ! $separateMembershipPayment ) {
                     $this->addRule( 'amount', ts('%1 is a required field.', array(1 => ts('Amount'))), 'required' );

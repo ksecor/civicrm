@@ -46,7 +46,11 @@
     </div>
     <div class="display-block">
         {if $membership_amount } 
-              {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
+              {if ! $is_separate_payment }
+		    {ts}Contribution Amount{/ts}: <strong>{$amount|crmMoney}</strong><br />
+	      {else}
+		    {ts}Additional Contribution{/ts}: <strong>{$amount|crmMoney}</strong><br />
+	      {/if} 		
               {$membership_name} {ts}Membership{/ts}: <strong>{$membership_amount|crmMoney}</strong><br />
               <strong> -------------------------------------------</strong><br />
               {ts}Total{/ts}: <strong>{$amount+$membership_amount|crmMoney}</strong><br />

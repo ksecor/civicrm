@@ -50,7 +50,6 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
     public function preProcess()
     {
         $config =& CRM_Core_Config::singleton( );
-
         parent::preProcess( );
 
         if ( $this->_contributeMode == 'express' ) {
@@ -191,8 +190,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         }
         $this->buildCustom( $this->_values['custom_pre_id'] , 'customPre'  );
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
-        
-        
+        $this->_separateMembershipPayment = $this->get( 'separateMembershipPayment' );
+    
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' 
              && !$this->_params['is_pay_later']) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
@@ -208,7 +207,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                               );
         } else {
             if ( $this->_contributeMode == 'notify' || !$this->_values['is_monetary'] || 
-                 $this->_amount <= 0.0              || $this->_params['is_pay_later']) {
+                 $this->_amount <= 0.0              || $this->_params['is_pay_later'] ||
+                 $this->_separateMembershipPayment ) {
                 $contribButton = ts('Continue >>');
             } else {
                 $contribButton = ts('Make Contribution');
