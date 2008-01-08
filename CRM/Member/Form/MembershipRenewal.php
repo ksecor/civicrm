@@ -279,7 +279,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         
         $params['contact_id']         = $this->_contactID;
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
-        $form        = null;
         $renewalDate = null;
 
         if ( $formValues['renewal_date'] ) {
@@ -288,7 +287,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
-                                                                       0, $form, null );
+                                                                       0, $this, null );
         $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
 
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -297,7 +296,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $userID  = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
         
-        if( $formValues['record_contribution'] ) {
+        if ( $formValues['record_contribution'] ) {
             //building contribution params 
             $contributionParams = array( );
             $config =& CRM_Core_Config::singleton();
@@ -379,7 +378,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                   $this->_contributorEmail,
                                   $subject,
                                   $message);
-            
         }
         
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
@@ -397,8 +395,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         
         CRM_Core_Session::setStatus( ts("{$statusMsg}") );
-
     }
-
 }
 ?>
