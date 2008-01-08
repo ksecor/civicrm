@@ -44,7 +44,7 @@ require_once 'CRM/Activity/BAO/Activity.php';
 
 
 /**
- * This class is used to retrieve and display open activities for a contact
+ * This class is used to retrieve and display activities for a contact
  *
  */
 class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements CRM_Core_Selector_API 
@@ -66,7 +66,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     static $_columnHeaders;
 
     /**
-     * contactId - contact id of contact whose open activies are displayed
+     * contactId - contact id of contact whose activies are displayed
      *
      * @var int
      * @access protected
@@ -82,7 +82,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
     /**
      * Class constructor
      *
-     * @param int $contactId - contact whose open activities we want to display
+     * @param int $contactId - contact whose activities we want to display
      * @param int $permission - the permission we have for this contact 
      *
      * @return CRM_Contact_Selector_Activity
@@ -202,7 +202,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
      */
     function getPagerParams($action, &$params) 
     {
-        $params['status']       = ts('Open Activities %%StatusMessage%%');
+        $params['status']       = ts('Activities %%StatusMessage%%');
         $params['csvString']    = null;
         $params['rowCount']     = CRM_Utils_Pager::ROWCOUNT;
 
