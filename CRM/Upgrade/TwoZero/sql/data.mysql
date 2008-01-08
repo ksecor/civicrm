@@ -8,9 +8,12 @@
 
 -- /**********************************************************
 -- *
--- * Update contact table data / values for type Household
+-- * Update contact table data / values
 -- *
 -- ***********************************************************/
+
+
+-- * Update contact table data / values for type Household
 
 UPDATE civicrm_contact cc, civicrm_household ch
 
@@ -20,11 +23,7 @@ SET
 WHERE ch.contact_id=cc.id;
 
 
--- /**********************************************************
--- *
 -- * Update contact table data / values for type Organization
--- *
--- ***********************************************************/
 
 UPDATE civicrm_contact cc, civicrm_organization co 
 
@@ -37,11 +36,7 @@ SET
 WHERE co.contact_id=cc.id;
 
 
--- /**********************************************************
--- *
 -- * Update contact table data / values for type Individual
--- *
--- ***********************************************************/
 
 UPDATE civicrm_contact cc, civicrm_individual ci 
 
@@ -63,3 +58,54 @@ SET
 WHERE ci.contact_id=cc.id;
 
 
+
+-- /**********************************************************
+-- *
+-- * Update location data/values
+-- *
+-- ***********************************************************/
+
+
+-- * Update address data/values
+
+UPDATE civicrm_address ca, civicrm_location cl 
+
+SET 
+    ca.contact_id       = cl.entity_id,
+    ca.is_primary       = cl.is_primary,
+    ca.location_type_id = cl.location_type_id
+
+WHERE cl.id = ca.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update email data/values
+
+UPDATE civicrm_email ce, civicrm_location cl 
+
+SET 
+    ce.contact_id       = cl.entity_id,
+    ce.location_type_id = cl.location_type_id
+
+WHERE cl.id = ce.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update phone data/values
+
+UPDATE civicrm_phone cp, civicrm_location cl 
+
+SET 
+    cp.contact_id       = cl.entity_id,
+    cp.location_type_id = cl.location_type_id
+
+WHERE cl.id = cp.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update im data/values
+
+UPDATE civicrm_im ci, civicrm_location cl 
+
+SET 
+    ci.contact_id       = cl.entity_id,
+    ci.location_type_id = cl.location_type_id
+
+WHERE cl.id = ci.location_id AND cl.entity_table = 'civicrm_contact';
