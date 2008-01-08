@@ -318,6 +318,7 @@
        <name>greeting_type</name>
        <type>enum</type>
        <values>Formal, Informal, Honorific, Custom, Other</values>
+       <import>true</import>
        <comment>Preferred greeting format.</comment>
        <add>1.1</add>
   </field>
@@ -325,6 +326,7 @@
        <name>custom_greeting</name>
        <type>varchar</type>
        <length>128</length>
+       <import>true</import>
        <comment>Custom greeting message.</comment>
        <add>1.1</add>
   </field>
