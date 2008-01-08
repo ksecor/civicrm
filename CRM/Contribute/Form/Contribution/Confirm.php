@@ -125,9 +125,12 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 $this->_params['ip_address'] = '127.0.0.1';
             }
             $this->_params['amount'        ] = $this->get( 'amount' );
-            require_once 'CRM/Core/OptionGroup.php';
-            $this->_params['amount_level'  ] = CRM_Core_OptionGroup::optionLabel( "civicrm_contribution_page.amount.{$this->_id}",
-                                                                                  $this->_params['amount'] );
+            
+            if ( $this->_params['amount'] ) { 
+                require_once 'CRM/Core/OptionGroup.php';
+                $this->_params['amount_level'  ] = CRM_Core_OptionGroup::optionLabel( "civicrm_contribution_page.amount.{$this->_id}",
+                                                                                      $this->_params['amount'] );
+            }
 
             $this->_params['currencyID'    ] = $config->defaultCurrency;
             $this->_params['payment_action'] = 'Sale';
