@@ -42,7 +42,7 @@
 
     {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {if $membershipBlock AND !$amount}{ts}Membership Fee{/ts}{else}{ts}Contribution Information{/ts}{/if}
+        {if !$membershipBlock AND $amount}{ts}Contribution Information{/ts}{else}{ts}Membership Fee{/ts}{/if}
     </div>
     <div class="display-block">
         {if $membership_amount } 

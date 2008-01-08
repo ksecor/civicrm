@@ -26,7 +26,7 @@
 
     {if $amount GT 0 OR $minimum_fee GT 0}
     <div class="header-dark">
-        {if $membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
+        {if !$membershipBlock AND $amount }{ts}Contribution Amount{/ts}{else}{ts}Membership Fee{/ts} {/if}
     </div>
     <div class="display-block">
         {if $is_separate_payment }
@@ -36,7 +36,7 @@
                   <strong> -------------------------------------------</strong><br />
                   {ts}Total{/ts}: <strong>{$amount+$minimum_fee|crmMoney}</strong><br />
             {elseif $amount }
-                {ts}Total Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
+                {ts}Amount{/ts}: <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
             {else}
                   {$membership_name} {ts}Membership{/ts}: <strong>{$minimum_fee|crmMoney}</strong>
             {/if}

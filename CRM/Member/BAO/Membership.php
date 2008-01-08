@@ -470,13 +470,12 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             $membershipTypes   = array( ); 
             $radio             = array( ); 
 
-            $form->assign( "is_separate_payment", $dao->is_separate_payment );
             $separateMembershipPayment = $dao->is_separate_payment;
             CRM_Core_DAO::storeValues($dao, $membershipBlock );
-            if( $dao->membership_types ) {
+            if ( $dao->membership_types ) {
                 $membershipTypeIds = explode( ',' , $dao->membership_types);
             }
-            if(! empty( $membershipTypeIds ) ) {
+            if (! empty( $membershipTypeIds ) ) {
                 foreach ( $membershipTypeIds as $value ) {
                     $memType = & new CRM_Member_DAO_MembershipType(); 
                     $memType->id = $value;
