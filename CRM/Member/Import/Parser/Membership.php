@@ -35,7 +35,7 @@
 
 
 require_once 'CRM/Member/Import/Parser.php';
-
+require_once 'api/v2/Membership.php';
 require_once 'api/crm.php';
 
 /**
@@ -450,13 +450,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                         }
                     }
                     
-                    $newMembership = crm_create_contact_membership($formatted, $cid);
-                    if ( is_a( $newMembership, CRM_Core_Error ) ) {
-                        array_unshift($values, $newMembership->_errors[0]['message']);
+                    $newMembership = civicrm_contact_membership_create($formatted, $cid);
+                    if ( civicrm_error( $newMembership ) ) {
+                        array_unshift($values, $newMembership['error_message']);
                         return CRM_Member_Import_Parser::ERROR;
                     }
                     
-                    $this->_newMemberships[] = $newMembership->id;
+                    $this->_newMemberships[] = $newMembership['id'];
                     return CRM_Member_Import_Parser::VALID;
                 }
                 
@@ -497,13 +497,13 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
                 }
             }
 
-            $newMembership = crm_create_contact_membership($formatted, $formatted['contact_id']);
-            if ( is_a( $newMembership, CRM_Core_Error ) ) {
-                array_unshift($values, $newMembership->_errors[0]['message']);
+            $newMembership = civicrm_contact_membership_create($formatted, $formatted['contact_id']);
+            if ( civicrm_error( $newMembership ) ) {
+                array_unshift($values, $newMembership['error_message']);
                 return CRM_Member_Import_Parser::ERROR;
             }
             
-            $this->_newMemberships[] = $newMembership->id;
+            $this->_newMemberships[] = $newMembership['id'];
             return CRM_Member_Import_Parser::VALID;
         }
     }
