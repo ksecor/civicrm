@@ -109,3 +109,22 @@ SET
     ci.location_type_id = cl.location_type_id
 
 WHERE cl.id = ci.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update civicrm_loc_block data/values
+
+INSERT INTO civicrm_loc_block (address_id, email_id, phone_id, im_id, email_2_id, phone_2_id, im_2_id)
+
+SELECT ca1.id, ce1.id, cp1.id, ci1.id, ce2.id, cp2.id, ci2.id 
+
+FROM   civicrm_location  cl
+    
+LEFT JOIN civicrm_address ca1 ON (ca1.location_id = cl.id)
+LEFT JOIN civicrm_email   ce1 ON (ce1.location_id = cl.id AND ce1.is_primary = 1) 
+LEFT JOIN civicrm_email   ce2 ON (ce2.location_id = cl.id AND ce2.is_primary = 0) 
+LEFT JOIN civicrm_phone   cp1 ON (cp1.location_id = cl.id AND cp1.is_primary = 1)
+LEFT JOIN civicrm_phone   cp2 ON (cp2.location_id = cl.id AND cp2.is_primary = 0)
+LEFT JOIN civicrm_im      ci1 ON (ci1.location_id = cl.id AND ci1.is_primary = 1)
+LEFT JOIN civicrm_im      ci2 ON (ci2.location_id = cl.id AND ci2.is_primary = 0)
+
+WHERE cl.entity_table IN ('civicrm_event', 'civicrm_domain');
