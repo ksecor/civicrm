@@ -193,6 +193,38 @@ function &civicrm_contribution_search( &$params ) {
     return $contacts;
 }
 
+function &civicrm_contribution_format_create( &$params ) {
+    _civicrm_initialize( );
+   
+    // return error if we have no params
+    if ( empty( $params ) ) {
+        return _civicrm_create_error( 'Input Parameters empty' );
+    }
+    
+    $error = _civicrm_contribute_check_params($params);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    $values  = array( );
+    $error = _civicrm_contribute_format_params($params, $values);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    
+    $error = _civicrm_contribute_duplicate_check($params);
+    if ( civicrm_error( $error ) ) {
+        return $error;
+    }
+    $ids = array();
+    
+    CRM_Contribute_BAO_Contribution::resolveDefaults($params, true);
+
+    $contribution = CRM_Contribute_BAO_Contribution::create( $params, $ids );
+    _civicrm_object_to_array($contribution, $contributeArray);
+    return $contributeArray;
+
+}
+
 /**
  * This function ensures that we have the right input contribution parameters
  *
@@ -229,6 +261,29 @@ function _civicrm_contribute_check_params( &$params ) {
     
     return array();
 }
+
+/**
+ * Check if there is a contribution with the same trxn_id or invoice_id
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contribution.
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_contribute_duplicate_check( &$params ) {
+    require_once 'CRM/Contribute/BAO/Contribution.php';
+    $duplicates = array( );
+    $result = CRM_Contribute_BAO_Contribution::checkDuplicate( $params,$duplicates ); 
+    if ( $result ) {
+        $d = implode( ', ', $duplicates );
+        return civicrm_create_error("Found matching contribution(s): $d" );;
+    } else {
+        return array();
+    }
+}
+
+
 
 /**
  * take the input parameter list as specified in the data model and 

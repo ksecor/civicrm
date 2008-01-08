@@ -34,7 +34,7 @@
  */
 
 require_once 'CRM/Contribute/Import/Parser.php';
-
+require_once 'api/v2/Contribute.php';
 require_once 'api/crm.php';
 
 /**
@@ -428,14 +428,15 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 } else {
                     $cid = $matchedIDs[0];
                     $formatted['contact_id'] = $cid;
-                    $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
-                    if ( is_a( $newContribution, CRM_Core_Error ) ) {
-                        array_unshift($values, $newContribution->_errors[0]['message']);
+                    $newContribution = civicrm_contribution_format_create( $formatted );
+                    if ( civicrm_error( $newContribution ) ) { 
+                        array_unshift($values, $newContribution['error_message']);
                         return CRM_Contribute_Import_Parser::ERROR;
                     }
                     
-                    $this->_newContributions[] = $newContribution->id;
+                    $this->_newContributions[] = $newContribution['id'];
                     return CRM_Contribute_Import_Parser::VALID;
+                    
                 }
                 
             } else {
@@ -474,13 +475,13 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     return CRM_Contribute_Import_Parser::ERROR;
                 }
             }
-            $newContribution = crm_create_contribution_formatted( $formatted, $onDuplicate );
-            if ( is_a( $newContribution, CRM_Core_Error ) ) {                
-                array_unshift($values, $newContribution->_errors[0]['message']);
+            $newContribution = civicrm_contribution_format_create( $formatted );
+            if ( civicrm_error( $newContribution ) ) { 
+                array_unshift($values, $newContribution['error_message']);
                 return CRM_Contribute_Import_Parser::ERROR;
             }
             
-            $this->_newContributions[] = $newContribution->id;
+            $this->_newContributions[] = $newContribution['id'];
             return CRM_Contribute_Import_Parser::VALID;
         }
     }
