@@ -16,7 +16,7 @@ CREATE TABLE `civicrm_component` (
   `name` varchar(64) collate utf8_unicode_ci NOT NULL COMMENT 'Name of the component.',
   `namespace` varchar(128) collate utf8_unicode_ci default NULL COMMENT 'Path to components main directory in a form of a class\nnamespace.',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -40,8 +40,13 @@ ALTER TABLE `civicrm_contribution_page`
     ADD `pay_later_receipt` text NULL DEFAULT NULL COMMENT 'The receipt sent to the user instead of the normal receipt text' COLLATE utf8_unicode_ci AFTER pay_later_text,
     MODIFY `default_amount_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
     DROP `is_thermometer`,
-    DROP `thermometer_title`;
+    DROP `thermometer_title`,
+    DROP FOREIGN KEY `FK_civicrm_contribution_page_payment_processor_id`;	
+    
 
+ALTER TABLE `civicrm_contribution_page`
+   ADD CONSTRAINT `FK_civicrm_contribution_page_payment_processor_id` FOREIGN KEY (`payment_processor_id`) REFERENCES `civicrm_payment_processor` (`id`) ON DELETE SET NULL;
+	 
 
 -- /*******************************************************
 -- *
@@ -68,9 +73,8 @@ CREATE TABLE `civicrm_contribution_widget` (
     `color_about_link` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
     `color_homepage_link` varchar(10) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`),
-    INDEX `FK_civicrm_contribution_widget_contribution_page_id` (`contribution_page_id`),
     CONSTRAINT `FK_civicrm_contribution_widget_contribution_page_id` FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -96,9 +100,8 @@ CREATE TABLE `civicrm_grant` (
     PRIMARY KEY (`id`),
     INDEX `index_grant_type_id` (`grant_type_id`),
     INDEX `index_status_id` (`status_id`),
-    INDEX `FK_civicrm_grant_contact_id` (`contact_id`),
     CONSTRAINT `FK_civicrm_grant_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -112,11 +115,9 @@ CREATE TABLE `civicrm_group_nesting` (
     `child_group_id` int(10) unsigned NOT NULL COMMENT 'ID of the child group',
     `parent_group_id` int(10) unsigned NOT NULL  COMMENT 'ID of the parent group',
     PRIMARY KEY (`id`),
-    INDEX `FK_civicrm_group_nesting_child_group_id` (`child_group_id`),
-    INDEX `FK_civicrm_group_nesting_parent_group_id` (`parent_group_id`),
     CONSTRAINT `FK_civicrm_group_nesting_child_group_id` FOREIGN KEY (`child_group_id`) REFERENCES `civicrm_group` (`id`),
     CONSTRAINT `FK_civicrm_group_nesting_parent_group_id` FOREIGN KEY (`parent_group_id`) REFERENCES `civicrm_group` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -130,11 +131,9 @@ CREATE TABLE `civicrm_group_organization` (
     `group_id` int(10) unsigned NOT NULL COMMENT 'ID of the group',
     `organization_id` int(10) unsigned NOT NULL COMMENT 'ID of the Organization Contact',
     PRIMARY KEY (`id`),
-    INDEX `FK_civicrm_group_organization_group_id` (`group_id`),
-    INDEX `FK_civicrm_group_organization_organization_id` (`organization_id`),
     CONSTRAINT `FK_civicrm_group_organization_group_id` FOREIGN KEY (`group_id`) REFERENCES `civicrm_group` (`id`),
     CONSTRAINT `FK_civicrm_group_organization_organization_id` FOREIGN KEY (`organization_id`) REFERENCES `civicrm_contact` (`id`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci; 
 
 
 -- /*******************************************************
@@ -153,9 +152,8 @@ CREATE TABLE `civicrm_openid` (
     PRIMARY KEY (`id`),
     INDEX `index_location_type` (`location_type_id`),
     INDEX `UI_openid` (`openid`),
-    INDEX `FK_civicrm_openid_contact_id` (`contact_id`),
     CONSTRAINT `FK_civicrm_openid_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -174,7 +172,7 @@ CREATE TABLE `civicrm_openid_associations` (
     `assoc_type` varchar(64) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`),
     UNIQUE `server_url_handle_index` (`server_url`(166), `handle`(166))
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -190,7 +188,7 @@ CREATE TABLE `civicrm_openid_nonces` (
     `salt` char(40) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`),
     UNIQUE `nonce_index` (`server_url`(255), `timestamp`, `salt`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -211,9 +209,8 @@ CREATE TABLE `civicrm_preferences_date` (
     `format` varchar(64) NULL DEFAULT NULL COMMENT 'The date type' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`),
     INDEX `index_name` (`name`),
-    INDEX `FK_civicrm_preferences_date_domain_id` (`domain_id`),
     CONSTRAINT `FK_civicrm_preferences_date_domain_id` FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain` (`id`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -234,7 +231,7 @@ CREATE TABLE `civicrm_tell_friend` (
   `thankyou_text` text collate utf8_unicode_ci COMMENT 'Thank you message displayed on success page.',
   `is_active` tinyint(4) default NULL,
   PRIMARY KEY  (`id`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -251,14 +248,13 @@ CREATE TABLE `civicrm_timezone` (
     `offset` int(11) NULL DEFAULT NULL COMMENT '',
     `country_id` int(10) unsigned NOT NULL COMMENT 'Country Id',
     PRIMARY KEY (`id`),
-    INDEX `FK_civicrm_timezone_country_id` (`country_id`),
     CONSTRAINT `FK_civicrm_timezone_country_id` FOREIGN KEY (`country_id`) REFERENCES `civicrm_country` (`id`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
 -- *
--- * Create civicrm_uf_match table
+-- * Modify civicrm_uf_match table
 -- *
 -- *******************************************************/
 
@@ -266,7 +262,12 @@ ALTER TABLE `civicrm_uf_match`
     ADD `uf_name` varchar(128) NULL DEFAULT NULL COMMENT 'UF Name' COLLATE utf8_unicode_ci AFTER uf_id,
     MODIFY `contact_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Contact ID',
     DROP `email`,
-    ADD UNIQUE `UI_uf_name_domain_id` (`uf_name`, `domain_id`);
+    ADD UNIQUE `UI_uf_name_domain_id` (`uf_name`, `domain_id`),
+    DROP FOREIGN KEY `FK_civicrm_uf_match_contact_id`;
+    
+
+ALTER TABLE `civicrm_uf_match`
+   ADD CONSTRAINT `FK_civicrm_uf_match_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
 
 
 -- /*******************************************************
@@ -279,7 +280,7 @@ CREATE TABLE `civicrm_worldregion` (
     `id` int(10) unsigned NOT NULL COMMENT 'Country Id' auto_increment,
     `name` varchar(128) NULL DEFAULT NULL COMMENT 'Region name to be associated with countries' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -288,9 +289,9 @@ CREATE TABLE `civicrm_worldregion` (
 -- *
 -- *******************************************************/
 
-ALTER TABLE `civicrm_country`
-    ADD `region_id` int(10) unsigned NOT NULL COMMENT 'Country Id' AFTER ndd_prefix,
-    ADD INDEX `FK_civicrm_country_region_id` (`region_id`);
+ ALTER TABLE `civicrm_country`
+     ADD `region_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Country Id' AFTER ndd_prefix,
+     ADD CONSTRAINT `FK_civicrm_country_region_id` FOREIGN KEY (`region_id`) REFERENCES `civicrm_worldregion` (`id`);
 
 
 -- /*******************************************************
@@ -317,8 +318,12 @@ ALTER TABLE `civicrm_event`
     ADD `receipt_text` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for off-line event participation' COLLATE utf8_unicode_ci AFTER loc_block_id,
     ADD `default_role_id` int(10) unsigned NULL DEFAULT '1' COMMENT 'Participant role ID. Implicit FK to civicrm_option_value where option_group = participant_role.' AFTER receipt_text,
     ADD INDEX `index_participant_listing_id` (`participant_listing_id`),
-    ADD INDEX `FK_civicrm_event_loc_block_id` (`loc_block_id`),
-    ADD CONSTRAINT `FK_civicrm_event_loc_block_id` FOREIGN KEY (`loc_block_id`) REFERENCES `civicrm_loc_block` (`id`) ON DELETE CASCADE;
+    ADD CONSTRAINT `FK_civicrm_event_loc_block_id` FOREIGN KEY (`loc_block_id`) REFERENCES `civicrm_loc_block` (`id`) ON DELETE CASCADE,
+    DROP FOREIGN KEY `FK_civicrm_event_payment_processor_id`;
+
+
+ALTER TABLE `civicrm_event`
+    ADD CONSTRAINT `FK_civicrm_event_payment_processor_id` FOREIGN KEY (`payment_processor_id`) REFERENCES `civicrm_payment_processor` (`id`) ON DELETE SET NULL;
 
 
 -- /*******************************************************
@@ -332,7 +337,6 @@ ALTER TABLE `civicrm_event_page`
     ADD `pay_later_text` text NULL DEFAULT NULL COMMENT 'The text displayed to the user in the main form' COLLATE utf8_unicode_ci AFTER is_pay_later,
     ADD `pay_later_receipt` text NULL DEFAULT NULL COMMENT 'The receipt sent to the user instead of the normal receipt text' COLLATE utf8_unicode_ci AFTER pay_later_text,
     MODIFY `default_fee_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to civicrm_option_value.',
-    ADD INDEX `FK_civicrm_event_page_event_id` (`event_id`),
     ADD CONSTRAINT `FK_civicrm_event_page_event_id` FOREIGN KEY (`event_id`) REFERENCES `civicrm_event` (`id`) ON DELETE CASCADE;
 
 
@@ -423,5 +427,3 @@ ALTER TABLE `civicrm_premiums_product`
 
 ALTER TABLE `civicrm_saved_search`
     ADD `search_custom_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Foreign key to civicrm_option value table used for saved custom searches.' AFTER mapping_id;
-
-
