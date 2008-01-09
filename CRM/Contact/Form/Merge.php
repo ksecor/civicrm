@@ -69,8 +69,12 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
-        $mainParams  = array('contact_id' => $cid);
-        $otherParams = array('contact_id' => $oid);
+        $mainParams  = array('contact_id' => $cid, 'return.display_name' => 1);
+        $otherParams = array('contact_id' => $oid, 'return.display_name' => 1);
+        // API 2 has to have the requested fields spelt-out for it
+        foreach (CRM_Dedupe_Merger::$validFields as $field) {
+            $mainParams["return.$field"] = $otherParams["return.$field"] = 1;
+        }
         $main  =& civicrm_contact_get($mainParams);
         $other =& civicrm_contact_get($otherParams);
 
@@ -85,38 +89,20 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
         $this->_contactType = $main['contact_type'];
         $this->addElement('checkbox', 'toggleSelect', null, null, array('onchange' => "return toggleCheckboxVals('move_',this.form);"));
 
-        // FIXME: there must be a better way
-        $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
-                                                                 'groupName' => 'preferred_communication_method'),
-                       'gender_id'                      => array('newName'   => 'gender_id_display',
-                                                                 'groupName' => 'gender'),
-                       'prefix_id'                      => array('newName'   => 'prefix_id_display',
-                                                                 'groupName' => 'individual_prefix'),
-                       'suffix_id'                      => array('newName'   => 'suffix_id_display',
-                                                                 'groupName' => 'individual_suffix'),
-        );
-        foreach (array('main', 'other') as $moniker) {
-            $contact =& $$moniker;
-            $specialValues[$moniker] = array('preferred_communication_method' => $contact['preferred_communication_method'],
-                                             'gender_id'                      => $contact['gender_id'],
-                                             'prefix_id'                      => $contact['prefix_id'],
-                                             'suffix_id'                      => $contact['suffix_id']);
-            CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
-        }
-
         require_once "CRM/Contact/DAO/Contact.php";
         $fields =& CRM_Contact_DAO_Contact::fields();
 
-        // FIXME: civcrm_contact.source is not being given title, 
-        // because it has a <uniqueName>contact_source</uniqueName>
-        // - bug in fields() to return uniqueName instead of name?
-        $fields['source']['title'] = $fields['contact_source']['title'];
-
         // FIXME: there must be a better way
-        $ovFields = CRM_Core_OptionValue::getFields();
-        $fields['gender_id']['title'] = $ovFields['gender']['title'];
-        $fields['prefix_id']['title'] = $ovFields['individual_prefix']['title'];
-        $fields['suffix_id']['title'] = $ovFields['individual_suffix']['title'];
+        foreach (array('main', 'other') as $moniker) {
+            $contact =& $$moniker;
+            $specialValues[$moniker] = array('preferred_communication_method' => $contact['preferred_communication_method']);
+            $names = array('preferred_communication_method' => array('newName'   => 'preferred_communication_method_display',
+                                                                     'groupName' => 'preferred_communication_method'));
+            CRM_Core_OptionGroup::lookupValues($specialValues[$moniker], $names);
+        }
+        foreach (CRM_Core_OptionValue::getFields() as $field => $params) {
+            $fields[$field]['title'] = $params['title'];
+        }
 
         if (!isset($diffs['contact'])) $diffs['contact'] = array();
         foreach ($diffs['contact'] as $field) {
@@ -227,13 +213,6 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             unset($relTables[$name]);
         }
         $this->assign('rel_tables', $relTables);
-
-        // add the 'move belongings?' and 'delete other?' elements
-        $this->addElement('hidden', 'moveBelongings', 1);
-        $this->addElement('hidden', 'deleteOther', 1);
-        // alternatively, make 'em visible checkboxen - also uncomment the proper <p>s in the template
-        // $this->addElement('checkbox', 'moveBelongings', ts('Move other information associated with the Duplicate Contact to the Main Contact'));
-        // $this->addElement('checkbox', 'deleteOther', ts('Delete the left-side contact after merging'));
     }
     
     function setDefaultValues()
@@ -270,18 +249,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $moveTables = array_merge($moveTables, $relTables[substr($key, 5)]['tables']);
             }
         }
-        // FIXME: source vs. contact_source workaround
-        if (isset($submitted['source'])) {
-            $submitted['contact_source'] = $submitted['source'];
-            unset($submitted['source']);
-        }
         // FIXME: this is from API 1; API 2 doesn't handle preferred_communication_method at all yet
-        if (isset($submitted['preferred_communication_method'])) {
-            $pcm =& $submitted['preferred_communication_method'];
-            $pcm = trim($pcm, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
-            $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
-            $pcm = array_flip($pcm);
-        }
+#       if (isset($submitted['preferred_communication_method'])) {
+#           $pcm =& $submitted['preferred_communication_method'];
+#           $pcm = trim($pcm, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
+#           $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
+#           $pcm = array_flip($pcm);
+#       }
         // FIXME: fix custom fields so they're edible by createProfileContact()
         $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
         foreach ($cgTree as $key => $group) {

@@ -1,6 +1,6 @@
 <?php
 
-class TestOfCRM514 extends UnitTestCase 
+class TestOfCRM2542 extends UnitTestCase 
 {
     
     protected $contactAllParams = array(

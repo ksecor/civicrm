@@ -36,15 +36,14 @@ class CRM_Dedupe_Merger
 {
     // FIXME: this should be auto-generated from the schema
     static $validFields = array(
-        'birth_date', 'deceased_date', 'do_not_email', 'do_not_mail', 
-        'do_not_phone', 'do_not_trade', 'external_identifier', 'first_name', 
-        'gender_id', 'home_URL', 'household_name', 'image_URL', 
-        'is_deceased', 'is_opt_out', 'job_title', 'last_name', 
-        'legal_identifier', 'legal_name', 'middle_name', 'nick_name', 
-        'organization_name', 'preferred_mail_format', 'sic_code',
-        // not supported in API 2:
-        // 'custom_greeting', 'gender', 'greeting_type', 'preferred_communication_method', 
-        // 'prefix', 'prefix_id', 'suffix', 'suffix_id', 'source'
+        'birth_date', 'contact_source', 'contact_type', 'custom_greeting', 
+        'deceased_date', 'do_not_email', 'do_not_mail', 'do_not_phone', 
+        'do_not_trade', 'external_identifier', 'first_name', 'gender', 
+        'greeting_type', 'home_URL', 'household_name', 'image_URL', 
+        'individual_prefix', 'individual_suffix', 'is_deceased', 'is_opt_out', 
+        'job_title', 'last_name', 'legal_identifier', 'legal_name', 
+        'middle_name', 'nick_name', 'on_hold', 'organization_name', 
+        'preferred_communication_method', 'preferred_mail_format', 'sic_code'
     );
 
     // FIXME: consider creating a common structure with cidRefs() and eidRefs()
@@ -268,6 +267,10 @@ class CRM_Dedupe_Merger
         require_once 'api/v2/Contact.php';
         $mainParams  = array('contact_id' => (int) $mainId);
         $otherParams = array('contact_id' => (int) $otherId);
+        // API 2 has to have the requested fields spelt-out for it
+        foreach (self::$validFields as $field) {
+            $mainParams["return.$field"] = $otherParams["return.$field"] = 1;
+        }
         $main  =& civicrm_contact_get($mainParams);
         $other =& civicrm_contact_get($otherParams);
         if ($main['contact_type'] != $other['contact_type']) {
