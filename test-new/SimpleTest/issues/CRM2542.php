@@ -58,18 +58,36 @@ class TestOfCRM2542 extends UnitTestCase
             }
         }
         
+        // create contact
         require_once 'api/v2/Contact.php';
         $contact = &civicrm_contact_add( $this->contactAllParams );
         
         CRM_Core_Error::debug( "<b><i>Create :</i></b> ", $contact );
         
+        // get contact
         $returnProperties['first_name'] = $this->contactAllParams['first_name'];
         $returnProperties['last_name']  = $this->contactAllParams['last_name'];
-        
+                
         $retrieved = &civicrm_contact_get( $returnProperties );
         
         CRM_Core_Error::debug( "<b><i>Get :</i></b> ", $retrieved );
-                
+        
+        // update the contact
+        $this->contactAllParams['contact_id'] = $contact['contact_id'];
+        $this->contactAllParams['gender']     = 'Female';
+        $this->contactAllParams['individual_prefix']     = 'Mrs';
+        $this->contactAllParams['individual_suffix']     = 'II';
+        
+        $contact = &civicrm_contact_add( $this->contactAllParams );
+        
+        CRM_Core_Error::debug( "<b><i>Update :</i></b> ", $contact );
+        
+        // again get the contact
+        $retrieved = &civicrm_contact_get( $returnProperties );
+        
+        CRM_Core_Error::debug( "<b><i>Get :</i></b> ", $retrieved );
+        
+        // delete the contact
         $delete = array( 'contact_id' => $contact['contact_id'] );
         
         civicrm_contact_delete( $delete );

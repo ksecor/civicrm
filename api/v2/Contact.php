@@ -71,30 +71,32 @@ function &civicrm_contact_add( &$params ) {
         }
     }
     
-    if ( array_key_exists( 'suffix', $params ) ) {
-        $params['suffix_id'] = $params['suffix'];
-        unset( $params['suffix'] );
+    $change = array( 'individual_prefix' => 'prefix',
+                     'prefix'            => 'prefix_id',
+                     'individual_suffix' => 'suffix',
+                     'suffix'            => 'suffix_id',
+                     'gender'            => 'gender_id' );
+    
+    foreach ( $change as $field => $changeAs ) {
+        if ( array_key_exists( $field, $params ) ) {
+            $params[$changeAs] = $params[$field];
+            unset( $params[$field] );
+        }
     }
+    
     if ( !( is_numeric( $params['suffix_id'] ) ) 
          && isset( $params['suffix_id'] ) ) {
         $params['suffix_id'] = array_search( $params['suffix_id'] , CRM_Core_PseudoConstant::individualSuffix() );
     }
     
-    if ( array_key_exists( 'prefix', $params ) ) { 
-        $params['prefix_id'] = $params['prefix'];
-        unset( $params['prefix'] );
-    }
     if ( !( is_numeric( $params['prefix_id'] ) ) 
          && isset( $params['prefix_id'] ) ) {
         $params['prefix_id'] = array_search( $params['prefix_id'] , CRM_Core_PseudoConstant::individualPrefix() );
     } 
     
-    if ( isset( $params['gender'] ) ) {
-        if ( is_numeric( $params['gender'] ) ) {
-            $params['gender_id'] = $params['gender'];
-        } else { 
-            $params['gender_id'] = array_search( $params['gender'] , CRM_Core_PseudoConstant::gender() );
-        }
+    if ( !  ( is_numeric( $params['gender_id'] ) ) 
+         && isset( $params['gender_id'] ) ) {
+        $params['gender_id'] = array_search( $params['gender_id'] , CRM_Core_PseudoConstant::gender() );
     }
     
     $contact =& _civicrm_contact_add( $params, $contactID );
