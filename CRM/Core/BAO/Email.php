@@ -55,7 +55,7 @@ class CRM_Core_BAO_Email extends CRM_Core_DAO_Email
         $email =& new CRM_Core_DAO_Email( );
         $email->copyValues($params);
         
-        if ( $email->is_bulkmail && $params['contact_id']) {
+        if ( $email->is_bulkmail != 'null' && $params['contact_id']) {
             $sql = "
 UPDATE civicrm_email 
 SET is_bulkmail = 0
@@ -66,7 +66,7 @@ contact_id = {$params['contact_id']}";
 
         // handle if email is on hold
         self::holdEmail( $email );
-        
+
         return $email->save( );
     }
 
