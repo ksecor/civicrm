@@ -128,3 +128,23 @@ LEFT JOIN civicrm_im      ci1 ON (ci1.location_id = cl.id AND ci1.is_primary = 1
 LEFT JOIN civicrm_im      ci2 ON (ci2.location_id = cl.id AND ci2.is_primary = 0)
 
 WHERE cl.entity_table IN ('civicrm_event', 'civicrm_domain');
+
+
+-- /**********************************************************
+-- *
+-- * Update activity table data
+-- *
+-- ***********************************************************/
+
+INSERT INTO civicrm_activity (source_contact_id,subject,activity_date_time,duration,phone_id,phone_number,details) 
+
+SELECT 
+    source_contact_id,
+    subject,
+    scheduled_date_time,
+    (duration_hours*60)+duration_minutes,
+    phone_id,
+    phone_number,
+    details FROM civicrm_phonecall 	
+
+WHERE target_entity_table = 'civicrm_contact'; 
