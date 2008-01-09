@@ -96,7 +96,7 @@
 
     {else} {* NOT Price Set *}
 	{if $paid}       
-	    <tr><td class="label">{$form.amount.label}<span class="marker">*</span></td><td>{$form.amount.html}</td>
+	    <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}</td>
 	{/if}
     {/if}
 
