@@ -306,7 +306,6 @@
       <name>honor_type_id</name>
       <title>Honor Type</title>
       <type>int unsigned</type>
-      <import>true</import>
       <comment>Implicit FK to civicrm_option_value.</comment>
       <add>2.0</add>
       <onDelete>SET NULL</onDelete>
