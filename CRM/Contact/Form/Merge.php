@@ -249,13 +249,13 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
                 $moveTables = array_merge($moveTables, $relTables[substr($key, 5)]['tables']);
             }
         }
-        // FIXME: this is from API 1; API 2 doesn't handle preferred_communication_method at all yet
-#       if (isset($submitted['preferred_communication_method'])) {
-#           $pcm =& $submitted['preferred_communication_method'];
-#           $pcm = trim($pcm, CRM_Core_BAO_CustomOption::VALUE_SEPERATOR);
-#           $pcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $pcm);
-#           $pcm = array_flip($pcm);
-#       }
+
+        // FIXME: fix gender, prefix and postfix, so they're edible by createProfileContact()
+        $names['gender']            = array('newName' => 'gender_id', 'groupName' => 'gender');
+        $names['individual_prefix'] = array('newName' => 'prefix_id', 'groupName' => 'individual_prefix');
+        $names['individual_suffix'] = array('newName' => 'suffix_id', 'groupName' => 'individual_suffix');
+        CRM_Core_OptionGroup::lookupValues($submitted, $names, true);
+
         // FIXME: fix custom fields so they're edible by createProfileContact()
         $cgTree =& CRM_Core_BAO_CustomGroup::getTree($this->_contactType, null, -1);
         foreach ($cgTree as $key => $group) {
