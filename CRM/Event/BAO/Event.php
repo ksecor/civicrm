@@ -223,20 +223,25 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
                 }
             }
         }
-       
+        
         require_once 'CRM/Event/DAO/Event.php';
         $event     = & new CRM_Event_DAO_Event( );
         $event->id = $id; 
         
-        $event->find( true );
-        $locBlockId = $event->loc_block_id;
+        if ( $event->find( true ) ) {
+            $locBlockId = $event->loc_block_id;
+            
+            $result = $event->delete( );
+            
+            if ( ! is_null( $locBlockId ) ) {
+                require_once 'CRM/Core/BAO/Location.php';
+                CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
+            }
+            
+            return $result;
+        }
         
-        $result = $event->delete( );
-        
-        require_once 'CRM/Core/BAO/Location.php';
-        CRM_Core_BAO_Location::deleteLocBlock( $locBlockId );
-        
-        return $result;
+        return null;
     }
     
     /**

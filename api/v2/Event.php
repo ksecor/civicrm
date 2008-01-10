@@ -189,11 +189,18 @@ function civicrm_event_search( &$params )
  */
 function &civicrm_event_delete( &$params ) 
 {
+    if ( empty( $params ) ) {
+        return civicrm_create_error( ts( 'No input parameters present' ) );
+    }
+    
+    $eventID = null;
+    
     $eventID = CRM_Utils_Array::value( 'event_id', $params );
     
-    if ( ! $eventID ) {
+    if ( ! isset( $eventID ) ) {
         return civicrm_create_error( ts( 'Invalid value for eventID' ) );
     }
+    
     require_once 'CRM/Event/BAO/Event.php';
     
     return CRM_Event_BAO_Event::del( $eventID ) ?  civicrm_create_success( ) : civicrm_create_error( ts( 'Error while deleting event' ) );
