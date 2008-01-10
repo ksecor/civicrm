@@ -130,6 +130,21 @@ LEFT JOIN civicrm_im      ci2 ON (ci2.location_id = cl.id AND ci2.is_primary = 0
 WHERE cl.entity_table IN ('civicrm_event', 'civicrm_domain');
 
 
+-- * Update loc_block_id of civicrm_event and civicrm_domain
+
+UPDATE civicrm_loc_block clb
+
+LEFT JOIN civicrm_address  ca  ON (ca.id = clb.address_id) 
+LEFT JOIN civicrm_location cle ON (cle.id = ca.location_id AND cle.entity_table = 'civicrm_event') 
+LEFT JOIN civicrm_event    ce  ON (ce.id = cle.entity_id) 
+LEFT JOIN civicrm_location cld ON (cld.id = ca.location_id AND cld.entity_table = 'civicrm_domain') 
+LEFT JOIN civicrm_domain   cd  ON (cd.id = cld.entity_id) 
+
+SET 
+    ce.loc_block_id  = clb.id,
+    cd.loc_block_id  = clb.id;
+
+
 -- /**********************************************************
 -- *
 -- * Update activity table data
