@@ -162,4 +162,22 @@ SELECT
     phone_number,
     details FROM civicrm_phonecall 	
 
-WHERE target_entity_table = 'civicrm_contact'; 
+WHERE target_entity_table = 'civicrm_contact';
+
+
+-- /**********************************************************
+-- *
+-- * Update activity target table data
+-- *
+-- ***********************************************************/
+
+INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+
+SELECT 
+    ca.id, 
+    target_entity_id
+
+FROM `civicrm_phonecall` cp, `civicrm_activity` ca
+
+WHERE (cp.source_contact_id = ca.source_contact_id AND cp.subject = ca.subject AND cp.scheduled_date_time = ca.activity_date_time ) AND 
+      (cp.phone_id = ca.phone_id OR cp.phone_number = ca.phone_number);
