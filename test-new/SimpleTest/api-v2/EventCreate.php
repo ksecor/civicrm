@@ -76,7 +76,7 @@ class TestOfEventCreateAPIV2 extends CiviUnitTestCase
         $this->assertNotEqual( $result['is_error'], 1 );
         $this->assertTrue( array_key_exists( 'event_id', $result ) );
         
-        civicrm_event_delete($result['event_id']);
+        civicrm_event_delete( $result );
     }
     
     function tearDown() 

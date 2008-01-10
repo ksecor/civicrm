@@ -30,6 +30,7 @@ class TestOfParticipantDeleteAPIV2 extends CiviUnitTestCase
                         'id' => $this->_participantID,
                         );
         $participant = & civicrm_participant_delete($params);
+        $this->assertNotEqual( $participant['is_error'],1 );
         $this->assertDBState( 'CRM_Event_DAO_Participant', $this->_participantID, NULL, true ); 
 
     }

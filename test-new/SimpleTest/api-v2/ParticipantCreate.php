@@ -51,26 +51,25 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $participant['is_error'],1 );
         $this->assertNotNull($participant['error_message']);
     }
-
+    
     function testParticipantCreateEventIdOnly()
     {
         $params = array(
                         'contact_id'    => $this->_contactID,
                         'event_id'      => 1,
                         );
-        $participant = & civicrm_participant_create($params); 
+        $participant = & civicrm_participant_create($params);
         $this->assertNotEqual( $participant['is_error'],1 );
-        $this->_participantID = $participant['id'];
-
+        $this->_participantID = $participant['result'];
+        
         if ( ! $participant['is_error'] ) {
-            $this->_createdParticipants[] = CRM_Utils_Array::value('id', $participant);
-            
+            $this->_createdParticipants[] = CRM_Utils_Array::value('result', $participant);
             // Create $match array with DAO Field Names and expected values
             $match = array(
-                           'id'                         => CRM_Utils_Array::value('id', $participant)
+                           'id'                         => CRM_Utils_Array::value('result', $participant)
                            );
             // assertDBState compares expected values in $match to actual values in the DB              
-            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match ); 
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match ); 
         }
     }
     
@@ -88,16 +87,16 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         
         $participant = & civicrm_participant_create($params);
         $this->assertNotEqual( $participant['is_error'],1 );
-        $this->_participantID = $participant['id'];
+        $this->_participantID = $participant['result'];
         if ( ! $participant['is_error'] ) {
-            $this->_createdParticipants[] = CRM_Utils_Array::value('id', $participant);
-
+            $this->_createdParticipants[] = CRM_Utils_Array::value('result', $participant);
+            
             // Create $match array with DAO Field Names and expected values
             $match = array(
-                           'id'         => CRM_Utils_Array::value('id', $participant)
+                           'id'         => CRM_Utils_Array::value('result', $participant)
                            );
             // assertDBState compares expected values in $match to actual values in the DB              
-            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match ); 
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match ); 
         }
     }
     

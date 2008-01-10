@@ -279,7 +279,7 @@ class CiviUnitTestCase extends UnitTestCase {
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not create participant' );
         }
-        return $result['id'];
+        return $result['result'];
     }
     
     /** 

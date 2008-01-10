@@ -41,7 +41,7 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
 
     function testParticipantUpdate()
     {  
-        $participantId = $this->participantCreate( $this->_individualId ); 
+        $participantId = $this->participantCreate( $this->_individualId );
         $params = array(
                         'id'            => $participantId,
                         'contact_id'    => $this->_individualId,
@@ -56,14 +56,14 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
         $this->assertNotEqual( $participant['is_error'],1 );
         
         if ( ! $participant['is_error'] ) {
-            $params['id'] = CRM_Utils_Array::value('id', $participant);
+            $params['id'] = CRM_Utils_Array::value('result', $participant);
             
             // Create $match array with DAO Field Names and expected values
             $match = array(
-                           'id'         => CRM_Utils_Array::value('id', $participant)
+                           'id'         => CRM_Utils_Array::value('result', $participant)
                            );
             // assertDBState compares expected values in $match to actual values in the DB              
-            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['id'], $match );
+            $this->assertDBState( 'CRM_Event_DAO_Participant', $participant['result'], $match );
         }
         // Cleanup created participant records.
         $result = $this->participantDelete( $params['id'] );
@@ -74,6 +74,6 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
         // Cleanup test contacts.
         $this->contactDelete( $this->_individualId );
     }
-
+    
 }
 ?>
