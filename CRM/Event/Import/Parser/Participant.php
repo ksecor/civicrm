@@ -290,13 +290,17 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                                                              $value, 'Participant', null, null );
             }
         }
-
+        
+        require_once "api/v2/Participant.php";
+        
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {
                 require_once 'CRM/Contact/BAO/Contact.php';
                 $cIndieFields = CRM_Contact_BAO_Contact::importableFields( $this->_contactType);
             }
+            
+            
             foreach ($params as $key => $field) {
                 if ($field == null || $field === '') {
                     continue;
