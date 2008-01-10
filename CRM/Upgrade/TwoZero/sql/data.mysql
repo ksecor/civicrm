@@ -181,3 +181,66 @@ FROM `civicrm_phonecall` cp, `civicrm_activity` ca
 
 WHERE (cp.source_contact_id = ca.source_contact_id AND cp.subject = ca.subject AND cp.scheduled_date_time = ca.activity_date_time ) AND 
       (cp.phone_id = ca.phone_id OR cp.phone_number = ca.phone_number);
+
+
+-- /**********************************************************
+-- *
+-- * Update custom data/values
+-- *
+-- ***********************************************************/
+
+
+SELECT @domain_id := id from civicrm_domain;
+
+-- * Update custom option group data/values
+
+INSERT into `civicrm_option_group`(domain_id,name,label,is_active) 
+
+SELECT 
+    @domain_id, 
+    cf.name, 
+    cf.label, 
+    co.is_active
+
+FROM civicrm_custom_option co, civicrm_custom_field cf
+
+WHERE entity_table = 'civicrm_custom_field' AND cf.id = co.entity_id GROUP BY entity_id;
+
+
+-- * Update custom option group data/values for 'contribution page'
+
+INSERT into `civicrm_option_group`(domain_id,name,is_active)
+ 
+SELECT 
+    @domain_id, 
+    CONCAT(entity_table,'.amount.',entity_id), 
+    is_active
+
+FROM civicrm_custom_option 
+
+WHERE entity_table = 'civicrm_contribution_page' GROUP BY entity_id;
+
+
+-- * Update custom option group data/values for 'event page'
+
+INSERT into `civicrm_option_group`(domain_id,name,is_active) 
+
+SELECT 
+    @domain_id, 
+    CONCAT(entity_table,'.amount.',entity_id), 
+    is_active
+
+FROM civicrm_custom_option
+
+WHERE entity_table = 'civicrm_event_page' GROUP BY entity_id;
+
+
+-- * Update option value data/values
+
+INSERT into `civicrm_option_value`(option_group_id,label,value,weight,is_active)
+
+SELECT entity_id, label,value,weight, is_active
+
+FROM civicrm_custom_option;
+
+
