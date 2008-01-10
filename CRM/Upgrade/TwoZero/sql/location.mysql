@@ -46,13 +46,9 @@ ALTER TABLE `civicrm_address`
     ADD `location_type_id` int(10) unsigned NULL DEFAULT NULL AFTER contact_id,
     ADD `is_primary` tinyint(4) NULL DEFAULT '0' AFTER location_type_id,
     ADD `is_billing` tinyint(4) NULL DEFAULT '0' AFTER is_primary,    
-    DROP FOREIGN KEY `FK_civicrm_address_geo_coord_id`,
-    DROP `geo_coord_id`,
-    DROP note,
     ADD INDEX `index_location_type` (`location_type_id`),
     ADD INDEX `index_is_primary` (`is_primary`),
     ADD INDEX `index_is_billing` (`is_billing`),
-    
     DROP FOREIGN KEY `FK_civicrm_address_county_id`,
     DROP FOREIGN KEY `FK_civicrm_address_state_province_id`,
     DROP FOREIGN KEY `FK_civicrm_address_country_id`,

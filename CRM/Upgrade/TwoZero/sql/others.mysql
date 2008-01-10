@@ -7,6 +7,35 @@
 
 -- /*******************************************************
 -- *
+-- * Add civicrm_loc_block table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_loc_block` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `address_id` int(10) unsigned NULL DEFAULT NULL,
+    `email_id` int(10) unsigned NULL DEFAULT NULL,
+    `phone_id` int(10) unsigned NULL DEFAULT NULL,
+    `im_id` int(10) unsigned NULL DEFAULT NULL,
+    `address_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `email_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `phone_2_id` int(10) unsigned NULL DEFAULT NULL,
+    `im_2_id` int(10) unsigned NULL DEFAULT NULL,
+    name varchar(255) NULL DEFAULT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT `FK_civicrm_loc_block_address_id` FOREIGN KEY (`address_id`) REFERENCES `civicrm_address` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_email_id` FOREIGN KEY (`email_id`) REFERENCES `civicrm_email` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_phone_id` FOREIGN KEY (`phone_id`) REFERENCES `civicrm_phone` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_im_id` FOREIGN KEY (`im_id`) REFERENCES `civicrm_im` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_address_2_id` FOREIGN KEY (`address_2_id`) REFERENCES `civicrm_address` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_email_2_id` FOREIGN KEY (`email_2_id`) REFERENCES `civicrm_email` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_phone_2_id` FOREIGN KEY (`phone_2_id`) REFERENCES `civicrm_phone` (`id`),
+    CONSTRAINT `FK_civicrm_loc_block_im_2_id` FOREIGN KEY (`im_2_id`) REFERENCES `civicrm_im` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
 -- * Create civicrm_component table
 -- *
 -- *******************************************************/
@@ -347,11 +376,8 @@ ALTER TABLE `civicrm_event_page`
 -- *******************************************************/
 
 ALTER TABLE `civicrm_line_item`
-    ADD `option_group_id` int(10) unsigned NOT NULL COMMENT 'FK to option group' AFTER price_field_id,
-    DROP FOREIGN KEY FK_civicrm_line_item_custom_option_id,
-    DROP `custom_option_id`,
-    DROP INDEX `FK_civicrm_line_item_custom_option_id`;
-
+    ADD `option_group_id` int(10) unsigned NOT NULL COMMENT 'FK to option group' AFTER price_field_id;
+   
 
 -- /*******************************************************
 -- *
