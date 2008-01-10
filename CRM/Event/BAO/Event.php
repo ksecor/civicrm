@@ -630,41 +630,16 @@ WHERE civicrm_event.is_active = 1
                                                       array( 'entity_id'    => $copyEvent->id ) );
 
         $eventPageId = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', $id, 'id', 'event_id' );       
+
+        require_once "CRM/Core/BAO/OptionGroup.php";
         //copy option Group and values
-        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
-                                                      'civicrm_event_page.amount.' .$eventPageId, 
-                                                      'id', 
-                                                      'name' );
-       
-        if ( $optionGroupId ) {
-            $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
-                                                           array( 'name' => 'civicrm_event_page.amount.' .$eventPageId ),
-                                                           array( 'name' => 'civicrm_event_page.amount.' .$copyEventPage->id ) );
-            
-            $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
-                                                           array( 'option_group_id' => $optionGroupId ),
-                                                           array( 'option_group_id' => $copyOptionGroup->id ) );
-            $query = "
-SELECT second.id default_fee_id 
-FROM civicrm_option_value first, civicrm_option_value second
-WHERE second.option_group_id =%1
-AND first.option_group_id =%2
-AND first.weight = second.weight
-AND first.id =%3
-";
-            $params = array( 
-                            1 => array( $copyOptionGroup->id, 'Int' ), 
-                            2 => array( $optionGroupId, 'Int' ), 
-                            3 => array( CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
-                                                                     $eventPageId, 'default_fee_id' ), 'Int' ) );
-  
-            $eventPageDAO = CRM_Core_DAO::executeQuery( $query, $params );
-            
-            while ( $eventPageDAO->fetch( ) ) {
-                $copyEventPage->default_fee_id = $eventPageDAO->default_fee_id;
-            }        
-            
-        }
+        $copyEventPage->default_fee_id = CRM_Core_BAO_OptionGroup::copyValue('event', 
+                                                                             $eventPageId, 
+                                                                             $copyEventPage->id, 
+                                                                             CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_EventPage', 
+                                                                                                          $eventPageId, 'default_fee_id' ) );
+        
+        
         //copy custom data
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $extends   = array('event');
@@ -687,8 +662,8 @@ AND first.id =%3
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray ); 
             }
         }   
-            $copyEventPage->save( );
-            return $copyEvent;
+        $copyEventPage->save( );
+        return $copyEvent;
     }
     
 }

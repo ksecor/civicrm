@@ -160,7 +160,64 @@ class CRM_Core_BAO_OptionGroup extends CRM_Core_DAO_OptionGroup
         return $optionGroup->name;
         
     }
-      
+
+    /**
+     * Function to copy the option group and values
+     * 
+     * @param  String $component     - component page for which custom 
+     *                                 option group and values need to be copied 
+     * @param  int    $fromId        - component page id on which
+     *                                 basis copy is to be made 
+     * @param  int    $toId          - component page id to be copied onto 
+     * @param  int    $defaultId     - default custom value id on the 
+     *                                 component page 
+     * 
+     * @return int   $id             - default custom value id for the 
+     *                                 copied component page 
+     * 
+     * @access public
+     * @static
+     */
+    static function copyValue( $component, $fromId, $toId, $defaultId = false ) 
+    {
+        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
+                                                      'civicrm_'. $component. '_page.amount.' .$fromId, 
+                                                      'id', 
+                                                      'name' );
+        if ( $optionGroupId ) {
+            $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
+                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$fromId ),
+                                                           array( 'name' => 'civicrm_'.$component.'_page.amount.'.$toId ) );
+            
+            $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
+                                                           array( 'option_group_id' => $optionGroupId ),
+                                                           array( 'option_group_id' => $copyOptionGroup->id ) );
+            if ( $defaultId ) {
+                $query = "
+SELECT second.id default_id 
+FROM civicrm_option_value first, civicrm_option_value second
+WHERE second.option_group_id =%1
+AND first.option_group_id =%2
+AND first.weight = second.weight
+AND first.id =%3
+";
+                $params = array( 
+                                1 => array( $copyOptionGroup->id, 'Int' ), 
+                                2 => array( $optionGroupId, 'Int' ), 
+                                3 => array( $defaultId, 'Int' ) );
+                
+                $dao = CRM_Core_DAO::executeQuery( $query, $params );
+                
+                while ( $dao->fetch( ) ) {
+                    $id = $dao->default_id;
+                }        
+                return $id;
+            }
+            return false;
+        }  
+        
+    }
+    
 }
 
 ?>

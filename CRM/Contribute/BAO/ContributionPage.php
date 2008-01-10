@@ -228,38 +228,14 @@ class CRM_Contribute_BAO_ContributionPage extends CRM_Contribute_DAO_Contributio
                                                   array( 'contribution_page_id' => $copy->id ) );
         
         
-        $copyOptionGroup =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionGroup', 
-                                                       array( 'name' => 'civicrm_contribution_page.amount.' .$id ),
-                                                       array( 'name' => 'civicrm_contribution_page.amount.' .$copy->id ) );
-        $optionGroupId = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', 
-                                                      'civicrm_contribution_page.amount.' .$id, 
-                                                      'id', 
-                                                      'name' );
-        
-        if ( $optionGroupId ) {
-            $copyOptionValue =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_OptionValue', 
-                                                           array( 'option_group_id' => $optionGroupId ),
-                                                           array( 'option_group_id' => $copyOptionGroup->id ) );
-            $query = "
-SELECT second.id default_amount_id 
-FROM civicrm_option_value first, civicrm_option_value second
-WHERE second.option_group_id =%1
-AND first.option_group_id =%2
-AND first.weight = second.weight
-AND first.id =%3
-";
-            $params = array( 
-                            1 => array( $copyOptionGroup->id, 'Int' ), 
-                            2 => array( $optionGroupId, 'Int' ), 
-                            3 => array( CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
-                                                                     $id, 'default_amount_id' ), 'Int' ) );
-            $dao = CRM_Core_DAO::executeQuery( $query, $params );
-            
-            while ( $dao->fetch( ) ) {
-                $copy->default_amount_id = $dao->default_amount_id;
-            }        
-            
-        }
+        //copy option group and values 
+        require_once "CRM/Core/BAO/OptionGroup.php";
+        $copy->default_amount_id = CRM_Core_BAO_OptionGroup::copyValue('contribution', 
+                                                                       $id, 
+                                                                       $copy->id, 
+                                                                       CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', 
+                                                                                                    $id, 
+                                                                                                    'default_amount_id' ) );
         $copyTellFriend =& CRM_Core_DAO::copyGeneric( 'CRM_Friend_DAO_Friend', 
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_contribution_page'),
