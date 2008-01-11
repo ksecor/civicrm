@@ -48,63 +48,76 @@ class CRM_Upgrade_Base extends CRM_Core_Form {
         parent::__construct( $state, $action, $method, $name );
     }
 
-      function checkSQLConstraints( &$constraints ) {
-          $pass = $fail = 0;
-          foreach ( $constraints as $constraint ) {
-              if ( $this->checkSQLConstraint( $constraint ) ) {
-                  $pass++;
-              } else {
-                  $fail++;
-              }
-              return array( $pass, $fail );
-          }
-      }
+    function checkSQLConstraints( &$constraints ) {
+        $pass = $fail = 0;
+        foreach ( $constraints as $constraint ) {
+            if ( $this->checkSQLConstraint( $constraint ) ) {
+                $pass++;
+            } else {
+                $fail++;
+            }
+            return array( $pass, $fail );
+        }
+    }
+    
+    function checkSQLConstraint( $constraint ) {
+        // check constraint here
+        return true;
+    }
+    
+    function source( $fileName ) {
+        require_once 'CRM/Utils/File.php';
+        
+        CRM_Utils_File::sourceSQLFile( $this->_config->dsn,
+                                       $fileName );
+    }
+    
+    function preProcess( ) {
+        $this->verifyPreDBState( );
+    }
+    
+    function buildQuickForm( ) {
+        $this->addDefaultButtons( $this->getButtonTitle( ),
+                                  'next',
+                                  null,
+                                  true );
+    }
+    
+    function getTitle( ) {
+        return ts( 'Title not Set' );
+    }
+    
+    function getButtonTitle( ) {
+        return ts( 'Continue' );
+    }
+    
+    function getTemplateFileName( ) {
+        $this->assign( 'title',
+                       $this->getTitle( ) );
+        $this->assign( 'message',
+                       $this->getTemplateMessage( ) );
+        return 'CRM/Upgrade/Base.tpl';
+    }
+    
+    function postProcess( ) {
+        $this->upgrade( );
+        
+        $this->verifyPostDBState( );
+    }
 
-      function checkSQLConstraint( $constraint ) {
-          // check constraint here
-          return true;
-      }
+    function runQuery( $query ) {
+        $db = DB::connect( $this->_config->dsn );
 
-      function source( $fileName ) {
-          require_once 'CRM/Utils/File.php';
+        if ( DB::isError( $db ) ) { 
+            die( "Cannot connect to db via $dsn, " . $db->getMessage( ) ); 
+        }
+        
+        $res = $db->query( $query );
 
-          CRM_Utils_File::sourceSQL( $this->_config->dsn,
-                                     $fileName );
-      }
+        $db->disconnect( );
 
-      function preProcess( ) {
-          $this->verifyPreDBState( );
-      }
-
-      function buildQuickForm( ) {
-          $this->addDefaultButtons( $this->getButtonTitle( ),
-                                    'next',
-                                    null,
-                                    true );
-      }
-
-      function getTitle( ) {
-          return ts( 'Title not Set' );
-      }
-
-      function getButtonTitle( ) {
-          return ts( 'Continue' );
-      }
-
-      function getTemplateFileName( ) {
-          $this->assign( 'title',
-                         $this->getTitle( ) );
-          $this->assign( 'message',
-                         $this->getTemplateMessage( ) );
-          return 'CRM/Upgrade/Base.tpl';
-      }
-
-      function postProcess( ) {
-          $this->upgrade( );
-
-          $this->verifyPostDBState( );
-      }
-
+        return $res;
+    }
 }
 
 ?>

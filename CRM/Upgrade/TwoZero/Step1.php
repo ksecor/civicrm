@@ -38,20 +38,38 @@ require_once 'CRM/Upgrade/Base.php';
 class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
 
     function verifyPreDBState( ) {
-    }
+        
+        // upgrade part
+        $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
+        $res   = $this->runQuery( $query );
+        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
 
+        // Don't do structure update if version column exists
+        if (! isset($row['Field'])) {
+            $currentDir = dirname( __FILE__ );
+            $sqlFiles   = array('contact.mysql', 'location.mysql', 'activity.mysql', 
+                                'custom.mysql',  'others.mysql' );
+
+            foreach ($sqlFiles as $file) {
+                $sqlFile = implode( DIRECTORY_SEPARATOR,
+                                    array( $currentDir, 'sql', $file ) );
+                $this->source( $sqlFile );
+            }
+            
+            // mark the level completed
+            $query = "UPDATE `civicrm_domain` SET version='1.91'";
+            $res   = $this->runQuery( $query );
+        }
+    }
+    
     function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
-        $sqlFile = implode( DIRECTORY_SEPARATOR,
-                            array( $currentDir, 'sql', 'main.sql' ) );
-        $this->source( $sqlFile );
     }
 
     function verifyPostDBState( ) {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step One' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step One (Structure Upgrade)' );
     }
 
     function getButtonTitle( ) {
