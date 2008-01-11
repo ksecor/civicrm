@@ -194,13 +194,14 @@ SELECT @domain_id := id from civicrm_domain;
 
 -- * Update custom option group data/values
 
-INSERT into `civicrm_option_group`(domain_id,name,label,is_active) 
+INSERT into `civicrm_option_group`(domain_id,name,label,is_active,is_reserved) 
 
 SELECT 
     @domain_id, 
-    cf.name, 
+    CONCAT(cf.name,'_', NOW()+0),
     cf.label, 
-    co.is_active
+    co.is_active,
+    0 AS is_reserved
 
 FROM civicrm_custom_option co, civicrm_custom_field cf
 
@@ -209,12 +210,13 @@ WHERE entity_table = 'civicrm_custom_field' AND cf.id = co.entity_id GROUP BY en
 
 -- * Update custom option group data/values for 'contribution page'
 
-INSERT into `civicrm_option_group`(domain_id,name,is_active)
+INSERT into `civicrm_option_group`(domain_id,name,is_active,is_reserved)
  
 SELECT 
     @domain_id, 
     CONCAT(entity_table,'.amount.',entity_id), 
-    is_active
+    is_active,
+    0 AS is_reserved
 
 FROM civicrm_custom_option 
 
@@ -223,12 +225,13 @@ WHERE entity_table = 'civicrm_contribution_page' GROUP BY entity_id;
 
 -- * Update custom option group data/values for 'event page'
 
-INSERT into `civicrm_option_group`(domain_id,name,is_active) 
+INSERT into `civicrm_option_group`(domain_id,name,is_active,is_reserved) 
 
 SELECT 
     @domain_id, 
     CONCAT(entity_table,'.amount.',entity_id), 
-    is_active
+    is_active,
+    0 AS is_reserved
 
 FROM civicrm_custom_option
 
@@ -237,9 +240,9 @@ WHERE entity_table = 'civicrm_event_page' GROUP BY entity_id;
 
 -- * Update option value data/values
 
-INSERT into `civicrm_option_value`(option_group_id,label,value,weight,is_active)
+INSERT into `civicrm_option_value`(option_group_id,label,value,weight,is_active,is_reserved)
 
-SELECT entity_id, label,value,weight, is_active
+SELECT entity_id, label,value,weight, is_active, 0 AS is_reserved
 
 FROM civicrm_custom_option;
 
