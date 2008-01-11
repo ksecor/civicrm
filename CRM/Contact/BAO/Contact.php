@@ -2273,9 +2273,9 @@ WHERE contact_id = {$contactId}
         switch ($year_diff) {
         case 1: 
             $month = (12 - $birthMonth) + date("m");
-            if ( $month < 12 ) { 
+            if ( $month < 12 ) {
                 $results['months'] =  $month;
-            } elseif ( $month == 12 && (date("d") < $birthDay) ) { 
+            } elseif ( $month == 12 && (date("d") < $birthDay) ) {
                 $results['months'] = $month-1;
             } else { 
                 $results['years'] =  $year_diff;
@@ -2288,7 +2288,14 @@ WHERE contact_id = {$contactId}
         default:
             $results['years'] = $year_diff;
         }
-        
+        //manipulations if the current month / day 
+        //is earlier than birth month / day 
+        if ( date("m") < $birthMonth ) {
+            $results['years']--;
+            if ( date("d") < $birthDay ) {
+                $results['months']--;
+            }
+        }
         return $results;
     }
     
