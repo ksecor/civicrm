@@ -478,7 +478,7 @@ class CRM_Contact_BAO_GroupContact extends CRM_Contact_DAO_GroupContact {
             $groupIds = array( $group->id );
         }
         foreach ( $groupIds as $groupId ) {
-            $params[] = array( 'group', '=', array($group->id => true), 0, 0 );
+            $params[] = array( 'group', 'IN', array($group->id => true), 0, 0 );
         }
         #$params[] = array( 'group', 'IN', $groupIds, 0, 0 );
         #$params[] = array( 'group', '=', array($group->id => true), 0, 0 );
