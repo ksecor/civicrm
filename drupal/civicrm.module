@@ -576,7 +576,6 @@ function civicrm_view_data($user )
         $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
         $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Account');
-        $setLink = 0 ;        
         foreach ( $ufGroups as $id => $title ) {
             
             $fieldType = CRM_Core_BAO_UFField::getProfileType( $id );
@@ -593,11 +592,10 @@ function civicrm_view_data($user )
                 } else {
                     $data[$title['title']] = $pageContent;
                 }
-                $setLink++;
             }
         }
         
-        if ($setLink  && CRM_Core_Permission::check( 'access CiviCRM' )) {
+        if ( CRM_Core_Permission::check( 'access CiviCRM' ) ) {
             if ( $config->userFrameworkVersion >= 4.7 ) { 
                 $item = array( 'title' => '',
                                'value' => $contactURL );
