@@ -186,14 +186,14 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                                            $this->_values['event'] ) );
             if ( $startDate &&
                  $startDate >= $now ) {
-                CRM_Core_Error::statusBounce( ts( 'You cannot register for this event currently' ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event begins on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_start_date', $this->_values['event'] ) ) ) ) );
             }
 
             $endDate = CRM_Utils_Date::unixTime( CRM_Utils_Array::value( 'registration_end_date',
                                                                          $this->_values['event'] ) );
             if ( $endDate &&
                  $endDate < $now ) {
-                CRM_Core_Error::statusBounce( ts( 'You cannot register for this event currently' ) );
+                CRM_Core_Error::statusBounce( ts( 'Registration for this event ended on %1', array( 1 => CRM_Utils_Date::customFormat( CRM_Utils_Array::value( 'registration_end_date', $this->_values['event'] ) ) ) ) );
             }
 
 
@@ -215,7 +215,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                 // make sure we have a valid payment class, else abort
                 if ( $this->_values['event']['is_monetary'] ) {
                     if ( ! $this->_paymentProcessor ) {
-                        CRM_Core_Error::fatal( ts( 'Payment Processor is not set.' ) );
+                        CRM_Core_Error::fatal( ts( 'The site administrator must set a Payment Processor for this event in order to use online registration.' ) );
                     }
                     
                     // ensure that processor has a valid config
