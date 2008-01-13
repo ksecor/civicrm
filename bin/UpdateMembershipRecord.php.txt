@@ -67,6 +67,7 @@ SELECT civicrm_membership.id                 as membership_id,
        civicrm_membership.is_override        as is_override,
        civicrm_membership.reminder_date      as reminder_date,
        civicrm_membership.membership_type_id as membership_type_id,
+       civicrm_membership.status_id          as status_id,
        civicrm_contact.id                    as contact_id
 FROM   civicrm_membership, civicrm_contact
 WHERE  civicrm_membership.contact_id = civicrm_contact.id
@@ -95,7 +96,9 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             **/
 
             /* Update only those membership records, where status is NOT - Pending OR Cancelled. */
-            if ( !$dao->is_override && !in_array($dao->status_id, array(5,6)) ) {
+            if ( ! $dao->is_override &&
+                 ! in_array( $dao->status_id,
+                             array( 5, 6 ) ) ) {
                 $newStatus = crm_calc_membership_status( $dao->membership_id );
                 if ( $newStatus ) {
                     crm_update_contact_membership( array('id'        => $dao->membership_id,
@@ -117,11 +120,11 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                         // This must be a valid account for your SMTP service.
                         $from = "EMAIL@FIXME.ORG";
                         CRM_Core_BAO_MessageTemplates::sendReminder( $dao->contact_id,
-                                                                       $toEmail,
-                                                                       $domainID,
-                                                                       $memType->renewal_msg_id,
-                                                                       $from);
-
+                                                                     $toEmail,
+                                                                     $domainID,
+                                                                     $memType->renewal_msg_id,
+                                                                     $from );
+                        
                         //Set membership reminder date to NULL since we've sent the reminder.
                         crm_update_contact_membership( array('id'             => $dao->membership_id,
                                                              'reminder_date'  => 'null' ) );
