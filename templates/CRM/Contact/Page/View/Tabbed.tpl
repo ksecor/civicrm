@@ -164,12 +164,15 @@
    </div>
    <div class="col2">
     <label>{ts}Date of Birth:{/ts}</label> {$birth_date|crmDate}<br />
-    {if $age.y}  
-    <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
+    {* Show calculated age unless contact is deceased. *}
+    {if $is_deceased neq 1}
+        {if $age.y}  
+        <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
+        {/if}
+        {if $age.m} 
+        <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
+        {/if}
     {/if}
-    {if $age.m} 
-    <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
-    {/if}       
     </div>
    <div class="spacer"></div>
   </fieldset>
