@@ -297,17 +297,6 @@ CREATE TABLE `civicrm_worldregion` (
 
 -- /*******************************************************
 -- *
--- * Modify civicrm_domain table
--- *
--- *******************************************************/
-
-ALTER TABLE `civicrm_domain`
-    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER version,
-    DROP `config_frontend`;
-
-
--- /*******************************************************
--- *
 -- * Modify civicrm_event_page table
 -- *
 -- *******************************************************/

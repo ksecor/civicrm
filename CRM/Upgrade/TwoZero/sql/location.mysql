@@ -12,7 +12,7 @@
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_loc_block` (
+CREATE TABLE IF NOT EXISTS `civicrm_loc_block` (
     id int(10) unsigned NOT NULL auto_increment,
     `address_id` int(10) unsigned NULL DEFAULT NULL,
     `email_id` int(10) unsigned NULL DEFAULT NULL,
@@ -127,6 +127,18 @@ ALTER TABLE `civicrm_event`
 
 ALTER TABLE `civicrm_event`
     ADD CONSTRAINT `FK_civicrm_event_payment_processor_id` FOREIGN KEY (`payment_processor_id`) REFERENCES `civicrm_payment_processor` (`id`) ON DELETE SET NULL;
+
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_domain table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_domain`
+    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER version,
+    DROP `config_frontend`;
 
 
 
