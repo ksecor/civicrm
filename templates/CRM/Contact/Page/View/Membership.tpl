@@ -7,20 +7,35 @@
     {include file="CRM/Member/Form/MembershipRenewal.tpl"}
 {else}
     {if $permission EQ 'edit'}{capture assign=newURL}{crmURL p="civicrm/contact/view/membership" q="reset=1&action=add&cid=`$contactId`&context=membership"}{/capture}{/if}
+{/if}
 
+{if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}
+   <div class="messages status">
+       <dl>
+       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
+       <dd>
+            {if $permission EQ 'edit'}
+                {ts 1=$newURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+            {else}
+                {ts}There are no memberships recorded for this contact.{/ts}
+            {/if}
+       </dd>
+       </dl>
+  </div>
+  
+{elseif $action ne 1 and $action ne 2 and $permission EQ 'edit'}
     <div id="help">
         {ts 1=$newURL}Current and inactive memberships for {$displayName} are listed below.{/ts}
         {if $permission EQ 'edit'}{ts 1=$newURL}Click <a href="%1">New Membership</a> to record a new membership.{/ts}{/if}
+    </div>
+
+    <div class="action-link solid-border-bottom">
+    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
     </div>
 {/if}
 
 {if $activeMembers}
 <div id="memberships">
-    {if $action ne 1 and $action ne 2 and $permission EQ 'edit'}
-	    <div class="action-link">
-    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
-        </div>
-    {/if}
     <div><label>{ts}Active Memberships{/ts}</label></div>
     <div class="form-item">
         {strip}
@@ -51,14 +66,8 @@
 {/if}
 
 {if $inActiveMembers}
-  {if NOT ($activeMembers)}
-    <div class="action-link">
-    	<a href="{$newURL}">&raquo; {ts}New Membership{/ts}</a>
-    </div>
-  {/if}
-
-<div id="ltype">
-<p></p>
+    <div id="inactive-memberships">
+    <p></p>
     <div class="label font-red">{ts}Inactive Memberships{/ts}</div>
     <div class="form-item">
         {strip}
@@ -85,12 +94,15 @@
         {/strip}
 
     </div>
-</div>
+    </div>
 {/if}
 
 {if $membershipTypes}
-<div id="memberships">
+<div class="solid-border-bottom">&nbsp;</div>
+<div id="membership-types">
     <div><label>{ts}Membership Types{/ts}</label></div>
+    <div class="help">
+        {ts}The following Membership Types are associated with this organization. Click <strong>Members</strong> for a listing of all contacts who have memberships of that type. Click <strong>Edit</strong> to modify the settings for that type.{/ts}
     <div class="form-item">
         {strip}
         <table>
@@ -121,18 +133,4 @@
 </div>
 {/if}
 
-{if NOT ($activeMembers or $inActiveMembers) and $action ne 2 and $action ne 1 and $action ne 8 and $action ne 4 and $action ne 32768}
-   <div class="messages status">
-       <dl>
-       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
-       <dd>
-            {if $permission EQ 'edit'}
-                {ts 1=$newURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
-            {else}
-                {ts}There are no memberships recorded for this contact.{/ts}
-            {/if}
-       </dd>
-       </dl>
-  </div>
-{/if}
 </div>

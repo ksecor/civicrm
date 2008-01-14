@@ -26,7 +26,7 @@
 
 /*
 ** Class for giving solid line at the bottom of the <div>(block level element)
-** Currently it is used on the dashboard page of Contribution
+** Currently it is used on the dashboard pages - CiviContribute, CiviMember...
 */
 #crm-container div.solid-border-bottom {
  border-bottom: 2px solid #777;
@@ -269,7 +269,6 @@ border-top-style: none;
   margin: 0.5em;
   background-color: #ffff99;
   padding: .25em .5em .25em .5em;
-  /*border: 1px solid #abc;*/
   border: 1px solid #5A8FDB;
 }
 
@@ -391,7 +390,7 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 /* Page and form-level 'help' */
-#crm-container #help {
+#crm-container #help, #crm-container .help {
   margin: 1em 0em 0.5em;
 }
 
@@ -504,7 +503,6 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 #crm-container #map-field th {
-    /*border-right: 1px solid #000;*/
     border-right: 1px solid #5A8FDB;
 }
 
@@ -534,12 +532,10 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 #crm-container tr.even-row td, #crm-container tr.odd-row td{
   border-collapse: collapse;
-  /*border-top: 1px solid #000000;*/
   border-top: 1px solid #92B6EC;
 }
 
 #crm-container .selected {
-/*  border: 0.5px solid #000000; */
   margin: 0px;
   padding: 3px 0px 3px 0px;
   clear: both;
@@ -622,10 +618,8 @@ div.block-civicrm ul li.leaf, div.block-civicrm ul li.collapsed, div.block-civic
 }
 
 div.crm-pager {
-  /*border: thin solid #000000;*/
   border: thin solid #4A88DF; 
   background-color: #2E7ED6;
-  /*color: #FFFFFF;*/
   color: #213245;
   position: relative;
   height: 25px;
@@ -669,7 +663,6 @@ div.crm-pager a {
 #crm-container .data-group-first {
   margin: 10px 5px 5px 5px;
   padding: 5px;
-  /*border-top: 2px solid #B0B0B0;*/
   border-top: 2px solid #85ACE8;
   clear: both;
 }
@@ -788,7 +781,6 @@ div.crm-pager a {
   width: auto;
   height: 6.75em;
   overflow: auto;
-  /*border: 1px solid #B0B0B0;*/
   border: 1px solid #92B6EC;
 }
 
