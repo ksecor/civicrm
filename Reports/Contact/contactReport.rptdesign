@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
@@ -63,7 +63,7 @@
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost/civicrm</property>
             <property name="odaUser">civicrm</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">Y2l2aWNybQ==</encrypted-property>
+            <encrypted-property name="odaPassword">Y2l2aWNybQ==</encrypted-property>
             <property name="odaJndiName">jdbc:mysql://localhost/civicrm</property>
         </oda-data-source>
     </data-sources>
@@ -729,6 +729,11 @@ order by name;</property>
                     <expression name="expression">dataSetRow["display_name"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">city</property>
+                    <expression name="expression">dataSetRow["city"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <column id="29">
                 <property name="width">1.842in</property>
@@ -894,180 +899,7 @@ order by name;</property>
                         </data>
                     </cell>
                     <cell id="20">
-                        <data id="155">
-                            <property name="dataSet">contactDataset</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">contact_id</property>
-                                    <expression name="expression">dataSetRow["contact_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">contact_type</property>
-                                    <expression name="expression">dataSetRow["contact_type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">contact_sub_type</property>
-                                    <expression name="expression">dataSetRow["contact_sub_type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">sort_name</property>
-                                    <expression name="expression">dataSetRow["sort_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">display_name</property>
-                                    <expression name="expression">dataSetRow["display_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">birth_date</property>
-                                    <expression name="expression">dataSetRow["birth_date"]</expression>
-                                    <property name="dataType">date-time</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">gender_id</property>
-                                    <expression name="expression">dataSetRow["gender_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">gender</property>
-                                    <expression name="expression">dataSetRow["gender"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">address_id</property>
-                                    <expression name="expression">dataSetRow["address_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">street_address</property>
-                                    <expression name="expression">dataSetRow["street_address"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">supplemental_address_1</property>
-                                    <expression name="expression">dataSetRow["supplemental_address_1"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">supplemental_address_2</property>
-                                    <expression name="expression">dataSetRow["supplemental_address_2"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">city</property>
-                                    <expression name="expression">dataSetRow["city"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">postal_code_suffix</property>
-                                    <expression name="expression">dataSetRow["postal_code_suffix"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">postal_code</property>
-                                    <expression name="expression">dataSetRow["postal_code"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">geo_code_1</property>
-                                    <expression name="expression">dataSetRow["geo_code_1"]</expression>
-                                    <property name="dataType">float</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">geo_code_2</property>
-                                    <expression name="expression">dataSetRow["geo_code_2"]</expression>
-                                    <property name="dataType">float</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">state_province_id</property>
-                                    <expression name="expression">dataSetRow["state_province_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">state_province</property>
-                                    <expression name="expression">dataSetRow["state_province"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">state_province_name</property>
-                                    <expression name="expression">dataSetRow["state_province_name"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">country_id</property>
-                                    <expression name="expression">dataSetRow["country_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">country</property>
-                                    <expression name="expression">dataSetRow["country"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">phone_id</property>
-                                    <expression name="expression">dataSetRow["phone_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">phone_type</property>
-                                    <expression name="expression">dataSetRow["phone_type"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">phone</property>
-                                    <expression name="expression">dataSetRow["phone"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">email_id</property>
-                                    <expression name="expression">dataSetRow["email_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">email</property>
-                                    <expression name="expression">dataSetRow["email"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">on_hold</property>
-                                    <expression name="expression">dataSetRow["on_hold"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">legal_identifier</property>
-                                    <expression name="expression">dataSetRow["legal_identifier"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">external_identifier</property>
-                                    <expression name="expression">dataSetRow["external_identifier"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">home_URL</property>
-                                    <expression name="expression">dataSetRow["home_URL"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">preferred_mail_format</property>
-                                    <expression name="expression">dataSetRow["preferred_mail_format"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">group_contact_id</property>
-                                    <expression name="expression">dataSetRow["group_contact_id"]</expression>
-                                    <property name="dataType">integer</property>
-                                </structure>
-                                <structure>
-                                    <property name="name">status</property>
-                                    <expression name="expression">dataSetRow["status"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                            </list-property>
+                        <data id="163">
                             <property name="resultSetColumn">city</property>
                         </data>
                     </cell>
