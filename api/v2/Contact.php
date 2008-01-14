@@ -290,8 +290,28 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
 
     if ( $dupeCheck ) {
         // check for record already existing
-        require_once 'CRM/Core/BAO/UFGroup.php';
-        if ( ( $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ) != null ) {
+        if ( $params['contact_type'] == 'Organization' || $params['contact_type'] == 'Household' ) {
+            $ids = array();
+            require_once "CRM/Contact/DAO/Contact.php";
+            $contact = & new CRM_Contact_DAO_Contact();
+            if ( $params['contact_type'] == 'Organization' ) {
+                $contact->organization_name = $params['organization_name'];
+            } else {
+                $contact->household_name = $params['household_name'];
+            }
+            $contact->find();
+            while ($contact->fetch(true)) {
+                if ( $contact->id != $options) {
+                    $ids[] = $contact->id;
+                    $ids = implode( ', ',  $ids );
+                }
+            }
+        } else {
+            require_once 'CRM/Core/BAO/UFGroup.php';
+            $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ;
+        }
+        
+        if ( $ids != null ) {
             if ( $dupeErrorArray ) {
                 $error = CRM_Core_Error::createError( "Found matching contacts: $ids",
                                                       CRM_Core_Error::DUPLICATE_CONTACT, 
@@ -300,10 +320,10 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
             }
             
             return civicrm_create_error( "Found matching contacts: $ids", 8000, 'Fatal',
-                                          $ids );
+                                         $ids );
         }
     }
-
+    
     return null;
 }
 
