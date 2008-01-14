@@ -49,6 +49,7 @@ ALTER TABLE `civicrm_address`
     ADD INDEX `index_location_type` (`location_type_id`),
     ADD INDEX `index_is_primary` (`is_primary`),
     ADD INDEX `index_is_billing` (`is_billing`),
+    DROP note,
     DROP FOREIGN KEY `FK_civicrm_address_county_id`,
     DROP FOREIGN KEY `FK_civicrm_address_state_province_id`,
     DROP FOREIGN KEY `FK_civicrm_address_country_id`,
@@ -139,6 +140,17 @@ ALTER TABLE `civicrm_event`
 ALTER TABLE `civicrm_domain`
     ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER version,
     DROP `config_frontend`;
+
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_group_contact table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_group_contact` 
+    ADD `loc_block_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Location Block ID. This is specifically not an FK to avoid circular constraints' AFTER location_id;
 
 
 

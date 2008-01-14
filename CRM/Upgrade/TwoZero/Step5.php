@@ -57,6 +57,10 @@ class CRM_Upgrade_TwoZero_Step5 extends CRM_Upgrade_Base {
                                        array( $currentDir, 'sql', 'others.mysql' ) );
                 $this->source( $sqlFile );
                 
+                $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                                       array( $currentDir, 'sql', 'drop.mysql' ) );
+                $this->source( $sqlFile );
+                
                 $query = "UPDATE `civicrm_domain` SET version='2.0'";
                 $res   = $this->runQuery( $query );
             } elseif ((double)$row['version'] > 1.94) {

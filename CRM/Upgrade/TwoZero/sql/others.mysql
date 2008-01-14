@@ -8,6 +8,44 @@
 
 -- /*******************************************************
 -- *
+-- * Create civicrm_case table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_case` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `contact_id` int(10) unsigned NOT NULL,
+    `case_type_id` varchar(128) NOT NULL,
+    subject varchar(128) NULL DEFAULT NULL,
+    `start_date` date NULL DEFAULT NULL,
+    `end_date` date NULL DEFAULT NULL,
+    details text NULL DEFAULT NULL,
+    `status_id` int(10) unsigned NOT NULL,
+    PRIMARY KEY (id),
+    INDEX `index_case_type_id` (`case_type_id`),
+    INDEX `UI_status_id` (`status_id`),
+    CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Create civicrm_case_activity table
+-- *
+-- *******************************************************/
+
+CREATE TABLE `civicrm_case_activity` (
+    id int(10) unsigned NOT NULL auto_increment,
+    `case_id` int(10) unsigned NOT NULL,
+    `activity_id` int(10) unsigned NOT NULL,
+    PRIMARY KEY (id),
+    INDEX `UI_case_activity_id` (`case_id`, `activity_id`),
+    CONSTRAINT `FK_civicrm_case_activity_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
 -- * Create civicrm_component table
 -- *
 -- *******************************************************/
@@ -76,6 +114,34 @@ CREATE TABLE `civicrm_contribution_widget` (
     PRIMARY KEY (`id`),
     CONSTRAINT `FK_civicrm_contribution_widget_contribution_page_id` FOREIGN KEY (`contribution_page_id`) REFERENCES `civicrm_contribution_page` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_entity_tag table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_entity_tag`
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    DROP `entity_table`,
+    DROP `entity_id`,
+    DROP INDEX index_entity,
+    ADD CONSTRAINT `FK_civicrm_entity_tag_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_financial_trxn table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_financial_trxn`
+    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER domain_id,
+    DROP `entity_table`,
+    DROP `entity_id`,
+    DROP INDEX index_entity,
+    ADD CONSTRAINT `FK_civicrm_financial_trxn_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE;
 
 
 -- /*******************************************************
@@ -344,6 +410,20 @@ ALTER TABLE `civicrm_mapping`
 
 -- /*******************************************************
 -- *
+-- * Modify civicrm_membership_payment table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_membership_payment`
+    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER membership_id,
+    DROP `payment_entity_table`,
+    DROP `payment_entity_id`,
+    ADD UNIQUE `UI_contribution_membership` (`contribution_id`, `membership_id`),
+    DROP INDEX index_payment_entity;
+
+
+-- /*******************************************************
+-- *
 -- * Modify civicrm_membership_type table
 -- *
 -- *******************************************************/
@@ -352,6 +432,19 @@ ALTER TABLE `civicrm_membership_type`
     ADD `receipt_text_signup` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership signup' COLLATE utf8_unicode_ci AFTER renewal_reminder_day,
     ADD `receipt_text_renewal` varchar(255) NULL DEFAULT NULL COMMENT 'Receipt Text for membership renewal' COLLATE utf8_unicode_ci AFTER receipt_text_signup;
 
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_participant_payment table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_participant_payment`
+    ADD `contribution_id` int(10) unsigned NOT NULL AFTER participant_id,
+    DROP `payment_entity_table`,
+    DROP `payment_entity_id`,
+    ADD UNIQUE `UI_contribution_participant` (`contribution_id`, `participant_id`);
+ 
 
 -- /*******************************************************
 -- *

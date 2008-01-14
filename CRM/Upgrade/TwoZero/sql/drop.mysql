@@ -193,3 +193,23 @@ DROP TABLE civicrm_sms_history;
 -- *******************************************************/
 
 DROP TABLE civicrm_validation;
+
+
+-- /*******************************************************
+-- *
+-- * Drop civicrm_location table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_group_contact` 
+    DROP FOREIGN KEY `FK_civicrm_group_contact_location_id`,
+    DROP location_id;
+
+
+-- /*******************************************************
+-- *
+-- * Drop civicrm_location table
+-- *
+-- *******************************************************/
+
+DROP TABLE civicrm_location;
