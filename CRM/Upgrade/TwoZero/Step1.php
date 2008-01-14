@@ -39,26 +39,27 @@ class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
 
     function verifyPreDBState( ) {
         
-        // upgrade part
+        // check if field version exists
         $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
         $res   = $this->runQuery( $query );
         $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
 
-        // Don't do structure update if version column exists
+        // Don't do structure/data upgrade if version column exists
         if (! isset($row['Field'])) {
             $currentDir = dirname( __FILE__ );
-            $sqlFiles   = array('contact.mysql', 'location.mysql', 'activity.mysql', 
-                                'custom.mysql',  'others.mysql' );
-
-            foreach ($sqlFiles as $file) {
-                $sqlFile = implode( DIRECTORY_SEPARATOR,
-                                    array( $currentDir, 'sql', $file ) );
-                $this->source( $sqlFile );
-            }
+            $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                                   array( $currentDir, 'sql', 'contact.mysql' ) );
+            $this->source( $sqlFile );
+            
+            // add column 'version'
+            $query = "ALTER TABLE `civicrm_domain` ADD `version` varchar(8) NULL DEFAULT NULL COMMENT 'The civicrm version this instance is running' AFTER config_backend";
+            $res   = $this->runQuery( $query );
             
             // mark the level completed
             $query = "UPDATE `civicrm_domain` SET version='1.91'";
             $res   = $this->runQuery( $query );
+        } else {
+            // This step already done. Move to next step.
         }
     }
     
@@ -69,7 +70,7 @@ class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step One (Structure Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)' );
     }
 
     function getButtonTitle( ) {

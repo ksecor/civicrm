@@ -127,3 +127,89 @@ ALTER TABLE `civicrm_event`
 
 ALTER TABLE `civicrm_event`
     ADD CONSTRAINT `FK_civicrm_event_payment_processor_id` FOREIGN KEY (`payment_processor_id`) REFERENCES `civicrm_payment_processor` (`id`) ON DELETE SET NULL;
+
+
+
+-- /**********************************************************
+-- *
+-- * Update location data/values
+-- *
+-- ***********************************************************/
+
+-- * Update address data/values
+
+UPDATE civicrm_address ca, civicrm_location cl 
+
+SET 
+    ca.contact_id       = cl.entity_id,
+    ca.is_primary       = cl.is_primary,
+    ca.location_type_id = cl.location_type_id
+
+WHERE cl.id = ca.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update email data/values
+
+UPDATE civicrm_email ce, civicrm_location cl 
+
+SET 
+    ce.contact_id       = cl.entity_id,
+    ce.location_type_id = cl.location_type_id
+
+WHERE cl.id = ce.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update phone data/values
+
+UPDATE civicrm_phone cp, civicrm_location cl 
+
+SET 
+    cp.contact_id       = cl.entity_id,
+    cp.location_type_id = cl.location_type_id
+
+WHERE cl.id = cp.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update im data/values
+
+UPDATE civicrm_im ci, civicrm_location cl 
+
+SET 
+    ci.contact_id       = cl.entity_id,
+    ci.location_type_id = cl.location_type_id
+
+WHERE cl.id = ci.location_id AND cl.entity_table = 'civicrm_contact';
+
+
+-- * Update civicrm_loc_block data/values
+
+INSERT INTO civicrm_loc_block (address_id, email_id, phone_id, im_id, email_2_id, phone_2_id, im_2_id)
+
+SELECT ca1.id, ce1.id, cp1.id, ci1.id, ce2.id, cp2.id, ci2.id 
+
+FROM   civicrm_location  cl
+    
+LEFT JOIN civicrm_address ca1 ON (ca1.location_id = cl.id)
+LEFT JOIN civicrm_email   ce1 ON (ce1.location_id = cl.id AND ce1.is_primary = 1) 
+LEFT JOIN civicrm_email   ce2 ON (ce2.location_id = cl.id AND ce2.is_primary = 0) 
+LEFT JOIN civicrm_phone   cp1 ON (cp1.location_id = cl.id AND cp1.is_primary = 1)
+LEFT JOIN civicrm_phone   cp2 ON (cp2.location_id = cl.id AND cp2.is_primary = 0)
+LEFT JOIN civicrm_im      ci1 ON (ci1.location_id = cl.id AND ci1.is_primary = 1)
+LEFT JOIN civicrm_im      ci2 ON (ci2.location_id = cl.id AND ci2.is_primary = 0)
+
+WHERE cl.entity_table IN ('civicrm_event', 'civicrm_domain');
+
+
+-- * Update loc_block_id of civicrm_event and civicrm_domain
+
+UPDATE civicrm_loc_block clb
+
+LEFT JOIN civicrm_address  ca  ON (ca.id = clb.address_id) 
+LEFT JOIN civicrm_location cle ON (cle.id = ca.location_id AND cle.entity_table = 'civicrm_event') 
+LEFT JOIN civicrm_event    ce  ON (ce.id = cle.entity_id) 
+LEFT JOIN civicrm_location cld ON (cld.id = ca.location_id AND cld.entity_table = 'civicrm_domain') 
+LEFT JOIN civicrm_domain   cd  ON (cd.id = cld.entity_id) 
+
+SET 
+    ce.loc_block_id  = clb.id,
+    cd.loc_block_id  = clb.id;

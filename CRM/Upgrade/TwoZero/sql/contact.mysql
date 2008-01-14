@@ -39,3 +39,56 @@ ALTER TABLE `civicrm_contact`
     ADD INDEX `index_household_name` (`household_name`),
     ADD INDEX `index_organization_name` (`organization_name`),
     ADD CONSTRAINT `FK_civicrm_contact_primary_contact_id` FOREIGN KEY (`primary_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE SET NULL;
+
+
+
+-- /**********************************************************
+-- *
+-- * Update contact table data / values
+-- *
+-- ***********************************************************/
+
+-- * Update contact table data / values for type Household
+
+UPDATE civicrm_contact cc, civicrm_household ch
+
+SET 
+    cc.household_name=ch.household_name
+
+WHERE ch.contact_id=cc.id;
+
+
+-- * Update contact table data / values for type Organization
+
+UPDATE civicrm_contact cc, civicrm_organization co 
+
+SET 
+    cc.legal_name        =co.legal_name,
+    cc.organization_name =co.organization_name,
+    cc.sic_code          =co.sic_code,
+    cc.primary_contact_id=co.primary_contact_id
+
+WHERE co.contact_id=cc.id;
+
+
+-- * Update contact table data / values for type Individual
+
+UPDATE civicrm_contact cc, civicrm_individual ci 
+
+SET 
+    cc.first_name          =ci.first_name,
+    cc.middle_name         =ci.middle_name,
+    cc.last_name           =ci.last_name,
+    cc.prefix_id           =ci.prefix_id,
+    cc.suffix_id           =ci.suffix_id,
+    cc.greeting_type       =ci.greeting_type,
+    cc.custom_greeting     =ci.custom_greeting,
+    cc.job_title           =ci.job_title,
+    cc.gender_id           =ci.gender_id,
+    cc.birth_date          =ci.birth_date,
+    cc.is_deceased         =ci.is_deceased,
+    cc.deceased_date       =ci.deceased_date,
+    cc.mail_to_household_id=ci.mail_to_household_id
+
+WHERE ci.contact_id=cc.id;
+
