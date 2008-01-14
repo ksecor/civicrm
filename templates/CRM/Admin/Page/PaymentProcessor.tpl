@@ -12,15 +12,15 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table cellpadding="0" cellspacing="0" border="0">
 	<thead> 
         <tr class="columnheader">
-            <th field="Name" dataType="String" >{ts}Name{/ts}</th>
-            <th field="Processor Type" dataType="String">{ts}Processor Type{/ts}</th>
-            <th field="Description" dataType="String">{ts}Description{/ts}</th>
-            <th field="Enabled" dataType="String">{ts}Enabled?{/ts}</th>
-	        <th field="Default" dataType="String">{ts}Default?{/ts}</th>
-            <th datatype="html"></th>
+            <th >{ts}Name{/ts}</th>
+            <th >{ts}Processor Type{/ts}</th>
+            <th >{ts}Description{/ts}</th>
+            <th >{ts}Enabled?{/ts}</th>
+	    <th >{ts}Default?{/ts}</th>
+            <th ></th>
         </tr>
         </thead>  
  

@@ -10,16 +10,16 @@
 <p></p>
     <div class="form-item">
         {strip}
-    <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+    <table cellpadding="0" cellspacing="0" border="0">
 	<thead> 
         <tr class="columnheader">
-            <th field="Class" dataType="String" >{ts}Date Class{/ts}</th>
-            <th field="Description" dataType="String" >{ts}Description{/ts}</th>
-            <th field="Start" dataType="String">{ts}Start Offset{/ts}</th>
-            <th field="End" dataType="String">{ts}End Offset{/ts}</th>
-            <th field="Format" dataType="String">{ts}Format{/ts}</th>
-            <th field="Minute" dataType="String">{ts}Minute Increment{/ts}</th>
-            <th datatype="html"></th>
+            <th >{ts}Date Class{/ts}</th>
+            <th >{ts}Description{/ts}</th>
+            <th >{ts}Start Offset{/ts}</th>
+            <th >{ts}End Offset{/ts}</th>
+            <th >{ts}Format{/ts}</th>
+            <th >{ts}Minute Increment{/ts}</th>
+            <th ></th>
         </tr>
         </thead>  
  

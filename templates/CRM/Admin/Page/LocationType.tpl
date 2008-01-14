@@ -11,7 +11,7 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
+        <table cellpadding="0" cellspacing="0" border="0">
 	<thead> 
         <tr class="columnheader">
             <th field="Name" dataType="String" >{ts}Name{/ts}</th>
