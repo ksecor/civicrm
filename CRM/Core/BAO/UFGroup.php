@@ -1843,7 +1843,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         
         $template =& CRM_Core_Smarty::singleton( );
                    
-        list( $displayName, $email ) = CRM_Contact_BAO_Contact::getEmailDetails( $contactID );
+        $displayName = CRM_Contact_BAO_Contact::displayName( $contactID );
                
         self::profileDisplay( $values['id'] , $values['values'],$template );
         $emailList = explode(',',$values['email']);
@@ -1851,10 +1851,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactID");
           
         // set details in the template here
-        $template->assign( 'email', $email );
-        $template->assign( 'displayName',$displayName);            
+        $template->assign( 'displayName',$displayName );            
         $template->assign( 'currentDate',date('r') );
-        $template->assign( 'contactLink',$contactLink);
+        $template->assign( 'contactLink',$contactLink );
         
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );
