@@ -11,20 +11,17 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
-          <tr class="columnheader">
-            <th field="Title" dataType="String" >{ts}Name{/ts}</th>
-            <th field="Description" dataType="String">{ts}Description{/ts}</th>
-            <th field="Acctg Code" dataType="String">{ts}Acctg Code{/ts}</th>
-            <th field="Deductible" dataType="String">{ts}Deductible?{/ts}</th>
-            <th field="Reserved" dataType="String">{ts}Reserved?{/ts}</th>
-            <th field="Enable" dataType="String">{ts}Enabled?{/ts}</th>
-            <th dataType="html"></th>
+        <table cellpadding="0" cellspacing="0" border="0">
+           <tr class="columnheader">
+            <th>{ts}Name{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Acctg Code{/ts}</th>
+            <th>{ts}Deductible?{/ts}</th>
+            <th>{ts}Reserved?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
+            <th></th>
           </tr>
-        </thead>
-        <tbody>
-        {foreach from=$rows item=row}
+         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.description}</td>
@@ -35,8 +32,7 @@
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
-        </table>
+         </table>
         {/strip}
 
         {if $action ne 1 and $action ne 2}

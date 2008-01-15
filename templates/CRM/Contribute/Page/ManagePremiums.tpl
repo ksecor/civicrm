@@ -17,31 +17,26 @@
 <p></p>
     <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead> 
+        <table cellpadding="0" cellspacing="0" border="0">
           <tr class="columnheader">
-            <th field="Name" dataType="String">{ts}Name{/ts}</th>
-            <th field="SKU" dataType="String">{ts}SKU{/ts}</th>
-            <th field="Market Value" dataType="Money" align="right">{ts}Market Value{/ts}</th>
-            <th field="Min Contribution" dataType="Money" align="right">{ts}Min Contribution{/ts}</th>
-            <th field="Active" dataType="String">{ts}Active?{/ts}</th>
-            <th dataType="html"></th>
+            <th>{ts}Name{/ts}</th>
+            <th>{ts}SKU{/ts}</th>
+            <th>{ts}Market Value{/ts}</th>
+            <th>{ts}Min Contribution{/ts}</th>
+            <th>{ts}Active?{/ts}</th>
+            <th></th>
           </tr>
-        </thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.sku}</td>
-                <td>{$row.price }</td>
+            <td>{$row.price }</td>
 	        <td>{$row.min_contribution}</td>
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
-
         {/strip}
         {if $action ne 1 and $action ne 2}
 	    <div class="action-link">
