@@ -12,20 +12,17 @@
 <div id="browseValues">
     <div class="form-item">
         {strip}
-         <table dojoType="SortableTable" widgetId="testTable" headClass="fixedHeader" headerSortUpClass="selectedUp" headerSortDownClass="selectedDown" tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
-        <tr class="columnheader">
-            <th field="Title" dataType="String">{ts}Title{/ts}</th>
-            <th field="Value" dataType="String">{ts}Value{/ts}</th>
-            <th field="Description" dataType="String">{ts}Description{/ts}</th>
-            <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-            <th field="Default"  dataType="String">{ts}Default{/ts}</th>
-            <th field="Reserved" dataType="String">{ts}Reserved?{/ts}</th>
-            <th field="Enabled" dataType="String">{ts}Enabled?{/ts}</th>
-            <th datatype="html"></th>
+         <table cellspacing="0" border="0">
+         <tr class="columnheader">
+            <th>{ts}Title{/ts}</th>
+            <th>{ts}Value{/ts}</th>
+            <th>{ts}Description{/ts}</th>
+            <th>{ts}Weight{/ts}</th>
+            <th>{ts}Default{/ts}</th>
+            <th>{ts}Reserved?{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
+            <th></th>
         </tr>
-        </thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.label}</td>
@@ -38,7 +35,6 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         {/strip}
 
