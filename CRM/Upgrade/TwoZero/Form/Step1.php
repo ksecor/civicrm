@@ -50,7 +50,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
         if (! isset($row['Field'])) {
             $currentDir = dirname( __FILE__ );
             $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                   array( $currentDir, 'sql', 'contact.mysql' ) );
+                                   array( $currentDir, '../sql', 'contact.mysql' ) );
             $this->source( $sqlFile );
             
             // add column 'version'

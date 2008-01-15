@@ -38,11 +38,13 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+    }
 
+    function upgrade( ) {
         $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
         $res   = $this->runQuery( $query );
         $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
-
+        
         if (! isset($row['Field'])) {
             // Go to step1
         } else {
@@ -54,7 +56,7 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
             if ((double)$row['version'] == 1.92) {
                 $currentDir = dirname( __FILE__ );
                 $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, 'sql', 'activity.mysql' ) );
+                                       array( $currentDir, '../sql', 'activity.mysql' ) );
                 $this->source( $sqlFile );
                 
                 $query = "UPDATE `civicrm_domain` SET version='1.93'";
@@ -65,9 +67,6 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
                 // Move to previous step.
             }
         }
-    }
-
-    function upgrade( ) {
     }
 
     function verifyPostDBState( ) {
