@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{$config->resourceBase}css/civicrm.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/standalone.css" type="text/css" />
 <link rel="stylesheet" href="{$config->resourceBase}css/skins/aqua/theme.css" type="text/css" />
-<script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: true, parseOnLoad: true, usePlainJson: true"></script>
+<script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/dojo.js" djConfig="isDebug: false, parseOnLoad: true, usePlainJson: true"></script>
 <script type="text/javascript" src="{$config->resourceBase}packages/dojo/dojo/commonWidgets.js"></script>
 <style type="text/css">@import url({$config->resourceBase}packages/dojo/dijit/themes/tundra/tundra.css);</style>
 <script type="text/javascript" src="{$config->resourceBase}js/calendar.js"></script> 
