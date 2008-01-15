@@ -14,16 +14,13 @@
 <p></p>
     <div class="form-item" id=message_status_id>
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
+        <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
-            <th field="Message Title" dataType="String">{ts}Message Title{/ts}</th>
-            <th field="Message Subject" dataType="String">{ts}Message Subject{/ts}</th>
-            <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
- 	    <th datatype="html"></th>	
+            <th>{ts}Message Title{/ts}</th>
+            <th>{ts}Message Subject{/ts}</th>
+            <th>{ts}Enabled?{/ts}</th>
+ 	        <th></th>	
         </tr>
-	</thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.msg_title}</td>	
@@ -31,7 +28,6 @@
 	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
 	        <td>{$row.action}</td>
         </tr>
-        </tbody>
         {/foreach}
         </table>
         {/strip}

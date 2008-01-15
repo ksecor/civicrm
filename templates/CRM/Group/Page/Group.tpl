@@ -17,20 +17,16 @@
 {include file="CRM/common/pager.tpl" location="top"}
 {include file="CRM/common/pagerAToZ.tpl}
    {strip}
-   <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-	<thead>  
-     <tr class="columnheader">
-      <th field="Name" dataType="String" scope="col">{ts}Name{/ts}</th>
-      <th field="ID" dataType="Integer" scope="col">{ts}ID{/ts}</th>
-      <th field="Description" dataType="String" scope="col">{ts}Description{/ts}</th>
-      <th field="GroupType" dataType="String" scope="col">{ts}Group Type{/ts}</th>
-      <th field="Visibility" dataType="String" scope="col">{ts}Visibility{/ts}</th>
-<th field = "ChildGroups" dataType = "String" scope ="col">{ts}Child Groups{/ts}</th>
-<th datatype="html"></th>
+   <table cellpadding="0" cellspacing="0" border="0">
+      <tr class="columnheader">
+      <th>{ts}Name{/ts}</th>
+      <th>{ts}ID{/ts}</th>
+      <th>{ts}Description{/ts}</th>
+      <th>{ts}Group Type{/ts}</th>
+      <th>{ts}Visibility{/ts}</th>
+      <th>{ts}Child Groups{/ts}</th>
+      <th></th>
      </tr>
-	</thead>
-
-	<tbody>  
    {foreach from=$rows item=row}
      <tr class="{cycle values="odd-row,even-row"}{if NOT $row.is_active} disabled{/if}">
         <td>{$row.title}</td>	
@@ -40,12 +36,10 @@
         </td>
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
-<td>{$row.children}</td>
+        <td>{$row.children}</td>
         <td>{$row.action}</td>
-
      </tr>
    {/foreach}
-	</tbody>
    </table>
    {/strip}
 {include file="CRM/common/pager.tpl" location="bottom"}
