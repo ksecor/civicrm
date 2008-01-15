@@ -181,10 +181,12 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
         if ( $middle_name = CRM_Utils_Array::value('middle_name', $params)) {
             $contact->middle_name = $middle_name;
         }
+
+        // commented for CRM-2550
         // hack to make db_do save a null value to a field
-        if ( ! $contact->birth_date ) {
-            $contact->birth_date = 'NULL';
-        }
+        // if ( ! $contact->birth_date ) {
+        //     $contact->birth_date = 'NULL';
+        // }
 
         return $contact;
     }
@@ -201,7 +203,8 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
      * @access public
      * @static
      */
-    static function getValues( &$params, &$values, &$ids ) {
+    static function getValues( &$params, &$values, &$ids ) 
+    {
         $individual =& new CRM_Contact_BAO_Individual( );
         
         $individual->copyValues( $params );
@@ -226,8 +229,8 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact
      *
      * @return void
      */
-    static function updateDisplayNames(&$ids, $action) {
-        
+    static function updateDisplayNames( &$ids, $action ) 
+    {
         // get the proper field name (prefix_id or suffix_id) and its value
         $fieldName = '';
         foreach ($ids as $key => $value) {
