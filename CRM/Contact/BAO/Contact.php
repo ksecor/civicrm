@@ -441,20 +441,30 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         if ( CRM_Utils_Array::value( 'note', $params ) ) {
             if (is_array($params['note'])) {
                 foreach ($params['note'] as $note) {  
+                    $contactId = $contact->id;
+                    if ( isset( $note['contact_id'] ) ) {
+                        $contactId = $note['contact_id'];
+                    }
+                    
                     $noteParams = array(
                                         'entity_id'     => $contact->id,
                                         'entity_table'  => 'civicrm_contact',
                                         'note'          => $note['note'],
-                                        'contact_id'    => $contact->id
+                                        'contact_id'    => $contactId
                                         );
                     CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
                 }
             } else {
+                $contactId = $contact->id;
+                if ( isset( $note['contact_id'] ) ) {
+                    $contactId = $note['contact_id'];
+                }
+                
                 $noteParams = array(
                                     'entity_id'     => $contact->id,
                                     'entity_table'  => 'civicrm_contact',
                                     'note'          => $params['note'],
-                                    'contact_id'    => $contact->id
+                                    'contact_id'    => $contactId
                                     );
                 CRM_Core_BAO_Note::add($noteParams, CRM_Core_DAO::$_nullArray);
             }

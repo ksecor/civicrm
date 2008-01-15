@@ -352,12 +352,21 @@ function _civicrm_add_formatted_param(&$values, &$params)
         if (!isset($fields['Note'])) {
             $fields['Note'] = CRM_Core_DAO_Note::fields();
         }
+        
+        // get the current logged in civicrm user
+        $session          =& CRM_Core_Session::singleton( );
+        $userID           =  $session->get( 'userID' );
+
+        if ( $userID ) {
+            $values['contact_id'] = $userID;
+        }
+
         _civicrm_store_values($fields['Note'], $values, $params['note'][$noteBlock]);
 
         return true;
     }
     
-        /* Check for custom field values */
+    /* Check for custom field values */
     if ($fields['custom'] == null) {
         $fields['custom'] =& CRM_Core_BAO_CustomField::getFields( $values['contact_type'] );
     }
