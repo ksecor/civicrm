@@ -894,7 +894,7 @@ AND civicrm_contact.is_opt_out =0";
             $contact = $contactDetails;
         } else {
             $params  = array( 'contact_id' => $contactId );
-            $contact =& crm_fetch_contact( $params );
+            $contact =& civicrm_contact_get( $params );
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
                 return null;
             }

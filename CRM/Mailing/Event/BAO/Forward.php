@@ -95,12 +95,15 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         }
 
         require_once 'api/Search.php';
+        require_once 'api/v2/Contact.php';
+        
         $contact_params = array('email' => $forward_email);
         $count = crm_contact_search_count($contact_params);
-        
+
         if ($count == 0) {
             /* No contact found, we'll have to create a new one */
-            $contact =& crm_create_contact($contact_params);
+            $contact_params['contact_type'] = 'Individual';
+            $contact =& civicrm_contact_add($contact_params);
             if (is_a($contact, 'CRM_Core_Error')) {
                 return false;
             }
