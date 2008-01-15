@@ -18,10 +18,10 @@
          <tr><td class="label">{$form.description.label}</td><td>{$form.description.html}</td></tr>
          <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}</td></tr>
          <tr><td>&nbsp;</td><td>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
-         {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_event_1}</td></tr>
+         {include file="CRM/common/calendar/body.tpl" dateVar=start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}</td></tr>
          <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}</td></tr>
          <tr><td>&nbsp;</td><td>{include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
-         {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_2}</td></tr>
+         {include file="CRM/common/calendar/body.tpl" dateVar=end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}</td></tr>
          <tr><td class="label">{$form.max_participants.label}</td><td>{$form.max_participants.html|crmReplace:class:four}<br />
             <span class="description">{ts}Optionally set a maximum number of participants for this event. The registration link is hidden, and the text below is displayed when the maximum number of registrations is reached.{/ts}</span></td></tr>
          <tr><td class="label">{$form.event_full_text.label}</td><td>{$form.event_full_text.html}<br />

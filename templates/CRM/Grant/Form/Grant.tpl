@@ -28,7 +28,7 @@
                 <td>{$form.application_received_date.html}
 	        {if $hideCalender neq true}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=application_received_date offset=3 doTime=1 trigger=trigger_case1}
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=application_received_date offset=3 trigger=trigger_case1}
             {/if}
                 </td>
             </tr>
@@ -39,7 +39,7 @@
                 <td>{$form.decision_date.html }<br />
 	        {if $hideCalender neq true}
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=decision_date offset=3 doTime=1 trigger=trigger_case1}
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=decision_date offset=3 trigger=trigger_case1}
             {/if}
                  </td>
             </tr>
@@ -51,7 +51,7 @@
 	        {if $hideCalender neq true }<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
     	            {include file="CRM/common/calendar/body.tpl" 
-                             dateVar=money_transfer_date offset=3 doTime=1 trigger=trigger_case1}
+                             dateVar=money_transfer_date offset=3 trigger=trigger_case1}
                  {/if}
                 </td>
             </tr>
@@ -62,7 +62,7 @@
                 <td>{$form.grant_due_date.html}
 	        {if $hideCalender neq true}<br />
 	            {include file="CRM/common/calendar/desc.tpl" trigger=trigger_case1}
-    	        {include file="CRM/common/calendar/body.tpl" dateVar=grant_due_date offset=3 doTime=1 trigger=trigger_case1}
+    	        {include file="CRM/common/calendar/body.tpl" dateVar=grant_due_date offset=3 trigger=trigger_case1}
             {/if}
                 </td>
             </tr>
