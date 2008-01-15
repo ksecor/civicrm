@@ -145,7 +145,7 @@ class CRM_Event_Form_ManageEvent_EventInfo extends CRM_Event_Form_ManageEvent
         $this->add('select',
                    'participant_listing_id',
                    ts('Participant Listing'),
-                   array('' => ts('- select -')) + $participantListing ,
+                   array('' => ts('Disabled')) + $participantListing ,
                    false );
         
        $this->add('textarea','summary',ts('Event Summary'), array("rows"=>4,"cols"=>60));

@@ -41,6 +41,8 @@ class CRM_Event_Page_ParticipantListing extends CRM_Core_Page {
 
     protected $_participantListingID;
 
+    protected $_eventTitle;
+    
     protected $_pager;
 
     function preProcess( ) {
@@ -51,14 +53,24 @@ class CRM_Event_Page_ParticipantListing extends CRM_Core_Page {
                                                                     $this->_id,
                                                                     'participant_listing_id' );
         if ( ! $this->_participantListingID ) {
-            CRM_Core_Error::fatal( ts( "You cannot view the participants for this event" ) );
+            CRM_Core_Error::fatal( ts( "The Participant Listing feature is not currently enabled for this event." ) );
         }
+
+        // retrieve Event Title and include it in page title
+        $this->_eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                                   $this->_id,
+                                                                   'title' );
+        CRM_Utils_System::setTitle(ts('%1 - Participants', array(1 => $this->_eventTitle)));        
+
+        // we do not want to display recently viewed contacts since this is potentially a public page
+        $this->assign       ( 'displayRecent' , false );
     }
 
     function run( ) {
         $this->preProcess( );
 
         $this->assign( 'participantListingType', $this->_participantListingID );
+//        $this->assign( 'eventTitle', $this->_eventTitle );
 
         $fromClause  = "
 FROM       civicrm_contact
