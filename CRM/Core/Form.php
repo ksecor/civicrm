@@ -299,14 +299,6 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
 
         $this->preProcess();
 
-        // add the drupal form token hidden value to allow things to work
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Drupal' &&
-             $config->userFrameworkVersion <= 4.6      &&
-             function_exists( 'drupal_get_token' ) ) {
-            $this->addElement( 'hidden', 'edit[token]', drupal_get_token( ) );
-        }
-
         if ( $this->controller->_key ) {
             $this->addElement( 'hidden', 'qfKey', $this->controller->_key );
         }
@@ -514,6 +506,7 @@ class CRM_Core_Form extends HTML_QuickForm_Page {
      * @access public
      */
     function getTemplateFileName() {
+        CRM_Core_Error::fatal( 'base' );
         return (str_replace('_', DIRECTORY_SEPARATOR, CRM_Utils_System::getClassName($this)) . ".tpl");
     }
 

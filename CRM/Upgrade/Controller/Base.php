@@ -52,6 +52,10 @@ class CRM_Upgrade_Controller_Base extends CRM_Core_Controller {
 
         // create and instantiate the pages
         $this->addPages( $this->_stateMachine, $action );
+
+        // add all the actions
+        $config =& CRM_Core_Config::singleton( );
+        $this->addActions( );
     }
 
 }

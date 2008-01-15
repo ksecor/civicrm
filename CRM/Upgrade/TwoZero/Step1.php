@@ -38,7 +38,9 @@ require_once 'CRM/Upgrade/Base.php';
 class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
 
     function verifyPreDBState( ) {
-        
+    }
+
+    function upgrade( ) {
         // check if field version exists
         $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
         $res   = $this->runQuery( $query );
@@ -63,14 +65,15 @@ class CRM_Upgrade_TwoZero_Step1 extends CRM_Upgrade_Base {
         }
     }
     
-    function upgrade( ) {
-    }
-
     function verifyPostDBState( ) {
     }
 
     function getTitle( ) {
         return ts( 'CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)' );
+    }
+
+    function getTemplateMessage( ) {
+        return ts( 'This is a message' );
     }
 
     function getButtonTitle( ) {
