@@ -33,29 +33,28 @@
  *
  */
 
-require_once 'CRM/Core/Controller.php';
+require_once 'CRM/Core/StateMachine.php';
 
-class CRM_Upgrade_Controller_Base extends CRM_Core_Controller {
+/**
+ * State machine for managing different states of the Import process.
+ *
+ */
+class CRM_Upgrade_StateMachine extends CRM_Core_StateMachine {
 
     /**
      * class constructor
+     *
+     * @param object  CRM_Upgrade_Controller_base
+     * @param int     $action
+     *
+     * @return object CRM_Upgrade_StateMachine_Base
      */
-    function __construct( $title = null,
-                          $action = CRM_Core_Action::NONE,
-                          $modal = true ) {
-        parent::__construct( $title, $modal );
-
-        require_once 'CRM/Upgrade/StateMachine/Base.php';
-        $this->_stateMachine =& new CRM_Upgrade_StateMachine_Base( $this,
-                                                                   $this->getPages( ), 
-                                                                   $action );
-
-        // create and instantiate the pages
-        $this->addPages( $this->_stateMachine, $action );
-
-        // add all the actions
-        $config =& CRM_Core_Config::singleton( );
-        $this->addActions( );
+    function __construct( &$controller, &$pages, $action = CRM_Core_Action::NONE ) {
+        parent::__construct( $controller, $action );
+        
+        $this->_pages =& $pages;
+        
+        $this->addSequentialPages( $this->_pages, $action );
     }
 
 }

@@ -33,16 +33,16 @@
  *
  */
 
-require_once 'CRM/Upgrade/Controller/Base.php';
+require_once 'CRM/Upgrade/Controller.php';
 
-class CRM_Upgrade_TwoZero_Controller extends CRM_Upgrade_Controller_Base {
+class CRM_Upgrade_TwoZero_Controller extends CRM_Upgrade_Controller {
 
     function &getPages( ) {
-        return array( 'CRM_Upgrade_TwoZero_Step1' => null,
-                      'CRM_Upgrade_TwoZero_Step2' => null,
-                      'CRM_Upgrade_TwoZero_Step3' => null,
-                      'CRM_Upgrade_TwoZero_Step4' => null,
-                      'CRM_Upgrade_TwoZero_Step5' => null
+        return array( 'CRM_Upgrade_TwoZero_Form_Step1' => null,
+                      'CRM_Upgrade_TwoZero_Form_Step2' => null,
+                      'CRM_Upgrade_TwoZero_Form_Step3' => null,
+                      'CRM_Upgrade_TwoZero_Form_Step4' => null,
+                      'CRM_Upgrade_TwoZero_Form_Step5' => null
                       );
     }
 

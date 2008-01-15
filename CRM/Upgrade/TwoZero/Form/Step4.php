@@ -33,9 +33,9 @@
  *
  */
 
-require_once 'CRM/Upgrade/Base.php';
+require_once 'CRM/Upgrade/Form.php';
 
-class CRM_Upgrade_TwoZero_Step5 extends CRM_Upgrade_Base {
+class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
 
@@ -51,20 +51,16 @@ class CRM_Upgrade_TwoZero_Step5 extends CRM_Upgrade_Base {
             $res      = $this->runQuery( $query );
             $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
             
-            if ((double)$row['version'] == 1.94) {
+            if ((double)$row['version'] == 1.93) {
                 $currentDir = dirname( __FILE__ );
                 $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, 'sql', 'others.mysql' ) );
+                                       array( $currentDir, 'sql', 'custom.mysql' ) );
                 $this->source( $sqlFile );
                 
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, 'sql', 'drop.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $query = "UPDATE `civicrm_domain` SET version='2.0'";
+                $query = "UPDATE `civicrm_domain` SET version='1.94'";
                 $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.94) {
-                // Upgrade already done.
+            } elseif ((double)$row['version'] > 1.93) {
+                // This step already done. Move to next step
             } else {
                 // Move to previous step.
             }
@@ -78,14 +74,15 @@ class CRM_Upgrade_TwoZero_Step5 extends CRM_Upgrade_Base {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Five (Upgrade : Rest of the tables)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Custom Upgrade)' );
+    }
+
+    function getTemplateMessage( ) {
+        return ts( 'This is a message' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Upgrade Done' );
+        return ts( 'Proceed to Step Five' );
     }
-
 }
-
-
 ?>

@@ -35,7 +35,7 @@
 
 require_once 'CRM/Core/Form.php';
 
-class CRM_Upgrade_Base extends CRM_Core_Form {
+class CRM_Upgrade_Form extends CRM_Core_Form {
 
     protected $_config;
 

@@ -33,9 +33,9 @@
  *
  */
 
-require_once 'CRM/Upgrade/Base.php';
+require_once 'CRM/Upgrade/Form.php';
 
-class CRM_Upgrade_TwoZero_Step4 extends CRM_Upgrade_Base {
+class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
 
@@ -51,16 +51,16 @@ class CRM_Upgrade_TwoZero_Step4 extends CRM_Upgrade_Base {
             $res      = $this->runQuery( $query );
             $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
             
-            if ((double)$row['version'] == 1.93) {
+            if ((double)$row['version'] == 1.92) {
                 $currentDir = dirname( __FILE__ );
                 $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, 'sql', 'custom.mysql' ) );
+                                       array( $currentDir, 'sql', 'activity.mysql' ) );
                 $this->source( $sqlFile );
                 
-                $query = "UPDATE `civicrm_domain` SET version='1.94'";
+                $query = "UPDATE `civicrm_domain` SET version='1.93'";
                 $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.93) {
-                // This step already done. Move to next step
+            } elseif ((double)$row['version'] > 1.92) {
+                // This step is already done. Move to next step
             } else {
                 // Move to previous step.
             }
@@ -74,11 +74,16 @@ class CRM_Upgrade_TwoZero_Step4 extends CRM_Upgrade_Base {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Custom Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Three (Activity Upgrade)' );
+    }
+
+    function getTemplateMessage( ) {
+        return ts( 'This is a message' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Proceed to Step Five' );
+        return ts( 'Proceed to Step Four' );
     }
+
 }
 ?>

@@ -33,50 +33,51 @@
  *
  */
 
-require_once 'CRM/Upgrade/Base.php';
+require_once 'CRM/Upgrade/Form.php';
 
-class CRM_Upgrade_TwoZero_Step2 extends CRM_Upgrade_Base {
+class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+    }
 
+    function upgrade( ) {
+        // check if field version exists
         $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
         $res   = $this->runQuery( $query );
         $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
 
+        // Don't do structure/data upgrade if version column exists
         if (! isset($row['Field'])) {
-            // Go to step1
-        } else {
-            $domainID = CRM_Core_Config::domainID();
-            $query    = "SELECT version FROM civicrm_domain WHERE id=$domainID";
-            $res      = $this->runQuery( $query );
-            $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
+            $currentDir = dirname( __FILE__ );
+            $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                                   array( $currentDir, 'sql', 'contact.mysql' ) );
+            $this->source( $sqlFile );
             
-            if ((double)$row['version'] == 1.91) {
-                $currentDir = dirname( __FILE__ );
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, 'sql', 'location.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $query = "UPDATE `civicrm_domain` SET version='1.92'";
-                $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.91) {
-                // This step already done. Move to next step
-            }
+            // add column 'version'
+            $query = "ALTER TABLE `civicrm_domain` ADD `version` varchar(8) NULL DEFAULT NULL COMMENT 'The civicrm version this instance is running' AFTER config_backend";
+            $res   = $this->runQuery( $query );
+            
+            // mark the level completed
+            $query = "UPDATE `civicrm_domain` SET version='1.91'";
+            $res   = $this->runQuery( $query );
+        } else {
+            // This step already done. Move to next step.
         }
     }
-
-    function upgrade( ) {
-    }
-
+    
     function verifyPostDBState( ) {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Location Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)' );
+    }
+
+    function getTemplateMessage( ) {
+        return ts( 'This is a message' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Proceed to Step Three' );
+        return ts( 'Proceed to Step Two' );
     }
 
 }
