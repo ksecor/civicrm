@@ -15,17 +15,14 @@
 {if $cases}
     <div class="form-item" id=case_page>
     {strip}
-        <table >  
-       <thead> 
-        <tr class="columnheader">
+        <table>  
+         <tr class="columnheader">
             <th>{ts}Case Status{/ts}</th>
             <th>{ts}Case Type{/ts}</th>
             <th>{ts}Subject{/ts}</th>
             <th>{ts}Start Date{/ts}</th>
             <th>&nbsp;</th>
         </tr>
-       </thead>
-       <tbody> 
         {foreach from=$cases item=case}
         <tr class="{cycle values="odd-row,even-row"}">
             <td>{$case.status_id}</td>
@@ -35,7 +32,6 @@
             <td>{$case.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
     {/strip}
 

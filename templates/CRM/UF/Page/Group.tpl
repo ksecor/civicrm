@@ -34,18 +34,14 @@
         <div class="form-item">
         {strip}
       <table cellpadding="0" cellspacing="0" border="0">
-    <thead>
-        <tr class="columnheader">
+         <tr class="columnheader">
             <th>{ts}Profile Title{/ts}</th>
             <th>{ts}ID{/ts}</th>
             <th>{ts}Used For{/ts}</th>
             <th>{ts}Status?{/ts}</th>
             <th>{ts}Order{/ts}</th>
             <th></th>
-        </tr>
-     </thead> 
-
-    <tbody>  
+         </tr>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
         {if NOT $row.is_active}disabled{/if}">
@@ -57,7 +53,6 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-    </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2)}

@@ -9,7 +9,6 @@
         <div class="form-item">
         {strip}
     <table cellpadding="0" cellspacing="0" border="0">
-	<thead>
         <tr class="columnheader">
             <th>{ts}CiviCRM Field Name{/ts}</th>
             <th>{ts}Visibility{/ts}</th>
@@ -21,9 +20,6 @@
             <th>{ts}View Only{/ts}</th>	
             <th></th>
         </tr>
-    </thead>
-	
-	<tbody>
         {foreach from=$ufField item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}
             {if NOT $row.is_active}disabled{/if}">
@@ -38,7 +34,6 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-	</tbody>
         </table>
         {/strip}
         

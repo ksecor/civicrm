@@ -18,17 +18,14 @@
         
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl} 
-        <table  headClass="fixedHeader" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-         <thead> 
+        <table cellpadding="0" cellspacing="0" border="0">
           <tr class="columnheader">
-            <th field="Title" dataType="String" >{ts}Title{/ts}</th>
-            <th field="ID" dataType="String" >{ts}ID{/ts}</th>
-            <th field="Status" dataType="String" >{ts}Status?{/ts}</th>
-            <th datatype="html">&nbsp;</th>
+            <th>{ts}Title{/ts}</th>
+            <th>{ts}ID{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
+            <th>&nbsp;</th>
           </tr>
-         </thead>
-        <tbody>
-        {foreach from=$rows item=row}
+          {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>
                <strong>{$row.title}</strong>
@@ -38,7 +35,6 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         
         {/strip}
