@@ -204,6 +204,8 @@ class CRM_Utils_Date
             } else if( $hr == 0 ) {
                 $value['h'] = 12;
                 $value['A'] = 'AM';
+            } else if( $hr == 12 ) {
+                $value['A'] = 'PM';
             } else {
                 $value['A'] = 'AM';
             }
