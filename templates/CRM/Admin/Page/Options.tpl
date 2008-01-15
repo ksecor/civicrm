@@ -71,7 +71,7 @@
 
         {if $action ne 1 and $action ne 2}
             <div class="action-link">
-                <a href="{crmURL q="group="|cat:$gName|cat:"&action=add&reset=1"}" id="new"|cat:$GName >&raquo; {ts}New {$GName}{/ts}</a>
+                <a href="{crmURL q="group="|cat:$gName|cat:"&action=add&reset=1"}" id="new"|cat:$GName >&raquo; {ts}New{/ts} {$GName}</a>
             </div>
         {/if}
     </div>

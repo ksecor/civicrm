@@ -11,7 +11,6 @@
     <div class="form-item">
         {strip}
     <table cellpadding="0" cellspacing="0" border="0">
-	<thead> 
         <tr class="columnheader">
             <th >{ts}Date Class{/ts}</th>
             <th >{ts}Description{/ts}</th>
@@ -21,9 +20,6 @@
             <th >{ts}Minute Increment{/ts}</th>
             <th ></th>
         </tr>
-        </thead>  
- 
-	<tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}">
 	        <td>{$row.name}</td>
@@ -35,7 +31,6 @@
 	        <td>{$row.action}</td>
         </tr>
         {/foreach}
-	<tbody>
     </table>
         {/strip}
 </div>
