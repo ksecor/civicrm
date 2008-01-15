@@ -21,33 +21,29 @@
         {strip}
         {include file="CRM/common/pager.tpl" location="top"}
         {include file="CRM/common/pagerAToZ.tpl}    
-        <table tbodyClass="scrollContent" enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
+        <table cellpadding="0" cellspacing="0" border="0">
          <tr class="columnheader">
-            <th field="Event" dataType="String">{ts}Event{/ts}</th>
-            <th field="City" dataType="String">{ts}City{/ts}</th>
-            <th field="State" dataType="String">{ts}State/Province{/ts}</th>
-            <th field="Public?" dataType="String">{ts}Public?{/ts}</th>
-            <th field="Start Date" dataType="String">{ts}Starts{/ts}</th>
-            <th field="End Date" dataType="String">{ts}Ends{/ts}</th>
-	    <th field="Enabled"  dataType="String" >{ts}Active?{/ts}</th>
-	    <th datatype="html"></th>
+            <th>{ts}Event{/ts}</th>
+            <th>{ts}City{/ts}</th>
+            <th>{ts}State/Province{/ts}</th>
+            <th>{ts}Public?{/ts}</th>
+            <th>{ts}Starts{/ts}</th>
+            <th>{ts}Ends{/ts}</th>
+	        <th>{ts}Active?{/ts}</th>
+	        <th></th>
          </tr>
-        </thead>
-        <tbody> 
         {foreach from=$rows item=row}
           <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title} ({ts}ID:{/ts} {$row.id})</td> 
             <td>{$row.city}</td>  
             <td>{$row.state_province}</td>	
             <td>{if $row.is_public eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>    
-	    <td>{$row.start_date|crmDate}</td>
-   	    <td>{$row.end_date|crmDate}</td>
-	    <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
-	    <td>{$row.action}</td>
+    	    <td>{$row.start_date|crmDate}</td>
+   	        <td>{$row.end_date|crmDate}</td>
+	        <td>{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
+	        <td>{$row.action}</td>
           </tr>
         {/foreach}    
-        </tbody>
         </table>
         {include file="CRM/common/pager.tpl" location="bottom"}
         {/strip}

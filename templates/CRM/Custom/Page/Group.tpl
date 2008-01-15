@@ -15,19 +15,16 @@
     <p></p>
         <div class="form-item">
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-        <thead>
+        <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
-            <th field="Group Title"  dataType="String">{ts}Group Title{/ts}</th>
-            <th field="Status"       dataType="String">{ts}Status?{/ts}</th>
-            <th field="Used For"     dataType="String">{ts}Used For{/ts}</th>
-            <th field="Type"         dataType="String">{ts}Type{/ts}</th>
-            <th field="Order"        dataType="Number" sort="asc">{ts}Order{/ts}</th>
-            <th field="Style"        dataType="String">{ts}Style{/ts}</th>
-            <th datatype="html"></th>
+            <th>{ts}Group Title{/ts}</th>
+            <th>{ts}Status?{/ts}</th>
+            <th>{ts}Used For{/ts}</th>
+            <th>{ts}Type{/ts}</th>
+            <th>{ts}Order{/ts}</th>
+            <th>{ts}Style{/ts}</th>
+            <th></th>
         </tr>
-        </thead>
-        <tbody>
         {foreach from=$rows item=row}
         <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
             <td>{$row.title}</td>
@@ -39,7 +36,6 @@
             <td>{$row.action}</td>
         </tr>
         {/foreach}
-        </tbody>
         </table>
         
         {if NOT ($action eq 1 or $action eq 2) }

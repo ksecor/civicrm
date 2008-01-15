@@ -14,22 +14,19 @@
 <p></p>
     <div class="form-item" id=membership_status_id>
         {strip}
-        <table enableMultipleSelect="true" enableAlternateRows="true" rowAlternateClass="alternateRow" cellpadding="0" cellspacing="0" border="0">
-	<thead>
+        <table cellpadding="0" cellspacing="0" border="0">
         <tr class="columnheader">
-            <th field="Status" dataType="String">{ts}Status{/ts}</th>
-            <th field="Start Event" dataType="String">{ts}Start Event{/ts}</th>
-            <th field="End Event" dataType="String">{ts}End Event{/ts}</th>
-            <th field="Member" dataType="String">{ts}Member{/ts}</th>
-            <th field="Admin" dataType="String">{ts}Admin{/ts}</th>
-	    <th field="Weight" dataType="Number" sort="asc">{ts}Weight{/ts}</th>
-	    <th field="Enabled"  dataType="String" >{ts}Enabled?{/ts}</th>
-	    <th datatype="html"></th>
+            <th>{ts}Status{/ts}</th>
+            <th>{ts}Start Event{/ts}</th>
+            <th>{ts}End Event{/ts}</th>
+            <th>{ts}Member{/ts}</th>
+            <th>{ts}Admin{/ts}</th>
+	        <th>{ts}Weight{/ts}</th>
+	        <th>{ts}Enabled?{/ts}</th>
+	        <th></th>
         </tr>
-	</thead>
-        <tbody> 
         {foreach from=$rows item=row}
-          <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
+        <tr class="{cycle values="odd-row,even-row"} {$row.class}{if NOT $row.is_active} disabled{/if}">
 	        <td>{$row.name}</td>	
 	        <td>{$row.start_event}</td>
 	        <td>{$row.end_event}</td>
@@ -40,7 +37,6 @@
 	        <td>{$row.action}</td>
           </tr>
         {/foreach}
-        </tbody>
         </table>
         {/strip}
 
