@@ -93,6 +93,9 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'custom':
             return $this->customField( $config );
 
+        case 'help':
+            return $this->help( $config );
+
         default:
             return;
         }
@@ -335,6 +338,12 @@ ORDER BY name";
             }
         }
 
+        if ( empty( $elements) ) {
+            $elements[] = array( 'name'  => trim($name, "%"),
+                                 'value' => trim($name, "%") 
+                                 );
+        }
+
         require_once "CRM/Utils/JSON.php";
         echo CRM_Utils_JSON::encode( $elements, 'value');
     }
@@ -394,6 +403,12 @@ ORDER BY name";
                                      'value' => $dao->id );
                 $count++;
             }
+        }
+        
+        if ( empty( $elements) ) {
+            $elements[] = array( 'name'  => trim($name, "%"),
+                                 'value' => trim($name, "%") 
+                                 );
         }
 
         require_once "CRM/Utils/JSON.php";
@@ -465,7 +480,6 @@ ORDER BY subject";
 
         echo $customField->help_post;
     }
-
 }
 
 ?>

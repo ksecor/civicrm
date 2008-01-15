@@ -141,7 +141,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         }
 
         $this->assign( 'allPanes', $allPanes );
-        $this->assign( 'dojoIncludes', "dojo.require('dijit.TitlePane');dojo.require('dojo.parser');" );
+        $this->assign( 'dojoIncludes', "dojo.require('civicrm.TitlePane');dojo.require('dojo.parser');" );
 
         if ( ! $this->_formType ) {
             parent::buildQuickForm();

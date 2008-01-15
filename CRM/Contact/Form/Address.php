@@ -104,7 +104,7 @@ class CRM_Contact_Form_Address
                         $form->assign( 'stateUrl', $stateUrl );
                     }
                     
-                    $attributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
+                    $attributes = array( 'dojoType'       => 'civicrm.FilteringSelect',
                                          'mode'           => 'remote',
                                          'store'          => "{$name}Store",
                                          'style'          => 'width: 230px;',
