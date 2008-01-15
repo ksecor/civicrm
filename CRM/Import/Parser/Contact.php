@@ -588,7 +588,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                         $defaults          = array( );
                         $relatedNewContact = CRM_Contact_BAO_Contact::retrieve( $contact, $defaults );
                     } else {
-                        $relatedNewContact = $this->createContact( $formatting, $contactFields, $onDuplicate );
+                        $relatedNewContact = $this->createContact( $formatting, $contactFields, 
+                                                                   $onDuplicate, null, false );
                     }
                     
                     if ( is_object( $relatedNewContact ) || ( $relatedNewContact instanceof CRM_Contact_BAO_Contact ) ) {
@@ -596,8 +597,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                     }
                     
                     $matchedIDs = array(  );
-                    if ( is_array( $relatedNewContact ) ) {
-                        $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
+                    if ( is_array( $relatedNewContact ) && civicrm_error( $relatedNewContact ) ) {
+                        if ( self::isDuplicate($relatedNewContact) ) {
+                            $matchedIDs = explode(',',$relatedNewContact['error_message']['params'][0]);
+                        } else {
+                            array_unshift( $values, $relatedNewContact['error_message'] );
+                            return CRM_Import_Parser::ERROR;
+                        }
                     } else {
                         $matchedIDs[] = $relatedNewContact->id;
                     }
@@ -1075,7 +1081,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
      * 
      * 
      */
-    function createContact( &$formatted, &$contactFields, $onDuplicate, $contactId = null )
+    function createContact( &$formatted, &$contactFields, $onDuplicate, $contactId = null, $requiredCheck = true )
     {
         $dupeCheck = false;
         
@@ -1084,7 +1090,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         require_once 'api/v2/Contact.php';
-        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true );
+        $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, $requiredCheck );
         
         if ( ( is_null( $error )                                                ) && 
              ( civicrm_error( _civicrm_validate_formatted_contact($formatted) ) ) ) {

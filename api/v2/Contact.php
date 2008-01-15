@@ -229,65 +229,69 @@ function &civicrm_contact_search( &$params ) {
  * @param boolean $dupeCheck       Should we check for duplicate contacts
  * @param boolean $dupeErrorArray  Should we return values of error
  *                                 object in array foramt
+ * @param boolean $requiredCHeck   Should we check if required params
+ *                                 are present in params array
  *
  * @return null on success, error message otherwise
  * @access public
  */
-function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false ) {
-    $required = array(
-                      'Individual'   => array(
-                                              array( 'first_name', 'last_name' ),
-                                              'email',
-                                              ),
-                      'Household'    => array(
-                                              'household_name',
-                                              ),
-                      'Organization' => array(
-                                              'organization_name',
-                                              ),
-                      );
-
-    // cannot create a contact with empty params
-    if ( empty( $params ) ) {
-        return civicrm_create_error( 'Input Parameters empty' );
-    }
-
-    if ( ! array_key_exists( 'contact_type', $params ) ) {
-        return civicrm_create_error( 'Contact Type not specified' );
-    }
-
-    // contact_type has a limited number of valid values
-    $fields = CRM_Utils_Array::value( $params['contact_type'], $required );
-    if ( $fields == null ) {
-        return civicrm_create_error( "Invalid Contact Type: {$params['contact_type']}" );
-    }
-
-    $valid = false;
-    $error = '';
-    foreach ( $fields as $field ) {
-        if ( is_array( $field ) ) {
-            $valid = true;
-            foreach ( $field as $element ) {
-                if ( ! CRM_Utils_Array::value( $element, $params ) ) {
-                    $valid = false;
-                    $error .= $element; 
-                    break;
+function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorArray = false, $requiredCheck = true ) {
+    if ( $requiredCheck ) {
+        $required = array(
+                          'Individual'   => array(
+                                                  array( 'first_name', 'last_name' ),
+                                                  'email',
+                                                  ),
+                          'Household'    => array(
+                                                  'household_name',
+                                                  ),
+                          'Organization' => array(
+                                                  'organization_name',
+                                                  ),
+                          );
+        
+        // cannot create a contact with empty params
+        if ( empty( $params ) ) {
+            return civicrm_create_error( 'Input Parameters empty' );
+        }
+        
+        if ( ! array_key_exists( 'contact_type', $params ) ) {
+            return civicrm_create_error( 'Contact Type not specified' );
+        }
+        
+        // contact_type has a limited number of valid values
+        $fields = CRM_Utils_Array::value( $params['contact_type'], $required );
+        if ( $fields == null ) {
+            return civicrm_create_error( "Invalid Contact Type: {$params['contact_type']}" );
+        }
+        
+        $valid = false;
+        $error = '';
+        foreach ( $fields as $field ) {
+            if ( is_array( $field ) ) {
+                $valid = true;
+                foreach ( $field as $element ) {
+                    if ( ! CRM_Utils_Array::value( $element, $params ) ) {
+                        $valid = false;
+                        $error .= $element; 
+                        break;
+                    }
+                }
+            } else {
+                if ( CRM_Utils_Array::value( $field, $params ) ) {
+                    $valid = true;
                 }
             }
-        } else {
-            if ( CRM_Utils_Array::value( $field, $params ) ) {
-                $valid = true;
+            if ( $valid ) {
+                break;
             }
         }
-        if ( $valid ) {
-            break;
+        
+        if ( ! $valid ) {
+            return civicrm_create_error( "Required fields not found for {$params['contact_type']} : $error" );
         }
     }
-
-    if ( ! $valid ) {
-        return civicrm_create_error( "Required fields not found for {$params['contact_type']} $error" );
-    }
-
+    
     if ( $dupeCheck ) {
         // check for record already existing
         if ( $params['contact_type'] == 'Organization' || $params['contact_type'] == 'Household' ) {
