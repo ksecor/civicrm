@@ -98,26 +98,32 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         require_once 'api/v2/Contact.php';
         
         $contact_params = array('email' => $forward_email);
-        $count = crm_contact_search_count($contact_params);
+        $count = civicrm_contact_search_count($contact_params);
 
         if ($count == 0) {
-            /* No contact found, we'll have to create a new one */
-            $contact_params['contact_type'] = 'Individual';
-            $contact =& civicrm_contact_add($contact_params);
-            if (is_a($contact, 'CRM_Core_Error')) {
-                return false;
+            require_once 'api/v2/Contact.php';
+            require_once 'CRM/Core/BAO/LocationType.php';
+            /* If the contact does not exist, create one. */
+            $formatted = array('contact_type' => 'Individual');
+            $locationType = CRM_Core_BAO_LocationType::getDefault( );
+            $value = array('email' => $forward_email,
+                           'location_type_id' => $locationType->id );
+            _civicrm_add_formatted_param($value, $formatted);
+            require_once 'api/Contact.php';
+            require_once 'CRM/Import/Parser.php';
+            $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
+            $formatted['fixAddress'] = true;
+            $contact =& civicrm_contact_format_create($formatted);
+            if (civicrm_error($contact, CRM_Core_Error)) {
+                return null;
             }
-            /* This is an ugly hack, but the API doesn't really support
-             * overriding the domain ID any other way */
-            $contact->domain_id = $domain->id;
-            $contact->save();
-            $contact_id = $contact->id;
-            $email_id = $contact->location['email'][0]->id;
-        } else {
-            $email =& new CRM_Core_DAO_Email();
-            $email->email = $forward_email;
-            $email->find(true); 
-            $email_id = $email->id;
+            $contact_id = $contact['id'];
+        } 
+        $email =& new CRM_Core_DAO_Email();
+        $email->email = $forward_email;
+        $email->find(true); 
+        $email_id = $email->id;
+        if (!$contact_id) {
             $contact_id = $email->contact_id;
         }
         

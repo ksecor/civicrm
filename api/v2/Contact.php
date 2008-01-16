@@ -386,4 +386,60 @@ function &_civicrm_contact_add( &$params, $contactID = null )
     return $contact;
 }
 
+function &civicrm_contact_format_create( &$params ) {
+    _civicrm_initialize( );
+
+    CRM_Core_DAO::freeResult( );
+
+    // return error if we have no params
+    if ( empty( $params ) ) {
+        return _civicrm_create_error( 'Input Parameters empty' );
+    }
+
+    $error = _civicrm_required_formatted_contact($params);
+    if (civicrm_error( $error, 'CRM_Core_Error')) {
+        return $error;
+    }
+    
+    $error = _civicrm_validate_formatted_contact($params);
+    if (civicrm_error( $error, 'CRM_Core_Error')) {
+        return $error;
+    }
+
+    //get the prefix id etc if exists
+    CRM_Contact_BAO_Contact::resolveDefaults($params, true);
+
+    require_once 'CRM/Import/Parser.php';
+    if ( $params['onDuplicate'] != CRM_Import_Parser::DUPLICATE_NOCHECK) {
+        CRM_Core_Error::reset( );
+        $error = _civicrm_duplicate_formatted_contact($params);
+        if (civicrm_error( $error, 'CRM_Core_Error')) {
+            return $error;
+        }
+    }
+    
+    $ids = array();
+    $contact = CRM_Contact_BAO_Contact::create( $params, $ids, 
+                                                count($params['location']), $params['fixAddress']);
+    
+    _civicrm_object_to_array($contact, $contactArray);
+    return $contactArray;
+}
+
+/** 
+ * Returns the number of Contact objects which match the search criteria specified in $params.
+ *
+ * @param array  $params
+ *
+ * @return int
+ * @access public
+ */
+function civicrm_contact_search_count( &$params ) {
+    // convert the params to new format
+    require_once 'CRM/Contact/Form/Search.php';
+    $newP =& CRM_Contact_BAO_Query::convertFormValues( $params );
+    $query =& new CRM_Contact_BAO_Query( $newP );
+    return $query->searchQuery( 0, 0, null, true );
+}
+
 ?>

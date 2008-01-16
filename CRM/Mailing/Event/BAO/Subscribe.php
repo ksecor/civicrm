@@ -88,7 +88,7 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
         $transaction = new CRM_Core_Transaction( );
 
         if ( ! $contact_id ) {
-            require_once 'api/Contact.php';
+            require_once 'api/v2/Contact.php';
             require_once 'CRM/Core/BAO/LocationType.php';
             /* If the contact does not exist, create one. */
             $formatted = array('contact_type' => 'Individual');
@@ -98,12 +98,13 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
             _civicrm_add_formatted_param($value, $formatted);
             require_once 'api/Contact.php';
             require_once 'CRM/Import/Parser.php';
-            $contact =& crm_create_contact_formatted($formatted,
-                                                     CRM_Import_Parser::DUPLICATE_SKIP);
-            if (is_a($contact, CRM_Core_Error)) {
+            $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
+            $formatted['fixAddress'] = true;
+            $contact =& civicrm_contact_format_create($formatted);
+            if (civicrm_error($contact, CRM_Core_Error)) {
                 return null;
             }
-            $contact_id = $contact->id;
+            $contact_id = $contact['id'];
         } else if ( ! is_numeric( $contact_id ) &&
                     (int ) $contact_id > 0 ) {
             // make sure contact_id is numeric
