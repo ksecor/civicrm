@@ -12,7 +12,7 @@
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_case` (
+CREATE TABLE IF NOT EXISTS `civicrm_case` (
     id int(10) unsigned NOT NULL auto_increment,
     `contact_id` int(10) unsigned NOT NULL,
     `case_type_id` varchar(128) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `civicrm_case` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_case_activity` (
+CREATE TABLE IF NOT EXISTS `civicrm_case_activity` (
     id int(10) unsigned NOT NULL auto_increment,
     `case_id` int(10) unsigned NOT NULL,
     `activity_id` int(10) unsigned NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `civicrm_case_activity` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_component` (
+CREATE TABLE IF NOT EXISTS `civicrm_component` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Component ID',
   `name` varchar(64) collate utf8_unicode_ci NOT NULL COMMENT 'Name of the component.',
   `namespace` varchar(128) collate utf8_unicode_ci default NULL COMMENT 'Path to components main directory in a form of a class\nnamespace.',
@@ -93,7 +93,7 @@ ALTER TABLE `civicrm_contribution_page`
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_contribution_widget` (
+CREATE TABLE IF NOT EXISTS `civicrm_contribution_widget` (
     `id` int(10) unsigned NOT NULL COMMENT 'Contribution Id' auto_increment,
     `contribution_page_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'The Contribution Page which triggered this contribution',
     `is_active` tinyint(4) NULL DEFAULT NULL COMMENT 'Is this property active?',
@@ -150,7 +150,7 @@ ALTER TABLE `civicrm_financial_trxn`
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_grant` (
+CREATE TABLE IF NOT EXISTS `civicrm_grant` (
     `id` int(10) unsigned NOT NULL COMMENT 'Unique Grant id' auto_increment,
     `contact_id` int(10) unsigned NOT NULL COMMENT 'Contact ID of contact record given grant belongs to.',
     `application_received_date` date NULL DEFAULT NULL COMMENT 'Date on which grant application was received by donor.',
@@ -177,7 +177,7 @@ CREATE TABLE `civicrm_grant` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_group_nesting` (
+CREATE TABLE IF NOT EXISTS `civicrm_group_nesting` (
     `id` int(10) unsigned NOT NULL COMMENT 'Relationship ID' auto_increment,
     `child_group_id` int(10) unsigned NOT NULL COMMENT 'ID of the child group',
     `parent_group_id` int(10) unsigned NOT NULL  COMMENT 'ID of the parent group',
@@ -193,7 +193,7 @@ CREATE TABLE `civicrm_group_nesting` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_group_organization` (
+CREATE TABLE IF NOT EXISTS `civicrm_group_organization` (
     `id` int(10) unsigned NOT NULL COMMENT 'Relationship ID' auto_increment,
     `group_id` int(10) unsigned NOT NULL COMMENT 'ID of the group',
     `organization_id` int(10) unsigned NOT NULL COMMENT 'ID of the Organization Contact',
@@ -209,7 +209,7 @@ CREATE TABLE `civicrm_group_organization` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_openid` (
+CREATE TABLE IF NOT EXISTS `civicrm_openid` (
     `id` int(10) unsigned NOT NULL COMMENT 'Unique OpenID ID' auto_increment,
     `contact_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'FK to Contact ID',
     `location_type_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Which Location does this email belong to.',
@@ -229,7 +229,7 @@ CREATE TABLE `civicrm_openid` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_openid_associations` (
+CREATE TABLE IF NOT EXISTS `civicrm_openid_associations` (
     `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
     `server_url` blob NULL DEFAULT NULL COMMENT '',
     `handle` varchar(255) NULL DEFAULT NULL COMMENT '' COLLATE utf8_unicode_ci,
@@ -248,7 +248,7 @@ CREATE TABLE `civicrm_openid_associations` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_openid_nonces` (
+CREATE TABLE IF NOT EXISTS `civicrm_openid_nonces` (
     `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
     `server_url` blob NULL DEFAULT NULL COMMENT '',
     `timestamp` int(11) NULL DEFAULT NULL COMMENT '',
@@ -265,7 +265,7 @@ CREATE TABLE `civicrm_openid_nonces` (
 -- *******************************************************/
 
 
-CREATE TABLE `civicrm_preferences_date` (
+CREATE TABLE IF NOT EXISTS `civicrm_preferences_date` (
     `id` int(10) unsigned NOT NULL COMMENT '' auto_increment,
     `domain_id` int(10) unsigned NOT NULL COMMENT '',
     `name` varchar(64) NOT NULL DEFAULT '' COMMENT 'The meta name for this date (fixed in code)' COLLATE utf8_unicode_ci,
@@ -286,7 +286,7 @@ CREATE TABLE `civicrm_preferences_date` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_tell_friend` (
+CREATE TABLE IF NOT EXISTS `civicrm_tell_friend` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Friend ID',
   `entity_table` varchar(64) collate utf8_unicode_ci NOT NULL COMMENT 'Name of table where item being referenced is stored.',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the referenced item.',
@@ -307,7 +307,7 @@ CREATE TABLE `civicrm_tell_friend` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_timezone` (
+CREATE TABLE IF NOT EXISTS `civicrm_timezone` (
     `id` int(10) unsigned NOT NULL COMMENT 'Timezone Id' auto_increment,
     `name` varchar(64) NULL DEFAULT NULL COMMENT 'Timezone full name' COLLATE utf8_unicode_ci,
     `abbreviation` char(3) NULL DEFAULT NULL COMMENT 'ISO Code for timezone abbreviation' COLLATE utf8_unicode_ci,
@@ -343,7 +343,7 @@ ALTER TABLE `civicrm_uf_match`
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_worldregion` (
+CREATE TABLE IF NOT EXISTS `civicrm_worldregion` (
     `id` int(10) unsigned NOT NULL COMMENT 'Country Id' auto_increment,
     `name` varchar(128) NULL DEFAULT NULL COMMENT 'Region name to be associated with countries' COLLATE utf8_unicode_ci,
     PRIMARY KEY (`id`)

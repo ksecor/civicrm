@@ -58,7 +58,7 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
                 $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                        array( $currentDir, '../sql', 'custom.mysql' ) );
                 $this->source( $sqlFile );
-                
+
                 // data upgrade
                 $query    = "UPDATE civicrm_custom_group cg1 
 SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
@@ -69,8 +69,9 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
 
                 require_once 'CRM/Core/BAO/CustomGroup.php';
                 require_once 'CRM/Core/BAO/CustomField.php';
-                require_once 'CRM/Core/DAO/OptionGroup.php';
                 require_once 'CRM/Core/DAO/CustomOption.php';
+                require_once 'CRM/Core/DAO/CustomValue.php';
+                require_once 'CRM/Core/DAO/OptionGroup.php';
                 require_once 'CRM/Core/DAO/OptionValue.php';
                 
                 $group =& new CRM_Core_DAO_CustomGroup();
@@ -120,9 +121,38 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                             $optionValue->is_active       = $customOption->is_active;
                             $optionValue->save();
                         }
-
-
                     }
+                }
+
+                require_once 'CRM/Core/BAO/CustomValue.php';
+                require_once 'CRM/Core/BAO/CustomValueTable.php';
+                $customVal =& new CRM_Core_DAO_CustomValue();
+                $customVal->find();
+
+                while ($customVal->fetch()) {
+                    $valParams = array();
+                    $valParams[$customVal->custom_field_id]['custom_field_id'] = $customVal->custom_field_id;
+                    $valParams[$customVal->custom_field_id]['file_id']         = $customVal->file_id;
+                    list($valParams[$customVal->custom_field_id]['table_name'], 
+                         $valParams[$customVal->custom_field_id]['column_name']) = 
+                        CRM_Core_BAO_CustomField::getTableColumnName( $customVal->custom_field_id );
+
+                    $field =& new CRM_Core_DAO_CustomField();
+                    $field->id = $customVal->custom_field_id;
+                    $field->find(true);
+                    
+                    $valCol = CRM_Core_BAO_CustomValue::typeToField($field->data_type);
+                    $valParams[$customVal->custom_field_id]['type']        = $field->data_type;
+                    $valParams[$customVal->custom_field_id]['value']       = $customVal->$valCol;
+                    
+                    $query    = "SELECT id FROM {$valParams[$customVal->custom_field_id]['table_name']} WHERE domain_id=$domainID and entity_id={$customVal->entity_id}";
+                    $res      = $this->runQuery( $query );
+                    $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
+                    
+                    if (isset($row['id'])) {
+                        $valParams[$customVal->custom_field_id]['id'] = $row['id'];
+                    }
+                    CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
                 }
 
                 $query = "UPDATE `civicrm_domain` SET version='1.94'";

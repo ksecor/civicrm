@@ -68,6 +68,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     function source( $fileName ) {
         require_once 'CRM/Utils/File.php';
         
+        //$dsn = str_replace("civicrm_cms", "civicrm", $this->_config->dsn);
         CRM_Utils_File::sourceSQLFile( $this->_config->dsn,
                                        $fileName );
     }
@@ -106,6 +107,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     }
 
     function runQuery( $query ) {
+        //$dsn = str_replace("civicrm_cms", "civicrm", $this->_config->dsn);
         $db = DB::connect( $this->_config->dsn );
 
         if ( DB::isError( $db ) ) { 
