@@ -108,7 +108,7 @@
                 <td class="view-value">{$form.activity_date_time.html | crmDate }</br>
                     {if $action neq 4}
                       <span class="description">
-                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity}
+                      {include file="CRM/common/calendar/desc.tpl" trigger=trigger_activity doTime=1}
                       {include file="CRM/common/calendar/body.tpl" dateVar=activity_date_time startDate=currentYear 
                                       endDate=endYear offset=10 doTime=1 trigger=trigger_activity ampm=1}
                       </span>

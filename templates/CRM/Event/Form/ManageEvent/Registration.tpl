@@ -19,14 +19,14 @@
     </div>
     <dl>
         <dt>{$form.registration_start_date.label}</dt><dd>{$form.registration_start_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1}
+          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_1 doTime=1}
+          {include file="CRM/common/calendar/body.tpl" dateVar=registration_start_date offset=3 doTime=1 trigger=trigger_event_1 ampm=1}
         </dd>
     </dl>
     <dl>
         <dt>{$form.registration_end_date.label}</dt><dd>{$form.registration_end_date.html}<br/>
-          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2}
-          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2}
+          {include file="CRM/common/calendar/desc.tpl" trigger=trigger_event_2 doTime=1}
+          {include file="CRM/common/calendar/body.tpl" dateVar=registration_end_date offset=3 doTime=1 trigger=trigger_event_2 ampm=1}
         </dd>
     </dl>
     <div id="registration" class="form-item">

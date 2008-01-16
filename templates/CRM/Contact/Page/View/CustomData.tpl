@@ -1,9 +1,9 @@
 {* template for custom data *}
 {if $action eq 1 or $action eq 2 or $recordActivity}
-        {include file="CRM/Contact/Form/CustomData.tpl" mainEdit=$mainEditForm}
-    {/if}
+    {include file="CRM/Contact/Form/CustomData.tpl" mainEdit=$mainEditForm}
+{/if}
 
-    {strip}
+{strip}
     {if $action eq 16 or $action eq 4} {* Browse or View actions *}
         {if $groupTree}
             <div class="form-item">
@@ -85,14 +85,14 @@
             {if $editCustomData}
                 <div class="action-link">
                 {if $groupId}
-                <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 {/if}
                 </div>
             {/if}
             </div>
         {/if}    
     {/if}
-    {/strip}
+{/strip}
  
 {if $mainEditForm}
 <script type="text/javascript"> 

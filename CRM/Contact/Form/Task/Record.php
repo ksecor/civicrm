@@ -105,6 +105,11 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
         if( isset($this->_groupTree) ) {
             CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, false, false );
         }
+
+        $defaults['scheduled_date_time'] = array( );
+        CRM_Utils_Date::getAllDefaultValues( $defaults['scheduled_date_time'] );
+        $defaults['scheduled_date_time']['i'] = (int ) ( $defaults['scheduled_date_time']['i'] / 15 ) * 15;
+
         return $defaults;
         
     }
@@ -140,7 +145,7 @@ class CRM_Contact_Form_Task_Record extends CRM_Contact_Form_Task {
 
         $this->add('text', 'subject', ts('Subject') , CRM_Core_DAO::getAttribute( 'CRM_Activity_DAO_Activity', 'subject' ), true ); 
  
-        $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('datetime'), true); 
+        $this->add('date', 'scheduled_date_time', ts('Date and Time'), CRM_Core_SelectValues::date('activityDatetime'), true); 
         $this->addRule('scheduled_date_time', ts('Select a valid date.'), 'qfDate'); 
          
         $this->add('select','duration_hours',ts('Duration'),CRM_Core_SelectValues::getHours()); 

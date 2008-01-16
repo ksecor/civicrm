@@ -10,7 +10,7 @@
         <dt>{ts}Event{/ts}</dt><dd>{$event}&nbsp;</dd>
         <dt>{ts}Participant Role{/ts}</dt><dd>{$role}&nbsp;</dd>
         {if $history neq 1}
-            <dt>{ts}Registration Date{/ts}</dt><dd>{$register_date|truncate:10:''|crmDate}&nbsp;</dd>
+            <dt>{ts}Registration Date and Time{/ts}</dt><dd>{$register_date|crmDate}&nbsp;</dd>
         {else}
             <dt>{ts}Modified Date{/ts}</dt><dd>{$modified_date|truncate:10:''|crmDate}&nbsp;</dd>   
         {/if}
