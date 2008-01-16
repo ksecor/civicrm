@@ -376,10 +376,10 @@ class CRM_Event_BAO_Query
         $domainID = CRM_Core_Config::domainID( );
 
         $dataURLEvent     = CRM_Utils_System::url( 'civicrm/ajax/event',
-                                                   "d={$domainID}&s=",
+                                                   "d={$domainID}",
                                                    true, null, false);
         $dataURLEventType = CRM_Utils_System::url( 'civicrm/ajax/eventType',
-                                                   "d={$domainID}&s=",
+                                                   "d={$domainID}",
                                                    true, null, false);
         
         $form->assign( 'dataURLEvent',     $dataURLEvent );

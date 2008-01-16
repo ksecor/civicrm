@@ -176,7 +176,8 @@ ORDER BY sort_name ";
     {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+        $name     = str_replace( '*', '%', $name );
 
         $query = "
 SELECT title
@@ -206,7 +207,9 @@ ORDER BY title
     {
         require_once 'CRM/Utils/Type.php';
         $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-        $name     = strtolower( CRM_Utils_Type::escape( $_GET['s'], 'String'  ) );
+        $name     = strtolower( CRM_Utils_Type::escape( $_GET['name'], 'String'  ) );
+        $name     = str_replace( '*', '%', $name );
+
 
         $query ="
 SELECT v.label 
