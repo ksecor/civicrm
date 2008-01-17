@@ -124,7 +124,11 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         // Success
 
         // test mode always returns trxn_id = 0
-        if ( $this->_mode == 'test' ) {
+        // also live mode in CiviCRM with test mode set in
+        // Authorize.Net return $response_fields[6] = 0
+        // hence treat that also as test mode transaction
+        // fix for CRM-2566
+        if ( ($this->_mode == 'test') || $response_fields[6] == 0 ) {
             $query = "SELECT MAX(trxn_id) FROM civicrm_contribution WHERE trxn_id LIKE 'test%'";
             $p = array( );
             $trxn_id = strval( CRM_Core_Dao::singleValueQuery( $query, $p ) );
