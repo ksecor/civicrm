@@ -30,3 +30,14 @@ ALTER TABLE `civicrm_custom_group`
     ADD `table_name` varchar(255) NULL DEFAULT NULL AFTER is_active,
     ADD `is_multiple` tinyint(4) NULL DEFAULT NULL AFTER table_name,
     MODIFY extends enum('Contact','Individual','Household','Organization','Location','Address','Contribution','Activity','Relationship','Group','Membership','Participant','Event','Grant') NULL DEFAULT 'Contact';
+
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_option_value table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_option_value`
+    MODIFY value varchar(64) NOT NULL;

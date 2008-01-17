@@ -85,7 +85,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
     }
 
     function getButtonTitle( ) {
-        return ts( 'Upgrade Done' );
+        return ts( 'Finish Upgrade' );
     }
 
 }

@@ -155,6 +155,31 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                     CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
                 }
 
+                // migrate custom-option data
+                foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
+                    $customOption =& new CRM_Core_DAO_CustomOption( );
+                    $customOption->entity_table = $entityTable;
+                    $customOption->find();
+                    
+                    while ($customOption->fetch()) {
+                        $optionGroup  =& new CRM_Core_DAO_OptionGroup( );
+                        $optionGroup->domain_id =  CRM_Core_Config::domainID( );
+                        $optionGroup->name      =  "{$customOption->entity_table}.amount.". $customOption->entity_id;
+                        if (! $optionGroup->find(true)) {
+                            $optionGroup->save( );
+                        }
+                        
+                        $optionValue =& new CRM_Core_DAO_OptionValue( );
+                        $optionValue->option_group_id = $optionGroup->id;
+                        $optionValue->label           = $customOption->label;
+                        $optionValue->value           = $customOption->value;
+                        $optionValue->weight          = $customOption->weight;
+                        $optionValue->is_active       = $customOption->is_active;
+                        $optionValue->save();
+                    }
+                }
+
+                // mark level
                 $query = "UPDATE `civicrm_domain` SET version='1.94'";
                 $res   = $this->runQuery( $query );
             } elseif ((double)$row['version'] > 1.93) {

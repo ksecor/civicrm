@@ -38,6 +38,13 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+        $query = "SHOW TABLES LIKE 'civicrm_mailing_spool'";
+        $res   = $this->runQuery( $query );
+        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
+
+        if (!is_array($row)) {
+            // it's a db with ver < 1.9
+        }
     }
 
     function upgrade( ) {
