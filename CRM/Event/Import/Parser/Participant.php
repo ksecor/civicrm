@@ -332,8 +332,8 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 _civicrm_add_formatted_param($value, $contactFormatted);
             }
             $contactFormatted['contact_type'] = $this->_contactType;
-            $error = _crm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+            $error = _civicrm_duplicate_formatted_contact($contactFormatted);
+            $matchedIDs = explode(',',$error['error_message']['params'][0]);
             if ( self::isDuplicate($error) ) {
                 if ( count( $matchedIDs) >= 1 ) {
                     foreach($matchedIDs as $contactId) {
@@ -421,21 +421,27 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     /**
      *  function to check if an error is actually a duplicate contact error
      *  
-     *  @param Object $error Avalid Error object
+     *  @param Array $error A valid Error array
      *  
-     *  @return ture if error is duplicate contact error 
+     *  @return true if error is duplicate contact error 
      *  
      *  @access public 
      */
     function isDuplicate($error)
     {
-        if( is_a( $error, CRM_Core_Error ) ) {
-            $code = $error->_errors[0]['code'];
-            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
+            return false;
+        }
+        
+        if ( is_array( $error )  && civicrm_error( $error ) ) {
+            $code = $error['error_message']['code'];
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
                 return true ;
             }
         }
-        return false;
+        
+        return false;     
+
     }
 }
 ?>

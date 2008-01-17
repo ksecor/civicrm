@@ -40,7 +40,8 @@ require_once 'api/crm.php';
 /**
  * class to parse contribution csv files
  */
-class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Parser {
+class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Parser 
+{
 
     protected $_mapperKeys;
 
@@ -516,13 +517,12 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
     /**
      *  function to check if an error is actually a duplicate contact error
      *  
-     *  @param Object $error Avalid Error object
+     *  @param Array $error A valid Error array
      *  
-     *  @return ture if error is duplicate contact error 
+     *  @return true if error is duplicate contact error 
      *  
      *  @access public 
      */
-
     function isDuplicate($error) 
     {
         if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {

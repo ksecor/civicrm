@@ -63,8 +63,11 @@ function civicrm_create_success( $result = 1 ) {
  * @access public
  */
 function civicrm_error( $params ) {
-    return ( array_key_exists( 'is_error', $params ) &&
-             $params['is_error'] ) ? true : false;
+    if ( is_array( $params ) ) {
+        return ( array_key_exists( 'is_error', $params ) &&
+                 $params['is_error'] ) ? true : false;
+    }
+    return false;
 }
 
 function _civicrm_store_values( &$fields, &$params, &$values ) {

@@ -41,7 +41,8 @@ require_once 'api/crm.php';
 /**
  * class to parse membership csv files
  */
-class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
+class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser 
+{
 
     protected $_mapperKeys;
 
@@ -62,7 +63,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
     /**
      * class constructor
      */
-    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) {
+    function __construct( &$mapperKeys,$mapperLocType = null, $mapperPhoneType = null) 
+    {
         parent::__construct();
         $this->_mapperKeys =& $mapperKeys;
         //$this->_mapperLocType =& $mapperLocType;
@@ -75,7 +77,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return void
      * @access public
      */
-    function init( ) {
+    function init( ) 
+    {
         require_once 'CRM/Member/BAO/Membership.php';
         $fields =& CRM_Member_BAO_Membership::importableFields( $this->_contactType, false );
 
@@ -119,7 +122,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return boolean
      * @access public
      */
-    function mapField( &$values ) {
+    function mapField( &$values ) 
+    {
         return CRM_Member_Import_Parser::VALID;
     }
 
@@ -132,7 +136,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function preview( &$values ) {
+    function preview( &$values ) 
+    {
         return $this->summary($values);
     }
 
@@ -144,7 +149,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function summary( &$values ) {
+    function summary( &$values ) 
+    {
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
       
@@ -245,7 +251,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return boolean      the result of this processing
      * @access public
      */
-    function import( $onDuplicate, &$values) {
+    function import( $onDuplicate, &$values) 
+    {
         // first make sure this is a valid line
         $response = $this->summary( $values );
         if ( $response != CRM_Member_Import_Parser::VALID ) {
@@ -404,7 +411,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
             
             $contactFormatted['contact_type'] = $this->_contactType;
             $error = _civicrm_duplicate_formatted_contact($contactFormatted);
-            $matchedIDs = explode(',',$error->_errors[0]['params'][0]);
+            $matchedIDs = explode(',',$error['error_message']['params'][0]);
 
             if ( self::isDuplicate($error) ) { 
                 if (count( $matchedIDs) >1) {                   
@@ -514,7 +521,8 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return array
      * @access public
      */
-    function &getImportedMemberships() {
+    function &getImportedMemberships() 
+    {
         return $this->_newMemberships;
     }
    
@@ -524,28 +532,33 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser {
      * @return void
      * @access public
      */
-    function fini( ) {
+    function fini( ) 
+    {
     }
 
     /**
      *  function to check if an error is actually a duplicate contact error
      *  
-     *  @param Object $error Avalid Error object
+     *  @param Array $error A valid Error Array
      *  
-     *  @return ture if error is duplicate contact error 
+     *  @return true if error is duplicate contact error 
      *  
      *  @access public 
      */
-
-    function isDuplicate($error) {
+    function isDuplicate($error) 
+    {
+        if ( is_object( $error ) && ! ($error instanceof CRM_Core_Error ) ) {
+            return false;
+        }
         
-        if( is_a( $error, CRM_Core_Error ) ) {
-            $code = $error->_errors[0]['code'];
-            if($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
+        if ( is_array( $error )  && civicrm_error( $error ) ) {
+            $code = $error['error_message']['code'];
+            if ($code == CRM_Core_Error::DUPLICATE_CONTACT ) {
                 return true ;
             }
         }
-        return false;
+        
+        return false;     
     }
 
 
