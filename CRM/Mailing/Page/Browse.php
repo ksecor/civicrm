@@ -148,7 +148,7 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
         }
             
 
-        CRM_Utils_System::setTitle(ts('Sent Mailings'));
+        CRM_Utils_System::setTitle(ts('Browse Mailings (Scheduled and Sent)'));
 
         $selector =& new CRM_Mailing_Selector_Browse( );
         $selector->setParent( $this );
