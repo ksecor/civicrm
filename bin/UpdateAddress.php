@@ -112,14 +112,11 @@ SELECT   c.id,
          s.name as state,
          o.name as country
   FROM   civicrm_contact  c,
-         civicrm_location l,
          civicrm_address  a,
          civicrm_state_province s,
          civicrm_country o
  WHERE   c.domain_id    = $domainID
-   AND   c.id           = l.entity_id
-   AND   l.entity_table = 'civicrm_contact'
-   AND   a.location_id  = l.id
+   AND   c.id           = a.contact_id
    AND   a.geo_code_1 is null
    AND   a.country_id is not null
    AND   a.state_province_id is not null
@@ -128,7 +125,7 @@ SELECT   c.id,
    $contactClause
 ORDER BY a.id
 ";
-
+    
     $totalGeocoded = $totalAddresses = 0;
 
     $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
