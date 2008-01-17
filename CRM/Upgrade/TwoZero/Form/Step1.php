@@ -80,7 +80,10 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( 'This is a message' );
+        return ts( '<p><strong>Note:</strong> Make sure you have taken the backup of your db before starting with the upgrade process.</p>
+<p>This process will upgrade your <strong>v1.9 civicrm db to v2.0 db</strong></p>
+<p>This step will upgrade the contacts.</p>'
+);
     }
 
     function getButtonTitle( ) {
