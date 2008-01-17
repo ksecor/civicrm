@@ -381,20 +381,20 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         
         $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
-        $statusMsg = ts("{$memType} membership for {$this->_contributorDisplayName} has been renewed. ");
+        $statusMsg = ts('%1 membership for %2 has been renewed.', array(1 => $memType, 2 => $this->_contributorDisplayName));
        
         $endDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", 
                                                                               $this->_id, 
                                                                               "end_date" ) );
         if ( $endDate ) {
-            $statusMsg .= ts("The new membership End Date is {$endDate}. ");    
+            $statusMsg .= ts('The new membership End Date is %1.', array(1 => $endDate));
         }
         
         if( $formValues['send_receipt'] ) {
-            $statusMsg .= ts( "A renewal confirmation and receipt has been sent to {$this->_contributorEmail}." );
+            $statusMsg .= ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
         }
         
-        CRM_Core_Session::setStatus( ts("{$statusMsg}") );
+        CRM_Core_Session::setStatus($statusMsg);
     }
 }
 ?>

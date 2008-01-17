@@ -173,7 +173,7 @@ class CRM_Contribute_Form_Contribution_ThankYou extends CRM_Contribute_Form_Cont
         CRM_Friend_BAO_Friend::retrieve( $values, $data ) ;
 
         if ( $data['is_active'] ) {               
-            $friendText = ts( $data['title'] ) ;
+            $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
             if ( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 

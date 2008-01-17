@@ -113,7 +113,7 @@ class CRM_Friend_Form extends CRM_Core_Form
         $defaults['entity_table'] = $this->_entityTable;   
          
         CRM_Friend_BAO_Friend::getValues($defaults);
-        CRM_Utils_System::setTitle( ts( $defaults['title'] ) );
+        CRM_Utils_System::setTitle($defaults['title']);
 
         $this->assign( 'title',   $defaults['title'] );
         $this->assign( 'intro',   $defaults['intro'] );

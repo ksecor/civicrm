@@ -763,14 +763,14 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }      
         
         if ( ( $this->_action & CRM_Core_Action::UPDATE ) ) {
-            $statusMsg = ts( "Event registration information for {$this->_contributorDisplayName} has been updated. " );
+            $statusMsg = ts('Event registration information for %1 has been updated.', array(1 => $this->_contributorDisplayName));
             if ( $params['send_receipt'] ) {
-                $statusMsg .= ts("A confirmation email has been sent to {$this->_contributorEmail}." );
+                $statusMsg .= ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
-            $statusMsg = ts( "Event registration for {$this->_contributorDisplayName} has been added. " );
+            $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
             if ( $params['send_receipt'] ) {
-                $statusMsg .= ts( "A confirmation email has been sent to {$this->_contributorEmail}." );
+                $statusMsg .= ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         }
         require_once "CRM/Core/Session.php";

@@ -108,7 +108,7 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         
         CRM_Friend_BAO_Friend::retrieve( $params, $data ) ;
         if ( $data['is_active'] ) {               
-            $friendText = ts( $data['title'] ) ;
+            $friendText = $data['title'];
             $this->assign( 'friendText', $friendText );
             if( $this->_action & CRM_Core_Action::PREVIEW ) {
                 $url = CRM_Utils_System::url("civicrm/friend", 
