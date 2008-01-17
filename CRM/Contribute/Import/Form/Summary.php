@@ -39,7 +39,8 @@ require_once 'CRM/Contribute/Import/Parser.php';
 /**
  * This class summarizes the import results
  */
-class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
+class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form 
+{
 
     /**
      * Function to set variables up before form is built
@@ -47,7 +48,8 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
      * @return void
      * @access public
      */
-    public function preProcess( ) {
+    public function preProcess( ) 
+    {
 
         // set the error message path to display
         $errorFile = $this->assign('errorFile', $this->get('errorFile') );
@@ -107,7 +109,8 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
      * @return None
      * @access public
      */
-    public function buildQuickForm( ) {
+    public function buildQuickForm( ) 
+    {
         $this->addButtons( array(
                                  array ( 'type'      => 'next',
                                          'name'      => ts('Done'),
@@ -122,7 +125,8 @@ class CRM_Contribute_Import_Form_Summary extends CRM_Core_Form {
      * @return string
      * @access public
      */
-    public function getTitle( ) {
+    public function getTitle( ) 
+    {
         return ts('Summary');
     }
 
