@@ -37,9 +37,19 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
 
-    function verifyPreDBState( ) {
-        // add some checks here regarding activity tables
+    function verifyPreDBState( &$errorMessage ) {
+        $errorMessage = 'pre-condition failed for upgrade step 4';
+        
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_assignment' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_target' )   ) {
+            return false;
+        }
 
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'source_record_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'due_date_time'    )) {
+            return false;
+        }
+        
         return $this->checkVersion( '1.93' );
     }
 
@@ -49,7 +59,8 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
                                array( $currentDir, '../sql', 'custom.mysql' ) );
         $this->source( $sqlFile );
         
-        // data upgrade
+        // data migration / upgrade
+        $domainID = CRM_Core_Config::domainID( );
         $query    = "UPDATE civicrm_custom_group cg1 
 SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         $res      = $this->runQuery( $query );
@@ -137,10 +148,9 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
             
             $query    = "SELECT id FROM {$valParams[$customVal->custom_field_id]['table_name']} WHERE domain_id=$domainID and entity_id={$customVal->entity_id}";
             $res      = $this->runQuery( $query );
-            $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
             
-            if (isset($row['id'])) {
-                $valParams[$customVal->custom_field_id]['id'] = $row['id'];
+            if ($res->fetch()) {
+                $valParams[$customVal->custom_field_id]['id'] = $res->id;
             }
             CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
         }
@@ -172,7 +182,17 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         $this->setVersion( '1.94' );
     }
 
-    function verifyPostDBState( ) {
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 4';
+        
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
+            return false;
+        }
+
+        return $this->checkVersion( '1.94' );
     }
 
     function getTitle( ) {

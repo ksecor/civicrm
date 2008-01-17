@@ -73,8 +73,12 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     }
     
     function preProcess( ) {
-        if ( ! $this->verifyPreDBState( ) ) {
-            CRM_Core_Error::fatal( ts( 'pre-condition failed for current upgrade step' ) );
+        CRM_Utils_System::setTitle( $this->getTitle() );
+        if ( ! $this->verifyPreDBState( $errorMessage ) ) {
+            if (! isset($errorMessage)) {
+                $errorMessage = 'pre-condition failed for current upgrade step';
+            }
+            CRM_Core_Error::fatal( ts( $errorMessage ) );
         }
     }
     
@@ -89,13 +93,17 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
         return ts( 'Title not Set' );
     }
     
+    function getFieldsetTitle( ) {
+        return ts( '' );
+    }
+    
     function getButtonTitle( ) {
         return ts( 'Continue' );
     }
     
     function getTemplateFileName( ) {
         $this->assign( 'title',
-                       $this->getTitle( ) );
+                       $this->getFieldsetTitle( ) );
         $this->assign( 'message',
                        $this->getTemplateMessage( ) );
         return 'CRM/Upgrade/Base.tpl';
@@ -104,7 +112,12 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     function postProcess( ) {
         $this->upgrade( );
         
-        $this->verifyPostDBState( );
+        if ( ! $this->verifyPostDBState( $errorMessage ) ) {
+            if (! isset($errorMessage)) {
+                $errorMessage = 'post-condition failed for current upgrade step';
+            }
+            CRM_Core_Error::fatal( ts( $errorMessage ) );
+        }
     }
 
     function runQuery( $query ) {
@@ -121,10 +134,9 @@ SET    version = '$version'
     }
 
     function checkVersion( $version ) {
-        return (double ) CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                                      $domainID,
-                                                      'version' ) == (double ) $version ?
-            true : false;
+        $ver = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain', CRM_Core_Config::domainID( ), 
+                                            'version' );
+        return ((double)$ver == (double)$version) ? true : false;
     }
 
 

@@ -37,7 +37,9 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
-    function verifyPreDBState( ) {
+    function verifyPreDBState( &$errorMessage ) {
+        $errorMessage = 'pre-condition failed for upgrade step 1';
+
         // civicrm_mailing_spool is a pre 1.9 table. it should exist in all db's
         // we want to upgrade
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_mailing_spool' ) ) {
@@ -60,10 +62,17 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
         $this->setVersion( '1.91' );
     }
-
-}
     
-    function verifyPostDBState( ) {
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 1';
+
+        if (! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
+            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||
+            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' )) {
+            return false;
+        }
+
+        return $this->checkVersion( '1.91' );
     }
 
     function getTitle( ) {

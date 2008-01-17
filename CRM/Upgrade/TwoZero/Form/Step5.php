@@ -37,8 +37,15 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
 
-    function verifyPreDBState( ) {
-        // add some checks here regarding custom tables
+    function verifyPreDBState( &$errorMessage ) {
+        $errorMessage = 'pre-condition failed for upgrade step 5';
+        
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
+            return false;
+        }
 
         return $this->checkVersion( '1.94' );
     }
@@ -56,7 +63,28 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         $this->setVersion( 2.0 );
     }
 
-    function verifyPostDBState( ) {
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 5';
+        
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_case' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_case_activity' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_component' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_contribution_widget' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_grant' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_group_organization' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_openid' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_preferences_date' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_tell_friend' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_timezone' ) ) {
+            return false;
+        }
+
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'is_pay_later' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_financial_trxn', 'contribution_id' ) ) {
+            return false;
+        }
+
+        return $this->checkVersion( '2.0' );
     }
 
     function getTitle( ) {

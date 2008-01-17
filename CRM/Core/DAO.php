@@ -453,11 +453,10 @@ class CRM_Core_DAO extends DB_DataObject {
       function checkFieldExists( $tableName, $columnName ) {
           $query = "
 SHOW COLUMNS
-FROM %1
-LIKE %2
+FROM $tableName
+LIKE %1
 ";
-          $params = array( 1 => array( $tableName , 'String' ),
-                           2 => array( $columnName, 'String' ) );
+          $params = array( 1 => array( $columnName, 'String' ) );
           $dao = CRM_Core_DAO::executeQuery( $query, $params );
           $result = $dao->fetch( ) ? true : false;
           $dao->free( );
@@ -474,12 +473,11 @@ LIKE %2
      */
       function checkTableExists( $tableName ) {
           $query = "
-SHOW COLUMNS
-FROM %1
-LIKE %2
+SHOW TABLES
+LIKE %1
 ";
-          $params = array( 1 => array( $tableName , 'String' ),
-                           2 => array( $columnName, 'String' ) );
+          $params = array( 1 => array( $tableName , 'String' ) );
+
           $dao = CRM_Core_DAO::executeQuery( $query, $params );
           $result = $dao->fetch( ) ? true : false;
           $dao->free( );

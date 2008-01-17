@@ -37,7 +37,9 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
 
-    function verifyPreDBState( ) {
+    function verifyPreDBState( &$errorMessage ) {
+        $errorMessage = 'pre-condition failed for upgrade step 2';
+
         // ensure that version field exists in db
         if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
             return false;
@@ -63,7 +65,20 @@ class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
         $this->setVersion( '1.92' );
     }
 
-    function verifyPostDBState( ) {
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 2';
+
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
+            return false;
+        }
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_address', 'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email',   'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone',   'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' )    ) {
+            return false;
+        }
+        
+        return $this->checkVersion( '1.92' );
     }
 
     function getTitle( ) {
