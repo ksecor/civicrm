@@ -108,17 +108,8 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     }
 
     function runQuery( $query ) {
-        $db = DB::connect( $this->_config->dsn );
-
-        if ( DB::isError( $db ) ) { 
-            die( "Cannot connect to db via $dsn, " . $db->getMessage( ) ); 
-        }
-        
-        $res = $db->query( $query );
-
-        $db->disconnect( );
-
-        return $res;
+        return CRM_Core_DAO::executeQuery( $query,
+                                           CRM_Core_DAO::$_nullArray );
     }
 
     function setVersion( $version ) {
@@ -131,7 +122,7 @@ SET    version = '$version'
 
     function checkVersion( $version ) {
         return (double ) CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
-                                                    $domainID,
+                                                      $domainID,
                                                       'version' ) == (double ) $version ?
             true : false;
     }
