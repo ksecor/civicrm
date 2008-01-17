@@ -149,7 +149,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_UFJoin', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
         // is this group active ?
         $this->addElement('checkbox', 'is_active', ts('Is this CiviCRM Profile active?') );

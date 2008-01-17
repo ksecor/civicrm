@@ -5,7 +5,7 @@
         <dt class="font-size12pt">{ts}From{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
         <dt>{ts}Contribution Type{/ts}</dt><dd>{$contribution_type}&nbsp;
         {if $is_test}
-          {ts} (test) {/ts}
+          {ts}(test){/ts}
         {/if}
         </dd>
         <dt>{ts}Total Amount{/ts}</dt><dd class="bold">{$total_amount|crmMoney}&nbsp;

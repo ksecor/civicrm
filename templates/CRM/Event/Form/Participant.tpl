@@ -115,7 +115,7 @@
    
     <tr>
        <td class ='html-adjust' colspan=2>
-           <fieldset id="recordContribution"><legend>{ts}Registration Confirmation{if $paid} and Receipt{/if}{/ts}</legend>
+           <fieldset id="recordContribution"><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
              <div class="form-item">
                {if $paid}
                  <dl>	        
@@ -127,7 +127,7 @@
                {/if}
 	       {if $email}
                  <dl>
-                    <dt class="label">{ts}Send Confirmation{/ts}{if $paid}{ts} and Receipt{/ts}{/if}</dt>
+                    <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
                     <dd>{$form.send_receipt.html}<br />
                     <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
                  </dl>

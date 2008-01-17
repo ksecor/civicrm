@@ -119,7 +119,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
         $this->add('text', 'description', ts('Description'), CRM_Core_DAO::getAttribute( 'CRM_Core_DAO_OptionValue', 'description' ) );
         
         $this->add('text', 'weight', ts('Weight'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_OptionValue', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         $this->add('checkbox', 'is_active', ts('Enabled?'));
     }

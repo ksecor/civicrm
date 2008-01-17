@@ -20,7 +20,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
        //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
 
        //translate select
-       var sel = {/literal}"{ts} - type first letter(s) - {/ts}"{literal}; 
+       var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
 
        //set state province combo if it is not set
        if ( !widget.getValue( ) ) {

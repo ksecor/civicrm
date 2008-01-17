@@ -276,7 +276,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
             $this->add( 'select',
                         'option_group_id',
                         ts( 'Multiple Choice Option Sets' ),
-                        array( '' => ts( ' -select- ' ) ) + $optionGroups );
+                        array( '' => ts( '-select-' ) ) + $optionGroups );
         }
 
         // form fields of Custom Option rows
@@ -358,14 +358,14 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
         
         // is required ?
         $this->add('checkbox', 'is_required', ts('Required?') );
 
         // checkbox / radio options per line
         $this->add('text', 'options_per_line', ts('Options Per Line'));
-        $this->addRule('options_per_line', ts(' must be a numeric value') , 'numeric');
+        $this->addRule('options_per_line', ts('must be a numeric value') , 'numeric');
 
         // default value, help pre, help post, mask, attributes, javascript ?
         $this->add('text', 'default_value', ts('Default Value'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_CustomField', 'default_value'));

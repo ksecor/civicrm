@@ -1,7 +1,7 @@
 {* this template is used for adding/editing/deleting case *} 
 <div class="form-item">
 <fieldset>
-    <legend>{ts} View Case Record Details{/ts}</legend>
+    <legend>{ts}View Case Record Details{/ts}</legend>
       <dl class="html-adjust">
             <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>
       	    <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>

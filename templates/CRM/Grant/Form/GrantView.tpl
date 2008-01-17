@@ -1,7 +1,7 @@
 {* this template is used for viewing grant *} 
 <div class="form-item">
 <fieldset>
-     <legend>{ts} View Grant{/ts}</legend>
+     <legend>{ts}View Grant{/ts}</legend>
      <dl class="html-adjust">
           <dt class="font-size12pt">{ts}Name{/ts}</dt><dd class="font-size12pt"><strong>{$displayName}</strong>&nbsp;</dd>    
           <dt>{$form.status_id.label}</dt><dd>{$form.status_id.html}</dd>

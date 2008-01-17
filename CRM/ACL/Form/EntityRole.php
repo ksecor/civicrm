@@ -61,7 +61,7 @@ class CRM_ACL_Form_EntityRole extends CRM_Admin_Form
         $attributes = CRM_Core_DAO::getAttribute( 'CRM_ACL_DAO_EntityRole' );
 
         require_once 'CRM/Core/OptionGroup.php';
-        $aclRoles = array( '' => ts( ' -select- ' ) ) + CRM_Core_OptionGroup::values( 'acl_role' );
+        $aclRoles = array( '' => ts( '-select-' ) ) + CRM_Core_OptionGroup::values( 'acl_role' );
         $this->add( 'select', 'acl_role_id', ts( 'ACL Role' ),
                            $aclRoles, true );
 

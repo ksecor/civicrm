@@ -134,7 +134,7 @@ SELECT object_table
         require_once 'CRM/Core/OptionGroup.php';
 
         $label = ts( 'Role' );
-        $role = array( '-1' => ts(' -select role- '),
+        $role = array( '-1' => ts('-select role-'),
                        '0'  => ts( 'Everyone' ) ) +
         CRM_Core_OptionGroup::values( 'acl_role' );
         $entityID =& $this->add( 'select', 'entity_id', $label, $role, true );

@@ -62,7 +62,7 @@
 
 {if $customValues}
 ===========================================================
-{$module}{ts} Options{/ts}
+{$module} {ts}Options{/ts}
 
 ===========================================================
 {foreach from=$customValues item=value key=name}

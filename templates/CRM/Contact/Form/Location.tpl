@@ -30,7 +30,7 @@
             {foreach from=$locationExists item=ltypeid}   
                {if $ltypeid == $form.location.$index.location_type_id.value[0]}
                     {capture assign=deleteLocation}{crmURL p='civicrm/contact/view/delete/location' q="reset=1&action=delete&ltypeid=$ltypeid&cid=$contactId"}{/capture}
-                    &nbsp; &nbsp; {ts 1=$deleteLocation} <a href="%1">Delete</a>{/ts}
+                    &nbsp; &nbsp; <a href="{$deleteLocation}">{ts}Delete{/ts}</a>
                {/if} 
             {/foreach}
         {/if}

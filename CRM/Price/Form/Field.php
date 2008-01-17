@@ -161,7 +161,7 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         
         // price (for text inputs)
         $this->add( 'text', 'price', ts('Price') );
-        $this->addRule( 'price', ts(' must be a monetary value'), 'money' );
+        $this->addRule( 'price', ts('must be a monetary value'), 'money' );
         
         if ($this->_action == CRM_Core_Action::UPDATE) {
             $this->freeze('html_type');
@@ -210,11 +210,11 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
 
         // weight
         $this->add('text', 'weight', ts('Order'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_PriceField', 'weight'), true);
-        $this->addRule('weight', ts(' is a numeric field') , 'numeric');
+        $this->addRule('weight', ts('is a numeric field') , 'numeric');
 
         // checkbox / radio options per line
         $this->add('text', 'options_per_line', ts('Options Per Line'));
-        $this->addRule('options_per_line', ts(' must be a numeric value') , 'numeric');
+        $this->addRule('options_per_line', ts('must be a numeric value') , 'numeric');
 
         // help post, mask, attributes, javascript ?
         $this->add('textarea', 'help_post', ts('Field Help'), 

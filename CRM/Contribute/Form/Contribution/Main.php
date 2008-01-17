@@ -363,7 +363,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                     $attributes['frequency_interval'] );
         $this->addRule( 'frequency_interval', ts( 'Frequency must be a whole number (EXAMPLE: Every 3 months).' ), 'integer' );
 
-        $units = array( 0       => ts( ' -period-' ),
+        $units = array( 0       => ts( '-period-' ),
                         'day'   => ts( 'day(s)'      ),
                         'week'  => ts( 'week(s)'     ),
                         'month' => ts( 'month(s)'    ),
@@ -431,7 +431,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
         }
 
         if ( $fields['is_recur'] && $fields['is_pay_later'] ) {
-            $errors['is_pay_later'] = ts(' ');
+            $errors['is_pay_later'] = ' ';
             $errors['_qf_default'] = ts('You can not set up a recurring contribution if you are not paying online by credit card.'); 
         }
 
@@ -446,7 +446,7 @@ class CRM_Contribute_Form_Contribution_Main extends CRM_Contribute_Form_Contribu
                 require_once 'CRM/Utils/Money.php';
                 if ( $amount < CRM_Utils_Array::value('minimum_fee',$memTypeDetails) ) {
                     $errors['selectMembership'] =
-                        ts(' The Membership you have selected requires a minimum contribution of %1',
+                        ts('The Membership you have selected requires a minimum contribution of %1',
                            array( 1 => CRM_Utils_Money::format($memTypeDetails['minimum_fee'] ) ) );
                 }
             } else {
