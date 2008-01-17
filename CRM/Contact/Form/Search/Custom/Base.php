@@ -50,14 +50,6 @@ class CRM_Contact_Form_Search_Custom_Base {
                                                CRM_Core_DAO::$_nullArray );
     }
     
-    function alphabet( ) {
-        $sql = $this->sql( 'DISTINCT UPPER(LEFT(contact_a.sort_name, 1)) as sort_name' );
-
-        return CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
-    }
-
-
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) {
         $sql    = $this->sql( 'contact_a.id as contact_id',
                               $offset, $rowcount, $sort );

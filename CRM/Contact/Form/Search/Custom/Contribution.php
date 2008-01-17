@@ -83,10 +83,6 @@ class CRM_Contact_Form_Search_Custom_Contribution
         return $dao->N;
     }
 
-    function alphabet( ) {
-    }
-
-
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
     }
     

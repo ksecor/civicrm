@@ -122,6 +122,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
      */
     protected $_search;
 
+    protected $_customSearchClass;
+
     /**
      * Class constructor
      *
@@ -139,8 +141,8 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                           $action = CRM_Core_Action::NONE,
                           $includeContactIds = false,
                           $searchChildGroups = true ) {
-
-        $this->_formValues = $formValues;
+        $this->_customSearchClass = $customSearchClass;
+        $this->_formValues        = $formValues;
         $this->_includeContactIds = $includeContactIds;
 
         require_once( str_replace( '_', DIRECTORY_SEPARATOR, $customSearchClass ) . '.php' );
@@ -274,6 +276,12 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
         $links       = self::links( );
         $mask        = CRM_Core_Action::mask( CRM_Core_Permission::getPermission( ) );
 
+        $alterRow = false;
+        if ( method_exists( $this->_customSearchClass,
+                            'alterRow' ) ) {
+            $alterRow = true;
+        }
+        
         // process the result of the query
         $rows = array( );
         while ( $dao->fetch( ) ) {
@@ -292,6 +300,10 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
                 $row['action']   = CRM_Core_Action::formLink( $links,
                                                               $mask ,
                                                               array( 'id' => $dao->contact_id ) );
+
+                if ( $alterRow ) {
+                    $this->_search->alterRow( $row );
+                }
                 $rows[] = $row;
             }
         }
@@ -327,7 +339,7 @@ class CRM_Contact_Selector_Custom extends CRM_Core_Selector_Base implements CRM_
     }
 
     function &alphabetQuery( ) {
-        return $this->_search->alphabet( );
+        return null;
     }
 
     function &contactIDQuery( ) {

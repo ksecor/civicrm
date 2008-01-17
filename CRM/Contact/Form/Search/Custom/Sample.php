@@ -124,6 +124,15 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
         return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
     }
 
+    function setDefaultValues( ) {
+        return array( 'household_name'    => 'civi',
+                      'state_province_id' => 1004 );
+    }
+
+    function alterRow( &$row ) {
+        $row['sort_name'] .= ' ( altered )';
+    }
+
 }
 
 ?>

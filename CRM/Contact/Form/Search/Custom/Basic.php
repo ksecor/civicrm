@@ -119,10 +119,6 @@ class CRM_Contact_Form_Search_Custom_Basic
         return $this->_query->searchQuery( 0, 0, null, true );
     } 
 
-    function alphabet( ) {
-        return $this->_query->searchQuery( null, null, null, false, false, true );
-    }
-
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         return $this->_query->searchQuery( $offset, $rowCount, $sort,

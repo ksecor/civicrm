@@ -58,12 +58,6 @@ interface CRM_Contact_Form_Search_Interface {
     function count     ( );
 
     /**
-     * List of alphabets of records that match the current input parameters
-     * Used by alpha pager
-     */
-    function alphabet ( );
-
-    /**
      * List of contact ids that match the current input parameters
      * Used by different tasks. Will be also used to optimize the
      * 'all' query below to avoid excessive LEFT JOIN blowup
