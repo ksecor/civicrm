@@ -464,6 +464,28 @@ LIKE %2
           return $result;
       }
 
+    /**
+     * Check if there is a given table in the database
+     *
+     * @param string $tableName
+     * 
+     * @return boolean true if exists, else false
+     * @static
+     */
+      function checkTableExists( $tableName ) {
+          $query = "
+SHOW COLUMNS
+FROM %1
+LIKE %2
+";
+          $params = array( 1 => array( $tableName , 'String' ),
+                           2 => array( $columnName, 'String' ) );
+          $dao = CRM_Core_DAO::executeQuery( $query, $params );
+          $result = $dao->fetch( ) ? true : false;
+          $dao->free( );
+          return $result;
+      }
+
       function checkVersion( $version ) {
           $query = "
 SELECT version

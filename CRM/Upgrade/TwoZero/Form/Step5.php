@@ -38,39 +38,22 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+        // add some checks here regarding custom tables
+
+        return $this->checkVersion( '1.94' );
     }
 
     function upgrade( ) {
-        $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
-        $res   = $this->runQuery( $query );
-        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
-
-        if (! isset($row['Field'])) {
-            // Go to step1
-        } else {
-            $domainID = CRM_Core_Config::domainID();
-            $query    = "SELECT version FROM civicrm_domain WHERE id=$domainID";
-            $res      = $this->runQuery( $query );
-            $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
-            
-            if ((double)$row['version'] == 1.94) {
-                $currentDir = dirname( __FILE__ );
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, '../sql', 'others.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, '../sql', 'drop.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $query = "UPDATE `civicrm_domain` SET version='2.0'";
-                $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.94) {
-                // Upgrade already done.
-            } else {
-                // Move to previous step.
-            }
-        }
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'others.mysql' ) );
+        $this->source( $sqlFile );
+        
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'drop.mysql' ) );
+        $this->source( $sqlFile );
+               
+        $this->setVersion( 2.0 );
     }
 
     function verifyPostDBState( ) {

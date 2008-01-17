@@ -38,35 +38,18 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+        // add some checks here regarding location tables
+
+        return $this->checkVersion( '1.92' );
     }
 
     function upgrade( ) {
-        $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
-        $res   = $this->runQuery( $query );
-        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'activity.mysql' ) );
+        $this->source( $sqlFile );
         
-        if (! isset($row['Field'])) {
-            // Go to step1
-        } else {
-            $domainID = CRM_Core_Config::domainID();
-            $query    = "SELECT version FROM civicrm_domain WHERE id=$domainID";
-            $res      = $this->runQuery( $query );
-            $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
-            
-            if ((double)$row['version'] == 1.92) {
-                $currentDir = dirname( __FILE__ );
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, '../sql', 'activity.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $query = "UPDATE `civicrm_domain` SET version='1.93'";
-                $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.92) {
-                // This step is already done. Move to next step
-            } else {
-                // Move to previous step.
-            }
-        }
+        $this->setVersion( '1.93' );
     }
 
     function verifyPostDBState( ) {

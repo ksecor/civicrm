@@ -38,39 +38,30 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
-        $query = "SHOW TABLES LIKE 'civicrm_mailing_spool'";
-        $res   = $this->runQuery( $query );
-        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
-
-        if (!is_array($row)) {
-            // it's a db with ver < 1.9
+        // civicrm_mailing_spool is a pre 1.9 table. it should exist in all db's
+        // we want to upgrade
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_mailing_spool' ) ) {
+            return false;
         }
+
+        // version is a 2.0 field, it should not exist in any db we want to upgrade
+        if ( CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
+            return false;
+        }
+
+        return true;
     }
 
     function upgrade( ) {
-        // check if field version exists
-        $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
-        $res   = $this->runQuery( $query );
-        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'contact.mysql' ) );
+        $this->source( $sqlFile );
 
-        // Don't do structure/data upgrade if version column exists
-        if (! isset($row['Field'])) {
-            $currentDir = dirname( __FILE__ );
-            $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                   array( $currentDir, '../sql', 'contact.mysql' ) );
-            $this->source( $sqlFile );
-            
-            // add column 'version'
-            $query = "ALTER TABLE `civicrm_domain` ADD `version` varchar(8) NULL DEFAULT NULL COMMENT 'The civicrm version this instance is running' AFTER config_backend";
-            $res   = $this->runQuery( $query );
-            
-            // mark the level completed
-            $query = "UPDATE `civicrm_domain` SET version='1.91'";
-            $res   = $this->runQuery( $query );
-        } else {
-            // This step already done. Move to next step.
-        }
+        $this->setVersion( '1.91' );
     }
+
+}
     
     function verifyPostDBState( ) {
     }

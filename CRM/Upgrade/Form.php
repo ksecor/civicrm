@@ -73,7 +73,9 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
     }
     
     function preProcess( ) {
-        $this->verifyPreDBState( );
+        if ( ! $this->verifyPreDBState( ) ) {
+            CRM_Core_Error::fatal( ts( 'pre-condition failed for current upgrade step' ) );
+        }
     }
     
     function buildQuickForm( ) {
@@ -118,6 +120,23 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
 
         return $res;
     }
+
+    function setVersion( $version ) {
+        $query = "
+UPDATE civicrm_domain
+SET    version = '$version'
+";
+        return $this->runQuery( $query );
+    }
+
+    function checkVersion( $version ) {
+        return (double ) CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_Domain',
+                                                    $domainID,
+                                                      'version' ) == (double ) $version ?
+            true : false;
+    }
+
+
 }
 
 ?>

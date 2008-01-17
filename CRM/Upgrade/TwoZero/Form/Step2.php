@@ -38,33 +38,29 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( ) {
+        // ensure that version field exists in db
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
+            return false;
+        }
+
+        // also ensure first_name, household_name and contact_name exist in db
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ) {
+            return false;
+        }
+
+
+        return $this->checkVersion( '1.91' );
     }
 
     function upgrade( ) {
-        $query = "SHOW COLUMNS FROM civicrm_domain LIKE 'version'";
-        $res   = $this->runQuery( $query );
-        $row   = $res->fetchRow( DB_FETCHMODE_ASSOC );
-
-        if (! isset($row['Field'])) {
-            // Go to step1
-        } else {
-            $domainID = CRM_Core_Config::domainID();
-            $query    = "SELECT version FROM civicrm_domain WHERE id=$domainID";
-            $res      = $this->runQuery( $query );
-            $row      = $res->fetchRow( DB_FETCHMODE_ASSOC );
-            
-            if ((double)$row['version'] == 1.91) {
-                $currentDir = dirname( __FILE__ );
-                $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                                       array( $currentDir, '../sql', 'location.mysql' ) );
-                $this->source( $sqlFile );
-                
-                $query = "UPDATE `civicrm_domain` SET version='1.92'";
-                $res   = $this->runQuery( $query );
-            } elseif ((double)$row['version'] > 1.91) {
-                // This step already done. Move to next step
-            }
-        }
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'location.mysql' ) );
+        $this->source( $sqlFile );
+        
+        $this->setVersion( '1.92' );
     }
 
     function verifyPostDBState( ) {
