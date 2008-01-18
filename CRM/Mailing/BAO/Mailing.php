@@ -878,7 +878,7 @@ AND civicrm_contact.is_opt_out =0";
                              $contactDetails = null ) 
     {
         
-        require_once 'api/Contact.php';
+        require_once 'api/v2/Contact.php';
         require_once 'CRM/Utils/Token.php';
         $config =& CRM_Core_Config::singleton( );
         $knownTokens = $this->getTokens();
