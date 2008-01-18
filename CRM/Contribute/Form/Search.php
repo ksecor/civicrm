@@ -44,7 +44,8 @@ require_once 'CRM/Core/Selector/Controller.php';
 /**
  * advanced search, extends basic search
  */
-class CRM_Contribute_Form_Search extends CRM_Core_Form {
+class CRM_Contribute_Form_Search extends CRM_Core_Form 
+{
 
     /** 
      * Are we forced to run a search 
@@ -141,7 +142,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
      * @return void 
      * @access public 
      */ 
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         /** 
          * set the button names 
          */ 
@@ -385,7 +387,8 @@ class CRM_Contribute_Form_Search extends CRM_Core_Form {
         $controller->run(); 
     }
 
-    function fixFormValues( ) {
+    function fixFormValues( ) 
+    {
         // if this search has been forced
         // then see if there are any get values, and if so over-ride the post values
         // note that this means that GET over-rides POST :)
