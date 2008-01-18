@@ -466,7 +466,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         
         $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
+                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','block','radio',false);"));
 
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
@@ -486,7 +486,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $this->addElement('checkbox', 
                           'send_receipt', 
                           ts('Send Confirmation?'), null, 
-                          array('onclick' =>"return showHideByValue('send_receipt','','notice','table-row','radio',false);") );
+                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
         $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
@@ -747,7 +747,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
 
             $this->assign( 'register_date', CRM_Utils_Date::customFormat($params['register_date']) );
             $this->assign( 'receive_date', $contributionParams['receive_date'] );            
-            $this->assign( 'subject', ts('Participation Confirmation and Receipt') );
+            $this->assign( 'subject', ts('Event Confirmation') );
             $this->assign( 'customValues', $customValues );
 
             $template =& CRM_Core_Smarty::singleton( );
@@ -768,7 +768,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $statusMsg .= ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
-            $statusMsg = ts('Event registration for %1 has been added.', array(1 => $this->_contributorDisplayName));
+            $statusMsg = ts('Event registration for %1 has been added. ', array(1 => $this->_contributorDisplayName));
             if ( $params['send_receipt'] ) {
                 $statusMsg .= ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
             }

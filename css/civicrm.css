@@ -223,6 +223,17 @@ border-top-style: none;
   vertical-align: text-top;
 }
 
+/*
+ * These two directives prevent dojo comboBox fields from expanding to fill entire table cell.
+ */
+#crm-container .dijitComboBox {
+ width: 20em;
+}
+#crm-container .form-layout td.dijitReset, #crm-container .form-layout-compressed td.dijitReset {
+ vertical-align: middle;
+}
+
+
 #crm-container .control-panel td {
   padding: 3px;
   width: 25%;

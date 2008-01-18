@@ -113,19 +113,20 @@
        </tr>
     {/if}
    
+    {if $email OR $paid}
     <tr>
        <td class ='html-adjust' colspan=2>
-           <fieldset id="recordContribution"><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
+           <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
              <div class="form-item">
                {if $paid}
-                 <dl>	        
-		   <dt class="label">{$form.contribution_type_id.label}</dt>
-                   <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
-		   <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
-		   <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
-  	         </dl>
+                 <dl id="recordContribution">	        
+                    <dt class="label">{$form.contribution_type_id.label}</dt>
+                    <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
+                    <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
+                    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
+  	             </dl>
                {/if}
-	       {if $email}
+               {if $email}
                  <dl>
                     <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
                     <dd>{$form.send_receipt.html}<br />
@@ -142,6 +143,9 @@
            </fieldset>
        </td>
     </tr> 
+
+    {/if}
+    
     <tr><td colspan=2>
         {if $action eq 4} 
             {include file="CRM/Contact/Page/View/InlineCustomData.tpl"}
@@ -170,6 +174,7 @@
 }
 {/if}
 
+{if $email} {* Send receipt field only present if contact has a valid email address. *}
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -178,6 +183,7 @@
     field_type          ="radio"
     invert              = 0
 }
+{/if}
 
 <script type="text/javascript" >
  {literal}

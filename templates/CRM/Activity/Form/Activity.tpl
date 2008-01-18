@@ -94,6 +94,7 @@
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
                          {$form.case_subject.html}
                      </div>
+                   {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case. If the case hasn't been created yet, click the <strong>Cases</strong> tab, and then <strong>New Case</strong> before adding the activity.{/ts}</span>{/edit}
                   </td>
                </tr>
              {/if}

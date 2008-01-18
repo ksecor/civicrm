@@ -1,6 +1,6 @@
-<table class="no-border" > 
+<table class="form-layout"> 
 <tr>
- <td align ="right">{$form.event_title.label}</td> 
+ <td class="label">{$form.event_title.label}</td> 
     {if $event_title_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
@@ -8,12 +8,12 @@
         {rdelim} );
     </script>
     {/if}
-    <td class="tundra" >
-       <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" >
+    <td>
+       <div dojoType="dojox.data.QueryReadStore" jsId="eventStore" url="{$dataURLEvent}" class="tundra">
         {$form.event_title.html}
         </div>
     </td>
-    <td><label>{$form.event_type.label}</label></td>
+    <td class="label">{$form.event_type.label}</td>
     {if $event_type_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
@@ -21,8 +21,8 @@
         {rdelim} );
     </script>
     {/if}
-    <td class ="tundra" align ="left">
-        <div dojoType="dojox.data.QueryReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left">
+    <td>
+        <div dojoType="dojox.data.QueryReadStore" jsId="eventTypeStore" url="{$dataURLEventType}" align="left" class="tundra">
         {$form.event_type.html}
         </div>
     </td>
@@ -51,7 +51,8 @@
                     </div>
                     {/foreach}
                 </div>
-    </td> <td><label>{ts}Participant Role{/ts}</label></td>
+    </td>
+    <td class="label">{ts}Participant Role{/ts}</td>
     <td>
                 <div class="listing-box" style="width: auto; height: 120px">
                     {foreach from=$form.participant_role_id item="participant_role_id_val"}                     <div class="{cycle values="odd-row,even-row"}">
