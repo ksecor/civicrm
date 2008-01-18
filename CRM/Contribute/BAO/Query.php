@@ -100,8 +100,8 @@ class CRM_Contribute_BAO_Query
      * @return void  
      * @access public  
      */
-    static function select( &$query ) {
-
+    static function select( &$query ) 
+    {
         // if contribute mode add contribution id
         if ( $query->_mode & CRM_Contact_BAO_Query::MODE_CONTRIBUTE ) {
             $query->_select['contribution_id'] = "civicrm_contribution.id as contribution_id";
@@ -127,7 +127,8 @@ class CRM_Contribute_BAO_Query
         }
     }
 
-    static function where( &$query ) {
+    static function where( &$query ) 
+    {
         foreach ( array_keys( $query->_params ) as $id ) {
             if ( substr( $query->_params[$id][0], 0, 13 ) == 'contribution_' ) {
                 self::whereClauseSingle( $query->_params[$id], $query );
@@ -136,7 +137,8 @@ class CRM_Contribute_BAO_Query
         }
     }
 
-    static function whereClauseSingle( &$values, &$query ) {
+    static function whereClauseSingle( &$values, &$query ) 
+    {
  
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
        
@@ -337,7 +339,8 @@ class CRM_Contribute_BAO_Query
         }
     }
 
-    static function from( $name, $mode, $side ) {
+    static function from( $name, $mode, $side ) 
+    {
         $from = null;
         switch ( $name ) {
 
@@ -386,7 +389,8 @@ class CRM_Contribute_BAO_Query
         return $from;
     }
 
-    static function defaultReturnProperties( $mode ) {
+    static function defaultReturnProperties( $mode ) 
+    {
         $properties = null;
         if ( $mode & CRM_Contact_BAO_Query::MODE_CONTRIBUTE ) {
             $properties = array(  
@@ -445,8 +449,8 @@ class CRM_Contribute_BAO_Query
      * @return void
      * @static
      */ 
-    static function buildSearchForm( &$form ) {
-        
+    static function buildSearchForm( &$form ) 
+    {
         //added contribution source
         $form->addElement('text', 'contribution_source', ts('Contribution Source'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_Contribution', 'source') );
         
@@ -529,12 +533,14 @@ class CRM_Contribute_BAO_Query
         $form->assign( 'validCiviContribute', true );
     }
 
-    static function addShowHide( &$showHide ) {
+    static function addShowHide( &$showHide ) 
+    {
         $showHide->addHide( 'contributeForm' );
         $showHide->addShow( 'contributeForm_show' );
     }
 
-    static function searchAction( &$row, $id ) {
+    static function searchAction( &$row, $id ) 
+    {
     }
 
     static function tableNames( &$tables ) 
