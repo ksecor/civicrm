@@ -139,8 +139,8 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         if ( $this->_values['event']['is_monetary'] ) {
             $this->_params['invoiceID'] = $this->get( 'invoiceID' );
         }
-        
-        if ( $this->_values['event']['default_role_id'] ) {
+
+        if ( ! isset( $this->_params['participant_role_id'] ) && $this->_values['event']['default_role_id'] ) {
             $this->_params['participant_role_id'] = $this->_values['event']['default_role_id'];
         }
         
