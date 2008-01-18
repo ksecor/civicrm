@@ -1,6 +1,4 @@
 {* Displays alphabetic filter bar for search results. If one more records in resultset starts w/ that letter, item is a link. *}
-{* Suppress this filter if there are less than 10 total items. *}
-{if $pager AND $pager->_totalItems GTE 10}
 <div id="alpha-filter">
     <ul>
     {foreach from=$aToZ item=letter}
@@ -8,4 +6,3 @@
     {/foreach}
     </ul>
 </div>
-{/if}
