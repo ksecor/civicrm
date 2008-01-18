@@ -1,6 +1,6 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {if $widget_id} {* If we have a widget for this page, construct the embed code.*}
-    {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetId=CiviCRM.Contribute.1{/capture}
+    {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetID=1{/capture}
     {capture assign=widget_code}
 <div style="text-align: center;width:260px">
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="550" height="400" id="widget" align="middle">
