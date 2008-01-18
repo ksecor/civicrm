@@ -408,8 +408,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 $value['contact_type'] = $this->_contactType;
             }
             
+            if ( $key == 'id' && isset( $field ) ) {
+                $formatted[$key] = $field;
+            }
+            
             _civicrm_add_formatted_param($value, $formatted);
-
+            
             //Handling Custom Data
             if ( ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) && array_key_exists($customFieldID,$customFields) ) {
                 $type = $customFields[$customFieldID][3];
@@ -449,12 +453,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                 return CRM_Import_Parser::ERROR;
             }
         }
-        
+
         $relationship = false;
         // Support Match and Update Via Contact ID
         if ( $this->_updateWithId ) {
             $error = _civicrm_duplicate_formatted_contact($formatted);
-            
             if ( self::isDuplicate($error) ) {
                 $matchedIDs = explode( ',', $error['error_message']['params'][0] );
                 if ( count( $matchedIDs) >= 1 ) {
@@ -465,7 +468,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                                 $contactExists =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
                                 if ($formatted['contact_type'] == $contactExists->contact_type) {
                                     $newContact = $this->createContact( $formatted, $contactFields, 
-                                                                        $onDuplicate, $contactId );
+                                                                        $onDuplicate, $contactId, false );
                                     $updateflag = false; 
                                     $this->_retCode = CRM_Import_Parser::VALID;
                                 } else {
@@ -482,14 +485,13 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             $this->_retCode = CRM_Import_Parser::NO_MATCH;
                         }
                 }
-                 
             } else {
                 $paramsValues = array('contact_id'=>$params['id']);
                 $contact =& CRM_Contact_BAO_Contact::check_contact_exists($params['id']);
                 if ( is_a( $contact, 'CRM_Contact_DAO_Contact' )) {
                     if ($formatted['contact_type'] == $contact->contact_type) {
                         $newContact = $this->createContact( $formatted, $contactFields, 
-                                                            $onDuplicate, $params['id'] );
+                                                            $onDuplicate, $params['id'], false );
                         
                         $this->_retCode = CRM_Import_Parser::VALID;
                     } else {
@@ -1085,6 +1087,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     {
         $dupeCheck = false;
         
+        $newContact = null;
+        
         if ( is_null( $contactId ) && ($onDuplicate != CRM_Import_Parser::DUPLICATE_NOCHECK) ) {
             $dupeCheck = (bool)($onDuplicate);
         }
@@ -1103,7 +1107,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             if ( $contactId ) {
                 $this->formatParams( $formatted, $onDuplicate, (int)$contactId );
             }
-           
+            
             $cid = CRM_Contact_BAO_Contact::createProfileContact( $formatted, $contactFields, 
                                                                   $contactId, null, null, 
                                                                   $formatted['contact_type'] );
@@ -1129,12 +1133,12 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_SKIP ) {
             return;
         }
-                
+        
         $contactParams    = array( 'contact_id' => $cid );
         
         $defaults         = array( );
         $contactObj       = CRM_Contact_BAO_Contact::retrieve( $contactParams, $defaults );
-      
+        
         $modeUpdate       = $modeFill   = false;
         
         if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_UPDATE ) {
@@ -1144,15 +1148,19 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( $onDuplicate == CRM_Import_Parser::DUPLICATE_FILL ) {
             $modeFill     = true;
         }
-       
+        
         require_once 'CRM/Core/BAO/CustomGroup.php';
         $groupTree = CRM_Core_BAO_CustomGroup::getTree($params['contact_type'],$cid,0,null);
         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
-      
+        
         $contact = get_object_vars( $contactObj );
-
+        
         $location = null;
         foreach( $params as $key => $value ) {
+            if ( $key == 'id' || $key == 'contact_type' ) {
+                continue;
+            }
+                        
             if ( $key == 'location' ) {
                 $location = true;
             } else if ($customFieldId = CRM_Core_BAO_CustomField::getKeyID($key)) {
@@ -1160,13 +1168,18 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             } else {
                 $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact, $key);
                 
+                if ( $key == 'contact_source' ) {
+                    $params['source'] = $params[$key];
+                    unset( $params[$key] );
+                }
+                
                 if ( ( $modeUpdate && ! isset( $getValue ) ) || 
                      ( $modeFill   &&   isset( $getValue ) ) ) {
                     unset( $params[$key] );
                 }
             }
         }
-       
+        
         if ( $location ) {
             for ( $loc = 1; $loc <= count( $params['location'] ); $loc++ ) {
                 $getValue = CRM_Contact_BAO_Contact::retrieveValue($contact['location'][$loc], 'location_type_id');
