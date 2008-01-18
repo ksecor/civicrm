@@ -387,25 +387,21 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
             $url = CRM_Utils_System::url( 'civicrm/contact/view/participant',
                                           $urlParams, true, null, false ); 
-            
-            $this->assign("refreshURL",$url);
-            
-            $url .= "&past=true";
-            
-            $this->assign("pastURL", $url);
         } else {
             $currentPath = CRM_Utils_System::currentPath( );
+
             $url = CRM_Utils_System::url( $currentPath, '_qf_Participant_display=true',
                                           true, null, false  );
-            $this->assign("refreshURL",$url);
         }
+
+        $this->assign("refreshURL",$url);
+        $url .= "&past=true";
+        $this->assign("pastURL", $url);
         
         $events = array( );
-        
         $this->assign("past", false);
         
         require_once "CRM/Event/BAO/Event.php";
-
         if ( CRM_Utils_Request::retrieve( 'past', 'Boolean', $this ) || ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             $events = CRM_Event_BAO_Event::getEvents( true );
             $this->assign("past", true);
@@ -666,7 +662,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
 
-        if( $params['record_contribution'] ) {
+        if ( $params['record_contribution'] ) {
             if( $ids['participant'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                     $ids['participant'], 
@@ -704,7 +700,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
 
-        if( $params['send_receipt'] ) {
+        if ( $params['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', 
                                          $params['event_id'],
