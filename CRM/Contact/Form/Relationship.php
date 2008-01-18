@@ -221,6 +221,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                                                                                     $this->_rtype,
                                                                                     $this->_relationshipId ),
                           array('onChange' => "if (this.value) reload(true); else return false"));
+
         // add a dojo facility for searching contacts
         $this->assign( 'dojoIncludes', " dojo.require('dojox.data.QueryReadStore'); dojo.require('dijit.form.ComboBox');dojo.require('dojo.parser');" );
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
@@ -229,7 +230,7 @@ class CRM_Contact_Form_Relationship extends CRM_Core_Form
                              );
         
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
-                                          "d={$domainID}&reID={$relTypeID[0]}&retyp={CRM_Utils_Array::value(2,$relTypeID)}&s=",
+                                          "d={$domainID}&reID={$relTypeID[0]}&retyp=" .CRM_Utils_Array::value( 2, $relTypeID) ,
                                           true, null, false );
         $this->assign('dataUrl',$dataUrl );
         

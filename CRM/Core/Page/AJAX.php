@@ -120,10 +120,16 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         if ( isset($_GET['reID']) ) {
             $relType = CRM_Utils_Type::escape( $_GET['reID'], 'Integer');
             $rel = CRM_Utils_Type::escape( $_GET['retyp'], 'String');
+            
+            if ( !$_GET['retyp'] ) {
+                return;
+            }
+            
         }
        
 
         if ( $shared ) {
+            
             $query = "
 SELECT CONCAT_WS( ':::', household_name, LEFT( street_address, 25 ) , city ) 'sort_name', 
 civicrm_contact.id 'id'
@@ -134,7 +140,8 @@ LEFT JOIN civicrm_address ON ( civicrm_contact.id = civicrm_address.contact_id
 WHERE civicrm_contact.contact_type='Household' AND household_name LIKE '$name%'
 ORDER BY household_name ";
 
-        } elseif($relType) {
+        } else if($relType) {
+            
             $query = "
 SELECT c.sort_name, c.id
 FROM civicrm_contact c, civicrm_relationship_type r
@@ -145,12 +152,14 @@ AND c.contact_type = r.contact_type_{$rel}
 ORDER BY sort_name" ;
             
         } else {
+            
             $query = "
 SELECT sort_name, id
 FROM civicrm_contact
 WHERE sort_name LIKE '$name'
 AND domain_id = $domainID
 ORDER BY sort_name ";
+            
         }
         
         $nullArray = array( );
