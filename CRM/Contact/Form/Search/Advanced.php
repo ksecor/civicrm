@@ -202,7 +202,12 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
         // get user submitted values
         // get it from controller only if form has been submitted, else preProcess has set this
         if ( ! empty( $_POST ) ) {
-            $this->_formValues = $this->controller->exportValues($this->_name);
+            $this->_formValues = $this->controller->exportValues( $this->_name );
+            if ( array_key_exists(  'contribution_amount_low', $this->_formValues ) ) {
+                foreach ( array( 'contribution_amount_low', 'contribution_amount_high' ) as $f ) {
+                    $this->_formValues[$f] = CRM_Utils_Rule::cleanMoney( $this->_formValues[$f] );
+                }
+            }
             
             // set the group if group is submitted
             if ($this->_formValues['uf_group_id']) {
