@@ -15,8 +15,7 @@
 
 <div id="searchForm">
 <fieldset><legend>{ts}Find Participants{/ts}</legend>
-<div class="form-item">
-{strip} 
+    {strip} 
         <table class="form-layout">
 		<tr>
             <td class="font-size12pt label">{$form.sort_name.label}</td>
@@ -25,18 +24,17 @@
                     {ts}To search by first AND last name, enter 'lastname, firstname'. Example: 'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins with any combination of letters').{/ts}
                 </div>
             </td>
-            <td colspan="2">{$form.buttons.html}</td>       
+            <td>{$form.buttons.html}</td>       
         </tr>
 
         {include file="CRM/Event/Form/Search/Common.tpl"}
         
         <tr>
             <td colspan="2">&nbsp;</td>
-            <td colspan="2">{$form.buttons.html}</td>
+            <td>{$form.buttons.html}</td>
         </tr>
         </table>
     {/strip}
-</div> 
 </fieldset>
 
 </div>

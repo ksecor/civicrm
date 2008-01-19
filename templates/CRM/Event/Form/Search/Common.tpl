@@ -1,6 +1,5 @@
-<table class="form-layout"> 
 <tr>
- <td class="label">{$form.event_title.label}</td> 
+ <td class="right">{$form.event_title.label}</td> 
     {if $event_title_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
@@ -13,7 +12,7 @@
         {$form.event_title.html}
         </div>
     </td>
-    <td class="label">{$form.event_type.label}</td>
+    <td>{$form.event_type.label}</td>
     {if $event_type_value}
     <script type="text/javascript">
         dojo.addOnLoad( function( ) {ldelim}
@@ -44,32 +43,32 @@
  <tr>
     <td class="label"><label>{ts}Participant Status{/ts}</label></td> 
     <td>
-                <div class="listing-box" style="width: auto; height: 120px">
-                    {foreach from=$form.participant_status_id item="participant_status_val"} 
-                    <div class="{cycle values="odd-row,even-row"}">
-                    {$participant_status_val.html}
-                    </div>
-                    {/foreach}
-                </div>
+        <div class="listing-box" style="width: auto; height: 120px">
+            {foreach from=$form.participant_status_id item="participant_status_val"} 
+            <div class="{cycle values="odd-row,even-row"}">
+            {$participant_status_val.html}
+            </div>
+            {/foreach}
+        </div>
     </td>
-    <td class="label">{ts}Participant Role{/ts}</td>
+    <td><label>{ts}Participant Role{/ts}</label></td>
     <td>
-                <div class="listing-box" style="width: auto; height: 120px">
-                    {foreach from=$form.participant_role_id item="participant_role_id_val"}                     <div class="{cycle values="odd-row,even-row"}">
-                    {$participant_role_id_val.html}
-                    </div>
-                    {/foreach}
+        <div class="listing-box" style="width: auto; height: 120px">
+            {foreach from=$form.participant_role_id item="participant_role_id_val"}
+                <div class="{cycle values="odd-row,even-row"}">
+                {$participant_role_id_val.html}
                 </div>
+            {/foreach}
+        </div>
     </td>
   
  </tr> 
  <tr>
-    <td colspan="3 class="label" align="right">{ts}{$form.participant_test.label}{/ts}</td> 
-    <td>{$form.participant_test.html}</td>
+    <td colspan="2">&nbsp;</td>
+    <td colspan="2">{$form.participant_test.html}&nbsp;{$form.participant_test.label}</td> 
  </tr>
  <tr>
     <td colspan="4">
        {include file="CRM/Custom/Form/Search.tpl" groupTree=$participantGroupTree showHideLinks=false}
     </td>
  </tr>
-</table>
