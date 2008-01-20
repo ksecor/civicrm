@@ -1848,12 +1848,17 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         self::profileDisplay( $values['id'] , $values['values'],$template );
         $emailList = explode(',',$values['email']);
         
-        $contactLink = CRM_Utils_System::url('civicrm/contact/view', "reset=1&cid=$contactID");
+        $contactLink = CRM_Utils_System::url( 'civicrm/contact/view',
+                                              "reset=1&cid=$contactID",
+                                              true, null, false );
           
         // set details in the template here
-        $template->assign( 'displayName',$displayName );            
-        $template->assign( 'currentDate',date('r') );
-        $template->assign( 'contactLink',$contactLink );
+        $template->assign( 'displayName',
+                           $displayName );            
+        $template->assign( 'currentDate',
+                           date('r') );
+        $template->assign( 'contactLink',
+                           $contactLink );
         
         $subject = trim( $template->fetch( 'CRM/UF/Form/NotifySubject.tpl' ) );
         $message = $template->fetch( 'CRM/UF/Form/NotifyMessage.tpl' );

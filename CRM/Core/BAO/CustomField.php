@@ -904,7 +904,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                                                          'uri'
                                                         );
                     $url = CRM_Utils_System::url( 'civicrm/file', "reset=1&id=$fileID&eid=$contactID" );
-                    $result['file_url'] = "<a href=$url>{$uri}</a>";
+                    $result['file_url'] = "<a href=\"$url\">{$uri}</a>";
                 }                                    
             }
             return $result;
