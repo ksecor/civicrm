@@ -50,7 +50,7 @@ future contributions by logging in to your account at:{/ts}
 
 {if $honor_block_is_active }
 ===========================================================
-{ts}{$honor_type}{/ts}
+{$honor_type}
 
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}

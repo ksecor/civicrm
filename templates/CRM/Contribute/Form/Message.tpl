@@ -35,7 +35,7 @@
 {if $formValues.honor_first_name }
 
 ===========================================================
-{ts}In Honor Of{/ts}
+{$honor_type}
 
 ===========================================================
 {$formValues.honor_prefix} {$formValues.honor_first_name} {$formValues.honor_last_name}
