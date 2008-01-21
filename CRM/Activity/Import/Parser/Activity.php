@@ -47,6 +47,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
 
     private $_contactIdIndex;
     private $_activityTypeIndex;
+    private $_activityNameIndex;
     private $_activityDateIndex;
     //protected $_mapperLocType;
     //protected $_mapperPhoneType;
@@ -84,17 +85,17 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         }
 
         $this->_newActivity = array();
-
+        
         $this->setActiveFields( $this->_mapperKeys );
         //$this->setActiveFieldLocationTypes( $this->_mapperLocType );
         //$this->setActiveFieldPhoneTypes( $this->_mapperPhoneType );
-
+        
         // FIXME: we should do this in one place together with Form/MapField.php
         $this->_contactIdIndex        = -1;
         $this->_activityTypeIndex     = -1;
+        $this->_activityNameIndex     = -1;
         $this->_activityDateIndex     = -1;
-       
-
+        
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
@@ -102,6 +103,8 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 $this->_contactIdIndex        = $index;
                 break;
             case 'activity_name' :
+                $this->_activityNameIndex     = $index;
+                break;
             case 'activity_type_id' :
                 $this->_activityTypeIndex     = $index;
                 break;
@@ -158,6 +161,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             return CRM_Activity_Import_Parser::ERROR;
         }*/
         $errorRequired = false;
+        
+        if ($this->_activityTypeIndex > 0 && $this->_activityNameIndex > 0 ) {
+            array_unshift($values, ts('Select either Activity Type ID OR Activity Name'));
+            return CRM_Activity_Import_Parser::ERROR;
+        } elseif($this->_activityNameIndex > 0) {
+            $this->_activityTypeIndex = $this->_activityNameIndex;
+        }
+        
         if ($this->_activityTypeIndex < 0 or
             $this->_activityDateIndex < 0) {
             $errorRequired = true;

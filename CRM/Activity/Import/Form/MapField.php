@@ -171,6 +171,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
     public function preProcess()
     {
         $this->_mapperFields = $this->get( 'fields' );
+        unset( $this->_mapperFields['id'] );
         $this->_mapperFields = array_merge( $this->_mapperFields, array( 'activity_name' => 'Activity Name' ) );
         asort($this->_mapperFields);
         

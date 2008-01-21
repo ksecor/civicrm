@@ -298,7 +298,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // write to changelog before transation is committed/rolled
         // back (and prepare status to display)
         if ( CRM_Utils_Array::value( 'id', $params ) ) {
-            $logMsg = "Activity (id: {$this->id} ) updated with ";
+            $logMsg = "Activity (id: {$result->id} ) updated with ";
         } else {
             $logMsg = "Activity created for ";
         }
