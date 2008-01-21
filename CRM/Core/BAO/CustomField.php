@@ -857,7 +857,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
             break;
 
         case 'File':
-            $defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
+            //$defaults["custom_value_{$customFieldId}_id"] = $cv->id; 
             $defaults[$elementName] = $value;
             break;
             
