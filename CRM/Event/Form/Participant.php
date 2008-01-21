@@ -460,31 +460,34 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         } else {
             $buttonType = 'next';
         }
-        
-        $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','block','radio',false);"));
 
-        require_once 'CRM/Contribute/PseudoConstant.php';
-        $this->add('select', 'contribution_type_id', 
-                   ts( 'Contribution Type' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
-        
-        $this->add('select', 'payment_instrument_id', 
-                   ts( 'Paid By' ), 
-                   array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
-                   );
-        
-        $this->add('select', 'contribution_status_id',
+        if ( $this->_single ) {        
+            $this->addElement('checkbox', 'record_contribution', ts('Record Payment?'), null, 
+                              array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','block','radio',false);"));
+            
+            require_once 'CRM/Contribute/PseudoConstant.php';
+            $this->add('select', 'contribution_type_id', 
+                       ts( 'Contribution Type' ), 
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
+            
+            $this->add('select', 'payment_instrument_id', 
+                       ts( 'Paid By' ), 
+                       array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::paymentInstrument( )
+                       );
+            
+            $this->add('select', 'contribution_status_id',
                    ts('Payment Status'), 
-                   CRM_Contribute_PseudoConstant::contributionStatus( )
-                   );
-        
-        $this->addElement('checkbox', 
-                          'send_receipt', 
-                          ts('Send Confirmation?'), null, 
-                          array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
-        $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
-        
+                       CRM_Contribute_PseudoConstant::contributionStatus( )
+                       );
+            
+            
+            $this->addElement('checkbox', 
+                              'send_receipt', 
+                              ts('Send Confirmation?'), null, 
+                              array('onclick' =>"return showHideByValue('send_receipt','','notice','block','radio',false);") );
+            $this->add('textarea', 'receipt_text', ts('Confirmation Message') );
+        }
+
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         if ( $this->_contactID ) {
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
@@ -662,7 +665,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             
         }
 
-        if ( $params['record_contribution'] ) {
+        if ( $params['record_contribution'] && $this->_single ) {
             if( $ids['participant'] ) {
                 $ids['contribution'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_ParticipantPayment', 
                                                                     $ids['participant'], 
@@ -700,7 +703,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
         }
 
-        if ( $params['send_receipt'] ) {
+        if ( $params['send_receipt'] && $this->_single ) {
             require_once 'CRM/Core/DAO.php';
             CRM_Core_DAO::setFieldValue( 'CRM_Event_DAO_Event', 
                                          $params['event_id'],

@@ -113,7 +113,7 @@
        </tr>
     {/if}
    
-    {if $email OR $paid}
+    {if ($email OR $paid ) AND $form.contribution_type_id }
     <tr>
        <td class ='html-adjust' colspan=2>
            <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
