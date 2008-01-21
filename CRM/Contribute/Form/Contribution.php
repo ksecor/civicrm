@@ -807,6 +807,10 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             }
             $this->assign('showCustom',$showCustom);
             $this->assign_by_ref('customField',$customField);
+
+            $honor  = CRM_Core_PseudoConstant::honor( );             
+            $formValues["honor_type"] = $honor[$formValues["honor_type_id"]];
+
             $this->assign_by_ref('formValues',$formValues);
             require_once 'CRM/Contact/BAO/Contact.php';
             list( $contributorDisplayName, $contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );

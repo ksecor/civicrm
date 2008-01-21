@@ -32,11 +32,10 @@
  {$name}: {$value}
 {/foreach}
 {/if}
-{if $formValues.honor_first_name }
+{if $formValues.honor_first_name}
 
 ===========================================================
-{$honor_type}
-
+{$formValues.honor_type}
 ===========================================================
 {$formValues.honor_prefix} {$formValues.honor_first_name} {$formValues.honor_last_name}
 {if $formValues.honor_email}

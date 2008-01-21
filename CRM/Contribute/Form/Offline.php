@@ -302,7 +302,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         require_once 'CRM/Contribute/Form/Contribution/Confirm.php';
         $contribution =& CRM_Contribute_Form_Contribution_Confirm::processContribution( $this, $this->_params, $result, $this->_contactID, 
                                                                                         $contributionType,  false, false, false );
-
+        
         if ( $contribution->id &&
              CRM_Utils_Array::value( 'is_email_receipt', $this->_params ) ) {
 
@@ -323,6 +323,9 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
             $this->_params['paidBy'] = $paymentInstrument['label'];
 
             $this->_params['trxn_id'] = $result['trxn_id'];
+
+            $honor  = CRM_Core_PseudoConstant::honor( );             
+            $this->_params["honor_type"] = $honor[$this->_params["honor_type_id"]];
 
             $this->assign_by_ref( 'formValues', $this->_params );
 

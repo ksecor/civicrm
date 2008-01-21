@@ -54,7 +54,9 @@ future contributions by logging in to your account at:{/ts}
 
 ===========================================================
 {$honor_prefix} {$honor_first_name} {$honor_last_name}
+{if $honor_email}
 {ts}Honoree Email{/ts}: {$honor_email}
+{/if}
 
 {/if}
 {if $contributeMode ne 'notify' and $is_monetary}
