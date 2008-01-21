@@ -51,7 +51,7 @@ ALTER TABLE `civicrm_activity`
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_activity_assignment` (
+CREATE TABLE IF NOT EXISTS `civicrm_activity_assignment` (
     id int(10) unsigned NOT NULL auto_increment,
     `activity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the activity for this assignment.',
     `assignee_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this assignment.',
@@ -68,7 +68,7 @@ CREATE TABLE `civicrm_activity_assignment` (
 -- *
 -- *******************************************************/
 
-CREATE TABLE `civicrm_activity_target` (
+CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
     id int(10) unsigned NOT NULL auto_increment,
     `activity_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the activity for this target.',
     `target_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this target.',

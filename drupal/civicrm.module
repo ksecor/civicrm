@@ -306,13 +306,19 @@ function civicrm_invoke( )
 
     require_once 'CRM/Core/Error.php';
     
+    $args = explode( '/', $_GET['q'] );
+
     // synchronize the drupal uid with the contacts db
     global $user;
-    require_once 'CRM/Core/BAO/UFMatch.php';
-    CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
-                                       civicrm_get_ctype( 'Individual' ) );
 
-    $args = explode( '/', $_GET['q'] );
+    /* FIXME: hack to bypass synchronize if running upgrade to avoid
+       any serious non-recoverable error which might hinder the
+       upgrade process. */
+    if ( $args[1] != 'upgrade' ) {
+        require_once 'CRM/Core/BAO/UFMatch.php';
+        CRM_Core_BAO_UFMatch::synchronize( $user, false, 'Drupal',
+                                           civicrm_get_ctype( 'Individual' ) );
+    }
 
 	if ( $args[1] == 'quickreg' ) {
         civicrm_quickreg( );

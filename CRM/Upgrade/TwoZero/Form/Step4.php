@@ -112,6 +112,8 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                         $field2->save();
                         
                         $hasFieldOptions = true;
+                        
+                        $field2->free();
                     }
                     
                     $optionValue =& new CRM_Core_DAO_OptionValue( );
@@ -121,9 +123,15 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                     $optionValue->weight          = $customOption->weight;
                     $optionValue->is_active       = $customOption->is_active;
                     $optionValue->save();
+
+                    $optionGroup->free();
+                    $optionValue->free();
                 }
+                $customOption->free();
             }
+            $field->free();
         }
+        $group->free();
         
         require_once 'CRM/Core/BAO/CustomValue.php';
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -153,7 +161,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                 $valParams[$customVal->custom_field_id]['id'] = $res->id;
             }
             CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
+            
+            $field->free();
         }
+        $customVal->free();
         
         // migrate custom-option data
         foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
@@ -176,7 +187,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                 $optionValue->weight          = $customOption->weight;
                 $optionValue->is_active       = $customOption->is_active;
                 $optionValue->save();
+
+                $optionValue->free();
             }
+            $customOption->free();
         }
         
         $this->setVersion( '1.94' );

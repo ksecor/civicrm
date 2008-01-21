@@ -51,8 +51,18 @@ class CRM_Core_Component
     private function &_info( ) {
         if( self::$_info == null ) {
             self::$_info = array( );
+            $c = array();
+            
             $config =& CRM_Core_Config::singleton( );
-            $c = self::getComponents();
+            
+            /* FIXME: hack to bypass getComponents, if running upgrade to avoid
+               any serious non-recoverable error which might hinder the
+               upgrade process. */
+            $args = explode( '/', $_GET['q'] );
+            if ( $args[1] != 'upgrade' ) {
+                $c = self::getComponents();
+            }
+
             foreach( $c as $name => $comp ) {
                 if ( in_array( $name, $config->enableComponents ) ) {
                     self::$_info[$name] = $comp;
