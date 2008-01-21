@@ -16,7 +16,7 @@
     <dt>{$form.operation.label}</dt><dd>{$form.operation.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}What type of operation (action) is being permitted?{/ts}</dd>
     <dt>{$form.object_type.label}</dt><dd>{$form.object_type.html}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on.{/ts}</dd>
+    <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}Select the type of data this ACL operates on.{/ts}</dd>
     {if $config->userFramework EQ 'Drupal'}
         <dt>&nbsp;</dt><dd class="description">{ts}IMPORTANT: The Drupal permissions for "access all custom data" and "profile listings and forms" override and disable specific ACL settings for custom field groups and profiles respectively. Do not enable those Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to control access.{/ts}</dd>
     {/if}

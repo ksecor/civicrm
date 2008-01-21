@@ -150,7 +150,7 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $this->assign('paymentProcessor',$paymentProcessor);
         $this->add( 'select', 'payment_processor_id',
                     ts( 'Payment Processor' ),
-                    $paymentProcessor );
+                    array('' => ts( '- select -' )) + $paymentProcessor );
 
         $this->add('select', 'contribution_type_id',ts( 'Contribution Type' ),
                    array(''=>ts( '-select-' )) + CRM_Contribute_PseudoConstant::contributionType( ) );
@@ -214,10 +214,6 @@ class CRM_Event_Form_ManageEvent_Fee extends CRM_Event_Form_ManageEvent
         $errors = array( );
 
         if ( $values['is_monetary'] ) {
-            if ( ! $values['payment_processor_id'] ) {
-                $errors['payment_processor_id'] = ts( 'Please select a payment processor' );
-            }
-
             //check if contribution type is selected
             if ( !$values['contribution_type_id'] ) {
                 $errors['contribution_type_id'] = ts( "Please select contribution type." );
