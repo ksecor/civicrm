@@ -404,21 +404,21 @@ abstract class CRM_Contribute_Import_Parser {
             }
             if ($this->_invalidRowCount) {
                 // removed view url for invlaid contacts
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_errorFileName = $fileName . '.errors';
                 self::exportCSV($this->_errorFileName, $headers, $this->_errors);
             }
             if ($this->_conflictCount) {
-                $headers = array_merge( array(  ts('Record Number'),
+                $headers = array_merge( array(  ts('Line Number'),
                                                 ts('Reason')), 
                                         $customHeaders);
                 $this->_conflictFileName = $fileName . '.conflicts';
                 self::exportCSV($this->_conflictFileName, $headers, $this->_conflicts);
             }
             if ($this->_duplicateCount) {
-                $headers = array_merge( array(  ts('Record Number'), 
+                $headers = array_merge( array(  ts('Line Number'), 
                                                 ts('View Contribution URL')),
                                         $customHeaders);
 
