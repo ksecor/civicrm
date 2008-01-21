@@ -150,6 +150,11 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
         if ( $this->_action == CRM_Core_Action::ADD ) {
             $this->_contactType = CRM_Utils_Request::retrieve( 'ct', 'String',
                                                                $this, true, null, 'REQUEST' );
+            if ( ! in_array( $this->_contactType,
+                             array( 'Individual', 'Household', 'Organization' ) ) ) {
+                CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
+            }
+
             $this->_contactSubType = CRM_Utils_Request::retrieve( 'cst','String', 
                                                                   CRM_Core_DAO::$_nullObject,
                                                                   false,null,'GET' );
@@ -196,7 +201,6 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                 $this->_maxLocationBlocks = CRM_Contact_BAO_Contact::getContactLocations( $this->_contactId );
                 return;
             }
-
             CRM_Core_Error::statusBounce( ts('Could not get a contact_id and/or contact_type') );
         }
     }

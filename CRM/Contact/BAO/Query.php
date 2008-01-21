@@ -730,6 +730,9 @@ class CRM_Contact_BAO_Query
                             case 'civicrm_im':
 
                                 $this->_tables[$tName] = "\nLEFT JOIN $tableName `$tName` ON contact_a.id = `$tName`.contact_id AND `$tName`.$lCond";
+                                if ( $cond ) {
+                                    $this->_tables[$tName] .= " AND `$tName`.$cond ";
+                                }
 
                                 //build locationType join
                                 $locationTypeJoin[] = " ( `$tName`.location_type_id = $ltName.id )";
