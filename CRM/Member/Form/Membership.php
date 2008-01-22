@@ -357,9 +357,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
-        
-        $ids['membership'] = $params['id'] = $this->_id;
-        
+
+        if ( $this->_id ) {
+            $ids['membership'] = $params['id'] = $this->_id;
+        }
+
         $session = CRM_Core_Session::singleton();
         $ids['userId'] = $session->get('userID');
         
