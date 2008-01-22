@@ -162,18 +162,21 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
         $errorRequired = false;
+        $index = -1;
         
-        if ($this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ){
+        if ( $this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ) {
             array_unshift($values, ts('Select either EventID OR Event Title'));
             return CRM_Event_Import_Parser::ERROR;
-        } elseif($this->_eventTitleIndex > 0) {
-            $this->_eventIndex = $this->_eventTitleIndex;
+        } elseif ( $this->_eventTitleIndex > 0 ) {
+            $index = $this->_eventTitleIndex;
+        } elseif ( $this->_eventIndex > 0 ) {
+            $index = $this->_eventIndex;
         }
-                
-        if (($this->_eventIndex < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0)) {
+        
+        if (($index < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0)) {
             $errorRequired = true;
         } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_eventIndex, $values) ||
+            $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
                 ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
                 ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
         }
