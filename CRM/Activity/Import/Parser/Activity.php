@@ -156,24 +156,27 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $erroneousField = null;
         $response = $this->setActiveFieldValues( $values, $erroneousField );
         
+        $index = -1;
+        
         /*if ($response != CRM_Activity_Import_Parser::VALID) {
             array_unshift($values, ts('Invalid field value: %1', array(1 => $this->_activeFields[$erroneousField]->_title)));
             return CRM_Activity_Import_Parser::ERROR;
         }*/
         $errorRequired = false;
         
-        if ($this->_activityTypeIndex > 0 && $this->_activityNameIndex > 0 ) {
+        if ( $this->_activityTypeIndex > 0 && $this->_activityNameIndex > 0 ) {
             array_unshift($values, ts('Select either Activity Type ID OR Activity Name'));
             return CRM_Activity_Import_Parser::ERROR;
-        } elseif($this->_activityNameIndex > 0) {
-            $this->_activityTypeIndex = $this->_activityNameIndex;
+        } elseif ( $this->_activityNameIndex > 0 ) {
+            $index = $this->_activityNameIndex;
+        } elseif ( $this->_activityTypeIndex > 0 ) {
+            $index = $this->_activityTypeIndex;
         }
         
-        if ($this->_activityTypeIndex < 0 or
-            $this->_activityDateIndex < 0) {
+        if ( $index < 0 or $this->_activityDateIndex < 0 ) {
             $errorRequired = true;
         } else {
-            $errorRequired = ! CRM_Utils_Array::value($this->_activityTypeIndex, $values) ||
+            $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
                 ! CRM_Utils_Array::value($this->_activityDateIndex, $values);
         }
         
@@ -187,7 +190,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
 
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
-
+        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
