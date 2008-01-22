@@ -113,6 +113,18 @@
        <comment>Is this option active?</comment>
        <add>1.5</add>
   </field>
+  <field>
+      <name>component_id</name>
+      <type>int unsigned</type>
+      <comment>Component that this option value belongs/caters to.</comment>
+       <add>2.0</add>
+  </field>
+  <foreignKey>
+       <name>component_id</name>
+       <table>civicrm_component</table>
+       <key>id</key>
+       <add>2.0</add>
+  </foreignKey>  
   <index>
        <name>index_option_group_id_value</name>
        <fieldName>value</fieldName>
