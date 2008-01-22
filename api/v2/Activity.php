@@ -283,7 +283,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
         }
     } else {
         //either name OR id is present
-        if ( $params['activity_name'] ) {
+        if ( isset( $params['activity_name'] ) ) {
             require_once "CRM/Core/PseudoConstant.php";
             $activityTypes  =& CRM_Core_PseudoConstant::activityType( );
             $activityId     = array_search( $params['activity_name'], $activityTypes );
