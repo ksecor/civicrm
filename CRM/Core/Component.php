@@ -58,7 +58,7 @@ class CRM_Core_Component
             /* FIXME: hack to bypass getComponents, if running upgrade to avoid
                any serious non-recoverable error which might hinder the
                upgrade process. */
-            $args = explode( '/', $_GET['q'] );
+            $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
             if ( $args[1] != 'upgrade' ) {
                 $c = self::getComponents();
             }

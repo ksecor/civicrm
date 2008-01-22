@@ -194,7 +194,11 @@ class CRM_Utils_Token
     public static function &replaceDomainTokens($str, &$domain, $html = false, $knownTokens = null) 
     {
         $key = 'domain';
-        if (!$knownTokens || !$knownTokens[$key]) return $str;
+        if ( ! $knownTokens ||
+             ! CRM_Utils_Array::value( $key, $knownTokens ) ) {
+            return $str;
+        }
+
         $str = preg_replace(self::tokenRegex($key),'self::getDomainTokenReplacement(\'\\1\',$domain,$html)',$str);
         return $str;
     }

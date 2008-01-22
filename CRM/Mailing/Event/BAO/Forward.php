@@ -163,7 +163,7 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
         $headers = $message->headers();
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+                                array('CRM_Core_Error', 'nullHandler' ) );
         $result = $mailer->send($recipient, $headers, $body);
         CRM_Core_Error::setCallback();
 

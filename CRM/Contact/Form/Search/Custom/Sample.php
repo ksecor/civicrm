@@ -122,6 +122,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
             $where .= ' AND ' . implode( ' AND ', $clause );
         }
 
+
         return $this->whereClause( $where, $params );
     }
 

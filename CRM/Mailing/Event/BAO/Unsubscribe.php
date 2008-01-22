@@ -187,6 +187,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         
         $contacts = array($contact_id);
         foreach ($groups as $group_id => $group_name) {
+            $notremoved = false;
             if ($group_name) {
                 list($total, $removed, $notremoved) = CRM_Contact_BAO_GroupContact::removeContactsFromGroup( $contacts, $group_id, 'Email');
             }
@@ -309,7 +310,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         $mailer =& $config->getMailer();
 
         PEAR::setErrorHandling( PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+                                array('CRM_Core_Error', 'nullHandler' ) );
         $mailer->send($eq->email, $h, $b);
         CRM_Core_Error::setCallback();
     }

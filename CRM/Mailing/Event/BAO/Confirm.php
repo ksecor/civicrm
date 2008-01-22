@@ -136,7 +136,7 @@ class CRM_Mailing_Event_BAO_Confirm extends CRM_Mailing_Event_DAO_Confirm {
 
         require_once 'CRM/Mailing/BAO/Mailing.php';
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK,
-                                array('CRM_Mailing_BAO_Mailing', 'catchSMTP'));
+                                array('CRM_Core_Error', 'nullHandler' ) );
         $mailer->send($email, $h, $b);
         CRM_Core_Error::setCallback();
         

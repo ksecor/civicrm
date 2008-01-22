@@ -109,10 +109,8 @@ function civicrm_check_permission( $args ) {
     // allow mailing urls to be processed
     if ( in_array( 'CiviMail', $config->enableComponents ) ) {
         if ( CRM_Utils_Array::value( 1, $args ) == 'mailing' &&
-             ( ( CRM_Utils_Array::value( 2, $args ) == 'forward'     ) || 
-               ( CRM_Utils_Array::value( 2, $args ) == 'unsubscribe' ) || 
-               ( CRM_Utils_Array::value( 2, $args ) == 'resubscribe' ) || 
-               ( CRM_Utils_Array::value( 2, $args ) == 'optout'      ) ) ) {
+             ( ( in_array( CRM_Utils_Array::value( 2, $args ),
+                           array( 'forward', 'unsubscribe', 'resubscribe', 'optout' ) ) ) ) ) {
             return true;
         }
     }
