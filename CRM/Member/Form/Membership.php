@@ -533,7 +533,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg .= ts('The membership End Date is %1.', array(1 => $endDate));
             }
             if ( $receiptSend ) {
-                $statusMsg .= ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+                $statusMsg .= ' '.ts('A confirmation for membership updation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
             $statusMsg = ts('%1 membership for %2 has been added.', array(1 => $memType, 2 => $this->_contributorDisplayName));
@@ -542,7 +542,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $statusMsg = ts('The new membership End Date is %1.', array(1 => $endDate));
             }
             if ( $receiptSend ) {
-                 $statusMsg = ts('A membership confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
+                 $statusMsg = ' '.ts('A membership confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
             }
         }
         CRM_Core_Session::setStatus($statusMsg);
