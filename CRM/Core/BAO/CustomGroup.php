@@ -242,7 +242,7 @@ ORDER BY civicrm_custom_group.weight,
             if ( ! array_key_exists( $groupID, $groupTree ) ) {
                 $groupTree[$groupID]       = array();
                 $groupTree[$groupID]['id'] = $groupID;
-
+                
                 // populate the group information
                 foreach ( $tableData['civicrm_custom_group'] as $fieldName ) {
                     $fullFieldName = "civicrm_custom_group_$fieldName";
@@ -253,7 +253,7 @@ ORDER BY civicrm_custom_group.weight,
                     $groupTree[$groupID][$fieldName] = $crmDAO->$fullFieldName;
                 }
                 $groupTree[$groupID]['fields'] = array();
-
+                
                 $customValueTables[$crmDAO->civicrm_custom_group_table_name] = array( );
             }
 
@@ -312,19 +312,18 @@ ORDER BY civicrm_custom_group.weight,
                     if ( ! $firstTable ) {
                         $firstTable = $fromSQL = $table;
                     } else {
-                        $fromSQL .= "\nLEFT JOIN $table ON {$table}.entity_id = $entityID";
+                        $fromSQL .= "\n JOIN $table USING (entity_id)";
                     }
                 }
 
                 $query = "
 SELECT $select
   FROM $fromSQL
+ WHERE {$firstTable}.entity_id = $entityID
 ";
-                if ( count( $from ) == 1 ) {
-                    $query .= " WHERE {$firstTable}.entity_id = $entityID ";
-                }
-
+                
                 $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+                
                 if ( $dao->fetch( ) ) {
                     foreach ( $groupTree as $groupID => $group ) {
                         if ( $groupID === 'info' ) {
@@ -384,7 +383,7 @@ SELECT $select
                 }
             }
         }
-
+        
         $uploadNames = array();
         foreach ($groupTree as $key1 => $group) { 
             if ( $key1 === 'info' ) {

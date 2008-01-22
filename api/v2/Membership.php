@@ -454,6 +454,8 @@ function civicrm_contact_memberships_get(&$contactID)
         return civicrm_create_error('No memberships for this contact.');
     }
     
+    $members[$contactID] = array( );
+    
     foreach ($membershipValues as $membershipId => $values) {
         // populate the membership type name for the membership type id
         require_once 'CRM/Member/BAO/MembershipType.php';
@@ -470,21 +472,21 @@ function civicrm_contact_memberships_get(&$contactID)
         if ( $relationshipType->find(true) ) {
             $membershipValues[$membershipId]['relationship_name'] = $relationshipType->name_a_b;
         }
+        
+        require_once 'CRM/Core/BAO/CustomGroup.php';
+        $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,
+                                                         $membershipValues[$membershipId]['membership_type_id']);
+        CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );  
+        
+        if ( is_array($defaults) ) {
+            foreach ( $defaults as $key => $val ) {
+                $membershipValues[$membershipId][$key] = $val;
+            }
+        }
     }
     
     $members[$contactID] = $membershipValues;
-    require_once 'CRM/Core/BAO/CustomGroup.php';
-    $groupTree =& CRM_Core_BAO_CustomGroup::getTree( 'Membership',$membershipId , false,$membershipValues[$membershipId][membership_type_id]);
-    CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
     
-    if ( is_array($defaults) ) {
-        foreach ( $defaults as $key => $val ) {
-            $members[$contactID][$membershipId][$key] = $val;
-        }
-    }
-
-
-
     // populating contacts in members array based on their relationship with direct members.
     require_once 'CRM/Contact/BAO/Relationship.php';
     foreach ($relationships as $relTypeId => $membershipId) {

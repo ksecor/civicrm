@@ -1076,12 +1076,8 @@ SELECT $columnName
     }
 
     static function getTableColumnName( $fieldID ) {
-        static $cache = null;
+        static $cache = array( );
 
-        if ( ! $cache ) {
-            $cache = array( );
-        }
-        
         if ( ! array_key_exists( $fieldID, $cache ) ) {
             $query = "
 SELECT cg.table_name, cf.column_name
