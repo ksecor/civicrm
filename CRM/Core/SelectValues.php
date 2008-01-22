@@ -404,7 +404,30 @@ class CRM_Core_SelectValues
             if( $dateParts ) {
                 require_once 'CRM/Core/BAO/CustomOption.php';
                 $filter = explode( CRM_Core_DAO::VALUE_SEPARATOR, $dateParts );
-                $format = str_replace( CRM_Core_DAO::VALUE_SEPARATOR, ' ',$dateParts );
+                $format = $config->dateformatQfDate;
+
+                foreach ( $filter as $val ) {
+                    switch ( $val ) {
+                        case 'M':
+                            $filter[] = 'F';
+                            $filter[] = 'm';
+                            break;
+
+                    case 'd':
+                        $filter[] = 'j';
+                        break;
+
+                    case 'h':
+                        $filter[] = 'H';
+                        $filter[] = 'G';
+                        $filter[] = 'g';
+
+                    case 'i':
+                        $format = $config->dateformatQfDatetime;
+                        break;
+                    }
+                }
+
                 $newDate['format'] = CRM_Utils_Date::posixToPhp( $format, $filter );
             }
         } elseif ($type == 'activityDate') {
