@@ -179,7 +179,7 @@ class CRM_Core_BAO_SchemaHandler
             $sql       .= 'UNIQUE INDEX';
             $indexName  = 'unique';
         } else {
-            $sql       .= 'UNIQUE INDEX';
+            $sql       .= 'INDEX';
             $indexName  = 'index';
         }
         $indexFields = null;

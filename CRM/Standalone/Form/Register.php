@@ -33,5 +33,52 @@
  *
  */
 
+require_once 'CRM/Core/Form.php';
+
+class CRM_Standalone_Form_Register extends CRM_Core_Form {
+
+    protected $_profileID;
+
+    protected $_fields = array( );
+    
+
+    function preProcess( ) {
+        // pick the first profile ID that has user register checked
+        require_once 'CRM/Core/BAO/UFGroup.php';
+        $ufGroups =& CRM_Core_BAO_UFGroup::getModuleUFGroup('User Registration');
+
+        if ( count( $ufGroups ) > 1 ) {
+            CRM_Core_Error::fatal( ts( 'You have more than one profile that has been enabled for user registration.' ) );
+        }
+
+        foreach ( $ufGroups as $id => $dontCare ) {
+            $this->_profileID = $id;
+        }
+    }
+
+    function buildQuickForm( ) {
+
+        $this->add( 'text',
+                    'user_unique_id', 
+                    ts( 'OpenID' ),
+                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'user_unique_id' ),
+                    true );
+
+        $fields = CRM_Core_BAO_UFGroup::getFields( $this->_profileID,
+                                                   false,
+                                                   CRM_Core_Action::ADD );
+        $this->assign( 'custom', $fields );
+        
+        require_once 'CRM/Profile/Form.php';
+        foreach ( $fields as $key => $field ) {
+            CRM_Core_BAO_UFGroup::buildProfile( $this,
+                                                $field,
+                                                CRM_Profile_Form::MODE_CREATE );
+            $this->_fields[$key] = $field;
+        }
+    }
+
+
+}
 
 ?>
