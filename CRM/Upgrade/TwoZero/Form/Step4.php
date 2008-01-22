@@ -67,7 +67,9 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         
         $query    = "UPDATE civicrm_custom_field cf1 SET cf1.column_name=cf1.name";
         $res      = $this->runQuery( $query );
-        
+
+        CRM_Core_DAO::freeResult();
+
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/BAO/CustomField.php';
         require_once 'CRM/Core/DAO/CustomOption.php';
@@ -132,6 +134,7 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
             $field->free();
         }
         $group->free();
+        CRM_Core_DAO::freeResult();
         
         require_once 'CRM/Core/BAO/CustomValue.php';
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -140,8 +143,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         
         while ($customVal->fetch()) {
             $valParams = array();
+
             $valParams[$customVal->custom_field_id]['custom_field_id'] = $customVal->custom_field_id;
             $valParams[$customVal->custom_field_id]['file_id']         = $customVal->file_id;
+
             list($valParams[$customVal->custom_field_id]['table_name'], 
                  $valParams[$customVal->custom_field_id]['column_name']) = 
                 CRM_Core_BAO_CustomField::getTableColumnName( $customVal->custom_field_id );
@@ -154,17 +159,24 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
             $valParams[$customVal->custom_field_id]['type']        = $field->data_type;
             $valParams[$customVal->custom_field_id]['value']       = $customVal->$valCol;
             
-            $query    = "SELECT id FROM {$valParams[$customVal->custom_field_id]['table_name']} WHERE domain_id=$domainID and entity_id={$customVal->entity_id}";
+            $query    = "
+SELECT id 
+FROM {$valParams[$customVal->custom_field_id]['table_name']} 
+WHERE domain_id = $domainID 
+AND   entity_id = {$customVal->entity_id}";
             $res      = $this->runQuery( $query );
             
             if ($res->fetch()) {
                 $valParams[$customVal->custom_field_id]['id'] = $res->id;
             }
+            $res->free( );
+
             CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
-            
+
             $field->free();
         }
         $customVal->free();
+        CRM_Core_DAO::freeResult();
         
         // migrate custom-option data
         foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
@@ -192,6 +204,7 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
             }
             $customOption->free();
         }
+        CRM_Core_DAO::freeResult();
         
         $this->setVersion( '1.94' );
     }

@@ -767,49 +767,6 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $value = $result->value;
             }
             
-            // make sure the custom value exists
-//             $cv =& new CRM_Core_BAO_CustomValue();
-//             $cv->custom_field_id = $customFieldId;
-//             $cv->entity_table    = 'civicrm_contact';
-//             $cv->entity_id       = $contactId;
-            
-//             if ( $cv->find( true ) ) {
-//                 switch ($customField->data_type) {
-//                 case 'File':
-//                 case 'String':
-//                     $value = $cv->char_data;
-//                     break;
-//                 case 'Int':
-//                 case 'Boolean':
-//                 case 'StateProvince':
-//                 case 'Country':
-//                     $value = $cv->int_data;
-//                     break;
-//                 case 'Float':
-//                     $value = $cv->float_data;
-//                     break;
-//                 case 'Money':
-//                     $co =& new CRM_Core_BAO_CustomOption();
-//                     $co->entity_table = 'civicrm_custom_field';
-//                     $co->entity_id = $customFieldId;
-//                     $co->find();
-//                     while ($co->fetch()) {
-//                         if (round($co->value,2) == $cv->decimal_data) {
-//                             $value = $co->value;
-//                         }
-//                     }
-//                     break;
-//                 case 'Memo':
-//                     $value = $cv->memo_data;
-//                     break;
-//                 case 'Date':
-//                     $value = $cv->date_data;
-//                     break;
-//                 case 'Link':
-//                     $value = $cv->char_data;
-//                 }
-//            }
-
             if ( $customField->data_type == 'Country' ) {
                 if ( ! $value ) {
                     $config =& CRM_Core_Config::singleton();
@@ -1119,19 +1076,29 @@ SELECT $columnName
     }
 
     static function getTableColumnName( $fieldID ) {
-        $query = "
+        static $cache = null;
+
+        if ( ! $cache ) {
+            $cache = array( );
+        }
+        
+        if ( ! array_key_exists( $fieldID, $cache ) ) {
+            $query = "
 SELECT cg.table_name, cf.column_name
 FROM   civicrm_custom_group cg,
        civicrm_custom_field cf
 WHERE  cf.custom_group_id = cg.id
 AND    cf.id = %1";
-        $params = array( 1 => array( $fieldID, 'Integer' ) );
-        $dao = CRM_Core_DAO::executeQuery( $query, $params );
-        
-        if ( ! $dao->fetch( ) ) {
-            CRM_Core_Error::fatal( );
+            $params = array( 1 => array( $fieldID, 'Integer' ) );
+            $dao = CRM_Core_DAO::executeQuery( $query, $params );
+            
+            if ( ! $dao->fetch( ) ) {
+                CRM_Core_Error::fatal( );
+            }
+            $dao->free( );
+            $cache[$fieldID] = array( $dao->table_name, $dao->column_name );
         }
-        return array( $dao->table_name, $dao->column_name );
+        return $cache[$fieldID];
     }
 
     public static function &customOptionGroup( )

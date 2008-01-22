@@ -113,7 +113,8 @@ class CRM_Core_BAO_CustomValueTable
                     $entityFileDAO->entity_table = $field['table_name'];
                     $entityFileDAO->entity_id    = $field['entity_id'];
                     $entityFileDAO->file_id      = $field['file_id'];
-                    $entityFileDAO->save();
+                    $entityFileDAO->save( );
+                    $entityFileDAO->free( );
                     $value = $field['file_id'];
                     $type  = 'String';
                     break;
@@ -141,6 +142,7 @@ class CRM_Core_BAO_CustomValueTable
                 $set   = implode( ", ", $set );
                 $query = "$sqlOP SET $set $where";
                 $dao = CRM_Core_DAO::executeQuery( $query, $params );
+                $dao->free( );
             }
         }
     }
