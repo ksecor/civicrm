@@ -658,11 +658,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             foreach ( $this->_contactIds as $contactID ) {
                 $params['contact_id'] = $contactID;
                 CRM_Event_BAO_Participant::create( $params, $ids );   
-            }
-            
-            CRM_Core_Session::setStatus( ts('Total Participant(s) added to event: %1', 
-                                            array(1 => count($this->_contactIds)))  );
-            
+            }           
         }
 
         if ( $params['record_contribution'] && $this->_single ) {
@@ -767,9 +763,13 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $statusMsg .= ts('A confirmation email has been sent to %1', array(1 => $this->_contributorEmail));
             }
         } elseif ( ( $this->_action & CRM_Core_Action::ADD ) ) {
-            $statusMsg = ts('Event registration for %1 has been added. ', array(1 => $this->_contributorDisplayName));
-            if ( $params['send_receipt'] ) {
-                $statusMsg .= ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
+            if ( $this->_single ) {
+                $statusMsg = ts('Event registration for %1 has been added. ', array(1 => $this->_contributorDisplayName));
+                if ( $params['send_receipt'] ) {
+                    $statusMsg .= ts('A confirmation email has been sent to %1.', array(1 => $this->_contributorEmail));
+                }
+            } else {
+                $statusMsg = ts('Total Participant(s) added to event: %1', array(1 => count($this->_contactIds)));
             }
         }
         require_once "CRM/Core/Session.php";

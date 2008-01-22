@@ -17,7 +17,6 @@
 </dd>
 <dt>{$form.duration_hours.label}</dt><dd>{$form.duration_hours.html} {ts}Hrs{/ts} &nbsp; {$form.duration_minutes.html} {ts}Min{/ts} &nbsp;</dd>
 <dt>{$form.status.label}</dt><dd>{$form.status.html}</dd>
-<dt>&nbsp;</dt><dd class="description">{ts}Activity will be moved to Activity History when status is 'Completed'.{/ts}</dd>
 <dt>{$form.details.label}</dt><dd>{$form.details.html|crmReplace:class:huge}&nbsp;</dd>
 <dt></dt><dd>{include file="CRM/Contact/Form/Task.tpl"}</dd>
  <dt></dt><dd class="description">

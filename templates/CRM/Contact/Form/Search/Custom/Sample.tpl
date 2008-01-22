@@ -12,20 +12,21 @@
     <legend><span id="searchForm_hide"><a href="#" onclick="hide('searchForm','searchForm_hide'); show('searchForm_show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}" /></a></span>{ts}Search Criteria{/ts}</legend>
 
 <table class="form-layout">
-   {foreach from=$elements item=element}
- <tr>
-     <td class="font-size12pt">{$form.$element.label}</td><td>{$form.$element.html}</td>
- </tr>
-   {/foreach}
- <tr>
-   <td colspan=2 class="label">{$form.buttons.html}</td>
+    {* Loop through all defined search criteria fields (defined in the buildForm() function). *}
+    {foreach from=$elements item=element}
+    <tr>
+        <td class="font-size12pt">{$form.$element.label}</td><td>{$form.$element.html}</td>
+    </tr>
+    {/foreach}
+    <tr>
+        <td colspan=2 class="label">{$form.buttons.html}</td>
  </tr>
 </table>
 </fieldset>
 </div>
 
 {if $rowsEmpty}
-    {include file="CRM/Contact/Form/Search/EmptyResults.tpl"}
+    {include file="CRM/Contact/Form/Search/Custom/EmptyResults.tpl"}
 {/if}
 
 {if $rows}
@@ -59,6 +60,7 @@
     {/if}
     </th>
   {/foreach}
+  <th>&nbsp;</th>
   </tr>
 
   {counter start=0 skip=1 print=false}
