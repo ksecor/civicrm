@@ -108,12 +108,16 @@ class CRM_Admin_Form_DedupeFind extends CRM_Admin_Form
         // FIXME: sort the contacts; $displayName 
         // is already sort_name-sorted, so use that
         // (also, consider sorting by dupe count first)
+        $session =& CRM_Core_Session::singleton();
+        $userId = $session->get('userID');
         $mainContacts = array();
         $dupeContacts = array();
         foreach ($foundDupes as $mainId => $dupes) {
             $mainContacts[$mainId] = $displayNames[$mainId];
             $localDupes = array();
             foreach ($dupes as $dupeId) {
+                // we do not want to have our user's contact as the one for deletion, ever (CRM-2475)
+                if ($dupeId == $userId) continue;
                 $localDupes[$dupeId] = $displayNames[$dupeId];
             }
             $dupeContacts[$mainId] = $localDupes;
