@@ -227,10 +227,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
-                        AND          if($email.is_bulkmail,$email.is_bulkmail,$email.is_primary) = 1
+                        AND            ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null";
+                        AND             X_$job_id.contact_id IS null
+                    ORDER BY $email.is_bulkmail";
         $mailingGroup->query($query);
 
 
@@ -254,10 +255,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.group_type = 'Include'
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
-                        AND             $email.is_primary = 1
+                        AND            ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null");
+                        AND             X_$job_id.contact_id IS null
+                    ORDER BY $email.is_bulkmail");
 
         /* Construct the saved-search queries */
         $ss->query("SELECT          $group.saved_search_id as saved_search_id
@@ -287,10 +289,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         contact_a.do_not_email = 0
                         AND             contact_a.is_opt_out = 0
-                        AND             $email.is_primary = 1
+                        AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                                         $where
-                        AND             X_$job_id.contact_id IS null ";
+                        AND             X_$job_id.contact_id IS null
+                    ORDER BY $email.is_bulkmail";
             $mailingGroup->query($ssq);
         }
         
@@ -314,10 +317,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
-                        AND             $email.is_primary = 1
+                        AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null";
+                        AND             X_$job_id.contact_id IS null
+                    ORDER BY $email.is_bulkmail";
         $mailingGroup->query($query);
                     
         /* Get the emails with full override */
@@ -341,9 +345,11 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
+                        AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
-                        AND             X_$job_id.contact_id IS null");
+                        AND             X_$job_id.contact_id IS null
+                    ORDER BY $email.is_bulkmail");
                         
         $results = array();
 
