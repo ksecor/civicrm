@@ -109,7 +109,7 @@ class CRM_Contact_Form_Address
                                          'store'          => "{$name}Store",
                                          'style'          => 'width: 230px;',
                                          'value'          => '',
-                                         'onBlur'         => $onValueChanged,
+                                         '_onBlur'        => $onValueChanged,
                                          'onChange'       => $onValueChanged,
                                          'id'             => 'location_'.$locationId.'_address_'.$name );
 
@@ -118,6 +118,7 @@ class CRM_Contact_Form_Address
 
                 if ( $name == 'state_province_id' ) {
                     unset( $attributes['onChange'] );
+                    unset( $attributes['_onBlur'] );
                 }
 
                 $location[$locationId]['address'][$name] =

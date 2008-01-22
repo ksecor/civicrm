@@ -343,23 +343,12 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                     // hack, check if we have created a country element
                     if ( isset( $this->_elementIndex[ "location[$key][address][country_id]" ] ) ) {
                         $countryValue = $this->getElementValue( "location[$key][address][country_id]" );
-                        if ( $countryValue ) {
-                            if ( ! is_numeric( $countryValue ) ) {
-                                $this->assign( "country_{$key}_value", 
-                                               $this->getElementValue( "location[$key][address][country_id]" ) );
-                                $this->assign( "country_{$key}_id", 
-                                               $this->getElementValue( "location[$key][address][country_id]" ) );
-                            } else {
-                                $this->assign( "country_{$key}_value",  $countries[$countryValue] );
-                                $this->assign( "country_{$key}_id"   ,  $countryValue );
-                            }
-                        } else if ( isset($value['address']['country_id']) ) {
-                            $countryId = $value['address']['country_id'];
-                            if ( $countryId ) {
-                                $this->assign( "country_{$key}_value",  CRM_Utils_Array::value($countryId,$countries) );
-                                $this->assign( "country_{$key}_id"   ,  $countryId );
-                            }
+                        
+                        if ( !$countryValue && isset($value['address']['country_id']) ) {
+                            $countryValue = $value['address']['country_id'];
                         }
+                        
+                        $this->assign( "country_{$key}_value"   ,  $countryValue );
                     }
                     
                     if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
