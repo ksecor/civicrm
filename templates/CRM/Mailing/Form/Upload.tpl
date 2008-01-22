@@ -120,17 +120,14 @@
                                 //Some other error happened.
                                 console.error(response);
                         }
-                }else{
-                   console.log(response);
-		  /* TO DO 
+                } else {
+	           res = response.split('^A');
+
 		   //set text message
-		   dojo.byId('text_message').value = response[0];
+		   document.getElementById("text_message").value = res[0];
 
 		   //set html message
-		   var ed = dojo.widget.byId('html_message');
-		   ed.editNode.innerHTML = response[1];
-                  */
-
+		   dijit.byId('html_message').setValue( res[1] );
                }
          }
       });
@@ -172,17 +169,13 @@
 
     dojo.addOnLoad( function( ) 
     {
-	var message = dijit.byId('html_message');
-        dojo.connect( message, 'onLoad', 'setHTMLMessage')
-
+        dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
     });
 
 
   function setHTMLMessage ( ) {
       var message_html  = {/literal}'{$message_html}'{literal};
-        
-      var ed = dijit.byId('html_message');
-      ed.editNode.innerHTML = message_html;
+      dijit.byId('html_message').setValue( message_html );
   }
 
 

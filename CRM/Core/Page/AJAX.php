@@ -468,11 +468,7 @@ ORDER BY subject";
         $messageTemplate->selectAdd( 'msg_text, msg_html' );
         $messageTemplate->find( true );
         
-        $elements = array( $messageTemplate->msg_text, $messageTemplate->msg_html );
-
-        require_once 'Services/JSON.php';
-        $json =& new Services_JSON( );
-        echo $json->encode( $elements );
+        echo $messageTemplate->msg_text . "^A" . $messageTemplate->msg_html;
     }
 
     /**
