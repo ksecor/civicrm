@@ -64,9 +64,11 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
         $query    = "UPDATE civicrm_custom_group cg1 
 SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         $res      = $this->runQuery( $query );
-        
+        $res->free();
+
         $query    = "UPDATE civicrm_custom_field cf1 SET cf1.column_name=cf1.name";
         $res      = $this->runQuery( $query );
+        $res->free();
 
         CRM_Core_DAO::freeResult();
 
@@ -96,6 +98,7 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                 $customOption->find();
                 
                 $hasFieldOptions = false;
+                $optionGroupID   = null;
                 while ($customOption->fetch()) {
                     if ( !$hasFieldOptions ) {
                         // make an entry in option_group
@@ -105,28 +108,29 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                         $optionGroup->label     =  $field->label;
                         $optionGroup->is_active = 1;
                         $optionGroup->save( );
-                        
+
+                        $optionGroupID = $optionGroup->id;
+                        $optionGroup->free();
+
                         // set custom_field's option_group_id
                         $field2 =& new CRM_Core_DAO_CustomField();
                         $field2->id = $field->id;
                         $field2->find(true);
                         $field2->option_group_id = $optionGroup->id;
                         $field2->save();
+                        $field2->free();
                         
                         $hasFieldOptions = true;
-                        
-                        $field2->free();
                     }
                     
                     $optionValue =& new CRM_Core_DAO_OptionValue( );
-                    $optionValue->option_group_id = $optionGroup->id;
+                    $optionValue->option_group_id = $optionGroupID;
                     $optionValue->label           = $customOption->label;
                     $optionValue->value           = $customOption->value;
                     $optionValue->weight          = $customOption->weight;
                     $optionValue->is_active       = $customOption->is_active;
                     $optionValue->save();
 
-                    $optionGroup->free();
                     $optionValue->free();
                 }
                 $customOption->free();
@@ -136,48 +140,32 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
         $group->free();
         CRM_Core_DAO::freeResult();
         
+        // migrate custom values in newly created tables.
         require_once 'CRM/Core/BAO/CustomValue.php';
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        $customVal =& new CRM_Core_DAO_CustomValue();
-        $customVal->find();
+        $group =& new CRM_Core_DAO_CustomGroup();
+        $group->find();
         
-        while ($customVal->fetch()) {
-            $valParams = array();
-
-            $valParams[$customVal->custom_field_id]['custom_field_id'] = $customVal->custom_field_id;
-            $valParams[$customVal->custom_field_id]['file_id']         = $customVal->file_id;
-
-            list($valParams[$customVal->custom_field_id]['table_name'], 
-                 $valParams[$customVal->custom_field_id]['column_name']) = 
-                CRM_Core_BAO_CustomField::getTableColumnName( $customVal->custom_field_id );
-            
+        while ($group->fetch()) {
             $field =& new CRM_Core_DAO_CustomField();
-            $field->id = $customVal->custom_field_id;
-            $field->find(true);
+            $field->custom_group_id = $group->id;
+            $field->find();
             
-            $valCol = CRM_Core_BAO_CustomValue::typeToField($field->data_type);
-            $valParams[$customVal->custom_field_id]['type']        = $field->data_type;
-            $valParams[$customVal->custom_field_id]['value']       = $customVal->$valCol;
-            
-            $query    = "
-SELECT id 
-FROM {$valParams[$customVal->custom_field_id]['table_name']} 
-WHERE domain_id = $domainID 
-AND   entity_id = {$customVal->entity_id}";
-            $res      = $this->runQuery( $query );
-            
-            if ($res->fetch()) {
-                $valParams[$customVal->custom_field_id]['id'] = $res->id;
+            while ($field->fetch()) {
+                $col    = "cv." . CRM_Core_BAO_CustomValue::typeToField($field->data_type);
+                $query  = "
+INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
+SELECT $domainID, cv.entity_id, $col FROM civicrm_custom_value cv 
+WHERE cv.custom_field_id={$field->id}
+ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
+                $res    = $this->runQuery( $query );
+                $res->free();
             }
-            $res->free( );
-
-            CRM_Core_BAO_CustomValueTable::store( $valParams, $customVal->entity_table, $customVal->entity_id );
-
             $field->free();
         }
-        $customVal->free();
+        $group->free();
         CRM_Core_DAO::freeResult();
-        
+
         // migrate custom-option data
         foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
             $customOption =& new CRM_Core_DAO_CustomOption( );

@@ -78,6 +78,8 @@ class CRM_Core_BAO_SchemaHandler
     {
         $sql =  self::buildTableSQL( $params );
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao->free();
+
         return true;
     }
 
@@ -251,6 +253,8 @@ class CRM_Core_BAO_SchemaHandler
         }
 
         $dao =& CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+        $dao->free();
+
         return true;
     }
 
