@@ -101,26 +101,41 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
                     true );
 
         $groups         =& CRM_Core_PseudoConstant::group('Mailing');
-
+        
         $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
+
         require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
         $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
                                                                     ts('Include Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
+                                                                    array( 'size'  => 5,
+                                                                           'style' => 'width:240px',
+                                                                           'class' => 'advmultiselect' )
+                                                                    );
+        
+        // FIXME: we should extend groupIterator() to handle group limiting by group type instead
+        foreach ($inGroupsSelect->_options as $key => $group) {
+            if (!in_array($group['text']->id, array_keys($groups) ) ) {
+                unset($inGroupsSelect->_options[$key]);
+            }
+        }
+        
         $inG =& $this->addElement( $inGroupsSelect );
         $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
         
         $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
-        ts('Exclude Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
+                                                                     ts('Exclude Group(s)') . ' ', $groupIterator,
+                                                                     array( 'size'  => 5,
+                                                                            'style' => 'width:240px',
+                                                                            'class' => 'advmultiselect' )
+                                                                     );
+        // FIXME: we should extend groupIterator() to handle group limiting by group type instead
+        foreach ($outGroupsSelect->_options as $key => $group) {
+            if (!in_array($group['text']->id, array_keys($groups) ) ) {
+                unset($outGroupsSelect->_options[$key]);
+            }
+        }
         $outG =& $this->addElement($outGroupsSelect);
-
+        
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $inG->setButtonAttributes('remove', array('value' => ts('<< Remove')));;
