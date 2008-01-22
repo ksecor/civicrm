@@ -52,27 +52,33 @@ class CRM_Contact_Form_Search_Custom_Contribution
     function buildForm( &$form ) {
         $form->add( 'text',
                     'min_amount',
-                    ts( 'Min Amount' ) );
+                    ts( 'Aggregate Total Between $' ) );
         $form->add( 'text',
                     'max_amount',
-                    ts( 'Max Amount' ) );
+                    ts( '...and $' ) );
 
         $form->add( 'date',
                     'start_date',
-                    ts('Start Date'),
+                    ts('Contribution Date From'),
                     CRM_Core_SelectValues::date('custom', 10, 3 ) );
         $form->addRule('start_date', ts('Select a valid date.'), 'qfDate');
 
         $form->add( 'date',
                     'end_date',
-                    ts('End Date'),
+                    ts('...through'),
                     CRM_Core_SelectValues::date('custom', 10, 0 ) );
         $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
 
-        $tag = array('' => ts('- any tag -')) + CRM_Core_PseudoConstant::tag( );
-        $form->add('select', 'tag', ts('Tagged'), $tag);
-
-        $form->assign( 'elements', array( 'min_amount', 'max_amount', 'start_date', 'end_date', 'tag' ) );
+        /**
+         * You can define a custom title for the search form
+         */
+        $this->setTitle('Find Contributors by Aggregate Totals');
+        
+        /**
+         * if you are using the standard template, this array tells the template what elements
+         * are part of the search criteria
+         */
+        $form->assign( 'elements', array( 'min_amount', 'max_amount', 'start_date', 'end_date') );
     }
 
     function count( ) {
@@ -155,9 +161,16 @@ ORDER BY donation_amount desc";
     }
 
     function templateFile( ) {
-        return 'CRM/Contact/Form/Search/Custom/Contribution.tpl';
+        return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
     }
 
-}
+   function setTitle( $title ) {
+       if ( $title ) {
+           CRM_Utils_System::setTitle( $title );
+       } else {
+           CRM_Utils_System::setTitle(ts('Search'));
+       }
+   }
+   }
 
 ?>
