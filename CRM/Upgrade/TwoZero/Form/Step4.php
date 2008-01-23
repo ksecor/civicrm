@@ -50,6 +50,14 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
             return false;
         }
         
+        $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts('Database consistency check failed.');
+            return false;
+        }
+        $res->free();
+
         return $this->checkVersion( '1.93' );
     }
 
@@ -215,11 +223,11 @@ WHERE co.entity_table='$entityTable'";
     }
 
     function getTemplateMessage( ) {
-        return ts( 'This is a message' );
+        return ts( '<p>This step will upgrade the custom section of your database.</p>' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Proceed to Step Five' );
+        return ts( 'Upgrade & Continue' );
     }
 }
 ?>

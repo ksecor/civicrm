@@ -35,65 +35,48 @@
 
 require_once 'CRM/Upgrade/Form.php';
 
-class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
+class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 2';
-
-        // ensure that version field exists in db
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
+        $errorMessage = 'pre-condition failed for upgrade step 5';
+        
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_case' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_case_activity' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_component' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_contribution_widget' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_grant' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_group_organization' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_openid' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_preferences_date' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_tell_friend' ) ||
+             ! CRM_Core_DAO::checkTableExists( 'civicrm_timezone' ) ) {
             return false;
         }
 
-        // also ensure first_name, household_name and contact_name exist in db
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ) {
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_contribution_page', 'is_pay_later' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_financial_trxn', 'contribution_id' ) ) {
             return false;
         }
 
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
+            return false;
+        }
 
-        return $this->checkVersion( '1.91' );
+        return $this->checkVersion( '2.0' );
     }
 
-    function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
-        $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                               array( $currentDir, '../sql', 'location.mysql' ) );
-        $this->source( $sqlFile );
-        
-        $this->setVersion( '1.92' );
-    }
-
-    function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 2';
-
-        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
-            return false;
-        }
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_address', 'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email',   'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone',   'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' )    ) {
-            return false;
-        }
-        
-        return $this->checkVersion( '1.92' );
+    function buildQuickForm( ) {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Location Upgrade)' );
+        return ts( 'Database upgraded to v2.0' );
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>This step will upgrade the location section of your database.</p>' );
+        return ts( '<p>CiviCRM database has been successfully upgraded to v2.0. Thank you for using CiviCRM.</p>' );
     }
-
-    function getButtonTitle( ) {
-        return ts( 'Upgrade & Continue' );
-    }
-
 }
-
-
 ?>

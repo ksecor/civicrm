@@ -92,7 +92,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( 'This is a message' );
+        return ts( '<p>This step will upgrade the rest of the tables of your database.</p>' );
     }
 
     function getButtonTitle( ) {

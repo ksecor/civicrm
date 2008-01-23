@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
 
 -- setup
 
-SELECT @domain_id := ##domain_id##;
+SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
 
 INSERT INTO civicrm_option_group (domain_id, name, label, is_reserved, is_active)
 VALUES (@domain_id, 'activity_status', 'Activity Status', 0, 1);
@@ -110,8 +110,8 @@ SELECT @ov_id_email   := value FROM civicrm_option_value WHERE option_group_id =
 ALTER TABLE civicrm_activity ADD COLUMN old_meeting_id   int(10);
 ALTER TABLE civicrm_activity ADD COLUMN old_phonecall_id int(10);
 
-SELECT @max_val := MAX(op.value)+1 FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
-SELECT @max_wt  := MAX(op.weight)+1 FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
+SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
 
 
 

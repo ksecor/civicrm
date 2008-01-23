@@ -78,7 +78,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
             if (! isset($errorMessage)) {
                 $errorMessage = 'pre-condition failed for current upgrade step';
             }
-            CRM_Core_Error::fatal( ts( $errorMessage ) );
+            CRM_Core_Error::fatal( $errorMessage );
         }
     }
     
@@ -116,7 +116,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
             if (! isset($errorMessage)) {
                 $errorMessage = 'post-condition failed for current upgrade step';
             }
-            CRM_Core_Error::fatal( ts( $errorMessage ) );
+            CRM_Core_Error::fatal( $errorMessage );
         }
     }
 

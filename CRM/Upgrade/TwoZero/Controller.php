@@ -42,7 +42,8 @@ class CRM_Upgrade_TwoZero_Controller extends CRM_Upgrade_Controller {
                       'CRM_Upgrade_TwoZero_Form_Step2' => null,
                       'CRM_Upgrade_TwoZero_Form_Step3' => null,
                       'CRM_Upgrade_TwoZero_Form_Step4' => null,
-                      'CRM_Upgrade_TwoZero_Form_Step5' => null
+                      'CRM_Upgrade_TwoZero_Form_Step5' => null,
+                      'CRM_Upgrade_TwoZero_Form_Step6' => null
                       );
     }
 

@@ -93,11 +93,11 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( 'This is a message' );
+        return ts( '<p>This step will upgrade the activity section of your database.</p>' );
     }
 
     function getButtonTitle( ) {
-        return ts( 'Proceed to Step Four' );
+        return ts( 'Upgrade & Continue' );
     }
 
 }
