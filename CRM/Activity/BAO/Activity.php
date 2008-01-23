@@ -351,43 +351,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         return $result;
     }
         
-    /**
-     * compose the url to show details of activity
-     *
-     * @param int $id
-     * @param int $activityHistoryId
-     *
-     * @access public
-     */
-    public function showActivityDetails( $id, $activityHistoryId )
-    {
-        $params   = array( );
-        $defaults = array( );
-        $params['id'          ] = $activityHistoryId;
-        $params['entity_table'] = 'civicrm_contact';
-        
-        require_once 'CRM/Core/BAO/History.php'; 
-        $history    = CRM_Core_BAO_History::retrieve($params, $defaults);
-        $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
-        $activityId = $history->activity_id;
-
-        if ($history->activity_type == 'Meeting') {
-            $activityTypeId = 1;
-        } else if ($history->activity_type == 'Phone Call') {
-            $activityTypeId = 2;
-        } else {
-            $activityTypes = array( );
-            $activityTypes = CRM_Core_PseudoConstant::activityType();
-            $activityTypeId = array_search( $history->activity_type, $activityTypes );
-        }
-
-        if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/activity', "activity_id=$activityTypeId&cid=$contactId&action=view&id=$activityId&status=true&history=1&selectedChild=activity&context=activity"); 
-        } else { 
-            return CRM_Utils_System::url('civicrm' ); 
-        } 
-    }
-
     public function logActivityAction( $activity, $logMessage = null ) 
     {
         $session = & CRM_Core_Session::singleton();

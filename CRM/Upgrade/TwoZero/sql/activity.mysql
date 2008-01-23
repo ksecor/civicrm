@@ -105,6 +105,7 @@ VALUES
 
 SELECT @ov_id_meeting   := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND name = 'Meeting';
 SELECT @ov_id_phonecall := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND name = 'Phone Call';
+SELECT @ov_id_email   := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND name = 'Email';
 
 ALTER TABLE civicrm_activity ADD COLUMN old_meeting_id   int(10);
 ALTER TABLE civicrm_activity ADD COLUMN old_phonecall_id int(10);
@@ -173,3 +174,7 @@ SELECT ah.entity_id, ah.activity_id, op.value, ah.activity_type,
        ah.activity_summary, @completedStatusID, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
 LEFT JOIN civicrm_option_value op ON (ah.activity_type = op.label AND op.option_group_id = @og_id_at);
+
+INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
+SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @completedStatusID, 0
+FROM civicrm_email_history eh
