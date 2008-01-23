@@ -167,11 +167,7 @@
 	}
      }
 
-    dojo.addOnLoad( function( ) 
-    {
-        dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
-    });
-
+  dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
 
   function setHTMLMessage ( ) {
       var message_html  = {/literal}'{$message_html}'{literal};
