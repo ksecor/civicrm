@@ -57,6 +57,17 @@ CREATE TABLE IF NOT EXISTS `civicrm_component` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- 
+-- Dumping data for table `civicrm_component`
+-- 
+
+INSERT INTO `civicrm_component` (`name`, `namespace`) VALUES 
+('CiviEvent', 'CRM_Event'),
+('CiviContribute', 'CRM_Contribute'),
+('CiviMember', 'CRM_Member'),
+('CiviMail', 'CRM_Mailing'),
+('CiviGrant', 'CRM_Grant');
+
 
 -- /*******************************************************
 -- *

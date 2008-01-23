@@ -74,11 +74,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
 
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/BAO/CustomField.php';
-        require_once 'CRM/Core/DAO/CustomOption.php';
-        require_once 'CRM/Core/DAO/CustomValue.php';
         require_once 'CRM/Core/DAO/OptionGroup.php';
         require_once 'CRM/Core/DAO/OptionValue.php';
         
+        //1.Make new tables 2.Add columns 3.Add option-groups & values
         $group =& new CRM_Core_DAO_CustomGroup();
         $group->find();
         
@@ -92,10 +91,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
             while ($field->fetch()) {
                 CRM_Core_BAO_CustomField::createField( $field, 'add' );
                 
-                $customOption =& new CRM_Core_DAO_CustomOption( );
-                $customOption->entity_table = 'civicrm_custom_field';
-                $customOption->entity_id    = $field->id;
-                $customOption->find();
+                $query        = "
+SELECT * FROM civicrm_custom_option co 
+WHERE co.entity_table='civicrm_custom_field' AND co.entity_id={$field->id}";
+                $customOption = $this->runQuery( $query );
                 
                 $hasFieldOptions = false;
                 $optionGroupID   = null;
@@ -103,7 +102,7 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                     if ( !$hasFieldOptions ) {
                         // make an entry in option_group
                         $optionGroup  =& new CRM_Core_DAO_OptionGroup( );
-                        $optionGroup->domain_id =  CRM_Core_Config::domainID( );
+                        $optionGroup->domain_id =  $domainID;
                         $optionGroup->name      =  "{$field->column_name}_". date( 'YmdHis' );
                         $optionGroup->label     =  $field->label;
                         $optionGroup->is_active = 1;
@@ -118,11 +117,10 @@ SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
                         $field2->find(true);
                         $field2->option_group_id = $optionGroup->id;
                         $field2->save();
+
                         $field2->free();
-                        
                         $hasFieldOptions = true;
                     }
-                    
                     $optionValue =& new CRM_Core_DAO_OptionValue( );
                     $optionValue->option_group_id = $optionGroupID;
                     $optionValue->label           = $customOption->label;
@@ -168,13 +166,14 @@ ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
 
         // migrate custom-option data
         foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
-            $customOption =& new CRM_Core_DAO_CustomOption( );
-            $customOption->entity_table = $entityTable;
-            $customOption->find();
+            $query        = "
+SELECT * FROM civicrm_custom_option co 
+WHERE co.entity_table='$entityTable'";
+            $customOption = $this->runQuery( $query );
             
             while ($customOption->fetch()) {
                 $optionGroup  =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->domain_id =  CRM_Core_Config::domainID( );
+                $optionGroup->domain_id =  $domainID;
                 $optionGroup->name      =  "{$customOption->entity_table}.amount.". $customOption->entity_id;
                 if (! $optionGroup->find(true)) {
                     $optionGroup->save( );
@@ -189,6 +188,7 @@ ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
                 $optionValue->save();
 
                 $optionValue->free();
+                $optionGroup->free();
             }
             $customOption->free();
         }
