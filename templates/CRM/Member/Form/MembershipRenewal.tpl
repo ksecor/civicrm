@@ -3,9 +3,8 @@
 <fieldset><legend>{if $action eq 32768}{ts}Renew Membership{/ts}{/if}</legend> 
   
     <dl>
- 	<dt>{$form.membership_type_id.label}</dt><dd class="html-adjust">{$form.membership_type_id.html}
+ 	<dt>{ts}Membership Organization and Type{/ts}</dt><dd class="html-adjust">{$orgName}&nbsp;&nbsp;-&nbsp;&nbsp;{$memType}
     {if $member_is_test} {ts}(test){/ts}{/if}</dd>
-	<dt>&nbsp;</dt><dd class="description html-adjust">{ts}Select Membership Organization and then Membership Type.{/ts}</dd> 	
         <dt>{ts}Membership Status{/ts}</dt><dd class="html-adjust">&nbsp;{$membershipStatus}</dd>
         <dt>&nbsp;</dt><dd class="description html-adjust">{ts}Status of this membership.{/ts}</dd>
 
@@ -74,18 +73,3 @@
     field_type          ="radio"
     invert              = 0
 }
-
-{literal}
-<script type="text/javascript">
-
-function reload(refresh) {
-    var membershipTypeValue = document.getElementsByName("membership_type_id[1]")[0].options[document.getElementsByName("membership_type_id[1]")[0].selectedIndex].value;
-    var url = {/literal}"{$refreshURL}"{literal}
-    var post = url + "&subType=" + membershipTypeValue;
-    if ( refresh ) {
-        window.location= post; 
-    }
-}
-
-</script>
-{/literal}

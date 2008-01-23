@@ -57,24 +57,16 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                                          $this );
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                                          $this );
-
-        $this->_memType   = CRM_Utils_Request::retrieve( 'subType', 'Positive',
-                                                         $this );
         
-        if ( ! $this->_memType ) {
-            if ( $this->_id ) {
-                $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
-            } else {
-                $this->_memType = "Membership";
-            }
-        }     
+        if ( $this->_id ) {
+            $this->_memType = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",$this->_id,"membership_type_id");
+        }
         
         $this->assign( "endDate", CRM_Utils_Date::customFormat(
                                                                CRM_Core_DAO::getFieldValue("CRM_Member_DAO_Membership",
                                                                                            $this->_id,
                                                                                            "end_date")
-                                                               )
-                       );
+                                                               ) );
 
         $this->assign( "membershipStatus", 
                        CRM_Core_DAO::getFieldValue("CRM_Member_DAO_MembershipStatus",
@@ -82,12 +74,13 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                                                                $this->_id,
                                                                                "status_id"
                                                                                ),
-                                                   "name")
-                       );
+                                                   "name") );
         
-
+        $orgId   = CRM_Core_DAO::getFieldValue("CRM_Member_DAO_MembershipType",$this->_memType,"member_of_contact_id");
+        
         $this->assign( "memType",  CRM_Core_DAO::getFieldValue("CRM_Member_DAO_MembershipType",$this->_memType,"name") );
-
+        $this->assign( "orgName",  CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $orgId,"display_name") );
+        
         parent::preProcess( );
     }
 
@@ -102,8 +95,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
     {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
-        $defaults["membership_type_id"]    =  $this->_memType;
-               
+        $this->_memType = $defaults["membership_type_id"] ;
+
         $renewalDate = getDate();
         $defaults['renewal_date']['M'] = $renewalDate['mon'];
         $defaults['renewal_date']['d'] = $renewalDate['mday'];
@@ -125,7 +118,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                                                  'minimum_fee' );
         
         $defaults['record_contribution'] = 0;
-        if ($defaults['record_contribution']) {
+        if ( $defaults['record_contribution'] ) {
             $contributionParams   = array( 'id' => $defaults['record_contribution'] );
             $contributionIds      = array( );
             
@@ -134,11 +127,11 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
         
         $defaults['send_receipt'] = 1; 
-
+        
         if ( $defaults['membership_type_id'] ) {
             $defaults['receipt_text_renewal'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
-                                                                      $defaults['membership_type_id'],
-                                                                      'receipt_text_renewal' );
+                                                                              $defaults['membership_type_id'],
+                                                                              'receipt_text_renewal' );
         }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
@@ -155,46 +148,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
     public function buildQuickForm( ) 
     {
         parent::buildQuickForm( );
-
-        $selOrgMemType[0][0] = $selMemTypeOrg[0] = ts('-- select --');
-
-        $dao =& new CRM_Member_DAO_MembershipType();
-        $dao->find();
-        while ($dao->fetch()) {
-            if ($dao->is_active) {
-                if ( !CRM_Utils_Array::value($dao->member_of_contact_id,$selMemTypeOrg) ) {
-                    $selMemTypeOrg[$dao->member_of_contact_id] = 
-                        CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                     $dao->member_of_contact_id, 
-                                                     'display_name', 
-                                                     'id' );
-                    $selOrgMemType[$dao->member_of_contact_id][0] = ts('-- select --');
-                }                
-                if ( !CRM_Utils_Array::value($dao->id,$selOrgMemType[$dao->member_of_contact_id]) ) {
-                    $selOrgMemType[$dao->member_of_contact_id][$dao->id] = $dao->name;
-                }
-            }
-        }
-        
-        // show organization by default, if only one organization in
-        // the list 
-        if ( count($selMemTypeOrg) == 2 ) {
-            unset($selMemTypeOrg[0], $selOrgMemType[0][0]);
-        }
-        
-        $sel =& $this->addElement('hierselect', 
-                                  'membership_type_id', 
-                                  ts('Renewal Membership Organization and Type'), 
-                                  array('onChange' => "if (this.value) reload(true); else return false") );  
-        $sel->setOptions(array($selMemTypeOrg,  $selOrgMemType));
-
-        $urlParams = "reset=1&cid={$this->_contactID}&context=membership";
-        $urlParams .= "&action=renew&id={$this->_id}";
-
-        $url = CRM_Utils_System::url('civicrm/contact/view/membership',
-                                     $urlParams, true, null, false ); 
-        $this->assign("refreshURL",$url);
-
 
         $this->applyFilter('__ALL__', 'trim');
         
@@ -249,9 +202,6 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
     public function formRule( &$params ) 
     {
         $errors = array( );
-        if (!$params['membership_type_id'][1]) {
-            $errors['membership_type_id'] = "Please select a Membership Type.";
-        }
         if ( isset( $params['record_contribution'] ) && 
              ! isset( $params['contribution_type_id'] ) ) {
             $errors['contribution_type_id'] = "Please enter the contribution.";
@@ -278,7 +228,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $ids    = array( );
         
         $params['contact_id']         = $this->_contactID;
-        $params['membership_type_id'] = $formValues['membership_type_id'][1];
+
         $renewalDate = null;
 
         if ( $formValues['renewal_date'] ) {
@@ -331,7 +281,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
         }
         
-        if ($formValues['send_receipt']) {
+        if ( $formValues['send_receipt'] ) {
             // Retrieve the name and email of the contact - this will be the TO for receipt email
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
@@ -380,7 +330,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
                                   $message);
         }
         
-        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType',$params['membership_type_id'],'name');
+        $memType = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipType', $renewMembership->membership_type_id, 'name');
         $statusMsg = ts('%1 membership for %2 has been renewed.', array(1 => $memType, 2 => $this->_contributorDisplayName));
        
         $endDate = CRM_Utils_Date::customFormat( CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_Membership", 
