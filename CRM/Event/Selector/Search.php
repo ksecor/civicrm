@@ -338,8 +338,15 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              $row['paid'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
                                                          $row['event_id'], 
                                                          'is_monetary');
+             
+             if ( ( substr( $row['event_level'], 0, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) &&
+                  ( substr( $row['event_level'], -1, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                 $row['event_level'] = implode( ', ', explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr( $row['event_level'], 1, -1) ) );
+             }
+             
              $rows[] = $row;
          }
+         
          return $rows;
      }
      

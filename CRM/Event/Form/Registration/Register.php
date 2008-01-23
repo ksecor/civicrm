@@ -442,7 +442,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         // using price set
         $totalPrice    = 0;
-        $radioLevel    = $checkboxLevel = $selectLevel = array( );
+        $radioLevel    = $checkboxLevel = $selectLevel = $textLevel = array( );
         
         foreach ( $fields as $id => $field ) {
             if ( empty( $params["price_{$id}"] ) ) {
@@ -458,6 +458,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 $totalPrice += $lineItem[key( $field['options'] )]['line_total'];
                 break;
+                
             case 'Radio':
                 $params["price_{$id}"] = array( $params["price_{$id}"] => 1 );
                 
@@ -525,21 +526,19 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 break;
             }
+	}
+	
+        $amount_level = array( );
+        
+        foreach( $lineItem as $values ) {
+            if ( $values['html_type'] == 'Text' ) {
+                $amount_level[] = $values['label'] . ' - ' . $values['qty'];
+                continue;
+            }
+            $amount_level[] = $values['label'];
         }
         
-        $amount_level=array();
-        
-        $amount_level = array_merge( $radioLevel , $checkboxLevel );
-        $amount_level = array_merge( $amount_level, $selectLevel   );
-        
-        foreach( $amount_level as $id => $oid ) {
-            $amount_level[$id] = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue', 
-                                                              $oid, 'name');
-        }
-        
-        //$params['amount_level'] = implode(
-        //CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ); 
-        $params['amount_level'] = implode( ', ', $amount_level ); 
+        $params['amount_level'] = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $amount_level ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR; 
         $params['amount']       = $totalPrice;
     }
     
@@ -569,7 +568,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                                                      $oid, 'name', 'id' ),
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
-                                  'line_total'       => $qty * $fields['options'][$oid]['value']
+                                  'line_total'       => $qty * $fields['options'][$oid]['value'],
+                                  'html_type'        => $fields['html_type']
                                   );
         }
     }

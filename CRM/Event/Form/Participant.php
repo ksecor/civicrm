@@ -1,4 +1,4 @@
-<?php
+<?PHP
 
 /*
  +--------------------------------------------------------------------+
@@ -122,7 +122,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * @access public 
      */ 
     public function preProcess()  
-        {
+    {
         // check for edit permission
         if ( ! CRM_Core_Permission::check( 'edit event participants' ) ) {
             CRM_Core_Error::fatal( ts( 'You do not have permission to access this page' ) );
@@ -302,26 +302,29 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         require_once 'CRM/Core/BAO/PriceSet.php';
         if ( $priceSetId = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $this->_eId ) ) {
             $fields = array( );
-                        
-            $eventLevel = explode( ', ', $defaults[$this->_id]['event_level'] );
-            
+    
+            $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                   substr( $defaults[$this->_id]['event_level'], 1, -1 ) );
+    
             foreach ( $eventLevel as $id => $name ) {
                 $level               = explode( ' - ', $name );
                 $eventLevel[$id] = array( 'fieldName'   => $level[0],
                                           'optionLabel' => $level[1] );
             }
-            
+    
             require_once 'CRM/Core/BAO/PriceField.php';
             foreach ( $eventLevel as $values ) {
+        
                 $priceField        = new CRM_Core_BAO_PriceField( );
                 $priceField->label = $values['fieldName'];
-                
+        
                 $priceField->find( true );
                 
                 // FIXME: we are not storing qty for text type (for
                 // offline mode). Hence can not set defaults for Text
                 // type price field
                 if ( $priceField->html_type == 'Text' ) {
+                    $defaults[$this->_id]["price_{$priceField->id}"] = $values['optionLabel'];
                     continue;
                 }
                 
@@ -331,7 +334,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                     $defaults[$this->_id]["price_{$priceField->id}"][$optionId] = 1;
                     continue;
                 }
-                
                 $defaults[$this->_id]["price_{$priceField->id}"] = $optionId;
             }
         } else {
@@ -358,7 +360,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     public function buildQuickForm( )  
     { 
         $this->applyFilter('__ALL__', 'trim');
-
+	
         if ( $this->_action & CRM_Core_Action::DELETE ) {
             $this->addButtons(array( 
                                     array ( 'type'      => 'next', 
@@ -476,7 +478,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                        );
             
             $this->add('select', 'contribution_status_id',
-                   ts('Payment Status'), 
+                       ts('Payment Status'), 
                        CRM_Contribute_PseudoConstant::contributionStatus( )
                        );
             
@@ -568,6 +570,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
+      
         if ( $this->_event['is_monetary'] ) {
             if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
@@ -580,6 +583,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                                                                              $params, $lineItem );
                 $this->set( 'lineItem', $lineItem );
             }
+	    
             $params['event_level']              = $params['amount_level'];
             $contributionParams                 = array( );
             $contributionParams['total_amount'] = $params['amount'];
@@ -679,7 +683,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $contributionParams['non_deductible_amount'] = 'null';
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
-                                                           $contributionParams['receive_date'] : 'null';
+                $contributionParams['receive_date'] : 'null';
             $recordContribution = array( 'contribution_type_id', 
                                          'payment_instrument_id', 'contribution_status_id' );
 

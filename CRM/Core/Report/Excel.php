@@ -50,7 +50,7 @@ class CRM_Core_Report_Excel {
         if ( $titleHeader ) {
             echo $titleHeader;
         }
-
+        
         $result = '';
 
         $seperator     = ',';
@@ -86,6 +86,7 @@ class CRM_Core_Report_Excel {
         foreach ( $rows as $row ) {
             $schema_insert = '';
             $colNo = 0;
+            
             foreach ( $row as $j => $value ) {
                 if (!isset($value) || is_null($value)) {
                     $schema_insert .= '';
@@ -95,6 +96,21 @@ class CRM_Core_Report_Excel {
                     if ($enclosed == '') {
                         $schema_insert .= $value;
                     } else {
+                        if ( ( substr( $value, 0, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR )&& 
+                             ( substr( $value, -1, 1 ) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+                            
+                            $strArray = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $value );
+                            
+                            foreach( $strArray as $key => $val ) {
+                                if ( trim( $val ) == '' ) {
+                                    unset( $strArray[$key] );
+                                }
+                            }
+                            
+                            $str = implode( $seperator, $strArray );
+                            $value = &$str;
+                        }
+                        
                         $schema_insert .=
                               $enclosed
                             . str_replace($enclosed, $escaped . $enclosed, $value)
@@ -120,7 +136,6 @@ class CRM_Core_Report_Excel {
             ++$i;
 
         } // end for
-
         if ( $print ) {
             return;
         } else {
@@ -129,8 +144,9 @@ class CRM_Core_Report_Excel {
     } // end of the 'getTableCsv()' function
 
     function writeCSVFile( $fileName, &$header, &$rows, $titleHeader = null ) {
+        
         self::dumpCSVHeader( $fileName );
-
+        
         self::makeCSVTable( $header, $rows, $titleHeader, true );
 
         

@@ -233,7 +233,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
          * add form checkboxes for each row. This is needed out here to conform to QF protocol 
          * of all elements being declared in builQuickForm 
          */ 
-        $rows = $this->get( 'rows' ); 
+        $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             $lineItems = array( );
             //require_once 'CRM/Event/BAO/Participant.php';
