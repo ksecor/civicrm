@@ -140,7 +140,8 @@ VALUES
    (@domain_id, 'activity_status'               , '{ts escape="sql"}Activity Status{/ts}'                    , 0, 1),
    (@domain_id, 'case_type'                     , '{ts escape="sql"}Case Type{/ts}'                          , 0, 1),
    (@domain_id, 'case_status'                   , '{ts escape="sql"}Case Status{/ts}'                        , 0, 1),
-   (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1);
+   (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1),
+   (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';
@@ -171,6 +172,7 @@ SELECT @option_group_id_acs            := max(id) from civicrm_option_group wher
 SELECT @option_group_id_ct             := max(id) from civicrm_option_group where name = 'case_type';
 SELECT @option_group_id_cas            := max(id) from civicrm_option_group where name = 'case_status';
 SELECT @option_group_id_pl             := max(id) from civicrm_option_group where name = 'participant_listing';
+SELECT @option_group_id_sfe            := max(id) from civicrm_option_group where name = 'safe_file_extension';
 
 INSERT INTO 
    `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`, `component_id`) 
@@ -270,7 +272,7 @@ VALUES
   (@option_group_id_cvOpt, 'Contributions',   7, NULL, NULL, 0, NULL,  7, NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, 'Memberships'  ,   8, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1, NULL),
   (@option_group_id_cvOpt, 'Events'       ,   9, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1, NULL),
-  (@option_group_id_cvOpt, '{ts escape="sql"}Cases{/ts}'         ,  10, NULL, NULL, 0, NULL,  10,NULL, 0, 0, 1, NULL),
+  (@option_group_id_cvOpt, 'Cases'        ,  10, NULL, NULL, 0, NULL,  10,NULL, 0, 0, 1, NULL),
 
   (@option_group_id_ceOpt, 'Communication Preferences',   1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_ceOpt, 'Demographics'             ,   2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
@@ -286,9 +288,9 @@ VALUES
   (@option_group_id_asOpt, 'Contributions'           ,   7, NULL, NULL, 0, NULL,  8, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Memberships'             ,   8, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Events'                  ,   9, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, '{ts escape="sql"}Cases{/ts}'          ,  10, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, '{ts escape="sql"}Kabissa{/ts}'        ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, '{ts escape="sql"}Grants{/ts}'         ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
+  (@option_group_id_asOpt, 'Cases'                   ,  10, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL),
+  (@option_group_id_asOpt, 'Kabissa'                 ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
+  (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
 
   (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
@@ -338,7 +340,22 @@ VALUES
   (@option_group_id_cas, '{ts escape="sql"}Resolved{/ts}', 2, 'Resolved',  NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
 
   (@option_group_id_pl, '{ts escape="sql"}Name Only{/ts}'     , 1, 'Name Only'     ,  NULL, 0, 0, 1, NULL, 0, 1, 1, NULL),
-  (@option_group_id_pl, '{ts escape="sql"}Name and Email{/ts}', 2, 'Name and Email',  NULL, 0, 0, 2, NULL, 0, 1, 1, NULL);
+  (@option_group_id_pl, '{ts escape="sql"}Name and Email{/ts}', 2, 'Name and Email',  NULL, 0, 0, 2, NULL, 0, 1, 1, NULL),
+
+  (@option_group_id_sfe, 'jpg'      ,  1, NULL   ,  NULL, 0, 0,  1, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'jpeg'     ,  2, NULL   ,  NULL, 0, 0,  2, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'png'      ,  3, NULL   ,  NULL, 0, 0,  3, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'gif'      ,  4, NULL   ,  NULL, 0, 0,  4, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'txt'      ,  5, NULL   ,  NULL, 0, 0,  5, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'html'     ,  6, NULL   ,  NULL, 0, 0,  6, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'htm'      ,  7, NULL   ,  NULL, 0, 0,  7, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'pdf'      ,  8, NULL   ,  NULL, 0, 0,  8, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'doc'      ,  9, NULL   ,  NULL, 0, 0,  9, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'xls'      , 10, NULL   ,  NULL, 0, 0, 10, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'rtf'      , 11, NULL   ,  NULL, 0, 0, 11, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'csv'      , 12, NULL   ,  NULL, 0, 0, 12, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'ppt'      , 13, NULL   ,  NULL, 0, 0, 13, NULL, 0, 0, 1, NULL),
+  (@option_group_id_sfe, 'doc'      , 14, NULL   ,  NULL, 0, 0, 14, NULL, 0, 0, 1, NULL);
 
 -- sample membership status entries
 INSERT INTO

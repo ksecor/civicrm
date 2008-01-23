@@ -75,6 +75,7 @@ CREATE TABLE civicrm_value_1_constituent_information (
   most_important_issue varchar(255) default NULL,
   marital_status varchar(255) default NULL,
   PRIMARY KEY  (id),
-  KEY INDEX_marital_status (marital_status),
-  KEY INDEX_most_important_issue (most_important_issue)
+  UNIQUE KEY unique_domain_id_entity_id (domain_id,entity_id),
+  KEY index_marital_status (marital_status),
+  KEY index_most_important_issue (most_important_issue)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;

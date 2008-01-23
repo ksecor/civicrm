@@ -292,9 +292,9 @@ class CRM_Utils_File {
     static function isExtensionSafe( $ext ) {
         static $extensions = null;
         if ( ! $extensions ) {
-            $extensions = array( 'jpg', 'jpeg', 'png', 'gif',
-                                 'txt', 'text', 'html', 'htm',
-                                 'pdf', 'doc', 'xls', 'rtf', 'csv', 'ppt' );
+            require_once 'CRM/Core/OptionGroup.php';
+            $extensions = CRM_Core_OptionGroup::values( 'safe_file_extension' );
+            $extensions = array_values( $extensions );
         }
         return in_array( $ext, $extensions ) ? true : false;
     }

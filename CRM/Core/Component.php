@@ -59,7 +59,7 @@ class CRM_Core_Component
                any serious non-recoverable error which might hinder the
                upgrade process. */
             $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
-            if ( $args[1] != 'upgrade' ) {
+            if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
                 $c = self::getComponents();
             }
 
