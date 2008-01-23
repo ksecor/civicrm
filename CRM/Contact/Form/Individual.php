@@ -397,6 +397,7 @@ showHideSharedOptions();
                 
                 $relationshipParams = array();
                 $relationshipParams['relationship_type_id'] = $relID.'_b_a';
+                $relationshipParams['is_active']            = 1;
                 
                 $relationship =& new CRM_Contact_DAO_Relationship( );
                 $relationship->contact_id_b         = $params['mail_to_household_id'];

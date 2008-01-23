@@ -126,6 +126,7 @@ class CRM_Contact_Form_Task_AddToHousehold extends CRM_Contact_Form_Task {
         $data = array ();
         //$params['relationship_type_id']='4_a_b';
         $data['relationship_type_id'] = $params['relationship_type_id'];
+        $data['is_active']            = 1;
         $invalid = 0;
         $valid = 0;
         $duplicate = 0;
