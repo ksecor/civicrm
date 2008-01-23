@@ -514,3 +514,22 @@ ALTER TABLE `civicrm_premiums_product`
 
 ALTER TABLE `civicrm_saved_search`
     ADD `search_custom_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Foreign key to civicrm_option value table used for saved custom searches.' AFTER mapping_id;
+
+
+-- 
+-- Dumping data for table `civicrm_option_value`
+-- 
+
+SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
+
+SELECT @og_id_at := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'activity_type';
+
+SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
+
+INSERT INTO `civicrm_option_value` ( `option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
+(@domain_id, 'Event Registration', (SELECT @max_val := @max_val+1), 'Event Registration', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline event registration.', 0, 1, 1),
+(@domain_id, 'Contribution', (SELECT @max_val := @max_val+1), 'Contribution', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline contribution.', 0, 1, 1),
+(@domain_id, 'Membership Signup', (SELECT @max_val := @max_val+1), 'Membership Signup', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership signup.', 0, 1, 1),
+(@domain_id, 'Membership Renewal', (SELECT @max_val := @max_val+1), 'Membership Renewal', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership renewal.', 0, 1, 1),
+(@domain_id, 'Tell a Friend', (SELECT @max_val := @max_val+1), 'Tell a Friend', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Send information about a contribution campaign or event to a friend.', 0, 1, 1);
