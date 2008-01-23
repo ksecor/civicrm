@@ -233,7 +233,7 @@ class CRM_Activity_Selector_Activity extends CRM_Core_Selector_Base implements C
             return $csvHeaders;
         } else {
             $columnHeaders = self::_getColumnHeaders();
-            //unset case of not enabled
+            //unset case if not enabled
             if ( ! $this->_viewOptions['Cases'] ) { 
                 unset( $columnHeaders[1]);
             }

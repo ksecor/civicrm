@@ -435,11 +435,11 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         // DRAFTING: Consider adding DISTINCT to this query after
         // DRAFTING: making sure that adding and updating works fine.
         $query = "select civicrm_activity.*,
-                         sourceContact.display_name as source_contact_name,
+                         sourceContact.sort_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
-                         targetContact.display_name as target_contact_name,
+                         targetContact.sort_name as target_contact_name,
                          civicrm_activity_assignment.assignee_contact_id,
-                         assigneeContact.display_name as assignee_contact_name,
+                         assigneeContact.sort_name as assignee_contact_name,
                          civicrm_option_value.value as activity_type_id,
                          civicrm_option_value.label as activity_type,
                          civicrm_case_activity.case_id as case_id,
