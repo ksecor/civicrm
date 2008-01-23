@@ -102,24 +102,45 @@ class CRM_Mailing_Form_Group extends CRM_Core_Form
 
         $groups         =& CRM_Core_PseudoConstant::group('Mailing');
 
-        $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
-        require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
-        $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
-                                                                    ts('Include Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
-        $inG =& $this->addElement( $inGroupsSelect );
-        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+        // commented nested group part, untill we fix/implement it
+        // completely ( temporarily fix for CRM-2220 )
         
-        $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
-        ts('Exclude Group(s)') . ' ', $groupIterator,
-        array( 'size'  => 5,
-               'style' => 'width:240px',
-               'class' => 'advmultiselect' )
-        );
-        $outG =& $this->addElement($outGroupsSelect);
+
+//         $groupIterator  =& CRM_Core_PseudoConstant::groupIterator( true );
+//         require_once 'CRM/Core/QuickForm/GroupMultiSelect.php';
+//         $inGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'includeGroups',
+//                                                                     ts('Include Group(s)') . ' ', $groupIterator,
+//                                                                     array( 'size'  => 5,
+//                                                                            'style' => 'width:240px',
+//                                                                            'class' => 'advmultiselect' )
+//                                                                     );
+
+//         $inG =& $this->addElement( $inGroupsSelect );
+
+//         $outGroupsSelect =& new CRM_Core_QuickForm_GroupMultiSelect( 'excludeGroups',
+//         ts('Exclude Group(s)') . ' ', $groupIterator,
+//         array( 'size'  => 5,
+//                'style' => 'width:240px',
+//                'class' => 'advmultiselect' )
+//         );
+//         $outG =& $this->addElement($outGroupsSelect);
+
+
+        $inG =& $this->addElement('advmultiselect', 'includeGroups', 
+                                  ts('Include Group(s)') . ' ', $groups,
+                                  array('size' => 5,
+                                        'style' => 'width:240px',
+                                        'class' => 'advmultiselect')
+                                  );
+
+        $this->addRule( 'includeGroups', ts('Please select a group to be mailed.'), 'required' );
+
+        $outG =& $this->addElement('advmultiselect', 'excludeGroups', 
+                                   ts('Exclude Group(s)') . ' ', $groups,
+                                   array('size' => 5,
+                                         'style' => 'width:240px',
+                                         'class' => 'advmultiselect')
+                                   );
 
         $inG->setButtonAttributes('add', array('value' => ts('Add >>')));;
         $outG->setButtonAttributes('add', array('value' => ts('Add >>')));;
