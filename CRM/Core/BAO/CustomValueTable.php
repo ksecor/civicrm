@@ -199,12 +199,18 @@ class CRM_Core_BAO_CustomValueTable
                              'file_id'         => $customValue['file_id'],
                              );
             
+            // fix Date type to be timestamp, since that is how we store in db
+            if ( $cvParam['type'] == 'Date' ) {
+                $cvParam['type'] = 'Timestamp';
+            }
+
             if ($customValue['id']) {
                 $cvParam['id'] = $customValue['id'];
             }
             if ( ! array_key_exists( $customValue['table_name'], $cvParams ) ) {
                 $cvParams[$customValue['table_name']] = array( );
             }
+
             $cvParams[$customValue['table_name']][] = $cvParam;
         }
 
