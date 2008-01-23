@@ -474,8 +474,8 @@ LIKE %1
      * @static
      */
       function checkFieldHasAlwaysValue($tableName, $columnName, $columnValue) {
-          $query = "SELECT * FROM $tableName WHERE $columnName != '$columnValue'";
-          $dao = CRM_Core_DAO::executeQuery($query);
+          $query  = "SELECT * FROM $tableName WHERE $columnName != '$columnValue'";
+          $dao    = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
           $result = $dao->fetch() ? false : true;
           $dao->free();
           return $result;
@@ -491,8 +491,8 @@ LIKE %1
      * @static
      */
       function checkFieldIsAlwaysNull($tableName, $columnName) {
-          $query = "SELECT * FROM $tableName WHERE $columnName IS NOT NULL";
-          $dao = CRM_Core_DAO::executeQuery($query);
+          $query  = "SELECT * FROM $tableName WHERE $columnName IS NOT NULL";
+          $dao    = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
           $result = $dao->fetch() ? false : true;
           $dao->free();
           return $result;

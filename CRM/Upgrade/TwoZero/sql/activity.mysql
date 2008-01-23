@@ -109,6 +109,9 @@ SELECT @ov_id_phonecall := value FROM civicrm_option_value WHERE option_group_id
 ALTER TABLE civicrm_activity ADD COLUMN old_meeting_id   int(10);
 ALTER TABLE civicrm_activity ADD COLUMN old_phonecall_id int(10);
 
+SELECT @max_val := MAX(op.value)+1 FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_wt  := MAX(op.weight)+1 FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
+
 
 
 -- update for type meeting
@@ -154,3 +157,19 @@ WHERE (cp.id = ca.old_phonecall_id);
 ALTER TABLE civicrm_activity DROP old_meeting_id;
 ALTER TABLE civicrm_activity DROP old_phonecall_id;
 
+
+
+-- update for type history
+
+INSERT INTO `civicrm_option_value` (`label`, `option_group_id`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) 
+SELECT distinct(ah.activity_type), @og_id_at, (SELECT @max_val := @max_val+1), ah.activity_type, NULL, 0, NULL, (SELECT @max_wt := @max_wt+1), NULL, 0, 0, 1
+FROM civicrm_activity_history ah WHERE ah.activity_type IS NOT NULL;    
+
+SELECT @completedStatusID := value FROM civicrm_option_value WHERE option_group_id = @og_id_as AND label='Completed';
+
+INSERT INTO civicrm_activity (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`)
+SELECT ah.entity_id, ah.activity_id, op.value, ah.activity_type, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, @completedStatusID, NULL, NULL, ah.is_test 
+FROM civicrm_activity_history ah
+LEFT JOIN civicrm_option_value op ON (ah.activity_type = op.label AND op.option_group_id = @og_id_at);
