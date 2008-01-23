@@ -1,6 +1,8 @@
 <div class="form-item">  
    <fieldset> <legend>{ts}View{/ts} {$activityTypeName}</legend>
-      <div id="help">{$activityTypeDescription}</div>
+      {if $activityTypeDescription}
+        <div id="help">{$activityTypeDescription}</div>
+      {/if}
       <table class="form-layout">
         <tr>
             <td class="label">{ts}Added By {/ts}</td><td class="view-value">{$values.source_contact}</td>
@@ -15,10 +17,10 @@
             <td class="label">{ts}Date and Time{/ts}</td><td class="view-value">{$values.activity_date_time|crmDate }</td>
         </tr>  
         <tr>
-            <td class="label">{ts}Details{/ts}</td><td class="view-value">{$values.details}</td>
+            <td class="label">{ts}Details{/ts}</td><td class="view-value report">{$values.details}</td>
         </tr>  
        <tr> 
-           <td>&nbsp;</td><td>{$form.buttons.html}</td> 
+           <td>&nbsp;</td><td class="buttons">{$form.buttons.html}</td> 
        </tr> 
      </table>
    </fieldset>

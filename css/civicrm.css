@@ -256,6 +256,10 @@ border-top-style: none;
   vertical-align: top;
 }
 
+#crm-container .form-layout .buttons, #crm-container .form-layout-compressed .buttons {
+ padding-top: 10px;
+}
+
 #crm-container .form-layout-compressed td.describe-image {
     vertical-align: top;
     padding: 0.5em 0em 0em 0em;
