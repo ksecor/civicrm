@@ -289,6 +289,17 @@ class CRM_Utils_File {
         }
     }
 
+    static function isExtensionSafe( $ext ) {
+        static $extensions = null;
+        if ( ! $extensions ) {
+            $extensions = array( 'jpg', 'jpeg', 'png', 'gif',
+                                 'txt', 'text', 'html', 'htm',
+                                 'pdf', 'doc', 'xls', 'rtf', 'csv', 'ppt' );
+        }
+        return in_array( $ext, $extensions ) ? true : false;
+    }
+
+
 }
 
 ?>

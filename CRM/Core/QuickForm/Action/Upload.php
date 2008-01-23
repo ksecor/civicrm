@@ -92,6 +92,10 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 $info   = pathinfo($value['name']);
                 $basename = substr($info['basename'], 0, -(strlen($info['extension']) + ($info['extension'] == '' ? 0 : 1)));
                 $newName = $basename . "_{$uniqID}." . $info['extension'];
+                require_once 'CRM/Utils/File.php';
+                if ( ! CRM_Utils_File::isExtensionSafe( $info['extension'] ) ) {
+                    $newName .= ".unk";
+                }
                 $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
                 if ( ! $status ) {
                     CRM_Core_Error::statusBounce( ts( 'We could not move the uploaded file %1 to the upload directory %2. Please verify that the "Temporary Files" setting points to a valid path which is writable by your web server.', array( 1 => $value['name'], 2 => $this->_uploadDir ) ) );
