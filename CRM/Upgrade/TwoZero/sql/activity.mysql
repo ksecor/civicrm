@@ -81,71 +81,76 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
 
 -- /**********************************************************
 -- *
--- * Update activity table data / values
+-- * update civicrm_activity, civicrm_activity_target, civicrm_activity_assignment
 -- *
 -- ***********************************************************/
 
--- * Update for type phonecall
+-- setup
 
-INSERT INTO civicrm_activity (source_contact_id,subject,activity_date_time,duration,phone_id,phone_number,details) 
+SELECT @domain_id := ##domain_id##;
 
-SELECT 
-    source_contact_id,
-    subject,
-    scheduled_date_time,
-    (duration_hours*60)+duration_minutes,
-    phone_id,
-    phone_number,
-    details FROM civicrm_phonecall 	
+INSERT INTO civicrm_option_group (domain_id, name, label, is_reserved, is_active)
+VALUES (@domain_id, 'activity_status', 'Activity Status', 0, 1);
 
+SELECT @og_id_as := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'activity_status';
+SELECT @og_id_at := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'activity_type';
+
+INSERT INTO civicrm_option_value (option_group_id, label, value, name, weight, is_reserved)
+VALUES
+  (@og_id_as, 'Scheduled',    1, 'Scheduled',    1, 1),
+  (@og_id_as, 'Completed',    2, 'Completed',    2, 1),
+  (@og_id_as, 'Cancelled',    3, 'Cancelled',    3, 1),
+  (@og_id_as, 'Left Message', 4, 'Left Message', 4, 1),
+  (@og_id_as, 'Unreachable',  5, 'Unreachable',  5, 1);
+
+SELECT @ov_id_meeting   := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND name = 'Meeting';
+SELECT @ov_id_phonecall := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND name = 'Phone Call';
+
+ALTER TABLE civicrm_activity ADD COLUMN old_meeting_id   int(10);
+ALTER TABLE civicrm_activity ADD COLUMN old_phonecall_id int(10);
+
+
+
+-- update for type meeting
+
+INSERT INTO civicrm_activity (source_contact_id, activity_type_id, subject, activity_date_time, duration, location, details, status_id, old_meeting_id)
+SELECT source_contact_id, @ov_id_meeting, subject, scheduled_date_time, (duration_hours*60)+duration_minutes, location, details, IF (status = 'Scheduled', 1, 2), id
+FROM civicrm_meeting
 WHERE target_entity_table = 'civicrm_contact';
 
+INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, cm.target_entity_id
+FROM civicrm_meeting cm, civicrm_activity ca
+WHERE (cm.id = ca.old_meeting_id);
 
--- * Update for type meeting
+INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
+SELECT ca.id, cm.source_contact_id
+FROM civicrm_meeting cm, civicrm_activity ca
+WHERE (cm.id = ca.old_meeting_id);
 
-INSERT INTO civicrm_activity (source_contact_id,subject,activity_date_time,duration,location,details)  
 
-SELECT 
-    source_contact_id,
-    subject,
-    scheduled_date_time,
-    (duration_hours*60)+duration_minutes,
-    location,
-    details FROM civicrm_meeting 	
 
+-- update for type phonecall
+
+INSERT INTO civicrm_activity (source_contact_id, activity_type_id, subject, activity_date_time, duration, phone_id, phone_number, details, status_id, old_phonecall_id)
+SELECT source_contact_id, @ov_id_phonecall, subject, scheduled_date_time, (duration_hours*60)+duration_minutes, phone_id, phone_number, details, IF (status = 'Scheduled', 1, IF (status = 'Left Message', 4, IF (status = 'Unreachable', 5, 2))), id
+FROM civicrm_phonecall 	
 WHERE target_entity_table = 'civicrm_contact';
 
+INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, cp.target_entity_id
+FROM civicrm_phonecall cp, civicrm_activity ca
+WHERE (cp.id = ca.old_phonecall_id);
 
--- /**********************************************************
--- *
--- * Update activity target table data / values
--- *
--- ***********************************************************/
-
--- * Update for type phonecall
-
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
-
-SELECT 
-    ca.id, 
-    target_entity_id
-
-FROM `civicrm_phonecall` cp, `civicrm_activity` ca
-
-WHERE (cp.source_contact_id = ca.source_contact_id AND cp.subject = ca.subject AND cp.scheduled_date_time = ca.activity_date_time ) AND 
-      (cp.phone_id = ca.phone_id OR cp.phone_number = ca.phone_number);
+INSERT INTO civicrm_activity_assignment (activity_id, assignee_contact_id)
+SELECT ca.id, cp.source_contact_id
+FROM civicrm_phonecall cp, civicrm_activity ca
+WHERE (cp.id = ca.old_phonecall_id);
 
 
--- * Update for type meeting
 
-INSERT INTO `civicrm_activity_target` (`activity_id`, `target_contact_id`)
+-- cleanup
 
-SELECT 
-    ca.id, 
-    target_entity_id
-FROM `civicrm_meeting` cp, `civicrm_activity` ca
-
-WHERE (cp.source_contact_id = ca.source_contact_id AND cp.subject = ca.subject AND cp.scheduled_date_time = ca.activity_date_time );
-
-
+ALTER TABLE civicrm_activity DROP old_meeting_id;
+ALTER TABLE civicrm_activity DROP old_phonecall_id;
 

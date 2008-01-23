@@ -51,6 +51,15 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
             return false;
         }
         
+        // check whether civicrm_{meeting,phonecall} are used only for contacts 
+        // and don't have any parent_ids set
+        if ( ! CRM_Core_DAO::checkFieldHasAlwaysValue('civicrm_meeting',   'target_entity_table', 'civicrm_contact') ||
+             ! CRM_Core_DAO::checkFieldHasAlwaysValue('civicrm_phonecall', 'target_entity_table', 'civicrm_contact') ||
+             ! CRM_Core_DAO::checkFieldIsAlwaysNull('civicrm_meeting',   'parent_id') ||
+             ! CRM_Core_DAO::checkFieldIsAlwaysNull('civicrm_phonecall', 'parent_id')) {
+            return false;
+        }
+        
         return $this->checkVersion( '1.92' );
     }
 

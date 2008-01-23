@@ -464,6 +464,41 @@ LIKE %1
       }
 
     /**
+     * Check whether a specific column in a specific table has always the same value
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * @param string $columnValue
+     * 
+     * @return boolean true if the value is always $columnValue, false otherwise
+     * @static
+     */
+      function checkFieldHasAlwaysValue($tableName, $columnName, $columnValue) {
+          $query = "SELECT * FROM $tableName WHERE $columnName != '$columnValue'";
+          $dao = CRM_Core_DAO::executeQuery($query);
+          $result = $dao->fetch() ? false : true;
+          $dao->free();
+          return $result;
+      }
+
+    /**
+     * Check whether a specific column in a specific table is always NULL
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * 
+     * @return boolean true if if the value is always NULL, false otherwise
+     * @static
+     */
+      function checkFieldIsAlwaysNull($tableName, $columnName) {
+          $query = "SELECT * FROM $tableName WHERE $columnName IS NOT NULL";
+          $dao = CRM_Core_DAO::executeQuery($query);
+          $result = $dao->fetch() ? false : true;
+          $dao->free();
+          return $result;
+      }
+
+    /**
      * Check if there is a given table in the database
      *
      * @param string $tableName
