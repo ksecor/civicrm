@@ -94,7 +94,7 @@ class CRM_Core_QuickForm_Action_Upload extends CRM_Core_QuickForm_Action {
                 $newName = $basename . "_{$uniqID}." . $info['extension'];
                 require_once 'CRM/Utils/File.php';
                 if ( ! CRM_Utils_File::isExtensionSafe( $info['extension'] ) ) {
-                    $newName .= ".unk";
+                    $newName .= ".unknown";
                 }
                 $status = $element->moveUploadedFile( $this->_uploadDir, $newName );
                 if ( ! $status ) {
