@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-11-14 05:49-0800\n"
-"Last-Translator: martin eeltink <martin.eeltink@tweesnoeken.nl>\n"
+"PO-Revision-Date: 2008-01-23 08:29-0800\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -244,7 +244,7 @@ msgstr "Directory Cleanup"
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Empties template cache and/or temporary upload file folders."
 msgstr ""
-"Leegt de template cache en/of de directoeries met tijdelijke geuploade "
+"Leegt de template cache en/of de directories met tijdelijke geuploade "
 "bestanden."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
@@ -660,9 +660,8 @@ msgid "Enter the Merchant ID from your Live account."
 msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "How do I Find my Merchant-ID?"
-msgstr "How to obtain Merchant-ID?"
+msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -1294,7 +1293,7 @@ msgstr ""
 
 #: templates/CRM/Group/Page/Group.hlp templates/CRM/UF/Page/Group.hlp
 msgid "more info"
-msgstr ""
+msgstr "meer info"
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1304,6 +1303,11 @@ msgid ""
 "User Pages' (use the <strong>Settings</strong> link), and including the "
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
+"U kunt na het zoeken of raadplegen van een contact dat contact aan een groep "
+"toevoegen. U kunt ook toestaan dat contacten zichzelf in een groep "
+"aanmelden door de zichtbaarheid van die groep op 'Public User Pages' te "
+"zetten. (gebruik de <strong>Settings</strong> link), en gebruik de "
+"<strong>Groups</strong> element in CiviCRM ."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1321,6 +1325,11 @@ msgid ""
 "the <strong>A-to-Z bar</strong> to quickly find all groups starting with "
 "that letter."
 msgstr ""
+"Gebruik <strong>Find Groups</strong> om te zoeken op  groepsnaam, type en "
+"zichtbaarheid. Als U 'Mailing List' en 'Access Control' aanvinkt worden "
+"alleen groepen die aan beide voorwaarden voldoen, getoond. U kunt ook op een "
+"letter in de <strong>A-to-Z regel</strong> klikken om alle groepen te "
+"selecteren die beginnen met die letter."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
