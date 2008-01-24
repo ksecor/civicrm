@@ -122,8 +122,8 @@ class CRM_Contact_Form_Household
     }
 
     /**
-     * This function synchronizes (updates) the address of individuals, sharing the address of the passed in household-contact-ID.
-     *
+     * This function synchronizes (updates) the address of individuals,
+     * sharing the address of the passed household-contact-ID.
      * @param integer $householdContactID  the household contact id.
      *
      * @return void
@@ -134,40 +134,25 @@ class CRM_Contact_Form_Household
     {
         require_once 'api/v2/Location.php';
         $locParams = array( 'contact_id' => $householdContactID );
-        $values =& _civicrm_location_get( $locParams, $location_types );
-
-        $query =  "SELECT contact_id from civicrm_individual where mail_to_household_id=$householdContactID";
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-        
-        while ( $dao->fetch( ) ) {
+        $values    =& _civicrm_location_get( $locParams, $location_types );
+        $query     =  "SELECT id from civicrm_contact where mail_to_household_id=$householdContactID";
+        $dao       = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        while ( $dao->fetch( ) ) {    
             $params = array();
-            
-            $idParams = array( 'id' => $dao->contact_id, 'contact_id' => $dao->contact_id );
+            $idParams = array( 'contact_id' => $dao->id );
             $ids =& _civicrm_location_get( $idParams, $dnc );
-            
-            $params['contact_id']                      = $dao->contact_id;
+            $params['contact_id']                      = $dao->id;
             $params['location'][1]['address']          = $values[1]['address'];
             $params['location'][1]['location_type_id'] = $values[1]['location_type_id'];
             $params['location'][1]['is_primary']       = 1;
             
             // removing unwanted ids from the params array
-            $unsetFields = array( 'id', 'location_id', 'timezone', 'note' );
+            $unsetFields = array( 'id', 'timezone' );
             foreach ( $unsetFields as $fld ) {
                 unset( $params['location'][1]['address'][$fld] );
             }
             
-            // building new ids array of only those ids which needs to
-            // be updated
-            $releventIDs                  = array();
-            $releventIDs['contact']       = $dao->contact_id;
-            $releventIDs['location']      = array();
-            $releventIDs['location']['1'] = array();
-            
-            $releventIDs['location']['1']['id']      = $ids['1']['id'];
-            $releventIDs['location']['1']['address'] = $ids['1']['address']['id'];
-            
-            CRM_Core_BAO_Location::add( $params, $releventIDs, 1 );
+            CRM_Core_BAO_Location::create( $params );
             unset($params, $ids);
         }
     }

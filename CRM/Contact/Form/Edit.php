@@ -671,7 +671,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         
         if ( $this->_contactType == 'Household' && ( $this->_action & CRM_Core_Action::UPDATE ) ) {
             //TO DO: commented because of schema changes
-            //CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
+            CRM_Contact_Form_Household::synchronizeIndividualAddresses( $contact->id );
         }
 
 
