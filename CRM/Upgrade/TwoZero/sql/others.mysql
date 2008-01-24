@@ -516,20 +516,85 @@ ALTER TABLE `civicrm_saved_search`
     ADD `search_custom_id` int(10) unsigned NULL DEFAULT NULL COMMENT 'Foreign key to civicrm_option value table used for saved custom searches.' AFTER mapping_id;
 
 
+-- /*******************************************************
+-- *
+-- * Dumping data for option groups & values
+-- *
+-- *******************************************************/
+
 -- 
--- Dumping data for table `civicrm_option_value`
+-- Dumping data for table `civicrm_option_group`
 -- 
 
 SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
 
+INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `label`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+(@domain_id, 'case_type', NULL, 'Case Type', 0, 1),
+(@domain_id, 'case_status', NULL, 'Case Status', 0, 1),
+(@domain_id, 'custom_search', NULL, 'Custom Search', 0, 1),
+(@domain_id, 'participant_listing', NULL, 'Participant Listing', 0, 1);
+
+-- 
+-- Dumping data for table `civicrm_option_value`
+-- 
+
 SELECT @og_id_at := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'activity_type';
+SELECT @og_id_ct := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'case_type';
+SELECT @og_id_cs := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'case_status';
+SELECT @og_id_custom := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'custom_search';
+SELECT @og_id_pl := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'participant_listing';
+SELECT @og_id_ps := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'participant_status';
+SELECT @og_id_cvo := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'contact_view_options';
+SELECT @og_id_aso := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'advanced_search_options';
 
 SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
 SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
 
+SELECT @max_val_aso := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_aso;
+SELECT @max_wt_aso  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_aso;
+
+SELECT @max_val_ps := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_ps;
+SELECT @max_wt_ps  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_ps;
+
+SELECT @max_val_cvo := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_cvo;
+SELECT @max_wt_cvo  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_cvo;
+
 INSERT INTO `civicrm_option_value` ( `option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
-(@domain_id, 'Event Registration', (SELECT @max_val := @max_val+1), 'Event Registration', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline event registration.', 0, 1, 1),
-(@domain_id, 'Contribution', (SELECT @max_val := @max_val+1), 'Contribution', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline contribution.', 0, 1, 1),
-(@domain_id, 'Membership Signup', (SELECT @max_val := @max_val+1), 'Membership Signup', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership signup.', 0, 1, 1),
-(@domain_id, 'Membership Renewal', (SELECT @max_val := @max_val+1), 'Membership Renewal', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership renewal.', 0, 1, 1),
-(@domain_id, 'Tell a Friend', (SELECT @max_val := @max_val+1), 'Tell a Friend', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Send information about a contribution campaign or event to a friend.', 0, 1, 1);
+(@og_id_at, 'Contribution', (SELECT @max_val := @max_val+1), 'Contribution', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline contribution.', 0, 1, 1),
+(@og_id_at, 'Membership Signup', (SELECT @max_val := @max_val+1), 'Membership Signup', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership signup.', 0, 1, 1),
+(@og_id_at, 'Membership Renewal', (SELECT @max_val := @max_val+1), 'Membership Renewal', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership renewal.', 0, 1, 1),
+(@og_id_at, 'Tell a Friend', (SELECT @max_val := @max_val+1), 'Tell a Friend', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Send information about a contribution campaign or event to a friend.', 0, 1, 1);
+
+
+SELECT @sms_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'SMS';
+UPDATE `civicrm_option_value` SET label = 'Text Message (SMS)', name = 'Text Message (SMS)', filter=1, 
+description = 'Text message (SMS) sent.' 
+WHERE id = @sms_id;  
+
+SELECT @event_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'Event';
+UPDATE `civicrm_option_value` ov SET label = 'Event Registration', name = 'Event Registration', filter=1, 
+description = 'Online or offline event registration.' 
+WHERE id = @event_id;
+
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
+(@og_id_cs, 'Ongoing', '1', 'Ongoing', NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@og_id_cs, 'Resolved', '2', 'Resolved', NULL, 0, NULL, 2, NULL, 0, 1, 1),
+(@og_id_ct, 'Civil & Political', '1', 'Civil & Political', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_ct, 'Economic, Social & Cultural', '2', 'Economic, Social & Cultural', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_ct, 'Gender Issues', '3', 'Gender Issues', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Sample', '1', 'CRM/Contact/Form/Search/Custom/Sample.php', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Contribution', '2', 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Basic', '3', 'CRM/Contact/Form/Search/Custom/Basic.php', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Group', '4', 'CRM/Contact/Form/Search/Custom/Group.php', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_PostalMailing', '5', 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+(@og_id_pl, 'Name Only', '1', 'Name Only', NULL, 0, 0, 1, NULL, 0, 1, 1),
+(@og_id_pl, 'Name and Email', '2', 'Name and Email', NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@og_id_ps, 'Pending', (SELECT @max_val_aso := @max_val_ps+1), 'Pending', NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_ps+1), NULL, 0, 1, 1),
+(@og_id_cvo, 'Cases', (SELECT @max_val_aso := @max_val_cvo+1), NULL, NULL, 0, NULL, (SELECT @max_wt_cvo := @max_wt_cvo+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Cases', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Kabissa', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Grants', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1);
+
+
