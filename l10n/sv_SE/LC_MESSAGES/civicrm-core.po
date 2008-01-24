@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2007-11-06 09:51-0800\n"
-"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
+"PO-Revision-Date: 2008-01-21 13:52-0800\n"
+"Last-Translator: Per Jonsson <per@ankarlift.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
@@ -4142,8 +4142,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: CRM/Core/BAO/CMSUser.php
+#, fuzzy
 msgid "Create an account?"
-msgstr ""
+msgstr "Vill du skapa ett användarkonto?"
 
 #: CRM/Core/BAO/CMSUser.php
 msgid "Username"
@@ -8637,26 +8638,26 @@ msgstr ""
 
 #: templates/CRM/Block/Add.tpl
 msgid "First Name:"
-msgstr ""
+msgstr "Förnamn:"
 
 #: templates/CRM/Block/Add.tpl
 msgid "Last Name:"
-msgstr ""
+msgstr "Efternamn:"
 
 #: templates/CRM/Block/Add.tpl templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Email:"
-msgstr ""
+msgstr "E-postadress:"
 
 #: templates/CRM/Block/Search.tpl
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Go to Advanced Search"
-msgstr ""
+msgstr "Gå till avancerad sökning"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
@@ -8667,43 +8668,51 @@ msgid ""
 "If you would like to create an account on this site, check the box below and "
 "enter a user name"
 msgstr ""
+"Om du vill skapa ett användarkonto på den här sajten, kryssa i rutan nedan "
+"och fyll i ett användarnamn"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid "and a password"
-msgstr ""
+msgstr "och ett lösenord"
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
 "If you already have an account, <a href=\"%1\">please login</a> before "
 "completing this form."
 msgstr ""
+"Om du redan har ett användarkonto, <a href=\"%1\">logga in</a> för att fylla i "
+"detta formulär"
 
 #: templates/CRM/common/CMSUser.tpl
+#, fuzzy
 msgid ""
 "Your preferred username; punctuation is not allowed except for periods, "
 "hyphens, and underscores."
 msgstr ""
+"Välj användarnamn; namnet får förutom bokstäver och siffror innehålla punkt, "
+"bindestreck och understreck."
 
 #: templates/CRM/common/CMSUser.tpl
+#, fuzzy
 msgid "Provide a password for the new account in both fields."
-msgstr ""
+msgstr "Välj ett lösenord och skriv det i båda fälten."
 
 #: templates/CRM/common/footer.tpl
 msgid "External ID"
-msgstr ""
+msgstr "Externt ID"
 
 #: templates/CRM/common/footer.tpl
 #, fuzzy
 msgid "CiviCRM ID"
-msgstr "CiviCRM"
+msgstr "CiviCRM ID"
 
 #: templates/CRM/common/footer.tpl
 msgid "Last Change by"
-msgstr ""
+msgstr "Senast ändrad av"
 
 #: templates/CRM/common/footer.tpl
 msgid "View Change Log"
-msgstr ""
+msgstr "Läs loggbok"
 
 #: templates/CRM/common/footer.tpl
 msgid ""
@@ -8715,15 +8724,15 @@ msgstr ""
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
-msgstr ""
+msgstr "Rader per sida:"
 
 #: templates/CRM/common/recentlyViewed.tpl
 msgid "Recently Viewed:"
-msgstr ""
+msgstr "Senaste besök:"
 
 #: templates/CRM/common/WizardHeader.tpl
 msgid "(step %1 of %2)"
-msgstr ""
+msgstr "(steg %1 av %2)"
 
 #: templates/CRM/Contact/Form/Address/country.tpl
 msgid " - type first letter(s) - "
