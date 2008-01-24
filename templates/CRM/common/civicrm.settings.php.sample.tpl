@@ -1,6 +1,6 @@
 <?php
 /**
- * CiviCRM Configuration File - v1.9
+ * CiviCRM Configuration File - v2.0
  */
 
 /**
