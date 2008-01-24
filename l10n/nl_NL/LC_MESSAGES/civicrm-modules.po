@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2007-12-19 04:03-0800\n"
-"Last-Translator: Gerard <translucent@xs4all.nl>\n"
+"PO-Revision-Date: 2008-01-23 22:09-0800\n"
+"Last-Translator: martin eeltink <martin.eeltink@tweesnoeken.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -67,13 +67,12 @@ msgstr "Ontvangstbewijs van naam"
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr "Ontvangstebewijs van Email"
+msgstr "Ontvangstbewijs van Email"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Footer Text"
-msgstr "Voettekst"
+msgstr "Voetregel"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -138,13 +137,12 @@ msgstr "Boekhoudkundige code"
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
+msgstr "SKU"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Period Type"
-msgstr "Periode"
+msgstr "Periode type"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
@@ -1031,7 +1029,7 @@ msgstr "%1 moet een geheel getal zijn"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "The premium you have selected requires a minimum contribution of %1"
-msgstr ""
+msgstr "Voor de geselecteerde premie is een minimum bedrag nodig."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1043,12 +1041,16 @@ msgid ""
 "Please enter a number for how often you want to make this recurring "
 "contribution (EXAMPLE: Every 3 months)."
 msgstr ""
+"Geef de frequentie van de betreffende contributie aan (VOORBEELD: elke 3 "
+"maanden)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Please select a period (e.g. months, years ...) for how often you want to "
 "make this recurring contribution (EXAMPLE: Every 3 MONTHS)."
 msgstr ""
+"Selecteer de periode (maanden, jaren ....) voor de contributie (VOORBEELD: "
+"elke 3 maanden)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid " The Membership you have selected requires a minimum contribution of %1"
@@ -1242,7 +1244,7 @@ msgstr "Dank U pagina footer"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
-msgstr "Stuur de contributant een email ?"
+msgstr "Stuur de contributant een email?"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt Message"
@@ -1550,10 +1552,10 @@ msgid ""
 "campaigns - and customize text, amounts, types of information collected from "
 "contributors, etc."
 msgstr ""
-"CiciContribute stelt u in staat om een groot aantal online bijdrae paginas "
-"te creeeren en bij te houden. Er kunnen verschillende paginas worden "
-"aangemaakt voor verschillende programmas, of campagnes. Voor elke pagina "
-"zijn de teksten,bijdragen en andere gegevens specifiek in te stellen."
+"CiviContribute stelt u in staat om een groot aantal online bijdrage pagina's "
+"te creeeren en bij te houden. Er kunnen verschillende pagina's worden "
+"aangemaakt voor verschillende programma's of campagnes. Voor elke pagina "
+"zijn de teksten, bijdragen en andere gegevens specifiek in te stellen."
 
 #: CRM/Contribute/Menu.php
 msgid ""
@@ -1591,7 +1593,7 @@ msgstr "Configureren van de Bijdragen Pagina"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to disable this Contribution page?"
-msgstr "Weet u zeker, dat U de Bijdrage Pagina wilt disablen?"
+msgstr "Weet u zeker, dat U de Bijdrage Pagina wilt uitzetten?"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Are you sure you want to delete this Contribution page?"
@@ -1619,7 +1621,7 @@ msgstr "Nieuwe Bijdrage Pagina"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Are you sure you want to disable this contribution type?"
-msgstr "Weet U zeker, dat U dit type bijdrage wilt disablen ?"
+msgstr "Weet U zeker, dat U dit type bijdrage wilt uitzetten?"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -1683,7 +1685,7 @@ msgstr "- Contact Velden -"
 #: CRM/Event/BAO/Query.php
 #, fuzzy
 msgid "Event %2 %1"
-msgstr "Acitiviteit - \"%1\""
+msgstr "Activiteit - \"%1\""
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -2270,9 +2272,8 @@ msgid "Test Mailing:"
 msgstr "Test mailing :"
 
 #: CRM/Mailing/BAO/Job.php
-#, fuzzy
 msgid "The mailing has been canceled."
-msgstr "Mail component \"%1\" is opgeslagen"
+msgstr "Mail is afgebroken."
 
 #: CRM/Mailing/BAO/Mailing.php
 #, fuzzy
@@ -2417,7 +2418,7 @@ msgstr "Url"
 
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Org Unsubscribe"
-msgstr "Organsiatie opzeggen"
+msgstr "Organisatie afmelden"
 
 #: CRM/Mailing/Form/Component.php
 #, fuzzy
@@ -2562,9 +2563,8 @@ msgid "Mailing List Subscription"
 msgstr "Onderwerp van de mailing"
 
 #: CRM/Mailing/Form/Subscribe.php
-#, fuzzy
 msgid "Please enter a valid email address (e.g. 'yourname@example.com')."
-msgstr "Voer maximaal 5 emailadressen in, die de mailing zullen ontvangen."
+msgstr "Voer een geldig e-mailadres in (bijv. 'naam@gmail.com')."
 
 #: CRM/Mailing/Form/Subscribe.php
 msgid "There are no public mailing list groups to display."
@@ -2837,9 +2837,8 @@ msgid "Replies"
 msgstr "Antwoorden"
 
 #: CRM/Mailing/Selector/Event.php templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "Unsubscribe Requests"
-msgstr "Organsiatie opzeggen"
+msgstr "Organisatie afmelden"
 
 #: CRM/Mailing/Selector/Event.php
 msgid "Unique Click-throughs"
@@ -3274,25 +3273,21 @@ msgid "Edit Membership Status"
 msgstr "Vorige lidmaatschappen"
 
 #: CRM/Member/Page/MembershipStatus.php
-#, fuzzy
 msgid "Disable Membership Status"
-msgstr "Vorige lidmaatschappen"
+msgstr "Schakel lidmaatschappen uit"
 
 #: CRM/Member/Page/MembershipStatus.php
-#, fuzzy
 msgid "Enable Membership Status"
-msgstr "Vorige lidmaatschappen"
+msgstr "Schakel lidmaatschappen in"
 
 #: CRM/Member/Page/MembershipStatus.php
 #: templates/CRM/Member/Form/MembershipStatus.tpl
-#, fuzzy
 msgid "Delete Membership Status"
-msgstr "Vorige lidmaatschappen"
+msgstr "Verwijder lidmaatschappen"
 
 #: CRM/Member/Page/MembershipType.php
-#, fuzzy
 msgid "Are you sure you want to disable this membership type?"
-msgstr "Ben je er zeker van dat je dit type relatie wil uitschakelen?"
+msgstr "Ben je er zeker van dat je dit type lidmaatschap wil uitschakelen?"
 
 #: CRM/Member/Page/MembershipType.php
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -3339,8 +3334,8 @@ msgid ""
 "WARNING: If you delete this option, contributors will not be able to use "
 "this credit card type on your Online Contribution pages."
 msgstr ""
-"Waarschuwing: als u deze optie verwijdert, zijn contributanten niet meer in "
-"staat om dit type creditcard te gebruiken op uw online bijdrage paginas."
+"Waarschuwing: als u deze optie verwijdert zijn contributanten niet meer in "
+"staat om dit type creditcard te gebruiken op uw online bijdrage pagina's."
 
 #: templates/CRM/Contribute/Form/AcceptCreditCard.tpl
 msgid ""
@@ -3355,9 +3350,8 @@ msgid ""
 "The name for this credit card type as it is displayed to contributors. This "
 "may be the same value as the Name above, or a localised title."
 msgstr ""
-"De naam van dit type creditcard, zoals ze getoond wordt aan de "
-"contributanten. Dit mag dezelfde naam zijn als de naam hierboven, of de "
-"aangepaste naam."
+"De naam van dit type creditcard die getoond wordt aan de contributanten. Dit "
+"mag dezelfde naam zijn als de naam hierboven of de aangepaste naam."
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #, fuzzy
@@ -3516,9 +3510,9 @@ msgid ""
 "Otherwise, fill in the credit card and billing information on this form and "
 "click <strong>Continue</strong> at the bottom of the page."
 msgstr ""
-"Als u een PayPal rekening heeft, kunt u de PayPal knop klikken, om verder te "
-"gaan. Anders vult u uw creditcard en naam/adres gegevens in op deze pagina, "
-"en klikt u op <strong> Ga verder</strong> onderaan."
+"Als u een PayPal rekening heeft, kunt u op de PayPal knop klikken om verder "
+"te gaan. Anders vult u uw creditcard en naam/adres gegevens in op deze "
+"pagina en klik op <strong> Ga verder</strong> onderaan."
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Contribute/Form/Offline.tpl
@@ -3570,9 +3564,8 @@ msgid "Select a Membership Level"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
-#, fuzzy
 msgid "(membership fee - %1)"
-msgstr "Bijdrage lidmaatschappen (3 van %1)"
+msgstr "(bijdrage lidmaatschap %1)"
 
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "(contribute at least %1 to be eligible for this membership)"
@@ -3666,8 +3659,8 @@ msgid ""
 "OR 'PayJunction' as your payment processor.)"
 msgstr ""
 "Vink dit vak aan, als u donateurs de gelegenheid wilt geven hun eigen bedrag "
-"op te geven. De pagina zal dan een tekstveld bevatten met een label <strong> "
-"Andere bedrag</strong>."
+"op te geven. De pagina zal dan een tekstveld bevatten met een label "
+"<strong> Ander bedrag</strong>."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 msgid ""
@@ -3809,10 +3802,10 @@ msgid ""
 "include images, as long as they are already uploaded to a server - reference "
 "them using complete URLs."
 msgstr ""
-"Voer hier de tekst in voor de introtekst. Deze wordt onder de pagina titel "
-"getoond.Er mogen HTML tags aan teogevoegd worden. Eveneens is het mogelijk "
-"om afbeeldingen in te voegen (mits deze op de server staan), ze moeten dan "
-"via een volledige URL link ingevoegd worden."
+"Voer hier de introductietekst in. Deze wordt onder de pagina titel getoond. "
+"Er mogen HTML tags aan toegevoegd worden. Eveneens is het mogelijk om "
+"afbeeldingen in te voegen (mits deze op de server staan), ze moeten dan via "
+"een volledige URL link ingevoegd worden."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Premium.tpl
 msgid ""
@@ -4061,8 +4054,8 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
-"Als u wenst, dat collegas in uw organisatie een copie krijgen van elke "
-"verstuurde kwitantie, kunt u hier hun emailadressen invullen (de adressen "
+"Als u wenst dat collega's in uw organisatie een copie krijgen van elke "
+"verstuurde kwitantie, kunt u hier hun e-mailadressen invullen (de adressen "
 "worden gescheiden door een komma). "
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
@@ -4260,7 +4253,7 @@ msgstr "Kies het relevante contributie type voor deze tranactie."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
-msgstr "Exact bedrag gedoneerd door de contributant."
+msgstr "Bedrag gedoneerd door de contributant."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "The date this contribution was received."
@@ -4346,9 +4339,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
-#, fuzzy
 msgid "Deleting a contribution type cannot be undone."
-msgstr "Geselecteerd bijdrage type is verwijderd"
+msgstr "Verwijderen bijdrage type is definitief."
 
 #: templates/CRM/Contribute/Form/ContributionType.tpl
 msgid ""
@@ -4556,8 +4548,8 @@ msgid ""
 "WARNING: Deleting this option will result in the loss of all contribution "
 "records which use this option."
 msgstr ""
-"Waarschuwing : Het vewijderen van deze optie resulteert in het verlies van "
-"alle bijdragen, waar deze optie gebruikt werd."
+"Waarschuwing : Het verwijderen van deze optie betekent het verlies van alle "
+"bijdragen waar deze optie gebruikt wordt."
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "No matching contributions found."
@@ -6487,13 +6479,12 @@ msgid "New Membership Status"
 msgstr "Nieuwe status lidmaatschap"
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this status."
 msgstr ""
-"Waarschuwing: Het verwijderen van dit type resulteert in verwijderen van "
-"alle bijdragebestanden, die van dit type gebruik maken."
+"Waarschuwing: Het verwijderen van deze optie betekent het verwijderen van "
+"alle lidmaatschaprelaties met deze status."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
@@ -6612,13 +6603,12 @@ msgid "New Membership Type"
 msgstr "Nieuw groeplidmaatschap"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-#, fuzzy
 msgid ""
 "WARNING: Deleting this option will result in the loss of all membership "
 "records of this type."
 msgstr ""
-"Waarschuwing: Het verwijderen van dit type resulteert in verwijderen van "
-"alle bijdragebestanden, die van dit type gebruik maken."
+"Waarschuwing: Het verwijderen van dit type betekent het verwijderen van alle "
+"lidmaatschappen met dit type."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "e.g. \"Student\", \"Senior\", \"Honor Society\"..."
