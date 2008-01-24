@@ -286,13 +286,14 @@ LIMIT 6";
        
         $elements = array( );
         while ( $dao->fetch( ) ) {
-            $elements[] = array( 'val'   => $dao->msg_title . "^A" . $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
+            $elements[] = array( 'value'   => $dao->msg_title . "^A" . $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
                                  'name'  => $dao->msg_title,
                                  'label' => $dao->msg_title  );
             
         }
+
         require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements,'val');
+        echo CRM_Utils_JSON::encode( $elements,'value');
     }
 
     /**

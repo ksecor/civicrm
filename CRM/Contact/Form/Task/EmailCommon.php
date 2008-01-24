@@ -167,8 +167,8 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->assign( 'from', $from );
         
         
-//Added for CRM-1393
-        $form->assign( 'dojoIncludes',  " dojo.require('dijit.form.FilteringSelect'); ('dojo.data.ItemFileReadStore'); dojo.require('dojo.parser');"  );
+        //Added for CRM-1393
+        $form->assign( 'dojoIncludes',  " dojo.require('dijit.form.FilteringSelect'); ('dojo.data.ItemReadStore'); dojo.require('dojo.parser');"  );
         $config   =& CRM_Core_Config::singleton( );
         $domainID =  CRM_Core_Config::domainID( );
         
@@ -176,7 +176,6 @@ class CRM_Contact_Form_Task_EmailCommon
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
         $attributes = array( 'dojoType'       => 'dijit.form.FilteringSelect',
                              'store'          => 'tempStore',
-                             'autocomplete'   => 'false',
                              'class'          => 'tundra',
                              'onChange'       => 'selectValue',
                              );
