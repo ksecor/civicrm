@@ -3819,7 +3819,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (5192, 1098, "TW", "Tsuen Wan"),
 (5193, 1098, "TM", "Tuen Mun"),
 (5194, 1098, "YL", "Yuen Long"),
-(9000, 1196, "NW", "North West" ), 
+(9000, 1196, "NW", "North West"), 
 (9986, 1226, "xTYW", "Tyne and Wear"),
 (9987, 1226, "xIOM", "Isle of Man"),
 (9988, 1226, "xGMA", "Greater Manchester"),
