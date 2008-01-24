@@ -3,7 +3,7 @@
   {include file="CRM/Contact/Form/Edit.tpl"}
 {else}
 
-<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 1600px;" >
+<div id="mainTabContainer" dojoType="dijit.layout.TabContainer" class ="tundra" style="width: 100%; height: 600px; overflow-y: auto;" >
 
 <div id="summary" dojoType="dojox.layout.ContentPane" title="Summary" class ="tundra" style="overflow: auto; width: 100%; height: 100%;">
 
@@ -184,7 +184,7 @@
 
 {foreach from=$allTabs key=tabName item=tabValue}
   <div id="{$tabValue.id}" dojoType="dojox.layout.ContentPane" href="{$tabValue.url}" title="{$tabValue.title}" 
-class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} ></div>
+class ="tundra" {if $tabValue.id eq $selectedChild} selected="true"{/if} style="overflow: auto; width: 100%; height:100%;"></div>
 {/foreach}
 </div>
 
