@@ -470,8 +470,6 @@ abstract class CRM_Import_Parser {
          
             // clean up memory from dao's
             CRM_Core_DAO::freeResult( );
-
-            sleep(3);
         }
 
         fclose( $fd );

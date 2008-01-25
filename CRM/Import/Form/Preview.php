@@ -154,22 +154,26 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
         }
         $previousURL = CRM_Utils_System::url('civicrm/import/contact', '_qf_MapField_display=true');
         $cancelURL = CRM_Utils_System::url('civicrm/import', 'reset=1');
-        $this->addButtons( array(
-                                 array ( 'type'      => 'back',
-                                         'name'      => ts('<< Previous'),
-                                         'js'        => array( 'onclick' => "location.href='{$previousURL}'; return false;" ) ),
-                                 array ( 'type'      => 'next',
-                                         'name'      => ts('Import Now >>'),
-                                         'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                                         'isDefault' => true,
-                                         // 'js'        => array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" )
-                                         ),
-                                 array ( 'type'      => 'cancel',
-                                         'name'      => ts('Cancel'),
-                                         'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
-                                 )
-                           );
+        $buttons = array(
+                         array ( 'type'      => 'back',
+                                 'name'      => ts('<< Previous'),
+                                 'js'        => array( 'onclick' => "location.href='{$previousURL}'; return false;" ) ),
+                         array ( 'type'      => 'next',
+                                 'name'      => ts('Import Now >>'),
+                                 'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                                 'isDefault' => true,
+                                 ),
+                         array ( 'type'      => 'cancel',
+                                 'name'      => ts('Cancel'),
+                                 'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
+                         );
+        
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Joomla' ) {
+            $buttons[1]['js'] = array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" );
+        }
 
+        $this->addButtons( $buttons );
     }
 
     /**

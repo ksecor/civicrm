@@ -1,3 +1,4 @@
+{if $config->userFramework ne 'Joomla'}
 {literal}
 <script type="text/javascript">
 var finished = 0;
@@ -97,6 +98,7 @@ dojo.addOnLoad( function( ) {
 } );
 </script>
 {/literal}
+{/if}
 
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
@@ -124,6 +126,7 @@ dojo.addOnLoad( function( ) {
     <p>{ts}Click 'Import Now' if you are ready to proceed.{/ts}</p>
  </div>
 
+{if $config->userFramework ne 'Joomla'}
 {* Import Progress Bar and Info *}
 <div id="id-processing">
 <h3>Importing records...</h3>
@@ -137,6 +140,7 @@ dojo.addOnLoad( function( ) {
 <div id="intermediate"></div>
 
 <div id="error_status"></div>
+{/if}
 
 <div id="preview-info">
  {* Summary Preview (record counts) *}
@@ -247,7 +251,9 @@ dojo.addOnLoad( function( ) {
 </div>
 
 <script type="text/javascript">
+{if $config->userFramework ne 'Joomla'}
 hide('id-processing');
+{/if}
 hide('newGroup');
 hide('existingGroup');
 hide('newTag');
