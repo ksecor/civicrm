@@ -356,7 +356,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 } elseif ($this->_contactType == 'Organization') {
                     $fieldsArray = array('organization_name', 'email');
                 }
-                foreach ( $fieldsArray as $value) {
+                foreach ( $fieldsArray as $value ) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
                         if (is_array($paramValue)) {
@@ -367,6 +367,10 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                     }
                 }
                 
+                if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
+                    $disp = $params['external_identifier'];
+                }
+
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Event_Import_Parser::ERROR;
             }

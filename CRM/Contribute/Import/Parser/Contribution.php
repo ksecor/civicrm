@@ -457,7 +457,7 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 } elseif ($this->_contactType == 'Organization') {
                     $fieldsArray = array('organization_name', 'email');
                 }
-                foreach ( $fieldsArray as $value) {
+                foreach ( $fieldsArray as $value ) {
                     if(array_key_exists(trim($value),$params)) {
                         $paramValue = $params[trim($value)];
                         if (is_array($paramValue)) {
@@ -467,6 +467,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                         }
                     }
                 } 
+                
+                if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
+                    $disp = $params['external_identifier'];
+                }
                 
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Contribute_Import_Parser::ERROR;
