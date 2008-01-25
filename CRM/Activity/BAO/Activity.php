@@ -575,6 +575,24 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         //         $email  =& self::add( $params );
         
         $sent = $notSent = array();
+        $returnProperties = array();
+        if( isset( $messageToken['contact'] ) ) { 
+            foreach ( $messageToken['contact'] as $key => $value ) {
+                $returnProperties[$value] = 1; 
+            }
+        }
+        
+        if( isset( $subjectToken['contact'] ) ) { 
+            foreach ( $subjectToken['contact'] as $key => $value ) {
+                if ( !isset( $returnProperties[$value] ) ) {
+                    $returnProperties[$value] = 1;
+                }
+            }
+        }
+        
+        require_once 'CRM/Mailing/BAO/Mailing.php';
+        $mailing   = & new CRM_Mailing_BAO_Mailing();
+        $details   = $mailing->getDetails($contactIds, $returnProperties );
         
         require_once 'api/Contact.php';
         foreach ( $contactIds as $contactId ) {
@@ -585,25 +603,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                 $notSent[] = $contactId;
                 continue;
             }
-            
-            $returnProperties = array();
-            if( isset( $messageToken['contact'] ) ) { 
-                foreach ( $messageToken['contact'] as $key => $value ) {
-                    $returnProperties[$value] = 1; 
-                }
-            }
-            
-            if( isset( $subjectToken['contact'] ) ) { 
-                foreach ( $subjectToken['contact'] as $key => $value ) {
-                    if ( !isset( $returnProperties[$value] ) ) {
-                        $returnProperties[$value] = 1;
-                    }
-                }
-            }
-            
-            require_once 'CRM/Mailing/BAO/Mailing.php';
-            $mailing   = & new CRM_Mailing_BAO_Mailing();
-            $details   = $mailing->getDetails($contactId, $returnProperties );
             
             if( is_array( $details[0]["{$contactId}"] ) ) {
                 $contact = array_merge( $contact, $details[0]["{$contactId}"] );

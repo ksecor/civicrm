@@ -1702,10 +1702,23 @@ SELECT DISTINCT( m.id ) as id
 
         return $returnProperties;
     }
-
-    function getDetails($contactID, $returnProperties) {
-        
-        $params  = array( array( 'contact_id', '=', $contactID, 0, 0 ) );
+    
+    /**
+     * gives required details of contacts 
+     *
+     * @param  array  $contactIds       of conatcts
+     * @param  array  $returnProperties of required properties
+     *
+     * @return array
+     * @access public
+     */
+    function getDetails($contactIds, $returnProperties) 
+    {
+        $params = array( );
+        foreach ( $contactIds  as $key => $contactID ) {
+            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
+                               '=', 1, 0, 1);
+        }
         
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
@@ -1719,39 +1732,36 @@ SELECT DISTINCT( m.id ) as id
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
         $details = $query->apiQuery($params, $returnProperties);
         
-        if ( ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) 
-             || ( CRM_Utils_Array::value('note',$returnProperties) == 1 ) ) {
-            $parameters = array( );
-            $defaults   = array( );
-            $ids        = array( );
-            
-            $parameters['id'] = $parameters['contact_id'] = $contactID;
-            $contact = CRM_Contact_BAO_Contact::retrieve( $parameters, $defaults, $ids, true );
-            
-            if ( isset ( $defaults['preferred_communication_method_display'] )
-                 && ($returnProperties['preferred_communication_method'] == 1 ) ) {
-                $details[0][$contactID]['preferred_communication_method'] = $defaults['preferred_communication_method_display'];
+        $contactDetails =& $details[0]; 
+        
+        foreach ( $contactIds as $key => $contactID ) {
+            if ( CRM_Utils_Array::value('preferred_communication_method',$returnProperties) == 1 ) {
+                
+                require_once 'CRM/Core/PseudoConstant.php';
+                $pcm = CRM_Core_PseudoConstant::pcm();
+                
+                // communication Prefferance
+                
+                require_once 'CRM/Core/BAO/CustomOption.php';
+                $contactPcm = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR,$contactDetails[$contactID]['preferred_communication_method']);
+                
+                foreach ( $contactPcm as $key => $val) {
+                    if ($val) {
+                        $result[$val] = $pcm[$val];
+                    } 
+                }
+                
+                $contactDetails[$contactID]['preferred_communication_method'] = implode(', ',$result);
+                unset($result);
             }
             
-            if ( isset ( $defaults['note'] ) && ( $returnProperties['note'] == 1 ) ) {
-                foreach ( $defaults['note'] as $key => $value ) {
-                    if ( isset( $details[0][$contactID]['note'] ) ) {
-                        $details[0][$contactID]['note'] = $details[0][$contactID]['note'].",".$value['note'];
-                    } else {
-                        $details[0][$contactID]['note'] = $value['note']; 
-                    }
+            foreach ( $custom as $cfID ) {
+                if ( isset ( $contactDetails[$contactID]["custom_{$cfID}"] ) ) {
+                    $contactDetails[$contactID]["custom_{$cfID}"] = 
+                        CRM_Core_BAO_CustomField::getDisplayValue( $contactDetails[$contactID]["custom_{$cfID}"],$cfID, $details[1] );
                 }
             }
         }
-        
-        foreach ( $custom as $cfID ) {
-            if ( isset ( $details[0][$contactID]["custom_{$cfID}"] ) ) {
-                $details[0][$contactID]["custom_{$cfID}"] = 
-                    CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$contactID]["custom_{$cfID}"],
-                                                               $cfID, $details[1] );
-            }
-        }
-        
         return $details;
     }
     

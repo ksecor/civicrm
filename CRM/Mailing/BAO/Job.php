@@ -293,10 +293,14 @@ ORDER BY j.scheduled_date,
     public function deliverGroup ( &$fields, &$mailing, &$mailer, &$job_date ) {
         // get the return properties
         $returnProperties = $mailing->getReturnProperties( );
-        
+        $params = array( );
+        foreach ( array_keys( $fields ) as $contactID ) {
+            $params[] = $contactID;
+        }
+
+        $details = $mailing->getDetails($params, $returnProperties);
+
         foreach ( $fields as $contactID => $field ) {
-            
-            $details = $mailing->getDetails($contactID, $returnProperties );
             
             /* Compose the mailing */
             $recipient = null;
