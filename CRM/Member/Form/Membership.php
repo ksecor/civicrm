@@ -336,13 +336,14 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         }
         
         $params['membership_type_id'] = $formValues['membership_type_id'][1];
-       
+               
         $joinDate  = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['join_date'] ));
         $startDate = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['start_date'] ));
         $endDate   = CRM_Utils_Date::mysqlToIso(CRM_Utils_Date::format( $formValues['end_date'] ));
-
+        
         $calcDates = CRM_Member_BAO_MembershipType::getDatesForMembershipType($params['membership_type_id'],
                                                                               $joinDate, $startDate, $endDate);
+        
         $dates = array( 'join_date',
                         'start_date',
                         'end_date',
@@ -357,7 +358,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params[$d] = CRM_Utils_Date::isoToMysql($calcDates[$d]);
             }
         }
-
+        
         if ( $this->_id ) {
             $ids['membership'] = $params['id'] = $this->_id;
         }
@@ -426,7 +427,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                 $params['receipt_date'] = $params['receive_date'];
             }
         }
-
+        
         $membership =& CRM_Member_BAO_Membership::create( $params, $ids );
         if ( $formValues['send_receipt'] ) {
             require_once 'CRM/Core/DAO.php';
@@ -459,7 +460,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     unset( $params['custom'][$k]['id'] );
                 }
             }
-
+            
             foreach ( $relatedContacts as $contactId => $relationshipStatus ) {
                 $params['contact_id'         ] = $contactId;
                 $params['owner_membership_id'] = $membership->id;
@@ -481,7 +482,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     // more than one status having is_current_member = 0.
                     $params['status_id'] = CRM_Core_DAO::getFieldValue('CRM_Member_DAO_MembershipStatus', '0', 'id', 'is_current_member' );
                 }
-                $membership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
+                $relatedMembership = CRM_Member_BAO_Membership::create( $params, CRM_Core_DAO::$_nullArray );
             }
         }
 
@@ -504,7 +505,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
                     $customFields["custom_{$k}"] = $field;
                 }
             }
-
+            
             CRM_Core_BAO_UFGroup::getValues( $this->_contactID, $customFields, $customValues , false, 
                                              array( array( 'member_id', '=', $membership->id, 0, 0 ) ) );
             $this->assign( 'module', 'Membership' );

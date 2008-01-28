@@ -98,7 +98,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
 
         $membership->id = CRM_Utils_Array::value( 'membership', $ids );
         
-        $membership->save();
+        $membership->save( );
         $membership->free( );
         
         $session = & CRM_Core_Session::singleton();
@@ -111,8 +111,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                                'modified_date' => date('Ymd')
                                );
         require_once 'CRM/Member/BAO/MembershipLog.php';
-        $temp = array();
-        CRM_Member_BAO_MembershipLog::add($membershipLog, $temp);
+        CRM_Member_BAO_MembershipLog::add($membershipLog, CRM_Core_DAO::$_nullArray);
         
         if ( CRM_Utils_Array::value( 'membership', $ids ) ) {
             CRM_Utils_Hook::post( 'edit', 'Membership', $membership->id, $membership );
@@ -175,9 +174,9 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
     {  
         require_once 'CRM/Utils/Date.php';
         if ( ! isset( $params['is_override'] ) ) {
-            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y-%m-%d');
-            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y-%m-%d');
-            $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y-%m-%d');
+            $startDate  = CRM_Utils_Date::customFormat($params['start_date'],'%Y%m%d');
+            $endDate    = CRM_Utils_Date::customFormat($params['end_date'],'%Y%m%d');
+            $joinDate   = CRM_Utils_Date::customFormat($params['join_date'],'%Y%m%d');
             
             require_once 'CRM/Member/BAO/MembershipStatus.php';
             $calcStatus = CRM_Member_BAO_MembershipStatus::getMembershipStatusByDate( $startDate, $endDate, $joinDate );
@@ -252,7 +251,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
                 $mpDAO->contribution_id = $contribution->id;
                 $mpDAO->save();
             }
-        }        
+        }
         
         // add activity record only during create mode
         if ( !CRM_Utils_Array::value( 'membership', $ids ) ) {
