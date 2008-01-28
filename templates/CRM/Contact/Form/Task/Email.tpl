@@ -18,10 +18,7 @@
 {else}
 <dt>{$form.to.label}</dt><dd>{$form.to.html}{if $noEmails eq true}&nbsp;&nbsp;{$form.emailAddress.html}{/if}</dd>
 {/if}
-  <dt>{$form.template.label}</dt><dd> 
-    <div dojoType="dojox.data.QueryReadStore" jsId="tempStore" url="{$dataUrl}" align="left" class="tundra">
-        {$form.template.html}
-    </div></dd>
+  <dt>{$form.template.label}</dt><dd>{$form.template.html}</dd>
   <dt>{$form.subject.label}</dt><dd>{$form.subject.html}</dd>
   <dt>{$form.message.label}</dt><dd>{$form.message.html}</dd>
 {if $single eq false}
@@ -52,16 +49,47 @@
 </div>
  <div>
 
-{*Added For CRM-1393*}
-{if $dojoIncludes}
 {literal}
 <script type="text/javascript" >
-     function selectValue(value)
-     {
-       var tokens = value.split( "^A" );
-       dojo.byId('message').value=tokens[1];
-       dojo.byId('subject').value=tokens[2];
-     }
+
+    function selectValue( val )
+    {
+        if ( !val ) {
+	    return;
+        }
+
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/template' q='tid='}"{literal} + val;
+        
+        var result = dojo.xhrGet({
+        url: dataUrl,
+        handleAs: "text",
+        timeout: 5000, //Time in milliseconds
+        handle: function(response, ioArgs){
+                if(response instanceof Error){
+                        if(response.dojoType == "cancel"){
+                                //The request was canceled by some other JavaScript code.
+                                console.debug("Request canceled.");
+                        }else if(response.dojoType == "timeout"){
+                                //The request took over 5 seconds to complete.
+                                console.debug("Request timed out.");
+                        }else{
+                                //Some other error happened.
+                                console.error(response);
+                        }
+                } else {
+	           res = response.split('^A');
+
+		   //set text message
+		   document.getElementById("message").value = res[0];
+
+		   // set subject	
+		   document.getElementById("subject").value = res[2];
+               }
+         }
+      });
+    }
+
+
      function verify( select )
      {
 	if ( document.getElementsByName("saveTemplate")[0].checked  == false) {
@@ -87,5 +115,3 @@
     document.getElementById("editMessageDetails").style.display = "none";
 </script>
 {/literal}
-{/if}
-

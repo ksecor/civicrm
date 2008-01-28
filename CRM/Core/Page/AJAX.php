@@ -81,9 +81,6 @@ class CRM_Core_Page_AJAX extends CRM_Core_Page
         case 'eventType':
             return $this->eventType( $config );
 
-        case 'message':
-            return $this->message( $config );
-        
         case 'caseSubject':
              return $this->caseSubject( $config );
 
@@ -266,37 +263,6 @@ ORDER by v.weight";
     }
 
     /**
-     * Function to build message template combo box
-     */
-    function message( &$config ) 
-    {
-        require_once 'CRM/Utils/Type.php';
-        $domainID = CRM_Utils_Type::escape( $_GET['d'], 'Integer' );
-
-        $query = "
-SELECT id, msg_title,msg_text,msg_subject,msg_html
-  FROM civicrm_msg_template
- WHERE domain_id = $domainID
- AND is_active =1 
-ORDER BY msg_title
-LIMIT 6";
-
-        $nullArray = array( );
-        $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
-       
-        $elements = array( );
-        while ( $dao->fetch( ) ) {
-            $elements[] = array( 'value'   => $dao->msg_title . "^A" . $dao->msg_text . "^A" . $dao->msg_subject. "^A" .$dao->msg_html,
-                                 'name'  => $dao->msg_title,
-                                 'label' => $dao->msg_title  );
-            
-        }
-
-        require_once "CRM/Utils/JSON.php";
-        echo CRM_Utils_JSON::encode( $elements,'value');
-    }
-
-    /**
      * Function to build state province combo box
      */
     function state( &$config ) 
@@ -466,10 +432,10 @@ ORDER BY subject";
         $messageTemplate =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplate->id = $templateId;
         $messageTemplate->selectAdd( );
-        $messageTemplate->selectAdd( 'msg_text, msg_html' );
+        $messageTemplate->selectAdd( 'msg_text, msg_html, msg_subject' );
         $messageTemplate->find( true );
         
-        echo $messageTemplate->msg_text . "^A" . $messageTemplate->msg_html;
+        echo $messageTemplate->msg_text . "^A" . $messageTemplate->msg_html . "^A" . $messageTemplate->msg_subject;
     }
 
     /**
@@ -480,14 +446,10 @@ ORDER BY subject";
         require_once 'CRM/Utils/Type.php';
         $fieldId = CRM_Utils_Type::escape( $_GET['id'], 'Integer' );
 
-        require_once "CRM/Core/DAO/CustomField.php";
-        $customField =& new CRM_Core_DAO_CustomField( );
-        $customField->id = $fieldId;
-        $customField->selectAdd( );
-        $customField->selectAdd( 'help_post' );
-        $customField->find( true );
-
-        echo $customField->help_post;
+        $helpPost = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField',
+                                                 $fieldId,
+                                                 'help_post' );
+        echo $helpPost;
     }
 }
 
