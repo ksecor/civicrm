@@ -940,7 +940,12 @@ SELECT id
         
         // fix the date field 
         if ( $customFields[$customFieldId][2] == 'Date' ) {
-            $date = CRM_Utils_Date::format( $value );
+            if ( ! CRM_Utils_System::isNull( $value ) ) {
+                $value['H'] = '00';
+                $value['i'] = '00';
+                $value['s'] = '00';
+                $date = CRM_Utils_Date::format( $value );
+            } 
             if ( ! $date ) {
                 $date = '';
             }
