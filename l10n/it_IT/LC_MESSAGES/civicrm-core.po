@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-01-24 12:40+0530\n"
-"PO-Revision-Date: 2007-12-04 03:12-0800\n"
+"PO-Revision-Date: 2008-01-24 04:02-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1266,7 +1266,7 @@ msgstr "Elimina indirizzo"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
-msgstr "Amministra CiviCRM"
+msgstr "Impostazioni CiviCRM"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/DAO/Domain.php
 msgid "Email Domain"
@@ -1789,7 +1789,7 @@ msgstr "Copia di"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
-msgstr "CiviCRM"
+msgstr "Menu completo CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
@@ -2045,7 +2045,7 @@ msgstr "Il file allegato è stato eliminato."
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Il nome utente non è impostato in Amministra CiviCRM &raquo; Strumenti "
+"Il nome utente non è impostato in Impostazioni CiviCRM &raquo; Strumenti "
 "pagamento"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/IATS.php
@@ -2053,7 +2053,8 @@ msgstr ""
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"La password non è impostata in Amministra CiviCRM &raquo; Strumenti pagamento"
+"La password non è impostata in Impostazioni CiviCRM &raquo; Strumenti "
+"pagamento"
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -5010,7 +5011,7 @@ msgstr "Menu di CiviCRM"
 
 #: CRM/Core/Block.php
 msgid "GCC Shortcuts"
-msgstr "Scorciatoie GCC"
+msgstr "Scorciatoie di GCC"
 
 #: CRM/Core/Block.php
 msgid "New Organization"
@@ -5091,7 +5092,7 @@ msgid ""
 "CiviCRM >> Global Settings</a> to set the SMTP Server."
 msgstr ""
 "Non esiste una impostazione valida per l'SMTP. Cliccate su <a href=\"%1"
-"\">Amministra CiviCRM >> Impostazioni globali</a> per impostarlo."
+"\">Impostazioni CiviCRM >> Impostazioni globali</a> per impostarlo."
 
 #: CRM/Core/DAO/Address.php
 msgid "Street Number"
@@ -6270,7 +6271,7 @@ msgstr ""
 msgid ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Store ID non impostato in Amministra CiviCRM &raquo; Strumento di pagamento"
+"Store ID non impostato in Impostazioni CiviCRM &raquo; Strumento di pagamento"
 
 #: CRM/Core/Payment/PayJunction.php
 msgid "Username is not set for this payment processor"
@@ -11462,7 +11463,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
-msgstr ""
+msgstr "Inserisci"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 msgid ""

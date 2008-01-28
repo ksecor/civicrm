@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-01-24 12:40+0530\n"
-"PO-Revision-Date: 2008-01-23 08:29-0800\n"
+"PO-Revision-Date: 2008-01-26 02:08-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,15 +33,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Full street address (e.g. 110 Main Street)."
-msgstr "Volledig straatadres (vb.: Hoofdstraat 110)."
+msgstr "Volledig adres (vb.: Hoofdstraat 110)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 1 (line is skipped if empty)."
-msgstr "Adres toevoeging 1 (regel wordt genegeerd indien leeg)"
+msgstr "Adrestoevoeging 1 (regel wordt overgeslagen indien leeg)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Supplemental address 2 (line is skipped if empty)."
-msgstr "Adres toevoeging 2 (regel wordt genegeerd indien leeg)"
+msgstr "Adrestoevoeging 2 (regel wordt overgeslagen indien leeg)"
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "City."
@@ -53,7 +53,7 @@ msgid ""
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
-"Naam streek, regio, graafschap (county). Als u  een streek wilt invoegen in "
+"Naam streek, regio, graafschap (county). Als u een streek wilt invoegen in "
 "uw mailing labels dient u, hieronder op dit scherm, het adres veld "
 "strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn "
 "aangemaakt in de civicrm_county tabel van uw database."
@@ -64,8 +64,7 @@ msgstr "<strong>Afkorting</strong> van de provincie (of Amerikaanse staat)."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "State or province <strong>full name</strong>."
-msgstr ""
-"<strong>Volledige naam</strong> van de provincie (of Amerikaanse staat)."
+msgstr "Provincie <strong>afkorting</strong>."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid "Postal code."
@@ -292,7 +291,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid "EXAMPLE: if your Drupal site url is %1 you would enter"
-msgstr "VOORBEELD: als uw Drupal site url %1 is, voert u in "
+msgstr "Voorbeeld: als uw Drupal site url %1 is, voert u in "
 
 #: templates/CRM/Admin/Form/Setting/Mapping.hlp
 msgid ""
@@ -328,13 +327,13 @@ msgid ""
 "documentation for more information on obtaining and installing SSL "
 "certificates."
 msgstr ""
-"Als u op uw site een Paymend Processor Service gebruikt waarmee Credit Card "
-"en betalingsgegevens worden verzameld (PayPal Website Payments Pro, "
-"Moneris. ..) <strong> raden wij u sterk aan om een SSL certificaat aan te "
-"maken of te verkrijgen en uw website zodanig aan te passen dat deze SSL "
-"connecties ondersteund</strong>. Vraag uw hosting provider of sla uw "
-"webserver dokumentie er op na voor meer  infoermatie over het verkrijgen en "
-"instaleren van SSL certificaten. "
+"Als u op uw site een betaalmethode gebruikt waarmee Credit Card en "
+"betalingsgegevens worden verzameld (PayPal Website Payments Pro, Moneris. "
+"..) <strong> raden wij u sterk aan om een SSL certificaat aan te maken of te "
+"verkrijgen en uw website aan te passen dat deze SSL connecties "
+"ondersteund</strong>. Vraag uw hosting provider of sla uw webserver "
+"dokumentie er op na voor meer informatie over het verkrijgen en installeren "
+"van SSL certificaten."
 
 #: templates/CRM/Admin/Form/Setting/Url.hlp
 msgid ""
@@ -376,6 +375,12 @@ msgid ""
 "processor's website before proceeding. If your preferred processor is not in "
 "the list, consider partnering with a developer and contributing a plugin."
 msgstr ""
+"Lees de <a href='%1' target='_blank' title='%2'>configuratie procedure voor "
+"een betaalmethode</a>. Als U niet weet welke betaalmethode te kiezen - raden "
+"we aan te kijken naar voorwaarden, beperkingen en dekkingsgebied van elke "
+"betaalmethode, voordat U verder gaat. Als de betaalmethode van uw voorkeur "
+"niet in de lijst staat, kunt u overwegen deze te (laten) maken met een "
+"plugin."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (LIVE account):"
@@ -848,6 +853,9 @@ msgid ""
 "Event Registration pages prior to selecting and configuring a real payment "
 "processor. You can enter any values for User Name and Site URL."
 msgstr ""
+"Maak een 'Dummy' betaalmethode als U de online pagina's voor  bijdrage of "
+"evenementenregistratie wil testen voordat U een echte betaalmethode kiest en "
+"instelt. U kunt elke waarde invullen voor gebruikersnaam en Site URL."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -922,9 +930,9 @@ msgid ""
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
 "Gebruik de <strong>%</strong> wildcard voor de u onbekende tekstgedeeltes. "
-"VOORBEELD: voer 'Vrijwilliger%' in als uw activiteiten type om te zoeken "
-"naar alle activiteiten met de naam 'Vrijwilligerr' + elk ander woord, letter "
-"of tekst (vb.: Vrijwilligers voor open huis)."
+"Voorbeeld: voer 'Vrijwilliger%' in bij activiteiten type om te zoeken naar "
+"alle activiteiten die beginnen met 'Vrijwilliger' (bijv.: Vrijwilligers voor "
+"open huis)."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
 msgid ""
@@ -936,12 +944,13 @@ msgid ""
 "'Mexico' returns only those contacts who meet both criteria)."
 msgstr ""
 "Als meerdere boxen worden aangevinkt in contact type, groepen, markeringen "
-"en locatie typen, worden de selecties gecombineerd in een <strong>OF</"
-"strong> functie. (vb.: aanvinken van  'group A' en 'group B' zoekt en vindt "
-"contacten die of in 'group A' OF in 'group B' zitten). Alle overige "
-"zoekvelden worden gecombineerd tot een <strong>EN</strong> functie (vb.: "
-"door kenmerk 'Belangrijke donor' EN land is 'Mexico' aan te vinken worden "
-"alleen de contacten gezocht en getoond die aan beide criteria voldoen)."
+"en locatie typen, worden de selecties gecombineerd in een "
+"<strong>OF</strong> functie. (vb.: aanvinken van  'groep A' en 'groep B' "
+"zoekt en vindt contacten die of in 'groep A' of in 'groep B' zitten). Alle "
+"overige zoekvelden worden gecombineerd tot een <strong>EN</strong> functie "
+"(bijv.: door kenmerk 'Belangrijke donor' en land is 'Mexico' aan te vinken "
+"worden alleen de contacten gezocht en getoond die aan beide criteria "
+"voldoen)."
 
 #: templates/CRM/Contact/Form/Search/Builder.hlp
 msgid ""
@@ -979,6 +988,11 @@ msgid ""
 "want to collect information specific to this contribution (e.g. target one "
 "or several projects or funds to support with this contribution)."
 msgstr ""
+"Als U aanvullende informatie van contribuanten wil,  dient U een of twee "
+"CiviCRM Profielen in te stellen. Dit is een verzameling van velden. U kunt  "
+"bijvoorbeeld de naam of het adres willen weten, ook als deze zijn niet "
+"vereist voor de betaalmethode, of de reden van aanmelding voor een "
+"nieuwsbrief, of de bestemming van een donatie."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
 msgid ""
@@ -1526,6 +1540,9 @@ msgid ""
 "file represents and individual person - even if the file also contains "
 "related Organization data (e.g. Employer Name, Employer Address, etc.)."
 msgstr ""
+"Gebruik <strong>Persoon</strong> als contacttype als elk invoerrecord een "
+"persoon is - ook als het bestand gerelateerde organisatiegegevens "
+"(Werknemersnaam etc.) bevat."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1849,7 +1866,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "an individual"
-msgstr ""
+msgstr "een persoon"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Children' of that individual"

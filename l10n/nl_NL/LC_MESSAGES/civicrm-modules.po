@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-01-24 12:40+0530\n"
-"PO-Revision-Date: 2008-01-23 22:09-0800\n"
-"Last-Translator: martin eeltink <martin.eeltink@tweesnoeken.nl>\n"
+"PO-Revision-Date: 2008-01-26 00:39-0800\n"
+"Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,18 +17,18 @@ msgstr ""
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "No thank you"
-msgstr "Nee, bedankt"
+msgstr "nee, bedankt"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/Form/Offline.php
 msgid "Contribution Source"
-msgstr "Herkomst bijdrage"
+msgstr "herkomst bijdrage"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/Invoke.php
 #: templates/CRM/Contribute/Form/Preview.tpl
 #: templates/CRM/Contribute/Form/Search/Common.tpl
 msgid "Contribution Page"
-msgstr "Bijdrage Pagina"
+msgstr "bijdragepagina"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
@@ -36,7 +36,7 @@ msgstr "Bijdrage Pagina"
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Transaction ID"
-msgstr "Transactie ID"
+msgstr "transactie ID"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
@@ -49,17 +49,17 @@ msgstr ""
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Goal Amount"
-msgstr "Richtbedrag"
+msgstr "doelbedrag"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Name"
-msgstr "Ontvangstbewijs van naam"
+msgstr "ontvangstbewijs van 'naam'"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
-msgstr "Ontvangstbewijs van Email"
+msgstr "ontvangstbewijs van 'email'"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
 msgid "Receipt Text"
@@ -68,61 +68,59 @@ msgstr "Kwitantie tekst"
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Footer Text"
-msgstr "Voetregel"
+msgstr "voetregeltekst"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Non-deductible Amount"
-msgstr "Niet-aftrekbaar bedrag"
+msgstr "niet-aftrekbaar bedrag"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Fee Amount"
-msgstr "Bedrag tarief"
+msgstr "bedrag per eenheid"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/DAO/FinancialTrxn.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Net Amount"
-msgstr "Netto bedrag"
+msgstr "netto aantal"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Invoice ID"
-msgstr "Factuur ID"
+msgstr "factuur ID"
 
 #: CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cancel Date"
-msgstr "Opzegdatum"
+msgstr "opzegdatum"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: CRM/Contribute/Form/Task/Status.php
 msgid "Receipt Date"
-msgstr "Kwitantie datum"
+msgstr "datum ontvangstbewijs"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Frequency Unit"
-msgstr "Frequentie"
+msgstr "frequentie"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Frequency Interval"
-msgstr "Frequentie interval"
+msgstr "interval frequentie"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "week"
-msgstr "Week"
+msgstr "week"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
 msgid "Accounting Code"
-msgstr "Boekhoudkundige code"
+msgstr "boekhoudkundige code"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -133,24 +131,22 @@ msgstr "SKU"
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Period Type"
-msgstr "Periode type"
+msgstr "type periode"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
-msgstr "Vastgestelde start datum"
+msgstr "vaste startdatum tijdvak"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Duration Unit"
-msgstr "Duur"
+msgstr "duureenheid"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Duration Interval"
-msgstr "Duur (interval)"
+msgstr "intervalduur"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
@@ -165,27 +161,27 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
 msgid "The page you requested is currently unavailable."
-msgstr "De pagina die u opvroeg, is nu niet beschikbaar."
+msgstr "De gevraagde pagina is nu niet beschikbaar."
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/Confirm.php
 msgid "<< Go Back"
-msgstr "<< Terug"
+msgstr "<< terug"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Number"
-msgstr "Voer een geldig creditcardnummer in"
+msgstr "voer een geldig creditcardnummer in"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Voer een geldige kaart verificatiecode in"
+msgstr "voer een geldige creditkaart verificatiecode in"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr "Voer een geldig bedrag in, bv 99.99"
+msgstr "Voer een geldig bedrag in (bijv. 99.99)."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -195,17 +191,17 @@ msgstr ""
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Profile Fields"
-msgstr "Profiel velden"
+msgstr "profielvelden"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(top of page)"
-msgstr ""
+msgstr "(begin van pagina)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "(einde van pagina)"
 
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
@@ -216,20 +212,18 @@ msgstr "Configureren van de Bijdragen Pagina"
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
-msgstr "Introductie tekst"
+msgstr "introductietekst"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Footer Message"
-msgstr "Achtergelaten Bericht"
+msgstr "naschrift"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid start date."
-msgstr "Voer een geldige datum in"
+msgstr "Voer een geldige startdatum in."
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
@@ -244,154 +238,134 @@ msgstr "Kwitantie bericht"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
-#, fuzzy
 msgid "You do not have permission to access this page"
-msgstr "Je hebt de nodige toegangsrechten niet om dit contact te bewerken."
+msgstr "u heeft geen toegangsrechten voor deze pagina"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 #: templates/CRM/Contribute/Page/ContributionHonor.tpl
 msgid "Received"
-msgstr "Ontvangen"
+msgstr "ontvangen"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Task/Print.tpl
 msgid "Thank-you Sent"
-msgstr "Bedankbericht verzonden"
+msgstr "bedankbericht verzonden"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Send Receipt?"
-msgstr "Kwitantie verzonden?"
+msgstr "Ontvangstbewijs versturen?"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Contribution Receipt"
-msgstr "Kwitantie bijdrage"
+msgstr "ontvangstbewijs bijdrage"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Premium"
-msgstr "Premie"
+msgstr "bijdrage"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Minimum Contribution Amount"
-msgstr "Minimum bedrag bijdrage"
+msgstr "minimum bedrag bijdrage"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
-msgstr "Verwijder bijdragen"
+msgstr "verwijder bijdragen"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
 msgid "Contribution Types"
-msgstr "Type bijdragen"
+msgstr "typen bijdrage"
 
 #: CRM/Contribute/Invoke.php CRM/Contribute/Menu.php
-#, fuzzy
 msgid "Manage Premiums"
-msgstr "Groepsbeheer"
+msgstr "beheer bijdragen"
 
 #: CRM/Contribute/Invoke.php CRM/Member/Invoke.php
 msgid "DashBoard"
-msgstr "Dashboard"
+msgstr "kladbord"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Pages"
-msgstr "Nieuwe Bijdrage Pagina"
+msgstr "beheer bijdrage pagina's"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 msgid "Test-drive"
-msgstr "Testen"
+msgstr "test-drive"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Live Page"
-msgstr "Thuisadres"
+msgstr "woonadres"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "vervolg"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
-#, fuzzy
 msgid "Edit Premium"
-msgstr "Wijzig groep"
+msgstr "wijzig bijdrage"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Preview Premium"
-msgstr "Voorvertoning %1"
+msgstr "bekijk bijdrage"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
-#, fuzzy
 msgid "Disable Premium"
-msgstr "Groep uitschakelen"
+msgstr "bijdrage uitschakelen"
 
 #: CRM/Event/BAO/Query.php CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Participant Source"
-msgstr "Bron deelnemer"
+msgstr "bron deelnemer"
 
+# Voor event werden zowel activiteit als evenement gebruikt, beter is het natuurlijk om 1 term te gebruiken. Het woordenboek geeft o.a. gebeurtenis en evenement, het laatste maar gekozen om dicht bij het engels te blijven.
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-#, fuzzy
 msgid "Event ID"
-msgstr "Activiteit ID"
+msgstr "Evenement ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Confirm From Name"
-msgstr "Bevestig op naam"
+msgstr "bevestig 'van naam'"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Confirm From Email"
-msgstr "Bevestig per Email"
+msgstr "bevestig 'van email'"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Event Title"
-msgstr "Titel activiteit"
+msgstr "Evenement titel"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Event Summary"
-msgstr "Overzicht activiteiten"
+msgstr "Evenement overzicht"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Start Date"
-msgstr "Registratie datum"
+msgstr "Registratie Startdatum"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration End Date"
-msgstr "Einddatum"
+msgstr "registratie einddatum"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "Fee Label"
-msgstr "Label veld"
+msgstr "kostenlabel"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
 msgid "Participant ID"
-msgstr "Deelnemer ID"
+msgstr "deelnemer ID"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Delete Event"
-msgstr "Verwijder activiteit"
+msgstr "Verwijder evenement "
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -402,19 +376,17 @@ msgstr "Voer een geldig bedrag in"
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr "Entreegeld"
+msgstr "Evenement bedrag(en)"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Configure Event"
-msgstr "Configureer activiteit"
+msgstr "Configureer Evenement"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Online Registration"
-msgstr "Gebruikers registratie"
+msgstr "online registratie"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
@@ -422,77 +394,73 @@ msgid "Payment Status"
 msgstr ""
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
-#, fuzzy
 msgid "Export Participants"
-msgstr "Exporteer contacten"
+msgstr "exporteren deelnemers"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Manage Events"
-msgstr "Beheer activiteiten"
+msgstr "Beheer Evenementen "
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
-msgstr "Lopend"
+msgstr "lopende"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Complete"
-msgstr "Volledig"
+msgstr "volledig"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Paused"
-msgstr "Gepauzeerd"
+msgstr "gepauzeerd"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Canceled"
-msgstr "Geannuleerd"
+msgstr "geannuleerd"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/BounceType.php
 #: CRM/Mailing/Event/BAO/Bounce.php
 msgid "Unknown"
-msgstr "Onbekend"
+msgstr "onbekend"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/DAO/Component.php
 msgid "Reply"
-msgstr "Antwoord"
+msgstr "antwoord"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
-msgstr "Opt-Uit"
+msgstr "Opt-Out"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
-msgstr "Type samenstelling"
+msgstr "type onderdeel"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 msgid "Body Html"
-msgstr "Body Html"
+msgstr "body html"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/DAO/Mailing.php
 #: templates/CRM/Mailing/Page/Component.tpl
 msgid "Body Text"
-msgstr "Body Tekst"
+msgstr "body text"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
 #: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
 msgid "Subscribe"
-msgstr "Inschrijven"
+msgstr "aanmelden"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
 msgid "Resubscribe"
-msgstr "Opnieuw inschrijven"
+msgstr "opnieuw aanmelden"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
-#, fuzzy
 msgid "\"%1\" <do-not-reply@%2>"
-msgstr "\"%1 Administrator\" <do-not-reply@%2>"
+msgstr "\"%1\" <do-not-reply@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
-msgstr "Reden van weigering / uitschrijving"
+msgstr "reden terugsturen"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Event/DAO/Confirm.php
 #: CRM/Mailing/Event/DAO/Delivered.php CRM/Mailing/Event/DAO/Forward.php
@@ -501,73 +469,65 @@ msgstr "Reden van weigering / uitschrijving"
 #: CRM/Mailing/Event/DAO/TrackableURLOpen.php
 #: CRM/Mailing/Event/DAO/Unsubscribe.php
 msgid "Time Stamp"
-msgstr "Tijdsstempel"
+msgstr "tijdstempel"
 
 #: CRM/Mailing/Form/Group.php CRM/Mailing/Form/Settings.php
 #: CRM/Mailing/Form/Test.php CRM/Mailing/Form/Upload.php
 msgid "Next >>"
-msgstr "Volgende >>"
+msgstr "volgende >>"
 
 #: CRM/Mailing/Invoke.php CRM/Mailing/Selector/Browse.php
 msgid "Report"
-msgstr "Rapporteer"
+msgstr "bericht"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Cancel Mailing"
-msgstr "Mailing afbreken"
+msgstr "mailing afbreken"
 
 #: CRM/Mailing/Page/Browse.php CRM/Mailing/Selector/Browse.php
 #: templates/CRM/Mailing/Page/Browse.tpl
-#, fuzzy
 msgid "Delete Mailing"
-msgstr "Mailing verwijderen"
+msgstr "mailing verwijderen"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr "Ontbrekende invoer parameters"
+msgstr "ontbrekende invoerwaarden "
 
 #: CRM/Member/DAO/Membership.php CRM/Member/Selector/Search.php
 #: templates/CRM/Member/Form/Task/Print.tpl
-#, fuzzy
 msgid "Member Since"
-msgstr "Lid sinds"
+msgstr "lid sinds"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Start Event"
-msgstr "Start activiteit"
+msgstr "Start Evenement"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "Start Event Adjust Interval"
-msgstr "Start activiteit interval aanpassen"
+msgstr "Start Evenement aanpassen interval"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "End Event"
-msgstr "Eind activiteit"
+msgstr "Einde Evenement"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "End Event Adjust Interval"
-msgstr "Eind activiteit interval aanpassen"
+msgstr "Eind Evenement aanpassen interval"
 
 #: CRM/Member/DAO/MembershipStatus.php CRM/Member/Form/MembershipStatus.php
-#, fuzzy
 msgid "Current Membership?"
-msgstr "Huidige lidmaatschap?"
+msgstr "Huidig lidmaatschap?"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Rollover Day"
-msgstr "Vastgestelde betalingsperiode"
+msgstr "vaste periode betaaldag"
 
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Renewal Reminder Day"
-msgstr "Datum herinnering"
+msgstr "vernieuwing herinneringsdatum"
 
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
 msgid "Send Confirmation and Receipt?"
@@ -580,24 +540,20 @@ msgstr ""
 #: CRM/Member/Form/Search.php CRM/Member/Page/DashBoard.php
 #: CRM/Member/Selector/Search.php templates/CRM/Member/Form/MembershipView.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid "Member"
-msgstr "Leden"
+msgstr "lid"
 
 #: CRM/Member/Form/Task/Delete.php CRM/Member/Task.php
-#, fuzzy
 msgid "Delete Members"
-msgstr "Verwijder leden"
+msgstr "verwijder leden"
 
 #: CRM/Member/Form/Task/Export.php CRM/Member/Task.php
-#, fuzzy
 msgid "Export Members"
-msgstr "Exporteer leden"
+msgstr "exporteer leden"
 
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
-#, fuzzy
 msgid "Import Members"
-msgstr "Importeer leden"
+msgstr "importeer leden"
 
 #: CRM/Contribute/BAO/ContributionType.php
 msgid ""
@@ -607,90 +563,81 @@ msgid ""
 "longer want it used."
 msgstr ""
 "Dit type bijdrage kan niet worden verwijderd omdat het betrekking heeft op "
-"de volgende bestanden: bijdragen, bijdragen pagina's of leden types. "
-"Overweeg dit type uit te schakelen als je het niet langer wilt gebruiken."
+"de volgende type bestanden: bijdragen, bijdrage pagina's of "
+"lidmaatschapstypen. Overweeg dit type uit te schakelen als u het niet langer "
+"wilt gebruiken."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
 msgid ""
 "This Premium is being linked to <a href=\"%1\">Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
+"Deze bijdrage is gekoppeld aan <a href=\"%1\">Online bijdragepagina</a>. "
+"Verwijder deze als u deze bijdrage wilt verwijderen."
 
 #: CRM/Contribute/BAO/Premium.php
-#, fuzzy
 msgid "Selected Option"
-msgstr "Gekozen opties"
+msgstr "geselecteerde optie"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Total Amount %1 %2"
-msgstr "Totaalbedrag bijdrages - %1 %2"
+msgstr "totaalbedrag bijdragen %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Thank-you date is null"
-msgstr "Informatie mbt. de bijdrage"
+msgstr "Bedankdatum bijdrage is niet ingevuld"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Receipt date is null"
-msgstr "Kwitantie: datum niet bekend"
+msgstr "Ontvangstdatum bijdrage is niet ingevuld"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Type - %1"
 msgstr "Type bijdrage - %1"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Page - %1"
-msgstr "Datum bijdrage - %1"
+msgstr "Bijdragepagina- %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
 msgstr "Betaald door - %1"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Honor name like - \"%1\""
-msgstr "Naam of email zoals - \"%1\""
+msgstr "Ten name van zoals - \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Status %1"
-msgstr "Bijdrage status"
+msgstr "Bijdragestatus"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr "Bijdragen data - van"
+msgstr "Datums bijdragen - van"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Payment Instrument"
-msgstr "Betalingsmiddel"
+msgstr "Betaalmiddel"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Thank-you date not set?"
-msgstr "Dank U pagina footer"
+msgstr "Bedankdatum niet ingevuld?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Receipt not sent?"
-msgstr "Kwitantie is verzonden"
+msgstr "Kwitantie niet verzonden?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "In Honor Of"
-msgstr "Eerbetoon"
+msgstr "Ten name van"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Find Test Contributions Only?"
-msgstr "Zoek bijdragen"
+msgstr "Zoek alleen testbijdragen?"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Recurring Contributions Only"
-msgstr "Recente bijdragen"
+msgstr "Alleen terugkerende bijdragen"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Intro Text"
@@ -722,9 +669,8 @@ msgid "Honor Block Text"
 msgstr "Introductietekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "Startdatum Bijdrage - %1"
+msgstr "Bijdrage pagina startdatum"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #, fuzzy
@@ -936,13 +882,12 @@ msgstr ""
 "opnieuw."
 
 #: CRM/Contribute/Form/ContributionBase.php
-#, fuzzy
 msgid ""
 "This contribution has already been submitted. Click <a href=\"%1\">here</a> "
 "if you want to make another contribution."
 msgstr ""
-"Er zijn nog geen bijdrage paginas aangemaakt. Klik <a href=\"%1\">hier</a> "
-"om een bijdrage pagina aan te maken met de Wizard."
+"De bijdrage is al verwerkt. Klik <a href=\"%1\">hier</a> om een nieuwe "
+"bijdrage aan te maken."
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -1096,16 +1041,14 @@ msgid ""
 "Please enter a number for how often you want to make this recurring "
 "contribution (EXAMPLE: Every 3 months)."
 msgstr ""
-"Geef de frequentie van de betreffende contributie aan (VOORBEELD: elke 3 "
-"maanden)."
+"Geef de frequentie van de betreffende contributie aan (Bijv. elke 3 maanden)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
 "Please select a period (e.g. months, years ...) for how often you want to "
 "make this recurring contribution (EXAMPLE: Every 3 MONTHS)."
 msgstr ""
-"Selecteer de periode (maanden, jaren ....) voor de contributie (VOORBEELD: "
-"elke 3 maanden)."
+"Geef de frequentie van de terugkerende contributie aan (bijv.: maand, jaar)."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid ""
@@ -1118,9 +1061,8 @@ msgid "The Membership you have selected requires a minimum contribution of %1"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Amount is required field."
-msgstr "%1 is een vereist veld"
+msgstr "Bedrag is een verplicht veld."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Contribution amount must be greater than %1"
@@ -1164,9 +1106,8 @@ msgid "Execute real-time monetary transactions"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Enable recurring payments"
-msgstr "Enable mailing onderdeel"
+msgstr "Uitzetten terugkerende betalingen"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid "Enable pay later option?"
@@ -1255,14 +1196,12 @@ msgid "Please enter a valid email address for Contact Email"
 msgstr "Voer maximaal 5 emailadressen in, die de mailing zullen ontvangen."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Contact Phone"
-msgstr "Contact pagina"
+msgstr "Contact telefoon"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Please enter a valid phone number."
-msgstr "Voer een geldig nummer in"
+msgstr "Voer een geldig telefoonnummer in"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #, fuzzy
@@ -1276,9 +1215,8 @@ msgid "Premiums"
 msgstr "<< Vorige"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
-#, fuzzy
 msgid "Title and Settings (%1)"
-msgstr "Titel en instellingen"
+msgstr "Titel en instellingen (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -1339,7 +1277,7 @@ msgstr "CC kwitantie naar"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Please enter a valid list of comma delimited email addresses"
-msgstr "Voer een, door kommas gescheiden, lijst in van emailadressen"
+msgstr "Voer een, door komma's gescheiden, lijst in van e-mailadressen"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "BCC Receipt To"
@@ -1751,24 +1689,20 @@ msgid "Are you sure you want to delete this Contribution page?"
 msgstr "Weet U zeker, dat U de Bijdrage Pagina wilt verwijderen?"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Are you sure you want to make a copy of this Contribution page?"
-msgstr "Weet u zeker, dat U de Bijdrage Pagina wilt disablen?"
+msgstr "Weet u zeker, dat U de Bijdrage Pagina wilt kopieeren?"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Copy Contribution Page"
-msgstr "Bijdrage Pagina"
+msgstr "Kopieer Bijdrage Pagina"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Make a Copy of CiviCRM Contribution Page"
-msgstr "Configureren van de Bijdragen Pagina"
+msgstr "Maak een kopie van de Bijdrage Pagina"
 
 #: CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Page"
-msgstr "Nieuwe Bijdrage Pagina"
+msgstr "Beheer Bijdrage Pagina"
 
 #: CRM/Contribute/Page/ContributionPage.php
 msgid "Search Contribution"
@@ -1789,11 +1723,11 @@ msgstr "Wijzig bijdrage type"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Disable Contribution Type"
-msgstr "Disable bijdrage type"
+msgstr "Uitzetten bijdrage type"
 
 #: CRM/Contribute/Page/ContributionType.php
 msgid "Enable Contribution Type"
-msgstr "Enable bijdrage type"
+msgstr "Aanzetten bijdrage type"
 
 #: CRM/Contribute/Page/ContributionType.php
 #: templates/CRM/Contribute/Form/ContributionType.tpl
@@ -1838,7 +1772,7 @@ msgstr "Datum van ontvangst van deze bijdrage."
 
 #: CRM/Event/BAO/Participant.php
 msgid "This event is full !!!"
-msgstr "Deze activiteit is vol!!!"
+msgstr "Dit evenement is vol!"
 
 #: CRM/Event/BAO/Participant.php
 #, fuzzy
@@ -1846,24 +1780,20 @@ msgid "- Participant Fields -"
 msgstr "- Contact Velden -"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event %2 %1"
-msgstr "Activiteit - \"%1\""
+msgstr "Evenement - %2 %1"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Type - %1"
-msgstr "Type acitiviteit"
+msgstr "Evenement Type - %1"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Test Participants Only"
-msgstr "Zoek bijdragen"
+msgstr "Alleen deelnemers testen"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Participant Status %1"
-msgstr "Voeg leden toe aan %1"
+msgstr "Deelnemers Status %1"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1871,14 +1801,12 @@ msgid "Participant Role %1"
 msgstr "zoeken in contacten"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Name"
-msgstr "Naam activiteit"
+msgstr "Evenement Naam"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Date - From"
-msgstr "Datum activiteit - van"
+msgstr "Evenement Datum - Van"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1926,13 +1854,12 @@ msgid "ThankYou Text"
 msgstr "Dank U bericht tekst"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Description"
-msgstr "Beschrijving activiteit"
+msgstr "Evenement Beschrijving"
 
 #: CRM/Event/DAO/Event.php
 msgid "Event Type ID"
-msgstr "Type activiteit ID"
+msgstr "Evenement Type ID"
 
 #: CRM/Event/DAO/Event.php
 msgid "Participant Listing ID"
@@ -1940,17 +1867,15 @@ msgstr ""
 
 #: CRM/Event/DAO/Event.php
 msgid "Is Event Public"
-msgstr "Is de activiteit openbaar?"
+msgstr "Is het evenement openbaar?"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Start Date"
-msgstr "Startdatum activiteit"
+msgstr "Evenement startdatum"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event End Date"
-msgstr "Einddatum activiteit"
+msgstr "Evenement einddatum"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -1958,9 +1883,8 @@ msgid "Is Online Registration"
 msgstr "gebruikers registratie"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Registration Link Text"
-msgstr "Tekst registratie link activiteit"
+msgstr "Evenement registratie link tekst"
 
 #: CRM/Event/DAO/Event.php
 msgid "Max Participants"
@@ -1971,9 +1895,8 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
-#, fuzzy
 msgid "Event Information"
-msgstr "Informatie activiteit"
+msgstr "Evenement Informatie"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2001,15 +1924,14 @@ msgid ""
 "participants linked to this event and delete them. You can use use <a href="
 "\"%1\"> CiviEvent >> Find Participants page </a>."
 msgstr ""
-"Deze activiteit kan niet worden verwijderd omdat er deelnemers aan gekoppeld "
-"zijn. Als u deze activiteit wilt verwijderen, dient u eerst de gekoppelde "
-"deelnemers van deze activiteit op te zoeken en te verwijderen. U kunt "
-"hiervoor <a href=\"%1\"> CiviEvent >> Zoek deelnemers pagina </a> gebruiken."
+"Het evenement kan niet worden verwijderd omdat er deelnemers aan gekoppeld "
+"zijn. Als u het evenement wilt verwijderen, dient u eerst deze deelnemers te "
+"verwijderen. U kunt hiervoor <a href=\"%1\"> CiviEvent >> Zoek deelnemers "
+"pagina </a> gebruiken."
 
 #: CRM/Event/Form/ManageEvent/Delete.php
-#, fuzzy
 msgid "The event \"%1\" has been deleted."
-msgstr "De activiteit \"%1\" is verwijderd."
+msgstr "het evenement \"%1\" is verwijderd."
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -2018,7 +1940,7 @@ msgstr "Beschrijving"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Public Event?"
-msgstr "Openbare activiteit?"
+msgstr "Is het evenement openbaar?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -2032,32 +1954,28 @@ msgstr "Aantal geselecteerde bijdragen : %1"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Message if Event is Full"
-msgstr "Bericht indien activiteit vol is."
+msgstr "Bericht indien evenement vol is"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Is this Event Active?"
-msgstr "Is deze activiteit actief ?"
+msgstr "Is dit evenement actief ?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Start Date and Time are required fields"
-msgstr "Oproep Datum en Tijd zijn vereist."
+msgstr "Startdatum en tijd zijn verplicht."
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "End date should be after Start date"
-msgstr ""
+msgstr "Einddatum moet na de startdatum liggen"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Event Information and Settings"
-msgstr "Informatie activiteit"
+msgstr "Evenement Informatie en Instellingen"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#, fuzzy
 msgid "Paid Event"
-msgstr "Betaalde activiteit"
+msgstr "Betaald Evenement"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Enable Pay Later option?"
@@ -2093,9 +2011,8 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Event Fees"
-msgstr "Bijdrage activiteit"
+msgstr "Evenement Bijdrage"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 #, fuzzy
@@ -2104,9 +2021,8 @@ msgstr "Primaire lokatie"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Event Location"
-msgstr "Locatie activiteit"
+msgstr "Evenement Locatie"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2168,9 +2084,8 @@ msgid "Registration Date and Time"
 msgstr "Datum en tijd"
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "Event Source"
-msgstr "Bron activiteit"
+msgstr "Evenement Bron"
 
 #: CRM/Event/Form/Participant.php
 msgid "Record Payment?"
@@ -2205,9 +2120,8 @@ msgid "A confirmation email has been sent to %1."
 msgstr ""
 
 #: CRM/Event/Form/Participant.php
-#, fuzzy
 msgid "Total Participant(s) added to event: %1"
-msgstr "Totaal deelnemers activiteit : %1"
+msgstr "Aantal deelnemers bij evenement: %1"
 
 #: CRM/Event/Form/Registration.php
 msgid "You do not have permission to register for this event"
@@ -2226,8 +2140,8 @@ msgid ""
 "A payment processor must be selected for this event registration page "
 "(contact the site administrator for assistance)."
 msgstr ""
-"Kies een betaalmethode voor deze activiteiten registratie pagina (neem "
-"contact op met de beheerder voor assistentie)."
+"Kies een betaalmethode voor deze evenement registratie pagina (neem contact "
+"op met de beheerder voor assistentie)."
 
 #: CRM/Event/Form/Registration.php
 msgid ""
@@ -2256,7 +2170,7 @@ msgstr "Dank U bericht datum"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Show Current and Upcoming Events"
-msgstr "Bekijk actuele en toekomstige activiteiten"
+msgstr "Bekijk actuele en toekomstige evenementen "
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Search by Date Range"
@@ -2275,9 +2189,8 @@ msgid "Select a valid Event TO date."
 msgstr ""
 
 #: CRM/Event/Form/Task/Batch.php
-#, fuzzy
 msgid "Batch Update for Events"
-msgstr "Update activiteiten"
+msgstr "Batch wijzig evenementen "
 
 #: CRM/Event/Form/Task/Batch.php
 #, fuzzy
@@ -2310,9 +2223,8 @@ msgid "CiviCRM Participants"
 msgstr "CiviCRM Snelkoppelingen"
 
 #: CRM/Event/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Batch Update for Event Participants"
-msgstr "Update deelnemers activiteit"
+msgstr "Batch update voor deelnemers evenement"
 
 #: CRM/Event/Form/Task/Print.php
 #, fuzzy
@@ -2333,19 +2245,16 @@ msgid "CiviCRM Event Engine"
 msgstr ""
 
 #: CRM/Event/Invoke.php
-#, fuzzy
 msgid "Manage Event"
-msgstr "Beheer activiteit"
+msgstr "Beheer Evenement"
 
 #: CRM/Event/Invoke.php
-#, fuzzy
 msgid "CiviEvent DashBoard"
-msgstr "Dashboard activiteit"
+msgstr "CiviEvent DashBoard"
 
 #: CRM/Event/Menu.php
-#, fuzzy
 msgid "Event Listings"
-msgstr "Lijsten activiteiten"
+msgstr "Evenement Lijsten"
 
 #: CRM/Event/Menu.php
 msgid "Event Participants List"
@@ -2358,9 +2267,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Event/Menu.php
-#, fuzzy
 msgid "Event Types"
-msgstr "Type activiteiten"
+msgstr "Evenement Types"
 
 #: CRM/Event/Menu.php
 msgid ""
@@ -2380,9 +2288,8 @@ msgid "New Event"
 msgstr "Nieuwe acitiviteit"
 
 #: CRM/Event/Page/DashBoard.php
-#, fuzzy
 msgid "events"
-msgstr "Activiteiten"
+msgstr "evenementen "
 
 #: CRM/Event/Page/EventInfo.php
 msgid "You do not have permission to view this event"
@@ -2398,34 +2305,28 @@ msgid "Configure Event - %1"
 msgstr "Configureren  %1"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to disable this Event?"
-msgstr "Ben je zeker dat je deze activiteit wilt uitschakelen?"
+msgstr "Ben je zeker dat je dit evenement wilt uitschakelen?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to delete this Event?"
-msgstr "Wilt U deze activiteit verwijderen ?"
+msgstr "Wilt U dit evenement verwijderen ?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to make a copy of this Event?"
-msgstr "Weet u zeker dat u een kopy van deze activiteit wilt maken?"
+msgstr "Weet u zeker dat u een kopie van dit evenement wilt maken?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Disable Event"
-msgstr "Schakel activiteit uit"
+msgstr "Schakel evenement uit"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Enable Event"
-msgstr "Maak activiteit mogelijk"
+msgstr "Schakel evenement in"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Copy Event"
-msgstr "Kopieer activiteit"
+msgstr "Kopieer Evenement"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
@@ -2445,19 +2346,16 @@ msgid "%1 - Participants"
 msgstr ""
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "View Participation"
-msgstr "Toon groepen"
+msgstr "Toon deelnemers"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Edit Participation"
-msgstr "Wijzig optie"
+msgstr "Wijzig deelname"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Delete Participation"
-msgstr "Kies opties"
+msgstr "Verwijder deelname"
 
 #: CRM/Event/Selector/Search.php templates/CRM/Event/Form/Task/Print.tpl
 #, fuzzy
@@ -2465,14 +2363,12 @@ msgid "Fee Level"
 msgstr "Label veld"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "CiviCRM Event Search"
-msgstr "Zoek activiteit"
+msgstr "CiviCRM Zoek Evenement"
 
 #: CRM/Event/Task.php
-#, fuzzy
 msgid "Delete Participants"
-msgstr "Verwijder bijeenkomst"
+msgstr "Verwijder deelnemers"
 
 #: CRM/Event/Task.php
 #, fuzzy
@@ -2716,7 +2612,7 @@ msgstr "Emailadres is niet geldig."
 
 #: CRM/Mailing/Form/Schedule.php
 msgid "Start date cannot be earlier than the current time."
-msgstr "De startdatum kan niet voor de huidige datum vallen"
+msgstr "De startdatum kan niet in het verleden liggen"
 
 #: CRM/Mailing/Form/Schedule.php
 #, fuzzy
@@ -3136,33 +3032,28 @@ msgid "Membership Type %1"
 msgstr "Type lidmaatschap %1"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "End Date - From"
-msgstr "Einddatum"
+msgstr "Einddatum - Van"
 
 #: CRM/Member/BAO/Query.php
-#, fuzzy
 msgid "Find Test Memberships Only?"
-msgstr "Zoek alleen test lidmaatschappen"
+msgstr "Alleen test lidmaatschappen zoeken?"
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Membership Type Default"
-msgstr "Geblokkeerde lidmaatschappen"
+msgstr "Lidmaatschap standaardtype "
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "Display Min Fee"
-msgstr "Toon stijl"
+msgstr "Toon minimum bijdrage"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Title"
-msgstr "Titel"
+msgstr "Nieuwe Titel"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Text"
-msgstr "Nieuwe markering"
+msgstr "Nieuwe Tekst"
 
 #: CRM/Member/DAO/MembershipBlock.php
 msgid "Renewal Title"
@@ -3194,9 +3085,8 @@ msgstr ""
 #: CRM/Member/DAO/Membership.php
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
-#, fuzzy
 msgid "Membership Start Date"
-msgstr "Startdatum"
+msgstr "Lidmaatschap startdatum"
 
 #: CRM/Member/DAO/Membership.php
 #, fuzzy
@@ -3709,7 +3599,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Register.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Billing Name and Address"
-msgstr "Bijdrage rekening gegevens voor naam en adres"
+msgstr "Rekening naam en adres"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
@@ -3815,8 +3705,8 @@ msgid ""
 "Enter the name as shown on your credit or debit card, and the billing "
 "address for this card."
 msgstr ""
-"Voer de naam in, zoals op de creditcard of debetcard staat, en het "
-"rekeningadres van deze kaart"
+"Voer de naam in, zoals op de creditcard of debetcard staat, en het adres van "
+"deze kaart"
 
 #: templates/CRM/Contribute/Form/Contribution/Main.tpl
 #: templates/CRM/Event/Form/Registration/Register.tpl
@@ -4009,7 +3899,6 @@ msgstr ""
 "pagina, of onder de adres gegevens."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#, fuzzy
 msgid ""
 "You can use existing CiviCRM Profiles on your page - OR create profile(s) "
 "specifically for use in Online Contribution pages. Go to <a href=\"%1"
@@ -4017,9 +3906,9 @@ msgid ""
 "profiles (you can come back at any time to select or update the Profile(s) "
 "used for this page)."
 msgstr ""
-"U kunt bestaande CiciCRM profielen gebruiken op uw pagina, of er een "
-"aanmaken, die specifiek op Donateur-paginas te gebruiken is. Klik <a href\"%1"
-"\">hier</a>, om Profielen te bekijken, wijzigen of aan te maken. (U kunt "
+"U kunt bestaande CiviCRM profielen gebruiken op uw pagina, of er een "
+"aanmaken, die specifiek op Donateur-pagina's te gebruiken is. Klik <a href\"%"
+"1\">hier</a>, om Profielen te bekijken, wijzigen of aan te maken. (U kunt "
 "altijd het hier gebruikte Profiel aanpassen)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
@@ -4127,7 +4016,7 @@ msgid ""
 "pre-configured contribution amounts, custom data collection fields, etc."
 msgstr ""
 "Dit is de eerste stap voor het aanmaken van een Bijdrage pagina. Het is "
-"mogelijk om meerdere Bijdrage paginas aan te maen vor verschillende "
+"mogelijk om meerdere Bijdrage pagina's aan te maken voor verschillende "
 "doeleinden, zoals publiek, campagnes, etc. Elke pagina kan haar eigen "
 "introtekst, lijst van bijdrage hoogten, specifieke informatie velden, etc "
 "hebben."
@@ -4196,7 +4085,7 @@ msgid ""
 "using complete URLs."
 msgstr ""
 "Voer hier de tekst in voor de introtekst. Deze wordt onder de pagina titel "
-"getoond.Er mogen HTML tags aan teogevoegd worden. Eveneens is het mogelijk "
+"getoond. Er mogen HTML tags aan toegevoegd worden. Eveneens is het mogelijk "
 "om afbeeldingen in te voegen (mits deze op de server staan), ze moeten dan "
 "via een volledige URL link ingevoegd worden."
 
@@ -4287,8 +4176,8 @@ msgid ""
 "Enter text (and optional HTML layout tags) for the thank-you message that "
 "will appear at the top of the confirmation page."
 msgstr ""
-"Voer de tekst (met eventuele HTML opmaak) in voor het bedankbericht, dat "
-"bovenaan de bevestigngspagina zal verschijnen."
+"Voer de tekst (met eventuele HTML opmaak) in voor het bedankbericht, dit "
+"komt bovenaan de bevestigngspagina te staan."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -4328,7 +4217,7 @@ msgid ""
 "NOTE: Receipt emails are TEXT ONLY - do not include HTML tags here."
 msgstr ""
 "Voer een tekst in, die boven de tekst van ge-emailde kwitanties komt te "
-"staan.Noot : ge-emailde kwitanties kunnen alleen bestaan uit tekst, geen "
+"staan. Noot : ge-emailde kwitanties kunnen alleen bestaan uit tekst, geen "
 "HTML opmaak."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
@@ -4481,13 +4370,12 @@ msgstr "Vorige lidmaatschappen"
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Transaction #"
-msgstr "Transactienummer #"
+msgstr "Transactienummer"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
-#, fuzzy
 msgid "Membership Transaction #"
-msgstr "Transactienummer #"
+msgstr "Lidmaatschapnummer transactie"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
@@ -4599,7 +4487,7 @@ msgstr "Tekst"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Select the appropriate contribution type for this transaction."
-msgstr "Kies het relevante contributie type voor deze tranactie."
+msgstr "Kies het contributie type voor deze transactie."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Actual amount given by contributor."
@@ -4638,11 +4526,11 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Additional Details"
-msgstr ""
+msgstr "Aanvullende informatie"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Non-deductible portion of this contribution."
-msgstr "Niet-aftrekbaar deel van deze bijdage"
+msgstr "Niet-aftrekbaar deel van deze bijdrage"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Processing fee for this transaction (if applicable)."
@@ -4669,8 +4557,8 @@ msgid ""
 "For offline contributions, you can enter an account+check number, bank "
 "transfer identifier, etc."
 msgstr ""
-"Voor niet-online bijdragen kunt u hier kenmerken opgeven voor een "
-"rekeningnummer, cheque, banktransfer, etc."
+"Voor niet-online bijdragen kunt u hier opgeven een rekeningnummer, "
+"controlenummer, etc."
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid "Date that a thank-you message was sent to the contributor."
@@ -4715,9 +4603,8 @@ msgid "pending"
 msgstr "in verwerking"
 
 #: templates/CRM/Contribute/Form/ContributionView.tpl
-#, fuzzy
 msgid "Option"
-msgstr "Bewerking"
+msgstr "Optie"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -4853,14 +4740,12 @@ msgid "Received Date"
 msgstr "Ontvangstdatum"
 
 #: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
 msgid "Additional Information"
-msgstr "Informatie mbt. de bijdrage"
+msgstr "Aanvullende informatie"
 
 #: templates/CRM/Contribute/Form/Message.tpl
-#, fuzzy
 msgid "Sent"
-msgstr "Evenement"
+msgstr "Verstuurd"
 
 #: templates/CRM/Contribute/Form/Offline.tpl
 msgid ""
@@ -4869,18 +4754,14 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Offline.tpl
-#, fuzzy
 msgid "Automatically email a receipt for this contribution?"
-msgstr "Unieke intern referentie kenmerk voor deze bijdrage"
+msgstr "Automatisch een e-mail sturen bij ontvangst van  deze bijdrage?"
 
 #: templates/CRM/Contribute/Form/Offline.tpl
-#, fuzzy
 msgid ""
 "Enter the name as shown on the credit or debit card, and the billing address "
 "for this card."
-msgstr ""
-"Voer de naam in, zoals op de creditcard of debetcard staat, en het "
-"rekeningadres van deze kaart"
+msgstr "Voer de naam en het adres op de creditcard / debitcard in"
 
 #: templates/CRM/Contribute/Form/PaymentInstrument.tpl
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
@@ -4934,7 +4815,7 @@ msgstr "Geen overeenkomstige bijdragen gevonden"
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid "if you are searching by contributor name, check your spelling"
 msgstr ""
-"Als u aan het zoeken bent op contributantennaam, controleer dan de spelling"
+"Als u aan het zoeken bent op naam contributant, controleer dan de spelling"
 
 #: templates/CRM/Contribute/Form/Search/EmptyResults.tpl
 msgid ""
@@ -4955,7 +4836,7 @@ msgid ""
 "Use this form to find contributions by contributor name, contribution date "
 "or amount ranges, type of contribution, payment method and / or status."
 msgstr ""
-"U kunt dit formulier gebruiken om te zoeken naar contributantennamen, "
+"U kunt dit formulier gebruiken om te zoeken op contributantnaam, "
 "donatiebedragen/perioden, type van bijdrage, betaalmethode en status."
 
 #: templates/CRM/Contribute/Form/Search.tpl
@@ -4968,7 +4849,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "View all contributions from this contact"
-msgstr "Toon alle bijdragen van deze contributant"
+msgstr "Toon alle bijdragen van dit contact"
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "List more contributions"
@@ -4988,7 +4869,7 @@ msgid ""
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these contributions."
 msgstr ""
-"Weet u zeker, dat u deze selectie van bijdragen wilt verwijderen? Deze actie "
+"Weet u zeker, dat u de geselecteerde bijdragen wilt verwijderen? Deze actie "
 "kan niet ongedaan maken, en zal alle transacties en de geschiedenis van deze "
 "bijdragen verwijderen."
 
@@ -5006,9 +4887,8 @@ msgid ""
 "available."
 msgstr ""
 "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden bestand "
-"van bijdrage data te downloaden.Elke rij in dit bestand bevat tevens "
-"informatie over het contributant(naam, adres,telefoon, etc) voorzover "
-"beschikbaar."
+"van bijdrage data te downloaden. Elke rij in dit bestand bevat tevens "
+"informatie over de contributant (naam, adres,telefoon, etc.)."
 
 #: templates/CRM/Contribute/Form/Task/PickProfile.tpl
 #, fuzzy
@@ -5229,7 +5109,7 @@ msgid ""
 "Configure contribution amount options and labels, minimum and maximum "
 "amounts."
 msgstr ""
-"Instellingen voor bijdragen, zoals bedragopties en status, minumum en "
+"Instellingen voor bijdragen, zoals opties bedrag en status, minumum en "
 "maxiumum bedrag."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -5336,7 +5216,7 @@ msgid ""
 "No contribution pages have been created yet. Click <a href=\"%1\">here</a> "
 "to create a new contribution page using the step-by-step wizard."
 msgstr ""
-"Er zijn nog geen bijdrage paginas aangemaakt. Klik <a href=\"%1\">hier</a> "
+"Er zijn nog geen bijdrage pagina's aangemaakt. Klik <a href=\"%1\">hier</a> "
 "om een bijdrage pagina aan te maken met de Wizard."
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
@@ -5392,12 +5272,11 @@ msgid ""
 "contributions. Administrators can create or modify your Online Contribution "
 "Pages from <a href=\"%1\">here</a>."
 msgstr ""
-"Met Civicontribute is het mogelijk om specifieke bijdrage paginas aan te "
+"Met Civicontribute is het mogelijk om specifieke bijdrage pagina's aan te "
 "maken, voor online bijdragen. Beheerders kunnen de zgn. online bijdrage "
-"paginas aanmaken en op <a href=\"%1\">deze plek</a> wijzigen."
+"pagina's aanmaken en op <a href=\"%1\">deze plek</a> wijzigen."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "You can also input and track offline contributions. To enter contributions "
 "manually for individual contacts, use <a href=\"%1\">Find Contacts</a> to "
@@ -5407,11 +5286,11 @@ msgid ""
 "sources."
 msgstr ""
 "Het is mogelijk om offline bijdragen te registreren. Om handmatig bijdragen "
-"toe te voegen voor individuele contacten, gebruik dan <a href=\"%1\">Vind "
-"contact</a> om het betreffende contact er bij te zoeken. Daarna klikt u op "
-"<strong>Toon</strong>, om naar het overzicht van dit contact te gaan,en een "
-"<strong>Nieuwe Bijdrage</strong> toe te voegen.Eveneens is het mogelijk, een "
-"lijst van offline bijdragen te <a href=\"%1\">importeren</a>"
+"toe te voegen, gebruik dan <a href=\"%1\">Zoek contacten</a> om het "
+"betreffende contact te zoeken. Daarna klikt u op <strong>Toon</strong>, om "
+"naar het overzicht van dit contact te gaan, en een <strong>Nieuwe Bijdrage</"
+"strong> toe te voegen.Eveneens is het mogelijk, een lijst van offline "
+"bijdragen te <a href=\"%1\">importeren</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Contributions Summary"
@@ -5667,7 +5546,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Enable or disable online registration for this event."
-msgstr "Activeer of stop de online registratie voor deze activiteit."
+msgstr "Activeer of stop de online registratie voor het evenement."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -5749,6 +5628,8 @@ msgid ""
 "Optional footer text for Thank-you screen (often used to include links to "
 "other pages/activities on your site)."
 msgstr ""
+"Voettekst in bedankscherm (optioneel, vaak gebruikt voor links naar andere "
+"pagina's van uw site)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #, fuzzy
@@ -5790,14 +5671,12 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Delete Event Registration"
-msgstr "Verwijder deelnemers registratie"
+msgstr "Verwijder evenement"
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Edit Event Registration"
-msgstr "Voeg deelnemers registratie toe"
+msgstr "Wijzig evenement"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
@@ -5821,7 +5700,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Include past event(s) in this select list."
-msgstr "Voeg voorgaande activiteiten toe aan de geselecteerde lijst."
+msgstr "Voeg beeindigde evenementen toe aan de geselecteerde lijst."
 
 #: templates/CRM/Event/Form/Participant.tpl
 #, fuzzy
@@ -5871,9 +5750,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "View Participant"
-msgstr "Toon activiteit"
+msgstr "Toon Deelnemer"
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
@@ -5882,9 +5760,8 @@ msgid "Item"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "Event Level"
-msgstr "Niveau activiteit"
+msgstr "Evenement Niveau"
 
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #, fuzzy
@@ -5926,14 +5803,12 @@ msgid "Total Price"
 msgstr "Profiel"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
-#, fuzzy
 msgid "Event Total"
-msgstr "Totaal activiteit"
+msgstr "Evenement Totaal"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
-#, fuzzy
 msgid "Test-drive Your Event Registration Page"
-msgstr "Testpagina voor de registratie pagina activiteiten"
+msgstr "Testpagina voor registratie evenement"
 
 #: templates/CRM/Event/Form/Registration/PreviewHeader.tpl
 #, fuzzy
@@ -5956,9 +5831,8 @@ msgstr ""
 "valideringscode, etc)."
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
-#, fuzzy
 msgid "Event Information and Location"
-msgstr "Voeg informatie en locatie activiteit toe"
+msgstr "Evenement informatie en locatie"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #, fuzzy
@@ -5981,7 +5855,7 @@ msgstr "Transactie ID"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
-msgstr "Registratie activiteit - testpagina ontvangst bevestiging"
+msgstr "Evenement Registratie - testpagina ontvangst bevestiging"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 #, fuzzy
@@ -6025,10 +5899,9 @@ msgid "iCalendar Feed"
 msgstr ""
 
 #: templates/CRM/Event/Form/Search/EmptyResults.tpl
-#, fuzzy
 msgid "if you are searching by participant name, check your spelling"
 msgstr ""
-"Als u aan het zoeken bent op contributantennaam, controleer dan de spelling"
+"als u aan het zoeken bent op naam deelnemer, controleer dan de spelling"
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Find Events"
@@ -6050,22 +5923,19 @@ msgid ""
 "Use this form to find participant(s) by participant name, event name, event "
 "start and end dates."
 msgstr ""
-"Gebruik dit formulier om deelnemers te vinden op naam, activiteit, datum, "
-"etc."
+"Gebruik dit formulier om deelnemers te vinden op naam, evenement, datum, etc."
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "(no fee)"
 msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
-#, fuzzy
 msgid "View all events for this contact"
-msgstr "Toon alle activiteiten van dit contact."
+msgstr "Toon alle evenement van dit contact."
 
 #: templates/CRM/Event/Form/Selector.tpl
-#, fuzzy
 msgid "List more Event Participants"
-msgstr "Lijst meer deelnemers activiteit."
+msgstr "Toon meer deelnemers aan evenement"
 
 #: templates/CRM/Event/Form/Task/Batch.tpl
 msgid ""
@@ -6083,15 +5953,14 @@ msgid ""
 msgstr "Ben je er zeker van dat je dit kaartje wil verwijderen?"
 
 #: templates/CRM/Event/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected participations? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these participations."
 msgstr ""
-"Weet u zeker, dat u deze selectie van bijdragen wilt verwijderen? Deze actie "
+"Weet u zeker, dat u de geselecteerde deelnames wilt verwijderen? Deze actie "
 "kan niet ongedaan maken, en zal alle transacties en de geschiedenis van deze "
-"bijdragen verwijderen."
+"deelnames verwijderen."
 
 #: templates/CRM/Event/Form/Task/Export.tpl
 #, fuzzy
@@ -6101,7 +5970,6 @@ msgstr[0] "EnkelvoudigEén gegeven geselecteerd voor export."
 msgstr[1] "Meervoudig%count gegevens geselecteerd voor export."
 
 #: templates/CRM/Event/Form/Task/Export.tpl
-#, fuzzy
 msgid ""
 "Click <strong>Export Participants</strong> to download a comma-separated "
 "values (CSV) file of participant data. Each row will also include "
@@ -6109,19 +5977,16 @@ msgid ""
 "available."
 msgstr ""
 "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden bestand "
-"van bijdrage data te downloaden.Elke rij in dit bestand bevat tevens "
-"informatie over het contributant(naam, adres,telefoon, etc) voorzover "
-"beschikbaar."
+"van bijdrage data te downloaden. Elke rij in dit bestand bevat tevens "
+"informatie over de contributant (naam, adres,telefoon, etc.)."
 
 #: templates/CRM/Event/Form/Task/PickProfile.tpl
-#, fuzzy
 msgid "Batch Update Event via Profile"
-msgstr "Update activiteit via profiel."
+msgstr "Batch wijzig evenement via profiel."
 
 #: templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Event Date"
-msgstr "Datum activiteit"
+msgstr "Evenement Datum"
 
 #: templates/CRM/Event/Form/Task/Print.tpl
 #, fuzzy
@@ -6136,16 +6001,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "CiviEvent allows you to create customized page(s) for creating and "
 "registering online events. Administrators can create <a href=\"%1"
 "\"><strong>new events</strong></a> and <a href=\"%2\"><strong>manage "
 "existing events</strong></a>."
 msgstr ""
-"Met Civicontribute is het mogelijk om specifieke bijdrage paginas aan te "
-"maken, voor online bijdragen. Beheerders kunnen de zgn. online bijdrage "
-"paginas aanmaken en op <a href=\"%1\">deze plek</a> wijzigen."
+"Met CiviEvent kunnen specifieke pagina's voor  online evenementen worden "
+"gemaakt.  Beheerders kunnen een <a href=\"%1\"><strong>nieuw evenement</"
+"strong></a> aanmaken en een <a href=\"%2\"><strong>bestaand evenement "
+"beheren</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
@@ -6157,11 +6022,11 @@ msgid ""
 "\"><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
 "Het is mogelijk om offline bijdragen te registreren. Om handmatig bijdragen "
-"toe te voegen voor individuele contacten, gebruik dan <a href=\"%1\">Vind "
-"contact</a> om het betreffende contact er bij te zoeken. Daarna klikt u op "
-"<strong>Toon</strong>, om naar het overzicht van dit contact te gaan,en een "
-"<strong>Nieuwe Bijdrage</strong> toe te voegen.Eveneens is het mogelijk, een "
-"lijst van offline bijdragen te <a href=\"%1\">importeren</a>"
+"toe te voegen, gebruik dan <a href=\"%1\">Vind contact</a> om het "
+"betreffende contact er bij te zoeken. Daarna klikt u op <strong>Toon</"
+"strong>, om naar het overzicht van dit contact te gaan,en een <strong>Nieuwe "
+"Bijdrage</strong> toe te voegen.Eveneens is het mogelijk, een lijst van "
+"offline bijdragen te <a href=\"%1\">importeren</a>"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
@@ -6179,18 +6044,16 @@ msgstr ""
 "kan op naam, bedrag en andere criteria gezocht worden."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "(max %1)"
-msgstr "email %1"
+msgstr "(max %1)"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "Browse more events"
-msgstr "Ga naar meer activiteiten"
+msgstr "Toon meer evenementen"
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Registrations"
-msgstr "gebruikers registratie"
+msgstr "Recente registraties"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 #, fuzzy
@@ -6242,7 +6105,7 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "View Event Info"
-msgstr "Bekijk informatie activiteit"
+msgstr "Bekijk Evenement Informatie"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 #, fuzzy
@@ -6318,11 +6181,9 @@ msgid "Or you can <a href='%1'>browse all available Current Events</a>."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "There are no events created yet. You can <a href=\"%1\">add one</a>."
 msgstr ""
-"Er zijn geen activiteiten ingevoerd, u kunt er <a href\"%1\">hier</a> een "
-"toevoegen"
+"Er zijn nog geen evenementen, u kunt er <a href\"%1\">hier</a> een toevoegen."
 
 #: templates/CRM/Mailing/Form/Component.tpl
 #: templates/CRM/Mailing/Page/Component.tpl
@@ -6338,7 +6199,7 @@ msgstr ""
 #: templates/CRM/Mailing/Form/Group.tpl
 #, fuzzy
 msgid "Mailing Recipients"
-msgstr "Stuur email naar deelnemers"
+msgstr "Stuur e-mail naar deelnemers"
 
 #: templates/CRM/Mailing/Form/Schedule.tpl
 msgid ""
@@ -6636,7 +6497,7 @@ msgstr "Bekijk het volledige bericht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Mailing Settings"
-msgstr "Instellingen voor Mailingen"
+msgstr "Instellingen voor Mail"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 msgid "Reply-to email"
@@ -7036,7 +6897,6 @@ msgid "Join date"
 msgstr "In datum"
 
 #: templates/CRM/Member/Form/MembershipView.tpl
-#, fuzzy
 msgid "Start date"
 msgstr "Startdatum"
 
@@ -7051,15 +6911,13 @@ msgid "Reminder date"
 msgstr "Einddatum"
 
 #: templates/CRM/Member/Form/Search/Common.tpl
-#, fuzzy
 msgid "Membership Type(s)"
-msgstr "Vorige lidmaatschappen"
+msgstr "Lidmaatschap Type(s)"
 
 #: templates/CRM/Member/Form/Search/EmptyResults.tpl
 #, fuzzy
 msgid "if you are searching by member name, check your spelling"
-msgstr ""
-"Als u aan het zoeken bent op contributantennaam, controleer dan de spelling"
+msgstr "Als u aan het zoeken bent op naam, controleer dan de spelling"
 
 #: templates/CRM/Member/Form/Search/ResultTasks.tpl
 #, fuzzy
@@ -7090,15 +6948,14 @@ msgid "List more Memberships"
 msgstr "Vorige lidmaatschappen"
 
 #: templates/CRM/Member/Form/Task/Delete.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected memberships? This delete "
 "operation cannot be undone and will delete all transactions and activity "
 "history associated with these members."
 msgstr ""
-"Weet u zeker, dat u deze selectie van bijdragen wilt verwijderen? Deze actie "
-"kan niet ongedaan maken, en zal alle transacties en de geschiedenis van deze "
-"bijdragen verwijderen."
+"Weet u zeker, dat u de geselecteerde lidmaatschappen wilt verwijderen? Deze "
+"actie kan niet ongedaan maken, en zal alle transacties en de geschiedenis "
+"van deze lidmaatschappen verwijderen."
 
 #: templates/CRM/Member/Form/Task/Export.tpl
 #, fuzzy
@@ -7115,9 +6972,8 @@ msgid ""
 "contact information (name, address, email, phone...) as available."
 msgstr ""
 "Klik op <strong>Exporteer bijdragen</strong> om een komma-gescheiden bestand "
-"van bijdrage data te downloaden.Elke rij in dit bestand bevat tevens "
-"informatie over het contributant(naam, adres,telefoon, etc) voorzover "
-"beschikbaar."
+"van bijdrage data te downloaden. Elke rij in dit bestand bevat tevens "
+"informatie over de contributant (naam, adres,telefoon, etc)."
 
 #: templates/CRM/Member/Form/Task/Print.tpl
 #, fuzzy
@@ -7242,16 +7098,17 @@ msgstr ""
 "over die typen contact"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
 "(s) for online membership sign-up and renewal. Administrators can create or "
 "modify Membership Types <a href=\"%2\">here</a>, and configure Online "
 "Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
 msgstr ""
-"Met Civicontribute is het mogelijk om specifieke bijdrage paginas aan te "
-"maken, voor online bijdragen. Beheerders kunnen de zgn. online bijdrage "
-"paginas aanmaken en op <a href=\"%1\">deze plek</a> wijzigen."
+"Met CiviMember kunt u lidmaatschaptypes   aanmaken, maar ook pagina's maken "
+"voor online lidmaatschap aanmaken en vernieuwen. Beheerders kunnen "
+"lidmaatschaptypes aanmaken en beheren <a href=\"%2\">(hier)</a>, en Online "
+"Contribution Pages configureren welke aanmelden voor lidmaatschap inhouden "
+"<a href=\"%1\">(hier)</a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
@@ -7265,11 +7122,11 @@ msgid ""
 "\">CiviMember Guide</a> for more information."
 msgstr ""
 "Het is mogelijk om offline bijdragen te registreren. Om handmatig bijdragen "
-"toe te voegen voor individuele contacten, gebruik dan <a href=\"%1\">Vind "
-"contact</a> om het betreffende contact er bij te zoeken. Daarna klikt u op "
-"<strong>Toon</strong>, om naar het overzicht van dit contact te gaan,en een "
-"<strong>Nieuwe Bijdrage</strong> toe te voegen.Eveneens is het mogelijk, een "
-"lijst van offline bijdragen te <a href=\"%1\">importeren</a>"
+"toe te voegen, gebruik dan <a href=\"%1\">Vind contact</a> om het "
+"betreffende contact er bij te zoeken. Daarna klikt u op <strong>Toon</"
+"strong>, om naar het overzicht van dit contact te gaan,en een <strong>Nieuwe "
+"Bijdrage</strong> toe te voegen.Eveneens is het mogelijk, een lijst van "
+"offline bijdragen te <a href=\"%1\">importeren</a>"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 #, fuzzy
@@ -7296,18 +7153,16 @@ msgid "Members by Type"
 msgstr "Leden"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Current #"
-msgstr "Munt"
+msgstr "huidig #"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Totals (all types)"
-msgstr ""
+msgstr "totalen (alle typen)"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Memberships"
-msgstr "Vorige lidmaatschappen"
+msgstr "recente lidmaatschappen"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -7319,6 +7174,13 @@ msgid ""
 "sometime within the past month.\" (<a href=\"%1\" target=\"_blank\" title=\"%"
 "2\">read more...</a>)"
 msgstr ""
+"CiviMember kent automatisch de huidige status van elk lid, gebaseerd op de "
+"statusregels die hier omschreven worden. De statusregel geeft aan welke "
+"status moet worden toegewezen, gebaseerd op de start- en einddatum van een "
+"lidmaatschap. Bijv. de standaard voor <strong>Grace</strong> statusregel "
+"luidt: \"wijs aan Grace de status toe als de lidmaatschapsperiode eindigt "
+"ergens in de afgelopen maand.\" (<a href=\"%1\" target=\"_blank\" title=\"%2"
+"\">lees verder...</a>)"
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
@@ -7327,15 +7189,18 @@ msgid ""
 "the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
 "new status and rule</a>."
 msgstr ""
+"De standaard statusregels kunnen voldoende zijn voor uw organisatie. Maar "
+"indien gewenst kunt u makkelijk de statusregels aanpassen door op de "
+"Editlinks te klikken. Of u kunt een <a href=\"%1\">nieuwe statusregel "
+"toevoegen</a>."
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
-#, fuzzy
 msgid ""
 "There are no custom membership status entered. You can <a href=\"%1\">add "
 "one</a>."
 msgstr ""
-"Er zijn geen specifieke Betaalmiddelen ingevoerd. U kunt er een <a href=\"%1"
-"\">toevoegen</a>."
+"Er is geen specifieke status lidmaatschapsstatus ingevoerd. U kunt er een <a "
+"href=\"%1\">toevoegen</a>."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
@@ -7346,55 +7211,55 @@ msgid ""
 "the membership entity (organization) - e.g. Bay Area Chapter (<a href=\"%1\" "
 "target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
+"Lidmaatschapstypen worden gebruikt om lidmaatschappen in te delen. U kunt "
+"een onbeperkt aantal typen definiëren. Elk type omvat een \"naam\" (gouden "
+"lid, erelid), een beschrijving, een minimumbedrag (dit kan €0,00 zijn), een "
+"duur (kan levenslang zijn). Elk lidmaatschapstype is gekoppeld aan de "
+"entiteit (organisatie) - bijv. Bay Area Chapter (<a href=\"%1\" target="
+"\"_blank\" title=\"%2\">lees verder...</a>)."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
-#, fuzzy
 msgid ""
 "There are no membership types entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
-"Er zijn geen specifieke contributietypes aangemaakt. U kunt er <a href=\"%1"
-"\"> hier</a> een toevoegen."
+"Er is geen lidmaatschapstype aangemaakt. U kunt er een <a href=\"%1"
+"\">toevoegen</a>."
 
 #~ msgid "Minimum Amount"
-#~ msgstr "Minimum bedrag"
+#~ msgstr "minimumbedrag"
 
 #~ msgid "Please enter a valid money value (e.g. 9.99)."
-#~ msgstr "Gelieve een geldig bedrag in te vullen (bv. 9.95)"
+#~ msgstr "Vul een geldig bedrag in (bv. 9.99)."
 
 #~ msgid "Maximum Amount"
-#~ msgstr "Maximum Bedrag"
+#~ msgstr "maximumbedrag"
 
 #~ msgid "Please enter a valid money value (e.g. 99.99)."
-#~ msgstr "Gelieve een geldig bedrag in te vullen (bv. 99.95)."
+#~ msgstr "Vul een geldig bedrag in (bv. 99.99)."
 
-#, fuzzy
 #~ msgid "Thermometer Title"
-#~ msgstr "Profieltitel"
+#~ msgstr "profieltitel"
 
-#, fuzzy
 #~ msgid "Please set a location type of %1"
-#~ msgstr "Gelieve een relatie-type te selecteren."
+#~ msgstr "selecteer een lokatietype voor %1"
 
-#, fuzzy
 #~ msgid "Payment Entity Table"
-#~ msgstr "Doel entiteitentabel"
+#~ msgstr "tabel betalingen"
 
-#, fuzzy
 #~ msgid "Membership Types"
-#~ msgstr "Type lidmaatschappen"
+#~ msgstr "typen lidmaatschap"
 
-#, fuzzy
 #~ msgid "Minimum Fee"
-#~ msgstr "Minimum bedrag"
+#~ msgstr "minimumbedrag"
 
 #~ msgid "Min Amount"
-#~ msgstr "Minimum bedrag"
+#~ msgstr "Minimumbedrag"
 
 #~ msgid "Max Amount"
-#~ msgstr "Maximum bedrag"
+#~ msgstr "Maximumbedrag"
 
 #~ msgid "Thank-you Title"
-#~ msgstr "Titel voor Dank bericht"
+#~ msgstr "titel voor bedankbericht"
 
 #, fuzzy
 #~ msgid "Sort Position"
@@ -7448,14 +7313,14 @@ msgstr ""
 
 #~ msgid "You cannot register for this event currently"
 #~ msgstr ""
-#~ "Het is momenteel niet mogelijk om in te schrijven voor deze activiteit."
+#~ "Het is momenteel niet mogelijk om in te schrijven voor dit evenement. "
 
 #, fuzzy
 #~ msgid "Select saved mapping"
 #~ msgstr "Verwijder bijeenkomst"
 
 #~ msgid "Select either EventID OR Event Title"
-#~ msgstr "Selecteer Activiteit ID of Titel activiteit"
+#~ msgstr "Selecteer Evenement ID of Evenement Titel"
 
 #, fuzzy
 #~ msgid "View Participant URL"
@@ -7469,15 +7334,15 @@ msgstr ""
 #~ msgid "You do not have access to this page."
 #~ msgstr "Je hebt de nodige toegangsrechten niet om dit contact te bewerken."
 
-#, fuzzy
 #~ msgid "Event Registration"
-#~ msgstr "Registratie deelnemers activiteit"
+#~ msgstr "Evenement Registratie"
 
-#, fuzzy
 #~ msgid ""
 #~ "Selected mailing can not be deleted as mails are still pending in spool "
 #~ "table."
-#~ msgstr "De geselecteerde bijeenkomst is verwijderd"
+#~ msgstr ""
+#~ "De geselecteerde mail kan niet worden verwijderd, er is nog een "
+#~ "printopdracht."
 
 #, fuzzy
 #~ msgid "Selected mailing can not be deleted since it is in process."
@@ -7494,9 +7359,8 @@ msgstr ""
 #~ msgid "Action"
 #~ msgstr "Actie"
 
-#, fuzzy
 #~ msgid "Start Date - From"
-#~ msgstr "Startdatum"
+#~ msgstr "Startdatum - Van"
 
 #~ msgid "Display Minimum Membership Fee"
 #~ msgstr "Minimum bijdrage lidmaatschap"
@@ -7519,10 +7383,12 @@ msgstr ""
 #~ msgid "This field is blank for non-monetary contributions."
 #~ msgstr "Dit veld is leeg gelaten voor een niet-financiele bijdrage."
 
-#~ msgid "Complete OR partial name OR email."
-#~ msgstr "Voer de volledige naam of email in"
+#~ msgid " (test) "
+#~ msgstr " (test) "
 
-#, fuzzy
+#~ msgid "Complete OR partial name OR email."
+#~ msgstr "Voer de volledige of gedeeltelijke naam of email in"
+
 #~ msgid ""
 #~ "CiviContribute allows you to create and maintain any number of Online "
 #~ "Contribution Pages. You can create different pages for different programs "
@@ -7530,21 +7396,20 @@ msgstr ""
 #~ "collected from contributors, etc. (<a href=\"%1\" target=\"_blank\" title="
 #~ "\"%2\">read more...</a>)"
 #~ msgstr ""
-#~ "CiciContribute stelt u in staat om een groot aantal online bijdrae "
-#~ "paginas te creeeren en bij te houden. Er kunnen verschillende paginas "
-#~ "worden aangemaakt voor verschillende programmas, of campagnes. Voor elke "
-#~ "pagina zijn de teksten,bijdragen en andere gegevens specifiek in te "
-#~ "stellen."
+#~ "CiviContribute stelt u in staat om een groot aantal online bijdrage "
+#~ "pagina's te creeeren en bij te houden. Er kunnen verschillende pagina's "
+#~ "worden gemaakt voor verschillende programma's, of campagnes. Voor elke "
+#~ "pagina zijn de teksten, bijdragen en andere gegevens in te stellen."
 
 #~ msgid "For existing pages"
-#~ msgstr "Voor bestaande paginas"
+#~ msgstr "Voor bestaande pagina's"
 
 #~ msgid ""
 #~ "Click <strong>Configure</strong> to view and modify settings, amounts, "
 #~ "and text for existing pages."
 #~ msgstr ""
-#~ "Klik op de <strong>Instellingen</strong> om naar de instellingen voor "
-#~ "bedragen en tekst etc te kijken en eventueel te  wijzigen."
+#~ "Klik op <strong>Instellingen</strong> om naar de instellingen, bedragen "
+#~ "en tekst te kijken of te wijzigen."
 
 #~ msgid ""
 #~ "Click <strong>Test-drive</strong> to try out the page in <strong>test "
@@ -7567,9 +7432,8 @@ msgstr ""
 #~ msgid "Period"
 #~ msgstr "Periode"
 
-#, fuzzy
 #~ msgid "View Activity History"
-#~ msgstr "Nieuwe activiteiten geschiedenis"
+#~ msgstr "Toon activiteiten geschiedenis"
 
 #, fuzzy
 #~ msgid "No matching memberships found."
@@ -7684,9 +7548,30 @@ msgstr ""
 #~ "Kies Huishouding, of Organisatie, als elk record in de file gegevens "
 #~ "bevat over die typen contact"
 
-#, fuzzy
+#~ msgid ""
+#~ "This page lists current (in-progress) and upcoming events. Click a column "
+#~ "header to sort by that column. <a href=\"%1\">Click here</a> to browse "
+#~ "completed (past) events (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">read more...</a>)."
+#~ msgstr ""
+#~ "Hier staan de huidige en toekomstige evenementen.  Klik op een kolomkop "
+#~ "om deze kolom te sorteren. <a href=\"%1\">Klik hier</a> om de afgeronde "
+#~ "evenementen te bekijken (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">lees meer...</a>)."
+
+#~ msgid ""
+#~ "This page lists completed (past) events. Click a column header to sort by "
+#~ "that column. <a href=\"%1\">Click here</a> to browse current (in-"
+#~ "progress) and upcoming events (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">read more...</a>)."
+#~ msgstr ""
+#~ "Hier staan de afgeronde evenementen. Klik op een kolomkop om hierop te "
+#~ "sorteren. <a href=\"%1\">Klik hier</a> om de huidige en toekomstige "
+#~ "evenementen te bekijken  (<a href=\"%3\" target=\"_blank\" title=\"%2"
+#~ "\">lees meer...</a>)."
+
 #~ msgid "Show Past Events"
-#~ msgstr "Bekijk voorgaande activiteiten"
+#~ msgstr "Bekijk beeindigde evenementen"
 
 #, fuzzy
 #~ msgid " Mailing"
@@ -7699,6 +7584,9 @@ msgstr ""
 #, fuzzy
 #~ msgid "cancel"
 #~ msgstr "Annuleer"
+
+#~ msgid "Fixed Start"
+#~ msgstr "vaste start"
 
 #~ msgid "Email Address"
 #~ msgstr "Email adres"
