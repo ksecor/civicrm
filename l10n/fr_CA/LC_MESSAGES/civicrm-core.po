@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2008-01-02 15:21-0800\n"
+"PO-Revision-Date: 2008-01-24 20:09-0800\n"
 "Last-Translator: Gab <adq@yamba.ca>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1646,7 +1646,7 @@ msgstr "Groupe du profil CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/UF/Page/Field.php templates/CRM/UF/Form/Field.tpl
 msgid "CiviCRM Profile Field"
-msgstr ""
+msgstr "Champ du profil CiviCRM"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Message Templates"
