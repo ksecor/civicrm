@@ -97,22 +97,19 @@ class CRM_Core_BAO_MessageTemplates extends CRM_Core_DAO_MessageTemplates
      * function to add the Message Templates
      *
      * @param array $params reference array contains the values submitted by the form
-     * @param array $ids    reference array contains the id
      * 
      * @access public
      * @static 
      * @return object
      */
-    static function add(&$params, &$ids) 
+    static function add( &$params ) 
     {
         $params['is_active']            =  CRM_Utils_Array::value( 'is_active', $params, false );
-        // action is taken depending upon the mode
+
         $messageTemplates               =& new CRM_Core_DAO_MessageTemplates( );
         $messageTemplates->domain_id    = CRM_Core_Config::domainID( );
         $messageTemplates->copyValues( $params );
         
-        $messageTemplates->id = CRM_Utils_Array::value( 'messageTemplate', $ids );
-
         $messageTemplates->save( );
         return $messageTemplates;
     }

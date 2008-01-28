@@ -284,41 +284,28 @@ class CRM_Contact_Form_Task_EmailCommon
 
         //added code for CRM-1393
         $messageParams = $form->exportValues( );
-        $templateID = array();
 
-        // Update Message template, if new or updated
+        // process message template
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         if ( $messageParams['saveTemplate'] || $messageParams['updateTemplate']) {
+            $messageTemplate = array( 'msg_text'    => $messageParams['message'],
+                                      'msg_subject' => $messageParams['subject'],
+                                      'is_active'   => true );
+            
             if ( $messageParams['saveTemplate'] ) {
-                $newMessage = array( 'msg_title'   => $messageParams['saveTemplateName'],
-                                     'msg_text'    => $messageParams['message'],
-                                     'msg_subject' => $messageParams['subject'],
-                                     'is_active'   => true
-                                     );
-                CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);
+                $messageTemplate['msg_title'] = $messageParams['saveTemplateName'];
+            }
+
+            if ( $messageParams['template'] ) {
+                $messageTemplate['id'] = $messageParams['template'];
             }
             
-            if ( $messageParams['updateTemplate'] && 
-                 CRM_Utils_Array::key( $_POST['template_selected'], $form->_templates ) ) {
-
-                $newMessage = array( 'msg_text'    => $messageParams['message'],
-                                     'msg_subject' => $messageParams['subject'],
-                                     'is_active'   => true );
-
-                require_once 'CRM/Core/BAO/MessageTemplates.php';
-                require_once 'CRM/Utils/Array.php';
-                $template = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-                $templateID = array('messageTemplate' =>
-                                    CRM_Utils_Array::key( $_POST['template_selected'],
-                                                          $form->_templates ) );
-                CRM_Core_BAO_MessageTemplates::add($newMessage, $templateID);
-            }
+            CRM_Core_BAO_MessageTemplates::add( $messageTemplate );
         }
-        
-        $status = array(
-                        '',
-                        ts('Total Selected Contact(s): %1', array(1 => count($form->_contactIds) ))
-                        );
+
+        $status = array( '',
+                         ts('Total Selected Contact(s): %1', array(1 => count($form->_contactIds) ))
+                         );
         
         $statusOnHold = '';
         foreach ($form->_contactIds as $item => $contactId) {

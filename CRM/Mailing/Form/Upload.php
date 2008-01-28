@@ -264,27 +264,25 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             foreach ( $composeFields as $key ) {
                 $composeParams[$key] = $this->controller->exportvalue($this->_name, $key);
                 $this->set($key, $this->controller->exportvalue($this->_name, $key));
-            }
-            
-            $templateParams = array( 'msg_text'    => $text_message,
-                                     'msg_html'    => $html_message,
-                                     'msg_subject' => $params['subject'],
-                                     'is_active'   => true
-                                     );
-            
-            if ( $composeParams['saveTemplate'] ) {
-                // create a new template
-                $templateIds = array();
-                $templateParams['msg_title'] = $composeParams['saveTemplateName'];
-                $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
+            }          
+           
+            if ( $composeParams['saveTemplate'] || $composeParams['updateTemplate'] ) {
+                $templateParams = array( 'msg_text'    => $text_message,
+                                         'msg_html'    => $html_message,
+                                         'msg_subject' => $params['subject'],
+                                         'is_active'   => true
+                                         );
+                
+                if ( $composeParams['saveTemplate'] ) {
+                    $templateParams['msg_title'] = $composeParams['saveTemplateName'];
+                }
+                
+                if ( $composeParams['updateTemplate'] ) {
+                    $templateParams['id'] = $this->controller->exportvalue($this->_name, 'template');
+                }
+
+                $msgTemplate = CRM_Core_BAO_MessageTemplates::add( $templateParams );  
             } 
-            
-            if ( $composeParams['updateTemplate'] ) { 
-                //update the existing template
-                $templateIds = array( 'messageTemplate' => $this->controller->exportvalue($this->_name,
-                                                                                          'template') );
-                $msgTemplate = CRM_Core_BAO_MessageTemplates::add($templateParams, $templateIds);  
-            }
             
             if ( $msgTemplate->id ) {
                 $params['msg_template_id'] = $msgTemplate->id;
