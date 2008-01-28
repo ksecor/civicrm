@@ -522,7 +522,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      */
     function addRules( ) 
     {
-        $this->addFormRule( array( 'CRM_Event_Form_Participant', 'formRule' ) );
+        $this->addFormRule( array( 'CRM_Event_Form_Participant', 'formRule'), $this->_id );
     }
     
     /**
@@ -534,7 +534,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
      * @static
      * @access public
      */
-    static function formRule( &$values ) 
+    static function formRule( &$values, $form, $id ) 
     {
         // If $values['_qf_Participant_next'] is Delete or 
         // $values['event_id'] is empty, then return 
@@ -545,10 +545,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
              ) {
             return true;
         }
-        
-        require_once "CRM/Event/BAO/Participant.php";
-        $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
-        
+
+        if ( $values['status_id'] == 1 || $values['status_id'] == 2 ) {
+            if ( $id ) {
+                $previousStatus = CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_Participant", $id, 'status_id' );
+            }
+            if ( !( $previousStatus == 1 || $previousStatus == 2 ) ) {
+                require_once "CRM/Event/BAO/Participant.php";
+                $message = CRM_Event_BAO_Participant::eventFull( $values['event_id'] );
+            }
+        }
         if( $message ) {
             $errorMsg["_qf_default"] = $message;  
         }
