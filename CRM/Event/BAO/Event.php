@@ -624,6 +624,13 @@ WHERE civicrm_event.is_active = 1
                                                       array( 'event_id'    => $id),
                                                       array( 'event_id'    => $copyEvent->id ) );
         
+        
+        $copyPriceSet   =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_PriceSetEntity', 
+                                                      array( 'entity_id'    => $id,
+                                                             'entity_table' => 'civicrm_event_page'),
+                                                      array( 'entity_id'    => $copyEvent->id ) );
+        
+        
         $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
                                                       array( 'entity_id'    => $id,
                                                              'entity_table' => 'civicrm_event'),
