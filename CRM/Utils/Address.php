@@ -55,10 +55,12 @@ class CRM_Utils_Address
         
         if ( ! $format ) {
             $format = CRM_Core_BAO_Preferences::value( 'address_format' );
+            $format = str_replace('contact.',"",$format);
         }
 
         if ( $mailing ) {
             $format = CRM_Core_BAO_Preferences::value( 'mailing_format' );
+            $format = str_replace('contact.',"",$format);
         }
         $formatted = $format;
 
@@ -89,6 +91,7 @@ class CRM_Utils_Address
 
             if ( $type == 'Individual' ) {
                 $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+                $format = str_replace('contact.',"",$format);
                 $contactName = self::format($fields, $format, null, null, true);
             } else {
                 $contactName = CRM_Utils_Array::value( 'display_name', $fields );
@@ -130,7 +133,7 @@ class CRM_Utils_Address
                       'country'                => "<span class=\"country-name\">" .     $fields['country'] . "</span>",
                       'world_region'           => "<span class=\"region\">" .           $fields['world_region'] . "</span>"
                       );
-
+            
             // erase all empty ones, so we dont get blank lines
             foreach ( array_keys( $replacements ) as $key ) {
                 if ( $key != 'postal_code' &&
@@ -140,6 +143,15 @@ class CRM_Utils_Address
             }
             if ( empty( $fullPostalCode ) ) {
                 $replacements['postal_code'] = '';
+            }
+        }
+        
+        // replacements in case of Custom Token
+        $customToken = array_keys($fields);
+        foreach( $customToken as $value ){
+            if ( substr($value,0,7) == 'custom_' ) {
+                $replacements["{$value }"] = $fields["{$value}"];  
+                
             }
         }
         

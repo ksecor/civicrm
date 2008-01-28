@@ -108,15 +108,26 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         
         //build the returnproperties
-        $returnProperties = array (
-                                   'display_name'      => 1, 
-                                   'individual_prefix' => 1, 
-                                   'first_name'        => 1, 
-                                   'middle_name'       => 1, 
-                                   'last_name'         => 1, 
-                                   'individual_suffix' => 1
-                                   ) ;
-
+        $returnProperties = array ('display_name' => 1 );
+        $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $format,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list($type,$name) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    if ( ! isset( $individualToken) ) {
+                        $individualToken = array( );
+                    }
+                    $individualToken[] = $name;
+                    $returnProperties["{$name}"] = 1;
+                }
+            }
+        }
+        
         if ($fv['location_type_id']) {
             $locType = CRM_Core_PseudoConstant::locationType();
             $locName = $locType[$fv['location_type_id']];
@@ -125,9 +136,9 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         } else {
             $returnProperties = array_merge( $returnProperties , $address );
         }
-
+        
         $rows = array( );
-
+        
         //get the contact information
         foreach ( $this->_contactIds as $value ) {
             // fetch the contacts
@@ -136,6 +147,20 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             $params  = array( array( 'contact_id', '=', $value, 0, 0 ) );
             $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
             $details = $query->apiQuery($params, $returnProperties);
+            
+            $custom = array( );
+            foreach ( $returnProperties as $name => $dontCare ) {
+                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+                if ( $cfID ) {
+                    $custom[] = $cfID;
+                }
+            }
+            foreach ( $custom as $cfID ) {
+                if ( isset ( $details[0][$value]["custom_{$cfID}"] ) ) {
+                    $details[0][$value]["custom_{$cfID}"] = 
+                        CRM_Core_BAO_CustomField::getDisplayValue( $details[0][$value]["custom_{$cfID}"],$cfID, $details[1] );
+                }
+            }
             $contact = $details['0']["{$value}"];
             
             if ( is_a( $contact, 'CRM_Core_Error' ) ) {
