@@ -66,7 +66,7 @@ class CRM_Contact_Form_Task_SaveSearch extends CRM_Contact_Form_Task {
         } else if ( $this->_action == CRM_Core_Action::COPY ) {
             $values = $this->controller->exportValues( 'Custom' );            
         } else {
-            $values = $this->controller->exportValues( 'Search' );
+            $values = $this->controller->exportValues( 'Basic' );
         }
 
         $this->_task = CRM_Utils_Array::value( 'task', $values );
