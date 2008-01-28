@@ -2,15 +2,15 @@
 <fieldset><legend>{ts}Mailing Labels{/ts}</legend>
       <table class="form-layout">
         <tr><td class="label">{$form.mailing_format.label}</td><td>{$form.mailing_format.html|crmReplace:class:huge}</td></tr>
-        <tr><td>&nbsp;</td><td class="description">{ts}Address format for mailing labels.<br />Use the {literal}{state_province}{/literal} token for state/province abbreviation or {literal}{state_province_name}{/literal} for full name.{/ts}{help id='label-tokens'}</td></tr>
+        <tr><td>&nbsp;</td><td class="description">{ts}Address format for mailing labels.<br />Use the {literal}{contact.state_province}{/literal} token for state/province abbreviation or {literal}{contact.state_province_name}{/literal} for full name.{/ts}{help id='label-tokens'}</td></tr>
         <tr><td class="label">{$form.individual_name_format.label}</td><td>{$form.individual_name_format.html|crmReplace:class:huge}</td></tr>
-        <tr><td>&nbsp;</td><td class="description">{ts}Formatting for individual contact names when {literal}{contact_name}{/literal} token is included in mailing labels.{/ts} {help id='name-tokens'}</td></tr>
+        <tr><td>&nbsp;</td><td class="description">{ts}Formatting for individual contact names when {literal}{contact.contact_name}{/literal} token is included in mailing labels.{/ts} {help id='name-tokens'}</td></tr>
     </table>
 </fieldset>
 <fieldset><legend>{ts}Address Display{/ts}</legend>
       <table class="form-layout">
         <tr><td class="label">{$form.address_format.label}</td><td>{$form.address_format.html|crmReplace:class:huge}</td></tr>
-        <tr><td>&nbsp;</td><td class="description">{ts}Format for displaying addresses in the Contact Summary and Event Information screens.<br />Use {literal}{state_province}{/literal} for state/province abbreviation or {literal}{state_province_name}{/literal} for state province name.{/ts}{help id='address-tokens'}</td></tr>
+        <tr><td>&nbsp;</td><td class="description">{ts}Format for displaying addresses in the Contact Summary and Event Information screens.<br />Use {literal}{contact.state_province}{/literal} for state/province abbreviation or {literal}{contact.state_province_name}{/literal} for state province name.{/ts}{help id='address-tokens'}</td></tr>
       </table>
 </fieldset>
 <fieldset><legend>{ts}Address Editing{/ts}</legend>
