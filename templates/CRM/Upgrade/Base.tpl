@@ -1,4 +1,4 @@
-{* this template is used for adding/editing a tag (admin)  *}
+{* This template is used by the automated Upgrader.  *}
 <div class="form-item">
 <fieldset><legend>{$title}</legend>
     <dl>

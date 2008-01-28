@@ -384,7 +384,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
+            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled, OR it is not configured to be used for "Profile" listings in it\'s Settings, or there is no Profile with that ID. Contact the site administrator if you need assistance.',
+                                      array( 1 => $id )) );        
         }
 
         return $fields;
@@ -1871,7 +1872,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $domain->find( true );
 
         if ( ! $domain->email_address ) {
-            CRM_Core_Error::fatal( ts( 'Please set the domain email address setting in Administer CiviCRM' ) );
+            CRM_Core_Error::fatal( ts( 'Please set the domain email address setting in Administer CiviCRM.' ) );
         }
 
         $emailFrom = '"' . $domain->email_name . '" <' . $domain->email_address . '>';

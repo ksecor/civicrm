@@ -73,7 +73,9 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
                     // check if this is of the format cs=XXX
                     $cs = CRM_Utils_Request::retrieve( 'cs', 'String' , $this, false );
                     if ( ! CRM_Contact_BAO_Contact::validChecksum( $id, $cs ) ) {
-                        CRM_Core_Error::fatal( ts( 'You do not have permission to edit this contact' ) );
+                        $config =& CRM_Core_Config::singleton( );
+                        CRM_Core_Error::statusBounce( ts( 'You do not have permission to edit this contact record. Contact the site administrator if you need assistance.' ),
+                                                     $config->userFrameworkBaseURL );
                     }
                 }
             }
@@ -83,7 +85,8 @@ class CRM_Profile_Form_Edit extends CRM_Profile_Form
 
         // make sure the gid is set and valid
         if ( ! $this->_gid ) {
-            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );        
+            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled, OR there is no Profile with that ID, OR a valid "gid=" integer value is missing from the URL. Contact the site administrator if you need assistance.',
+                                      array( 1 => $this->_gid )) );        
         }
 
         // and also the profile is of type 'Profile'
@@ -96,7 +99,8 @@ SELECT module
         $params = array( 1 => array( $this->_gid, 'Integer' ) );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         if ( ! $dao->fetch( ) ) {
-            CRM_Core_Error::fatal( ts( 'This profile is not configured for the requested action. Contact the site administrator if you need assistance.' ) );
+            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is not configured to be used for "Profile" edit and view forms in it\'s Settings. Contact the site administrator if you need assistance.',
+                                      array( 1 => $this->_gid )) );        
         }
     }
 

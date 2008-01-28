@@ -67,7 +67,7 @@ $alreadyInstalled = file_exists( $cmsPath  . DIRECTORY_SEPARATOR .
 // Exit with error if CiviCRM has already been installed.
 if ($alreadyInstalled ) {
     $errorTitle = "Oops! CiviCRM is Already Installed";
-    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>" . $cmsPath . "sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
+    $errorMsg = "CiviCRM has already been installed in this Drupal site. <ul><li>To <strong>start over</strong>, you must delete or rename the existing CiviCRM settings file - <strong>civicrm.settings.php</strong> - from <strong>[your Drupal root directory]/sites/default</strong>.</li><li>To <strong>upgrade an existing installation</strong>, refer to the online <a href='http://wiki.civicrm.org/confluence//x/mQ8' target='_blank' title='Opens Installation Documentation in a new window.'>Installation Guide</a>.</li></ul>";
     errorDisplayPage( $errorTitle, $errorMsg );
 }
 

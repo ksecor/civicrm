@@ -63,7 +63,7 @@ class CRM_Profile_Page_View extends CRM_Core_Page {
             $session =& CRM_Core_Session::singleton();
             $id = $session->get( 'userID' );
             if ( ! $id ) {
-                CRM_Core_Error::fatal( ts( 'Could not find required parameter: id' ) );
+                CRM_Core_Error::fatal( ts( 'Could not find the required contact id parameter (id=) for viewing a contact record with a Profile.' ) );
             }
         }
         $this->assign( 'cid', $id );
