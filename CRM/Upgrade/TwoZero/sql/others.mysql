@@ -533,7 +533,10 @@ VALUES
 (@domain_id, 'case_type', NULL, 'Case Type', 0, 1),
 (@domain_id, 'case_status', NULL, 'Case Status', 0, 1),
 (@domain_id, 'custom_search', NULL, 'Custom Search', 0, 1),
-(@domain_id, 'participant_listing', NULL, 'Participant Listing', 0, 1);
+(@domain_id, 'participant_listing', NULL, 'Participant Listing', 0, 1),
+(@domain_id, 'grant_status', NULL, 'Grant status', 0, 1),
+(@domain_id, 'grant_type', NULL, 'Grant Type', 0, 1),
+(@domain_id, 'honor_type', NULL, 'Honor Type', 0, 1);
 
 -- 
 -- Dumping data for table `civicrm_option_value`
@@ -547,6 +550,9 @@ SELECT @og_id_pl := id FROM civicrm_option_group WHERE domain_id = @domain_id AN
 SELECT @og_id_ps := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'participant_status';
 SELECT @og_id_cvo := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'contact_view_options';
 SELECT @og_id_aso := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'advanced_search_options';
+SELECT @og_id_gt := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'grant_type';
+SELECT @og_id_gs := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'grant_status';
+SELECT @og_id_ht := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'honor_type';
 
 SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
 SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
@@ -595,6 +601,13 @@ INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`,
 (@og_id_cvo, 'Cases', (SELECT @max_val_aso := @max_val_cvo+1), NULL, NULL, 0, NULL, (SELECT @max_wt_cvo := @max_wt_cvo+1), NULL, 0, 0, 1),
 (@og_id_aso, 'Cases', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
 (@og_id_aso, 'Kabissa', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
-(@og_id_aso, 'Grants', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1);
-
-
+(@og_id_aso, 'Grants', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_gs, 'Pending', 1, 'Pending', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_gs, 'Granted', 2, 'Granted', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_gs, 'Rejected', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_gt, 'Emergency', 1, 'Emergency', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_gt, 'Family Support', 2, 'Family Support', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_gt, 'General Protection', 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_gt, 'Impunity', 4, 'Impunity', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+(@og_id_ht, 'In Honor of', 1, 'In Honor of', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_ht, 'In Memory of', 2, 'In Memory of', NULL, 0, NULL, 2, NULL, 0, 0, 1);
