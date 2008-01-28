@@ -481,10 +481,9 @@ SELECT label, value
 
     function searchRange( &$id, &$label, $type, $fieldName, &$value, &$grouping ) {
         $qill = array( );
-        $crmType = CRM_Core_BAO_CustomValue::fieldToType( $type );
 
         if ( isset( $value['from'] ) ) {
-            $val = CRM_Utils_Type::escape( $value['from'], $crmType );
+            $val = CRM_Utils_Type::escape( $value['from'], $type );
 
             if ( $type == 'String' ) {
                 $this->_where[$grouping][] = "$fieldName >= '$val'";
@@ -495,7 +494,7 @@ SELECT label, value
         }
 
         if ( isset( $value['to'] ) ) {
-            $val = CRM_Utils_Type::escape( $value['to'], $crmType );
+            $val = CRM_Utils_Type::escape( $value['to'], $type );
             if ( $type == 'String' ) {
                 $this->_where[$grouping][] = "$fieldName <= '$val'";
             } else {
