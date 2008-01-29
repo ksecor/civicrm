@@ -164,7 +164,8 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $dojoAttributes = array( 'dojoType'             => 'dijit.Editor',
                                  'height'               => '250 px',
                                  'id'                   => 'html_message',
-                                 'extraPlugins'       => '["createLink","foreColor","hiliteColor","formatBlock"]'
+                                 'extraPlugins'         => '["createLink","foreColor","hiliteColor","formatBlock"]',
+                                 'onkeyup'              => "return verify(this)"
                                  );
 
         $this->add( 'textarea', 'html_message', ts('HTML Message'), $dojoAttributes );
