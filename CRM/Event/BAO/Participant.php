@@ -296,33 +296,6 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
             return false;
         }
     }
-
-    /**
-     * compose the url to show details of activity
-     *
-     * @param int $id
-     * @param int $activityHistoryId
-     *
-     * @static
-     * @access public
-     */
-    static function showActivityDetails( $id, $activityHistoryId )
-    {
-        $params   = array( );
-        $defaults = array( );
-        $params['id'          ] = $activityHistoryId;
-        $params['entity_table'] = 'civicrm_contact';
-        
-        require_once 'CRM/Core/BAO/History.php'; 
-        $history    = CRM_Core_BAO_History::retrieve($params, $defaults);
-        $contactId  = CRM_Utils_Array::value('entity_id', $defaults);
-        
-        if ( $contactId ) {
-            return CRM_Utils_System::url('civicrm/contact/view/participant', "reset=1&id=$id&cid=$contactId&hid={$activityHistoryId}&action=view&context=participant&selectedChild=event&history=1"); 
-        } else { 
-            return CRM_Utils_System::url('civicrm' ); 
-        } 
-    }
     
     /**
      * check whether the event is 

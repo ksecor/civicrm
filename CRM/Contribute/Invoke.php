@@ -129,10 +129,6 @@ class CRM_Contribute_Invoke {
             require_once 'CRM/Contribute/Controller/ContributionPage.php'; 
             $controller =& new CRM_Contribute_Controller_ContributionPage( ); 
             return $controller->run( ); 
-        } else if ( $secondArg == 'contribution' ) {
-            require_once 'CRM/Contribute/Page/Contribution.php';
-            $page =& new CRM_Contribute_Page_Contribution( );
-            return $page->run( );
         } else if ( $secondArg == 'offline' ) {
             require_once 'CRM/Utils/Wrapper.php';
             $wrapper =& new CRM_Utils_Wrapper( );
