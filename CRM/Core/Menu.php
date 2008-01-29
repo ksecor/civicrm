@@ -697,7 +697,19 @@ class CRM_Core_Menu
                              'icon'       => 'admin/small/template.png',
                              'weight'     => 260
                              ),
-                       
+
+                       array(
+                             'path'    => 'civicrm/contact/domain',
+                             'title'   => ts('Domain Information'),
+                             'desc'    => ts('Configure primary contact name, email, return-path and address information. This information is used by CiviMail to identify the sending organization.'), 
+                             'query'  => 'reset=1&action=update',
+                             'type'    => CRM_Core_Menu::CALLBACK,
+                             'crmType' => CRM_Core_Menu::LOCAL_TASK,  
+                             'adminGroup' => ts('Configure'),
+                             'icon'    => 'admin/small/domain.png',
+                             'weight'  => 270
+                             ),
+
                        array(
                              'path'    => 'civicrm/admin/options',
                              'title'   => ts('Activity Types'),
