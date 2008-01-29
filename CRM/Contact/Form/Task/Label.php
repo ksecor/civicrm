@@ -136,22 +136,26 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         $rows = array( );
         
-        //get the contact information
-        foreach ( $this->_contactIds as $value ) {
-            // fetch the contacts
-            
-            require_once 'CRM/Contact/BAO/Query.php';
-            $params  = array( array( 'contact_id', '=', $value, 0, 0 ) );
-            $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
-            $details = $query->apiQuery($params, $returnProperties);
-            
-            $custom = array( );
-            foreach ( $returnProperties as $name => $dontCare ) {
-                $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
-                if ( $cfID ) {
-                    $custom[] = $cfID;
-                }
+        //get the contacts information
+        $params = array( );
+        foreach ( $this->_contactIds  as $key => $contactID ) {
+            $params[] = array( CRM_Core_Form::CB_PREFIX . $contactID,
+                               '=', 1, 0, 1);
+        }
+        
+        $custom = array( );
+        foreach ( $returnProperties as $name => $dontCare ) {
+            $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
+            if ( $cfID ) {
+                $custom[] = $cfID;
             }
+        }
+        require_once 'CRM/Contact/BAO/Query.php';
+        
+        $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
+        $details = $query->apiQuery( $params, $returnProperties );
+        
+        foreach ( $this->_contactIds as $value ) {
             foreach ( $custom as $cfID ) {
                 if ( isset ( $details[0][$value]["custom_{$cfID}"] ) ) {
                     $details[0][$value]["custom_{$cfID}"] = 
@@ -212,7 +216,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 } else {
                     $rows[$value]['display_name'] = $contact['display_name'];
                 }
-
+                
                 // now create the rows for generating mailing labels
                 foreach( CRM_Utils_Array::value( $locName, $contact ) as $field => $fieldValue ) {
                     $rows[$value][$field] = $fieldValue;
