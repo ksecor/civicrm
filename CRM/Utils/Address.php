@@ -147,11 +147,12 @@ class CRM_Utils_Address
         }
         
         // replacements in case of Custom Token
-        $customToken = array_keys($fields);
-        foreach( $customToken as $value ){
-            if ( substr($value,0,7) == 'custom_' ) {
-                $replacements["{$value }"] = $fields["{$value}"];  
-                
+        if ( stristr( $formatted ,'custom_' ) ) {
+            $customToken = array_keys( $fields );
+            foreach( $customToken as $value ) {
+                if ( substr( $value,0,7 ) == 'custom_' ) {
+                    $replacements["{$value }"] = $fields["{$value}"];  
+                }
             }
         }
         

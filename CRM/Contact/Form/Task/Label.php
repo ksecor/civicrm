@@ -109,7 +109,8 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         //build the returnproperties
         $returnProperties = array ('display_name' => 1 );
-        $format = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+        $format  = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+        $format .= CRM_Core_BAO_Preferences::value( 'mailing_format' );
         $matches = array();
         preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
                         $format,
@@ -119,10 +120,6 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
             foreach ( $matches[1] as $token ) {
                 list($type,$name) = split( '\.', $token, 2 );
                 if ( $name ) {
-                    if ( ! isset( $individualToken) ) {
-                        $individualToken = array( );
-                    }
-                    $individualToken[] = $name;
                     $returnProperties["{$name}"] = 1;
                 }
             }
