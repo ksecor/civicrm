@@ -77,7 +77,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $messageTemplate->find( true );
 
                 $defaults['text_message'] = $messageTemplate->msg_text;
-                $htmMessage = $messageTemplate->msg_html;
+                $htmlMessage = $messageTemplate->msg_html;
             }
 
             if ( isset( $defaults['body_text'] ) ) {
@@ -94,7 +94,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         }
         
         if ( !$htmlMessage ) { 
-            $htmlMessage = $this->getElementValue( "html_message" );
+            $htmlMessage = $this->getElementValue( "hmsg" );
         }
         
         $htmlMessage = str_replace( array("\n","\r"), ' ', $htmlMessage);
@@ -186,6 +186,9 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         $this->add( 'select', 'footer_id', ts( 'Mailing Footer' ), 
                     array('' => ts('- none -')) + CRM_Mailing_PseudoConstant::component( 'Footer' ) );
         
+        //special hidden field to fix problem with dojo editor
+        $this->add('hidden', 'hmsg', null);
+
         $values = array('mailing_id'    => $this->get('mailing_id'));
 
         $this->addFormRule(array('CRM_Mailing_Form_Upload', 'dataRule'), $values );
@@ -238,7 +241,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             $params['body_text']     = $text_message;
             $this->set('textFile',     $params['body_text'] );
             $this->set('text_message', $params['body_text'] );
-            $html_message = $this->controller->exportvalue($this->_name, 'html_message');
+            $html_message = $this->controller->exportvalue($this->_name, 'hmsg');
             
             // dojo editor does some html conversion when tokens are
             // inserted as links. Hence token replacement fails.
@@ -252,7 +255,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
         }
 
         $params['name'] = $this->get('name');
-        
+
         $session =& CRM_Core_Session::singleton();
         $params['domain_id']  = $session->get('domainID');
         $params['contact_id'] = $session->get('userID');
@@ -290,7 +293,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
                 $params['msg_template_id'] = $this->controller->exportvalue($this->_name, 'template');
             }
         }
-
+    
         $ids['mailing_id'] = $this->get('mailing_id');
 
         /* Build the mailing object */
@@ -313,7 +316,7 @@ class CRM_Mailing_Form_Upload extends CRM_Core_Form
             return true;
         }
         $errors = array();
-
+        
         require_once 'CRM/Core/BAO/Domain.php';
 
         $domain =& CRM_Core_BAO_Domain::getCurrentDomain();

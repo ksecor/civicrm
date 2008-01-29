@@ -158,22 +158,26 @@
 
      function showSaveDetails(chkbox) 
      {
-	if (chkbox.checked) {
-	    document.getElementById("saveDetails").style.display = "block";
-	    document.getElementById("saveTemplateName").disabled = false;
-	} else {
-	    document.getElementById("saveDetails").style.display = "none";
-	    document.getElementById("saveTemplateName").disabled = true;
-	}
+	    if (chkbox.checked) {
+	        document.getElementById("saveDetails").style.display = "block";
+	        document.getElementById("saveTemplateName").disabled = false;
+	    } else {
+	        document.getElementById("saveDetails").style.display = "none";
+	        document.getElementById("saveTemplateName").disabled = true;
+	    }   
      }
 
-  dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
+     dojo.connect( dijit.byId('html_message'), 'onload', 'setHTMLMessage')
+     dojo.connect( dijit.byId('html_message'), 'onsubmit', 'getHTMLMessage')
+     
+     function setHTMLMessage ( ) {
+        var message_html  = {/literal}'{$message_html}'{literal};
+        dijit.byId('html_message').setValue( message_html );
+     } 
 
-  function setHTMLMessage ( ) {
-      var message_html  = {/literal}'{$message_html}'{literal};
-      dijit.byId('html_message').setValue( message_html );
-  }
-
+     function getHTMLMessage ( ) {
+         document.Upload.hmsg.value = dijit.byId("html_message").getValue();
+     } 
 
 </script>
 {/literal}
