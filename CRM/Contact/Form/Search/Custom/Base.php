@@ -73,7 +73,7 @@ class CRM_Contact_Form_Search_Custom_Base {
         $this->addDomainClause( $where );
 
         if ( $includeContactIDs ) {
-            $this->includeContactIDs( $where,
+            $this->includeContactIDs( $sql,
                                       $this->_formValues );
         }
 
