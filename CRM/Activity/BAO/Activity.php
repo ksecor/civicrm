@@ -374,7 +374,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @param int     $offset          which row to start from ?
      * @param int     $rowCount        how many rows to fetch
      * @param object|array  $sort      object or array describing sort order for sql query.
-     * @param type    $type            type of history we're interested in
+     * @param type    $type            type of activity we're interested in
      * @param boolean $admin           if contact is admin
      * @param int     $caseId          case id
      * @return array (reference)      $values the relevant data object values of open activitie
@@ -611,7 +611,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tokenMessage = CRM_Utils_Token::replaceContactTokens( $message, $contact, false, $messageToken);
             $tokenSubject = CRM_Utils_Token::replaceContactTokens( $subject, $contact, false, $subjectToken);
             
-            require_once 'CRM/Core/BAO/EmailHistory.php';
             if ( self::sendMessage( $from, $userID, $contactId, $tokenSubject, $tokenMessage, $emailAddress, $email->id ) ) {
                 $sent[] =  $contactId;
             } else {

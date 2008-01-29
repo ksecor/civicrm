@@ -46,7 +46,6 @@ require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
 require_once 'api/Group.php';
-require_once 'api/History.php';
 require_once 'api/CustomGroup.php';
 require_once 'api/UFGroup.php';
 require_once 'api/UFJoin.php';
