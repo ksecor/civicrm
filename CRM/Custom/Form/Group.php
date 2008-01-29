@@ -142,7 +142,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         require_once "CRM/Member/BAO/MembershipType.php";
         $sel1 = CRM_Core_SelectValues::customGroupExtends();
         $sel2= array();
-        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType();
+        $sel2['Activity']     = array("" => "-- Any --") + CRM_Core_PseudoConstant::activityType( false );
         $sel2['Contribution'] = array("" => "-- Any --") + CRM_Contribute_PseudoConstant::contributionType( );
         $sel2['Membership']   = array("" => "-- Any --") + CRM_Member_BAO_MembershipType::getMembershipTypes( false );
         $sel2['Event']        = array("" => "-- Any --") + CRM_Core_OptionGroup::values('event_type');
