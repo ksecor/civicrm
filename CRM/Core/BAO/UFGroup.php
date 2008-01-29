@@ -307,6 +307,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                      'geo_code_2',
                                      'state_province',
                                      'country',
+                                     'county',
                                      'phone',
                                      'email',
                                      'im',

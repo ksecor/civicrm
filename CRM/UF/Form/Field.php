@@ -191,7 +191,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
                                     'supplemental_address_2',
                                     'city', 'postal_code', 'postal_code_suffix',
                                     'geo_code_1', 'geo_code_2',
-                                    'state_province', 'country',
+                                    'state_province', 'country','county',
                                     'phone', 'email', 'im', 'location_name' );
             
             if ( ! $defaults['location_type_id'] &&
@@ -242,8 +242,10 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         unset( $fields['Household'   ]['note']);
         unset( $fields['Organization']['note']);
 
-        $config =& CRM_Core_Config::singleton( );
-        if ( !isset($config->includeCounty) || !$config->includeCounty ) {
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+        
+        if ( !$addressOptions['County'] ) {
             unset( $fields['Individual'  ]['county']);
             unset( $fields['Household'   ]['county']);
             unset( $fields['Organization']['county']);

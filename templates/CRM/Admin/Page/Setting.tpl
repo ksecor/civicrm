@@ -44,7 +44,7 @@
 </tr>
 
 <tr>
-    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/address}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
+    <td class="nowrap"><a href="{crmURL p='civicrm/admin/setting/preferences/address' q='reset=1'}" id="idAddress">&raquo; {ts}Address Settings{/ts}</a></td>
     <td>{ts}Format addresses in mailing labels, input forms and screen display. Configure optional Address Standardization provider.{/ts}</td>
 </tr>
 
