@@ -472,8 +472,46 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         // store the submitted values in an array
         $params = $this->controller->exportValues( $this->_name );
 
-        $ids = array( );
+        // format custom data
+        // get mime type of the uploaded file
+        if ( !empty($_FILES) ) {
+            foreach ( $_FILES as $key => $value) {
+                $files = array( );
+                if ( $params[$key] ) {
+                    $files['name'] = $params[$key];
+                }
+                if ( $value['type'] ) {
+                    $files['type'] = $value['type']; 
+                }
+                $params[$key] = $files;
+            }
+        }
         
+        $customData = array( );
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $customData,
+                                                             $value, 'Activity', null, $this->_activityId);
+            }
+        }
+        
+        if (! empty($customData) ) {
+            $params['custom'] = $customData;
+        }
+        
+        //special case to handle if all checkboxes are unchecked
+        $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+        
+        if ( !empty($customFields) ) {
+            foreach ( $customFields as $k => $val ) {
+                if ( in_array ( $val[3], array ('CheckBox','Multi-Select') ) &&
+                     ! CRM_Utils_Array::value( $k, $params['custom'] ) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $k, $params['custom'],
+                                                                 '', 'Activity', null, $this->_activityId);
+                }
+            }
+        }
+
         //set activity type id
         if ( ! $params['activity_type_id'] ) {
             $params['activity_type_id']   = $this->_activityTypeId;

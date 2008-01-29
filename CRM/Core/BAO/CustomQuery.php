@@ -114,8 +114,6 @@ class CRM_Core_BAO_CustomQuery {
                                'Relationship' => 'civicrm_relationship',
                                'Event'        => 'civicrm_event',
                                'Activity'     => 'civicrm_activity',
-                               'Meeting'      => 'civicrm_meeting',
-                               'Phonecall'    => 'civicrm_phonecall'
                                );
 
     /**

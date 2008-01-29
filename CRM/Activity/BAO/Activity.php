@@ -319,33 +319,12 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             return $resultTarget;
         }
 
-        // format custom data
-        // get mime type of the uploaded file
-        if ( !empty($_FILES) ) {
-            foreach ( $_FILES as $key => $value) {
-                $files = array( );
-                if ( $params[$key] ) {
-                    $files['name'] = $params[$key];
-                }
-                if ( $value['type'] ) {
-                    $files['type'] = $value['type']; 
-                }
-                $params[$key] = $files;
-            }
+        if ( CRM_Utils_Array::value( 'custom', $params ) &&
+             is_array( $params['custom'] ) ) {
+            require_once 'CRM/Core/BAO/CustomValueTable.php';
+            CRM_Core_BAO_CustomValueTable::store( $params['custom'], 'civicrm_activity', $result->id );
         }
 
-        require_once "CRM/Core/BAO/CustomQuery.php";
-        require_once "CRM/Core/BAO/CustomField.php";
-        if ( isset( $activityType ) ) {
-            $entityTable  = CRM_Core_BAO_CustomQuery::$extendsMap[$activityType];
-            $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
-            require_once 'CRM/Core/BAO/CustomValueTable.php';
-            CRM_Core_BAO_CustomValueTable::postProcess( $params,
-                                                        $customFields,
-                                                        $entityTable,
-                                                        $result->id,
-                                                        $activityType );
-        }
         $transaction->commit( );  
         
         return $result;
