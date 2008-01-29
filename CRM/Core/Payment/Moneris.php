@@ -48,6 +48,7 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
      * @return void 
      */ 
     function __construct( $mode, &$paymentProcessor ) {
+        $this->_mode = $mode;
         $this->_paymentProcessor = $paymentProcessor;
 
         require_once 'Services/mpgClasses.php'; // require moneris supplied api library
@@ -231,14 +232,12 @@ class CRM_Core_Payment_Moneris extends CRM_Core_Payment {
     /** 
      * This function checks to see if we have the right config values 
      * 
-     * @param  string $mode the mode we are operating in (live or test) 
-     * 
      * @return string the error message if any 
      * @public 
      */ 
-    function checkConfig( $mode ) {
+    function checkConfig( ) {
         $error = array( );
-        
+
         if ( empty( $this->_paymentProcessor['signature'] ) ) {
             $error[] = ts( 'Store ID is not set in the Administer CiviCRM &raquo; Payment Processor.' );
         }
