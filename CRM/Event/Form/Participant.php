@@ -225,7 +225,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             CRM_Event_BAO_Participant::getValues( $params, $defaults, $ids );            
             $this->_contactID = $defaults[$this->_id]['contact_id'];
         }
-        
+
         if ( $rId ) {
             $defaults[$this->_id]["role_id"] = $rId;
         }
@@ -337,16 +337,23 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $defaults[$this->_id]["price_{$priceField->id}"] = $optionId;
             }
         } else {
-            $eventPage = array('entity_table' =>'civicrm_event_page',
-                               'label'        => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );    
-            CRM_Core_BAO_CustomOption::retrieve( $eventPage, $params );
+            $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
+                                                          'civicrm_event_page.amount.' . 
+                                                          CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
+                                                                                       $defaults[$this->_id]['event_id'], 
+                                                                                       'id', 'event_id' ), 
+                                                          'id', 
+                                                          'name' );
+
+            $optionParams = array( 'option_group_id' => $optionGroupId,
+                                   'label'           => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
+
+            CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
             $defaults[$this->_id]['amount'] = $params['id'];
         }
         
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
-        
-
-
+ 
         return $defaults[$this->_id];
     }
     
@@ -576,7 +583,6 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         }
         // get the submitted form values.  
         $params = $this->controller->exportValues( $this->_name );
-      
         if ( $this->_event['is_monetary'] ) {
             if ( empty( $params['priceSetId'] ) ) {
                 $params['amount_level'] = $this->_values['custom']['label'][array_search( $params['amount'], 
@@ -660,7 +666,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
         $session =& CRM_Core_Session::singleton( );
         $userID  = $session->get( 'userID' );
         list( $userName, $userEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $userID );
-        
+        require_once "CRM/Event/BAO/Participant.php";
         if ( $this->_single ) {
             $participant = CRM_Event_BAO_Participant::create( $params, $ids );   
         } else {
