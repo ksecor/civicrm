@@ -64,7 +64,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
     function preProcess( ) {
         
-        CRM_Utils_System::setTitle(ts('CiviMail Domain Information'));
+        CRM_Utils_System::setTitle(ts('Domain Information'));
         $breadCrumbPath = CRM_Utils_System::url( 'civicrm/admin', 'reset=1' );
         CRM_Utils_System::appendBreadCrumb( ts('Administer CiviCRM'), $breadCrumbPath );
 
