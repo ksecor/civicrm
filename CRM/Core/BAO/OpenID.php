@@ -86,7 +86,7 @@ class CRM_Core_BAO_OpenID extends CRM_Core_DAO_OpenID
     static function isAllowedToLogin( $identity_url ) {
         $openId =& new CRM_Core_DAO_OpenID( );
         $openId->openid = $identity_url;
-        $openId->find( );
+        $openId->find( true );
         if ( $openId ) {
             return $openId->allowed_to_login == 1;
         }

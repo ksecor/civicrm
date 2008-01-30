@@ -10,7 +10,7 @@ if ( count( $contactIds ) > 0 ) {
   exit(0);
 }
 $session =& CRM_Core_Session::singleton( );
-$session->set( 'new_install', 'start' );
+$session->set( 'new_install', true );
 ?>
 <html>
 <head>

@@ -41,6 +41,8 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
 
     protected $_fields = array( );
     
+    protected $_openID;
+    
 
     function preProcess( ) {
         // pick the first profile ID that has user register checked
@@ -54,14 +56,31 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         foreach ( $ufGroups as $id => $dontCare ) {
             $this->_profileID = $id;
         }
+        
+        require_once 'CRM/Core/Session.php';
+        $session =& CRM_Core_Session::singleton( );
+        $this->_openID = $session->get( 'openid' );
+    }
+    
+    function setDefaultValues( ) {
+        $defaults = array( );
+        
+        $defaults['user_unique_id'] = $this->_openID;
+        
+        return $defaults;
     }
 
     function buildQuickForm( ) {
-
         $this->add( 'text',
                     'user_unique_id', 
                     ts( 'OpenID' ),
                     CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'user_unique_id' ),
+                    true );
+                    
+        $this->add( 'text',
+                    'email',
+                    ts( 'Email' ),
+                    CRM_Core_DAO::getAttribute( 'CRM_Contact_DAO_Contact', 'email' ),
                     true );
 
         $fields = CRM_Core_BAO_UFGroup::getFields( $this->_profileID,
@@ -76,8 +95,45 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
                                                 CRM_Profile_Form::MODE_CREATE );
             $this->_fields[$key] = $field;
         }
+        
+        $this->addButtons( array(
+                                 array ( 'type'      => 'next',
+                                         'name'      => ts('Save'),
+                                         'isDefault' => true   ),
+                                 array ( 'type'      => 'cancel',
+                                         'name'      => ts('Cancel') ),
+                                 )
+                           );
     }
 
+    function postProcess( ) {
+        $formValues = $this->controller->exportValues( $this->_name );
+        
+        print "formValues: <pre>";
+        print_r($formValues);
+        print "</pre>";
+        
+        require_once 'CRM/Standalone/User.php';
+        require_once 'CRM/Utils/System/Standalone.php';
+        require_once 'CRM/Core/BAO/OpenId.php';
+        $user = new CRM_Standalone_User( $formValues['user_unique_id'], 
+            $formValues['email'], $formValues['first_name'], $formValues['last_name']
+        );
+        CRM_Utils_System_Standalone::getUserID( $user );
+        require_once 'CRM/Core/Session.php';
+        $session =& CRM_Core_Session::singleton( );
+        $contactId = $session->get( 'userID' );
+        $openId = new CRM_Core_BAO_OpenId( );
+        $openId->contact_id = $contact_id;
+        $openId->find( true );
+        $openId->allowed_to_login = 1;
+        $openId->update( );
+        
+        // Set this to false if the registration is successful
+        $session->set('new_install', false);
+        
+        header( "Location: index.php" );
+    }
 
 }
 

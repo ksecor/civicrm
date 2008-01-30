@@ -1,7 +1,7 @@
 <?php
 
 // Pull in the settings file
-@include_once '../civicrm.config.php';
+include_once '../civicrm.config.php';
 
 if ( ! isset( $civicrm_root ) ) {
     // It seems we need to bootstrap this installation, so redirect there

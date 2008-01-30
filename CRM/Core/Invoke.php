@@ -75,8 +75,12 @@ class CRM_Core_Invoke
             unset( $_POST['option'] );
             CRM_Core_Joomla::sidebarLeft( );
         } else if ( $config->userFramework == 'Standalone' ) {
-            require_once 'CRM/Core/Standalone.php';
-            CRM_Core_Standalone::sidebarLeft( );
+            require_once 'CRM/Core/Session.php';
+            $session =& CRM_Core_Session::singleton( ); 
+            if ( $session->get('new_install') !== true ) {
+                require_once 'CRM/Core/Standalone.php';
+                CRM_Core_Standalone::sidebarLeft( );
+            }
         }
 
         // set active Component

@@ -8,8 +8,10 @@ require_once 'CRM/Core/Session.php';
 
 $session =& CRM_Core_Session::singleton();
 
-if ( !isset( $_GET[CIVICRM_UF_URLVAR] ) ) {
-    $_GET[CIVICRM_UF_URLVAR] = '';
+$urlVar = $config->userFrameworkURLVar;
+
+if ( !isset( $_GET[$urlVar] ) ) {
+    $_GET[$urlVar] = '';
 }
 
 if ( !empty( $error ) ) {
@@ -22,20 +24,21 @@ if ( !empty( $session->get['msg'] ) ) {
 
 //print "userID: " . $session->get('userID') . "<br/>";
 //print "ufName: " . $session->get('ufName') . "<br/>";
-if ( $session->get('userID') == null || $session->get('userID') == '' ) {
+if ( $session->get('new_install') !== true && ( $session->get('userID') == null || $session->get('userID') == '' ) ) {
     include 'login.php';
     exit(0);
 }
-if ($session->get('goahead') != "no") {
+
+if ($session->get('goahead') == "yes") {
     // If we didn't get any parameters, we should default to the dashboard
-    if ($_GET[CIVICRM_UF_URLVAR] == "") {
+    if ($_GET[$urlVar] == "") {
         print CRM_Core_Invoke::invoke( array("civicrm","dashboard") );
     } else {
-        print CRM_Core_Invoke::invoke( explode('/', $_GET[CIVICRM_UF_URLVAR] ) );
+        print CRM_Core_Invoke::invoke( explode('/', $_GET[$urlVar] ) );
     }
 } else {
-    header("Location:login.php");
-    print "One or more errors occurred.";
+    $session->set('msg', 'Login failed!');
+    header("Location: login.php");
 }
 
 ?>

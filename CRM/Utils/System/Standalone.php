@@ -231,15 +231,9 @@ class CRM_Utils_System_Standalone {
      * @static
      */
     static function getAllowedToLogin( $user ) {
-        require_once 'CRM/Core/BAO/UFMatch.php';
-      
+        require_once 'CRM/Core/BAO/OpenID.php';
+
         // this returns true if the user is allowed to log in, false o/w
-        
-        /* Let's stop calling it in UFMatch since the value no longer
-           lives there.
-        $allow_login = CRM_Core_BAO_UFMatch::getAllowedToLogin( $user->identity_url );
-        */
-        
         $allow_login = CRM_Core_BAO_OpenID::isAllowedToLogin( $user->identity_url );
         return $allow_login;
     }
