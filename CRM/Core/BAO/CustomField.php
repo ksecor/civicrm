@@ -945,13 +945,23 @@ SELECT id
                 $value['i'] = '00';
                 $value['s'] = '00';
                 $date = CRM_Utils_Date::format( $value );
-            } 
+            } else {
+                $date = '00000000000000';
+            }
             if ( ! $date ) {
                 $date = '';
             }
             $value = $date;
         }
-        
+
+        if ( $customFields[$customFieldId][2] == 'Float' || 
+             $customFields[$customFieldId][2] == 'Money' || 
+             $customFields[$customFieldId][2] == 'Int' ) {
+            if ( $value == '' ) {
+                $value = 0;  
+            }          
+        }
+               
         if ( ($customFields[$customFieldId][2] == 'StateProvince' || 
               $customFields[$customFieldId][2] == 'Country') && empty($value) ) {
             return;
