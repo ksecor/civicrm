@@ -196,31 +196,40 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
         $membershipDetails = array();
         if ( $statusDate == 'today' ) {
             $statusDate = getDate();
-            $statusDate = date( 'Y-m-d',
+            $statusDate = date( 'Ymd',
                                 mktime( $statusDate['hours'],
                                         $statusDate['minutes'],
                                         $statusDate['seconds'], 
                                         $statusDate['mon'],
                                         $statusDate['mday'],
                                         $statusDate['year'] ) );
+        } else {
+            $statusDate = CRM_Utils_Date::customFormat( $statusDate, '%Y%m%d');
         }
-
+        
+        $startDate = CRM_Utils_Date::customFormat( $startDate, '%Y%m%d');
+        $endDate   = CRM_Utils_Date::customFormat( $endDate,   '%Y%m%d');
+        $joinDate  = CRM_Utils_Date::customFormat( $joinDate,  '%Y%m%d');
+        
         $dates  = array('start', 'end', 'join');
         $events = array('start', 'end');
-
+        
         foreach ( $dates as $dat ) {
             if (${$dat.'Date'}) {
-                $date  = explode('-', ${$dat.'Date'} );
-                ${$dat.'Year'}  = $date[0];
-                ${$dat.'Month'} = $date[1];
-                ${$dat.'Day'}   = $date[2];
+                ${$dat.'Year'}  = substr( ${$dat.'Date'}, 0, 4);
+                
+                ${$dat.'Month'} = substr( ${$dat.'Date'}, 4, 2);
+                
+                ${$dat.'Day'}   = substr( ${$dat.'Date'}, 6, 2);
+                
             }
         }
         
         $query = "SELECT * FROM civicrm_membership_status WHERE is_active=1 ORDER BY weight ASC";
-
+        
         $membershipStatus =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
         $hour = $minute = $second = 0;
+        
         while ( $membershipStatus->fetch( ) ) {
             $startEvent = null;
             $endEvent   = null;
@@ -232,22 +241,22 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                         if ( $membershipStatus->{$eve.'_event_adjust_unit'} &&
                              $membershipStatus->{$eve.'_event_adjust_interval'} ) {
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'month' ) {//add in months
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
-                                                                      ${$dat.'Day'}, 
-                                                                      ${$dat.'Year'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'}+$membershipStatus->{$eve.'_event_adjust_interval'},
+                                                                    ${$dat.'Day'}, 
+                                                                    ${$dat.'Year'}));
                             }
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'day' ) {//add in days 
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'},
-                                                                      ${$dat.'Day'}+$membershipStatus->{$eve.'_event_adjust_interval'}, 
-                                                                      ${$dat.'Year'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'},
+                                                                    ${$dat.'Day'}+$membershipStatus->{$eve.'_event_adjust_interval'}, 
+                                                                    ${$dat.'Year'}));
                             }
                             if ( $membershipStatus->{$eve.'_event_adjust_unit'} == 'year' ) {//add in years
-                                ${$eve.'Event'} = date('Y-m-d',mktime($hour, $minute, $second, 
-                                                                      ${$dat.'Month'},
-                                                                      ${$dat.'Day'}, 
-                                                                      ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
+                                ${$eve.'Event'} = date('Ymd',mktime($hour, $minute, $second, 
+                                                                    ${$dat.'Month'},
+                                                                    ${$dat.'Day'}, 
+                                                                    ${$dat.'Year'}+$membershipStatus->{$eve.'_event_adjust_interval'}));
                             }
                         } else { // if no interval and unit, present
                             ${$eve.'Event'} = ${$dat.'Date'};
@@ -255,7 +264,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                     }
                 }
             }
-
+            
             // check if statusDate is in the range of start & end events.
             if ( $startEvent && $endEvent ) {
                 if ( ($statusDate >= $startEvent) && ($statusDate <= $endEvent) ) {
@@ -264,7 +273,7 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                 }
             } elseif ( $startEvent ) {
                 if ( $statusDate >= $startEvent ) {
-                    $membershipDetails['id'] = $membershipStatus->id;
+                    $membershipDetails['id']   = $membershipStatus->id;
                     $membershipDetails['name'] = $membershipStatus->name;
                 }
             } elseif ( $endEvent ) {
@@ -273,18 +282,18 @@ class CRM_Member_BAO_MembershipStatus extends CRM_Member_DAO_MembershipStatus
                     $membershipDetails['name'] = $membershipStatus->name;
                 }
             }
-
+            
             // returns FIRST status record for which status_date is in range.
             if ( $membershipDetails ) { 
                 $membershipStatus->free( );
                 return $membershipDetails;
             }
-       } //end fetch
+        } //end fetch
         
         $membershipStatus->free( );
         return $membershipDetails;
     }
-
+    
     /**
      * Function that return the status ids whose is_current_member is set
      *
