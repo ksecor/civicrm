@@ -109,20 +109,31 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         
         //build the returnproperties
         $returnProperties = array ('display_name' => 1 );
-        $format  = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
-        $format .= CRM_Core_BAO_Preferences::value( 'mailing_format' );
-        $matches = array();
-        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
-                        $format,
-                        $matches,
-                        PREG_PATTERN_ORDER);
-        if ( $matches[1] ) {
-            foreach ( $matches[1] as $token ) {
-                list($type,$name) = split( '\.', $token, 2 );
-                if ( $name ) {
-                    $returnProperties["{$name}"] = 1;
+        
+        $nameFormat = CRM_Core_BAO_Preferences::value( 'individual_name_format' );
+        $nameFormatProerties = array();
+        if ( $nameFormat ) {
+            $nameFormatProerties = self::getReturnProperties( $nameFormat );
+        }
+        
+        $mailingFormat = CRM_Core_BAO_Preferences::value( 'mailing_format' );
+        $mailingFormatProperties = array();
+        if ( $mailingFormat ) {
+            $mailingFormatProperties = self::getReturnProperties( $mailingFormat );
+        }
+        
+        if ( stristr( $mailingFormat ,'custom_' ) ) {
+            foreach ( $mailingFormatProperties as $token => $true ) {
+                if ( substr( $token,0,7 ) == 'custom_' ) {
+                    if ( !CRM_Utils_Array::value( $token, $nameFormatProerties ) ) { 
+                        $nameFormatProerties[$token] = $mailingFormatProperties[$token];
+                    }
                 }
             }
+        }
+        
+        if ( is_array( $nameFormatProerties ) ) {
+            $returnProperties = array_merge( $returnProperties , $nameFormatProerties );
         }
         
         if ($fv['location_type_id']) {
@@ -215,6 +226,19 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                     $rows[$value]['individual_suffix']    = $contact['individual_suffix'];
                 } else {
                     $rows[$value]['display_name'] = $contact['display_name'];
+                }
+                
+                //Add custom details
+                foreach ( $mailingFormatProperties as $token => $true ) {
+                    if ( substr( $token, 0, 7 ) == 'custom_' ) {
+                        $rows[$value][$token] = $contact[$token];
+                    }
+                }
+                
+                foreach ( $nameFormatProerties as $token => $true ) {
+                    if ( substr( $token, 0, 7 ) == 'custom_' ) {
+                        $rows[$value][$token] = $contact[$token];
+                    }
                 }
                 
                 // now create the rows for generating mailing labels
@@ -312,7 +336,36 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         $pdf->Output();
     }
+    
+    /**
+     * function to create the array of returnProperties
+     *
+     * @param   string   $format   format for which return properties build
+     *
+     * @return array of returnProperties       
+     * @access  public
+     */
+    function getReturnProperties( &$format )
+    {
+        $returnProperties = array();
+        $matches = array();
+        preg_match_all( '/(?<!\{|\\\\)\{(\w+\.\w+)\}(?!\})/',
+                        $format,
+                        $matches,
+                        PREG_PATTERN_ORDER);
+        if ( $matches[1] ) {
+            foreach ( $matches[1] as $token ) {
+                list( $type, $name ) = split( '\.', $token, 2 );
+                if ( $name ) {
+                    $returnProperties["{$name}"] = 1;
+                }
+            }
+        }
+        
+        return $returnProperties;  
+    }
+    
 }
 
- 
+
 ?>
