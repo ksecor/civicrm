@@ -54,6 +54,16 @@ fi
 # remove Quest
 find $TRG -depth -name 'Quest' -exec rm -r {} \;
 
+# delete SimpleTest
+if [ -d $TRG/packages/SimpleTest ] ; then
+  rm -f $TRG/packages/SimpleTest
+fi
+
+# delete UFPDF's stuff not required on installations
+if [ -d $TRG/packages/ufpdf/ttf2ufm-src ] ; then
+  rm -f $TRG/packages/ufpdf/ttf2ufm-src
+fi
+
 # copy docs
 cp $SRC/agpl-3.0.txt $TRG
 cp $SRC/gpl.txt $TRG
