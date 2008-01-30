@@ -337,19 +337,18 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
                 $defaults[$this->_id]["price_{$priceField->id}"] = $optionId;
             }
         } else {
-            $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
-                                                          'civicrm_event_page.amount.' . 
-                                                          CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", 
-                                                                                       $defaults[$this->_id]['event_id'], 
-                                                                                       'id', 'event_id' ), 
-                                                          'id', 
-                                                          'name' );
-
-            $optionParams = array( 'option_group_id' => $optionGroupId,
-                                   'label'           => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
-
-            CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
-            $defaults[$this->_id]['amount'] = $params['id'];
+            if ( $defaults[$this->_id]['event_id'] ) {
+                $optionGroupId = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup", 
+                                                              'civicrm_event_page.amount.' . 
+                                                              CRM_Core_DAO::getFieldValue( "CRM_Event_DAO_EventPage", $defaults[$this->_id]['event_id'], 'id', 'event_id' ), 
+                                                              'id', 
+                                                              'name' );
+                $optionParams = array( 'option_group_id' => $optionGroupId,
+                                       'label'           => CRM_Utils_Array::value('event_level',$defaults[$this->_id]) );
+                
+                CRM_Core_BAO_CustomOption::retrieve( $optionParams, $params );
+                $defaults[$this->_id]['amount'] = $params['id'];
+            }
         }
         
         $this->assign( 'event_is_test', CRM_Utils_Array::value('event_is_test',$defaults[$this->_id]) );
