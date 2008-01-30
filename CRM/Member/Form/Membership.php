@@ -284,7 +284,11 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = "Please select a Membership Type.";
         }
-        if ( !($params['join_date']['M'] && $params['join_date']['d'] && $params['join_date']['Y']) ) {
+        if ( !( $params['join_date']['M'] || 
+                $params['join_date']['m'] || 
+                $params['join_date']['F'] ) && 
+             !( $params['join_date']['d']   && 
+                $params['join_date']['Y'] ) ) {
             $errors['join_date'] = "Please enter the Join Date.";
         }
         if ( isset( $params['is_override'] ) &&
