@@ -1344,7 +1344,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $name = $fieldName;
         }
 
-        $config =& CRM_Core_Config::singleton( );
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+
         if ( substr($fieldName,0,14) === 'state_province' ) {
             $form->add('select', $name, $title,
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::stateProvince(), $required);
@@ -1352,7 +1354,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $form->add('select', $name, $title, 
                        array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
         } else if ( substr($fieldName,0,6) === 'county' ) {
-            if ( $config->includeCounty ) {
+            if ( $addressOptions['County'] ) {
                 $form->add('select', $name, $title, 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
             }

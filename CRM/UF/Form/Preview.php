@@ -85,7 +85,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         }
         
         // preview for field
-        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'phone', 'email', 'im' );
+        $specialFields = array ('street_address','supplemental_address_1', 'supplemental_address_2', 'city', 'postal_code', 'postal_code_suffix', 'geo_code_1', 'geo_code_2', 'state_province', 'country', 'county', 'phone', 'email', 'im' );
         
         if( $field ) {
             require_once 'CRM/Core/DAO/UFField.php';
@@ -156,6 +156,10 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
         // add the form elements
         require_once "CRM/Contribute/PseudoConstant.php";
         require_once 'CRM/Core/OptionGroup.php';
+
+        require_once 'CRM/Core/BAO/Preferences.php';
+        $addressOptions = CRM_Core_BAO_Preferences::valueOptions( 'address_options', true, null, true );
+
         foreach ($this->_fields as $name => $field ) {
             $required = $field['is_required'];
            
@@ -165,7 +169,14 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             } else if ( substr($field['name'],0,7) === 'country' ) {
                 $this->add('select', $name, $field['title'], 
                            array('' => ts('- select -')) + CRM_Core_PseudoConstant::country(), $required);
+            } else if ( substr($field['name'],0,6) === 'county' ) {
+                if ( $addressOptions['County'] ) {
+                    $this->add('select', $name, $field['title'], 
+                               array('' => ts('- select -')) + CRM_Core_PseudoConstant::county(), $required);
+                }
             } else if ( $field['name'] === 'birth_date' ) {  
+                $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
+            } else if ( $field['name'] === 'deceased_date' ) {  
                 $this->add('date', $field['name'], $field['title'], CRM_Core_SelectValues::date('birth'), $required );  
             } else if ( $field['name'] === 'gender' ) {  
                 $genderOptions = array( );   
@@ -273,7 +284,7 @@ class CRM_UF_Form_Preview extends CRM_Core_Form
             }
         }
         
-        if(CRM_Utils_Array::value('email-Primary',$this->_fields)) {  
+        if ( CRM_Utils_Array::value('email-Primary',$this->_fields ) ) {  
             $emailPresent =true;
             require_once 'CRM/Core/BAO/CMSUser.php';
             CRM_Core_BAO_CMSUser::buildForm($this,$this->_gid,$emailPresent,CRM_Core_Action::PREVIEW);
