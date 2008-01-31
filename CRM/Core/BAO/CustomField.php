@@ -78,7 +78,7 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 'Memo'          => ts('Note'),
                 'Date'          => ts('Date'),
                 'Boolean'       => ts('Yes or No'),
-                'StateProvince' => ts('State/Province'),
+               'StateProvince' => ts('State/Province'),
                 'Country'       => ts('Country'),
                 'File'          => ts('File'),
                 'Link'          => ts('Link')
@@ -941,15 +941,17 @@ SELECT id
         // fix the date field 
         if ( $customFields[$customFieldId][2] == 'Date' ) {
             if ( ! CRM_Utils_System::isNull( $value ) ) {
-                $value['H'] = '00';
-                $value['i'] = '00';
-                $value['s'] = '00';
-                $date = CRM_Utils_Date::format( $value );
-            } else {
-                $date = '00000000000000';
-            }
+                //convert date to timestamp
+                $time = array( 'H', 'i', 's' );
+                foreach ( $time as $v ) {
+                    if ( ! $value[$v] ) {
+                        $value[$v] = '00';
+                    }                    
+                    $date = CRM_Utils_Date::format( $value );                    
+                }
+            } 
             if ( ! $date ) {
-                $date = '';
+                $date = '00000000000000';
             }
             $value = $date;
         }
@@ -957,7 +959,7 @@ SELECT id
         if ( $customFields[$customFieldId][2] == 'Float' || 
              $customFields[$customFieldId][2] == 'Money' || 
              $customFields[$customFieldId][2] == 'Int' ) {
-            if ( $value == '' ) {
+            if ( !$value ) {
                 $value = 0;  
             }          
         }
