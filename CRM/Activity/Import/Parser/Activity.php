@@ -165,7 +165,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $errorRequired = false;
         
         if ( $this->_activityTypeIndex > 0 && $this->_activityNameIndex > 0 ) {
-            array_unshift($values, ts('Select either Activity Type ID OR Activity Name'));
+            array_unshift($values, ts('Please select either Activity Type ID OR Activity Type Label.'));
             return CRM_Activity_Import_Parser::ERROR;
         } elseif ( $this->_activityNameIndex > 0 ) {
             $index = $this->_activityNameIndex;
