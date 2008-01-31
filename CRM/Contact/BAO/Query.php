@@ -275,6 +275,7 @@ class CRM_Contact_BAO_Query
                                               'geo_code_2',
                                               'state_province',
                                               'country',
+                                              'county',
                                               'phone',
                                               'email',
                                               'im');
