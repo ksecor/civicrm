@@ -167,7 +167,8 @@ class CRM_Core_Menu
     {
         if ( ! self::$_permissionedItems ) {
             require_once 'CRM/Core/Permission.php';
-
+            $config = CRM_Core_Config::singleton( );
+            
             self::$_permissionedItems =
                 array(
                       array(
@@ -294,7 +295,8 @@ class CRM_Core_Menu
                             'query'   => 'reset=1',
                             'type'    => self::CALLBACK,
                             'crmType' => self::DEFAULT_LOCAL_TASK | self::NORMAL_ITEM,
-                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ),
+                            'access'  => CRM_Core_Permission::check( 'access CiviCRM' ) && 
+                            ( $config->userFramework == 'Standalone' ),
                             'weight'  => 9999,
                             )
 		      
