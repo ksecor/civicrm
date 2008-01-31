@@ -53,7 +53,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @access public
      * @return None
      */
-    public function setDefaultValues( ) {
+    public function setDefaultValues( ) 
+    {
         $defaults = array( );
         $defaults =& parent::setDefaultValues( );
         
@@ -138,22 +139,21 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
         $this->add('text', 'weight', ts('Order'), 
                    CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'weight' ) );
         $this->add('checkbox', 'is_active', ts('Enabled?'));
-
+                                            
         require_once "CRM/Core/BAO/MessageTemplates.php";
         $msgTemplates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
-
-        if ( ! empty( $msgTemplates ) ) {
+        if ( ! empty( $msgTemplates ) ) { 
             $reminderMsg = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
         } else {
             $this->assign('noMsgTemplates', true );            
         }
         $reminderDay = $this->add('text', 'renewal_reminder_day', ts('Renewal Reminder Day'),
                                   CRM_Core_DAO::getAttribute( 'CRM_Member_DAO_MembershipType', 'renewal_reminder_day' ) );
-
+        
         $searchRows            = $this->get( 'searchRows'    );
         $searchCount           = $this->get( 'searchCount'   );
         $searchDone            = $this->get( 'searchDone' );
-
+        
         if ( $searchRows ) {
             $checkBoxes = array( );
             $chekFlag = 0;
@@ -189,17 +189,16 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $memberOrg->unfreeze( );
             }
         }
-        
-        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay && $reminderMsg)  {
-            require_once 'CRM/Member/DAO/Membership.php';
-            $dao = & new CRM_Member_DAO_Membership();
-            $dao->membership_type_id = $this->_id;
-            if ( $dao->find( true ) ) {  
+       
+        if  ( ($this->_action & CRM_Core_Action::UPDATE) && $reminderDay && $reminderMsg )  {
+            if ( CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_msg_id' ) 
+                 &&  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', $this->_id, 'renewal_reminder_day' ) ) {
+                $reminderMsg  = $this->add( 'select', 'renewal_msg_id', ts('Renewal Reminder Message'), array('' => ts('- select -')) + $msgTemplates );
                 $reminderDay->freeze( );
                 $reminderMsg->freeze( );
             }
         }
-        
+               
         $this->addElement( 'submit', $this->getButtonName('refresh'), $searchBtn, array( 'class' => 'form-submit' ) );
         
         $this->addFormRule(array('CRM_Member_Form_MembershipType', 'formRule'));
@@ -214,7 +213,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @access public
      * @static
      */
-    public function formRule( &$params ) {
+    public function formRule( &$params ) 
+    {
         require_once 'CRM/Utils/Rule.php';        
         $errors = array( );
         if ( !isset($params['_qf_MembershipType_refresh']) || !$params['_qf_MembershipType_refresh'] ) {
@@ -285,7 +285,17 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 $errors['fixed_period_rollover_day'] = "Please enter valid 'Fixed Period Rollover Day' ";
             }
         }
-        
+
+        $renewalReminderDay = CRM_Utils_Array::value( 'renewal_reminder_day', $params );
+        $renewalMsgId       = CRM_Utils_Array::value( 'renewal_msg_id', $params ); 
+        if ( !( ( ($renewalReminderDay && $renewalMsgId ) ) || ( ! $renewalReminderDay &&  ! $renewalMsgId ) ) ) {
+
+            if ( ! $renewalReminderDay ) {
+                $errors['renewal_reminder_day'] = ts("Please enter renewal reminder days."); 
+            } elseif ( ! $renewalMsgId ) {
+                $errors['renewal_msg_id']       = ts("Please select renewal message.");   
+            }
+        }
         return empty($errors) ? true : $errors;
     }
     
@@ -356,7 +366,8 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
      * @return None
      *
      */
-    function search(&$params) {
+    function search(&$params) 
+    {
         //max records that will be listed
         $searchValues = array();
         $searchValues[] = array( 'sort_name', 'LIKE', $params['member_org'], 0, 1 );
