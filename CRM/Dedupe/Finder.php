@@ -61,12 +61,14 @@ class CRM_Dedupe_Finder
             $dao->query($criterion->matchQuery($cid));
             $dao->fetch();
             $match = isset($dao->match) ? $dao->match : "";
-            $dao->query($criterion->query($match));
-            while ($dao->fetch()) {
-                if ( isset($weights[$dao->contact_id]) ) {
-                    $weights[$dao->contact_id] += $weight;
-                } else {
-                    $weights[$dao->contact_id] = $weight;
+            if ( $match ) {
+                $dao->query($criterion->query($match));
+                while ($dao->fetch()) {
+                    if ( isset($weights[$dao->contact_id]) ) {
+                        $weights[$dao->contact_id] += $weight;
+                    } else {
+                        $weights[$dao->contact_id] = $weight;
+                    }
                 }
             }
         }
