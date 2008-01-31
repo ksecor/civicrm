@@ -119,38 +119,20 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
      */
     static function del($locationTypeId) 
     {
-        require_once 'CRM/Core/DAO/Location.php';
-        require_once 'CRM/Core/DAO/Address.php';
-        require_once 'CRM/Core/DAO/IM.php';
-        require_once 'CRM/Core/DAO/Phone.php';
-        require_once 'CRM/Core/DAO/Email.php';
-        require_once 'CRM/Core/DAO/Location.php';
-
+        $entity = array( 'address', 'phone', 'email', 'im' );
         //check dependencies
-        $location = & new CRM_Core_DAO_Location();
-        $location->location_type_id = $locationTypeId;
-        $location->find();
-        while($location->fetch()){
-            //delete address
-            $address  = & new CRM_Core_DAO_Address();
-            $address->location_id = $location->id;
-            $address->delete();
-            //delete Im
-            $im = & new CRM_Core_DAO_IM();
-            $im->location_id = $location->id;
-            $im->delete();
-            //delete Phone 
-            $phone = & new CRM_Core_DAO_Phone();
-            $phone->location_id = $location->id;
-            $phone->delete();
-            //delete Email
-            $email = & new CRM_Core_DAO_Email();
-            $email->location_id = $location->id;
-            $email->delete();
+        foreach ( $entity  as $key ) {
+            if ( $key == 'im' ) {
+                $name = strtoupper($key);
+            } else {
+                $name = ucfirst($key);
+            }
+            require_once(str_replace('_', DIRECTORY_SEPARATOR, 'CRM_Core_DAO_' . $name) . ".php");
+            eval( '$object =& new CRM_Core_DAO_' . $name . '( );' );     
+            $object->location_type_id = $locationTypeId;
+            $object->delete();
         }
-        $location = & new CRM_Core_DAO_Location();
-        $location->location_type_id = $locationTypeId;
-        $location->delete();
+
         $locationType = & new CRM_Core_DAO_LocationType();
         $locationType->id = $locationTypeId;
         $locationType->delete();
