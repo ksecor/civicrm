@@ -78,8 +78,9 @@ class CRM_Dedupe_Criterion
     {
         // sanitize the parameters for SQL use
         if (in_array($params['table'], self::$supportedTables)) $this->_table  = $params['table'];
-        if (preg_match('/^[a-zA-Z_]+$/', $params['field']))     $this->_field  = $params['field'];
+        if (preg_match('/^[a-zA-Z_1-3]+$/', $params['field']))  $this->_field  = $params['field'];
         if ($params['length'] !== null)                         $this->_length = (int) $params['length'];
+        
         $this->_weight = (int) $params['weight'];
     }
 
@@ -102,11 +103,11 @@ class CRM_Dedupe_Criterion
     {
         // sanitize contact_id
         $cid = (int) $cid;
-
+        
         // return the query
         // FIXME: add custom fields
         switch ($this->_table) {
-
+            
         case 'civicrm_contact':
             return "SELECT {$this->_field} AS 'match' FROM {$this->_table} WHERE id = $cid";
 
