@@ -14,7 +14,7 @@
         {if $drupalFormToken}
             <input type="hidden" name="edit[token]" value="{$drupalFormToken}" />
         {/if}
-        <input type="text" name="sort_name"  value="" dojoType="dijit.form.ComboBox" store="searchStore" mode="remote" searchAttr="name" autoComplete="false"/>
+        <input type="text" name="sort_name"  value="" dojoType="dijit.form.ComboBox" store="searchStore" mode="remote" searchAttr="name"/>
         <br />
         <input type="submit" name="_qf_Basic_refresh" value="{ts}Search{/ts}" class="form-submit" />
         <br />
