@@ -253,7 +253,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `civicrm_domain` WRITE;
 /*!40000 ALTER TABLE `civicrm_domain` DISABLE KEYS */;
-INSERT INTO `civicrm_domain` (`id`, `name`, `description`, `email_name`, `email_address`, `email_domain`, `email_return_path`, `config_backend`, `version`, `loc_block_id`) VALUES (1,'Domain Contact Name',NULL,'FIXME','info@FIXME.ORG','FIXME.ORG',NULL,NULL,'2.0',1);
+INSERT INTO `civicrm_domain` (`id`, `name`, `description`, `email_name`, `email_address`, `email_domain`, `email_return_path`, `config_backend`, `version`, `loc_block_id`) VALUES (1,'Domain Name 1',NULL,'FIXME','info@FIXME.ORG','FIXME.ORG',NULL,NULL,'2.0',1);
 /*!40000 ALTER TABLE `civicrm_domain` ENABLE KEYS */;
 UNLOCK TABLES;
 

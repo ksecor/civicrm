@@ -1874,8 +1874,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $domain->selectAdd( 'id, email_name, email_address' );
         $domain->find( true );
 
-        if ( ! $domain->email_address ) {
-            CRM_Core_Error::fatal( ts( 'Please set the domain email address setting in Administer CiviCRM.' ) );
+        if ( ! $domain->email_address || $domain->email_address == 'info@FIXME.ORG') {
+            CRM_Core_Error::fatal( ts( 'The site administrator needs to enter a valid \'FROM Email Address\' in Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email address used may need to be a valid mail account with your email service provider.' ) );
         }
 
         $emailFrom = '"' . $domain->email_name . '" <' . $domain->email_address . '>';

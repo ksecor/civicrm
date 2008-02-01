@@ -1,4 +1,4 @@
-{* this template is used for viewing and editing Domain information (primarily CiviMail related values) *}
+{* this template is used for viewing and editing Domain information (for system-generated emails CiviMail-related values) *}
 
 <div class="form-item">
 <fieldset>
@@ -32,20 +32,23 @@
     </dl>
     </fieldset>
     
-    {* Display the address block *}
-    {capture assign=introText}{ts}CiviMail mailings must include the sending organization's address. This is done by putting the {ldelim}domain.address{rdelim} token in either the body or footer of the mailing. The token is replaced by the address entered below when the mailing is sent.{/ts}{/capture}
-    {include file="CRM/Contact/Form/Address.tpl" introText=$introText} 
+    {* Display the domain address and domain contact blocks if CiviMail is enabled.  *}
+    {if array_search('CiviMail', $config->enableComponents)}
+        {capture assign=addressLegend}{ts}CiviMail Domain Address{/ts}{/capture}
+        {capture assign=introText}{ts}CiviMail mailings must include the sending organization's address. This is done by putting the {ldelim}domain.address{rdelim} token in either the body or footer of the mailing. The token is replaced by the address entered below when the mailing is sent.{/ts}{/capture}
+        {include file="CRM/Contact/Form/Address.tpl" legend=$addressLegend introText=$introText} 
 
-    <fieldset><legend>{ts}Additional Contact Information{/ts}</legend>
-        <div class="description">{ts}You can also include general email and/or phone contact information in mailings.{/ts} {help id="additional-contact"}</div>
-        
-        {* Display the email block *}  
-        {include file="CRM/Contact/Form/Email.tpl" hold=1}
+        <fieldset><legend>{ts}Additional Domain Contact Information{/ts}</legend>
+            <div class="description">{ts}You can also include general email and/or phone contact information in mailings.{/ts} {help id="additional-contact"}</div>
+            
+            {* Display the email block *}  
+            {include file="CRM/Contact/Form/Email.tpl" hold=1}
 
-        {* Display the phone block *}
-        {include file="CRM/Contact/Form/Phone.tpl"} 
-    </fieldset>
-
+            {* Display the phone block *}
+            {include file="CRM/Contact/Form/Phone.tpl"} 
+        </fieldset>
+    {/if}
+    
     <div class="spacer"></div>
     
     {if !($action eq 4)}
@@ -60,8 +63,10 @@
 </fieldset>
 </div>
 
-<script type="text/javascript">
-hide('id_location_1_phone_2_show');
-hide('id_location_1_email_2_show');
-</script>
-
+{* phone_2 a email_2 only included in form if CiviMail enabled. *}
+{if array_search('CiviMail', $config->enableComponents)}
+    <script type="text/javascript">
+    hide('id_location_1_phone_2_show');
+    hide('id_location_1_email_2_show');
+    </script>
+{/if}
