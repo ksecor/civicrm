@@ -178,23 +178,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
             }
         }
         
-        if ( $this->_action & CRM_Core_Action::ADD ) {
-            $this->addRule( 'label',
-                            ts( "There is an entry with the same label" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'label' ) );
-            
-            $this->addRule( 'value',
-                            ts( "There is an entry with the same value" ),
-                            'objectExists',
-                            array( 'CRM_Core_DAO_OptionValue',
-                                   $optionGroup,
-                                   'value' ) );
-        } elseif ( $this->_action & CRM_Core_Action::UPDATE ) {
-            $this->addFormRule( array( 'CRM_Price_Form_Option', 'formRule' ), $this );
-        }
+        $this->addFormRule( array( 'CRM_Price_Form_Option', 'formRule' ), $this );
     }
     
     /**
