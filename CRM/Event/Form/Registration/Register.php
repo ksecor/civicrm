@@ -1,38 +1,38 @@
 <?php
 
-/*
- +--------------------------------------------------------------------+
- | CiviCRM version 2.0                                                |
- +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2007                                |
- +--------------------------------------------------------------------+
- | This file is a part of CiviCRM.                                    |
- |                                                                    |
- | CiviCRM is free software; you can copy, modify, and distribute it  |
- | under the terms of the GNU Affero General Public License           |
- | Version 3, 19 November 2007.                                       |
- |                                                                    |
- | CiviCRM is distributed in the hope that it will be useful, but     |
- | WITHOUT ANY WARRANTY; without even the implied warranty of         |
- | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
- | See the GNU Affero General Public License for more details.        |
- |                                                                    |
- | You should have received a copy of the GNU Affero General Public   |
- | License along with this program; if not, contact CiviCRM LLC       |
- | at info[AT]civicrm[DOT]org. If you have questions about the        |
- | GNU Affero General Public License or the licensing of CiviCRM,     |
- | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
- +--------------------------------------------------------------------+
-*/
+  /*
+   +--------------------------------------------------------------------+
+   | CiviCRM version 2.0                                                |
+   +--------------------------------------------------------------------+
+   | Copyright CiviCRM LLC (c) 2004-2007                                |
+   +--------------------------------------------------------------------+
+   | This file is a part of CiviCRM.                                    |
+   |                                                                    |
+   | CiviCRM is free software; you can copy, modify, and distribute it  |
+   | under the terms of the GNU Affero General Public License           |
+   | Version 3, 19 November 2007.                                       |
+   |                                                                    |
+   | CiviCRM is distributed in the hope that it will be useful, but     |
+   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+   | See the GNU Affero General Public License for more details.        |
+   |                                                                    |
+   | You should have received a copy of the GNU Affero General Public   |
+   | License along with this program; if not, contact CiviCRM LLC       |
+   | at info[AT]civicrm[DOT]org. If you have questions about the        |
+   | GNU Affero General Public License or the licensing of CiviCRM,     |
+   | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+   +--------------------------------------------------------------------+
+  */
 
-/**
- *
- *
- * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2007
- * $Id$
- *
- */
+  /**
+   *
+   *
+   * @package CRM
+   * @copyright CiviCRM LLC (c) 2004-2007
+   * $Id$
+   *
+   */
 
 require_once 'CRM/Event/Form/Registration.php';
 require_once 'CRM/Core/Payment.php';
@@ -135,7 +135,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                     "email-{$this->_bltID}",
                     ts( 'Email Address' ),
                     array( 'size' => 30, 'maxlength' => 60 ), true );
-
+        
         if ( $this->_values['event']['is_monetary'] ) {
             self::buildAmount( $this );
 
@@ -182,7 +182,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                             'name'      => ts('Continue >>'), 
                                             'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', 
                                             'isDefault' => true   ), 
-                                    ) 
+                                     ) 
                               );
         }
         $this->addFormRule( array( 'CRM_Event_Form_Registration_Register', 'formRule' ),
@@ -501,8 +501,9 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 break;
                 
             case 'CheckBox':
-                $params['amount_priceset_level_checkbox']=array();
-                foreach ( $params["price_{$id}"] as $optionId => $option ) {   
+                $params['amount_priceset_level_checkbox'] = $optionIds = array( );
+                foreach ( $params["price_{$id}"] as $optionId => $option ) {
+                    $optionIds[] = $optionId;
                     $optionLabel = $field['options'][$optionId]['label'];
                     $params['amount_priceset_level_checkbox']["{$field['options'][$optionId]['id']}"]= $optionLabel;
                     
@@ -512,7 +513,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                                 $checkboxLevel, 
                                                                 array_keys($params['amount_priceset_level_checkbox'])
                                                                 )
-                                                    );
+                                                     );
                     } else {
                         $checkboxLevel=array_keys($params['amount_priceset_level_checkbox']);
                     }
@@ -520,14 +521,14 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                 
                 self::getLineItem( $id, $params, $field, $lineItem );
                 
-                foreach ( $lineItem as $optionId => $values ) {
-                    $totalPrice += $values['line_total'];
+                foreach( $optionIds as $optionId ) {
+                    $totalPrice += $lineItem[$optionId]['line_total'];
                 }
                 
                 break;
             }
-	}
-	
+        }
+        
         $amount_level = array( );
         
         foreach( $lineItem as $values ) {

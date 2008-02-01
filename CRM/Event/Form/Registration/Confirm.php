@@ -61,7 +61,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         // lineItem isn't set until Register postProcess
         $this->_lineItem = $this->get( 'lineItem' );
-
+        
         $config =& CRM_Core_Config::singleton( );
         if ( $this->_contributeMode == 'express' ) {
             // rfp == redirect from paypal
