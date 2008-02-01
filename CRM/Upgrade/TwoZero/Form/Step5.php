@@ -56,6 +56,32 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
                                array( $currentDir, '../sql', 'others.mysql' ) );
         $this->source( $sqlFile );
         
+        // update preferences table
+        $pattern     = '/\{(\w{3,})\}/i';
+        $replacement = '{contact.$1}';
+
+        $domainID    = CRM_Core_Config::domainID( );
+
+        $query    = "SELECT * FROM civicrm_preferences WHERE domain_id=$domainID";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $address_format = preg_replace($pattern, $replacement, $res->address_format);
+            $mailing_format = preg_replace($pattern, $replacement, $res->mailing_format);
+            $individual_name_format = preg_replace($pattern, $replacement, $res->individual_name_format);
+            
+            $query = "
+UPDATE civicrm_preferences 
+SET address_format='$address_format', 
+    mailing_format='$mailing_format',
+    individual_name_format='$individual_name_format'
+WHERE id={$res->id}
+";
+            $op    = $this->runQuery( $query );
+            $op->free();
+        }
+        $res->free();
+
+        // drop queries
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
                                array( $currentDir, '../sql', 'drop.mysql' ) );
         $this->source( $sqlFile );
