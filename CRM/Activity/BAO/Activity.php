@@ -398,8 +398,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                   left join civicrm_contact assigneeContact on 
                             assignee_contact_id = assigneeContact.id
                   left join civicrm_option_value on
-                            ( civicrm_activity.activity_type_id = civicrm_option_value.value
-                              and civicrm_option_value.option_group_id = 2 )
+                            ( civicrm_activity.activity_type_id = civicrm_option_value.value )
                   left join civicrm_option_group on  
                             civicrm_option_group.id = civicrm_option_value.option_group_id
                   left join civicrm_case_activity on

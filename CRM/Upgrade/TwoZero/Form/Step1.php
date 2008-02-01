@@ -96,7 +96,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p><strong>Note:</strong> Make sure you have taken the backup of your CiviCRM database and files before starting with the upgrade process.</p>
+        return ts( '<p><strong>Note:</strong><br/>&nbsp;&nbsp;&nbsp;Make sure you have taken the backup of your CiviCRM database and files before starting with the upgrade process.<br/>&nbsp;&nbsp;&nbsp;The upgrade process may take long depending on the size of your database.</p>
 <p>This process will upgrade your <strong>v1.9 CiviCRM database to v2.0 database.</strong></p>
 <p>This step will upgrade the contact section of your database.</p>'
 );

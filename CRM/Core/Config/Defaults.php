@@ -191,13 +191,20 @@ class CRM_Core_Config_Defaults
             $defaults['customFileUploadDir'] = $customDir;
         }
 
-        // populate defaults for components
-        foreach( $defaults['enableComponents'] as $key => $name ) {
-            $comp = $config->componentRegistry->get( $name );
-            $co = $comp->getConfigObject();
-            $co->setDefaults( $defaults );
-        }
+        /* FIXME: hack to bypass the step for generating defaults for components, 
+                  while running upgrade, to avoid any serious non-recoverable error 
+                  which might hinder the upgrade process. */
 
+        $args = explode( '/', $_GET[$config->userFrameworkURLVar] );
+        if ( CRM_Utils_Array::value( 1, $args ) != 'upgrade' ) {
+            // populate defaults for components
+            foreach( $defaults['enableComponents'] as $key => $name ) {
+                $comp = $config->componentRegistry->get( $name );
+                $co = $comp->getConfigObject();
+                $co->setDefaults( $defaults );
+            }
+        }
+        
     }
     
 }
