@@ -272,7 +272,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     }
     
     // check for activity status is passed in
-    if ( !is_numeric( $params['status_id'] ) ) {
+    if ( isset( $params['status_id'] ) && !is_numeric( $params['status_id'] ) ) {
         require_once "CRM/Core/PseudoConstant.php";
         $activityStatus   =& CRM_Core_PseudoConstant::activityStatus( );
         $activityStatusId = array_search( $params['status_id'], $activityStatus );
@@ -284,7 +284,7 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
     }
     
     // check for activity duration minutes
-    if ( !is_numeric( $params['duration_minutes'] ) ) {
+    if ( isset( $params['duration_minutes'] ) && !is_numeric( $params['duration_minutes'] ) ) {
         return civicrm_create_error( ts('Invalid Activity Duration (in minutes)') );
         
     }
