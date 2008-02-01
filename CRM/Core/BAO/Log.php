@@ -92,6 +92,11 @@ class CRM_Core_BAO_Log extends CRM_Core_DAO_Log
             $session =& CRM_Core_Session::singleton( );
             $userID  =  $session->get( 'userID' );
         }
+
+        if ( ! $userID ) {
+            $userID  =  $contactID;
+        }
+        
         if ( ! $userID ) {
             return;
         }
