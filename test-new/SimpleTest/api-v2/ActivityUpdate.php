@@ -18,7 +18,6 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
 
         $this->_activityId         = $activity['id'];
         $this->_individualSourceId = $activity['source_contact_id'];
-        $this->_individualTargetId = $activity['target_entity_id'];
     }
     
     /**
@@ -82,7 +81,7 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'id'                  => $this->_activityId,
-                        'activity_name'       => 'Phone Call',
+                        'activity_name'       => 'Test Activity',
                         'subject'             => 'this case should fail',
                         'scheduled_date_time' => date('Ymd')
                         );
@@ -90,7 +89,7 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
         $result =& civicrm_activity_update($params);
         $this->assertEqual( $result['source_contact_id'], null );
     }
-
+    
     /**
      * this should create activity
      */
@@ -99,19 +98,26 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
         $params = array(
                         'id'                  => $this->_activityId,
                         'subject'             => 'Update Discussion on Apis for v2',
-                        'scheduled_date_time' => date('Ymd'),
+                        'activity_date_time'  => date('Ymd'),
                         'duration_hours'      => 15,
                         'duration_minutes'    => 20,
                         'location'            => '21, Park Avenue',
                         'details'             => 'Lets update Meeting',
-                        'status'              => 'Scheduled',
+                        'status_id'           => 1,
                         'activity_name'       => 'Meeting',
                         );
 
         $result =& civicrm_activity_update( $params );
         $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['id'] , $this->_activityId );
+        $this->assertEqual( $result['activity_date_time'], date('Ymd') );
+        $this->assertEqual( $result['subject'], 'Update Discussion on Apis for v2' );
+        $this->assertEqual( $result['location'], '21, Park Avenue'); 
+        $this->assertEqual( $result['details'], 'Lets update Meeting');
+        $this->assertEqual( $result['status_id'], 1 );
+        
     }
-
+    
     /**
      * check activity update with status
      */
@@ -120,17 +126,19 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
         $params = array(
                         'id'                  => $this->_activityId,
                         'source_contact_id'   => $this->_individualSourceId,
-                        'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id'    => $this->_individualTargetId,
-                        'subject'             => 'Hurry update works for other activities',
-                        'status'              => 'Completed',
+                        'subject'             => 'Hurry update works', 
+                        'status_id'           => 2,
                         'activity_name'       => 'Meeting',
                         );
 
         $result =& civicrm_activity_update( $params );
         $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['id'] , $this->_activityId );
+        $this->assertEqual( $result['source_contact_id'] , $this->_individualSourceId );
+        $this->assertEqual( $result['subject'], 'Hurry update works' );
+        $this->assertEqual( $result['status_id'], 2 );
     }
-
+    
     /**
      * create activity with custom data 
      * ( fix this once custom * v2 api are ready  )
@@ -143,7 +151,6 @@ class TestOfActivityUpdateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
       $this->contactDelete( $this->_individualSourceId );
-      $this->contactDelete( $this->_individualTargetId );
     }
 }
  

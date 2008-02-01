@@ -589,20 +589,20 @@ class CiviUnitTestCase extends UnitTestCase {
 
             $params = array(
                             'source_contact_id'   => $individualSourceID,
-                            'target_entity_table' => 'civicrm_contact',
-                            'target_entity_id'    => $individualTargetID ,
+                            'target_contact_id'   => $individualTargetID,
                             'subject'             => 'Discussion on Apis for v2',
-                            'scheduled_date_time' => date('Ymd'),
+                            'activity_date_time'  => date('Ymd'),
                             'duration_hours'      => 30,
                             'duration_minutes'    => 20,
                             'location'            => 'Baker Street',
                             'details'             => 'Lets schedule a meeting',
-                            'status'              => 'Scheduled',
+                            'status_id'           => 1,
                             'activity_name'       => 'Meeting',
                             );
         }
 
         $result =& civicrm_activity_create($params, true);
+        $result['target_contact_id']   = $individualTargetID;
         return $result;
     }
     
@@ -733,50 +733,7 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return;
     }    
-
-    /**
-     * Function to create Group
-     * 
-     * @params array $params  name-value pair for an event
-     * 
-     * @return array $group
-     */
-    function groupCreate( $params )
-    {
-        require_once 'api/v2/Group.php';
-        if ( $params === null ) {
-            $params = array(
-                            'name'        => 'Test Group 1',
-                            'domain_id'   => 1,
-                            'title'       => 'New Test Group Created',
-                            'description' => 'New Test Group Created',
-                            'is_active'   => 1,
-                            'visibility'  => 'Public User Pages and Listings',
-                            );
-        }
-        
-        $group =& civicrm_group_create( $params );
-        
-        return $group['id'];
-    }
-
-    /**
-     * Function to delete group
-     * 
-     * @params int $groupID
-     * 
-     */
-    function groupDelete( $params )
-    {
-
-        require_once 'api/v2/Group.php';
-        $result = & civicrm_group_delete( $params );
-        if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
-            CRM_Core_Error::fatal( 'Could not delete group' );
-        }
-        return;
-    }
-    
+     
     /**
      * Function to create custom field with Option Values
      * 

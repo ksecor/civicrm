@@ -80,7 +80,6 @@ function &civicrm_activity_create( &$params )
         return $errors;
     }
     $activity = CRM_Activity_BAO_Activity::create( $params );
-    
     $activityArray = array(); 
     _civicrm_object_to_array( $activity, $activityArray);
     
@@ -100,7 +99,7 @@ function &civicrm_activity_create( &$params )
 function &civicrm_activities_get_contact( $params )
 {
     _civicrm_initialize( );
-    
+        
     $contactId = $params['contact_id']; 
     if ( empty( $contactId ) ) {
         return civicrm_create_error( ts ( "Required parameter not found" ) );
@@ -110,14 +109,13 @@ function &civicrm_activities_get_contact( $params )
         return civicrm_create_error( ts ( "Invalid contact Id" ) );
     }
 
-    $activity = array( );
-
-    // get all the activities of a contact with $contactID
-    $activity['meeting'  ]  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Meeting'   );
-    $activity['phonecall']  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Phonecall' );
-    $activity['activity' ]  =& _civicrm_activities_get( $contactId, 'CRM_Activity_DAO_Activity'  );
-    
-    return $activity;
+    $activity =  & _civicrm_activities_get( $contactId );
+   
+     if ($activity ) {
+        return civicrm_create_success( $activity );
+    } else {
+        return civicrm_create_error( ts( 'Invalid Data' ) );
+    }
 }
 
 /**
@@ -138,22 +136,14 @@ function &civicrm_activities_get_contact( $params )
 function &civicrm_activity_update( &$params ) 
 {
     $errors = array( );
-    
     //check for various error and required conditions
     $errors = _civicrm_activity_check_params( $params ) ;
 
     if ( !empty( $errors ) ) {
         return $errors;
     }
-  
-    if ($params['activity_name']== 'Meeting' ) {
-        $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Meeting'   );
-    } elseif ( $params['activity_name'] == 'Phone Call'  ) {
-        $activity = _civicrm_activity_update( $params, 'CRM_Activity_DAO_Phonecall' );
-    } else {
-        $activity = _civicrm_activity_update($params, 'CRM_Activity_DAO_Activity');
-    }
     
+    $activity = _civicrm_activity_update( $params );
     return $activity;
 }
 
@@ -175,21 +165,12 @@ function &civicrm_activity_delete( &$params )
     
     //check for various error and required conditions
     $errors = _civicrm_activity_check_params( $params ) ;
-
+  
     if ( !empty( $errors ) ) {
         return $errors;
     }
-    
-    //check the type of activity
-    if ( $params['activity_name'] == 'Meeting'  ) {
-        $activityType = 'Meeting';
-    } elseif ( $params['activity_name'] == 'Phone Call' ) {
-        $activityType = 'Phonecall';
-    } else {
-        $activityType = 'Activity';
-    }
-    
-    if ( CRM_Activity_BAO_Activity::del( $params['id'], $activityType ) ) {
+          
+    if ( CRM_Activity_BAO_Activity::deleteActivity( $params ) ) {
         return civicrm_create_success( );
     } else {
         return civicrm_create_error( ts( 'Could not delete activity' ) );
@@ -206,10 +187,10 @@ function &civicrm_activity_delete( &$params )
  * @access public
  *
  */
-function _civicrm_activity_update($params, $daoName) 
+function _civicrm_activity_update( $params ) 
 {
-    require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-    $dao =& new $daoName();
+    require_once 'CRM/Activity/DAO/Activity.php';
+    $dao =& new CRM_Activity_BAO_Activity();
     $dao->id = $params['id'];
     if ( $dao->find( true ) ) {
         $dao->copyValues( $params );
@@ -230,19 +211,10 @@ function _civicrm_activity_update($params, $daoName)
  *
  * @access public
  */
-function &_civicrm_activities_get( $contactID, $daoName ) 
+function &_civicrm_activities_get( $contactID ) 
 {
-    require_once(str_replace('_', DIRECTORY_SEPARATOR, $daoName) . ".php");
-    eval('$dao =& new $daoName( );');
-    $dao->target_entity_id = $contactID;
     $activities = array();
-
-    if ($dao->find()) {
-        while ( $dao->fetch() ) {
-            _civicrm_object_to_array( $dao, $activity );
-            $activities[$dao->id] = $activity;
-        }
-    }
+    $activities = CRM_Activity_BAO_Activity::getContactActivity( $contactID );
     return $activities;
 }
 

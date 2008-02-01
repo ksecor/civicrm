@@ -18,7 +18,7 @@ class TestOfActivityGetContactAPIV2 extends CiviUnitTestCase
        
        $this->_activityId         = $activity['id'];
        $this->_individualSourceId = $activity['source_contact_id'];
-       $this->_individualTargetId = $activity['target_entity_id'];
+       $this->_individualTargetId = $activity['target_contact_id'];
     }
 
     /**
@@ -44,23 +44,23 @@ class TestOfActivityGetContactAPIV2 extends CiviUnitTestCase
     /**
      * check contact activity with invalid data
      */
-    function testGetContactWithoutInvalidData( )
+    function testGetContactWithInvalidData( )
     {
         $params = array('contact_id' => 99999999 );
         $result =& civicrm_activities_get_contact( $params );
-        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['is_error'], 1 );
     }
-
+    
     /**
      * check contact activity with correct data
      */
     function testGetContactCorrectData( )
     {
-        $params = array('contact_id' => $this->_individualTargetId );
+        $params = array('contact_id' => $this->_individualTargetId  );
         $result =& civicrm_activities_get_contact( $params );
         $this->assertEqual( $result['is_error'], 0 );
     }
-
+    
     function tearDown( ) 
     {
       $this->contactDelete( $this->_individualSourceId );

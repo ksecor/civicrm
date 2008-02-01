@@ -16,10 +16,9 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
     function setUp( ) 
     {
        $activity = $this->activityCreate( );
-       
+           
        $this->_activityId         = $activity['id'];
        $this->_individualSourceID = $activity['source_contact_id'];
-       $this->_individualTargetID = $activity['target_entity_id'];
     }
 
     /**
@@ -51,14 +50,14 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
         $result =& civicrm_activity_delete( $params );
         $this->assertEqual( $result['is_error'], 1 );
     }
-
+    
     /**
      * check activity deletion with incorrect data
      */
     function testDeleteActivityWithIncorrectActivityType( )
     {
-        $params = array( 'id' => $this->_activityId,
-                         'activity_name' => 'Phone Call'
+        $params = array( 'id'            => $this->_activityId,
+                         'activity_name' => 'Test Activity'
                          );
 
         $result =& civicrm_activity_delete( $params );
@@ -81,7 +80,6 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
     function tearDown( ) 
     {
       $this->contactDelete( $this->_individualSourceID );
-      $this->contactDelete( $this->_individualTargetID );
     }
 }
 ?>

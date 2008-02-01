@@ -19,9 +19,7 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
                                 'Last_name'        => 'Anderson',
                                 'prefix'           => 'Ms',
                                 'email'            => 'julia_anderson@civicrm.org',
-                                'contact_type'     => 'Individual');
-        
-        $this->_individualTargetId = $this->individualCreate( $contactParams );
+                                'contact_type'     => 'Individual' );
     }
     
     /**
@@ -86,20 +84,26 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'source_contact_id'   => $this->_individualSourceId,
-                        'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id'    => $this->_individualTargetId,
                         'subject'             => 'Discussion on Apis for v2',
-                        'scheduled_date_time' => date('Ymd'),
+                        'activity_date_time'  => date('Ymd'),
                         'duration_hours'      => 30,
                         'duration_minutes'    => 20,
                         'location'            => 'Pensulvania',
-                        'details'             => 'a meeting activity',
-                        'status'              => 'Scheduled',
+                        'details'             => 'a phonecall activity',
+                        'status_id'           => 1,
                         'activity_name'       => 'Phone Call'
                         );
         
         $result = & civicrm_activity_create( $params );
+        
         $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['source_contact_id'], $this->_individualSourceId );
+        $this->assertEqual( $result['subject'], 'Discussion on Apis for v2' );
+        $this->assertEqual( $result['activity_date_time'], date('Ymd') );
+        $this->assertEqual( $result['location'], 'Pensulvania' );
+        $this->assertEqual( $result['details'], 'a phonecall activity' );
+        $this->assertEqual( $result['status_id'], 1 );
+        
     }
 
     /**
@@ -109,15 +113,22 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     {
         $params = array(
                         'source_contact_id'   => $this->_individualSourceId,
-                        'target_entity_table' => 'civicrm_contact',
-                        'target_entity_id'    => $this->_individualTargetId,
                         'subject'             => 'let test other activities',
-                        'status'              => 'Scheduled',
-                        'activity_name'       => 'Event',
+                        'activity_date_time'  => date('Ymd'),
+                        'location'            => 'Pensulvania',
+                        'details'             => 'other activity details',
+                        'status_id'           => 1,
+                        'activity_name'       => 'Interview',
                         );
-
+ 
         $result = & civicrm_activity_create( $params );
         $this->assertEqual( $result['is_error'], 0 );
+        $this->assertEqual( $result['source_contact_id'], $this->_individualSourceId );
+        $this->assertEqual( $result['subject'], 'let test other activities' );
+        $this->assertEqual( $result['activity_date_time'], date('Ymd') );
+        $this->assertEqual( $result['location'], 'Pensulvania' );
+        $this->assertEqual( $result['details'], 'other activity details' );
+        $this->assertEqual( $result['status_id'], 1 );
     }
 
     /**
@@ -132,7 +143,6 @@ class TestOfActivityCreateAPIV2 extends CiviUnitTestCase
     function tearDown() 
     {
       $this->contactDelete( $this->_individualSourceId );
-      $this->contactDelete( $this->_individualTargetId );
     }
 }
  

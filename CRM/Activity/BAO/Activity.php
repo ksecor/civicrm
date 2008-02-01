@@ -123,7 +123,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
 
     /**
      * Function to delete the activity
-     *
      * @param array  $params  associated array 
      *
      * @return void
@@ -147,9 +146,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         
         $activity     =& new CRM_Activity_DAO_Activity( );
         $activity->copyValues( $params );
-        $activity->delete( );
+        $result = $activity->delete( );
         
         $transaction->commit( );
+        return $result;
     }
     
     /**
@@ -704,7 +704,37 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         }
         return self::$_importableFields;
     }
+
+ /**
+     * To get the Activities of a target contact
+     *
+     * @param $contactId    Integer  ContactId of the contact whose activities
+     *                               need to find
+     * 
+     * @return array    array of activity fields
+     * @access public
+     */
     
+    function getContactActivity( $contactId )
+    {
+        $query ="SELECT * FROM civicrm_activity activity, civicrm_activity_target target
+                 WHERE activity.id = target.activity_id
+                 AND target.target_contact_id =$contactId";
+                
+        $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+        $activities = array();
+        while( $dao->fetch( ) ){
+            $activities[$dao->activity_id]['source_contact_id'] = $dao->source_contact_id;
+            $activities[$dao->activity_id]['activity_type_id']  = $dao->activity_type_id;
+            $activities[$dao->activity_id]['subject']           = $dao->subject;
+            $activities[$dao->activity_id]['location']          = $dao->location;
+            $activities[$dao->activity_id]['details']           = $dao->details;
+            $activities[$dao->activity_id]['status_id']         = $dao->status_id;
+            $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',$dao->activity_type_id );
+            $activities[$dao->activity_id]['status']            = CRM_Core_OptionGroup::getLabel('activity_status',$dao->status_id );
+        }
+        return $activities;
+    }
 }
 
 ?>
