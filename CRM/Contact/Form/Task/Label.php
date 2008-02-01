@@ -161,10 +161,14 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $custom[] = $cfID;
             }
         }
+
+        //get the total number of contacts to fetch from database.
+        $numberofContacts = count( $this->_contactIds );
+        
         require_once 'CRM/Contact/BAO/Query.php';
         
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
-        $details = $query->apiQuery( $params, $returnProperties );
+        $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
         
         foreach ( $this->_contactIds as $value ) {
             foreach ( $custom as $cfID ) {

@@ -1727,10 +1727,14 @@ SELECT DISTINCT( m.id ) as id
                 $custom[] = $cfID;
             }
         }
+
+        //get the total number of contacts to fetch from database.
+        $numberofContacts = count( $contactIds );
+        
         require_once 'CRM/Contact/BAO/Query.php';
         
         $query   =& new CRM_Contact_BAO_Query( $params, $returnProperties );
-        $details = $query->apiQuery($params, $returnProperties);
+        $details = $query->apiQuery( $params, $returnProperties, NULL, NULL, 0, $numberofContacts );
         
         $contactDetails =& $details[0]; 
         
