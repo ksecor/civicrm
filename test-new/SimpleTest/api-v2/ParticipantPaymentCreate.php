@@ -21,8 +21,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
     }
     
     function testParticipantPaymentCreateMissingParticipantId( )
-    {
-        
+    {        
         //Create contribution type & get contribution Type ID
         $contributionTypeID = $this->contributionTypeCreate();
         

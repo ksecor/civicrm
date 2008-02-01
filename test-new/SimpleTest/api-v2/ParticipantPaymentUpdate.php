@@ -43,13 +43,14 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     
     function testParticipantPaymentUpdate()
     {
-        //create Contribution type 
-
+        //create contribution type 
+        
         $contributionTypeID = $this->contributionTypeCreate();
         
-        //Create Contribution & get contribution ID
+        // create contribution
         $contributionID     = $this->contributionCreate( $this->_contactID , $contributionTypeID );
-        $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID );
+        
+        $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID, 5 );
         $params = array(
                         'id'              => $this->_participantPaymentID,
                         'participant_id'  => $this->_participantID,
@@ -68,7 +69,6 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         
         $this->contributionDelete( $contributionID );
         $this->contributionTypeDelete( $contributionTypeID );
-        
     }
     
     function tearDown() 

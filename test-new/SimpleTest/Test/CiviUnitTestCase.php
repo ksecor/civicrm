@@ -478,13 +478,13 @@ class CiviUnitTestCase extends UnitTestCase {
      * @return int $id of created payment
      */
     
-    function participantPaymentCreate( $participantID ) 
+    function participantPaymentCreate( $participantID, $contributionID ) 
     {
         require_once 'api/v2/Participant.php';
         //Create Participant Payment record With Values
         $params = array(
                         'participant_id'       => $participantID,
-                        'contribution_id'    => 5
+                        'contribution_id'      => $contributionID
                         );
         
         $participantPayment = & civicrm_participant_payment_create( $params );
