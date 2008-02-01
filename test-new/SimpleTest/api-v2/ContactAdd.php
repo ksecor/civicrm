@@ -314,9 +314,9 @@ class testContactAdd extends CiviUnitTestCase
         $params = array('middle_name' => 'This field is not required for Individual',
                         'contact_type' => 'Individual' );
         $contact = &civicrm_contact_add($params);
-        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Individual first_name' );
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Individual : first_name' );
     }
-
+    
     /**
      * Create Household without required fields.
      */
@@ -324,9 +324,9 @@ class testContactAdd extends CiviUnitTestCase
         $params = array('middle_name' => 'This field is not required for Household',
                         'contact_type' => 'Household' );
         $contact = &civicrm_contact_add($params);
-        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Household ' );
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Household : ' );
     }
-
+    
     /**
      * Create Organization without required fields.
      */
@@ -334,9 +334,9 @@ class testContactAdd extends CiviUnitTestCase
         $params = array('middle_name' => 'This field is not required for Organization',
                         'contact_type' => 'Organization' );
         $contact = &civicrm_contact_add($params);
-        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Organization ' );
+        $this->_verifyApiCallResult( $contact, $params, 'Required fields not found for Organization : ' );
     }
-
+    
 
 
     // Private helper functions relevant only to this UnitTestCase
