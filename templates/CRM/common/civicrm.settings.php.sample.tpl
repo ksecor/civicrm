@@ -29,7 +29,6 @@
  */
 
 define( 'CIVICRM_UF'               , '%%cms%%'        );
-define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
 
 /**
  * Content Management System (CMS) Datasource:
@@ -40,17 +39,6 @@ define( 'CIVICRM_UF_VERSION'       , '%%cmsVersion%%' );
  */
 
 define( 'CIVICRM_UF_DSN'           , 'mysql://%%CMSdbUser%%:%%CMSdbPass%%@%%CMSdbHost%%/%%CMSdbName%%?new_link=true' );
-
-/** 
- * Content Management System (CMS) User Table-name:
- *
- * Update the CIVICRM_UF_USERSTABLENAME if needed to match the name of the table
- * where the CMS user data is stored. Default for Drupal and Standalone installs is 'users'.
- * If you are using table-prefixing for the users table, you must enter the tablename
- * with the prefix. Default table name for Joomla - 'jos_users'. For Mambo - 'mos_users'.
- */
-
-define( 'CIVICRM_UF_USERSTABLENAME', '%%usersTable%%' );
 
 /**
  * CiviCRM Database Settings
