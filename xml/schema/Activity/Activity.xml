@@ -141,6 +141,8 @@
 
   <field>
       <name>duration</name>
+      <title>Duration</title> 
+      <import>true</import>
       <type>int unsigned</type>
       <comment>Planned or actual duration of activity expressed in minutes. Conglomerate of former duration_hours and duration_minutes.</comment>
       <add>2.0</add>
@@ -148,6 +150,8 @@
 
   <field>
       <name>location</name>
+      <title>Location</title>
+      <import>true</import>
       <type>varchar</type>
       <length>255</length>
       <comment>Location of the activity (optional, open text).</comment>
@@ -178,6 +182,8 @@
 
   <field>
       <name>details</name>
+      <title>Details</title>
+      <import>true</import> 
       <type>text</type>
       <comment>Details about the activity (agenda, notes, etc).</comment>
       <add>1.1</add>
@@ -194,6 +200,8 @@
 
   <field>
       <name>status_id</name>
+      <title>Activity Status Label</title>
+      <import>true</import>
       <type>int unsigned</type>
       <comment>ID of the status this activity is currently in. Foreign key to civicrm_option_value.</comment>
       <add>2.0</add>

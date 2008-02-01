@@ -79,7 +79,6 @@ function &civicrm_activity_create( &$params )
     if ( !empty( $errors ) ) {
         return $errors;
     }
- 
     $activity = CRM_Activity_BAO_Activity::create( $params );
     
     $activityArray = array(); 
@@ -295,19 +294,36 @@ function _civicrm_activity_check_params ( &$params, $addMode = false )
             }
         } else {
             if ( !is_numeric( $params['activity_type_id'] ) ) {
-                return  civicrm_create_error( ts ( 'Invalid Activity Type ID' ) );
+                return  civicrm_create_error( ts('Invalid Activity Type ID') );
             }
         }
     }
     
+    // check for activity status is passed in
+    if ( !is_numeric( $params['status_id'] ) ) {
+        require_once "CRM/Core/PseudoConstant.php";
+        $activityStatus   =& CRM_Core_PseudoConstant::activityStatus( );
+        $activityStatusId = array_search( $params['status_id'], $activityStatus );
+        if ( ! $activityStatusId ) { 
+            return civicrm_create_error( ts('Invalid Activity Status') );
+        } else {
+            $params['status_id'] = $activityStatusId;
+        }
+    }
+    
+    // check for activity duration minutes
+    if ( !is_numeric( $params['duration_minutes'] ) ) {
+        return civicrm_create_error( ts('Invalid Activity Duration (in minutes)') );
+        
+    }
+        
     // check for source contact id
     if ( $addMode && empty( $params['source_contact_id'] ) ) {
-        return  civicrm_create_error( ts ( 'Missing Source Contact' ) );
+        return  civicrm_create_error( ts('Missing Source Contact') );
     } 
     
     if ( $params['source_contact_id'] && !is_numeric( $params['source_contact_id'] ) ) {
-        return  civicrm_create_error( ts ( 'Invalid Source Contact' ) );
+        return  civicrm_create_error( ts('Invalid Source Contact') );
     }
-
     return null;
 }

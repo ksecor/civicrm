@@ -241,13 +241,11 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         if ( $response != CRM_Activity_Import_Parser::VALID ) {
             return $response;
         }
-        
         $params =& $this->getActiveFieldParams( );
         $activityName = array_search( 'activity_name',$this->_mapperKeys);
         if ( $activityName ) {
             $params = array_merge( $params, array( 'activity_name' => $values[$activityName]) );
         }
-        
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -261,6 +259,9 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     }
                     
                 }
+            } elseif ( $key == 'duration' ) {
+                $params['duration_minutes'] = $params['duration'];
+                unset($params['duration']);
             }
         }
         //date-Format part ends
