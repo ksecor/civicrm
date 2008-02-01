@@ -148,6 +148,7 @@ class CRM_Member_Page_MembershipType extends CRM_Core_Page_Basic
         $membershipType = array();
         require_once 'CRM/Member/DAO/MembershipType.php';
         $dao =& new CRM_Member_DAO_MembershipType();
+        $dao->domain_id    = CRM_Core_Config::domainID( );
 
         $dao->orderBy('weight');
         $dao->find();
