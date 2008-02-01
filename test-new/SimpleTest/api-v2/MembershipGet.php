@@ -27,9 +27,11 @@ class TestOfMembershipGetAPIV2 extends CiviUnitTestCase
     {
         $params = array( 'contact_id'         => $this->_contactID, 
                          'membership_type_id' => $this->_membershipTypeID, 
-                         'status_id'          => $this->_membershipStatusID );
+                         'status_id'          => $this->_membershipStatusID, 
+                         'is_override'        => 1
+                         );
         $id = $this->contactMembershipCreate( $params );
-
+        
         $membership =& civicrm_contact_memberships_get( $this->_contactID );
         
         $this->assertEqual($membership[$this->_contactID][$id]['contact_id'],         $this->_contactID);
