@@ -407,7 +407,6 @@ class CiviUnitTestCase extends UnitTestCase {
         require_once 'api/v2/Contribute.php';
         $params = array( 'contribution_id' => $contributionId );
         $val =& civicrm_contribution_delete( $params );
-        $this->assertEqual($val['is_error'], 0);
     }
     
     /**

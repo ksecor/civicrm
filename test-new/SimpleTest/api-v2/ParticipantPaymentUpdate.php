@@ -66,6 +66,9 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         $deletePayment = & civicrm_participant_payment_delete( $params );   
         $this->assertEqual( $deletePayment['is_error'], 0 );
         
+        $this->contributionDelete( $contributionID );
+        $this->contributionTypeDelete( $contributionTypeID );
+        
     }
     
     function tearDown() 
@@ -73,5 +76,5 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         $this->participantDelete( $this->_participantID );
         $this->contactDelete( $this->_contactID );
     }
-    
 }
+?>
