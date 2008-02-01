@@ -1,38 +1,38 @@
 <?php
 
-  /*
-   +--------------------------------------------------------------------+
-   | CiviCRM version 2.0                                                |
-   +--------------------------------------------------------------------+
-   | Copyright CiviCRM LLC (c) 2004-2007                                |
-   +--------------------------------------------------------------------+
-   | This file is a part of CiviCRM.                                    |
-   |                                                                    |
-   | CiviCRM is free software; you can copy, modify, and distribute it  |
-   | under the terms of the GNU Affero General Public License           |
-   | Version 3, 19 November 2007.                                       |
-   |                                                                    |
-   | CiviCRM is distributed in the hope that it will be useful, but     |
-   | WITHOUT ANY WARRANTY; without even the implied warranty of         |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
-   | See the GNU Affero General Public License for more details.        |
-   |                                                                    |
-   | You should have received a copy of the GNU Affero General Public   |
-   | License along with this program; if not, contact CiviCRM LLC       |
-   | at info[AT]civicrm[DOT]org. If you have questions about the        |
-   | GNU Affero General Public License or the licensing of CiviCRM,     |
-   | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
-   +--------------------------------------------------------------------+
-  */
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 2.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2007                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007.                                       |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License along with this program; if not, contact CiviCRM LLC       |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
 
-  /**
-   *
-   *
-   * @package CRM
-   * @copyright CiviCRM LLC (c) 2004-2007
-   * $Id$
-   *
-   */
+/**
+ *
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2004-2007
+ * $Id$
+ *
+ */
 
 require_once 'CRM/Event/Form/Registration.php';
 require_once 'CRM/Core/Payment.php';
@@ -73,6 +73,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         if ( $contactID ) {
             $options = array( );
             $fields = array( );
+
             require_once "CRM/Core/BAO/CustomGroup.php";
             if ( ! empty($this->_fields)) {
                 $removeCustomFieldTypes = array ('Participant');
@@ -82,6 +83,8 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                         if ( ! CRM_Core_BAO_CustomGroup::checkCustomField( $id, $removeCustomFieldTypes )) {
                             continue;
                         }
+                    } else if ( ( substr( $name, 0, 12 ) == 'participant_' ) ) { //ignore component fields
+                        continue;
                     }
                     $fields[$name] = 1;
                 }
@@ -93,9 +96,16 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             $fields["state_province-{$this->_bltID}"] = 1;
             $fields["country-{$this->_bltID}"       ] = 1;
             $fields["email-{$this->_bltID}"         ] = 1;
+            $fields["email-Primary"                 ] = 1;
             
             require_once 'CRM/Core/BAO/UFGroup.php';
             CRM_Core_BAO_UFGroup::setProfileDefaults( $contactID, $fields, $this->_defaults );
+
+            // use primary email address if billing email address is empty
+            if ( empty( $this->_defaults["email-{$this->_bltID}"] ) &&
+                 ! empty( $this->_defaults["email-Primary"] ) ) {
+                $this->_defaults["email-{$this->_bltID}"] = $this->_defaults["email-Primary"];
+            }
 
             foreach ($names as $name) {
                 if ( isset( $this->_defaults[$name] ) ) {
