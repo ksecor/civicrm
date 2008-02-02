@@ -115,8 +115,6 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         }
 
         $this->add( 'text', 'subject', ts('Subject'), 'maxlength=128', true);
-        $this->addRule( 'subject', ts('Case subject already exists in Database.'), 
-                        'objectExists', array( 'CRM_Case_DAO_Case', $this->_id, 'subject' ) );
 
         require_once 'CRM/Core/OptionGroup.php';        
         $caseStatus  = CRM_Core_OptionGroup::values('case_status');

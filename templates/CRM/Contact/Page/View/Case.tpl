@@ -9,10 +9,16 @@
 
 {else}
 <div id="help">
-     {ts 1=$displayName 2=$newCaseURL}This page lists all case records for %1. Click <a href="%2">Add New Case</a> to register new case record for this contact.{/ts}
+     {ts 1=$displayName}This page lists all case records for %1.{/ts}
+     {if $permission EQ 'edit'}{ts 1=$newCaseURL}Click <a href="%1">New Case</a> to add a case record for this contact.{/ts}{/if}
 </div>
 
 {if $cases}
+    {if $action eq 16 and $permission EQ 'edit'}
+        <div class="action-link">
+        <a href="{$newCaseURL}">&raquo; {ts}New Case{/ts}</a>
+        </div>
+    {/if}
     <div class="form-item" id=case_page>
     {strip}
         <table>  
@@ -43,7 +49,8 @@
        <dl>
        <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
        <dd>
-            {ts 1=$newCaseURL}There are no case records for this contact. You can <a href="%1">enter one now</a>.{/ts}
+            {ts}There are no case records for this contact.{/ts}
+            {if $permission EQ 'edit'}{ts 1=$newCaseURL}You can <a href="%1">enter one now</a>.{/ts}{/if}
        </dd>
        </dl>
   </div>

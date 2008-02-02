@@ -19,6 +19,7 @@
   <field>
        <name>name</name>
        <uniqueName>world_region</uniqueName>
+       <title>World Region</title>
        <type>varchar</type>
        <length>128</length>
        <comment>Region name to be associated with countries</comment>
