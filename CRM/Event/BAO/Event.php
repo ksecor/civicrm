@@ -257,7 +257,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         
         if ( !$all ) {
             $endDate = date( 'YmdHis' );
-            $query .= " WHERE `end_date` >= {$endDate};";
+            $query .= " WHERE `end_date` >= {$endDate} OR end_date IS NULL;";
         }
         if ( $id ) {
             $query .= " WHERE `id` = {$id};";
