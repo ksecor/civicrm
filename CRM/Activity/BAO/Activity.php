@@ -697,6 +697,8 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
                     $tmpConatctField[trim($value)]['title'] = $tmpConatctField[trim($value)]['title']." (match to contact)" ;
                 }
             }
+            $tmpConatctField['external_identifier'] = $contactFields['external_identifier'];
+            $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
             $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activities'));

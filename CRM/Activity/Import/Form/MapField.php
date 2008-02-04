@@ -428,7 +428,8 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
                     if( $field == 'target_contact_id' &&  $defaultFlag ) {
-                        if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
+                        if ( in_array('email', $importKeys) ||  in_array('external_identifier', $importKeys) || 
+                             ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
                             continue;    
                         } else {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';

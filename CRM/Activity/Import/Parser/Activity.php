@@ -356,11 +356,26 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                         }
                     }
                 } 
+ 
+                if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
+                    $disp = $params['external_identifier'];
+                }
+
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Activity_Import_Parser::ERROR;
             }
           
         } else {
+            if ( $values['external_identifier'] ) {
+                $checkCid = new CRM_Contact_DAO_Contact();
+                $checkCid->external_identifier = $values['external_identifier'];
+                $checkCid->find(true);
+                if ($checkCid->id != $formatted['contact_id']) {
+                    array_unshift($values, "Mismatch of External identifier :" . $values['external_identifier'] . " and Contact Id:" . $formatted['contact_id']);
+                    return CRM_Contribute_Import_Parser::ERROR;
+                }
+            }
+
             $newActivity = civicrm_activity_create( $params ); 
             if ( is_a( $newActivity, CRM_Core_Error ) ) {
                 array_unshift($values, $newActivity->_errors[0]['message']);
