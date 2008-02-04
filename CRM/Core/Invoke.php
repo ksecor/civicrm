@@ -714,7 +714,7 @@ class CRM_Core_Invoke
                     // price field options
                     require_once 'CRM/Price/Page/Option.php';
                     $view =& new CRM_Price_Page_Option(ts('Price Field'));
-                    $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'action=browse&reset=1' );
+                    $url = CRM_Utils_System::url( 'civicrm/admin/price/field');
                     CRM_Utils_System::appendBreadCrumb( ts('Price Field'),
                                                         $url );
                 } else {
