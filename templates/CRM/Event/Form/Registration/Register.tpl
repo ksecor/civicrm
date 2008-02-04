@@ -48,6 +48,12 @@
     {/foreach}
     </dl>
     </fieldset>
+    <dl>
+        {if $form.is_pay_later}
+            <dt>&nbsp;</dt>
+            <dd>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</dd>
+        {/if}
+    </dl>
 {else}
     {if $paidEvent}
      <table class="form-layout-compressed">
