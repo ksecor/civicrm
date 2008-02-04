@@ -232,7 +232,12 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         $params['option_group_id'] = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionGroup",
                                                                   "civicrm_price_field.amount.{$this->_fid}",
                                                                   'id', 'name' );
-        
+        $groupName                 = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $params['option_group_id'], 'name' );
+        if ( $groupName ) {
+            $fieldName      = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
+            $params['name'] = $fieldName.' - '.$params['label'] ;
+        }  
+             
         if ( $this->_action == CRM_Core_Action::DELETE ) {
             $label = CRM_Core_DAO::getFieldValue( "CRM_Core_DAO_OptionValue",
                                                   $this->_oid,

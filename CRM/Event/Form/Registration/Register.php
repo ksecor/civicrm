@@ -576,7 +576,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                   'price_field_id'   => $fid,
                                   'option_value_id'  => $oid,
                                   'label'            => CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',
-                                                                                     $oid, 'name', 'id' ),
+                                                                                     $oid, 'label', 'id' ),
                                   'qty'              => $qty,
                                   'unit_price'       => $price,
                                   'line_total'       => $qty * $fields['options'][$oid]['value'],
