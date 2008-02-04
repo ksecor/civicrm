@@ -78,7 +78,9 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
     function init( ) 
     {
         require_once 'CRM/Activity/BAO/Activity.php';
-        $fields =& CRM_Activity_BAO_Activity::importableFields( );
+        require_once 'CRM/Activity/BAO/ActivityTarget.php';
+        $fields = array_merge( CRM_Activity_BAO_Activity::importableFields( ), 
+                               CRM_Activity_BAO_ActivityTarget::import( ) );
 
         foreach ($fields as $name => $field) {
             $this->addField( $name, $field['title'], $field['type'], $field['headerPattern'], $field['dataPattern']);
@@ -99,7 +101,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $index = 0;
         foreach ( $this->_mapperKeys as $key ) {
             switch ($key) {
-            case 'source_contact_id':
+            case 'target_contact_id':
                 $this->_contactIdIndex        = $index;
                 break;
             case 'activity_name' :
@@ -180,20 +182,21 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 ! CRM_Utils_Array::value($this->_activityDateIndex, $values);
         }
         
-        
         if ($errorRequired) {
             array_unshift($values, ts('Missing required fields'));
             return CRM_Activity_Import_Parser::ERROR;
         }
 
         $params =& $this->getActiveFieldParams( );
-
+        
+        
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
         
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
+        $params['source_contact_id'] = $session->get( 'userID' );
         foreach ($params as $key => $val) {
             if ( $key == 'activity_date_time' ) {
                 if( $val ) {
@@ -249,6 +252,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
+        $params['source_contact_id'] = $session->get( 'userID' );
         foreach ($params as $key => $val) {
             if ( $key ==  'activity_date_time' ) {
                 if( $val ) {
@@ -326,7 +330,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                     return CRM_Activity_Import_Parser::ERROR;
                 } else {
                     $cid = $matchedIDs[0];
-                    $params['source_contact_id'] = $cid;
+                    $params['target_contact_id'] = $cid;
                     $newActivity = civicrm_activity_create( $params ); 
                     if ( isset( $newActivity['is_error'] ) ) {
                         array_unshift($values, $newActivity['error_message']);

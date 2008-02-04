@@ -402,7 +402,7 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             }
             // FIXME: should use the schema titles, not redeclare them
             $requiredFields = array(
-                'source_contact_id'  => ts('Contact ID'),
+                'target_contact_id'  => ts('Contact ID'),
                 'activity_date_time' => ts('Activity Date'),
                 'subject'            => ts('Subject')                
             );
@@ -427,14 +427,14 @@ class CRM_Activity_Import_Form_MapField extends CRM_Core_Form
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             foreach ($requiredFields as $field => $title) {
                 if (!in_array($field, $importKeys)) {
-                    if( $field == 'source_contact_id' &&  $defaultFlag ) {
+                    if( $field == 'target_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) || ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys))) {
                             continue;    
                         } else {
                             $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
                         }
                         
-                    } else if ( $field == 'source_contact_id' &&  ! $defaultFlag ) {
+                    } else if ( $field == 'target_contact_id' &&  ! $defaultFlag ) {
                         $flag = true;
                         foreach ( $fieldsArray as $v ) {
                             if ( in_array( trim($v), $importKeys )) {

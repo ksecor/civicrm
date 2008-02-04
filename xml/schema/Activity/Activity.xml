@@ -22,8 +22,6 @@
 
   <field>
       <name>source_contact_id</name>
-      <title>Contact ID (match to contact)</title>
-      <import>true</import>
       <type>int unsigned</type>
       <required>true</required>
       <comment>Contact ID of the person scheduling or logging this Activity. Usually the authenticated user.</comment>

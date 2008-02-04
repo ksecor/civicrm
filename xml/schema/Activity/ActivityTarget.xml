@@ -35,6 +35,8 @@
 
    <field> 
     <name>target_contact_id</name>
+    <title>Contact ID (match to contact)</title>
+    <import>true</import>
     <type>int unsigned</type>
     <required>true</required>
     <comment>Foreign key to the contact for this target.</comment>
