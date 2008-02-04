@@ -5,6 +5,8 @@
 -- *********************************************************************/
 
 
+SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
+
 
 -- /*******************************************************
 -- *
@@ -295,17 +297,17 @@ CREATE TABLE IF NOT EXISTS `civicrm_preferences_date` (
 -- 
 
 INSERT INTO `civicrm_preferences_date` (`domain_id`, `name`, `description`, `start`, `end`, `minute_increment`, `format`) VALUES 
-(1, 'activityDate', 'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.', 20, 10, 0, NULL),
-(1, 'activityDatetime', 'Date and time for activity: scheduled. participant: registered.', 20, 10, 15, NULL),
-(1, 'birth', 'Birth and deceased dates.', 100, 0, 0, NULL),
-(1, 'creditCard', 'Month and year only for credit card expiration.', 0, 10, 0, 'M Y'),
-(1, 'custom', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.', 20, 20, 15, 'Y M d H i'),
-(1, 'datetime', 'General date and time.', 10, 3, 15, NULL),
-(1, 'duration', 'Durations in hours and minutes.', 0, 0, 15, 'H i'),
-(1, 'fixed', 'Not used ?', 0, 5, 0, NULL),
-(1, 'mailing', 'Date and time. Used for scheduling mailings.', 0, 1, 15, 'Y M d H i'),
-(1, 'manual', 'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.', 20, 20, 0, NULL),
-(1, 'relative', 'Used in search forms.', 20, 20, 0, NULL);
+(@domain_id, 'activityDate', 'Date for activities including contributions: receive, receipt, cancel. membership: join, start, renew. case: start, end.', 20, 10, 0, NULL),
+(@domain_id, 'activityDatetime', 'Date and time for activity: scheduled. participant: registered.', 20, 10, 15, NULL),
+(@domain_id, 'birth', 'Birth and deceased dates.', 100, 0, 0, NULL),
+(@domain_id, 'creditCard', 'Month and year only for credit card expiration.', 0, 10, 0, 'M Y'),
+(@domain_id, 'custom', 'Uses date range passed in by form field. Can pass in a posix date part parameter. Start and end offsets defined here are ignored.', 20, 20, 15, 'Y M d H i'),
+(@domain_id, 'datetime', 'General date and time.', 10, 3, 15, NULL),
+(@domain_id, 'duration', 'Durations in hours and minutes.', 0, 0, 15, 'H i'),
+(@domain_id, 'fixed', 'Not used ?', 0, 5, 0, NULL),
+(@domain_id, 'mailing', 'Date and time. Used for scheduling mailings.', 0, 1, 15, 'Y M d H i'),
+(@domain_id, 'manual', 'Date only. For non-general cases. Uses date range passed in by form field. Start and end offsets defined here are ignored.', 20, 20, 0, NULL),
+(@domain_id, 'relative', 'Used in search forms.', 20, 20, 0, NULL);
 
 
 -- /*******************************************************
@@ -525,8 +527,6 @@ ALTER TABLE `civicrm_saved_search`
 -- 
 -- Dumping data for table `civicrm_option_group`
 -- 
-
-SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
 
 INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `label`, `description`, `is_reserved`, `is_active`) 
 VALUES 
