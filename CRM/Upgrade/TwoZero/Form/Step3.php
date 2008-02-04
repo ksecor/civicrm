@@ -66,7 +66,14 @@ class CRM_Upgrade_TwoZero_Form_Step3 extends CRM_Upgrade_Form {
              ! CRM_Core_DAO::checkFieldIsAlwaysNull('civicrm_phonecall', 'parent_id')) {
             return false;
         }
-        
+
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'source_contact_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'parent_id') ) {
+            $errorMessage = ts('Database consistency check failed for step 3. FK constraint names not in the required format.');
+            return false;
+        }
+
         // check orphan entries in activity history 
         $query    = "
 SELECT count(*) as ahEntry FROM civicrm_activity_history ah 

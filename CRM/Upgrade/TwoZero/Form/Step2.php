@@ -52,6 +52,12 @@ class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
             return false;
         }
 
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'county_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'state_province_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'country_id') ) {
+            $errorMessage = ts('Database consistency check failed for step 2. FK constraint names not in the required format.');
+            return false;
+        }
 
         return $this->checkVersion( '1.91' );
     }

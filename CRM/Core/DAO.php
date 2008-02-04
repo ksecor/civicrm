@@ -450,18 +450,46 @@ class CRM_Core_DAO extends DB_DataObject {
      * @return boolean true if exists, else false
      * @static
      */
-      function checkFieldExists( $tableName, $columnName ) {
-          $query = "
+    function checkFieldExists( $tableName, $columnName ) {
+        $query = "
 SHOW COLUMNS
 FROM $tableName
 LIKE %1
 ";
-          $params = array( 1 => array( $columnName, 'String' ) );
-          $dao = CRM_Core_DAO::executeQuery( $query, $params );
-          $result = $dao->fetch( ) ? true : false;
-          $dao->free( );
-          return $result;
-      }
+        $params = array( 1 => array( $columnName, 'String' ) );
+        $dao = CRM_Core_DAO::executeQuery( $query, $params );
+        $result = $dao->fetch( ) ? true : false;
+        $dao->free( );
+        return $result;
+    }
+    
+    /**
+     * Checks if the FK constraint name is in the format 'FK_tableName_columnName' 
+     * for a specified column of a table. 
+     *
+     * @param string $tableName
+     * @param string $columnName
+     * 
+     * @return boolean true if in format, false otherwise
+     * @static
+     */
+    function checkFKConstraintInFormat( $tableName, $columnName ) {
+        static $show = array();
+        
+        if ( ! array_key_exists( $tableName, $show ) ) {
+            $query = "SHOW CREATE TABLE $tableName";
+            $dao   = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+            
+            if ( ! $dao->fetch( ) ) {
+                CRM_Core_Error::fatal( );
+            }
+            
+            $dao->free( );
+            $show[$tableName] = $dao->Create_Table;
+        }
+        
+        return stristr($show[$tableName], "FK_{$tableName}_{$columnName}") ? true : false;
+    }
 
     /**
      * Check whether a specific column in a specific table has always the same value
