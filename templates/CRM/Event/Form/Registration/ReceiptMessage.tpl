@@ -71,7 +71,7 @@
 {/foreach}
 
 {/if}
-{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$line_item} - {$amount_level} {/if}
+{ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
 {ts}Transaction #{/ts}    : {$trxn_id}
