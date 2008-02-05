@@ -2,15 +2,16 @@
 {if $widget_id} {* If we have a widget for this page, construct the embed code.*}
     {capture assign=widgetVars}serviceUrl={$config->resourceBase}packages/amfphp/gateway.php&amp;contributionPageID={$id}&amp;widgetID=1{/capture}
     {capture assign=widget_code}
-<div style="text-align: center;width:260px">
-<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="550" height="400" id="widget" align="middle">
-<param name="allowScriptAccess" value="sameDomain" />
-<param name="FlashVars" value="{$widgetVars}">
-<param name="movie" value="widget.swf" />
-<param name="quality" value="high" />
-<param name="bgcolor" value="#ffffff" />
-<embed flashvars="{$widgetVars}" src="{$config->resourceBase}extern/Widget/widget.swf" quality="high" bgcolor="#ffffff" width="220" height="220" name="widget" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
-</object></div>{/capture}
+<div style="text-align: center; width:260px">
+	<object type="application/x-shockwave-flash" data="{$config->resourceBase}extern/Widget/widget.swf" width="220" height="220" id="civicontribute-widget" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer">
+    <param name="flashvars" value="{$widgetVars}">
+	<param name="allowScriptAccess" value="sameDomain" />
+	<param name="allowFullScreen" value="false" />
+	<param name="movie" value="{$config->resourceBase}extern/Widget/widget.swf" />
+	<param name="quality" value="high" />
+	<param name="bgcolor" value="#ffffff" />
+	</object>
+</div>{/capture}
 {/if}
 
 <div id="form" class="form-item">
