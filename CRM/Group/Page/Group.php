@@ -318,8 +318,9 @@ ORDER BY title asc
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
-            $values[$object->id]['children'] = "";
+            
             if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
+                $values[$object->id]['children'] = "";
                 $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
                 foreach ($pgroups as $id){
                     if ($values[$object->id]['children'] != ""){
@@ -328,7 +329,7 @@ ORDER BY title asc
                     $params = array('id' => $id);
                     //                print $id;
                     CRM_Contact_BAO_Group::retrieve($params, $default);
-                    //print_r($default);
+                    
                     $values[$object->id]['children'] .= $default['title'];
                 }
             }
