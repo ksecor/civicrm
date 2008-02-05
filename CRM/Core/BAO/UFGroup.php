@@ -1112,9 +1112,9 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             } 
         }
 
-        //update the weight for remaining group
+        //update the weight
         $query = "UPDATE civicrm_uf_join SET weight = %1
-                       WHERE  uf_group_id = $ufGroupId";
+                       WHERE  uf_group_id = {$ufGroupId}";
         $p =array( 1 => array( $params['weight'], 'Integer' ) ); 
         CRM_Core_DAO::executeQuery($query, $p);
     }
@@ -1826,6 +1826,16 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
         $copyUFField =& CRM_Core_DAO::copyGeneric( 'CRM_Core_BAO_UFField', 
                                                    array( 'uf_group_id' => $id ), 
                                                    array( 'uf_group_id' => $copy->id ) );
+
+        require_once "CRM/Utils/Weight.php";
+        $maxWeight = CRM_Utils_Weight::getMax('CRM_Core_DAO_UFJoin', null, 'weight');
+
+        //update the weight
+        $query = "UPDATE civicrm_uf_join SET weight = %1
+                       WHERE  uf_group_id = {$copy->id}";
+        $p =array( 1 => array( $maxWeight + 1, 'Integer' ) ); 
+        CRM_Core_DAO::executeQuery($query, $p);
+
         return $copy;
     }
 
