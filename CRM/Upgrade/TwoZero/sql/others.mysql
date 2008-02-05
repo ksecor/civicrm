@@ -136,7 +136,21 @@ CREATE TABLE IF NOT EXISTS `civicrm_contribution_widget` (
 -- *******************************************************/
 
 ALTER TABLE `civicrm_entity_tag`
-    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id,
+    ADD `contact_id` int(10) unsigned NULL DEFAULT NULL AFTER id;
+
+-- update entries
+
+UPDATE civicrm_entity_tag et
+SET 
+    et.contact_id=et.entity_id
+WHERE et.entity_table = 'civicrm_contact';
+
+DELETE FROM civicrm_entity_tag WHERE contact_id IS NULL;
+
+-- add constraint
+
+ALTER TABLE `civicrm_entity_tag`
+    MODIFY `contact_id` int(10) unsigned NOT NULL,
     DROP `entity_table`,
     DROP `entity_id`,
     DROP INDEX index_entity,
@@ -150,7 +164,21 @@ ALTER TABLE `civicrm_entity_tag`
 -- *******************************************************/
 
 ALTER TABLE `civicrm_financial_trxn`
-    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER domain_id,
+    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER domain_id;
+
+-- update entries
+
+UPDATE civicrm_financial_trxn ft
+SET 
+    ft.contribution_id = ft.entity_id
+WHERE ft.entity_table = 'civicrm_contribution';
+
+DELETE FROM civicrm_financial_trxn WHERE contribution_id IS NULL;
+
+-- add constraint
+
+ALTER TABLE `civicrm_financial_trxn`
+    MODIFY `contribution_id` int(10) unsigned NOT NULL,
     DROP `entity_table`,
     DROP `entity_id`,
     DROP INDEX index_entity,
@@ -445,7 +473,18 @@ ALTER TABLE `civicrm_mapping`
 -- *******************************************************/
 
 ALTER TABLE `civicrm_membership_payment`
-    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER membership_id,
+    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER membership_id;
+
+-- update entries
+
+UPDATE civicrm_membership_payment mp
+SET 
+    mp.contribution_id = mp.payment_entity_id
+WHERE mp.payment_entity_table = 'civicrm_contribution';
+
+-- drop fields
+
+ALTER TABLE `civicrm_membership_payment`
     DROP `payment_entity_table`,
     DROP `payment_entity_id`,
     ADD UNIQUE `UI_contribution_membership` (`contribution_id`, `membership_id`),
@@ -470,7 +509,18 @@ ALTER TABLE `civicrm_membership_type`
 -- *******************************************************/
 
 ALTER TABLE `civicrm_participant_payment`
-    ADD `contribution_id` int(10) unsigned NOT NULL AFTER participant_id,
+    ADD `contribution_id` int(10) unsigned NULL DEFAULT NULL AFTER participant_id;
+
+-- update entries
+
+UPDATE civicrm_participant_payment pp
+SET 
+    pp.contribution_id = pp.payment_entity_id
+WHERE pp.payment_entity_table = 'civicrm_contribution';
+
+-- drop fields
+
+ALTER TABLE `civicrm_participant_payment`
     DROP `payment_entity_table`,
     DROP `payment_entity_id`,
     ADD UNIQUE `UI_contribution_participant` (`contribution_id`, `participant_id`);
