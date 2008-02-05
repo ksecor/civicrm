@@ -73,6 +73,8 @@ class CRM_Group_Controller extends CRM_Core_Controller {
         return parent::run( );
     }
 
+    public function selectorName( ) {
+        return $this->get( 'selectorName' );
+    }
 }
-
 ?>
