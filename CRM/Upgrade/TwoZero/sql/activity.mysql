@@ -57,10 +57,9 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_assignment` (
     `assignee_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this assignment.',
     PRIMARY KEY (id),
     INDEX `UI_activity_assignee_contact_id` (`assignee_contact_id`, `activity_id`),
-    INDEX `FK_civicrm_activity_assignment_activity_id` (`activity_id`),
     CONSTRAINT `FK_civicrm_activity_assignment_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     CONSTRAINT `FK_civicrm_activity_assignment_assignee_contact_id` FOREIGN KEY (`assignee_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -- /*******************************************************
@@ -75,10 +74,9 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
     `target_contact_id` int(10) unsigned NOT NULL COMMENT 'Foreign key to the contact for this target.',
     PRIMARY KEY (id),
     INDEX `UI_activity_target_contact_id` (`target_contact_id`, `activity_id`),
-    INDEX `FK_civicrm_activity_target_activity_id` (`activity_id`),
     CONSTRAINT `FK_civicrm_activity_target_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     CONSTRAINT `FK_civicrm_activity_target_target_contact_id` FOREIGN KEY (`target_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
@@ -181,4 +179,5 @@ LEFT JOIN civicrm_option_value op ON (op.option_group_id = @og_id_at AND op.labe
 INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
 SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
 FROM civicrm_email_history eh;
+
 
