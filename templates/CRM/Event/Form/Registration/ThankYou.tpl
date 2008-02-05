@@ -47,7 +47,7 @@
     </div>
     <div class="display-block">
         {if $lineItem}
-            {include file="CRM/Event/Form/Registration/LineItem.tpl}
+            {include file="CRM/Event/Form/Registration/LineItem.tpl}<br />
         {elseif $amount}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}

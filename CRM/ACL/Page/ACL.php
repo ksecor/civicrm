@@ -200,7 +200,7 @@ ORDER BY entity_id
             if ( $acl[$dao->id]['entity_id'] ) {
                 $acl[$dao->id]['entity'] = $roles [$acl[$dao->id]['entity_id']];
             } else {
-                $acl[$dao->id]['entity'] = ts( 'Any Role' );
+                $acl[$dao->id]['entity'] = ts( 'Everyone' );
             }
 
             switch ( $acl[$dao->id]['object_table'] ) {
