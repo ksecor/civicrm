@@ -318,7 +318,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $transaction->rollback( );
             return $resultTarget;
         }
-
         if ( CRM_Utils_Array::value( 'custom', $params ) &&
              is_array( $params['custom'] ) ) {
             require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -701,7 +700,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $tmpConatctField['external_identifier']['title'] = $contactFields['external_identifier']['title'] . " (match to contact)";
             $fields = array_merge($fields, $tmpConatctField);
             $fields = array_merge($fields, $tmpFields);
-            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activities'));
+            $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport('Activity'));
             self::$_importableFields = $fields;
         }
         return self::$_importableFields;
@@ -732,8 +731,10 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $activities[$dao->activity_id]['location']          = $dao->location;
             $activities[$dao->activity_id]['details']           = $dao->details;
             $activities[$dao->activity_id]['status_id']         = $dao->status_id;
-            $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',$dao->activity_type_id );
-            $activities[$dao->activity_id]['status']            = CRM_Core_OptionGroup::getLabel('activity_status',$dao->status_id );
+            $activities[$dao->activity_id]['activity_name']     = CRM_Core_OptionGroup::getLabel('activity_type',
+                                                                                                 $dao->activity_type_id );
+            $activities[$dao->activity_id]['status']            = CRM_Core_OptionGroup::getLabel('activity_status',
+                                                                                                 $dao->status_id );
         }
         return $activities;
     }
