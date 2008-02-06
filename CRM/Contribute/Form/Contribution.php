@@ -830,7 +830,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $statusMsg = ts('The contribution record has been saved.');
         if ( $formValues['is_email_receipt'] ) {
-            $statusMsg .= ts('A receipt has been emailed to the contributor.');
+            $statusMsg .= ts(' A receipt has been emailed to the contributor.');
         }
         CRM_Core_Session::setStatus( $statusMsg );
 

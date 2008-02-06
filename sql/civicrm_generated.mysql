@@ -1189,8 +1189,8 @@ VALUES
 INSERT INTO civicrm_custom_field
      (custom_group_id, label, data_type, html_type, is_required, weight, help_post, is_active, is_searchable, options_per_line, column_name, option_group_id)
 VALUES
-    (1, 'Most Important Issue', 'String', 'Radio', 0, 5, '', 1, 1, NULL, 'most_important_issue', @option_most_id),
-    (1, 'Marital Status', 'String', 'Select', 0, 7, '', 1, 1, NULL, 'marital_status', @option_marital_id);
+    (1, 'Most Important Issue', 'String', 'Radio', 0, 1, '', 1, 1, NULL, 'most_important_issue', @option_most_id),
+    (1, 'Marital Status', 'String', 'Select', 0, 2, '', 1, 1, NULL, 'marital_status', @option_marital_id);
 
 
 -- /*******************************************************
