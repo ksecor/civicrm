@@ -1054,4 +1054,72 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
     return null;
 }
 
+/**
+ * take the input parameter list as specified in the data model and 
+ * convert it into the same format that we use in QF and BAO object
+ *
+ * @param array  $params       Associative array of property name/value
+ *                             pairs to insert in new contact.
+ * @param array  $values       The reformatted properties that we can use internally
+ *
+ * @param array  $create       Is the formatted Values array going to
+ *                             be used for CRM_Activity_BAO_Activity::create()
+ *
+ * @return array|CRM_Error
+ * @access public
+ */
+function _civicrm_activity_formatted_param( &$params, &$values, $create=false) 
+{
+    static $domainID = null;
+    if (!$domainID) {
+        $config =& CRM_Core_Config::singleton();
+        $domainID = $config->domainID();
+    }
+        
+    $fields =& CRM_Activity_DAO_Activity::fields( );
+    _civicrm_store_values( $fields, $params, $values );
+    
+    require_once 'CRM/Core/OptionGroup.php';
+    $customFields = CRM_Core_BAO_CustomField::getFields( 'Activity' );
+
+    foreach ($params as $key => $value) {
+        // ignore empty values or empty arrays etc
+        if ( CRM_Utils_System::isNull( $value ) ) {
+            continue;
+        }
+
+        //Handling Custom Data
+        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+            $values[$key] = $value;
+            $type = $customFields[$customFieldID][3];
+            if( $type == 'CheckBox' || $type == 'Multi-Select' ) {
+                $mulValues = explode( ',' , $value );
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                $values[$key] = array();
+                foreach( $mulValues as $v1 ) {
+                    foreach( $customOption as $v2 ) {
+                        if (( strtolower($v2['label']) == strtolower(trim($v1)) ) ||
+                            ( strtolower($v2['value']) == strtolower(trim($v1)) )) { 
+                            if ( $type == 'CheckBox' ) {
+                                $values[$key][$v2['value']] = 1;
+                            } else {
+                                $values[$key][] = $v2['value'];
+                            }
+                        }
+                    }
+                }
+            } else if ( $type == 'Select' || $type == 'Radio' ) {
+                $customOption = CRM_Core_BAO_CustomOption::getCustomOption($customFieldID, true);
+                foreach( $customOption as $v2 ) {
+                    if (( strtolower($v2['label']) == strtolower(trim($value)) )||
+                        ( strtolower($v2['value']) == strtolower(trim($value)) )) {
+                        $values[$key] = $v2['value'];
+                    }
+                }
+            }
+        }
+
+    }
+    return null;
+}
 ?>

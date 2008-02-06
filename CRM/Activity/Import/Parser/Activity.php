@@ -282,7 +282,16 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             $tempIndieFields =& CRM_Activity_DAO_Activity::import();
             $indieFields = $tempIndieFields;
         }
+
+        $formatError = _civicrm_activity_formatted_param( $params, $params, true );
         
+        foreach ( $params as $key => $value ) {
+            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $params['custom'],
+                                                             $value, 'Activity');
+            }
+        }
+
         if ( $this->_contactIdIndex < 0 ) {
             static $cIndieFields = null;
             if ($cIndieFields == null) {

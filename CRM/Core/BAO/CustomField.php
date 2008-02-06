@@ -884,15 +884,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
     static function formatCustomField( $customFieldId, &$customFormatted, $value, 
                                        $customFieldExtend, $customValueId = null, $entityId = null ) 
     {
-        //special case for activities
-        if ( in_array( $customFieldExtend, array('Meeting', 'Phonecall') ) ) {
-            $customGroupUsedFor = 'Activity';
-        } else {
-            $customGroupUsedFor = $customFieldExtend;
-        }
-        
         //get the custom fields for the entity
-        $customFields = CRM_Core_BAO_CustomField::getFields( $customGroupUsedFor );
+        $customFields = CRM_Core_BAO_CustomField::getFields( $customFieldExtend );
         
         if ( ! array_key_exists( $customFieldId, $customFields )) {
             return;
