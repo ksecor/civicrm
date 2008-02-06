@@ -1245,8 +1245,24 @@ WHERE civicrm_contact.id IN $idString ";
             foreach ( $fields as $k=>$v ) {
                 $sortArray[$k] = CRM_Utils_Array::value( 'title', $v );
             }
-            asort($sortArray);
+
             $fields = array_merge( $sortArray, $fields );
+            
+            //unset the field which are not related to their contact type.
+            if ( $contactType != 'All') { 
+                $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
+                                        'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
+                                                                 'job_title','gender_id','birth_date','organization_name',
+                                                                 'legal_name','sic_code','home_URL' ),
+                                        'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
+                                                                 'job_title','gender_id','birth_date','household_name') 
+                                        );
+                foreach ( $commonValues[$contactType] as $value ) {
+                    unset( $fields[$value] );
+                }
+            }  
+            
+            asort($sortArray);
             
             self::$_exportableFields[$contactType] = $fields;
         }
