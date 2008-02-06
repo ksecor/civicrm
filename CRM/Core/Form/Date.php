@@ -59,7 +59,16 @@ Class CRM_Core_Form_Date
     static function buildAllowedDateFormats( &$form ) {
         
         $dateOptions = array();
-        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)'), self::DATE_yyyy_mm_dd);
+        
+        require_once "CRM/Utils/System.php";
+        if ( CRM_Utils_System::getClassName( $form ) == 'CRM_Activity_Import_Form_UploadFile' ) {
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 10:30)');
+        } else {
+            $dateText = ts('yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)');
+        }
+
+        $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, $dateText, self::DATE_yyyy_mm_dd);
+
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yy OR mm-dd-yy (12/25/98 OR 12-25-98)'), self::DATE_mm_dd_yy);
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('mm/dd/yyyy OR mm-dd-yyyy (12/25/1998 OR 12-25-1998)'), self::DATE_mm_dd_yyyy);
         $dateOptions[] = HTML_QuickForm::createElement('radio', null, null, ts('Month dd, yyyy (December 12, 1998)'), self::DATE_Month_dd_yyyy);
