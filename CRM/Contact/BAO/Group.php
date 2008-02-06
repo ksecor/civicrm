@@ -343,8 +343,8 @@ class CRM_Contact_BAO_Group extends CRM_Contact_DAO_Group {
      * and store it for future use
      */
     function buildClause( ) {
-        $params = array( array( 'group', '=', array( $this->id => 1 ), 0, 0 ) );
-    
+        $params = array( array( 'group', 'IN', array( $this->id => 1 ), 0, 0 ) );
+
         if ( ! empty( $params ) ) {
             $tables = $whereTables = array( );
             require_once 'CRM/Contact/BAO/Query.php';
