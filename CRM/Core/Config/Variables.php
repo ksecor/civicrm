@@ -171,6 +171,12 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     public $dateformatQfDatetime = '%b %d %Y, %I : %M %P';
 
     /**
+     * String format for date-month
+     * @var string
+     */
+    public $dateformatMonthVar = 'M';
+
+    /**
      * Month and day on which fiscal year starts.
      *
      * @var array

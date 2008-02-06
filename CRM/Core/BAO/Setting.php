@@ -147,7 +147,10 @@ class CRM_Core_BAO_Setting
 
         $domain->find(true);
         if ($domain->config_backend) {
-            $defaults = unserialize($domain->config_backend);
+            $defaults   = unserialize($domain->config_backend);
+            // calculate month var
+            $defaults['dateformatMonthVar'] = 
+                strstr($defaults['dateformatQfDate'], '%m') ? 'm' : (strstr($defaults['dateformatQfDate'], '%b') ? 'M' : (strstr($defaults['dateformatQfDate'], '%B') ? 'F' : null)); 
         }
     }
 

@@ -20,7 +20,7 @@
       {
 {/literal}
          dateField   : "{$dateVar}[d]",
-         monthField  : "{$dateVar}[M]",
+         monthField  : "{$dateVar}[{$config->dateformatMonthVar}]",
          yearField   : "{$dateVar}[Y]",
 {if $doTime}
        {if $ampm}

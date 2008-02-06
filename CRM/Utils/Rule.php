@@ -180,17 +180,10 @@ class CRM_Utils_Rule
      */
     static function qfDate($date) 
     {
+        $config =& CRM_Core_Config::singleton( );
+
         $d = CRM_Utils_Array::value( 'd', $date );
-
-        // different date formats have different month variable.
-        if ( CRM_Utils_Array::value( 'M', $date ) ) {
-            $m = CRM_Utils_Array::value( 'M', $date );
-        } elseif ( CRM_Utils_Array::value( 'F', $date ) ) {
-            $m = CRM_Utils_Array::value( 'F', $date );
-        } elseif ( CRM_Utils_Array::value( 'm', $date ) ) {
-            $m = CRM_Utils_Array::value( 'm', $date );
-        } 
-
+        $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
 
         if ( ! $d && ! $m && ! $y ) {
