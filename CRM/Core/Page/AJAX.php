@@ -319,11 +319,17 @@ ORDER BY name";
 
         if ( empty( $elements) ) {
             if ( !$stateName && isset( $_GET['id'] )) {
-                $stateName = $_GET['id'];
+                if ( $stateId ) {
+                    $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
+                    $stateName =  $stateProvinces[$stateId];
+                    $stateValue = $stateId;
+                } else {
+                    $stateName = $stateValue = $_GET['id'];
+                }
             }
-
+            
             $elements[] = array( 'name'  => trim($stateName, "%"),
-                                 'value' => trim($stateName, "%") 
+                                 'value' => trim($stateValue, "%") 
                                  );
         }
 
