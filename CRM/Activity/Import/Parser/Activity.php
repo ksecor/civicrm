@@ -199,14 +199,17 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $params['source_contact_id'] = $session->get( 'userID' );
         foreach ($params as $key => $val) {
             if ( $key == 'activity_date_time' ) {
-                if( $val ) {
-                    if ( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
-                        if (! CRM_Utils_Rule::date($params[$key])) {
-                            //return _crm_error('Invalid value for field  : Activity Date');
+                if ( $val ) {
+                    if( $dateType == 1) { 
+                        $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d%H%i');
+                    } else{
+                        if ( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
+                            if ( !CRM_Utils_Rule::date($params[$key])) {
+                                CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
+                            }
+                        } else {
                             CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
                         }
-                    } else {
-                        CRM_Import_Parser_Contact::addToErrorMsg('Activity date', $errorMessage);
                     }
                 }
             }
@@ -255,10 +258,12 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $params['source_contact_id'] = $session->get( 'userID' );
         foreach ($params as $key => $val) {
             if ( $key ==  'activity_date_time' ) {
-                if( $val ) {
-                    if( $dateType == 1) { 
-                        $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d');
-                    } else{
+                if ( $val ) {
+                    if ( $dateType == 1) { 
+                        $params[$key] = CRM_Utils_Date::customFormat($val,'%Y%m%d%H%i');
+                        //hack to add seconds
+                        $params[$key] = $params[$key] . '00';
+                    } else {
                         CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     }
                     
