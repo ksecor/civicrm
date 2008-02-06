@@ -717,9 +717,22 @@ ALTER TABLE `civicrm_option_value`
     ADD CONSTRAINT `FK_civicrm_option_value_option_group_id` FOREIGN KEY (`option_group_id`) REFERENCES `civicrm_option_group` (`id`) ON DELETE CASCADE;
 
 
+-- 
+-- clear orphaned data in civicrm_log
+-- 
+
+DELETE cl.* FROM civicrm_log cl 
+LEFT JOIN civicrm_contact cc ON cc.id=cl.entity_id 
+WHERE (cc.id is NULL and cl.entity_table = 'civicrm_contact') OR (cl.entity_table = 'civicrm_individual' OR 'civicrm_household' OR 'civicrm_organization');
+
+DELETE cl.* FROM civicrm_log cl 
+LEFT JOIN civicrm_contact cc ON cc.id=cl.modified_id 
+WHERE cc.id is NULL; 
+
+
 -- /*******************************************************
 -- *
--- *Modifing Constraints
+-- *Modifying Constraints
 -- *
 -- *******************************************************/
 
@@ -727,7 +740,7 @@ ALTER TABLE `civicrm_log`
     DROP FOREIGN KEY `FK_civicrm_log_modified_id`;
 ALTER TABLE `civicrm_log`
     ADD CONSTRAINT `FK_civicrm_log_modified_id` FOREIGN KEY (`modified_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
-
+  
 
 ALTER TABLE `civicrm_mailing_bounce_pattern`
     DROP FOREIGN KEY `FK_civicrm_mailing_bounce_pattern_bounce_type_id`;
