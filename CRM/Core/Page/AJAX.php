@@ -326,6 +326,8 @@ ORDER BY name";
                 } else {
                     $stateName = $stateValue = $_GET['id'];
                 }
+            } else if ( !is_numeric( $stateName ) )  {
+                $stateValue = $stateName;
             }
             
             $elements[] = array( 'name'  => trim($stateName, "%"),
