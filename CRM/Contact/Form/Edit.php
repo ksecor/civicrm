@@ -352,26 +352,13 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                     }
                     
                     if ( isset( $this->_elementIndex[ "location[$key][address][state_province_id]" ] ) ) {
-                        $stateValue = null;
                         $stateValue = $this->getElementValue( "location[$key][address][state_province_id]" );
                         
-                        if ( $stateValue ) {
-                            if ( ! is_numeric( $stateValue ) ) {
-                                $this->assign( "state_province_{$key}_value", 
-                                               $this->getElementValue( "location[$key][address][state_province_id]" ) );
-                                $this->assign( "state_province_{$key}_id", 
-                                               $this->getElementValue( "location[$key][address][state_province_id]" ) );
-                            } else {
-                                $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateValue] );
-                                $this->assign( "state_province_{$key}_id"   ,  $stateValue );
-                            }
-                        } else  if ( isset($value['address']['state_province_id']) ) {
-                            $stateProvinceId = $value['address']['state_province_id'];
-                            if ( $stateProvinceId ) {
-                                $this->assign( "state_province_{$key}_value",  $stateProvinces[$stateProvinceId] );
-                                $this->assign( "state_province_{$key}_id"   ,  $stateProvinceId );
-                            }
+                        if ( !$stateValue && isset($value['address']['state_province_id']) ) {
+                            $stateValue = $value['address']['state_province_id'];
                         }
+
+                        $this->assign( "state_province_{$key}_value", $stateValue );
                     }
                     
                     if ( isset( $value['address']['display']) ) {
@@ -382,7 +369,6 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
             }
         }
 
-        //DO TO: comment because of schema changes
         CRM_Core_BAO_CustomGroup::setDefaults( $this->_groupTree, $defaults, $viewMode, $inactiveNeeded );
         return $defaults;
     }

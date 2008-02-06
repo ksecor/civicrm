@@ -4,28 +4,31 @@
 
 <script type="text/javascript">
 
-function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
+function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState ) {
 
-    // get the typed value
-    var value = obj.getValue( );
-
-    //load state province only if country value exits
+    // if value of country is not send get it from widget
+    if ( ! value ) {
+      var value = obj.getValue( );
+    }
+    
+    //load state province only for valid country value
 
     //get state province id
     var widget = dijit.byId('location_' + lno + '_address_state_province_id');
 
     if ( !isNaN(value) ) {
-       //enable state province only if country value exists
+
+      //enable state province only if country value exists
        widget.setDisabled( false );
     
        //translate select
        var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
 
        //set state province combo if it is not set
-       if ( !widget.getValue( ) ) {
+       if ( !widget.getValue( ) &&  setState ) {
            widget.setDisplayedValue( sel );
        } 
- 
+
        //data url for state
        var res = {/literal}"{$stateUrl}"{literal};
 
@@ -35,6 +38,7 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
        widget.store   = queryStore;
    } else {
        widget.setDisabled( true );
+       widget.setDisplayedValue( '' );
    }
 }
 

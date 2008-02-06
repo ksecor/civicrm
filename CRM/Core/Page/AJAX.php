@@ -318,6 +318,10 @@ ORDER BY name";
         }
 
         if ( empty( $elements) ) {
+            if ( !$stateName && isset( $_GET['id'] )) {
+                $stateName = $_GET['id'];
+            }
+
             $elements[] = array( 'name'  => trim($stateName, "%"),
                                  'value' => trim($stateName, "%") 
                                  );

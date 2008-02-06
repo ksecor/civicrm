@@ -37,11 +37,17 @@
 	  widget1.setDisabled( true );
 	} else {
 	  if ( countryValue1 ) {
-	    dijit.byId( 'location_1_address_country_id' ).setValue( countryValue1 );
-	  }
-	  
-	  if ( stateValue1 && stateEnabled ) {
-	    dijit.byId( 'location_1_address_state_province_id' ).setValue( stateValue1 );
+	    var setState = true;
+            if ( stateValue1 && stateEnabled ) {
+	      setState = false;
+	    }
+	    
+	    getStateProvince1( dijit.byId( 'location_1_address_country_id' ), 1, countryValue1, setState);
+
+	    if ( stateValue1 && stateEnabled ) {
+	      dijit.byId( 'location_1_address_state_province_id' ).setValue( stateValue1 );
+	    }
+
 	  }
 	}
       });
@@ -59,11 +65,16 @@
            widget2.setDisabled( true );
          } else {
 	   if ( countryValue2 ) {
-	     dijit.byId( 'location_2_address_country_id' ).setValue( countryValue2 );
-	   }
-	   
-	   if ( stateValue2 && stateEnabled ) {
-	     dijit.byId( 'location_2_address_state_province_id' ).setValue( stateValue2 );
+	     var setState = true;
+	     if ( stateValue2 && stateEnabled ) {
+	       setState = false;
+	     }
+	     
+	     getStateProvince2( dijit.byId( 'location_2_address_country_id' ), 2, countryValue2, setState);
+	     
+	     if ( stateValue2 && stateEnabled ) {
+	       dijit.byId( 'location_2_address_state_province_id' ).setValue( stateValue2 );
+	     }
 	   }
 	 }
       });
@@ -81,11 +92,16 @@
            widget3.setDisabled( true );
          } else {
 	   if ( countryValue3 ) {
-	     dijit.byId( 'location_3_address_country_id' ).setValue( countryValue3 );
-	   }
-	   
-	   if ( stateValue3 && stateEnabled ) {
-	     dijit.byId( 'location_3_address_state_province_id' ).setValue( stateValue3 );
+	     var setState = true;
+	     if ( stateValue3 && stateEnabled ) {
+	       setState = false;
+	     }
+	     
+	     getStateProvince3( dijit.byId( 'location_3_address_country_id' ), 3, countryValue3, setState);
+	     
+	     if ( stateValue3 && stateEnabled ) {
+	       dijit.byId( 'location_3_address_state_province_id' ).setValue( stateValue3 );
+	     }
 	   }
 	 }
       });
@@ -101,14 +117,18 @@
 	if ( !stateValue4 && !countryValue4 && stateEnabled ) { 
 	  widget4 = dijit.byId( 'location_4_address_state_province_id' );
 	  widget4.setDisabled( true );
-
 	} else {
 	  if ( countryValue4 ) {
-	    dijit.byId( 'location_4_address_country_id' ).setValue( countryValue4 );
-	  }
-	  
-	  if ( stateValue4 && stateEnabled ) {
-	    dijit.byId( 'location_4_address_state_province_id' ).setValue( stateValue4 );
+	    var setState = true;
+	    if ( stateValue4 && stateEnabled ) {
+	      setState = false;
+	    }
+	    
+	    getStateProvince4( dijit.byId( 'location_4_address_country_id' ), 4, countryValue4, setState);
+	    
+	    if ( stateValue4 && stateEnabled ) {
+	      dijit.byId( 'location_4_address_state_province_id' ).setValue( stateValue4 );
+	    }
 	  }
 	}
       });

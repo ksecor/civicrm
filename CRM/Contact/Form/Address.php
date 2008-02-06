@@ -97,7 +97,7 @@ class CRM_Contact_Form_Address
 
                         //when only country is enable, don't call function to build state province
                         if ( $addressOptions[ $elements['state_province_id'][0] ] ) {
-                            $onValueChanged = "getStateProvince{$locationId}( this, {$locationId} )";
+                            $onValueChanged = "getStateProvince{$locationId}( dijit.byId( 'location_{$locationId}_address_country_id' ), {$locationId}, null, true )";
                         }
                     } else {
                         $stateUrl = CRM_Utils_System::url( "civicrm/ajax/state", null, true, null, false );
