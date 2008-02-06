@@ -318,8 +318,8 @@ ORDER BY name";
         }
 
         if ( empty( $elements) ) {
-            $elements[] = array( 'name'  => trim($name, "%"),
-                                 'value' => trim($name, "%") 
+            $elements[] = array( 'name'  => trim($stateName, "%"),
+                                 'value' => trim($stateName, "%") 
                                  );
         }
 
@@ -385,6 +385,10 @@ ORDER BY name";
         }
         
         if ( empty( $elements) ) {
+            if ( isset( $_GET['id'] ) ) {
+                $name = $_GET['id'];
+            }
+
             $elements[] = array( 'name'  => trim($name, "%"),
                                  'value' => trim($name, "%") 
                                  );

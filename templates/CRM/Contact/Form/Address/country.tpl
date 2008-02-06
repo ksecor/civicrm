@@ -10,15 +10,14 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
     var value = obj.getValue( );
 
     //load state province only if country value exits
-    if ( value ) {
-       //get state province id
-       var widget = dijit.byId('location_' + lno + '_address_state_province_id');
 
+    //get state province id
+    var widget = dijit.byId('location_' + lno + '_address_state_province_id');
+
+    if ( !isNaN(value) ) {
        //enable state province only if country value exists
        widget.setDisabled( false );
     
-       //with (widget.downArrowNode.style) { width = "15px";	height = "15px";}
-
        //translate select
        var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
 
@@ -34,7 +33,9 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno ) {
 
        var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
        widget.store   = queryStore;
-   } 
+   } else {
+       widget.setDisabled( true );
+   }
 }
 
 </script>
