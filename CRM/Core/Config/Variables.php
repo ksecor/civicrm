@@ -243,7 +243,7 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
     /**
      * Default smtp server and port
      */
-    public $smtpServer         = null;
+    public $smtpServer         = 'localhost';
     public $smtpPort           = 25;
     public $smtpAuth           = false;
     public $smtpUsername       = null;
