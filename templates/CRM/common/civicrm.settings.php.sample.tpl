@@ -148,16 +148,6 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '%%templateCompileDir%%' );
 define( 'CIVICRM_UF_BASEURL'      , '%%baseURL%%' );
 
 /**
- * SMTP Server Authentication Password:
- *
- * If your SMTP server requires authentication, you will enable that and enter the 
- * Username from Administer CiviCRM >> Global Settings >> SMTP. Then enter the
- * authentication Password below.
- *
- */
-define( 'CIVICRM_SMTP_PASSWORD', ''    );
-
-/**
  * Multi-site Support
  *
  * CiviCRM uses Domain ID keys to allow you to store separate data sets for multiple sites
