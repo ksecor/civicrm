@@ -24,7 +24,7 @@
          monthField  : "{$dateVar}[{$config->dateformatMonthVar}]",
          yearField   : "{$dateVar}[Y]",
 {elseif $doTime}
-        dateField   : "{$dateVar}[d]",
+         dateField   : "{$dateVar}[d]",
          monthField  : "{$dateVar}[{$config->datetimeformatMonthVar}]",
          yearField   : "{$dateVar}[Y]",
        {if $ampm}

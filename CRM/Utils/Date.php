@@ -718,7 +718,7 @@ class CRM_Utils_Date
             $format = 'a-A-d-h-H-i-g-G-j-M-S-Y';
         }
         // always include 'm' (see hack for QF below)
-        $format .= '-m';
+        $format .= '-m-F';
 
         if ( ! $time ) {
             $time = time( );
@@ -735,6 +735,7 @@ class CRM_Utils_Date
         }
         // for some strange reason QF wants it as M, so we oblige for now
         $defaults['M'] = $defaults['m'];
+        $defaults['F'] = $defaults['m'];
     }
 
     /**

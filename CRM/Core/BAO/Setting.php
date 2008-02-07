@@ -154,7 +154,7 @@ class CRM_Core_BAO_Setting
             
             //calculate month var for Date Time
             $defaults['datetimeformatMonthVar'] = 
-                strstr($defaults['datetimeformatQfDatetime'], '%m') ? 'm' : (strstr($defaults['dateformatQfDatetime'], '%b') ? 'M' : (strstr($defaults['dateformatQfDatetime'], '%B') ? 'F' : null));
+                strstr($defaults['dateformatQfDatetime'], '%m') ? 'm' : (strstr($defaults['dateformatQfDatetime'], '%b') ? 'M' : (strstr($defaults['dateformatQfDatetime'], '%B') ? 'F' : null));
             //calculate hour var for Date Time 
             $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
         }
