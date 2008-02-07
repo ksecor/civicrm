@@ -250,8 +250,9 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
                         $defaults['location'][$i+1]['location_type_id'] = $locationTypeKeys[$i];
                     }
                     $defaults['location'][$i+1]['address'] = array( );
-                    if( $config->defaultContactCountry ) {
+                    if ( $config->defaultContactCountry ) {
                         $defaults['location'][$i+1]['address']['country_id'] = $config->defaultContactCountry;
+                        $defaults['location'][$i+1]['address']['state_province_id'] = ts('- type first letter(s) -');
                     }
                 }
             }

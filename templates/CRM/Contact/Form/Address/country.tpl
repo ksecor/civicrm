@@ -20,13 +20,11 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
 
       //enable state province only if country value exists
        widget.setDisabled( false );
-    
-       //translate select
-       var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
 
        //set state province combo if it is not set
-       if ( !widget.getValue( ) &&  setState ) {
-           widget.setDisplayedValue( sel );
+       if ( setState ) {
+	  //translate select
+          var sel = '&id=' + {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
        } 
 
        //data url for state
@@ -34,11 +32,16 @@ function getStateProvince{/literal}{$index}{literal}( obj, lno, value, setState 
 
        var queryUrl = res + '&node=' + value;
 
+       if ( sel ) {
+	   queryUrl = queryUrl + sel;
+       }
+
        var queryStore = new dojox.data.QueryReadStore({url: queryUrl } );
        widget.store   = queryStore;
    } else {
        widget.setDisabled( true );
-       widget.setDisplayedValue( '' );
+       var sel = {/literal}"{ts}- type first letter(s) -{/ts}"{literal}; 
+       widget.setDisplayedValue( sel );
    }
 }
 
