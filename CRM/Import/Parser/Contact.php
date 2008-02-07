@@ -628,7 +628,8 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
                             // now create the relationship record
                             $relationParams = array( );
                             $relationParams = array('relationship_type_id' => $key, 
-                                                    'contact_check'        => array( $relContactId => 1)
+                                                    'contact_check'        => array( $relContactId => 1),
+                                                    'is_active'            => 1
                                                     );
                             
                             // we only handle related contact success, we ignore failures for now
