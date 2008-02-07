@@ -475,13 +475,21 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
     static function getNumOpenActivity( $id, $admin = false ) 
     {
         $params = array( 1 => array( $id, 'Integer' ) );
+
+        // Exclude Contribution-related activity records if user doesn't have 'access CiviContribute' permission
+        if ( ! CRM_Core_Permission::check('access CiviContribute') ) {
+            $contributionFilter = " and civicrm_activity.activity_type_id != 6 ";
+        } else {
+            $contributionFilter = " and 1 ";
+        }
         
         $query = "select count(civicrm_activity.id) from civicrm_activity
                   left join civicrm_activity_target on 
                             civicrm_activity.id = civicrm_activity_target.activity_id
                   left join civicrm_activity_assignment on 
                             civicrm_activity.id = civicrm_activity_assignment.activity_id
-                  where source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1;";
+                  where (source_contact_id = %1 or target_contact_id = %1 or assignee_contact_id = %1)
+                  and is_test = 0 " . $contributionFilter;
 
         return CRM_Core_DAO::singleValueQuery( $query, $params );
     }
