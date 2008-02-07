@@ -254,8 +254,7 @@ class CRM_Group_Page_Group extends CRM_Core_Page_Basic
         
         $params      = array( );
         $whereClause = $this->whereClause( $params, true );
-        $this->pager    ( $whereClause, $params );
-        
+        $this->pager( $whereClause, $params );
         
         list( $offset, $rowCount ) = $this->_pager->getOffsetAndRowCount( );
         
@@ -318,21 +317,21 @@ ORDER BY title asc
                                                                             array( 'id'   => $object->id,
                                                                                    'ssid' => $object->saved_search_id ) );
             }
-            
-            if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
-                $values[$object->id]['children'] = "";
-                $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
-                foreach ($pgroups as $id){
-                    if ($values[$object->id]['children'] != ""){
-                        $values[$object->id]['children'] .= ", ";
-                    }
-                    $params = array('id' => $id);
-                    //                print $id;
-                    CRM_Contact_BAO_Group::retrieve($params, $default);
+                        
+            // if (CRM_Contact_BAO_GroupNesting::hasChildGroups($object->id)){
+//                 $values[$object->id]['children'] = "";
+//                 $pgroups = CRM_Contact_BAO_GroupNesting::getChildGroupIds($object->id, false);
+//                 foreach ($pgroups as $id){
+//                     if ($values[$object->id]['children'] != ""){
+//                         $values[$object->id]['children'] .= ", ";
+//                     }
+//                     $params = array('id' => $id);
+//                     //                print $id;
+//                     CRM_Contact_BAO_Group::retrieve($params, $default);
                     
-                    $values[$object->id]['children'] .= $default['title'];
-                }
-            }
+//                     $values[$object->id]['children'] .= $default['title'];
+//                 }
+//             }
             
             if ( isset( $values ) ) {
                 $this->assign( 'rows', $values );
@@ -370,6 +369,7 @@ ORDER BY title asc
         }
 
         $groupType = $this->get( 'group_type' );
+        
         if ( $groupType ) {
             $types = array_keys( $groupType );
             if ( ! empty( $types ) ) {
@@ -426,9 +426,12 @@ ORDER BY title asc
 SELECT count(id)
   FROM civicrm_group
  WHERE $whereClause";
-
+        
         $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+        
         $this->_pager = new CRM_Utils_Pager( $params );
+        
+        
         $this->assign_by_ref( 'pager', $this->_pager );
     }
 
