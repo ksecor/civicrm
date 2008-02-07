@@ -235,7 +235,6 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $params['duration'] = CRM_Utils_Date::standardizeTime( CRM_Utils_Array::value( 'duration_hours', $params ),
                                                                CRM_Utils_Array::value( 'duration_minutes', $params )
                                                                );
-
         $activity->copyValues( $params );
 
         // start transaction        
@@ -256,20 +255,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
                 $assignment =& new CRM_Activity_BAO_ActivityAssignment( );
                 $assignment->activity_id = $activityId;
-                if ( $assignment->find( true ) ) {
-                    if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
-                        $assignmentParams['id'] = $assignment->id;
-                        $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
-                    }
-                }            
+                $assignment->find( true );
+
+                if ( $assignment->assignee_contact_id != $params['assignee_contact_id'] ) {
+                    $assignmentParams['id'] = $assignment->id;
+                    $resultAssignment       = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
+                }
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
                     $resultAssignment = CRM_Activity_BAO_ActivityAssignment::create( $assignmentParams );
                 }
             }
         } else {       
-            $resultAssignment = array();  
-            $params['assignee_contact_id'] = null;
+            $resultAssignment = array( );
+            self::deleteActivityAssignment( $activityId );
         }
 
         // attempt to save activity targets
@@ -282,17 +281,20 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             if ( CRM_Utils_Array::value( 'id', $params ) ) {
                 $target =& new CRM_Activity_BAO_ActivityTarget( );
                 $target->activity_id = $activityId;
-                if ( $target->find( true ) ) {
-                    if ( $target->target_contact_id != $params['target_contact_id'] ) {
-                        $targetParams['id'] = $target->id;
-                        $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
-                    }
+                $target->find( true );
+                
+                if ( $target->target_contact_id != $params['target_contact_id'] ) {
+                    $targetParams['id'] = $target->id;
+                    $resultTarget       = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                 }
             } else {
                 if ( ! is_a( $result, 'CRM_Core_Error' ) ) {
                     $resultTarget = CRM_Activity_BAO_ActivityTarget::create( $targetParams );
                 }
             }
+        } else {
+            $resultTarget = array( );
+            self::deleteActivityTarget( $activityId );
         }
 
         // write to changelog before transation is committed/rolled
