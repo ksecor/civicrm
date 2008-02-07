@@ -185,6 +185,9 @@ class CRM_Utils_Rule
         $d = CRM_Utils_Array::value( 'd', $date );
         $m = CRM_Utils_Array::value( $config->dateformatMonthVar, $date );
         $y = CRM_Utils_Array::value( 'Y', $date );
+        if( $date['h'] || $date['g'] ){
+            $m = CRM_Utils_Array::value( $config->datetimeformatMonthVar, $date );
+        }
 
         if ( ! $d && ! $m && ! $y ) {
             return true; 

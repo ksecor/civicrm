@@ -19,12 +19,16 @@
     Calendar.setup(
       {
 {/literal}
+{if !$doTime}
          dateField   : "{$dateVar}[d]",
          monthField  : "{$dateVar}[{$config->dateformatMonthVar}]",
          yearField   : "{$dateVar}[Y]",
-{if $doTime}
+{elseif $doTime}
+        dateField   : "{$dateVar}[d]",
+         monthField  : "{$dateVar}[{$config->datetimeformatMonthVar}]",
+         yearField   : "{$dateVar}[Y]",
        {if $ampm}
-         hourField   : "{$dateVar}[h]",
+         hourField   : "{$dateVar}[{$config->datetimeformatHourVar}]",
          minuteField : "{$dateVar}[i]",
          ampmField   : "{$dateVar}[A]",       
          showsTime   : true,

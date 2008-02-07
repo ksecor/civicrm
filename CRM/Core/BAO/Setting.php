@@ -137,23 +137,28 @@ class CRM_Core_BAO_Setting
      * @return array $defaults  
      * @static
      */
-    static function retrieve(&$defaults) {
-
+    static function retrieve(&$defaults) 
+    {
         require_once "CRM/Core/DAO/Domain.php";
         $domain =& new CRM_Core_DAO_Domain();
         $domain->id = CRM_Core_Config::domainID( );
         $domain->selectAdd( );
         $domain->selectAdd( 'config_backend' );
-
+        
         $domain->find(true);
         if ($domain->config_backend) {
             $defaults   = unserialize($domain->config_backend);
             // calculate month var
             $defaults['dateformatMonthVar'] = 
                 strstr($defaults['dateformatQfDate'], '%m') ? 'm' : (strstr($defaults['dateformatQfDate'], '%b') ? 'M' : (strstr($defaults['dateformatQfDate'], '%B') ? 'F' : null)); 
+            
+            //calculate month var for Date Time
+            $defaults['datetimeformatMonthVar'] = 
+                strstr($defaults['datetimeformatQfDatetime'], '%m') ? 'm' : (strstr($defaults['dateformatQfDatetime'], '%b') ? 'M' : (strstr($defaults['dateformatQfDatetime'], '%B') ? 'F' : null));
+            //calculate hour var for Date Time 
+            $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
         }
     }
-
 }
 
 ?>
