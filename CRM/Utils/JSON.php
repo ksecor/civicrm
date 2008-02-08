@@ -50,13 +50,11 @@ class CRM_Utils_JSON
      */
     static function encode ( $params, $identifier = 'id' ) 
     {
-        $jsonObject = '{ identifier: "'. $identifier .'", items: [';
-        
         foreach ( $params as $value ) {
-            $jsonObject .= '{ name: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" },';
+            $buildObject[] = '{ name: "' . $value['name'] . '",' . $identifier .': "'.$value[$identifier] . '" }';
         }
 
-        $jsonObject .= ' ]}';
+        $jsonObject = '{ identifier: "'. $identifier .'", items: [' . implode( ',', $buildObject) . ' ]}';
 
         return $jsonObject;
     }
