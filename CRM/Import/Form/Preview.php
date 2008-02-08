@@ -162,17 +162,14 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                  'name'      => ts('Import Now >>'),
                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'isDefault' => true,
+                                 'js'        => array( 'onclick' => "return verify(this,'Preview','" . ts('Processing') ."');" )
+
                                  ),
                          array ( 'type'      => 'cancel',
                                  'name'      => ts('Cancel'),
                                  'js'        => array( 'onclick' => "location.href='{$cancelURL}'; return false;" ) ),
                          );
         
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFramework == 'Joomla' ) {
-            $buttons[1]['js'] = array( 'onclick' => "return submitOnce(this,'Preview','" . ts('Processing') ."');" );
-        }
-
         $this->addButtons( $buttons );
     }
 

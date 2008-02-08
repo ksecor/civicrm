@@ -44,11 +44,7 @@ dojo.xhrGet({
     });
 }
 submitForm = function( ) {
-   
-    var ok = confirm('Are you sure you want to Import now?');
-    if (!ok) {
-        return false;
-    }
+
     // Disable Import button
     if (document.getElementById) {
         obj = document.getElementsByName('_qf_Preview_next')[0];
@@ -99,6 +95,19 @@ dojo.addOnLoad( function( ) {
 </script>
 {/literal}
 {/if}
+
+{literal}
+<script type="text/javascript">
+function verify()
+{
+    var ok = confirm('Are you sure you want to Import now?');
+    if (!ok) {
+        return false;
+    } 
+
+}
+</script>
+{/literal}
 
 {* Import Wizard - Step 3 (preview import results prior to actual data loading) *}
 {* @var $form Contains the array for the form elements and other form associated information assigned to the template by the controller *}
