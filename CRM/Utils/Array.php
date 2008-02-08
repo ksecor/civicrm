@@ -1,6 +1,4 @@
 <?php
-
-
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 2.0                                                |
@@ -238,8 +236,34 @@ class CRM_Utils_Array {
         return $copy;
     }
 
+    /**
+     * Array splice function that preserves associative keys
+     * defauly php array_splice function doesnot preserve keys
+     * So specify start and end of the array that you want to remove
+     *
+     * @param  array    $params  array to slice
+     * @param  Integer  $start   
+     * @param  Integer  $end
+     *
+     * @return  void
+     * @static
+     */
+    static function crmArraySplice( &$params, $start, $end ) 
+    {
+        // verify start and end date
+        if ( $start < 0 ) $start = 0;
+        if ( $end > count( $params ) ) $end = count( $params );
 
-
+        $i = 0;
+        
+        // procees unset operation
+        foreach ( $params as $key => $value ) {
+            if ( $i >= $start && $i < $end ) {
+                unset( $params[$key] );
+            }
+            $i++;
+        }
+    }
 }
 
 ?>
