@@ -383,9 +383,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             $case = " and 1 ";
         }
         
-        // DRAFTING: Consider adding DISTINCT to this query after
-        // DRAFTING: making sure that adding and updating works fine.
-        $query = "select civicrm_activity.*,
+        $query = "select DISTINCT(civicrm_activity.id), civicrm_activity.*,
                          sourceContact.sort_name as source_contact_name,
                          civicrm_activity_target.target_contact_id,
                          targetContact.sort_name as target_contact_name,

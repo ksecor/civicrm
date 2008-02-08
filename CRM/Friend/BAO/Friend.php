@@ -135,6 +135,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                   'activity_date_time' => date("YmdHis"), 
                                   'subject'            => ts( 'Tell a Friend: ' ) .$params['title'],
                                   'details'            => $params['suggested_message'],
+                                  'status_id'          => 2,
                                   'is_test'            => $params['is_test'] );
         
         //activity creation
