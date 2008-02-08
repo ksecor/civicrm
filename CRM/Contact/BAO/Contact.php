@@ -1253,7 +1253,8 @@ WHERE civicrm_contact.id IN $idString ";
                 $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
                                         'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
                                                                  'job_title','gender_id','birth_date','organization_name',
-                                                                 'legal_name','sic_code','home_URL','is_deceased','deceased_date' ),
+                                                                 'legal_name', 'legal_identifier', 'sic_code','home_URL',
+                                                                 'is_deceased','deceased_date' ),
                                         'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
                                                                  'job_title','gender_id','birth_date','household_name',
                                                                  'is_deceased','deceased_date' ) 
