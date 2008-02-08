@@ -37,24 +37,33 @@
    </script>
 {/if}
 
-       <fieldset>
-          <legend>
-           {if $action eq 1}
-              {ts}New{/ts} 
-           {elseif $action eq 2}
-              {ts}Edit{/ts} 
-           {elseif $action eq 8}
-              {ts}Delete{/ts}
-           {elseif $action eq 4}
-              {ts}View{/ts}
-           {elseif $action eq 32768}
-              {ts}Detach{/ts}
-           {/if}
-           {$activityTypeName}
-          </legend>
-          { if $activityTypeDescription }  
-              <div id="help">{$activityTypeDescription}</div>
-          {/if}
+    <fieldset>
+    <legend>
+       {if $action eq 1}
+          {ts}New{/ts} 
+       {elseif $action eq 2}
+          {ts}Edit{/ts} 
+       {elseif $action eq 8}
+          {ts}Delete{/ts}
+       {elseif $action eq 4}
+          {ts}View{/ts}
+       {elseif $action eq 32768}
+          {ts}Detach{/ts}
+       {/if}
+       {$activityTypeName}
+    </legend>
+      
+        { if $activityTypeDescription }  
+          <div id="help">{$activityTypeDescription}</div>
+        {/if}
+      
+        {edit}
+        {if $caseEnabled AND ! $hasCases}
+            {capture assign=newCaseUrl}{crmURL p='civicrm/contact/view/case' q="reset=1&action=add&cid=$contactId&context=case"}{/capture}
+            <div class="status messages">{ts}There are no Cases for this contact.{/ts}{if $permission EQ 'edit'} {ts 1=$newCaseUrl}If you want to associate this activity with a case, you will need to <a href="%1">create one first</a>.{/ts}{/if}</div>
+        {/if}
+        {/edit}
+        
          <table class="form-layout">
            {if $action eq 1 or $action eq 2  or $action eq 4 }
              {if $context eq ('standalone' or 'case') }
@@ -87,17 +96,19 @@
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
                 </td>
              </tr>
-             {if $context neq 'standalone' }
-               <tr>
+
+             {if $context neq 'standalone' AND $hasCases}
+                <tr>
                   <td class="label">{$form.case_subject.label}</td>
                   <td class="view-value">
                      <div dojoType="dojox.data.QueryReadStore" jsId="caseStore" url="{$caseUrl}" class="tundra">
                          {$form.case_subject.html}
                      </div>
-                   {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case. If the case hasn't been created yet, click the <strong>Cases</strong> tab, and then <strong>New Case</strong> before adding the activity.{/ts}</span>{/edit}
+                     {edit}<span class="description">{ts}If you are managing case(s) for this contact, you can optionally associate this activity with an existing case.{/ts}</span>{/edit}
                   </td>
-               </tr>
+                </tr>
              {/if}
+
              <tr>
                 <td class="label">{$form.subject.label}</td><td class="view-value">{$form.subject.html}</td>
              </tr> 

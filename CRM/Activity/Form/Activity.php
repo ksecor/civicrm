@@ -332,19 +332,30 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
             $this->assign('assignee_contact_value', $defaultAssigneeContactName );
         }
         
+        // Should we include Case Subject field (cases are enabled, we in a Contact's context - not standalone, and contact has one or more cases)
         if ( $this->_viewOptions['Cases'] && $this->_context != 'standalone' ) {
-            $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
-                                     'mode'           => 'remote',
-                                     'store'          => 'caseStore');
-            
-            $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
-                                              "c={$this->_currentlyViewedContactId}",
-                                              true, null, false );
-            $this->assign('caseUrl',$caseUrl );
-            
-            $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
-            if ( $subject->getValue( ) ) {
-                $this->assign( 'subject_value',  $subject->getValue( ) );
+            $this->assign('caseEnabled', 1);
+            require_once 'CRM/Case/BAO/Case.php';
+            $params = array( 'contact_id' => $this->_currentlyViewedContactId );
+            $values = $ids = array( );
+            CRM_Case_BAO_Case::getValues( $params, $values, $ids );
+            if ( $values ) {
+                $this->assign('hasCases', 1); 
+                $caseAttributes = array( 'dojoType'       => 'dijit.form.ComboBox',
+                                         'mode'           => 'remote',
+                                         'store'          => 'caseStore');
+                
+                $caseUrl = CRM_Utils_System::url( "civicrm/ajax/caseSubject",
+                                                  "c={$this->_currentlyViewedContactId}",
+                                                  true, null, false );
+                $this->assign('caseUrl',$caseUrl );
+                
+                $subject = $this->add( 'text','case_subject',ts('Case'), $caseAttributes );
+                if ( $subject->getValue( ) ) {
+                    $this->assign( 'subject_value',  $subject->getValue( ) );
+                }
+            } else {
+                $this->assign('hasCases', 0);
             }
         }
 
