@@ -88,11 +88,11 @@ class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Location Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Location Data Upgrade)' );
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>This step will upgrade the location section of your database.</p>' );
+        return ts( '<p>This step will upgrade the location data in your database.</p>' );
     }
 
     function getButtonTitle( ) {

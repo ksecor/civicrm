@@ -80,6 +80,7 @@ class CRM_Upgrade_Form extends CRM_Core_Form {
             }
             CRM_Core_Error::fatal( $errorMessage );
         }
+        $this->assign( 'recentlyViewed', false );
     }
     
     function buildQuickForm( ) {

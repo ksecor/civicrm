@@ -219,7 +219,7 @@ WHERE co.entity_table='$entityTable'";
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Custom Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Custom Data Upgrade)' );
     }
 
     function getTemplateMessage( ) {

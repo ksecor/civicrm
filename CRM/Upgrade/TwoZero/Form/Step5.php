@@ -121,11 +121,11 @@ WHERE id={$res->id}
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Five (Upgrade : Rest of the tables)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Five (Upgrade Miscellaneous Data)' );
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>This step will upgrade the rest of the tables of your database.</p>' );
+        return ts( '<p>This step will upgrade the remaining data in your database.</p>' );
     }
 
     function getButtonTitle( ) {

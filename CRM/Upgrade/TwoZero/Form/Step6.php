@@ -72,11 +72,11 @@ class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
     }
 
     function getTitle( ) {
-        return ts( 'Database upgraded to v2.0' );
+        return ts( 'Database Upgrade to v2.0 Completed' );
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>CiviCRM database has been successfully upgraded to v2.0. Thank you for using CiviCRM.</p>' );
+        return ts( '<p>Your CiviCRM database has been successfully upgraded to v2.0. Thank you for using CiviCRM.</p>' );
     }
 }
 ?>
