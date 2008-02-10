@@ -56,7 +56,9 @@ class CRM_Contact_Form_Search_Custom_Base {
         $this->validateUserSQL( $sql );
 
         $dao = new CRM_Core_DAO( );
-        return CRM_Core_DAO::composeQuery( $sql, $params, true, $dao );
+        return CRM_Core_DAO::composeQuery( $sql,
+                                           CRM_Core_DAO::$_nullArray,
+                                           true, $dao );
     }
 
     function sql( $selectClause,

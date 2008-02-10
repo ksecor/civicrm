@@ -239,6 +239,8 @@ class CRM_Core_Invoke
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/advanced', 'force=1' );
         } else if ( $isAdvanced == '2' ) {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/builder', 'force=1' );
+        } else if ( $isAdvanced == '3' ) {
+            $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/custom', 'force=1' );
         } else {
             $breadCrumbPath = CRM_Utils_System::url( 'civicrm/contact/search/basic', 'force=1' );
         }

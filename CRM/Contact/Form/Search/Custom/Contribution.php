@@ -116,7 +116,17 @@ AND contrib.is_test = 0
 $where
 GROUP BY contact.id
 $having
-ORDER BY donation_amount desc";
+";
+
+        if ( ! empty( $sort ) ) {
+            if ( is_string( $sort ) ) {
+                $sql .= " ORDER BY $sort ";
+            } else {
+                $sql .= " ORDER BY " . trim( $sort->orderBy() );
+            }
+        } else {
+            $sql .= "ORDER BY donation_amount desc";
+        }
 
         return $sql;
     }

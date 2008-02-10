@@ -131,8 +131,7 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
     }
 
     function setDefaultValues( ) {
-        return array( 'household_name'    => 'civi',
-                      'state_province_id' => 1004 );
+        return array( 'household_name'    => '', );
     }
 
     function alterRow( &$row ) {
