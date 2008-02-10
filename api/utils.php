@@ -434,6 +434,7 @@ function _crm_format_contrib_params( &$params, &$values, $create=false ) {
             }
             break;
         case 'contribution_type':            
+            require_once 'CRM/Contribute/PseudoConstant.php';
             $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
                                                                     CRM_Contribute_PseudoConstant::contributionType( )
                                                                     );
