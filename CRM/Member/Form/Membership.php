@@ -284,22 +284,42 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         if (!$params['membership_type_id'][1]) {
             $errors['membership_type_id'] = "Please select a Membership Type.";
         }
-        if ( !( $params['join_date']['M'] || 
-                $params['join_date']['m'] || 
-                $params['join_date']['F'] ) && 
-             !( $params['join_date']['d']   && 
-                $params['join_date']['Y'] ) ) {
+
+        $joinDate = CRM_Utils_Date::format( $params['join_date'] );
+        if ( $joinDate ) {
+            // if start date is set ensure that start date is later than or same as join date
+            $startDate = CRM_Utils_Date::format( $params['start_date'] );
+            if ( $startDate ) {
+                if ( $startDate < $joinDate ) {
+                    $errors['start_date'] = ts( 'Start date must be the same or later than Join date' );
+                }
+            }
+
+            // if end date is set, ensure that start date is also set and that end date is later than start date
+            $endDate = CRM_Utils_Date::format( $params['end_date'] );
+            if ( $endDate ) {
+                if ( ! $startDate ) {
+                    $errors['start_date'] = ts( 'Start date must be set if End date is set' );
+                }
+                if ( $endDate < $startDate ) {
+                    $errors['end_date'] = ts('End date must be the same or later than Start date' );
+                }
+            }
+        } else {
             $errors['join_date'] = "Please enter the Join Date.";
         }
+
         if ( isset( $params['is_override'] ) &&
              $params['is_override']          &&
              ! $params['status_id'] ) {
             $errors['status_id'] = "Please enter the status.";
         }
+
         if ( isset( $params['record_contribution'] ) && 
              ! isset( $params['contribution_type_id'] ) ) {
             $errors['contribution_type_id'] = "Please enter the contribution.";
-        }     
+        }
+
         return empty($errors) ? true : $errors;
     }
        
