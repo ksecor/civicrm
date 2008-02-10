@@ -89,10 +89,30 @@ class CRM_Contact_Form_Search_Custom_Contribution
         return $dao->N;
     }
 
-    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-    }
     
     function all( $offset = 0, $rowcount = 0, $sort = null,
+                  $includeContactIDs = false ) {
+        $select  = "
+distinct(contact.id) as contact_id,
+contact.sort_name as sort_name,
+sum(contrib.total_amount) AS donation_amount,
+count(contrib.id) AS donation_count
+";
+        return $this->sql( $select, $offset, $rowcount, $sort, $includeContactIDs );
+    }
+
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
+        $select  = "
+distinct(contact.id) as contact_id,
+contact.sort_name as sort_name,
+sum(contrib.total_amount) AS donation_amount,
+count(contrib.id) AS donation_count
+";
+        return $this->sql( $select, $offset, $rowcount, $sort, $includeContactIDs );
+    }
+    
+    function sql( $select,
+                  $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $where = $this->where( );
         if ( ! empty( $where ) ) {
@@ -105,10 +125,7 @@ class CRM_Contact_Form_Search_Custom_Contribution
         }
 
         $sql = "
-SELECT distinct(contact.id) as contact_id,
-       contact.sort_name as sort_name,
-       sum(contrib.total_amount) AS donation_amount,
-       count(contrib.id) AS donation_count
+SELECT $select
 FROM civicrm_contribution AS contrib,
 civicrm_contact AS contact
 WHERE contrib.contact_id = contact.id
