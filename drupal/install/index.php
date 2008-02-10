@@ -205,12 +205,7 @@ class InstallRequirements {
                                      true );
         }
 
-		if(!is_writeable(dirname(tempnam('adfadsfdas','')))) {
-			$this->error(array("File permissions", "Is the temporary folder writeable?", "The temporary folder isn't writeable!"));
-		}
-		
 		// Check for rewriting
-		
 		$webserver = strip_tags(trim($_SERVER['SERVER_SIGNATURE']));
 		if($webserver == '') {
 			$webserver = "I can't tell what webserver you are running";
