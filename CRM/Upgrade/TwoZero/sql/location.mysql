@@ -184,7 +184,8 @@ UPDATE civicrm_email ce, civicrm_location cl
 
 SET 
     ce.contact_id       = cl.entity_id,
-    ce.location_type_id = cl.location_type_id
+    ce.location_type_id = cl.location_type_id,
+    ce.is_primary       = cl.is_primary
 
 WHERE cl.id = ce.location_id AND cl.entity_table = 'civicrm_contact';
 
@@ -195,7 +196,8 @@ UPDATE civicrm_phone cp, civicrm_location cl
 
 SET 
     cp.contact_id       = cl.entity_id,
-    cp.location_type_id = cl.location_type_id
+    cp.location_type_id = cl.location_type_id,
+    cp.is_primary       = cl.is_primary
 
 WHERE cl.id = cp.location_id AND cl.entity_table = 'civicrm_contact';
 
@@ -206,7 +208,8 @@ UPDATE civicrm_im ci, civicrm_location cl
 
 SET 
     ci.contact_id       = cl.entity_id,
-    ci.location_type_id = cl.location_type_id
+    ci.location_type_id = cl.location_type_id,
+    ci.is_primary       = cl.is_primary
 
 WHERE cl.id = ci.location_id AND cl.entity_table = 'civicrm_contact';
 
