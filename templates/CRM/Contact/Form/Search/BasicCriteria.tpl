@@ -11,13 +11,14 @@
 	<table class="form-layout">
 		<tr>
             <td class="font-size12pt">{$form.contact_type.label}</td><td>{$form.contact_type.html}</td>
-           {if $context EQ 'smog'}
+            {*FIXME : uncomment following code once we will be complete with the subgroup functionality
+            {if $context EQ 'smog'}
                <td>  
                  {$form.subgroups.html}
                  {$form.subgroups_dummy.html}
               </td>
-           {/if}
-    
+            {/if}
+            *}
             <td class="label">
                 {if $context EQ 'smog'}
                     {$form.group_contact_status.label}<br/>{ts 1=$form.group.html}(for %1){/ts}
@@ -26,14 +27,16 @@
                 {/if}
             </td>
 
-<td> {if $context EQ 'smog'}
+            <td> {if $context EQ 'smog'}
                     {$form.group_contact_status.html}
-                {else}
+                 {else}
                     {$form.group.html}
+                    {*FIXME : uncomment following code once we will be complete with the subgroup functionality
                     {$form.subgroups.html}	
                     {$form.subgroups_dummy.html}
-	       </td>
-                {/if}
+                    *}
+	             {/if}
+            </td>
             <td class="label">{$form.tag.label}</td><td>{$form.tag.html}</td>
         </tr>
         <tr>
