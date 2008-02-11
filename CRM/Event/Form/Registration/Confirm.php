@@ -245,12 +245,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $now = date( 'YmdHis' );
 
         $params = $this->_params;
-        $fields = array( );
 
-        unset($params['note']);
-        $this->fixLocationFields( $params, $fields );
-
-        $contactID =& $this->updateContactFields( $contactID, $params, $fields );
         // lets store the contactID in the session
         // we dont store in userID in case the user is doing multiple
         // transactions etc

@@ -467,9 +467,26 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( &$form, $contactID, $contribution = null, $payment = null )
+    function confirmPostProcess( &$form, $contactID = null, $contribution = null, $payment = null )
     {
+        // add/update contact information
+        $fields = array( );
+        unset($params['note']);
+
         require_once 'CRM/Event/Form/Registration/Confirm.php';
+        CRM_Event_Form_Registration_Confirm::fixLocationFields( $form->_params, $fields );
+        $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $form->_params, $fields );
+
+        // create CMS user
+        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
+            $params['contactID'] = $contactID;
+            require_once "CRM/Core/BAO/CMSUser.php";
+            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
+                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
+            }
+        }
+        
+        // add participant record
         $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $form->_params, $contactID );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
@@ -478,15 +495,9 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
                                                     'civicrm_participant',
                                                     $participant->id,
                                                     'Participant' );
+        
 
-        if ( CRM_Utils_Array::value( 'cms_create_account', $params ) ) {
-            $params['contactID'] = $contactID;
-            require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $params, 'email-' . $form->_bltID ) ) {
-                CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
-            }
-        }
-      
+   
         if ( $form->_values['event']['is_monetary'] ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
