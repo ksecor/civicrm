@@ -776,7 +776,6 @@ class CRM_Core_Invoke
      */
     static function import( $args ) 
     {
-
         if ( $args[1] != 'import' ) {
             return;
         }
@@ -794,7 +793,7 @@ class CRM_Core_Invoke
             require_once 'CRM/Activity/Import/Controller.php';
             $controller =& new CRM_Activity_Import_Controller(ts('Import Activity'));
         } else {
-            $session->pushUserContext(CRM_Utils_System::url('civicrm/import', 'reset=1'));
+            $session->pushUserContext(CRM_Utils_System::url('civicrm/import/contact', 'reset=1'));
 
             require_once 'CRM/Import/Controller.php';
             $controller =& new CRM_Import_Controller(ts('Import Contacts'));
