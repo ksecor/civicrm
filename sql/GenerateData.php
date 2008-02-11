@@ -894,7 +894,7 @@ class CRM_GCD {
         $someIndividual = array_diff($this->individual, $this->strictIndividual);
         $someIndividual = array_slice($someIndividual, 0, (int)(75*($this->numIndividual-$this->numStrictIndividual)/100));
         foreach ($someIndividual as $contactId) {
-            $this->_addLocation(self::HOME, $contactId, false, false);
+            $this->_addLocation(self::HOME, $contactId, false, true);
         }
 
     }
