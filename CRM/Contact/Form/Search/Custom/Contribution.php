@@ -114,7 +114,7 @@ count(contrib.id) AS donation_count
     function sql( $select,
                   $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
-        $where = $this->where( );
+        $where = $this->where( $includeContactIDs );
         if ( ! empty( $where ) ) {
             $where = " AND $where";
         }
@@ -165,7 +165,26 @@ $having
             $clauses[] = "contrib.receive_date <= $endDate";
         }
 
-        return implode( ' AND ', $clauses );
+        $sql = implode( ' AND ', $clauses );
+        if ( $includeContactIDs ) {
+            $contactIDs = array( );
+            foreach ( $this->_formValues as $id => $value ) {
+                if ( $value &&
+                     substr( $id, 0, CRM_Core_Form::CB_PREFIX_LEN ) == CRM_Core_Form::CB_PREFIX ) {
+                    $contactIDs[] = substr( $id, CRM_Core_Form::CB_PREFIX_LEN );
+                }
+            }
+        
+            if ( ! empty( $contactIDs ) ) {
+                $contactIDs = implode( ', ', $contactIDs );
+                if ( ! empty( $sql ) ) {
+                    $sql .= " AND ";
+                }
+                $sql .= " contact.id IN ( $contactIDs )";
+            }
+        }
+
+        return $sql;
     }
 
     function having( $includeContactIDs = false ) {

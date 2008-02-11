@@ -70,7 +70,7 @@ class CRM_Contact_Form_Search_Custom_Base {
             "SELECT $selectClause "     .
             $this->from ( )             .
             " WHERE "                   .
-            $this->where( $includeContactIDs ) ;
+            $this->where( )             ;
 
         $this->addDomainClause( $where );
 

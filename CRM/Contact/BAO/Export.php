@@ -260,8 +260,7 @@ class CRM_Contact_BAO_Export {
             $includeContactIDs = true;
         }
 
-        $params = array( );
-        $sql    = $search->all( $params, 0, 0, $order, $includeContactIDs );
+        $sql    = $search->all( 0, 0, $order, $includeContactIDs );
 
         $columns = $search->columns( );
 
@@ -269,7 +268,8 @@ class CRM_Contact_BAO_Export {
         $fields = array_values( $columns );
 
         $rows = array( );
-        $dao =& CRM_Core_DAO::executeQuery( $sql, $params );
+        $dao =& CRM_Core_DAO::executeQuery( $sql,
+                                            CRM_Core_DAO::$_nullArray );
         while ( $dao->fetch( ) ) {
             $row = array( );
 
