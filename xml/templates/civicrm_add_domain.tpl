@@ -224,7 +224,7 @@ VALUES
    (@option_group_id_suffix, 'VII', 8, 'VII', NULL, 0, NULL, 8, NULL, 0, 0, 1, NULL),
 
    (@option_group_id_aclRole, '{ts escape="sql"}Administrator{/ts}',  1, 'Admin', NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
-   (@option_group_id_aclRole, '{ts escape="sql"}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
+   (@option_group_id_aclRole, '{ts escape="sql"}Authenticated{/ts}',  2, 'Auth' , NULL, 0, NULL, 2, NULL, 0, 1, 1, NULL),
 
    (@option_group_id_acc, 'Visa'      ,  1, 'Visa'      , NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
    (@option_group_id_acc, 'MasterCard',  2, 'MasterCard', NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
@@ -289,8 +289,11 @@ VALUES
   (@option_group_id_asOpt, 'Memberships'             ,   8, NULL, NULL, 0, NULL,  9, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Events'                  ,   9, NULL, NULL, 0, NULL, 10, NULL, 0, 0, 1, NULL),
   (@option_group_id_asOpt, 'Cases'                   ,  10, NULL, NULL, 0, NULL, 11, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, 'Kabissa'                 ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
-  (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
+  
+  {if 0} {* Temporary hack to eliminate Kabissa checkbox in site preferences. *}
+    (@option_group_id_asOpt, 'Kabissa'                 ,  11, NULL, NULL, 0, NULL, 13, NULL, 0, 0, 1, NULL),
+    (@option_group_id_asOpt, 'Grants'                  ,  12, NULL, NULL, 0, NULL, 14, NULL, 0, 0, 1, NULL),
+  {/if}
 
   (@option_group_id_udOpt, 'Groups'       , 1, NULL, NULL, 0, NULL, 1, NULL, 0, 0, 1, NULL),
   (@option_group_id_udOpt, 'Contributions', 2, NULL, NULL, 0, NULL, 2, NULL, 0, 0, 1, NULL),
