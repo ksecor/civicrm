@@ -264,6 +264,30 @@ class CRM_Utils_Array {
             $i++;
         }
     }
+
+    /**
+     * Function for case insensitive in_array search
+     *
+     * @param $value             value or search string
+     * @param $params            array that need to be searched
+     * @param $caseInsensitive   boolean true or false
+     *
+     * @static
+     */
+    static function crmInArray( $value, $params, $caseInsensitive = true )
+    {
+        foreach ( $params as $item) {
+            if ( is_array($item) ) {
+                $ret = crmInArray( $value, $item, $caseInsensitive );
+            } else {
+                $ret = ($caseInsensitive) ? strtolower($item) == strtolower($value) : $item == $value;
+            }
+            
+            return $ret;
+        }
+        return false;
+    }
+
 }
 
 ?>
