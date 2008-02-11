@@ -171,7 +171,7 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         
         require_once 'CRM/Import/Parser/Contact.php';
         $errorMessage = null;
-        
+       
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
@@ -207,12 +207,12 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
                     }
                     break;
                 case 'membership_type_id':    
-                    if (!in_array( $val, CRM_Member_PseudoConstant::membershipType() )) {    
+                    if (!CRM_Utils_Array::crmInArray( $val, CRM_Member_PseudoConstant::membershipType() )) {    
                         CRM_Import_Parser_Contact::addToErrorMsg('Membership Type', $errorMessage);
                     }
                     break;                    
                 case 'status_id':                      
-                    if (!in_array( $val, CRM_Member_PseudoConstant::membershipStatus() )) {
+                    if (!CRM_Utils_Array::crmInArray( $val, CRM_Member_PseudoConstant::membershipStatus() )) {
                         CRM_Import_Parser_Contact::addToErrorMsg('Membership Status', $errorMessage);
                     }
                     break;
