@@ -267,13 +267,16 @@ ORDER BY title asc
         
         $object = CRM_Core_DAO::executeQuery( $query, $params, true, 'CRM_Contact_DAO_Group' );
         
-        $groupPermission = CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
+        $groupPermission =
+            CRM_Core_Permission::check( 'edit groups' ) ? CRM_Core_Permission::EDIT : CRM_Core_Permission::VIEW;
         $this->assign( 'groupPermission', $groupPermission );
         
         require_once 'CRM/Core/OptionGroup.php';
         $links =& $this->links( );
         $allTypes = CRM_Core_OptionGroup::values( 'group_type' );
-        while ($object->fetch()) {
+        $values   = array( );
+
+        while ( $object->fetch( ) ) {
             $permission = $this->checkPermission( $object->id, $object->title );
             if ( $permission ) {
                 $newLinks = $links;
@@ -333,9 +336,9 @@ ORDER BY title asc
 //                 }
 //             }
             
-            if ( isset( $values ) ) {
-                $this->assign( 'rows', $values );
-            }
+        }
+        if ( isset( $values ) ) {
+            $this->assign( 'rows', $values );
         }
     }
     
@@ -423,11 +426,19 @@ ORDER BY title asc
         }
 
         $query = "
-SELECT count(id)
+SELECT id, title
   FROM civicrm_group
  WHERE $whereClause";
-        
-        $params['total'] = CRM_Core_DAO::singleValueQuery( $query, $whereParams );
+
+        $object = CRM_Core_DAO::executeQuery( $query, $whereParams );
+        $total  = 0;
+        while ( $object->fetch( ) ) {
+            if ( $this->checkPermission( $object->id, $object->title ) ) {
+                $total++;
+            }
+        }
+
+        $params['total'] = $total;
         
         $this->_pager = new CRM_Utils_Pager( $params );
         
