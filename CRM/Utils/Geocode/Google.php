@@ -90,7 +90,7 @@ class CRM_Utils_Geocode_Google {
         
         $city = CRM_Utils_Array::value( 'city', $values );
         if ( $city ) {
-            $add .= '+' . urlencode( str_replace('', '+', $city );
+            $add .= '+' . urlencode( str_replace('', '+', $city ) );
             $add .= ',+';
         }
         
