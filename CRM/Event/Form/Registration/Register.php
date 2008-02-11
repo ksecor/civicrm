@@ -234,7 +234,10 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                                                     $form->_values['custom']['amount_id'][$index] );
             }
             $form->_defaults['amount'] = CRM_Utils_Array::value('default_fee_id',$form->_values['event_page']);
-            $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' );           
+            $element =& $form->addGroup( $elements, 'amount', ts('Event Fee(s)'), '<br />' ); 
+            if ( $form->_online ) {
+                $element->freeze();
+            }
             if ( $required ) {
                 $form->addRule( 'amount', ts('Fee Level is a required field.'), 'required' );
             }

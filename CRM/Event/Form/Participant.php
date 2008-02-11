@@ -154,6 +154,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $this->_single    = false;
             $this->_contactID = null;
         }
+
+        // current contribution id
+        if ( $this->_id ) { 
+            require_once 'CRM/Event/BAO/ParticipantPayment.php';
+            $particpant =& new CRM_Event_BAO_ParticipantPayment( );
+            $particpant->participant_id = $this->_id;
+            if ( $particpant->find( true ) ) {
+                $this->_online = true;
+            }
+        }
         
         $this->assign( 'single', $this->_single );
         
@@ -305,19 +315,33 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
     
             $eventLevel = explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
                                    substr( $defaults[$this->_id]['event_level'], 1, -1 ) );
-    
             foreach ( $eventLevel as $id => $name ) {
-                $level               = explode( ' - ', $name );
-                $eventLevel[$id] = array( 'fieldName'   => $level[0],
-                                          'optionLabel' => $level[1] );
+                $optionValue         = new CRM_Core_BAO_OptionValue( );
+                $optionValue->label  = $name;
+                $optionValue->find( true );
+                
+                if ($optionValue->option_group_id ){
+                    $groupName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionGroup', $optionValue->option_group_id, 'name' );
+                    $fieldName       = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_PriceField', substr( $groupName, -1, 1 ), 'label') ;
+                    $eventLevel[$id] = array( 'fieldName'   => $fieldName,
+                                              'optionLabel' => $name );
+                }
             }
-    
+            //for the texfield default value
+            foreach ( $eventLevel as $id => $values ) {
+                if( !is_array( $values ) ){
+                    $textLevel       = explode( ' - ', $values );
+                    $eventLevel[$id] = array( 'fieldName'   => $textLevel[0],
+                                              'optionLabel' => $textLevel[1] );
+                }       
+            }
+            
             require_once 'CRM/Core/BAO/PriceField.php';
             foreach ( $eventLevel as $values ) {
-        
+                
                 $priceField        = new CRM_Core_BAO_PriceField( );
                 $priceField->label = $values['fieldName'];
-        
+                
                 $priceField->find( true );
                 
                 // FIXME: we are not storing qty for text type (for
