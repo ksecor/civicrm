@@ -302,26 +302,34 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
 
         //assign cancelSubscription URL to templates
         $this->assign( 'cancelSubscriptionUrl',
-                       self::cancelSubscriptionURL( $this->_paymentProcessor ) );
+                       self::cancelSubscriptionURL( $this->_paymentProcessor, $this->_mode ) );
         
         // assigning title to template in case someone wants to use it, also setting CMS page title
         $this->assign( 'title', $this->_values['title'] );
         CRM_Utils_System::setTitle($this->_values['title']);  
-
+        
         $this->_defaults = array( );
-
+        
         $this->_amount   = $this->get( 'amount' );
     }
 
-    static function cancelSubscriptionURL( &$paymentProcessor ) {
+    static function cancelSubscriptionURL( &$paymentProcessor, &$mode ) 
+    {
         $cancelSubscriptionURL = null;
         if ( $paymentProcessor['payment_processor_type'] == 'PayPal_Standard' ) {
             $cancelSubscriptionURL = "{$paymentProcessor['url_site']}cgi-bin/webscr?cmd=_subscr-find&alias=" .
                 urlencode( $paymentProcessor['user_name'] );
         }
+        if ( $paymentProcessor['payment_processor_type'] == 'AuthNet_AIM' ) {
+            if ( $mode == 'test' ) {
+                $cancelSubscriptionURL = "https://test.authorize.net";
+            } else {
+                $cancelSubscriptionURL = "https://authorize.net";
+            }
+        }
         return $cancelSubscriptionURL;
     }
-
+    
     /** 
      * set the default values
      *                                                           
