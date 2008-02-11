@@ -129,6 +129,8 @@ class CRM_Utils_Geocode_Yahoo {
 
             $values['geo_code_1'] = $ret['Latitude' ];
             $values['geo_code_2'] = $ret['Longitude'];
+        } else {
+            $values['geo_code_1'] = $values['geo_code_2'] = 0;
         }
 
         return true;
