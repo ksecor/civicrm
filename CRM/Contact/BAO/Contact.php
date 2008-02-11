@@ -1118,8 +1118,21 @@ WHERE civicrm_contact.id IN $idString ";
             $fields = array_merge($fields,
                                   CRM_Core_DAO_Note::import());
             if ( $contactType != 'All' ) { 
-
-                $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
+                $fields       = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($contactType, $showAll) );
+                //unset the fields, which are not related to their
+                //contact type.
+                $commonValues = array ( 'Individual'   => array( 'household_name','legal_name','sic_code','organization_name' ),
+                                        'Household'    => array( 'first_name','middle_name','last_name','greeting_type',
+                                                                 'job_title','gender_id','birth_date','organization_name',
+                                                                 'legal_name', 'legal_identifier', 'sic_code','home_URL',
+                                                                 'is_deceased','deceased_date' ),
+                                        'Organization' => array( 'first_name','middle_name','last_name','greeting_type',
+                                                                 'job_title','gender_id','birth_date','household_name',
+                                                                 'is_deceased','deceased_date' ) 
+                                        );
+                foreach ( $commonValues[$contactType] as $value ) {
+                    unset( $fields[$value] );
+                }
             } else {
                 foreach ( array( 'Individual', 'Household', 'Organization' ) as $type ) { 
                     $fields = array_merge($fields, CRM_Core_BAO_CustomField::getFieldsForImport($type, $showAll));
