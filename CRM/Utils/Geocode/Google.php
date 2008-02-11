@@ -88,8 +88,9 @@ class CRM_Utils_Geocode_Google {
             $add .= ',+';
         }
         
-        if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-            $add .= '+' . urlencode( str_replace('', '+', $values['city']) );
+        $city = CRM_Utils_Array::value( 'city', $values );
+        if ( $city ) {
+            $add .= '+' . urlencode( str_replace('', '+', $city );
             $add .= ',+';
         }
         
@@ -103,8 +104,12 @@ class CRM_Utils_Geocode_Google {
                     $stateProvince = $values['state_province'];
                 }
             }
-            $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
-            $add .= ',+';
+
+            // dont add state twice if replicated in city (happens in NZ and other countries, CRM-2632)
+            if ( $stateProvince != $city ) {
+                $add .= '+' . urlencode( str_replace('', '+', $stateProvince) );
+                $add .= ',+';
+            }
         }
         
         if (  CRM_Utils_Array::value( 'postal_code', $values ) ) { 

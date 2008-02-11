@@ -81,8 +81,9 @@ class CRM_Utils_Geocode_Yahoo {
             $arg[] = "street=" . urlencode( $values['street_address'] );
         }
 
-        if (  CRM_Utils_Array::value( 'city', $values ) ) { 
-            $arg[] = "city=" . urlencode( $values['city'] );
+        $city = CRM_Utils_Array::value( 'city', $values );
+        if ( $city ) {
+            $arg[] = "city=" . urlencode( $city );
         }
 
         if (  CRM_Utils_Array::value( 'state_province', $values ) ) { 
@@ -95,7 +96,10 @@ class CRM_Utils_Geocode_Yahoo {
                     $stateProvince = $values['state_province'];
                 }
             }
-            $arg[] = "state=" . urlencode( $stateProvince );
+            // dont add state twice if replicated in city (happens in NZ and other countries, CRM-2632)
+            if ( $stateProvince != $city ) {
+                $arg[] = "state=" . urlencode( $stateProvince );
+            }
         }
 
         if (  CRM_Utils_Array::value( 'country', $values ) ) { 
