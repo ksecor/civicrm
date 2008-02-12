@@ -30,7 +30,6 @@ ALTER TABLE `civicrm_activity`
     DROP `scheduled_date_time`,
     DROP `duration_hours`,
     DROP `duration_minutes`,
-    DROP status,
     ADD INDEX `UI_source_contact_id` (`source_contact_id`),
     DROP FOREIGN KEY FK_civicrm_activity_source_contact_id,
     DROP FOREIGN KEY FK_civicrm_activity_parent_id;
@@ -209,6 +208,14 @@ SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_g
 
 
 
+-- update for type activity
+
+UPDATE civicrm_activity ca
+LEFT JOIN civicrm_option_value ov ON (ov.option_group_id = @og_id_as AND ov.label = ca.status)
+SET    ca.status_id = ov.value;
+
+
+
 -- update for type meeting
 
 INSERT INTO civicrm_activity (source_contact_id, activity_type_id, subject, activity_date_time, duration, location, details, status_id, old_meeting_id)
@@ -297,5 +304,7 @@ FROM civicrm_email_history eh;
 
 -- cleanup
 
-ALTER TABLE civicrm_activity DROP old_meeting_id;
-ALTER TABLE civicrm_activity DROP old_phonecall_id;
+ALTER TABLE civicrm_activity 
+    DROP old_meeting_id, 
+    DROP old_phonecall_id, 
+    DROP status;
