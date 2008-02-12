@@ -152,8 +152,10 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                 $this->addElement('checkbox', "tag[$tagID]", null, $tagName);
             }
         }
+        
         $previousURL = CRM_Utils_System::url('civicrm/import/contact', '_qf_MapField_display=true');
-        $cancelURL = CRM_Utils_System::url('civicrm/import', 'reset=1');
+        $cancelURL   = CRM_Utils_System::url('civicrm/import/contact', 'reset=1');
+        
         $buttons = array(
                          array ( 'type'      => 'back',
                                  'name'      => ts('<< Previous'),

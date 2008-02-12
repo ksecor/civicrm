@@ -98,13 +98,13 @@ dojo.addOnLoad( function( ) {
 
 {literal}
 <script type="text/javascript">
-function verify()
+function verify( )
 {
     var ok = confirm('Are you sure you want to Import now?');
     if (!ok) {
         return false;
-    } 
-
+    }
+    return ok;
 }
 </script>
 {/literal}
