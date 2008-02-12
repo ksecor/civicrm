@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2008-01-24 03:26-0800\n"
-"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
+"PO-Revision-Date: 2008-02-04 09:48-0800\n"
+"Last-Translator: Daniele Pedercini <dpedercini@libero.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -109,9 +109,8 @@ msgid "Cancel Date"
 msgstr "Data Cancellazione"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
-#, fuzzy
 msgid "Receipt Date"
-msgstr "Seleziona Data"
+msgstr "Data Ricevuta"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -190,7 +189,7 @@ msgstr "Prego inserisci un importo valido in questo campo (es. 99.99)"
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Profile Fields"
-msgstr ""
+msgstr "Campi Profilo"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -210,9 +209,8 @@ msgstr "Messaggio Introduttivo"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Footer Message"
-msgstr "Messaggio lasciato"
+msgstr "Messaggio Piè di Pagina"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php
@@ -233,14 +231,12 @@ msgid "Thank-you Sent"
 msgstr "Ringraziamento inviato"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Send Receipt?"
-msgstr "Ricevuto da Nome"
+msgstr "Invia Ricevuta?"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Contribution Receipt"
-msgstr "Origine Contributo"
+msgstr "Ricevuta Contributo"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -268,9 +264,8 @@ msgid "DashBoard"
 msgstr "Dashboard"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Pages"
-msgstr "Pagina Contributi"
+msgstr "Gestione Pagine Contributi"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -322,25 +317,21 @@ msgstr "Titolo Evento"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Event Summary"
-msgstr "Riassunto"
+msgstr "Sommario Evento"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Start Date"
-msgstr "Seleziona Data"
+msgstr "Data Inizio Registrazione"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration End Date"
-msgstr "Seleziona Data"
+msgstr "Data Fine Registrazione"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "Fee Label"
-msgstr "Etichetta del campo"
+msgstr "Etichetta Diritto"
 
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
@@ -357,9 +348,8 @@ msgstr "Elimina Evento"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid start date."
-msgstr "Prego inserire una somma valida"
+msgstr "Prego selezionare una data di inizio valida."
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
@@ -373,14 +363,12 @@ msgid "Online Registration"
 msgstr "Registrazione Online"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
-#, fuzzy
 msgid "Export Participants"
-msgstr "Esporta Contatti"
+msgstr "Esportazione Partecipanti"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Manage Events"
-msgstr "Gestisci"
+msgstr "Gestisci Eventi"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -409,7 +397,7 @@ msgstr "Rispondi"
 
 #: CRM/Mailing/BAO/Mailing.php CRM/Mailing/Selector/Event.php
 msgid "Opt-Out"
-msgstr ""
+msgstr "Opt-Out"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Component.php
 msgid "Component Type"
@@ -426,21 +414,18 @@ msgstr "Body Testo"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Form/Subscribe.php
 #: CRM/Mailing/Invoke.php CRM/Mailing/Menu.php
-#, fuzzy
 msgid "Subscribe"
-msgstr "Cancella sottoscrizione"
+msgstr "Sottoscrivi"
 
 #: CRM/Mailing/DAO/Component.php CRM/Mailing/Menu.php
 #: templates/CRM/Mailing/Page/Resubscribe.tpl
-#, fuzzy
 msgid "Resubscribe"
-msgstr "Cancella sottoscrizione"
+msgstr "Sottoscrivi nuovamente"
 
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
-#, fuzzy
 msgid "\"%1\" <do-not-reply@%2>"
-msgstr "\"%2 Amministratore\"<do-not-reply@%2>"
+msgstr "\"%1\"<non-rispondere@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
 msgid "Bounce Reason"
@@ -474,7 +459,7 @@ msgstr "Cancella Mailing"
 
 #: CRM/Mailing/Page/Common.php CRM/Mailing/Page/Confirm.php
 msgid "Missing input parameters"
-msgstr ""
+msgstr "Parametri input mancanti"
 
 #: CRM/Member/DAO/MembershipBlock.php CRM/Member/Form/MembershipBlock.php
 #: CRM/Member/Invoke.php CRM/Member/Menu.php
@@ -560,54 +545,48 @@ msgstr ""
 "Rimuoverla per cancellare l'incentivo."
 
 #: CRM/Contribute/BAO/Premium.php
-#, fuzzy
 msgid "Selected Option"
-msgstr "Seleziona Paese"
+msgstr "Opzione Selezionata"
 
 #: CRM/Contribute/BAO/Premium.php
 msgid "No thank you"
-msgstr ""
+msgstr "No grazie"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Total Amount %1 %2"
-msgstr "Importo Minimo"
+msgstr "Totale Importo Contribuzione %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Thank-you date is null"
-msgstr "Tipologia di Contributo"
+msgstr "Data Ringraziamento Contributo è vuoto"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Receipt date is null"
-msgstr "Tipologia di Contributo"
+msgstr "Data Ricevuta Contribuzione è vuoto"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Type - %1"
-msgstr ""
+msgstr "Tipo di Contribuzione - %1"
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Page - %1"
-msgstr "Tipo di contributo"
+msgstr "Pagina Contribuzione - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Paid By - %1"
-msgstr ""
+msgstr "Pagato Da - %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Honor name like - \"%1\""
 msgstr ""
 
 #: CRM/Contribute/BAO/Query.php
-#, fuzzy
 msgid "Contribution Status %1"
-msgstr "Tipo di contributo"
+msgstr "Stato Contribuzione %1"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Dates - From"
-msgstr ""
+msgstr "Date Contribuzione - Da"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Payment Instrument"
@@ -672,16 +651,15 @@ msgstr "Ringraziamento inviato"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Cc Receipt"
-msgstr ""
+msgstr "Ricevuta Cc"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
-msgstr ""
+msgstr "Ricevuta Ccn"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Receipt Text"
-msgstr "Ricevuto da Nome"
+msgstr "Testo Ricevuta"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -693,93 +671,82 @@ msgid "Honor Block Text"
 msgstr "Body Testo"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page Start Date"
-msgstr "Tipo di contributo"
+msgstr "Pagina Data Inizio Contribuzione"
 
 #: CRM/Contribute/DAO/ContributionPage.php
-#, fuzzy
 msgid "Contribution Page End Date"
-msgstr "Tipo di contributo"
+msgstr "Pagina Data Fine Contribuzione"
 
 #: CRM/Contribute/DAO/Contribution.php
 msgid "Solicitor ID"
 msgstr ""
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Receive Date"
-msgstr "Ricevuto"
+msgstr "Data Ricevimento"
 
 #: CRM/Contribute/DAO/Contribution.php
 #, fuzzy
 msgid "Cancel Reason"
-msgstr "Annullato"
+msgstr "Motivo Annullamento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Thank-you Date"
-msgstr "Ringraziamento inviato"
+msgstr "Data Ringraziamento"
 
 #: CRM/Contribute/DAO/Contribution.php
-#, fuzzy
 msgid "Amount Label"
-msgstr "Importo"
+msgstr "Etichetta Importo"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Product Option"
-msgstr "Seleziona Paese"
+msgstr "Opzione Prodotto"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
 msgid "Quantity"
-msgstr ""
+msgstr "Quantità"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Fulfilled Date"
-msgstr "Compila"
+msgstr "Data Compilazione"
 
 #: CRM/Contribute/DAO/ContributionProduct.php
-#, fuzzy
 msgid "Comment"
-msgstr "Completato"
+msgstr "Commento"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Installments"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Create Date"
-msgstr "Crea"
+msgstr "Data Creazione"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Recurring Contribution Status"
-msgstr "Contributo"
+msgstr "Stato Contributo Ricorrente"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Cycle Day"
 msgstr ""
 
 #: CRM/Contribute/DAO/ContributionRecur.php
-#, fuzzy
 msgid "Next Sched Contribution"
-msgstr "Elimina Contributi"
+msgstr "Prossima schedulazione Contributi"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
 msgid "Failure Count"
-msgstr "Importo Fee"
+msgstr "Conteggio Errori"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Retry Date"
-msgstr ""
+msgstr "Data Ripetizione Errore"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Auto Renew"
-msgstr ""
+msgstr "Rinnova Automaticamente"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 #, fuzzy
@@ -797,12 +764,11 @@ msgstr ""
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
 msgid "Debit"
-msgstr ""
+msgstr "Debito"
 
 #: CRM/Contribute/DAO/FinancialTrxn.php
-#, fuzzy
 msgid "Credit"
-msgstr "Crea"
+msgstr "Credito"
 
 #: CRM/Contribute/DAO/Premium.php
 msgid "Premiums Active"
@@ -829,31 +795,28 @@ msgid "Premiums Display Min Contribution"
 msgstr "Contributo minimo visualizzato per gli incentivi"
 
 #: CRM/Contribute/DAO/PremiumsProduct.php
-#, fuzzy
 msgid "Sort Position"
-msgstr "Esporta Contributi"
+msgstr "Ordina Posizione"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Product Name"
-msgstr "Luogo"
+msgstr "Nome Prodotto"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Image"
-msgstr ""
+msgstr "Immagine"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #: CRM/Contribute/DAO/Product.php
-#, fuzzy
 msgid "Minimum Contribution"
-msgstr "Contributo"
+msgstr "Contributo Minimo"
 
 #: CRM/Contribute/DAO/Product.php
 msgid "Cost"
-msgstr ""
+msgstr "Costo"
 
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
@@ -905,7 +868,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 msgid "Make Contribution"
-msgstr "Dai un contributo"
+msgstr "Fai un contributo"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Other Amount"
@@ -916,7 +879,7 @@ msgstr "Altro Importo"
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid "Contribution Amount"
-msgstr ""
+msgstr "Importo Contributo"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Please enter a valid amount (numbers and decimal point only)."
@@ -957,7 +920,7 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Every"
-msgstr ""
+msgstr "Ogni"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "Frequency must be a whole number (EXAMPLE: Every 3 months)."
@@ -965,27 +928,23 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid " -period-"
-msgstr ""
+msgstr "-period-"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "day(s)"
-msgstr "Tag(s)"
+msgstr "Giorno(i)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "week(s)"
-msgstr "Settimana"
+msgstr "Settimana(e)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "month(s)"
-msgstr "Denaro"
+msgstr "Mese(i)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "year(s)"
-msgstr "Intestazione"
+msgstr "Anno(i)"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "installments"
@@ -1021,40 +980,36 @@ msgid " The Membership you have selected requires a minimum contribution of %1"
 msgstr "L'Iscrizione richiesta richiede un contributo minimo di %1."
 
 #: CRM/Contribute/Form/Contribution/Main.php
-#, fuzzy
 msgid "Amount is required field."
-msgstr "%1 è un campo obbligatorio."
+msgstr "Importo è un campo obbligatorio."
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be greater than %1"
-msgstr ""
+msgstr "Questo importo deve essere maggiore di %1"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 msgid "This amount has to be less than %1"
-msgstr ""
+msgstr "Questo importo deve essere minore di %1"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Selected Premium Product has been removed from this Contribution Page."
 msgstr "L'Incentivo selezionato è stato rimosso da questa pagina di contributo."
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#, fuzzy
 msgid "Select the Product"
-msgstr "Seleziona Stato/Provincia"
+msgstr "Seleziona il Prodotto"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
-#, fuzzy
 msgid "Please enter integer value for weight"
-msgstr "Prego inserire una cifra valida (es. 9.99)"
+msgstr "Prego inserire un valore intero per il peso"
 
 #: CRM/Contribute/Form/ContributionPage/AddProduct.php
 msgid "Add Premium to Contribution Page"
 msgstr "Aggiungi incentivo alla pagina di contributo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Allow other amounts"
-msgstr "Altro Importo"
+msgstr "Permetti altro importo"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #, fuzzy
@@ -1079,36 +1034,32 @@ msgid "Minimum Amount should be less than Maximum Amount"
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
-#, fuzzy
 msgid "Amounts"
-msgstr "Importo"
+msgstr "Importi"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid "Custom Elements (%1)"
-msgstr ""
+msgstr "Elementi Personalizzati (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "Delete Contribution Page"
-msgstr ""
+msgstr "Cancella Pagina Contributo"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
 msgid "The contribution page \"%1\" has been deleted."
-msgstr ""
+msgstr "La pagina contributo \"%1\" è stata cancellata."
 
 #: CRM/Contribute/Form/ContributionPage.php
-#, fuzzy
 msgid "Configure Page - %1"
-msgstr "Tipo di contributo"
+msgstr "Configura Pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage.php
-#, fuzzy
 msgid "Preview Page - %1"
-msgstr "Anteprima %1"
+msgstr "Anteprima Pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage.php
-#, fuzzy
 msgid "Delete Page - %1"
-msgstr "Elimina %1"
+msgstr "Elimina Pagina - %1"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Premiums (%1)"
@@ -1119,23 +1070,20 @@ msgid "Premiums Section Enabled?"
 msgstr "Sezione incentivi abilitata?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Please enter a valid email address for Contact Email"
-msgstr "Prego inserire un nome valido."
+msgstr "Prego inserire un email valido per Contatto Email"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Contact Phone"
-msgstr "Modulo per Contatto"
+msgstr "Contatto Telefonico"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
-#, fuzzy
 msgid "Please enter a valid phone number."
-msgstr "Prego inserire un nome valido."
+msgstr "Prego inserire un numero di telefono valido."
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 msgid "Display Minimum Contribution Amount?"
-msgstr ""
+msgstr "Mostra Importo Contributo Minimo?"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -1144,13 +1092,13 @@ msgstr "Incentivi"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Title and Settings (%1)"
-msgstr ""
+msgstr "Titolo e Impostazioni (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Title and Settings"
-msgstr ""
+msgstr "Titolo e Impostazioni"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 msgid "Should a thermometer block be displayed during a contribution?"
