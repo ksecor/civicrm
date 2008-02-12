@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2008-01-23 07:56-0800\n"
+"PO-Revision-Date: 2008-02-08 15:55-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -335,7 +335,7 @@ msgstr "De geselecteerde bijeenkomst is succesvol verwijderd."
 #: CRM/History/Selector/Activity.php templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
-msgstr "Activiteit"
+msgstr "Activiteit Type"
 
 #: CRM/Activity/Form.php CRM/Admin/Form/RelationshipType.php
 #: CRM/Contact/Form/Task/Export/Map.php CRM/Contact/Form/Task/Map.php
@@ -489,7 +489,7 @@ msgstr "Optie groepsnaam"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Admin/Page/PaymentProcessor.php
 msgid "Settings - Payment Processor"
-msgstr "Instellingen - Payment Processor"
+msgstr "Instellingen - Betaalmethode"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Site URL"
@@ -510,7 +510,7 @@ msgstr "URL knop"
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/Menu.php
 msgid "Payment Processor Type"
-msgstr "Payment Processor type"
+msgstr "Betaalmethode Type"
 
 #: CRM/Admin/Form/PaymentProcessorType.php CRM/Core/DAO/PaymentProcessor.php
 #: CRM/Core/DAO/PaymentProcessorType.php
@@ -744,7 +744,7 @@ msgstr "Verwijderd"
 #: CRM/Core/SelectValues.php templates/CRM/Contact/Page/View/GroupContact.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Pending"
-msgstr "In wacht"
+msgstr "In verwerking"
 
 #: CRM/Contact/DAO/Group.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -775,9 +775,8 @@ msgstr "Waar tabellen"
 
 #: CRM/Contact/DAO/Group.php CRM/Group/Form/Edit.php
 #: templates/CRM/Group/Page/Group.tpl xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Group Type"
-msgstr "Groepstitel"
+msgstr "Groep Type"
 
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/UFField.php
 #: CRM/Core/SelectValues.php
@@ -959,10 +958,10 @@ msgid_plural ""
 "%count matching contacts were found. You can edit them here: %1, or click "
 "Save Matching Contact button below."
 msgstr[0] ""
-"lEr werd één overeenkomstig contact gevonden. Je kan het hier bewerken: %1 "
-"of klik op de 'bewaar dubbel contact' knop onderaan."
+"Er is één overeenkomstig contact gevonden. Je kunt het hier bewerken: %1 of "
+"klik op de 'bewaar dubbel contact' knop onderaan."
 msgstr[1] ""
-"Er werden meerdere overeenkomstige contacten gevonden. Je kan ze hier "
+"Er zijn meerdere overeenkomstige contacten gevonden. Je kunt ze hier "
 "bewerken: %1 of klik op de 'bewaar dubbel contact' knop onderaan."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
@@ -1057,7 +1056,7 @@ msgstr "Zoek"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/History/Selector/Activity.tpl
 msgid "Activity History"
-msgstr "Logfile"
+msgstr "Activiteit Geschiedenis"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
@@ -1211,7 +1210,7 @@ msgstr "Wil je deze Smart Groep echt verwijderen?"
 #: CRM/Contact/Page/View/Activity.php CRM/History/Selector/Activity.php
 #: templates/CRM/History/Form/Activity.tpl
 msgid "Delete Activity History"
-msgstr "Verwijder logfile"
+msgstr "Verwijder activiteitenlogfile"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
@@ -1568,7 +1567,7 @@ msgstr "Optie waarde"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/Menu.php
 msgid "Payment Processor"
-msgstr "Payment Processor"
+msgstr "Betaalmethode"
 
 #: CRM/Core/DAO/PaymentProcessor.php CRM/Core/DAO/PaymentProcessorType.php
 msgid "Suffix for PHP clas name implementation"
@@ -1692,19 +1691,18 @@ msgid "Online Event Registration:"
 msgstr "Online evenement registratie:"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid ""
 "User Name is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Gebruikersnaam is niet ingesteld in het Beheer CiviCRM &raquo;  Payment "
-"Processor."
+"Gebruikersnaam is niet ingesteld in het Beheer CiviCRM &raquo;  "
+"Betaalmethode."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/Moneris.php
 #: CRM/Core/Payment/PayPalImpl.php
 msgid ""
 "Password is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Wachtwoord is niet ingesteld in het Beheer CiviCRM &raquo; Payment Processor."
+"Wachtwoord is niet ingesteld in het Beheer CiviCRM &raquo; Betaalmethode."
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
@@ -2171,9 +2169,10 @@ msgstr "Geselecteerde %1 type is verwijderd."
 msgid "Selected %1 type has not been deleted."
 msgstr "Geselecteerde %1 type is niet verwijderd."
 
+# kan ook maar 1 ding zijn
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
-msgstr "De %1 \"%2\" zijn bewaard."
+msgstr "%1 \"%2\" bewaard."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Default Option?"
@@ -2193,15 +2192,15 @@ msgstr "De optie waarde \"%1\" is bewaard."
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Could not find payment processor meta information"
-msgstr "Kan geen Payment Processor meta informatie vinden"
+msgstr "Kan geen betaalmethode meta informatie vinden"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor active?"
-msgstr "Is deze Payment Processor aktief?"
+msgstr "Is deze Betaalmethode actief?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "Is this Payment Processor the default?"
-msgstr "Is dit de standaard Payment Processor?"
+msgstr "Is dit de standaard betaalmethode?"
 
 #: CRM/Admin/Form/PaymentProcessor.php
 msgid "You must have at least the test or live section filled"
@@ -2225,7 +2224,7 @@ msgstr "Wachtwoord identificator"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Signature Label"
-msgstr "Label Kenmerk"
+msgstr "Signatuur Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Subject Label"
@@ -2261,15 +2260,15 @@ msgstr "Test URL knop"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type active?"
-msgstr "Is dit de aktieve Payment Processor?"
+msgstr "Is dit type betaalmethode actief?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Is this Payment Processor Type the default?"
-msgstr "Is dit de standaard Payment Processor?"
+msgstr "Is dit de standaard betaalmethode?"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Does this Payment Processor Type support recurring donations?"
-msgstr "Ondersteunt de Payment Processor periodieke donaties?"
+msgstr "Ondersteunt de betaalmethode periodieke donaties?"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Settings - Addresses"
@@ -2281,7 +2280,7 @@ msgstr "Aantal Locaties"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr "Lacatie telling moet een positieve integer zijn (vb. 1 of 2 of ..)."
+msgstr "Locatie teller moet een positieve integer zijn (bijv. 1 of 2 of ..)."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -2305,7 +2304,7 @@ msgstr "Web Service URL"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Address Standardization features require PHP version 5 or greater."
-msgstr "Adres standaardiisatie eigenschappen vereisen PHP versie 5 of groter."
+msgstr "Adres standaardisatie eigenschappen vereisen PHP versie 5 of hoger."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "You must provide values for all three Address Standarization fields."
@@ -2711,7 +2710,7 @@ msgstr "%1 - Optie waardes"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Are you sure you want to disable this payment processor?"
-msgstr "Weet je zeker dat je deze payment processor wilt uitschakelen?"
+msgstr "Weet je zeker dat je deze betaalmethode wilt uitschakelen?"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid ""
@@ -2724,36 +2723,36 @@ msgstr ""
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Edit Payment Processor"
-msgstr "Payment Processor wijzigen"
+msgstr "Wijzig Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Disable Payment Processor"
-msgstr "Payment Processor uitschakelen"
+msgstr "Uitschakelen Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 msgid "Enable Payment Processor"
-msgstr "Payment Processor inschakelen"
+msgstr "Inschakelen Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessor.php
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid "Delete Payment Processor"
-msgstr "Payment Processor verwijderen"
+msgstr "Verwijder Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Edit Payment ProcessorType"
-msgstr "Payment Processor type wijzigen"
+msgstr "Wijzig Type Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Disable Payment ProcessorType"
-msgstr "Payment Processor type uitschakelen"
+msgstr "Uitschakelen Type Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Enable Payment ProcessorType"
-msgstr "Payment Processor type inschakelen"
+msgstr "Inschakelen Type Betaalmethode"
 
 #: CRM/Admin/Page/PaymentProcessorType.php
 msgid "Delete Payment ProcessorType"
-msgstr "Payment Processor type verwijderen"
+msgstr "Verwijder Type Betaalmethode"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
@@ -2810,8 +2809,9 @@ msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Deze markering zal alle momenteel gemarkeerde contacten worden verwijdert. "
-"Gebruikers zullen geen contacten meer kunnen markeren met deze markering."
+"Deze markering zal van alle momenteel gemarkeerde contacten worden "
+"verwijderd. Gebruikers zullen geen contacten meer kunnen markeren met deze "
+"markering."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -4038,7 +4038,7 @@ msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "View Activity"
-msgstr "Activiteit tonen"
+msgstr "Toon Activiteit"
 
 #: CRM/Contact/Selector/Activity.php
 msgid "Open Activities %%StatusMessage%%"
@@ -4089,7 +4089,7 @@ msgstr "Markeer contacten"
 
 #: CRM/Contact/Task.php
 msgid "Untag Contacts (remove tags)"
-msgstr "Verwijder contactmarkeringen"
+msgstr "Verwijder markeringen"
 
 #: CRM/Contact/Task.php
 msgid "Send Email to Contacts"
@@ -4342,7 +4342,7 @@ msgstr "Verkeerde waarde voor de betaal functie"
 
 #: CRM/Core/BAO/PaymentProcessor.php
 msgid "Could not retrieve payment processor details"
-msgstr "Kan geen payment processor gegevens ontvangen"
+msgstr "Kan geen betaalmethode gegevens ontvangen"
 
 #: CRM/Core/BAO/Tag.php
 msgid "Selected Tag has been Deleted Successfuly."
@@ -4941,11 +4941,11 @@ msgstr "Filter"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor variable name to be used in code"
-msgstr "Payment Processor variabele naam te gebruiken in de code"
+msgstr "Betaalmethode variabele naam te gebruiken in de code"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Payment Processor Title"
-msgstr "Payment Processor naam"
+msgstr "Betaalmethode Naam"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Label for User Name if used"
@@ -5029,15 +5029,15 @@ msgstr "Mailing opmaak"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Provider"
-msgstr "Adres standaardisatie Provider"
+msgstr "Adres Standaardisatie Provider"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Userid"
-msgstr "Adres standaardisatie Geberuikers ID"
+msgstr "Adres Standaardisatie Gebruikers ID"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Url"
-msgstr "Adres standaardisatie URL"
+msgstr "Adres Standaardisatie URL"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -5223,11 +5223,11 @@ msgstr "Toon lokatie typen"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processors"
-msgstr "Toon Payment Processors"
+msgstr "Toon Betaalmethoden"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processor Type"
-msgstr "Toon Payment Processor type"
+msgstr "Toon Betaalmethoden Types"
 
 #: CRM/Core/Invoke.php
 msgid "View Relationship Types"
@@ -5391,7 +5391,7 @@ msgid ""
 msgstr ""
 "Configureer de algemene instellingen voor uw site: modulen instellen, "
 "voorkeuren voor schermen en formulieren, bestandspaden en bron URL's, adres "
-"opmaak, taal, Payment Processor, Outbund e-mail, Mapping an debugging."
+"opmaak, taal, betaalmethode, uitgaande e-mail, Mapping an debugging."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5440,13 +5440,13 @@ msgid ""
 "Message templates allow you to save and re-use messages with layouts which "
 "you can use when sending email to one or more contacts."
 msgstr ""
-"Berichtsjablonen maken het mogelijk om berichten met een vaste lay-out via e-"
-"mail te verzenden naar één of meerdere contacten, te bewaren en her te "
-"gebruiken."
+"Berichtsjablonen maken het mogelijk om berichten met een vaste lay-out via "
+"e-mail te verzenden naar één of meerdere contacten, te bewaren en te "
+"hergebruiken."
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
-msgstr "Actitiveiten types"
+msgstr "Activiteiten types"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5460,14 +5460,14 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Gender Options"
-msgstr "Geslacht opties"
+msgstr "Geslacht"
 
 #: CRM/Core/Menu.php
 msgid ""
 "Options for assigning gender to individual contacts (e.g. Male, Female, "
 "Transgender)."
 msgstr ""
-"Opties om het geslacht toe te wijzen aan een persoon (man, vrouw, "
+"Opties om het geslacht van een persoon te registreren (man, vrouw, "
 "transsexueel)."
 
 #: CRM/Core/Menu.php
@@ -5506,7 +5506,7 @@ msgid ""
 "Work, Billing, etc.)."
 msgstr ""
 "Opties om de contactadressen en -telefoonnummers vast te leggen (Thuis, "
-"Werk, Billing (factuur/betaaladres)."
+"Werk, Factuur)."
 
 #: CRM/Core/Menu.php xml/templates/civicrm_add_domain.tpl
 msgid "Mobile Phone Providers"
@@ -5554,16 +5554,16 @@ msgid ""
 "(e.g. Staff Member, Donor, Volunteer, etc.). Create and edit available tags "
 "here."
 msgstr ""
-"Markeringen zijn nuttig om contacten te segmenteren in categoriën (Vb.: "
-"sponsor, donor, vrijwilliger, enz.). Maak en wijzig uw markeringen hier."
+"Markeringen zijn nuttig om contacten in te delen in categoriën (bijv.: "
+"sponsor, donor, vrijwilliger). Maak en wijzig uw markeringen hier."
 
 #: CRM/Core/Menu.php
 msgid "Payment Processor setup for CiviCRM transactions"
-msgstr "Payment Processor instellingen voor CiviCRM betalingstransacties."
+msgstr "Betaalmethode instellingen voor CiviCRM betalingstransacties."
 
 #: CRM/Core/Menu.php
 msgid "Payment Processor type information"
-msgstr "Payment Processor type informatie"
+msgstr "Betaalmethode type informatie"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5610,16 +5610,16 @@ msgstr "Je hebt de nodige toegangsrechten niet om dit te wijzigen"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "APILogin is not set for this payment processor"
-msgstr "API inloggen is niet ingesteld voor deze payment processor"
+msgstr "APILogin is niet ingesteld voor deze betaalmethode"
 
 #: CRM/Core/Payment/AuthorizeNet.php
 msgid "Key is not set for this payment processor"
-msgstr "De sleutel van deze Payment Processor is niet ingevoerd/correct"
+msgstr "De sleutel van deze betaalmethode is niet ingevoerd"
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
 msgstr ""
-"De Dummy payment processor kan niet voor echte betalingstransacties worden "
+"De dummy betaalmethode kan niet voor echte betalingstransacties worden "
 "gebruikt"
 
 #: CRM/Core/Payment/Form.php
@@ -5655,8 +5655,8 @@ msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
-"Voer een geldige veiligheidscode in van uw card. Meestal zijn dit de laatste "
-"3-4 cijfers van het kenmerk op uw card."
+"Voer de geldige veiligheidscode in van uw kaart. Meestal zijn dit de laatste "
+"3-4 cijfers van het kenmerk op uw kaart."
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date can not be a past date."
@@ -5674,33 +5674,28 @@ msgstr "Foute reactie code ontvangen van Google Checkout: %1"
 msgid ""
 "Store ID is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
-"Winkel ID is niet ingesteld in het Beheer CiviCRM &raquo; Payment Processor."
+"Winkel ID is niet ingesteld in het Beheer CiviCRM &raquo; Betaalmethode."
 
 #: CRM/Core/Payment/PayJunction.php
-#, fuzzy
 msgid "Username is not set for this payment processor"
-msgstr "De sleutel van deze Payment Processor is niet ingevoerd/correct"
+msgstr "De gebruikersnaam van deze betaalmethode is niet ingevuld"
 
 #: CRM/Core/Payment/PayJunction.php
-#, fuzzy
 msgid "Password is not set for this payment processor"
-msgstr "De sleutel van deze Payment Processor is niet ingevoerd/correct"
+msgstr "Het wachtwoord van deze betaalmethode is niet ingevuld"
 
 #: CRM/Core/Payment/PayJunction.php
-#, fuzzy
 msgid "Site URL is not set for this payment processor"
-msgstr "De sleutel van deze Payment Processor is niet ingevoerd/correct"
+msgstr "De site URL van deze betaalmethode is niet ingevuld"
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Could not find user name for payment processor"
-msgstr "De gebruikersnaam van de payment processor is niet gevonden"
+msgstr "De gebruikersnaam van de betaalmethode is niet gevonden"
 
 #: CRM/Core/Payment/PayPalImpl.php
-#, fuzzy
 msgid ""
 "Signature is not set in the Administer CiviCRM &raquo; Payment Processor."
-msgstr ""
-"Kenmerk is niet ingesteld in het BeheerCiviCRM &raquo; Payment Processor."
+msgstr "Signatuur is niet ingesteld in het BeheerCiviCRM &raquo; Betaalmethode."
 
 #: CRM/Core/Payment/PayPalImpl.php
 msgid "Component is invalid"
@@ -5720,9 +5715,9 @@ msgid ""
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
 msgstr ""
-"Het upgeloade bestand %1 kan niet verplaatst worden naar de upload directory "
-"%2. Zorg ervoor dat de instelling CIVICRM_IMAGE_UPLOADDIR verwijst naar een "
-"bestaande directory die webserver schrijfbevoegdheid heeft."
+"Het upgeloade bestand %1 kan niet verplaatst worden naar directory %2. Zorg "
+"ervoor dat de webserver schrijfbevoegdheid heeft op de directory "
+"CIVICRM_IMAGE_UPLOADDIR."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -5932,7 +5927,7 @@ msgstr "Moneris"
 
 #: CRM/Core/SelectValues.php
 msgid "Test Payment Processor"
-msgstr "Test Payment Processor"
+msgstr "Test Betaalmethode"
 
 #: CRM/Core/SelectValues.php
 msgid "Yahoo"
@@ -7455,7 +7450,7 @@ msgstr "Wijzig een geplande activiteit"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "View Completed Activity"
-msgstr "Toon gereed zijnde activiteiten"
+msgstr "Toon afgeronde activiteiten"
 
 #: templates/CRM/Activity/Form/OtherActivity.tpl
 msgid "View Scheduled Activity"
@@ -7735,27 +7730,27 @@ msgstr ""
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid "New Payment Processor"
-msgstr "Nieuwe Payment Processor"
+msgstr "Nieuwe Betaalmethode"
 
 #: templates/CRM/Admin/Form/PaymentProcessor.tpl
 msgid ""
 "WARNING: Deleting this Payment Processor may result in some transaction "
 "pages being rendered inactive."
 msgstr ""
-"WAARSCHUWING: het verwijderen van deze payment processor kan een aantal "
-"transactie pagina's inactief maken"
+"WAARSCHUWING: het verwijderen van deze betaalmethode kan een aantal "
+"transactie pagina's inactief maken."
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "New Payment Procesor Type"
-msgstr "Nieuwe Payment Processor type"
+msgstr "Nieuw Type Betaalmethode "
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "Edit Payment Procesor Type"
-msgstr "Payment Processor type wijzigen"
+msgstr "Betaalmethode Type wijzigen"
 
 #: templates/CRM/Admin/Form/PaymentProcessorType.tpl
 msgid "Delete Payment Procesor Type"
-msgstr "Payment Processor type verwijderen"
+msgstr "Verwijder Betaalmethode Type"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Display"
@@ -7781,7 +7776,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization"
-msgstr "Adres standaardisatie"
+msgstr "Adres Standaardisatie"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -7791,10 +7786,10 @@ msgid ""
 "address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
-"CiviCRM bevat een optie om de United States Postel Services (USPS) adres "
+"CiviCRM bevat een optie om de United States Postal Services (USPS) adres "
 "standaardisatie web service te gebruiken. U dient zich hiervoor te "
-"registreren bij <a href=\"http://www.usps.com/webtools/address.htm\">http://"
-"www.usps.com/webtools/address.htm</a>. Na registratie ontvangt u voor deze "
+"registreren bij <a href=\"http://www.usps.com/webtools/address.htm\">http://ww"
+"w.usps.com/webtools/address.htm</a>. Na registratie ontvangt u voor deze "
 "functie een gebruikers ID en een wachtwoord."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -7841,9 +7836,10 @@ msgid ""
 "record. EXAMPLE: If your organization does not record Gender and Birth Date "
 "for individuals, then simplify the form by un-checking this option."
 msgstr ""
-"Selecteer de opties die moeten worden getoond als u een contact toevoegd of "
-"wijzigd. VB: als uw organisatie geen demografische gegevens van personen "
-"bijhoud, maakt u het scherm eenvoudiger door deze optie niet aan te vinken.  "
+"Selecteer de opties die moeten worden getoond als u een contact toevoegt of "
+"wijzigt. VB: als uw organisatie geen demografische gegevens van personen "
+"bijhoud, maakt u het scherm eenvoudiger door deze optie niet aan te vinken. "
+" "
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -7924,8 +7920,8 @@ msgid ""
 msgstr ""
 "Ingeschakelde functies staan in het rechter overzicht. Uitgeschakelde "
 "functies staan in het linker overzicht. Merk een optie en klik op de "
-"aanzetten of uitzetten knop om de functie te verplaatsen van het ene naar "
-"het andere overzicht. Klik daarna op <strong>Bewaar</strong>."
+"Inschakelen  of Uitschakelen knop om de functie te verplaatsen naar het "
+"andere overzicht. Klik daarna op <strong>Bewaar</strong>."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -8151,7 +8147,7 @@ msgstr ""
 msgid ""
 "Absolute file-system path to the directory where the CAPTCHA font file is "
 "located."
-msgstr "Het absolute file-system pad naar de CAPTCHA font directory."
+msgstr "Het absolute pad naar de CAPTCHA font directory."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -8162,8 +8158,8 @@ msgid ""
 msgstr ""
 "De eerste keer dat u CiviCRM gebruikt zullen de waarden van "
 "CIVICRM_TEMPLATE_COMPILEDIR vanuit het bestand civicrm.settings.php worden "
-"ingesteld als standaard waarden. Uw webserver dient voor dit bestand "
-"schrijfbevoegdheid te hebben als u deze waarden hier wilt aanpassen."
+"ingesteld als standaardwaarden. Uw webserver dient op dit bestand "
+"schrijfbevoegdheid te hebben."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid "Upload Directories"
@@ -8174,16 +8170,16 @@ msgid ""
 "File system path where temporary CiviCRM files - such as import data files - "
 "are uploaded."
 msgstr ""
-"File-system pad waar geuploade CiviCRM bestanden, zoals geïmporteerde "
-"gegevens bestanden, tijdelijk worden geplaatst."
+"Directory waar geuploade CiviCRM bestanden, zoals geïmporteerde gegevens "
+"bestanden, tijdelijk worden geplaatst."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
 "File system path where image files are uploaded. Currently, this path is "
 "used for images associated with premiums (CiviContribute thank-you gifts)."
 msgstr ""
-"File-system pad waar afbeeldingsbestanden worden geplaatst zoals "
-"afbeeldingen van premiums (CiviContribute)."
+"Directory waar afbeeldingsbestanden worden geplaatst zoals afbeeldingen van "
+"premiums (CiviContribute)."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -8200,8 +8196,8 @@ msgid ""
 "Path where site specific templates are stored if any. This directory is "
 "searched first if set."
 msgstr ""
-"File-system pad waar de eventueel te gebruiken templates worden bewaard. "
-"Indien gebruikt wordt deze directory het eerst gezocht."
+"Directory waar de eventueel te gebruiken templates worden bewaard. Indien "
+"gebruikt wordt deze directory het eerst gezocht."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid ""
@@ -8269,7 +8265,7 @@ msgstr "Drupal voorbeeld"
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
 "If your site's home url is %1 ... then your CiviCRM Resource URL would be:"
-msgstr "Als uw site's home url %1 ... is ,dan wordt uw CiviCRM bron URL:"
+msgstr "Als uw site's home url %1 ... is, dan wordt uw CiviCRM bron URL:"
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Joomla Example"
@@ -8315,7 +8311,7 @@ msgid ""
 "\" (<em>Operation</em>) all contacts in the \"Active Volunteers Group"
 "\" (<em>Data</em>)."
 msgstr ""
-"<strong>VOORBEELD:</strong> \"\" Team leiders\" (<em>ACL Rol</em>) kunnen "
+"<strong>Voorbeeld:</strong> \"\" Team leiders\" (<em>ACL Rol</em>) kunnen "
 "\"Wijzigen\" (<em>Operator</em>) alle contacten in de \"Groep actieve "
 "vrijwilligers\"  (<em>Gegevens</em>)."
 
@@ -8426,6 +8422,8 @@ msgid ""
 "Administer your CiviCRM site using the links on this page. Click %1 for "
 "descriptions of the options in each section."
 msgstr ""
+"Beheer Uw CiviCRM site met de links op deze pagina. Klik op de %1 bij elk "
+"onderdeel voor beschrijvingen van de opties."
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -8574,9 +8572,9 @@ msgid ""
 "Male, Female, Transgender). You can use this page to customize these options "
 "and add new options as needed for your installation."
 msgstr ""
-"CiviCRM is opgezet om met standaard geslachten te werken (mannelijk, "
-"vrouwelijk). U kunt deze pagina gebruiken om deze opties te wijzigen en om "
-"eventuele nieuwe opties toe te voegen."
+"CiviCRM is opgezet om met standaard geslachten te werken. U kunt deze pagina "
+"gebruiken om deze opties te wijzigen en om eventuele nieuwe opties toe te "
+"voegen."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8666,9 +8664,9 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
-"U kunt elke betaling bijhouden en opslaan. Er zijn standaard betaalwijzen "
-"( cheque, contact, creditcard, etc.) voorgeïnstalleerd. Deze kunnen niet "
-"gewijzigd worden. Er kunnen betaalmethoden worden toegevoegd."
+"U kunt elke betaling registreren. Er zijn standaard betaalwijzen ( cheque, "
+"contact, creditcard, etc.). Deze dienen niet gewijzigd te worden. Er kunnen "
+"betaalmethoden worden toegevoegd."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8679,8 +8677,8 @@ msgid ""
 msgstr ""
 "Deze pagina toont de creditcard mogelijkheden die getoond worden aan de "
 "contributanten die van uw online betalingsmogelijkheden gebruik maken. U "
-"dient na te gaan welke cards geaccepteerd worden door uw  Payment Processor "
-"en deze gegevens overeenkomstig bijwerken."
+"dient na te gaan welke cards geaccepteerd worden door uw betaalmethode en "
+"deze gegevens overeenkomstig bijwerken."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8764,6 +8762,10 @@ msgid ""
 "<strong>Online Contribution Page</strong> and each paid <strong>Event</"
 "strong> (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
+"U kunt een of meer betaalmethoden instellen voor uw CiviCRM. U dient een "
+"actieve Betaalmethode toe te kennen aan elke  <strong>Online Bijdrage "
+"Pagina</strong> en elk niet gratis <strong>Evenement</strong> (<a href='%1' "
+"target='_blank' title='%2'>lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 msgid "Processor Type"
@@ -8773,17 +8775,15 @@ msgstr "Processor type"
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid ""
 "There are no Payment Processors entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
-"Er zijn geen Payment Processors toegevoegd. Toevoegen <a href=\"%1\">hier</"
-"a>."
+msgstr "Er zijn geen Betaalmethoden. U kunt er <a href=\"%1\">een</a> toevoegen."
 
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 msgid ""
 "Payment Processor configurations for all payment processors that can be used "
 "in this install of CiviCRM."
 msgstr ""
-"Payment Processor instellingen voor alle payment processors voor deze "
-"CiviCRM versie."
+"Betaalmethode instellingen voor alle betaalmethoden voor deze CiviCRM "
+"versie."
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -8846,9 +8846,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components."
-msgstr ""
-"De modules CiviContribute, CiviEvent, CiviMember en/of CiviMail aan-/"
-"uitzetten."
+msgstr "Inschakelen CiviContribute, CiviEvent, CiviMember en/of CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -8880,7 +8878,7 @@ msgid ""
 "etc.). Enable secure URLs."
 msgstr ""
 "URL's om toegang te verkrijgen tot CiviCRM bronnen (CSS- javascript-, "
-"afbeeldingsbestanden). Schalel veilige URL's in."
+"afbeeldingsbestanden). Schakel veilige URL's in."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Outbound Email (SMTP)"
@@ -8901,15 +8899,15 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Payment Processors"
-msgstr "Payment Processors"
+msgstr "Betaalmethoden"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
-"Selecteer en stel één of meerdere Payment Processing Services in voor online "
-"financiële bijdragen, betalingen voor evenmenten en/of contributies."
+"Selecteer en stel één of meerdere betaalmethoden in voor online financiële "
+"bijdragen, betalingen voor evenementen en/of contributies."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -8929,7 +8927,7 @@ msgid ""
 "Configure optional Address Standardization provider."
 msgstr ""
 "Opmaken van de adressen voor mailling labels, invoerformulieren en "
-"overzichtsschermen. Stel optioneel een Address Standardization Provider in."
+"overzichtsschermen."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Format date input and display."
@@ -8962,7 +8960,7 @@ msgid ""
 msgstr ""
 "Markeringen kunnen worden gekoppeld aan elk contact record en zijn een "
 "eenvoudige manier om contacten te vinden. U kunt onbeperkt markeringen "
-"aanmaken om uw contacten te organizeren en te segmenteren. (<a href=\"%1\" "
+"aanmaken om uw contacten te organiseren en in te delen. (<a href=\"%1\" "
 "target=\"_blank\" title=\"%2\">Lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -9267,7 +9265,7 @@ msgstr "aarschuwing: "
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Start Date:"
-msgstr "Begindatum:"
+msgstr "Startdatum:"
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "End Date:"
@@ -9482,8 +9480,8 @@ msgid ""
 "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
 "<a href=\"%3\">Household</a>"
 msgstr ""
-"Voeg een <a href\"%1\">nieuwe individueel</a>, een <a href=\"%2\"> "
-"organisatie</a>, of een <a href=\"%3\"> huishouden </a>toe"
+"Voeg een <a href\"%1\">nieuwe persoon</a>, een <a href=\"%2\"> organisatie</a>, "
+"of een <a href=\"%3\"> huishouden </a>toe"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid "make sure you have enough privileges in the access control system"
@@ -9496,10 +9494,10 @@ msgid ""
 "Status...' checkboxes to view members with 'Pending' status and/or members "
 "who have been 'Removed' from this group."
 msgstr ""
-"Hieronder staan de leden genoemd van groep <strong>%1</strong>. Gebruik "
-"'Vind Leden', om naar specifieke leen te zoeken. Gebruik \"Groep Status' om "
-"naar in overweging zijnde leden te zoeken, of naar leden te zoeken, die "
-"'verwijderd' zijn uit deze groep"
+"Hieronder staan de leden van groep <strong>%1</strong>. Gebruik 'Vind "
+"Leden', om naar specifieke leden te zoeken. Gebruik 'Groep Status' om naar "
+"in verwerking zijnde leden te zoeken, of naar leden te zoeken die "
+"'verwijderd' zijn uit deze groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -9541,9 +9539,8 @@ msgid ""
 "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
 msgstr ""
 "Gebruik <strong>%</strong> wildcard(s) voor gedeeltelijke overeenkomsten. "
-"VOORBEELD: Gebruik \"Vrijwilliger%\" als  activiteiten type om alle "
-"activiteiten types af te dekken die beginnen met \"Vrijwilliger\" (vb.: "
-"Vrijwilliger voor evenement)."
+"Voorbeeld: Gebruik \"Vrijwilliger%\" als  activiteiten type om alle "
+"activiteiten types te vinden die beginnen met \"Vrijwilliger\"."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -9618,9 +9615,9 @@ msgid ""
 "ul><br />Check your spelling, or try fewer letters for the target contact "
 "name."
 msgstr ""
-"Geen overeenkomstige records gevonden voor <ul><li>Naam als: %1</"
-"li><li>Contact type: %2</li></ul><br />Controleer de spelling of probeer "
-"minder karakters in te voeren voor het te zoekenl contactnaam."
+"Geen overeenkomstige records gevonden voor <ul><li>Naam als: "
+"%1</li><li>Contact type: %2</li></ul><br />Controleer de spelling of probeer "
+"minder karakters in te voeren voor de te zoeken contactnaam."
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Choose Relationship Type and Target Organization"
@@ -9637,10 +9634,11 @@ msgid ""
 "value for ALL rows, enter that value for the first contact and then click "
 "the <strong>Copy icon</strong> (next to the column title)."
 msgstr ""
-"Pas veldwaarden aan voor elk gewenst contact. Klik <strong>Wijzig contacten</"
-"strong> hieronder om alle aanpassingen op te slaan. Om een veld voor alle "
-"rijen dezelde waarde te geven voort u de waarde in voor het eerste contact "
-"waarna u het icoon <strong>Kopiëer</strong> naast de kolom titel aanklikt."
+"Pas veldwaarden aan voor elk gewenst contact. Klik <strong>Wijzig "
+"contacten</strong> hieronder om alle aanpassingen op te slaan. Om een veld "
+"voor alle rijen dezelfde waarde te geven voert u de waarde in voor het "
+"eerste contact waarna u het icoon <strong>Kopiëer</strong> naast de kolom "
+"titel aanklikt."
 
 #: templates/CRM/Contact/Form/Task/BatchUpdateProfile.tpl
 msgid "Click to copy %1 from row one to all rows."
@@ -9709,10 +9707,10 @@ msgid ""
 "record)."
 msgstr ""
 "Selecteer de velden, die geexporteerd moeten worden. Eerst kiest u het "
-"contacttype, waar het veld onder valt, (bv. <strong>Individuelen</strong> "
-"als u   de <strong>Achternamen</strong> wilt exporteren.Daarna kiest u het "
+"contacttype, waar het veld onder valt, (bv. <strong>Personen</strong> als u "
+"  de <strong>Achternamen</strong> wilt exporteren.Daarna kiest u het "
 "betreffende veld, door dit te selecteren in het uitrolmenu, die dan "
-"verschijnt.Uw export bestand kan meerdere contacttypen omvatten.Velden die "
+"verschijnt. Uw export bestand kan meerdere contacttypen omvatten.Velden die "
 "niet van toepassing zijn, blijven 'leeg'. Bv., het achternaam veld zal niet "
 "worden gevuld, als er sprake is van een organisatie record."
 
@@ -9761,10 +9759,10 @@ msgid ""
 "it again later."
 msgstr ""
 "Klik op <strong> Selecteer velden voor export</strong> en daarna op "
-"<strong>Ga door</strong> om een andere slectie te maken voor export. Hiermee "
-"is hetmogelijk, om meerdere specifieke lokaties te exporteren naar een "
-"bestand. Eveneens is het mogelijk, om deze veld-selectie op te slaan voor "
-"later gebruik."
+"<strong>Ga door</strong> om een andere selectie te maken voor export. "
+"Hiermee is het mogelijk, om meerdere specifieke lokaties te exporteren naar "
+"een bestand. Eveneens is het mogelijk, om deze veld-selectie op te slaan "
+"voor later gebruik."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
@@ -9893,7 +9891,7 @@ msgstr "Voorkeurs e-mail adres:"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Preferred Phone:"
-msgstr "Voorkeurs telefoon:"
+msgstr "Voorkeur telefoon:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -10143,7 +10141,7 @@ msgstr "Nieuwe notitie"
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "Contributions received from %1 since inception."
-msgstr "Onvangen bijdragen van %1 vanaf de aanvangsdadum."
+msgstr "Onvangen bijdragen van %1 vanaf de aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid ""
@@ -10240,7 +10238,7 @@ msgstr "Verwijder"
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Joining these group(s) is pending confirmation by this contact."
 msgstr ""
-"Dit contact dient het lidmaatschap van deze groep(en) nog te bevesigen."
+"Dit contact dient het lidmaatschap van deze groep(en) nog te bevestigen."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
@@ -10495,7 +10493,7 @@ msgstr "Lopende aanmeldingen"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Your subscription to these group(s) is pending confirmation."
-msgstr "U aanmelding bij deze groep(en) wachten op bevestiging."
+msgstr "Uw aanmelding bij deze groep(en) moet nog  bevestigt worden."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/GroupContact.tpl
 msgid "Are you sure you want to remove from %1?"
@@ -10701,7 +10699,7 @@ msgid ""
 msgstr ""
 "Selecteer het type van deze groep specifieke velden. Het is mogelijk "
 "specifieke velden voor een bepaald type of contact te maken (dus niet voor "
-"oorganisaties), of voor elk type contact, of recordtypes zoals activiteiten "
+"organisaties), of voor elk type contact, of recordtypes zoals activiteiten "
 "of bijdragen."
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -10760,9 +10758,9 @@ msgid ""
 "when the field is presented."
 msgstr ""
 "U kunt in deze tabel tot 10 meerkeuzeopties invoeren. Toets 'nog een keuze' "
-"voor elke aanvullende optie.Als u meer dan 10 opties benodigd kunt u een "
+"voor elke aanvullende optie. Als u meer dan 10 opties benodigd kunt u een "
 "ongelimiteerd aantal aanmaken via de optie 'wijzigen meerkeuze opties', "
-"nadat u dit veld heeft bewaard' Indien gewenst kan één van de opties als "
+"nadat u dit veld heeft bewaard. Indien gewenst kan één van de opties als "
 "standaard worden aangemerkt. De tekst van 'label' wordt getoond op het "
 "formulier en de inhoud van 'waarde' wordt opgeslagen in het contact record. "
 "Het label en de waarde kunnen gelijk of ongelijk aan elkaar zijn. Niet "
@@ -10838,7 +10836,7 @@ msgstr "Actief"
 #: templates/CRM/Price/Page/Option.tpl templates/CRM/Price/Page/Set.tpl
 #: templates/CRM/UF/Page/Group.tpl
 msgid "Inactive"
-msgstr "Passief"
+msgstr "Inactief"
 
 #: templates/CRM/Custom/Page/Field.tpl
 msgid "New Custom Field"
@@ -10862,11 +10860,11 @@ msgid ""
 msgstr ""
 "Specifieke gegevens worden in specifieke velden bewaard. Specifieke velden "
 "zijn gebaseerd op logische aan elkaar gerelateerde specifieke "
-"gegevensgroepen (vb.: Vrijwilligers informatie). Gebruk specifieke velden om "
-"eigen gegevens, gegevens die niet standaard in de CiviCRM formulieren zijn "
-"opgenomen, te verzamelen en te bewaren.  U kunt één of meerdere groepen "
-"specifieke velden aanmaken. (<a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Lees meer...</a>)."
+"gegevensgroepen (bijv.: Vrijwilligers informatie). Gebruik specifieke velden "
+"om eigen gegevens die niet standaard in de CiviCRM formulieren zijn "
+"opgenomen, te verzamelen en te bewaren.  U kunt één of meerdere groepen met "
+"specifieke velden aanmaken. (<a href=\"%1\" target=\"_blank\" title=\"%2\">Lees "
+"meer...</a>)."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid "Group Title"
@@ -10987,6 +10985,10 @@ msgid ""
 "mailing list in the <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail "
 "component</a>."
 msgstr ""
+"Vink 'Access Control' aan als de groep bedoeld is om de toegangsrechten te "
+"regelen (<a href=\"%1\" target=\"_blank\" title=\"%3\">meer info...</a>). Vink "
+"'Mailing List' aan als als de groep bedoeld is als mailing list in de <a "
+"href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail component</a>."
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
@@ -11010,9 +11012,8 @@ msgid "Edit Smart Group Criteria"
 msgstr "Wijzig Smart groep criteria"
 
 #: templates/CRM/Group/Form/Search.tpl
-#, fuzzy
 msgid "Find Groups"
-msgstr "Toon groepen"
+msgstr "Zoek groepen"
 
 #: templates/CRM/Group/Form/Search.tpl
 #, fuzzy
@@ -11021,7 +11022,7 @@ msgstr "Volledig of gedeelte van een contactnaam."
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by group type(s)."
-msgstr ""
+msgstr "Bij zoeken filteren op type groep"
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by visibility."
@@ -11083,13 +11084,12 @@ msgid "Edit Activity History"
 msgstr "Wijzig activiteiten geschiedenis"
 
 #: templates/CRM/History/Form/Activity.tpl
-#, fuzzy
 msgid ""
 "Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
 "1\" with description \"%3\"?"
 msgstr ""
-"Wilt u de geschiedenis van \"%2\" van het type \"%1\" met omschrijving \"%3"
-"\" verwijderen ?"
+"Wilt u de activiteiten geschiedenis van \"%2\" van het type \"%1\" met "
+"omschrijving \"%3\" verwijderen ?"
 
 #: templates/CRM/History/Import/Form/MapField.tpl
 #: templates/CRM/Import/Form/MapField.tpl
@@ -11378,11 +11378,11 @@ msgstr "Niet-overeenkomstige rijen (overgeslagen)"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Rows with mismatched activity history IDs (NOT updated)."
-msgstr "Rijen met ongelijke logfile IDs ('NIET bijgewerkt)."
+msgstr "Rijen met niet-overeenkomstige logfile IDs (NIET bijgewerkt)."
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Download Mismatched Activity History records"
-msgstr "Download ongelijke activiteiten records"
+msgstr "Download niet-overeenkomstige activiteiten geschiedenis records"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
@@ -11391,12 +11391,12 @@ msgstr "Rijen met een conflict (overgeslagen)"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Rows with conflicting transaction IDs (NOT imported)."
-msgstr "Rijen met een conflict in transactie IDs ( niet geimporteerd)"
+msgstr "Rijen met een conflict in transactie IDs (niet geimporteerd)"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid "Duplicate Rows"
-msgstr "Duplikaat rijen"
+msgstr "Duplicaat rijen"
 
 #: templates/CRM/History/Import/Form/Summary.tpl
 msgid "Rows which are duplicates of existing CiviCRM activity history records."
@@ -11427,7 +11427,7 @@ msgid ""
 "Contacts to create contact records first, if necessary. Then you can match "
 "activities to contacts by Name and Email, or by Contact ID."
 msgstr ""
-"De logfile import wizard geeft u de mogelijk op eenvoudige wijze "
+"De logfile import wizard geeft u de mogelijkheid op eenvoudige wijze "
 "activiteiten vanuit andere bronnen toe te voegen aan CiviCRM. Voordat u "
 "activiteiten importeert moeten de CiviCRM contacten zijn aangemaakt. Indien "
 "noodzakelijk dient u eerst contacten te importeren om deze contact records "
@@ -12596,7 +12596,7 @@ msgstr "Toegestane creditcards"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
-msgstr "Betalingsmethoden"
+msgstr "Betaalmethoden"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Type"
@@ -12753,7 +12753,7 @@ msgstr "Vervallen"
 # Niet zeker van correctheid
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Dummy Payment Processor"
-msgstr "Vervangende betalingsverwerking"
+msgstr "Dummy Betaalmethode"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Merchant Account Email"
