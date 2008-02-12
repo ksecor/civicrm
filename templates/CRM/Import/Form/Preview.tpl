@@ -3,8 +3,10 @@
 <script type="text/javascript">
 dojo.require("dijit.ProgressBar");
 dojo.require("dojo.parser");
+var finished = 0;
 
 setFinished = function(data) {
+var finished = 1;
 {/literal}
   if ( data.match( 'Fatal error' ) ) {ldelim}
     var prog = document.getElementById('error_status');
@@ -19,6 +21,7 @@ setFinished = function(data) {
 setError = function(data){
   var prog = document.getElementById('error_status');
   prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+  finished = 1;
 }
 
 setIntermediate = function( ) {
@@ -98,8 +101,16 @@ submitForm = function( ) {
    
     dojo.rawXhrPost( kw );
 
-    setIntermediate();
+    pollLoop( );
 }
+
+pollLoop = function(){
+    setIntermediate();
+    if ( ! finished ) {
+         window.setTimeout( pollLoop,10*1000); // 10 sec
+    }
+}
+
 
 dojo.addOnLoad( function( ) {
    dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );
