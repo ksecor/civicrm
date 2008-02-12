@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-01-24 12:40+0530\n"
-"PO-Revision-Date: 2008-01-26 03:20-0800\n"
+"PO-Revision-Date: 2008-02-08 15:55-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -126,8 +126,9 @@ msgid "Role"
 msgstr "Rol"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
+#, fuzzy
 msgid "-select role-"
-msgstr ""
+msgstr "- selecteer rol -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "Everyone"
@@ -212,8 +213,9 @@ msgid "All Profiles"
 msgstr "Alle profielen"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
+#, fuzzy
 msgid "All Events"
-msgstr ""
+msgstr "Evenementen"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -325,8 +327,9 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Start Date - From"
-msgstr ""
+msgstr "Startdatum"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -379,8 +382,9 @@ msgstr "- selecteer -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
+#, fuzzy
 msgid "Detach"
-msgstr ""
+msgstr "Zoek"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -432,13 +436,15 @@ msgid "Status"
 msgstr "Status"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
+#, fuzzy
 msgid "Added By"
-msgstr ""
+msgstr "Toegevoegd"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
+#, fuzzy
 msgid "Case"
-msgstr ""
+msgstr "Contant"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Form/ActivityView.php
 #: CRM/Activity/Import/Form/Summary.php CRM/Admin/Form/RelationshipType.php
@@ -686,8 +692,9 @@ msgstr "Vereiste velden ontbreken"
 
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
+#, fuzzy
 msgid "Line Number"
-msgstr ""
+msgstr "Telefoonnummer"
 
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
@@ -779,8 +786,9 @@ msgstr "Etiket"
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
+#, fuzzy
 msgid "is a numeric field"
-msgstr ""
+msgstr "is een numeriek veld"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -818,8 +826,9 @@ msgid "Enter a valid URL"
 msgstr "Voer een geldige URL in"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
+#, fuzzy
 msgid "API URL"
-msgstr ""
+msgstr "API Login"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -869,8 +878,9 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "Format"
-msgstr ""
+msgstr "Formeel"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -927,8 +937,9 @@ msgid "Settings - Resource URLs"
 msgstr "Instellingen - Bron URLs"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
+#, fuzzy
 msgid "Customize"
-msgstr ""
+msgstr "Specifiek"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -1001,14 +1012,16 @@ msgstr "of"
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Case Type"
-msgstr ""
+msgstr "Card type"
 
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: templates/CRM/Contact/Page/View/Case.tpl
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Case Status"
-msgstr ""
+msgstr "Status taak"
 
 #: CRM/Case/DAO/Case.php CRM/Case/Form/Case.php
 #: CRM/Contact/DAO/Relationship.php CRM/Contact/Form/Relationship.php
@@ -1437,16 +1450,18 @@ msgstr "Lidmaatschappen"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
+#, fuzzy
 msgid "Grants"
-msgstr ""
+msgstr "Toestaan"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
 msgid "Task"
 msgstr "Taak"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
+#, fuzzy
 msgid "Cases"
-msgstr ""
+msgstr "Contant"
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Basic.php
@@ -1527,18 +1542,21 @@ msgstr "Contact Id"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/Contribution.php
+#, fuzzy
 msgid "Donation Count"
-msgstr ""
+msgstr "Locatie telling"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/Contribution.php
+#, fuzzy
 msgid "Donation Amount"
-msgstr ""
+msgstr "Locatie telling"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Custom Search"
-msgstr ""
+msgstr "Zoektocht"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1788,16 +1806,18 @@ msgid "CiviCRM"
 msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
+#, fuzzy
 msgid "New Activity"
-msgstr ""
+msgstr "Toon Activiteit"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
 msgstr "Uitloggen"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
+#, fuzzy
 msgid "CiviGrant"
-msgstr ""
+msgstr "Toestaan"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1894,8 +1914,9 @@ msgid "Phone Type"
 msgstr "Telefoontype"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
+#, fuzzy
 msgid "Import Activity"
-msgstr ""
+msgstr "Importeer logfile"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -2068,8 +2089,9 @@ msgstr "Veld label"
 #: templates/CRM/Admin/Page/Options.tpl templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Order"
-msgstr ""
+msgstr "Overtijd"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2084,8 +2106,9 @@ msgid "Required?"
 msgstr "Vereist?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
+#, fuzzy
 msgid "must be a numeric value"
-msgstr ""
+msgstr "moet een numerieke waarde zijn"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2147,8 +2170,9 @@ msgid "Settings"
 msgstr "Instellingen"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
+#, fuzzy
 msgid "Suggested Message"
-msgstr ""
+msgstr "Bericht bij aanmelding"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
@@ -2156,24 +2180,28 @@ msgstr ""
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Grant Type"
-msgstr ""
+msgstr "Gegevenstype"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Grant Status"
-msgstr ""
+msgstr "Groep status"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Grant report received?"
-msgstr ""
+msgstr "Bevestigingsrapport ontvangen"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 msgid "Rationale"
 msgstr "Ratio"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
+#, fuzzy
 msgid "Delete Grants"
-msgstr ""
+msgstr "Verwijder Groep"
 
 #: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "No Duplicate Checking"
@@ -2206,8 +2234,9 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+#, fuzzy
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Doorgaan"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2242,32 +2271,39 @@ msgid "Revoke"
 msgstr "Herroepen"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "add contacts"
-msgstr ""
+msgstr "Markeer contacten"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "view all contacts"
-msgstr ""
+msgstr "- alle contacten -"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "edit all contacts"
-msgstr ""
+msgstr "- alle contacten -"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "import contacts"
-msgstr ""
+msgstr "Importeer contacten"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "edit groups"
-msgstr ""
+msgstr "Wijzig groep"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "Beheer CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "access uploaded files"
-msgstr ""
+msgstr "Blader door uploaded bestanden"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "profile listings and forms"
@@ -2278,16 +2314,19 @@ msgid "access all custom data"
 msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "access CiviCRM"
-msgstr ""
+msgstr "CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "Contact overzicht"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "ACL Type"
-msgstr ""
+msgstr "Card type"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -2358,36 +2397,44 @@ msgid "Assign Users to Roles"
 msgstr "Koppel gebruikers aan rollen"
 
 #: CRM/Activity/BAO/Activity.php
+#, fuzzy
 msgid "- Activity Fields -"
-msgstr ""
+msgstr "- Contact Velden -"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Case Activity %2 %1"
-msgstr ""
+msgstr "Activiteit type %2 '%1'"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Communication Medium %2 %1"
-msgstr ""
+msgstr "Voorkeur Communicatiemethode"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Violation Type %2 %1"
-msgstr ""
+msgstr "Locatie type"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Case Activity Subject %2 %1"
-msgstr ""
+msgstr "Activiteit type %2 '%1'"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Activity Medium"
-msgstr ""
+msgstr "Details activiteit"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Violation Type"
-msgstr ""
+msgstr "Locatie type"
 
 #: CRM/Activity/BAO/Query.php
+#, fuzzy
 msgid "Content"
-msgstr ""
+msgstr "Contact"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity ID"
@@ -2398,16 +2445,19 @@ msgid "Contact ID (match to contact)"
 msgstr "Contact ID (overeenkomend met contact)"
 
 #: CRM/Activity/DAO/Activity.php
+#, fuzzy
 msgid "Activity Type ID"
-msgstr ""
+msgstr "Activiteit Type"
 
 #: CRM/Activity/DAO/Activity.php
+#, fuzzy
 msgid "Activity Date Time"
-msgstr ""
+msgstr "Datum activiteit"
 
 #: CRM/Activity/DAO/Activity.php
+#, fuzzy
 msgid "Due Date Time"
-msgstr ""
+msgstr "Uitvoeringsdatum"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2423,40 +2473,47 @@ msgid "Other Activities"
 msgstr "Andere activiteiten"
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "- select activity -"
-msgstr ""
+msgstr "- selecteer activiteit type -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
 msgstr "Met contact"
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Source Contact non-existant!"
-msgstr ""
+msgstr "Bron/referentie Contact gegevens"
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Target Contact non-existant!"
-msgstr ""
+msgstr "Doel contact"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Assignee Contact non-existant!"
 msgstr ""
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Invalid Case"
-msgstr ""
+msgstr "Personen"
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "De geselecteerde bijeenkomst is succesvol verwijderd."
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr ""
+msgstr "Geselecteerde locatietype is verwijderd."
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Activity \"%1\"  has been saved."
-msgstr ""
+msgstr "\"%1\" is bewaard"
 
 #: CRM/Activity/Import/Form/UploadFile.php
 msgid "On duplicate entries"
@@ -2471,20 +2528,23 @@ msgid "View Activity History URL"
 msgstr "Toon URL logfile"
 
 #: CRM/Activity/Selector/Activity.php
+#, fuzzy
 msgid "Update Activity"
-msgstr ""
+msgstr "Verwijder activiteit"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Delete Activity"
 msgstr "Verwijder activiteit"
 
 #: CRM/Activity/Selector/Activity.php
+#, fuzzy
 msgid "Detach Activity"
-msgstr ""
+msgstr "Verwijder activiteit"
 
 #: CRM/Activity/Selector/Activity.php
+#, fuzzy
 msgid "Activities %%StatusMessage%%"
-msgstr ""
+msgstr "Openstaande activiteiten %%StatusMessage%%"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2503,8 +2563,9 @@ msgid "SMS"
 msgstr "SMS"
 
 #: CRM/Activity/Selector/Activity.php
+#, fuzzy
 msgid "CiviCRM Activity"
-msgstr ""
+msgstr "CiviCRM logfile"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2609,9 +2670,10 @@ msgstr "Geselecteerde %1 type is verwijderd."
 msgid "Selected %1 type has not been deleted."
 msgstr "Geselecteerde %1 type is niet verwijderd."
 
+# kan ook maar 1 ding zijn
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
-msgstr "De %1 \"%2\" zijn bewaard."
+msgstr "%1 \"%2\" bewaard."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Default Option?"
@@ -2650,8 +2712,9 @@ msgid "You must have at least the user_name specified"
 msgstr "U dient minimaal de gebruikersnaam aan te geven"
 
 #: CRM/Admin/Form/PaymentProcessor.php
+#, fuzzy
 msgid "Selected Payment Processor has been deleted."
-msgstr ""
+msgstr "De geselecteerde rol is verwijderd."
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Enter a positive integer"
@@ -2682,8 +2745,9 @@ msgid "Live Site URL"
 msgstr "URL operationele site"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
+#, fuzzy
 msgid "Live API URL"
-msgstr ""
+msgstr "URL operationele site"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Live Recurring Payments URL"
@@ -2698,8 +2762,9 @@ msgid "Test Site URL"
 msgstr "URL test site"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
+#, fuzzy
 msgid "Test API URL"
-msgstr ""
+msgstr "URL test site"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Test Recurring Payments URL"
@@ -2755,7 +2820,7 @@ msgstr "Web Service URL"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Address Standardization features require PHP version 5 or greater."
-msgstr "Adres standaardiisatie eigenschappen vereisen PHP versie 5 of groter."
+msgstr "Adres standaardisatie eigenschappen vereisen PHP versie 5 of hoger."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "You must provide values for all three Address Standarization fields."
@@ -2764,21 +2829,24 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "Start Offset"
-msgstr ""
+msgstr "Offset (compensatie)"
 
 #: CRM/Admin/Form/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "End Offset"
-msgstr ""
+msgstr "Offset (compensatie)"
 
 #: CRM/Admin/Form/PreferencesDate.php
 msgid "Preferences Date Options can only be updated"
 msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php
+#, fuzzy
 msgid "The date type \"%1\" has been saved."
-msgstr ""
+msgstr "Het locatietype \"%1\" is bewaard."
 
 #: CRM/Admin/Form/Preferences/Display.php
 msgid "Settings - Site Preferences"
@@ -2841,8 +2909,9 @@ msgid "Year Only"
 msgstr "Jaar"
 
 #: CRM/Admin/Form/Setting/Date.php
+#, fuzzy
 msgid "Time Only"
-msgstr ""
+msgstr "Alleen bekijken"
 
 #: CRM/Admin/Form/Setting/Date.php
 msgid "Fiscal Year Start"
@@ -2913,8 +2982,9 @@ msgid "Mailer Spool Period"
 msgstr "Mail Spool periode"
 
 #: CRM/Admin/Form/Setting/Mail.php
+#, fuzzy
 msgid "VERP Separator"
-msgstr ""
+msgstr "VERP scheidingsteken"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Batch Limit"
@@ -3002,20 +3072,24 @@ msgid "SMTP Username"
 msgstr "SMTP gebruikersnaam"
 
 #: CRM/Admin/Form/Setting/Smtp.php
+#, fuzzy
 msgid "SMTP Password"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: CRM/Admin/Form/Setting/UF.php
+#, fuzzy
 msgid "%1 Version"
-msgstr ""
+msgstr "%1 Opties"
 
 #: CRM/Admin/Form/Setting/UF.php
+#, fuzzy
 msgid "%1 Users Table Name"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
+#, fuzzy
 msgid "Settings - Update Config Backend"
-msgstr ""
+msgstr "Instellingen - SMTP Configuratie"
 
 #: CRM/Admin/Form/Setting/UpdateConfigBackend.php
 msgid "New Base URL"
@@ -3252,12 +3326,14 @@ msgid "Delete Payment ProcessorType"
 msgstr "Verwijder Type Betaalmethode"
 
 #: CRM/Admin/Page/PreferencesDate.php
+#, fuzzy
 msgid "Edit Date Type"
-msgstr ""
+msgstr "Wijzig Locatietype "
 
 #: CRM/Admin/Page/PreferencesDate.php
+#, fuzzy
 msgid "Settings - Date Preferences"
-msgstr ""
+msgstr "Instellingen - Site voorinstellingen"
 
 #: CRM/Admin/Page/RelationshipType.php
 msgid "Are you sure you want to disable this relationship type?"
@@ -3314,8 +3390,9 @@ msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Deze markering zal alle momenteel gemarkeerde contacten worden verwijdert. "
-"Gebruikers zullen geen contacten meer kunnen markeren met deze markering."
+"Deze markering zal van alle momenteel gemarkeerde contacten worden "
+"verwijderd. Gebruikers zullen geen contacten meer kunnen markeren met deze "
+"markering."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -3326,32 +3403,38 @@ msgid "Delete Tag"
 msgstr "Markering verwijderen"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Subject %2 %1"
-msgstr ""
+msgstr "Bericht onderwerp"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Status %2 %1"
-msgstr ""
+msgstr "Taak Status: %1"
 
 #: CRM/Case/BAO/Query.php
+#, fuzzy
 msgid "Case Type %1"
-msgstr ""
+msgstr "Card type"
 
 #: CRM/Case/Form/Case.php
+#, fuzzy
 msgid "Case subject already exists in Database."
-msgstr ""
+msgstr "De naam bestaat al in de database."
 
 #: CRM/Case/Form/Case.php
 msgid "End date should be later than Start date"
 msgstr ""
 
 #: CRM/Case/Form/Case.php
+#, fuzzy
 msgid "Selected Case has been deleted."
-msgstr ""
+msgstr "De geselecteerde ACL is verwijderd."
 
 #: CRM/Case/Form/Case.php
+#, fuzzy
 msgid "Case \"%1\"  has been saved."
-msgstr ""
+msgstr "\"%1\" is bewaard"
 
 #: CRM/Contact/BAO/Contact.php
 msgid "- Contact Fields -"
@@ -3362,8 +3445,9 @@ msgid "Note(s)"
 msgstr "Notitie(s)"
 
 #: CRM/Contact/BAO/Contact.php
+#, fuzzy
 msgid "Could not find location type id"
-msgstr ""
+msgstr "Locatie ID niet gevonden"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
@@ -3423,8 +3507,9 @@ msgid "Member of Group %1"
 msgstr "Lid van groep %1"
 
 #: CRM/Contact/BAO/Query.php
+#, fuzzy
 msgid "or Member of 1 or more Subgroups %1"
-msgstr ""
+msgstr "Lid van groep %1"
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
@@ -3880,9 +3965,12 @@ msgid "Current Employer"
 msgstr "Huidige werkgever"
 
 #: CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid ""
 "First Name and Last Name OR an OpenID in the Primary Location should be set."
 msgstr ""
+"In de primaire locatie moeten voornaam en achternaam OF een e-mailadres "
+"worden ingevoerd."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
@@ -3919,8 +4007,9 @@ msgid "Primary location for this contact"
 msgstr "Primaire locatie van dit contact"
 
 #: CRM/Contact/Form/Location.php
+#, fuzzy
 msgid "Billing location for this contact"
-msgstr ""
+msgstr "Primaire locatie van dit contact"
 
 #: CRM/Contact/Form/Merge.php
 msgid "EMPTY"
@@ -3943,20 +4032,24 @@ msgid "The contacts have been merged."
 msgstr "De contacten zijn samengevoegd."
 
 #: CRM/Contact/Form/OpenID.php
+#, fuzzy
 msgid "OpenID (preferred)"
-msgstr ""
+msgstr "(voorkeur)"
 
 #: CRM/Contact/Form/OpenID.php
+#, fuzzy
 msgid "another OpenID"
-msgstr ""
+msgstr "andere IM"
 
 #: CRM/Contact/Form/OpenID.php
+#, fuzzy
 msgid "hide this OpenID"
-msgstr ""
+msgstr "verberg deze IM"
 
 #: CRM/Contact/Form/OpenID.php
+#, fuzzy
 msgid "OpenID is not a valid URL."
-msgstr ""
+msgstr "%1 is een niet geldige datum."
 
 #: CRM/Contact/Form/OpenID.php
 msgid "Allowed to Login"
@@ -4058,12 +4151,14 @@ msgid "Kabissa"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Advanced.php
+#, fuzzy
 msgid "User SQL"
-msgstr ""
+msgstr "Gebruikers ID"
 
 #: CRM/Contact/Form/Search/Basic.php
+#, fuzzy
 msgid "Search Subgroups"
-msgstr ""
+msgstr "Smart groep"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
@@ -4103,8 +4198,9 @@ msgid "Range-From"
 msgstr "Bereik - van"
 
 #: CRM/Contact/Form/Search/Criteria.php
+#, fuzzy
 msgid "- any region -"
-msgstr ""
+msgstr "- alle groepen -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "World Region"
@@ -4139,20 +4235,23 @@ msgid "Note Text"
 msgstr "Notitie tekst"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
+#, fuzzy
 msgid "Could not find \"%1\" string in SQL clause"
-msgstr ""
+msgstr "Locatie ID niet gevonden"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
 msgid "Found illegal \"%1\" string in SQL clause"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
+#, fuzzy
 msgid "Min Amount"
-msgstr ""
+msgstr "Bedrag"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
+#, fuzzy
 msgid "Max Amount"
-msgstr ""
+msgstr "Bedrag"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 msgid "Exclusion Min Amount"
@@ -4163,12 +4262,14 @@ msgid "Exclusion Max Amount"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
+#, fuzzy
 msgid "Exclusion Date Start"
-msgstr ""
+msgstr "Besluit datum"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
+#, fuzzy
 msgid "Exclusion Date End"
-msgstr ""
+msgstr "Besluit datum"
 
 #: CRM/Contact/Form/Search/Custom/Contribution.php
 msgid "Aggregate Total Between $"
@@ -4179,20 +4280,24 @@ msgid "...and $"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/Contribution.php
+#, fuzzy
 msgid "Contribution Date From"
-msgstr ""
+msgstr "Bijdrage status"
 
 #: CRM/Contact/Form/Search/Custom/Contribution.php
+#, fuzzy
 msgid "...through"
-msgstr ""
+msgstr "tot"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
+#, fuzzy
 msgid "Include Group(s)"
-msgstr ""
+msgstr "Uw groep(en)"
 
 #: CRM/Contact/Form/Search/Custom/Group.php
+#, fuzzy
 msgid "Exclude Group(s)"
-msgstr ""
+msgstr "Uw groep(en)"
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Status"
@@ -4509,24 +4614,29 @@ msgid "State / Province Id"
 msgstr "Staat / Provincie ID"
 
 #: CRM/Contact/Page/View/Activity.php
+#, fuzzy
 msgid "Contact Activities"
-msgstr ""
+msgstr "Contact andere activiteiten"
 
 #: CRM/Contact/Page/View/Activity.php
+#, fuzzy
 msgid "Activity Record"
-msgstr ""
+msgstr "Activiteit Type"
 
 #: CRM/Contact/Page/View/Case.php
+#, fuzzy
 msgid "Are you sure you want to delete this case?"
-msgstr ""
+msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
 
 #: CRM/Contact/Page/View/Case.php
+#, fuzzy
 msgid "Edit Case"
-msgstr ""
+msgstr "Wijzig markeringen"
 
 #: CRM/Contact/Page/View/Case.php
+#, fuzzy
 msgid "Add Activity"
-msgstr ""
+msgstr "Activiteit"
 
 #: CRM/Contact/Page/View/Contribution.php
 msgid "View Contribution"
@@ -4549,12 +4659,14 @@ msgid "Email Sent"
 msgstr "E-mail verzonden"
 
 #: CRM/Contact/Page/View/Membership.php
+#, fuzzy
 msgid "Renew Membership"
-msgstr ""
+msgstr "Nieuw lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
+#, fuzzy
 msgid "Create Membership"
-msgstr ""
+msgstr "Verwijder lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "View Membership"
@@ -4565,16 +4677,18 @@ msgid "Edit Membership"
 msgstr "Wijzig lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
+#, fuzzy
 msgid "Renew"
-msgstr ""
+msgstr "Nu vernieuwen"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Delete Membership"
 msgstr "Verwijder lidmaatschap"
 
 #: CRM/Contact/Page/View/Membership.php
+#, fuzzy
 msgid "Edit Membership Type"
-msgstr ""
+msgstr "Lidmaatschap type"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -4656,12 +4770,14 @@ msgid "Dashboard - %1"
 msgstr "Overzicht - %1"
 
 #: CRM/Contact/Selector/Custom.php
+#, fuzzy
 msgid "CiviCRM Custom Search"
-msgstr ""
+msgstr "CiviCRM zoeken"
 
 #: CRM/Contact/Selector.php
+#, fuzzy
 msgid "Action"
-msgstr ""
+msgstr "Acties"
 
 #: CRM/Contact/Selector.php
 msgid "Smart"
@@ -4915,8 +5031,9 @@ msgid "Selected Note has been Deleted Successfuly."
 msgstr "Geselecteerde notitie is succesvol verwijderd."
 
 #: CRM/Core/BAO/PaymentProcessor.php
+#, fuzzy
 msgid "Invalid value passed to delete function"
-msgstr ""
+msgstr "Verkeerde waarde voor de betaal functie"
 
 #: CRM/Core/BAO/PaymentProcessor.php
 msgid "Invalid value passed to getPayment function"
@@ -5064,8 +5181,9 @@ msgid "CiviMail"
 msgstr "CiviMail"
 
 #: CRM/Core/Block.php
+#, fuzzy
 msgid "Logout"
-msgstr ""
+msgstr "Uitloggen"
 
 #: CRM/Core/Config.php
 msgid ""
@@ -5133,8 +5251,9 @@ msgid "Timezone"
 msgstr "Tijdzone"
 
 #: CRM/Core/DAO/Component.php
+#, fuzzy
 msgid "Component name"
-msgstr ""
+msgstr "Componenten"
 
 #: CRM/Core/DAO/Component.php
 msgid "Namespace reserved for component."
@@ -5207,8 +5326,9 @@ msgid "Note Rows"
 msgstr "Notitie rijen"
 
 #: CRM/Core/DAO/CustomField.php
+#, fuzzy
 msgid "Column Name"
-msgstr ""
+msgstr "Kolom nummer"
 
 #: CRM/Core/DAO/CustomField.php
 msgid "String"
@@ -5247,8 +5367,9 @@ msgid "Style"
 msgstr "Stijl"
 
 #: CRM/Core/DAO/CustomGroup.php
+#, fuzzy
 msgid "Table Name"
-msgstr ""
+msgstr "Variabele Naam"
 
 #: CRM/Core/DAO/CustomGroup.php xml/templates/civicrm_add_domain.tpl
 msgid "Contribution"
@@ -5286,8 +5407,9 @@ msgid "Config Backend"
 msgstr "Configureer achterkant"
 
 #: CRM/Core/DAO/Domain.php
+#, fuzzy
 msgid "Version"
-msgstr ""
+msgstr "Bewerking"
 
 #: CRM/Core/DAO/DupeMatch.php
 msgid "Rule"
@@ -5498,8 +5620,9 @@ msgid "Default Live Site URL"
 msgstr "Standaard operationele site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
+#, fuzzy
 msgid "Default API Site URL"
-msgstr ""
+msgstr "Standaard operationele site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Default Live Recurring Payments URL"
@@ -5514,8 +5637,9 @@ msgid "Default Test Site URL"
 msgstr "Standaard test site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
+#, fuzzy
 msgid "Default Test API URL"
-msgstr ""
+msgstr "Standaard test site URL"
 
 #: CRM/Core/DAO/PaymentProcessorType.php
 msgid "Default Test Recurring Payment URL"
@@ -5530,12 +5654,14 @@ msgid "Could not retrieve object name: %1, id: %2"
 msgstr "Geen objekt naam ontvangen: %1, id: %2"
 
 #: CRM/Core/DAO/PreferencesDate.php
+#, fuzzy
 msgid "Start"
-msgstr ""
+msgstr "Prov."
 
 #: CRM/Core/DAO/PreferencesDate.php
+#, fuzzy
 msgid "End"
-msgstr ""
+msgstr "en"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Location Count"
@@ -5571,15 +5697,15 @@ msgstr "Mailing opmaak"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Provider"
-msgstr "Adres standaardisatie Provider"
+msgstr "Adres Standaardisatie Provider"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Userid"
-msgstr "Adres standaardisatie Geberuikers ID"
+msgstr "Adres Standaardisatie Gebruikers ID"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Url"
-msgstr "Adres standaardisatie URL"
+msgstr "Adres Standaardisatie URL"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -5631,8 +5757,9 @@ msgid "Module"
 msgstr "Module"
 
 #: CRM/Core/DAO/UFMatch.php
+#, fuzzy
 msgid "Uf Name"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: CRM/Core/Error.php
 msgid ""
@@ -5728,16 +5855,18 @@ msgid "Please enter a valid number for %1"
 msgstr "Vul een geldig getal in voor %1"
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "Registration Page"
-msgstr ""
+msgstr "Gebruikers registratie"
 
 #: CRM/Core/Invoke.php
 msgid "View Contact"
 msgstr "Toon contact"
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "Activity Links"
-msgstr ""
+msgstr "Activiteiten"
 
 #: CRM/Core/Invoke.php
 msgid "Delete Contact"
@@ -5832,16 +5961,18 @@ msgid "Address Preferences"
 msgstr "Adres voorinstellingen"
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "View Date Prefences"
-msgstr ""
+msgstr "Toon site voorinstellingen"
 
 #: CRM/Core/Invoke.php
 msgid "Smtp Server"
 msgstr "Smtp Server"
 
 #: CRM/Core/Invoke.php
+#, fuzzy
 msgid "User Framework Settings"
-msgstr ""
+msgstr "Overige instellingen."
 
 #: CRM/Core/Invoke.php
 msgid "Date Formatting"
@@ -5849,8 +5980,9 @@ msgstr "Datum gegevens"
 
 #: CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
+#, fuzzy
 msgid "Update Config Backend"
-msgstr ""
+msgstr "Configureer achterkant"
 
 #: CRM/Core/Menu.php
 msgid "Browse Uploaded files"
@@ -5963,7 +6095,7 @@ msgid ""
 msgstr ""
 "Configureer de algemene instellingen voor uw site: modulen instellen, "
 "voorkeuren voor schermen en formulieren, bestandspaden en bron URL's, adres "
-"opmaak, taal, betaalmethode, Outbound e-mail, Mapping an debugging."
+"opmaak, taal, betaalmethode, uitgaande e-mail, Mapping an debugging."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5992,8 +6124,8 @@ msgid ""
 "you can use when sending email to one or more contacts."
 msgstr ""
 "Berichtsjablonen maken het mogelijk om berichten met een vaste lay-out via e-"
-"mail te verzenden naar één of meerdere contacten, te bewaren en her te "
-"gebruiken."
+"mail te verzenden naar één of meerdere contacten, te bewaren en te "
+"hergebruiken."
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
@@ -6011,14 +6143,14 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Gender Options"
-msgstr "Geslacht opties"
+msgstr "Geslacht"
 
 #: CRM/Core/Menu.php
 msgid ""
 "Options for assigning gender to individual contacts (e.g. Male, Female, "
 "Transgender)."
 msgstr ""
-"Opties om het geslacht toe te wijzen aan een persoon (man, vrouw, "
+"Opties om het geslacht van een persoon te registreren (man, vrouw, "
 "transsexueel)."
 
 #: CRM/Core/Menu.php
@@ -6168,8 +6300,9 @@ msgid "Online Event Registration:"
 msgstr "Online evenement registratie:"
 
 #: CRM/Core/Payment/BaseIPN.php
+#, fuzzy
 msgid "Please set a location type of %1"
-msgstr ""
+msgstr "Selecteer een relatie type."
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
@@ -6226,9 +6359,11 @@ msgid "Invalid response code received from Google Checkout: %1"
 msgstr "Foute reactie code ontvangen van Google Checkout: %1"
 
 #: CRM/Core/Payment/IATS.php
+#, fuzzy
 msgid ""
 "Agent Code is not set in the Administer CiviCRM &raquo; Payment Processor."
 msgstr ""
+"Signatuur is niet ingesteld in het BeheerCiviCRM &raquo; Betaalmethode."
 
 #: CRM/Core/Payment/Moneris.php
 msgid ""
@@ -6267,15 +6402,20 @@ msgid "Recurring contribution, but no database id"
 msgstr "Periodieke bijdrage, echter geen database id"
 
 #: CRM/Core/QuickForm/Action/Upload.php
+#, fuzzy
 msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
 "verify that the \"Temporary Files\" setting points to a valid path which is "
 "writable by your web server."
 msgstr ""
+"Het upgeloade bestand %1 kan niet verplaatst worden naar directory %2. Zorg "
+"ervoor dat de webserver schrijfbevoegdheid heeft op de directory "
+"CIVICRM_IMAGE_UPLOADDIR."
 
 #: CRM/Core/SelectValues.php
+#, fuzzy
 msgid "default - Dear [prefix] [first] [last]"
-msgstr ""
+msgstr "standaard - Beste [voor] [achter]"
 
 #: CRM/Core/SelectValues.php
 msgid "Dear [first]"
@@ -6540,20 +6680,24 @@ msgid "Create a new set of options"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Option Type"
-msgstr ""
+msgstr "Locatie type"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Reuse an existing set"
-msgstr ""
+msgstr "Bestaand huishouden selecteren"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Multipe Choice Options"
-msgstr ""
+msgstr "Meerkeuze opties"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Multiple Choice Option Sets"
-msgstr ""
+msgstr "Meerkeuze opties"
 
 #: CRM/Custom/Form/Field.php
 msgid ""
@@ -6580,12 +6724,14 @@ msgid "Year"
 msgstr "Jaar"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "Hour"
-msgstr ""
+msgstr "of"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "min"
-msgstr ""
+msgstr "In groep"
 
 #: CRM/Custom/Form/Field.php
 msgid "AM/PM"
@@ -6636,8 +6782,9 @@ msgid "The invalid default value for State/Province data type"
 msgstr "Niet geldige standaardwaarde voor Staat/provincie gegevenstype"
 
 #: CRM/Custom/Form/Field.php
+#, fuzzy
 msgid "You must have a year selected for a custom date"
-msgstr ""
+msgstr "U dient minimaal de test of operationele sectie in te vullen"
 
 #: CRM/Custom/Form/Field.php
 msgid "The combination selected does not make a valid date"
@@ -6708,11 +6855,14 @@ msgstr ""
 "a> aan deze groep toevoegen"
 
 #: CRM/Custom/Form/Option.php
+#, fuzzy
 msgid ""
 "Please enter a valid value for this field. You may use a - z, A - Z, 1 - 9, "
 "spaces and underline ( _ ) characters. The length of the variable string "
 "should be less than 31 characters"
 msgstr ""
+"Vul een geldige waarde voor dit veld in. (toegestaan: letters, cijfers, "
+"spaties en het teken '_'.)"
 
 #: CRM/Custom/Form/Option.php templates/CRM/Admin/Page/OptionValue.tpl
 #: templates/CRM/Custom/Form/Optionfields.tpl
@@ -6896,32 +7046,38 @@ msgid "Tell A Friend enabled?"
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
+#, fuzzy
 msgid "Introduction"
-msgstr ""
+msgstr "Bijdrage"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Info Page Link"
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
+#, fuzzy
 msgid "Thank-you Title"
-msgstr ""
+msgstr "Groepstitel"
 
 #: CRM/Friend/BAO/Friend.php
+#, fuzzy
 msgid "Thank-you Message"
-msgstr ""
+msgstr "Opt-out bericht"
 
 #: CRM/Friend/DAO/Friend.php
+#, fuzzy
 msgid "Intro"
-msgstr ""
+msgstr "Int"
 
 #: CRM/Friend/DAO/Friend.php
+#, fuzzy
 msgid "General Link"
-msgstr ""
+msgstr "Geslacht"
 
 #: CRM/Friend/DAO/Friend.php
+#, fuzzy
 msgid "Thankyou Title"
-msgstr ""
+msgstr "Groepstitel"
 
 #: CRM/Friend/DAO/Friend.php
 msgid "Thankyou Text"
@@ -6969,88 +7125,108 @@ msgid "Thanks for spreading the word about this event to your friends."
 msgstr ""
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Could not get the contact ID"
-msgstr ""
+msgstr "Kan geen geldig contact vinden"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Your Email"
-msgstr ""
+msgstr "E-mail"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Your Message"
-msgstr ""
+msgstr "Opt-out bericht"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Friend's First Name"
-msgstr ""
+msgstr "Facturering voornaam"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Friend's Last Name"
-msgstr ""
+msgstr "Facturering achternaam"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Friend's Email"
-msgstr ""
+msgstr "Stuur e-mail"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Send Your Message"
-msgstr ""
+msgstr "Verstuurd SMS bericht"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Please enter the first name."
-msgstr ""
+msgstr "Vul de plaatsnaam in van %1."
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Please enter the last name."
-msgstr ""
+msgstr "Voer een geldig getal in"
 
 #: CRM/Friend/Form.php
+#, fuzzy
 msgid "Please enter the email address."
-msgstr ""
+msgstr "Vul het straatadres in van %1."
 
 #: CRM/Friend/Form.php
 msgid "You need to enter at least one friend's information."
 msgstr ""
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Grant Type %2 %1"
-msgstr ""
+msgstr "Activiteit type %2 '%1'"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Grant Status %2 %1"
-msgstr ""
+msgstr "Taak Status: %1"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "App. Recieved Date - From"
-msgstr ""
+msgstr "Datum activiteit - van"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Money Sent Date - From"
-msgstr ""
+msgstr "Datum activiteit - van"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Report Due Date - From"
-msgstr ""
+msgstr "Uitvoeringsdatum"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Grant Decision Date - From"
-msgstr ""
+msgstr "Besluit datum"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Minimum Amount"
-msgstr ""
+msgstr "Bedrag"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Please enter a valid money value (e.g. 9.99)."
-msgstr ""
+msgstr "Voer een geldig bedrag in"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Maximum Amount"
-msgstr ""
+msgstr "Totaal bedrag"
 
 #: CRM/Grant/BAO/Query.php
+#, fuzzy
 msgid "Please enter a valid money value (e.g. 99.99)."
-msgstr ""
+msgstr "Voer een geldig bedrag in"
 
 #: CRM/Grant/DAO/Grant.php
 msgid "Application Received Date"
@@ -7085,128 +7261,158 @@ msgid "Amount Granted"
 msgstr "Toegestaan bedrag"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Application Received date"
-msgstr ""
+msgstr "Ontvangstdatum aanmelding"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Grant decision date"
-msgstr ""
+msgstr "Besluit datum"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Money transfer date"
-msgstr ""
+msgstr "Geld overboekingsdatum"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Grant report due date"
-msgstr ""
+msgstr "Uitvoeringsdatum"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Amount total"
-msgstr ""
+msgstr "Totaal bedrag"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Amount granted"
-msgstr ""
+msgstr "Toegestaan bedrag"
 
 #: CRM/Grant/Form/Grant.php
+#, fuzzy
 msgid "Amount requested"
-msgstr ""
+msgstr "Aangevraagd bedrag"
 
 #: CRM/Grant/Form/Task/Delete.php
+#, fuzzy
 msgid "Deleted Grant(s): %1"
-msgstr ""
+msgstr "Verwijderde contacten: %1"
 
 #: CRM/Grant/Form/Task/Delete.php
+#, fuzzy
 msgid "Total Selected Grant(s): %1"
-msgstr ""
+msgstr "Aantal geselecteerde contacten: %1"
 
 #: CRM/Grant/Form/Task/Print.php
+#, fuzzy
 msgid "Print Grant List"
-msgstr ""
+msgstr "Druk contactenlijst af"
 
 #: CRM/Grant/Import/Form/MapField.php
+#, fuzzy
 msgid "Duplicate Import Membership Mapping Name"
-msgstr ""
+msgstr "Kopiëer de import mapping naam"
 
 #: CRM/Grant/Import/Form/MapField.php
+#, fuzzy
 msgid "Select saved mapping"
-msgstr ""
+msgstr "Verwijder Mapping"
 
 #: CRM/Grant/Import/Form/UploadFile.php
+#, fuzzy
 msgid "On Duplicate Entries"
-msgstr ""
+msgstr "Bij dubbele invoeringen"
 
 #: CRM/Grant/Import/Parser/Participant.php
 msgid "Select either EventID OR Event Title"
 msgstr ""
 
 #: CRM/Grant/Import/Parser.php
+#, fuzzy
 msgid "View Participant URL"
-msgstr ""
+msgstr "Nieuwe deelnemer"
 
 #: CRM/Grant/Invoke.php
+#, fuzzy
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Je hebt niet de nodige toegangsrechten niet om dit contact te zien"
 
 #: CRM/Grant/Invoke.php
+#, fuzzy
 msgid "Manage Grant"
-msgstr ""
+msgstr "Groepsbeheer"
 
 #: CRM/Grant/Invoke.php
+#, fuzzy
 msgid "You do not have access to this page."
-msgstr ""
+msgstr "Je hebt niet de nodige toegangsrechten niet om dit contact te zien"
 
 #: CRM/Grant/Invoke.php
+#, fuzzy
 msgid "Import Grants"
-msgstr ""
+msgstr "Importeer deelnemers"
 
 #: CRM/Grant/Invoke.php
+#, fuzzy
 msgid "CiviGrant DashBoard"
-msgstr ""
+msgstr "Contact overzicht"
 
 #: CRM/Grant/Menu.php templates/CRM/Grant/Form/Search.tpl
+#, fuzzy
 msgid "Find Grants"
-msgstr ""
+msgstr "Zoek groepen"
 
 #: CRM/Grant/Page/DashBoard.php
+#, fuzzy
 msgid "grants"
-msgstr ""
+msgstr "Toestaan"
 
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/GrantView.tpl
+#, fuzzy
 msgid "View Grant"
-msgstr ""
+msgstr "Toestaan"
 
 #: CRM/Grant/Selector/Search.php templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
 msgid "Edit Grant"
-msgstr ""
+msgstr "Wijzig groep"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Are you sure you want to delete this grant?"
-msgstr ""
+msgstr "Weet u zeker dat u deze notitie wilt verwijderen?"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Delete Grant"
-msgstr ""
+msgstr "Verwijder Groep"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Amount Requested (orig. currency) "
-msgstr ""
+msgstr "Aangevraagd bedrag"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Amount Requested(EUR) "
-msgstr ""
+msgstr "Aangevraagd bedrag"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Amount Granted "
-msgstr ""
+msgstr "Toegestaan bedrag"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "Application received date"
-msgstr ""
+msgstr "Ontvangstdatum aanmelding"
 
 #: CRM/Grant/Selector/Search.php
+#, fuzzy
 msgid "CiviCRM Grant Search"
-msgstr ""
+msgstr "CiviCRM zoeken"
 
 #: CRM/Group/Form/Edit.php
 msgid "Confirm Group Delete"
@@ -7229,12 +7435,14 @@ msgid "select"
 msgstr "selecteer"
 
 #: CRM/Group/Form/Edit.php
+#, fuzzy
 msgid "Add Subgroup"
-msgstr ""
+msgstr "Voeg aan een groep toe"
 
 #: CRM/Group/Form/Edit.php
+#, fuzzy
 msgid "The Group \"%1\" has been saved."
-msgstr ""
+msgstr "Groep \"%1\" is bewaard"
 
 #: CRM/Group/Form/Search.php
 #, fuzzy
@@ -7369,14 +7577,18 @@ msgid "The price field \"%1\" has been deleted."
 msgstr "Prijs veld \"%1\" is verwijderd."
 
 #: CRM/Price/Form/DeleteSet.php
+#, fuzzy
 msgid "The Price Set \"%1\" has been deleted."
-msgstr ""
+msgstr "De set \"%1\" is verwijderd."
 
 #: CRM/Price/Form/DeleteSet.php
+#, fuzzy
 msgid ""
 "The Price Set \"%1\" has not been deleted! You must Delete all price fields "
 "in this set prior to deleting the set"
 msgstr ""
+"De set %1 is niet verwijderd. U moet eerst alle prijs velden in deze set "
+"verwijderen voordat u de set kunt verwijderen"
 
 #: CRM/Price/Form/Field.php
 msgid "Input Field Type"
@@ -7387,8 +7599,9 @@ msgid "Price"
 msgstr "Prijs"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "must be a monetary value"
-msgstr ""
+msgstr "moet een geldbedrag zijn"
 
 #: CRM/Price/Form/Field.php
 msgid "Please enter a valid value for this field."
@@ -7403,28 +7616,34 @@ msgid "Display Amount?"
 msgstr "Toon bedrag?"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Price is a required field"
-msgstr ""
+msgstr "%1 is een vereist veld."
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Duplicate label value"
-msgstr ""
+msgstr "Dupliceer Optie waarden"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Duplicate value"
-msgstr ""
+msgstr "Dupliceer Optie waarden"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Label can not be empty"
-msgstr ""
+msgstr "Optie label kan niet leeg zijn"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Value can not be empty"
-msgstr ""
+msgstr "Optie waarde kan niet leeg zijn"
 
 #: CRM/Price/Form/Field.php
+#, fuzzy
 msgid "Label and value can not be empty"
-msgstr ""
+msgstr "Optie waarde kan niet leeg zijn"
 
 #: CRM/Price/Form/Field.php
 msgid "Price field \"%1\" has been saved"
@@ -7443,16 +7662,19 @@ msgid "There is an entry with the same value"
 msgstr ""
 
 #: CRM/Price/Form/Option.php
+#, fuzzy
 msgid "Duplicate option value"
-msgstr ""
+msgstr "Dupliceer Optie waarden"
 
 #: CRM/Price/Form/Option.php
+#, fuzzy
 msgid "Duplicate option label"
-msgstr ""
+msgstr "Dupliceer Optie label"
 
 #: CRM/Price/Form/Option.php
+#, fuzzy
 msgid "%1 option has been deleted"
-msgstr ""
+msgstr "Deze optie is verwijderd"
 
 #: CRM/Price/Form/Option.php
 msgid "The option \"%1\" has been saved"
@@ -7523,8 +7745,9 @@ msgid "Delete Price"
 msgstr "Verwijder prijs"
 
 #: CRM/Price/Page/Field.php
+#, fuzzy
 msgid "Price "
-msgstr ""
+msgstr "Prijs"
 
 #: CRM/Price/Page/Field.php
 msgid "%1 - Price Fields"
@@ -7559,8 +7782,9 @@ msgid "Price Field Option"
 msgstr "Prijs veld optie"
 
 #: CRM/Price/Page/Option.php
+#, fuzzy
 msgid "Price Option "
-msgstr ""
+msgstr "Wijzig prijs optie"
 
 #: CRM/Price/Page/Option.php
 msgid "%1 - Price Options"
@@ -7744,36 +7968,43 @@ msgid ""
 msgstr ""
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
+#, fuzzy
 msgid "Handle"
-msgstr ""
+msgstr "en"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
+#, fuzzy
 msgid "Secret"
-msgstr ""
+msgstr "Selecteer"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 msgid "Issued"
 msgstr ""
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
+#, fuzzy
 msgid "Lifetime"
-msgstr ""
+msgstr "levensduur"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
+#, fuzzy
 msgid "Assoc Type"
-msgstr ""
+msgstr "Processor type"
 
 #: CRM/Standalone/OpenID/DAO/Nonce.php
+#, fuzzy
 msgid "Timestamp"
-msgstr ""
+msgstr "Test"
 
 #: CRM/Standalone/OpenID/DAO/Nonce.php
+#, fuzzy
 msgid "Salt"
-msgstr ""
+msgstr "Prov."
 
 #: CRM/Standalone/OpenID/DAO/Settings.php
+#, fuzzy
 msgid "Setting"
-msgstr ""
+msgstr "Instellingen"
 
 #: CRM/Tag/Form/Tag.php
 msgid "Update Tags"
@@ -8007,8 +8238,9 @@ msgid "CiviCRM Profile Group Preview"
 msgstr "Voorvertoning CiviCRM profielgroep"
 
 #: CRM/Upgrade/Form.php
+#, fuzzy
 msgid "Title not Set"
-msgstr ""
+msgstr "FOUT: Titel niet aanwezig"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - the current database is not v1.9."
@@ -8170,8 +8402,9 @@ msgid "Unknown function called"
 msgstr "Onbekende functie aangeroepen"
 
 #: CRM/Utils/Sunlight.php
+#, fuzzy
 msgid "Invalid response code received from Sunlight servers: %1"
-msgstr ""
+msgstr "Foute reactie code ontvangen van Google Checkout: %1"
 
 #: CRM/Utils/System.php
 msgid "This feature requires PHP Version %1 or greater"
@@ -8322,8 +8555,9 @@ msgstr ""
 "specifieke ACL rol."
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl
+#, fuzzy
 msgid "Select the core ACL."
-msgstr ""
+msgstr "ACL verwijderen"
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl
 msgid ""
@@ -8379,15 +8613,22 @@ msgstr ""
 "specifieke velden."
 
 #: templates/CRM/ACL/Form/ACL.tpl
+#, fuzzy
 msgid "Select a event, OR apply this permission to ALL events."
 msgstr ""
+"Selecteer een specifiek profiel OF geef de toegangsrechten aan ALLE "
+"profielen."
 
 #: templates/CRM/ACL/Form/ACL.tpl
+#, fuzzy
 msgid ""
 "Select a Role to assign (grant) this permission to. Select the special role "
 "\"Everyone\" if you want to grant this permission to ALL users. \"Everyone\" "
 "includes anonymous (i.e. not logged in) users."
 msgstr ""
+"Selecteer een rol om dit toegangsrecht te geven. Selecteer de speciale rol "
+"\"Iedereen\" als de toegangsrechten aan alle gebruikers moeten worden "
+"gegeven. \"Iedereen\" betekent ook anonieme (niet ingelogde) gebruikers."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -8464,8 +8705,9 @@ msgstr ""
 "CiviCRM contacten, gebruikers van uw site <a href=\"%1\">hier</a>."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl
+#, fuzzy
 msgid "ACL Type(s)"
-msgstr ""
+msgstr "Contact type(n)"
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "There are no ACL&rsquo;s entered. You can <a href=\"%1\">add one</a>."
@@ -8543,20 +8785,23 @@ msgid "Hrs"
 msgstr "uren"
 
 #: templates/CRM/Activity/Form/Activity.tpl
+#, fuzzy
 msgid "Mins"
-msgstr ""
+msgstr "minuten"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Are you sure you want to delete \"%1\"?"
 msgstr "Weet u zeker dat u \"%1' wilt verwijderen?"
 
 #: templates/CRM/Activity/Form/Activity.tpl
+#, fuzzy
 msgid "Are you sure you want to detach \"%1\" from this case?"
-msgstr ""
+msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
 
 #: templates/CRM/Activity/Form/ActivityView.tpl
+#, fuzzy
 msgid "Added By "
-msgstr ""
+msgstr "Toegevoegd (door %1)"
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Grant/Import/Form/MapField.tpl
@@ -8691,8 +8936,11 @@ msgstr "Aantal rijen"
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Total rows (activity records) in uploaded file."
 msgstr ""
+"Totaal aantal rijen (records activiteiten geschiedenis) in de geimporteerde "
+"file."
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Preview.tpl
@@ -8765,6 +9013,7 @@ msgstr ""
 "het resultaat."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched activity ID. This record have not been "
 "updated."
@@ -8772,13 +9021,21 @@ msgid_plural ""
 "CiviCRM has detected mismatched activity IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+"CiviCRM detecteert een logfile ID dat niet overeenkomt. Het betreffende "
+"record is niet bijgewerkt."
 msgstr[1] ""
+"CiviCRM detecteert meerdere logfile ID's die niet overeenkomen. De "
+"betreffende records zijn niet bijgewerkt."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Activity records</a>. You may "
 "then correct them, and import the new file with the corrected data."
 msgstr ""
+"U kunt de <a href=\"%1\">Niet overeenkomede activiteiten records</a> "
+"downloaden. Corrigeer deze en importeer het nieuwe bestand met de juiste "
+"gegevens. "
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -8807,6 +9064,7 @@ msgstr ""
 "importeer de file."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing activity records. This record have not "
@@ -8816,7 +9074,15 @@ msgid_plural ""
 "this data file or relative to existing activity records. These records have "
 "not been imported."
 msgstr[0] ""
+"CiviCRM detecteert één record met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. Het betreffende "
+"record is niet bijgewerkt. Er is een record met een conflict in het "
+"transactie ID gevonden. Dit kan aan het bestand liggen, of aan een reeds "
+"bestaand record. Het record is niet geimporteerd."
 msgstr[1] ""
+"CiviCRM detecteert meerdere records met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. De betreffende "
+"records zijn niet bijgewerkt."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -8830,6 +9096,7 @@ msgstr ""
 "transactie IDs indien nodig."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "activity record."
@@ -8837,7 +9104,11 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "activity records."
 msgstr[0] ""
+"CiviCRM detecteert één record die gelijk is aan een bestaand CiviCRM logfile "
+"record."
 msgstr[1] ""
+"CiviCRM detecteert meerdere records die gelijk zijn aan bestaande CiviCRM "
+"logfile records."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -8862,12 +9133,14 @@ msgid "Mismatched Rows (skipped)"
 msgstr "Niet-overeenkomstige rijen (overgeslagen)"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Rows with mismatched activity IDs (NOT updated)."
-msgstr ""
+msgstr "Rijen met niet-overeenkomstige logfile IDs (NIET bijgewerkt)."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Download Mismatched Activity records"
-msgstr ""
+msgstr "Download niet-overeenkomstige activiteiten geschiedenis records"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -8887,8 +9160,11 @@ msgid "Duplicate Rows"
 msgstr "Duplicaat rijen"
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM activity records."
 msgstr ""
+"Rijen die identiek zijn aan bestaande CiviCRM activiteiten geschiedenis "
+"records."
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
@@ -8909,6 +9185,7 @@ msgid "Rows imported successfully."
 msgstr "Succesvol geimporteerde rijen."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
+#, fuzzy
 msgid ""
 "The Activity Import Wizard allows you to easily upload activity from other "
 "applications into CiviCRM. Contacts must already exist in your CiviCRM "
@@ -8916,6 +9193,12 @@ msgid ""
 "records first, if necessary. Then you can match activities to contacts by "
 "Name and Email, or by Contact ID."
 msgstr ""
+"De logfile import wizard geeft u de mogelijkheid op eenvoudige wijze "
+"activiteiten vanuit andere bronnen toe te voegen aan CiviCRM. Voordat u "
+"activiteiten importeert moeten de CiviCRM contacten zijn aangemaakt. Indien "
+"noodzakelijk dient u eerst contacten te importeren om deze contact records "
+"aan te maken. Daarna kunt u activiteiten koppelen aan contacten met behulp "
+"van de naam en e-mail of het contact Id."
 
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 msgid ""
@@ -8954,24 +9237,28 @@ msgstr ""
 "\"Contact ID\", \"'Activiteiten type\", \"Activiteiten datum\")."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
+#, fuzzy
 msgid "There are no Activities attached to this case record."
-msgstr ""
+msgstr "Er zijn geen openstaande activiteiten voor dit contact."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "You can go to the Activities tab to attach some activity records."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
+#, fuzzy
 msgid "There are no Activities to display."
-msgstr ""
+msgstr "Er zijn geen openstaande activiteiten voor dit contact."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
+#, fuzzy
 msgid "There are no Activites recorded for this contact."
-msgstr ""
+msgstr "Er zijn geen bijdragen opgeslagen voor dit contact."
 
 #: templates/CRM/Activity/Selector/Activity.tpl
+#, fuzzy
 msgid "You can use the links above to schedule or record an activity."
-msgstr ""
+msgstr "Een geplande e-mail activiteit kan niet worden bewaard. "
 
 #: templates/CRM/Admin/Form/ActivityType.tpl
 msgid "New Activity Type"
@@ -9252,7 +9539,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization"
-msgstr "Adres standaardisatie"
+msgstr "Adres Standaardisatie"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9262,7 +9549,7 @@ msgid ""
 "address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
-"CiviCRM bevat een optie om de United States Postel Services (USPS) adres "
+"CiviCRM bevat een optie om de United States Postal Services (USPS) adres "
 "standaardisatie web service te gebruiken. U dient zich hiervoor te "
 "registreren bij <a href=\"http://www.usps.com/webtools/address.htm\">http://"
 "www.usps.com/webtools/address.htm</a>. Na registratie ontvangt u voor deze "
@@ -9282,8 +9569,9 @@ msgid "USPS-provided web service URL."
 msgstr "USPS web service URL."
 
 #: templates/CRM/Admin/Form/PreferencesDate.tpl
+#, fuzzy
 msgid "Edit Date Settings"
-msgstr ""
+msgstr "Uitgebreide instellingen"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -9316,8 +9604,8 @@ msgid ""
 "record. EXAMPLE: If your organization does not record Gender and Birth Date "
 "for individuals, then simplify the form by un-checking this option."
 msgstr ""
-"Selecteer de opties die moeten worden getoond als u een contact toevoegd of "
-"wijzigd. VB: als uw organisatie geen demografische gegevens van personen "
+"Selecteer de opties die moeten worden getoond als u een contact toevoegt of "
+"wijzigt. VB: als uw organisatie geen demografische gegevens van personen "
 "bijhoud, maakt u het scherm eenvoudiger door deze optie niet aan te vinken.  "
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
@@ -9399,8 +9687,8 @@ msgid ""
 msgstr ""
 "Ingeschakelde functies staan in het rechter overzicht. Uitgeschakelde "
 "functies staan in het linker overzicht. Merk een optie en klik op de "
-"aanzetten of uitzetten knop om de functie te verplaatsen van het ene naar "
-"het andere overzicht. Klik daarna op <strong>Bewaar</strong>."
+"Inschakelen  of Uitschakelen knop om de functie te verplaatsen naar het "
+"andere overzicht. Klik daarna op <strong>Bewaar</strong>."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -9427,8 +9715,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
+#, fuzzy
 msgid "Advanced Date Input Settings"
-msgstr ""
+msgstr "Uitgebreide instellingen"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid "Debugging and Error Handling"
@@ -9621,10 +9910,11 @@ msgstr ""
 "pagina de nieuwe versie melding worden getoond."
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
+#, fuzzy
 msgid ""
 "Absolute file-system path to the directory where the mysqldump program is "
 "located."
-msgstr ""
+msgstr "Het absolute pad naar de CAPTCHA font directory."
 
 #: templates/CRM/Admin/Form/Setting/Miscellaneous.tpl
 msgid ""
@@ -9642,7 +9932,7 @@ msgstr ""
 msgid ""
 "Absolute file-system path to the directory where the CAPTCHA font file is "
 "located."
-msgstr "Het absolute file-system pad naar de CAPTCHA font directory."
+msgstr "Het absolute pad naar de CAPTCHA font directory."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -9653,8 +9943,8 @@ msgid ""
 msgstr ""
 "De eerste keer dat u CiviCRM gebruikt zullen de waarden van "
 "CIVICRM_TEMPLATE_COMPILEDIR vanuit het bestand civicrm.settings.php worden "
-"ingesteld als standaard waarden. Uw webserver dient voor dit bestand "
-"schrijfbevoegdheid te hebben als u deze waarden hier wilt aanpassen."
+"ingesteld als standaardwaarden. Uw webserver dient op dit bestand "
+"schrijfbevoegdheid te hebben."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid "Upload Directories"
@@ -9665,16 +9955,16 @@ msgid ""
 "File system path where temporary CiviCRM files - such as import data files - "
 "are uploaded."
 msgstr ""
-"File-system pad waar geuploade CiviCRM bestanden, zoals geïmporteerde "
-"gegevens bestanden, tijdelijk worden geplaatst."
+"Directory waar geuploade CiviCRM bestanden, zoals geïmporteerde gegevens "
+"bestanden, tijdelijk worden geplaatst."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
 "File system path where image files are uploaded. Currently, this path is "
 "used for images associated with premiums (CiviContribute thank-you gifts)."
 msgstr ""
-"File-system pad waar afbeeldingsbestanden worden geplaatst zoals "
-"afbeeldingen van premiums (CiviContribute)."
+"Directory waar afbeeldingsbestanden worden geplaatst zoals afbeeldingen van "
+"premiums (CiviContribute)."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -9691,8 +9981,8 @@ msgid ""
 "Path where site specific templates are stored if any. This directory is "
 "searched first if set."
 msgstr ""
-"File-system pad waar de eventueel te gebruiken templates worden bewaard. "
-"Indien gebruikt wordt deze directory het eerst gezocht."
+"Directory waar de eventueel te gebruiken templates worden bewaard. Indien "
+"gebruikt wordt deze directory het eerst gezocht."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid ""
@@ -9714,28 +10004,33 @@ msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com "
 msgstr "Voer de SMTP servernaam in. (Vb: smtp.example.com)."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
+#, fuzzy
 msgid ""
 "The standard SMTP port is 25. You should only change that value if your SMTP "
 "server is running on a non-standard port."
 msgstr ""
+"De standaardwaarde voor de SMTP poort is 25. Wijzig deze waarde alleen als "
+"uw SMTP server een niet standaard poort gebruikt."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Does your SMTP server require authentication (user name + password)?"
 msgstr "Vereist uw SMTP server authenticatie? (gebruikersnaam & wachtwoord)"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
+#, fuzzy
 msgid ""
 "If your SMTP server requires authentication, enter your Username and "
 "Password here."
-msgstr ""
+msgstr "Vereist uw SMTP server authenticatie? (gebruikersnaam & wachtwoord)"
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
 msgid "These settings define the CMS variables that are used with CiviCRM."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/UF.tpl
+#, fuzzy
 msgid "CMS Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -9869,8 +10164,9 @@ msgstr ""
 "link om de verschillende rollen voor deze site te beheren."
 
 #: templates/CRM/Admin/Page/Access.tpl
+#, fuzzy
 msgid "2. Manage Core ACLs"
-msgstr ""
+msgstr "2. Beheer ACL's"
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid "Core ACLs define the primitive ACLs that control access to your site."
@@ -9927,6 +10223,8 @@ msgid ""
 "Administer your CiviCRM site using the links on this page. Click %1 for "
 "descriptions of the options in each section."
 msgstr ""
+"Beheer Uw CiviCRM site met de links op deze pagina. Klik op de %1 bij elk "
+"onderdeel voor beschrijvingen van de opties."
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -10165,9 +10463,9 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
-"U kunt elke betaling bijhouden en opslaan. Er zijn standaard betaalwijzen "
-"( cheque, contact, creditcard, etc.) voorgeïnstalleerd. Deze kunnen niet "
-"gewijzigd worden. Er kunnen betaalmethoden worden toegevoegd."
+"U kunt elke betaling registreren. Er zijn standaard betaalwijzen ( cheque, "
+"contact, creditcard, etc.). Deze dienen niet gewijzigd te worden. Er kunnen "
+"betaalmethoden worden toegevoegd."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10293,8 +10591,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
+#, fuzzy
 msgid "Date Class"
-msgstr ""
+msgstr "Datum delen"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
 msgid ""
@@ -10355,10 +10654,11 @@ msgstr ""
 "informatie over de instellingen en opties."
 
 #: templates/CRM/Admin/Page/Setting.tpl
+#, fuzzy
 msgid ""
 "Enable CiviContribute, CiviEvent, CiviMember, CiviGrant and/or CiviMail "
 "components."
-msgstr ""
+msgstr "Inschakelen CiviContribute, CiviEvent, CiviMember en/of CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10390,7 +10690,7 @@ msgid ""
 "etc.). Enable secure URLs."
 msgstr ""
 "URL's om toegang te verkrijgen tot CiviCRM bronnen (CSS- javascript-, "
-"afbeeldingsbestanden). Schalel veilige URL's in."
+"afbeeldingsbestanden). Schakel veilige URL's in."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Outbound Email (SMTP)"
@@ -10418,8 +10718,8 @@ msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
-"Selecteer en stel één of meerdere Payment Processing Services in voor online "
-"financiële bijdragen, betalingen voor evenmenten en/of contributies."
+"Selecteer en stel één of meerdere betaalmethoden in voor online financiële "
+"bijdragen, betalingen voor evenementen en/of contributies."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10439,11 +10739,12 @@ msgid ""
 "Configure optional Address Standardization provider."
 msgstr ""
 "Opmaken van de adressen voor mailling labels, invoerformulieren en "
-"overzichtsschermen. Stel optioneel een Address Standardization Provider in."
+"overzichtsschermen."
 
 #: templates/CRM/Admin/Page/Setting.tpl
+#, fuzzy
 msgid "Date Formats"
-msgstr ""
+msgstr "Datum opmaak"
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Configure input and display formats for Date fields."
@@ -10513,32 +10814,39 @@ msgid "Go to Advanced Search"
 msgstr "Uitgebreid zoeken"
 
 #: templates/CRM/Case/Form/CaseActivity.tpl
+#, fuzzy
 msgid "Regarding"
-msgstr ""
+msgstr "radialen"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "New Case Registration"
-msgstr ""
+msgstr "Nieuwe evenement aanmelding"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "Edit Case Registration"
-msgstr ""
+msgstr "Gebruikers registratie"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "Remove Case Registration"
-msgstr ""
+msgstr "Gebruikers registratie"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "Detach Activity From Case"
-msgstr ""
+msgstr "Activiteit  toevoegen aan contact"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "Are you sure you want to Detach this case from Activity?"
-msgstr ""
+msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
 
 #: templates/CRM/Case/Form/Case.tpl
+#, fuzzy
 msgid "Are you sure you want to Remove this case?"
-msgstr ""
+msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
 
 #: templates/CRM/Case/Form/Case.tpl
 msgid "Enter the case subject "
@@ -10553,16 +10861,18 @@ msgid "Select the appropriate type of the case "
 msgstr ""
 
 #: templates/CRM/Case/Form/CaseView.tpl
+#, fuzzy
 msgid "View Case Record Details"
-msgstr ""
+msgstr "Toon contact details"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Calendar"
 msgstr "Kalender"
 
 #: templates/CRM/common/calendar/desc.tpl
+#, fuzzy
 msgid "Click to select date from calendar."
-msgstr ""
+msgstr "Klik om datum en tijd uit de kalender te selecteren."
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
@@ -10641,8 +10951,9 @@ msgid "(step %1 of %2)"
 msgstr "(stap %1 van %2)"
 
 #: templates/CRM/Contact/Form/Address/country.tpl
+#, fuzzy
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- type de eerste letter(s) -"
 
 #: templates/CRM/Contact/Form/Address/country.tpl
 msgid ""
@@ -10828,8 +11139,9 @@ msgid "Mark All"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Merge.tpl
+#, fuzzy
 msgid "Move related..."
-msgstr ""
+msgstr "Verplaats alles van ..."
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid ""
@@ -10998,8 +11310,9 @@ msgid "Does the contact have a %1 Account?"
 msgstr "Heeft het contact een %1 account?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
+#, fuzzy
 msgid "Organization(s)"
-msgstr ""
+msgstr "Organisaties"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
@@ -11726,10 +12039,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Case.tpl
+#, fuzzy
 msgid ""
 "There are no case records for this contact. You can <a href=\"%1\">enter one "
 "now</a>."
 msgstr ""
+"Er zijn geen bijdragen opgeslagen voor dit contact. U kunt <a href=\"%1\">nu "
+"één invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid "Contributions received from %1 since inception."
@@ -11808,28 +12124,38 @@ msgid "(display name not available)"
 msgstr "(schermnaam niet beschikbaar)"
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
+#, fuzzy
 msgid "This page lists all grant registrations for %1 since inception."
 msgstr ""
+"Deze bladzijde toont alle evenement registraties van %1 sinds aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
+#, fuzzy
 msgid ""
 "Click <a href=\"%1\">New Grant</a> to register this contact for a Grant."
 msgstr ""
+"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan "
+"te melden voor een nieuw evenement."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
 #: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
 msgid "New Grant"
-msgstr ""
+msgstr "Toestaan"
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
+#, fuzzy
 msgid ""
 "There are no grant recorded for this contact. You can <a href=\"%1\">enter "
 "one now</a>."
 msgstr ""
+"Er zijn geen bijdragen opgeslagen voor dit contact. U kunt <a href=\"%1\">nu "
+"één invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
+#, fuzzy
 msgid "There are no grant recorded for this contact."
-msgstr ""
+msgstr "Er zijn geen bijdragen opgeslagen voor dit contact."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "This contact does not currently belong to any groups."
@@ -11940,8 +12266,9 @@ msgid "Inactive Memberships"
 msgstr "Inactieve lidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
+#, fuzzy
 msgid "Membership Types"
-msgstr ""
+msgstr "Lidmaatschap type"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid ""
@@ -11956,8 +12283,9 @@ msgid "Period"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
+#, fuzzy
 msgid "Fixed Start"
-msgstr ""
+msgstr "Aanvang fiscaal jaar"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Minimum Fee"
@@ -12030,12 +12358,14 @@ msgstr ""
 "\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
+#, fuzzy
 msgid "Inactive Relationships"
-msgstr ""
+msgstr "Contact relaties"
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
+#, fuzzy
 msgid "These relationships are Disabled OR have a past End Date."
-msgstr ""
+msgstr "De einddatum van deze relatie is verstreken."
 
 #: templates/CRM/Contact/Page/View/SMS.tpl
 msgid "Sent SMS Message"
@@ -12046,12 +12376,14 @@ msgid "Elected Officals:"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
+#, fuzzy
 msgid "Image"
-msgstr ""
+msgstr "Afbeeldingen"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
+#, fuzzy
 msgid "Party"
-msgstr ""
+msgstr "Hoofd"
 
 #: templates/CRM/Contact/Page/View/Sunlight.tpl
 msgid "No data available for this contact. Please check city/state/zipcode"
@@ -12659,16 +12991,19 @@ msgid "Select the status for this grant"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
 msgid "Select the appropriate type of the Grant "
-msgstr ""
+msgstr "Selecteer het gegevenstype waaronder deze ACL werkt."
 
 #: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
 msgid "Amount requested for grant  "
-msgstr ""
+msgstr "Aangevraagd bedrag"
 
 #: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
 msgid "Actual amount granted  "
-msgstr ""
+msgstr "Toegestaan bedrag"
 
 #: templates/CRM/Grant/Form/Grant.tpl
 msgid "Total amount of the grant  "
@@ -12687,30 +13022,37 @@ msgid "Date on which the Grant money transferred "
 msgstr ""
 
 #: templates/CRM/Grant/Form/GrantView.tpl
+#, fuzzy
 msgid "Application Recieved "
-msgstr ""
+msgstr "Ontvangstdatum aanmelding"
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
+#, fuzzy
 msgid "Date is not set"
-msgstr ""
+msgstr "FOUT: Titel niet aanwezig"
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#, fuzzy
 msgid "No matching memberships found."
-msgstr ""
+msgstr "Geen overeenkomsten gevonden."
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
 msgid "if you are searching by Contact name, check your spelling"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search/EmptyResults.tpl
+#, fuzzy
 msgid "if you are searching within a date range, try a wider range of values"
 msgstr ""
+"als u binnen een groep zoekt of op contact markeringen selecteer dan 'elke "
+"groep' of 'elke markering'."
 
 #: templates/CRM/Grant/Form/Search/ResultTasks.tpl
+#, fuzzy
 msgid "Found %count Grant."
 msgid_plural "Found %count Grants."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%count contact gevonden"
+msgstr[1] "%count contacten gevonden"
 
 #: templates/CRM/Grant/Form/Search.tpl
 msgid ""
@@ -12719,30 +13061,38 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Form/Search.tpl
+#, fuzzy
 msgid "Complete OR partial name OR email."
-msgstr ""
+msgstr "Volledig of gedeelte van een contactnaam."
 
 #: templates/CRM/Grant/Form/Selector.tpl
+#, fuzzy
 msgid "List more Grants"
-msgstr ""
+msgstr "Deelnemersoverzicht"
 
 #: templates/CRM/Grant/Form/Task/Delete.tpl
+#, fuzzy
 msgid ""
 "Are you sure you want to delete the selected Grants? This delete operation "
 "cannot be undone and will delete all transactions associated with these "
 "grants."
 msgstr ""
+"Weet u zeker dat u deze geselecteerde contacten wilt verwijderen? Deze actie "
+"kan niet hersteld woden."
 
 #: templates/CRM/Grant/Form/Task/Print.tpl
+#, fuzzy
 msgid "Application Recieved Date"
-msgstr ""
+msgstr "Ontvangstdatum aanmelding"
 
 #: templates/CRM/Grant/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Total rows (participant records) in uploaded file."
-msgstr ""
+msgstr "Aantal rijen (contact records) in het ge-uploaded bestand"
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected mismatched participant ID. This record have not been "
 "updated."
@@ -12750,15 +13100,23 @@ msgid_plural ""
 "CiviCRM has detected mismatched participant IDs. These records have not been "
 "Updated."
 msgstr[0] ""
+"Er is een niet-overeenkomstig contact-ID gesignaleerd door CiviCRM. Het "
+"record is niet bijgewerkt."
 msgstr[1] ""
+"Er zijn niet-overeenkomstig contact-IDs gesignaleerd door CiviCRM. De "
+"records zijn niet bijgewerkt."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
+"U kunt een lijst van niet-overeenkomstige contacten <a hfre=\"%1"
+"\">downloaden</a>. Corrigeer deze, en importeer opnieuw."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record with conflicting transaction ID within this "
 "data file or relative to existing particpant records. This record have not "
@@ -12768,9 +13126,18 @@ msgid_plural ""
 "this data file or relative to existing participant records. These records "
 "have not been imported."
 msgstr[0] ""
+"CiviCRM detecteert één record met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. Het betreffende "
+"record is niet bijgewerkt. Er is een record met een conflict in het "
+"transactie ID gevonden. Dit kan aan het bestand liggen, of aan een reeds "
+"bestaand record. Het record is niet geimporteerd."
 msgstr[1] ""
+"CiviCRM detecteert meerdere records met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. De betreffende "
+"records zijn niet bijgewerkt."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
 "participant record."
@@ -12778,19 +13145,26 @@ msgid_plural ""
 "CiviCRM has detected %count records which are duplicates of existing CiviCRM "
 "participant records."
 msgstr[0] ""
+"Er is een record gesignaleerd, dat overeen komt met een reeds bestaand "
+"CiviCRM contact record."
 msgstr[1] ""
+"Er zijn %count records gesignaleerd, dat overeen komen met reeds bestaande "
+"CiviCRM contact records."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Rows with mismatched participant IDs... (NOT updated)."
-msgstr ""
+msgstr "Aantal rijen met nietovereenkomstig contact IDs (niet bijgewerkt)."
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Download Mismatched participants"
-msgstr ""
+msgstr "Download Nietovereenkomstige Contacten"
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
+#, fuzzy
 msgid "Rows which are duplicates of existing CiviCRM participant records."
-msgstr ""
+msgstr "Aantal rijen met duplicaten van bestaande CiviCRM contactrecords."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
@@ -12807,10 +13181,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
+#, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
 "(Example: \"Contact ID\", \"Participant Role\")."
 msgstr ""
+"Vink deze box aan als de eerste rij van het bestand veldnamen bevat (vb.: "
+"\"Contact ID\", \"'Activiteiten type\", \"Activiteiten datum\")."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
@@ -12836,8 +13213,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
+#, fuzzy
 msgid "Grants Summary"
-msgstr ""
+msgstr "Overzicht contact"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -12850,16 +13228,19 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Grant status"
-msgstr ""
+msgstr "Groep status"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
+#, fuzzy
 msgid "Number of grants"
-msgstr ""
+msgstr "Aantal Locaties"
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
+#, fuzzy
 msgid "Recent Grants"
-msgstr ""
+msgstr "Kwitantie is verzonden"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
@@ -12938,17 +13319,17 @@ msgstr ""
 "gebruikerspagina's en overzichten'."
 
 #: templates/CRM/Group/Form/Edit.tpl
+#, fuzzy
 msgid "Subgroups"
-msgstr ""
+msgstr "Groepen"
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid "Edit Smart Group Criteria"
 msgstr "Wijzig Smart groep criteria"
 
 #: templates/CRM/Group/Form/Search.tpl
-#, fuzzy
 msgid "Find Groups"
-msgstr "Toon groepen"
+msgstr "Zoek groepen"
 
 #: templates/CRM/Group/Form/Search.tpl
 #, fuzzy
@@ -12980,8 +13361,9 @@ msgid "ID"
 msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
+#, fuzzy
 msgid "Child Groups"
-msgstr ""
+msgstr "Zoek groepen"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No available Groups match your search criteria. Suggestions:"
@@ -13339,16 +13721,22 @@ msgid "Fields for this Set"
 msgstr "Velden voor deze set"
 
 #: templates/CRM/Price/Page/Field.tpl
+#, fuzzy
 msgid ""
 "Unable to delete the \"%1\" Price Field - it is currently in use by one or "
 "more active events."
 msgstr ""
+"De \"%1\" Prijs-set kan niet worden verwijderd, het wordt momenteel door één "
+"of meerdere actieve evenementen gebruikt."
 
 #: templates/CRM/Price/Page/Field.tpl
+#, fuzzy
 msgid ""
 "If you no longer want to use this Price Field, click the event title below, "
 "and modify the fees for that event."
 msgstr ""
+"Als u deze Prijs-set niet meer wilt gebruiken, klik dan door op het "
+"onderstaande evenement en pas de prijsstelling van dat evenement aan."
 
 #: templates/CRM/Price/Page/Field.tpl templates/CRM/Price/Page/Option.tpl
 #: templates/CRM/Price/Page/Set.tpl
@@ -13370,16 +13758,22 @@ msgstr ""
 "a>."
 
 #: templates/CRM/Price/Page/Option.tpl
+#, fuzzy
 msgid ""
 "Unable to delete the \"%1\" Price Field Option - it is currently in use by "
 "one or more active events."
 msgstr ""
+"De \"%1\" Prijs-set kan niet worden verwijderd, het wordt momenteel door één "
+"of meerdere actieve evenementen gebruikt."
 
 #: templates/CRM/Price/Page/Option.tpl
+#, fuzzy
 msgid ""
 "If you no longer want to use this Price Option Field, click the event title "
 "below, and modify the fees for that event."
 msgstr ""
+"Als u deze Prijs-set niet meer wilt gebruiken, klik dan door op het "
+"onderstaande evenement en pas de prijsstelling van dat evenement aan."
 
 #: templates/CRM/Price/Page/Option.tpl
 msgid ""
@@ -13490,8 +13884,9 @@ msgid "Send an SMS"
 msgstr "SMS versturen"
 
 #: templates/CRM/Standalone/Form/Register.tpl
+#, fuzzy
 msgid "Standalone Registration Form"
-msgstr ""
+msgstr "Standalone formulier"
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid ""
@@ -14136,7 +14531,7 @@ msgstr "Toegestane creditcards"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
-msgstr "Betalingsmethoden"
+msgstr "Betaalmethoden"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Type"
@@ -14147,16 +14542,19 @@ msgid "Addressing Options"
 msgstr "Adres instellingen"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Honor Type"
-msgstr ""
+msgstr "Coördinaten type"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Activity Status"
-msgstr ""
+msgstr "Datum activiteit"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Participant Listing"
-msgstr ""
+msgstr "Deelnemers"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Safe File Extension"
@@ -14167,48 +14565,58 @@ msgid "Postal Mail"
 msgstr "Per post"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Email sent."
-msgstr ""
+msgstr "E-mail verzonden"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Text Message (SMS)"
-msgstr ""
+msgstr "Tekst bericht"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Text message (SMS) sent."
-msgstr ""
+msgstr "Tekst bericht"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Event Registration"
-msgstr ""
+msgstr "Nieuwe evenement aanmelding"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Online or offline event registration."
-msgstr ""
+msgstr "Online evenement registratie:"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Online or offline contribution."
-msgstr ""
+msgstr "Offline bijdrage vastleggen"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Membership Signup"
-msgstr ""
+msgstr "Lidmaatschap status"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership signup."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Membership Renewal"
-msgstr ""
+msgstr "Lidmaatschap type"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Online or offline membership renewal."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Send information about a contribution campaign or event to a friend."
 msgstr ""
+"Neem contact met ons op over de bijdragen voorafgaand aan bovenstaande lijst "
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Female"
@@ -14335,32 +14743,37 @@ msgid "Workshop"
 msgstr "Workshop"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Granted"
-msgstr ""
+msgstr "Toestaan"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Rejected"
-msgstr ""
+msgstr "Projectie"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Emergency"
-msgstr ""
+msgstr "samenvoegen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Family Support"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "General Protection"
-msgstr ""
+msgstr "Geslacht"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Impunity"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "In Honor of"
-msgstr ""
+msgstr "Eerbetoon"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "In Memory of"
@@ -14387,24 +14800,28 @@ msgid "Economic, Social & Cultural"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Gender Issues"
-msgstr ""
+msgstr "Geslacht"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Ongoing"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Resolved"
-msgstr ""
+msgstr "Verwijderd"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Name Only"
-msgstr ""
+msgstr "Jaar"
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Name and Email"
-msgstr ""
+msgstr "Stuur e-mail"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Current"
@@ -14512,41 +14929,17 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "Duration Minutes"
 #~ msgstr "Tijdsduur in minuten"
 
-#~ msgid "Selected Meeting is deleted sucessfully."
-#~ msgstr "De geselecteerde bijeenkomst is succesvol verwijderd."
-
-#~ msgid " is a numeric field"
-#~ msgstr "is een numeriek veld"
-
 #~ msgid "Delete Activity History"
 #~ msgstr "Verwijder activiteitenlogfile"
-
-#~ msgid "CiviCRM Activity History"
-#~ msgstr "CiviCRM logfile"
 
 #~ msgid "Sent Date"
 #~ msgstr "Verzenddatum"
 
-#~ msgid "Import Activity History"
-#~ msgstr "Importeer logfile"
-
-#~ msgid " must be a numeric value"
-#~ msgstr "moet een numerieke waarde zijn"
-
 #~ msgid "Record Number"
 #~ msgstr "Gegevensnummer"
 
-#~ msgid " -select role- "
-#~ msgstr "- selecteer rol -"
-
 #~ msgid "\"%1\" has been logged to Activity History."
 #~ msgstr "\"%1\" is toegevoegd aan de logfile"
-
-#~ msgid "\"%1\" has been saved."
-#~ msgstr "\"%1\" is bewaard"
-
-#~ msgid "- select activity type -"
-#~ msgstr "- selecteer activiteit type -"
 
 #~ msgid "Select Phone Number"
 #~ msgstr "Selecteer telefoonnummer."
@@ -14557,36 +14950,14 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "Selected Phone Call is deleted sucessfully."
 #~ msgstr "Geselecteerde Telefoonoproep is succesvol verwijderd."
 
-#~ msgid " VERP Separator"
-#~ msgstr "VERP scheidingsteken"
-
-#~ msgid "Could not find location id"
-#~ msgstr "Locatie ID niet gevonden"
-
 #~ msgid "Location name %1 '%2'"
 #~ msgstr "Locatie naam %1 '%2'"
-
-#~ msgid ""
-#~ "First Name and Last Name OR an email in the Primary Location should be "
-#~ "set."
-#~ msgstr ""
-#~ "In de primaire locatie moeten voornaam en achternaam OF een e-mailadres "
-#~ "worden ingevoerd."
 
 #~ msgid "Contact Meetings"
 #~ msgstr "Contact bijeenkomsten"
 
-#~ msgid "Contact Other Activity"
-#~ msgstr "Contact andere activiteiten"
-
 #~ msgid "Contact Calls"
 #~ msgstr "Contact telefoongesprekken"
-
-#~ msgid "Are you sure you want to delete this activity record?"
-#~ msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
-
-#~ msgid "Open Activities %%StatusMessage%%"
-#~ msgstr "Openstaande activiteiten %%StatusMessage%%"
 
 #~ msgid "From: %1; Subject: %2"
 #~ msgstr "Van: %1; Onderwerp: %2"
@@ -14627,9 +14998,6 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "Config Frontend"
 #~ msgstr "Configureer voorkant"
 
-#~ msgid "Coord Type"
-#~ msgstr "Coördinaten type"
-
 #~ msgid "Coord Units"
 #~ msgstr "Coördinaten eenheden"
 
@@ -14639,17 +15007,11 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "LatLong"
 #~ msgstr "Latitude Longitude"
 
-#~ msgid "Projected"
-#~ msgstr "Projectie"
-
 #~ msgid "Degree"
 #~ msgstr "graden"
 
 #~ msgid "Grad"
 #~ msgstr "grads"
-
-#~ msgid "Radian"
-#~ msgstr "radialen"
 
 #~ msgid "Foot"
 #~ msgstr "voet"
@@ -14672,9 +15034,6 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "Positive Integer"
 #~ msgstr "Positief geheel getal"
 
-#~ msgid "Variable Name"
-#~ msgstr "Variabele Naam"
-
 #~ msgid "Range"
 #~ msgstr "Bereik"
 
@@ -14683,25 +15042,6 @@ msgstr "Fout in SMTP transactie"
 
 #~ msgid "Regular Expression No Match"
 #~ msgstr "Overeenkomst regulaire expressie"
-
-#~ msgid "Activity Detail"
-#~ msgstr "Details activiteit"
-
-#~ msgid ""
-#~ "We could not move the uploaded file %1 to the upload directory %2. Please "
-#~ "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path "
-#~ "which is writable by your web server."
-#~ msgstr ""
-#~ "Het upgeloade bestand %1 kan niet verplaatst worden naar de upload "
-#~ "directory %2. Zorg ervoor dat de instelling CIVICRM_IMAGE_UPLOADDIR "
-#~ "verwijst naar een directory waar de webserver schrijfbevoegdheid heeft."
-
-#~ msgid "default - Dear [first] [last]"
-#~ msgstr "standaard - Beste [voor] [achter]"
-
-#, fuzzy
-#~ msgid "The Group '%1' has been saved."
-#~ msgstr "Groep \"%1\" is bewaard"
 
 #~ msgid "Could not find callback %1"
 #~ msgstr "Kan reactie %1 niet vinden"
@@ -14717,22 +15057,6 @@ msgstr "Fout in SMTP transactie"
 
 #~ msgid "Confirm Price Set Delete"
 #~ msgstr "Bevestig Prijs-set verwijderen"
-
-#~ msgid "The Set \"%1\" has been deleted."
-#~ msgstr "De set \"%1\" is verwijderd."
-
-#~ msgid ""
-#~ "The Set \"%1\" has not been deleted! You must Delete all price fields in "
-#~ "this set prior to deleting the set"
-#~ msgstr ""
-#~ "De set %1 is niet verwijderd. U moet eerst alle prijs velden in deze set "
-#~ "verwijderen voordat u de set kunt verwijderen"
-
-#~ msgid " must be a monetary value"
-#~ msgstr "moet een geldbedrag zijn"
-
-#~ msgid "This option has been deleted"
-#~ msgstr "Deze optie is verwijderd"
 
 #~ msgid "Log a Meeting"
 #~ msgstr "Bijeenkomst registreren"
@@ -14801,13 +15125,6 @@ msgstr "Fout in SMTP transactie"
 #~ "'Afgerond' is"
 
 #~ msgid ""
-#~ "The standard STMP port is 25. You should only change that value if your "
-#~ "SMTP server is running on a non-standard port."
-#~ msgstr ""
-#~ "De standaardwaarde voor de SMTP poort is 25. Wijzig deze waarde alleen "
-#~ "als uw SMTP server een niet standaard poort gebruikt."
-
-#~ msgid ""
 #~ "If your SMTP server requires authentication, enter your Username here. "
 #~ "You must also enter you SMTP password in the CiviCRM settings file "
 #~ "(civicrm.settings.php)."
@@ -14825,17 +15142,8 @@ msgstr "Fout in SMTP transactie"
 #~ "CiviMail bericht sjablonen moeten als locale tekst bestanden worden "
 #~ "bewaard an ge-upload."
 
-#~ msgid ""
-#~ "Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components."
-#~ msgstr ""
-#~ "De modules CiviContribute, CiviEvent, CiviMember en/of CiviMail aan-/"
-#~ "uitzetten."
-
 #~ msgid "Format date input and display."
 #~ msgstr "Opmaken van datum gegevens voor invoer en tonen."
-
-#~ msgid " - type first letter(s) - "
-#~ msgstr "- type de eerste letter(s) -"
 
 #~ msgid " <a href=\"%1\">Delete</a>"
 #~ msgstr " <a href=\"%1\">Verwijderen</a>"
@@ -14848,9 +15156,6 @@ msgstr "Fout in SMTP transactie"
 
 #~ msgid "Main Contact"
 #~ msgstr "Hoofd contact"
-
-#~ msgid "Move all of..."
-#~ msgstr "Verplaats alles van ..."
 
 #~ msgid "WARNING: The Duplicate Contact will be deleted!"
 #~ msgstr "aarschuwing: "
@@ -14867,17 +15172,11 @@ msgstr "Fout in SMTP transactie"
 #~ msgid "Log a Call"
 #~ msgstr "Telefoongesprek registreren"
 
-#~ msgid "Overdue"
-#~ msgstr "Overtijd"
-
 #~ msgid "No activities are currently scheduled."
 #~ msgstr "Er zijn momenteel geen activiteiten gepland."
 
 #~ msgid "Past Relationships"
 #~ msgstr "Voormalige relaties"
-
-#~ msgid "These relationships have a past End Date."
-#~ msgstr "De einddatum van deze relatie is verstreken."
 
 #~ msgid "Disabled Relationships"
 #~ msgstr "Relaties uitzetten"
@@ -14898,100 +15197,12 @@ msgstr "Fout in SMTP transactie"
 #~ "Wilt u de activiteiten geschiedenis van \"%2\" van het type \"%1\" met "
 #~ "omschrijving \"%3\" verwijderen ?"
 
-#~ msgid "Total rows (activity history records) in uploaded file."
-#~ msgstr ""
-#~ "Totaal aantal rijen (records activiteiten geschiedenis) in de "
-#~ "geimporteerde file."
-
-#~ msgid ""
-#~ "CiviCRM has detected mismatched activity history ID. This record have not "
-#~ "been updated."
-#~ msgid_plural ""
-#~ "CiviCRM has detected mismatched activity history IDs. These records have "
-#~ "not been Updated."
-#~ msgstr[0] ""
-#~ "CiviCRM detecteert een logfile ID dat niet overeenkomt. Het betreffende "
-#~ "record is niet bijgewerkt."
-#~ msgstr[1] ""
-#~ "CiviCRM detecteert meerdere logfile ID's die niet overeenkomen. De "
-#~ "betreffende records zijn niet bijgewerkt."
-
-#~ msgid ""
-#~ "You can <a href=\"%1\">Download Mismatched Activity History records</a>. "
-#~ "You may then correct them, and import the new file with the corrected "
-#~ "data."
-#~ msgstr ""
-#~ "U kunt de <a href=\"%1\">Niet overeenkomede activiteiten records</a> "
-#~ "downloaden. Corrigeer deze en importeer het nieuwe bestand met de juiste "
-#~ "gegevens. "
-
-#~ msgid ""
-#~ "CiviCRM has detected one record with conflicting transaction ID within "
-#~ "this data file or relative to existing activity history records. This "
-#~ "record have not been imported."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records with conflicting transaction IDs "
-#~ "within this data file or relative to existing activity history records. "
-#~ "These records have not been imported."
-#~ msgstr[0] ""
-#~ "CiviCRM detecteert één record met een conficterende transactie ID ten "
-#~ "opzichte van een bestaand activiteiten geschiedenis record. Het "
-#~ "betreffende record is niet bijgewerkt. Er is een record met een conflict "
-#~ "in het transactie ID gevonden. Dit kan aan het bestand liggen, of aan een "
-#~ "reeds bestaand record. Het record is niet geimporteerd."
-#~ msgstr[1] ""
-#~ "CiviCRM detecteert meerdere records met een conficterende transactie ID "
-#~ "ten opzichte van een bestaand activiteiten geschiedenis record. De "
-#~ "betreffende records zijn niet bijgewerkt."
-
-#~ msgid ""
-#~ "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
-#~ "activity history record."
-#~ msgid_plural ""
-#~ "CiviCRM has detected %count records which are duplicates of existing "
-#~ "CiviCRM activity history records."
-#~ msgstr[0] ""
-#~ "CiviCRM detecteert één record die gelijk is aan een bestaand CiviCRM "
-#~ "logfile record."
-#~ msgstr[1] ""
-#~ "CiviCRM detecteert meerdere records die gelijk zijn aan bestaande CiviCRM "
-#~ "logfile records."
-
-#~ msgid "Rows with mismatched activity history IDs (NOT updated)."
-#~ msgstr "Rijen met niet-overeenkomstige logfile IDs (NIET bijgewerkt)."
-
-#~ msgid "Download Mismatched Activity History records"
-#~ msgstr "Download niet-overeenkomstige activiteiten geschiedenis records"
-
-#~ msgid ""
-#~ "Rows which are duplicates of existing CiviCRM activity history records."
-#~ msgstr ""
-#~ "Rijen die identiek zijn aan bestaande CiviCRM activiteiten geschiedenis "
-#~ "records."
-
-#~ msgid ""
-#~ "The Activity History Import Wizard allows you to easily upload activity "
-#~ "history from other applications into CiviCRM. Contacts must already exist "
-#~ "in your CiviCRM database prior to importing activity history. Use Import "
-#~ "Contacts to create contact records first, if necessary. Then you can "
-#~ "match activities to contacts by Name and Email, or by Contact ID."
-#~ msgstr ""
-#~ "De logfile import wizard geeft u de mogelijkheid op eenvoudige wijze "
-#~ "activiteiten vanuit andere bronnen toe te voegen aan CiviCRM. Voordat u "
-#~ "activiteiten importeert moeten de CiviCRM contacten zijn aangemaakt. "
-#~ "Indien noodzakelijk dient u eerst contacten te importeren om deze contact "
-#~ "records aan te maken. Daarna kunt u activiteiten koppelen aan contacten "
-#~ "met behulp van de naam en e-mail of het contact Id."
-
 #~ msgid ""
 #~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
 #~ "href=\"%2\">call</a>."
 #~ msgstr ""
 #~ "Geen openstaande activiteiten. U kunt een <a href=\"%1\">bijeenkomst</a> "
 #~ "of een <a href=\"%2\"> telefoongesprek</a> plannen."
-
-#~ msgid "There are no open activities for this contact."
-#~ msgstr "Er zijn geen openstaande activiteiten voor dit contact."
 
 #~ msgid "No activity history for this contact."
 #~ msgstr "Er bestaat geen activiteiten geschiedenis voor dit contact"
