@@ -90,6 +90,11 @@ class CRM_Contact_Form_Search_Custom_Contribution
     }
 
     
+
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
+        return $this->all( $offset, $rowcount, $sort );
+    }
+    
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
         $select  = "
@@ -98,16 +103,7 @@ contact.sort_name as sort_name,
 sum(contrib.total_amount) AS donation_amount,
 count(contrib.id) AS donation_count
 ";
-        return $this->sql( $select, $offset, $rowcount, $sort, $includeContactIDs );
-    }
 
-    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        return $this->all( $offset, $rowcount, $sort );
-    }
-    
-    function sql( $select,
-                  $offset = 0, $rowcount = 0, $sort = null,
-                  $includeContactIDs = false ) {
         $where = $this->where( $includeContactIDs );
         if ( ! empty( $where ) ) {
             $where = " AND $where";
