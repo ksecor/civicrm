@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2008-01-26 03:20-0800\n"
+"PO-Revision-Date: 2008-02-08 15:55-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2169,9 +2169,10 @@ msgstr "Geselecteerde %1 type is verwijderd."
 msgid "Selected %1 type has not been deleted."
 msgstr "Geselecteerde %1 type is niet verwijderd."
 
+# kan ook maar 1 ding zijn
 #: CRM/Admin/Form/Options.php
 msgid "The %1 \"%2\" has been saved."
-msgstr "De %1 \"%2\" zijn bewaard."
+msgstr "%1 \"%2\" bewaard."
 
 #: CRM/Admin/Form/OptionValue.php
 msgid "Default Option?"
@@ -2303,7 +2304,7 @@ msgstr "Web Service URL"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Address Standardization features require PHP version 5 or greater."
-msgstr "Adres standaardiisatie eigenschappen vereisen PHP versie 5 of groter."
+msgstr "Adres standaardisatie eigenschappen vereisen PHP versie 5 of hoger."
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "You must provide values for all three Address Standarization fields."
@@ -2808,8 +2809,9 @@ msgid ""
 "This tag will be removed from any currently tagged contacts, and users will "
 "no longer be able to assign contacts to this tag."
 msgstr ""
-"Deze markering zal alle momenteel gemarkeerde contacten worden verwijdert. "
-"Gebruikers zullen geen contacten meer kunnen markeren met deze markering."
+"Deze markering zal van alle momenteel gemarkeerde contacten worden "
+"verwijderd. Gebruikers zullen geen contacten meer kunnen markeren met deze "
+"markering."
 
 #: CRM/Admin/Page/Tag.php templates/CRM/Admin/Form/Tag.tpl
 msgid "Edit Tag"
@@ -5027,15 +5029,15 @@ msgstr "Mailing opmaak"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Provider"
-msgstr "Adres standaardisatie Provider"
+msgstr "Adres Standaardisatie Provider"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Userid"
-msgstr "Adres standaardisatie Geberuikers ID"
+msgstr "Adres Standaardisatie Gebruikers ID"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Address Standardization Url"
-msgstr "Adres standaardisatie URL"
+msgstr "Adres Standaardisatie URL"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -5389,7 +5391,7 @@ msgid ""
 msgstr ""
 "Configureer de algemene instellingen voor uw site: modulen instellen, "
 "voorkeuren voor schermen en formulieren, bestandspaden en bron URL's, adres "
-"opmaak, taal, betaalmethode, Outbound e-mail, Mapping an debugging."
+"opmaak, taal, betaalmethode, uitgaande e-mail, Mapping an debugging."
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -5438,9 +5440,9 @@ msgid ""
 "Message templates allow you to save and re-use messages with layouts which "
 "you can use when sending email to one or more contacts."
 msgstr ""
-"Berichtsjablonen maken het mogelijk om berichten met een vaste lay-out via e-"
-"mail te verzenden naar één of meerdere contacten, te bewaren en her te "
-"gebruiken."
+"Berichtsjablonen maken het mogelijk om berichten met een vaste lay-out via "
+"e-mail te verzenden naar één of meerdere contacten, te bewaren en te "
+"hergebruiken."
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
@@ -5458,14 +5460,14 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Gender Options"
-msgstr "Geslacht opties"
+msgstr "Geslacht"
 
 #: CRM/Core/Menu.php
 msgid ""
 "Options for assigning gender to individual contacts (e.g. Male, Female, "
 "Transgender)."
 msgstr ""
-"Opties om het geslacht toe te wijzen aan een persoon (man, vrouw, "
+"Opties om het geslacht van een persoon te registreren (man, vrouw, "
 "transsexueel)."
 
 #: CRM/Core/Menu.php
@@ -5713,9 +5715,9 @@ msgid ""
 "verify that the CIVICRM_IMAGE_UPLOADDIR setting points to a valid path which "
 "is writable by your web server."
 msgstr ""
-"Het upgeloade bestand %1 kan niet verplaatst worden naar de upload directory "
-"%2. Zorg ervoor dat de instelling CIVICRM_IMAGE_UPLOADDIR verwijst naar een "
-"directory waar de webserver schrijfbevoegdheid heeft."
+"Het upgeloade bestand %1 kan niet verplaatst worden naar directory %2. Zorg "
+"ervoor dat de webserver schrijfbevoegdheid heeft op de directory "
+"CIVICRM_IMAGE_UPLOADDIR."
 
 #: CRM/Core/SelectValues.php
 msgid "default - Dear [first] [last]"
@@ -7774,7 +7776,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid "Address Standardization"
-msgstr "Adres standaardisatie"
+msgstr "Adres Standaardisatie"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -7784,10 +7786,10 @@ msgid ""
 "address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
-"CiviCRM bevat een optie om de United States Postel Services (USPS) adres "
+"CiviCRM bevat een optie om de United States Postal Services (USPS) adres "
 "standaardisatie web service te gebruiken. U dient zich hiervoor te "
-"registreren bij <a href=\"http://www.usps.com/webtools/address.htm\">http://"
-"www.usps.com/webtools/address.htm</a>. Na registratie ontvangt u voor deze "
+"registreren bij <a href=\"http://www.usps.com/webtools/address.htm\">http://ww"
+"w.usps.com/webtools/address.htm</a>. Na registratie ontvangt u voor deze "
 "functie een gebruikers ID en een wachtwoord."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -7834,9 +7836,10 @@ msgid ""
 "record. EXAMPLE: If your organization does not record Gender and Birth Date "
 "for individuals, then simplify the form by un-checking this option."
 msgstr ""
-"Selecteer de opties die moeten worden getoond als u een contact toevoegd of "
-"wijzigd. VB: als uw organisatie geen demografische gegevens van personen "
-"bijhoud, maakt u het scherm eenvoudiger door deze optie niet aan te vinken.  "
+"Selecteer de opties die moeten worden getoond als u een contact toevoegt of "
+"wijzigt. VB: als uw organisatie geen demografische gegevens van personen "
+"bijhoud, maakt u het scherm eenvoudiger door deze optie niet aan te vinken. "
+" "
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -7917,8 +7920,8 @@ msgid ""
 msgstr ""
 "Ingeschakelde functies staan in het rechter overzicht. Uitgeschakelde "
 "functies staan in het linker overzicht. Merk een optie en klik op de "
-"aanzetten of uitzetten knop om de functie te verplaatsen van het ene naar "
-"het andere overzicht. Klik daarna op <strong>Bewaar</strong>."
+"Inschakelen  of Uitschakelen knop om de functie te verplaatsen naar het "
+"andere overzicht. Klik daarna op <strong>Bewaar</strong>."
 
 #: templates/CRM/Admin/Form/Setting/Date.tpl
 msgid ""
@@ -8144,7 +8147,7 @@ msgstr ""
 msgid ""
 "Absolute file-system path to the directory where the CAPTCHA font file is "
 "located."
-msgstr "Het absolute file-system pad naar de CAPTCHA font directory."
+msgstr "Het absolute pad naar de CAPTCHA font directory."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -8155,8 +8158,8 @@ msgid ""
 msgstr ""
 "De eerste keer dat u CiviCRM gebruikt zullen de waarden van "
 "CIVICRM_TEMPLATE_COMPILEDIR vanuit het bestand civicrm.settings.php worden "
-"ingesteld als standaard waarden. Uw webserver dient voor dit bestand "
-"schrijfbevoegdheid te hebben als u deze waarden hier wilt aanpassen."
+"ingesteld als standaardwaarden. Uw webserver dient op dit bestand "
+"schrijfbevoegdheid te hebben."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid "Upload Directories"
@@ -8167,16 +8170,16 @@ msgid ""
 "File system path where temporary CiviCRM files - such as import data files - "
 "are uploaded."
 msgstr ""
-"File-system pad waar geuploade CiviCRM bestanden, zoals geïmporteerde "
-"gegevens bestanden, tijdelijk worden geplaatst."
+"Directory waar geuploade CiviCRM bestanden, zoals geïmporteerde gegevens "
+"bestanden, tijdelijk worden geplaatst."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
 "File system path where image files are uploaded. Currently, this path is "
 "used for images associated with premiums (CiviContribute thank-you gifts)."
 msgstr ""
-"File-system pad waar afbeeldingsbestanden worden geplaatst zoals "
-"afbeeldingen van premiums (CiviContribute)."
+"Directory waar afbeeldingsbestanden worden geplaatst zoals afbeeldingen van "
+"premiums (CiviContribute)."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 msgid ""
@@ -8193,8 +8196,8 @@ msgid ""
 "Path where site specific templates are stored if any. This directory is "
 "searched first if set."
 msgstr ""
-"File-system pad waar de eventueel te gebruiken templates worden bewaard. "
-"Indien gebruikt wordt deze directory het eerst gezocht."
+"Directory waar de eventueel te gebruiken templates worden bewaard. Indien "
+"gebruikt wordt deze directory het eerst gezocht."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid ""
@@ -8419,6 +8422,8 @@ msgid ""
 "Administer your CiviCRM site using the links on this page. Click %1 for "
 "descriptions of the options in each section."
 msgstr ""
+"Beheer Uw CiviCRM site met de links op deze pagina. Klik op de %1 bij elk "
+"onderdeel voor beschrijvingen van de opties."
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
@@ -8659,9 +8664,9 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
-"U kunt elke betaling bijhouden en opslaan. Er zijn standaard betaalwijzen "
-"( cheque, contact, creditcard, etc.) voorgeïnstalleerd. Deze kunnen niet "
-"gewijzigd worden. Er kunnen betaalmethoden worden toegevoegd."
+"U kunt elke betaling registreren. Er zijn standaard betaalwijzen ( cheque, "
+"contact, creditcard, etc.). Deze dienen niet gewijzigd te worden. Er kunnen "
+"betaalmethoden worden toegevoegd."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -8841,9 +8846,7 @@ msgstr ""
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Enable CiviContribute, CiviEvent, CiviMember and/or CiviMail components."
-msgstr ""
-"De modules CiviContribute, CiviEvent, CiviMember en/of CiviMail aan-/"
-"uitzetten."
+msgstr "Inschakelen CiviContribute, CiviEvent, CiviMember en/of CiviMail."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -8875,7 +8878,7 @@ msgid ""
 "etc.). Enable secure URLs."
 msgstr ""
 "URL's om toegang te verkrijgen tot CiviCRM bronnen (CSS- javascript-, "
-"afbeeldingsbestanden). Schalel veilige URL's in."
+"afbeeldingsbestanden). Schakel veilige URL's in."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Outbound Email (SMTP)"
@@ -8903,8 +8906,8 @@ msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
-"Selecteer en stel één of meerdere Payment Processing Services in voor online "
-"financiële bijdragen, betalingen voor evenmenten en/of contributies."
+"Selecteer en stel één of meerdere betaalmethoden in voor online financiële "
+"bijdragen, betalingen voor evenementen en/of contributies."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -8924,7 +8927,7 @@ msgid ""
 "Configure optional Address Standardization provider."
 msgstr ""
 "Opmaken van de adressen voor mailling labels, invoerformulieren en "
-"overzichtsschermen. Stel optioneel een Address Standardization Provider in."
+"overzichtsschermen."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Format date input and display."
@@ -11009,9 +11012,8 @@ msgid "Edit Smart Group Criteria"
 msgstr "Wijzig Smart groep criteria"
 
 #: templates/CRM/Group/Form/Search.tpl
-#, fuzzy
 msgid "Find Groups"
-msgstr "Toon groepen"
+msgstr "Zoek groepen"
 
 #: templates/CRM/Group/Form/Search.tpl
 #, fuzzy
@@ -12594,7 +12596,7 @@ msgstr "Toegestane creditcards"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
-msgstr "Betalingsmethoden"
+msgstr "Betaalmethoden"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Type"

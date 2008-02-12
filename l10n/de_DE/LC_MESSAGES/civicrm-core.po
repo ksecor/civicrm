@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-11-19 18:04+0100\n"
-"PO-Revision-Date: 2007-12-04 04:43-0800\n"
-"Last-Translator: Philipp Sälzer <info@cominaction.de>\n"
+"PO-Revision-Date: 2008-02-06 14:39-0800\n"
+"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12402,27 +12402,25 @@ msgid "Household Member is"
 msgstr "Haushaltsname"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Household membership."
-msgstr "Haushaltsname"
-
-#: xml/templates/civicrm_add_domain.tpl
-msgid "Non-profit"
-msgstr ""
+msgstr "Haushaltsmitgliedschaft"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
+msgid "Non-profit"
+msgstr "gemeinnützig"
+
+#: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
 msgstr "Unternehmen/Firma"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "For-profit organization."
-msgstr "Zielorganisation finden"
+msgstr "profitorientierte Organisation."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
@@ -12433,17 +12431,17 @@ msgid "Any governmental entity."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
+#, fuzzy
 msgid "Major Donor"
-msgstr ""
+msgstr "Großspender"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "High-value supporter of our organization."
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Volunteer"
-msgstr "Land"
+msgstr "Freiwilliger"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Active volunteers."
@@ -12512,13 +12510,15 @@ msgstr "Auto-responder"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Please Send Inquiries to Our Contact Email Address"
-msgstr ""
+msgstr "Anfragen bitte an unsere Kontakt-E-Mail-Adresse senden"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid ""
 "This is an automated reply from an un-attended mailbox. Please send any "
 "inquiries to the contact email address listed on our web-site."
 msgstr ""
+"Anfragen an diese E-Mail-Adresse können leider nicht bearbeitet werden. Die "
+"richtige E-Mail-Adresse für Ihre Anfragen finden Sie auf unserer Webseite."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
@@ -12535,7 +12535,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
-msgstr ""
+msgstr "Veranstaltungsgebühr"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -12543,36 +12543,35 @@ msgid "Instant Messenger (IM) screen-names"
 msgstr "Instant Messenger (bevorzugt)"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Individual contact prefixes"
-msgstr "Internationale Vorwahl"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Individual contact suffixes"
-msgstr "Individuum"
+msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Accepted Credit Cards"
-msgstr ""
+msgstr "Akzeptierte Kreditkarten"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Payment Instruments"
 msgstr "Zahlungswege"
 
+# War vorher: Komponententyp
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Event Type"
-msgstr "Komponententyp"
+msgstr "Art der Veranstaltung"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Addressing Options"
-msgstr "Einstellungen"
+msgstr "Einstellungen für Adressierungen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Postal Mail"
-msgstr "Post"
+msgstr "Briefpost"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -12616,14 +12615,13 @@ msgid "Sr"
 msgstr "Sen."
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Administrator"
-msgstr "\"%1 Administrator\" <%2>"
+msgstr "Administrator"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Authenticated"
-msgstr "eine andere Emailadresse"
+msgstr "Authentifiziert"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Credit Card"
@@ -12632,7 +12630,7 @@ msgstr "Kredit-Karte"
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Debit Card"
-msgstr "Soll (Debit)"
+msgstr "Bank-Karte"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cash"
@@ -12644,7 +12642,7 @@ msgstr "Scheck (\"Check\")"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "EFT"
-msgstr ""
+msgstr "Überweisung"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Cancelled"
@@ -12663,27 +12661,24 @@ msgid "Registered"
 msgstr "Registriert"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attended"
-msgstr "Hinzugefügt am"
+msgstr "Teilgenommen"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "No-show"
 msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Attendee"
-msgstr "Hinzugefügt am"
+msgstr "Teilnehmer"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Host"
-msgstr "Host"
+msgstr "Gastgeber"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Speaker"
-msgstr "Suche"
+msgstr "Referent"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Conference"
@@ -12691,11 +12686,11 @@ msgstr "Konferenz"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Exhibition"
-msgstr ""
+msgstr "Ausstellung"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Fundraiser"
-msgstr ""
+msgstr "Fundraiser"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Performance"
@@ -12704,12 +12699,12 @@ msgstr ""
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "Workshop"
-msgstr "oder"
+msgstr "Workshop"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
 msgid "New"
-msgstr "Vorschau %1"
+msgstr "Neu"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -12771,11 +12766,11 @@ msgstr ""
 
 #: xml/templates/civicrm_data.tpl
 msgid "Recipient is on vacation"
-msgstr ""
+msgstr "Empfänger ist abwesend"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to resolve recipient domain"
-msgstr ""
+msgstr "Die Empfänger-Domain konnte nicht aufgelöst werden"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Unable to deliver to destintation mail server"
@@ -12803,7 +12798,7 @@ msgstr "Empfänger Mailserver ist nicht erreichbar"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Message caught by a content filter"
-msgstr ""
+msgstr "Nachricht wurde durch einen Inhaltsfilter blockiert"
 
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
