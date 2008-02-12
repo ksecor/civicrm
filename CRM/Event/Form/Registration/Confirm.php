@@ -241,10 +241,15 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
 
         $config  =& CRM_Core_Config::singleton( );
         $session =& CRM_Core_Session::singleton( );
+
         $contactID = $session->get( 'userID' );
         $now = date( 'YmdHis' );
 
         $params = $this->_params;
+        
+        $fields = array( );
+        $this->fixLocationFields( $params, $fields );
+        $contactID =& $this->updateContactFields( $contactID, $params, $fields );
 
         // lets store the contactID in the session
         // we dont store in userID in case the user is doing multiple
@@ -421,7 +426,7 @@ WHERE  v.option_group_id = g.id
         if( $this->_action & CRM_Core_Action::PREVIEW ) {
             $contribParams["is_test"] = 1;
         }
-        
+        require_once 'CRM/Contribute/BAO/Contribution.php';
         $ids = array( );
         $contribution =& CRM_Contribute_BAO_Contribution::add( $contribParams, $ids );
 

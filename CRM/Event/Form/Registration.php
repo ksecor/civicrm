@@ -473,10 +473,6 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         $fields = array( );
         unset($form->_params['note']);
         
-        require_once 'CRM/Event/Form/Registration/Confirm.php';
-        CRM_Event_Form_Registration_Confirm::fixLocationFields( $form->_params, $fields );
-        $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $form->_params, $fields );
-
         // create CMS user
         if ( CRM_Utils_Array::value( 'cms_create_account', $form->_params ) ) {
             $form->_params['contactID'] = $contactID;
@@ -487,6 +483,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         }
         
         // add participant record
+        require_once 'CRM/Event/Form/Registration/Confirm.php';       
         $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $form->_params, $contactID );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';

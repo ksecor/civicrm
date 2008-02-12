@@ -443,6 +443,11 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             }
             $this->_params                = $params;
             $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+            
+            require_once 'CRM/Event/Form/Registration/Confirm.php';
+            CRM_Event_Form_Registration_Confirm::fixLocationFields( $this->_params, $fields );
+            $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $this->_params, $fields );
+
             $this->confirmPostProcess( $this, $contactID );
             $this->set( 'params', $this->_params );
         }
