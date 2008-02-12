@@ -5,7 +5,7 @@ var finished = 0;
 dojo.require("dijit.ProgressBar");
 dojo.require("dojo.parser");
 
-setFinished = function(data){
+setFinished = function(data) {
 {/literal}
   if ( data.match( 'Fatal error' ) ) {ldelim}
     var prog = dojo.byId('error_status');
@@ -16,11 +16,13 @@ setFinished = function(data){
   {rdelim}
 {literal}
 }
+
 setError = function(data){
   var prog = dojo.byId('error_status');
   prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
   finished = 1;
 }
+
 setIntermediate = function(data){
   var inter = dojo.byId('intermediate');
  
@@ -31,16 +33,18 @@ setIntermediate = function(data){
   var bar =  dijit.byId("importProgressBar");
   bar.domNode.style.display = "block";	
   bar.update({progress :result[0]});
-
 }
-doProgress = function(){
+
+doProgress = function() {
+
 dojo.xhrGet({
 {/literal}
         url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 fe=1}",
 {literal}
+	error: setError,
         handleAs: "json",
         sync:true,
-        handle: setIntermediate
+        load: setIntermediate
     });
 }
 submitForm = function( ) {
@@ -71,19 +75,22 @@ submitForm = function( ) {
 	url: "{crmURL p='civicrm/import/contact' h=0}",
 {literal}
 	form: dojo.byId("Preview"),
-    handleAs: "text",
-    preventCache: true,
-    sync: true,
-	handle: setFinished,
+        handleAs: "text",
+        preventCache: true,
+        sync: true,
+	load: setFinished,
 	error: setError,
 	multipart: false
     };
-   dojo.rawXhrPost( kw );
+   
+    dojo.rawXhrPost( kw );
+    
     pollLoop( );
 }
+
 pollLoop = function(){
     doProgress();
-   if ( ! finished ) {
+    if ( ! finished ) {
          window.setTimeout( pollLoop,10*1000);
     }
 }
