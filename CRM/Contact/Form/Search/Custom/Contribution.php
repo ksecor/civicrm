@@ -104,10 +104,9 @@ sum(contrib.total_amount) AS donation_amount,
 count(contrib.id) AS donation_count
 ";
 
+        $from  = $this->from( );
+
         $where = $this->where( $includeContactIDs );
-        if ( ! empty( $where ) ) {
-            $where = " AND $where";
-        }
 
         $having = $this->having( );
         if ( $having ) {
@@ -116,11 +115,8 @@ count(contrib.id) AS donation_count
 
         $sql = "
 SELECT $select
-FROM civicrm_contribution AS contrib,
-civicrm_contact AS contact
-WHERE contrib.contact_id = contact.id
-AND contrib.is_test = 0 
-$where
+FROM   $from
+WHERE  $where
 GROUP BY contact.id
 $having
 ";
@@ -139,11 +135,18 @@ $having
     }
 
     function from( ) {
-        return '';
+        return "
+civicrm_contribution AS contrib,
+civicrm_contact AS contact
+";
+
     }
 
     function where( $includeContactIDs = false ) {
         $clauses = array( );
+
+        $clauses[] = "contrib.contact_id = contact.id";
+        $clauses[] = "contrib.is_test = 0";
 
         $startDate = CRM_Utils_Date::format( $this->_formValues['start_date'] );
         if ( $startDate ) {
@@ -155,7 +158,6 @@ $having
             $clauses[] = "contrib.receive_date <= $endDate";
         }
 
-        $sql = implode( ' AND ', $clauses );
         if ( $includeContactIDs ) {
             $contactIDs = array( );
             foreach ( $this->_formValues as $id => $value ) {
@@ -167,14 +169,11 @@ $having
         
             if ( ! empty( $contactIDs ) ) {
                 $contactIDs = implode( ', ', $contactIDs );
-                if ( ! empty( $sql ) ) {
-                    $sql .= " AND ";
-                }
-                $sql .= " contact.id IN ( $contactIDs )";
+                $clauses[] = "contact.id IN ( $contactIDs )";
             }
         }
 
-        return $sql;
+        return implode( ' AND ', $clauses );
     }
 
     function having( $includeContactIDs = false ) {
