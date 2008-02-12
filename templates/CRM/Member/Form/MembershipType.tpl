@@ -77,7 +77,7 @@
 
     <dl> 
         <dt>{$form.minimum_fee.label}</dt>
-        <dd>{$config->defaultCurrencySymbol()}&nbsp;{$form.minimum_fee.html}</dd>
+        <dd>{$form.minimum_fee.html|crmMoney}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">{ts}Minimum fee required for this membership type. For free/complimentary memberships - set minimum fee to zero (0).{/ts}</dd>
        	<dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt>

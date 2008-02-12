@@ -44,7 +44,7 @@ function clearAmountOther() {
     </tr>
     {/if}
     {if $is_allow_other_amount}
-        <tr><td class="label">{$form.amount_other.label}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.amount_other.html}</td></tr>
+        <tr><td class="label">{$form.amount_other.label}</td><td>{$form.amount_other.html|crmMoney}</td></tr>
     {/if}
     {if $form.is_pay_later}
         <tr><td class="label">&nbsp;</td><td>{$form.is_pay_later.html}&nbsp;{$form.is_pay_later.label}</td></tr>

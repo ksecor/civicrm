@@ -63,7 +63,7 @@
         <tr class="columnheader"><th scope="column">{ts}Fee Label{/ts}</th><th scope="column">{ts}Amount{/ts}</th><th scope="column">{ts}Default?{/ts}</th></tr>
         {section name=loop start=1 loop=11}
            {assign var=idx value=$smarty.section.loop.index}
-           <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$config->defaultCurrencySymbol()}&nbsp;{$form.value.$idx.html}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
+           <tr><td class="even-row">{$form.label.$idx.html}</td><td>{$form.value.$idx.html|crmMoney}</td><td class="even-row">{$form.default.$idx.html}</td></tr>
         {/section}
         </table>
         </fieldset>

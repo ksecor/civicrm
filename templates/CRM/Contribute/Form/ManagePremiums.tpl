@@ -45,12 +45,12 @@
     </fieldset>
     </dd>
 
-	<dt>{$form.min_contribution.label}</dt><dd>{$config->defaultCurrencySymbol()}&nbsp;{$form.min_contribution.html}</dd>
+	<dt>{$form.min_contribution.label}</dt><dd>{$form.min_contribution.html|crmMoney}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}The minimum contribution amount required to be eligible to select this premium. If you want to offer it to all contributors regardless of contribution amount, enter '0'. If display of minimum contribution amounts is enabled then this text is displayed:{/ts} <em>{ts}(Contribute at least X to be eligible for this gift.){/ts}</em></dd>
 
-	<dt>{$form.price.label}</dt><dd>{$config->defaultCurrencySymbol()}&nbsp;{$form.price.html}</dd>
+	<dt>{$form.price.label}</dt><dd>{$form.price.html|crmMoney}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}The market value of this premium (e.g. retail price). For tax-deductible contributions, this amount will be used to set the non-deductible amount in the contribution record and receipt.{/ts}</dd>
-	<dt>{$form.cost.label}</dt><dd>{$config->defaultCurrencySymbol()}&nbsp;{$form.cost.html}</dd>
+	<dt>{$form.cost.label}</dt><dd>{$form.cost.html|crmMoney}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}You may optionally record the actual cost of this premium to your organization. This may be useful when evaluating net return for this incentive.{/ts}</dd>
 	<dt>{$form.options.label}</dt><dd>{$form.options.html}</dd>
 	<dt>&nbsp;</dt><dd class="description">{ts}Enter a comma-delimited list of color, size, etc. options for the product if applicable. Contributors will be presented a drop-down menu of these options when they select this product.{/ts}</dd>
