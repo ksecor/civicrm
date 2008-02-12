@@ -37,9 +37,9 @@ setIntermediate = function(data){
 
 doProgress = function() {
 
-dojo.xhrGet({
+    dojo.xhrGet({
 {/literal}
-        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 fe=1}",
+        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }",
 {literal}
 	error: setError,
         handleAs: "json",
@@ -80,7 +80,6 @@ submitForm = function( ) {
         sync: true,
 	load: setFinished,
 	error: setError,
-	multipart: false
     };
    
     dojo.rawXhrPost( kw );
@@ -91,7 +90,7 @@ submitForm = function( ) {
 pollLoop = function(){
     doProgress();
     if ( ! finished ) {
-         window.setTimeout( pollLoop,10*1000);
+         window.setTimeout( pollLoop,10*1000); // 10 sec
     }
 }
 
