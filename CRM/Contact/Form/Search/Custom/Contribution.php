@@ -43,6 +43,9 @@ class CRM_Contact_Form_Search_Custom_Contribution
     function __construct( &$formValues ) {     
         $this->_formValues = $formValues;
 
+        /**
+         * Define the columns for search result rows
+         */
         $this->_columns = array( ts('Contact Id')   => 'contact_id'  ,
                                  ts('Name'      )   => 'sort_name',
                                  ts('Donation Count') => 'donation_count',
@@ -50,6 +53,14 @@ class CRM_Contact_Form_Search_Custom_Contribution
     }
 
     function buildForm( &$form ) {
+        /**
+         * You can define a custom title for the search form
+         */
+        $this->setTitle('Find Contributors by Aggregate Totals');
+
+        /**
+         * Define the search form fields here
+         */
         $form->add( 'text',
                     'min_amount',
                     ts( 'Aggregate Total Between $' ) );
@@ -70,33 +81,26 @@ class CRM_Contact_Form_Search_Custom_Contribution
         $form->addRule('end_date', ts('Select a valid date.'), 'qfDate');
 
         /**
-         * You can define a custom title for the search form
-         */
-        $this->setTitle('Find Contributors by Aggregate Totals');
-        
-        /**
-         * if you are using the standard template, this array tells the template what elements
-         * are part of the search criteria
+         * If you are using the sample template, this array tells the template fields to render
+         * for the search form.
          */
         $form->assign( 'elements', array( 'min_amount', 'max_amount', 'start_date', 'end_date') );
     }
 
-    function count( ) {
-        $sql = $this->all( );
-
-        $dao = CRM_Core_DAO::executeQuery( $sql,
-                                           CRM_Core_DAO::$_nullArray );
-        return $dao->N;
+    /**
+     * Define the smarty template used to layout the search form and results listings.
+     */
+    function templateFile( ) {
+       return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
     }
-
-    
-
-    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        return $this->all( $offset, $rowcount, $sort );
-    }
-    
+       
+    /**
+      * Construct the search query
+      */       
     function all( $offset = 0, $rowcount = 0, $sort = null,
                   $includeContactIDs = false ) {
+        
+        // SELECT clause must include contact_id as an alias for civicrm_contact.id
         $select  = "
 distinct(contact.id) as contact_id,
 contact.sort_name as sort_name,
@@ -120,7 +124,7 @@ WHERE  $where
 GROUP BY contact.id
 $having
 ";
-
+        // Define ORDER BY for query in $sort, with default value
         if ( ! empty( $sort ) ) {
             if ( is_string( $sort ) ) {
                 $sql .= " ORDER BY $sort ";
@@ -142,6 +146,10 @@ civicrm_contact AS contact
 
     }
 
+     /*
+      * WHERE clause is an array built from any required JOINS plus conditional filters based on search criteria field values
+      *
+      */
     function where( $includeContactIDs = false ) {
         $clauses = array( );
 
@@ -191,12 +199,23 @@ civicrm_contact AS contact
         return implode( ' AND ', $clauses );
     }
 
+    /* 
+     * Functions below generally don't need to be modified
+     */
+    function count( ) {
+           $sql = $this->all( );
+           
+           $dao = CRM_Core_DAO::executeQuery( $sql,
+                                             CRM_Core_DAO::$_nullArray );
+           return $dao->N;
+    }
+       
+    function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
+        return $this->all( $offset, $rowcount, $sort );
+    }
+       
     function &columns( ) {
         return $this->_columns;
-    }
-
-    function templateFile( ) {
-        return 'CRM/Contact/Form/Search/Custom/Sample.tpl';
     }
 
    function setTitle( $title ) {
@@ -206,6 +225,7 @@ civicrm_contact AS contact
            CRM_Utils_System::setTitle(ts('Search'));
        }
    }
-   }
+       
+}
 
 ?>
