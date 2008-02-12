@@ -4,6 +4,7 @@
 -- *
 -- *********************************************************************/
 
+SELECT @domain_id := MAX(id) FROM `civicrm_domain`;
 
 
 -- /*******************************************************
@@ -77,6 +78,98 @@ CREATE TABLE IF NOT EXISTS `civicrm_activity_target` (
     CONSTRAINT `FK_civicrm_activity_target_activity_id` FOREIGN KEY (`activity_id`) REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     CONSTRAINT `FK_civicrm_activity_target_target_contact_id` FOREIGN KEY (`target_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+-- /*******************************************************
+-- *
+-- * Dumping data for option groups & values
+-- *
+-- *******************************************************/
+
+-- Dumping data for table `civicrm_option_group`
+
+INSERT INTO `civicrm_option_group` (`domain_id`, `name`, `label`, `description`, `is_reserved`, `is_active`) 
+VALUES 
+(@domain_id, 'case_type', NULL, 'Case Type', 0, 1),
+(@domain_id, 'case_status', NULL, 'Case Status', 0, 1),
+(@domain_id, 'custom_search', NULL, 'Custom Search', 0, 1),
+(@domain_id, 'participant_listing', NULL, 'Participant Listing', 0, 1),
+(@domain_id, 'grant_status', NULL, 'Grant status', 0, 1),
+(@domain_id, 'grant_type', NULL, 'Grant Type', 0, 1),
+(@domain_id, 'honor_type', NULL, 'Honor Type', 0, 1);
+
+-- Dumping data for table `civicrm_option_value`
+
+SELECT @og_id_at := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'activity_type';
+SELECT @og_id_ct := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'case_type';
+SELECT @og_id_cs := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'case_status';
+SELECT @og_id_custom := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'custom_search';
+SELECT @og_id_pl := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'participant_listing';
+SELECT @og_id_ps := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'participant_status';
+SELECT @og_id_cvo := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'contact_view_options';
+SELECT @og_id_aso := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'advanced_search_options';
+SELECT @og_id_gt := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'grant_type';
+SELECT @og_id_gs := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'grant_status';
+SELECT @og_id_ht := id FROM civicrm_option_group WHERE domain_id = @domain_id AND name = 'honor_type';
+
+SELECT @max_val := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_at;
+SELECT @max_wt  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_at;
+
+SELECT @max_val_aso := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_aso;
+SELECT @max_wt_aso  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_aso;
+
+SELECT @max_val_ps := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_ps;
+SELECT @max_wt_ps  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_ps;
+
+SELECT @max_val_cvo := MAX(op.value) FROM civicrm_option_value op WHERE op.option_group_id  = @og_id_cvo;
+SELECT @max_wt_cvo  := MAX(op.weight) FROM civicrm_option_value op WHERE op.option_group_id = @og_id_cvo;
+
+INSERT INTO `civicrm_option_value` ( `option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
+(@og_id_at, 'Contribution', (SELECT @max_val := @max_val+1), 'Contribution', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline contribution.', 0, 1, 1),
+(@og_id_at, 'Membership Signup', (SELECT @max_val := @max_val+1), 'Membership Signup', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership signup.', 0, 1, 1),
+(@og_id_at, 'Membership Renewal', (SELECT @max_val := @max_val+1), 'Membership Renewal', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Online or offline membership renewal.', 0, 1, 1),
+(@og_id_at, 'Tell a Friend', (SELECT @max_val := @max_val+1), 'Tell a Friend', NULL, 1, NULL, (SELECT @max_wt := @max_wt+1), 'Send information about a contribution campaign or event to a friend.', 0, 1, 1);
+
+
+SELECT @sms_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'SMS';
+UPDATE `civicrm_option_value` SET label = 'Text Message (SMS)', name = 'Text Message (SMS)', filter=1, 
+description = 'Text message (SMS) sent.' 
+WHERE id = @sms_id;  
+
+SELECT @event_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'Event';
+UPDATE `civicrm_option_value` ov SET label = 'Event Registration', name = 'Event Registration', filter=1, 
+description = 'Online or offline event registration.' 
+WHERE id = @event_id;
+
+
+INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
+(@og_id_cs, 'Ongoing', '1', 'Ongoing', NULL, 0, 1, 1, NULL, 0, 1, 1),
+(@og_id_cs, 'Resolved', '2', 'Resolved', NULL, 0, NULL, 2, NULL, 0, 1, 1),
+(@og_id_ct, 'Civil & Political', '1', 'Civil & Political', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_ct, 'Economic, Social & Cultural', '2', 'Economic, Social & Cultural', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_ct, 'Gender Issues', '3', 'Gender Issues', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Sample', '1', 'CRM/Contact/Form/Search/Custom/Sample.php', NULL, 0, NULL, 1, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Contribution', '2', 'CRM/Contact/Form/Search/Custom/Contribution.php', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Basic', '3', 'CRM/Contact/Form/Search/Custom/Basic.php', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_Group', '4', 'CRM/Contact/Form/Search/Custom/Group.php', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+(@og_id_custom, 'CRM_Contact_Form_Search_Custom_PostalMailing', '5', 'CRM/Contact/Form/Search/Custom/PostalMailing.php', NULL, 0, NULL, 5, NULL, 0, 0, 1),
+(@og_id_pl, 'Name Only', '1', 'Name Only', NULL, 0, 0, 1, NULL, 0, 1, 1),
+(@og_id_pl, 'Name and Email', '2', 'Name and Email', NULL, 0, 0, 2, NULL, 0, 1, 1),
+(@og_id_ps, 'Pending', (SELECT @max_val_aso := @max_val_ps+1), 'Pending', NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_ps+1), NULL, 0, 1, 1),
+(@og_id_cvo, 'Cases', (SELECT @max_val_aso := @max_val_cvo+1), NULL, NULL, 0, NULL, (SELECT @max_wt_cvo := @max_wt_cvo+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Cases', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Kabissa', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_aso, 'Grants', (SELECT @max_val_aso := @max_val_aso+1), NULL, NULL, 0, NULL, (SELECT @max_wt_aso := @max_wt_aso+1), NULL, 0, 0, 1),
+(@og_id_gs, 'Pending', 1, 'Pending', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_gs, 'Granted', 2, 'Granted', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_gs, 'Rejected', 3, 'Rejected', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_gt, 'Emergency', 1, 'Emergency', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_gt, 'Family Support', 2, 'Family Support', NULL, 0, NULL, 2, NULL, 0, 0, 1),
+(@og_id_gt, 'General Protection', 3, 'General Protection', NULL, 0, NULL, 3, NULL, 0, 0, 1),
+(@og_id_gt, 'Impunity', 4, 'Impunity', NULL, 0, NULL, 4, NULL, 0, 0, 1),
+(@og_id_ht, 'In Honor of', 1, 'In Honor of', NULL, 0, 1, 1, NULL, 0, 0, 1),
+(@og_id_ht, 'In Memory of', 2, 'In Memory of', NULL, 0, NULL, 2, NULL, 0, 0, 1);
 
 
 
@@ -156,15 +249,45 @@ WHERE (cp.id = ca.old_phonecall_id);
 
 -- update for type history
 
-INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
-SELECT ca.id, ah.entity_id
+SELECT @ov_id_completed  := value FROM civicrm_option_value WHERE option_group_id = @og_id_as AND label='Completed';
+
+SELECT @ov_id_contribute := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Contribution';
+
+INSERT INTO civicrm_activity (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`)
+SELECT ah.entity_id, ah.activity_id, @ov_id_contribute, ah.activity_summary, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
 FROM civicrm_activity_history ah
-INNER JOIN civicrm_activity ca on ca.id = ah.activity_id
-WHERE ah.activity_type NOT IN ('Meeting', 'Phone Call')
-GROUP BY ah.activity_type, ah.entity_id, ah.activity_id;
+WHERE ah.module IN ('CiviContribute')
+GROUP BY ah.module, ah.entity_id; 
+
+SELECT @ov_id_membership := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Membership Signup';
+
+INSERT INTO civicrm_activity (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`)
+SELECT ah.entity_id, ah.activity_id, @ov_id_membership, ah.activity_summary, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
+FROM civicrm_activity_history ah
+WHERE ah.module IN ('CiviMember') AND ah.activity_type='Membership - New'
+GROUP BY ah.module, ah.entity_id; 
 
 
-SELECT @ov_id_completed := value FROM civicrm_option_value WHERE option_group_id = @og_id_as AND label='Completed';
+SELECT @ov_id_event := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Event Registration';
+
+INSERT INTO civicrm_activity (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`)
+SELECT ah.entity_id, ah.activity_id, @ov_id_event, ah.activity_summary, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
+FROM civicrm_activity_history ah
+WHERE ah.module IN ('CiviEvent')
+GROUP BY ah.module, ah.entity_id; 
+
+
+INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
+SELECT ca.id, ca.source_contact_id
+FROM civicrm_activity ca
+WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event);
+
 
 INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
 SELECT eh.contact_id, @ov_id_email, eh.subject, eh.sent_date, eh.message, @ov_id_completed, 0
