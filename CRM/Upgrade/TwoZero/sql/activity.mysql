@@ -290,10 +290,21 @@ WHERE ah.module IN ('CiviEvent')
 GROUP BY ah.module, ah.entity_id; 
 
 
+SELECT @ov_id_mail := value FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label='Email';
+
+INSERT INTO civicrm_activity (`source_contact_id`, `source_record_id`, `activity_type_id`, `subject`, `activity_date_time`, `due_date_time`, `duration`, `location`, `phone_id`, `phone_number`, `details`, `status_id`, `priority_id`, `parent_id`, `is_test`)
+SELECT ah.entity_id, ah.activity_id, @ov_id_mail, ah.activity_summary, 
+       ah.activity_date, NULL, NULL, NULL, NULL, NULL, 
+       ah.activity_summary, @ov_id_completed, NULL, NULL, ah.is_test 
+FROM civicrm_activity_history ah
+WHERE ah.module IN ('CiviMail')
+GROUP BY ah.module, ah.entity_id; 
+
+
 INSERT INTO civicrm_activity_target (activity_id, target_contact_id)
 SELECT ca.id, ca.source_contact_id
 FROM civicrm_activity ca
-WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event);
+WHERE ca.activity_type_id IN (@ov_id_contribute, @ov_id_membership, @ov_id_event, @ov_id_mail);
 
 
 INSERT INTO civicrm_activity (`source_contact_id`, `activity_type_id`, `subject`, `activity_date_time`, `details`, `status_id`, `is_test`)
