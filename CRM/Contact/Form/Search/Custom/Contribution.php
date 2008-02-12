@@ -102,13 +102,7 @@ count(contrib.id) AS donation_count
     }
 
     function contactIDs( $offset = 0, $rowcount = 0, $sort = null) { 
-        $select  = "
-distinct(contact.id) as contact_id,
-contact.sort_name as sort_name,
-sum(contrib.total_amount) AS donation_amount,
-count(contrib.id) AS donation_count
-";
-        return $this->sql( $select, $offset, $rowcount, $sort, $includeContactIDs );
+        return $this->all( $offset, $rowcount, $sort );
     }
     
     function sql( $select,
