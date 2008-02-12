@@ -1,7 +1,6 @@
 {if $config->userFramework ne 'Joomla'}
 {literal}
 <script type="text/javascript">
-var finished = 0;
 dojo.require("dijit.ProgressBar");
 dojo.require("dojo.parser");
 
@@ -20,7 +19,6 @@ setFinished = function(data) {
 setError = function(data){
   var prog = dojo.byId('error_status');
   prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
-  finished = 1;
 }
 
 setIntermediate = function(data){
@@ -42,9 +40,11 @@ doProgress = function() {
         url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }",
 {literal}
 	error: setError,
+        preventCache: true,
         handleAs: "json",
         sync:true,
-        load: setIntermediate
+        load: setIntermediate,
+	timeout: 15000
     });
 }
 submitForm = function( ) {
@@ -66,6 +66,7 @@ submitForm = function( ) {
             obj.disabled = true;
         }
     }
+
     hide('help');
     hide('preview-info');
     show('id-processing');
@@ -80,18 +81,12 @@ submitForm = function( ) {
         sync: true,
 	load: setFinished,
 	error: setError,
+	timeout: 15000
     };
    
     dojo.rawXhrPost( kw );
     
     pollLoop( );
-}
-
-pollLoop = function(){
-    doProgress();
-    if ( ! finished ) {
-         window.setTimeout( pollLoop,10*1000); // 10 sec
-    }
 }
 
 dojo.addOnLoad( function( ) {
