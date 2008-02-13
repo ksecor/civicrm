@@ -263,10 +263,12 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         WHERE       $queue.id = " 
         . CRM_Utils_Type::escape($queue_id, 'Integer'));
         $eq->fetch();
-        
-        foreach ( $groups as $key => $value ) {
-            if (!$value) {
-                unset($groups[$key]);
+
+        if ( $groups ) {
+            foreach ( $groups as $key => $value ) {
+                if (!$value) {
+                    unset($groups[$key]);
+                }
             }
         }
         
