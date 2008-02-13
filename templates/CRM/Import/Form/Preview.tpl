@@ -1,52 +1,69 @@
 {if $config->userFramework ne 'Joomla'}
 {literal}
 <script type="text/javascript">
-var finished = 0;
 dojo.require("dijit.ProgressBar");
 dojo.require("dojo.parser");
+var finished = 0;
 
-setFinished = function(data) {
+setFinished = function(data, ioArgs) {
+var finished = 1;
 {/literal}
   if ( data.match( 'Fatal error' ) ) {ldelim}
-    var prog = dojo.byId('error_status');
-    prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+    var prog = document.getElementById('error_status');
+    prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
   {rdelim} else {ldelim}
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
   {rdelim}
+  return data;
 {literal}
 }
 
-setError = function(data){
-  var prog = dojo.byId('error_status');
-  prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+setError = function(data, ioArgs){
+  var prog = document.getElementById('error_status');
+  prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
   finished = 1;
+  return data;
 }
 
-setIntermediate = function(data){
-  var inter = dojo.byId('intermediate');
- 
-  var dataStr = data.toString();
-  var result  = dataStr.split(",");
+setIntermediate = function( ) {
 
-  inter.innerHTML = result[1];
-  var bar =  dijit.byId("importProgressBar");
-  bar.domNode.style.display = "block";	
-  bar.update({progress :result[0]});
-}
-
-doProgress = function() {
+    var dataUrl = {/literal}"{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }"{literal}
 
     dojo.xhrGet({
-{/literal}
-        url: "{crmURL p='civicrm/ajax/status' q="id=$statusID" h=0 }",
-{literal}
-	error: setError,
+        url: dataUrl,
         handleAs: "json",
-        sync:true,
-        load: setIntermediate
-    });
+        preventCache: true,
+        sync: true,
+	timeout: 5000,
+        load: function(response, ioArgs) {
+	  if (response instanceof Error){
+	    if(response.dojoType == "cancel"){
+	      //The request was canceled by some other JavaScript code.
+	      console.debug("Request canceled.");
+	    }else if(response.dojoType == "timeout"){
+	      //The request took over 5 seconds to complete.
+	      console.debug("Request timed out.");
+	    }else{
+	      //Some other error happened.
+	      console.error(response);
+	    }
+	  } else {
+	    var inter = document.getElementById("intermediate");
+	    var dataStr = response.toString();
+	    var result  = dataStr.split(",");
+
+	    inter.innerHTML = result[1];
+	    var bar =  dijit.byId("importProgressBar");
+	    bar.domNode.style.display = "block";	
+	    bar.update({progress :result[0]});
+	  }        
+	}
+});
+
+
 }
+
 submitForm = function( ) {
 
     // Disable Import button
@@ -66,6 +83,7 @@ submitForm = function( ) {
             obj.disabled = true;
         }
     }
+
     hide('help');
     hide('preview-info');
     show('id-processing');
@@ -76,23 +94,23 @@ submitForm = function( ) {
 {literal}
 	form: dojo.byId("Preview"),
         handleAs: "text",
-        preventCache: true,
-        sync: true,
 	load: setFinished,
 	error: setError,
+	timeout: 1500000
     };
    
-    dojo.rawXhrPost( kw );
-    
+    dojo.xhrPost( kw );
+
     pollLoop( );
 }
 
 pollLoop = function(){
-    doProgress();
+    setIntermediate();
     if ( ! finished ) {
          window.setTimeout( pollLoop,10*1000); // 10 sec
     }
 }
+
 
 dojo.addOnLoad( function( ) {
    dojo.connect(dojo.byId("Preview"), "onsubmit", "submitForm" );

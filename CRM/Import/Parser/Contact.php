@@ -1095,7 +1095,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         }
         
         //get the prefix id etc if exists
-        CRM_Contact_BAO_Contact::resolveDefaults(&$formatted, true);
+        CRM_Contact_BAO_Contact::resolveDefaults($formatted, true);
     
         require_once 'api/v2/Contact.php';
         $error = civicrm_contact_check_params( $formatted, $dupeCheck, true, $requiredCheck );
