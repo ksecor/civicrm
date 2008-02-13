@@ -5,23 +5,25 @@ dojo.require("dijit.ProgressBar");
 dojo.require("dojo.parser");
 var finished = 0;
 
-setFinished = function(data) {
+setFinished = function(data, ioArgs) {
 var finished = 1;
 {/literal}
   if ( data.match( 'Fatal error' ) ) {ldelim}
     var prog = document.getElementById('error_status');
-    prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+    prog.innerHTML = "<p>We encountered an unknown error in setFinished: " + data + "</p>";
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Preview_display=true' h=0}";
   {rdelim} else {ldelim}
     location.href = "{crmURL p='civicrm/import/contact' q='_qf_Summary_display=true' h=0}";
   {rdelim}
+  return data;
 {literal}
 }
 
-setError = function(data){
+setError = function(data, ioArgs){
   var prog = document.getElementById('error_status');
-  prog.innerHTML = "<p>We encountered an unknown error: " + data + "</p>";
+  prog.innerHTML = "<p>We encountered an unknown error in setError: " + data + "</p>";
   finished = 1;
+  return data;
 }
 
 setIntermediate = function( ) {
@@ -92,14 +94,12 @@ submitForm = function( ) {
 {literal}
 	form: dojo.byId("Preview"),
         handleAs: "text",
-        preventCache: true,
-        sync: true,
-	handle: setFinished,
+	load: setFinished,
 	error: setError,
-	timeout: 15000
+	timeout: 1500000
     };
    
-    dojo.rawXhrPost( kw );
+    dojo.xhrPost( kw );
 
     pollLoop( );
 }
