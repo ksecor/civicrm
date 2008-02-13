@@ -40,7 +40,8 @@ require_once 'CRM/Contact/Form/Task.php';
  * the address for group of
  * contacts. 
  */
-class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
+class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task 
+{
 
     /**
      * Are we operating in "single mode", i.e. mapping address to one
@@ -57,7 +58,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @return void
      * @access public
      */
-    function preProcess( ) {
+    function preProcess( ) 
+    {
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive',
                                             $this, false );
         $lid = CRM_Utils_Request::retrieve( 'lid', 'Positive',
@@ -105,7 +107,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @access public
      * @return None
      */
-    public function postProcess() {
+    public function postProcess() 
+    {
            
     }//end of function
 
@@ -119,8 +122,8 @@ class CRM_Contact_Form_Task_Map  extends CRM_Contact_Form_Task {
      * @return string           the location of the file we have created
      * @access protected
      */
-    static function createMapXML( $ids, $locationId, &$page, $addBreadCrumb, $type = 'Contact' ) {
-
+    static function createMapXML( $ids, $locationId, &$page, $addBreadCrumb, $type = 'Contact' ) 
+    {
         $config =& CRM_Core_Config::singleton( );
 
         CRM_Utils_System::setTitle( ts('Map Location(s)'));
