@@ -1957,7 +1957,7 @@ INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES
 (3330, 1108, "EH", "Saint Elizabeth"),
 (3331, 1108, "JS", "Saint James"),
 (3332, 1108, "MY", "Saint Mary"),
-(3333, 1108, "TS", "Saint Thomea"),
+(3333, 1108, "TS", "Saint Thomas"),
 (3334, 1108, "TY", "Trelawny"),
 (3335, 1108, "WD", "Westmoreland"),
 (3336, 1110, "AJ", "Ajln"),
