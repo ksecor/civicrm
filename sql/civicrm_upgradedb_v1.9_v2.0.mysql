@@ -40,3 +40,5 @@
 
     UPDATE civicrm_state_province SET name = 'Saint Thomas' WHERE name = 'Saint Thomea';
 
+    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5195, 1108, 'MR', 'Manchester');
+
