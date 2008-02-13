@@ -5905,7 +5905,7 @@ msgstr "圣詹姆斯"
 msgid "Saint Mary"
 msgstr "圣玛丽"
 
-msgid "Saint Thomea"
+msgid "Saint Thomas"
 msgstr ""
 
 msgid "Trelawny"

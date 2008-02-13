@@ -5904,7 +5904,7 @@ msgstr ""
 msgid "Saint Mary"
 msgstr ""
 
-msgid "Saint Thomea"
+msgid "Saint Thomas"
 msgstr ""
 
 msgid "Trelawny"
