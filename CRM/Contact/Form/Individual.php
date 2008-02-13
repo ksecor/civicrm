@@ -120,17 +120,20 @@ class CRM_Contact_Form_Individual {
         $extraOnAddFlds = "'" . $extraOnAddFlds . "'";
         
         if ( $action & CRM_Core_Action::UPDATE ) {
-            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
-resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
-" );        
+
+            $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
             
-            $mailToHouseholdID = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
-                                                              $form->_contactId, 
-                                                              'mail_to_household_id', 
-                                                              'id' );
+            $mailToHouseholdID  = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', 
+                                                               $form->_contactId, 
+                                                               'mail_to_household_id', 
+                                                               'id' );
             if ( $mailToHouseholdID ) {
                 $form->add('hidden', 'old_mail_to_household_id', $mailToHouseholdID);
                 $form->assign('old_mail_to_household_id', $mailToHouseholdID);
+
+                $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();
+resetByValue('shared_option',   '', $extraOnAddFlds, 'text', 'radio',   true );
+" );
             }
         } elseif ( $action & CRM_Core_Action::ADD ) {
             $sharedOptionsExtra = array( 'onclick' => "showHideSharedOptions();" );        
