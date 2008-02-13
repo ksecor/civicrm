@@ -6,11 +6,12 @@ require_once 'CRM/Core/BAO/UFMatch.php';
 // Render a default page if we got a submission without an openid
 // value.
 if (empty($_REQUEST['openid_url'])) {
-    $error = "Expected an OpenID URL.";
+    // TODO: Error reporting doesn't work correctly yet
+    //$session->set( 'error', "Expected an OpenID URL." );
     include 'index.php';
     exit(0);
 }
-                       
+
 $scheme = 'http';
 if (isset($_SERVER['HTTPS']) and $_SERVER['HTTPS'] == 'on') {
     $scheme .= 's';
