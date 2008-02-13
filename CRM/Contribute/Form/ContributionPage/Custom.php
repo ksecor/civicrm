@@ -48,8 +48,8 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */
     public function buildQuickForm()
     {
-        $this->add( 'select', 'custom_pre_id' , ts('Profile Fields') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
-        $this->add( 'select', 'custom_post_id', ts('Profile Fields') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_pre_id' , ts('Include Profile') . '<br />' . ts('(top of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
+        $this->add( 'select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'), array('' => ts('- select -')) + CRM_Core_PseudoConstant::ufGroup( ) );
 
         $this->addFormRule( array( 'CRM_Contribute_Form_ContributionPage_Custom', 'formRule' ) , $this->_id);
         
@@ -69,7 +69,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
 
          if ( $this->_id ) {
              $title = CRM_Core_DAO::getFieldValue( 'CRM_Contribute_DAO_ContributionPage', $this->_id, 'title' );
-             CRM_Utils_System::setTitle(ts('Custom Elements (%1)', array(1 => $title)));
+             CRM_Utils_System::setTitle(ts('Include Profiles (%1)', array(1 => $title)));
          }
             
         require_once 'CRM/Core/BAO/UFJoin.php';
@@ -132,7 +132,7 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
      */ 
     public function getTitle( ) 
     {
-        return ts( 'Custom Fields' );
+        return ts( 'Include Profiles' );
     }
 
     /**  

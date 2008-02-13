@@ -43,6 +43,10 @@
 </tr>
 {/if}
 <tr>
+    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Include Profiles{/ts}</a></td>
+    <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
+</tr>
+<tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=ThankYou"}" id="idThank-youandReceipting">&raquo; {ts}Thank-you and Receipting{/ts}</a></td>
     <td>{ts}Edit thank-you page contents and receipting features.{/ts}</td>
 </tr>
@@ -54,11 +58,6 @@
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Widget"}" id="idWidget">&raquo; {ts}Create a Widget{/ts}</a></td>
     <td>{ts}Create a contribution widget which you and your supporters can embed in websites and blogs.{/ts}</td>
 </tr>
-<tr>
-    <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Custom"}" id="idCustomPageElements">&raquo; {ts}Custom Page Elements{/ts}</a></td>
-    <td>{ts}Collect additional information from contributors by selecting CiviCRM Profile(s) to include in this contribution page.{/ts}</td>
-</tr>
-
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Premium"}" id="idPremiums">&raquo; {ts}Premiums{/ts}</a></td>
     <td>{ts}Enable a Premiums section (incentives / thank-you gifts) for this page, and configure premiums offered to contributors.{/ts}</td>

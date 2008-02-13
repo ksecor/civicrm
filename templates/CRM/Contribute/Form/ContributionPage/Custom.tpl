@@ -7,7 +7,7 @@
 </div>
  
 <div class="form-item">
-    <fieldset><legend>{ts}Custom Page Elements{/ts}</legend>
+    <fieldset><legend>{ts}Include Profiles{/ts}</legend>
     <dl>
     <dt>{$form.custom_pre_id.label}</dt><dd>{$form.custom_pre_id.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Include additional fields in this online contribution page by configuring and selecting a CiviCRM Profile to be included at the top of the page (immediately after the introductory message).{/ts}{help id="contrib-profile"}</dd>

@@ -58,7 +58,7 @@
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields (for example, invalid email address formatting). These rows will be skipped (not imported).{/ts}
             {if $invalidRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadErrorRecordsUrl}">&raquo; {ts}Download Errors{/ts}</a></div>
             {/if}
         </td>
     </tr>
@@ -69,7 +69,7 @@
         <td class="data">{$unMatchCount}</td>
         <td class="explanation">{ts}Rows with mismatched contact IDs... (NOT updated).{/ts}
             {if $unMatchCount}
-                <p><a href="{$downloadMismatchRecordsUrl}">{ts}Download Mismatched Contacts{/ts}</a></p>
+                <<div class="action-link"><a href="{$downloadMismatchRecordsUrl}">&raquo; {ts}Download Mismatched Contacts{/ts}</a></div>
             {/if}
         </td>
     </tr>
@@ -80,7 +80,7 @@
         <td class="data">{$conflictRowCount}</td>
         <td class="explanation">{ts}Rows with conflicting email addresses (NOT imported).{/ts}
             {if $conflictRowCount}
-                <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadConflictRecordsUrl}">&raquo; {ts}Download Conflicts{/ts}</a></div>
             {/if}
         </td>
     </tr>
@@ -91,7 +91,7 @@
         <td class="data">{$duplicateRowCount}</td>
         <td class="explanation">{ts}Rows which are duplicates of existing CiviCRM contact records.{/ts} {$dupeActionString}
             {if $duplicateRowCount}
-                <p><a href="{$downloadDuplicateRecordsUrl}">{ts}Download Duplicates{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadDuplicateRecordsUrl}">&raquo; {ts}Download Duplicates{/ts}</a></div>
             {/if}
         </td>
     </tr>
