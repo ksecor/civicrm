@@ -64,7 +64,8 @@ setIntermediate = function( ) {
 
 }
 
-submitForm = function( ) {
+submitForm = function( e ) {
+     dojo.stopEvent( e );
 
     // Disable Import button
     if (document.getElementById) {
