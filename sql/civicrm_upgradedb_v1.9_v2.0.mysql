@@ -38,3 +38,5 @@
     UPDATE civicrm_state_province SET abbreviation = 'TY' WHERE id = 3334;
     UPDATE civicrm_state_province SET abbreviation = 'WD' WHERE id = 3335;
 
+    UPDATE civicrm_state_province SET name = 'Saint Thomas' WHERE name = 'Saint Thomea';
+
