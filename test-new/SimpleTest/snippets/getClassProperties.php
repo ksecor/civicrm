@@ -2,7 +2,7 @@
 
 require_once 'api/crm.php';
 
-class TestOfGetClassProperties extends UnitTestCase 
+class TestOfGetClassPropertiesSnippet extends UnitTestCase 
 {
 
     function setUp() 
