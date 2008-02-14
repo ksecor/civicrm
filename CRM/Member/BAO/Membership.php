@@ -847,7 +847,11 @@ AND       civicrm_membership.is_test = %2
         
         if ( ! empty( $errors ) ) {
             foreach ($errors as $error ) {
-                $message[] = $error;
+                if ( is_string( $error ) ) {
+                    $message[] = $error;
+                } else if ( is_a( $error, 'CRM_Core_Error' ) ) {
+                    $message[] = $error->getMessage( );
+                }
             }
             $message = implode( '<br/>', $message );
             CRM_Core_Error::displaySessionError( $message );
