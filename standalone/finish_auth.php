@@ -57,7 +57,7 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
         */
     } else {
         require_once 'CRM/Standalone/User.php';
-        $user = new Standalone_User( $openid, $email );
+        $user = new CRM_Standalone_User( $openid, $email );
     }
     $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
     if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {
