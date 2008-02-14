@@ -604,5 +604,25 @@ WHERE  civicrm_participant.id = {$participantId}
         return $result;
     } 
     
+    /**
+     * fix the event level
+     *
+     * When price sets are used as event fee, event_level is set as ^A
+     * seperated string. We need to change that string to comma
+     * separated string before using event_level in view mode.
+     *
+     * @param string  $eventLevel  event_leval string from db
+     * 
+     * @static
+     * @return void
+     */
+    static function fixEventLevel( &$eventLevel )
+    {
+        if ( ( substr( $eventLevel, 0, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) &&
+             ( substr( $eventLevel, -1, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
+            $eventLevel = implode( ', ', explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, 
+                                                  substr( $eventLevel, 1, -1) ) );
+        }
+    }
 }
 ?>
