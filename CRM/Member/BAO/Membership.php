@@ -782,7 +782,7 @@ AND       civicrm_membership.is_test = %2
         
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
-            $errors[1]       = $result[1];
+            $errors[1]       = CRM_Core_Error::getMessages( $result[1] );
         } else {
             $contribution[1] = $result[1];
         }
@@ -808,7 +808,7 @@ AND       civicrm_membership.is_test = %2
                 }
             }
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                $errors[2] = $result;
+                $errors[2] = CRM_Core_Error::getMessages( $result );
             } else {
                 $form->set('membership_trx_id' , $result['trxn_id']);
                 $form->set('membership_amount'  , $minimumFee);
@@ -849,12 +849,11 @@ AND       civicrm_membership.is_test = %2
             foreach ($errors as $error ) {
                 if ( is_string( $error ) ) {
                     $message[] = $error;
-                } else if ( is_a( $error, 'CRM_Core_Error' ) ) {
-                    $message[] = $error->getMessage( );
                 }
             }
-            $message = implode( '<br/>', $message );
-            CRM_Core_Error::displaySessionError( $message );
+            $message = ts( "Payment Processor Error message" ) . ": " . implode( '<br/>', $message );
+            $session =& CRM_Core_Session::singleton( );
+            $session->setStatus( $message );
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                                '_qf_Main_display=true' ) );
         }
