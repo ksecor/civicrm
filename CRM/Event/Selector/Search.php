@@ -339,7 +339,9 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                          $row['event_id'], 
                                                          'is_monetary');
              
-             CRM_Event_BAO_Participant::fixEventLevel( $row['event_level'] );
+             if ( $row['event_level'] ) {
+                 CRM_Event_BAO_Participant::fixEventLevel( $row['event_level'] );
+             }
              
              $rows[] = $row;
          }
