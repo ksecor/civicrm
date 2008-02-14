@@ -115,7 +115,7 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
         
         require_once 'CRM/Standalone/User.php';
         require_once 'CRM/Utils/System/Standalone.php';
-        require_once 'CRM/Core/BAO/OpenId.php';
+        require_once 'CRM/Core/BAO/OpenID.php';
         $user = new CRM_Standalone_User( $formValues['user_unique_id'], 
             $formValues['email'], $formValues['first_name'], $formValues['last_name']
         );
