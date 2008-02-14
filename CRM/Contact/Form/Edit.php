@@ -760,7 +760,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
      */
     static function formRule(&$fields, &$errors)
     {
-        $primaryOpenId = null;
+        $primaryID = false;
 
         // make sure that at least one field is marked is_primary
         if ( array_key_exists( 'location', $fields ) && is_array( $fields['location'] ) ) {
@@ -777,18 +777,33 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                         $isPrimary = true;
                     }
 
-                    // only harvest OpenID from the primary locations
-                    if ( array_key_exists( 'openid', $fields['location'][$locationId] ) &&
-                         is_array( $fields['location'][$locationId]['openid'] )         &&
-                         empty( $primaryOpenId ) ) {
-                        foreach ( $fields['location'][$locationId]['openid'] as $idx => $openId ) {
-                            if ( array_key_exists( 'openid', $openId ) ) {
-                                $primaryOpenId = $openId['openid'];
+                    // only harvest email from the primary locations
+                    if ( array_key_exists( 'email', $fields['location'][$locationId] ) &&
+                         is_array( $fields['location'][$locationId]['email'] )         &&
+                         empty( $primaryEmail ) ) {
+                        foreach ( $fields['location'][$locationId]['email'] as $idx => $email ) {
+                            if ( array_key_exists( 'email', $email ) ) {
+                                $primaryID = $email['email'];
                                 break;
                             }
                         }
                     }
+
+                    if ( ! $primaryID ) {
+                        // harvest OpenID from the primary locations if email is not found
+                        if ( array_key_exists( 'openid', $fields['location'][$locationId] ) &&
+                             is_array( $fields['location'][$locationId]['openid'] )         &&
+                             empty( $primaryID ) ) {
+                            foreach ( $fields['location'][$locationId]['openid'] as $idx => $openId ) {
+                                if ( array_key_exists( 'openid', $openId ) ) {
+                                    $primaryID = $openId['openid'];
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+
                 if ( self::locationDataExists( $fields['location'][$locationId] ) ) {
                     $dataExists = true;
                     if ( ! CRM_Utils_Array::value( 'location_type_id', $fields['location'][$locationId] ) ) {
@@ -809,7 +824,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 $errors["location[1][is_primary]"] = ts('One location should be marked as primary.');
             }
         }
-        return $primaryOpenId;
+        return $primaryID;
     }
 
     /**
