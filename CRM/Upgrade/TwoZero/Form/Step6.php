@@ -76,7 +76,14 @@ class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>Your CiviCRM database has been successfully upgraded to v2.0. Thank you for using CiviCRM.</p>' );
+        if ( $this->_config->userFramework == 'Drupal' ) {
+            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/7IFH';
+        } else {
+            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/SoJH';
+        }
+        return ts( '<p><strong>Your CiviCRM database has been successfully upgraded to v2.0.</strong></p>
+<p>Please be sure to follow the remaining steps in the <a href="%1" target="_blank"><strong>Upgrade Instructions</strong></a>.</p>
+<p>Thank you for using CiviCRM.</p>', array( 1 => $upgradeDoc ) );
     }
 }
 ?>
