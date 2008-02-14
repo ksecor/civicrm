@@ -56,6 +56,7 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
         // TODO: Can we delete/unset the new_install session variable here?
         */
     } else {
+        require_once 'CRM/Standalone/User.php';
         $user = new Standalone_User( $openid, $email );
     }
     $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
