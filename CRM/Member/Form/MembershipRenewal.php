@@ -223,21 +223,27 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
  
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+        
         $params = array( );
         $ids    = array( );
         
         $params['contact_id']         = $this->_contactID;
 
         $renewalDate = null;
-
+        
         if ( $formValues['renewal_date'] ) {
-            $renewalDate =  CRM_Utils_Date::format( $formValues['renewal_date'], '-' );
+            $renewalDate = CRM_Utils_Date::format( $formValues['renewal_date'], '-' );
+            $changeToday = array( );
+            $changeToday['month'] = $formValues['renewal_date']['M'];
+            $changeToday['day']   = $formValues['renewal_date']['d'];
+            $changeToday['year']  = $formValues['renewal_date']['Y'];
+            $this->set( 'renewDate', $changeToday );
         }
         
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
                                                                        0, $this, null );
+        
         $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
 
         require_once 'CRM/Contact/BAO/Contact.php';

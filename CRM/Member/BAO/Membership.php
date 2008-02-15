@@ -920,15 +920,19 @@ AND       civicrm_membership.is_test = %2
                 $membership->find(true);
                 return $membership;
             }
-
+            
             // Check and fix the membership if it is STALE
             self::fixMembershipStatusBeforeRenew( $currentMembership, $changeToday );
-            
+                        
             // Now Renew the membership
             if ( ! $currentMembership['is_current_member'] ) {
                 // membership is not CURRENT
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
-                                
+                
+                if ( $form->get( 'renewDate' ) ) {
+                    $changeToday = $form->get( 'renewDate' );
+                }
+                
                 $dates =
                     CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id'],
                                                                                      $changeToday );
@@ -945,8 +949,12 @@ AND       civicrm_membership.is_test = %2
                 
                 if ( $form->_params['membership_source'] ) {
                     $currentMembership['source'] = $form->_params['membership_source'];
+                } else if ( $form->_values['title'] ) {
+                    $currentMembership['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                 } else {
-                    $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    $currentMembership['source'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                $currentMembership['id'],
+                                                                                'source');  
                 }
 
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
@@ -1154,7 +1162,7 @@ AND       civicrm_membership.is_test = %2
         
         // add activity record
         self::addActivity( $membership, 'Membership Renewal' );
-
+        
         return $membership;
     }
     
@@ -1192,7 +1200,7 @@ AND       civicrm_membership.is_test = %2
             $memberDAO = new CRM_Member_BAO_Membership( );
             $memberDAO->id = $currentMembership['id'];
             $memberDAO->find(true);
-                        
+            
             $memberDAO->status_id  = $status['id'];
             $memberDAO->join_date  = CRM_Utils_Date::isoToMysql( $memberDAO->join_date );
             $memberDAO->start_date = CRM_Utils_Date::isoToMysql( $memberDAO->start_date );
