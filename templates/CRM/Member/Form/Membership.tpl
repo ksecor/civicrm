@@ -71,7 +71,7 @@
             <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
 		    <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>
         </dl>
-        {if $email}
+        {if $emailExists }
             <dl>
             <dt class="label">{$form.send_receipt.label}</dt><dd>{$form.send_receipt.html}<br />
                 <span class="description">{ts}Automatically email a membership confirmation and contribution receipt to {$email}?{/ts}</span></dd>
@@ -106,6 +106,7 @@
     invert              = 0
 }
 
+{if $emailExists }
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="send_receipt"
     trigger_value       =""
@@ -114,7 +115,7 @@
     field_type          ="radio"
     invert              = 0
 }
-
+{/if}
 {literal}
 <script type="text/javascript">
 showHideMemberStatus();
