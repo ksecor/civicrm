@@ -260,10 +260,14 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
             if ( in_array ($name, array ('is_primary', 'location_type_id', 'id' ) ) ) {
                 continue;
             } else if ( !empty($value) ) {
-                // name could be country or country id
-                if ( substr( $name, 0, 7 ) != 'country' ) {
-                    return true;
-                } else {
+                if ( substr( $name, 0, 14 ) == 'state_province' ) {
+                    // hack to skip  - type first
+                    // letter(s) - for state_province CRM-2649
+                    $selectOption = ts('- type first letter(s) -');
+                    if ( $value != $selectOption ) {
+                        return true;
+                    }
+                } else if ( substr( $name, 0, 7 ) == 'country' ) { // name could be country or country id
                     // make sure its different from the default country
                     // iso code
                     $defaultCountry     =& $config->defaultContactCountry( );
@@ -282,6 +286,8 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
                         // return if null default
                         return true;
                     }
+                } else {
+                    return true;
                 }
             }
         }
