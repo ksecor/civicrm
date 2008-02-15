@@ -100,7 +100,7 @@ class CRM_Utils_VersionCheck
                 ini_set('default_socket_timeout', self::CHECK_TIMEOUT);
                 set_error_handler(array('CRM_Utils_VersionCheck', 'downloadError'));
                 $hash = md5($config->userFrameworkBaseURL);
-                $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&uf={$config->userFramework}&hash=$hash";
+                $url = self::LATEST_VERSION_AT . "?version={$this->localVersion}&uf={$config->userFramework}&hash=$hash&lang={$config->lcMessages}";
                 $this->latestVersion = file_get_contents($url);
                 ini_restore('default_socket_timeout');
                 restore_error_handler();
