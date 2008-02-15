@@ -164,7 +164,7 @@ class CRM_Core_BAO_Setting
             $skipVars = array( 'dsn', 'templateCompileDir',
                                'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
                                'userPermissionClass', 'userFrameworkURLVar',
-                               'qfKey', 'gettextResourceDir' );
+                               'qfKey', 'gettextResourceDir', 'cleanURL' );
             foreach ( $skipVars as $skip ) {
                 if ( array_key_exists( $skip, $defaults ) ) {
                     unset( $defaults[$skip] );
