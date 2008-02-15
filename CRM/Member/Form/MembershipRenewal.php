@@ -281,7 +281,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
         }
         
-        if ( $formValues['send_receipt'] ) {
+        $receiptSend = false;
+        if ( $formValues['record_contribution'] && $formValues['send_receipt'] ) {
+            $receiptSend = true;
             // Retrieve the name and email of the contact - this will be the TO for receipt email
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
@@ -340,7 +342,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $statusMsg .= ts('The new membership End Date is %1.', array(1 => $endDate));
         }
         
-        if( $formValues['send_receipt'] ) {
+        if ( $receiptSend ) {
             $statusMsg .= ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
         }
         
