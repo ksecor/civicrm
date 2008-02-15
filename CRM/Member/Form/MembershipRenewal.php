@@ -126,7 +126,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
         }
         
-        $defaults['send_receipt'] = 1; 
+        $defaults['send_receipt'] = 0; 
         
         if ( $defaults['membership_type_id'] ) {
             $defaults['receipt_text_renewal'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -135,8 +135,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
-        
         return $defaults;
+
     }
 
     /**
@@ -157,7 +157,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         $this->addElement('checkbox', 
                           'record_contribution', 
                           ts('Record Renewal Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
+                          array('onclick' =>"checkPayment();"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
