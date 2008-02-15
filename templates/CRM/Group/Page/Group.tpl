@@ -24,7 +24,6 @@
       <th>{ts}Description{/ts}</th>
       <th>{ts}Group Type{/ts}</th>
       <th>{ts}Visibility{/ts}</th>
-      <th>{ts}Child Groups{/ts}</th>
       <th></th>
      </tr>
    {foreach from=$rows item=row}
@@ -36,7 +35,6 @@
         </td>
         <td>{$row.group_type}</td>	
         <td>{$row.visibility}</td>	
-        <td>{$row.children}</td>
         <td>{$row.action}</td>
      </tr>
    {/foreach}
