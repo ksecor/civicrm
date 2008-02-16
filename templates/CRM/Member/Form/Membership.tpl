@@ -33,8 +33,7 @@
 		{include file="CRM/common/calendar/body.tpl" dateVar=end_date startDate=currentYear endDate=endYear offset=10 trigger=trigger_membership_3}
 		<br />
         <span class="description">{ts}Latest membership period expiration date. End Date will be automatically set based on Membership Type if you don't select a date.{/ts}</span></dd>
-    <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}<br />
-        <span class="description">{ts}Membership status is set and updated automatically based on your configured membership status rules. Check this box if you want to bypass this process, and manually set a status for this membership. The selected status which will remain in force unless it is again modified on this screen.{/ts}</span></dd>
+    <dt>{$form.is_override.label}</dt><dd class="html-adjust">{$form.is_override.html}&nbsp;&nbsp;{help id="id-status-override"}</dd>
     </dl>
 	
      
@@ -51,7 +50,7 @@
     <div id="memberStatus">
         <dl>
         <dt>{$form.status_id.label}</dt><dd class="html-adjust">{$form.status_id.html}<br />
-            <span class="description">{ts}If <strong>Status Hold?</strong> is checked, the selected status will be in in force (it will NOT be modified by the automated status update script).{/ts}</span></dd>
+            <span class="description">{ts}If <strong>Status Override</strong> is checked, the selected status will remain in force (it will NOT be modified by the automated status update script).{/ts}</span></dd>
         </dl>
     </div>
     
