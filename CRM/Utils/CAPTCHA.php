@@ -121,8 +121,7 @@ class CRM_Utils_CAPTCHA {
         }
         
         // store the file keyed to the session for now
-        //CRM_Utils_File::put( $this->_name, $png );
-        CRM_Utils_File::filePutContents( $this->_name, $png );
+        file_put_contents( $this->_name, $png );
                              
         $form->set( 'captcha_phrase', $this->_captcha->getPhrase( ) );
         $form->add( 'text',

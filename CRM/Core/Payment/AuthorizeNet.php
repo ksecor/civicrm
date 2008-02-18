@@ -410,8 +410,8 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
     /**
      * Extract variables from returned XML
      *
-     * Function is from Authorize.Net sample code, and used for PHP4
-     * compatibility, to prevent the requirement of XML functions.
+     * Function is from Authorize.Net sample code, and used 
+     * to prevent the requirement of XML functions.
      *
      * @param string $content XML reply from Authorize.Net
      * @return array refId, resultCode, code, text, subscriptionId
@@ -434,8 +434,8 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
     /**
      * Helper function for _parseArbReturn
      *
-     * Function is from Authorize.Net sample code, and used for PHP4
-     * compatibility
+     * Function is from Authorize.Net sample code, and used to avoid using
+     * PHP5 XML functions
      */
     function _substring_between( &$haystack, $start, $end ) {
         if (strpos($haystack,$start) === false || strpos($haystack,$end) === false) {

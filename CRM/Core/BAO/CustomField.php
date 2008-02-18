@@ -341,10 +341,8 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
         }
 
         /**
-         * This was split into a different function before. however thanx to php4's bug with references,
-         * it was not working, so i munged it back into one big function - lobo
-         */
-        
+         * at some point in time we might want to split the below into small functions
+         **/
         switch ( $field->html_type ) {
         case 'Text':
             if ($field->is_search_range && $search) {

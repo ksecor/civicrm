@@ -73,7 +73,7 @@ class CRM_Utils_Money {
             $currencySymbol     = CRM_Core_PseudoConstant::currencySymbols( );
             
             self::$_currencySymbols =
-                CRM_Utils_Array::combine( $currencySymbolName, $currencySymbol );
+                array_combine( $currencySymbolName, $currencySymbol );
         }
 
         if (!$currency) {

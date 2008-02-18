@@ -204,50 +204,6 @@ class CRM_Utils_File {
     }
 
 
-    /** 
-     * Function is php 4 version of php5 function  file_put_contents()
-     * 
-     * @param string  $fileName      name of the file
-     * @param mix     $data          it can be array or string
-     * @param boolean $respectLock   check if file is locked before we write
-     *
-     * @return        $bytes         
-     * @static
-     */
-    static function filePutContents ($fileName, $data, $respectLock = true) {
-        if ( ! function_exists( 'file_put_contents' ) ) {
-            
-            // Open the file for writing
-            $fh = @fopen($fileName, 'w');
-            if ($fh === false) {
-                return false;
-            }
-            
-            // Check to see if we want to make sure the file is locked before we write to it
-            if ($respect_lock === true && !flock($fh, LOCK_EX)) {
-                fclose($fh);
-                return false;
-            }
-            
-            // Convert the data to an acceptable string format
-            if (is_array($data)) {
-                $data = implode('', $data);
-            } else {
-                $data = (string) $data;
-            }
-            
-            // Write the data to the file and close it
-            $bytes = fwrite($fh, $data);
-            
-            // This will implicitly unlock the file if it's locked
-            fclose($fh);
-            
-            return $bytes;
-        } else {
-            return file_put_contents( $fileName, $data );
-        }
-    }
-
     function sourceSQLFile( $dsn, $fileName, $lineMode = false ) {
         require_once 'DB.php';
 

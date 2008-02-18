@@ -322,8 +322,7 @@ abstract class CRM_Import_Parser {
             $json =& new Services_JSON( ); 
             $contents = $json->encode( array( 0, $status ) );
 
-            require_once "CRM/Utils/File.php";
-            CRM_Utils_File::filePutContents( $statusFile, $contents );
+            file_put_contents( $statusFile, $contents );
 
             $startTimestamp = $currTimestamp = $prevTimestamp = time( );
         
@@ -401,7 +400,7 @@ abstract class CRM_Import_Parser {
                     $json =& new Services_JSON( ); 
                     $contents = $json->encode( array( $processedPercent, $status ) );
 
-                    CRM_Utils_File::filePutContents( $statusFile, $contents );
+                    file_put_contents( $statusFile, $contents );
 
                     $prevTimestamp = $currTimestamp;
                 }
