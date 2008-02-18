@@ -760,8 +760,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 $url = CRM_Utils_System::fixURL( $details->$name );
                                 $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
                             } else if ( in_array( $name, array('birth_date', 'deceased_date','membership_start_date','membership_end_date','join_date')) ) {
-                                $values[$index] = $details->$name;
                                 require_once 'CRM/Utils/Date.php';
+                                $values[$index] = CRM_Utils_Date::customFormat($details->$name);
                                 $params[$index] = CRM_Utils_Date::isoToMysql( $details->$name );
                             } else {
                                 $values[$index] = $details->$name;

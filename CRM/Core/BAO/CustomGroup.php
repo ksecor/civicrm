@@ -1268,10 +1268,8 @@ ORDER BY weight ASC, label ASC";
                             break;
                             
                         case 'Date':
-                            $format = null;
-                            $config =& CRM_Core_Config::singleton( );
-                            $setting = $config->dateformatDatetime ;
-                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat( $field['customValue']['data'], $setting);
+                            $parts = explode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $field['date_parts']);
+                            $form[$elementName]['html'] = CRM_Utils_Date::customFormat( $field['customValue']['data'], null, $parts);
                             break;
 
                         case 'Link':
