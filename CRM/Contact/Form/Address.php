@@ -167,7 +167,7 @@ class CRM_Contact_Form_Address
                 if ( $countryExists ) {
                     $countryId =  CRM_Utils_Array::value( 'country_id', $fields['location'][$i]['address'] );
                 } else {
-                    $errors["location[$i][address][country_id]"] = "Enter the valid Country name.";
+                    $errors["location[$i][address][country_id]"] = ts('Enter a valid country name.');
                 }
             }
 
