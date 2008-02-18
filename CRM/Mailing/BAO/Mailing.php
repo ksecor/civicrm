@@ -32,8 +32,6 @@
  * $Id$
  *
  */
-
-
 require_once 'Mail/mime.php';
 
 require_once 'CRM/Contact/BAO/SavedSearch.php';
@@ -49,8 +47,8 @@ require_once 'CRM/Mailing/BAO/TrackableURL.php';
 require_once 'CRM/Mailing/BAO/Component.php';
 require_once 'CRM/Mailing/BAO/Spool.php';
 
-class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
-
+class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing 
+{
     /**
      * An array that holds the complete templates
      * including any headers or footers that need to be prepended
@@ -100,7 +98,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
     /**
      * class constructor
      */
-    function __construct( ) {
+    function __construct( ) 
+    {
         parent::__construct( );
     }
 
@@ -111,17 +110,20 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @param bool $includeDelivered  Whether to include the recipients who already got the mailing
      * @return object                 A DAO loaded with results of the form (email_id, contact_id)
      */
-    function &getRecipientsObject($job_id, $includeDelivered = false) {
+    function &getRecipientsObject($job_id, $includeDelivered = false) 
+    {
         $eq = self::getRecipients($job_id, $includeDelivered, $this->id);
         return $eq;
     }
     
-    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id = null) {
+    function &getRecipientsCount($job_id, $includeDelivered = false, $mailing_id = null) 
+    {
         $eq = self::getRecipients($job_id, $includeDelivered, $mailing_id);
         return $eq->N;
     }
     
-    function &getRecipients($job_id, $includeDelivered = false, $mailing_id = null) {
+    function &getRecipients($job_id, $includeDelivered = false, $mailing_id = null) 
+    {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         
         $mailing    = CRM_Mailing_BAO_Mailing::getTableName();
@@ -227,6 +229,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id IS null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
+                        AND             $contact.is_deceased = 0
                         AND            ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -255,6 +258,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                                         $mg.group_type = 'Include'
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
+                        AND             $contact.is_deceased = 0
                         AND            ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -289,6 +293,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                     WHERE           
                                         contact_a.do_not_email = 0
                         AND             contact_a.is_opt_out = 0
+                        AND             contact.is_deceased = 0
                         AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                                         $where
@@ -317,6 +322,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id is null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
+                        AND             $contact.is_deceased = 0
                         AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -345,6 +351,7 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
                         AND             $g2contact.email_id IS NOT null
                         AND             $contact.do_not_email = 0
                         AND             $contact.is_opt_out = 0
+                        AND             $contact.is_deceased = 0
                         AND             ($email.is_bulkmail = 1 OR $email.is_primary = 1)
                         AND             $email.on_hold = 0
                         AND             $mg.mailing_id = {$mailing_id}
@@ -367,7 +374,8 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
         return $eq;
     }
     
-    private function _getMailingGroupIds( $type = 'Include' ) {
+    private function _getMailingGroupIds( $type = 'Include' ) 
+    {
         $mailingGroup =& new CRM_Mailing_DAO_Group();
         $group = CRM_Contact_DAO_Group::getTableName();
         if ( ! isset( $this->id ) ) {
@@ -436,7 +444,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      *                             the type will tell us which function to use for the data lookup
      *                             if we need to do a lookup at all
      */
-
     function &getDataFunc($token) 
     {
         $funcStruct = array('type' => null,'token' => $token);
@@ -636,7 +643,6 @@ class CRM_Mailing_BAO_Mailing extends CRM_Mailing_DAO_Mailing {
      * @access private
      * @return void
      */
-
     private function _getTokens( $prop ) 
     {
         $templates = $this->getTemplates();
@@ -724,7 +730,8 @@ FROM civicrm_email
 INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_bulkmail = 1
 AND civicrm_contact.id = {$contact->contact_id}
-AND civicrm_contact.do_not_email =0
+AND civicrm_contact.do_not_email = 0
+AND civicrm_contact.is_deceased = 0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
                 $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
@@ -744,6 +751,7 @@ INNER JOIN civicrm_contact ON civicrm_email.contact_id = civicrm_contact.id
 WHERE civicrm_email.is_primary = 1
 AND civicrm_contact.id = {$contact->contact_id}
 AND civicrm_contact.do_not_email =0
+AND civicrm_contact.is_deceased = 0
 AND civicrm_email.on_hold = 0
 AND civicrm_contact.is_opt_out =0";
                     $dao =& CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray);
@@ -759,6 +767,7 @@ AND civicrm_contact.is_opt_out =0";
             }
         }
     }
+    
     /**
      * Retrieve the header and footer for this mailing
      *
@@ -766,7 +775,8 @@ AND civicrm_contact.is_opt_out =0";
      * @return void
      * @access private
      */
-    private function getHeaderFooter() {
+    private function getHeaderFooter() 
+    {
         if (!$this->header and $this->header_id) {
             $this->header =& new CRM_Mailing_BAO_Component();
             $this->header->id = $this->header_id;
