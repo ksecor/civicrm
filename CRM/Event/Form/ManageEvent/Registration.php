@@ -172,8 +172,8 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->add('textarea','intro_text',ts('Introductory Text'), $attributes['intro_text']);
         $form->add('textarea','footer_text',ts('Footer Text'), $attributes['footer_text']);
-        $form->add('select', 'custom_pre_id', ts('Profile Fields') . '<br />' . ts('(top of page)'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
-        $form->add('select', 'custom_post_id', ts('Profile Fields') . '<br />' . ts('(bottom of page)'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
+        $form->add('select', 'custom_pre_id', ts('Include Profile') . '<br />' . ts('(top of page)'),array(''=>'-select-') + CRM_Core_PseudoConstant::ufGroup( ));
+        $form->add('select', 'custom_post_id', ts('Include Profile') . '<br />' . ts('(bottom of page)'),array(''=>'-select-')+ CRM_Core_PseudoConstant::ufGroup( ));
     }
 
     /**

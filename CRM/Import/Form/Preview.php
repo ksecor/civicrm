@@ -164,7 +164,7 @@ class CRM_Import_Form_Preview extends CRM_Core_Form {
                                  'name'      => ts('Import Now >>'),
                                  'spacing'   => '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                                  'isDefault' => true,
-                                 'js'        => array( 'onclick' => "return verify(this,'Preview','" . ts('Processing') ."');" )
+                                 'js'        => array( 'onclick' => "return verify( );" )
 
                                  ),
                          array ( 'type'      => 'cancel',

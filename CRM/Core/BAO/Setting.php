@@ -65,7 +65,9 @@ class CRM_Core_BAO_Setting
         // unset any of the variables we read from file that should not be stored in the database
         // the username and certpath are stored flat with _test and _live
         // check CRM-1470
-        $skipVars = array( 'dsn', 'templateCompileDir', 'userFrameworkBaseURL',
+        $skipVars = array( 'dsn', 'templateCompileDir',
+                           'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
+                           'userPermissionClass', 'userFrameworkURLVar',
                            'qfKey', 'gettextResourceDir' );
         foreach ( $skipVars as $var ) {
             unset( $params[$var] );
@@ -148,6 +150,7 @@ class CRM_Core_BAO_Setting
         $domain->find(true);
         if ($domain->config_backend) {
             $defaults   = unserialize($domain->config_backend);
+
             // calculate month var
             $defaults['dateformatMonthVar'] = 
                 strstr($defaults['dateformatQfDate'], '%m') ? 'm' : (strstr($defaults['dateformatQfDate'], '%b') ? 'M' : (strstr($defaults['dateformatQfDate'], '%B') ? 'F' : null)); 
@@ -157,6 +160,16 @@ class CRM_Core_BAO_Setting
                 strstr($defaults['dateformatQfDatetime'], '%m') ? 'm' : (strstr($defaults['dateformatQfDatetime'], '%b') ? 'M' : (strstr($defaults['dateformatQfDatetime'], '%B') ? 'F' : null));
             //calculate hour var for Date Time 
             $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
+
+            $skipVars = array( 'dsn', 'templateCompileDir',
+                               'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
+                               'userPermissionClass', 'userFrameworkURLVar',
+                               'qfKey', 'gettextResourceDir', 'cleanURL' );
+            foreach ( $skipVars as $skip ) {
+                if ( array_key_exists( $skip, $defaults ) ) {
+                    unset( $defaults[$skip] );
+                }
+            }
         }
     }
 }

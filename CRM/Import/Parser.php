@@ -314,6 +314,7 @@ abstract class CRM_Import_Parser {
 
         if ( $statusID ) {
             $skip = 50;
+            // $skip = 1;
             $config =& CRM_Core_Config::singleton( );
             $statusFile = "{$config->uploadDir}status_{$statusID}.txt";
             $status = "<div class='description'>&nbsp; " . ts('No processing status reported yet.') . "</div>";
@@ -404,6 +405,7 @@ abstract class CRM_Import_Parser {
 
                     $prevTimestamp = $currTimestamp;
                 }
+                // sleep(1);
             } else {
                 $returnCode = self::ERROR;
             }

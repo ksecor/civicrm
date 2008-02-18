@@ -5,9 +5,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-01-24 12:40+0530\n"
+"POT-Creation-Date: 2008-02-13 13:14+0100\n"
 "PO-Revision-Date: 2007-06-04 22:40-0700\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
+"Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -128,7 +129,7 @@ msgstr "Rol"
 msgid "-select role-"
 msgstr ""
 
-#: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
+#: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "Everyone"
 msgstr "Tothom"
 
@@ -185,7 +186,8 @@ msgid "Description"
 msgstr "Descripció"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php
-#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php CRM/Core/BAO/UFGroup.php
+#: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
+#: CRM/Contact/Form/Task/EmailCommon.php CRM/Core/BAO/UFGroup.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php
 #: CRM/Grant/Form/Grant.php CRM/UF/Form/Preview.php
 msgid "-select-"
@@ -261,10 +263,6 @@ msgstr "Esborra ACL"
 msgid "Access Control"
 msgstr "Control d'accés"
 
-#: CRM/ACL/Page/ACLBasic.php CRM/ACL/Page/ACL.php
-msgid "Any Role"
-msgstr "Qualsevol Rol"
-
 #: CRM/ACL/Page/ACL.php CRM/ACL/Page/EntityRole.php
 #: CRM/Admin/Page/LocationType.php CRM/Admin/Page/MessageTemplates.php
 #: CRM/Admin/Page/OptionGroup.php CRM/Admin/Page/Options.php
@@ -295,9 +293,8 @@ msgstr "Grup personalitzat"
 
 #: CRM/Activity/BAO/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Parser.php CRM/Contact/BAO/Contact.php
-#: CRM/Core/BAO/History.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Import/Parser.php CRM/Import/Form/MapField.php
-#: CRM/Import/Parser.php
+#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Import/Parser.php
+#: CRM/Import/Form/MapField.php CRM/Import/Parser.php
 msgid "- do not import -"
 msgstr "- no importis -"
 
@@ -331,7 +328,7 @@ msgstr ""
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/BAO/UFGroup.php
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Select a valid date."
@@ -405,7 +402,8 @@ msgstr ""
 #: CRM/Price/Form/DeleteField.php CRM/Price/Form/DeleteSet.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/Price/Form/Set.php
 #: CRM/Profile/Form/Edit.php CRM/Profile/Form/ForwardMailing.php
-#: CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
+#: CRM/Standalone/Form/Register.php CRM/Tag/Form/Tag.php CRM/UF/Form/Field.php
+#: CRM/UF/Form/Group.php
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -463,8 +461,8 @@ msgstr "Fet"
 #: CRM/Custom/Form/Option.php CRM/Grant/Form/Grant.php CRM/Group/Form/Edit.php
 #: CRM/Note/Form/Note.php CRM/Price/Form/Field.php CRM/Price/Form/Option.php
 #: CRM/Price/Form/Set.php CRM/Profile/Form/Dynamic.php
-#: CRM/Profile/Form/Edit.php CRM/UF/Form/Field.php CRM/UF/Form/Group.php
-#: templates/CRM/Block/Add.tpl
+#: CRM/Profile/Form/Edit.php CRM/Standalone/Form/Register.php
+#: CRM/UF/Form/Field.php CRM/UF/Form/Group.php templates/CRM/Block/Add.tpl
 msgid "Save"
 msgstr "Desa"
 
@@ -490,7 +488,7 @@ msgstr "Desa aquest camp de mapatge"
 #: CRM/Admin/Form/Tag.php CRM/Contact/DAO/Group.php
 #: CRM/Contact/Form/Search/Basic.php CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php
@@ -499,10 +497,10 @@ msgstr "Desa aquest camp de mapatge"
 #: CRM/Core/DAO/Domain.php CRM/Core/DAO/MappingField.php
 #: CRM/Core/DAO/Mapping.php CRM/Core/DAO/PreferencesDate.php
 #: CRM/Core/DAO/PriceField.php CRM/Core/DAO/PriceSet.php CRM/Core/DAO/Tag.php
-#: CRM/Core/DAO/Timezone.php CRM/Core/DAO/Worldregion.php
-#: CRM/Grant/Form/Search.php CRM/Grant/Import/Form/MapField.php
-#: CRM/Grant/Selector/Search.php CRM/Import/Form/MapField.php
-#: CRM/Profile/Selector/Listings.php templates/CRM/Admin/Page/LocationType.tpl
+#: CRM/Core/DAO/Timezone.php CRM/Grant/Form/Search.php
+#: CRM/Grant/Import/Form/MapField.php CRM/Grant/Selector/Search.php
+#: CRM/Import/Form/MapField.php CRM/Profile/Selector/Listings.php
+#: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Admin/Page/Mapping.tpl
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
@@ -697,6 +695,7 @@ msgstr ""
 #: CRM/Activity/Selector/Activity.php CRM/Contact/DAO/SubscriptionHistory.php
 #: CRM/Contact/Form/Email.php CRM/Contact/Form/Search/Custom/Basic.php
 #: CRM/Contact/Selector.php CRM/Core/DAO/Email.php
+#: CRM/Standalone/Form/Register.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -1263,6 +1262,10 @@ msgstr "País"
 msgid "Delete Location"
 msgstr "Esborra un tipus de localització"
 
+#: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
+msgid "Domain Information"
+msgstr ""
+
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
 msgstr "Administreu CiviCRM"
@@ -1395,7 +1398,7 @@ msgid "Relationship Type"
 msgstr "Tipus de relació"
 
 #: CRM/Contact/Form/Relationship.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -1490,6 +1493,10 @@ msgstr "Estat/Província"
 msgid "Postal Code"
 msgstr "Codi Postal"
 
+#: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Worldregion.php
+msgid "World Region"
+msgstr ""
+
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
 msgstr "i"
@@ -1520,7 +1527,7 @@ msgid "Postal"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
@@ -1528,12 +1535,12 @@ msgid "Contact Id"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Count"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Amount"
 msgstr ""
 
@@ -1757,14 +1764,6 @@ msgstr ""
 #: CRM/Core/BAO/Note.php CRM/Note/Form/Note.php
 msgid "We could not find your logged in user ID"
 msgstr "No hem pogut trobar el vostre identificador d'usuari connectat"
-
-#: CRM/Core/BAO/UFGroup.php CRM/Profile/Form/Edit.php
-msgid ""
-"This profile is not configured for the requested action. Contact the site "
-"administrator if you need assistance."
-msgstr ""
-"Aquest perfil no està configurat per a l'acció requerida. Contacteu "
-"l'administrador del lloc si neccesiteu ajuda. "
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #, fuzzy
@@ -2221,10 +2220,6 @@ msgstr "Taula d'entitat propietària"
 msgid "Server Url"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "Database consistency check failed."
-msgstr ""
-
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
 #: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
 msgid "Upgrade & Continue"
@@ -2348,6 +2343,10 @@ msgstr ""
 msgid "Selected Entity Role has been deleted."
 msgstr "El Rol d'Entitat seleccionat ha estat esborrat."
 
+#: CRM/ACL/Page/ACLBasic.php
+msgid "Any Role"
+msgstr "Qualsevol Rol"
+
 #: CRM/ACL/Page/ACL.php
 msgid "Disable ACL"
 msgstr "Inhabilita ACL"
@@ -2417,10 +2416,6 @@ msgid "Activity ID"
 msgstr ""
 
 #: CRM/Activity/DAO/Activity.php
-msgid "Contact ID (match to contact)"
-msgstr ""
-
-#: CRM/Activity/DAO/Activity.php
 msgid "Activity Type ID"
 msgstr ""
 
@@ -2437,9 +2432,17 @@ msgid "Phone Number"
 msgstr "Número de telèfon"
 
 #: CRM/Activity/DAO/Activity.php
+msgid "Activity Status Label"
+msgstr ""
+
+#: CRM/Activity/DAO/Activity.php
 #, fuzzy
 msgid "Test"
 msgstr "Text"
+
+#: CRM/Activity/DAO/ActivityTarget.php
+msgid "Contact ID (match to contact)"
+msgstr ""
 
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2487,7 +2490,7 @@ msgid "On duplicate entries"
 msgstr ""
 
 #: CRM/Activity/Import/Parser/Activity.php
-msgid "Select either Activity Type ID OR Activity Name"
+msgid "Please select either Activity Type ID OR Activity Type Label."
 msgstr ""
 
 #: CRM/Activity/Import/Parser.php
@@ -3396,10 +3399,6 @@ msgid "Case Type %1"
 msgstr ""
 
 #: CRM/Case/Form/Case.php
-msgid "Case subject already exists in Database."
-msgstr ""
-
-#: CRM/Case/Form/Case.php
 msgid "End date should be later than Start date"
 msgstr ""
 
@@ -3478,10 +3477,6 @@ msgstr "Tipus de contacte -"
 #: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Membre del Grup %1"
-
-#: CRM/Contact/BAO/Query.php
-msgid "or Member of 1 or more Subgroups %1"
-msgstr ""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Group Status -"
@@ -3725,11 +3720,6 @@ msgstr "El tipus de localització seleccionat ha estat esborrat."
 
 #: CRM/Contact/Form/Domain.php
 #, fuzzy
-msgid "CiviMail Domain Information"
-msgstr "Pàgina d'informació del domini"
-
-#: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain Name"
 msgstr "Nom de localització"
 
@@ -3777,6 +3767,10 @@ msgstr "el contacte no existeix: %1"
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
+msgstr ""
+
+#: CRM/Contact/Form/Edit.php templates/CRM/Contact/Form/Address/country.tpl
+msgid "- type first letter(s) -"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
@@ -4118,10 +4112,6 @@ msgstr ""
 msgid "User SQL"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Basic.php
-msgid "Search Subgroups"
-msgstr ""
-
 #: CRM/Contact/Form/Search/Criteria.php
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Contact Type(s)"
@@ -4161,10 +4151,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "- any region -"
-msgstr ""
-
-#: CRM/Contact/Form/Search/Criteria.php
-msgid "World Region"
 msgstr ""
 
 #: CRM/Contact/Form/Search/Criteria.php
@@ -4227,19 +4213,19 @@ msgstr ""
 msgid "Exclusion Date End"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Aggregate Total Between $"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "...and $"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Contribution Date From"
 msgstr ""
 
-#: CRM/Contact/Form/Search/Custom/Contribution.php
+#: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "...through"
 msgstr ""
 
@@ -4565,7 +4551,7 @@ msgstr ""
 msgid "Are you sure you want to delete this case?"
 msgstr ""
 
-#: CRM/Contact/Page/View/Case.php
+#: CRM/Contact/Page/View/Case.php templates/CRM/Case/Form/Case.tpl
 msgid "Edit Case"
 msgstr ""
 
@@ -4913,10 +4899,6 @@ msgid ""
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
 msgstr ""
 
-#: CRM/Core/BAO/History.php
-msgid "- Contribution Fields -"
-msgstr ""
-
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
 msgstr ""
@@ -4979,6 +4961,13 @@ msgid "Cannot enable this UF field since the used custom field is disabled."
 msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
+msgid ""
+"The requested Profile (gid=%1) is disabled, OR it is not configured to be "
+"used for \"Profile\" listings in it's Settings, or there is no Profile with "
+"that ID. Contact the site administrator if you need assistance."
+msgstr ""
+
+#: CRM/Core/BAO/UFGroup.php
 msgid "Dynamic Form Creator"
 msgstr ""
 
@@ -4999,7 +4988,11 @@ msgid "Please enter a valid %1"
 msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php
-msgid "Please set the domain email address setting in Administer CiviCRM"
+msgid ""
+"The site administrator needs to enter a valid 'FROM Email Address' in "
+"Administer CiviCRM &raquo; Configure &raquo; Domain Information. The email "
+"address used may need to be a valid mail account with your email service "
+"provider."
 msgstr ""
 
 #: CRM/Core/BAO/UFMatch.php
@@ -5694,6 +5687,12 @@ msgid ""
 msgstr ""
 
 #: CRM/Core/Form/Date.php
+msgid ""
+"yyyy-mm-dd OR yyyymmdd OR yyyymmdd hh:mm (1998-12-25 OR 19981225 OR 19981225 "
+"10:30)"
+msgstr ""
+
+#: CRM/Core/Form/Date.php
 msgid "yyyy-mm-dd OR yyyymmdd (1998-12-25 OR 19981225)"
 msgstr ""
 
@@ -6026,6 +6025,12 @@ msgstr ""
 msgid ""
 "Message templates allow you to save and re-use messages with layouts which "
 "you can use when sending email to one or more contacts."
+msgstr ""
+
+#: CRM/Core/Menu.php
+msgid ""
+"Configure primary contact name, email, return-path and address information. "
+"This information is used by CiviMail to identify the sending organization."
 msgstr ""
 
 #: CRM/Core/Menu.php
@@ -6908,7 +6913,7 @@ msgid "Rule Weight"
 msgstr "Pes"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell a Friend:"
+msgid "Tell a Friend: "
 msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
@@ -7215,7 +7220,7 @@ msgid "Amount Requested (orig. currency) "
 msgstr ""
 
 #: CRM/Grant/Selector/Search.php
-msgid "Amount Requested(EUR) "
+msgid "Amount Requested "
 msgstr ""
 
 #: CRM/Grant/Selector/Search.php
@@ -7245,15 +7250,6 @@ msgstr "Nom:"
 #: CRM/Group/Form/Edit.php templates/CRM/Contact/Form/Relationship.tpl
 msgid "Description:"
 msgstr "Descripció:"
-
-#: CRM/Group/Form/Edit.php templates/CRM/Admin/Form/DedupeFind.tpl
-#, fuzzy
-msgid "select"
-msgstr "-selecciona-"
-
-#: CRM/Group/Form/Edit.php
-msgid "Add Subgroup"
-msgstr ""
 
 #: CRM/Group/Form/Edit.php
 msgid "The Group \"%1\" has been saved."
@@ -7467,14 +7463,6 @@ msgid "Please enter a monetary value for this field."
 msgstr "Sisplau entreu un valor vàlid per a aquest camp."
 
 #: CRM/Price/Form/Option.php
-msgid "There is an entry with the same label"
-msgstr ""
-
-#: CRM/Price/Form/Option.php
-msgid "There is an entry with the same value"
-msgstr ""
-
-#: CRM/Price/Form/Option.php
 msgid "Duplicate option value"
 msgstr ""
 
@@ -7642,7 +7630,23 @@ msgid "Enable Price Set"
 msgstr ""
 
 #: CRM/Profile/Form/Edit.php
-msgid "You do not have permission to edit this contact"
+msgid ""
+"You do not have permission to edit this contact record. Contact the site "
+"administrator if you need assistance."
+msgstr ""
+
+#: CRM/Profile/Form/Edit.php
+msgid ""
+"The requested Profile (gid=%1) is disabled, OR there is no Profile with that "
+"ID, OR a valid \"gid=\" integer value is missing from the URL. Contact the "
+"site administrator if you need assistance."
+msgstr ""
+
+#: CRM/Profile/Form/Edit.php
+msgid ""
+"The requested Profile (gid=%1) is not configured to be used for \"Profile\" "
+"edit and view forms in it's Settings. Contact the site administrator if you "
+"need assistance."
 msgstr ""
 
 #: CRM/Profile/Form/Edit.php
@@ -7685,10 +7689,15 @@ msgstr ""
 msgid "Search Profile"
 msgstr ""
 
+#: CRM/Profile/Page/Listings.php
+msgid "This profile does not have the map feature turned on."
+msgstr ""
+
 #: CRM/Profile/Page/View.php
-#, fuzzy
-msgid "Could not find required parameter: id"
-msgstr "No s'ha pogut trobar un identificador de localització"
+msgid ""
+"Could not find the required contact id parameter (id=) for viewing a contact "
+"record with a Profile."
+msgstr ""
 
 #: CRM/Profile/Selector/Listings.php
 msgid "View Profile Details"
@@ -8067,48 +8076,74 @@ msgid ""
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "Database consistency check failed."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
-"<p><strong>Note:</strong> Make sure you have taken the backup of your "
-"CiviCRM database and files before starting with the upgrade process.</p>\n"
+"<p><strong>Note:</strong><br/>&nbsp;&nbsp;&nbsp;1. Make sure you have a "
+"current and complete backup of your CiviCRM database and codebase files "
+"before starting the upgrade process.<br/>&nbsp;&nbsp;&nbsp;2. The upgrade "
+"process may take a while depending on the size of your database.</p>\n"
 "<p>This process will upgrade your <strong>v1.9 CiviCRM database to v2.0 "
 "database.</strong></p>\n"
-"<p>This step will upgrade the contact section of your database.</p>"
+"<p>This step will upgrade the contact records in your database.</p>"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "CiviCRM 2.0 Upgrade: Step Two (Location Upgrade)"
+msgid ""
+"Database consistency check failed for step 2. FK constraint names not in the "
+"required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "<p>This step will upgrade the location section of your database.</p>"
+msgid "CiviCRM 2.0 Upgrade: Step Two (Location Data Upgrade)"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php
+msgid "<p>This step will upgrade the location data in your database.</p>"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php
+msgid ""
+"Database consistency check failed for step 3. FK constraint names not in the "
+"required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Activity Upgrade)"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid "<p>This step will upgrade the activity section of your database.</p>"
+#: CRM/Upgrade/TwoZero/Form/Step4.php
+msgid ""
+"Database consistency check failed for Step 4. Value missing in "
+"civicrm_custom_field for the column 'name'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "CiviCRM 2.0 Upgrade: Step Four (Custom Upgrade)"
+msgid "CiviCRM 2.0 Upgrade: Step Four (Custom Data Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "<p>This step will upgrade the custom section of your database.</p>"
+msgid "This step will upgrade the custom section of your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "CiviCRM 2.0 Upgrade: Step Five (Upgrade : Rest of the tables)"
+msgid ""
+"Database consistency check failed for step 5. FK constraint names not in the "
+"required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "<p>This step will upgrade the rest of the tables of your database.</p>"
+msgid "CiviCRM 2.0 Upgrade: Step Five (Upgrade Miscellaneous Data)"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step5.php
+msgid "<p>This step will upgrade the remaining data in your database.</p>"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -8116,13 +8151,13 @@ msgid "Finish Upgrade"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "Database upgraded to v2.0"
+msgid "Database Upgrade to v2.0 Completed"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid ""
-"<p>CiviCRM database has been successfully upgraded to v2.0. Thank you for "
-"using CiviCRM.</p>"
+"<p>Your CiviCRM database has been successfully upgraded to v2.0. Thank you "
+"for using CiviCRM.</p>"
 msgstr ""
 
 #: CRM/Utils/Address/USPS.php
@@ -8523,6 +8558,16 @@ msgid "New"
 msgstr ""
 
 #: templates/CRM/Activity/Form/Activity.tpl
+msgid "There are no Cases for this contact."
+msgstr ""
+
+#: templates/CRM/Activity/Form/Activity.tpl
+msgid ""
+"If you want to associate this activity with a case, you will need to <a href="
+"\"%1\">create one first</a>."
+msgstr ""
+
+#: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
 "You can optionally assign this activity to someone. Assigned activities will "
 "appear in their Contact Dashboard."
@@ -8531,9 +8576,7 @@ msgstr ""
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
 "If you are managing case(s) for this contact, you can optionally associate "
-"this activity with an existing case. If the case hasn't been created yet, "
-"click the <strong>Cases</strong> tab, and then <strong>New Case</strong> "
-"before adding the activity."
+"this activity with an existing case."
 msgstr ""
 
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -8913,7 +8956,7 @@ msgid "There are no Activities attached to this case record."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-msgid "You can go to the Activities tab to attach some activity records."
+msgid "You can go to the Activities tab to create or attach activity records."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
@@ -8921,7 +8964,7 @@ msgid "There are no Activities to display."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
-msgid "There are no Activites recorded for this contact."
+msgid "There are no Activites to display."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
@@ -8966,6 +9009,11 @@ msgstr "La regla de Coincidències Duplicades ha estat desada."
 #, fuzzy
 msgid "Potentially Duplicate Contacts"
 msgstr "Total de Contacte(s) Seleccionat(s): %1"
+
+#: templates/CRM/Admin/Form/DedupeFind.tpl
+#, fuzzy
+msgid "select"
+msgstr "-selecciona-"
 
 #: templates/CRM/Admin/Form/DedupeFind.tpl
 msgid "Merge %1 with"
@@ -10181,16 +10229,12 @@ msgstr ""
 msgid "Regarding"
 msgstr ""
 
-#: templates/CRM/Case/Form/Case.tpl
-msgid "New Case Registration"
+#: templates/CRM/Case/Form/Case.tpl templates/CRM/Contact/Page/View/Case.tpl
+msgid "New Case"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
-msgid "Edit Case Registration"
-msgstr ""
-
-#: templates/CRM/Case/Form/Case.tpl
-msgid "Remove Case Registration"
+msgid "Delete Case"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
@@ -10198,11 +10242,12 @@ msgid "Detach Activity From Case"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
-msgid "Are you sure you want to Detach this case from Activity?"
+msgid "Are you sure you want to detach this case from Activity?"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
-msgid "Are you sure you want to Remove this case?"
+msgid ""
+"Are you sure you want to delete this case? This action can not be undone."
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
@@ -10297,10 +10342,6 @@ msgstr ""
 
 #: templates/CRM/common/WizardHeader.tpl
 msgid "(step %1 of %2)"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Address/country.tpl
-msgid "- type first letter(s) -"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Address/country.tpl
@@ -10400,9 +10441,12 @@ msgid "System-generated Mail Settings"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
-#, fuzzy
-msgid "Additional Contact Information"
-msgstr "Pàgina d'informació del domini"
+msgid "CiviMail Domain Address"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Domain.tpl
+msgid "Additional Domain Contact Information"
+msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
@@ -11261,15 +11305,20 @@ msgid "New Note"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Case.tpl
-msgid ""
-"This page lists all case records for %1. Click <a href=\"%2\">Add New Case</"
-"a> to register new case record for this contact."
+msgid "This page lists all case records for %1."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid ""
-"There are no case records for this contact. You can <a href=\"%1\">enter one "
-"now</a>."
+"Click <a href=\"%1\">New Case</a> to add a case record for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Case.tpl
+msgid "There are no case records for this contact."
+msgstr ""
+
+#: templates/CRM/Contact/Page/View/Case.tpl
+msgid "You can <a href=\"%1\">enter one now</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
@@ -11858,7 +11907,8 @@ msgid ""
 "Select 'Inline' to include this group of fields in the main contact Add/Edit "
 "form and Contact Summary screens. Select 'Tab' to create a separate "
 "navigation tab for display and editing these values (generally for less "
-"frequently accessed and/or larger sets of fields)."
+"frequently accessed and/or larger sets of fields). <strong>NOTE: This "
+"setting applies to custom groups used for Contact records only.</strong>"
 msgstr ""
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -13746,6 +13796,25 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#~ msgid ""
+#~ "This profile is not configured for the requested action. Contact the site "
+#~ "administrator if you need assistance."
+#~ msgstr ""
+#~ "Aquest perfil no està configurat per a l'acció requerida. Contacteu "
+#~ "l'administrador del lloc si neccesiteu ajuda. "
+
+#, fuzzy
+#~ msgid "CiviMail Domain Information"
+#~ msgstr "Pàgina d'informació del domini"
+
+#, fuzzy
+#~ msgid "Could not find required parameter: id"
+#~ msgstr "No s'ha pogut trobar un identificador de localització"
+
+#, fuzzy
+#~ msgid "Additional Contact Information"
+#~ msgstr "Pàgina d'informació del domini"
 
 #~ msgid " -select- "
 #~ msgstr " -selecciona-"

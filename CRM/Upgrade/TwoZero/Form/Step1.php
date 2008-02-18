@@ -36,7 +36,6 @@
 require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
-
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = ts('Database check failed - the current database is not v1.9.');
 
@@ -96,14 +95,16 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p><strong>Note:</strong><br/>&nbsp;&nbsp;&nbsp;1. Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.<br/>&nbsp;&nbsp;&nbsp;2. The upgrade process may take a while depending on the size of your database.</p>
-<p>This process will upgrade your <strong>v1.9 CiviCRM database to v2.0 database.</strong></p>
-<p>This step will upgrade the contact records in your database.</p>'
+        return ts( '<p><strong>This process will upgrade your v1.9 CiviCRM database to the v2.0 database format.</strong></p>
+<div class="messsages status"><ul><li><strong>Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.</strong></li>
+<li>The upgrade process consists of 5 steps, and may take a while depending on the size of your database.</li>
+<li>You must complete all 5 steps to have a valid 2.0 database.</li></ul></div>
+<p>Step One will upgrade the contact records in your database. Click <strong>Upgrade and Continue</strong> to begin the process.</p>'
 );
     }
-
+            
     function getButtonTitle( ) {
-        return ts( 'Upgrade & Continue' );
+        return ts( 'Begin Upgrade' );
     }
 
 }

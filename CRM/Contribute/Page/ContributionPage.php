@@ -236,7 +236,7 @@ class CRM_Contribute_Page_ContributionPage extends CRM_Core_Page
     }
 
     /**
-     * Browse all custom data groups.
+     * Browse all contribution pages
      *
      * @return void
      * @access public

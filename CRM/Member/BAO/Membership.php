@@ -782,7 +782,7 @@ AND       civicrm_membership.is_test = %2
         
         $errors = array();
         if ( is_a( $result[1], 'CRM_Core_Error' ) ) {
-            $errors[1]       = $result[1];
+            $errors[1]       = CRM_Core_Error::getMessages( $result[1] );
         } else {
             $contribution[1] = $result[1];
         }
@@ -808,7 +808,7 @@ AND       civicrm_membership.is_test = %2
                 }
             }
             if ( is_a( $result, 'CRM_Core_Error' ) ) {
-                $errors[2] = $result;
+                $errors[2] = CRM_Core_Error::getMessages( $result );
             } else {
                 $form->set('membership_trx_id' , $result['trxn_id']);
                 $form->set('membership_amount'  , $minimumFee);
@@ -847,10 +847,13 @@ AND       civicrm_membership.is_test = %2
         
         if ( ! empty( $errors ) ) {
             foreach ($errors as $error ) {
-                $message[] = $error;
+                if ( is_string( $error ) ) {
+                    $message[] = $error;
+                }
             }
-            $message = implode( '<br/>', $message );
-            CRM_Core_Error::displaySessionError( $message );
+            $message = ts( "Payment Processor Error message" ) . ": " . implode( '<br/>', $message );
+            $session =& CRM_Core_Session::singleton( );
+            $session->setStatus( $message );
             CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contribute/transact',
                                                                '_qf_Main_display=true' ) );
         }
@@ -917,15 +920,19 @@ AND       civicrm_membership.is_test = %2
                 $membership->find(true);
                 return $membership;
             }
-
+            
             // Check and fix the membership if it is STALE
             self::fixMembershipStatusBeforeRenew( $currentMembership, $changeToday );
-            
+                        
             // Now Renew the membership
             if ( ! $currentMembership['is_current_member'] ) {
                 // membership is not CURRENT
                 require_once 'CRM/Member/BAO/MembershipStatus.php';
-                                
+                
+                if ( $form->get( 'renewDate' ) ) {
+                    $changeToday = $form->get( 'renewDate' );
+                }
+                
                 $dates =
                     CRM_Member_BAO_MembershipType::getRenewalDatesForMembershipType( $currentMembership['id'],
                                                                                      $changeToday );
@@ -942,8 +949,12 @@ AND       civicrm_membership.is_test = %2
                 
                 if ( $form->_params['membership_source'] ) {
                     $currentMembership['source'] = $form->_params['membership_source'];
+                } else if ( $form->_values['title'] ) {
+                    $currentMembership['source'] = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
                 } else {
-                    $currentMembership['source']    = ts( 'Online Contribution:' ) . ' ' . $form->_values['title'];
+                    $currentMembership['source'] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership', 
+                                                                                $currentMembership['id'],
+                                                                                'source');  
                 }
 
                 if ( CRM_Utils_Array::value( 'id', $currentMembership ) ) {
@@ -1151,7 +1162,7 @@ AND       civicrm_membership.is_test = %2
         
         // add activity record
         self::addActivity( $membership, 'Membership Renewal' );
-
+        
         return $membership;
     }
     
@@ -1189,7 +1200,7 @@ AND       civicrm_membership.is_test = %2
             $memberDAO = new CRM_Member_BAO_Membership( );
             $memberDAO->id = $currentMembership['id'];
             $memberDAO->find(true);
-                        
+            
             $memberDAO->status_id  = $status['id'];
             $memberDAO->join_date  = CRM_Utils_Date::isoToMysql( $memberDAO->join_date );
             $memberDAO->start_date = CRM_Utils_Date::isoToMysql( $memberDAO->start_date );

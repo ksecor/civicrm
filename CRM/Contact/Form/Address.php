@@ -172,15 +172,22 @@ class CRM_Contact_Form_Address
             }
 
             if ( CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] ) ) {
-                $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
-
-                $stateProvinceExists = null;
-                $stateProvinceExists = array_key_exists( CRM_Utils_Array::value( 'state_province_id',
-                                                                             $fields['location'][$i]['address'] ) , $stateProvinces );
-                if ( $stateProvinceExists ) {
-                    $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
-                } else {
-                    $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
+                $stateProvinceValue = CRM_Utils_Array::value( 'state_province_id',
+                                                              $fields['location'][$i]['address'] );
+                    
+                // hack to skip  - type first letter(s) - for state_province
+                // CRM-2649
+                $selectOption = ts('- type first letter(s) -');
+                if ( $stateProvinceValue != $selectOption ) {
+                    $stateProvinces  = CRM_Core_PseudoConstant::stateProvince( false, false );
+                    
+                    $stateProvinceExists = null;
+                    $stateProvinceExists = array_key_exists( $stateProvinceValue, $stateProvinces );
+                    if ( $stateProvinceExists ) {
+                        $stateProvinceId = CRM_Utils_Array::value( 'state_province_id', $fields['location'][$i]['address'] );
+                    } else {
+                        $errors["location[$i][address][state_province_id]"] = "Please select a valid State/Province name.";
+                    }
                 }
             }
 

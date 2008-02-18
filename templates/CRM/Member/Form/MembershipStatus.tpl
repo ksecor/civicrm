@@ -13,26 +13,26 @@
       </div>
    {else}
     <table class="form-layout-compressed">
-        <tr><td>&nbsp;{$form.name.label}</td><td class="html-adjust">{$form.name.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Display name for this Membership status (e.g. New, Current, Grace, Expired...).{/ts}</td></tr>
-        <tr><td>{$form.start_event.label}</td><td class="html-adjust">{$form.start_event.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}When does this status begin? EXAMPLE: <strong>New</strong> status begins at the membership "join date".{/ts}</td></tr>
-        <tr><td>{$form.start_event_adjust_unit.label}</td><td class="html-adjust">&nbsp;{$form.start_event_adjust_interval.html}&nbsp;&nbsp;{$form.start_event_adjust_unit.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Optional adjustment period added or subtracted from the Start Event. EXAMPLE: <strong>Current</strong> status might begin at "join date" PLUS 3 months (to distinguish Current from New members).{/ts}</td></tr>
-        <tr><td>{$form.end_event.label}</td><td class="html-adjust">{$form.end_event.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}When does this status end? EXAMPLE: <strong>Current</strong> status ends at the membership "end date".{/ts}</td></tr>
-        <tr><td>{$form.end_event_adjust_unit.label}</td><td class="html-adjust">&nbsp;{$form.end_event_adjust_interval.html}&nbsp;{$form.end_event_adjust_unit.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Optional adjustment period added or subtracted from the End Event. EXAMPLE: <strong>Grace</strong> status might end at "end date" PLUS 1 month.{/ts}</td></tr>
-        <tr><td>{$form.is_current_member.label}</td><td class="html-adjust">{$form.is_current_member.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Should this status be considered a current membership in good standing. EXAMPLE: New, Current and Grace could all be considered "current".{/ts}</td></tr>
-        <tr><td>{$form.is_admin.label}</td><td class="html-adjust">{$form.is_admin.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Is this status for use by administrative staff only? If checked, this status is never automatically assigned by CiviMember. EXAMPLE: This setting can be useful for special case statuses like "Non-expiring", "Barred" or "Expelled", etc.{/ts}</td></tr>
-        <tr><td>{$form.weight.label}</td><td class="html-adjust">&nbsp;{$form.weight.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Weight sets the order of precedence for automatic assignment of status to a membership. It also sets the order for status displays. EXAMPLE: The default "New" and "Current" statuses have overlapping ranges.  Memberships that meet both status range criteria are assigned the status with the lower weight.{/ts}</td></tr> 
-        <tr><td>{$form.is_default.label}</td><td class="html-adjust">{$form.is_default.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}The default status is assigned when there are no matching status rules for a membership.{/ts}</td></tr>   
-        <tr><td>{$form.is_active.label}</td><td class="html-adjust">{$form.is_active.html}</td></tr>
-        <tr><td>&nbsp;</td><td class="description html-adjust">{ts}Is this status enabled.{/ts}</td></tr>     
+        <tr><td class="label">{$form.name.label}</td><td class="html-adjust">{$form.name.html}<br />
+                <span class="description">{ts}Display name for this Membership status (e.g. New, Current, Grace, Expired...).{/ts}</span></td></tr>
+        <tr><td class="label">{$form.start_event.label}</td><td class="html-adjust">{$form.start_event.html}<br />
+                <span class="description">{ts}When does this status begin? EXAMPLE: <strong>New</strong> status begins at the membership "join date".{/ts}</span></td></tr>
+        <tr><td class="label">{$form.start_event_adjust_unit.label}</td><td class="html-adjust">&nbsp;{$form.start_event_adjust_interval.html}&nbsp;&nbsp;{$form.start_event_adjust_unit.html}<br />
+                <span class="description">{ts}Optional adjustment period added or subtracted from the Start Event. EXAMPLE: <strong>Current</strong> status might begin at "join date" PLUS 3 months (to distinguish Current from New members).{/ts}</span></td></tr>
+        <tr><td class="label">{$form.end_event.label}</td><td class="html-adjust">{$form.end_event.html}<br />
+                <span class="description">{ts}When does this status end? EXAMPLE: <strong>Current</strong> status ends at the membership "end date".{/ts}</span></td></tr>
+        <tr><td class="label">{$form.end_event_adjust_unit.label}</td><td class="html-adjust">&nbsp;{$form.end_event_adjust_interval.html}&nbsp;{$form.end_event_adjust_unit.html}<br />
+                <span class="description">{ts}Optional adjustment period added or subtracted from the End Event. EXAMPLE: <strong>Grace</strong> status might end at "end date" PLUS 1 month.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.is_current_member.label}</td><td class="html-adjust">{$form.is_current_member.html}<br />
+                <span class="description">{ts}Should this status be considered a current membership in good standing. EXAMPLE: New, Current and Grace could all be considered "current".{/ts}</span></td></tr>
+        <tr><td class="label">{$form.is_admin.label}</td><td class="html-adjust">{$form.is_admin.html}<br />
+                <span class="description">{ts}Check this box if this status is for use by administrative staff only. If checked, this status is never automatically assigned by CiviMember. It is assigned it to a contact's Membership by checking the <strong>Status Override</strong> flag when adding or editing the Membership record. Start and End Event settings are ignored for Administrator statuses. EXAMPLE: This setting can be useful for special case statuses like "Non-expiring", "Barred" or "Expelled", etc.{/ts}</span></td></tr>
+        <tr><td class="label">{$form.weight.label}</td><td class="html-adjust">&nbsp;{$form.weight.html}<br />
+                <span class="description">{ts}Weight sets the order of precedence for automatic assignment of status to a membership. It also sets the order for status displays. EXAMPLE: The default "New" and "Current" statuses have overlapping ranges.  Memberships that meet both status range criteria are assigned the status with the lower weight.{/ts}</span></td></tr> 
+        <tr><td class="label">{$form.is_default.label}</td><td class="html-adjust">{$form.is_default.html}<br />
+                <span class="description">{ts}The default status is assigned when there are no matching status rules for a membership.{/ts}</span></td></tr>   
+        <tr><td class="label">{$form.is_active.label}</td><td class="html-adjust">{$form.is_active.html}<br />
+            <span class="description">{ts}Is this status enabled.{/ts}</span></td></tr>     
     </table>
     {/if}
 

@@ -821,3 +821,59 @@ ALTER TABLE `civicrm_contribution_product`
     DROP FOREIGN KEY `FK_civicrm_contribution_product_contribution_id`;
 ALTER TABLE `civicrm_contribution_product`
     ADD CONSTRAINT `FK_civicrm_contribution_product_contribution_id` FOREIGN KEY (`contribution_id`) REFERENCES `civicrm_contribution` (`id`) ON DELETE CASCADE;
+
+
+-- /*******************************************************
+-- *
+-- * 			Issue fixes
+-- *
+-- *******************************************************/
+
+
+-- /*******************************************************
+-- *
+-- * CRM-2349
+-- *
+-- *******************************************************/
+    UPDATE civicrm_state_province SET name = 'Torfaen' WHERE name = 'Torfasn';
+
+
+-- /*******************************************************
+-- *
+-- * fix Google Checkout URL
+-- *
+-- *******************************************************/
+    UPDATE civicrm_payment_processor_type SET url_site_test_default = 'https://sandbox.google.com/checkout/' WHERE name = 'Google_Checkout';
+
+
+-- /*******************************************************
+-- *
+-- * fix for CRM-2457
+-- *
+-- *******************************************************/
+    UPDATE civicrm_group SET group_type = INSERT(group_type, LOCATE(1,group_type)-1, IF(CHAR_LENGTH(group_type) = 3, 3, 2),'') WHERE saved_search_id IS NOT NULL AND group_type LIKE '%1%'; 
+
+
+-- /*******************************************************
+-- *
+-- * CRM-2640
+-- *
+-- *******************************************************/
+    UPDATE civicrm_state_province SET abbreviation = 'CN' WHERE id = 3323;
+    UPDATE civicrm_state_province SET abbreviation = 'HR' WHERE id = 3324;
+    UPDATE civicrm_state_province SET abbreviation = 'KN' WHERE id = 3325;
+    UPDATE civicrm_state_province SET abbreviation = 'PD' WHERE id = 3326;
+    UPDATE civicrm_state_province SET abbreviation = 'AW' WHERE id = 3327;
+    UPDATE civicrm_state_province SET abbreviation = 'AN' WHERE id = 3328;
+    UPDATE civicrm_state_province SET abbreviation = 'CE' WHERE id = 3329;
+    UPDATE civicrm_state_province SET abbreviation = 'EH' WHERE id = 3330;
+    UPDATE civicrm_state_province SET abbreviation = 'JS' WHERE id = 3331;
+    UPDATE civicrm_state_province SET abbreviation = 'MY' WHERE id = 3332;
+    UPDATE civicrm_state_province SET abbreviation = 'TS' WHERE id = 3333;
+    UPDATE civicrm_state_province SET abbreviation = 'TY' WHERE id = 3334;
+    UPDATE civicrm_state_province SET abbreviation = 'WD' WHERE id = 3335;
+
+    UPDATE civicrm_state_province SET name = 'Saint Thomas' WHERE name = 'Saint Thomea';
+
+    INSERT INTO civicrm_state_province (id, country_id, abbreviation, name) VALUES (5195, 1108, 'MR', 'Manchester');
+

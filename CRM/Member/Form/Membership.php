@@ -229,7 +229,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
 
         $this->addElement('checkbox', 
                           'is_override', 
-                          ts('Status Hold?'), 
+                          ts('Status Override?'), 
                           null, 
                           array( 'onClick' => 'showHideMemberStatus()'));
 
@@ -262,7 +262,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         
         // Retrieve the name and email of the contact - this will be the TO for receipt email
         list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
-        $this->assign( 'email', $this->_contributorEmail );
+        $this->assign( 'emailExists', $this->_contributorEmail );
         $this->addFormRule(array('CRM_Member_Form_Membership', 'formRule'));
 
         //build custom data

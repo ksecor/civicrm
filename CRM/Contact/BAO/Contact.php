@@ -907,7 +907,7 @@ LEFT JOIN civicrm_location_type ON civicrm_location_type.id = civicrm_address.lo
 WHERE civicrm_contact.id IN $idString ";
 
         $params = array( );
-        if (!$locationId) {
+        if (!$locationTypeID) {
             $sql .= " AND civicrm_address.is_primary = 1";
         } else {
             $sql .= " AND civicrm_address.location_type_id = %1";

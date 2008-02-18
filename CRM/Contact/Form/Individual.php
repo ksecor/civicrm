@@ -214,7 +214,7 @@ showHideSharedOptions();
     {
         $errors = array( );
 
-        $primaryOpenId = CRM_Contact_Form_Edit::formRule( $fields, $errors );
+        $primaryID = CRM_Contact_Form_Edit::formRule( $fields, $errors );
         
         // check for state/country mapping
         CRM_Contact_Form_Address::formRule($fields, $errors);
@@ -222,9 +222,9 @@ showHideSharedOptions();
         // make sure that firstName and lastName or a primary OpenID is set
         if (! ( (CRM_Utils_Array::value( 'first_name', $fields ) && 
                  CRM_Utils_Array::value( 'last_name' , $fields )    ) ||
-                ! empty( $primaryOpenId ) ) ) {
+                ! empty( $primaryID ) ) ) {
 	 
-            $errors['_qf_default'] = ts('First Name and Last Name OR an OpenID in the Primary Location should be set.');
+            $errors['_qf_default'] = ts('First Name and Last Name OR an email OR an OpenID in the Primary Location should be set.');
         }
 
         // if this is a forced save, ignore find duplicate rule

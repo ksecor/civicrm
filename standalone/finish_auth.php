@@ -56,7 +56,8 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
         // TODO: Can we delete/unset the new_install session variable here?
         */
     } else {
-        $user = new Standalone_User( $openid, $email );
+        require_once 'CRM/Standalone/User.php';
+        $user = new CRM_Standalone_User( $openid, $email );
     }
     $allow_login = CRM_Utils_System_Standalone::getAllowedToLogin( $user );
     if ( !$allow_login && (!defined('CIVICRM_ALLOW_ALL') || !CIVICRM_ALLOW_ALL ) ) {

@@ -295,7 +295,6 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
     if ( $dupeCheck ) {
         // check for record already existing
         if ( $params['contact_type'] == 'Organization' || $params['contact_type'] == 'Household' ) {
-            $ids = array();
             require_once "CRM/Contact/DAO/Contact.php";
             $contact = & new CRM_Contact_DAO_Contact();
             if ( $params['contact_type'] == 'Organization' ) {
@@ -303,13 +302,14 @@ function civicrm_contact_check_params( &$params, $dupeCheck = true, $dupeErrorAr
             } else {
                 $contact->household_name = $params['household_name'];
             }
+
+            $contactIds = array( );
             $contact->find();
-            while ($contact->fetch(true)) {
-                if ( $contact->id != $options) {
-                    $ids[] = $contact->id;
-                    $ids = implode( ', ',  $ids );
-                }
+            while ( $contact->fetch() ) {
+                $contactIds[] = $contact->id;
             }
+            $contact->free();
+            $ids = implode( ',',  $contactIds );
         } else {
             require_once 'CRM/Core/BAO/UFGroup.php';
             $ids = CRM_Core_BAO_UFGroup::findContact( $params ) ;

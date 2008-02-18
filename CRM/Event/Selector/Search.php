@@ -339,9 +339,8 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                          $row['event_id'], 
                                                          'is_monetary');
              
-             if ( ( substr( $row['event_level'], 0, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) &&
-                  ( substr( $row['event_level'], -1, 1) == CRM_Core_BAO_CustomOption::VALUE_SEPERATOR ) ) {
-                 $row['event_level'] = implode( ', ', explode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, substr( $row['event_level'], 1, -1) ) );
+             if ( $row['event_level'] ) {
+                 CRM_Event_BAO_Participant::fixEventLevel( $row['event_level'] );
              }
              
              $rows[] = $row;

@@ -82,12 +82,13 @@ class CRM_Mailing_Form_Subscribe extends CRM_Core_Form
 
             $groupTypeCondition = CRM_Contact_BAO_Group::groupTypeCondition( 'Mailing' );
             $query = "
-SELECT id, title, description
-  FROM civicrm_group
- WHERE ( saved_search_id = 0
-    OR   saved_search_id IS NULL )
-   AND visibility != 'User and User Admin Only'
-   AND $groupTypeCondition";
+SELECT   id, title, description
+  FROM   civicrm_group
+ WHERE   ( saved_search_id = 0
+    OR     saved_search_id IS NULL )
+   AND   visibility != 'User and User Admin Only'
+   AND   $groupTypeCondition
+ORDER BY title";
             $dao = CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
             $rows   =  array( );
             while ( $dao->fetch( ) ) {

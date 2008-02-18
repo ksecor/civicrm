@@ -282,7 +282,10 @@ class CRM_Member_BAO_MembershipType extends CRM_Member_DAO_MembershipType
 
         $fixed_period_rollover = false;
         if ( $membershipTypeDetails['period_type'] == 'rolling' ) {
-            $startDate = $actualStartDate = $joinDate;
+            if ( !$startDate ) {
+                $startDate = $joinDate;
+            }
+            $actualStartDate = $startDate;
         } else if ( $membershipTypeDetails['period_type'] == 'fixed' ) {
             //calculate start date
 

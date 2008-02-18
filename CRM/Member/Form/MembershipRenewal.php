@@ -126,7 +126,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             CRM_Contribute_BAO_Contribution::getValues( $contributionParams, $defaults, $contributionIds );
         }
         
-        $defaults['send_receipt'] = 1; 
+        $defaults['send_receipt'] = 0; 
         
         if ( $defaults['membership_type_id'] ) {
             $defaults['receipt_text_renewal'] =  CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipType', 
@@ -135,8 +135,8 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         }
 
         $this->assign( "member_is_test", CRM_Utils_Array::value('member_is_test',$defaults) );
-        
         return $defaults;
+
     }
 
     /**
@@ -151,13 +151,13 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
 
         $this->applyFilter('__ALL__', 'trim');
         
-        $this->add('date', 'renewal_date', ts('Renewal Date'), CRM_Core_SelectValues::date('activityDate'), false );    
+        $this->add('date', 'renewal_date', ts('Date Renewal Entered'), CRM_Core_SelectValues::date('activityDate'), false );    
         $this->addRule('renewal_date', ts('Select a valid date.'), 'qfDate');
         
         $this->addElement('checkbox', 
                           'record_contribution', 
                           ts('Record Renewal Payment?'), null, 
-                          array('onclick' =>"return showHideByValue('record_contribution','','recordContribution','table-row','radio',false);"));
+                          array('onclick' =>"checkPayment();"));
         
         require_once 'CRM/Contribute/PseudoConstant.php';
         $this->add('select', 'contribution_type_id', 
@@ -223,21 +223,27 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
  
         // get the submitted form values.  
         $formValues = $this->controller->exportValues( $this->_name );
-
+        
         $params = array( );
         $ids    = array( );
         
         $params['contact_id']         = $this->_contactID;
 
         $renewalDate = null;
-
+        
         if ( $formValues['renewal_date'] ) {
-            $renewalDate =  CRM_Utils_Date::format( $formValues['renewal_date'], '-' );
+            $renewalDate = CRM_Utils_Date::format( $formValues['renewal_date'], '-' );
+            $changeToday = array( );
+            $changeToday['month'] = $formValues['renewal_date']['M'];
+            $changeToday['day']   = $formValues['renewal_date']['d'];
+            $changeToday['year']  = $formValues['renewal_date']['Y'];
+            $this->set( 'renewDate', $changeToday );
         }
         
         $renewMembership = CRM_Member_BAO_Membership::renewMembership( $this->_contactID, 
                                                                        $this->_memType,
                                                                        0, $this, null );
+        
         $endDate = CRM_Utils_Date::mysqlToIso( CRM_Utils_Date::format( $renewMembership->end_date ) );
 
         require_once 'CRM/Contact/BAO/Contact.php';
@@ -281,7 +287,9 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             }
         }
         
-        if ( $formValues['send_receipt'] ) {
+        $receiptSend = false;
+        if ( $formValues['record_contribution'] && $formValues['send_receipt'] ) {
+            $receiptSend = true;
             // Retrieve the name and email of the contact - this will be the TO for receipt email
             list( $this->_contributorDisplayName, $this->_contributorEmail ) = CRM_Contact_BAO_Contact::getEmailDetails( $this->_contactID );
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
@@ -340,7 +348,7 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
             $statusMsg .= ts('The new membership End Date is %1.', array(1 => $endDate));
         }
         
-        if( $formValues['send_receipt'] ) {
+        if ( $receiptSend ) {
             $statusMsg .= ts('A renewal confirmation and receipt has been sent to %1.', array(1 => $this->_contributorEmail));
         }
         
