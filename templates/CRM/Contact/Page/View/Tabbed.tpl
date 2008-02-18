@@ -167,10 +167,10 @@
     {* Show calculated age unless contact is deceased. *}
     {if $is_deceased neq 1}
         {if $age.y}  
-        <label>{ts}Age :{/ts}</label> {$age.y} Year{if $age.y gt 1}s{/if}. <br />
+        <label>{ts}Age{/ts}:</label> {ts count=$age.y plural='%count years'}%count year{/ts}<br />
         {/if}
         {if $age.m} 
-        <label>{ts}Age :{/ts}</label> {$age.m} Month{if $age.m gt 1}s{/if}. <br />                              
+        <label>{ts}Age{/ts}:</label> {ts count=$age.m plural='%count months'}%count month{/ts}<br />
         {/if}
     {/if}
     </div>
