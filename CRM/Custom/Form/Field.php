@@ -864,7 +864,12 @@ SELECT id
                         $optionValue->label           =  $params['option_label'][$k];
                         $optionValue->value           =  $v;
                         $optionValue->weight          =  $params['option_weight'][$k];
-                        $optionValue->is_active       =  $params['option_status'][$k];
+                        
+                        if ( $params['option_status'][$k] ) {
+                            $optionValue->is_active   =  $params['option_status'][$k]; 
+                        } else {
+                            $optionValue->is_active   = 0;  
+                        }
                         $optionValue->save( );
                     }
                 }
