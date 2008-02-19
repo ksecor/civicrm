@@ -360,9 +360,22 @@ ORDER BY name";
         $elements = array( );
         require_once 'CRM/Utils/Type.php';
         $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
-        
+
         if ( isset( $_GET['id'] ) ) {
             $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
+        }
+
+        //temporary fix to handle locales other than default US,
+        // CRM-2653
+        if ( !$countryId && $name && $config->lcMessages != 'en_US') {
+            $countries = CRM_Core_PseudoConstant::country();
+            
+            // get the country name in en_US, since db has this locale
+            $countryName = array_search( $name, $countries );
+            
+            if ( $countryName ) {
+                $countryId = $countryName;
+            }
         }
 
         $validValue = true;
