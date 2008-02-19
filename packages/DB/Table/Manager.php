@@ -7,7 +7,7 @@
 * DB_Table_Manager provides database automated table creation
 * facilities.
 * 
-* @category DB
+* @category Database
 * 
 * @package DB_Table
 *
@@ -16,28 +16,12 @@
 * 
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
 * 
-* @version $Id: Manager.php,v 1.29 2006/07/19 09:30:26 wiesemann Exp $
+* @version $Id: Manager.php,v 1.34 2007/04/25 15:49:15 wiesemann Exp $
 *
 */
 
 require_once 'DB/Table.php';
 
-
-/**
-* 
-* Creates, checks or alters tables from DB_Table definitions.
-* 
-* DB_Table_Manager provides database automated table creation
-* facilities.
-* 
-* @category DB
-* 
-* @package DB_Table
-*
-* @author Paul M. Jones <pmjones@php.net>
-* @author Mark Wiesemann <wiesemann@php.net>
-*
-*/
 
 /**
 * Valid types for the different data types in the different DBMS.
@@ -184,7 +168,19 @@ $GLOBALS['_DB_TABLE']['mdb2_type'] = array(
     'timestamp' => 'timestamp'
 );
 
-
+/**
+* 
+* Creates, checks or alters tables from DB_Table definitions.
+* 
+* DB_Table_Manager provides database automated table creation
+* facilities.
+* 
+* @category Database
+* @package DB_Table
+* @author Paul M. Jones <pmjones@php.net>
+* @author Mark Wiesemann <wiesemann@php.net>
+*
+*/
 class DB_Table_Manager {
 
 
@@ -218,7 +214,7 @@ class DB_Table_Manager {
             $backend = 'mdb2';
             $db->loadModule('Manager');
         }
-        list($phptype,) = DB_Table::getPHPTypeAndDBSyntax($db);
+        $phptype = $db->phptype;
 
         // columns to be created
         $column = array();
@@ -441,7 +437,7 @@ class DB_Table_Manager {
             $table_info_mode = MDB2_TABLEINFO_FULL;
             $table_info_error = MDB2_ERROR_NEED_MORE_DATA;
         }
-        list($phptype,) = DB_Table::getPHPTypeAndDBSyntax($db);
+        $phptype = $db->phptype;
 
         // check #1: does the table exist?
 
@@ -502,7 +498,7 @@ class DB_Table_Manager {
         }
 
         // check #4: do all indexes exist?
-        $table_indexes = DB_Table_Manager::_getIndexes($db, $table);
+        $table_indexes = DB_Table_Manager::getIndexes($db, $table);
         if (PEAR::isError($table_indexes)) {
             return $table_indexes;
         }
@@ -562,7 +558,8 @@ class DB_Table_Manager {
 
     function alter(&$db, $table, $column_set, $index_set)
     {
-        list($phptype,) = DB_Table::getPHPTypeAndDBSyntax($db);
+        $phptype = $db->phptype;
+
         if (is_subclass_of($db, 'db_common')) {
             $backend = 'db';
             $reverse =& $db;
@@ -671,7 +668,7 @@ class DB_Table_Manager {
         }
 
         // get information about indexes / constraints
-        $table_indexes = DB_Table_Manager::_getIndexes($db, $table);
+        $table_indexes = DB_Table_Manager::getIndexes($db, $table);
         if (PEAR::isError($table_indexes)) {
             return $table_indexes;
         }
@@ -1501,7 +1498,7 @@ class DB_Table_Manager {
     * 
     * Return all indexes for a table.
     * 
-    * @access private
+    * @access public
     * 
     * @param object &$db A PEAR DB/MDB2 object.
     * 
@@ -1512,15 +1509,14 @@ class DB_Table_Manager {
     * 
     */
 
-    function _getIndexes(&$db, $table)
+    function getIndexes(&$db, $table)
     {
         if (is_subclass_of($db, 'db_common')) {
             $backend = 'db';
             // workaround for missing index and constraint information methods
             // in PEAR::DB ==> use adopted code from MDB2's driver classes
-            list($phptype,) = DB_Table::getPHPTypeAndDBSyntax($db);
-            require_once 'DB/Table/Manager/' . $phptype . '.php';
-            $classname = 'DB_Table_Manager_' . $phptype;
+            require_once 'DB/Table/Manager/' . $db->phptype . '.php';
+            $classname = 'DB_Table_Manager_' . $db->phptype;
             $dbtm =& new $classname();
             $dbtm->_db =& $db;  // pass database instance to the 'workaround' class
             $manager =& $dbtm;

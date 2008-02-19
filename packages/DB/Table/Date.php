@@ -20,13 +20,14 @@
 // | under PHP 5.1 by Paul M. Jones <pmjones@php.net>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: Date.php,v 1.1 2005/12/05 21:07:53 wiesemann Exp $
+// $Id: Date.php,v 1.2 2007/03/23 10:41:13 morse Exp $
 
 /**
  * Generic date handling class for DB_Table.
  *
+ * @category Database
+ * @package DB_Table
  * @author Baba Buehler <baba@babaz.com>
- * @package Date
  * @access public
  */
 class DB_Table_Date {
