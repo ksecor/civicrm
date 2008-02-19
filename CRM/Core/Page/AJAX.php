@@ -159,16 +159,19 @@ ORDER BY sort_name ";
             
         }
         
+        $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
+        $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
+
+        $query .= " LIMIT {$start},{$end}";
+        
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        $count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-        //while ( $dao->fetch( ) ) {
+
+        while ( $dao->fetch( ) ) {
             $elements[] = array( 'name' => $dao->sort_name,
                                  'id'   => $dao->id );
-            $count++;
         }
         
         require_once "CRM/Utils/JSON.php";

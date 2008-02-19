@@ -52,7 +52,7 @@
             {else} {* action = add *}
                 </dd>
                 <dt>{$form.name.label}</dt>
-                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}">
+                <div class ="tundra" dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" doClientPaging="false">
                 <dd>{$form.name.html}</dd></div>
                 <dt> </dt>
                   <dd>

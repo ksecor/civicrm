@@ -74,7 +74,7 @@
              <tr>
                 <td class="label">{$form.source_contact.label}</td>
                 <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
                        {if $admin }{$form.source_contact.html} {else} {$source_contact_value} {/if}
                    </div>
                 </td>
@@ -82,7 +82,7 @@
              <tr>
                 <td class="label">{$form.target_contact.label}</td>
                 <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
                        {if $context eq 'standalone' } {$form.target_contact.html} {else} {$target_contact_value} {/if}
                    </div>
                 </td>
@@ -90,7 +90,7 @@
              <tr>
                 <td class="label">{$form.assignee_contact.label}</td>
                 <td class="view-value">
-                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra">
+                   <div dojoType="dojox.data.QueryReadStore" jsId="contactStore" url="{$dataUrl}" class="tundra" doClientPaging="false">
                        {$form.assignee_contact.html}
                    </div>
                    {edit}<span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Contact Dashboard.{/ts}</span>{/edit}
