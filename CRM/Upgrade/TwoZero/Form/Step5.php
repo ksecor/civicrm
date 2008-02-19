@@ -173,7 +173,7 @@ ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
         CRM_Core_DAO::freeResult();
 
         // migrate custom-option data
-        foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
+        foreach (array('civicrm_event_page', 'civicrm_contribution_page', 'civicrm_price_field') as $entityTable) {
             $query        = "
 SELECT * FROM civicrm_custom_option co 
 WHERE co.entity_table='$entityTable'";
