@@ -864,12 +864,7 @@ SELECT id
                         $optionValue->label           =  $params['option_label'][$k];
                         $optionValue->value           =  $v;
                         $optionValue->weight          =  $params['option_weight'][$k];
-                        
-                        if ( $params['option_status'][$k] ) {
-                            $optionValue->is_active   =  $params['option_status'][$k]; 
-                        } else {
-                            $optionValue->is_active   = 0;  
-                        }
+                        $optionValue->is_active       = CRM_Utils_Array::value( $k, $params['option_status'], false );
                         $optionValue->save( );
                     }
                 }
