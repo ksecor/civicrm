@@ -545,12 +545,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( ! empty ( $_POST ) ) {
                     // get the new email, location is different in Drupal 5 vs Drupal 4.7
                     $config =& CRM_Core_Config::singleton( );
-                    if ( $config->userFrameworkVersion >= 5 ) {
-                        $email = CRM_Utils_Array::value( 'mail', $_POST );
-                    } else {
-                        $email = CRM_Utils_Array::value( 'mail',
-                                                         CRM_Utils_Array::value( 'edit', $_POST ) );
-                    }
+                    $email = CRM_Utils_Array::value( 'mail', $_POST );
                     
                     if ( CRM_Utils_Rule::email( $email ) && ( $email  != $userEmail[1] ) ) {
                         require_once 'CRM/Core/BAO/UFMatch.php';

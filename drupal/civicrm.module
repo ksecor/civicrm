@@ -249,6 +249,8 @@ function civicrm_initialize( $requireAPI = false )
         }
 
         $initialized = true;
+
+        // initialize the system by creating a config object
         $config =& CRM_Core_Config::singleton();
         
         // Add module-specific header elements
@@ -391,7 +393,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
             return;
         }
  
-        if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
+        if ( empty( $_POST ) ) {
             return civicrm_register_data($edit, $user, $category, true, false );
         } else {
             return civicrm_register_data( $edit, $user, $category, false, true );
@@ -413,8 +415,7 @@ function civicrm_user( $type, &$edit, &$user, $category = NULL )
         return civicrm_form_data($edit, $user, $category, false, false );
 
     case 'form':
-        $config =& CRM_Core_Config::singleton( );
-        if ( empty( $_POST ) || $config->userFrameworkVersion < 4.7 ) {
+        if ( empty( $_POST ) ) {
             return civicrm_form_data($edit, $user, $category, true, false );
         } else {
             return civicrm_form_data($edit, $user, $category, true, true );
@@ -445,8 +446,6 @@ function civicrm_categories( &$user )
     if ( ! $userID ) {
         return null;
     }
-
-    $config =& CRM_Core_Config::singleton( ); 
 
     $ctype = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $userID, 'contact_type' );
 
@@ -497,15 +496,10 @@ function civicrm_register_data($edit, &$user, $category, $reset, $doNotProcess =
 
     $output = array( );
     if ( $html ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFrameworkVersion >= 4.7 ) {
-            $index = empty( $category ) ? 'civicrm-profile-register' : $category;
-            $output[$index] = array( '#title' => $category,
-                                     '#value' => $html,
-                                     '#weight' => 1 );
-        } else {
-            $output[] = array( 'title' => null, 'data' => $html, 'weight' => 0 );
-        }
+        $index = empty( $category ) ? 'civicrm-profile-register' : $category;
+        $output[$index] = array( '#title' => $category,
+                                 '#value' => $html,
+                                 '#weight' => 1 );
     }
 
     return $output;
@@ -540,15 +534,10 @@ function civicrm_form_data($edit, &$user, $category, $reset, $doNotProcess = fal
     $html = CRM_Core_BAO_UFGroup::getEditHTML( $userID, $category, null, false, $reset, null, $doNotProcess, $ctype );
     
     if ( $html ) {
-        $config =& CRM_Core_Config::singleton( );
-        if ( $config->userFrameworkVersion >= 4.7 ) {
-            $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
-            $output[$index] = array( '#title' => $category,
-                                     '#value' => $html,
-                                     '#weight' => 1 );
-        } else {
-            $output[] = array( 'title' => $category, 'data' => $html, 'weight' => 0 );
-        }
+        $index = empty( $category ) ? 'civicrm-profile-my-account' : $category;
+        $output[$index] = array( '#title' => $category,
+                                 '#value' => $html,
+                                 '#weight' => 1 );
     }
 
     return $output;
@@ -561,8 +550,6 @@ function civicrm_view_data($user )
     require_once 'CRM/Core/BAO/UFMatch.php';
     $userID = CRM_Core_BAO_UFMatch::getContactId( $user->uid );
     if ( $userID ) {
-        $config =& CRM_Core_Config::singleton( ); 
-
         // make sure user has permission to view the record
         require_once 'CRM/Contact/BAO/Contact.php';
         $contactURL = null;
@@ -592,24 +579,15 @@ function civicrm_view_data($user )
             $pageContent = $page->run( );
             
             if ( $pageContent ) {
-                if ( $config->userFrameworkVersion >= 4.7 ) {
-                    $item = array( 'value' => $pageContent );
-                    $data[$title['title']][] = $item;
-                } else {
-                    $data[$title['title']] = $pageContent;
-                }
+                $item = array( 'value' => $pageContent );
+                $data[$title['title']][] = $item;
             }
         }
         
         if ( CRM_Core_Permission::check( 'access CiviCRM' ) ) {
-            if ( $config->userFrameworkVersion >= 4.7 ) { 
-                $item = array( 'title' => '',
-                               'value' => $contactURL );
-                $data[''][] = $item;
-                
-            } else {
-                $data[''] = $contactURL;
-            }
+            $item = array( 'title' => '',
+                           'value' => $contactURL );
+            $data[''][] = $item;
         }
     }
     return $data;

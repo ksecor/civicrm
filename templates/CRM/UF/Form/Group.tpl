@@ -68,7 +68,7 @@
     {if $config->userFramework EQ 'Drupal'} 
         <dt>&nbsp;</dt><dd class="description">{ts}<strong>CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.</strong>{/ts}</dd>
     {/if}
-    {if ($config->userFramework == 'Drupal' AND $config->userFrameworkVersion >=5.1) OR ($config->userFramework == 'Joomla') } {* Create CMS user only available for Drupal/Joomla installs. *}
+    {if ($config->userFramework == 'Drupal') OR ($config->userFramework == 'Joomla') } {* Create CMS user only available for Drupal/Joomla installs. *}
         <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>
         <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup form OR using it in an online contribution page, anonymous users will be given the option to create a {$config->userFramework} User Account as part of completing the form. {if $config->userFramework EQ 'Drupal'}This feature requires the 'Email Verification' option to be checked (Drupal User Settings). {/if}In addition, you must include a Primary Email Address field in the profile.{/ts}</dd>
     {/if}
