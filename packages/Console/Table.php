@@ -1,42 +1,43 @@
 <?php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003 Richard Heyes                                 |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// |         Jan Schneider <jan@horde.org>                                 |
-// +-----------------------------------------------------------------------+
-//
-// $Id: Table.php,v 1.17 2006/08/28 08:38:08 yunosh Exp $
-//
-// Utility for printing tables from cmdline scripts
-//
+/**
+ * Utility for printing tables from commandline scripts.
+ *
+ * PHP versions 4 and 5
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * o Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * o Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * o The names of the authors may not be used to endorse or promote products
+ *   derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Console
+ * @package    Console_Table
+ * @author     Richard Heyes <richard@phpguru.org>
+ * @author     Jan Schneider <jan@horde.org>
+ * @copyright  2002-2005 Richard Heyes
+ * @copyright  2006-2008 Jan Schneider
+ * @version    CVS: $Id: Table.php,v 1.23 2008/01/08 23:25:35 yunosh Exp $
+ * @link       http://pear.php.net/package/Console_Table
+ */
 
 define('CONSOLE_TABLE_HORIZONTAL_RULE', 1);
 define('CONSOLE_TABLE_ALIGN_LEFT', -1);
@@ -60,14 +61,14 @@ class Console_Table
     var $_data = array();
 
     /**
-     * The max number of columns in a row.
+     * The maximum number of columns in a row.
      *
      * @var integer
      */
     var $_max_cols = 0;
 
     /**
-     * The max number of rows in the table.
+     * The maximum number of rows in the table.
      *
      * @var integer
      */
@@ -123,7 +124,7 @@ class Console_Table
     var $_defaultAlign;
 
     /**
-     * Charset of the data.
+     * Character set of the data.
      *
      * @var string
      */
@@ -132,7 +133,7 @@ class Console_Table
     /**
      * Constructor.
      *
-     * @param integer $align  Default alignment
+     * @param integer $align  Default alignment.
      */
     function Console_Table($align = CONSOLE_TABLE_ALIGN_LEFT)
     {
@@ -140,7 +141,7 @@ class Console_Table
     }
 
     /**
-     * Converts an array to a table. Must be 
+     * Converts an array to a table.
      *
      * @static
      *
@@ -159,7 +160,7 @@ class Console_Table
             return false;
         }
 
-        $table = &new Console_Table();
+        $table = new Console_Table();
         $table->setHeaders($headers);
 
         foreach ($data as $row) {
@@ -192,7 +193,10 @@ class Console_Table
      */
     function setCharset($charset)
     {
+        $locale = setlocale(LC_CTYPE, 0);
+        setlocale(LC_CTYPE, 'en_US');
         $this->_charset = strtolower($charset);
+        setlocale(LC_CTYPE, $locale);
     }
 
     /**
@@ -207,15 +211,15 @@ class Console_Table
     function setAlign($col_id, $align = CONSOLE_TABLE_ALIGN_LEFT)
     {
         switch ($align) {
-            case CONSOLE_TABLE_ALIGN_CENTER:
-                $pad = STR_PAD_BOTH;
-                break;
-            case CONSOLE_TABLE_ALIGN_RIGHT:
-                $pad = STR_PAD_LEFT;
-                break;
-            default:
-                $pad = STR_PAD_RIGHT;
-                break;
+        case CONSOLE_TABLE_ALIGN_CENTER:
+            $pad = STR_PAD_BOTH;
+            break;
+        case CONSOLE_TABLE_ALIGN_RIGHT:
+            $pad = STR_PAD_LEFT;
+            break;
+        default:
+            $pad = STR_PAD_RIGHT;
+            break;
         }
         $this->_col_align[$col_id] = $pad;
     }
@@ -238,7 +242,7 @@ class Console_Table
      */
     function setHeaders($headers)
     {
-        $this->_headers = array_values($headers);
+        $this->_headers = array(array_values($headers));
         $this->_updateRowsCols($headers);
     }
 
@@ -247,7 +251,7 @@ class Console_Table
      *
      * @param array $row       The row data to add.
      * @param boolean $append  Whether to append or prepend the row.
-    */
+     */
     function addRow($row, $append = true)
     {
         if ($append) {
@@ -325,7 +329,7 @@ class Console_Table
     }
 
     /*
-     * Returns the table in wonderful ASCII art.
+     * Returns the generated table.
      *
      * @return string  The generated table.
      */
@@ -343,21 +347,23 @@ class Console_Table
      */
     function _calculateTotals()
     {
-        if (!empty($this->_calculateTotals)) {
-            $this->addSeparator();
+        if (empty($this->_calculateTotals)) {
+            return;
+        }
 
-            $totals = array();
-            foreach ($this->_data as $row) {
-                if (is_array($row)) {
-                    foreach ($this->_calculateTotals as $columnID) {
-                        $totals[$columnID] += $row[$columnID];
-                    }
+        $this->addSeparator();
+
+        $totals = array();
+        foreach ($this->_data as $row) {
+            if (is_array($row)) {
+                foreach ($this->_calculateTotals as $columnID) {
+                    $totals[$columnID] += $row[$columnID];
                 }
             }
-
-            $this->_data[] = $totals;
-            $this->_updateRowsCols();
         }
+
+        $this->_data[] = $totals;
+        $this->_updateRowsCols();
     }
 
     /**
@@ -365,25 +371,31 @@ class Console_Table
      */
     function _applyFilters()
     {
-        if (!empty($this->_filters)) {
-            foreach ($this->_filters as $filter) {
-                $column   = $filter[0];
-                $callback = $filter[1];
+        if (empty($this->_filters)) {
+            return;
+        }
 
-                foreach ($this->_data as $row_id => $row_data) {
-                    if ($row_data !== CONSOLE_TABLE_HORIZONTAL_RULE) {
-                        $this->_data[$row_id][$column] = call_user_func($callback, $row_data[$column]);
-                    }
+        foreach ($this->_filters as $filter) {
+            $column   = $filter[0];
+            $callback = $filter[1];
+
+            foreach ($this->_data as $row_id => $row_data) {
+                if ($row_data !== CONSOLE_TABLE_HORIZONTAL_RULE) {
+                    $this->_data[$row_id][$column] = call_user_func($callback, $row_data[$column]);
                 }
             }
         }
     }
 
     /**
-     * Ensures column and row counts are correct.
+     * Ensures that column and row counts are correct.
      */
     function _validateTable()
     {
+        if (!empty($this->_headers)) {
+            $this->_calculateRowHeight(-1, $this->_headers[0]);
+        }
+
         for ($i = 0; $i < $this->_max_rows; $i++) {
             for ($j = 0; $j < $this->_max_cols; $j++) {
                 if (!isset($this->_data[$i][$j]) &&
@@ -392,8 +404,8 @@ class Console_Table
                     $this->_data[$i][$j] = '';
                 }
 
-                $this->_calculateRowHeight($i, $this->_data[$i]);
             }
+            $this->_calculateRowHeight($i, $this->_data[$i]);
 
             if ($this->_data[$i] !== CONSOLE_TABLE_HORIZONTAL_RULE) {
                  ksort($this->_data[$i]);
@@ -404,6 +416,9 @@ class Console_Table
         $this->_splitMultilineRows();
 
         // Update cell lengths.
+        for ($i = 0; $i < count($this->_headers); $i++) {
+            $this->_calculateCellLengths($this->_headers[$i]);
+        }
         for ($i = 0; $i < $this->_max_rows; $i++) {
             $this->_calculateCellLengths($this->_data[$i]);
         }
@@ -414,42 +429,50 @@ class Console_Table
     /**
      * Splits multiline rows into many smaller one-line rows.
      */
-    function _splitMultilineRows() {
-
-        $inserted = 0;
+    function _splitMultilineRows()
+    {
         ksort($this->_data);
-        $new_data = $this->_data;
+        $sections = array(&$this->_headers, &$this->_data);
+        $max_rows = array(count($this->_headers), $this->_max_rows);
+        $row_height_offset = array(-1, 0);
 
-        for ($i = 0; $i < $this->_max_rows; $i++) {
-            // Process only rows that have many lines.
-            if (($height = $this->_row_heights[$i]) > 1) {
-                // Split column data into one-liners.
-                $split = array();
-                for ($j = 0; $j < $this->_max_cols; $j++) {
-                    $split[$j] = preg_split('/\r?\n|\r/', $this->_data[$i][$j]);
-                }
+        for ($s = 0; $s <= 1; $s++) {
+            $inserted = 0;
+            $new_data = $sections[$s];
 
-                $new_rows = array();
-                // Construct new 'virtual' rows - insert empty strings for
-                // columns that have less lines that the highest one.
-                for ($i2 = 0; $i2 < $height; $i2++) {
+            for ($i = 0; $i < $max_rows[$s]; $i++) {
+                // Process only rows that have many lines.
+                $height = $this->_row_heights[$i + $row_height_offset[$s]];
+                if ($height > 1) {
+                    // Split column data into one-liners.
+                    $split = array();
                     for ($j = 0; $j < $this->_max_cols; $j++) {
-                        $new_rows[$i2][$j] = !empty($split[$j][$i2]) ? $split[$j][$i2] : '';
+                        $split[$j] = preg_split('/\r?\n|\r/',
+                                                $sections[$s][$i][$j]);
                     }
+
+                    $new_rows = array();
+                    // Construct new 'virtual' rows - insert empty strings for
+                    // columns that have less lines that the highest one.
+                    for ($i2 = 0; $i2 < $height; $i2++) {
+                        for ($j = 0; $j < $this->_max_cols; $j++) {
+                            $new_rows[$i2][$j] = empty($split[$j][$i2]) ? '' : $split[$j][$i2];
+                        }
+                    }
+
+                    // Replace current row with smaller rows.  $inserted is
+                    // used to take account of bigger array because of already
+                    // inserted rows.
+                    array_splice($new_data, $i + $inserted, 1, $new_rows);
+                    $inserted += count($new_rows) - 1;
                 }
-
-                // Replace current row with smaller rows.  $inserted is used
-                // to take account of bigger array because of already inserted
-                // rows.
-                array_splice($new_data, $i + $inserted, 1, $new_rows);
-                $inserted += count($new_rows) - 1;
             }
-        }
 
-        // Has the data been modified?
-        if ($inserted > 0) {
-            $this->_data = $new_data;
-            $this->_updateRowsCols();
+            // Has the data been modified?
+            if ($inserted > 0) {
+                $sections[$s] = $new_data;
+                $this->_updateRowsCols();
+            }
         }
     }
 
@@ -459,34 +482,33 @@ class Console_Table
     function _buildTable()
     {
         $return = array();
-        $rows   = $this->_data;
-
-        for ($i = 0; $i < count($rows); $i++) {
-            for ($j = 0; $j < count($rows[$i]); $j++) {
-                if ($rows[$i] !== CONSOLE_TABLE_HORIZONTAL_RULE &&
-                    $this->_strlen($rows[$i][$j]) < $this->_cell_lengths[$j]) {
-                    $rows[$i][$j] = str_pad($rows[$i][$j],
-                                            $this->_cell_lengths[$j],
-                                            ' ',
-                                            $this->_col_align[$j]);
+        for ($i = 0; $i < count($this->_data); $i++) {
+            for ($j = 0; $j < count($this->_data[$i]); $j++) {
+                if ($this->_data[$i] !== CONSOLE_TABLE_HORIZONTAL_RULE &&
+                    $this->_strlen($this->_data[$i][$j]) < $this->_cell_lengths[$j]) {
+                    $this->_data[$i][$j] = $this->_str_pad(
+                        $this->_data[$i][$j],
+                        $this->_cell_lengths[$j],
+                        ' ',
+                        $this->_col_align[$j]);
                 }
             }
 
-            if ($rows[$i] !== CONSOLE_TABLE_HORIZONTAL_RULE) {
-                $row_begin    = '|' . str_repeat(' ', $this->_padding);
-                $row_end      = str_repeat(' ', $this->_padding) . '|';
-                $implode_char = str_repeat(' ', $this->_padding) . '|' .
-                    str_repeat(' ', $this->_padding);
-                $return[] = $row_begin . implode($implode_char, $rows[$i]) .
-                    $row_end;
+            if ($this->_data[$i] !== CONSOLE_TABLE_HORIZONTAL_RULE) {
+                $row_begin = '|' . str_repeat(' ', $this->_padding);
+                $row_end = str_repeat(' ', $this->_padding) . '|';
+                $implode_char = str_repeat(' ', $this->_padding) . '|'
+                    . str_repeat(' ', $this->_padding);
+                $return[] = $row_begin
+                    . implode($implode_char, $this->_data[$i]) . $row_end;
             } else {
                 $return[] = $this->_getSeparator();
             }
 
         }
 
-        $return = $this->_getSeparator() . "\r\n" . implode("\n", $return) .
-            "\r\n" . $this->_getSeparator() . "\r\n";
+        $return = $this->_getSeparator() . "\r\n" . implode("\n", $return)
+            . "\r\n" . $this->_getSeparator() . "\r\n";
 
         if (!empty($this->_headers)) {
             $return = $this->_getHeaderLine() .  "\r\n" . $return;
@@ -505,64 +527,77 @@ class Console_Table
             $return[] = str_repeat('-', $cl);
         }
 
-        $row_begin    = '+' . str_repeat('-', $this->_padding);
-        $row_end      = str_repeat('-', $this->_padding) . '+';
-        $implode_char = str_repeat('-', $this->_padding) . '+' .
-            str_repeat('-', $this->_padding);
+        $row_begin = '+' . str_repeat('-', $this->_padding);
+        $row_end = str_repeat('-', $this->_padding) . '+';
+        $implode_char = str_repeat('-', $this->_padding) . '+'
+            . str_repeat('-', $this->_padding);
 
         return $row_begin . implode($implode_char, $return) . $row_end;
     }
 
     /**
-     * Returns header line for the table.
+     * Returns the header line for the table.
      */
     function _getHeaderLine()
     {
         // Make sure column count is correct
-        for ($i = 0;  $i < $this->_max_cols; $i++) {
-            if (!isset($this->_headers[$i])) {
-                $this->_headers[$i] = '';
+        for ($j = 0; $j < count($this->_headers); $j++) {
+            for ($i = 0; $i < $this->_max_cols; $i++) {
+                if (!isset($this->_headers[$j][$i])) {
+                    $this->_headers[$j][$i] = '';
+                }
             }
         }
 
-        for ($i = 0; $i < count($this->_headers); $i++) {
-            if ($this->_strlen($this->_headers[$i]) < $this->_cell_lengths[$i]) {
-                $this->_headers[$i] = str_pad($this->_headers[$i],
-                                              $this->_cell_lengths[$i],
-                                              ' ',
-                                              $this->_col_align[$i]);
+        for ($j = 0; $j < count($this->_headers); $j++) {
+            for ($i = 0; $i < count($this->_headers[$j]); $i++) {
+                if ($this->_strlen($this->_headers[$j][$i]) < $this->_cell_lengths[$i]) {
+                    $this->_headers[$j][$i] = $this->_str_pad(
+                        $this->_headers[$j][$i],
+                        $this->_cell_lengths[$i],
+                        ' ',
+                        $this->_col_align[$i]);
+                }
             }
         }
 
-        $row_begin    = '|' . str_repeat(' ', $this->_padding);
-        $row_end      = str_repeat(' ', $this->_padding) . '|';
-        $implode_char = str_repeat(' ', $this->_padding) . '|' .
-            str_repeat(' ', $this->_padding);
+        $row_begin = '|' . str_repeat(' ', $this->_padding);
+        $row_end = str_repeat(' ', $this->_padding) . '|';
+        $implode_char = str_repeat(' ', $this->_padding) . '|'
+            . str_repeat(' ', $this->_padding);
 
         $return[] = $this->_getSeparator();
-        $return[] = $row_begin . implode($implode_char, $this->_headers) .
-            $row_end;
+        for ($j = 0; $j < count($this->_headers); $j++) {
+            $return[] = $row_begin
+                . implode($implode_char, $this->_headers[$j]) . $row_end;
+        }
 
         return implode("\r\n", $return);
     }
 
     /**
-     * Update max cols/rows.
+     * Updates values for maximum columns and rows.
      */
     function _updateRowsCols($rowdata = null)
     {
-        // Update max cols
+        // Update maximum columns.
         $this->_max_cols = max($this->_max_cols, count($rowdata));
 
-        // Update max rows
+        // Update maximum rows.
         ksort($this->_data);
         $keys = array_keys($this->_data);
         $this->_max_rows = end($keys) + 1;
 
         switch ($this->_defaultAlign) {
-            case CONSOLE_TABLE_ALIGN_CENTER: $pad = STR_PAD_BOTH; break;
-            case CONSOLE_TABLE_ALIGN_RIGHT:  $pad = STR_PAD_LEFT; break;
-            default:                         $pad = STR_PAD_RIGHT; break;
+        case CONSOLE_TABLE_ALIGN_CENTER:
+            $pad = STR_PAD_BOTH;
+            break;
+        case CONSOLE_TABLE_ALIGN_RIGHT:
+            $pad = STR_PAD_LEFT;
+            break;
+        default:
+            $pad = STR_PAD_RIGHT;
+            break;
         }
 
         // Set default column alignments
@@ -572,8 +607,7 @@ class Console_Table
     }
 
     /**
-     * This function given a row of data will calculate the max length for
-     * each column and store it in the _cell_lengths array.
+     * Calculates the maximum length for each column of a row.
      *
      * @param array $row  The row data.
      */
@@ -583,15 +617,13 @@ class Console_Table
             if (!isset($this->_cell_lengths[$i])) {
                 $this->_cell_lengths[$i] = 0;
             }
-            $this->_cell_lengths[$i] = max(isset($this->_headers[$i]) ? $this->_strlen($this->_headers[$i]) : 0,
-                                           $this->_cell_lengths[$i],
+            $this->_cell_lengths[$i] = max($this->_cell_lengths[$i],
                                            $this->_strlen($row[$i]));
         }
     }
 
     /**
-     * This function given a row of data will calculate the max height for all
-     * columns and store it in the _row_heights array.
+     * Calculates the maximum height for all columns of a row.
      *
      * @param integer $row_number  The row number.
      * @param array $row           The row data.
@@ -607,7 +639,7 @@ class Console_Table
             return;
         }
 
-        for ($i = 0; $i < count($row); $i++) {
+        for ($i = 0, $c = count($row); $i < $c; ++$i) {
             $lines = preg_split('/\r?\n|\r/', $row[$i]);
             $this->_row_heights[$row_number] = max($this->_row_heights[$row_number],
                                                    count($lines));
@@ -643,6 +675,87 @@ class Console_Table
         }
 
         return strlen($str);
+    }
+
+    /**
+     * Returns part of a string.
+     *
+     * @param string $string   The string to be converted.
+     * @param integer $start   The part's start position, zero based.
+     * @param integer $length  The part's length.
+     *
+     * @return string  The string's part.
+     */
+    function _substr($string, $start, $length = null)
+    {
+        static $mbstring;
+
+        // Cache expensive function_exists() calls.
+        if (!isset($mbstring)) {
+            $mbstring = function_exists('mb_substr');
+        }
+
+        if (is_null($length)) {
+            $length = $this->_strlen($string);
+        }
+        if ($mbstring) {
+            $ret = @mb_substr($string, $start, $length, $this->_charset);
+            if (!empty($ret)) {
+                return $ret;
+            }
+        }
+        return substr($string, $start, $length);
+    }
+
+    /**
+     * Returns a string padded to a certain length with another string.
+     *
+     * This method behaves exactly like str_pad but is multibyte safe.
+     *
+     * @param string $input    The string to be padded.
+     * @param integer $length  The length of the resulting string.
+     * @param string $pad      The string to pad the input string with. Must
+     *                         be in the same charset like the input string.
+     * @param const $type      The padding type. One of STR_PAD_LEFT,
+     *                         STR_PAD_RIGHT, or STR_PAD_BOTH.
+     *
+     * @return string  The padded string.
+     */
+    function _str_pad($input, $length, $pad = ' ', $type = STR_PAD_RIGHT)
+    {
+        $mb_length = $this->_strlen($input);
+        $sb_length = strlen($input);
+        $pad_length = $this->_strlen($pad);
+
+        /* Return if we already have the length. */
+        if ($mb_length >= $length) {
+            return $input;
+        }
+
+        /* Shortcut for single byte strings. */
+        if ($mb_length == $sb_length && $pad_length == strlen($pad)) {
+            return str_pad($input, $length, $pad, $type);
+        }
+
+        switch ($type) {
+        case STR_PAD_LEFT:
+            $left = $length - $mb_length;
+            $output = $this->_substr(str_repeat($pad, ceil($left / $pad_length)), 0, $left, $this->_charset) . $input;
+            break;
+        case STR_PAD_BOTH:
+            $left = floor(($length - $mb_length) / 2);
+            $right = ceil(($length - $mb_length) / 2);
+            $output = $this->_substr(str_repeat($pad, ceil($left / $pad_length)), 0, $left, $this->_charset) .
+                $input .
+                $this->_substr(str_repeat($pad, ceil($right / $pad_length)), 0, $right, $this->_charset);
+            break;
+        case STR_PAD_RIGHT:
+            $right = $length - $mb_length;
+            $output = $input . $this->_substr(str_repeat($pad, ceil($right / $pad_length)), 0, $right, $this->_charset);
+            break;
+        }
+
+        return $output;
     }
 
 }
