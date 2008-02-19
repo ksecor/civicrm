@@ -93,7 +93,7 @@ WHERE id={$res->id}
                                array( $currentDir, '../sql', 'drop.mysql' ) );
         $this->source( $sqlFile );
                
-        $this->setVersion( 2.0 );
+        $this->setVersion( '2.0' );
     }
 
     function verifyPostDBState( &$errorMessage ) {

@@ -246,3 +246,23 @@ LEFT JOIN civicrm_domain   cd  ON (cd.id = cld.entity_id)
 SET 
     ce.loc_block_id  = clb.id,
     cd.loc_block_id  = clb.id;
+
+
+
+-- Set location_type_ids for those not present 
+
+UPDATE civicrm_address
+SET    location_type_id = 1
+WHERE  location_type_id IS NULL AND contact_id IS NULL;
+
+UPDATE civicrm_email
+SET    location_type_id = 1
+WHERE  location_type_id IS NULL AND contact_id IS NULL;
+
+UPDATE civicrm_phone
+SET    location_type_id = 1
+WHERE  location_type_id IS NULL AND contact_id IS NULL;
+
+UPDATE civicrm_im
+SET    location_type_id = 1
+WHERE  location_type_id IS NULL AND contact_id IS NULL;
