@@ -1315,14 +1315,16 @@ AND civicrm_contact.is_opt_out =0";
         $report['event_totals'] = array();
         $elements = array(  'queue', 'delivered', 'url', 'forward',
                             'reply', 'unsubscribe', 'bounce', 'spool' );
+
+        // initialize various counters
         foreach ( $elements as $field ) {
             $report['event_totals'][$field] = 0;
         }
+        $report['event_totals']['opened'] = $report['event_totals']['unsubscribe'] = 0;
 
         while ($mailing->fetch()) {
             $row = array();
-            foreach(array(  'queue', 'delivered', 'url', 'forward',
-                            'reply', 'unsubscribe', 'bounce', 'spool') as $field) {
+            foreach ( $elements as $field ) {
                 if ( isset( $mailing->$field ) ) {
                     $row[$field] = $mailing->$field;
                     $report['event_totals'][$field] += $mailing->$field;
@@ -1339,7 +1341,7 @@ AND civicrm_contact.is_opt_out =0";
             $row['unsubscribe'] = CRM_Mailing_Event_BAO_Unsubscribe::getTotalCount( $mailing_id, $mailing->id, true );
             $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
             
-            foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
+            foreach ( array_keys(CRM_Mailing_BAO_Job::fields( ) ) as $field ) {
                 $row[$field] = $mailing->$field;
             }
             
