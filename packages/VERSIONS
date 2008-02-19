@@ -8,7 +8,7 @@ Contact_Vcard_Build           1.1.1      local changes + moved to Contact/Vcard/
 Contact_Vcard_Parse           1.31.0     moved to Contact/Vcard/Parse.php
 Date                          1.4.7
 DB                            1.7.13
-DB_DataObject                 1.8.4      local changes
+DB_DataObject                 1.8.8      local changes
 DB_Table                      1.5.0
 HTML_Common                   1.2.3
 HTML_QuickForm                3.2.6      local changes
