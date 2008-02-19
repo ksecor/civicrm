@@ -208,7 +208,7 @@ dojo.declare(
 					}
 					// default case:
 					// prevent submit, but allow event to bubble
-					evt.preventDefault();
+					//evt.preventDefault(); 
 					// fall through
 
 				case dojo.keys.TAB:
