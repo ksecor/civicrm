@@ -523,6 +523,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         if ( is_object( $newContact ) || ( $newContact instanceof CRM_Contact_BAO_Contact ) ) {
             $relationship = true;
             $newContact = clone( $newContact );
+            $this->_newContacts[] = $newContact->id;
         } 
         
         if ( $relationship ) {
