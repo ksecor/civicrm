@@ -292,8 +292,14 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $showHide->addShow( "id-premium" );
             $showHide->addHide( "id-premium-show" );
         } else {
-            $showHide->addShow( "id-premium-show" );
-            $showHide->addHide( "id-premium" );
+            require_once 'CRM/Contribute/DAO/Product.php';
+            $dao = & new CRM_Contribute_DAO_Product();
+            $dao->is_active = 1;
+            
+            if ( $dao->find( true ) ) {
+                $showHide->addShow( "id-premium-show" );
+                $showHide->addHide( "id-premium" );
+            }
         }
         if ( $showHonoree ) {
             $showHide->addShow( "id-honoree" );

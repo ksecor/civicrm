@@ -138,12 +138,12 @@
 
     </script>
     {/literal}
-
+ {if $premiums }
  <div id="id-premium-show" class="section-hidden section-hidden-border" style="clear: both;">
         <a href="#" onclick="hide('id-premium-show'); show('id-premium'); return false;"><img src="{$config->resourceBase}i/TreePlus.gif" class="action-icon" alt="{ts}open section{/ts}"/></a><label>{ts}Premium Information{/ts}</label><br />
  </div>
  <div id="id-premium" class="section-shown">
-      {if $premiums }
+     
       <fieldset>
         <legend><a href="#" onclick="hide('id-premium'); show('id-premium-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Premium Information{/ts}</legend>
            <dl>
@@ -165,9 +165,9 @@
            </dl>
 
       </fieldset>
-      {/if} 
+      
 </div>
-
+{/if} 
       {literal}
         <script type="text/javascript">
             var min_amount = document.getElementById("min_amount");
