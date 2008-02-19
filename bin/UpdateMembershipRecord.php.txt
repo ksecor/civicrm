@@ -45,8 +45,8 @@ require_once "CRM/Member/BAO/MembershipType.php";
 require_once 'CRM/Member/BAO/MembershipLog.php';
 require_once "CRM/Utils/Date.php";
 
-class CRM_UpdateMembershipRecord {
-    
+class CRM_UpdateMembershipRecord 
+{
     function __construct() 
     {
         $config =& CRM_Core_Config::singleton();
@@ -95,6 +95,13 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
             }
             **/
 
+            /* Update the membership records of deceased contacts as Expired */
+            if ( ( CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Contact', $dao->contact_id, 'is_deceased' ) == 1 ) ) {
+                crm_update_contact_membership( array( 'id'        => $dao->membership_id,
+                                                      'status_id' => CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_MembershipStatus', 'Expired', 'id', 'name' ) ) );
+                continue;
+            }
+
             /* Update only those membership records, where status is NOT - Pending OR Cancelled. */
             if ( ! $dao->is_override &&
                  ! in_array( $dao->status_id,
@@ -105,7 +112,7 @@ WHERE  civicrm_membership.contact_id = civicrm_contact.id
                                                          'status_id' => $newStatus['id']) );
                 }
             }
-
+            
             //send reminder for membership renewal
             if ( $dao->reminder_date &&
                  ( $dao->reminder_date <= $today ) ) {
