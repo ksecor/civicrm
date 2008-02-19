@@ -44,3 +44,4 @@
     <a href="{crmURL p='civicrm/admin/custom/group/field' q="action=browse&reset=1&gid=$gid"}">&raquo;  {ts}Custom Fields for this Group{/ts}</a>
     </div>
 {/if}
+{$initHideBlocks}

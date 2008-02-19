@@ -160,11 +160,21 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         
         require_once "CRM/Core/Component.php";
         $cSubTypes = CRM_Core_Component::contactSubTypes();
-        $contactSubTypes = array();
-        foreach($cSubTypes as $key => $value ) {
-            $contactSubTypes[$key] = $key;
+        
+        if ( !empty( $cSubTypes ) ) {
+            $contactSubTypes = array( );
+            foreach($cSubTypes as $key => $value ) {
+                $contactSubTypes[$key] = $key;
+            }
+            $sel2['Contact']  =  array("" => "-- Any --") + $contactSubTypes;
+        } else {
+            $formName = 'document.forms.' . $this->_name;
+                        
+            $js  = "<script type='text/javascript'>\n";
+            $js .= "{$formName}['extends[1]'].style.display = 'none';\n";
+            $js .= "</script>";
+            $this->assign( 'initHideBlocks', $js );
         }
-        $sel2['Contact']  =  array("" => "-- Any --") +$contactSubTypes;
         
         $sel =& $this->addElement('hierselect', "extends", ts('Used For'));
         $sel->setOptions(array($sel1,$sel2));
@@ -205,7 +215,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
                                         'name'      => ts('Cancel') ),
                                 )
                           );
-
+        
         // views are implemented as frozen form
         if ($this->_action & CRM_Core_Action::VIEW) {
             $this->freeze();
@@ -248,6 +258,7 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         }
         
         return $defaults;
+        
     }
     
     /**
