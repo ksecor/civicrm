@@ -36,65 +36,45 @@
 require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
-
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 2';
+        $errorMessage = ts('Database check failed - the current database is not v1.9.');
 
-        // ensure that version field exists in db
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' ) ) {
+        if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;
         }
 
-        // also ensure first_name, household_name and contact_name exist in db
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ) {
-            return false;
-        }
+        return $this->checkVersion( '1.90' );
+    }
 
-        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'county_id') ||
-            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'state_province_id') ||
-            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_address', 'country_id') ) {
-            $errorMessage = ts('Database consistency check failed for step 2. FK constraint names not in the required format.');
+    function upgrade( ) {
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'contact.mysql' ) );
+        $this->source( $sqlFile );
+
+        $this->setVersion( '1.91' );
+    }
+    
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 2';
+
+        if (! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
+            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||
+            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' )) {
             return false;
         }
 
         return $this->checkVersion( '1.91' );
     }
 
-    function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
-        $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                               array( $currentDir, '../sql', 'location.mysql' ) );
-        $this->source( $sqlFile );
-        
-        $this->setVersion( '1.92' );
-    }
-
-    function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 2';
-
-        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
-            return false;
-        }
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_address', 'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email',   'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone',   'contact_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' )    ) {
-            return false;
-        }
-        
-        return $this->checkVersion( '1.92' );
-    }
-
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Location Data Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Two (Contact Upgrade)' );
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>This step will upgrade the location data in your database.</p>' );
+        return ts( '<p>Step Two will upgrade the contact records in your database.</p>');
     }
-
+            
     function getButtonTitle( ) {
         return ts( 'Upgrade & Continue' );
     }

@@ -37,8 +37,57 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
 
+    protected $_ahEntry    = false;
+    protected $_ehEntry    = false;
+    protected $_meetEntry  = false;
+    protected $_phoneEntry = false;
+
+    protected $_tplMessage = null;
+
     function verifyPreDBState( &$errorMessage ) {
         $errorMessage = 'pre-condition failed for upgrade step 4';
+
+        if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_loc_block' ) ) {
+            return false;
+        }
+        
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_address', 'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_email',   'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_phone',   'contact_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_im', 'contact_id' )    ) {
+            return false;
+        }
+        
+        // check whether civicrm_{meeting,phonecall} are used only for contacts 
+        // and don't have any parent_ids set
+        if ( ! CRM_Core_DAO::checkFieldHasAlwaysValue('civicrm_meeting',   'target_entity_table', 'civicrm_contact') ||
+             ! CRM_Core_DAO::checkFieldHasAlwaysValue('civicrm_phonecall', 'target_entity_table', 'civicrm_contact') ||
+             ! CRM_Core_DAO::checkFieldIsAlwaysNull('civicrm_meeting',   'parent_id') ||
+             ! CRM_Core_DAO::checkFieldIsAlwaysNull('civicrm_phonecall', 'parent_id')) {
+            return false;
+        }
+
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'source_contact_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'parent_id') ) {
+            $errorMessage = ts('Database consistency check failed for step 3. FK constraint names not in the required format.');
+            return false;
+        }
+
+        return $this->checkVersion( '1.92' );
+    }
+
+    function upgrade( ) {
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'activity.mysql' ) );
+        $this->source( $sqlFile );
+        
+        $this->setVersion( '1.93' );
+    }
+
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 4';
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_assignment' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_activity_target' )   ) {
@@ -49,185 +98,22 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
              ! CRM_Core_DAO::checkFieldExists( 'civicrm_activity', 'due_date_time'    )) {
             return false;
         }
-        
-        $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
-        $res      = $this->runQuery( $query );
-        if ($res->fetch()) {
-            $errorMessage = ts("Database consistency check failed for Step 4. Value missing in civicrm_custom_field for the column 'name'.");
-            return false;
-        }
-        $res->free();
 
         return $this->checkVersion( '1.93' );
     }
 
-    function upgrade( ) {
-        $currentDir = dirname( __FILE__ );
-        $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                               array( $currentDir, '../sql', 'custom.mysql' ) );
-        $this->source( $sqlFile );
-        
-        // data migration / upgrade
-        $domainID = CRM_Core_Config::domainID( );
-        $query    = "UPDATE civicrm_custom_group cg1 
-SET cg1.table_name = CONCAT( 'custom_value_', $domainID, '_', cg1.name )";
-        $res      = $this->runQuery( $query );
-        $res->free();
-
-        $query    = "UPDATE civicrm_custom_field cf1 SET cf1.column_name=cf1.name";
-        $res      = $this->runQuery( $query );
-        $res->free();
-
-        CRM_Core_DAO::freeResult();
-
-        require_once 'CRM/Core/BAO/CustomGroup.php';
-        require_once 'CRM/Core/BAO/CustomField.php';
-        require_once 'CRM/Core/DAO/OptionGroup.php';
-        require_once 'CRM/Core/DAO/OptionValue.php';
-        
-        //1.Make new tables 2.Add columns 3.Add option-groups & values
-        $group =& new CRM_Core_DAO_CustomGroup();
-        $group->find();
-        
-        while ($group->fetch()) {
-            CRM_Core_BAO_CustomGroup::createTable( $group );
-            
-            $field =& new CRM_Core_DAO_CustomField();
-            $field->custom_group_id = $group->id;
-            $field->find();
-            
-            while ($field->fetch()) {
-                CRM_Core_BAO_CustomField::createField( $field, 'add' );
-                
-                $query        = "
-SELECT * FROM civicrm_custom_option co 
-WHERE co.entity_table='civicrm_custom_field' AND co.entity_id={$field->id}";
-                $customOption = $this->runQuery( $query );
-                
-                $hasFieldOptions = false;
-                $optionGroupID   = null;
-                while ($customOption->fetch()) {
-                    if ( !$hasFieldOptions ) {
-                        // make an entry in option_group
-                        $optionGroup  =& new CRM_Core_DAO_OptionGroup( );
-                        $optionGroup->domain_id =  $domainID;
-                        $optionGroup->name      =  "{$field->column_name}_". date( 'YmdHis' );
-                        $optionGroup->label     =  $field->label;
-                        $optionGroup->is_active = 1;
-                        $optionGroup->save( );
-
-                        $optionGroupID = $optionGroup->id;
-                        $optionGroup->free();
-
-                        // set custom_field's option_group_id
-                        $field2 =& new CRM_Core_DAO_CustomField();
-                        $field2->id = $field->id;
-                        $field2->find(true);
-                        $field2->option_group_id = $optionGroup->id;
-                        $field2->save();
-
-                        $field2->free();
-                        $hasFieldOptions = true;
-                    }
-                    $optionValue =& new CRM_Core_DAO_OptionValue( );
-                    $optionValue->option_group_id = $optionGroupID;
-                    $optionValue->label           = $customOption->label;
-                    $optionValue->value           = $customOption->value;
-                    $optionValue->weight          = $customOption->weight;
-                    $optionValue->is_active       = $customOption->is_active;
-                    $optionValue->save();
-
-                    $optionValue->free();
-                }
-                $customOption->free();
-            }
-            $field->free();
-        }
-        $group->free();
-        CRM_Core_DAO::freeResult();
-        
-        // migrate custom values in newly created tables.
-        require_once 'CRM/Core/BAO/CustomValue.php';
-        require_once 'CRM/Core/BAO/CustomValueTable.php';
-        $group =& new CRM_Core_DAO_CustomGroup();
-        $group->find();
-        
-        while ($group->fetch()) {
-            $field =& new CRM_Core_DAO_CustomField();
-            $field->custom_group_id = $group->id;
-            $field->find();
-            
-            while ($field->fetch()) {
-                $col    = "cv." . CRM_Core_BAO_CustomValue::typeToField($field->data_type);
-                $query  = "
-INSERT INTO {$group->table_name} (domain_id,entity_id,{$field->column_name})
-SELECT $domainID, cv.entity_id, $col FROM civicrm_custom_value cv 
-WHERE cv.custom_field_id={$field->id}
-ON DUPLICATE KEY UPDATE {$field->column_name}={$col}";
-                $res    = $this->runQuery( $query );
-                $res->free();
-            }
-            $field->free();
-        }
-        $group->free();
-        CRM_Core_DAO::freeResult();
-
-        // migrate custom-option data
-        foreach (array('civicrm_event_page', 'civicrm_contribution_page') as $entityTable) {
-            $query        = "
-SELECT * FROM civicrm_custom_option co 
-WHERE co.entity_table='$entityTable'";
-            $customOption = $this->runQuery( $query );
-            
-            while ($customOption->fetch()) {
-                $optionGroup  =& new CRM_Core_DAO_OptionGroup( );
-                $optionGroup->domain_id =  $domainID;
-                $optionGroup->name      =  "{$customOption->entity_table}.amount.". $customOption->entity_id;
-                if (! $optionGroup->find(true)) {
-                    $optionGroup->save( );
-                }
-                
-                $optionValue =& new CRM_Core_DAO_OptionValue( );
-                $optionValue->option_group_id = $optionGroup->id;
-                $optionValue->label           = $customOption->label;
-                $optionValue->value           = $customOption->value;
-                $optionValue->weight          = $customOption->weight;
-                $optionValue->is_active       = $customOption->is_active;
-                $optionValue->save();
-
-                $optionValue->free();
-                $optionGroup->free();
-            }
-            $customOption->free();
-        }
-        CRM_Core_DAO::freeResult();
-        
-        $this->setVersion( '1.94' );
-    }
-
-    function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 4';
-        
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
-            return false;
-        }
-
-        return $this->checkVersion( '1.94' );
-    }
-
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Custom Data Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)' );
     }
 
     function getTemplateMessage( ) {
-        return '<p>' . ts( 'This step will upgrade the custom section of your database.' ) . '</p>';
+        $this->_tplMessage = '<p>This step will upgrade the activity section of your database.</p>' . $this->_tplMessage;
+        return $this->_tplMessage;
     }
 
     function getButtonTitle( ) {
         return ts( 'Upgrade & Continue' );
     }
+
 }
 ?>
