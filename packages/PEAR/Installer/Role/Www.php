@@ -1,6 +1,6 @@
 <?php
 /**
- * PEAR_Installer_Role_Test
+ * PEAR_Installer_Role_Www
  *
  * PHP versions 4 and 5
  *
@@ -13,22 +13,22 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2008 The PHP Group
+ * @copyright  2007-2008 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Test.php,v 1.7 2008/01/03 20:26:36 cellog Exp $
+ * @version    CVS: $Id: Www.php,v 1.2 2008/01/03 20:26:36 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
- * @since      File available since Release 1.4.0a1
+ * @since      File available since Release 1.7.0
  */
 
 /**
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2008 The PHP Group
+ * @copyright  2007-2008 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  * @version    Release: 1.7.1
  * @link       http://pear.php.net/package/PEAR
- * @since      Class available since Release 1.4.0a1
+ * @since      Class available since Release 1.7.0
  */
-class PEAR_Installer_Role_Test extends PEAR_Installer_Role_Common {}
+class PEAR_Installer_Role_Www extends PEAR_Installer_Role_Common {}
 ?>
