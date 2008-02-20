@@ -964,7 +964,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
     {
         require_once 'CRM/Core/DAO/DupeMatch.php';
 
-        if(is_array($params)) {
+        if ( is_array($params) ) {
             if (isset( $params['location'] ) && is_array( $params['location'] ) ) {
                 $params['email'] = null;
                 $params['phone'] = null;
@@ -1018,11 +1018,12 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                        );
             }
         }
-	$fields['external_identifier'] =  array('name'             => 'external_identifier',
-						'title'            => $importableFields['external_identifier']['title'],
-						'where'            => $importableFields['external_identifier']['where'],
-						);
-
+        
+        $fields['external_identifier'] =  array('name'             => 'external_identifier',
+                                                'title'            => $importableFields['external_identifier']['title'],
+                                                'where'            => $importableFields['external_identifier']['where'],
+                                                );
+        
         //this is the fix to ignore the groups/ tags for dupe checking CRM-664, since we never use them for dupe checking
         unset( $params['group'] );
         unset( $params['tag']   );
@@ -1945,5 +1946,123 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $template->assign( 'values', $values );
         }               
     }  
+
+    /**
+     * Format fields for dupe Contact Matching
+     *
+     * @param array $params associated array
+     *
+     * @return array $data assoicated formatted array
+     * @access public
+     * @static
+     */
+    static function formatFields ( $params, $contactId = null )
+    {
+        if ( $contactId ) {
+            // get the primary location type id and email
+            list($name, $primaryEmail, $primaryLocationType) = CRM_Contact_BAO_Contact::getEmailDetails( $contactId );
+        }
+
+        $data = array( );
+        $locationType = array( );
+        $count = 1;
+        $primaryLocation = 0;
+        foreach ($params as $key => $value) {
+                list($fieldName, $locTypeId, $phoneTypeId) = explode('-', $key);
+                
+                if ($locTypeId == 'Primary') {
+                    $locTypeId = $primaryLocationType; 
+                }
+
+                if (is_numeric($locTypeId)) {
+                    if (!in_array($locTypeId, $locationType)) {
+                        $locationType[$count] = $locTypeId;
+                        $count++;
+                    }
+                    require_once 'CRM/Utils/Array.php';
+                    $loc = CRM_Utils_Array::key($locTypeId, $locationType);
+                     
+                    $data['location'][$loc]['location_type_id'] = $locTypeId;
+                
+                    // if we are getting in a new primary email, dont overwrite the new one
+                    if ($locTypeId == $primaryLocationType) {
+                        if ( CRM_Utils_Array::value( 'email-' . $primaryLocationType, $fields ) ) {
+                            $data['location'][$loc]['email'][$loc]['email'] = $fields['email-' . $primaryLocationType];
+                        } else {
+                            $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+                        }
+                        $primaryLocation++;
+                    }
+
+                    if ($loc == 1 ) {
+                        $data['location'][$loc]['is_primary'] = 1;
+                    }                   
+                    if ($fieldName == 'phone') {
+                        if ( $phoneTypeId ) {
+                            $data['location'][$loc]['phone'][$loc]['phone_type'] = $phoneTypeId;
+                        } else {
+                            $data['location'][$loc]['phone'][$loc]['phone_type'] = '';
+                        }
+                        $data['location'][$loc]['phone'][$loc]['phone'] = $value;
+                    } else if ($fieldName == 'email') {
+                        $data['location'][$loc]['email'][$loc]['email'] = $value;
+                    } elseif ($fieldName == 'im') {
+                        $data['location'][$loc]['im'][$loc]['name'] = $value;
+                    } else {
+                        if ($fieldName === 'state_province') {
+                            $data['location'][$loc]['address']['state_province_id'] = $value;
+                        } else if ($fieldName === 'country') {
+                            $data['location'][$loc]['address']['country_id'] = $value;
+                        } else {
+                            $data['location'][$loc]['address'][$fieldName] = $value;
+                        }
+                    }
+                } else {
+                    if ($key === 'individual_suffix') { 
+                        $data['suffix_id'] = $value;
+                    } else if ($key === 'individual_prefix') { 
+                        $data['prefix_id'] = $value;
+                    } else if ($key === 'gender') { 
+                        $data['gender_id'] = $value;
+                    } else if (substr($key, 0, 6) === 'custom') {
+                        if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
+                            //fix checkbox
+                            if ( $customFields[$customFieldID][3] == 'CheckBox' ) {
+                                $value = implode(CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, array_keys($value));
+                            }
+                            // fix the date field 
+                            if ( $customFields[$customFieldID][2] == 'Date' ) {
+                                $date =CRM_Utils_Date::format( $value );
+                                if ( ! $date ) {
+                                    $date = '';
+                                }
+                                $value = $date;
+                            }
+                            
+                            $data['custom'][$customFieldID] = array( 
+                                                                'id'      => $id,
+                                                                'value'   => $value,
+                                                                'extends' => $customFields[$customFieldID][3],
+                                                                'type'    => $customFields[$customFieldID][2],
+                                                                'custom_field_id' => $customFieldID,
+                                                                );
+                        }
+                    } else if ($key == 'edit') {
+                        continue;
+                    } else {
+                        $data[$key] = $value;
+                    }
+                }
+            }
+
+            if (!$primaryLocation) {
+                $loc++;
+                $data['location'][$loc]['email'][$loc]['email'] = $primaryEmail;
+            }
+            
+
+        return $data;
+    }
+
 }
 ?>

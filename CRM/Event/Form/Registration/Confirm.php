@@ -531,9 +531,12 @@ WHERE  v.option_group_id = g.id
             $ctype = CRM_Core_DAO::getFieldValue("CRM_Contact_DAO_Contact", $contactID, "contact_type");
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contactID, $addToGroups, null,$ctype);
         } else {
+            require_once "CRM/Core/BAO/UFGroup.php";
+            //formatted submiited fields before sending to dupe contact matching
+            $data = CRM_Core_BAO_UFGroup::formatFields( $params );
+
             // finding contact record based on duplicate match 
-            require_once 'api/crm.php';
-            $ids = CRM_Core_BAO_UFGroup::findContact( $params );
+            $ids = CRM_Core_BAO_UFGroup::findContact( $data );
             $contactsIDs = explode( ',', $ids );
             
             // if we find more than one contact, use the first one
