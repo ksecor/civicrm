@@ -76,12 +76,32 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                        "L7163" => "L7163");
         
         $this->add('select', 'label_id', ts('Select Label'), array( '' => ts('- select label -')) + $label, true);
-
+        
         // add select for Location Type
         $this->addElement('select', 'location_type_id', ts('Select Location'),
                           array( '' => ts('Primary')) + CRM_Core_PseudoConstant::locationType(), true);
+        
+        // checkbox for SKIP contacts with Do Not Mail privacy option
+        $this->addElement('checkbox', 'is_DoNotMail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
+        
         $this->addDefaultButtons( ts('Make Mailing Labels'));
        
+    }
+    
+    /**
+     * This function sets the default values for the form.
+     * 
+     * @param null
+     * 
+     * @return array   array of default values
+     * @access public
+     */
+    function setDefaultValues()
+    {
+        $defaults = array();
+        $defaults['is_DoNotMail'] = 1;
+        
+        return $defaults;
     }
     
     /**
@@ -154,6 +174,11 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                                '=', 1, 0, 1);
         }
         
+        // fix for CRM-2651
+        if ( $fv['is_DoNotMail'] ) {
+            $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
+        }
+        
         $custom = array( );
         foreach ( $returnProperties as $name => $dontCare ) {
             $cfID = CRM_Core_BAO_CustomField::getKeyID( $name );
@@ -161,7 +186,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                 $custom[] = $cfID;
             }
         }
-
+        
         //get the total number of contacts to fetch from database.
         $numberofContacts = count( $this->_contactIds );
         
