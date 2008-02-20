@@ -19,7 +19,7 @@ HTTP_Request                  1.4.2
 Image_Text                    0.6.0beta  [beta]
 Log                           1.10.0
 Mail                          1.1.14     local changes
-Mail_Mime                     1.3.1
+Mail_Mime                     1.5.2
 Net_Curl                      1.2.3
 Net_DIME                      0.3        [beta]
 Net_SMTP                      1.2.8
