@@ -482,12 +482,14 @@ WHERE  v.option_group_id = g.id
             }
         }
 
-        if ( ! array_key_exists( 'first_name', $fields ) ) {
-            $nameFields = array( 'first_name', 'middle_name', 'last_name' );
-            foreach ( $nameFields as $name ) {
-                $fields[$name] = 1;
-                if ( array_key_exists( "billing_$name", $params ) ) {
-                    $params[$name] = $params["billing_{$name}"];
+        if ( is_array($fields) ) {
+            if ( ! array_key_exists( 'first_name', $fields ) ) {
+                $nameFields = array( 'first_name', 'middle_name', 'last_name' );
+                foreach ( $nameFields as $name ) {
+                    $fields[$name] = 1;
+                    if ( array_key_exists( "billing_$name", $params ) ) {
+                        $params[$name] = $params["billing_{$name}"];
+                    }
                 }
             }
         }
