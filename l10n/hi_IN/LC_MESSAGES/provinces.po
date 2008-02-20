@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-09-27 06:33-0700\n"
-"Last-Translator: Ravindra Soni <ravindrasoni@gmail.com>\n"
+"PO-Revision-Date: 2008-02-18 05:48-0800\n"
+"Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Pootle 1.0.1\n"
+"X-Generator: Pootle 1.0.2\n"
 
 msgid "Alabama"
 msgstr "अलाबामा"
@@ -45,118 +45,118 @@ msgid "Georgia"
 msgstr "जोर्जिया  "
 
 msgid "Hawaii"
-msgstr ""
+msgstr "हवाई"
 
 msgid "Idaho"
-msgstr ""
+msgstr "इदाहाे"
 
 msgid "Illinois"
 msgstr ""
 
 msgid "Indiana"
-msgstr ""
+msgstr "इंडियाना"
 
 msgid "Iowa"
-msgstr ""
+msgstr "लाेवा"
 
 msgid "Kansas"
-msgstr ""
+msgstr "कन्सास"
 
 msgid "Kentucky"
-msgstr ""
+msgstr "केंटूकी"
 
 msgid "Louisiana"
-msgstr ""
+msgstr "लुइझिना"
 
 msgid "Maine"
 msgstr ""
 
 msgid "Maryland"
-msgstr ""
+msgstr "मेरीलँन्ड"
 
 msgid "Massachusetts"
 msgstr ""
 
 msgid "Michigan"
-msgstr ""
+msgstr "मिसिगन"
 
 msgid "Minnesota"
 msgstr ""
 
 msgid "Mississippi"
-msgstr ""
+msgstr "मिसिसीप्पी"
 
 msgid "Missouri"
-msgstr ""
+msgstr "मिसाैरि"
 
 msgid "Montana"
-msgstr ""
+msgstr "माेंटाना"
 
 msgid "Nebraska"
-msgstr ""
+msgstr "नेब्रास्का"
 
 msgid "Nevada"
-msgstr ""
+msgstr "नेवाडा"
 
 msgid "New Hampshire"
-msgstr ""
+msgstr "न्यु हँम्पशिर"
 
 msgid "New Jersey"
-msgstr ""
+msgstr "न्यु जर्सी"
 
 msgid "New Mexico"
-msgstr ""
+msgstr "न्यु मेक्सिकाे"
 
 msgid "New York"
-msgstr ""
+msgstr "न्यु यार्क"
 
 msgid "North Carolina"
-msgstr ""
+msgstr "उत्तर कराेलिना"
 
 msgid "North Dakota"
-msgstr ""
+msgstr "उत्तर डकाेटा"
 
 msgid "Ohio"
-msgstr ""
+msgstr "आेहीआे"
 
 msgid "Oklahoma"
 msgstr ""
 
 msgid "Oregon"
-msgstr ""
+msgstr "आँरगाँन"
 
 msgid "Pennsylvania"
-msgstr ""
+msgstr "पेनेसिलव्हीया"
 
 msgid "Rhode Island"
 msgstr ""
 
 msgid "South Carolina"
-msgstr ""
+msgstr "दक्षिण कराेलिना"
 
 msgid "South Dakota"
-msgstr ""
+msgstr "दक्षिण डकाेटा"
 
 msgid "Tennessee"
 msgstr ""
 
 msgid "Texas"
-msgstr ""
+msgstr "टेक्सास"
 
 msgid "Utah"
-msgstr ""
+msgstr "ऊताह"
 
 msgid "Vermont"
-msgstr ""
+msgstr "व्हरमँान्ट"
 
 msgid "Virginia"
-msgstr ""
+msgstr "व्हरजीनिया"
 
 msgid "Washington"
-msgstr ""
+msgstr "वाशिंगटन"
 
 msgid "West Virginia"
-msgstr ""
+msgstr "पश्चिम व्हरजीनिया"
 
 msgid "Wisconsin"
 msgstr ""
@@ -165,40 +165,40 @@ msgid "Wyoming"
 msgstr ""
 
 msgid "District of Columbia"
-msgstr ""
+msgstr "डिस्ट्रीक आँफ काेलंबिया"
 
 msgid "American Samoa"
-msgstr ""
+msgstr "अमेरिकन् समाेआ"
 
 msgid "Guam"
-msgstr ""
+msgstr "गाैंम"
 
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "उत्तरीय मरियाना आइसलँड"
 
 msgid "Puerto Rico"
 msgstr ""
 
 msgid "Virgin Islands"
-msgstr ""
+msgstr "व्ह्रजीन  आइसलँड"
 
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
 msgid "Armed Forces Europe"
-msgstr ""
+msgstr "आर्मड फाेर्सेस  युराेप"
 
 msgid "Armed Forces Americas"
-msgstr ""
+msgstr "आर्मड फाेर्स अमेरिकास्"
 
 msgid "Armed Forces Pacific"
-msgstr ""
+msgstr "आर्मड फाेर्सेस पँसिपिक"
 
 msgid "Alberta"
-msgstr ""
+msgstr "अलब्रटा"
 
 msgid "British Columbia"
-msgstr ""
+msgstr "ब्रिटीस काेलंबिया"
 
 msgid "Manitoba"
 msgstr ""
@@ -210,7 +210,7 @@ msgid "Newfoundland and Labrador"
 msgstr ""
 
 msgid "Northwest Territories"
-msgstr ""
+msgstr "उत्तरपश्चिम टेरिटरीज्"
 
 msgid "Nova Scotia"
 msgstr ""
@@ -234,106 +234,106 @@ msgid "Yukon Territory"
 msgstr ""
 
 msgid "Maharashtra"
-msgstr ""
+msgstr "महाराष्ट्रा"
 
 msgid "Karnataka"
-msgstr ""
+msgstr "कर्नाटक"
 
 msgid "Andhra Pradesh"
-msgstr ""
+msgstr "आंध्र प्रदेश"
 
 msgid "Arunachal Pradesh"
-msgstr ""
+msgstr "अरुणाचल प्रदेश"
 
 msgid "Assam"
-msgstr ""
+msgstr "असम"
 
 msgid "Bihar"
-msgstr ""
+msgstr "बिहार"
 
 msgid "Chhattisgarh"
-msgstr ""
+msgstr "छत्तिसगड"
 
 msgid "Goa"
-msgstr ""
+msgstr "गाेआ"
 
 msgid "Gujarat"
-msgstr ""
+msgstr "गुजरात"
 
 msgid "Haryana"
-msgstr ""
+msgstr "हरियाना"
 
 msgid "Himachal Pradesh"
-msgstr ""
+msgstr "हिमाचल प्रदेश"
 
 msgid "Jammu and Kashmir"
-msgstr ""
+msgstr "जम्मु और कश्मिर"
 
 msgid "Jharkhand"
-msgstr ""
+msgstr "झारखंड"
 
 msgid "Kerala"
-msgstr ""
+msgstr "केरला"
 
 msgid "Madhya Pradesh"
-msgstr ""
+msgstr "मध्य प्रदेश"
 
 msgid "Manipur"
-msgstr ""
+msgstr "मनिपुर"
 
 msgid "Meghalaya"
-msgstr ""
+msgstr "मेघालय"
 
 msgid "Mizoram"
-msgstr ""
+msgstr "मिझाेरम"
 
 msgid "Nagaland"
-msgstr ""
+msgstr "नागालँड"
 
 msgid "Orissa"
-msgstr ""
+msgstr "आेरिसा"
 
 msgid "Punjab"
-msgstr ""
+msgstr "पंजाब"
 
 msgid "Rajasthan"
-msgstr ""
+msgstr "राजस्थान"
 
 msgid "Sikkim"
-msgstr ""
+msgstr "सिक्किम"
 
 msgid "Tamil Nadu"
-msgstr ""
+msgstr "तमिलनाडू"
 
 msgid "Tripura"
-msgstr ""
+msgstr "त्रिपुरा"
 
 msgid "Uttaranchal"
-msgstr ""
+msgstr "उत्तरांचल"
 
 msgid "Uttar Pradesh"
-msgstr ""
+msgstr "उत्तर प्रदेश"
 
 msgid "West Bengal"
-msgstr ""
+msgstr "पश्चिम बंगाल"
 
 msgid "Andaman and Nicobar Islands"
-msgstr ""
+msgstr "अंदमान और निकाेबार बेट"
 
 msgid "Dadra and Nagar Haveli"
-msgstr ""
+msgstr "दादरा और नगर हवेली"
 
 msgid "Daman and Diu"
-msgstr ""
+msgstr "दमन और दीव"
 
 msgid "Delhi"
-msgstr ""
+msgstr "दिल्ली"
 
 msgid "Lakshadweep"
-msgstr ""
+msgstr "लक्क्षद्वीप"
 
 msgid "Pondicherry"
-msgstr ""
+msgstr "पँान्डेचेरी"
 
 msgid "mazowieckie"
 msgstr ""
@@ -438,19 +438,19 @@ msgid "Helmand"
 msgstr ""
 
 msgid "Herat"
-msgstr ""
+msgstr "हेरात"
 
 msgid "Jowzjan"
 msgstr ""
 
 msgid "Kabul"
-msgstr ""
+msgstr "काबुल"
 
 msgid "Kandahar"
-msgstr ""
+msgstr "कंदार"
 
 msgid "Kapisa"
-msgstr ""
+msgstr "कपिसा"
 
 msgid "Khowst"
 msgstr ""
@@ -804,22 +804,22 @@ msgid "Northern Territory"
 msgstr ""
 
 msgid "New South Wales"
-msgstr ""
+msgstr "न्यु साऊथ वेल्स"
 
 msgid "Queensland"
-msgstr ""
+msgstr "क्विनस् लँन्ड"
 
 msgid "South Australia"
-msgstr ""
+msgstr "दक्षिण आँस्ट्रेलिया"
 
 msgid "Tasmania"
-msgstr ""
+msgstr "टासमानिया"
 
 msgid "Victoria"
-msgstr ""
+msgstr "व्हिक्टाेरिया"
 
 msgid "Western Australia"
-msgstr ""
+msgstr "पश्चिम आँस्ट्रेलिया"
 
 msgid "Naxcivan"
 msgstr ""
@@ -8262,22 +8262,22 @@ msgid "Zamboanga Sibiguey"
 msgstr ""
 
 msgid "Islamabad"
-msgstr ""
+msgstr "इस्लामाबाद"
 
 msgid "Baluchistan (en)"
-msgstr ""
+msgstr "बलुचिस्थान"
 
 msgid "North-West Frontier"
 msgstr ""
 
 msgid "Sind (en)"
-msgstr ""
+msgstr "सिंध"
 
 msgid "Federally Administered Tribal Aresa"
 msgstr ""
 
 msgid "Azad Rashmir"
-msgstr ""
+msgstr "आजाद कश्मिर"
 
 msgid "Northern Areas"
 msgstr ""
@@ -10971,22 +10971,22 @@ msgid "Guarico"
 msgstr ""
 
 msgid "Lara"
-msgstr ""
+msgstr "लारा"
 
 msgid "Merida"
-msgstr ""
+msgstr "मेरिदा"
 
 msgid "Miranda"
-msgstr ""
+msgstr "मिंरन्दा"
 
 msgid "Monagas"
-msgstr ""
+msgstr "माेंगास्"
 
 msgid "Nueva Esparta"
 msgstr ""
 
 msgid "Portuguesa"
-msgstr ""
+msgstr "पाेर्तुगुसा"
 
 msgid "Tachira"
 msgstr ""
@@ -11193,19 +11193,19 @@ msgid "Malampa"
 msgstr ""
 
 msgid "Penama"
-msgstr ""
+msgstr "पेनामा"
 
 msgid "Sanma"
-msgstr ""
+msgstr "सनमा"
 
 msgid "Shefa"
-msgstr ""
+msgstr "शेफा"
 
 msgid "Tafea"
-msgstr ""
+msgstr "ताफेया"
 
 msgid "Torba"
-msgstr ""
+msgstr "ताेरबा"
 
 msgid "A'ana"
 msgstr ""
@@ -11307,10 +11307,10 @@ msgid "Ta'izz"
 msgstr ""
 
 msgid "Eastern Cape"
-msgstr ""
+msgstr "पुर्वीय केप"
 
 msgid "Free State"
-msgstr ""
+msgstr "फ्रि स्टेट"
 
 msgid "Gauteng"
 msgstr ""
@@ -11322,31 +11322,31 @@ msgid "Mpumalanga"
 msgstr ""
 
 msgid "Northern Cape"
-msgstr ""
+msgstr "उत्तरीय केप"
 
 msgid "Limpopo"
-msgstr ""
+msgstr "लिंपाेपाे"
 
 msgid "Western Cape"
-msgstr ""
+msgstr "पश्चिमीय केप"
 
 msgid "Copperbelt"
 msgstr ""
 
 msgid "Luapula"
-msgstr ""
+msgstr "लुआपुला"
 
 msgid "Lusaka"
-msgstr ""
+msgstr "लुसाका"
 
 msgid "North-Western"
-msgstr ""
+msgstr "उत्तर-पश्चिमीय"
 
 msgid "Bulawayo"
 msgstr ""
 
 msgid "Harare"
-msgstr ""
+msgstr "हरारे"
 
 msgid "Manicaland"
 msgstr ""
@@ -11370,13 +11370,13 @@ msgid "Matabeleland South"
 msgstr ""
 
 msgid "Midlands"
-msgstr ""
+msgstr "मिडलँन्ड"
 
 msgid "South Karelia"
-msgstr ""
+msgstr "दक्षिण करेलिया"
 
 msgid "South Ostrobothnia"
-msgstr ""
+msgstr "दक्षिण आँस्ट्राेबाेथनिया"
 
 msgid "Etelä-Savo"
 msgstr ""
@@ -11391,37 +11391,37 @@ msgid "Kainuu"
 msgstr ""
 
 msgid "Central Ostrobothnia"
-msgstr ""
+msgstr "मध्य आँस्ट्राेबाेथनिया"
 
 msgid "Central Finland"
-msgstr ""
+msgstr "मध्य फिनलँन्ड"
 
 msgid "Kymenlaakso"
 msgstr ""
 
 msgid "Lapland"
-msgstr ""
+msgstr "लँपलँन्ड"
 
 msgid "Tampere Region"
 msgstr ""
 
 msgid "Ostrobothnia"
-msgstr ""
+msgstr "आँस्ट्राेबाेथनिया"
 
 msgid "North Karelia"
-msgstr ""
+msgstr "उत्तर करेलिया"
 
 msgid "Nothern Ostrobothnia"
 msgstr ""
 
 msgid "Northern Savo"
-msgstr ""
+msgstr "उत्तर सँवाे"
 
 msgid "Päijät-Häme"
 msgstr ""
 
 msgid "Satakunta"
-msgstr ""
+msgstr "सतकुंटा"
 
 msgid "Uusimaa"
 msgstr ""
@@ -11433,7 +11433,7 @@ msgid "Åland"
 msgstr ""
 
 msgid "North West"
-msgstr ""
+msgstr "उत्तर पश्चिम"
 
 msgid "Tyne and Wear"
 msgstr ""
@@ -11454,25 +11454,25 @@ msgid "South Yorkshire"
 msgstr "दक्षिण योक्षायर"
 
 msgid "Merseyside"
-msgstr ""
+msgstr "मर्शिसाइड"
 
 msgid "Berkshire"
-msgstr ""
+msgstr "बेर्कशिर"
 
 msgid "West Midlands"
-msgstr ""
+msgstr "पश्चिम मिडलँडस्"
 
 msgid "Inverness"
-msgstr ""
+msgstr "इंव्हरनेस्"
 
 msgid "Avon"
-msgstr ""
+msgstr "ऐवाँन"
 
 msgid "Middlesex"
-msgstr ""
+msgstr "मिडलसेक्स"
 
 msgid "West Glamorgan"
-msgstr ""
+msgstr "पश्चिम ग्लामाेरगन"
 
 msgid "London"
 msgstr "लंदन"
