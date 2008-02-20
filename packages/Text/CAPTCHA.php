@@ -6,10 +6,6 @@
  * creating an image, ASCII art or something else 
  * with some (obfuscated) characters 
  *
- * TODOs:
- * + refine the obfuscation algorithm :-)
- * + learn how to use Image_Text better (or remove dependency)
- * 
  * 
  * @package Text_CAPTCHA
  * @license PHP License, version 3.0
@@ -66,7 +62,7 @@ require_once 'Text/Password.php';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        if (isset($_POST['phrase']) && isset($_SESSION['phrase']) &&
+        if (isset($_POST['phrase']) && is_string($_SESSION['phrase']) && isset($_SESSION['phrase']) &&
             strlen($_POST['phrase']) > 0 && strlen($_SESSION['phrase']) > 0 &&
             $_POST['phrase'] == $_SESSION['phrase']) {
             $msg = 'OK!';
@@ -76,7 +72,7 @@ require_once 'Text/Password.php';
             $msg = 'Please try again!';
         }
 
-        unlink(session_id() . '.png');   
+        unlink(md5(session_id()) . '.png');   
 
     }
 
@@ -86,18 +82,30 @@ require_once 'Text/Password.php';
     
         require_once 'Text/CAPTCHA.php';
                    
-        // Set CAPTCHA options (font must exist!)
+        // Set CAPTCHA image options (font must exist!)
+        $imageOptions = array(
+            'font_size'        => 24,
+            'font_path'        => './',
+            'font_file'        => 'COUR.TTF',
+            'text_color'       => '#DDFF99',
+            'lines_color'      => '#CCEEDD',
+            'background_color' => '#555555'
+        );
+
+        // Set CAPTCHA options
         $options = array(
-            'font_size' => 24,
-            'font_path' => './',
-            'font_file' => 'COUR.TTF'
+            'width' => 200,
+            'height' => 80,
+            'output' => 'png',
+            'imageOptions' => $imageOptions
         );
 
         // Generate a new Text_CAPTCHA object, Image driver
         $c = Text_CAPTCHA::factory('Image');
-        $retval = $c->init(200, 80, null, $options);
+        $retval = $c->init($options);
         if (PEAR::isError($retval)) {
-            echo 'Error generating CAPTCHA!';
+            printf('Error initializing CAPTCHA: %s!',
+                $retval->getMessage());
             exit;
         }
     
@@ -105,9 +113,10 @@ require_once 'Text/Password.php';
         $_SESSION['phrase'] = $c->getPhrase();
     
         // Get CAPTCHA image (as PNG)
-        $png = $c->getCAPTCHAAsPNG();
+        $png = $c->getCAPTCHA();
         if (PEAR::isError($png)) {
-            echo 'Error generating CAPTCHA!';
+            printf('Error generating CAPTCHA: %s!',
+                $png->getMessage());
             exit;
         }
         file_put_contents(md5(session_id()) . '.png', $png);
@@ -121,6 +130,14 @@ require_once 'Text/Password.php';
 */
  
 class Text_CAPTCHA {
+
+    /**
+     * Version number
+     *
+     * @access private
+     * @var string
+     */
+    var $_version = '0.3.1';
 
     /**
      * Phrase
@@ -177,6 +194,25 @@ class Text_CAPTCHA {
     function getPhrase()
     {
         return $this->_phrase;
+    }
+
+    /**
+     * Sets secret CAPTCHA phrase
+     *
+     * This method sets the CAPTCHA phrase 
+     * (use null for a random phrase)
+     *
+     * @access  public
+     * @param   string   $phrase    the (new) phrase
+     * @void 
+     */
+    function setPhrase($phrase = null)
+    {
+        if (!empty($phrase)) {
+            $this->_phrase = $phrase;
+        } else {
+            $this->_createPhrase();
+        }
     }
 
     /**

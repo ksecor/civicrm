@@ -30,7 +30,7 @@ Pager                         2.4.4
 PEAR                          1.7.1
 PHP_Beautifier                0.1.13     [beta]
 Text_Password                 1.1.0
-Text_CAPTCHA                  0.1.6      [alpha]
+Text_CAPTCHA                  0.3.1      [alpha]
 Validate                      0.6.5      [beta]
 Validate_AR                   0.0.1      [alpha]
 Validate_AT                   0.5.1      [alpha]
