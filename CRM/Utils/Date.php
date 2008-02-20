@@ -342,12 +342,13 @@ class CRM_Utils_Date
      * 
      * @param string $date    date and time in 'YYYY-MM-DD hh:mm:ss' format
      * @param string $format  the output format
+     * @param array  $dateParts  an array with the desired date parts
      *
      * @return string  the $format-formatted $date
      *
      * @static
      */
-    static function customFormat($dateString, $format = null )
+    static function customFormat($dateString, $format = null, $dateParts = null)
     {
         // 1-based (January) month names arrays
         $abbrMonths = self::getAbbrMonthNames();
@@ -355,23 +356,37 @@ class CRM_Utils_Date
 
         if ( ! $format ) {
             $config =& CRM_Core_Config::singleton();
-            if ( strpos($dateString, '-') ) {
-                $month  = (int) substr($dateString,  5, 2);
-                $day    = (int) substr($dateString,  8, 2);
+
+            if ($dateParts) {
+                if (array_intersect(array('h', 'H'), $dateParts)) {
+                    $format = $config->dateformatDatetime;
+                } elseif (array_intersect(array('d', 'j'), $dateParts)) {
+                    $format = $config->dateformatFull;
+                } elseif (array_intersect(array('m', 'M'), $dateParts)) {
+                    $format = $config->dateformatPartial;
+                } else {
+                    $format = $config->dateformatYear;
+                }
             } else {
-                $month  = (int) substr($dateString,  4, 2);
-                $day    = (int) substr($dateString,  6, 2);
+                if ( strpos($dateString, '-') ) {
+                    $month  = (int) substr($dateString,  5, 2);
+                    $day    = (int) substr($dateString,  8, 2);
+                } else {
+                    $month  = (int) substr($dateString,  4, 2);
+                    $day    = (int) substr($dateString,  6, 2);
+                }
+
+                if (strlen($dateString) > 10) {
+                    $format = $config->dateformatDatetime;
+                } elseif ($day > 0) {
+                    $format = $config->dateformatFull;
+                } elseif ($month > 0) {
+                    $format = $config->dateformatPartial;
+                } else {
+                    $format = $config->dateformatYear;
+                }
             }
 
-            if (strlen($dateString) > 10) {
-                $format = $config->dateformatDatetime;
-            } elseif ($day > 0) {
-                $format = $config->dateformatFull;
-            } elseif ($month > 0) {
-                $format = $config->dateformatPartial;
-            } else {
-                $format = $config->dateformatYear;
-            }
         }
 
         if ($dateString) {

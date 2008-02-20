@@ -406,6 +406,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function isValid( $userID, $title, $register = false, $action = null ) 
     {
+        require_once 'CRM/Core/Controller/Simple.php';
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -423,7 +424,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
-                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $userID );
@@ -458,11 +458,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $doNotProcess  = false,
                                  $ctype = null ) 
     {
+        require_once "CRM/Core/Controller/Simple.php";
         
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            require_once "CRM/Core/Controller/Simple.php";
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
                                                            ts('Dynamic Form Creator'),
                                                            $action );
@@ -515,7 +515,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
 
-                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
                                                                ts('Dynamic Form Creator'),
                                                                $action );
@@ -545,12 +544,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 if ( ! empty ( $_POST ) ) {
                     // get the new email, location is different in Drupal 5 vs Drupal 4.7
                     $config =& CRM_Core_Config::singleton( );
-                    if ( $config->userFrameworkVersion >= 5 ) {
-                        $email = CRM_Utils_Array::value( 'mail', $_POST );
-                    } else {
-                        $email = CRM_Utils_Array::value( 'mail',
-                                                         CRM_Utils_Array::value( 'edit', $_POST ) );
-                    }
+                    $email = CRM_Utils_Array::value( 'mail', $_POST );
                     
                     if ( CRM_Utils_Rule::email( $email ) && ( $email  != $userEmail[1] ) ) {
                         require_once 'CRM/Core/BAO/UFMatch.php';
@@ -760,8 +754,8 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                 $url = CRM_Utils_System::fixURL( $details->$name );
                                 $values[$index] = "<a href=\"$url\">{$details->$name}</a>";
                             } else if ( in_array( $name, array('birth_date', 'deceased_date','membership_start_date','membership_end_date','join_date')) ) {
-                                $values[$index] = $details->$name;
                                 require_once 'CRM/Utils/Date.php';
+                                $values[$index] = CRM_Utils_Date::customFormat($details->$name);
                                 $params[$index] = CRM_Utils_Date::isoToMysql( $details->$name );
                             } else {
                                 $values[$index] = $details->$name;
@@ -856,16 +850,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                      $searchable ) {
                     $values[$index] = '<a href="' . $url . '">' . $values[$index] . '</a>';
                 }
-            }
-
-            if ( $field['visibility'] == "User and User Admin Only"|| $field['visibility'] == "Public User Pages" ) {
-                $customFieldID = CRM_Core_BAO_CustomField::getKeyID($field['name']);
-                 if ( CRM_Core_BAO_CustomField::getKeyID($field['name']) ) {
-                    $htmlType = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $customFieldID, 'html_type', 'id' );
-                    if($htmlType == 'Link') {
-                          $values[$index] = '<a href="' . $values[$index] . '">' . $values[$index] . '</a>';
-                     }
-                 }
             }
         }
     }

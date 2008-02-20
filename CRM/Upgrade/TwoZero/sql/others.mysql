@@ -168,8 +168,6 @@ SET
     et.contact_id=et.entity_id
 WHERE et.entity_table = 'civicrm_contact';
 
-DELETE FROM civicrm_entity_tag WHERE contact_id IS NULL;
-
 -- add constraint
 
 ALTER TABLE `civicrm_entity_tag`
@@ -196,8 +194,6 @@ UPDATE civicrm_financial_trxn ft
 SET 
     ft.contribution_id = ft.entity_id
 WHERE ft.entity_table = 'civicrm_contribution';
-
-DELETE FROM civicrm_financial_trxn WHERE contribution_id IS NULL;
 
 -- add constraint
 

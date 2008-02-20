@@ -168,6 +168,7 @@ showHideSharedOptions();
                                 'store'        => 'addressStore',
                                 'style'        => 'width:300px; border: 1px solid #cfcfcf;',
                                 'class'        => 'tundra',
+                                'pageSize'     => 10
                                 );
 
         $dataURL =  CRM_Utils_System::url( 'civicrm/ajax/search',

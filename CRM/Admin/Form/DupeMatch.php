@@ -172,13 +172,13 @@ class CRM_Admin_Form_DupeMatch extends CRM_Admin_Form
                     }
                 }
                 if( $inValid ) {
-                    CRM_Core_Session::setStatus(ts("The Duplicate Matching rule has not been saved, because the rule is invalid. Rules should contain only valid field names, 'AND', 'OR' or parentheses."));
+                    CRM_Core_Session::setStatus(ts("The Contact Matching rule has not been saved, because the rule is invalid. Rules should contain only valid field names, 'AND', 'OR' or parentheses."));
                     return;
                 } else {
                     $dupematch = CRM_Core_BAO_DupeMatch::add($rule);
                 }
         }
-        CRM_Core_Session::setStatus(ts('The Duplicate Matching rule has been saved.'));
+        CRM_Core_Session::setStatus(ts('The Contact Matching rule has been saved.'));
     }
     
     /**

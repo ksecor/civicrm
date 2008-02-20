@@ -153,7 +153,6 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
      * @public
      */
     function doRecurPayment( &$params ) {
-        $session =& CRM_Core_Session::singleton( );
         $template =& CRM_Core_Smarty::singleton( );
 
         $intervalLength = $this->_getParam('frequency_interval');
@@ -204,7 +203,7 @@ class CRM_Core_Payment_AuthorizeNet extends CRM_Core_Payment {
         $exp_year = $this->_getParam( 'year' );
         $template->assign( 'expirationDate', $exp_year . '-' . $exp_month );
 
-        $template->assign( 'description', $session->get( 'title' ) );
+        $template->assign( 'description', $this->_getParam('description') );
 
         $template->assign( 'email', $this->_getParam('email') );
         $template->assign( 'billingFirstName', $this->_getParam('billing_first_name') );

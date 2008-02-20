@@ -522,24 +522,8 @@ class CRM_Utils_Rule
     }
 
     static function xssString( $value ) {
-        static $purifier = null;
-
-        if ( ! $purifier ) {
-            require_once 'packages/htmlpurifier/library/HTMLPurifier.auto.php';
-            
-            $config         =& CRM_Core_Config::singleton( );
-            $cacheDir       =  $config->templateCompileDir . 'purifier';
-            CRM_Utils_File::createDir( $cacheDir );
-
-            $purifierConfig =  HTMLPurifier_Config::createDefault( );
-            $purifierConfig->set( 'Cache', 'SerializerPath', $cacheDir );
-
-            $purifier = new HTMLPurifier( $purifierConfig );
-        }
-
-        $purifiedValue = $purifier->purify( $value );
-//        return ( $purifiedValue != $value ) ? false : true;
-        return true;
+        return preg_match( '!<(vb)?script[^>]*>.*</(vb)?script.*>!ims',
+                           $value ) ? false : true;
     }
 }
 

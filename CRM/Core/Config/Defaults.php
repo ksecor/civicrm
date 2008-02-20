@@ -136,12 +136,11 @@ class CRM_Core_Config_Defaults
                 // the system for a loop on lobo's macosx box
                 // or in modules
                 global $civicrm_root;
+                $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
                 if ( strpos( $civicrm_root,
                              DIRECTORY_SEPARATOR . 'sites' .
                              DIRECTORY_SEPARATOR . 'all'   .
-                             DIRECTORY_SEPARATOR . 'modules' ) !== false ) {
-                    $defaults['userFrameworkResourceURL'] = $baseURL . "sites/all/modules/civicrm/";
-                } else {
+                             DIRECTORY_SEPARATOR . 'modules' ) === false ) {
                     $startPos = strpos( $civicrm_root,
                                         DIRECTORY_SEPARATOR . 'sites' . DIRECTORY_SEPARATOR );
                     $endPos   = strpos( $civicrm_root,
@@ -152,8 +151,6 @@ class CRM_Core_Config_Defaults
                                             $startPos + 7,
                                             $endPos - $startPos - 7 );
                         $defaults['userFrameworkResourceURL'] = $baseURL . "sites/$siteName/modules/civicrm/";
-                    } else {
-                        $defaults['userFrameworkResourceURL'] = $baseURL . "modules/civicrm/"; 
                     }
                 }
             }

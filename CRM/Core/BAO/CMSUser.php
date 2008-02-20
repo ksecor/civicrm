@@ -123,10 +123,9 @@ class CRM_Core_BAO_CMSUser
         
         $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
         $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-        $version  = $config->userFrameworkVersion;
 
         if ( $isDrupal ) {
-            $ufID = self::createDrupalUser( $params, $mail, $version );
+            $ufID = self::createDrupalUser( $params, $mail );
         } elseif ( $isJoomla ) {            
             $ufID = self::createJoomlaUser( $params, $mail );           
         }
@@ -162,12 +161,11 @@ class CRM_Core_BAO_CMSUser
         
         $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
         $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-        $version  = $config->userFrameworkVersion;
         
         // if cms is drupal having version greater than equal to 5.1
         // we also need email verification enabled, else we dont do it
         // then showCMS will true
-        if ( ( $isDrupal  && $version >=5.1 && variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
+        if ( ( $isDrupal  && variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
             if ( $gid ) {                                        
                 $isCMSUser = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFGroup', $gid, 'is_cms_user' );
             } 
@@ -203,79 +201,75 @@ class CRM_Core_BAO_CMSUser
     } 
     
     static function formRule( &$fields, &$files, &$self ) {
-        if ( CRM_Utils_Array::value( 'cms_create_account', $fields ) ) {
-            $config  =& CRM_Core_Config::singleton( );
-            
-            $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
-            $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
-            $version  = $config->userFrameworkVersion;
-
-            if ( ( $isDrupal && $version >= 5.1 ) OR ( $isJoomla ) ) {
-                $errors = array( );
-                $emailName = null;
-                if ( ! empty( $self->_bltID ) ) {
-                    // this is a transaction related page
-                    $emailName = 'email-' . $self->_bltID;
-                } else {
-                    // find the email field in a profile page
-                    foreach ( $fields as $name => $dontCare ) {
-                        if(substr( $name, 0, 5 ) == 'email' ) {
-                            $emailName = $name;
-                            break;
-                        }
-                    }
-                }
-                
-                if ( $emailName == null ) {
-                    $errors['_qf_default'] == ts( 'Could not find an email address.' );
-                    return $errors;
-                }
-
-                if ( empty( $fields['cms_name'] ) ) {
-                    $errors['cms_name'] = ts( 'Please specify a username.' );
-                }
-                
-                if ( empty( $fields[ $emailName ] ) ) {
-                    $errors[$emailName] = ts( 'Please specify a valid email address.' );
-                }
-                
-                if ( ( $isDrupal && $version >= 5.1 && ! variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
-                    if ( empty( $fields['cms_pass'] ) ||
-                         empty( $fields['cms_confirm_pass'] ) ) {
-                        $errors['cms_pass'] = ts( 'Please enter a password.' );
-                    }
-                    if ( $fields['cms_pass'] != $fields['cms_confirm_pass'] ) {
-                        $errors['cms_pass'] = ts( 'Password and Confirm Password values are not the same.' );
-                    }
-                }
-                
-                if ( ! empty( $errors ) ) {
-                    return $errors;
-                }
-                
-                // now check that the cms db does not have the user name and/or email
-                if ( ( $isDrupal && $version ) OR $isJoomla ) {
-                    $params = array( 'name' => $fields['cms_name'],
-                                     'mail' => $fields[$emailName] );
-                }
-                
-                self::checkUserNameEmailExists( $params, $errors, $emailName );
-
-                if ( $isJoomla ) {
-                    require_once 'CRM/Core/BAO/UFGroup.php';
-                    $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
-                    if ( $ids ) {
-                        $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
-                    }
-                }
-                
-                if ( ! empty( $errors ) ) {
-                    return $errors;
-                }
-
-            }
+        if ( ! CRM_Utils_Array::value( 'cms_create_account', $fields ) ) {
+            return;
         }
-        return true;
+
+        $config  =& CRM_Core_Config::singleton( );
+            
+        $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? TRUE : FALSE;
+        $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? TRUE : FALSE;
+
+        $errors = array( );
+        if ( $isDrupal || $isJoomla ) {
+            $emailName = null;
+            if ( ! empty( $self->_bltID ) ) {
+                // this is a transaction related page
+                $emailName = 'email-' . $self->_bltID;
+            } else {
+                // find the email field in a profile page
+                foreach ( $fields as $name => $dontCare ) {
+                    if(substr( $name, 0, 5 ) == 'email' ) {
+                        $emailName = $name;
+                        break;
+                    }
+                }
+            }
+                
+            if ( $emailName == null ) {
+                $errors['_qf_default'] == ts( 'Could not find an email address.' );
+                return $errors;
+            }
+
+            if ( empty( $fields['cms_name'] ) ) {
+                $errors['cms_name'] = ts( 'Please specify a username.' );
+            }
+                
+            if ( empty( $fields[ $emailName ] ) ) {
+                $errors[$emailName] = ts( 'Please specify a valid email address.' );
+            }
+                
+            if ( ( $isDrupal && ! variable_get('user_email_verification', TRUE ) ) OR ( $isJoomla ) ) {
+                if ( empty( $fields['cms_pass'] ) ||
+                     empty( $fields['cms_confirm_pass'] ) ) {
+                    $errors['cms_pass'] = ts( 'Please enter a password.' );
+                }
+                if ( $fields['cms_pass'] != $fields['cms_confirm_pass'] ) {
+                    $errors['cms_pass'] = ts( 'Password and Confirm Password values are not the same.' );
+                }
+            }
+                
+            if ( ! empty( $errors ) ) {
+                return $errors;
+            }
+                
+            // now check that the cms db does not have the user name and/or email
+            if ( $isDrupal OR $isJoomla ) {
+                $params = array( 'name' => $fields['cms_name'],
+                                 'mail' => $fields[$emailName] );
+            }
+                
+            self::checkUserNameEmailExists( $params, $errors, $emailName );
+
+            if ( $isJoomla ) {
+                require_once 'CRM/Core/BAO/UFGroup.php';
+                $ids = CRM_Core_BAO_UFGroup::findContact( $fields, $cid, true );
+                if ( $ids ) {
+                    $errors['_qf_default'] = ts( 'An account already exists with the same information.' );
+                }
+            }
+        }           
+        return ( ! empty( $errors ) ) ? $errors : true;
     }
 
     /**
@@ -294,12 +288,11 @@ class CRM_Core_BAO_CMSUser
 
         $isDrupal = ucfirst($config->userFramework) == 'Drupal' ? true : false;
         $isJoomla = ucfirst($config->userFramework) == 'Joomla' ? true : false;
-        $version  = $config->userFrameworkVersion;
         
         $dao =& new CRM_Core_DAO( );
         $name = $dao->escape( $params['name'] );
 
-        if ( $isDrupal && $version >= 5.1 ) {
+        if ( $isDrupal ) {
             _user_edit_validate(null, $params );
             $errors = form_get_errors( );
         
@@ -412,12 +405,8 @@ SELECT count(*)
      * @access public
      * @static
      */
-    static function createDrupalUser( &$params, $mail, $version ) 
+    static function createDrupalUser( &$params, $mail )
     {
-        if ( $version < 5.1 ) {
-            return false;
-        }
-
         $values = array( 
                         'name' => $params['cms_name'],
                         'mail' => $params[$mail],

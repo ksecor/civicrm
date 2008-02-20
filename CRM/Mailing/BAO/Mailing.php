@@ -1323,33 +1323,35 @@ AND civicrm_contact.is_opt_out =0";
         
         $report['jobs'] = array();
         $report['event_totals'] = array();
+        $elements = array(  'queue', 'delivered', 'url', 'forward',
+                            'reply', 'unsubscribe', 'bounce', 'spool' );
+
+        // initialize various counters
+        foreach ( $elements as $field ) {
+            $report['event_totals'][$field] = 0;
+        }
+        $report['event_totals']['opened'] = $report['event_totals']['unsubscribe'] = 0;
+
         while ($mailing->fetch()) {
             $row = array();
-            foreach(array(  'queue', 'delivered', 'url', 'forward',
-                            'reply', 'unsubscribe', 'bounce', 'spool') as $field) {
-                if (isset( $mailing->$field )){
+            foreach ( $elements as $field ) {
+                if ( isset( $mailing->$field ) ) {
                     $row[$field] = $mailing->$field;
-                }
-                if (isset($report['event_totals'][$field])) {
                     $report['event_totals'][$field] += $mailing->$field;
                 }
             }
             
-            // compute open total seperately to discount duplicates
+            // compute open total separately to discount duplicates
             // CRM-1258
             $row['opened'] = CRM_Mailing_Event_BAO_Opened::getTotalCount( $mailing_id, $mailing->id, true );
-            if ( isset($report['event_totals']['opened']) ) {
-                $report['event_totals']['opened'] += $row['opened'];
-            }
+            $report['event_totals']['opened'] += $row['opened'];
             
-            // compute unsub total seperately to discount duplicates
+            // compute unsub total separately to discount duplicates
             // CRM-1783
             $row['unsubscribe'] = CRM_Mailing_Event_BAO_Unsubscribe::getTotalCount( $mailing_id, $mailing->id, true );
-            if (isset($report['event_totals']['unsubscribe'])) {
-                $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
-            }
+            $report['event_totals']['unsubscribe'] += $row['unsubscribe'];
             
-            foreach(array_keys(CRM_Mailing_BAO_Job::fields()) as $field) {
+            foreach ( array_keys(CRM_Mailing_BAO_Job::fields( ) ) as $field ) {
                 $row[$field] = $mailing->$field;
             }
             

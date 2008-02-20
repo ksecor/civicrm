@@ -296,10 +296,11 @@ ORDER BY weight, label
         if ($action & (CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW | CRM_Core_Action::DELETE)) {
             $this->edit($action);   // no browse for edit/update/view
         } else {
+            require_once 'CRM/Core/BAO/OptionValue.php';
             if ($action & CRM_Core_Action::DISABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 0);
+                CRM_Core_BAO_OptionValue::setIsActive($id, 0);
             } else if ($action & CRM_Core_Action::ENABLE) {
-                CRM_Core_BAO_CustomOption::setIsActive($id, 1);
+                CRM_Core_BAO_OptionValue::setIsActive($id, 1);
             }
            $this->browse();
         }

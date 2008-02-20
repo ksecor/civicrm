@@ -271,7 +271,8 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
 
         $attributes = array( 'dojoType'       => 'dijit.form.ComboBox',
                              'mode'           => 'remote',
-                             'store'          => 'contactStore');
+                             'store'          => 'contactStore',
+                             'pageSize'       => 10  );
 
         $dataUrl = CRM_Utils_System::url( "civicrm/ajax/search",
                                           "d={$domainID}",

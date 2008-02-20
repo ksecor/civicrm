@@ -50,7 +50,7 @@
           {if $element.data_type eq 'File'}
             {if $element.customValue.data}
             <span class="html-adjust"><br />
-               &nbsp;Attached File : &nbsp
+               &nbsp;{ts}Attached File{/ts}: &nbsp;
                {if $groupTree.$group_id.fields.$field_id.customValue.displayURL }
                   <a href="javascript:popUp('{$groupTree.$group_id.fields.$field_id.customValue.displayURL}')" ><img src="{$groupTree.$group_id.fields.$field_id.customValue.displayURL}" height = "100" width="100"></a>
                {else}

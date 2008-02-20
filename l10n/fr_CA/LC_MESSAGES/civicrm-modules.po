@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-13 13:14+0100\n"
+"POT-Creation-Date: 2008-02-20 10:49+0100\n"
 "PO-Revision-Date: 2007-11-30 08:12-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -199,8 +199,9 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-msgid "Profile Fields"
-msgstr ""
+#, fuzzy
+msgid "Include Profile"
+msgstr "Inclure les groupes"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -1194,8 +1195,16 @@ msgid "Amounts"
 msgstr "Montant"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-msgid "Custom Elements (%1)"
-msgstr ""
+#, fuzzy
+msgid "Include Profiles (%1)"
+msgstr "Inclure les groupes"
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
+msgid "Include Profiles"
+msgstr "Inclure les groupes"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid ""
@@ -3280,7 +3289,7 @@ msgstr "Date d'adhésion"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
-msgid "Status Hold?"
+msgid "Status Override?"
 msgstr "Statut"
 
 #: CRM/Member/Form/Membership.php
@@ -3288,16 +3297,36 @@ msgid "Record Membership Payment?"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be the same or later than Join date"
+#, fuzzy
+msgid "Please select a membership type."
+msgstr "Veuillez choisir au moins un statut de membre."
+
+#: CRM/Member/Form/Membership.php
+msgid "Start date must be the same or later than join date."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be set if End date is set"
+msgid "Start date must be set if end date is set."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "End date must be the same or later than Start date"
+msgid "End date must be the same or later than start date."
 msgstr ""
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the join date."
+msgstr "Veuillez entrer un objet valide."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the status."
+msgstr "Veuillez entrer un objet valide."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the contribution."
+msgstr "Supprimer le type de contribution"
 
 #: CRM/Member/Form/Membership.php
 msgid "Membership Confirmation and Receipt"
@@ -3324,7 +3353,7 @@ msgid "A membership confirmation and receipt has been sent to %1."
 msgstr ""
 
 #: CRM/Member/Form/MembershipRenewal.php
-msgid "Renewal Date"
+msgid "Date Renewal Entered"
 msgstr ""
 
 #: CRM/Member/Form/MembershipRenewal.php
@@ -3958,11 +3987,6 @@ msgid ""
 "\">Administer CiviCRM Profiles</a> if you need to review, modify or create "
 "profiles (you can come back at any time to select or update the Profile(s) "
 "used for this page)."
-msgstr ""
-
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Custom Page Elements"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
@@ -5159,6 +5183,12 @@ msgid "Configure membership sign-up and renewal options."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"Collect additional information from contributors by selecting CiviCRM Profile"
+"(s) to include in this contribution page."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
 msgstr ""
 
@@ -5179,12 +5209,6 @@ msgstr ""
 msgid ""
 "Create a contribution widget which you and your supporters can embed in "
 "websites and blogs."
-msgstr ""
-
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid ""
-"Collect additional information from contributors by selecting CiviCRM Profile"
-"(s) to include in this contribution page."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -5581,17 +5605,14 @@ msgstr ""
 msgid ""
 "Include additional fields on this registration form by configuring and "
 "selecting a CiviCRM Profile to be included at the top of the page "
-"(immediately after the introductory message). NOTE: If you are using PayPal "
-"Standard or Google Checkout - custom fields are not supported."
+"(immediately after the introductory message)."
 msgstr "Le titre sera affiché au haut de la page."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #, fuzzy
 msgid ""
 "Include additional fields on this registration form by configuring and "
-"selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: "
-"If you are using PayPal Standard or Google Checkout - custom fields are not "
-"supported."
+"selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr "Le titre sera affiché au haut de la page."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
@@ -6613,6 +6634,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid ""
+"Renewing will add the normal membership period to the End Date of the "
+"previous period for members whose status is Current or Grace.\n"
+"        For Expired memberships, renewing will create a membership period "
+"commencing from the \"Date Renewal Entered\". This date can be adjusted -\n"
+"        including being set to the day after the previous End Date - if "
+"continuous membership is required."
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Status of this membership."
 msgstr ""
 
@@ -6688,9 +6719,12 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
-"Is this status for use by administrative staff only? If checked, this status "
-"is never automatically assigned by CiviMember. EXAMPLE: This setting can be "
-"useful for special case statuses like \"Non-expiring\", \"Barred\" or "
+"Check this box if this status is for use by administrative staff only. If "
+"checked, this status is never automatically assigned by CiviMember. It is "
+"assigned to a contact's Membership by checking the <strong>Status Override</"
+"strong> flag when adding or editing the Membership record. Start and End "
+"Event settings are ignored for Administrator statuses. EXAMPLE: This setting "
+"can be useful for special case statuses like \"Non-expiring\", \"Barred\" or "
 "\"Expelled\", etc."
 msgstr ""
 
@@ -6747,16 +6781,9 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
-"Membership status is set and updated automatically based on your configured "
-"membership status rules. Check this box if you want to bypass this process, "
-"and manually set a status for this membership. The selected status which "
-"will remain in force unless it is again modified on this screen."
-msgstr ""
-
-#: templates/CRM/Member/Form/Membership.tpl
-msgid ""
-"If <strong>Status Hold?</strong> is checked, the selected status will be in "
-"in force (it will NOT be modified by the automated status update script)."
+"If <strong>Status Override</strong> is checked, the selected status will "
+"remain in force (it will NOT be modified by the automated status update "
+"script)."
 msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
@@ -7176,6 +7203,14 @@ msgstr ""
 "ajouter un</a>."
 
 #, fuzzy
+#~ msgid ""
+#~ "Include additional fields on this registration form by configuring and "
+#~ "selecting a CiviCRM Profile to be included at the bottom of the page. "
+#~ "NOTE: If you are using PayPal Standard or Google Checkout - custom fields "
+#~ "are not supported."
+#~ msgstr "Le titre sera affiché au haut de la page."
+
+#, fuzzy
 #~ msgid "Domain Information"
 #~ msgstr "Détails de la contribution"
 
@@ -7364,9 +7399,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Group Type"
 #~ msgstr "Groupe"
-
-#~ msgid "Include Group(s)"
-#~ msgstr "Inclure les groupes"
 
 #~ msgid "Exclude Group(s)"
 #~ msgstr "Exclure les groupes"

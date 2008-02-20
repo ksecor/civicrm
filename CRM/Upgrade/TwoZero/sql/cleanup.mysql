@@ -1,0 +1,132 @@
+-- /********************************************************************
+-- *
+-- * MySQL Script for cleaning tables [ 1.9 -> 2.0 ]
+-- *
+-- *********************************************************************/
+
+
+-- /*******************************************************
+-- *
+-- * Modify civicrm_domain table
+-- *
+-- *******************************************************/
+
+ALTER TABLE `civicrm_domain`  
+    ADD `version` varchar(8) NULL DEFAULT NULL COMMENT 'The civicrm version this instance is running' AFTER config_backend;
+
+
+
+-- /******************************
+-- *
+-- * Begin cleanup with location
+-- *
+-- *******************************/
+
+-- clean civicrm_address
+
+DELETE ca.* FROM civicrm_address ca
+LEFT JOIN civicrm_location cl ON cl.id=ca.location_id
+LEFT JOIN civicrm_contact cc  ON cc.id=cl.entity_id
+WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
+
+
+-- clean civicrm_email
+
+DELETE ce.* FROM civicrm_email ce
+LEFT JOIN civicrm_location cl ON cl.id=ce.location_id
+LEFT JOIN civicrm_contact cc  ON cc.id=cl.entity_id
+WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
+
+
+-- clean civicrm_phone
+
+DELETE cp.* FROM civicrm_phone cp
+LEFT JOIN civicrm_location cl ON cl.id=cp.location_id
+LEFT JOIN civicrm_contact cc  ON cc.id=cl.entity_id
+WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
+
+
+-- clean civicrm_im
+
+DELETE ci.* FROM civicrm_im ci
+LEFT JOIN civicrm_location cl ON cl.id=ci.location_id
+LEFT JOIN civicrm_contact cc  ON cc.id=cl.entity_id
+WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
+
+
+-- clean civicrm_location
+
+DELETE cl.* FROM civicrm_location cl
+LEFT JOIN civicrm_contact cc  ON cc.id=cl.entity_id
+WHERE (cc.id IS NULL AND cl.entity_table='civicrm_contact');
+
+
+-- /******************************
+-- *
+-- * Custom cleanup
+-- *
+-- *******************************/
+
+-- clean civicrm_custom_value
+
+DELETE cv.* FROM civicrm_custom_value cv
+LEFT JOIN civicrm_contact cc  ON cc.id=cv.entity_id
+WHERE (cc.id IS NULL AND cv.entity_table='civicrm_contact');
+
+DELETE cv.* FROM civicrm_custom_value cv
+LEFT JOIN civicrm_relationship cr  ON cr.id=cv.entity_id
+WHERE (cr.id IS NULL AND cv.entity_table='civicrm_relationship');
+
+
+
+-- /******************************
+-- *
+-- * Other cleanups
+-- *
+-- *******************************/
+
+DELETE ah.* FROM civicrm_activity_history ah 
+LEFT JOIN civicrm_contact cc ON ah.entity_id=cc.id 
+WHERE cc.id is NULL;
+
+DELETE eh.* FROM civicrm_email_history eh 
+LEFT JOIN civicrm_contact cc ON eh.contact_id=cc.id 
+WHERE cc.id is NULL;
+
+DELETE cm.* FROM civicrm_meeting cm 
+LEFT JOIN civicrm_contact cc ON cm.source_contact_id=cc.id 
+WHERE cc.id is NULL;
+
+DELETE cp.* FROM civicrm_phonecall cp 
+LEFT JOIN civicrm_contact cc ON cp.source_contact_id=cc.id 
+WHERE cc.id is NULL;
+
+
+
+-- /******************************
+-- *
+-- * Other cleanups
+-- *
+-- *******************************/
+
+-- clean civicrm_entity_tag
+
+DELETE et.* FROM civicrm_entity_tag et 
+LEFT JOIN civicrm_contact cc  ON cc.id=et.entity_id
+WHERE (cc.id IS NULL AND et.entity_table='civicrm_contact');
+
+
+-- clean civicrm_financial_trxn
+
+DELETE ft.* FROM civicrm_financial_trxn ft 
+LEFT JOIN civicrm_contribution cc  ON cc.id=ft.entity_id
+WHERE (cc.id IS NULL AND ft.entity_table='civicrm_contribution');
+
+
+-- clean civicrm_participant_payment
+
+DELETE pp.* FROM civicrm_participant_payment pp 
+LEFT JOIN civicrm_contribution cc  ON cc.id=pp.payment_entity_id
+WHERE (cc.id IS NULL AND pp.payment_entity_table='civicrm_contribution');
+
+

@@ -72,34 +72,32 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     function upgrade( ) {
         $currentDir = dirname( __FILE__ );
         $sqlFile    = implode( DIRECTORY_SEPARATOR,
-                               array( $currentDir, '../sql', 'contact.mysql' ) );
+                               array( $currentDir, '../sql', 'cleanup.mysql' ) );
         $this->source( $sqlFile );
 
-        $this->setVersion( '1.91' );
+        $this->setVersion( '1.90' );
     }
     
     function verifyPostDBState( &$errorMessage ) {
         $errorMessage = 'post-condition failed for upgrade step 1';
-
-        if (! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'first_name' ) ||
-            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'organization_name' ) ||
-            ! CRM_Core_DAO::checkFieldExists( 'civicrm_contact', 'household_name' )) {
+        
+        if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;
         }
 
-        return $this->checkVersion( '1.91' );
+        return $this->checkVersion( '1.90' );
     }
 
     function getTitle( ) {
-        return ts( 'CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step One (Database Cleanup)' );
     }
 
     function getTemplateMessage( ) {
         return ts( '<p><strong>This process will upgrade your v1.9 CiviCRM database to the v2.0 database format.</strong></p>
 <div class="messsages status"><ul><li><strong>Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.</strong></li>
-<li>The upgrade process consists of 5 steps, and may take a while depending on the size of your database.</li>
-<li>You must complete all 5 steps to have a valid 2.0 database.</li></ul></div>
-<p>Step One will upgrade the contact records in your database. Click <strong>Upgrade and Continue</strong> to begin the process.</p>'
+<li>The upgrade process consists of 6 steps, and may take a while depending on the size of your database.</li>
+<li>You must complete all 6 steps to have a valid 2.0 database.</li></ul></div>
+<p>Step One will start with cleaning your database. Click <strong>Begin Upgrade</strong> to begin the process.</p>'
 );
     }
             

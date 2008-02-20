@@ -282,7 +282,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
     {
         $errors = array( );
         if (!$params['membership_type_id'][1]) {
-            $errors['membership_type_id'] = "Please select a Membership Type.";
+            $errors['membership_type_id'] = ts('Please select a membership type.');
         }
 
         $joinDate = CRM_Utils_Date::format( $params['join_date'] );
@@ -291,7 +291,7 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $startDate = CRM_Utils_Date::format( $params['start_date'] );
             if ( $startDate ) {
                 if ( $startDate < $joinDate ) {
-                    $errors['start_date'] = ts( 'Start date must be the same or later than Join date' );
+                    $errors['start_date'] = ts( 'Start date must be the same or later than join date.' );
                 }
             }
 
@@ -299,25 +299,25 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
             $endDate = CRM_Utils_Date::format( $params['end_date'] );
             if ( $endDate ) {
                 if ( ! $startDate ) {
-                    $errors['start_date'] = ts( 'Start date must be set if End date is set' );
+                    $errors['start_date'] = ts( 'Start date must be set if end date is set.' );
                 }
                 if ( $endDate < $startDate ) {
-                    $errors['end_date'] = ts('End date must be the same or later than Start date' );
+                    $errors['end_date'] = ts('End date must be the same or later than start date.' );
                 }
             }
         } else {
-            $errors['join_date'] = "Please enter the Join Date.";
+            $errors['join_date'] = ts('Please enter the join date.');
         }
 
         if ( isset( $params['is_override'] ) &&
              $params['is_override']          &&
              ! $params['status_id'] ) {
-            $errors['status_id'] = "Please enter the status.";
+            $errors['status_id'] = ts('Please enter the status.');
         }
 
         if ( isset( $params['record_contribution'] ) && 
              ! isset( $params['contribution_type_id'] ) ) {
-            $errors['contribution_type_id'] = "Please enter the contribution.";
+            $errors['contribution_type_id'] = ts('Please enter the contribution.');
         }
 
         return empty($errors) ? true : $errors;

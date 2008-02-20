@@ -261,7 +261,7 @@ class CRM_Contact_Form_Edit extends CRM_Core_Form
             // get values from contact table
             $params['id'] = $params['contact_id'] = $this->_contactId;
             $contact = CRM_Contact_BAO_Contact::retrieve( $params, $defaults );
-            
+                   
             $locationExists = array( );
             
             foreach( $contact->location as $index => $loc) {
@@ -497,6 +497,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
 
         /* Entering the compact location engine */ 
         $location =& CRM_Contact_Form_Location::buildLocationBlock( $this, $this->_maxLocationBlocks );
+       
         /* End of locations */
         
         // add note block
@@ -813,8 +814,10 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
                 require_once 'CRM/Core/BAO/Location.php';
                 // for checking duplicate location type.
                 if ( CRM_Core_BAO_Location::dataExists( $fields ) ) {
-                    if ($locTypeId == $fields['location'][$locationId]['location_type_id']) {
-                        $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
+                    if ( $locTypeId ) {
+                        if ( $locTypeId == $fields['location'][$locationId]['location_type_id'] ) {
+                            $errors["location[$locationId][location_type_id]"] = ts('Two locations cannot have same location type');
+                        }
                     }
                     $locTypeId = $fields['location'][$locationId]['location_type_id'];
                 }

@@ -38,7 +38,66 @@ require_once 'CRM/Upgrade/Form.php';
 class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
 
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = 'pre-condition failed for upgrade step 5';
+        $errorMessage = 'pre-condition failed for upgrade step 6';
+        
+        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
+             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
+            return false;
+        }
+
+        // check FK constraint names are in valid format.
+        if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_contribution_page', 'payment_processor_id') ||
+            ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_uf_match', 'contact_id') ) {
+            $errorMessage = ts('Database consistency check failed for step 5. FK constraint names not in the required format.');
+            return false;
+        }
+
+        return $this->checkVersion( '1.94' );
+    }
+
+    function upgrade( ) {
+        $currentDir = dirname( __FILE__ );
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'others.mysql' ) );
+        $this->source( $sqlFile );
+        
+        // update preferences table
+        $pattern     = '/\{(\w{3,})\}/i';
+        $replacement = '{contact.$1}';
+
+        $domainID    = CRM_Core_Config::domainID( );
+
+        $query    = "SELECT * FROM civicrm_preferences WHERE domain_id=$domainID";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $address_format = preg_replace($pattern, $replacement, $res->address_format);
+            $mailing_format = preg_replace($pattern, $replacement, $res->mailing_format);
+            $individual_name_format = preg_replace($pattern, $replacement, $res->individual_name_format);
+            
+            $query = "
+UPDATE civicrm_preferences 
+SET address_format='$address_format', 
+    mailing_format='$mailing_format',
+    individual_name_format='$individual_name_format'
+WHERE id={$res->id}
+";
+            $op    = $this->runQuery( $query );
+            $op->free();
+        }
+        $res->free();
+
+        // drop queries
+        $sqlFile    = implode( DIRECTORY_SEPARATOR,
+                               array( $currentDir, '../sql', 'drop.mysql' ) );
+        $this->source( $sqlFile );
+               
+        $this->setVersion( '2.0' );
+    }
+
+    function verifyPostDBState( &$errorMessage ) {
+        $errorMessage = 'post-condition failed for upgrade step 6';
         
         if ( ! CRM_Core_DAO::checkTableExists( 'civicrm_case' ) ||
              ! CRM_Core_DAO::checkTableExists( 'civicrm_case_activity' ) ||
@@ -58,32 +117,22 @@ class CRM_Upgrade_TwoZero_Form_Step6 extends CRM_Upgrade_Form {
             return false;
         }
 
-        if ( ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'column_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_field', 'option_group_id' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'table_name' ) ||
-             ! CRM_Core_DAO::checkFieldExists( 'civicrm_custom_group', 'is_multiple' ) ) {
-            return false;
-        }
-
         return $this->checkVersion( '2.0' );
     }
 
-    function buildQuickForm( ) {
-    }
-
     function getTitle( ) {
-        return ts( 'Database Upgrade to v2.0 Completed' );
+        return ts( 'CiviCRM 2.0 Upgrade: Step Six (Upgrade Miscellaneous Data)' );
     }
 
     function getTemplateMessage( ) {
-        if ( $this->_config->userFramework == 'Drupal' ) {
-            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/7IFH';
-        } else {
-            $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/SoJH';
-        }
-        return ts( '<p><strong>Your CiviCRM database has been successfully upgraded to v2.0.</strong></p>
-<p>Please be sure to follow the remaining steps in the <a href="%1" target="_blank"><strong>Upgrade Instructions</strong></a>.</p>
-<p>Thank you for using CiviCRM.</p>', array( 1 => $upgradeDoc ) );
+        return ts( '<p>This step will upgrade the remaining data in your database.</p>' );
     }
+
+    function getButtonTitle( ) {
+        return ts( 'Finish Upgrade' );
+    }
+
 }
+
+
 ?>

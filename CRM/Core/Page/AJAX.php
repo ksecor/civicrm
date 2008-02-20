@@ -159,16 +159,19 @@ ORDER BY sort_name ";
             
         }
         
+        $start = CRM_Utils_Type::escape( $_GET['start'], 'Integer' );
+        $end   = CRM_Utils_Type::escape( $_GET['count'], 'Integer' );
+
+        $query .= " LIMIT {$start},{$end}";
+        
         $nullArray = array( );
         $dao = CRM_Core_DAO::executeQuery( $query, $nullArray );
 
-        $count = 0;
         $elements = array( );
-        while ( $dao->fetch( ) && $count < 5 ) {
-        //while ( $dao->fetch( ) ) {
+
+        while ( $dao->fetch( ) ) {
             $elements[] = array( 'name' => $dao->sort_name,
                                  'id'   => $dao->id );
-            $count++;
         }
         
         require_once "CRM/Utils/JSON.php";
@@ -360,9 +363,22 @@ ORDER BY name";
         $elements = array( );
         require_once 'CRM/Utils/Type.php';
         $name      = CRM_Utils_Type::escape( $_GET['name'], 'String'  );
-        
+
         if ( isset( $_GET['id'] ) ) {
             $countryId = CRM_Utils_Type::escape( $_GET['id'], 'Positive', false );
+        }
+
+        //temporary fix to handle locales other than default US,
+        // CRM-2653
+        if ( !$countryId && $name && $config->lcMessages != 'en_US') {
+            $countries = CRM_Core_PseudoConstant::country();
+            
+            // get the country name in en_US, since db has this locale
+            $countryName = array_search( $name, $countries );
+            
+            if ( $countryName ) {
+                $countryId = $countryName;
+            }
         }
 
         $validValue = true;
