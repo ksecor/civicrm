@@ -18,7 +18,7 @@
 // |          Damian Alejandro Fernandez Sosa <damlists@cnba.uba.ar>      |
 // +----------------------------------------------------------------------+
 //
-// $Id: SMTP.php,v 1.55 2006/02/06 06:00:22 jon Exp $
+// $Id: SMTP.php,v 1.61 2008/02/11 03:00:33 jon Exp $
 
 require_once 'PEAR.php';
 require_once 'Net/Socket.php';
@@ -63,6 +63,26 @@ class Net_SMTP
      * @access public
      */
     var $auth_methods = array('DIGEST-MD5', 'CRAM-MD5', 'LOGIN', 'PLAIN');
+
+    /**
+     * Use SMTP command pipelining (specified in RFC 2920) if the SMTP
+     * server supports it.
+     *
+     * When pipeling is enabled, rcptTo(), mailFrom(), sendFrom(),
+     * somlFrom() and samlFrom() do not wait for a response from the
+     * SMTP server but return immediately.
+     *
+     * @var bool
+     * @access public
+     */
+    var $pipelining = false;
+
+    /**
+     * Number of pipelined commands.
+     * @var int
+     * @access private
+     */
+    var $_pipelined_commands = 0;
 
     /**
      * Should debugging output be enabled?
@@ -113,22 +133,29 @@ class Net_SMTP
      * @param string  $host       The server to connect to.
      * @param integer $port       The port to connect to.
      * @param string  $localhost  The value to give when sending EHLO or HELO.
+     * @param boolean $pipeling   Use SMTP command pipelining
      *
      * @access  public
      * @since   1.0
      */
-    function Net_SMTP($host = null, $port = null, $localhost = null)
+    function Net_SMTP($host = null, $port = null, $localhost = null, $pipelining = false)
     {
-        if (isset($host)) $this->host = $host;
-        if (isset($port)) $this->port = $port;
-        if (isset($localhost)) $this->localhost = $localhost;
+        if (isset($host)) {
+            $this->host = $host;
+        }
+        if (isset($port)) {
+            $this->port = $port;
+        }
+        if (isset($localhost)) {
+            $this->localhost = $localhost;
+        }
+        $this->pipelining = $pipelining;
 
-        $this->_socket = &new Net_Socket();
+        $this->_socket = new Net_Socket();
 
-        /*
-         * Include the Auth_SASL package.  If the package is not available,
-         * we disable the authentication methods that depend upon it.
-         */
+        /* Include the Auth_SASL package.  If the package is not
+         * available, we disable the authentication methods that
+         * depend upon it. */
         if ((@include_once 'Auth/SASL.php') === false) {
             $pos = array_search('DIGEST-MD5', $this->auth_methods);
             unset($this->auth_methods[$pos]);
@@ -211,6 +238,9 @@ class Net_SMTP
      * @param   mixed   $valid      The set of valid response codes.  These
      *                              may be specified as an array of integer
      *                              values or as a single integer value.
+     * @param   bool    $later      Do not parse the response now, but wait
+     *                              until the last command in the pipelined
+     *                              command group
      *
      * @return  mixed   True if the server returned a valid response code or
      *                  a PEAR_Error object is an error condition is reached.
@@ -220,52 +250,54 @@ class Net_SMTP
      *
      * @see     getResponse
      */
-    function _parseResponse($valid)
+    function _parseResponse($valid, $later = false)
     {
         $this->_code = -1;
         $this->_arguments = array();
 
-        while ($line = $this->_socket->readLine()) {
-            if ($this->_debug) {
-                echo "DEBUG: Recv: $line\n";
-            }
-
-            /* If we receive an empty line, the connection has been closed. */
-            if (empty($line)) {
-                $this->disconnect();
-                return PEAR::raiseError('Connection was unexpectedly closed');
-            }
-
-            /* Read the code and store the rest in the arguments array. */
-            $code = substr($line, 0, 3);
-            $this->_arguments[] = trim(substr($line, 4));
-
-            /* Check the syntax of the response code. */
-            if (is_numeric($code)) {
-                $this->_code = (int)$code;
-            } else {
-                $this->_code = -1;
-                break;
-            }
-
-            /* If this is not a multiline response, we're done. */
-            if (substr($line, 3, 1) != '-') {
-                break;
-            }
-        }
-
-        /* Compare the server's response code with the valid code. */
-        if (is_int($valid) && ($this->_code === $valid)) {
+        if ($later) {
+            $this->_pipelined_commands++;
             return true;
         }
 
-        /* If we were given an array of valid response codes, check each one. */
-        if (is_array($valid)) {
-            foreach ($valid as $valid_code) {
-                if ($this->_code === $valid_code) {
-                    return true;
+        for ($i = 0; $i <= $this->_pipelined_commands; $i++) {
+            while ($line = $this->_socket->readLine()) {
+                if ($this->_debug) {
+                    echo "DEBUG: Recv: $line\n";
+                }
+
+                /* If we receive an empty line, the connection has been closed. */
+                if (empty($line)) {
+                    $this->disconnect();
+                    return PEAR::raiseError('Connection was unexpectedly closed');
+                }
+
+                /* Read the code and store the rest in the arguments array. */
+                $code = substr($line, 0, 3);
+                $this->_arguments[] = trim(substr($line, 4));
+
+                /* Check the syntax of the response code. */
+                if (is_numeric($code)) {
+                    $this->_code = (int)$code;
+                } else {
+                    $this->_code = -1;
+                    break;
+                }
+
+                /* If this is not a multiline response, we're done. */
+                if (substr($line, 3, 1) != '-') {
+                    break;
                 }
             }
+        }
+
+        $this->_pipelined_commands = 0;
+
+        /* Compare the server's response code with the valid code/codes. */
+        if (is_int($valid) && ($this->_code === $valid)) {
+            return true;
+        } elseif (is_array($valid)) {
+            return in_array($this->_code, $valid, true);
         }
 
         /* 535: Authentication failed */
@@ -393,6 +425,10 @@ class Net_SMTP
             $this->_esmtp[$verb] = $arguments;
         }
 
+        if (!isset($this->_esmtp['PIPELINING'])) {
+            $this->pipelining = false;
+        }
+
         return true;
     }
 
@@ -435,7 +471,31 @@ class Net_SMTP
     function auth($uid, $pwd , $method = '')
     {
         if (empty($this->_esmtp['AUTH'])) {
-            return PEAR::raiseError('SMTP server does no support authentication');
+            if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
+                if (!isset($this->_esmtp['STARTTLS'])) {
+                    return PEAR::raiseError('SMTP server does not support authentication');
+                }
+                if (PEAR::isError($result = $this->_put('STARTTLS'))) {
+                    return $result;
+                }
+                if (PEAR::isError($result = $this->_parseResponse(220))) {
+                    return $result;
+                }
+                if (PEAR::isError($result = $this->_socket->enableCrypto(true, STREAM_CRYPTO_METHOD_TLS_CLIENT))) {
+                    return $result;
+                } elseif ($result !== true) {
+                    return PEAR::raiseError('STARTTLS failed');
+                }
+
+                /* Send EHLO again to recieve the AUTH string from the
+                 * SMTP server. */
+                $this->_negotiate();
+                if (empty($this->_esmtp['AUTH'])) {
+                    return PEAR::raiseError('SMTP server does not support authentication');
+                }
+            } else {
+                return PEAR::raiseError('SMTP server does not support authentication');
+            }
         }
 
         /* If no method has been specified, get the name of the best
@@ -453,21 +513,25 @@ class Net_SMTP
         }
 
         switch ($method) {
-            case 'DIGEST-MD5':
-                $result = $this->_authDigest_MD5($uid, $pwd);
-                break;
-            case 'CRAM-MD5':
-                $result = $this->_authCRAM_MD5($uid, $pwd);
-                break;
-            case 'LOGIN':
-                $result = $this->_authLogin($uid, $pwd);
-                break;
-            case 'PLAIN':
-                $result = $this->_authPlain($uid, $pwd);
-                break;
-            default:
-                $result = PEAR::raiseError("$method is not a supported authentication method");
-                break;
+        case 'DIGEST-MD5':
+            $result = $this->_authDigest_MD5($uid, $pwd);
+            break;
+
+        case 'CRAM-MD5':
+            $result = $this->_authCRAM_MD5($uid, $pwd);
+            break;
+
+        case 'LOGIN':
+            $result = $this->_authLogin($uid, $pwd);
+            break;
+
+        case 'PLAIN':
+            $result = $this->_authPlain($uid, $pwd);
+            break;
+
+        default:
+            $result = PEAR::raiseError("$method is not a supported authentication method");
+            break;
         }
 
         /* If an error was encountered, return the PEAR_Error object. */
@@ -519,7 +583,7 @@ class Net_SMTP
         /* We don't use the protocol's third step because SMTP doesn't
          * allow subsequent authentication, so we just silently ignore
          * it. */
-        if (PEAR::isError($error = $this->_put(' '))) {
+        if (PEAR::isError($error = $this->_put(''))) {
             return $error;
         }
         /* 235: Authentication successful */
@@ -713,7 +777,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('MAIL', $args))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
@@ -743,7 +807,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('RCPT', $args))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(array(250, 251)))) {
+        if (PEAR::isError($error = $this->_parseResponse(array(250, 251), $this->pipelining))) {
             return $error;
         }
 
@@ -812,7 +876,7 @@ class Net_SMTP
         if (PEAR::isError($result = $this->_send($data . "\r\n.\r\n"))) {
             return $result;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
@@ -834,7 +898,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('SEND', "FROM:<$path>"))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
@@ -873,7 +937,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('SOML', "FROM:<$path>"))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
@@ -912,7 +976,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('SAML', "FROM:<$path>"))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
@@ -949,7 +1013,7 @@ class Net_SMTP
         if (PEAR::isError($error = $this->_put('RSET'))) {
             return $error;
         }
-        if (PEAR::isError($error = $this->_parseResponse(250))) {
+        if (PEAR::isError($error = $this->_parseResponse(250, $this->pipelining))) {
             return $error;
         }
 
