@@ -25,7 +25,7 @@ Net_DIME                      0.3        [beta]
 Net_SMTP                      1.2.11     local changes
 Net_Socket                    1.0.8
 Net_URL                       1.0.15
-Net_UserAgent_Detect          2.2.0
+Net_UserAgent_Detect          2.4.0
 Pager                         2.4.2
 PEAR                          1.7.1
 PHP_Beautifier                0.1.11     [beta]
