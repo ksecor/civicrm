@@ -63,7 +63,7 @@ class Validate_AT
             static $postcodes;
 
             if (!isset($postcodes)) {
-                $file = './data/Validate_AT/AT_postcodes.txt';
+                $file = '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_AT/AT_postcodes.txt';
                 $postcodes = array_map('trim', file($file));
             }
 

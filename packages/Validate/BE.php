@@ -169,7 +169,7 @@ class Validate_BE
         if ($strong) {
 
             if (!isset($postCodeList)) {
-                $file = './data/Validate_BE/BE_postcodes.txt';
+                $file = '/home/shot/work/CiviCRM/svn/trunk/packages/data/Validate_BE/BE_postcodes.txt';
                 if (file_exists($file)) {
                     foreach (file($file) as $line) {
                         $postCodeList[] = substr($line, 0, 4);

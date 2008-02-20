@@ -25,7 +25,7 @@
  * @author     Ian P. Christian <pookey@pookey.co.uk>
  * @copyright  1997-2005 Michael Dransfield, Ian P. Christian
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    CVS: $Id: UK.php,v 1.25 2006/04/17 19:56:49 pajoye Exp $
+ * @version    CVS: $Id: UK.php,v 1.26 2006/04/17 20:56:43 pajoye Exp $
  * @link       http://pear.php.net/package/Validate_UK
  */
 

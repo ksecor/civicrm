@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2005 Pierre-Alain Joye,Tomas V.V.Cox              |
+// | Copyright (c) 1997-2006 Pierre-Alain Joye,Tomas V.V.Cox, Amir Saied  |
 // +----------------------------------------------------------------------+
 // | This source file is subject to the New BSD license, That is bundled  |
 // | with this package in the file LICENSE, and is available through      |
@@ -13,6 +13,7 @@
 // +----------------------------------------------------------------------+
 // | Author: Tomas V.V.Cox  <cox@idecnet.com>                             |
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
+// |         Amir Mohammad Saied <amir@php.net>                           |
 // +----------------------------------------------------------------------+
 //
 /**
@@ -22,7 +23,7 @@
  *   - numbers (min/max, decimal or not)
  *   - email (syntax, domain check)
  *   - string (predifined type alpha upper and/or lowercase, numeric,...)
- *   - date (min, max)
+ *   - date (min, max, rfc822 compliant)
  *   - uri (RFC2396)
  *   - possibility valid multiple data with a single method call (::multiple)
  *
@@ -30,9 +31,10 @@
  * @package    Validate
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Pierre-Alain Joye <pajoye@php.net>
- * @copyright  1997-2005 Pierre-Alain Joye,Tomas V.V.Cox
+ * @author     Amir Mohammad Saied <amir@php.net>
+ * @copyright  1997-2006 Pierre-Alain Joye,Tomas V.V.Cox,Amir Mohammad Saied
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
- * @version    CVS: $Id: Validate.php,v 1.99 2006/10/05 05:51:00 amir Exp $
+ * @version    CVS: $Id: Validate.php,v 1.123 2007/12/12 16:45:51 davidc Exp $
  * @link       http://pear.php.net/package/Validate
  */
 
@@ -44,12 +46,17 @@ define('VALIDATE_SPACE',        '\s');
 define('VALIDATE_ALPHA_LOWER',  'a-z');
 define('VALIDATE_ALPHA_UPPER',  'A-Z');
 define('VALIDATE_ALPHA',        VALIDATE_ALPHA_LOWER . VALIDATE_ALPHA_UPPER);
-define('VALIDATE_EALPHA_LOWER', VALIDATE_ALPHA_LOWER . '·ÈÌÛ˙‡ËÏÚ˘‰ÎÔˆ¸‚ÍÓÙ˚ÒÁ˛ÊÂ');
-define('VALIDATE_EALPHA_UPPER', VALIDATE_ALPHA_UPPER . '¡…Õ”⁄¿»Ã“ŸƒÀœ÷‹¬ Œ‘€—«ﬁ∆–≈');
+define('VALIDATE_EALPHA_LOWER', VALIDATE_ALPHA_LOWER . '·ÈÌÛ˙˝‡ËÏÚ˘‰ÎÔˆ¸ˇ‚ÍÓÙ˚„Òı®ÂÊÁΩ¯˛ﬂ');
+define('VALIDATE_EALPHA_UPPER', VALIDATE_ALPHA_UPPER . '¡…Õ”⁄›¿»Ã“ŸƒÀœ÷‹æ¬ Œ‘€√—’¶≈∆«º–ÿﬁ');
 define('VALIDATE_EALPHA',       VALIDATE_EALPHA_LOWER . VALIDATE_EALPHA_UPPER);
 define('VALIDATE_PUNCTUATION',  VALIDATE_SPACE . '\.,;\:&"\'\?\!\(\)');
-define('VALIDATE_NAME',         VALIDATE_EALPHA . VALIDATE_SPACE . "'");
-define('VALIDATE_STREET',       VALIDATE_NAME . "/\\∫™\.");
+define('VALIDATE_NAME',         VALIDATE_EALPHA . VALIDATE_SPACE . "'" . "-");
+define('VALIDATE_STREET',       VALIDATE_NUM . VALIDATE_NAME . "/\\∫™\.");
+
+define('VALIDATE_ITLD_EMAILS',  1);
+define('VALIDATE_GTLD_EMAILS',  2);
+define('VALIDATE_CCTLD_EMAILS', 4);
+define('VALIDATE_ALL_EMAILS',   8);
 
 /**
  * Validation class
@@ -66,13 +73,139 @@ define('VALIDATE_STREET',       VALIDATE_NAME . "/\\∫™\.");
  * @package    Validate
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Pierre-Alain Joye <pajoye@php.net>
- * @copyright  1997-2005 Pierre-Alain Joye,Tomas V.V.Cox
+ * @author     Amir Mohammad Saied <amir@php.net>
+ * @copyright  1997-2006 Pierre-Alain Joye,Tomas V.V.Cox,Amir Mohammad Saied
  * @license    http://www.opensource.org/licenses/bsd-license.php  New BSD License
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/Validate
  */
 class Validate
 {
+    /**
+     * International Top-Level Domain
+     *
+     * This is an array of the known international
+     * top-level domain names.
+     *
+     * @access protected
+     * @var    array     $_iTld (International top-level domains)
+     */
+    var $_itld = array(
+        'arpa',
+        'root',
+    );
+
+    /**
+     * Generic top-level domain
+     *
+     * This is an array of the official
+     * generic top-level domains.
+     *
+     * @access protected
+     * @var    array     $_gTld (Generic top-level domains)
+     */
+    var $_gtld = array(
+        'aero',
+        'biz',
+        'cat',
+        'com',
+        'coop',
+        'edu',
+        'gov',
+        'info',
+        'int',
+        'jobs',
+        'mil',
+        'mobi',
+        'museum',
+        'name',
+        'net',
+        'org',
+        'pro',
+        'travel',
+        'asia',
+        'post',
+        'tel',
+        'geo',
+    );
+
+    /**
+     * Country code top-level domains
+     *
+     * This is an array of the official country
+     * codes top-level domains
+     *
+     * @access protected
+     * @var    array     $_ccTld (Country Code Top-Level Domain)
+     */
+    var $_cctld = array(
+        'ac',
+        'ad','ae','af','ag',
+        'ai','al','am','an',
+        'ao','aq','ar','as',
+        'at','au','aw','ax',
+        'az','ba','bb','bd',
+        'be','bf','bg','bh',
+        'bi','bj','bm','bn',
+        'bo','br','bs','bt',
+        'bu','bv','bw','by',
+        'bz','ca','cc','cd',
+        'cf','cg','ch','ci',
+        'ck','cl','cm','cn',
+        'co','cr','cs','cu',
+        'cv','cx','cy','cz',
+        'de','dj','dk','dm',
+        'do','dz','ec','ee',
+        'eg','eh','er','es',
+        'et','eu','fi','fj',
+        'fk','fm','fo','fr',
+        'ga','gb','gd','ge',
+        'gf','gg','gh','gi',
+        'gl','gm','gn','gp',
+        'gq','gr','gs','gt',
+        'gu','gw','gy','hk',
+        'hm','hn','hr','ht',
+        'hu','id','ie','il',
+        'im','in','io','iq',
+        'ir','is','it','je',
+        'jm','jo','jp','ke',
+        'kg','kh','ki','km',
+        'kn','kp','kr','kw',
+        'ky','kz','la','lb',
+        'lc','li','lk','lr',
+        'ls','lt','lu','lv',
+        'ly','ma','mc','md',
+        'me','mg','mh','mk',
+        'ml','mm','mn','mo',
+        'mp','mq','mr','ms',
+        'mt','mu','mv','mw',
+        'mx','my','mz','na',
+        'nc','ne','nf','ng',
+        'ni','nl','no','np',
+        'nr','nu','nz','om',
+        'pa','pe','pf','pg',
+        'ph','pk','pl','pm',
+        'pn','pr','ps','pt',
+        'pw','py','qa','re',
+        'ro','rs','ru','rw',
+        'sa','sb','sc','sd',
+        'se','sg','sh','si',
+        'sj','sk','sl','sm',
+        'sn','so','sr','st',
+        'su','sv','sy','sz',
+        'tc','td','tf','tg',
+        'th','tj','tk','tl',
+        'tm','tn','to','tp',
+        'tr','tt','tv','tw',
+        'tz','ua','ug','uk',
+        'us','uy','uz','va',
+        'vc','ve','vg','vi',
+        'vn','vu','wf','ws',
+        'ye','yt','yu','za',
+        'zm','zw',
+    );
+
+
     /**
      * Validate a number
      *
@@ -116,7 +249,7 @@ class Validate
         }
         return true;
     }
-    
+
     /**
      * Converting a string to UTF-7 (RFC 2152)
      *
@@ -153,7 +286,7 @@ class Validate
                     } else {
                         $return .= $char;
                     }
-                } elseif (($i == strlen($string) || 
+                } elseif (($i == strlen($string) ||
                             !((ord($char) >= 0x7F)) || (ord($char) <= 0x1F))) {
                     if ($state != 1) {
                         if (ord($char) > 64) {
@@ -260,6 +393,107 @@ class Validate
     }
 
     /**
+     * Full TLD Validation function
+     *
+     * This function is used to make a much more proficient validation
+     * against all types of official domain names.
+     *
+     * @access protected
+     * @param  string    $email    The email address to check.
+     * @param  array     $options  The options for validation
+     * @return bool      True if validating succeeds
+     */
+    function _fullTLDValidation($email, $options)
+    {
+        $validate = array();
+
+        switch ($options) {
+            /** 1 */
+            case VALIDATE_ITLD_EMAILS:
+                array_push($validate, 'itld');
+                break;
+
+            /** 2 */
+            case VALIDATE_GTLD_EMAILS:
+                array_push($validate, 'gtld');
+                break;
+
+            /** 3 */
+            case VALIDATE_ITLD_EMAILS | VALIDATE_GTLD_EMAILS:
+                array_push($validate, 'itld');
+                array_push($validate, 'gtld');
+                break;
+
+            /** 4 */
+            case VALIDATE_CCTLD_EMAILS:
+                array_push($validate, 'cctld');
+                break;
+
+            /** 5 */
+            case VALIDATE_CCTLD_EMAILS | VALIDATE_ITLD_EMAILS:
+                array_push($validate, 'cctld');
+                array_push($validate, 'itld');
+                break;
+
+            /** 6 */
+            case VALIDATE_CCTLD_EMAILS ^ VALIDATE_ITLD_EMAILS:
+                array_push($validate, 'cctld');
+                array_push($validate, 'itld');
+                break;
+
+            /** 7 - 8 */
+            case VALIDATE_CCTLD_EMAILS | VALIDATE_ITLD_EMAILS | VALIDATE_GTLD_EMAILS:
+            case VALIDATE_ALL_EMAILS:
+                array_push($validate, 'cctld');
+                array_push($validate, 'itld');
+                array_push($validate, 'gtld');
+                break;
+        }
+
+        /**
+         * Debugging still, not implemented but code is somewhat here.
+         */
+
+        $self = new Validate;
+
+        $toValidate = array();
+
+        foreach ($validate as $valid) {
+            $tmpVar = '_' . (string)$valid;
+            $toValidate[$valid] = $self->{$tmpVar};
+        }
+
+        $e = $self->executeFullEmailValidation($email, $toValidate);
+
+        return $e;
+    }
+    // {{{ protected function executeFullEmailValidation
+    /**
+     * Execute the validation
+     *
+     * This function will execute the full email vs tld
+     * validation using an array of tlds passed to it.
+     *
+     * @access public
+     * @param  string $email       The email to validate.
+     * @param  array  $arrayOfTLDs The array of the TLDs to validate
+     * @return true or false (Depending on if it validates or if it does not)
+     */
+    function executeFullEmailValidation($email, $arrayOfTLDs)
+    {
+        $emailEnding = explode('.', $email);
+        $emailEnding = $emailEnding[count($emailEnding)-1];
+        
+        foreach ($arrayOfTLDs as $validator => $keys) {
+            if (in_array($emailEnding, $keys)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // }}}
+
+    /**
      * Validate an email
      *
      * @param string $email email to validate
@@ -282,6 +516,18 @@ class Validate
             extract($options);
         }
 
+        /**
+         * @todo Fix bug here.. even if it passes this, it won't be passing
+         *       The regular expression below
+         */
+        if (isset($fullTLDValidation)) {
+            $valid = Validate::_fullTLDValidation($email, $fullTLDValidation);
+
+            if (!$valid) {
+                return false;
+            }
+        }
+
         // the base regexp for address
         $regex = '&^(?:                                               # recipient:
          ("\s*(?:[^"\f\n\r\t\v\b\s]+\s*)+")|                          #1 quoted name
@@ -290,9 +536,9 @@ class Validate
          (?:(?:(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:[0-1]?[0-9]?[0-9]))\.){3}
                (?:(?:25[0-5])|(?:2[0-4][0-9])|(?:[0-1]?[0-9]?[0-9]))))(?(5)\])|
          ((?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)*[a-z0-9](?:[-a-z0-9]*[a-z0-9])?)  #6 domain as hostname
-         \.((?:([^- ])[-a-z]*[-a-z])?)) #7 TLD 
+         \.((?:([^- ])[-a-z]*[-a-z]))) #7 TLD 
          $&xi';
-
+        
         if ($use_rfc822? Validate::__emailRFC822($email, $options) :
             preg_match($regex, $email)) {
             if ($check_domain && function_exists('checkdnsrr')) {
@@ -307,7 +553,7 @@ class Validate
         return false;
     }
 
-    /**
+   /**
      * Validate a string using the given format 'format'
      *
      * @param string    $string     String to validate
@@ -347,7 +593,7 @@ class Validate
      * option, like this:
      * <code>
      * $options = array('allowed_schemes' => array('http', 'https', 'ftp'))
-     * var_dump(Validate::uri('http://www.example.org'), $options);
+     * var_dump(Validate::uri('http://www.example.org', $options));
      * </code>
      *
      * NOTE 1: The rfc2396 normally allows middle '-' in the top domain
@@ -433,6 +679,7 @@ class Validate
      * @param string    $date   Date to validate
      * @param array     $options array options where :
      *                          'format' The format of the date (%d-%m-%Y)
+     *                                   or rfc822_compliant
      *                          'min' The date has to be greater
      *                                than this array($day, $month, $year)
      *                                or PEAR::Date object
@@ -452,95 +699,133 @@ class Validate
             extract($options);
         }
 
-        $date_len = strlen($format);
-        for ($i = 0; $i < $date_len; $i++) {
-            $c = $format{$i};
-            if ($c == '%') {
-                $next = $format{$i + 1};
-                switch ($next) {
-                    case 'j':
-                    case 'd':
-                        if ($next == 'j') {
-                            $day = (int)Validate::_substr($date, 1, 2);
-                        } else {
-                            $day = (int)Validate::_substr($date, 2);
-                        }
-                        if ($day < 1 || $day > 31) {
-                            return false;
-                        }
-                        break;
-                    case 'm':
-                    case 'n':
-                        if ($next == 'm') {
-                            $month = (int)Validate::_substr($date, 2);
-                        } else {
-                            $month = (int)Validate::_substr($date, 1, 2);
-                        }
-                        if ($month < 1 || $month > 12) {
-                            return false;
-                        }
-                        break;
-                    case 'Y':
-                    case 'y':
-                        if ($next == 'Y') {
-                            $year = Validate::_substr($date, 4);
-                            $year = (int)$year?$year:'';
-                        } else {
-                            $year = (int)(substr(date('Y'), 0, 2) .
-                                          Validate::_substr($date, 2));
-                        }
-                        if (strlen($year) != 4 || $year < 0 || $year > 9999) {
-                            return false;
-                        }
-                        break;
-                    case 'g':
-                    case 'h':
-                        if ($next == 'g') {
-                            $hour = Validate::_substr($date, 1, 2);
-                        } else {
-                            $hour = Validate::_substr($date, 2);
-                        }
-                        if (!preg_match('/^\d+$/', $hour) || $hour < 0 || $hour > 12) {
-                            return false;
-                        }
-                        break;
-                    case 'G':
-                    case 'H':
-                        if ($next == 'G') {
-                            $hour = Validate::_substr($date, 1, 2);
-                        } else {
-                            $hour = Validate::_substr($date, 2);
-                        }
-                        if (!preg_match('/^\d+$/', $hour) || $hour < 0 || $hour > 24) {
-                            return false;
-                        }
-                        break;
-                    case 's':
-                    case 'i':
-                        $t = Validate::_substr($date, 2);
-                        if (!preg_match('/^\d+$/', $t) || $t < 0 || $t > 59) {
-                            return false;
-                        }
-                        break;
-                    default:
-                        trigger_error("Not supported char `$next' after % in offset " . ($i+2), E_USER_WARNING);
-                }
-                $i++;
-            } else {
-                //literal
-                if (Validate::_substr($date, 1) != $c) {
+        if (strtolower($format) == 'rfc822_compliant') {
+            $preg = '&^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),) \s+
+                    (?:(\d{2})?) \s+
+                    (?:(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)?) \s+
+                    (?:(\d{2}(\d{2})?)?) \s+
+                    (?:(\d{2}?)):(?:(\d{2}?))(:(?:(\d{2}?)))? \s+
+                    (?:[+-]\d{4}|UT|GMT|EST|EDT|CST|CDT|MST|MDT|PST|PDT|[A-IK-Za-ik-z])$&xi';
+
+            if (!preg_match($preg, $date, $matches)) {
+                return false;
+            }
+
+            $year   = (int)$matches[4];
+            $months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+            $month  = array_keys($months, $matches[3]);
+            $month  = (int)$month[0]+1;
+            $day    = (int)$matches[2];
+            $weekday= $matches[1];
+            $hour   = (int)$matches[6];
+            $minute = (int)$matches[7];
+            isset($matches[9]) ? $second = (int)$matches[9] : $second = 0;
+
+            if ((strlen($year) != 4)        ||
+                ($day    > 31   || $day < 1)||
+                ($hour   > 23)  ||
+                ($minute > 59)  ||
+                ($second > 59)) {
                     return false;
+            }
+        } else {
+            $date_len = strlen($format);
+            for ($i = 0; $i < $date_len; $i++) {
+                $c = $format{$i};
+                if ($c == '%') {
+                    $next = $format{$i + 1};
+                    switch ($next) {
+                        case 'j':
+                        case 'd':
+                            if ($next == 'j') {
+                                $day = (int)Validate::_substr($date, 1, 2);
+                            } else {
+                                $day = (int)Validate::_substr($date, 0, 2);
+                            }
+                            if ($day < 1 || $day > 31) {
+                                return false;
+                            }
+                            break;
+                        case 'm':
+                        case 'n':
+                            if ($next == 'm') {
+                                $month = (int)Validate::_substr($date, 0, 2);
+                            } else {
+                                $month = (int)Validate::_substr($date, 1, 2);
+                            }
+                            if ($month < 1 || $month > 12) {
+                                return false;
+                            }
+                            break;
+                        case 'Y':
+                        case 'y':
+                            if ($next == 'Y') {
+                                $year = Validate::_substr($date, 4);
+                                $year = (int)$year?$year:'';
+                            } else {
+                                $year = (int)(substr(date('Y'), 0, 2) .
+                                              Validate::_substr($date, 2));
+                            }
+                            if (strlen($year) != 4 || $year < 0 || $year > 9999) {
+                                return false;
+                            }
+                            break;
+                        case 'g':
+                        case 'h':
+                            if ($next == 'g') {
+                                $hour = Validate::_substr($date, 1, 2);
+                            } else {
+                                $hour = Validate::_substr($date, 2);
+                            }
+                            if (!preg_match('/^\d+$/', $hour) || $hour < 0 || $hour > 12) {
+                                return false;
+                            }
+                            break;
+                        case 'G':
+                        case 'H':
+                            if ($next == 'G') {
+                                $hour = Validate::_substr($date, 1, 2);
+                            } else {
+                                $hour = Validate::_substr($date, 2);
+                            }
+                            if (!preg_match('/^\d+$/', $hour) || $hour < 0 || $hour > 24) {
+                                return false;
+                            }
+                            break;
+                        case 's':
+                        case 'i':
+                            $t = Validate::_substr($date, 2);
+                            if (!preg_match('/^\d+$/', $t) || $t < 0 || $t > 59) {
+                                return false;
+                            }
+                            break;
+                        default:
+                            trigger_error("Not supported char `$next' after % in offset " . ($i+2), E_USER_WARNING);
+                    }
+                    $i++;
+                } else {
+                    //literal
+                    if (Validate::_substr($date, 1) != $c) {
+                        return false;
+                    }
                 }
             }
         }
         // there is remaing data, we don't want it
-        if (strlen($date)) {
+        if (strlen($date) && (strtolower($format) != 'rfc822_compliant')) {
             return false;
         }
 
         if (isset($day) && isset($month) && isset($year)) {
             if (!checkdate($month, $day, $year)) {
                 return false;
+            }
+
+            if (strtolower($format) == 'rfc822_compliant') {
+                if ($weekday != date("D", mktime(0, 0, 0, $month, $day, $year))) {
+                    return false;
+                }
             }
 
             if ($min) {
@@ -673,7 +958,7 @@ class Validate
             return false;
         }
         $target_digit  = substr($number, count($weights), 1);
-        $control_digit = Validate::_getControlNumber($number, $weights, $modulo, $subtract, $target_digit === 'X');
+        $control_digit = Validate::_getControlNumber($number, $weights, $modulo, $subtract, $modulo > 10);
 
         if ($control_digit == -1) {
             return false;
@@ -724,7 +1009,7 @@ class Validate
                 $method = $opt['type'];
                 unset($opt['type']);
 
-                if (sizeof($opt) == 1) {
+                if (sizeof($opt) == 1 && is_array(reset($opt))) {
                     $opt = array_pop($opt);
                 }
                 $valid[$var_name] = call_user_func(array('Validate', $method), $val2check, $opt);
@@ -764,4 +1049,3 @@ class Validate
     }
 }
 
-?>
