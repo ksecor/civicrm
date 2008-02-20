@@ -82,7 +82,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
                           array( '' => ts('Primary')) + CRM_Core_PseudoConstant::locationType(), true);
         
         // checkbox for SKIP contacts with Do Not Mail privacy option
-        $this->addElement('checkbox', 'is_DoNotMail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
+        $this->addElement('checkbox', 'do_not_mail', ts('Do not print labels for contacts with "Do Not Mail" privacy option checked') );
         
         $this->addDefaultButtons( ts('Make Mailing Labels'));
        
@@ -99,7 +99,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
     function setDefaultValues()
     {
         $defaults = array();
-        $defaults['is_DoNotMail'] = 1;
+        $defaults['do_not_mail'] = 1;
         
         return $defaults;
     }
@@ -175,7 +175,7 @@ class CRM_Contact_Form_Task_Label extends CRM_Contact_Form_Task
         }
         
         // fix for CRM-2651
-        if ( $fv['is_DoNotMail'] ) {
+        if ( $fv['do_not_mail'] ) {
             $params[] = array( 'do_not_mail', '=', 0, 0, 1 );
         }
         
