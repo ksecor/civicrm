@@ -1,42 +1,102 @@
 <?php
 
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
- * Image_Text - Advanced text maipulations in images
+ * Image_Text.
  *
- * Image_Text provides advanced text manipulation facilities for GD2
- * image generation with PHP. Simply add text clippings to your images,
- * let the class automatically determine lines, rotate text boxes around
- * their center or top left corner. These are only a couple of features
- * Image_Text provides.
- * @package Image_Text
- * @license The PHP License, version 3.0
- * @author Tobias Schlitt <toby@php.net>
- * @category images
+ * This is the main file of the Image_Text package. This file has to be
+ * included for usage of Image_Text.
+ *
+ * This is a simple example script, showing Image_Text's facilities.
+ *
+ * -------- Start example --------
+ *
+ * require_once 'Image/Text.php';
+ *
+ * $colors = array(
+ *     0 => '#0d54e2',
+ *     1 => '#e8ce7a',
+ *     2 => '#7ae8ad'
+ * );
+ *
+ * $text = "EXTERIOR: DAGOBAH -- DAY\nWith Yoda\nstrapped to\n\nhis back, Luke climbs up one of the many thick vines that grow in the swamp until he reaches the Dagobah statistics lab. Panting heavily, he continues his exercises -- grepping, installing new packages, logging in as root, and writing replacements for two-year-old shell scripts in PHP.\nYODA: Code! Yes. A programmer's strength flows from code maintainability. But beware of Perl. Terse syntax... more than one way to do it... default variables. The dark side of code maintainability are they. Easily they flow, quick to join you when code you write. If once you start down the dark path, forever will it dominate your destiny, consume you it will.\nLUKE: Is Perl better than PHP?\nYODA: No... no... no. Orderless, dirtier, more seductive.\nLUKE: But how will I know why PHP is better than Perl?\nYODA: You will know. When your code you try to read six months from now...";
+ *
+ * $options = array(
+ *             'canvas'        => array('width'=> 600,'height'=> 600), // Generate a new image 600x600 pixel
+ *             'cx'            => 300,     // Set center to the middle of the canvas
+ *             'cy'            => 300,
+ *             'width'         => 300,     // Set text box size
+ *             'height'        => 300,
+ *             'line_spacing'  => 1,       // Normal linespacing
+ *             'angle'         => 45,      // Text rotated by 45
+ *             'color'         => $colors, // Predefined colors
+ *             'background_color' => '#FF0000', //red background
+ *             'max_lines'     => 100,     // Maximum lines to render
+ *             'min_font_size' => 2,       // Minimal/Maximal font size (for automeasurize)
+ *             'max_font_size' => 50,
+ *             'font_path'     => './',    // Settings for the font file
+ *             'font_file'     => 'Vera.ttf',
+ *             'antialias'     => true,    // Antialiase font rendering
+ *             'halign'        => IMAGE_TEXT_ALIGN_RIGHT,  // Alignment to the right and middle
+ *             'valign'        => IMAGE_TEXT_ALIGN_MIDDLE
+ *         );
+ *
+ * // Generate a new Image_Text object
+ * $itext = new Image_Text($text, $options);
+ *
+ * // Initialize and check the settings
+ * $itext->init();
+
+ * // Automatically determine optimal font size
+ * $itext->autoMeasurize();
+ *
+ * // Render the image
+ * $itext->render();
+ *
+ * // Display it
+ * $itext->display();
+ *
+ * -------- End example --------
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category   Image
+ * @package    Text
+ * @author     Tobias Schlitt <toby@php.net>
+ * @copyright  1997-2005 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id: Text.php,v 1.32 2007/04/16 09:52:34 cweiske Exp $
+ * @link       http://pear.php.net/package/Net_FTP2
+ * @since      File available since Release 0.0.1
  */
 
-
 /**
- *
  * Require PEAR file for error handling.
- *
  */
-
 require_once 'PEAR.php';
 
 /**
  * Regex to match HTML style hex triples.
  */
-
 define("IMAGE_TEXT_REGEX_HTMLCOLOR", "/^[#|]([a-f0-9]{2})?([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})$/i", true);
 
 /**
  * Defines horizontal alignment to the left of the text box. (This is standard.)
  */
 define("IMAGE_TEXT_ALIGN_LEFT", "left", true);
+
 /**
  * Defines horizontal alignment to the center of the text box.
  */
 define("IMAGE_TEXT_ALIGN_RIGHT", "right", true);
+
 /**
  * Defines horizontal alignment to the center of the text box.
  */
@@ -46,10 +106,12 @@ define("IMAGE_TEXT_ALIGN_CENTER", "center", true);
  * Defines vertical alignment to the to the top of the text box. (This is standard.)
  */
 define("IMAGE_TEXT_ALIGN_TOP", "top", true);
+
 /**
  * Defines vertical alignment to the to the middle of the text box.
  */
 define("IMAGE_TEXT_ALIGN_MIDDLE", "middle", true);
+
 /**
  * Defines vertical alignment to the to the bottom of the text box.
  */
@@ -60,7 +122,6 @@ define("IMAGE_TEXT_ALIGN_BOTTOM", "bottom", true);
  */
 define("IMAGE_TEXT_ALIGN_JUSTIFY", "justify", true);
 
-
 /**
  * Image_Text - Advanced text maipulations in images
  *
@@ -70,58 +131,16 @@ define("IMAGE_TEXT_ALIGN_JUSTIFY", "justify", true);
  * their center or top left corner. These are only a couple of features
  * Image_Text provides.
  *
- * @package Image_Text
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @category   Image
+ * @package    Text
+ * @author     Tobias Schlitt <toby@php.net>
+ * @copyright  1997-2005 The PHP Group
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Net_FTP
+ * @since      0.0.1
+ * @access     public
  */
- 
-/*  
-    // This is a simple example script, showing Image_Text's facilities.
-    
-    require_once 'Image/Text.php';
-
-    $colors = array(
-        0 => '#0d54e2',
-        1 => '#e8ce7a',
-        2 => '#7ae8ad'
-    );
-        
-    $text = "EXTERIOR: DAGOBAH -- DAY\nWith Yoda\nstrapped to\n\nhis back, Luke climbs up one of the many thick vines that grow in the swamp until he reaches the Dagobah statistics lab. Panting heavily, he continues his exercises -- grepping, installing new packages, logging in as root, and writing replacements for two-year-old shell scripts in PHP.\nYODA: Code! Yes. A programmer's strength flows from code maintainability. But beware of Perl. Terse syntax... more than one way to do it... default variables. The dark side of code maintainability are they. Easily they flow, quick to join you when code you write. If once you start down the dark path, forever will it dominate your destiny, consume you it will.\nLUKE: Is Perl better than PHP?\nYODA: No... no... no. Orderless, dirtier, more seductive.\nLUKE: But how will I know why PHP is better than Perl?\nYODA: You will know. When your code you try to read six months from now...";
-
-    $options = array(
-                'canvas'        => array('width'=> 600,'height'=> 600), // Generate a new image 600x600 pixel
-                'cx'            => 300,     // Set center to the middle of the canvas
-                'cy'            => 300,
-                'width'         => 300,     // Set text box size
-                'height'        => 300,
-                'line_spacing'  => 1,       // Normal linespacing
-                'angle'         => 45,      // Text rotated by 45°
-                'color'         => $colors, // Predefined colors
-                'max_lines'     => 100,     // Maximum lines to render
-                'min_font_size' => 2,       // Minimal/Maximal font size (for automeasurize)
-                'max_font_size' => 50,
-                'font_path'     => './',    // Settings for the font file 
-                'font_file'     => 'Vera.ttf',
-                'antialias'     => true,    // Antialiase font rendering
-                'halign'        => IMAGE_TEXT_ALIGN_RIGHT,  // Alignment to the right and middle
-                'valign'        => IMAGE_TEXT_ALIGN_MIDDLE
-            );
-            
-    // Generate a new Image_Text object
-    $itext = new Image_Text($text, $options);
-    
-    // Initialize and check the settings
-    $itext->init();
-
-    // Automatically determine optimal font size
-    $itext->autoMeasurize();
-   
-    // Render the image
-    $itext->render();
-     
-    // Display it
-    $itext->display();
-*/
- 
-
 class Image_Text {
 
     /**
@@ -158,6 +177,10 @@ class Image_Text {
      *      'color_mode'        | The color rotation mode for your color sets. Does only apply if you
      *                          | defined multiple colors. Use 'line' or 'paragraph'.
      *
+     *      'background_color'  | defines the background color. NULL sets it transparent
+     *      'enable_alpha'      | if alpha channel should be enabled. Automatically
+     *                          | enabled when background_color is set to NULL
+     *
      *      'font_path'         | Location of the font to use. The path only gives the directory path (ending with a /).
      *      'font_file'         | The fontfile is given in the 'font_file' option.
      *
@@ -191,7 +214,7 @@ class Image_Text {
             'width'             => 0,
             'height'            => 0,
 
-            // text alignement inside the clipping
+            // text alignment inside the clipping
             'halign'             => IMAGE_TEXT_ALIGN_LEFT,
             'valign'             => IMAGE_TEXT_ALIGN_TOP,
 
@@ -203,6 +226,9 @@ class Image_Text {
 
             'color_mode'        => 'line',
 
+            'background_color'  => '#000000',
+            'enable_alpha'      => false,
+
             // font settings
             'font_path'         => "./",
             'font_file'         => null,
@@ -212,6 +238,9 @@ class Image_Text {
             // automasurizing settings
             'min_font_size'     => 1,
             'max_font_size'     => 100,
+
+            //max. lines to render
+            'max_lines'         => 100,
 
             // misc settings
             'image_type'        => IMAGETYPE_PNG,
@@ -359,7 +388,7 @@ class Image_Text {
      * @static
      * @see Image_Text::set(), Image_Text::Image_Text(), Image_Text::init()
      */
-    
+
     function &construct ( $text, $options ) {
         $itext = new Image_Text($text, $options);
         $res = $itext->init();
@@ -368,7 +397,7 @@ class Image_Text {
         }
         return $itext;
     }
-    
+
     /**
      * Set options
      *
@@ -485,7 +514,7 @@ class Image_Text {
                 $color['r'] = $color[0];
                 $color['g'] = $color[1];
                 $color['b'] = $color[2];
-                $color['color']['a'] = isset($color[3]) ? $color[3] : 0;
+                $color['a'] = isset($color[3]) ? $color[3] : 0;
                 $this->options['colors'][$id] = $color;
             } else {
                 return PEAR::raiseError('Use keys 1,2,3 (optionally) 4 or r,g,b and (optionally) a.');
@@ -530,10 +559,14 @@ class Image_Text {
         // todo: with some versions of the GD-library it's also possible to leave font_path empty, add strip ".ttf" from
         //        the fontname; the fontfile will then be automatically searched for in library-defined directories
         //        however this does not yet work if at this point we check for the existance of the fontfile
-        if (!is_file($this->options['font_path'].$this->options['font_file']) || !is_readable($this->options['font_path'].$this->options['font_file'])) {
+        $font_file = rtrim($this->options['font_path'], '/\\');
+        $font_file.= (OS_WINDOWS) ? '\\' : '/';
+        $font_file.= $this->options['font_file'];
+        $font_file = realpath($font_file);
+        if (empty($font_file) || !is_file($font_file) || !is_readable($font_file)) {
             return PEAR::raiseError('Fontfile not found or not readable.');
         } else {
-            $this->_font = $this->options['font_path'].$this->options['font_file'];
+            $this->_font = $font_file;
         }
 
         // Is the font size to small?
@@ -542,10 +575,10 @@ class Image_Text {
         }
 
         // Check and create canvas
-        
+
         switch (true) {
             case (empty($this->options['canvas'])):
-                
+
                 // Create new image from width && height of the clipping
                 $this->_img = imagecreatetruecolor(
                             $this->options['width'], $this->options['height']);
@@ -553,53 +586,78 @@ class Image_Text {
                     return PEAR::raiseError('Could not create image canvas.');
                 }
                 break;
-            
+
             case (is_resource($this->options['canvas']) &&
                     get_resource_type($this->options['canvas'])=='gd'):
                 // The canvas is an image resource
                 $this->_img = $this->options['canvas'];
                 break;
-            
-            case (is_array($this->options['canvas']) && 
+
+            case (is_array($this->options['canvas']) &&
                     isset($this->options['canvas']['width']) &&
                     isset($this->options['canvas']['height'])):
-                    
+
                 // Canvas must be a width and height measure
                 $this->_img = imagecreatetruecolor(
                     $this->options['canvas']['width'],
                     $this->options['canvas']['height']
                 );
                 break;
-            
-            
-            case (is_array($this->options['canvas']) && 
+
+
+            case (is_array($this->options['canvas']) &&
                     isset($this->options['canvas']['size']) &&
                     ($this->options['canvas']['size'] = 'auto')):
-                    
+
             case (is_string($this->options['canvas']) &&
                      ($this->options['canvas'] = 'auto')):
                 $this->_mode = 'auto';
                 break;
-                
+
             default:
                 return PEAR::raiseError('Could not create image canvas.');
-            
+
         }
-        
-        
-        
+
+
+
         if ($this->_img) {
             $this->options['canvas'] = array();
-            $this->options['canvas']['height'] = imagesx($this->_img);
-            $this->options['canvas']['width'] = imagesy($this->_img);
+            $this->options['canvas']['width']  = imagesx($this->_img);
+            $this->options['canvas']['height'] = imagesy($this->_img);
         }
+
+        if ($this->options['enable_alpha']) {
+            imagesavealpha($this->_img, true);
+            imagealphablending($this->_img, false);
+        }
+
+        if ($this->options['background_color'] === null) {
+            $this->options['enable_alpha'] = true;
+            imagesavealpha($this->_img, true);
+            imagealphablending($this->_img, false);
+            $colBg = imagecolorallocatealpha($this->_img, 255, 255, 255, 127);
+        } else {
+            $arBg  = $this->_convertString2RGB($this->options['background_color']);
+            if ($arBg === false) {
+                return PEAR::raiseError('Background color is invalid.');
+            }
+            $colBg = imagecolorallocatealpha($this->_img, $arBg['r'], $arBg['g'], $arBg['b'], $arBg['a']);
+        }
+        imagefilledrectangle(
+            $this->_img,
+            0, 0,
+            $this->options['canvas']['width'] - 1, $this->options['canvas']['height'] - 1,
+            $colBg
+        );
+
 
         // Save and repair angle
         $angle = $this->options['angle'];
-        while($angle < 0) {
+        while ($angle < 0) {
             $angle += 360;
         }
-        if($angle > 359) {
+        if ($angle > 359) {
             $angle = $angle % 360;
         }
         $this->options['angle'] = $angle;
@@ -805,6 +863,9 @@ class Image_Text {
         $bounds = imagettfbbox($size, 0, $font,$text_line);
         if ($this->options['color_mode']=='line') {
             $c = $this->colors[$i++%$colors_cnt];
+        } else {
+            $c = $this->colors[$para_cnt%$colors_cnt];
+            $i++;
         }
         $lines[]  = array(
                         'string'=> $text_line,
@@ -1056,7 +1117,7 @@ class Image_Text {
         if (!$dest_file) {
             return PEAR::raiseError("Invalid desitination file.");
         }
-        
+
         switch ($this->options['image_type']) {
             case IMAGETYPE_PNG:
                 $imgout = 'imagepng';
@@ -1071,7 +1132,7 @@ class Image_Text {
                 return PEAR::raiseError('Unsupported image type.');
                 break;
         }
-        
+
         $res = $imgout($this->_img, $dest_file);
         if (!$res) {
             PEAR::raiseError('Saving file failed.');
