@@ -18,7 +18,7 @@
     <table>
         
 	<tr class="columnheader">
-        <th>{ts}Duplicate Matching Rule{/ts}</th>
+        <th>{ts}Contact Matching Rule{/ts}</th>
         <th></th>
     </tr>
     {foreach from=$rows item=row}
