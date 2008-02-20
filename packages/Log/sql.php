@@ -1,13 +1,13 @@
 <?php
 /**
- * $Header: /repository/pear/Log/Log/sql.php,v 1.40 2006/01/03 04:12:45 jon Exp $
+ * $Header: /repository/pear/Log/Log/sql.php,v 1.42 2008/01/19 22:12:16 jon Exp $
  * $Horde: horde/lib/Log/sql.php,v 1.12 2000/08/16 20:27:34 chuck Exp $
  *
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.42 $
  * @package Log
  */
 
-/*
+/**
  * We require the PEAR DB class.  This is generally defined in the DB.php file,
  * but it's possible that the caller may have provided the DB class, or a
  * compatible wrapper (such as the one shipped with MDB2), so we first check
@@ -125,7 +125,7 @@ class Log_sql extends Log
         $this->_mask = Log::UPTO($level);
 
         /* Now that we have a table name, assign our SQL statement. */
-        if (!empty($this->_sql)) {
+        if (!empty($conf['sql'])) {
             $this->_sql = $conf['sql'];
         } else {
             $this->_sql = 'INSERT INTO ' . $this->_table .
