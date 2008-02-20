@@ -65,7 +65,7 @@ Dojo           0.4      http://dojotoolkit.org/                                 
 html2text      0.6.1    http://chuggnutt.com/html2text.php
 PayPal SDK     1.1.1.1  https://www.paypal.com/IntegrationCenter/ic_sdk-resource.html PEAR packages upgraded independently (HTTP, Log, Net)
 PHP gettext    1.0.7    http://savannah.nongnu.org/projects/php-gettext/
-Selenium       0.1.4    moved to the Testing_Selenium package
+Selenium       0.1.4    perhaps moved to PEAR's Testing_Selenium package?
 Services_JSON  CVS 1.31 http://pear.php.net/pepr/pepr-proposal-show.php?id=198
 SimpleTest     1.0      http://www.lastcraft.com/simple_test.php
 Smarty         2.6.14   http://smarty.php.net/                                        local changes
