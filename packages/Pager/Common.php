@@ -33,7 +33,7 @@
  * @author     Richard Heyes <richard@phpguru.org>
  * @copyright  2003-2006 Lorenzo Alberton, Richard Heyes
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: Common.php,v 1.55 2006/06/07 11:33:00 quipo Exp $
+ * @version    CVS: $Id: Common.php,v 1.60 2007/07/29 08:10:34 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -42,8 +42,9 @@
  * when the user doesn't set any other value
  */
 if (substr($_SERVER['PHP_SELF'], -1) == '/') {
+    $http = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
     define('CURRENT_FILENAME', '');
-    define('CURRENT_PATHNAME', 'http://'.$_SERVER['HTTP_HOST'].str_replace('\\', '/', $_SERVER['PHP_SELF']));
+    define('CURRENT_PATHNAME', $http.$_SERVER['HTTP_HOST'].str_replace('\\', '/', $_SERVER['PHP_SELF']));
 } else {
     define('CURRENT_FILENAME', preg_replace('/(.*)\?.*/', '\\1', basename($_SERVER['PHP_SELF'])));
     define('CURRENT_PATHNAME', str_replace('\\', '/', dirname($_SERVER['PHP_SELF'])));
@@ -199,6 +200,12 @@ class Pager_Common
      * @access private
      */
     var $_attributes  = '';
+    
+    /**
+     * @var string onclick
+     * @access private
+     */
+    var $_onclick = '';
 
     /**
      * @var string alt text for "first page" (use "%d" placeholder for page number)
@@ -445,6 +452,7 @@ class Pager_Common
         'expanded',
         'accesskey',
         'attributes',
+        'onclick',
         'separator',
         'spacesBeforeSeparator',
         'spacesAfterSeparator',
@@ -475,7 +483,7 @@ class Pager_Common
 
     // }}}
     // {{{ build()
-    
+
     /**
      * Generate or refresh the links and paged data after a call to setOptions()
      *
@@ -483,9 +491,29 @@ class Pager_Common
      */
     function build()
     {
-        $msg = '<b>PEAR::Pager Error:</b>'
-              .' function "build()" not implemented.';
-        return $this->raiseError($msg, ERROR_PAGER_NOT_IMPLEMENTED);
+        //reset
+        $this->_pageData = array();
+        $this->links = '';
+
+        $this->_generatePageData();
+        $this->_setFirstLastText();
+
+        if ($this->_totalPages > (2 * $this->_delta + 1)) {
+            $this->links .= $this->_printFirstPage();
+        }
+
+        $this->links .= $this->_getBackLink();
+        $this->links .= $this->_getPageLinks();
+        $this->links .= $this->_getNextLink();
+
+        $this->linkTags .= $this->_getFirstLinkTag();
+        $this->linkTags .= $this->_getPrevLinkTag();
+        $this->linkTags .= $this->_getNextLinkTag();
+        $this->linkTags .= $this->_getLastLinkTag();
+
+        if ($this->_totalPages > (2 * $this->_delta + 1)) {
+            $this->links .= $this->_printLastPage();
+        }
     }
 
     // }}}
@@ -752,11 +780,16 @@ class Pager_Common
             } else {
                 $href = str_replace('%d', $this->_linkData[$this->_urlVar], $this->_fileName);
             }
-            return sprintf('<a href="%s"%s%s%s title="%s">%s</a>',
+            $onclick = '';
+            if (array_key_exists($this->_urlVar, $this->_linkData)) {
+                $onclick = str_replace('%d', $this->_linkData[$this->_urlVar], $this->_onclick);
+            }
+            return sprintf('<a href="%s"%s%s%s%s title="%s">%s</a>',
                            htmlentities($this->_url . $href),
                            empty($this->_classString) ? '' : ' '.$this->_classString,
                            empty($this->_attributes)  ? '' : ' '.$this->_attributes,
                            empty($this->_accesskey)   ? '' : ' accesskey="'.$this->_linkData[$this->_urlVar].'"',
+                           empty($onclick)            ? '' : ' onclick="'.$onclick.'"',
                            $altText,
                            $linkText
             );
@@ -894,14 +927,14 @@ class Pager_Common
                 $qs = $_GET;
             }
         }
-        if (count($this->_extraVars)){
-            $this->_recursive_urldecode($this->_extraVars);
-        }
-        $qs = array_merge($qs, $this->_extraVars);
         foreach ($this->_excludeVars as $exclude) {
             if (array_key_exists($exclude, $qs)) {
                 unset($qs[$exclude]);
             }
+        }
+        if (count($this->_extraVars)){
+            $this->_recursive_urldecode($this->_extraVars);
+            $qs = array_merge($qs, $this->_extraVars);
         }
         if (count($qs) && get_magic_quotes_gpc()){
             $this->_recursive_stripslashes($qs);
@@ -1390,7 +1423,7 @@ class Pager_Common
             if (strncasecmp($this->_fileName, 'javascript', 10) != 0) {
                 $this->_url .= '/';
             }
-            if (!strstr($this->_fileName, '%d')) {
+            if (strpos($this->_fileName, '%d') === false) {
                 trigger_error($this->errorMessage(ERROR_PAGER_INVALID_USAGE), E_USER_WARNING);
             }
         }

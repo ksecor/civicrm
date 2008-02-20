@@ -32,7 +32,7 @@
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @copyright  2003-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: HtmlWidgets.php,v 1.1 2006/03/08 15:22:42 quipo Exp $
+ * @version    CVS: $Id: HtmlWidgets.php,v 1.3 2007/01/25 19:06:35 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -71,6 +71,8 @@ class Pager_HtmlWidgets
      *                - 'attributes': (html attributes) Tag attributes or
      *                  HTML attributes (id="foo" pairs), will be inserted in the
      *                  <select> tag
+     *                - 'checkMaxLimit': if true, Pager checks if $end is bigger
+     *                  than $totalItems, and doesn't show the extra select options
      * @return string xhtml select box
      * @access public
      */
@@ -79,6 +81,7 @@ class Pager_HtmlWidgets
         // FIXME: needs POST support
         $optionText = '%d';
         $attributes = '';
+        $checkMaxLimit = false;
         if (is_string($extraParams)) {
             //old behavior, BC maintained
             $optionText = $extraParams;
@@ -88,6 +91,9 @@ class Pager_HtmlWidgets
             }
             if (array_key_exists('attributes', $extraParams)) {
                 $attributes = $extraParams['attributes'];
+            }
+            if (array_key_exists('checkMaxLimit', $extraParams)) {
+                $checkMaxLimit = $extraParams['checkMaxLimit'];
             }
         }
 
@@ -105,20 +111,26 @@ class Pager_HtmlWidgets
         } else {
             $selected = $this->pager->_perPage;
         }
+        
+        if ($checkMaxLimit && $this->pager->_totalItems > 0 && $this->pager->_totalItems < $end) {
+            $end = $this->pager->_totalItems;
+        }
 
         $tmp = '<select name="'.$this->pager->_sessionVar.'"';
         if (!empty($attributes)) {
             $tmp .= ' '.$attributes;
         }
         $tmp .= '>';
+        $last = $start;
         for ($i=$start; $i<=$end; $i+=$step) {
+            $last = $i;
             $tmp .= '<option value="'.$i.'"';
             if ($i == $selected) {
                 $tmp .= ' selected="selected"';
             }
             $tmp .= '>'.sprintf($optionText, $i).'</option>';
         }
-        if ($showAllData && $end < $this->pager->_totalItems) {
+        if ($showAllData && $last != $this->pager->_totalItems) {
             $tmp .= '<option value="'.$this->pager->_totalItems.'"';
             if ($this->pager->_totalItems == $selected) {
                 $tmp .= ' selected="selected"';

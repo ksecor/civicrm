@@ -33,7 +33,7 @@
  * @author     Richard Heyes <richard@phpguru.org>,
  * @copyright  2003-2006 Lorenzo Alberton, Richard Heyes
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id: Jumping.php,v 1.12 2006/04/18 20:01:47 quipo Exp $
+ * @version    CVS: $Id: Jumping.php,v 1.14 2007/07/29 08:13:02 quipo Exp $
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -72,33 +72,6 @@ class Pager_Jumping extends Pager_Common
             return $this->raiseError($this->errorMessage($err), $err);
         }
         $this->build();
-    }
-
-    // }}}
-    // {{{ build()
-
-    /**
-     * Generate or refresh the links and paged data after a call to setOptions()
-     *
-     * @access public
-     */
-    function build()
-    {
-        //reset
-        $this->_pageData = array();
-        $this->links = '';
-
-        $this->_generatePageData();
-        $this->_setFirstLastText();
-
-        $this->links .= $this->_getBackLink();
-        $this->links .= $this->_getPageLinks();
-        $this->links .= $this->_getNextLink();
-
-        $this->linkTags .= $this->_getFirstLinkTag();
-        $this->linkTags .= $this->_getPrevLinkTag();
-        $this->linkTags .= $this->_getNextLinkTag();
-        $this->linkTags .= $this->_getLastLinkTag();
     }
 
     // }}}
@@ -188,13 +161,14 @@ class Pager_Jumping extends Pager_Common
         }
 
         if (!is_null($pageID)) {
-            $_sav = $this->_currentPage;
-            $this->_currentPage = $pageID;
-
             $this->links = '';
             if ($this->_totalPages > $this->_delta) {
                 $this->links .= $this->_printFirstPage();
             }
+
+            $_sav = $this->_currentPage;
+            $this->_currentPage = $pageID;
+
             $this->links .= $this->_getBackLink('', $back_html);
             $this->links .= $this->_getPageLinks();
             $this->links .= $this->_getNextLink('', $next_html);
