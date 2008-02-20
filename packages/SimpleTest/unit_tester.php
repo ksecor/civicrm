@@ -3,7 +3,7 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id: unit_tester.php,v 1.40 2006/11/15 21:45:26 maugrim_t_r Exp $
+     *	@version	$Id: unit_tester.php,v 1.41 2007/07/04 00:42:05 lastcraft Exp $
      */
 
     /**#@+
@@ -398,15 +398,13 @@
          */
         function _coerceExpectation($expected) {
             if ($expected == false) {
-                return new AnythingExpectation();
+                return new TrueExpectation();
             }
             if (SimpleTestCompatibility::isA($expected, 'SimpleExpectation')) {
                 return $expected;
             }
-			if(is_string($expected)) {
-				$expected = str_replace('%', '%%', $expected);
-			}
-            return new EqualExpectation($expected);
+            return new EqualExpectation(
+                    is_string($expected) ? str_replace('%', '%%', $expected) : $expected);
         }
 
         /**

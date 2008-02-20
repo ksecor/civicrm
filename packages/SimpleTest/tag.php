@@ -3,7 +3,7 @@
      *	Base include file for SimpleTest.
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id: tag.php,v 1.95 2006/02/05 00:34:29 lastcraft Exp $
+     *	@version	$Id: tag.php,v 1.96 2007/07/11 00:27:08 lastcraft Exp $
      */
      
     /**#@+
@@ -147,6 +147,32 @@
          */
         function isId($id) {
             return ($this->getAttribute('id') == $id);
+        }
+    }
+    
+    /**
+     *    Base url.
+	 *    @package SimpleTest
+	 *    @subpackage WebTester
+     */
+    class SimpleBaseTag extends SimpleTag {
+        
+        /**
+         *    Starts with a named tag with attributes only.
+         *    @param hash $attributes    Attribute names and
+         *                               string values.
+         */
+        function SimpleBaseTag($attributes) {
+            $this->SimpleTag('base', $attributes);
+        }
+
+		/**
+		 *    Base tag is not a block tag.
+		 *    @return boolean		false
+		 *    @access public
+		 */
+        function expectEndTag() {
+            return false;
         }
     }
     

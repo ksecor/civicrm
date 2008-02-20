@@ -3,7 +3,7 @@
      *	Global state for SimpleTest and kicker script in future versions.
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id: simpletest.php,v 1.13 2006/11/20 19:17:06 lastcraft Exp $
+     *	@version	$Id: simpletest.php,v 1.21 2007/07/07 00:31:03 lastcraft Exp $
      */
 
     /**#@+
@@ -14,12 +14,15 @@
     } else {
         require_once(dirname(__FILE__) . '/reflection_php4.php');
     }
+    require_once(dirname(__FILE__) . '/default_reporter.php');
+    require_once(dirname(__FILE__) . '/compatibility.php');
     /**#@-*/
 
     /**
      *    Registry and test context. Includes a few
      *    global options that I'm slowly getting rid of.
      *	  @package	SimpleTest
+     *    @subpackage	UnitTester
      */
     class SimpleTest {
 
@@ -73,6 +76,45 @@
                     }
                 }
             }
+        }
+
+        /**
+         *   Puts the object to the global pool of 'preferred' objects
+         *   which can be retrieved with SimpleTest :: preferred() method.
+         *   Instances of the same class are overwritten.
+         *   @param object $object      Preferred object
+         *   @static
+         *   @access public
+         *   @see preferred()
+         */
+        function prefer(&$object) {
+            $registry = &SimpleTest::_getRegistry();
+            $registry['Preferred'][] = &$object;
+        }
+
+        /**
+         *   Retrieves 'preferred' objects from global pool. Class filter
+         *   can be applied in order to retrieve the object of the specific
+         *   class
+         *   @param array|string $classes       Allowed classes or interfaces.
+         *   @static
+         *   @access public
+         *   @return array|object|null
+         *   @see prefer()
+         */
+        function &preferred($classes) {
+            if (! is_array($classes)) {
+                $classes = array($classes);
+            }
+            $registry = &SimpleTest::_getRegistry();
+            for ($i = count($registry['Preferred']) - 1; $i >= 0; $i--) {
+                foreach ($classes as $class) {
+                    if (SimpleTestCompatibility::isA($registry['Preferred'][$i], $class)) {
+                        return $registry['Preferred'][$i];
+                    }
+                }
+            }
+            return null;
         }
 
         /**
@@ -196,7 +238,8 @@
                     'IgnoreList' => array(),
                     'DefaultProxy' => false,
                     'DefaultProxyUsername' => false,
-                    'DefaultProxyPassword' => false);
+                    'DefaultProxyPassword' => false,
+                    'Preferred' => array(new HtmlReporter(), new TextReporter(), new XmlReporter()));
         }
     }
 
@@ -236,7 +279,7 @@
         /**
          *    Accessor for currently running test case.
          *    @return SimpleTestCase    Current test.
-         *    @acess pubic
+         *    @access public
          */
         function &getTest() {
             return $this->_test;
@@ -257,7 +300,7 @@
         /**
          *    Accessor for current reporter.
          *    @return SimpleReporter    Current reporter.
-         *    @acess pubic
+         *    @access public
          */
         function &getReporter() {
             return $this->_reporter;
@@ -363,6 +406,8 @@
     }
 
     /**
+	 *	  @package SimpleTest
+	 *	  @subpackage UnitTester
      *    @deprecated
      */
     class SimpleTestOptions extends SimpleTest {
