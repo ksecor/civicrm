@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-13 13:14+0100\n"
+"POT-Creation-Date: 2008-02-20 10:49+0100\n"
 "PO-Revision-Date: 2007-06-10 20:32-0300\n"
 "Last-Translator: Creso Moraes <creso@enfoque.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -191,8 +191,9 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-msgid "Profile Fields"
-msgstr ""
+#, fuzzy
+msgid "Include Profile"
+msgstr "Incluir Grupo(s)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -1138,8 +1139,16 @@ msgid "Amounts"
 msgstr "Quantias"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-msgid "Custom Elements (%1)"
-msgstr "Elementos Customizados (%1)"
+#, fuzzy
+msgid "Include Profiles (%1)"
+msgstr "Incluir Grupo(s)"
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
+msgid "Include Profiles"
+msgstr "Incluir Grupo(s)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid ""
@@ -3129,24 +3138,47 @@ msgid "Join Date"
 msgstr "Data de Adesão"
 
 #: CRM/Member/Form/Membership.php
-msgid "Status Hold?"
-msgstr "Manter Status?"
+#, fuzzy
+msgid "Status Override?"
+msgstr "Sobrescrever Status?"
 
 #: CRM/Member/Form/Membership.php
 msgid "Record Membership Payment?"
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be the same or later than Join date"
+#, fuzzy
+msgid "Please select a membership type."
+msgstr "Selecione uma das afiliações"
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Start date must be the same or later than join date."
+msgstr "Data de inicio não pode ser menor do que a hora atual."
+
+#: CRM/Member/Form/Membership.php
+msgid "Start date must be set if end date is set."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be set if End date is set"
-msgstr ""
+#, fuzzy
+msgid "End date must be the same or later than start date."
+msgstr "Data Final deve vir depois da Data Inicial"
 
 #: CRM/Member/Form/Membership.php
-msgid "End date must be the same or later than Start date"
-msgstr ""
+#, fuzzy
+msgid "Please enter the join date."
+msgstr "Digite o Custo Real do Produto."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the status."
+msgstr "Digite o Custo Real do Produto."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the contribution."
+msgstr "Excluir Tipo de Contribuição"
 
 #: CRM/Member/Form/Membership.php
 msgid "Membership Confirmation and Receipt"
@@ -3173,8 +3205,9 @@ msgid "A membership confirmation and receipt has been sent to %1."
 msgstr ""
 
 #: CRM/Member/Form/MembershipRenewal.php
-msgid "Renewal Date"
-msgstr ""
+#, fuzzy
+msgid "Date Renewal Entered"
+msgstr "Título de Renovação"
 
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Record Renewal Payment?"
@@ -3813,11 +3846,6 @@ msgstr ""
 "1\">Administrar Perfis CiviCRM</a> se desejar revisar, modificar ou criar "
 "perfis. Assim, poderá voltar a qualquer tempo para selecionar ou atualizar "
 "os Perfis usados para esta página."
-
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Custom Page Elements"
-msgstr "Elementos de Página Customizados"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #, fuzzy
@@ -5111,6 +5139,14 @@ msgid "Configure membership sign-up and renewal options."
 msgstr "Configurar opções de inscrição e renovação de afiliação."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"Collect additional information from contributors by selecting CiviCRM Profile"
+"(s) to include in this contribution page."
+msgstr ""
+"Colha informação adicional de contribuintes selecionando Perfil ou Perfis do "
+"CiviCRM para incluir nesta página de contribuição."
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
 msgstr "Agradecimento e Recebimento"
 
@@ -5133,14 +5169,6 @@ msgid ""
 "Create a contribution widget which you and your supporters can embed in "
 "websites and blogs."
 msgstr ""
-
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid ""
-"Collect additional information from contributors by selecting CiviCRM Profile"
-"(s) to include in this contribution page."
-msgstr ""
-"Colha informação adicional de contribuintes selecionando Perfil ou Perfis do "
-"CiviCRM para incluir nesta página de contribuição."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -5607,8 +5635,7 @@ msgstr "Texto de rodapé opcional para tela de inscrição."
 msgid ""
 "Include additional fields on this registration form by configuring and "
 "selecting a CiviCRM Profile to be included at the top of the page "
-"(immediately after the introductory message). NOTE: If you are using PayPal "
-"Standard or Google Checkout - custom fields are not supported."
+"(immediately after the introductory message)."
 msgstr ""
 "Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo da "
 "mensagem introdutória."
@@ -5617,12 +5644,10 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Include additional fields on this registration form by configuring and "
-"selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: "
-"If you are using PayPal Standard or Google Checkout - custom fields are not "
-"supported."
+"selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
-"Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo da "
-"mensagem introdutória."
+"Colha informação adicional de contribuintes selecionando Perfil ou Perfis do "
+"CiviCRM para incluir nesta página de contribuição."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Confirmation Screen"
@@ -6657,6 +6682,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid ""
+"Renewing will add the normal membership period to the End Date of the "
+"previous period for members whose status is Current or Grace.\n"
+"        For Expired memberships, renewing will create a membership period "
+"commencing from the \"Date Renewal Entered\". This date can be adjusted -\n"
+"        including being set to the day after the previous End Date - if "
+"continuous membership is required."
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid "Status of this membership."
 msgstr ""
 
@@ -6743,10 +6778,14 @@ msgstr ""
 "EXEMPLO: Novo, Atual e Grace poderiam todos ser considerados \"atuais\"."
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
+#, fuzzy
 msgid ""
-"Is this status for use by administrative staff only? If checked, this status "
-"is never automatically assigned by CiviMember. EXAMPLE: This setting can be "
-"useful for special case statuses like \"Non-expiring\", \"Barred\" or "
+"Check this box if this status is for use by administrative staff only. If "
+"checked, this status is never automatically assigned by CiviMember. It is "
+"assigned to a contact's Membership by checking the <strong>Status Override</"
+"strong> flag when adding or editing the Membership record. Start and End "
+"Event settings are ignored for Administrator statuses. EXAMPLE: This setting "
+"can be useful for special case statuses like \"Non-expiring\", \"Barred\" or "
 "\"Expelled\", etc."
 msgstr ""
 "Este status é para uso exclusivo da equipe administrativa? Se marcada, esse "
@@ -6822,22 +6861,11 @@ msgstr ""
 "selecione outra data."
 
 #: templates/CRM/Member/Form/Membership.tpl
+#, fuzzy
 msgid ""
-"Membership status is set and updated automatically based on your configured "
-"membership status rules. Check this box if you want to bypass this process, "
-"and manually set a status for this membership. The selected status which "
-"will remain in force unless it is again modified on this screen."
-msgstr ""
-"O status de afiliação é definido e atualizado automaticamente, com base nas "
-"suas regras configuradas para status de afiliação. Marque esta caixa se "
-"quiser fazer um desvio nesse processo, e defina manualmente um status para "
-"esta afiliação. O status selecionado permanecerá em vigor a menos que seja "
-"novamente modificado nesta tela."
-
-#: templates/CRM/Member/Form/Membership.tpl
-msgid ""
-"If <strong>Status Hold?</strong> is checked, the selected status will be in "
-"in force (it will NOT be modified by the automated status update script)."
+"If <strong>Status Override</strong> is checked, the selected status will "
+"remain in force (it will NOT be modified by the automated status update "
+"script)."
 msgstr ""
 "Se estiver marcado <strong>Manter Status?</strong>, o status selecionado "
 "ficará em vigor (ou seja, NÃO será modificado pelo script automatizado para "
@@ -7349,6 +7377,48 @@ msgstr ""
 "Não há tipos de afiliação informados. Você pode <a href=\"%1\">adicionar um</"
 "a>."
 
+#~ msgid "Custom Elements (%1)"
+#~ msgstr "Elementos Customizados (%1)"
+
+#~ msgid "Status Hold?"
+#~ msgstr "Manter Status?"
+
+#~ msgid "Custom Page Elements"
+#~ msgstr "Elementos de Página Customizados"
+
+#, fuzzy
+#~ msgid ""
+#~ "Include additional fields on this registration form by configuring and "
+#~ "selecting a CiviCRM Profile to be included at the top of the page "
+#~ "(immediately after the introductory message). NOTE: If you are using "
+#~ "PayPal Standard or Google Checkout - custom fields are not supported."
+#~ msgstr ""
+#~ "Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo "
+#~ "da mensagem introdutória."
+
+#, fuzzy
+#~ msgid ""
+#~ "Include additional fields on this registration form by configuring and "
+#~ "selecting a CiviCRM Profile to be included at the bottom of the page. "
+#~ "NOTE: If you are using PayPal Standard or Google Checkout - custom fields "
+#~ "are not supported."
+#~ msgstr ""
+#~ "Selecione um Perfil CiviCRM a ser incluído no topo da página, logo abaixo "
+#~ "da mensagem introdutória."
+
+#~ msgid ""
+#~ "Membership status is set and updated automatically based on your "
+#~ "configured membership status rules. Check this box if you want to bypass "
+#~ "this process, and manually set a status for this membership. The selected "
+#~ "status which will remain in force unless it is again modified on this "
+#~ "screen."
+#~ msgstr ""
+#~ "O status de afiliação é definido e atualizado automaticamente, com base "
+#~ "nas suas regras configuradas para status de afiliação. Marque esta caixa "
+#~ "se quiser fazer um desvio nesse processo, e defina manualmente um status "
+#~ "para esta afiliação. O status selecionado permanecerá em vigor a menos "
+#~ "que seja novamente modificado nesta tela."
+
 #, fuzzy
 #~ msgid "Domain Information"
 #~ msgstr "Informação sobre Premium"
@@ -7770,9 +7840,6 @@ msgstr ""
 #~ msgid "Body in html format"
 #~ msgstr "Corpo no formato html"
 
-#~ msgid "Include Group(s)"
-#~ msgstr "Incluir Grupo(s)"
-
 #~ msgid "Exclude Group(s)"
 #~ msgstr "Excluir Grupo(s)."
 
@@ -7803,14 +7870,6 @@ msgstr ""
 
 #~ msgid "Upload Message"
 #~ msgstr "Carregar Mensagem"
-
-#, fuzzy
-#~ msgid ""
-#~ "Include additional fields on this registration form by configuring and "
-#~ "selecting a CiviCRM Profile to be included at the bottom of the page."
-#~ msgstr ""
-#~ "Colha informação adicional de contribuintes selecionando Perfil ou Perfis "
-#~ "do CiviCRM para incluir nesta página de contribuição."
 
 #~ msgid "Retry Mailing: %1"
 #~ msgstr "Tentar novamente o Mailing: %1"

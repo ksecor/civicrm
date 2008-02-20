@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-13 13:14+0100\n"
+"POT-Creation-Date: 2008-02-20 10:49+0100\n"
 "PO-Revision-Date: 2005-08-18 13:38+0200\n"
 "Last-Translator: hok kakada <hokkakada@khmeros.info>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -194,9 +194,10 @@ msgstr "ពិពណ៌នា"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php CRM/ACL/Page/ACL.php
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#: CRM/Contact/Form/Task/EmailCommon.php CRM/Core/BAO/UFGroup.php
-#: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php
-#: CRM/Grant/Form/Grant.php CRM/UF/Form/Preview.php
+#: CRM/Contact/Form/Location.php CRM/Contact/Form/Task/EmailCommon.php
+#: CRM/Core/BAO/UFGroup.php CRM/Core/SelectValues.php
+#: CRM/Custom/Form/Field.php CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
+#: CRM/UF/Form/Preview.php
 msgid "-select-"
 msgstr ""
 
@@ -1287,6 +1288,11 @@ msgstr ""
 msgid "Country"
 msgstr "ប្រទេស"
 
+#: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
+#: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
+msgid "- type first letter(s) -"
+msgstr ""
+
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 #, fuzzy
 msgid "Delete Location"
@@ -2274,7 +2280,11 @@ msgid "Server Url"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
-#: CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php
+msgid "Database check failed - the current database is not v1.9."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
+#: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
 msgstr ""
 
@@ -2629,13 +2639,14 @@ msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid ""
-"The Duplicate Matching rule has not been saved, because the rule is invalid. "
+"The Contact Matching rule has not been saved, because the rule is invalid. "
 "Rules should contain only valid field names, 'AND', 'OR' or parentheses."
 msgstr ""
 
 #: CRM/Admin/Form/DupeMatch.php
-msgid "The Duplicate Matching rule has been saved."
-msgstr ""
+#, fuzzy
+msgid "The Contact Matching rule has been saved."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Name can only consist of alpha-numeric characters"
@@ -3836,6 +3847,11 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
+#: CRM/Contact/Form/Address.php
+#, fuzzy
+msgid "Enter a valid country name."
+msgstr "សូម​បញ្ចូល​ឈ្មោះ​ត្រឹមត្រូវ​មួយ"
+
 #: CRM/Contact/Form/DeleteLocation.php
 #, fuzzy
 msgid "The location has been deleted."
@@ -3892,10 +3908,6 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "You do not have the necessary permission to edit this contact."
-msgstr ""
-
-#: CRM/Contact/Form/Edit.php templates/CRM/Contact/Form/Address/country.tpl
-msgid "- type first letter(s) -"
 msgstr ""
 
 #: CRM/Contact/Form/Edit.php
@@ -4064,7 +4076,8 @@ msgstr "ឈ្មោះ​ផ្ទះ​សម្បែង"
 
 #: CRM/Contact/Form/Individual.php
 msgid ""
-"First Name and Last Name OR an OpenID in the Primary Location should be set."
+"First Name and Last Name OR an email OR an OpenID in the Primary Location "
+"should be set."
 msgstr ""
 
 #: CRM/Contact/Form/Individual.php
@@ -5932,6 +5945,11 @@ msgstr "ចល័ត"
 #: CRM/Core/DAO/UFMatch.php
 msgid "Uf Name"
 msgstr ""
+
+#: CRM/Core/Error.php
+#, fuzzy
+msgid "Payment Processor Error message"
+msgstr "កែសម្រួល​ប្រភេទ​ទីតាំង"
 
 #: CRM/Core/Error.php
 msgid ""
@@ -8404,10 +8422,6 @@ msgid "Title not Set"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
-msgid "Database check failed - the current database is not v1.9."
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
 "Database check failed - it looks like you have already upgraded to the "
 "latest version of the database."
@@ -8418,84 +8432,103 @@ msgid "Database consistency check failed."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
-msgid "CiviCRM 2.0 Upgrade: Step One (Contact Upgrade)"
+msgid "CiviCRM 2.0 Upgrade: Step One (Database Cleanup)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
-"<p><strong>Note:</strong><br/>&nbsp;&nbsp;&nbsp;1. Make sure you have a "
-"current and complete backup of your CiviCRM database and codebase files "
-"before starting the upgrade process.<br/>&nbsp;&nbsp;&nbsp;2. The upgrade "
-"process may take a while depending on the size of your database.</p>\n"
-"<p>This process will upgrade your <strong>v1.9 CiviCRM database to v2.0 "
-"database.</strong></p>\n"
-"<p>This step will upgrade the contact records in your database.</p>"
+"<p><strong>This process will upgrade your v1.9 CiviCRM database to the v2.0 "
+"database format.</strong></p>\n"
+"<div class=\"messsages status\"><ul><li><strong>Make sure you have a current "
+"and complete backup of your CiviCRM database and codebase files before "
+"starting the upgrade process.</strong></li>\n"
+"<li>The upgrade process consists of 6 steps, and may take a while depending "
+"on the size of your database.</li>\n"
+"<li>You must complete all 6 steps to have a valid 2.0 database.</li></ul></"
+"div>\n"
+"<p>Step One will start with cleaning your database. Click <strong>Begin "
+"Upgrade</strong> to begin the process.</p>"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "Begin Upgrade"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php
+msgid "CiviCRM 2.0 Upgrade: Step Two (Contact Upgrade)"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step2.php
+msgid "<p>Step Two will upgrade the contact records in your database.</p>"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid ""
 "Database consistency check failed for step 2. FK constraint names not in the "
 "required format."
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "CiviCRM 2.0 Upgrade: Step Two (Location Data Upgrade)"
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "<p>This step will upgrade the location data in your database.</p>"
+#: CRM/Upgrade/TwoZero/Form/Step3.php
+msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
+msgid "<p>This step will upgrade the location data in your database.</p>"
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid ""
 "Database consistency check failed for step 3. FK constraint names not in the "
 "required format."
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid "CiviCRM 2.0 Upgrade: Step Three (Activity Upgrade)"
+#: CRM/Upgrade/TwoZero/Form/Step4.php
+msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step4.php
+#: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
 "Database consistency check failed for Step 4. Value missing in "
 "civicrm_custom_field for the column 'name'."
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "CiviCRM 2.0 Upgrade: Step Four (Custom Data Upgrade)"
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "This step will upgrade the custom section of your database."
+#: CRM/Upgrade/TwoZero/Form/Step5.php
+msgid "CiviCRM 2.0 Upgrade: Step Five (Custom Data Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
+msgid "This step will upgrade the custom section of your database."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid ""
 "Database consistency check failed for step 5. FK constraint names not in the "
 "required format."
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "CiviCRM 2.0 Upgrade: Step Five (Upgrade Miscellaneous Data)"
+#: CRM/Upgrade/TwoZero/Form/Step6.php
+msgid "CiviCRM 2.0 Upgrade: Step Six (Upgrade Miscellaneous Data)"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "<p>This step will upgrade the remaining data in your database.</p>"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step5.php
+#: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Finish Upgrade"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step6.php
+#: CRM/Upgrade/TwoZero/Form/Step7.php
 msgid "Database Upgrade to v2.0 Completed"
 msgstr ""
 
-#: CRM/Upgrade/TwoZero/Form/Step6.php
+#: CRM/Upgrade/TwoZero/Form/Step7.php
 msgid ""
-"<p>Your CiviCRM database has been successfully upgraded to v2.0. Thank you "
-"for using CiviCRM.</p>"
+"<p><strong>Your CiviCRM database has been successfully upgraded to v2.0.</"
+"strong></p>\n"
+"<p>Please be sure to follow the remaining steps in the <a href=\"%1\" target="
+"\"_blank\"><strong>Upgrade Instructions</strong></a>.</p>\n"
+"<p>Thank you for using CiviCRM.</p>"
 msgstr ""
 
 #: CRM/Utils/Address/USPS.php
@@ -10171,8 +10204,8 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 #, fuzzy
-msgid "Duplicate Matching Rule"
-msgstr "លុប"
+msgid "Contact Matching Rule"
+msgstr "ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid ""
@@ -10794,6 +10827,11 @@ msgstr ""
 #: templates/CRM/Profile/Form/Search.tpl templates/CRM/UF/Form/Group.tpl
 msgid "close section"
 msgstr ""
+
+#: templates/CRM/Contact/Form/CustomData.tpl
+#, fuzzy
+msgid "Attached File"
+msgstr "លុប"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "The name of the organization or entity which owns this CiviCRM domain."
@@ -12039,8 +12077,20 @@ msgid "Email Format Preference:"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
-msgid "Age :"
+msgid "Age"
 msgstr ""
+
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
+#, fuzzy
+msgid "%count year"
+msgid_plural "%count years"
+msgstr[0] "ប្រទេស"
+
+#: templates/CRM/Contact/Page/View/Tabbed.tpl
+#, fuzzy
+msgid "%count month"
+msgid_plural "%count months"
+msgstr[0] "រក​ព័ត៌មាន​ទំនាក់ទំនង"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Total Amount"
@@ -12858,10 +12908,6 @@ msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl templates/CRM/UF/Page/Group.tpl
 msgid "ID"
-msgstr ""
-
-#: templates/CRM/Group/Page/Group.tpl
-msgid "Child Groups"
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
@@ -14241,6 +14287,10 @@ msgstr ""
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Duplicate Matching Rule"
+#~ msgstr "លុប"
 
 #, fuzzy
 #~ msgid "CiviMail Domain Information"

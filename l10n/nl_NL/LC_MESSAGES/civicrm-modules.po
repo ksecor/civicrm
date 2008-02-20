@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-13 13:14+0100\n"
+"POT-Creation-Date: 2008-02-20 10:49+0100\n"
 "PO-Revision-Date: 2008-02-18 07:47-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
@@ -63,6 +63,10 @@ msgstr "ontvangstbewijs van 'naam'"
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Receipt From Email"
 msgstr "ontvangstbewijs van 'email'"
+
+#: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/Event.php
+msgid "Receipt Text"
+msgstr "Ontvangstbewijs Tekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -191,8 +195,9 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-msgid "Profile Fields"
-msgstr "profielvelden"
+#, fuzzy
+msgid "Include Profile"
+msgstr "inclusief groep(en)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -231,6 +236,11 @@ msgstr "Voer een geldige startdatum in."
 #, fuzzy
 msgid "End Date / Time"
 msgstr "Einddatum"
+
+#: CRM/Contribute/Form/ContributionPage/ThankYou.php
+#: CRM/Member/Form/Membership.php
+msgid "Receipt Message"
+msgstr "Ontvangstbewijs Bericht"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
@@ -661,10 +671,6 @@ msgstr "Cc ontvangstbewijs"
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Bcc Receipt"
 msgstr "Bcc Ontvangstbewijs"
-
-#: CRM/Contribute/DAO/ContributionPage.php
-msgid "Receipt Text"
-msgstr "Ontvangstbewijs Tekst"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 msgid "Honor Block Title"
@@ -1167,8 +1173,15 @@ msgstr "Bedrag"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #, fuzzy
-msgid "Custom Elements (%1)"
-msgstr "Specifieke elementen op de pagina"
+msgid "Include Profiles (%1)"
+msgstr "inclusief groep(en)"
+
+#: CRM/Contribute/Form/ContributionPage/Custom.php
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
+msgid "Include Profiles"
+msgstr "inclusief groep(en)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid ""
@@ -1286,10 +1299,6 @@ msgstr "Dank U pagina footer"
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "Email Receipt to Contributor?"
 msgstr "Email ontvangstbewijs naar de contributant?"
-
-#: CRM/Contribute/Form/ContributionPage/ThankYou.php
-msgid "Receipt Message"
-msgstr "Ontvangstbewijs Bericht"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 msgid "CC Receipt To"
@@ -3041,10 +3050,9 @@ msgid ""
 "To delete the membership type, all memberships of this type should be "
 "deleted."
 msgstr ""
-"<br>%2. Er zijn contacten met dit lidmaatschaptype. Met <a "
-"href=\"%1\">CiviMember >> Find Members</a> kunt U deze opzoeken. Om het type "
-"te kunnen verwijderen dient U alle lidmaatschappen van dit type te "
-"verwijderen."
+"<br>%2. Er zijn contacten met dit lidmaatschaptype. Met <a href=\"%1"
+"\">CiviMember >> Find Members</a> kunt U deze opzoeken. Om het type te "
+"kunnen verwijderen dient U alle lidmaatschappen van dit type te verwijderen."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
@@ -3280,7 +3288,7 @@ msgstr "In datum"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
-msgid "Status Hold?"
+msgid "Status Override?"
 msgstr "Status?"
 
 #: CRM/Member/Form/Membership.php
@@ -3289,16 +3297,38 @@ msgid "Record Membership Payment?"
 msgstr "Vorige lidmaatschappen"
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be the same or later than Join date"
+#, fuzzy
+msgid "Please select a membership type."
+msgstr "Selecteer een lidmaatschap "
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Start date must be the same or later than join date."
+msgstr "De startdatum kan niet in het verleden liggen"
+
+#: CRM/Member/Form/Membership.php
+msgid "Start date must be set if end date is set."
 msgstr ""
 
 #: CRM/Member/Form/Membership.php
-msgid "Start date must be set if End date is set"
-msgstr ""
+#, fuzzy
+msgid "End date must be the same or later than start date."
+msgstr "Einddatum moet na de startdatum liggen"
 
 #: CRM/Member/Form/Membership.php
-msgid "End date must be the same or later than Start date"
-msgstr ""
+#, fuzzy
+msgid "Please enter the join date."
+msgstr "Gelieve een geldig onderwerp in te voeren."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the status."
+msgstr "Gelieve een geldig onderwerp in te voeren."
+
+#: CRM/Member/Form/Membership.php
+#, fuzzy
+msgid "Please enter the contribution."
+msgstr "Verwijder bijdrage type"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
@@ -3332,7 +3362,7 @@ msgstr "Een email kwitantie van deze bijdrage is eveneens verstuurd naar %1"
 
 #: CRM/Member/Form/MembershipRenewal.php
 #, fuzzy
-msgid "Renewal Date"
+msgid "Date Renewal Entered"
 msgstr "Kwitantie tekst"
 
 #: CRM/Member/Form/MembershipRenewal.php
@@ -3985,11 +4015,6 @@ msgstr ""
 "aanmaken, die specifiek op Donateur-pagina's te gebruiken is. Klik <a href\"%"
 "1\">hier</a>, om Profielen te bekijken, wijzigen of aan te maken. (U kunt "
 "altijd het hier gebruikte Profiel aanpassen)"
-
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid "Custom Page Elements"
-msgstr "Specifieke elementen op de pagina"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #, fuzzy
@@ -5214,6 +5239,14 @@ msgid "Configure membership sign-up and renewal options."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"Collect additional information from contributors by selecting CiviCRM Profile"
+"(s) to include in this contribution page."
+msgstr ""
+"Verzamel aanvullende informatie over contributanten, door CiviCRM profielen "
+"in deze pagina op te nemen."
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Thank-you and Receipting"
 msgstr "Dank U en Kwitantie overzicht"
 
@@ -5236,14 +5269,6 @@ msgid ""
 "Create a contribution widget which you and your supporters can embed in "
 "websites and blogs."
 msgstr ""
-
-#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-msgid ""
-"Collect additional information from contributors by selecting CiviCRM Profile"
-"(s) to include in this contribution page."
-msgstr ""
-"Verzamel aanvullende informatie over contributanten, door CiviCRM profielen "
-"in deze pagina op te nemen."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -5662,8 +5687,7 @@ msgstr ""
 msgid ""
 "Include additional fields on this registration form by configuring and "
 "selecting a CiviCRM Profile to be included at the top of the page "
-"(immediately after the introductory message). NOTE: If you are using PayPal "
-"Standard or Google Checkout - custom fields are not supported."
+"(immediately after the introductory message)."
 msgstr ""
 "Kies een CiviCRM Profiel dat bovenaan een pagina moet komen te staan (onder "
 "de intro-tekst, en boven de rekening-informatie velden)"
@@ -5672,12 +5696,10 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Include additional fields on this registration form by configuring and "
-"selecting a CiviCRM Profile to be included at the bottom of the page. NOTE: "
-"If you are using PayPal Standard or Google Checkout - custom fields are not "
-"supported."
+"selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
-"Kies een CiviCRM Profiel dat bovenaan een pagina moet komen te staan (onder "
-"de intro-tekst, en boven de rekening-informatie velden)"
+"Verzamel aanvullende informatie over contributanten, door CiviCRM profielen "
+"in deze pagina op te nemen."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #, fuzzy
@@ -6706,6 +6728,16 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
+msgid ""
+"Renewing will add the normal membership period to the End Date of the "
+"previous period for members whose status is Current or Grace.\n"
+"        For Expired memberships, renewing will create a membership period "
+"commencing from the \"Date Renewal Entered\". This date can be adjusted -\n"
+"        including being set to the day after the previous End Date - if "
+"continuous membership is required."
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
 #, fuzzy
 msgid "Status of this membership."
 msgstr "Selecteer een lidmaatschap "
@@ -6786,9 +6818,12 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
-"Is this status for use by administrative staff only? If checked, this status "
-"is never automatically assigned by CiviMember. EXAMPLE: This setting can be "
-"useful for special case statuses like \"Non-expiring\", \"Barred\" or "
+"Check this box if this status is for use by administrative staff only. If "
+"checked, this status is never automatically assigned by CiviMember. It is "
+"assigned to a contact's Membership by checking the <strong>Status Override</"
+"strong> flag when adding or editing the Membership record. Start and End "
+"Event settings are ignored for Administrator statuses. EXAMPLE: This setting "
+"can be useful for special case statuses like \"Non-expiring\", \"Barred\" or "
 "\"Expelled\", etc."
 msgstr ""
 
@@ -6845,16 +6880,9 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
-"Membership status is set and updated automatically based on your configured "
-"membership status rules. Check this box if you want to bypass this process, "
-"and manually set a status for this membership. The selected status which "
-"will remain in force unless it is again modified on this screen."
-msgstr ""
-
-#: templates/CRM/Member/Form/Membership.tpl
-msgid ""
-"If <strong>Status Hold?</strong> is checked, the selected status will be in "
-"in force (it will NOT be modified by the automated status update script)."
+"If <strong>Status Override</strong> is checked, the selected status will "
+"remain in force (it will NOT be modified by the automated status update "
+"script)."
 msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
@@ -7336,6 +7364,40 @@ msgstr ""
 "Er is geen lidmaatschapstype aangemaakt. U kunt er een <a href=\"%1"
 "\">toevoegen</a>."
 
+#~ msgid "Profile Fields"
+#~ msgstr "profielvelden"
+
+#, fuzzy
+#~ msgid "Custom Elements (%1)"
+#~ msgstr "Specifieke elementen op de pagina"
+
+#, fuzzy
+#~ msgid "Status Hold?"
+#~ msgstr "Status?"
+
+#~ msgid "Custom Page Elements"
+#~ msgstr "Specifieke elementen op de pagina"
+
+#, fuzzy
+#~ msgid ""
+#~ "Include additional fields on this registration form by configuring and "
+#~ "selecting a CiviCRM Profile to be included at the top of the page "
+#~ "(immediately after the introductory message). NOTE: If you are using "
+#~ "PayPal Standard or Google Checkout - custom fields are not supported."
+#~ msgstr ""
+#~ "Kies een CiviCRM Profiel dat bovenaan een pagina moet komen te staan "
+#~ "(onder de intro-tekst, en boven de rekening-informatie velden)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Include additional fields on this registration form by configuring and "
+#~ "selecting a CiviCRM Profile to be included at the bottom of the page. "
+#~ "NOTE: If you are using PayPal Standard or Google Checkout - custom fields "
+#~ "are not supported."
+#~ msgstr ""
+#~ "Kies een CiviCRM Profiel dat bovenaan een pagina moet komen te staan "
+#~ "(onder de intro-tekst, en boven de rekening-informatie velden)"
+
 #, fuzzy
 #~ msgid "A receipt has been emailed to the contributor."
 #~ msgstr "Het ontvangstbewijs is per email verstuurd naar de contributant."
@@ -7694,10 +7756,6 @@ msgstr ""
 #~ msgstr "Vorm in HTML formaat"
 
 #, fuzzy
-#~ msgid "Include Group(s)"
-#~ msgstr "inclusief groep(en)"
-
-#, fuzzy
 #~ msgid "Exclude Group(s)"
 #~ msgstr "Exclusief groep(en)"
 
@@ -7727,14 +7785,6 @@ msgstr ""
 
 #~ msgid "Upload Message"
 #~ msgstr "Upload bericht"
-
-#, fuzzy
-#~ msgid ""
-#~ "Include additional fields on this registration form by configuring and "
-#~ "selecting a CiviCRM Profile to be included at the bottom of the page."
-#~ msgstr ""
-#~ "Verzamel aanvullende informatie over contributanten, door CiviCRM "
-#~ "profielen in deze pagina op te nemen."
 
 #~ msgid "Retry Mailing: %1"
 #~ msgstr "Nieuwe poging voor mailing : %1"
