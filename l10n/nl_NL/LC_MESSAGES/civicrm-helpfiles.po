@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2008-02-08 16:11-0800\n"
+"PO-Revision-Date: 2008-02-18 08:04-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1646,7 +1646,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Household Members' of that household"
-msgstr ""
+msgstr "Leden van dit huishouden"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "an organization"
@@ -1654,7 +1654,7 @@ msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Employees' of that organization"
-msgstr ""
+msgstr "Werknemers van de organisatie"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "an individual"
@@ -1662,7 +1662,7 @@ msgstr "een persoon"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Children' of that individual"
-msgstr ""
+msgstr "Kinderen van een persoon"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1684,6 +1684,10 @@ msgid ""
 "link it to to your contribution page as a \"custom page element\" (<a href="
 "\"%1\">Configure Online Contribution Pages</a>)."
 msgstr ""
+"<strong>CiviContribute</strong> - Als U informatie wilt verkrijgen met  "
+"online contribution pagina's, kunt U een profiel maken en dat linken aan uw "
+"pagina als een \"custom page element\" (<a href=\"%1\">Configure Online "
+"Contribution Pages</a>)."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid "site root"
@@ -1699,6 +1703,13 @@ msgid ""
 "using the 'gid' parameter. For example, the link to display a search and "
 "listings page for a Profile with ID = 3 would be:"
 msgstr ""
+"<strong>Contact Search and Listings</strong> - Als U een zoekmogelijkheid "
+"wilt aanbieden aan (een deel van) uw contacten, dan kunt U een profiel "
+"aanmaken met de gewenste zoekvelden en de gebruikers linken aan het pad van "
+"dat zoekscherm. Bij het aanmaken van de link dient U het betreffende profiel "
+"ID aan het eind van de querystring met de 'gid' parameter te zetten. "
+"Voorbeeld: de link voor het tonen van een zoek en lijstpagina voor een "
+"profiel met ID = 3 is:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1713,6 +1724,10 @@ msgid ""
 "strong> to edit their own contact info with a Profile using the following "
 "path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
+"<strong>Contact Edit Forms</strong> - Sta <strong>ingelogde "
+"gebruikers</strong> toe om hun eigen contactinformatie te wijzigen met een "
+"profiel <em>%1/%2</em>. (Het voorbeeld geeft een wijzigscherm voor profiel "
+"ID 3.)"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
