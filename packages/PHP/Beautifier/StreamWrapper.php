@@ -31,7 +31,7 @@
 * @link     http://pear.php.net/package/PHP_Beautifier
 * @link     http://beautifyphp.sourceforge.net
 * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
-* @version    Release: 0.1.11
+* @version    Release: 0.1.13
 */
 interface PHP_Beautifier_StreamWrapper_Interface {
     function stream_open($sPath, $sMode, $iOptions, &$sOpenedPath);
