@@ -406,6 +406,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function isValid( $userID, $title, $register = false, $action = null ) 
     {
+        require_once 'CRM/Core/Controller/Simple.php';
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
@@ -423,7 +424,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             $group->domain_id = CRM_Core_Config::domainID( );
             
             if ( $group->find( true ) && $userID ) {
-                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic', ts('Dynamic Form Creator'), $action );
                 $controller->set( 'gid'     , $group->id );
                 $controller->set( 'id'      , $userID );
@@ -458,11 +458,11 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                                  $doNotProcess  = false,
                                  $ctype = null ) 
     {
+        require_once "CRM/Core/Controller/Simple.php";
         
         $session =& CRM_Core_Session::singleton( );
 
         if ( $register ) {
-            require_once "CRM/Core/Controller/Simple.php";
             $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
                                                            ts('Dynamic Form Creator'),
                                                            $action );
@@ -515,7 +515,6 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     }
                 }
 
-                require_once 'CRM/Core/Controller/Simple.php';
                 $controller =& new CRM_Core_Controller_Simple( 'CRM_Profile_Form_Dynamic',
                                                                ts('Dynamic Form Creator'),
                                                                $action );
