@@ -77,13 +77,12 @@
 }
 
 {literal}
-
 <script type="text/javascript">
 function checkPayment()
 {
-    document.getElementsByName('send_receipt')[0].checked = true;
     showHideByValue('record_contribution','','recordContribution','table-row','radio',false);
-    showHideByValue('send_receipt','','notice','table-row','radio',false);                                                                                                        
+    document.getElementsByName('send_receipt')[0].checked = true;
+    showHideByValue('send_receipt','','notice','table-row','radio',false);                                                                                                     
 }        
 </script>
 {/literal}
