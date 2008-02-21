@@ -1,3 +1,4 @@
+
 <?php
 /*
  +--------------------------------------------------------------------+
@@ -484,7 +485,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         // add participant record
         require_once 'CRM/Event/Form/Registration/Confirm.php';       
-        $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $form->_params, $contactID );
+        $participant  = $form->addParticipant( $form->_params, $contactID );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
         CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
