@@ -16,6 +16,8 @@ DTSTART;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
 {if $event.end_date}
 DTEND;VALUE=DATE-TIME:{$event.end_date|crmICalDate}
+{else}
+DTEND;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
 {if $event.is_show_location EQ 1 && $event.location}
 LOCATION:{$event.location|crmICalText}
