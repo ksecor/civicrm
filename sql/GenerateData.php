@@ -1278,85 +1278,72 @@ class CRM_GCD {
             $contacts[] = $contact->id;
         }
         shuffle($contacts);
-        $randomContacts = array_slice($contacts, 20, 25);
         
-        $membership = "
+        $randomContacts      = array_slice($contacts, 20, 30);
+        
+        $sources             = array( 'Payment', 'Donation', 'Check' );
+        $membershipTypes     = array( 2, 1 );
+        $membershipTypeNames = array( 'Student', 'General' );
+        $statuses            = array( 3, 4 );
+                
+        $membership = " 
 INSERT INTO civicrm_membership
         (contact_id, membership_type_id, join_date, start_date, end_date, source, status_id)
-VALUES
-        ( ". $randomContacts[0]  .", 1, '2006-01-21', '2006-01-21', '2006-12-21', 'Payment', 1),
-        ( ". $randomContacts[1]  .", 2, '2007-05-07', '2007-05-07', '2006-05-07', 'Donation', 1),
-        ( ". $randomContacts[2]  .", 1, '2007-05-05', '2007-05-05', '2006-05-10', 'Check', 1) ,
-        ( ". $randomContacts[3]  .", 1, '2007-10-21', '2007-10-21', '2006-10-22', 'Payment', 1),
-        ( ". $randomContacts[4]  .", 2, '2007-01-10', '2007-01-10', '2006-07-09', 'Donation', 1),
-        ( ". $randomContacts[5]  .", 2, '2007-03-05', '2007-03-05', '2007-12-04', 'Check', 1),
-        ( ". $randomContacts[6]  .", 1, '2006-07-21', '2006-07-21', '2007-01-20', 'Payment', 1),
-        ( ". $randomContacts[7]  .", 2, '2006-03-07', '2006-03-07', '2006-12-31', 'Donation', 1),
-        ( ". $randomContacts[8]  .", 3, '2007-02-05', '2007-02-05', '2006-02-10', 'Check', 1),
-        ( ". $randomContacts[9]  .", 1, '2007-02-01', '2007-02-01', '2006-02-10', 'Payment', 1),
-        ( ". $randomContacts[10]  .", 2, '2006-01-10','2006-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[11]  .", 3, '2006-03-06','2006-03-06', '2007-01-04', 'Check', 1),
-        ( ". $randomContacts[12]  .", 1, '2007-06-04', '2007-06-04', '2006-06-07', 'Payment', 1),
-        ( ". $randomContacts[13]  .", 2, '2004-01-10', '2004-01-10', '2007-02-09', 'Donation', 1),
-        ( ". $randomContacts[14]  .", 2, '2007-07-04', '2007-07-04', '2006-07-04', 'Check', 1),
-        ( ". $randomContacts[15]  .", 1, '2006-01-21', '2006-01-21', '2007-01-20', 'Payment', 1),
-        ( ". $randomContacts[16]  .", 2, '2007-01-10', '2007-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[17]  .", 3, '2006-03-05', '2006-03-05', '2007-11-04', 'Check', 1),
-        ( ". $randomContacts[18]  .", 1, '2007-10-21', '2007-10-21', '2006-01-20', 'Payment', 1),
-        ( ". $randomContacts[19]  .", 2, '2006-01-10', '2006-01-10', '2006-12-09', 'Donation', 1),
-        ( ". $randomContacts[20]  .", 2, '2007-03-25', '2007-03-25', '2006-03-26', 'Check', 1),
-        ( ". $randomContacts[21]  .", 1, '2006-10-21', '2006-10-21', '2006-11-20', 'Payment', 1),
-        ( ". $randomContacts[22]  .", 2, '2007-01-10', '2007-01-10', '2007-12-09', 'Donation', 1),
-        ( ". $randomContacts[23]  .", 2, '2007-03-11', '2007-03-11', '2006-01-04', 'Check', 1),
-        ( ". $randomContacts[24]  .", 3, '2007-04-05', '2007-04-05', '2006-01-04', 'Check', 1);
+VALUES 
 ";
-        $result = CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
-
-$query = "
+        $activity = "
 INSERT INTO civicrm_activity
-    (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
+        (source_contact_id, source_record_id, activity_type_id, subject, activity_date_time, duration, location, phone_id, phone_number, details, priority_id,parent_id, is_test, status_id)
 VALUES
-    ($randomContacts[0], 1, 7, 'General', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[1], 2, 7, 'Student', '2007-05-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[2], 3, 7, 'General', '2005-05-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[3], 4, 7, 'General', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[4], 5, 7, 'Student', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[5], 6, 7, 'Student', '2007-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[6], 7, 7, 'General', '2006-07-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[7], 8, 7, 'Student', '2006-03-07 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[8], 9, 7, 'Lifetime', '2007-02-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[9], 10, 7, 'General', '2007-02-01 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[10], 11, 7, 'Student', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[11], 12, 7, 'Lifetime', '2006-03-06 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[12], 13, 7, 'General', '2007-06-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[13], 14, 7, 'Student', '2004-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[14], 15, 7, 'Student', '2007-07-04 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[15], 16, 7, 'General', '2006-01-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[16], 17, 7, 'Student', '2007-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[17], 18, 7, 'Lifetime', '2006-03-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[18], 19, 7, 'General', '2007-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[19], 20, 7, 'Student', '2006-01-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[20], 21, 7, 'Student', '2007-03-25 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[21], 22, 7, 'General', '2006-10-21 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[22], 23, 7, 'Student', '2006-1-10 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[23], 24, 7, 'Student', '2007-03-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 ),
-    ($randomContacts[24], 25, 7, 'Lifetime', '2007-04-05 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )
-    ";
-        CRM_Core_DAO::executeQuery( $query, CRM_Core_DAO::$_nullArray );
+";
 
-        require_once 'CRM/Member/DAO/Membership.php';
-        require_once 'api/crm.php';
-        $membership = new CRM_Member_DAO_Membership();
-        $membership->query("SELECT id FROM civicrm_membership");
-        while ($membership->fetch()) {
-            $ids[]=$membership->id;
-            //update the status ids
-            $status = crm_calc_membership_status($membership->id);
-            /*if ($status) {
-                crm_update_contact_membership( array('id'        => $membership->id,
-                                                     'status_id' => $status['id']) );
-            }*/
+        foreach( $randomContacts as $count => $dontCare ) {
+            $source          = self::_getRandomElement($sources);
+            $acititySourceId = $count +1;
+            if (  ( ($count+1) % 11 == 0 ) ) {
+                // lifetime membership, status can be anything
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $membership .= "( {$randomContacts[$count]}, 3, '{$startDate}', '{$startDate}', null, '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'Lifetime', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else if ( ($count+1) % 5 == 0 ) {
+                // Grace or expired, memberhsip type is random of 1 & 2
+                $randId         = array_rand( $membershipTypes );
+                $membershipType = self::_getRandomElement($membershipTypes);
+                $startDate      = date( 'Y-m-d', mktime( 0, 0, 0, 
+                                                         date('m'), 
+                                                         ( date('d') - ($count*($randId+1)*($randId+1)*($randId+1) ) ), 
+                                                         ( date('Y') - ($randId+1) ) ) );
+                $partOfDate     = explode( '-', $startDate );
+                $endDate        = date( 'Y-m-d', mktime( 0, 0, 0, 
+                                                         $partOfDate[1], 
+                                                         ( $partOfDate[2] - 1 ),
+                                                         ( $partOfDate[0] + ($randId + 1) ) )  );
+                $membership .= "( {$randomContacts[$count]}, {$membershipType}, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', {$statuses[$randId]})";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, '{$membershipTypeNames[$randId]}', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else if ( ($count+1) % 2 == 0 ) {
+                // membership type 2
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $endDate   = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), ( date('Y') + 1) ) );
+                $membership .= "( {$randomContacts[$count]}, 2, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'Student', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            } else {
+                // membership type 1
+                $startDate = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), date('Y') ) );
+                $endDate   = date( 'Y-m-d', mktime( 0, 0, 0, date('m'), ( date('d') - $count ), ( date('Y') + 2) ) );
+                $membership .= "( {$randomContacts[$count]}, 1, '{$startDate}', '{$startDate}', '{$endDate}', '{$source}', 1)";
+                $activity   .= "( {$randomContacts[$count]}, {$acititySourceId}, 7, 'General', '{$startDate} 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 2 )";
+            }
+            
+            if ( $count != 29 ) {
+                $membership .= ",";
+                $activity   .= ",";
+            }
+            
         }
+            
+        CRM_Core_DAO::executeQuery( $membership, CRM_Core_DAO::$_nullArray );
+
+        CRM_Core_DAO::executeQuery( $activity,   CRM_Core_DAO::$_nullArray );
     }
 
     static function repairDate($date) {
