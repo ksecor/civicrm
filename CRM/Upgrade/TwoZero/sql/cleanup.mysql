@@ -130,3 +130,9 @@ LEFT JOIN civicrm_contribution cc  ON cc.id=pp.payment_entity_id
 WHERE (cc.id IS NULL AND pp.payment_entity_table='civicrm_contribution');
 
 
+-- clean civicrm_group_contact
+
+DELETE gc.*
+FROM civicrm_group_contact gc
+LEFT JOIN civicrm_contact cc ON cc.id = gc.contact_id
+WHERE cc.id IS NULL;
