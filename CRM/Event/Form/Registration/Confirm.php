@@ -311,73 +311,10 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $this->_params['item_name'         ] = $this->_params['description'];
         }
         $this->set( 'params', $this->_params );
-        $this->confirmPostProcess( $this, $contactID, $contribution, $payment);
+        $this->confirmPostProcess( $contactID, $contribution, $payment);
         
     } //end of function
     
-    /**
-     * Process the contribution
-     *
-     * @return void
-     * @access public
-     */
-    public function addParticipant( $params, $contactID ) 
-    {
-        require_once 'CRM/Core/Transaction.php';
-        $transaction = new CRM_Core_Transaction( );
-        
-        $domainID = CRM_Core_Config::domainID( );
-        $groupName = "participant_role";
-        $query = "
-SELECT  v.label as label ,v.value as value
-FROM   civicrm_option_value v, 
-       civicrm_option_group g 
-WHERE  v.option_group_id = g.id 
-  AND  g.domain_id       = $domainID 
-  AND  g.name            = %1 
-  AND  v.is_active       = 1  
-  AND  g.is_active       = 1  
-";
-        $p = array( 1 => array( $groupName , 'String' ) );
-               
-        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
-        if ( $dao->fetch( ) ) {
-            $roleID = $dao->value;
-        }
-        
-        $participantParams = array('contact_id'    => $contactID,
-                                   'event_id'      => $this->_id,
-                                   'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
-                                                                              $params, 1 ),
-                                   'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
-                                                                              $params, $roleID ),
-                                   'register_date' => isset( $params['participant_register_date'] ) ?
-                                   CRM_Utils_Date::format( $params['participant_register_date'] ) :
-                                   date( 'YmdHis' ),
-                                   'source'        => isset( $params['participant_source'] ) ?
-                                   $params['participant_source'] :
-                                   $params['description'],
-                                   'event_level'   => $params['amount_level']
-                                   );
-        
-        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
-            $participantParams['is_test'] = 1;
-        }
-
-        if ( $this->_params['note'] ) {
-            $participantParams['note'] = $this->_params['note'];
-        } else if ( $this->_params['participant_note'] ) {
-            $participantParams['note'] = $this->_params['participant_note'];
-        }
-        
-        $ids = array();
-        $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
-        
-        $transaction->commit( );
-        
-        return $participant;
-    }
-
     /**
      * Process the contribution
      *

@@ -448,7 +448,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
             CRM_Event_Form_Registration_Confirm::fixLocationFields( $this->_params, $fields );
             $contactID =& CRM_Event_Form_Registration_Confirm::updateContactFields( $contactID, $this->_params, $fields );
 
-            $this->confirmPostProcess( $this, $contactID );
+            $this->confirmPostProcess( $contactID );
             $this->set( 'params', $this->_params );
         }
     }//end of function
