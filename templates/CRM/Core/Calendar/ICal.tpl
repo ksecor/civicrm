@@ -12,7 +12,7 @@ DESCRIPTION:{$event.description|crmICalText}
 CATEGORIES:{$event.event_type|crmICalText}
 {/if}
 {if $event.start_date}
-DTSTART:VALUE=DATE-TIME:{$event.start_date|crmICalDate}
+DTSTART;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
 {if $event.end_date}
 DTEND;VALUE=DATE-TIME:{$event.end_date|crmICalDate}
