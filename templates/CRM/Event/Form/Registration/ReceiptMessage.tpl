@@ -74,7 +74,9 @@
 {ts}Total Amount{/ts}     : {$amount|crmMoney} {if $amount_level && !$lineItem} - {$amount_level} {/if}
 
 {ts}Transaction Date{/ts} : {$receive_date|crmDate}
+{if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
+{/if}
 {if $contributeMode ne 'notify'}
 
 ===========================================================
@@ -85,7 +87,7 @@
 {$address}
 {/if}
 
-{if $contributeMode eq 'direct'}
+{if $contributeMode eq 'direct' and !$isAmountzero}
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}
 

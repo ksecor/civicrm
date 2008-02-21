@@ -85,7 +85,10 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'lineItem', $this->_lineItem );
-        
+
+        if( $this->_params['amount'] == 0 ) {
+            $this->assign( 'isAmountzero', 1 );
+        }
         $defaults = array( );
         $fields   = array( );
         if( ! empty($this->_fields) ) {

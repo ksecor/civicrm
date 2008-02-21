@@ -179,7 +179,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
         $this->buildCustom( $this->_values['custom_post_id'], 'customPost' );
 
         $this->assign( 'lineItem', $this->_lineItem );
-
+        if( $this->_params['amount'] == 0 ) {
+            $this->assign( 'isAmountzero', 1 );
+        }
         if ( $this->_paymentProcessor['payment_processor_type'] == 'Google_Checkout' && 
              ! CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ) {
             $this->_checkoutButtonName = $this->getButtonName( 'next', 'checkout' );
@@ -272,10 +274,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $pending = false;
             $result  = null;
             if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
-                 $this->_contributeMode == 'checkout'                     ||
-                 $this->_contributeMode == 'notify' ) {
-                $pending = true;
-                $this->_params['participant_status_id'] = 5; // pending
+                 $this->_params['amount'] == 0                            || 
+                 $this->_contributeMode   == 'checkout'                   ||
+                 $this->_contributeMode   == 'notify' ) {
+                if ( $this->_params['amount'] != 0 ) {
+                    $pending = true;
+                    $this->_params['participant_status_id'] = 5; // pending
+                }
             } else if ( $this->_contributeMode == 'express' ) {
                 $result =& $payment->doExpressCheckout( $this->_params );
             } else {
@@ -302,8 +307,9 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
 
             // if paid event add a contribution record
-            $contribution =& $this->processContribution( $this->_params, $result, $contactID, $pending );
-
+            if( $params['amount'] != 0 ) {
+                $contribution =& $this->processContribution( $this->_params, $result, $contactID, $pending );
+            }
             $this->_params['contactID']          = $contactID;
             $this->_params['eventID']            = $this->_id;
             $this->_params['contributionID'    ] = $contribution->id;

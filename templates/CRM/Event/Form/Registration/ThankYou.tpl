@@ -48,7 +48,7 @@
     <div class="display-block">
         {if $lineItem}
             {include file="CRM/Event/Form/Registration/LineItem.tpl}<br />
-        {elseif $amount}
+        {elseif $amount || $amount == 0}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong><br />
         {/if}
         {ts}Transaction Date{/ts}: <strong>{$receive_date|crmDate}</strong><br />
@@ -88,7 +88,7 @@
     </div>
     {/if}
 
-    {if $contributeMode eq 'direct' and $paidEvent and ! $is_pay_later}
+    {if $contributeMode eq 'direct' and $paidEvent and ! $is_pay_later and !$isAmountzero}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>

@@ -18,14 +18,14 @@
     <div class="display-block">
          {include file="CRM/Event/Form/Registration/EventInfoBlock.tpl"}
     </div>
-    {if $paidEvent}
+    {if $paidEvent} 
     <div class="header-dark">
         {$event.fee_label}
     </div>
     <div class="display-block">
         {if $lineItem}
             {include file="CRM/Event/Form/Registration/LineItem.tpl}
-        {elseif $amount}
+        {elseif $amount || $amount == 0}
             <strong>{$amount|crmMoney} {if $amount_level } - {$amount_level} {/if}</strong>
         {/if}
     </div>
@@ -63,7 +63,7 @@
     {/if}
     
     {if $contributeMode eq 'direct' and
-        ! $is_pay_later}
+        ! $is_pay_later and !$isAmountzero}
     <div class="header-dark">
         {ts}Credit or Debit Card Information{/ts}
     </div>

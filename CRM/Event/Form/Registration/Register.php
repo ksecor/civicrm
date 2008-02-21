@@ -164,6 +164,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         
         $session =& CRM_Core_Session::singleton( );
         $userID = $session->get( 'userID' );
+
         if ( ! $userID ) {
             $createCMSUser = false;
             if ( $this->_values['custom_pre_id'] ) {
@@ -292,7 +293,7 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
     {
         //To check if the user is already registered for the event(CRM-2426)
         self::checkRegistration($fields, $self);
-
+             
         if ( $self->_values['event']['is_monetary'] ) {
             $payment =& CRM_Core_Payment::singleton( $self->_mode, 'Event', $self->_paymentProcessor );
             $error   =  $payment->checkConfig( $self->_mode );
@@ -308,10 +309,17 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
                      CRM_Utils_Array::value( $self->_expressButtonName       , $fields ) ) {
                     return empty( $errors ) ? true : $errors;
                 }
+            } 
+            //validation for the user who attemp the amount value zero
+            //is an already member
+            $session =& CRM_Core_Session::singleton( );
+            $userID  = $session->get( 'userID' );
+            if( !$userID && CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$fields['amount'], 'value', 'id' ) == 0 ) {
+                $errors['amount'] =  ts("The Zero amount facility is only for the valid members" );
             }
 
             // also return if paylater mode
-            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) ) {
+            if ( CRM_Utils_Array::value( 'is_pay_later', $fields ) || (CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_OptionValue',$fields['amount'], 'value', 'id' ) == 0) ) {
                 return empty( $errors ) ? true : $errors;
             }
 

@@ -352,14 +352,16 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         $vars = array( 'amount', 'currencyID', 'credit_card_type', 
                        'trxn_id', 'amount_level', 'receive_date' );
-        
+     
         foreach ( $vars as $v ) {
-            if ( CRM_Utils_Array::value( $v, $this->_params ) ) {
+            if ( CRM_Utils_Array::value( $v, $this->_params ) ) { 
                 if ( $v == 'receive_date' ) {
-                     $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
+                    $this->assign( $v,  CRM_Utils_Date::mysqlToIso( $this->_params[$v] ) );
                 } else {
                     $this->assign( $v, $this->_params[$v] );
                 }
+            } else if ( $this->_params ['amount'] == 0 ) {
+                $this->assign( $v, $this->_params[$v] );
             }
         }
 
@@ -495,7 +497,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
 
    
-        if ( $form->_values['event']['is_monetary'] ) {
+        if ( $form->_values['event']['is_monetary'] && ( $form->_params['amount'] != 0 ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, ); 
@@ -507,20 +509,21 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         require_once "CRM/Event/BAO/EventPage.php";
 
         if ( $form->_contributeMode != 'notify' &&
-             $form->_contributeMode != 'checkout' ) {
+             $form->_contributeMode != 'checkout' ) { 
             $form->assign('action',$form->_action);
             CRM_Event_BAO_EventPage::sendMail( $contactID, $form->_values, $participant->id );
-        } else {
+        } else { 
             // do a transfer only if a monetary payment
             if ( $form->_values['event']['is_monetary'] ) {
                 $form->_params['participantID'] = $participant->id;
-                if ( ! $form->_params['is_pay_later'] ) {
-                    $payment->doTransferCheckout( $form->_params );
+                if ( $form->_params['amount'] != 0 ) {
+                    if ( ! $form->_params['is_pay_later'] ) {
+                        $payment->doTransferCheckout( $form->_params );
+                    }
                 }
             }
         }
     }
-    
 }
 
 ?>
