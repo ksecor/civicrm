@@ -154,6 +154,13 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
                           $includeContactIds = false,
                           $searchDescendentGroups = true )
     {
+        //don't build query constructor, if form is not submitted
+        $force   = CRM_Utils_Request::retrieve( 'force', 'Boolean',
+                                                CRM_Core_DAO::$_nullObject );
+        if ( empty( $formValues) && !$force ) {
+            return;
+        }
+
         //object of BAO_Contact_Individual for fetching the records from db
         $this->_contact =& new CRM_Contact_BAO_Contact();
 
@@ -188,8 +195,8 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
         }
         
         $this->_query   =& new CRM_Contact_BAO_Query( $this->_params,
-            $this->_returnProperties, null, $includeContactIds,
-            false, 1, false, $searchDescendentGroups );
+                                                      $this->_returnProperties, null, $includeContactIds,
+                                                      false, 1, false, $searchDescendentGroups );
         $this->_options =& $this->_query->_options;
     }//end of constructor
 
