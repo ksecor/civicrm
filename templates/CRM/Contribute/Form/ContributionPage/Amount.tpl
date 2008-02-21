@@ -23,10 +23,10 @@
             <span class="description">{ts}Check this box if you want to give users the option to submit payment offline (e.g. mail in a check, call in a credit card, etc.).{/ts}</span></td></tr>
         <tr id="payLaterFields"><td>&nbsp;</td><td>
             <table class="form-layout-compressed">
-                <tr><th scope="row" class="label">{$form.pay_later_text.label}</th>
+                <tr><th scope="row" class="label">{$form.pay_later_text.label} <span class="marker" title="This field is required.">*</span></th>
                 <td>{$form.pay_later_text.html|crmReplace:class:big}<br />
                     <span class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</span></td></tr> 
-                <tr><th scope="row" class="label">{$form.pay_later_receipt.label}</th>
+                <tr><th scope="row" class="label">{$form.pay_later_receipt.label} <span class="marker" title="This field is required.">*</span></th>
                 <td>{$form.pay_later_receipt.html|crmReplace:class:big}<br />
                     <span class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the "pay later" option (e.g. "Mail your check to ... within 3 business days.").{/ts}</span></td></tr>
             </table>
