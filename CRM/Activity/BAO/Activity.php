@@ -587,12 +587,14 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
         $mailing   = & new CRM_Mailing_BAO_Mailing();
         $details   = $mailing->getDetails($contactIds, $returnProperties );
         
-        require_once 'api/Contact.php';
+        require_once 'api/v2/Contact.php';
         foreach ( $contactIds as $contactId ) {
             // replace contact tokens
             $params  = array( 'contact_id' => $contactId );
-            $contact =& crm_fetch_contact( $params );
-            if ( is_a( $contact, 'CRM_Core_Error' ) ) {
+            //$contact =& crm_fetch_contact( $params );
+            $contact = civicrm_contact_get( $params );
+            
+            if ( civicrm_error( $contact ) ) {
                 $notSent[] = $contactId;
                 continue;
             }
