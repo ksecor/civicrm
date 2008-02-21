@@ -29,6 +29,7 @@ Net_UserAgent_Detect          2.4.0
 Pager                         2.4.4
 PEAR                          1.7.1
 PHP_Beautifier                0.1.13     [beta]
+System_Command                1.0.6
 Text_Password                 1.1.0
 Text_CAPTCHA                  0.3.1      [alpha]
 Validate                      0.8.1      [beta]
