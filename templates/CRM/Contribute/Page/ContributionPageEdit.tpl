@@ -34,6 +34,7 @@
     <td>
         {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
         {ts}Enable recurring contributions.{/ts}
+        {ts}Give contributors the option to "pay later" (e.g. mail in a check, call in a credit card, etc.).{/ts}
     </td>
 </tr>
 {if $CiviMember}

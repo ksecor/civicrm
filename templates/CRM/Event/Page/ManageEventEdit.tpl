@@ -5,7 +5,7 @@
 <table class="report"> 
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=EventInfo"}" id="idEventInformationandSettings">&raquo; {ts}Event Information and Settings{/ts}</a></td>
-    <td>{ts}Set event title, type (conference, performance etc.), description, start and end dates, maximum number of participants, and activate the event.{/ts}</td>
+    <td>{ts}Set event title, type (conference, performance etc.), description, start and end dates, maximum number of participants, and activate the event. Enable the public participant listing feature.{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Location"}" id="idLocation">&raquo; {ts}Event Location{/ts}</a></td>
@@ -13,7 +13,7 @@
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Fee"}" id="idFee">&raquo; {ts}Event Fees{/ts}</a></td>
-    <td>{ts}Determine if the event is free or paid. For paid events, set the fee level(s) and contribution type assigned to fees.{/ts}</td>
+    <td>{ts}Determine if the event is free or paid. For paid events, set the fee level(s) and contribution type assigned to fees. Give online registrants the option to "pay later" (e.g. mail in a check, call in a credit card, etc.).{/ts}</td>
 </tr>
 <tr>
     <td class="nowrap"><a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=Registration"}" id="idRegistration">&raquo; {ts}Online Registration{/ts}</a></td>
@@ -27,10 +27,10 @@
 
 <tr>
 {if $participantListingURL}
-    <td class="nowrap"><a href="{$participantListingURL}" id="idParticipantListing">&raquo; {ts}Participant Listing{/ts}</a></td>
-    <td>{ts 1=$participantListingURL}You can view the participant listing for this event <a href="%1">here</a>{/ts}</td>
+    <td class="nowrap"><a href="{$participantListingURL}" id="idParticipantListing">&raquo; {ts}Public Participant Listing{/ts}</a></td>
+    <td>{ts 1=$participantListingURL}The following URL will display a list of registered participants for this event {if $config->userFramework EQ 'Drupal'} to users whose role includes "view event participants" permission{/if}: <a href="%1">%1</a>{/ts}</td>
 {else}
-    <td class="nowrap">&raquo; {ts}Participant Listing{/ts}</td>
+    <td class="nowrap">&raquo; {ts}Public Participant Listing{/ts}</td>
     <td>{ts}Participant Listing is not enabled for this event. You can enable it from{/ts} <a href="{crmURL q="reset=1&action=update&id=`$id`&subPage=EventInfo"}">{ts}Event Information and Settings{/ts}</a>.
 {/if}
 </tr>
