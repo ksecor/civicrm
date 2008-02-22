@@ -41,7 +41,12 @@ function &civicrm_group_add( &$params )
     if ( is_null( $params ) || !is_array( $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
-        
+    
+    if ( $groupType = CRM_Utils_Array::value( 'group_type', $params ) ) {
+        $groupType = explode( ',', $groupType );
+        $groupType = CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) . CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR;
+    }
+    
     $group = CRM_Contact_BAO_Group::create( $params );
     
     if ( is_null( $group ) ) {
