@@ -277,8 +277,7 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
             }
             if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
                 if ( $customFields[$customFieldID][2] == 'Date' ) {
-                    CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
-                    unset( $params[$key] );
+                    CRM_Import_Parser_Contact::formatCustomDate( $params, $params, $dateType, $key );
                 }
             }
         }

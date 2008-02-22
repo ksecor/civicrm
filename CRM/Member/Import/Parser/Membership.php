@@ -314,7 +314,6 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
         }
 
         $values    = array();
-        $formatted = array();
         
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {
