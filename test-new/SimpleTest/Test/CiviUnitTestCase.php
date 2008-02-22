@@ -545,19 +545,20 @@ class CiviUnitTestCase extends UnitTestCase {
      * Function to add a Group
      * 
      */ 
-    function groupCreate( ) {
-        $params = array(
-                        'name'        => 'Test Group 1',
-                        'domain_id'   => 1,
-                        'title'       => 'New Test Group Created',
-                        'description' => 'New Test Group Created',
-                        'is_active'   => 1,
-                        'visibility'  => 'Public User Pages and Listings',
-                        );
+    function groupCreate( $params = null ) {
+        if ( $params === null ) { 
+            $params = array(
+                            'name'        => 'Test Group 1',
+                            'domain_id'   => 1,
+                            'title'       => 'New Test Group Created',
+                            'description' => 'New Test Group Created',
+                            'is_active'   => 1,
+                            'visibility'  => 'Public User Pages and Listings',
+                            );
+        }
+        
         $result = civicrm_group_add( $params );
         
-        $this->assertEqual( $result['is_error'], 0 );
-        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
         return $result['result'];
     }    
     /** 

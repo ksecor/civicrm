@@ -9,9 +9,18 @@ require_once 'api/v2/Group.php';
 
 class TestOfGroupCreateAPIV2 extends CiviUnitTestCase 
 {
+    protected $_groupID;
     
     function setUp( ) 
     {
+        
+    }
+        
+    function tearDown( ) 
+    {
+        if ( $this->_groupID ) {
+            $this->groupDelete( $this->_groupID );
+        }
     }
     
     function testCreateGroupWithEmptyParams( )
@@ -20,7 +29,7 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $result = civicrm_group_add( $params );
 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Params is not an array');
+        $this->assertEqual( $result['error_message'], 'Required parameter missing');
     }    
 
     function testCreateGroupWithParamsNotArray( )
@@ -29,24 +38,22 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $result = civicrm_group_add( $params );
 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertNotEqual( $result['error_message'], 'Missing require fields ( title )' );
-        $this->assertEqual( $result['error_message'], 'Params is not an array' );
+        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
     }    
 
     function testCreateGroupParamsWithoutTitle( )
     {
         $params = array(
                         'domain_id'   => 1,
-                        'title'       => 'New Test Group Created',
                         'description' => 'New Test Group Created',
                         'is_active'   => 1,
                         'visibility'  => 'Public User Pages and Listings',
                         );
                 
         $result = civicrm_group_add( $params );
-
+        
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Required Group name' );
+        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
     }
     
     function testGroupCreate( )
@@ -54,34 +61,67 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $params = array(
                         'name'        => 'Test Group 1',
                         'domain_id'   => 1,
-                        'title'       => 'New Test Group Created',
+                        'title'       => 'test_group_1',
+                        'description' => 'New Test Group Created',
+                        'is_active'   => 1,
+                        'visibility'  => 'Public User Pages and Listings',
+                        'group_type'  => '1,2'
+                        );
+       
+        $result = civicrm_group_add( $params );
+        
+        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
+        $this->_groupID = $result['result'];
+    }
+    
+    function testCreateGroupWithoutGroupName( )
+    {
+        $params = array(
+                        'domain_id'   => 1,
+                        'title'       => 'Test Group 1',
                         'description' => 'New Test Group Created',
                         'is_active'   => 1,
                         'visibility'  => 'Public User Pages and Listings',
                         );
-       
+        
         $result = civicrm_group_add( $params );
-       
-        $this->assertEqual( $result['is_error'], 0 );
-        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
-        $params = array ( 'id' => $result['result'] );
-        
-        $this->groupDelete($params );
-    }
-    /**
-     * Group with custom data 
-     * ( will do this, once custom * v2 api are ready 
-         with all changed schema for custom data  )
-     */
-    function qtestGroupCreateWithCustomData( )
-    {         
-        
+        $this->assertEqual( $result['error_message'], 'Required parameter missing' );
+        $this->_groupID = $result['result'];
     }
     
-    function tearDown( ) 
+    function testUpdateGroupWithoutGroupName( )
     {
-        
+        $this->_groupID = $this->groupCreate();
+        $params = array(
+                        'domain_id'   => 1,
+                        'title'       => 'Test Group 1',
+                        'description' => 'New Test Group Updated',
+                        'is_active'   => 1,
+                        'visibility'  => 'Public User Pages and Listings',
+                        'id'          => $this->_groupID
+                        );
+           
+        $result = civicrm_group_add( $params );
+        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
+    }
+    
+    function testUpdateGroup( )
+    {
+        $this->_groupID = $this->groupCreate();
+        $params = array(
+                        'domain_id'   => 1,
+                        'name'        => 'Test Group 1',
+                        'title'       => 'New Test titleGroup updated',
+                        'description' => 'New Test description Group updated',
+                        'is_active'   => 1,
+                        'visibility'  => 'Public User Pages and Listings',
+                        'id'          => $this->_groupID
+                        );
+           
+        $result  = civicrm_group_add( $params );
+        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
     }
 }
-
 ?>

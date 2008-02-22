@@ -38,13 +38,19 @@ require_once 'api/v2/utils.php';
 
 function &civicrm_group_add( &$params )
 {
-    if ( is_null( $params ) || !is_array( $params ) ) {
+    if ( is_null( $params ) || !is_array( $params ) ||  empty ( $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
-    
+   
+    if ( ( ! CRM_Utils_Array::value('id', $params ) ) &&
+         ( ! CRM_Utils_Array::value('name', $params ) ) ) {
+        return civicrm_create_error( 'Required parameter missing' );
+    }
+        
     if ( $groupType = CRM_Utils_Array::value( 'group_type', $params ) ) {
         $groupType = explode( ',', $groupType );
-        $groupType = CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) . CRM_Custom_BAO_CustomOption::VALUE_SEPERATOR;
+        require_once 'CRM/Core/BAO/CustomOption.php';
+        $groupType = CRM_Core_BAO_CustomOption::VALUE_SEPERATOR . implode( CRM_Core_BAO_CustomOption::VALUE_SEPERATOR, $groupType ) . CRM_Core_BAO_CustomOption::VALUE_SEPERATOR;
     }
     
     $group = CRM_Contact_BAO_Group::create( $params );
