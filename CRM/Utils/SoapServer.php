@@ -44,7 +44,6 @@
  */
 
 require_once 'api/utils.php';
-require_once 'api/Contact.php';
 require_once 'api/Mailer.php';
 
 class CRM_Utils_SoapServer
@@ -180,9 +179,10 @@ class CRM_Utils_SoapServer
         return crm_mailer_event_forward($job, $queue, $hash, $email);
     }
 
-    public function get_contact($key, $params, $returnProperties) { 
+    public function get_contact($key, $params) { 
         $this->verify($key); 
-        return crm_get_contact( $params, $returnProperties );
+        require_once 'api/v2/Contact.php';
+        return civicrm_contact_get( $params );
     }
 
 }

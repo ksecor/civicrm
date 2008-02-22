@@ -440,6 +440,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
             } else {
                 $defaultFlag = false;
             }
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
             
             foreach ($requiredFields as $field => $title) {

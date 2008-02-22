@@ -69,12 +69,15 @@ class CRM_Bridge_OG_Drupal {
         $params['id'] = CRM_Bridge_OG_Utils::groupID( $params['source'], $params['title'], $abort );
 
         if ( $op == 'add' ) {
-            require_once 'api/Group.php';
+            require_once 'api/v2/Group.php';
             if ( $groupType ) {
                 $params['group_type'] = $groupType;
             }
-            $group = crm_create_group( $params );
-            $params['group_id'] = $group->id;
+            
+            $group = civicrm_group_create( $params );
+            if ( ! civicrm_error( $group ) ) {
+                $params['group_id'] = $group['result'];
+            }
         } else {
             // do this only if we have a valid id
             if ( $params['id'] ) {

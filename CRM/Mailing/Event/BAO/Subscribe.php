@@ -96,7 +96,7 @@ LEFT JOIN civicrm_email      ON contact_a.id = civicrm_email.contact_id
             $value = array('email' => $email,
                            'location_type_id' => $locationType->id );
             _civicrm_add_formatted_param($value, $formatted);
-            require_once 'api/Contact.php';
+            
             require_once 'CRM/Import/Parser.php';
             $formatted['onDuplicate'] = CRM_Import_Parser::DUPLICATE_SKIP;
             $formatted['fixAddress'] = true;
