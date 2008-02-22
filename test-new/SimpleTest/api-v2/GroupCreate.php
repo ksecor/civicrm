@@ -20,7 +20,7 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $result = civicrm_group_add( $params );
 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'No input parameters present');
+        $this->assertEqual( $result['error_message'], 'Params is not an array');
     }    
 
     function testCreateGroupWithParamsNotArray( )
@@ -46,7 +46,7 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
         $result = civicrm_group_add( $params );
 
         $this->assertEqual( $result['is_error'], 1 );
-        $this->assertEqual( $result['error_message'], 'Missing required fields ( name )' );
+        $this->assertEqual( $result['error_message'], 'Required Group name' );
     }
     
     function testGroupCreate( )
@@ -59,18 +59,21 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
                         'is_active'   => 1,
                         'visibility'  => 'Public User Pages and Listings',
                         );
+       
         $result = civicrm_group_add( $params );
-
-        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['id'], $params );
-
-        $this->groupDelete( $result );
+       
+        $this->assertEqual( $result['is_error'], 0 );
+        $this->assertDBState( 'CRM_Contact_DAO_Group', $result['result'], $params );
+        $params = array ( 'id' => $result['result'] );
+        
+        $this->groupDelete($params );
     }
     /**
      * Group with custom data 
      * ( will do this, once custom * v2 api are ready 
          with all changed schema for custom data  )
      */
-    function testGroupCreateWithCustomData( )
+    function qtestGroupCreateWithCustomData( )
     {         
         
     }
