@@ -70,7 +70,7 @@ class CRM_Upgrade_TwoZero_Form_Step4 extends CRM_Upgrade_Form {
         // check FK constraint names are in valid format.
         if (! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'source_contact_id') ||
             ! CRM_Core_DAO::checkFKConstraintInFormat('civicrm_activity', 'parent_id') ) {
-            $errorMessage = ts('Database consistency check failed for step 3. FK constraint names not in the required format.');
+            $errorMessage = ts('Database consistency check failed for step 4. FK constraint names not in the required format.');
             return false;
         }
 

@@ -294,7 +294,7 @@ class CRM_Event_BAO_Event extends CRM_Event_DAO_Event
         }
         
         if ( empty( $eventSummary ) ||
-             $dao->total_events = 0 ) {
+             $dao->total_events == 0 ) {
             return $eventSummary;
         }
         
@@ -316,13 +316,13 @@ SELECT     civicrm_event.id as id, civicrm_event.title as event_title, civicrm_e
            civicrm_event.end_date as end_date, civicrm_event.is_map as is_map,
            civicrm_option_value.label as event_type, count(civicrm_participant.id) as participants
 FROM       civicrm_event
-LEFT JOIN  civicrm_participant  ON ( civicrm_event.id = civicrm_participant.event_id ) 
-LEFT JOIN  civicrm_option_value ON (
-              civicrm_event.event_type_id = civicrm_option_value.value )
+LEFT JOIN  civicrm_participant  ON
+ ( civicrm_event.id = civicrm_participant.event_id AND
+   civicrm_participant.is_test = 0                 AND
+   civicrm_participant.status_id IN ( 1, 2 ) )
+LEFT JOIN  civicrm_option_value ON ( civicrm_event.event_type_id = civicrm_option_value.value )
 WHERE      civicrm_event.is_active = 1     AND
            civicrm_event.domain_id = %2    AND
-           civicrm_participant.is_test = 0 AND
-           civicrm_participant.status_id IN ( 1, 2 ) AND
            civicrm_option_value.option_group_id = %1
 GROUP BY   civicrm_event.id
 ORDER BY   civicrm_event.end_date DESC

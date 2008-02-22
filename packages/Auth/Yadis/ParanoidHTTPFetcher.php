@@ -60,7 +60,13 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
     function supportsSSL()
     {
         $v = curl_version();
-        return in_array('https', $v['protocols']);
+        if(is_array($v)) {
+            return in_array('https', $v['protocols']);
+        } elseif (is_string($v)) {
+            return preg_match('/OpenSSL/i', $v);
+        } else {
+            return 0;
+        }
     }
 
     function get($url, $extra_headers = null)
@@ -148,7 +154,10 @@ class Auth_Yadis_ParanoidHTTPFetcher extends Auth_Yadis_HTTPFetcher {
 
         $c = curl_init();
 
-        curl_setopt($c, CURLOPT_NOSIGNAL, true);
+        if (defined('CURLOPT_NOSIGNAL')) {
+            curl_setopt($c, CURLOPT_NOSIGNAL, true);
+        }
+
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $body);
         curl_setopt($c, CURLOPT_TIMEOUT, $this->timeout);

@@ -36,7 +36,6 @@
 
 require_once 'CRM/Member/Import/Parser.php';
 require_once 'api/v2/Membership.php';
-require_once 'api/crm.php';
 
 /**
  * class to parse membership csv files

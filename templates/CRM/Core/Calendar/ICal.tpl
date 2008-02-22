@@ -12,10 +12,12 @@ DESCRIPTION:{$event.description|crmICalText}
 CATEGORIES:{$event.event_type|crmICalText}
 {/if}
 {if $event.start_date}
-DTSTART:{$event.start_date|crmICalDate}
+DTSTART;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
 {if $event.end_date}
-DTEND:{$event.end_date|crmICalDate}
+DTEND;VALUE=DATE-TIME:{$event.end_date|crmICalDate}
+{else}
+DTEND;VALUE=DATE-TIME:{$event.start_date|crmICalDate}
 {/if}
 {if $event.is_show_location EQ 1 && $event.location}
 LOCATION:{$event.location|crmICalText}

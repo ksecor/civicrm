@@ -69,11 +69,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
-                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
                     $this->_params["state_province-{$this->_bltID}"] =
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( ! empty( $this->_params['country_id'] ) ) {
+                if ( ! empty( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
                     $this->_params["country-{$this->_bltID}"]        =
                         CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }
@@ -305,7 +305,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contactID = $session->get( 'userID' );
 
         // add a description field at the very beginning
-        $this->_params['description'] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
+        $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . $this->_values['title'];
 
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
@@ -348,12 +348,13 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $fields["email-{$this->_bltID}"] = 1;
  
         if ( ! isset( $contactID ) ) {
-            // make a copy of params so we dont destroy our params
-            // (since we pass this by reference)
-            require_once 'api/crm.php';
-            $ids = CRM_Core_BAO_UFGroup::findContact( $params );
+            require_once "CRM/Core/BAO/UFGroup.php";
+            //formatted submiited fields before sending to dupe contact matching
+            $data = CRM_Core_BAO_UFGroup::formatFields( $params );
+
+            $ids = CRM_Core_BAO_UFGroup::findContact( $data );
             $contactsIDs = explode( ',', $ids );
-            
+
             // if we find more than one contact, use the first one
             $contact_id  = CRM_Utils_Array::value( 0, $contactsIDs );
             $contactID =& CRM_Contact_BAO_Contact::createProfileContact( $params, $fields, $contact_id, $addToGroups );
@@ -399,6 +400,8 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
             
             $paymentParams      = $this->_params;
             $contributionTypeId = $this->_values['contribution_type_id'];
+            
+            require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::processConfirm( $this, $paymentParams, 
                                                              $premiumParams, $contactID, 
                                                              $contributionTypeId, 

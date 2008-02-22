@@ -352,6 +352,11 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
                 if ($customFields[$customFieldID][2] == 'Date') {
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key);
+                    
+                    //fix for CRM-2687
+                    $formatted['custom_'.$customFieldID] = 
+                        CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params['custom_'.$customFieldID] ) );
+                    unset( $params['custom_'.$customFieldID] );
                 }
             }
             if ( $key == 'birth_date' ) {

@@ -37,7 +37,7 @@ require_once 'CRM/Upgrade/Form.php';
 
 class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
     function verifyPreDBState( &$errorMessage ) {
-        $errorMessage = ts('Database check failed - the current database is not v1.9.');
+        $errorMessage = 'pre-condition failed for upgrade step 2';
 
         if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;

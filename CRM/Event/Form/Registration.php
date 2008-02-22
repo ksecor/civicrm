@@ -469,27 +469,26 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
      * @return None  
      * @access public  
      */ 
-    function confirmPostProcess( &$form, $contactID = null, $contribution = null, $payment = null )
+    function confirmPostProcess( $contactID = null, $contribution = null, $payment = null )
     {
         // add/update contact information
         $fields = array( );
-        unset($form->_params['note']);
+        unset($this->_params['note']);
         
         // create CMS user
-        if ( CRM_Utils_Array::value( 'cms_create_account', $form->_params ) ) {
-            $form->_params['contactID'] = $contactID;
+        if ( CRM_Utils_Array::value( 'cms_create_account', $this->_params ) ) {
+            $this->_params['contactID'] = $contactID;
             require_once "CRM/Core/BAO/CMSUser.php";
-            if ( ! CRM_Core_BAO_CMSUser::create( $form->_params, 'email-' . $form->_bltID ) ) {
+            if ( ! CRM_Core_BAO_CMSUser::create( $this->_params, 'email-' . $this->_bltID ) ) {
                 CRM_Core_Error::statusBounce( ts('Your profile is not saved and Account is not created.') );
             }
         }
         
         // add participant record
-        require_once 'CRM/Event/Form/Registration/Confirm.php';       
-        $participant  = CRM_Event_Form_Registration_Confirm::addParticipant( $form->_params, $contactID );
+        $participant  = $this->addParticipant( $this->_params, $contactID );
 
         require_once 'CRM/Core/BAO/CustomValueTable.php';
-        CRM_Core_BAO_CustomValueTable::postProcess( $form->_params,
+        CRM_Core_BAO_CustomValueTable::postProcess( $this->_params,
                                                     CRM_Core_DAO::$_nullArray,
                                                     'civicrm_participant',
                                                     $participant->id,
@@ -497,7 +496,7 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
 
    
-        if ( $form->_values['event']['is_monetary'] && ( $form->_params['amount'] != 0 ) ) {
+        if ( $this->_values['event']['is_monetary'] && ( $this->_params['amount'] != 0 ) ) {
             require_once 'CRM/Event/BAO/ParticipantPayment.php';
             $paymentParams = array( 'participant_id'  => $participant->id ,
                                     'contribution_id' => $contribution->id, ); 
@@ -508,22 +507,86 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         require_once "CRM/Event/BAO/EventPage.php";
 
-        if ( $form->_contributeMode != 'notify' &&
-             $form->_contributeMode != 'checkout' ) { 
-            $form->assign('action',$form->_action);
-            CRM_Event_BAO_EventPage::sendMail( $contactID, $form->_values, $participant->id );
-        } else { 
+        if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
+             $this->_contributeMode == 'checkout'                     ||
+             $this->_contributeMode == 'notify' ) {
             // do a transfer only if a monetary payment
-            if ( $form->_values['event']['is_monetary'] ) {
-                $form->_params['participantID'] = $participant->id;
-                if ( $form->_params['amount'] != 0 ) {
-                    if ( ! $form->_params['is_pay_later'] ) {
-                        $payment->doTransferCheckout( $form->_params );
+            if ( $this->_values['event']['is_monetary'] ) {
+                $this->_params['participantID'] = $participant->id;
+                if ( $this->_params['amount'] != 0 ) {
+                    if ( ! $this->_params['is_pay_later'] ) {
+                        $payment->doTransferCheckout( $this->_params );
                     }
                 }
             }
+        } else {
+            $this->assign('action',$this->_action);
+            CRM_Event_BAO_EventPage::sendMail( $contactID, $this->_values, $participant->id );
         }
     }
+    /**
+     * Process the participant 
+     *
+     * @return void
+     * @access public
+     */
+    public function addParticipant( $params, $contactID ) 
+    {
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+        
+        $domainID = CRM_Core_Config::domainID( );
+        $groupName = "participant_role";
+        $query = "
+SELECT  v.label as label ,v.value as value
+FROM   civicrm_option_value v, 
+       civicrm_option_group g 
+WHERE  v.option_group_id = g.id 
+  AND  g.domain_id       = $domainID 
+  AND  g.name            = %1 
+  AND  v.is_active       = 1  
+  AND  g.is_active       = 1  
+";
+        $p = array( 1 => array( $groupName , 'String' ) );
+               
+        $dao =& CRM_Core_DAO::executeQuery( $query, $p );
+        if ( $dao->fetch( ) ) {
+            $roleID = $dao->value;
+        }
+        
+        $participantParams = array('contact_id'    => $contactID,
+                                   'event_id'      => $this->_id,
+                                   'status_id'     => CRM_Utils_Array::value( 'participant_status_id',
+                                                                              $params, 1 ),
+                                   'role_id'       => CRM_Utils_Array::value( 'participant_role_id',
+                                                                              $params, $roleID ),
+                                   'register_date' => isset( $params['participant_register_date'] ) ?
+                                   CRM_Utils_Date::format( $params['participant_register_date'] ) :
+                                   date( 'YmdHis' ),
+                                   'source'        => isset( $params['participant_source'] ) ?
+                                   $params['participant_source'] :
+                                   $params['description'],
+                                   'event_level'   => $params['amount_level']
+                                   );
+        
+        if ( $this->_action & CRM_Core_Action::PREVIEW ) {
+            $participantParams['is_test'] = 1;
+        }
+
+        if ( $this->_params['note'] ) {
+            $participantParams['note'] = $this->_params['note'];
+        } else if ( $this->_params['participant_note'] ) {
+            $participantParams['note'] = $this->_params['participant_note'];
+        }
+        
+        $ids = array();
+        $participant = CRM_Event_BAO_Participant::create($participantParams, $ids);
+        
+        $transaction->commit( );
+        
+        return $participant;
+    }
+
 }
 
 ?>

@@ -259,7 +259,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                                          ts('Option Type'),
                                          $optionTypes,
                                          $extra,
-                                         '<br/>', true
+                                         '<br/>', false
                                          );
             $element->freeze( );
         } else {
@@ -270,7 +270,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
                              ts('Multipe Choice Options'),
                              $optionTypes,
                              $extra,
-                             '<br/>', true
+                             '<br/>', false
                              );
             
             $this->add( 'select',
@@ -514,180 +514,177 @@ SELECT count(*)
          *  Appropriate values are required for the selected datatype
          *  Incomplete row checking is also required.
          */
-        //if ( $self->_action & CRM_Core_Action::ADD ) {
-            
-            $_flagOption = $_rowError = 0;
-            $_showHide =& new CRM_Core_ShowHideBlocks('','');
-            $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
-            $dataField = $fields['data_type'][1];
-            $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
-
-            if ( $fields['option_type'] == 1 ) {
-
-                //capture duplicate Custom option values
-                if ( !empty($fields['option_value']) ) {
-                    $countValue = count($fields['option_value']);
-                    $uniqueCount = count(array_unique($fields['option_value']));
+        $_flagOption = $_rowError = 0;
+        $_showHide =& new CRM_Core_ShowHideBlocks('','');
+        $dataType = self::$_dataTypeKeys[$fields['data_type'][0]];
+        $dataField = $fields['data_type'][1];
+        $optionFields = array('Select', 'Multi-Select', 'CheckBox', 'Radio');
+        
+        if ( $fields['option_type'] == 1 ) {
+            //capture duplicate Custom option values
+            if ( ! empty($fields['option_value']) ) {
+                $countValue = count($fields['option_value']);
+                $uniqueCount = count(array_unique($fields['option_value']));
                     
-                    if ( $countValue > $uniqueCount) {
+                if ( $countValue > $uniqueCount) {
                         
-                        $start=1;
-                        while ($start < self::NUM_OPTION) { 
-                            $nextIndex = $start + 1;
+                    $start=1;
+                    while ($start < self::NUM_OPTION) { 
+                        $nextIndex = $start + 1;
                             
-                            while ($nextIndex <= self::NUM_OPTION) {
+                        while ($nextIndex <= self::NUM_OPTION) {
                             
-                                if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] &&
-                                     !empty($fields['option_value'][$nextIndex]) ) {
+                            if ( $fields['option_value'][$start] == $fields['option_value'][$nextIndex] &&
+                                 !empty($fields['option_value'][$nextIndex]) ) {
 
-                                    $errors['option_value['.$start.']']     = ts( 'Duplicate Option values' );
-                                    $errors['option_value['.$nextIndex.']'] = ts( 'Duplicate Option values' );
-                                    $_flagOption = 1;
-                                }
-                                $nextIndex++;
+                                $errors['option_value['.$start.']']     = ts( 'Duplicate Option values' );
+                                $errors['option_value['.$nextIndex.']'] = ts( 'Duplicate Option values' );
+                                $_flagOption = 1;
                             }
-                            $start++;
+                            $nextIndex++;
                         }
+                        $start++;
                     }
                 }
+            }
             
-                //capture duplicate Custom Option label
-                if ( !empty($fields['option_label']) ) {
-                    $countValue = count($fields['option_label']);
-                    $uniqueCount = count(array_unique($fields['option_label']));
+            //capture duplicate Custom Option label
+            if ( ! empty( $fields['option_label'] ) ) {
+                $countValue = count($fields['option_label']);
+                $uniqueCount = count(array_unique($fields['option_label']));
                 
-                    if ( $countValue > $uniqueCount) {
+                if ( $countValue > $uniqueCount) {
                     
-                        $start=1;
-                        while ($start < self::NUM_OPTION) { 
-                            $nextIndex = $start + 1;
+                    $start=1;
+                    while ($start < self::NUM_OPTION) { 
+                        $nextIndex = $start + 1;
                         
-                            while ($nextIndex <= self::NUM_OPTION) {
+                        while ($nextIndex <= self::NUM_OPTION) {
                             
-                                if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
+                            if ( $fields['option_label'][$start] == $fields['option_label'][$nextIndex] && !empty($fields['option_label'][$nextIndex]) ) {
                                 
-                                    $errors['option_label['.$start.']']     =  ts( 'Duplicate Option label' );
-                                    $errors['option_label['.$nextIndex.']'] = ts( 'Duplicate Option label' );
-                                    $_flagOption = 1;
-                                }
-                                $nextIndex++;
+                                $errors['option_label['.$start.']']     =  ts( 'Duplicate Option label' );
+                                $errors['option_label['.$nextIndex.']'] = ts( 'Duplicate Option label' );
+                                $_flagOption = 1;
                             }
-                            $start++;
+                            $nextIndex++;
                         }
+                        $start++;
                     }
                 }
+            }
 
-                for($i=1; $i<= self::NUM_OPTION; $i++) {
-                    if (!$fields['option_label'][$i]) {
-                        if ($fields['option_value'][$i]) {
-                            $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
-                            $_flagOption = 1;
-                        } else {
-                            $_emptyRow = 1;
-                        }
+            for($i=1; $i<= self::NUM_OPTION; $i++) {
+                if (!$fields['option_label'][$i]) {
+                    if ($fields['option_value'][$i]) {
+                        $errors['option_label['.$i.']'] = ts( 'Option label cannot be empty' );
+                        $_flagOption = 1;
                     } else {
-                        if (!strlen(trim($fields['option_value'][$i]))) {
-                            if (!$fields['option_value'][$i]) {
-                                $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
-                                $_flagOption = 1;
-                            }
-                        }
+                        $_emptyRow = 1;
                     }
-               
-                    if ($fields['option_value'][$i] && $dataType != 'String') {
-                        if ( $dataType == 'Int') {
-                            if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
-                                $_flagOption = 1;
-                                $errors['option_value['.$i.']'] = ts( 'Please enter a valid integer.' );
-                            }
-                        } else  if ( $dataType == 'Money') {
-                            if ( ! CRM_Utils_Rule::money( $fields['option_value'][$i] ) ) {
-                                $_flagOption = 1;
-                                $errors['option_value['.$i.']'] = ts( 'Please enter a valid money value.' );
-                            
-                            }
-                        } else {
-                            if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) ) {
-                                $_flagOption = 1;
-                                $errors['option_value['.$i.']'] = ts( 'Please enter a valid number.' );
-                            }
-                        }
-                    }
-                
-                    $showBlocks = 'optionField_'.$i;
-                    if ($_flagOption) {
-                        $_showHide->addShow($showBlocks);
-                        $_rowError = 1;
-                    } 
-                
-                    if ($_emptyRow) {
-                        $_showHide->addHide($showBlocks);
-                    } else {
-                        $_showHide->addShow($showBlocks);
-                    }
-                    if ($i == self::NUM_OPTION) {
-                        $hideBlock = 'additionalOption';
-                        $_showHide->addHide($hideBlock);
-                    }
-                
-                    $_flagOption = $_emptyRow = 0;
-                }
-            } elseif ( in_array( $dataField, $optionFields ) && $dataType != 'Boolean' ) {
-                if ( ! $fields['option_group_id'] ) {
-                    $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse and existing set.' );
                 } else {
-                    $query = "
+                    if (!strlen(trim($fields['option_value'][$i]))) {
+                        if (!$fields['option_value'][$i]) {
+                            $errors['option_value['.$i.']'] = ts( 'Option value cannot be empty' );
+                            $_flagOption = 1;
+                        }
+                    }
+                }
+               
+                if ($fields['option_value'][$i] && $dataType != 'String') {
+                    if ( $dataType == 'Int') {
+                        if ( ! CRM_Utils_Rule::integer( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid integer.' );
+                        }
+                    } else  if ( $dataType == 'Money') {
+                        if ( ! CRM_Utils_Rule::money( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid money value.' );
+                            
+                        }
+                    } else {
+                        if ( ! CRM_Utils_Rule::numeric( $fields['option_value'][$i] ) ) {
+                            $_flagOption = 1;
+                            $errors['option_value['.$i.']'] = ts( 'Please enter a valid number.' );
+                        }
+                    }
+                }
+                
+                $showBlocks = 'optionField_'.$i;
+                if ($_flagOption) {
+                    $_showHide->addShow($showBlocks);
+                    $_rowError = 1;
+                } 
+                
+                if ($_emptyRow) {
+                    $_showHide->addHide($showBlocks);
+                } else {
+                    $_showHide->addShow($showBlocks);
+                }
+                if ($i == self::NUM_OPTION) {
+                    $hideBlock = 'additionalOption';
+                    $_showHide->addHide($hideBlock);
+                }
+                
+                $_flagOption = $_emptyRow = 0;
+            }
+        } elseif ( in_array( $dataField, $optionFields ) &&
+                   $dataType != 'Boolean' ) {
+            if ( ! $fields['option_group_id'] ) {
+                $errors['option_group_id'] = ts( 'You must select a Multiple Choice Option set if you chose Reuse an existing set.' );
+            } else {
+                $query = "
 SELECT count(*)
 FROM   civicrm_custom_field
 WHERE  data_type != %1
 AND    option_group_id = %2";
-                    $params = array( 1 => array( self::$_dataTypeKeys[$fields['data_type'][0]],
-                                                 'String' ),
-                                     2 => array( $fields['option_group_id'], 'Integer' ) );
-                    $count = CRM_Core_DAO::singleValueQuery( $query, $params );
-                    if ( $count > 0 ) {
-                        $errors['option_group_id'] = ts( 'The data type of the multiple choice option set you\'ve selected does not match the data type assigned to this field.' );
-                    }
-
+                $params = array( 1 => array( self::$_dataTypeKeys[$fields['data_type'][0]],
+                                             'String' ),
+                                 2 => array( $fields['option_group_id'], 'Integer' ) );
+                $count = CRM_Core_DAO::singleValueQuery( $query, $params );
+                if ( $count > 0 ) {
+                    $errors['option_group_id'] = ts( 'The data type of the multiple choice option set you\'ve selected does not match the data type assigned to this field.' );
                 }
+
             }
+        }
             
-            if ($_rowError) {
-                $_showHide->addToTemplate();
-                CRM_Core_Page::assign('optionRowError', $_rowError);
-            } else {
-                switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
-                case 'Radio':
-                    $_fieldError = 1;
-                    CRM_Core_Page::assign('fieldError', $_fieldError);
-                    break; 
+        if ($_rowError) {
+            $_showHide->addToTemplate();
+            CRM_Core_Page::assign('optionRowError', $_rowError);
+        } else {
+            switch (self::$_dataToHTML[$fields['data_type'][0]][$fields['data_type'][1]]) {
+            case 'Radio':
+                $_fieldError = 1;
+                CRM_Core_Page::assign('fieldError', $_fieldError);
+                break; 
                 
-                case 'Checkbox':
-                    $_fieldError = 1;
-                    CRM_Core_Page::assign('fieldError', $_fieldError);
-                    break; 
+            case 'Checkbox':
+                $_fieldError = 1;
+                CRM_Core_Page::assign('fieldError', $_fieldError);
+                break; 
 
-                case 'Select':
-                    $_fieldError = 1;
-                    CRM_Core_Page::assign('fieldError', $_fieldError);
-                    break;
-                default:
-                    $_fieldError = 0;
-                    CRM_Core_Page::assign('fieldError', $_fieldError);
-                }
-                
-                for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
-                    $showBlocks = 'optionField_'.$idx;
-                    if (!empty($fields['option_label'][$idx])) {
-                        $_showHide->addShow($showBlocks);
-                    } else {
-                        $_showHide->addHide($showBlocks);
-                    }
-                }
-                $_showHide->addToTemplate();
+            case 'Select':
+                $_fieldError = 1;
+                CRM_Core_Page::assign('fieldError', $_fieldError);
+                break;
+            default:
+                $_fieldError = 0;
+                CRM_Core_Page::assign('fieldError', $_fieldError);
             }
-            //}      
-            return empty($errors) ? true : $errors;
+                
+            for ($idx=1; $idx<= self::NUM_OPTION; $idx++) {
+                $showBlocks = 'optionField_'.$idx;
+                if (!empty($fields['option_label'][$idx])) {
+                    $_showHide->addShow($showBlocks);
+                } else {
+                    $_showHide->addHide($showBlocks);
+                }
+            }
+            $_showHide->addToTemplate();
+        }
+        return empty($errors) ? true : $errors;
     }
     
     /**

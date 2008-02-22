@@ -73,11 +73,12 @@ class CRM_Utils_ICalendar
      */
     static function formatDate( $date, $gdata = false )
     {
+
         if ( $gdata ) {
-            return gmdate( "Y-m-d\TH:i:s.000\Z",
+            return date( "Y-m-d\TH:i:s.000",
                            strtotime( $date ) );
         } else {
-            return gmdate( "Ymd\THis\Z",
+            return date( "Ymd\THis",
                            strtotime( $date ) );
         }
     }

@@ -77,11 +77,32 @@ DELETE cv.* FROM civicrm_custom_value cv
 LEFT JOIN civicrm_relationship cr  ON cr.id=cv.entity_id
 WHERE (cr.id IS NULL AND cv.entity_table='civicrm_relationship');
 
+DELETE cv.* FROM civicrm_custom_value cv
+LEFT JOIN civicrm_participant cp  ON cp.id=cv.entity_id
+WHERE (cp.id IS NULL AND cv.entity_table='civicrm_participant');
+
+-- clean civicrm_contribution
+
+DELETE pro.*
+FROM civicrm_contribution_product pro
+LEFT JOIN civicrm_contribution con ON con.id = pro.contribution_id
+LEFT JOIN civicrm_contact cc ON cc.id = con.contact_id
+WHERE cc.id IS NULL;
+
+DELETE con.*
+FROM civicrm_contribution con
+LEFT JOIN civicrm_contact cc ON cc.id = con.contact_id
+WHERE cc.id IS NULL;
+
+DELETE cv.* FROM civicrm_custom_value cv
+LEFT JOIN civicrm_contribution cc  ON cc.id=cv.entity_id
+WHERE (cc.id IS NULL AND cv.entity_table='civicrm_contribution');
+
 
 
 -- /******************************
 -- *
--- * Other cleanups
+-- * Activity cleanups
 -- *
 -- *******************************/
 
@@ -130,3 +151,50 @@ LEFT JOIN civicrm_contribution cc  ON cc.id=pp.payment_entity_id
 WHERE (cc.id IS NULL AND pp.payment_entity_table='civicrm_contribution');
 
 
+-- clean civicrm_group_contact
+
+DELETE gc.*
+FROM civicrm_group_contact gc
+LEFT JOIN civicrm_contact cc ON cc.id = gc.contact_id
+WHERE cc.id IS NULL;
+
+
+-- clean civicrm_uf_match
+
+DELETE ufm.*
+FROM civicrm_uf_match ufm
+LEFT JOIN civicrm_contact cc ON cc.id = ufm.contact_id
+WHERE cc.id IS NULL;
+
+
+-- clean civicrm_membership and log
+
+DELETE mlog.*
+FROM civicrm_membership_log mlog
+LEFT JOIN civicrm_membership cm ON cm.id = mlog.membership_id
+LEFT JOIN civicrm_contact cc ON cc.id = cm.contact_id
+WHERE cc.id IS NULL;
+
+DELETE mlog.*
+FROM civicrm_membership_log mlog
+LEFT JOIN civicrm_contact cc ON cc.id = mlog.modified_id
+WHERE cc.id IS NULL;
+
+DELETE mp.*
+FROM civicrm_membership_payment mp
+LEFT JOIN civicrm_membership cm ON cm.id = mp.membership_id
+LEFT JOIN civicrm_contact cc ON cc.id = cm.contact_id
+WHERE cc.id IS NULL;
+
+DELETE cm.*
+FROM civicrm_membership cm
+LEFT JOIN civicrm_contact cc ON cc.id = cm.contact_id
+WHERE cc.id IS NULL;
+
+
+-- clean civicrm_subscription_history
+
+DELETE sh.*
+FROM civicrm_subscription_history sh
+LEFT JOIN civicrm_contact cc ON cc.id = sh.contact_id
+WHERE cc.id IS NULL;

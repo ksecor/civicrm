@@ -53,7 +53,7 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         $query    = "SELECT id FROM civicrm_custom_field WHERE name IS NULL";
         $res      = $this->runQuery( $query );
         if ($res->fetch()) {
-            $errorMessage = ts("Database consistency check failed for Step 4. Value missing in civicrm_custom_field for the column 'name'.");
+            $errorMessage = ts("Database consistency check failed for Step 5. Value missing in civicrm_custom_field for the column 'name'.");
             return false;
         }
         $res->free();
