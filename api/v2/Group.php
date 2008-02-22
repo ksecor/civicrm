@@ -57,11 +57,15 @@ function &civicrm_groups_get( &$params )
         return civicrm_create_error( 'Params should be array' );
     }
     
-    foreach ( $params as $n => $v ) {
-        if ( substr( $n, 0, 7 ) == 'return.' ) {
-            $returnProperties[ substr( $n, 7 ) ] = $v;
-        } else {
-            $inputParams[$n] = $v;
+    $inputParams = $returnProperties = null;
+    
+    if ( ! is_null( $params ) ) {
+        foreach ( $params as $n => $v ) {
+            if ( substr( $n, 0, 7 ) == 'return.' ) {
+                $returnProperties[ substr( $n, 7 ) ] = $v;
+            } else {
+                $inputParams[$n] = $v;
+            }
         }
     }
     
