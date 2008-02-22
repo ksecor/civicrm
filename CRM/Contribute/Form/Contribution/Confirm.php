@@ -69,11 +69,11 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
                 CRM_Core_Payment_Form::mapParams( $this->_bltID, $expressParams, $this->_params, false );
 
                 // fix state and country id if present
-                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+                if ( ! empty( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
                     $this->_params["state_province-{$this->_bltID}"] =
                         CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
                 }
-                if ( ! empty( $this->_params['country_id'] ) ) {
+                if ( ! empty( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
                     $this->_params["country-{$this->_bltID}"]        =
                         CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
                 }

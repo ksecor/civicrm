@@ -113,12 +113,13 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             }
         } else {
             $this->_params = $this->controller->exportValues( 'Register' );
-          
-            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) ) {
+
+            if ( isset( $this->_params["state_province_id-{$this->_bltID}"] ) && $this->_params["state_province_id-{$this->_bltID}"] ) {
                 $this->_params["state_province-{$this->_bltID}"] =
                     CRM_Core_PseudoConstant::stateProvinceAbbreviation( $this->_params["state_province_id-{$this->_bltID}"] ); 
             }
-            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) ) {
+
+            if ( isset( $this->_params["country_id-{$this->_bltID}"] ) && $this->_params["country_id-{$this->_bltID}"] ) {
                 $this->_params["country-{$this->_bltID}"]        =
                     CRM_Core_PseudoConstant::countryIsoCode( $this->_params["country_id-{$this->_bltID}"] ); 
             }
