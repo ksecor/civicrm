@@ -1242,7 +1242,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $dateParam );
         
         if ( $dateType == 1 ) {
-            if ( strstr( '-', $params[$dateParam] ) ) {
+            if ( strstr( $params[$dateParam], '-' ) ) { 
                 $formatted[$dateParam] = CRM_Utils_Date::unformat( $params[$dateParam] ); 
             } else {
                 $formatted[$dateParam] = CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params[$dateParam] ) );   
