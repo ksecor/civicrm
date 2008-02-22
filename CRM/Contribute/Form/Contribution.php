@@ -153,20 +153,16 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( $trxn->find( true ) ) {
                 $this->_online = true;
             }
-        }
 
-        //to get Premium id
-        if( $this->_id ) {
+            //to get Premium id
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';
             $dao = & new CRM_Contribute_DAO_ContributionProduct();
             $dao->contribution_id = $this->_id;
             if ( $dao->find(true) ) {
                 $this->_premiumId = $dao->id;
             }
-        }
 
-        //to get note id 
-        if( $this->_id ) {
+            //to get note id 
             require_once 'CRM/Core/BAO/Note.php';
             $daoNote = & new CRM_Core_BAO_Note();
             $daoNote->entity_table = 'civicrm_contribution';
@@ -174,6 +170,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( $daoNote->find(true) ) {
                 $this->_noteId = $daoNote->id;
             }
+            
         }
 
         $this->_contactID = CRM_Utils_Request::retrieve( 'cid', 'Positive', $this );
@@ -196,6 +193,16 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             $params = array( 'id' => $this->_id );
             require_once "CRM/Contribute/BAO/Contribution.php";
             CRM_Contribute_BAO_Contribution::getValues( $params, $defaults, $ids );
+
+            // throw out a warning if pay later contrib in pending state
+            // check if its an online contrib or event registration
+            if ( $defaults['contribution_status_id'] == 2 &&
+                 ( strpos( $defaults['contribution_source'], ts( 'Online Contribution' ) ) !== false ||
+                   strpos( $defaults['contribution_source'], ts( 'Online Event Registration' ) ) !== false ) ) {
+                $message = ts( 'Pending online contributions should be updated to Completed status using the "Update Pending Contribution Status" action from the CiviContribute &raquo; Find Contributions menu. If you update the status from here - the contributor may not got complete information in their receipt and associated membership or event records will not be updated.' );
+                CRM_Core_Session::setStatus( $message );
+            }
+
             $this->_contactID = $defaults['contact_id'];
         } else {
             $now = date("Y-m-d");

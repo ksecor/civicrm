@@ -261,7 +261,7 @@ class CRM_Event_Form_Registration_Confirm extends CRM_Event_Form_Registration
             $session->set( 'transaction.userID', null );
         }
         
-        $this->_params['description'] = ts( 'Online Event Registration:' ) . ' ' . $this->_values['event']['title'];
+        $this->_params['description'] = ts( 'Online Event Registration' ) . ': ' . $this->_values['event']['title'];
 
         // required only if paid event
         if ( $this->_values['event']['is_monetary'] ) {

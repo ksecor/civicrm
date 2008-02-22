@@ -305,7 +305,7 @@ class CRM_Contribute_Form_Contribution_Confirm extends CRM_Contribute_Form_Contr
         $contactID = $session->get( 'userID' );
 
         // add a description field at the very beginning
-        $this->_params['description'] = ts( 'Online Contribution:' ) . ' ' . $this->_values['title'];
+        $this->_params['description'] = ts( 'Online Contribution' ) . ': ' . $this->_values['title'];
 
         $premiumParams = $membershipParams = $tempParams = $params = $this->_params;
         $now = date( 'YmdHis' );
