@@ -565,10 +565,8 @@ class CiviUnitTestCase extends UnitTestCase {
      *
      * @param int $id 
      */ 
-    function groupDelete( $params ) {
-        if ( is_null( $params ) || !is_array( $params ) || !CRM_Utils_Array::value( 'id', $params ) ) {
-            return civicrm_create_error( 'Required parameter missing' );
-        }
+    function groupDelete( $gid ) {
+        $params['id'] = $gid;
         civicrm_group_delete( $params );
     }
 

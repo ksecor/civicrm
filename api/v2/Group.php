@@ -33,7 +33,7 @@
  * $Id: GroupContact.php 12458 2007-11-30 17:00:08Z shot $
  *
  */
-require_once 'CRM_Contact_BAO_Group.php';
+require_once 'CRM/Contact/BAO/Group.php';
 require_once 'api/v2/utils.php';
 
 function &civicrm_group_add( &$params )
@@ -62,19 +62,7 @@ function &civicrm_groups_get( &$params )
         return civicrm_create_error( 'Params should be array' );
     }
     
-    $inputParams = $returnProperties = null;
-    
-    if ( ! is_null( $params ) ) {
-        foreach ( $params as $n => $v ) {
-            if ( substr( $n, 0, 7 ) == 'return.' ) {
-                $returnProperties[ substr( $n, 7 ) ] = $v;
-            } else {
-                $inputParams[$n] = $v;
-            }
-        }
-    }
-    
-    $groupObjects = CRM_Contact_BAO_Group::getGroups( $inputParams, $returnProperties );
+    $groupObjects = CRM_Contact_BAO_Group::getGroups( $params );
     
     if ( count( $groupObjects ) == 0 ) {
         return civicrm_create_error( 'No such group exists' );
@@ -85,7 +73,7 @@ function &civicrm_groups_get( &$params )
         _civicrm_object_to_array( $group, $groups[$group->id] );
     }
     
-    return $group; 
+    return $groups;
 }
 
 function &civicrm_group_delete( &$params )
