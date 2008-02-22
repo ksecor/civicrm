@@ -264,6 +264,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
+        $formatted = array();
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
         
         foreach ($params as $key => $val) {
             if( $val ) {
@@ -281,11 +283,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
                 }
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    if ( $customFields[$customFieldID][2] == 'Date' ) {
+                        CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
+                        unset( $params[$key] );
+                    }
+                }
             }
         }
         //date-Format part ends
 
-        $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Contribute/DAO/Contribution.php');
