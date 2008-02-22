@@ -62,15 +62,16 @@ XML_RPC                       1.5.1
 
 NON-PEAR
 ========
+AMFPHP         1.2.6       http://amfphp.org/
+Auth_OpenID    2.0.1       http://openidenabled.com/php-openid/                          local changes to support slightly different DB schema than library expects
+Auth_Yadis     2.0.1       http://openidenabled.com/php-openid/
 Dojo           0.4         http://dojotoolkit.org/                                       local changes
-html2text      1.0.0       http://chuggnutt.com/html2text.php                            local changes
-PayPal SDK     1.1.1.1     https://www.paypal.com/IntegrationCenter/ic_sdk-resource.html PEAR packages upgraded independently (HTTP, Log, Net)
 PHP gettext    1.0.7       http://savannah.nongnu.org/projects/php-gettext/
+PayPal SDK     1.1.1.1     https://www.paypal.com/IntegrationCenter/ic_sdk-resource.html PEAR packages upgraded independently (HTTP, Log, Net)
 Selenium       0.1.4       perhaps moved to PEAR's Testing_Selenium package?
 Services_JSON  CVS 1.31    http://pear.php.net/pepr/pepr-proposal-show.php?id=198
 SimpleTest     1.0.1 beta2 http://www.simpletest.org/
 Smarty         2.6.19      http://smarty.php.net/                                        local changes
 Smarty Gettext 1.0b1       http://smarty-gettext.sourceforge.net/
 UFPDF          0.1         http://acko.net/blog/ufpdf    
-Auth_OpenID    2.0.1	     http://openidenabled.com/php-openid/			                     local changes to support slightly different DB schema than library expects
-Auth_Yadis     2.0.1       http://openidenabled.com/php-openid/
+html2text      1.0.0       http://chuggnutt.com/html2text.php                            local changes
