@@ -616,6 +616,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             
             $tmpFields     = CRM_Member_DAO_Membership::import( );
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
             if ($contactType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';

@@ -395,6 +395,7 @@ SELECT li.label, li.qty, li.unit_price, li.line_total
 
             $tmpConatctField = array( );
             if ( !$onlyParticipant ) {
+                require_once 'CRM/Contact/BAO/Contact.php';
                 $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
                 if ($contactType == 'Individual') {
                     require_once 'CRM/Core/DAO/DupeMatch.php';
