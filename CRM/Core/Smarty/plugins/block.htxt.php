@@ -34,7 +34,8 @@
  */
 
 /** 
- * Smarty block function providing gettext support
+ * Smarty block function providing support for
+ * CiviCRM's helptext mechanism
  *
  * @param array $params   template call's parameters
  * @param string $text    {ts} block contents from the template

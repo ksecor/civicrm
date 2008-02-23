@@ -185,7 +185,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildConfirmationBlock(&$form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','confirm_title',ts('Title '), $attributes['confirm_title']);
+        $form->add('text','confirm_title',ts('Title'), $attributes['confirm_title']);
         $form->add('textarea','confirm_text',ts('Introductory Text'), $attributes['confirm_text']);
         $form->add('textarea','confirm_footer_text',ts('Footer Text'), $attributes['confirm_footer_text']);     
     }
@@ -201,9 +201,9 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
         $form->addYesNo( 'is_email_confirm', ts( 'Send Confirmation Email?' ) , null, null, array('onclick' =>"return showHideByValue('is_email_confirm','','confirmEmail','block','radio',false);"));
         $form->add('textarea','confirm_email_text',ts('Text'), $attributes['confirm_email_text']);
-        $form->add('text','cc_confirm',ts('CC Confirmation To '));
+        $form->add('text','cc_confirm',ts('CC Confirmation To'));
         $form->addRule( "cc_confirm", ts('Email is not valid.'), 'email' );  
-        $form->add('text','bcc_confirm',ts('BCC Confirmation To '));  
+        $form->add('text','bcc_confirm',ts('BCC Confirmation To'));  
         $form->addRule( "bcc_confirm", ts('Email is not valid.'), 'email' );          
         $form->add('text', 'confirm_from_name', ts('Confirm From Name') );
         $form->add('text', 'confirm_from_email', ts('Confirm From Email') );  
@@ -213,7 +213,7 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     function buildThankYouBlock(&$form) 
     {
         $attributes = CRM_Core_DAO::getAttribute('CRM_Event_DAO_EventPage');
-        $form->add('text','thankyou_title',ts('Title '), $attributes['thankyou_title']);
+        $form->add('text','thankyou_title',ts('Title'), $attributes['thankyou_title']);
         $form->add('textarea','thankyou_text',ts('Introductory Text'), $attributes['thankyou_text']);
         $form->add('textarea','thankyou_footer_text',ts('Footer Text'), $attributes['thankyou_footer_text']);
     }
@@ -241,18 +241,18 @@ class CRM_Event_Form_ManageEvent_Registration extends CRM_Event_Form_ManageEvent
     {
         if ( $values['is_online_registration'] ) {
             if ( !$values['confirm_title'] ) {
-                $errorMsg['confirm_title'] = ts("Please enter a Title for the registration Confirmation Page");
+                $errorMsg['confirm_title'] = ts('Please enter a Title for the registration Confirmation Page');
             }
             if ( !$values['thankyou_title'] ) {
-                $errorMsg['thankyou_title'] = ts("Please enter a Title for the registration Thank-you Page");
+                $errorMsg['thankyou_title'] = ts('Please enter a Title for the registration Thank-you Page');
             }
             if ( $values['is_email_confirm'] ) { 
                 if ( !$values['confirm_from_name'] ) {
-                    $errorMsg['confirm_from_name'] = ts("Please enter Confirmation Email FROM Name.");
+                    $errorMsg['confirm_from_name'] = ts('Please enter Confirmation Email FROM Name.');
                 } 
                 
                 if ( !$values['confirm_from_email'] ) {
-                    $errorMsg['confirm_from_email'] = ts("Please enter Confirmation Email FROM Email Address.");
+                    $errorMsg['confirm_from_email'] = ts('Please enter Confirmation Email FROM Email Address.');
                 }
             }
         }

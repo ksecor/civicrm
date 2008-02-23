@@ -42,8 +42,7 @@
 
 {/if}
 {if $is_recur}
-{ts}This is a recurring contribution. You can modify or cancel
-future contributions by logging in to your account at:{/ts}
+{ts}This is a recurring contribution. You can modify or cancel future contributions by logging in to your account at:{/ts}
 
 {$cancelSubscriptionUrl}
 {/if}
@@ -111,8 +110,7 @@ End Date: {$end_date|crmDate}
 {/if}
 {if $is_deductible AND $price}
 
-{ts 1=$price|crmMoney}The value of this premium is %1. This may affect the amount of the
-tax deduction you can claim. Consult your tax advisor for more information.{/ts}{/if}
+{ts 1=$price|crmMoney}The value of this premium is %1. This may affect the amount of the tax deduction you can claim. Consult your tax advisor for more information.{/ts}{/if}
 {/if}
 
 {if $customPre}

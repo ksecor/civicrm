@@ -2,8 +2,7 @@
 ***********************************************************
 {ts}Test-drive Transaction Receipt{/ts} 
 
-{ts}This is a test-drive transaction receipt. No live financial
-transaction has occurred.{/ts}
+{ts}This is a test-drive transaction receipt. No live financial transaction has occurred.{/ts}
 
 ***********************************************************
 
