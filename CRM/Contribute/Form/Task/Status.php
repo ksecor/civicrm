@@ -175,6 +175,32 @@ AND    co.id IN ( $contribIDs )";
                                          'name'      => ts('Cancel') ),
                                  )
                            );
+        
+        $this->addFormRule( array( 'CRM_Contribute_Form_Task_Status', 'formRule' ) );
+    }
+
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) 
+    {
+        $seen = $errors = array( );
+        foreach ( $fields as $name => $value ) {
+            if ( strpos( $name, 'trxn_id_' ) !== false ) {
+                if ( array_key_exists( $value, $seen ) ) {
+                    $errors[$name] = ts( 'Transaction ID needs to be unique' );
+                }
+                $seen[$value] = 1;
+            }
+        }
+        return empty( $errors ) ? true : $errors;
     }
 
     /**
