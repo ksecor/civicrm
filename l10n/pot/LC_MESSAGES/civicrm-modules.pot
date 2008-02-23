@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-20 10:49+0100\n"
+"POT-Creation-Date: 2008-02-23 08:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Transaction ID"
@@ -254,6 +254,12 @@ msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Send Receipt?"
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+msgid ""
+"This Transaction ID already exists in the database. Include the account "
+"number for checks."
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
@@ -1301,6 +1307,16 @@ msgid "Widget Settings"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
+msgid ""
+"If you have received payment for this Pending online contribution, record it "
+"using <strong>Update Pending Contribution Status</strong> from <strong><a "
+"href=\"%1\">CiviContribute &raquo; Find Contributions</a></strong>. If you "
+"update the status from here the contributor may not got complete information "
+"on their receipt. Also, if there is an associated membership or event "
+"registration record - it's status will not be updated."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 msgid "Cancelled Date"
 msgstr ""
@@ -1501,19 +1517,15 @@ msgid "Print Contributions"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Status.php
-msgid "Check Identifier"
-msgstr ""
-
-#: CRM/Contribute/Form/Task/Status.php
-msgid "Transaction ID already exists in Database."
-msgstr ""
-
-#: CRM/Contribute/Form/Task/Status.php
 msgid "Update Pending Status"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Status.php
-msgid "Contribution status updated."
+msgid "Transaction ID's must be unique. Include the account number for checks."
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Status.php
+msgid "Contribution status has been updated for selected record(s)."
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
@@ -2762,6 +2774,10 @@ msgstr ""
 
 #: CRM/Member/BAO/Membership.php
 msgid "There are no status present, You can not add membership."
+msgstr ""
+
+#: CRM/Member/BAO/Membership.php
+msgid "Online Contribution:"
 msgstr ""
 
 #: CRM/Member/BAO/MembershipStatus.php
@@ -4463,7 +4479,20 @@ msgid "Batch Update Contribution via Profile"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid ""
+"Use this form to record received payments for \"Pay Later\" online "
+"contributions, membership signups and event registrations. You can use the "
+"Transaction ID field to record\n"
+"    account+check number, bank transfer identifier, or other unique payment "
+"identifier."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Update Contribution Status"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task.tpl
@@ -4632,6 +4661,12 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid "Enable recurring contributions."
+msgstr ""
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"Give contributors the option to \"pay later\" (e.g. mail in a check, call in "
+"a credit card, etc.)."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
@@ -4898,7 +4933,8 @@ msgstr ""
 msgid ""
 "Optionally set a maximum number of participants for this event. The "
 "registration link is hidden, and the text below is displayed when the "
-"maximum number of registrations is reached."
+"maximum number of registrations is reached.  Participants with Pending or "
+"Cancelled status are NOT included when checking if the event is full."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
@@ -5154,18 +5190,22 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
-msgid "Registration Confirmation and Receipt"
-msgstr ""
-
-#: templates/CRM/Event/Form/Participant.tpl
-#: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-msgid "Registration Confirmation"
+msgid "Payment Information"
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Select the appropriate contribution type for this payment."
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl
+msgid "Registration Confirmation and Receipt"
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
+msgid "Registration Confirmation"
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
@@ -5442,7 +5482,8 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Set event title, type (conference, performance etc.), description, start and "
-"end dates, maximum number of participants, and activate the event."
+"end dates, maximum number of participants, and activate the event. Enable "
+"the public participant listing feature."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -5452,7 +5493,8 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Determine if the event is free or paid. For paid events, set the fee level"
-"(s) and contribution type assigned to fees."
+"(s) and contribution type assigned to fees. Give online registrants the "
+"option to \"pay later\" (e.g. mail in a check, call in a credit card, etc.)."
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -5468,8 +5510,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-msgid ""
-"You can view the participant listing for this event <a href=\"%1\">here</a>"
+msgid "Public Participant Listing"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-20 10:49+0100\n"
+"POT-Creation-Date: 2008-02-23 08:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -1541,10 +1541,6 @@ msgstr ""
 
 #: CRM/Standalone/OpenID/DAO/Associations.php CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "Database check failed - the current database is not v1.9."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -5250,11 +5246,11 @@ msgid "Key is not set for this payment processor"
 msgstr ""
 
 #: CRM/Core/Payment/BaseIPN.php
-msgid "Online Contribution:"
+msgid "Online Contribution"
 msgstr ""
 
 #: CRM/Core/Payment/BaseIPN.php
-msgid "Online Event Registration:"
+msgid "Online Event Registration"
 msgstr ""
 
 #: CRM/Core/Payment/BaseIPN.php
@@ -5714,7 +5710,7 @@ msgid "Please enter a valid number."
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-msgid "You must select a Multiple Choice Option set if you chose Reuse and existing set."
+msgid "You must select a Multiple Choice Option set if you chose Reuse an existing set."
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
@@ -7010,6 +7006,10 @@ msgid "Title not Set"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "Database check failed - the current database is not v1.9."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid "Database check failed - it looks like you have already upgraded to the latest version of the database."
 msgstr ""
 
@@ -7038,7 +7038,7 @@ msgid "<p>Step Two will upgrade the contact records in your database.</p>"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid "Database consistency check failed for step 2. FK constraint names not in the required format."
+msgid "Database consistency check failed for step 3. FK constraint names not in the required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
@@ -7050,7 +7050,7 @@ msgid "<p>This step will upgrade the location data in your database.</p>"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
-msgid "Database consistency check failed for step 3. FK constraint names not in the required format."
+msgid "Database consistency check failed for step 4. FK constraint names not in the required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
@@ -7058,7 +7058,7 @@ msgid "CiviCRM 2.0 Upgrade: Step Four (Activity Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
-msgid "Database consistency check failed for Step 4. Value missing in civicrm_custom_field for the column 'name'."
+msgid "Database consistency check failed for Step 5. Value missing in civicrm_custom_field for the column 'name'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -7070,7 +7070,7 @@ msgid "This step will upgrade the custom section of your database."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "Database consistency check failed for step 5. FK constraint names not in the required format."
+msgid "Database consistency check failed for step 6. FK constraint names not in the required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
@@ -7290,7 +7290,7 @@ msgid "Select a event, OR apply this permission to ALL events."
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
-msgid "Select a Role to assign (grant) this permission to. Select the special role \"Everyone\" if you want to grant this permission to ALL users. \"Everyone\" includes anonymous (i.e. not logged in) users."
+msgid "Select a Role to assign (grant) this permission to. Select the special role \"Everyone\" if you want to grant this permission to ALL users. \"Everyone\" includes anonymous (i.e. not logged in) users. Select the special role \"Authenticated\" if you want to grant it to any logged in user."
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
