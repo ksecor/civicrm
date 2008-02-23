@@ -1,6 +1,6 @@
 <?php
 
-require_once 'api/v2/Group.php';
+require_once 'api/v2/GroupContact.php';
 
 /**
  * Class contains api test cases for "civicrm_group"
