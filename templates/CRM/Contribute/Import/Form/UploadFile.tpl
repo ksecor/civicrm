@@ -24,7 +24,7 @@
         <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Amount").{/ts}
+            {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Amount').{/ts}
         </dd>
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
         <dt>&nbsp;</dt>

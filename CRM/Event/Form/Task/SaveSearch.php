@@ -126,7 +126,7 @@ class CRM_Event_Form_Task_SaveSearch extends CRM_Event_Form_Task
         $savedSearch->mapping_id  = $mappingId;
         $savedSearch->save();
         $this->set('ssID', $savedSearch->id);
-        CRM_Core_Session::setStatus( ts('Your smart group has been saved as "%1".', array(1 => $formValues['title'])) );
+        CRM_Core_Session::setStatus( ts('Your smart group has been saved as \'%1\'.', array(1 => $formValues['title'])) );
 
         // also create a group that is associated with this saved search only if new saved search
         $params = array( );

@@ -75,7 +75,7 @@
         <legend><a href="#" onclick="hide('id-colors'); show('id-colors-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Widget Colors{/ts}</legend>
         <div class="description">
             {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search
-            on "hexadecimal colors" to find a chart of color codes.{/ts}
+            on 'hexadecimal colors' to find a chart of color codes.{/ts}
         </div>
         <table class="form-layout-compressed">
         {foreach from=$colorFields item=field key=name}

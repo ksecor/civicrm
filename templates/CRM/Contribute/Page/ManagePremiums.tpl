@@ -8,7 +8,7 @@
 <div id="help">
 {capture assign=contribURL}{crmURL p='civicrm/admin/contribute' q="reset=1"}{/capture}
 <p>{ts}CiviContribute allows you to configure any number of <strong>Premiums</strong> which can be offered to contributors as incentives / thank-you gifts. Premiums may be tangible items (i.e. a coffee mug or t-shirt), or they may be a membership or subscription with a pre-determined duration.{/ts}</p>
-<p>{ts 1=$contribURL}Use this section to enter and update all premiums that you want to offer on any of your Online Contribution pages. Then you can assign one or more premiums to a specific Contribution page from <a href="%1">Configure Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>.{/ts}</p>
+<p>{ts 1=$contribURL}Use this section to enter and update all premiums that you want to offer on any of your Online Contribution pages. Then you can assign one or more premiums to a specific Contribution page from <a href='%1'>Configure Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>.{/ts}</p>
 </div>
 
 {/if}
@@ -51,7 +51,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/contribute/managePremiums' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}No premium products have been created for your site. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}No premium products have been created for your site. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>  
     {/if}	  
