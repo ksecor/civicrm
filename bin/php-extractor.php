@@ -498,7 +498,7 @@ foreach ($strings as $str => $fileinfo) {
 
     foreach ($fileinfo as $file => $lines) {
 //      $occured[] = "$file:" . join(";", $lines);
-        $occured[] = "$file";
+        $occured[] = "$file +$lines[0]";
         if (isset($file_versions[$file])) {
             $filelist[] = $file_versions[$file];
         }

@@ -71,7 +71,7 @@ function do_file($file)
     
     for ($i=0; $i < count($matches[0]); $i++) {
         $output = array();
-        $output[] = "#: $file";
+        $output[] = "#: $file +$i";
         if (preg_match('/plural\s*=\s*["\']?\s*(.[^\"\']*)\s*["\']?/', $matches[2][$i], $match)) {
             $output[] = 'msgid "' . fs($matches[3][$i]) . '"';
             $output[] = 'msgid_plural "' . fs($match[1]) . '"';
