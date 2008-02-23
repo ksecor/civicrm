@@ -166,10 +166,10 @@ class CRM_Contribute_Form_ContributionPage_Amount extends CRM_Contribute_Form_Co
 
         if ( isset( $fields['is_pay_later'] ) ) {
             if ( empty( $fields['pay_later_text'] ) ) {
-                $errors['pay_later_text'] = ts( 'Please enter the text for the "pay later" checkbox displayed on the contribution form.' );
+                $errors['pay_later_text'] = ts( 'Please enter the text for the \'pay later\' checkbox displayed on the contribution form.' );
             }
             if ( empty( $fields['pay_later_receipt'] ) ) {
-                $errors['pay_later_receipt'] = ts( 'Please enter the instructions to be sent to the contributor when they choose to "pay later".' );
+                $errors['pay_later_receipt'] = ts( 'Please enter the instructions to be sent to the contributor when they choose to \'pay later\'.' );
             }
         }
         return $errors;

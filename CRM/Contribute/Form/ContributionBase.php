@@ -133,7 +133,7 @@ class CRM_Contribute_Form_ContributionBase extends CRM_Core_Form
             if ( ! $pastContributionID ) {
                 CRM_Core_Error::fatal( ts( 'We could not find contribution details for your request. Please try your request again.' ) );
             } else {
-                CRM_Core_Error::fatal( ts( 'This contribution has already been submitted. Click <a href="%1">here</a> if you want to make another contribution.', array( 1 => CRM_Utils_System::url( 'civicrm/contribute/transact', 'reset=1&id=' . $pastContributionID ) ) ) );
+                CRM_Core_Error::fatal( ts( 'This contribution has already been submitted. Click <a href=\'%1\'>here</a> if you want to make another contribution.', array( 1 => CRM_Utils_System::url( 'civicrm/contribute/transact', 'reset=1&id=' . $pastContributionID ) ) ) );
             }
         } else {
             $session->set( 'pastContributionID', $this->_id );

@@ -44,9 +44,9 @@
         <div id="payLaterOptions">
           <dl>
              <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
-             <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'pay later' option on the contribution form.{/ts}</dd>
              <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
-             <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the "pay later" option (e.g. "Mail your check to ... within 3 business days.").{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</dd>
           </dl>
         </div>
 

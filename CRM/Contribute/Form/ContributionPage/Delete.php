@@ -145,7 +145,7 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
 
         $transaction->commit( );
         
-        CRM_Core_Session::setStatus( ts('The contribution page "%1" has been deleted.', array( 1 => $this->_title ) ) );
+        CRM_Core_Session::setStatus( ts('The contribution page \'%1\' has been deleted.', array( 1 => $this->_title ) ) );
     }
 }
 

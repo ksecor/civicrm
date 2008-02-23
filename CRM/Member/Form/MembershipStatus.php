@@ -126,7 +126,7 @@ class CRM_Member_Form_MembershipStatus extends CRM_Member_Form
                 CRM_Utils_Weight::updateOtherWeights('CRM_Member_DAO_MembershipStatus', $oldWeight, $params['weight']);
             
             $membershipStatus = CRM_Member_BAO_MembershipStatus::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The membership status "%1" has been saved.', array( 1 => $membershipStatus->name )) );
+            CRM_Core_Session::setStatus( ts('The membership status \'%1\' has been saved.', array( 1 => $membershipStatus->name )) );
         }
     }
 }
