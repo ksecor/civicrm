@@ -60,7 +60,7 @@
         {edit}
         {if $caseEnabled AND ! $hasCases}
             {capture assign=newCaseUrl}{crmURL p='civicrm/contact/view/case' q="reset=1&action=add&cid=$contactId&context=case"}{/capture}
-            <div class="status messages">{ts}There are no Cases for this contact.{/ts}{if $permission EQ 'edit'} {ts 1=$newCaseUrl}If you want to associate this activity with a case, you will need to <a href="%1">create one first</a>.{/ts}{/if}</div>
+            <div class="status messages">{ts}There are no Cases for this contact.{/ts}{if $permission EQ 'edit'} {ts 1=$newCaseUrl}If you want to associate this activity with a case, you will need to <a href='%1'>create one first</a>.{/ts}{/if}</div>
         {/if}
         {/edit}
         
@@ -159,13 +159,13 @@
            {elseif $action eq 8}
              <tr>
                 <td colspan="2">
-                    <div class="status">{ts 1=$delName}Are you sure you want to delete "%1"?{/ts}</div>
+                    <div class="status">{ts 1=$delName}Are you sure you want to delete '%1'?{/ts}</div>
                 </td>
              </tr>  
            {elseif $action eq 32768}
              <tr>
                 <td colspan="2">
-                    <div class="status">{ts 1=$delName}Are you sure you want to detach "%1" from this case?{/ts}</div>
+                    <div class="status">{ts 1=$delName}Are you sure you want to detach '%1' from this case?{/ts}</div>
                 </td>
              </tr>  
            {/if}

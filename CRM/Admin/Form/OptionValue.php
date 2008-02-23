@@ -136,7 +136,7 @@ class CRM_Admin_Form_OptionValue extends CRM_Admin_Form
             }
             
             $optionValue = CRM_Core_BAO_OptionValue::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The Option Value "%1" has been saved.', array( 1 => $optionValue->label )) );
+            CRM_Core_Session::setStatus( ts('The Option Value \'%1\' has been saved.', array( 1 => $optionValue->label )) );
         }
         
     }

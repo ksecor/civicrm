@@ -152,7 +152,7 @@ class CRM_Admin_Form_Options extends CRM_Admin_Form
             require_once 'CRM/Core/OptionValue.php';
             $optionValue = CRM_Core_OptionValue::addOptionValue($params, $groupParams, $this->_action, $this->_id);
 
-            CRM_Core_Session::setStatus( ts('The %1 "%2" has been saved.', array(1 => $this->_GName, 2 => $optionValue->label)) );
+            CRM_Core_Session::setStatus( ts('The %1 \'%2\' has been saved.', array(1 => $this->_GName, 2 => $optionValue->label)) );
         }
     }
 }

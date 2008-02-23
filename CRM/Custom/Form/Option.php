@@ -427,7 +427,7 @@ SELECT data_type
         $customOption->save();
         
         
-        CRM_Core_Session::setStatus(ts('Your multiple choice option "%1" has been saved', array(1 => $customOption->label)));
+        CRM_Core_Session::setStatus(ts('Your multiple choice option \'%1\' has been saved', array(1 => $customOption->label)));
     }
 }
 ?>

@@ -107,7 +107,7 @@ class CRM_Price_Form_DeleteField extends CRM_Core_Form {
         require_once 'CRM/Core/BAO/PriceField.php';
         
         if (CRM_Core_BAO_PriceField::deleteField( $this->_fid ) ) {
-            CRM_Core_Session::setStatus( ts('The price field "%1" has been deleted.', array(1 => $this->_title ) ) );
+            CRM_Core_Session::setStatus( ts('The Price Field \'%1\' has been deleted.', array(1 => $this->_title ) ) );
         }
     }
 }

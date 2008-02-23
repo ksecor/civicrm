@@ -93,12 +93,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p><strong>This process will upgrade your v1.9 CiviCRM database to the v2.0 database format.</strong></p>
-<div class="messsages status"><ul><li><strong>Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.</strong></li>
-<li>The upgrade process consists of 6 steps, and may take a while depending on the size of your database.</li>
-<li>You must complete all 6 steps to have a valid 2.0 database.</li></ul></div>
-<p>Step One will start with cleaning your database. Click <strong>Begin Upgrade</strong> to begin the process.</p>'
-);
+        return '<p><strong>' . ts('This process will upgrade your v1.9 CiviCRM database to the v2.0 database format.') . '</strong></p><div class="messsages status"><ul><li><strong>' . ts('Make sure you have a current and complete backup of your CiviCRM database and codebase files before starting the upgrade process.') . '</strong></li><li>' . ts('The upgrade process consists of 6 steps, and may take a while depending on the size of your database.') . '</li><li>' . ts('You must complete all six steps to have a valid 2.0 database.') . '</li></ul></div><p>' . ts('Step One will start with cleaning your database. Click <strong>Begin Upgrade</strong> to begin the process.') . '</p>';
     }
             
     function getButtonTitle( ) {

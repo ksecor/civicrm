@@ -896,7 +896,7 @@ SELECT id
         // since we need to save option group id :)
         $customField->save();
 
-        CRM_Core_Session::setStatus(ts('Your custom field "%1" has been saved', array(1 => $customField->label)));
+        CRM_Core_Session::setStatus(ts('Your custom field \'%1\' has been saved', array(1 => $customField->label)));
     }
 }
 

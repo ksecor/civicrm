@@ -488,7 +488,7 @@ SELECT label, value
             } else {
                 $this->_where[$grouping][] = "$fieldName >= $val";
             }
-            $qill[] = ts( 'greater than or equal to "%1"', array( 1 => $value['from'] ) );
+            $qill[] = ts( 'greater than or equal to \'%1\'', array( 1 => $value['from'] ) );
         }
 
         if ( isset( $value['to'] ) ) {
@@ -498,7 +498,7 @@ SELECT label, value
             } else {
                 $this->_where[$grouping][] = "$fieldName <= $val";
             }
-            $qill[] = ts( 'less than or equal to "%1"', array( 1 => $value['to'] ) );
+            $qill[] = ts( 'less than or equal to \'%1\'', array( 1 => $value['to'] ) );
         }
 
         if ( ! empty( $qill ) ) { 

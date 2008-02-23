@@ -81,9 +81,7 @@ class CRM_Upgrade_TwoZero_Form_Step7 extends CRM_Upgrade_Form {
         } else {
             $upgradeDoc = 'http://wiki.civicrm.org/confluence/x/SoJH';
         }
-        return ts( '<p><strong>Your CiviCRM database has been successfully upgraded to v2.0.</strong></p>
-<p>Please be sure to follow the remaining steps in the <a href="%1" target="_blank"><strong>Upgrade Instructions</strong></a>.</p>
-<p>Thank you for using CiviCRM.</p>', array( 1 => $upgradeDoc ) );
+        return '<p><strong>' . ts('Your CiviCRM database has been successfully upgraded to v2.0.') . '</strong></p><p>' . ts('Please be sure to follow the remaining steps in the <a href=\'%1\' target=\'_blank\'><strong>Upgrade Instructions</strong></a>.', array( 1 => $upgradeDoc )) . '</p><p>' . ts('Thank you for using CiviCRM.') . '</p>';
     }
 }
 ?>

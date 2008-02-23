@@ -220,7 +220,7 @@ class CRM_Case_Form_Case extends CRM_Core_Form
         $case = CRM_Case_BAO_Case::create( $params );
 
         // set status message
-        CRM_Core_Session::setStatus( ts('Case "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Case \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }
 }
 
