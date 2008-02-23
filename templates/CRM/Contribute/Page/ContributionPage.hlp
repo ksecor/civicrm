@@ -9,7 +9,7 @@
     <li>{ts}Click <strong>Test-drive</strong> to try out the page in <strong>test mode</strong>. This allows you to go through the full contribution process using a dummy credit card on a test server.{/ts}</li>
     <li>{ts}If your page is enabled, click <strong>Live Page</strong> to view to the page in <strong>live mode</strong>.{/ts}</li>
     </ul>
-    <p>{ts 1=$newPageURL}Click <a href="%1">New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard.{/ts}</p>
-    <p>{ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}<a href="%1" target="_blank" title="%2">Read more...</a>{/ts}
+    <p>{ts 1=$newPageURL}Click <a href='%1'>New Contribution Page</a> to create and configure a new online contribution page using the step-by-step wizard.{/ts}</p>
+    <p><a href="http://wiki.civicrm.org/confluence//x/1Cs" target="_blank" title="$docURLTitle">{ts}Read more...{/ts}</a>
 </div>
 {/htxt}

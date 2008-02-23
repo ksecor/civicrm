@@ -14,7 +14,7 @@
     <div id="registrationLink">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. 'Register Now!').{/ts}</dd>
         </dl>
     </div>
     <dl>

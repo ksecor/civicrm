@@ -12,7 +12,7 @@
         <dt>{$form.name.label}</dt>
         <dd>{$form.name.html}</dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}e.g. "Student", "Senior", "Honor Society"...{/ts}</dd>
+        <dd class="description">{ts}e.g. 'Student', 'Senior', 'Honor Society'...{/ts}</dd>
     	<dt>{$form.description.label}</dt>
         <dd>{$form.description.html}</dd>
         <dt>&nbsp;</dt>
@@ -21,7 +21,7 @@
         <dt>{$form.member_org.label}<span class="marker"> *</span></dt>
         <dd><label>{$form.member_org.html}</label>&nbsp;&nbsp;{$form._qf_MembershipType_refresh.html}</dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in "Save the Whales - Northwest Chapter"). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</dd>
+        <dd class="description">{ts}Members assigned this membership type belong to which organization (e.g. this is for membership in 'Save the Whales - Northwest Chapter'). NOTE: This organization/group/chapter must exist as a CiviCRM Organization type contact.{/ts}</dd>
         {/if} 
     </dl>
     <div class="spacer"></div>	
@@ -83,7 +83,7 @@
        	<dt>{$form.contribution_type_id.label}<span class="marker"> *</span></dt>
         <dd>{$form.contribution_type_id.html}</dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select the contribution type assigned to fees for this membership type (for example "Membership Fees"). This is required for all membership types - including free or complimentary memberships.{/ts}</dd>
+        <dd class="description">{ts}Select the contribution type assigned to fees for this membership type (for example 'Membership Fees'). This is required for all membership types - including free or complimentary memberships.{/ts}</dd>
         <dt>{$form.duration_unit.label}<span class="marker">*</span></dt>
         <dd>{$form.duration_interval.html}&nbsp;&nbsp;{$form.duration_unit.html}</dd>
         <dt>&nbsp;</dt>
@@ -91,7 +91,7 @@
         <dt>{$form.period_type.label}<span class="marker"> *</span></dt>
         <dd>{$form.period_type.html}</dd>     
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar date.{/ts} {help id="period-type"}</dd>
+        <dd class="description">{ts}Select 'rolling' if membership periods begin at date of signup. Select 'fixed' if membership periods begin on a set calendar date.{/ts} {help id="period-type"}</dd>
     </dl>   
     
     <div id="fixed_period">
@@ -116,7 +116,7 @@
         <dt>{$form.visibility.label}</dt>
         <dd>{$form.visibility.html}</dd>
         <dt>&nbsp;</dt>
-        <dd class="description">{ts}Is this membership type available for self-service signups ("Public") or assigned by CiviCRM "staff" users only ("Admin"){/ts}</dd>
+        <dd class="description">{ts}Is this membership type available for self-service signups ('Public') or assigned by CiviCRM 'staff' users only ('Admin'){/ts}</dd>
         <dt>{$form.weight.label}</dt>
         <dd>{$form.weight.html}</dd>
         <dt>{$form.is_active.label}</dt>
@@ -126,12 +126,12 @@
     <fieldset><legend>{ts}Renewal Reminders{/ts}</legend>
     {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
         <div class="description">
-            {ts 1="http://wiki.civicrm.org/confluence//x/2yk" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to configure and periodically run a "cron" job on your server (<a href="%1" target="_blank" title="%2">more info...</a>).{/ts}
+            {ts 1="http://wiki.civicrm.org/confluence//x/2yk" 2=$docURLTitle}If you would like Membership Renewal Reminder emails sent to members automatically, you need to create a reminder message template and you need to configure and periodically run a 'cron' job on your server (<a href='%1' target='_blank' title='%2'>more info...</a>).{/ts}
         </div>
         {if $noMsgTemplates}
             {capture assign=msgTemplate}{crmURL p='civicrm/admin/messageTemplates' q="action=add&reset=1"}{/capture}
             <div class="status message">
-                {ts 1=$msgTemplate}No message templates have been created yet. If you want renewal reminders to be sent, <a href="%1">click here</a> to create a reminder email template. Then return to this screen to assign the renewal reminder message, and set reminder date.{/ts}
+                {ts 1=$msgTemplate}No message templates have been created yet. If you want renewal reminders to be sent, <a href='%1'>click here</a> to create a reminder email template. Then return to this screen to assign the renewal reminder message, and set reminder date.{/ts}
             </div>
         {else}
             <dl>

@@ -55,7 +55,7 @@
 {ts}The URL for PayPal's LIVE Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 {htxt id='PayPal-live-url-button'}
-{ts}The URL for displaying PayPal's "Pay with PayPal" payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 {htxt id='PayPal-test-user-name'}
 <strong>{ts}TEST Account API Username:{/ts}</strong>
@@ -73,7 +73,7 @@
 {ts}The URL for PayPal's TEST Payment server. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 {htxt id='PayPal-test-url-button'}
-{ts}The URL for displaying PayPal's "Pay with PayPal" payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
+{ts}The URL for displaying PayPal's 'Pay with PayPal' payment button image. Use the default value unless otherwise advised by PayPal.{/ts}
 {/htxt}
 
 {htxt id='PayPal_Express-live-user-name'}

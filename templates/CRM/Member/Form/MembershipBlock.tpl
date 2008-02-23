@@ -3,7 +3,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/ZSk" 2=$docURLTitle}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/ZSk" 2=$docURLTitle}Use this form to enable and configure a Membership Signup and Renewal section for this Online Contribution Page. If you're not using this page for membership signup, leave the <strong>Enabled</strong> box un-checked (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
 </div>
 
 <div id="form" class="form-item">

@@ -143,7 +143,7 @@
                  <div id='notice' class="form-item">
                     <dl>
                       <dt class="label">{$form.receipt_text.label}</dt>
-                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: "Thanks for registering for this event."{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
+                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
                    </dl>
                 </div>
              </div>
