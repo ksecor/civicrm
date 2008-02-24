@@ -1784,8 +1784,8 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         // Process group and tag  
-        if ( CRM_Utils_Array::value('group', $fields )) {
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID );
+        if ( CRM_Utils_Array::value('group', $fields ) ) {
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID, true );
         }
         
         if ( CRM_Utils_Array::value('tag', $fields )) {
