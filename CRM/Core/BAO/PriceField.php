@@ -169,31 +169,6 @@ class CRM_Core_BAO_PriceField extends CRM_Core_DAO_PriceField
     }
     
     /**
-     * Get number of elements for a particular field.
-     *
-     * This method returns the number of entries in the crm_custom_value table for this particular field.
-     *
-     * @param int $fieldId - id of field.
-     * @return int $numValue - number of custom data values for this field.
-     *
-     * @access public
-     * @static
-     *
-     */
-    /*
-    public static function getNumValue($fieldId)
-    {
-        $cvTable = CRM_Core_DAO_CustomValue::getTableName();
-        $query = "SELECT count(*) 
-                  FROM   $cvTable 
-                  WHERE  $cvTable.custom_field_id = %1";
-        $p = array( 1 => array( $fieldId, 'Integer' ) );
-
-        return CRM_Core_DAO::singleValueQuery( $query, $p );
-    }
-     */
-
-    /**
      * Get the field title.
      *
      * @param int $id id of field.

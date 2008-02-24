@@ -474,29 +474,6 @@ $where
 
 
     /**
-     * Get number of elements for a particular group.
-     *
-     * This method returns the number of entries in the civicrm_custom_value table for this particular group.
-     *
-     * @param int $groupId - id of group.
-     * @return int $numValue - number of custom data values for this group.
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function getNumValue($groupId)
-    {
-         $query = "SELECT count(*) 
-                   FROM   civicrm_custom_value, civicrm_custom_field 
-                   WHERE  civicrm_custom_value.custom_field_id = civicrm_custom_field.id AND
-                          civicrm_custom_field.custom_group_id = %1";
-         $params = array( 1 => array( $groupId, 'Integer' ) );
-         return CRM_Core_DAO::singleValueQuery( $query, $params );
-    }
-
-
-    /**
      * Get the group title.
      *
      * @param int $id id of group.

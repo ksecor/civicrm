@@ -639,9 +639,6 @@ AND civicrm_group_contact.group_id = %2";
         $contactIds = array();
         $contactIds[] = $contactId;
 
-        //get groups for the contact id
-        //$contactGroup =& CRM_Contact_BAO_GroupContact::getGroupList( $contactId );
-        //get groups for the contact id
         if ($contactId) {
             $contactGroupList =& CRM_Contact_BAO_GroupContact::getContactGroup( $contactId, 'Added' );
             if (is_array($contactGroupList)) {
