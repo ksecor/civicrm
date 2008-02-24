@@ -1453,7 +1453,8 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function createProfileContact( &$params, &$fields, $contactID = null,
                                           $addToGroupID = null, $ufGroupId = null,
-                                          $ctype = null ) 
+                                          $ctype = null,
+                                          $visibility = false ) 
     {
         // add ufGroupID to params array ( CRM-2012 )
         if ( $ufGroupId ) {
@@ -1785,7 +1786,7 @@ WHERE civicrm_contact.id IN $idString ";
 
         // Process group and tag  
         if ( CRM_Utils_Array::value('group', $fields ) ) {
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID, true );
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID, $visibility );
         }
         
         if ( CRM_Utils_Array::value('tag', $fields )) {
