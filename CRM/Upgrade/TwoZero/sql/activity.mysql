@@ -142,6 +142,11 @@ description = 'Online or offline event registration.'
 WHERE id = @event_id;
 
 
+SELECT @email_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'Email';
+UPDATE `civicrm_option_value` ov SET filter=1
+WHERE id = @email_id;
+
+
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 
 (@og_id_cs, 'Ongoing', '1', 'Ongoing', NULL, 0, 1, 1, NULL, 0, 1, 1),
 (@og_id_cs, 'Resolved', '2', 'Resolved', NULL, 0, NULL, 2, NULL, 0, 1, 1),
