@@ -5,68 +5,52 @@ if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
-global $civicrmUpgrade;
+require_once JPATH_SITE . DIRECTORY_SEPARATOR . 'configuration.php';
+
 // ** SET civicrmUpgrade to true if you are doing an UPGRADE **
-$civicrmUpgrade = false;
+define( 'CIVICRM_UPGRADE', false );
 
-global $mosConfig_absolute_path;
-// $mosConfig_absolute_path = "/tmp/mos";
-
-require_once $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'configuration.php';
 
 function civicrm_setup( ) {
-    global $comPath, $frontPath, $crmPath, $sqlPath, $tplPath, $dsn;
-    global $compileDir;
+    $jConfig = new JConfig( );
 
-    global $mosConfig_live_site, $mosConfig_absolute_path;
-    global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db;
+    define( 'COM_PATH', dirname(__FILE__) );
 
+    define( 'CRM_PATH', COM_PATH . DIRECTORY_SEPARATOR . 'civicrm' );
 
-    /**
-     $mosConfig_live_site = "MOS_LIVE_SITE";
-     $mosConfig_host = "HOST";
-     $mosConfig_password = "PASS";
-     $mosConfig_db = "DB";
-    */
-
-    $comPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
-        'administrator'          . DIRECTORY_SEPARATOR .
-        'components'             . DIRECTORY_SEPARATOR .
-        'com_civicrm'            ;
-    $crmPath = $comPath . DIRECTORY_SEPARATOR . 'civicrm';
-    $pkgPath = $crmPath . DIRECTORY_SEPARATOR . 'packages';
-    set_include_path( $comPath . PATH_SEPARATOR .
-                      $crmPath . PATH_SEPARATOR .
+    $pkgPath = CRM_PATH . DIRECTORY_SEPARATOR . 'packages';
+    set_include_path( COM_PATH . PATH_SEPARATOR .
+                      CRM_PATH . PATH_SEPARATOR .
                       $pkgPath . PATH_SEPARATOR .
                       get_include_path( ) );
 
-    $sqlPath = $crmPath . DIRECTORY_SEPARATOR . 'sql';
-    $tplPath = $crmPath . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR;
+    define( 'SQL_PATH', CRM_PATH . DIRECTORY_SEPARATOR . 'sql' );
 
-    $pieces = parse_url( $mosConfig_live_site );
+    define( 'TPL_PATH', CRM_PATH . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'CRM' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR );
 
-    $frontPath = $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
-        'components'             . DIRECTORY_SEPARATOR . 
-        'com_civicrm'            ;
+    $pieces = parse_url( $jConfig->live_site );
 
-    $scratchDir   = $mosConfig_absolute_path . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
+    define( 'FRONT_PATH', JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_civicrm' );
+
+    $scratchDir   = JPATH_SITE . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'civicrm';
     if ( ! is_dir( $scratchDir ) ) {
         mkdir( $scratchDir, 0777 );
     }
     
-    $compileDir        = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c' . DIRECTORY_SEPARATOR;
+    $compileDir   = $scratchDir . DIRECTORY_SEPARATOR . 'templates_c' . DIRECTORY_SEPARATOR;
     if ( ! is_dir( $compileDir ) ) {
         mkdir( $compileDir, 0777 );
     }
     $compileDir = addslashes( $compileDir );
 
-    $dsn =  'mysql://' .  
-        $mosConfig_user     . ':' .  
-        $mosConfig_password . '@' . 
-        $mosConfig_host     . '/' .              
-        $mosConfig_db       .   
-        '?new_link=true';
+    define( 'COMPILE_DIR', $compileDir );
 
+    define( 'DSN', 'mysql://'  .  
+            $jConfig->user     . ':' .  
+            $jConfig->password . '@' . 
+            $jConfig->host     . '/' .              
+            $jConfig->db       .   
+            '?new_link=true' );
 }
 
 function civicrm_write_file( $name, &$buffer ) {
@@ -79,15 +63,13 @@ function civicrm_write_file( $name, &$buffer ) {
 }
 
 function civicrm_main( ) {
-    global $sqlPath, $comPath, $crmPath, $frontPath;
-
     civicrm_setup( );
 
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
-    civicrm_source( $sqlPath . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
+    civicrm_source( SQL_PATH . DIRECTORY_SEPARATOR . 'civicrm.mysql'     );
+    civicrm_source( SQL_PATH . DIRECTORY_SEPARATOR . 'civicrm_data.mysql');
     
     // generate backend settings file
-    $configFile = $comPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
+    $configFile = COM_PATH . DIRECTORY_SEPARATOR . 'civicrm.settings.php';
     $string = civicrm_config( false );
     civicrm_write_file( $configFile,
                         $string );
@@ -101,20 +83,20 @@ require_once '$configFile';
 ?>
 ";
     $string = trim( $string );
-    civicrm_write_file( $crmPath . DIRECTORY_SEPARATOR . 'civicrm.config.php',
+    civicrm_write_file( CRM_PATH . DIRECTORY_SEPARATOR . 'civicrm.config.php',
                         $string );
 
     // generate frontend settings file
     $string = civicrm_config( true ); 
-    civicrm_write_file( $frontPath . DIRECTORY_SEPARATOR . 'civicrm.settings.php',
+    civicrm_write_file( FRONT_PATH . DIRECTORY_SEPARATOR . 'civicrm.settings.php',
                         $string );
 
 }
 
 function civicrm_source( $fileName ) {
-    global $crmPath, $dsn, $civicrmUpgrade;
+    $dsn = DSN;
 
-    if ( $civicrmUpgrade ) {
+    if ( CIVICRM_UPGRADE ) {
         return;
     }
 
@@ -144,38 +126,33 @@ function civicrm_source( $fileName ) {
 }
 
 function civicrm_config( $frontend = false ) {
-    global $crmPath, $comPath;
-    global $dsn, $compileDir;
-    global $mysqlPath;
-    global $mosConfig_smtphost, $mosConfig_live_site;
-    global $mosConfig_host, $mosConfig_user, $mosConfig_password, $mosConfig_db, $mosConfig_dbprefix;
-    global $tplPath;
+    $jConfig = new JConfig( );
 
     $params = array(
-                'cms' => 'Joomla',
-                'cmsVersion' => '1.0',
-                'usersTable' => $mosConfig_dbprefix . 'users',
-                'crmRoot' => $crmPath,
-                'templateCompileDir' => $compileDir,
-                'baseURL' => $mosConfig_live_site . '/administrator/',
-                'frontEnd' => 0,
-                'dbUser' => $mosConfig_user,
-                'dbPass' => $mosConfig_password,
-                'dbHost' => $mosConfig_host,
-                'dbName' => $mosConfig_db,
-                'CMSdbUser' => $mosConfig_user,
-                'CMSdbPass' => $mosConfig_password,
-                'CMSdbHost' => $mosConfig_host,
-                'CMSdbName' => $mosConfig_db,
-                );
+                    'cms'        => 'Joomla',
+                    'cmsVersion' => '1.0',
+                    'usersTable' => $jConfig->dbprefix . 'users',
+                    'crmRoot'    => CRM_PATH,
+                    'templateCompileDir' => COMPILE_DIR,
+                    'baseURL'    => $jConfig->live_site . '/administrator/',
+                    'frontEnd'   => 0,
+                    'dbUser'     => $jConfig->user,
+                    'dbPass'     => $jConfig->password,
+                    'dbHost'     => $jConfig->host,
+                    'dbName'     => $jConfig->db,
+                    'CMSdbUser'  => $jConfig->user,
+                    'CMSdbPass'  => $jConfig->password,
+                    'CMSdbHost'  => $jConfig->host,
+                    'CMSdbName'  => $jConfig->db,
+                    );
 
     if ( $frontend ) {
-        $params['baseURL']  = $mosConfig_live_site . '/';
+        $params['baseURL']  = $jConfig->live_site . '/';
         $params['frontEnd'] = 1;
     }
 
     
-    $str = file_get_contents( $tplPath . 'civicrm.settings.php.sample.tpl' );
+    $str = file_get_contents( TPL_PATH . 'civicrm.settings.php.sample.tpl' );
     foreach ( $params as $key => $value ) { 
         $str = str_replace( '%%' . $key . '%%', $value, $str ); 
     } 

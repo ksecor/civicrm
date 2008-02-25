@@ -4,22 +4,6 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 	die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 }
 
-// this has been moved here from install.civicrm.php
-// because the 1.5 installer does not run a script at end of install
-if ( ! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
-	global $database;
-    global $mosConfig_absolute_path;
-    $path =
-        $mosConfig_absolute_path . DIRECTORY_SEPARATOR .
-        'administrator'          . DIRECTORY_SEPARATOR .
-        'components'             . DIRECTORY_SEPARATOR .
-        'com_civicrm'            . DIRECTORY_SEPARATOR ;
-    
-    // this require actually runs the function needed
-    // bad code, but easier to debug on remote machines
-    require_once $path . 'configure.php';
-}
-
 include_once 'civicrm.settings.php';
 
 require_once 'PEAR.php';

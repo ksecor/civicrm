@@ -1,7 +1,11 @@
 <?php
 
 function com_install() {
-    // this is not invoked in joomla 1.5 per steven, hence moved to admin.civicrm.php
+    if ( ! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'civicrm.settings.php' ) ) {
+        // this require actually runs the function needed
+        // bad code, but easier to debug on remote machines
+        require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
+    }
 }
 
 # Show installation result to user

@@ -1,5 +1,5 @@
-<?xml version="1.0" ?>
-<mosinstall type="component">
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="2.1">
   <name>CiviCRM</name>
   <creationDate>12/25/2007</creationDate>
   <copyright>(C) CiviCRM LLC</copyright>
@@ -49,7 +49,7 @@
                         <menu task="option=com_civicrm&amp;task=civicrm/event&amp;reset=1">CiviEvent</menu>
                         <menu task="option=com_civicrm&amp;task=civicrm/admin&amp;reset=1">Administer CiviCRM</menu>
                 </submenu>
-    <files>
+    <files folder="admin">
       <filename>admin.civicrm.php</filename>
       <filename>toolbar.civicrm.php</filename>
       <filename>install.civicrm.php</filename>
@@ -60,4 +60,4 @@
 {/foreach}
     </files>
   </administration>
-</mosinstall>
+</install>
