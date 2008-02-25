@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_case` (
     PRIMARY KEY (id),
     INDEX `index_case_type_id` (`case_type_id`),
     INDEX `UI_status_id` (`status_id`),
-    CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
-    CONSTRAINT `FK_civicrm_case_status_id` FOREIGN KEY (`status_id`) REFERENCES `civicrm_option_value` (`id`)
+    CONSTRAINT `FK_civicrm_case_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
