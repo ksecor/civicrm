@@ -99,54 +99,6 @@ function &crm_create_contribution( &$params ) {
     return $contribution;
 }
 
-
-function &crm_create_contribution_formatted( &$params , $onDuplicate) {
-    _crm_initialize( );
-
-    // return error if we have no params
-    if ( empty( $params ) ) {
-        return _crm_error( 'Input Parameters empty' );
-    }
-
-    $error = _crm_required_formatted_contribution($params);
-    if (is_a( $error, 'CRM_Core_Error')) {
-        return $error;
-    }
-    
-    $error = _crm_validate_formatted_contribution($params);
-    if (is_a( $error, 'CRM_Core_Error')) {
-        return $error;
-    }
-
-    $error = _crm_duplicate_formatted_contribution($params);
-    if (is_a( $error, 'CRM_Core_Error')) {
-        return $error;
-    }
-    $ids = array();
-    
-    CRM_Contribute_BAO_Contribution::resolveDefaults($params, true);
-
-    $contribution = CRM_Contribute_BAO_Contribution::create( $params, $ids );
-    return $contribution;
-}
-
-function &crm_replace_contribution_formatted($contributionId, &$params) {
-    $contribution = crm_get_contribution(array('contribution_id' => $contributionId));
-    if ( $contribution ) {
-        crm_delete_contribution($contribution);
-    }
-    return crm_create_contribution_formatted($params);
-}
-
-function &crm_update_contribution_formatted($contributionId, &$params, $overwrite = true) {
-    $contribution = crm_get_contribution(array('contribution_id' => $contributionId));
-    if ( ! $contribution || is_a( $contribution, 'CRM_Core_Error' ) ) {
-        return _crm_error("Could not find valid contribution for: $contactId");
-    }
-    return _crm_update_contribution($contribution, $params, $overwrite);
-}
-
-
 /**
  * Get an existing contribution.
  *
