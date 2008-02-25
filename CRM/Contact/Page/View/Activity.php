@@ -60,8 +60,10 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
             $sortID = CRM_Utils_Sort::sortIDValue( $this->get( CRM_Utils_Sort::SORT_ID  ),
                                                    $this->get( CRM_Utils_Sort::SORT_DIRECTION ) );
         }
-        $controller =& new CRM_Core_Selector_Controller($selector, $this->get(CRM_Utils_Pager::PAGE_ID),
-                                                            $sortID, CRM_Core_Action::VIEW, $this, $output);
+        $controller =& new CRM_Core_Selector_Controller($selector,
+                                                        $this->get(CRM_Utils_Pager::PAGE_ID),
+                                                        $sortID,
+                                                        CRM_Core_Action::VIEW, $this, $output);
         $controller->setEmbedded(true);
         $controller->run();
         $controller->moveFromSessionToTemplate( );
@@ -162,7 +164,11 @@ class CRM_Contact_Page_View_Activity extends CRM_Contact_Page_View
         if ( $this->_action & 
            ( CRM_Core_Action::UPDATE | CRM_Core_Action::ADD | CRM_Core_Action::VIEW ) ) {
             $this->edit( );
-        } elseif ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) {
+            $activityTypeId = CRM_Utils_Request::retrieve('atype', 'Positive', $this, true );
+            if ( $activityTypeId == 3 ) {
+                return;
+            }
+         } elseif ( $this->_action & ( CRM_Core_Action::DELETE | CRM_Core_Action::DETACH ) ) {
             $this->delete( );
         } else {
             $this->browse( );

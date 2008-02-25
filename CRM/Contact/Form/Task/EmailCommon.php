@@ -268,13 +268,13 @@ class CRM_Contact_Form_Task_EmailCommon
                     $email->save( );
                 } else {
                     require_once 'CRM/Core/BAO/LocationType.php';
-                    $ids = $params = $locID = array();
+                    $params = array();
                     $params['contact_id'] = $cid;
                     $locType = CRM_Core_BAO_LocationType::getDefault();
                     $params['location'][1]['location_type_id'] = $locType->id;
                     $params['location'][1]['is_primary'] = 1;
                     $params['location'][1]['email'][1]['email'] = $emailAddress;
-                    CRM_Core_BAO_Location::add($params, $ids, 1);
+                    CRM_Core_BAO_Location::create($params);
                 }
             }
         }
