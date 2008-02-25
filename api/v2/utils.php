@@ -1029,6 +1029,10 @@ function _civicrm_membership_formatted_param( &$params, &$values, $create=false)
             $id = CRM_Core_DAO::getFieldValue( "CRM_Member_DAO_MembershipStatus", $value, 'id', 'name' );
             $values[$key] = $id;
             break;
+        case 'member_is_test':
+            $values['is_test'] = CRM_Utils_Array::value( $key, $params, false );
+            unset($values['member_is_test']);
+            break;
         default:
             break;
         }
