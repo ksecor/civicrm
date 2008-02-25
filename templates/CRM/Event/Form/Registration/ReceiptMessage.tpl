@@ -77,7 +77,7 @@
 {if $trxn_id}
 {ts}Transaction #{/ts}    : {$trxn_id}
 {/if}
-{if $contributeMode ne 'notify'}
+{if $contributeMode ne 'notify' and !$isAmountzero and !$is_pay_later  }
 
 ===========================================================
 {ts}Billing Name and Address{/ts}
@@ -87,7 +87,7 @@
 {$address}
 {/if}
 
-{if $contributeMode eq 'direct' and !$isAmountzero}
+{if $contributeMode eq 'direct' and !$isAmountzero and !$is_pay_later}
 ===========================================================
 {ts}Credit or Debit Card Information{/ts}
 

@@ -78,7 +78,7 @@
          {include file="CRM/UF/Form/Block.tpl" fields=$customPre}
     {/if}
 
-    {if $contributeMode ne 'notify' and $paidEvent and ! $is_pay_later}    
+    {if $contributeMode ne 'notify' and $paidEvent and ! $is_pay_later and ! $isAmountzero}    
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

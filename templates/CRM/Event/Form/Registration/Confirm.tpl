@@ -52,7 +52,9 @@
 
     {if $contributeMode ne 'notify' and
         ! $is_pay_later             and
-        $paidEvent}
+        $paidEvent                  and
+	! $isAmountzero 
+	}
     <div class="header-dark">
         {ts}Billing Name and Address{/ts}
     </div>

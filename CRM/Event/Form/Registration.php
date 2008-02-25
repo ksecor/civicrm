@@ -507,16 +507,15 @@ class CRM_Event_Form_Registration extends CRM_Core_Form
         
         require_once "CRM/Event/BAO/EventPage.php";
 
-        if ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
-             $this->_contributeMode == 'checkout'                     ||
-             $this->_contributeMode == 'notify' ) {
+        if ( ( CRM_Utils_Array::value( 'is_pay_later', $this->_params ) ||
+               $this->_contributeMode == 'checkout'                     ||
+               $this->_contributeMode == 'notify' )                     && 
+             $this->_params['amount'] != 0 ) {
             // do a transfer only if a monetary payment
             if ( $this->_values['event']['is_monetary'] ) {
                 $this->_params['participantID'] = $participant->id;
-                if ( $this->_params['amount'] != 0 ) {
-                    if ( ! $this->_params['is_pay_later'] ) {
-                        $payment->doTransferCheckout( $this->_params );
-                    }
+                if ( ! $this->_params['is_pay_later'] ) {
+                    $payment->doTransferCheckout( $this->_params );
                 }
             }
         } else {
