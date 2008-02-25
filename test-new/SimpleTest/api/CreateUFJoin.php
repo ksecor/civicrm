@@ -72,7 +72,7 @@ class TestOfUFJoinCreateAPIV1 extends CiviUnitTestCase
             $this->assertEqual( $result->weight, 1 );
             $this->assertEqual( $result->uf_group_id, 1 );
             $this->_ufjoinID = $result->id;
-            $params['uf_group_id'] = NULL;
+            $params['uf_group_id'] = '';
             $this->_ufjoinparams = $params;
 
         }    

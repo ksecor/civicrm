@@ -571,6 +571,49 @@ class CiviUnitTestCase extends UnitTestCase {
         civicrm_group_delete( $params );
     }
 
+    /** 
+     * Function to add a UF Join Entry
+     *
+     * @return int $id of created UF Join
+     */ 
+    function ufjoinCreate( $params = null ) {
+        if ( $params === null ) { 
+            $params = array(
+                            'is_active'    => 1,
+                            'module'       => 'CiviEvent',
+                            'entity_table' => 'civicrm_event',
+                            'entity_id'    => 3,
+                            'weight'       => 1,
+                            'uf_group_id'  => 2,
+                            );
+        }
+        
+        $result = crm_add_uf_join( $params );
+        
+        return $result['result'];
+    }    
+    
+    /** 
+     * Function to delete a UF Join Entry
+     *
+     * @param array with missing uf_group_id   
+     */ 
+    function ufjoinDelete( $params = null ) {
+        if ( $params === null ) { 
+            $params = array(
+                            'is_active'    => 1,
+                            'module'       => 'CiviEvent',
+                            'entity_table' => 'civicrm_event',
+                            'entity_id'    => 3,
+                            'weight'       => 1,
+                            'uf_group_id'  => '',
+                            );
+        }
+        
+        $result = crm_add_uf_join( $params );
+        
+    }    
+    
     /**
      * Function to create Group for a contact
      * 
