@@ -44,6 +44,7 @@
 
 require_once 'api/utils.php';
 
+require_once 'api/Group.php'
 require_once 'api/UFGroup.php';
 require_once 'api/UFJoin.php';
 require_once 'api/Search.php';
