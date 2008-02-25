@@ -1258,7 +1258,7 @@ msgstr "Postleitzahlenanhang"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/County.php CRM/Core/Form.php
 msgid "County"
-msgstr "Land"
+msgstr "Gemeinde"
 
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Test.php CRM/Core/Form.php
 #: CRM/Core/Payment/Form.php
