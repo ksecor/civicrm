@@ -57,12 +57,6 @@
        <comment>FK to civicrm_option_value.id, that has to be valid, registered activity type.</comment>
        <add>1.1</add>
   </field>
-  <foreignKey>
-       <name>activity_type_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>2.0</add>
-  </foreignKey>  
   <index>
        <name>UI_activity_type_id</name>
        <fieldName>activity_type_id</fieldName>       
@@ -204,28 +198,12 @@
       <comment>ID of the status this activity is currently in. Foreign key to civicrm_option_value.</comment>
       <add>2.0</add>
   </field>
-  <foreignKey>
-       <name>status_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>2.0</add>
-       <onDelete>SET NULL</onDelete>
-  </foreignKey>
-  
   <field>
       <name>priority_id</name>
       <type>int unsigned</type>
       <comment>ID of the priority given to this activity. Foreign key to civicrm_option_value.</comment>
       <add>2.0</add>
   </field>
-  <foreignKey>
-       <name>priority_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>2.0</add>
-       <onDelete>SET NULL</onDelete>
-  </foreignKey>  
-  
   <field>
       <name>parent_id</name>
       <type>int unsigned</type>

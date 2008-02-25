@@ -122,12 +122,6 @@
        <comment>Id of case status.</comment>
        <add>1.8</add>
   </field>
-  <foreignKey>
-       <name>status_id</name>
-       <table>civicrm_option_value</table>
-       <key>id</key>
-       <add>2.0</add>
-  </foreignKey>  
   <index>
        <name>UI_status_id</name>
        <fieldName>status_id</fieldName>
