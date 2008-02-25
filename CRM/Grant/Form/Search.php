@@ -237,8 +237,6 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
         $rows = $this->get( 'rows' ); 
             
         if ( is_array( $rows ) ) {
-            $lineItems = array( );
-            //require_once 'CRM/Grant/BAO/Grant.php';
             if ($this->_context == 'search') {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
@@ -246,10 +244,7 @@ class CRM_Grant_Form_Search extends CRM_Core_Form
                                        null, null, 
                                        array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
-
-                    // add line item details if applicable
                     $grant_id = $row['grant_id'];
-                    
                 }
             }
 

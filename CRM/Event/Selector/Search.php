@@ -284,13 +284,14 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
          }
 
          require_once 'CRM/Event/PseudoConstant.php';
+         require_once 'CRM/Event/BAO/Event.php';
          $statusTypes  = array( );
          $statusTypes  = CRM_Event_PseudoConstant::participantStatus( );
          $roles        = array( );
          $roles        = CRM_Event_PseudoConstant::participantrole( );
 
          $mask = CRM_Core_Action::mask( $permission );
-         while ($result->fetch()) {
+         while ( $result->fetch( ) ) {
              $row = array();
              // the columns we are interested in
              foreach (self::$_properties as $property) {
@@ -332,12 +333,7 @@ class CRM_Event_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
              }
              
              $row['contact_type' ] = $contact_type;
-             $row['modified_date'] = CRM_Event_BAO_Participant::getModifiedDate( $result->contact_id, 
-                                                                                 $result->participant_id );
-             
-             $row['paid'] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event', 
-                                                         $row['event_id'], 
-                                                         'is_monetary');
+             $row['paid'] = CRM_Event_BAO_Event::isMonetary ( $row['event_id'] );
              
              if ( $row['event_level'] ) {
                  CRM_Event_BAO_Participant::fixEventLevel( $row['event_level'] );
