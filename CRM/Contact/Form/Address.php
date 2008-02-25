@@ -73,18 +73,11 @@ class CRM_Contact_Form_Address
         
         foreach ( $elements as $name => $v ) {
             list( $title, $attributes, $select ) = $v;
-
+            
             if ( ! $addressOptions[$title] ) {
                 continue;
             }
-
-            // gross hack for CRM-2729, we should fix this in 2.1 as per CRM-2733
-            // disable it for german where county == country == land
-            if ( $name == 'county_id' &&
-                 $config->lcMessages == 'de_DE' ) {
-                continue;
-            }
-
+            
             if ( ! $attributes ) {
                 $attributes = $attributes[$name];
             }
