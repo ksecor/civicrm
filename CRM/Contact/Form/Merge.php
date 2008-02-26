@@ -55,17 +55,27 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     function preProcess()
     {
-        require_once 'api/Contact.php';
-        require_once 'api/Search.php';
+        require_once 'api/v2/Contact.php';
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Core/OptionValue.php';
-        if (!CRM_Core_Permission::check('administer CiviCRM')) {
-            CRM_Core_Error::fatal('You do not have access to this page');
+        if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have access to this page' ) );
         }
 
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
+
+        // ensure that oid is not the current user, if so refuse to do the merge
+        $session =& CRM_Core_Session::singleton( );
+        if ( $session->get( 'userID' ) == $oid ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $display_name = CRM_Contact_BAO_Contact::displayName( $oid );
+            $message = ts( 'The contact record which is linked to the currently logged in user account - \'%1\' - can not be deleted.',
+                           array( 1 => $display_name ) );
+            CRM_Core_Error::statusBounce( $message );
+        }
+
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
         $mainParams  = array('contact_id' => $cid, 'return.display_name' => 1);
