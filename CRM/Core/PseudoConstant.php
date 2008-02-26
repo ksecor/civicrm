@@ -65,7 +65,7 @@ class CRM_Core_PseudoConstant
      * @var array
      * @static
      */
-    private static $activityType;
+    private static $activityType = array( );
   
     /**
      * individual prefix
@@ -358,15 +358,18 @@ class CRM_Core_PseudoConstant
      */
     public static function &activityType( $all = true )
     {
-        if ( ! self::$activityType || !$all ) {
+        // convert to integer for array index
+        $all = $all ? 1 : 0;
+        if ( ! array_key_exists( $all, self::$activityType ) ) {
             require_once 'CRM/Core/OptionGroup.php';
             $condition = null;
             if ( !$all ) {
                 $condition = 'AND filter = 0';
             }
-            self::$activityType = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
+            self::$activityType[$all] = CRM_Core_OptionGroup::values('activity_type', false, false, false, $condition );
         }
-        return self::$activityType;
+
+        return self::$activityType[$all];
     }
 
     /**
