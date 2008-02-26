@@ -638,7 +638,7 @@ AND civicrm_group_contact.group_id = %2";
      * @access public
      * @static
      */
-    static function create( &$params, $contactId, $visibility = false ) 
+    static function create( &$params, $contactId, $visibility = false, $method = 'Admin' ) 
     {
         $contactIds = array();
         $contactIds[] = $contactId;
@@ -670,10 +670,10 @@ AND civicrm_group_contact.group_id = %2";
         foreach ($allGroup as $key => $varValue) {
             if (array_key_exists($key, $params) && !array_key_exists($key, $contactGroup) ) {
                 // add contact to group
-                CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $key);
+                CRM_Contact_BAO_GroupContact::addContactsToGroup($contactIds, $key, $method);
             } else if (!array_key_exists($key, $params) && array_key_exists($key, $contactGroup) ) {
                 // remove contact from group
-                CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactIds, $key);
+                CRM_Contact_BAO_GroupContact::removeContactsFromGroup($contactIds, $key, $method);
             }
         }
     }
