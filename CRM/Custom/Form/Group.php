@@ -303,25 +303,43 @@ class CRM_Custom_Form_Group extends CRM_Core_Form {
         $group->is_active        = CRM_Utils_Array::value('is_active'      , $params, false);
         $group->domain_id        = CRM_Core_Config::domainID( );
 
+        $tableName = null;
         if ($this->_action & CRM_Core_Action::UPDATE) {
             $group->id = $this->_id;
         } else {
             // lets create the table associated with the group and save it
             // we make sure we embed the domain_id in it to avoid naming conflicts
             // with other domains: so the format is: civicrm_value_DOMAINID_GROUPNAME
-            $group->table_name = 
+            $tableName = $group->table_name =
                 "civicrm_value_{$group->domain_id}_" .
                 strtolower( CRM_Utils_String::munge( $group->title, '_', 32 ) );
             $group->is_multiple = 0;
-            
+        }
+        
+        // enclose the below in a transaction
+        require_once 'CRM/Core/Transaction.php';
+        $transaction = new CRM_Core_Transaction( );
+
+        $group->save();
+
+        if ( $tableName ) {
+            // now append group id to table name, this prevent any name conflicts
+            // like CRM-2742
+            $tableName .= "_{$group->id}";
+            $group->table_name = $tableName;
+            CRM_Core_DAO::setFieldValue( 'CRM_Core_DAO_CustomGroup',
+                                         $group->id,
+                                         'table_name',
+                                         $tableName );
+
             // now create the table associated with this group
             CRM_Core_BAO_CustomGroup::createTable( $group );
         }
 
-        $group->save();
+        $transaction->commit( );
 
         if ($this->_action & CRM_Core_Action::UPDATE) {
-            CRM_Core_Session::setStatus(ts('Your Group \'% \' has been saved.', array(1 => $group->title)));
+            CRM_Core_Session::setStatus(ts('Your Group \'%1 \' has been saved.', array(1 => $group->title)));
         } else {
             $url = CRM_Utils_System::url( 'civicrm/admin/custom/group/field', 'reset=1&action=add&gid=' . $group->id);
             CRM_Core_Session::setStatus(ts('Your Group \'%1\' has been added. You can <a href=\'%2\'>add custom fields</a> to this group now.',
