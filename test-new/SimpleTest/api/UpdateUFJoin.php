@@ -19,7 +19,7 @@ class TestOfUFJoinEditAPIV1 extends CiviUnitTestCase
         
     }
     
-    function testCreateUFJoinWithEmptyParams( )
+    function testEditUFJoinWithEmptyParams( )
     {
         $params = array( );
         $result = crm_edit_uf_join( $ufJoin, $params );
@@ -28,7 +28,7 @@ class TestOfUFJoinEditAPIV1 extends CiviUnitTestCase
         $this->assertEqual($result->_errors['0']['message'] , 'params is an empty array');
     }    
 
-    function testCreateUFJoinWithParamsNotArray( )
+    function testEditUFJoinWithParamsNotArray( )
     {  
         $params = 'test';
         $result = crm_edit_uf_join( $this->_ufJoin ,$params ); 
@@ -37,7 +37,7 @@ class TestOfUFJoinEditAPIV1 extends CiviUnitTestCase
         $this->assertEqual( $result->_errors['0']['message'] , 'params is not an array' );
     }    
     
-    function testCreateUFJoinWithWrongUfObject( )
+    function testEditUFJoinWithWrongUfObject( )
     {
         $ufJoin = array( );
         $params = array( );
