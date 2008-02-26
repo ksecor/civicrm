@@ -7,7 +7,8 @@
 </div>
 
 <div id="form" class="form-item">
-    <fieldset><legend>{ts}Configure Membership Section{/ts}</legend>
+ <fieldset><legend>{ts}Configure Membership Section{/ts}</legend>
+  {if $form.membership_type.html}    
     <dl>
      <dt></dt><dd>{$form.is_active.html} &nbsp;{$form.is_active.label}</dd>
      <dt>&nbsp;</dt><dd class="description">{ts}Include a Membership Signup section in this Online Contribution page?{/ts}</dd>
@@ -25,7 +26,6 @@
 
     <dt>{$form.renewal_text.label}</dt><dd>{$form.renewal_text.html}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}Membership section introductory text - displayed to renewing members.{/ts}</dd>
-    {if $form.membership_type}
     <dt>{$form.membership_type.label}</dt> 
     <dd>
         {assign var="count" value="1"}
@@ -47,7 +47,6 @@
            </table>
            {/strip}
       </dd>  
-     {/if}
     <dt></dt><dd>{$form.is_required.html}&nbsp;{$form.is_required.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}If checked, user must signup for one of the displayed membership options before continuing.{/ts}</dd>
 
@@ -60,16 +59,21 @@
     </dl>
 
    </div>
-    {if $action ne 4}
-        <div id="crm-submit-buttons">
-            <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
-        </div>
-    {else}
-        <div id="crm-done-button">
-             <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
-        </div>
-    {/if} {* $action ne view *}
-  </fieldset>
+  {else}
+      <div class="status message">
+         {ts}You need to have at least one <a href="{crmURL p="civicrm/admin/member/membershipType" q="reset=1"}">Membership Type</a> to enable Member Signup.{/ts}
+      </div>
+  {/if} 
+  {if $action ne 4}
+      <div id="crm-submit-buttons">
+          <dl><dt></dt><dd>{$form.buttons.html}</dd></dl>  
+      </div>
+  {else}
+      <div id="crm-done-button">
+           <dl><dt></dt><dd>{$form.buttons.html}<br></dd></dl>
+      </div>
+  {/if} {* $action ne view *}
+ </fieldset>
 </div>
 
 {literal}
