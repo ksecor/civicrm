@@ -1,7 +1,7 @@
 {* Search Builder *}
 {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
 <div id="help">
-<p><strong>{ts 1="http://wiki.civicrm.org/confluence//x/si" 2=$docURLTitle}IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the <a href="%1" target="_blank" title="%2">Search Builder documentation</a> before building your first search.{/ts}</strong> {help id='builder-intro'}</p>
+<p><strong>{ts 1="http://wiki.civicrm.org/confluence//x/si" 2=$docURLTitle}IMPORTANT: Search Builder requires you to use specific formats for your search values. Review the <a href='%1' target='_blank' title='%2'>Search Builder documentation</a> before building your first search.{/ts}</strong> {help id='builder-intro'}</p>
 </div>
 
 {* Table for adding search criteria. *}

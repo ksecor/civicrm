@@ -160,7 +160,7 @@ function reload(refresh) {
 	<dl>
         <div class="status">
         {capture assign=relationshipsString}{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }{/capture}
-        {ts 1=$relationshipsString}Are you sure you want to delete the Relationship "%1"?{/ts}
+        {ts 1=$relationshipsString}Are you sure you want to delete the Relationship '%1'?{/ts}
         </div>
         <dt></dt>
         <dd>{$form.buttons.html}</dd>

@@ -81,7 +81,7 @@
             {capture assign=crmURL}{crmURL p='civicrm/group/add' q="reset=1"}{/capture}
             <dd>{ts}No Groups have been created for this site.{/ts}
                 {if $groupPermission eq 1}
-                    {ts 1=$crmURL}You can <a href="%1">add one</a> now.{/ts}
+                    {ts 1=$crmURL}You can <a href='%1'>add one</a> now.{/ts}
                 {/if}
             </dd>
         </dl>

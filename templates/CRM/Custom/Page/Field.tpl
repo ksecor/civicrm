@@ -48,7 +48,7 @@
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group/field q="action=add&reset=1&gid=$gid"}{/capture}
-        <dd>{ts 1=$groupTitle 2=$crmURL}There are no custom fields for custom group "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$groupTitle 2=$crmURL}There are no custom fields for custom group '%1', <a href='%2'>add one</a>.{/ts}</dd>
         </dl>
         </div>
         {/if}

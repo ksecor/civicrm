@@ -6,7 +6,7 @@
     <div class="messages help">
         {ts}If you would like to create an account on this site, check the box below and enter a user name{/ts}
         {if $form.cms_pass}{ts}and a password{/ts}{/if}.
-        {ts 1=$loginUrl}If you already have an account, <a href="%1">please login</a> before completing this form.{/ts}
+        {ts 1=$loginUrl}If you already have an account, <a href='%1'>please login</a> before completing this form.{/ts}
     </div>
     <div>{$form.cms_create_account.html} {$form.cms_create_account.label}</div>
     <div id="details">

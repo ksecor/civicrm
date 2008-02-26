@@ -3,7 +3,7 @@
    {include file="CRM/Admin/Form/OptionGroup.tpl"}
 {else}
 <div id="help">
-    {ts}CiviCRM stores configurable choices for various drop-down fields as "option groups". Choices used by core fields are reserved and can not be modified. If a group is editable, you can click <strong>Multiple Choice Options</strong> to view and modify the available choices.{/ts}
+    {ts}CiviCRM stores configurable choices for various drop-down fields as 'option groups'. Choices used by core fields are reserved and can not be modified. If a group is editable, you can click <strong>Multiple Choice Options</strong> to view and modify the available choices.{/ts}
 </div>
 {/if}
 
@@ -44,7 +44,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/optionGroup' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Option Group entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Option Group entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

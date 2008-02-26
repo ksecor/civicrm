@@ -8,7 +8,7 @@
 
     <div id="help">
         <p>{ts 1=$displayName}This page lists all event registrations for %1 since inception.{/ts} 
-        {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a href="%1">New Event Registration</a> to register this contact for an event.{/ts}{/if}
+        {if $permission EQ 'edit'}{ts 1=$newEventURL}Click <a href='%1'>New Event Registration</a> to register this contact for an event.{/ts}{/if}
         </p>
     </div>
 
@@ -25,7 +25,7 @@
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
                <dd>
                  {if $permission EQ 'edit'}
-                   {ts 1=$newEventURL}There are no event registrations recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+                   {ts 1=$newEventURL}There are no event registrations recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}
                  {else}
                    {ts}There are no event registrations recorded for this contact.{/ts}
                  {/if}

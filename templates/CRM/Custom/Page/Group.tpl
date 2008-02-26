@@ -7,7 +7,7 @@
 {else}
     {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
     <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/WyQ" 2=$docURLTitle}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups of custom fields (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/WyQ" 2=$docURLTitle}Custom data is stored in custom fields. Custom fields are organized into logically related custom data groups (e.g. Volunteer Info). Use custom fields to collect and store custom data which is not included in the standard CiviCRM forms. You can create one or many groups of custom fields (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
     </div>
 
     {if $rows}
@@ -53,7 +53,7 @@
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
          {capture assign=crmURL}{crmURL p='civicrm/admin/custom/group' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No custom data groups have been created yet. You can <a href="%1">add one</a>.{/ts}
+         {ts 1=$crmURL}No custom data groups have been created yet. You can <a href='%1'>add one</a>.{/ts}
        </div>
        {/if}
     {/if}

@@ -1,6 +1,6 @@
 <div id="help">
     {capture assign=docURLTitle}{ts}Opens online documentation in a new window.{/ts}{/capture}
-    {ts 1="http://wiki.civicrm.org/confluence//x/UyU" 2=$docURLTitle}Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/UyU" 2=$docURLTitle}Tags can be assigned to any contact record, and are a convenient way to find contacts. You can create as many tags as needed to organize and segment your records (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
 </div>
 
 {if $action eq 1 or $action eq 2 or $action eq 8}
@@ -40,7 +40,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/tag' q="action=add&reset=1"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Tags present. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Tags present. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

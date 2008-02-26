@@ -13,7 +13,7 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" Price Field - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field - it is currently in use by one or more active events.{/ts}
        	{/if}
         {ts}If you no longer want to use this Price Field, click the event title below, and modify the fees for that event.{/ts}<br />
         
@@ -94,7 +94,7 @@
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/price/field q="action=add&reset=1&sid=$sid"}{/capture}
-        <dd>{ts 1=$groupTitle 2=$crmURL}There are no fields for price set "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$groupTitle 2=$crmURL}There are no fields for price set '%1', <a href='%2'>add one</a>.{/ts}</dd>
         </dl>
         </div>
         {/if}

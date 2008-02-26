@@ -5,7 +5,7 @@
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         <dd>
             <p>{ts 1=$newVersion 2=$localVersion}A newer version of CiviCRM is available: %1 (this site is currently running %2).{/ts}</p>
-            <p>{ts 1='http://civicrm.org/' 2='http://civicrm.org/download/'}Read about the new version on <a href="%1">our website</a> and <a href="%2">download it here</a>.{/ts}</p>
+            <p>{ts 1='http://civicrm.org/' 2='http://civicrm.org/download/'}Read about the new version on <a href='%1'>our website</a> and <a href='%2'>download it here</a>.{/ts}</p>
         </dd>
       </dl>
     </div>

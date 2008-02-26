@@ -11,7 +11,7 @@
     <div id="help">
         <p>{ts 1=$displayName}This page lists all grant registrations for %1 since inception.{/ts} 
         {if $permission EQ 'edit'}
-            {ts 1=$newGrantURL}Click <a href="%1">New Grant</a> to register this contact for a Grant.{/ts}
+            {ts 1=$newGrantURL}Click <a href='%1'>New Grant</a> to register this contact for a Grant.{/ts}
         {/if}
         </p>
     </div>
@@ -29,7 +29,7 @@
              <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
                <dd>
                  {if $permission EQ 'edit'}
-                    {ts 1=$newGrantURL}There are no grant recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}
+                    {ts 1=$newGrantURL}There are no grant recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}
                  {else}
                     {ts}There are no grant recorded for this contact.{/ts}
                  {/if}
