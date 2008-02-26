@@ -1795,7 +1795,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
      */
     static function copy( $id ) 
     {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
+        $fieldsToPrefix = array( 'title' => ts( 'Copy of' ) . ' ' );
         
         $copy        =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFGroup', 
                                                    array( 'id' => $id ), 

@@ -83,7 +83,7 @@
 
         <dt>{$form.is_display_amounts.label}</dt><dd>{$form.is_display_amounts.html}</dd>
         {if $action neq 4}
-        <dt>&nbsp;</dt><dd class="description">{ts}Display amount next to each option?  If no, then the amount should be in the option description.{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description">{ts}Display amount next to each option? If no, then the amount should be in the option description.{/ts}</dd>
         {/if}
 
         <dt>{$form.weight.label}</dt><dd>{$form.weight.html|crmReplace:class:two}</dd>

@@ -248,7 +248,7 @@ class CRM_Price_Page_Field extends CRM_Core_Page {
                     // add breadcrumb
                 require_once 'CRM/Core/BAO/PriceField.php';
                     $url = CRM_Utils_System::url( 'civicrm/admin/price/field', 'reset=1' );
-                    CRM_Utils_System::appendBreadCrumb( ts('Price '),
+                    CRM_Utils_System::appendBreadCrumb( ts('Price'),
                                                         $url );
                     $this->assign( 'usedPriceSetTitle', CRM_Core_BAO_PriceField::getTitle( $fid ) );
                     $this->assign( 'usedBy', $usedBy );

@@ -1,3 +1,3 @@
 {strip}
-{$senderContactName} {ts}wants you to know about {/ts} {$title}
+{ts 1=$senderContactName 2=$title}%1 wants you to know about %2{/ts}
 {/strip}
