@@ -187,6 +187,8 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
                     $value[$d]['i'] = '00';
                     $value[$d]['s'] = '00';
                     $value[$d]      =  CRM_Utils_Date::format( $value[$d] );
+                } else {
+                    unset( $value[$d] );
                 }   
             }
             
@@ -208,7 +210,7 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
             if ($value['contribution_source']) {
                 $value['source'] = $value['contribution_source'];
             }
-           
+
             unset($value['contribution_type']);
             unset($value['contribution_source']);
             $contribution = CRM_Contribute_BAO_Contribution::add( $value ,$ids ); 
