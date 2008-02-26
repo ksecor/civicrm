@@ -543,6 +543,10 @@ class CiviUnitTestCase extends UnitTestCase {
     }
     /** 
      * Function to add a Group
+     *
+     *@params array to add group
+     *
+     *@return int groupId of created group
      * 
      */ 
     function groupCreate( $params = null ) {
@@ -584,13 +588,13 @@ class CiviUnitTestCase extends UnitTestCase {
                             'entity_table' => 'civicrm_event',
                             'entity_id'    => 3,
                             'weight'       => 1,
-                            'uf_group_id'  => 2,
+                            'uf_group_id'  => 1,
                             );
         }
         
         $result = crm_add_uf_join( $params );
         
-        return $result['result'];
+        return $result;
     }    
     
     /** 
