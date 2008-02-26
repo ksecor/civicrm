@@ -198,8 +198,7 @@ WHERE openid = %1";
                 //print "Found contact with uniqId $uniqId<br/>";
                 $ufmatch->contact_id     = $dao->contact_id;
                 $ufmatch->domain_id      = $dao->domain_id ;
-                $ufmatch->uf_name        = $mail;
-                $ufmatch->user_unique_id = $uniqId;
+                $ufmatch->uf_name        = $uniqId;
             } else {
                 if ( $uf == 'Drupal' ) {
                     $mail = 'mail';
@@ -279,7 +278,7 @@ WHERE openid = %1";
     }
 
     /**
-     * update the user_unique_id in the user object
+     * update the uf_name in the user object
      *
      * @param int    $contactId id of the contact to update
      *
@@ -287,24 +286,35 @@ WHERE openid = %1";
      * @access public
      * @static
      */
-    static function updateUFUserUniqueId( $contactId ) {
-        $openId = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
-        if ( ! $openId ) {
+    static function updateUFName( $contactId ) {
+        $config =& CRM_Core_Config::singleton( );
+        if ( $config->userFramework == 'Standalone' ) {
+            $ufName = CRM_Contact_BAO_Contact::getPrimaryOpenId( $contactId );
+        } else {
+            $ufName = CRM_Contact_BAO_Contact::getPrimaryEmail( $contactId );
+        }
+
+        if ( ! $ufName ) {
             return;
         }
 
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
         $ufmatch->contact_id = $contactId;
         if ( ! $ufmatch->find( true ) ||
-             $ufmatch->user_unique_id == $openId ) {
+             $ufmatch->uf_name == $ufName ) {
             // if object does not exist or the OpenID has not changed
             return;
         }
 
         // save the updated ufmatch object
-        $ufmatch->user_unique_id = $openId;
+        $ufmatch->uf_name = $ufName;
         $ufmatch->save( );
-        $config =& CRM_Core_Config::singleton( );
+
+        if ( $config->userFramework == 'Drupal' ) { 
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+            user_save( $user, array( 'mail' => $ufName ) );
+            $user = user_load( array( 'uid' => $ufmatch->uf_id ) );
+        }
     }
     
     /**
@@ -463,7 +473,7 @@ WHERE openid = %1";
      */
     static function getAllowedToLogin( $openId ) {
         $ufmatch =& new CRM_Core_DAO_UFMatch( );
-        $ufmatch->user_unique_id = $openId;
+        $ufmatch->uf_name = $openId;
         $ufmatch->allowed_to_login = 1;
         if ( $ufmatch->find( true ) ) {
             return true;

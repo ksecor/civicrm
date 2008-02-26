@@ -472,8 +472,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         // update the UF user_unique_id if that has changed
         require_once 'CRM/Core/BAO/UFMatch.php';
-        //DO TO: comment because of schema changes
-        //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
+        CRM_Core_BAO_UFMatch::updateUFName( $contact->id );
 
         if ( CRM_Utils_Array::value( 'custom', $params ) &&
              is_array( $params['custom'] ) ) {

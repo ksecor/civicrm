@@ -542,7 +542,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 
                 // if post not empty then only proceed
                 if ( ! empty ( $_POST ) ) {
-                    // get the new email, location is different in Drupal 5 vs Drupal 4.7
+                    // get the new email
                     $config =& CRM_Core_Config::singleton( );
                     $email = CRM_Utils_Array::value( 'mail', $_POST );
                     
