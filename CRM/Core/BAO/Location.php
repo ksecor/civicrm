@@ -69,7 +69,7 @@ class CRM_Core_BAO_Location extends CRM_Core_DAO
         
         //format the params accord to new format. ie. we create all
         //email at one time, then move to another block element.
-
+        
         $formattedBlocks = array( );
         self::formatParams( $params, $formattedBlocks, $entity );
         
@@ -240,19 +240,21 @@ WHERE e.id = %1";
     {
         foreach ( $params['location'] as $key => $value ) {
             foreach ( self::$blocks as $block ) {
-                $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
-                                                                                            $value );
-                $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
-                                                                                            $value );
-                $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
-                                                                                             $value );
-                $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
-                                                                                             $value );
-                if ( !$entity ) {
-                    $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
-                } else {
-                    $formattedBlocks['entity_table']       = $params['entity_table'   ];
-                    $formattedBlocks['entity_id']          = $params['entity_id'   ];
+                if ( CRM_Utils_Array::value( $block, $value ) ) {
+                    $formattedBlocks[$block][$key]                     = CRM_Utils_Array::value( $block,
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['location_type_id'] = CRM_Utils_Array::value( 'location_type_id',
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['is_primary'      ] = CRM_Utils_Array::value( 'is_primary',
+                                                                                                 $value );
+                    $formattedBlocks[$block][$key]['is_billing'      ] = CRM_Utils_Array::value( 'is_billing',
+                                                                                                 $value );
+                    if ( !$entity ) {
+                        $formattedBlocks[$block]['contact_id'        ] = $params['contact_id'     ];
+                    } else {
+                        $formattedBlocks['entity_table']       = $params['entity_table'   ];
+                        $formattedBlocks['entity_id']          = $params['entity_id'   ];
+                    }
                 }
             }
         }
