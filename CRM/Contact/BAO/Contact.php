@@ -414,7 +414,6 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
             return;
         }
 
-        CRM_Core_Error::debug( 'p', $params );        
         if ( $invokeHooks ) {
             require_once 'CRM/Utils/Hook.php';
             if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
