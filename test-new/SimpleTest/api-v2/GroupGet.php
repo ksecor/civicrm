@@ -23,7 +23,8 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $group['error_message'], 'Params should be array' );        
     }
     
-    function testGetGroupWithEmptyParams( ) {
+    function testGetGroupWithEmptyParams( ) 
+    {
         $params = array( );
         
         $group = civicrm_groups_get( $params );
