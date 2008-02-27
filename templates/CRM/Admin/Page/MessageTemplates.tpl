@@ -4,8 +4,7 @@
    {include file="CRM/Admin/Form/MessageTemplates.tpl"}
 {else}
     <div id="help">
-    {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to
-    contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
+    {ts}Message templates allow you to save and re-use messages with layouts. They are useful if you need to send similar emails to contacts on a recurring basis. You can also use them in CiviMail Mailings and they are required for CiviMember membership renewal reminders.{/ts} {help id="id-intro"}
     </div>
 {/if}
 
@@ -44,7 +43,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts 1=$crmURL}There are no Message Templates  entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Message Templates entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
   {/if}

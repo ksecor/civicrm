@@ -10,17 +10,17 @@
             <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}</td></tr>   
             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the status for this grant{/ts}</td></tr>
             <tr><td class="label">{$form.grant_type_id.label}</td><td>{$form.grant_type_id.html}</td></tr>   
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the Grant {/ts}</td></tr>
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Select the appropriate type of the Grant{/ts}</td></tr>
              <tr><td class="label">{$form.amount_requested.label}</td><td>{$form.amount_requested.html}</td></tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested for grant  {/ts}
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Amount requested for grant{/ts}
                 </td>
             </tr>
             <tr><td class="label">{$form.amount_granted.label}</td><td>{$form.amount_granted.html}</td></tr>
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount granted  {/ts}
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Actual amount granted{/ts}
                 </td>
             </tr>
             <tr><td class="label">{$form.amount_total.label}</td><td>{$form.amount_total.html}</td></tr>
-             <tr><td class="label">&nbsp;</td><td class="description">{ts}Total amount of the grant  {/ts}
+             <tr><td class="label">&nbsp;</td><td class="description">{ts}Total amount of the grant{/ts}
                 </td>
             </tr>
             
@@ -32,7 +32,7 @@
             {/if}
                 </td>
             </tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which application for the Grant recieved {/ts}
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which application for the Grant recieved{/ts}
                 </td>
             </tr>
             <tr><td class="label">{$form.decision_date.label}</td>
@@ -43,7 +43,7 @@
             {/if}
                  </td>
             </tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which the Grant decided {/ts}  
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which the Grant decided{/ts}  
                 </td>
             </tr>
             <tr><td class="label">{$form.money_transfer_date.label}</td>
@@ -55,7 +55,7 @@
                  {/if}
                 </td>
             </tr>
-            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which the Grant money transferred {/ts}
+            <tr><td class="label">&nbsp;</td><td class="description">{ts}Date on which the Grant money transferred{/ts}
                 </td>
             </tr>
             <tr><td class="label">{$form.grant_due_date.label}</td>

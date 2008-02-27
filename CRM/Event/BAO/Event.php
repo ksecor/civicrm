@@ -672,6 +672,33 @@ WHERE civicrm_event.is_active = 1
         $copyEventPage->save( );
         return $copyEvent;
     }
-    
+
+    /**
+     * This is sometimes called in a loop (during event search)
+     * hence we cache the values to prevent repeated calls to the db
+     */
+    static function isMonetary( $id ) {
+        static $isMonetary = array( );
+        if ( ! array_key_exists( $id, $isMonetary ) ) {
+            $isMonetary[$id] = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                            $id,
+                                                            'is_monetary' );
+        }
+        return $isMonetary[$id];
+    }
+
+    /**
+     * This is sometimes called in a loop (during event search)
+     * hence we cache the values to prevent repeated calls to the db
+     */
+    static function usesPriceSet( $id ) {
+        require_once 'CRM/Core/BAO/PriceSet.php';
+        static $usesPriceSet = array( );
+        if ( ! array_key_exists( $id, $usesPriceSet ) ) {
+            $usesPriceSet[$id] = CRM_Core_BAO_PriceSet::getFor( 'civicrm_event_page', $id );
+        }
+        return $usesPriceSet[$id];
+    }
+
 }
 ?>

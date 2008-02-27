@@ -1248,14 +1248,14 @@ class CRM_Contact_BAO_Query
         } else if ( $name === 'birth_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
-                $this->_where[$grouping][] = $field['where'] . " $op $date";
+                $this->_where[$grouping][] = "contact_a.{$name} $op $date";
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }
         } else if ( $name === 'deceased_date' ) {
             $date = CRM_Utils_Date::format( $value );
             if ( $date ) {
-                $this->_where[$grouping][] = $field['where'] . " $op $date";
+                $this->_where[$grouping][] = "contact_a.{$name} $op $date";
                 $date = CRM_Utils_Date::customFormat( $date );
                 $this->_qill[$grouping][]  = "$field[title] $op \"$date\"";
             }

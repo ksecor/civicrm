@@ -184,8 +184,11 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             if ( empty( $calcStatus ) ) {
                 if ( ! $callFromAPI ) {
                     // Redirect the form in case of error
-                    CRM_Core_Session::setStatus( ts('The membership can not be saved.') . '<br/>' . ts('No valid membership status for given dates.')) );
-                    return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$params['contact_id']}&selectedChild=member"));
+                    CRM_Core_Session::setStatus( ts('The membership can not be saved.') .
+                                                 '<br/>' .
+                                                 ts('No valid membership status for given dates.') );
+                    return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view',
+                                                                              "reset=1&force=1&cid={$params['contact_id']}&selectedChild=member"));
                 }
                 // Return the error message to the api
                 $error = array( );

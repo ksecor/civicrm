@@ -57,16 +57,16 @@
     <dt>{$form.notify.label}</dt><dd>{$form.notify.html}</dd>
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you want member(s) of your organization to receive a notification email whenever this Profile form is used to enter or update contact information, enter one or more email addresses here. Multiple email addresses should be separated by a comma (e.g. jane@example.org, paula@example.org). The first email address listed will be used as the FROM address in the notifications.{/ts}</dd>
     <dt></dt><dd>{$form.collapse_display.html} {$form.collapse_display.label}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the "plus" icon).{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description">{ts}Check this box if you want only the profile title to be displayed when the page is initially loaded (form fields are hidden until the user expands the form by clicking on the 'plus' icon).{/ts}</dd>
     <dt>{$form.post_URL.label}</dt><dd>{$form.post_URL.html}</dd>
     <dt class="extra-long-fourty">&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL after they've submitted the form - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed with a generic status message - 'Your contact information has been saved.'{/ts}</dd>
     <dt>{$form.cancel_URL.label}</dt><dd>{$form.cancel_URL.html}</dd>  
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts.{/ts}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description"><strong>{ts}Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.{/ts}</strong></dd>
     {if $config->userFramework EQ 'Drupal'} 
-        <dt>&nbsp;</dt><dd class="description">{ts}<strong>CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.</strong>{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description"><strong>{ts}CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.{/ts}</strong></dd>
     {/if}
     {if ($config->userFramework == 'Drupal') OR ($config->userFramework == 'Joomla') } {* Create CMS user only available for Drupal/Joomla installs. *}
         <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>

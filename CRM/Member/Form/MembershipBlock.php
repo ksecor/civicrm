@@ -88,40 +88,37 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
     public function buildQuickForm()
     {
              
-        $this->addElement('checkbox', 'is_active', ts('Membership Section Enabled?') , null, array( 'onclick' => "memberBlock(this);" ));
-        
-        $this->addElement('text', 'new_title', ts('Title - New Membership'), CRM_Core_DAO::getAttribute('CRM_Member_DAO_MembershipBlock', 'new_title'));
-               
-        $this->add('textarea', 'new_text', ts('Introductory Message - New Memberships'), 'rows=5, cols=50');
-        
-        $this->addElement('text', 'renewal_title', ts('Title - Renewals'), CRM_Core_DAO::getAttribute('CRM_Member_DAO_MembershipBlock', 'renewal_title'));
-        
-        $this->add('textarea', 'renewal_text', ts('Introductory Message - Renewals'), 'rows=5, cols=50');
-
-        $this->addElement('checkbox', 'is_required', ts('Require Membership Signup') );
-        $this->addElement('checkbox', 'display_min_fee', ts('Display Membership Fee') );
-        $this->addElement('checkbox', 'is_separate_payment', ts('Separate Membership Payment') );
-
         require_once 'CRM/Member/BAO/MembershipType.php';
         $membershipTypes = CRM_Member_BAO_MembershipType::getMembershipTypes(); 
-        if ( empty( $membershipTypes ) ) {
-            $message = ts('You need to have at least one <a href=\'%1\'>Membership Type</a> to enable Member Signup',
-                          array(1 => CRM_Utils_System::url('civicrm/admin/member/membershipType', 'reset=1')));
-            CRM_Core_Error::fatal( $message );
+
+        if (! empty( $membershipTypes ) ) {
+            $this->addElement('checkbox', 'is_active', ts('Membership Section Enabled?') , null, array( 'onclick' => "memberBlock(this);" ));
+        
+            $this->addElement('text', 'new_title', ts('Title - New Membership'), CRM_Core_DAO::getAttribute('CRM_Member_DAO_MembershipBlock', 'new_title'));
+            
+            $this->add('textarea', 'new_text', ts('Introductory Message - New Memberships'), 'rows=5, cols=50');
+            
+            $this->addElement('text', 'renewal_title', ts('Title - Renewals'), CRM_Core_DAO::getAttribute('CRM_Member_DAO_MembershipBlock', 'renewal_title'));
+            
+            $this->add('textarea', 'renewal_text', ts('Introductory Message - Renewals'), 'rows=5, cols=50');
+            
+            $this->addElement('checkbox', 'is_required', ts('Require Membership Signup') );
+            $this->addElement('checkbox', 'display_min_fee', ts('Display Membership Fee') );
+            $this->addElement('checkbox', 'is_separate_payment', ts('Separate Membership Payment') );
+            
+            $membership        = array();
+            $membershipDefault = array();
+            foreach ( $membershipTypes as $k => $v ) {
+                $membership[]      = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
+                $membershipDefault[] = HTML_QuickForm::createElement('radio',null ,null,null, $k );
+            }
+            
+            $this->addGroup($membership, 'membership_type', ts('Membership Types'));
+            $this->addGroup($membershipDefault, 'membership_type_default', ts('Membership Types Default'));
+            
+            $this->addFormRule(array('CRM_Member_Form_MembershipBlock', 'formRule') , $this->_id);
         }
 
-        $membership        = array();
-        $membershipDefault = array();
-        foreach ( $membershipTypes as $k => $v ) {
-            $membership[]      = HTML_QuickForm::createElement('advcheckbox', $k , null, $v );
-            $membershipDefault[] = HTML_QuickForm::createElement('radio',null ,null,null, $k );
-        }
-       
-        $this->addGroup($membership, 'membership_type', ts('Membership Types'));
-        $this->addGroup($membershipDefault, 'membership_type_default', ts('Membership Types Default'));
-        
-        $this->addFormRule(array('CRM_Member_Form_MembershipBlock', 'formRule') , $this->_id);
-       
         $session =& CRM_Core_Session::singleton();
         $single = $session->get('singleForm');
         if ( $single ) {
@@ -199,38 +196,41 @@ class CRM_Member_Form_MembershipBlock extends CRM_Contribute_Form_ContributionPa
     {
         // get the submitted form values.
         $params = $this->controller->exportValues( $this->_name );
-        // we do this in case the user has hit the forward/back button
-        require_once 'CRM/Member/DAO/MembershipBlock.php';
-        $dao =& new CRM_Member_DAO_MembershipBlock();
-        $dao->entity_table = 'civicrm_contribution_page';
-        $dao->entity_id = $this->_id; 
-        $dao->find(true);
-        $membershipID = $dao->id;
-        if ( $membershipID ) {
-            $params['id'] = $membershipID;
-        }
-        
-        $membershipTypes = array();
-        if ( is_array($params['membership_type']) ) {
-            foreach( $params['membership_type'] as $k => $v) {
-                if ( $v ) {
-                    $membershipTypes[] = $k;
+
+        if ( $params['membership_type'] ) {
+            // we do this in case the user has hit the forward/back button
+            require_once 'CRM/Member/DAO/MembershipBlock.php';
+            $dao =& new CRM_Member_DAO_MembershipBlock();
+            $dao->entity_table = 'civicrm_contribution_page';
+            $dao->entity_id = $this->_id; 
+            $dao->find(true);
+            $membershipID = $dao->id;
+            if ( $membershipID ) {
+                $params['id'] = $membershipID;
+            }
+            
+            $membershipTypes = array();
+            if ( is_array($params['membership_type']) ) {
+                foreach( $params['membership_type'] as $k => $v) {
+                    if ( $v ) {
+                        $membershipTypes[] = $k;
+                    }
                 }
             }
+            
+            $params['membership_type_default']       =  CRM_Utils_Array::value( 'membership_type_default', $params, 'null' );
+            $params['membership_types']              =  implode(',', $membershipTypes);
+            $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
+            $params['is_active']                     =  CRM_Utils_Array::value( 'is_active', $params, false );
+            $params['display_min_fee']               =  CRM_Utils_Array::value( 'display_min_fee', $params, false );
+            $params['is_separate_payment']           =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
+            $params['entity_table']                  = 'civicrm_contribution_page';
+            $params['entity_id']                     =  $this->_id;
+            
+            $dao =& new CRM_Member_DAO_MembershipBlock();
+            $dao->copyValues($params);
+            $dao->save();
         }
-        
-        $params['membership_type_default']       =  CRM_Utils_Array::value( 'membership_type_default', $params, 'null' );
-        $params['membership_types']              =  implode(',', $membershipTypes);
-        $params['is_required']                   =  CRM_Utils_Array::value( 'is_required', $params, false );
-        $params['is_active']                     =  CRM_Utils_Array::value( 'is_active', $params, false );
-        $params['display_min_fee']               =  CRM_Utils_Array::value( 'display_min_fee', $params, false );
-        $params['is_separate_payment']           =  CRM_Utils_Array::value( 'is_separate_payment', $params, false );
-        $params['entity_table']                  = 'civicrm_contribution_page';
-        $params['entity_id']                     =  $this->_id;
-        
-        $dao =& new CRM_Member_DAO_MembershipBlock();
-        $dao->copyValues($params);
-        $dao->save();
     }
     
     /** 

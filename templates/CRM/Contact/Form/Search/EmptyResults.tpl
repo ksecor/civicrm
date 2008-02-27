@@ -4,7 +4,7 @@
     <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>
     <dd>
         {if $context EQ 'smog'}
-            {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 has no members which match your search criteria. You can <a href="%2">add members here.</a>{/ts}
+            {capture assign=crmURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}{ts 1=$group.title 2=$crmURL}%1 has no members which match your search criteria. You can <a href='%2'>add members here.</a>{/ts}
         {else}
             {if $qill}{ts}No matches found for:{/ts}
                 {include file="CRM/common/displaySearchCriteria.tpl"}
@@ -21,7 +21,7 @@
             {capture assign=crmURLI}{crmURL p='civicrm/contact/add' q='ct=Individual&reset=1'}{/capture}
             {capture assign=crmURLO}{crmURL p='civicrm/contact/add' q='ct=Organization&reset=1'}{/capture}
             {capture assign=crmURLH}{crmURL p='civicrm/contact/add' q='ct=Household&reset=1'}{/capture}
-            <li>{ts 1=$crmURLI 2=$crmURLO 3=$crmURLH}add a <a href="%1">New Individual</a>, <a href="%2">Organization</a> or <a href="%3">Household</a>{/ts}</li>
+            <li>{ts 1=$crmURLI 2=$crmURLO 3=$crmURLH}add a <a href='%1'>New Individual</a>, <a href='%2'>Organization</a> or <a href='%3'>Household</a>{/ts}</li>
             <li>{ts}make sure you have enough privileges in the access control system{/ts}</li>
             {/if}
             </ul>

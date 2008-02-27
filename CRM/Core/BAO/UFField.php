@@ -160,7 +160,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField                   =& new CRM_Core_DAO_UFField();
         $ufField->field_type       = $params['field_name'][0];
         $ufField->field_name       = $params['field_name'][1];
-
+        
         //should not set location type id for Primary
         $locationTypeId = CRM_Utils_Array::value( 2, $params['field_name'] );
         if ( $locationTypeId ) {
@@ -168,7 +168,7 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         } else {
             $ufField->location_type_id = 'null';
         }
-
+        
         $ufField->phone_type      = CRM_Utils_Array::value( 3, $params['field_name'], 'NULL' );
         $ufField->listings_title  = CRM_Utils_Array::value( 'listings_title', $params );
         $ufField->visibility      = $params['visibility'];
@@ -181,22 +181,23 @@ class CRM_Core_BAO_UFField extends CRM_Core_DAO_UFField
         $ufField->is_registration = CRM_Utils_Array::value( 'is_registration', $params, false );
         $ufField->is_match        = CRM_Utils_Array::value( 'is_match'       , $params, false );
         $ufField->is_searchable   = CRM_Utils_Array::value( 'is_searchable'  , $params, false );
-
+        
         // fix for CRM-316
         if ($params['field_id']) {
             $oldWeight = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_UFField', $params['field_id'], 'weight', 'id' );
         }
         $fieldValues = array('uf_group_id' => $params['group_id']);
+        require_once 'CRM/Utils/Weight.php';
         $ufField->weight = 
             CRM_Utils_Weight::updateOtherWeights('CRM_Core_DAO_UFField', $oldWeight, $params['weight'], $fieldValues);
         
         // need the FKEY - uf group id
         $ufField->uf_group_id = CRM_Utils_Array::value('uf_group', $ids , false );
         $ufField->id          = CRM_Utils_Array::value('uf_field', $ids , false ); 
-
+        
         return $ufField->save();
     }
-
+    
     /**
      * Function to enable/disable profile field given a custom field id
      *

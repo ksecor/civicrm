@@ -102,7 +102,7 @@
                     {/if}
                 {else} {* no valid matches for name + contact_type *}
                         </div></fieldset>
-                        {capture assign=infoMessage}{ts 1=$form.name.value 2=$contact_type_display}No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></ul>Check your spelling, or try fewer letters for the target contact name.{/ts}{/capture}
+                        {capture assign=infoMessage}{ts}No matching results for{/ts} <ul><li>{ts 1=$form.name.value}Name like: %1{/ts}</li><li>{ts}Contact type{/ts}: {$contact_type_display}</li></ul>{ts}Check your spelling, or try fewer letters for the target contact name.{/ts}{/capture}
                         {include file="CRM/common/info.tpl"}                
                 {/if} {* end if searchCount *}
               {else}
@@ -160,7 +160,7 @@ function reload(refresh) {
 	<dl>
         <div class="status">
         {capture assign=relationshipsString}{$currentRelationships.$id.relation}{ $disableRelationships.$id.relation} {$currentRelationships.$id.name}{ $disableRelationships.$id.name }{/capture}
-        {ts 1=$relationshipsString}Are you sure you want to delete the Relationship "%1"?{/ts}
+        {ts 1=$relationshipsString}Are you sure you want to delete the Relationship '%1'?{/ts}
         </div>
         <dt></dt>
         <dd>{$form.buttons.html}</dd>

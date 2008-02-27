@@ -50,7 +50,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/optionValue' q="action=add&reset=1&gid=$gid"}{/capture}
-        <dd>{ts 1=$crmURL}There are no option choices entered for this option group. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no option choices entered for this option group. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

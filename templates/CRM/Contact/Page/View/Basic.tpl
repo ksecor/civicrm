@@ -159,7 +159,7 @@
       {else}
         <dl><dt>{ts}Contributions{/ts}</dt>
         {if $permission EQ 'edit'}
-            <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
+            <dd>{ts 1=$newContribURL}There are no contributions recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}</dd>
         {else}
             <dd>{ts}There are no contributions recorded for this contact.{/ts}</dd>
         {/if}
@@ -192,7 +192,7 @@
       {else}
         <dl><dt>{ts}Memberships{/ts}</dt>
         {if $permission EQ 'edit'}
-            <dd>{ts 1=$newMemberURL}There are no memberships recorded for this contact. You can <a href="%1">enter one now</a>.{/ts}</dd>
+            <dd>{ts 1=$newMemberURL}There are no memberships recorded for this contact. You can <a href='%1'>enter one now</a>.{/ts}</dd>
         {else}
             <dd>{ts}There are no memberships recorded for this contact.{/ts}</dd>
         {/if}
@@ -224,7 +224,7 @@
     {if $permission EQ 'edit'}
         {capture assign=mtgURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=1&action=add&reset=1&cid=$contactId"}{/capture}
         {capture assign=callURL}{crmURL p='civicrm/contact/view/activity' q="activity_id=2&action=add&reset=1&cid=$contactId"}{/capture}
-        <dd>{ts 1=$mtgURL 2=$callURL}No Scheduled Activities. You can schedule a <a href="%1">meeting</a> or a <a href="%2">call</a>.{/ts}</dd>
+        <dd>{ts 1=$mtgURL 2=$callURL}No Scheduled Activities. You can schedule a <a href='%1'>meeting</a> or a <a href='%2'>call</a>.{/ts}</dd>
     {else}
         <dd>{ts}There are no Scheduled Activities for this contact.{/ts}</dd>
     {/if}
@@ -329,7 +329,7 @@
     <dl><dt>{ts}Relationships{/ts}</dt>
     <dd>
         {if $permission EQ 'edit'}
-            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href="%1">create a new relationship</a>.{/ts}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}No relationships. You can <a href='%1'>create a new relationship</a>.{/ts}
         {else}
             {ts}There are no Relationships entered for this contact.{/ts}
         {/if}
@@ -394,7 +394,7 @@
     <dl><dt>{ts}Groups{/ts}</dt>
     <dd>
         {if $permission EQ 'edit'}
-            {capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}This contact is not in any groups. You can <a href="%1">add %2 to a group</a>.{/ts}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/group' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL 2=$display_name}This contact is not in any groups. You can <a href='%1'>add %2 to a group</a>.{/ts}
         {else}
             {ts}This contact is not in any groups.{/ts}
         {/if}
@@ -439,7 +439,7 @@
     <dl><dt>{ts}Notes{/ts}</dt>
     <dd>
         {if $permission EQ 'edit'}
-            {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}There are no Notes. You can <a href="%1">enter notes</a> about this contact.{/ts}
+            {capture assign=crmURL}{crmURL p='civicrm/contact/view/note' q="action=add&cid=$contactId"}{/capture}{ts 1=$crmURL}There are no Notes. You can <a href='%1'>enter notes</a> about this contact.{/ts}
         {else}
             {ts}There are no Notes for this contact.{/ts}
         {/if}

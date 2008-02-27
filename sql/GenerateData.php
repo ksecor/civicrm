@@ -670,55 +670,6 @@ class CRM_GCD {
             $contact->sort_name = $contact->last_name . ', ' . $contact->first_name;
             $contact->hash = crc32($contact->sort_name);
             $this->_update($contact);
-            
-            // FIXME when we redo custom data
-            // $this->addCustomDataValue($contact->id);
-        }
-    }
-
-
-    /******************************************************
-     * addCustomDataValue()
-     *
-     * This method adds custom data for individuals
-     *
-     ******************************************************/
-    private function addCustomDataValue($contact_id) {
-                
-        $randLength = mt_rand(0, 2);
-        $done = array( );
-
-        for($cnt = 0; $cnt <= $randLength; $cnt++) {
-
-            $item = mt_rand(0, 2);
-            if ( CRM_Utils_Array::value( $item, $done ) ) {
-                continue;
-            }
-            $done[$item] = true;
-
-            switch($item) {
-            case 0:
-                //do nothing
-                break;
-
-            case 1: 
-                $customData =& new CRM_Core_DAO_CustomValue(); 
-                $customData->entity_table = 'civicrm_contact'; 
-                $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 1; 
-                $customData->char_data = $this->_getRandomElement($this->issue); 
-                $this->_insert($customData); 
-                break; 
-
-            case 2: 
-                $customData =& new CRM_Core_DAO_CustomValue(); 
-                $customData->entity_table = 'civicrm_contact'; 
-                $customData->entity_id = $contact_id; 
-                $customData->custom_field_id = 2; 
-                $customData->char_data = $this->_getRandomElement($this->marital_status); 
-                $this->_insert($customData); 
-                break; 
-            }
         }
     }
 

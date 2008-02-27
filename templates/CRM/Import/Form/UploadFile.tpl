@@ -22,7 +22,7 @@
         <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Check this box if the first row of your file consists of field names (Example: "First Name","Last Name","Email"){/ts}
+            {ts}Check this box if the first row of your file consists of field names (Example: 'First Name','Last Name','Email'){/ts}
         </dd> 
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html} {help id='contact-type'}</dd>
         <dt>{$form.onDuplicate.label}</dt><dd>{$form.onDuplicate.html} {help id='dupes'}</dd>
@@ -30,7 +30,7 @@
         <dt> </dt><dd>{$form.doGeocodeAddress.html} {$form.doGeocodeAddress.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts 1="http://wiki.civicrm.org/confluence//x/YDY" 2=$docURLTitle}This option is not recommended for large imports. Use the command-line geocoding script instead (<a href="%1" target="_blank" title="%2">read more...</a>).{/ts}
+            {ts 1="http://wiki.civicrm.org/confluence//x/YDY" 2=$docURLTitle}This option is not recommended for large imports. Use the command-line geocoding script instead (<a href='%1' target='_blank' title='%2'>read more...</a>).{/ts}
         </dd> 
 {/if}
         {include file="CRM/Core/Date.tpl"}

@@ -8,6 +8,7 @@
   <add>1.5</add>
   <field>
       <name>id</name>
+      <uniqueName>membership_id</uniqueName>
       <type>int unsigned</type>
       <required>true</required>
       <import>true</import> 

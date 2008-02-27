@@ -61,10 +61,10 @@
             {$form.shared_option.html}
         </div>
         <div id="shared_household" class="form-item">
-       <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false" >
+            <div  class="tundra" dojoType= "dojox.data.QueryReadStore" jsId="addressStore" url="{$dataURL}" doClientPaging="false" >
             {$form.shared_household.html}
-           </div>
-            <br /> <span class="description">{ts}Enter the first letters of the name of the household to see available households with their addresses.{/ts}</span> 
+            </div>
+            <span class="description">{ts}Enter the first letters of the name of the household to see available households with their addresses.{/ts}</span> 
         </div>
         <div id="create_household" class="form-item">
             <span class="labels">

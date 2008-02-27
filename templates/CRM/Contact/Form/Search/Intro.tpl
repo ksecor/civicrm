@@ -5,14 +5,14 @@
         {capture assign=addMembersURL}{crmURL q="context=amtg&amtgID=`$group.id`&reset=1"}{/capture}
         <p>{ts 1=$group.title}The members of the <strong>%1</strong> group are listed below. Use the 'Find Members...' criteria below to search for specific members. Use the 'Group Status...' checkboxes to view members with 'Pending' status and/or members who have been 'Removed' from this group.{/ts}</p>
         {if $permissionedForGroup}
-        <p>{ts 1=$addMembersURL}Use the <a href="%1">Add Members...</a> screen if you want to add new members to this group.{/ts}
+        <p>{ts 1=$addMembersURL}Use the <a href='%1'>Add Members...</a> screen if you want to add new members to this group.{/ts}
         {if $ssID}
             {if $ssMappingID}
                 {capture assign=editSmartGroupURL}{crmURL p="civicrm/contact/search/builder" q="reset=1&force=1&ssID=`$ssID`"}{/capture}
             {else}
 		{capture assign=editSmartGroupURL}{crmURL p="civicrm/contact/search/advanced" q="reset=1&force=1&ssID=`$ssID`"}{/capture}
             {/if} 
-            {ts 1=$editSmartGroupURL}Click <a href="%1">Edit Smart Group Search Criteria...</a> to change the search query used for this 'smart' group.{/ts}
+            {ts 1=$editSmartGroupURL}Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the search query used for this 'smart' group.{/ts}
         {/if}
         </p>
         {/if}
@@ -38,7 +38,7 @@
 {else}
     <div id="help">
         {if $action EQ 512}
-            {ts}Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "Volunteer%" as your Activity Type to match any activity whose type is "Volunteer" + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}
+            {ts}Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter 'Volunteer%' as your Activity Type to match any activity whose type is 'Volunteer' + any other words (e.g. Volunteer for Open House).{/ts} {help id='advanced-intro'}
         {else}
             {ts}Use the Search Criteria form to find contacts by name, type of contact, group membership, tags, etc. You can then view or edit contact details, print a contact list, or you can use the More Actions drop down list to assign tags, add to Groups, create Smart Groups, export contact data to a spreadsheet, etc.{/ts}
         {/if}

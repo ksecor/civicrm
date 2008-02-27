@@ -539,7 +539,8 @@ class CRM_Profile_Form extends CRM_Core_Form
 
         $this->_id = CRM_Contact_BAO_Contact::createProfileContact($params, $this->_fields,
                                                                    $this->_id, $this->_addToGroupID,
-                                                                   $this->_gid, $this->_ctype );
+                                                                   $this->_gid, $this->_ctype,
+                                                                   true );
         
         require_once 'CRM/Core/BAO/UFGroup.php'; 
         if ( ! ( $this->_mode == self::MODE_REGISTER ) ) {

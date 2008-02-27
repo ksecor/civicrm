@@ -277,20 +277,22 @@ function crm_create_uf_field( $UFGroup , $params ) {
     
     $params['field_name'] =  array( $field_type, $field_name, $location_type_id, $phone_type);
    
-    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null) {
+    if(! is_array( $params ) || $params['field_name'][1] == null || $params['weight'] == null ) {
         return _crm_error("missing required fields ");
-    }   
+    }
+   
+    if ( !( CRM_Utils_Array::value('group_id', $params) ) ) {
+        $params['group_id'] =  $UFGroup->id;
+    }
     
     $ids = array();
     $ids['uf_group'] = $UFGroup->id;
-
+    
     require_once 'CRM/Core/BAO/UFField.php';
     if (CRM_Core_BAO_UFField::duplicateField($params, $ids) ) {
         return _crm_error("The field was not added. It already exists in this profile.");
     }
     return CRM_Core_BAO_UFField::add( $params , $ids );
-    
-
 } 
 
 /**
@@ -329,9 +331,14 @@ function crm_update_uf_field( $params , $ufField) {
     $UFField = &new CRM_core_BAO_UFField();
     $UFField->id = $fieldId;
     
+    if ( !( CRM_Utils_Array::value('group_id', $params)  && $UFField->find(true) ) ) {
+        $params['group_id'] =  $UFField->uf_group_id;
+    }
+
     $ids = array();
-    if ( $UFField->find(true) ){ 
-        $ids['uf_group'] = $UFField->uf_group_id;
+
+    if ( $UFField->find(true) ) { 
+        $ids['uf_group'] =  $UFField->uf_group_id;
     } else {
         return _crm_error("there is no field for this fieldId");
     }

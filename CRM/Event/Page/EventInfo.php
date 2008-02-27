@@ -156,8 +156,8 @@ class CRM_Event_Page_EventInfo extends CRM_Core_Page
                     } else {
                         $url = CRM_Utils_System::url( 'civicrm/event/register',
                                                       "id={$id}&reset=1",
-                                                         true, null, true,
-                                                         true );
+                                                      true, null, true,
+                                                      true );
                         $mapURL = CRM_Utils_System::url( 'civicrm/contact/map/event',
                                                          "eid={$id}&reset=1",
                                                          true, null, true,

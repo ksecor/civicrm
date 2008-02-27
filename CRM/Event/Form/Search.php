@@ -236,7 +236,7 @@ class CRM_Event_Form_Search extends CRM_Core_Form
         $rows = $this->get( 'rows' );
         if ( is_array( $rows ) ) {
             $lineItems = array( );
-            //require_once 'CRM/Event/BAO/Participant.php';
+            require_once 'CRM/Event/BAO/Event.php';
             if ($this->_context == 'search') {
                 $this->addElement( 'checkbox', 'toggleSelect', null, null, array( 'onchange' => "return toggleCheckboxVals('mark_x_',this.form);" ) ); 
                 foreach ($rows as $row) { 
@@ -245,9 +245,11 @@ class CRM_Event_Form_Search extends CRM_Core_Form
                                        array( 'onclick' => "return checkSelectedBox('" . $row['checkbox'] . "', '" . $this->getName() . "');" )
                                        ); 
 
-                    // add line item details if applicable
-                    $participant_id = $row['participant_id'];
-                    $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
+                    if ( CRM_Event_BAO_Event::usesPriceSet( $row['event_id'] ) ) {
+                        // add line item details if applicable
+                        $participant_id = $row['participant_id'];
+                        $lineItems[$participant_id] = CRM_Event_BAO_Participant::getLineItems( $participant_id );
+                    }
                 }
             }
 

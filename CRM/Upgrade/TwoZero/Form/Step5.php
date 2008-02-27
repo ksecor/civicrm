@@ -58,6 +58,14 @@ class CRM_Upgrade_TwoZero_Form_Step5 extends CRM_Upgrade_Form {
         }
         $res->free();
 
+        $query    = "SELECT id FROM civicrm_custom_field WHERE LOWER(name) = 'id'";
+        $res      = $this->runQuery( $query );
+        if ($res->fetch()) {
+            $errorMessage = ts("Database consistency check failed for Step 5. A custom field can not have 'id' as the 'name'.");
+            return false;
+        }
+        $res->free();
+
         return $this->checkVersion( '1.93' );
     }
 

@@ -341,34 +341,34 @@ class CRM_Member_Import_Parser_Membership extends CRM_Member_Import_Parser
        
         //fix for CRM-2219 Update Membership
         if ( $onDuplicate == CRM_Member_Import_Parser::DUPLICATE_UPDATE ) {
-            if ( $values['id'] ) {
+            if ( $values['membership_id'] ) {
                 require_once 'CRM/Member/BAO/Membership.php';
                 $dao =  new CRM_Member_BAO_Membership();
-                $dao->id = $values['id'];
+                $dao->id = $values['membership_id'];
                 $dates = array('join_date','start_date','end_date');
                 foreach ( $dates as $v ) {
                     if ( !$formatted[$v] ) {
-                        $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership' , $values['id'], $v );
+                        $formatted[$v] = CRM_Core_DAO::getFieldValue( 'CRM_Member_DAO_Membership' , $values['membership_id'], $v );
                     }
                 }
 
                 foreach ( $formatted as $key => $value ) {
                         if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
                             CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                                         $value, 'Membership', null, $values['id'] );
+                                                                         $value, 'Membership', null, $values['membership_id'] );
                         }
                 }
                 
                 if ( $dao->find( true ) ) { 
                     $ids = array(
-                                 'membership' => $values['id'],
+                                 'membership' => $values['membership_id'],
                                  'userId'     => $session->get('userID')
                                  );
                     $newMembership =& CRM_Member_BAO_Membership::create( $formatted , $ids );
                     $this->_newMemberships[] = $newMembership->id;
                     return CRM_Member_Import_Parser::VALID;
                 } else {
-                    array_unshift($values,"Matching Membership record not found for Membership ID ". $values['id'].". Row was skipped.");
+                    array_unshift($values,"Matching Membership record not found for Membership ID ". $values['membership_id'].". Row was skipped.");
                     return CRM_Member_Import_Parser::ERROR;
                 }
             }

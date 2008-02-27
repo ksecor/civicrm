@@ -304,11 +304,42 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             array_unshift($values, $formatError['error_message']);
             return CRM_Event_Import_Parser::ERROR;
         }
-
-        foreach ( $formatted as $key => $value ) {
-            if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
-                CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
-                                                             $value, 'Participant', null, null );
+        if ( $onDuplicate != CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            foreach ( $formatted as $key => $value ) {
+                if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                    CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                 $value, 'Participant', null, null );
+                }
+            }
+        }
+        
+        if ( $onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            if ( $values['participant_id'] ) {
+                require_once 'CRM/Event/BAO/Participant.php';
+                $dao =  new CRM_Event_BAO_Participant();
+                $dao->id = $values['participant_id'];
+                
+                foreach ( $formatted as $key => $value ) {
+                    if ( $customFieldId = CRM_Core_BAO_CustomField::getKeyID($key) ) {
+                        CRM_Core_BAO_CustomField::formatCustomField( $customFieldId, $formatted['custom'],
+                                                                     $value, 'Participant', null, $values['participant_id'] );
+                    }
+                }
+                
+                if ( $dao->find( true ) ) { 
+                    $ids = array(
+                                 'participant' => $values['participant_id'],
+                                 'userId'      => $session->get('userID')
+                                 );
+                    
+                    $newParticipant =& CRM_Event_BAO_Participant::create( $formatted , $ids );
+                    
+                    $this->_newParticipant[] = $newParticipant->id;
+                    return CRM_Event_Import_Parser::VALID;
+                } else {
+                    array_unshift($values,"Matching Participant record not found for Participant ID ". $values['participant_id'].". Row was skipped.");
+                    return CRM_Event_Import_Parser::ERROR;
+                }
             }
         }
         
@@ -388,7 +419,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 if ( !$disp && CRM_Utils_Array::value('external_identifier',$params) ) {
                     $disp = $params['external_identifier'];
                 }
-
+                
                 array_unshift($values,"No matching Contact found for (".$disp.")");
                 return CRM_Event_Import_Parser::ERROR;
             }
@@ -410,9 +441,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
             if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP){
                 array_unshift($values, $newParticipant['message']);
                 return CRM_Event_Import_Parser::ERROR;
-            } else if ($onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE) {
-                $newParticipant = civicrm_participant_update( $formatted );
-            }
+            } 
         }
         
         if ( ! ( is_array( $newParticipant ) && civicrm_error( $newParticipant ) ) ) {

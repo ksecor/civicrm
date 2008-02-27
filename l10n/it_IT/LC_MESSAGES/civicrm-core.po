@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-09 10:07-0800\n"
-"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
+"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"PO-Revision-Date: 2008-02-26 04:57-0800\n"
+"Last-Translator: margherita fabbri <margherita.fabbri@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Gruppo"
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
 msgid "Import"
-msgstr "Importa"
+msgstr "Importa contatti"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Contribution.php
@@ -126,7 +126,6 @@ msgid "Role"
 msgstr "Ruolo"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "-select role-"
 msgstr "- seleziona ruolo -"
 
@@ -208,16 +207,15 @@ msgstr "Tutti i Gruppi"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr "Tutti i Gruppi  Personalizzati"
+msgstr "Tutti i Gruppi Personalizzati"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
 msgstr "Tutti i Profili"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Events"
-msgstr "Eventi"
+msgstr "Tutti gli Eventi"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -302,8 +300,9 @@ msgid "- do not import -"
 msgstr "- non importare -"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
-#: CRM/Activity/Selector/Activity.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Contact/Form/Task/Record.php templates/CRM/Case/Form/CaseActivity.tpl
+#: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
+#: CRM/Contact/Form/Search/Criteria.php CRM/Contact/Form/Task/Record.php
+#: templates/CRM/Case/Form/CaseActivity.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Activity Type"
@@ -324,9 +323,8 @@ msgid "Subject"
 msgstr "Oggetto"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Start Date - From"
-msgstr "Data inizio"
+msgstr "Data inizio - Da"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -356,10 +354,11 @@ msgstr "Durata"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
 msgid "Location"
-msgstr "Luogo"
+msgstr "Recapito"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
-#: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/Record.php
+#: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/EmailCommon.php
+#: CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Details"
@@ -379,9 +378,8 @@ msgstr "- seleziona -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Detach"
-msgstr "Ricerca"
+msgstr "Scollega"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -415,7 +413,7 @@ msgstr "Annulla"
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Date and Time"
-msgstr "Date e ora"
+msgstr "Data e ora"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
@@ -431,12 +429,12 @@ msgstr "Date e ora"
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Status"
-msgstr "Status"
+msgstr "Stato"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#, fuzzy
+#: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Added By"
-msgstr "Aggiunto"
+msgstr "Aggiunto da"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -703,10 +701,10 @@ msgstr "Motivo"
 msgid "View Activity"
 msgstr "Visualizza Attività"
 
-#: CRM/Activity/Selector/Activity.php CRM/Contact/DAO/SubscriptionHistory.php
-#: CRM/Contact/Form/Email.php CRM/Contact/Form/Search/Custom/Basic.php
-#: CRM/Contact/Selector.php CRM/Core/DAO/Email.php
-#: CRM/Standalone/Form/Register.php
+#: CRM/Activity/Selector/Activity.php CRM/Contact/BAO/Query.php
+#: CRM/Contact/DAO/SubscriptionHistory.php CRM/Contact/Form/Email.php
+#: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
+#: CRM/Core/DAO/Email.php CRM/Standalone/Form/Register.php
 #: templates/CRM/Contact/Form/Relationship.tpl
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -785,7 +783,6 @@ msgstr "Etichetta"
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "is a numeric field"
 msgstr "è un campo numerico"
 
@@ -825,9 +822,8 @@ msgid "Enter a valid URL"
 msgstr "Prego inserire un URL valido."
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "API URL"
-msgstr "API"
+msgstr "URL dell'API"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -877,9 +873,8 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
-#, fuzzy
 msgid "Format"
-msgstr "Formale"
+msgstr "Formato"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -936,9 +931,8 @@ msgid "Settings - Resource URLs"
 msgstr "Impostazioni - URL delle Risorse"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Customize"
-msgstr "Personalizzato"
+msgstr "Personalizza"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -1091,7 +1085,47 @@ msgstr "Tag(s)"
 msgid "CiviCRM Contact Search"
 msgstr "Ricerca Contatto CiviCRM"
 
-#: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Search/Custom/Group.php
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Custom/Basic.php
+#: CRM/Contact/Form/Search/Custom/Group.php
+#: CRM/Contact/Form/Search/Custom/PostalMailing.php
+#: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
+#: CRM/Core/DAO/StateProvince.php templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#: templates/CRM/Contact/Form/Task/Print.tpl
+#: templates/CRM/Contact/Page/View/Basic.tpl
+msgid "State"
+msgstr "Stato"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Address.php
+#: CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Form/Search/Simple.php
+#: CRM/Contact/Form/Test.php CRM/Contact/Selector.php
+#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
+#: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
+#: templates/CRM/Contact/Form/Task/Print.tpl
+msgid "Country"
+msgstr "Paese"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Address.php
+#: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/County.php
+#: CRM/Core/Form.php
+msgid "County"
+msgstr "Contea"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
+#: CRM/Core/DAO/Worldregion.php
+msgid "World Region"
+msgstr "Regione del mondo"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
+#: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Gender"
+msgstr "Sesso"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
+#: CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 #: CRM/Core/DAO/MappingField.php CRM/Dedupe/DAO/RuleGroup.php
@@ -1100,6 +1134,34 @@ msgstr "Ricerca Contatto CiviCRM"
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid "Contact Type"
 msgstr "Tipologia Contatto"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search.php
+msgid "Group Status"
+msgstr "Stato Gruppo"
+
+#: CRM/Contact/BAO/Query.php CRM/Core/BAO/CustomField.php
+#: CRM/Core/DAO/Note.php templates/CRM/Contact/Page/View/Basic.tpl
+#: templates/CRM/Contact/Page/View/Note.tpl
+msgid "Note"
+msgstr "Nota"
+
+#: CRM/Contact/BAO/Query.php CRM/Core/DAO/LocationType.php
+msgid "Location Type"
+msgstr "Tipo di recapito"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/DAO/Contact.php
+#: xml/templates/civicrm_add_domain.tpl
+msgid "Preferred Communication Method"
+msgstr "Metodo di comunicazione preferito"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Advanced.php
+#: CRM/Contact/Form/Search/Criteria.php
+msgid "Task"
+msgstr "Attività"
+
+#: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
+msgid "Task Status"
+msgstr "Stato Compito"
 
 #: CRM/Contact/DAO/Contact.php CRM/Contact/Form/Household.php
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
@@ -1250,37 +1312,23 @@ msgstr "CAP"
 msgid "Postal Code Suffix"
 msgstr "Suffisso Codice Postale"
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Core/DAO/County.php CRM/Core/Form.php
-msgid "County"
-msgstr "Contea"
-
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Test.php CRM/Core/Form.php
 #: CRM/Core/Payment/Form.php
 msgid "State / Province"
 msgstr "Stato / Provincia"
 
-#: CRM/Contact/Form/Address.php CRM/Contact/Form/Search/Criteria.php
-#: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Form/Search/Simple.php
-#: CRM/Contact/Form/Test.php CRM/Contact/Selector.php
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Country.php
-#: CRM/Core/DAO/CustomField.php CRM/Core/Form.php CRM/Core/Payment/Form.php
-#: templates/CRM/Contact/Form/Task/Print.tpl
-msgid "Country"
-msgstr "Paese"
-
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- digita prima lettera/e -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
-msgstr "Elimina indirizzo"
+msgstr "Elimina recapito"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
 msgid "Domain Information"
-msgstr ""
+msgstr "Informazioni dominio"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1338,16 +1386,25 @@ msgstr[1] ""
 "Sono stati trovati %count contatti corrispondenti. Li puoi modificare qui: %"
 "1, o cliccare Salva contatto duplicato sotto."
 
-#: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
-#: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
-msgid "Gender"
-msgstr "Sesso"
-
 #: CRM/Contact/Form/Individual.php CRM/Contact/Form/Organization.php
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Website"
 msgstr "Sito Web"
+
+#: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
+#, fuzzy
+msgid "You do not have access to this page"
+msgstr "Non si hanno i permessi sufficienti per visualizzare questo contatto."
+
+#: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
+#, fuzzy
+msgid ""
+"The contact record which is linked to the currently logged in user account - "
+"'%1' - can not be deleted."
+msgstr ""
+"Il record di contatto linkato all'account utente connesso - \"%1\" - non può "
+"essere cancellato."
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -1413,6 +1470,7 @@ msgstr "Tipologia di Relazione"
 
 #: CRM/Contact/Form/Relationship.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Form/Search.php
 #: CRM/Contact/Form/Task/AddToHousehold.php
 #: CRM/Contact/Form/Task/AddToOrganization.php
@@ -1452,17 +1510,13 @@ msgstr "Contributi"
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships"
-msgstr "Gruppi di Appartenenza"
+msgstr "Iscrizioni"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #, fuzzy
 msgid "Grants"
 msgstr "Permetti"
-
-#: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Form/Search/Criteria.php
-msgid "Task"
-msgstr "Attività"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #, fuzzy
@@ -1495,6 +1549,7 @@ msgid "Find Contacts"
 msgstr "Trova Contatti"
 
 #: CRM/Contact/Form/Search/Criteria.php
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php
 msgid "- any state/province -"
 msgstr "- qualsiasi stato/provincia -"
@@ -1509,10 +1564,6 @@ msgstr "Stato/Provincia"
 msgid "Postal Code"
 msgstr "Codice Postale"
 
-#: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Worldregion.php
-msgid "World Region"
-msgstr ""
-
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
 msgstr "e"
@@ -1525,18 +1576,6 @@ msgstr "e"
 msgid "Address"
 msgstr "Indirizzo"
 
-#: CRM/Contact/Form/Search/Custom/Basic.php
-#: CRM/Contact/Form/Search/Custom/Group.php
-#: CRM/Contact/Form/Search/Custom/PostalMailing.php
-#: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
-#: CRM/Core/DAO/StateProvince.php templates/CRM/Contact/Form/Relationship.tpl
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-#: templates/CRM/Contact/Form/Task/Print.tpl
-#: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "State"
-msgstr "Stato"
-
 #: CRM/Contact/Form/Search/Custom/Basic.php CRM/Contact/Selector.php
 #: templates/CRM/Contact/Form/Task/Print.tpl
 msgid "Postal"
@@ -1544,6 +1583,7 @@ msgstr "Postale"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
@@ -1552,21 +1592,18 @@ msgstr "ID Contatto"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Count"
-msgstr "Conteggio località:"
+msgstr "Conteggio donazioni:"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Amount"
-msgstr "Conteggio località:"
+msgstr "Ammontare donazioni:"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Custom Search"
-msgstr "Ricerca"
+msgstr "Ricerca avanzata"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1742,12 +1779,6 @@ msgstr "Intero"
 msgid "Money"
 msgstr "Valuta"
 
-#: CRM/Core/BAO/CustomField.php CRM/Core/DAO/Note.php
-#: templates/CRM/Contact/Page/View/Basic.tpl
-#: templates/CRM/Contact/Page/View/Note.tpl
-msgid "Note"
-msgstr "Nota"
-
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php
 msgid "File"
@@ -1782,11 +1813,11 @@ msgstr "Non è stato possibile individuare il tuo user ID"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
-msgstr "Tipologia di membro"
+msgstr "Tipologia di iscrizione"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Status"
-msgstr "Stato del membro"
+msgstr "Stato di iscrizione"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -1801,27 +1832,21 @@ msgstr "Tipo di contributo"
 msgid "Please enter a valid amount."
 msgstr "Prego inserire una somma valida"
 
-#: CRM/Core/BAO/UFGroup.php CRM/Grant/BAO/Grant.php
-msgid "Copy of "
-msgstr "Copia di"
-
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
 msgstr "Menu completo CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New Activity"
-msgstr "Visualizza Attività"
+msgstr "Nuova Attività"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
 msgstr "Logout"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
-#, fuzzy
 msgid "CiviGrant"
-msgstr "Permetti"
+msgstr "CiviGrant"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1918,9 +1943,8 @@ msgid "Phone Type"
 msgstr "Tipo Telefono"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Import Activity"
-msgstr "Importa Storico Attività "
+msgstr "Importa Attività "
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -2043,8 +2067,8 @@ msgstr "Insieme di prezzi"
 msgid "Manage Groups"
 msgstr "Gestione Gruppi"
 
-#: CRM/Core/Menu.php CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
-#: xml/templates/civicrm_add_domain.tpl
+#: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
+#: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
 msgstr ""
 
@@ -2197,6 +2221,17 @@ msgstr "Stato Gruppo"
 msgid "Grant report received?"
 msgstr ""
 
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
+#: templates/CRM/Grant/Form/Task/Print.tpl
+#, fuzzy
+msgid "Amount Requested"
+msgstr "Importo"
+
+#: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
+#, fuzzy
+msgid "Amount Granted"
+msgstr "Importo"
+
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #, fuzzy
 msgid "Rationale"
@@ -2223,6 +2258,11 @@ msgstr "Continua"
 msgid "Delete Price Set"
 msgstr "Cancella Insieme di prezzi"
 
+#: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
+#: templates/CRM/Price/Page/Field.tpl
+msgid "Price"
+msgstr "Prezzo"
+
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
 msgstr "Tabella Entità Proprietario"
@@ -2230,10 +2270,6 @@ msgstr "Tabella Entità Proprietario"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
-
-#: CRM/Upgrade/TwoZero/Form/Step1.php CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "Database check failed - the current database is not v1.9."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
@@ -2526,7 +2562,7 @@ msgstr "Il tipo di Località selezionato è stato cancellato."
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
-msgid "Activity \"%1\"  has been saved."
+msgid "Activity '%1' has been saved."
 msgstr "\"%1\" è stata salvata."
 
 #: CRM/Activity/Import/Form/UploadFile.php
@@ -2637,11 +2673,12 @@ msgstr "Default?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr "Il tipo di Località selezionato è stato cancellato."
+msgstr "Il tipo di recapito selezionato è stato cancellato."
 
 #: CRM/Admin/Form/LocationType.php
-msgid "The location type \"%1\" has been saved."
-msgstr "Il tipo di località \"%1\" è stato salvato."
+#, fuzzy
+msgid "The location type '%1' has been saved."
+msgstr "Il tipo di recapito \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
@@ -2662,7 +2699,8 @@ msgid "HTML Message"
 msgstr "Messaggio HTML"
 
 #: CRM/Admin/Form/MessageTemplates.php
-msgid "The Message Template \"%1\" has been saved."
+#, fuzzy
+msgid "The Message Template '%1' has been saved."
 msgstr "Il modello di messaggio \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/OptionGroup.php
@@ -2670,7 +2708,8 @@ msgid "Selected option group has been deleted."
 msgstr "Il gruppo opzioni selezionato è stato eliminato."
 
 #: CRM/Admin/Form/OptionGroup.php
-msgid "The Option Group \"%1\" has been saved."
+#, fuzzy
+msgid "The Option Group '%1' has been saved."
 msgstr "Il Gruppo Opzioni \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/Options.php
@@ -2688,7 +2727,8 @@ msgid "Selected %1 type has not been deleted."
 msgstr "Il tipo %1 selezionato non è stato eliminato."
 
 #: CRM/Admin/Form/Options.php
-msgid "The %1 \"%2\" has been saved."
+#, fuzzy
+msgid "The %1 '%2' has been saved."
 msgstr "Il %1 \"%2\" è stato salvato."
 
 #: CRM/Admin/Form/OptionValue.php
@@ -2704,7 +2744,8 @@ msgid "Selected option value has been deleted."
 msgstr "Il valore di opzione selezionato è stato eliminato."
 
 #: CRM/Admin/Form/OptionValue.php
-msgid "The Option Value \"%1\" has been saved."
+#, fuzzy
+msgid "The Option Value '%1' has been saved."
 msgstr "Il Valore di Opzione \"%1\" è stata salvata."
 
 #: CRM/Admin/Form/PaymentProcessor.php
@@ -2808,11 +2849,11 @@ msgstr "Impostazioni - Indirizzi"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Number of Locations"
-msgstr "Numero località"
+msgstr "Numero di recapiti"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr "Il conteggio delle località deve essere un intero positivo (1, 2 o...)"
+msgstr "Il conteggio dei recapiti deve essere un intero positivo (1, 2 o...)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -2863,7 +2904,7 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php
 #, fuzzy
-msgid "The date type \"%1\" has been saved."
+msgid "The date type '%1' has been saved."
 msgstr "Il tipo di località \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/Preferences/Display.php
@@ -3154,7 +3195,7 @@ msgstr "Modifica DupeMatch"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr "Sei sicuro di voler disabilitare questo tipo di località?"
+msgstr "Sei sicuro di voler disabilitare questo tipo di recapito?"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
@@ -3162,23 +3203,23 @@ msgid ""
 "contact locations."
 msgstr ""
 "Gli utenti non possono più selezionare questo valore quando aggiungono o "
-"modificano le località di contatto."
+"modificano i recapiti dei contatti."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr "Modifica Tipo Località"
+msgstr "Modifica Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr "Disabilita Tipo Località"
+msgstr "Disabilita Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr "Abilita Tipo Località"
+msgstr "Abilita Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr "Cancella Tipo Località"
+msgstr "Cancella Tipo Recapito"
 
 #: CRM/Admin/Page/Mapping.php
 msgid ""
@@ -3444,7 +3485,7 @@ msgstr "La ACL selezionata è stata eliminata."
 
 #: CRM/Case/Form/Case.php
 #, fuzzy
-msgid "Case \"%1\"  has been saved."
+msgid "Case '%1' has been saved."
 msgstr "\"%1\" è stata salvata."
 
 #: CRM/Contact/BAO/Contact.php
@@ -3456,49 +3497,18 @@ msgid "Note(s)"
 msgstr "Nota/e"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Could not find location type id"
-msgstr "Non è possibile trovare un id località"
+msgstr "Non è possibile trovare un id per il tipo di recapito"
 
 #: CRM/Contact/BAO/Query.php
-msgid "State %2 \"%1\""
-msgstr "Stato %2 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "State (%2) %3 \"%1\""
-msgstr "Stato (%2) %3 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Country %2 \"%1\""
-msgstr "Paese %2 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Country (%2) %3 \"%1\""
-msgstr "Paese (%2) %3 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "County %2 \"%1\""
-msgstr "Paese %2 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "County (%2) %3 \"%1\""
-msgstr "Paese (%2) %3 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "World region %2 \"%1\""
-msgstr ""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Individual Prefix %2 \"%1\""
+#, fuzzy
+msgid "Individual Prefix"
 msgstr "Prefisso individuo %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Individual Suffix %2 \"%1\""
+#, fuzzy
+msgid "Individual Suffix"
 msgstr "Suffisso individuo %2 \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Gender %2 \"%1\""
-msgstr "Sesso %2 \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "This is an unexpected place to be in, contact support"
@@ -3510,16 +3520,8 @@ msgid "phone"
 msgstr "Telefono"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Contact Type -"
-msgstr "Tipologia di contatto - "
-
-#: CRM/Contact/BAO/Query.php
 msgid "Member of Group %1"
 msgstr "Membro del gruppo %1"
-
-#: CRM/Contact/BAO/Query.php
-msgid "Group Status -"
-msgstr "Stato del gruppo - "
 
 #: CRM/Contact/BAO/Query.php
 msgid "CMS User"
@@ -3534,56 +3536,34 @@ msgid "Tagged %1"
 msgstr "Taggato %1"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Note %2 - \"%1\""
-msgstr "Nota %2 - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Name like - \"%1\""
+#, fuzzy
+msgid "Name like"
 msgstr "Nome simile a - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Email %2 - \"%1\""
-msgstr "Email %2 - \"%1\""
-
-#: CRM/Contact/BAO/Query.php
-msgid "Restricted to Contacts starting with: \"%1\""
+#, fuzzy
+msgid "Restricted to Contacts starting with: '%1'"
 msgstr "Limitato ai contatti che iniziano per: \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code - \"%1\""
-msgstr "CAP - \"%1\""
+#, fuzzy
+msgid "Postal code"
+msgstr "Codice Postale"
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code greater than \"%1\""
+#, fuzzy
+msgid "Postal code greater than '%1'"
 msgstr "CAP maggiore di \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Postal code less than \"%1\""
+#, fuzzy
+msgid "Postal code less than '%1'"
 msgstr "CAP minore di \"%1\""
 
 #: CRM/Contact/BAO/Query.php
-msgid "Location type -"
-msgstr "Tipologia di indirizzo - "
-
-#: CRM/Contact/BAO/Query.php
-msgid "Activity Type %2 '%1'"
-msgstr "Tipo di attività %2 '%1'"
-
-#: CRM/Contact/BAO/Query.php
-msgid "Changed by: %1"
+#, fuzzy
+msgid "Changed by"
 msgstr "Modificato da: %1"
-
-#: CRM/Contact/BAO/Query.php
-msgid "%1 %2 %3"
-msgstr "%1 %2 %3"
-
-#: CRM/Contact/BAO/Query.php
-msgid "Task: %1"
-msgstr "Compito: %1"
-
-#: CRM/Contact/BAO/Query.php
-msgid "Task Status: %1"
-msgstr "Stato del compito: %1"
 
 #: CRM/Contact/BAO/Relationship.php
 msgid "Selected Relationship has been Deleted Successfuly."
@@ -3644,10 +3624,6 @@ msgstr "Indirizzo sito Web"
 #: CRM/Contact/DAO/Contact.php
 msgid "Image Url"
 msgstr "URL immagine"
-
-#: CRM/Contact/DAO/Contact.php xml/templates/civicrm_add_domain.tpl
-msgid "Preferred Communication Method"
-msgstr "Metodo di comunicazione preferito"
 
 #: CRM/Contact/DAO/Contact.php
 msgid "Preferred Mail Format"
@@ -3758,7 +3734,7 @@ msgstr "Prego inserire Sito Web valido."
 
 #: CRM/Contact/Form/DeleteLocation.php
 msgid "The location has been deleted."
-msgstr "La Località  è stata cancellata."
+msgstr "Il recapito è stato cancellato."
 
 #: CRM/Contact/Form/Domain.php
 msgid "Domain Name"
@@ -3773,15 +3749,17 @@ msgid "FROM Email Address"
 msgstr "Indirizzo Email DA"
 
 #: CRM/Contact/Form/Domain.php
+#, fuzzy
 msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
-"\"info@example.org\")."
+"'info@example.org')."
 msgstr ""
 "L'indirizzo email deve essere in un formato valido (es. info@esempio.org)"
 
 #: CRM/Contact/Form/Domain.php
+#, fuzzy
 msgid ""
-"Email domain must use a valid internet domain format (e.g. \"example.org\")."
+"Email domain must use a valid internet domain format (e.g. 'example.org')."
 msgstr ""
 "Il dominio dell'indirizzo email deve essere in un formato valido per "
 "Internet (es. \"esempio.org\")"
@@ -3795,7 +3773,8 @@ msgid "Return-Path must use a valid email address format."
 msgstr "Rispondi a deve essere in un formato di indirizzo email valido."
 
 #: CRM/Contact/Form/Domain.php
-msgid "Domain information for \"%1\" has been saved."
+#, fuzzy
+msgid "Domain information for '%1' has been saved."
 msgstr "Il dominio \"%1\" è stato salvato."
 
 #: CRM/Contact/Form/Edit.php
@@ -3836,23 +3815,23 @@ msgstr "Formato e-mail"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
-msgstr "Deiscrizione utente"
+msgstr "Revoca autorizzazione uso mail"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
-msgstr "Può essere indicato solo un indirizzo principale."
+msgstr "Può essere indicato solo un recapito principale."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr "Se ci sono indirizzi si deve impostare la Tipologia di indirizzo"
+msgstr "Se ci sono recapiti se ne deve impostare la tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr "Non si possono avere due indirizzi della stessa tipologia"
+msgstr "Non si possono avere due recapiti della stessa tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr "Si deve impostare un indirizzo principale"
+msgstr "Si deve impostare un recapito principale"
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
@@ -3955,9 +3934,10 @@ msgid "Select Household"
 msgstr "Seleziona Famiglia"
 
 #: CRM/Contact/Form/Individual.php
+#, fuzzy
 msgid ""
-"Enter a valid web location beginning with \"http://\" or \"https://\". "
-"EXAMPLE: http://www.mysite.org"
+"Enter a valid web location beginning with 'http://' or 'https://'. EXAMPLE: "
+"http://www.mysite.org/"
 msgstr ""
 "Inserire un indirizzo Web valido che inizi con \"http://\" o \"https://\". "
 "ESEMPIO: http://www.miosito.it"
@@ -3967,11 +3947,12 @@ msgid "Current Employer"
 msgstr "Attuale datore di lavoro"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid ""
 "First Name and Last Name OR an email OR an OpenID in the Primary Location "
 "should be set."
-msgstr "Nell'indirizzo principale si deve impostare nome e cognome O una email"
+msgstr ""
+"Nel recapito principale si deve impostare nome e cognome O una email O un "
+"OpenID"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
@@ -4005,12 +3986,11 @@ msgstr "ID della famiglia condivisa non trovato."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr "Indirizzo principale di questo contatto"
+msgstr "Recapito principale di questo contatto"
 
 #: CRM/Contact/Form/Location.php
-#, fuzzy
 msgid "Billing location for this contact"
-msgstr "Indirizzo principale di questo contatto"
+msgstr "Recapito di fatturazione di questo contatto"
 
 #: CRM/Contact/Form/Merge.php
 msgid "EMPTY"
@@ -4018,7 +3998,7 @@ msgstr "VUOTO"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Location: %1"
-msgstr "Località: %1"
+msgstr "Recapito: %1"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Merge Contacts"
@@ -4204,7 +4184,7 @@ msgstr "- qualsiasi gruppo -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
-msgstr "Tipi di Località"
+msgstr "Tipi di Recapito"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Dates - From"
@@ -4219,10 +4199,6 @@ msgid "Modified Between"
 msgstr "Modificato tra"
 
 #: CRM/Contact/Form/Search/Criteria.php
-msgid "Task Status"
-msgstr "Stato Compito"
-
-#: CRM/Contact/Form/Search/Criteria.php
 msgid "Target Contact"
 msgstr "Contatto Target"
 
@@ -4232,12 +4208,13 @@ msgstr "Note"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
 #, fuzzy
-msgid "Could not find \"%1\" string in SQL clause"
+msgid "Could not find '%1' string in SQL clause."
 msgstr "Non è possibile trovare un id località"
 
 #: CRM/Contact/Form/Search/Custom/Base.php
-msgid "Found illegal \"%1\" string in SQL clause"
-msgstr ""
+#, fuzzy
+msgid "Found illegal '%1' string in SQL clause."
+msgstr "Non è possibile trovare un id località"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #, fuzzy
@@ -4284,6 +4261,36 @@ msgstr "Stato Contributi"
 msgid "...through"
 msgstr ""
 
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Individual Name"
+msgstr "Formato Nome Individuo"
+
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Individual State"
+msgstr "Individuo"
+
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Employer"
+msgstr "Datore di lavoro di"
+
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Employer State"
+msgstr "Datore di lavoro di"
+
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Individual's Name (last, first)"
+msgstr "Formato Nome Individuo"
+
+#: CRM/Contact/Form/Search/Custom/EmployerListing.php
+#, fuzzy
+msgid "Individual's Home State"
+msgstr "Formato Nome Individuo"
+
 #: CRM/Contact/Form/Search/Custom/Group.php
 #, fuzzy
 msgid "Include Group(s)"
@@ -4293,10 +4300,6 @@ msgstr "I tuoi gruppi"
 #, fuzzy
 msgid "Exclude Group(s)"
 msgstr "I tuoi gruppi"
-
-#: CRM/Contact/Form/Search.php
-msgid "Group Status"
-msgstr "Stato Gruppo"
 
 #: CRM/Contact/Form/Search.php
 msgid "Please select at least Group Status value."
@@ -4387,14 +4390,6 @@ msgid "Deleted Contact(s): %1"
 msgstr "Contatto/i cancellati: %1"
 
 #: CRM/Contact/Form/Task/Delete.php
-msgid ""
-"The contact record which is linked to the currently logged in user account - "
-"\"%1\" - can not be deleted."
-msgstr ""
-"Il record di contatto linkato all'account utente connesso - \"%1\" - non può "
-"essere cancellato."
-
-#: CRM/Contact/Form/Task/Delete.php
 msgid "Selected contact was deleted sucessfully."
 msgstr "Il contatto selezionato è stato cancellato."
 
@@ -4403,9 +4398,10 @@ msgid "Selected contact cannot be deleted."
 msgstr "Impossibile cancellare il contatto selezionato."
 
 #: CRM/Contact/Form/Task/Delete.php
+#, fuzzy
 msgid ""
-"This contact record is linked to the currently logged in user account - \"%1"
-"\" - and can not be deleted."
+"This contact record is linked to the currently logged in user account - '%1' "
+"- and can not be deleted."
 msgstr ""
 "Questo record di contatto è collegato all'account dell'utente corrente - \"%1"
 "\" - e non può essere cancellato."
@@ -4416,6 +4412,9 @@ msgid ""
 "will need to edit the Membership Type and change the Membership Organization "
 "before you can delete this contact."
 msgstr ""
+"Il contatto può essere l'organizzazione iscritta con un tipo di iscrizione. "
+"Si deve modificare il tipo di iscrizione e cambiare l'organizzazione "
+"iscritta prima di poter cancellare questo contatto."
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Selected contact(s) do not have a valid email address"
@@ -4470,9 +4469,10 @@ msgid "Email sent to Contact(s): %1"
 msgstr "Email inviata al contatto/i: %1"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
+#, fuzzy
 msgid ""
 "Email not sent to contact(s) (no email address on file or communication "
-"preferences specify DO NOT EMAIL): %1  <br />Details : "
+"preferences specify DO NOT EMAIL): %1"
 msgstr ""
 "Email non inviata al contatto/i (nessun indirizzo email memorizzato, oppure "
 "le preferenze di comunicazione indicano NON INVIARE EMAIL): %1<br/>Dettagli: "
@@ -4519,11 +4519,11 @@ msgstr "- seleziona etichetta -"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
-msgstr "Seleziona Località"
+msgstr "Seleziona Recapito"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Map Location(s)"
-msgstr "Mappa Località"
+msgstr "Mappa Recapito/i"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid ""
@@ -4598,7 +4598,8 @@ msgid "Save Smart Group"
 msgstr "Salva Smart Group"
 
 #: CRM/Contact/Form/Task/SaveSearch.php
-msgid "Your smart group has been saved as \"%1\"."
+#, fuzzy
+msgid "Your smart group has been saved as '%1'."
 msgstr "Smart Group salvato come \"%1\"."
 
 #: CRM/Contact/Form/Test.php
@@ -4662,11 +4663,11 @@ msgstr "Elimina Appartenenza"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "View Membership"
-msgstr "Visualizza Gruppi di Appartenenza"
+msgstr "Visualizza Iscrizioni"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Edit Membership"
-msgstr "Modifica Membri"
+msgstr "Modifica Iscrizione"
 
 #: CRM/Contact/Page/View/Membership.php
 #, fuzzy
@@ -4675,7 +4676,7 @@ msgstr "Rinnova ora"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Delete Membership"
-msgstr "Elimina Appartenenza"
+msgstr "Elimina Iscrizione"
 
 #: CRM/Contact/Page/View/Membership.php
 #, fuzzy
@@ -4684,7 +4685,7 @@ msgstr "Tipologia di membro"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
-msgstr "Note Contatto"
+msgstr "Note"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
@@ -4955,16 +4956,14 @@ msgid "Delete Attached File"
 msgstr "Cancella File Allegato"
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "greater than or equal to \"%1\""
+#, fuzzy
+msgid "greater than or equal to '%1'"
 msgstr "maggiore o uguale a \"%1\""
 
 #: CRM/Core/BAO/CustomQuery.php
-msgid "less than or equal to \"%1\""
+#, fuzzy
+msgid "less than or equal to '%1'"
 msgstr "minore o uguale a \"%1\""
-
-#: CRM/Core/BAO/CustomValue.php
-msgid "This function is obsolete, use getEntityValues in CustomValueTable"
-msgstr ""
 
 #: CRM/Core/BAO/DomainDump.php
 msgid ""
@@ -5036,7 +5035,8 @@ msgid "Selected Tag has been Deleted Successfuly."
 msgstr "Il Tag selezionato è stato eliminato con successo."
 
 #: CRM/Core/BAO/Tag.php
-msgid "The tag \"%1\" has been saved."
+#, fuzzy
+msgid "The tag '%1' has been saved."
 msgstr "Il tag \"%1\" è stato salvato."
 
 #: CRM/Core/BAO/UFField.php
@@ -5048,7 +5048,7 @@ msgstr ""
 #: CRM/Core/BAO/UFGroup.php
 msgid ""
 "The requested Profile (gid=%1) is disabled, OR it is not configured to be "
-"used for \"Profile\" listings in it's Settings, or there is no Profile with "
+"used for 'Profile' listings in its Settings, or there is no Profile with "
 "that ID. Contact the site administrator if you need assistance."
 msgstr ""
 
@@ -5071,6 +5071,11 @@ msgstr "Ruolo Partecipante"
 #: CRM/Core/BAO/UFGroup.php
 msgid "Please enter a valid %1"
 msgstr "Prego inserire un valido %1"
+
+#: CRM/Core/BAO/UFGroup.php
+#, fuzzy
+msgid "Copy of"
+msgstr "Copia di"
 
 #: CRM/Core/BAO/UFGroup.php
 msgid ""
@@ -5186,9 +5191,10 @@ msgid "Logout"
 msgstr "Logout"
 
 #: CRM/Core/Config.php
+#, fuzzy
 msgid ""
-"There is no valid smtp server setting. Click <a href=\"%1\">Administer "
-"CiviCRM >> Global Settings</a> to set the SMTP Server."
+"There is no valid smtp server setting. Click <a href='%1'>Administer CiviCRM "
+">> Global Settings</a> to set the SMTP Server."
 msgstr ""
 "Non esiste una impostazione valida per l'SMTP. Cliccate su <a href=\"%1"
 "\">Impostazioni CiviCRM >> Impostazioni globali</a> per impostarlo."
@@ -5379,9 +5385,8 @@ msgstr "Relazione"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
 msgid "Membership"
-msgstr "Membri del Gruppo"
+msgstr "Iscrizione"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Participant"
@@ -5457,16 +5462,12 @@ msgid "Line Total"
 msgstr "Totale di linea"
 
 #: CRM/Core/DAO/LocationType.php
-msgid "Location Type"
-msgstr "Tipo di località"
-
-#: CRM/Core/DAO/LocationType.php
 msgid "vCard Location Type"
-msgstr "Tipo di località vCard"
+msgstr "Tipo di recapito vCard"
 
 #: CRM/Core/DAO/LocBlock.php
 msgid "Location Name"
-msgstr "Nome Indirizzo"
+msgstr "Nome recapito"
 
 #: CRM/Core/DAO/Log.php
 msgid "Data"
@@ -5542,7 +5543,7 @@ msgstr "Importa Contributi"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Import Memberships"
-msgstr "Importa Membri"
+msgstr "Importa Iscrizioni"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Import Participants"
@@ -5662,7 +5663,7 @@ msgstr "e"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Location Count"
-msgstr "Conteggio località:"
+msgstr "Conteggio recapiti:"
 
 #: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
 msgid "Contact View Options"
@@ -5897,7 +5898,7 @@ msgstr "Ricerca semplice"
 
 #: CRM/Core/Invoke.php
 msgid "View Location Types"
-msgstr "Visualizza Tipologie Località"
+msgstr "Visualizza Tipologie Recapiti"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processors"
@@ -6202,7 +6203,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr "Tipi di Località (Casa, Lavoro, ...)"
+msgstr "Tipi di Recapito (Casa, Lavoro, ...)"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6316,17 +6317,18 @@ msgid "Key is not set for this payment processor"
 msgstr "Chiave non impostata per questo strumento di pagamento"
 
 #: CRM/Core/Payment/BaseIPN.php
-msgid "Online Contribution:"
+#, fuzzy
+msgid "Online Contribution"
 msgstr "Contributo online:"
 
 #: CRM/Core/Payment/BaseIPN.php
-msgid "Online Event Registration:"
+#, fuzzy
+msgid "Online Event Registration"
 msgstr "Registrazione Evento Online:"
 
 #: CRM/Core/Payment/BaseIPN.php
-#, fuzzy
 msgid "Please set a location type of %1"
-msgstr "Prego selezionare una tipologia di relazione."
+msgstr "Si prega di impostare un tipo di recapito di %1."
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
@@ -6429,7 +6431,7 @@ msgstr "Contributo ricorrente senza id nel database."
 #, fuzzy
 msgid ""
 "We could not move the uploaded file %1 to the upload directory %2. Please "
-"verify that the \"Temporary Files\" setting points to a valid path which is "
+"verify that the 'Temporary Files' setting points to a valid path which is "
 "writable by your web server."
 msgstr ""
 "Impossibile spostare il file uploadato %1 nella directory di upload %2. "
@@ -6670,7 +6672,8 @@ msgid "Confirm Custom Field Delete"
 msgstr "Conferma Cancellazione Campo Personalizzato"
 
 #: CRM/Custom/Form/DeleteField.php
-msgid "The custom field \"%1\" has been deleted."
+#, fuzzy
+msgid "The custom field '%1' has been deleted."
 msgstr "Il campo personalizzato \"%1\" è stato cancellato."
 
 #: CRM/Custom/Form/DeleteGroup.php
@@ -6780,6 +6783,10 @@ msgid "Search by Range?"
 msgstr "Ricerca per intervallo?"
 
 #: CRM/Custom/Form/Field.php
+msgid "You can not use 'id' as a field label."
+msgstr ""
+
+#: CRM/Custom/Form/Field.php
 msgid "Please enter a valid integer as default value."
 msgstr "Inserire un intero valido come valore predefinito."
 
@@ -6826,7 +6833,7 @@ msgstr "Inserire un numero valido."
 
 #: CRM/Custom/Form/Field.php
 msgid ""
-"You must select a Multiple Choice Option set if you chose Reuse and existing "
+"You must select a Multiple Choice Option set if you chose Reuse an existing "
 "set."
 msgstr ""
 
@@ -6837,7 +6844,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Custom/Form/Field.php
-msgid "Your custom field \"%1\" has been saved"
+#, fuzzy
+msgid "Your custom field '%1' has been saved"
 msgstr "Il campo personalizzato \"%1\" è stato salvato"
 
 #: CRM/Custom/Form/Group.php
@@ -6865,13 +6873,15 @@ msgid "Is this Custom Data Group active?"
 msgstr "Il Gruppo di Dati Personalizzati è attivo?"
 
 #: CRM/Custom/Form/Group.php
-msgid "Your Group \"%1\" has been saved."
+#, fuzzy
+msgid "Your Group '%1 ' has been saved."
 msgstr "Il Gruppo \"%1\" è stato salvato."
 
 #: CRM/Custom/Form/Group.php
+#, fuzzy
 msgid ""
-"Your Group \"%1\" has been added. You can <a href=\"%2\">add custom fields</"
-"a> to this group now."
+"Your Group '%1' has been added. You can <a href='%2'>add custom fields</a> "
+"to this group now."
 msgstr ""
 "Gruppo \"%1\" aggiunto. Ora vi si possono <a href=\"%2\">aggiungere campi "
 "personalizzati</a>."
@@ -6926,7 +6936,8 @@ msgid "Your multiple choice option has been deleted"
 msgstr "L'opzione di scelta multipla è stata cancellata."
 
 #: CRM/Custom/Form/Option.php
-msgid "Your multiple choice option \"%1\" has been saved"
+#, fuzzy
+msgid "Your multiple choice option '%1' has been saved"
 msgstr "L'opzione di scelta multipla \"%1\" è stata salvata."
 
 #: CRM/Custom/Page/Field.php
@@ -7062,10 +7073,6 @@ msgid "Rule Weight"
 msgstr "Peso Regola"
 
 #: CRM/Friend/BAO/Friend.php
-msgid "Tell a Friend: "
-msgstr ""
-
-#: CRM/Friend/BAO/Friend.php
 msgid "Tell A Friend enabled?"
 msgstr ""
 
@@ -7115,7 +7122,7 @@ msgid ""
 "Help us spread the word and leverage the power of your contribution by "
 "telling your friends. Use the space below to personalize your email message "
 "- let your friends know why you support us. Then fill in the name(s) and "
-"email address(es) and click \"Send Your Message\"."
+"email address(es) and click 'Send Your Message'."
 msgstr ""
 
 #: CRM/Friend/Form/Contribute.php
@@ -7134,7 +7141,7 @@ msgstr ""
 msgid ""
 "Help us spread the word about this event. Use the space below to personalize "
 "your email message - let your friends know why you're attending. Then fill "
-"in the name(s) and email address(es) and click \"Send Your Message\"."
+"in the name(s) and email address(es) and click 'Send Your Message'."
 msgstr ""
 
 #: CRM/Friend/Form/Event.php
@@ -7279,16 +7286,6 @@ msgstr ""
 msgid "Amount Total"
 msgstr "Importo"
 
-#: CRM/Grant/DAO/Grant.php templates/CRM/Grant/Form/Task/Print.tpl
-#, fuzzy
-msgid "Amount Requested"
-msgstr "Importo"
-
-#: CRM/Grant/DAO/Grant.php
-#, fuzzy
-msgid "Amount Granted"
-msgstr "Importo"
-
 #: CRM/Grant/Form/Grant.php
 #, fuzzy
 msgid "Application Received date"
@@ -7364,11 +7361,6 @@ msgstr "Nuovo Partecipante"
 
 #: CRM/Grant/Invoke.php
 #, fuzzy
-msgid "You do not have access to this page"
-msgstr "Non si hanno i permessi sufficienti per visualizzare questo contatto."
-
-#: CRM/Grant/Invoke.php
-#, fuzzy
 msgid "Manage Grant"
 msgstr "Gestione Gruppi"
 
@@ -7418,17 +7410,8 @@ msgid "Delete Grant"
 msgstr "Elimina Gruppo"
 
 #: CRM/Grant/Selector/Search.php
-msgid "Amount Requested (orig. currency) "
+msgid "(orig. currency)"
 msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-msgid "Amount Requested "
-msgstr ""
-
-#: CRM/Grant/Selector/Search.php
-#, fuzzy
-msgid "Amount Granted "
-msgstr "Importo"
 
 #: CRM/Grant/Selector/Search.php
 #, fuzzy
@@ -7458,7 +7441,7 @@ msgstr "Descrizione:"
 
 #: CRM/Group/Form/Edit.php
 #, fuzzy
-msgid "The Group \"%1\" has been saved."
+msgid "The Group '%1' has been saved."
 msgstr "Il Gruppo \"%1\" è stato salvato."
 
 #: CRM/Group/Form/Search.php
@@ -7515,11 +7498,13 @@ msgid "Tag"
 msgstr "Tag"
 
 #: CRM/Import/Form/Preview.php
-msgid "Group \"%1\" already exists."
+#, fuzzy
+msgid "Group '%1' already exists."
 msgstr "Il gruppo \"%1\" già esiste."
 
 #: CRM/Import/Form/Preview.php
-msgid "Tag \"%1\" already exists."
+#, fuzzy
+msgid "Tag '%1' already exists."
 msgstr "Il tag \"%1\" già esiste."
 
 #: CRM/Import/Form/Summary.php
@@ -7587,19 +7572,20 @@ msgid "Delete Price Field"
 msgstr "Cancella Campo Prezzo"
 
 #: CRM/Price/Form/DeleteField.php
-msgid "The price field \"%1\" has been deleted."
+#, fuzzy
+msgid "The Price Field '%1' has been deleted."
 msgstr "Il campo prezzo \"%1\" è stato eliminato."
 
 #: CRM/Price/Form/DeleteSet.php
 #, fuzzy
-msgid "The Price Set \"%1\" has been deleted."
+msgid "The Price Set '%1' has been deleted."
 msgstr "L'insieme \"%1\" è stato eliminato."
 
 #: CRM/Price/Form/DeleteSet.php
 #, fuzzy
 msgid ""
-"The Price Set \"%1\" has not been deleted! You must Delete all price fields "
-"in this set prior to deleting the set"
+"The Price Set '%1' has not been deleted! You must delete all price fields in "
+"this set prior to deleting the set."
 msgstr ""
 "L'insieme \"%1\" non è stato eliminato! Si devono cancellare tutti i campi "
 "prezzo dell'insieme prima di eliminare l'insieme."
@@ -7607,10 +7593,6 @@ msgstr ""
 #: CRM/Price/Form/Field.php
 msgid "Input Field Type"
 msgstr "Tipo di Campo di Input"
-
-#: CRM/Price/Form/Field.php templates/CRM/Price/Page/Field.tpl
-msgid "Price"
-msgstr "Prezzo"
 
 #: CRM/Price/Form/Field.php
 #, fuzzy
@@ -7660,7 +7642,8 @@ msgid "Label and value can not be empty"
 msgstr "Il valore dell'opzione non può essere vuoto."
 
 #: CRM/Price/Form/Field.php
-msgid "Price field \"%1\" has been saved"
+#, fuzzy
+msgid "Price Field '%1' has been saved."
 msgstr "Il campo prezzo \"%1\" è stato salvato."
 
 #: CRM/Price/Form/Option.php
@@ -7679,11 +7662,12 @@ msgstr "Etichetta Opzione duplicata"
 
 #: CRM/Price/Form/Option.php
 #, fuzzy
-msgid "%1 option has been deleted"
+msgid "%1 option has been deleted."
 msgstr "Questa opzione è stata eliminata."
 
 #: CRM/Price/Form/Option.php
-msgid "The option \"%1\" has been saved"
+#, fuzzy
+msgid "The option '%1' has been saved."
 msgstr "L'opzione \"%1\" è stata salvata."
 
 #: CRM/Price/Form/Set.php
@@ -7703,13 +7687,15 @@ msgid "Is this Price Set active?"
 msgstr "L'insieme di prezzi è attivo?"
 
 #: CRM/Price/Form/Set.php
-msgid "Your Set \"%1\" has been saved."
-msgstr "L'insieme \"%1\" è stato salvato."
+#, fuzzy
+msgid "The Set '%1' has been saved."
+msgstr "Il tag \"%1\" è stato salvato."
 
 #: CRM/Price/Form/Set.php
+#, fuzzy
 msgid ""
-"Your Set \"%1\" has been added. You can <a href=\"%2\">add fields</a> to "
-"this set now."
+"Your Set '%1' has been added. You can <a href='%2'>add fields</a> to this "
+"set now."
 msgstr ""
 "L'insieme \"%1\" è stato aggiunto. Ora si possono <a href=\"%2\">aggiungere "
 "campi</a> all'insieme."
@@ -7751,11 +7737,6 @@ msgid "Delete Price"
 msgstr "Cancella prezzo"
 
 #: CRM/Price/Page/Field.php
-#, fuzzy
-msgid "Price "
-msgstr "Prezzo"
-
-#: CRM/Price/Page/Field.php
 msgid "%1 - Price Fields"
 msgstr "%1 - campi prezzo"
 
@@ -7789,7 +7770,7 @@ msgstr "Opzione campo prezzi"
 
 #: CRM/Price/Page/Option.php
 #, fuzzy
-msgid "Price Option "
+msgid "Price Option"
 msgstr "Modifica Opzione prezzi"
 
 #: CRM/Price/Page/Option.php
@@ -7829,14 +7810,14 @@ msgstr ""
 #: CRM/Profile/Form/Edit.php
 msgid ""
 "The requested Profile (gid=%1) is disabled, OR there is no Profile with that "
-"ID, OR a valid \"gid=\" integer value is missing from the URL. Contact the "
+"ID, OR a valid 'gid=' integer value is missing from the URL. Contact the "
 "site administrator if you need assistance."
 msgstr ""
 
 #: CRM/Profile/Form/Edit.php
 msgid ""
-"The requested Profile (gid=%1) is not configured to be used for \"Profile\" "
-"edit and view forms in it's Settings. Contact the site administrator if you "
+"The requested Profile (gid=%1) is not configured to be used for 'Profile' "
+"edit and view forms in its Settings. Contact the site administrator if you "
 "need assistance."
 msgstr ""
 
@@ -8042,26 +8023,6 @@ msgstr "Aggiorna Tag"
 msgid "Your update(s) have been saved."
 msgstr "Aggiornamenti salvati"
 
-#: CRM/Touchstone/Info.php
-msgid "CiviTouchstone"
-msgstr ""
-
-#: CRM/Touchstone/Info.php
-msgid "CiviCRM Touchstone Component"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform First Task"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform Second Task"
-msgstr ""
-
-#: CRM/Touchstone/Task.php
-msgid "Perform Third Task"
-msgstr ""
-
 #: CRM/UF/Form/Field.php
 msgid "Delete Profile Field"
 msgstr "Elimina campo profilo"
@@ -8097,11 +8058,13 @@ msgid "The selected field was not added. It already exists in this profile."
 msgstr "Il campo selezionato non è stato aggiunto. Già esiste nel profilo."
 
 #: CRM/UF/Form/Field.php
-msgid "Your civicrm profile field \"%1\" has been saved."
-msgstr "Il campo di profilo di CiviCRM \"%1\" è stato salvato."
+#, fuzzy
+msgid "Your CiviCRM Profile Field '%1' has been saved."
+msgstr "Il profilo di CiviCRM \"%1\" è stato salvato."
 
 #: CRM/UF/Form/Group.php
-msgid "Profile Settings - %1"
+#, fuzzy
+msgid "Profile Settings"
 msgstr "Impostazioni profilo - %1"
 
 #: CRM/UF/Form/Group.php templates/CRM/UF/Page/Group.tpl
@@ -8270,6 +8233,10 @@ msgid "Title not Set"
 msgstr "ERRORE: il titolo non è stato impostato"
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "Database check failed - the current database is not v1.9."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
 "Database check failed - it looks like you have already upgraded to the "
 "latest version of the database."
@@ -8285,17 +8252,30 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""
-"<p><strong>This process will upgrade your v1.9 CiviCRM database to the v2.0 "
-"database format.</strong></p>\n"
-"<div class=\"messsages status\"><ul><li><strong>Make sure you have a current "
-"and complete backup of your CiviCRM database and codebase files before "
-"starting the upgrade process.</strong></li>\n"
-"<li>The upgrade process consists of 6 steps, and may take a while depending "
-"on the size of your database.</li>\n"
-"<li>You must complete all 6 steps to have a valid 2.0 database.</li></ul></"
-"div>\n"
-"<p>Step One will start with cleaning your database. Click <strong>Begin "
-"Upgrade</strong> to begin the process.</p>"
+"This process will upgrade your v1.9 CiviCRM database to the v2.0 database "
+"format."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid ""
+"Make sure you have a current and complete backup of your CiviCRM database "
+"and codebase files before starting the upgrade process."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid ""
+"The upgrade process consists of 6 steps, and may take a while depending on "
+"the size of your database."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid "You must complete all six steps to have a valid 2.0 database."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step1.php
+msgid ""
+"Step One will start with cleaning your database. Click <strong>Begin "
+"Upgrade</strong> to begin the process."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
@@ -8307,26 +8287,29 @@ msgid "CiviCRM 2.0 Upgrade: Step Two (Contact Upgrade)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php
-msgid "<p>Step Two will upgrade the contact records in your database.</p>"
-msgstr ""
+#, fuzzy
+msgid "Step Two will upgrade the contact records in your database."
+msgstr "<p>Questo passo aggiornerà i dati dei recapiti nel database.</p>"
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid ""
-"Database consistency check failed for step 2. FK constraint names not in the "
+"Database consistency check failed for step 3. FK constraint names not in the "
 "required format."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
+"Aggiornamento a CiviCRM 2.0: Passo 3 (Aggiornamento dei dati dei recapiti)"
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
-msgid "<p>This step will upgrade the location data in your database.</p>"
-msgstr ""
+#, fuzzy
+msgid "This step will upgrade the location data in your database."
+msgstr "<p>Questo passo aggiornerà i dati dei recapiti nel database.</p>"
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid ""
-"Database consistency check failed for step 3. FK constraint names not in the "
+"Database consistency check failed for step 4. FK constraint names not in the "
 "required format."
 msgstr ""
 
@@ -8336,8 +8319,14 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
 msgid ""
-"Database consistency check failed for Step 4. Value missing in "
+"Database consistency check failed for Step 5. Value missing in "
 "civicrm_custom_field for the column 'name'."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step5.php
+msgid ""
+"Database consistency check failed for Step 5. A custom field can not have "
+"'id' as the 'name'."
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step5.php
@@ -8350,7 +8339,7 @@ msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid ""
-"Database consistency check failed for step 5. FK constraint names not in the "
+"Database consistency check failed for step 6. FK constraint names not in the "
 "required format."
 msgstr ""
 
@@ -8359,8 +8348,9 @@ msgid "CiviCRM 2.0 Upgrade: Step Six (Upgrade Miscellaneous Data)"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
-msgid "<p>This step will upgrade the remaining data in your database.</p>"
-msgstr ""
+#, fuzzy
+msgid "This step will upgrade the remaining data in your database."
+msgstr "<p>Questo passo aggiornerà i dati dei recapiti nel database.</p>"
 
 #: CRM/Upgrade/TwoZero/Form/Step6.php
 msgid "Finish Upgrade"
@@ -8371,12 +8361,17 @@ msgid "Database Upgrade to v2.0 Completed"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step7.php
+msgid "Your CiviCRM database has been successfully upgraded to v2.0."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step7.php
 msgid ""
-"<p><strong>Your CiviCRM database has been successfully upgraded to v2.0.</"
-"strong></p>\n"
-"<p>Please be sure to follow the remaining steps in the <a href=\"%1\" target="
-"\"_blank\"><strong>Upgrade Instructions</strong></a>.</p>\n"
-"<p>Thank you for using CiviCRM.</p>"
+"Please be sure to follow the remaining steps in the <a href='%1' "
+"target='_blank'><strong>Upgrade Instructions</strong></a>."
+msgstr ""
+
+#: CRM/Upgrade/TwoZero/Form/Step7.php
+msgid "Thank you for using CiviCRM."
 msgstr ""
 
 #: CRM/Utils/Address/USPS.php
@@ -8627,9 +8622,10 @@ msgid "Select the core ACL."
 msgstr "Elimina ACL"
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl
+#, fuzzy
 msgid ""
 "Select a Role to assign (grant) this permission to. Select the special role "
-"\"Everyone\" if you want to grant this permission to ALL users. \"Anyone\" "
+"'Everyone' if you want to grant this permission to ALL users. 'Anyone' "
 "includes anonymous (i.e. not logged in) users."
 msgstr ""
 "Seleziona un ruolo a cui assegnare (permettere) questo permesso. Seleziona "
@@ -8645,12 +8641,13 @@ msgid "Select the type of data this ACL operates on."
 msgstr "Seleziona il tipo di dati su cui la ACL opera."
 
 #: templates/CRM/ACL/Form/ACL.tpl
+#, fuzzy
 msgid ""
-"IMPORTANT: The Drupal permissions for \"access all custom data\" and "
-"\"profile listings and forms\" override and disable specific ACL settings "
-"for custom field groups and profiles respectively. Do not enable those "
-"Drupal permissions for a Drupal role if you want to use CiviCRM ACL's to "
-"control access."
+"IMPORTANT: The Drupal permissions for 'access all custom data' and 'profile "
+"listings and forms' override and disable specific ACL settings for custom "
+"field groups and profiles respectively. Do not enable those Drupal "
+"permissions for a Drupal role if you want to use CiviCRM ACL's to control "
+"access."
 msgstr ""
 "IMPORTANTE: i permessi di Drupal di \"accedi a tutti i dati personalizzati\" "
 "e \"elenchi e moduli per i profili\" sovrascrivono e disabilitano le "
@@ -8688,17 +8685,19 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Select a Role to assign (grant) this permission to. Select the special role "
-"\"Everyone\" if you want to grant this permission to ALL users. \"Everyone\" "
-"includes anonymous (i.e. not logged in) users."
+"'Everyone' if you want to grant this permission to ALL users. 'Everyone' "
+"includes anonymous (i.e. not logged in) users. Select the special role "
+"'Authenticated' if you want to grant it to any logged in user."
 msgstr ""
 "Seleziona un ruolo a cui assegnare (permettere) questo permesso. Seleziona "
 "il ruolo speciale \"tutti\" se volete che il permesso sia accordato a tutti "
 "gli utenti. \"Chiunque\" include anche gli utenti anonimi (non collegati) "
 
 #: templates/CRM/ACL/Form/ACL.tpl
+#, fuzzy
 msgid ""
-"Enter a descriptive name for this permission (e.g. \"Edit Advisory Board "
-"Contacts\")."
+"Enter a descriptive name for this permission (e.g. 'Edit Advisory Board "
+"Contacts')."
 msgstr ""
 "Inserire un nome descrittivo per il permesso (es. \"Modifica contatti del "
 "consiglio direttivo\")."
@@ -8747,13 +8746,14 @@ msgid "Opens online documentation in a new window."
 msgstr "Apre la documentazione online in una nuova finestra."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
+#, fuzzy
 msgid ""
-"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"ACLs allow you control access to CiviCRM data. An ACL consists of an "
 "<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
 "strong> that the operation can be performed on (e.g. a group of contacts, a "
 "profile or a set of custom fields), and a <strong>Role</strong> that has "
-"permission to do this operation. Refer to the <a href=\"%1\" target=\"_blank"
-"\" title=\"%2\">Access Control Documentation</a> for more info."
+"permission to do this operation. Refer to the <a href='%1' target='_blank' "
+"title='%2'>Access Control Documentation</a> for more info."
 msgstr ""
 "Le ACL permettono di controllare gli accessi ai dati di CiviCRM. Una ACL "
 "consiste di una <strong>Operazione</strong> (es. \"visualizza\" o \"modifica"
@@ -8765,10 +8765,11 @@ msgstr ""
 "controllo degli accessi</a>."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
+#, fuzzy
 msgid ""
-"You can add or modify your ACL's below. You can create additional ACL Roles "
-"<a href=\"%2\">here</a>... and you can assign Roles to CiviCRM contacts who "
-"are users of your site <a href=\"%1\">here</a>."
+"You can add or modify your ACLs below. You can create additional ACL Roles "
+"<a href='%2'>here</a>... and you can assign Roles to CiviCRM contacts who "
+"are users of your site <a href='%1'>here</a>."
 msgstr ""
 "Qui sotto si possono aggiungere o modificare le ACL; si possono creare ruoli "
 "di ACL aggiuntivi <a href=\"%2\">qui</a>, e <a href=\"%1\">qui</a> si "
@@ -8781,7 +8782,8 @@ msgid "ACL Type(s)"
 msgstr "Tipo/i di contatto"
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
-msgid "There are no ACL&rsquo;s entered. You can <a href=\"%1\">add one</a>."
+#, fuzzy
+msgid "There are no ACLs entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Non sono state inserite ACL; <a href=\"%1\">da qui</a> se ne può inserire "
 "una."
@@ -8792,13 +8794,14 @@ msgid "Which Data"
 msgstr "Data inizio"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
-"ACL's allow you control access to CiviCRM data. An ACL consists of an "
+"ACLs allow you control access to CiviCRM data. An ACL consists of an "
 "<strong>Operation</strong> (e.g. 'View' or 'Edit'), a <strong>set of data</"
 "strong> that the operation can be performed on (e.g. a group of contacts), "
 "and a <strong>Role</strong> that has permission to do this operation. Refer "
-"to the <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
-"Documentation</a> for more info."
+"to the <a href='%1' target='_blank' title='%2'>Access Control Documentation</"
+"a> for more info."
 msgstr ""
 "Le ACL permettono di controllare gli accessi ai dati di CiviCRM. Una ACL "
 "consiste di una <strong>Operazione</strong> (es. \"visualizza\" o \"modifica"
@@ -8810,11 +8813,12 @@ msgstr ""
 "controllo degli accessi</a>."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
+#, fuzzy
 msgid ""
 "An ACL Role represents a collection ACL&rsquo;s (permissions). You can "
 "assign roles to groups of CiviCRM contacts who are users of your site below. "
-"You can add or modify ACL's <a href=\"%1\">here</a>. You can create "
-"additional ACL Roles <a href=\"%2\">here</a>."
+"You can add or modify ACLs <a href='%1'>here</a>. You can create additional "
+"ACL Roles <a href='%2'>here</a>."
 msgstr ""
 "Un Ruolo delle ACL rappresenta una raccolta di ACL (permessi). Si possono "
 "assegnare ruoli a gruppi di contatti di CiviCRM che siano utenti del sito. "
@@ -8826,7 +8830,8 @@ msgid "New Role Assignment"
 msgstr "Nuova assegnazione di ruolo"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
-msgid "There are no Role Assignments. You can <a href=\"%1\">add one</a> now."
+#, fuzzy
+msgid "There are no Role Assignments. You can <a href='%1'>add one</a> now."
 msgstr ""
 "Non ci sono assegnazioni di ruolo. Se ne può <a href=\"%1\">aggiungendo una</"
 "a> ora."
@@ -8848,8 +8853,8 @@ msgstr ""
 
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid ""
-"If you want to associate this activity with a case, you will need to <a href="
-"\"%1\">create one first</a>."
+"If you want to associate this activity with a case, you will need to <a "
+"href='%1'>create one first</a>."
 msgstr ""
 
 #: templates/CRM/Activity/Form/Activity.tpl
@@ -8875,18 +8880,14 @@ msgid "Mins"
 msgstr "Min"
 
 #: templates/CRM/Activity/Form/Activity.tpl
-msgid "Are you sure you want to delete \"%1\"?"
+#, fuzzy
+msgid "Are you sure you want to delete '%1'?"
 msgstr "Siete sicuri di voler cancellare \"%1\"?"
 
 #: templates/CRM/Activity/Form/Activity.tpl
 #, fuzzy
-msgid "Are you sure you want to detach \"%1\" from this case?"
+msgid "Are you sure you want to detach '%1' from this case?"
 msgstr "Sei sicuro di voler cancellare questo tag?"
-
-#: templates/CRM/Activity/Form/ActivityView.tpl
-#, fuzzy
-msgid "Added By "
-msgstr "Aggiunto"
 
 #: templates/CRM/Activity/Import/Form/MapField.tpl
 #: templates/CRM/Grant/Import/Form/MapField.tpl
@@ -8968,9 +8969,9 @@ msgstr ""
 msgid ""
 "CiviCRM has detected invalid data or formatting errors in %1 records. If you "
 "continue, these records will be skipped. OR, you can download a file with "
-"just these problem records - <a href=\"%2\">Download Errors</a>. Then "
-"correct them in the original import file, cancel this import and begin again "
-"at step 1."
+"just these problem records - <a href='%2'>Download Errors</a>. Then correct "
+"them in the original import file, cancel this import and begin again at step "
+"1."
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Preview.tpl
@@ -8978,7 +8979,7 @@ msgstr ""
 msgid ""
 "CiviCRM has detected %1 records with conflicting transaction ids within this "
 "data file. If you continue, these records will be skipped. OR, you can "
-"download a file with just these problem records - <a href=\"%2\">Download "
+"download a file with just these problem records - <a href='%2'>Download "
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
@@ -9078,8 +9079,8 @@ msgstr[1] ""
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Activity records</a>. You may "
-"then correct them, and import the new file with the corrected data."
+"You can <a href='%1'>Download Mismatched Activity records</a>. You may then "
+"correct them, and import the new file with the corrected data."
 msgstr ""
 
 #: templates/CRM/Activity/Import/Form/Summary.tpl
@@ -9098,7 +9099,7 @@ msgstr[1] ""
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
+"You can <a href='%1'>Download Errors</a>. You may then correct them, and "
 "import the new file with the corrected data."
 msgstr ""
 
@@ -9117,7 +9118,7 @@ msgstr[1] ""
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
+"You can <a href='%1'>Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the "
 "transaction IDs for those that are not."
 msgstr ""
@@ -9135,7 +9136,7 @@ msgstr[1] ""
 #: templates/CRM/Activity/Import/Form/Summary.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
+"You can <a href='%1'>Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the "
 "transaction IDs for those that are not."
 msgstr ""
@@ -9237,7 +9238,7 @@ msgstr ""
 #: templates/CRM/Activity/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
-"(Example: \"Contact ID\", \"Activity Type\", \"Activity Date\")."
+"(Example: 'Contact ID', 'Activity Type', 'Activity Date')."
 msgstr ""
 
 #: templates/CRM/Activity/Selector/Activity.tpl
@@ -9378,7 +9379,7 @@ msgstr "Configurazione avanzata"
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid "New Location Type"
-msgstr "Nuovo tipo di luogo"
+msgstr "Nuovo tipo di recapito"
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid ""
@@ -9386,11 +9387,11 @@ msgid ""
 "records which use the option."
 msgstr ""
 "ATTENZIONE: cancellare questa opzione provocherà la perdita di tutti i "
-"record di tipo di luogo che la usano."
+"record di tipo di recapito che la usano."
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "WARNING: Do NOT use spaces in the Location Name."
-msgstr "ATTENZIONE: non usare spazi nel nome del luogo"
+msgstr "ATTENZIONE: non usare spazi nel nome del recapito"
 
 #: templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/Tag.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -9426,29 +9427,30 @@ msgid "Descriptive title of message - used for template selection."
 msgstr "Titolo descrittivo del messaggio - usato per la scelta del modello."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-msgid ""
-"Subject for email message. Tokens may be included (<a href=\"%1\" target="
-"\"_blank\" title=\"%2\">token documentation</a>)."
-msgstr ""
-"Oggetto dei messaggi di email. Si possono includere dei segnaposto (si veda "
-"la <a href=\"%1\" target=\"_blank\" title=\"%2\">documentazione sui "
-"segnaposto</a>)."
+#, fuzzy
+msgid "Subject for email message."
+msgstr "Messaggio Email Inviato"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
+#, fuzzy
 msgid ""
-"Text formatted message. Tokens may be included (<a href=\"%1\" target="
-"\"_blank\" title=\"%2\">token documentation</a>)."
+"Tokens may be included (<a href='%1' target='_blank' title='%2'>token "
+"documentation</a>)."
 msgstr ""
 "Messaggio formattato in testo. Si possono includere  dei segnaposto (si veda "
 "la <a href=\"%1\" target=\"_blank\" title=\"%2\">documentazione sui "
 "segnaposto</a>)."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
+#, fuzzy
+msgid "Text formatted message."
+msgstr "Messaggio di testo"
+
+#: templates/CRM/Admin/Form/MessageTemplates.tpl
+#, fuzzy
 msgid ""
 "You may optionally create an HTML formatted version of this message. It will "
-"be sent to contacts whose Email Format preference is \"HTML\" or \"Both\". "
-"Tokens may be included (<a href=\"%1\" target=\"_blank\" title=\"%2\">token "
-"documentation</a>)."
+"be sent to contacts whose Email Format preference is 'HTML' or 'Both'."
 msgstr ""
 "Si può opzionalmente creare una versione formattata in HTML del messaggio. "
 "Sarà inviata ai contatti il cui formato di email preferito è \"HTML\" o "
@@ -9543,7 +9545,7 @@ msgid ""
 "Enter the maximum number of different locations/addresses that can be "
 "entered for a contact."
 msgstr ""
-"Inserisci il numero massimo di luoghi/indirizzi diversi che possono essere "
+"Inserisci il numero massimo di recapiti/indirizzi diversi che possono essere "
 "inseriti per un singolo contatto."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -9551,11 +9553,11 @@ msgid "Address Standardization"
 msgstr "Standardizzazione indirizzi"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
+#, fuzzy
 msgid ""
 "CiviCRM includes an optional plugin for interfacing the the United States "
 "Postal Services (USPS) Address Standardization web service. You must "
-"register to use the USPS service at <a href=\"http://www.usps.com/webtools/"
-"address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
+"register to use the USPS service at <a href='%1'>%1</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
 "CiviCRM include un plugin opzionale per l'interfacciamento con il servizio "
@@ -9593,18 +9595,19 @@ msgid "View Site Preferences"
 msgstr "Visualizza preferenze sito"
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
+#, fuzzy
 msgid ""
 "Select the <strong>tabs</strong> that should be displayed when viewing a "
 "contact record. EXAMPLE: If your organization does not keep track of "
 "'Relationships', then un-check this option to simplify the screen display. "
 "Tabs for Contributions, Memberships, and Events are also hidden if the "
-"corresponding component is not enabled (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">read more...</a>)."
+"corresponding component is not enabled (<a href='%1' target='_blank' title='%"
+"2'>read more...</a>)."
 msgstr ""
 "Selezionate le <strong>schede</strong> da mostrare quando si visualizza il "
 "record di un contatto. AD ESEMPIO: se l'organizzazione non tiene traccia di "
 "'Relazioni', togliete la spunta a questa opzione per semplificare la "
-"visualizzazione su schermo. Le tab dei Contributi, Membership e Eventi sono "
+"visualizzazione su schermo. Le tab dei Contributi, Iscrizioni e Eventi sono "
 "anch'esse nascoste se la componente corrispondente non è abilitata (<a href="
 "\"%1\" target=\"_blank\" title=\"%2\">leggi tutto...</a>)."
 
@@ -9657,17 +9660,19 @@ msgstr ""
 "Relazioni di questo tipo."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
+#, fuzzy
 msgid ""
 "Name for the relationship from Contact A to Contact B. EXAMPLE: Contact A is "
-"\"Parent of\" Contact B."
+"'Parent of' Contact B."
 msgstr ""
 "Nome della relazione dal Contatto A al Contatto B. ESEMPIO: Il contatto A è "
 "\"genitore di\" contatto B."
 
 #: templates/CRM/Admin/Form/RelationshipType.tpl
+#, fuzzy
 msgid ""
 "Name for the relationship from Contact B to Contact A. EXAMPLE: Contact B is "
-"\"Child of\" Contact A. You may leave this blank for relationships where the "
+"'Child of' Contact A. You may leave this blank for relationships where the "
 "name is the same in both directions (e.g. Spouse)."
 msgstr ""
 "Nome della relazione dal Contatto B al Contatto A. ESEMPIO: Il contatto B è "
@@ -9774,10 +9779,10 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
 msgid ""
-"Language used for this installation. Installed \"translations\" are listed "
-"in langageCode_countryCode format. Check the <a href=\"%1\" target=\"_blank"
-"\">CiviCRM downloads page</a> for additional translations if the one you "
-"need is not listed."
+"Language used for this installation. Installed 'translations' are listed in "
+"langageCode_countryCode format. Check the <a href='%1' "
+"target='_blank'>CiviCRM downloads page</a> for additional translations if "
+"the one you need is not listed."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Localization.tpl
@@ -9826,10 +9831,9 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid ""
 "These settings are used to configure mailer properties for the optional "
-"CiviMail component. They are NOT used for the built-in \"Send Email to "
-"Contacts\" feature. Refer to the <a href=\"%1\" target=\"_blank\" title="
-"\"CiviMail Guide (opens in a new window)\">CiviMail Guide</a> for more "
-"information."
+"CiviMail component. They are NOT used for the built-in 'Send Email to "
+"Contacts' feature. Refer to the <a href='%1' target='_blank' title='CiviMail "
+"Guide (opens in a new window)'>CiviMail Guide</a> for more information."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
@@ -9863,7 +9867,7 @@ msgstr ""
 msgid ""
 "CiviCRM includes plugins for Google and Yahoo mapping services which allow "
 "your users to display contact addresses on a map. To enable this feature, "
-"select your mapping provider and obtain a \"key\" for your site from that "
+"select your mapping provider and obtain a 'key' for your site from that "
 "provider."
 msgstr ""
 
@@ -9938,7 +9942,7 @@ msgstr ""
 msgid ""
 "Path where documents and images which are attachments to contact records are "
 "stored (e.g. contact photos, resumes, contracts, etc.). These attachments "
-"are defined using \"file\" type custom fields."
+"are defined using 'file' type custom fields."
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
@@ -9962,7 +9966,7 @@ msgid "SMTP Configuration"
 msgstr "Contributo"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
-msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com "
+msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com"
 msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
@@ -10007,6 +10011,8 @@ msgid ""
 "Absolute or relative URL of the location where the civicrm module or "
 "component has been installed."
 msgstr ""
+"L'URL relativo o assoluto in cui è stato installato il modulo o il "
+"componente di civicrm."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Drupal Example"
@@ -10023,7 +10029,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "URL of the location for uploaded image files."
-msgstr ""
+msgstr "L'URL della posizione dei file di immagine caricati."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -10036,35 +10042,44 @@ msgid "Are you sure you want to delete <b>%1</b> Tag?"
 msgstr "Siete sicuri di voler cancellare il tag <b>%1</b>?"
 
 #: templates/CRM/Admin/Page/Access.tpl
+#, fuzzy
 msgid ""
 "ACLs (Access Control Lists) allow you control access to CiviCRM data. An ACL "
 "consists of an <strong>Operation</strong> (e.g. 'View' or 'Edit'), a "
 "<strong>set of Data</strong> that the operation can be performed on (e.g. a "
 "group of contacts), and a <strong>Role</strong> that has permission to do "
-"this operation. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Access Control Documentation</a> for more info. Note that a CiviCRM ACL "
-"Role is not related to the Drupal Role."
+"this operation. Refer to the <a href='%1' target='_blank' title='%2'>Access "
+"Control Documentation</a> for more info. Note that a CiviCRM ACL Role is not "
+"related to the Drupal Role."
+msgstr ""
+"Le ACL permettono di controllare gli accessi ai dati di CiviCRM. Una ACL "
+"consiste di una <strong>Operazione</strong> (es. \"visualizza\" o \"modifica"
+"\"), un <strong>insieme di dati</strong> su cui si possa fare l'operazione "
+"(es. un gruppo di contatti, un profilo o un insieme di campi "
+"personalizzati), e un <strong>ruolo</strong> che ha il permesso di eseguire "
+"questa operazione. Per avere maggiori informazioni si faccia riferimento "
+"alla <a href=\"%1\" target=\"_blank\" title=\"%2\">Documentazione sul "
+"controllo degli accessi</a>."
+
+#: templates/CRM/Admin/Page/Access.tpl
+msgid ""
+"<strong>EXAMPLE:</strong> 'Team Leaders' (<em>ACL Role</em>) can "
+"'Edit' (<em>Operation</em>) all contacts in the 'Active Volunteers "
+"Group' (<em>Data</em>)."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
-"<strong>EXAMPLE:</strong> \"Team Leaders\" (<em>ACL Role</em>) can \"Edit"
-"\" (<em>Operation</em>) all contacts in the \"Active Volunteers Group"
-"\" (<em>Data</em>)."
+"Use <a href='%1'>Drupal Access Control</a> to manage basic access to CiviCRM "
+"components and menu items. Use CiviCRM ACLs to control access to specific "
+"CiviCRM contact groups. You can also configure ACLs to grant or deny access "
+"to specific Profiles, and/or Custom Data Fields."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
-"Use <a href=\"%1\">Drupal Access Control</a> to manage basic access to "
-"CiviCRM components and menu items. Use CiviCRM ACLs to control access to "
-"specific CiviCRM contact groups. You can also configure ACLs to grant or "
-"deny access to specific Profiles, and/or Custom Data Fields."
-msgstr ""
-
-#: templates/CRM/Admin/Page/Access.tpl
-msgid ""
-"ACLs can be used to control access to contacts in CiviCRM \"static\" or "
-"\"smart\" groups. You can also configure ACLs to grant or deny access to "
+"ACLs can be used to control access to contacts in CiviCRM 'static' or "
+"'smart' groups. You can also configure ACLs to grant or deny access to "
 "specific Profiles, and/or Custom Data Fields."
 msgstr ""
 
@@ -10134,8 +10149,8 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
-"Read about the new version on <a href=\"%1\">our website</a> and <a href=\"%2"
-"\">download it here</a>."
+"Read about the new version on <a href='%1'>our website</a> and <a href='%"
+"2'>download it here</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Admin.tpl
@@ -10218,6 +10233,10 @@ msgid ""
 "(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
+"I tipi di recapito forniscono delle utili etichette per differenziare i "
+"recapiti dei contatti. Gli amministratori possono definire quanti tipi "
+"aggiuntivi vogliono (ad esempio Ufficio principale, Scuola, Casa vacanza "
+"ecc.)"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -10226,10 +10245,13 @@ msgid "vCard"
 msgstr ""
 
 #: templates/CRM/Admin/Page/LocationType.tpl
+#, fuzzy
 msgid ""
-"There are no Location Types entered for this Contact. You can <a href=\"%1"
-"\">add one</a>."
+"There are no Location Types entered for this Contact. You can <a href='%"
+"1'>add one</a>."
 msgstr ""
+"Non esistono tipi di recapito per questo contatto. Se ne può <a href=\"%1"
+"\">aggiungere uno</a>."
 
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid ""
@@ -10247,9 +10269,9 @@ msgstr ""
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
 msgid ""
 "Message templates allow you to save and re-use messages with layouts. They "
-"are useful if you need to send similar emails to\n"
-"    contacts on a recurring basis. You can also use them in CiviMail "
-"Mailings and they are required for CiviMember membership renewal reminders."
+"are useful if you need to send similar emails to contacts on a recurring "
+"basis. You can also use them in CiviMail Mailings and they are required for "
+"CiviMember membership renewal reminders."
 msgstr ""
 
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
@@ -10257,16 +10279,17 @@ msgid "New Message Templates"
 msgstr "Nuovi modelli di messaggio"
 
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
+#, fuzzy
 msgid ""
-"There are no Message Templates  entered. You can <a href=\"%1\">add one</a>."
+"There are no Message Templates entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Non ci sono template di messaggio inseriti. <a href=\"%1\">Aggiungine uno "
 "ora</a>."
 
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 msgid ""
-"CiviCRM stores configurable choices for various drop-down fields as \"option "
-"groups\". Choices used by core fields are reserved and can not be modified. "
+"CiviCRM stores configurable choices for various drop-down fields as 'option "
+"groups'. Choices used by core fields are reserved and can not be modified. "
 "If a group is editable, you can click <strong>Multiple Choice Options</"
 "strong> to view and modify the available choices."
 msgstr ""
@@ -10277,8 +10300,11 @@ msgid "Reserved?"
 msgstr ""
 
 #: templates/CRM/Admin/Page/OptionGroup.tpl
-msgid "There are no Option Group entered. You can <a href=\"%1\">add one</a>."
+#, fuzzy
+msgid "There are no Option Group entered. You can <a href='%1'>add one</a>."
 msgstr ""
+"Non sono state inserite ACL; <a href=\"%1\">da qui</a> se ne può inserire "
+"una."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10340,7 +10366,7 @@ msgstr ""
 msgid ""
 "Subject, location, date/time and description fields are provided for all "
 "activity types. You can add custom fields for tracking additional "
-"information about activities <a href=\"%1\">here</a>."
+"information about activities <a href='%1'>here</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
@@ -10348,7 +10374,7 @@ msgid ""
 "Scheduled and Completed Activities are searchable by type and/or activity "
 "date using 'Advanced Search'. Other applications may record activities for "
 "CiviCRM contacts using our APIs. For more information, refer to the online "
-"<a href=\"%1\" target=\"_blank\" title=\"%2\">API Documentation</a>."
+"<a href='%1' target='_blank' title='%2'>API Documentation</a>."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
@@ -10383,11 +10409,16 @@ msgstr ""
 "dello Strumento di Pagamento)"
 
 #: templates/CRM/Admin/Page/Options.tpl
+#, fuzzy
 msgid ""
 "You can add or modify your ACL Roles below. You can create ACL&rsquo;s and "
-"grant permission to roles <a href=\"%1\">here</a>... and you can assign role"
-"(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
+"grant permission to roles <a href='%1'>here</a>... and you can assign role"
+"(s) to CiviCRM contacts who are users of your site <a href='%2'>here</a>."
 msgstr ""
+"Qui sotto si possono aggiungere o modificare le ACL; si possono creare ruoli "
+"di ACL aggiuntivi <a href=\"%2\">qui</a>, e <a href=\"%1\">qui</a> si "
+"possono assegnare ruoli ai contatti di CiviCRM che sono utenti del vostro "
+"sito."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10414,8 +10445,11 @@ msgid "Reserved"
 msgstr "Ricevuto"
 
 #: templates/CRM/Admin/Page/Options.tpl
-msgid "There are no option values entered. You can <a href=\"%1\">add one</a>."
+#, fuzzy
+msgid "There are no option values entered. You can <a href='%1'>add one</a>."
 msgstr ""
+"Non sono state inserite ACL; <a href=\"%1\">da qui</a> se ne può inserire "
+"una."
 
 #: templates/CRM/Admin/Page/OptionValue.tpl
 msgid ""
@@ -10424,10 +10458,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/OptionValue.tpl
+#, fuzzy
 msgid ""
-"There are no option choices entered for this option group. You can <a href="
-"\"%1\">add one</a>."
+"There are no option choices entered for this option group. You can <a href='%"
+"1'>add one</a>."
 msgstr ""
+"Non esistono tipi di recapito per questo contatto. Se ne può <a href=\"%1"
+"\">aggiungere uno</a>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.tpl
 msgid ""
@@ -10451,7 +10488,7 @@ msgstr "Tipo Telefono"
 #: templates/CRM/Admin/Page/PaymentProcessorType.tpl
 #, fuzzy
 msgid ""
-"There are no Payment Processors entered. You can <a href=\"%1\">add one</a>."
+"There are no Payment Processors entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Non sono stati inseriti strumenti di pagamento. <a href=\"%1\">Aggiungine "
 "uno</a>."
@@ -10481,8 +10518,8 @@ msgid ""
 "organizations. Relationship types labels describe the relationship from the "
 "perspective of each of the two entities (e.g. Parent <-> Child, Employer <-> "
 "Employee). For some types of relationships, the labels may be the same in "
-"both directions (e.g. Spouse <-> Spouse) (<a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">read more...</a>)"
+"both directions (e.g. Spouse <-> Spouse) (<a href='%1' target='_blank' "
+"title='%2'>read more...</a>)"
 msgstr ""
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -10490,7 +10527,7 @@ msgid ""
 "You can define as many additional relationships types as needed to cover the "
 "types of relationships you want to track. Once a relationship type is "
 "created, you may also define custom fields to extend relationship "
-"information for that type from <a href=\"%1\">Administer CiviCRM &raquo; "
+"information for that type from <a href='%1'>Administer CiviCRM &raquo; "
 "Custom Data</a>."
 msgstr ""
 
@@ -10508,15 +10545,16 @@ msgid "All Contacts"
 msgstr "Elimina Contatti"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
+#, fuzzy
 msgid ""
-"There are no relationship types present. You can <a href=\"%1\">add one</a>."
-msgstr ""
+"There are no relationship types present. You can <a href='%1'>add one</a>."
+msgstr "Non sono presenti Tag. Ne potete <a href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
 "Use the links below to configure or modify the global settings for CiviCRM "
-"for this site. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Administration Documentation</a> for details on settings and options."
+"for this site. Refer to the <a href='%1' target='_blank' title='%"
+"2'>Administration Documentation</a> for details on settings and options."
 msgstr ""
 
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -10577,6 +10615,8 @@ msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
+"Seleziona e configura uno o più servizi di pagamento per i contributi "
+"online. gli eventi e/o le quote di iscrizione."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10631,10 +10671,11 @@ msgstr ""
 "variabili dei modelli e il backtracing."
 
 #: templates/CRM/Admin/Page/Tag.tpl
+#, fuzzy
 msgid ""
 "Tags can be assigned to any contact record, and are a convenient way to find "
 "contacts. You can create as many tags as needed to organize and segment your "
-"records (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
+"records (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 "I tag possono essere assegnati a qualsiasi record di contatto, e sono un "
 "modo utile per ricercare contatti. Si possono creare quanti tag si vuole per "
@@ -10642,7 +10683,8 @@ msgstr ""
 "\"%2\">leggi tutto...</a>)."
 
 #: templates/CRM/Admin/Page/Tag.tpl
-msgid "There are no Tags present. You can <a href=\"%1\">add one</a>."
+#, fuzzy
+msgid "There are no Tags present. You can <a href='%1'>add one</a>."
 msgstr "Non sono presenti Tag. Ne potete <a href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Block/Add.tpl
@@ -10692,7 +10734,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
-msgid "Enter the case subject "
+msgid "Enter the case subject"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
@@ -10700,8 +10742,9 @@ msgid "Select the status for this case"
 msgstr ""
 
 #: templates/CRM/Case/Form/Case.tpl
-msgid "Select the appropriate type of the case "
-msgstr ""
+#, fuzzy
+msgid "Select the appropriate type of the case"
+msgstr "Seleziona il tipo di dati su cui la ACL opera."
 
 #: templates/CRM/Case/Form/CaseView.tpl
 #, fuzzy
@@ -10732,7 +10775,7 @@ msgstr ""
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
-"If you already have an account, <a href=\"%1\">please login</a> before "
+"If you already have an account, <a href='%1'>please login</a> before "
 "completing this form."
 msgstr ""
 
@@ -10773,10 +10816,10 @@ msgstr ""
 
 #: templates/CRM/common/footer.tpl
 msgid ""
-"Powered by CiviCRM %1. CiviCRM is openly available under the <a href=\"%2"
-"\">GNU Affero General Public License (GNU AGPL)</a>. <a href=\"%3\">Download "
-"source</a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5"
-"\">Online documentation</a>."
+"Powered by CiviCRM %1. CiviCRM is openly available under the <a href='%"
+"2'>GNU Affero General Public License (GNU AGPL)</a>. <a href='%3'>Download "
+"source</a>. <a href='%4'>View issues and report bugs</a>. <a href='%"
+"5'>Online documentation</a>."
 msgstr ""
 
 #: templates/CRM/common/pager.tpl
@@ -10801,7 +10844,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Address/geo_code.tpl
 msgid ""
 "Latitude and longitude may be automatically populated by enabling a Mapping "
-"Provider (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
+"Provider (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Address/postal_code.tpl
@@ -10912,7 +10955,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
-msgstr ""
+msgstr "Dati personali"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -10931,11 +10974,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Primary Location"
-msgstr ""
+msgstr "Recapito principale"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Additional Location"
-msgstr ""
+msgstr "Recapito secondario"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -11043,9 +11086,29 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
-msgid ""
-"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
-"ul>Check your spelling, or try fewer letters for the target contact name."
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+msgid "No matching results for"
+msgstr ""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#, fuzzy
+msgid "Name like: %1"
+msgstr "Nome simile a - \"%1\""
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+#, fuzzy
+msgid "Contact type"
+msgstr "Tipologia Contatto"
+
+#: templates/CRM/Contact/Form/Relationship.tpl
+#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
+#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
+msgid "Check your spelling, or try fewer letters for the target contact name."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
@@ -11053,8 +11116,9 @@ msgid "If this relationship has start and/or end dates, specify them here."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Relationship.tpl
-msgid "Are you sure you want to delete the Relationship \"%1\"?"
-msgstr ""
+#, fuzzy
+msgid "Are you sure you want to delete the Relationship '%1'?"
+msgstr "Siete sicuri di voler cancellare questa relazione?"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -11096,18 +11160,24 @@ msgid "(for %1)"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
+#, fuzzy
 msgid ""
 "To search by first AND last name, enter 'lastname, firstname'. Example: "
 "'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins "
-"with any combination of letters'). To search by email address, use <a href="
-"\"%1\">Advanced Search</a>."
+"with any combination of letters'). To search by email address, use <a href='%"
+"1'>Advanced Search</a>."
 msgstr ""
+"Per cercare un contatto di cui si conosce sia il nome che il cognome, è "
+"necessario inserire cognome e nome, separati da una virgola (ad esempio: "
+"“Verdi, Gino”). Per una ricerca parziale, invece, inserire il nome, o il "
+"cognome accompagnato dal simbolo “%”: “%Ver” fornirà l'elenco di tutti i "
+"nominativi che si avvicinano alla voce digitata."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
 "IMPORTANT: Search Builder requires you to use specific formats for your "
-"search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Search Builder documentation</a> before building your first search."
+"search values. Review the <a href='%1' target='_blank' title='%2'>Search "
+"Builder documentation</a> before building your first search."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
@@ -11141,6 +11211,9 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
+"La ricerca di recapiti usa per default il recapito PRINCIPALE di ciascun "
+"contatto. Per ricercare recapiti specifici (casa, lavoro etc..) spuntate le "
+"caselle qui sopra."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -11189,8 +11262,8 @@ msgstr "Risultati Ricerca"
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
 msgid ""
-"%1 has no members which match your search criteria. You can <a href=\"%2"
-"\">add members here.</a>"
+"%1 has no members which match your search criteria. You can <a href='%2'>add "
+"members here.</a>"
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
@@ -11202,9 +11275,10 @@ msgstr ""
 "provate con \"qualsiasi gruppo\" o \"qualsiasi tag\"."
 
 #: templates/CRM/Contact/Form/Search/EmptyResults.tpl
+#, fuzzy
 msgid ""
-"add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
-"<a href=\"%3\">Household</a>"
+"add a <a href='%1'>New Individual</a>, <a href='%2'>Organization</a> or <a "
+"href='%3'>Household</a>"
 msgstr ""
 "aggiungi un <a href=\"%1\">Nuovo individuo</a>, <a href=\"%2"
 "\">Organizzazione</a> o <a href=\"%3\">Famiglia</a>"
@@ -11219,13 +11293,13 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"Use the <a href=\"%1\">Add Members...</a> screen if you want to add new "
+"Use the <a href='%1'>Add Members...</a> screen if you want to add new "
 "members to this group."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
-"Click <a href=\"%1\">Edit Smart Group Search Criteria...</a> to change the "
+"Click <a href='%1'>Edit Smart Group Search Criteria...</a> to change the "
 "search query used for this 'smart' group."
 msgstr ""
 
@@ -11244,11 +11318,15 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
+#, fuzzy
 msgid ""
 "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
-"\"Volunteer%\" as your Activity Type to match any activity whose type is "
-"\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
+"'Volunteer%' as your Activity Type to match any activity whose type is "
+"'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
+"Per una ricerca parziale utilizzare il metadarattere “%”. Ad esempio "
+"“Istituto%” fornirà l'elenco di tutte le organizzazioni che contengono la "
+"parola “Istituto” nel loro nome."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11259,11 +11337,10 @@ msgid ""
 "spreadsheet, etc."
 msgstr ""
 "Usate il form di Criteri di Ricerca per cercare contatti per nome, tipo di "
-"contatto, appartenenza ad un gruppo, tag ecc. Si possono poi visualizzare o "
-"modificare i dettagli del contatto, stampare un elenco di contatti o usare "
-"la tendina Altre Azioni per assegnare tag, aggiungere i contatti ad un "
-"gruppo, creare Smart Group, esportare i dati dei contatti in un foglio di "
-"calcolo ecc."
+"contatto, iscrizione, tag ecc. Si possono poi visualizzare o modificare i "
+"dettagli del contatto, stampare un elenco di contatti o usare la tendina "
+"Altre Azioni per assegnare tag, aggiungere i contatti ad un gruppo, creare "
+"Smart Group, esportare i dati dei contatti in un foglio di calcolo ecc."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11311,14 +11388,6 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
 msgid "Choose Relationship Type and Target Household"
-msgstr ""
-
-#: templates/CRM/Contact/Form/Task/AddToHousehold.tpl
-#: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
-msgid ""
-"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
-"ul><br />Check your spelling, or try fewer letters for the target contact "
-"name."
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
@@ -11426,6 +11495,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
+#, fuzzy
 msgid ""
 "Click <strong>Select fields for export</strong> and then <strong>Continue</"
 "strong> to choose a subset of fields for export. This option allows you to "
@@ -11433,6 +11503,11 @@ msgid ""
 "data. You can also save your selections as a 'field mapping' so you can use "
 "it again later."
 msgstr ""
+"Cliccate <strong>Select fields for export</strong> e poi <strong>Continue</"
+"strong> per scegliere di esportare un sottoinsieme dei campi. Questa opzione "
+"permette di esportare più recapiti specifici (casa, lavoro, ...) insieme ai "
+"dati personalizzati. Si possono anche salvare le selezioni come \"mappatura "
+"di campo\" e riusarle successivamente."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
@@ -11503,8 +11578,8 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
 msgid ""
-"Use <a href=\"%1\">Find</a> or <a href=\"%2\"> Advanced Search</a> form to "
-"enter search criteria"
+"Use <a href='%1'>Find</a> or <a href='%2'>Advanced Search</a> form to enter "
+"search criteria"
 msgstr ""
 
 #: templates/CRM/Contact/Page/SavedSearch.tpl
@@ -11530,7 +11605,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "(primary location)"
-msgstr ""
+msgstr "(recapito principale)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -11617,10 +11692,13 @@ msgid "# Contributions"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid ""
-"There are no contributions recorded for this contact. You can <a href=\"%1"
-"\">enter one now</a>."
+"There are no contributions recorded for this contact. You can <a href='%"
+"1'>enter one now</a>."
 msgstr ""
+"Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
+"\">aggiungine uno ora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no contributions recorded for this contact."
@@ -11636,33 +11714,37 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
+#, fuzzy
 msgid ""
-"There are no memberships recorded for this contact. You can <a href=\"%1"
-"\">enter one now</a>."
+"There are no memberships recorded for this contact. You can <a href='%"
+"1'>enter one now</a>."
 msgstr ""
+"Non ci sono iscrizioni per questo contatto. Se ne può <a href=\"%1"
+"\">inserire una ora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "There are no memberships recorded for this contact."
-msgstr ""
+msgstr "Non ci sono iscrizioni memorizzate per questo contatto."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships (3 of %1)"
-msgstr ""
+msgstr "Iscrizioni (3 di %1)."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "New Membership"
-msgstr ""
+msgstr "Nuova iscrizione"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Scheduled Activities"
 msgstr "Attività in calendario"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid ""
-"No Scheduled Activities. You can schedule a <a href=\"%1\">meeting</a> or a "
-"<a href=\"%2\">call</a>."
+"No Scheduled Activities. You can schedule a <a href='%1'>meeting</a> or a <a "
+"href='%2'>call</a>."
 msgstr ""
 "Nessuna attività in calendario. Puoi mettere in calendario una <a href=\"%1"
 "\">Riunione</a> o una <a href=\"%2\">telefonata</a>"
@@ -11705,7 +11787,7 @@ msgid "View all Activity History..."
 msgstr "Storico Cancellazioni"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
-msgid "No relationships. You can <a href=\"%1\">create a new relationship</a>."
+msgid "No relationships. You can <a href='%1'>create a new relationship</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -11722,10 +11804,11 @@ msgid "View All Relationships..."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid ""
-"This contact is not in any groups. You can <a href=\"%1\">add %2 to a group</"
+"This contact is not in any groups. You can <a href='%1'>add %2 to a group</"
 "a>."
-msgstr ""
+msgstr "Non sono presenti Tag. Ne potete <a href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "This contact is not in any groups."
@@ -11733,11 +11816,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships (3 of %1)"
-msgstr ""
+msgstr "Iscrizioni di gruppo (3 di %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships"
-msgstr ""
+msgstr "Iscrizioni di gruppo"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -11760,10 +11843,12 @@ msgid "Add %1 to a Group"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
+#, fuzzy
 msgid ""
-"There are no Notes. You can <a href=\"%1\">enter notes</a> about this "
-"contact."
+"There are no Notes. You can <a href='%1'>enter notes</a> about this contact."
 msgstr ""
+"Non ci sono assegnazioni di ruolo. Se ne può <a href=\"%1\">aggiungendo una</"
+"a> ora."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "There are no Notes for this contact."
@@ -11792,16 +11877,16 @@ msgid "This page lists all case records for %1."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Case.tpl
-msgid ""
-"Click <a href=\"%1\">New Case</a> to add a case record for this contact."
-msgstr ""
+#, fuzzy
+msgid "Click <a href='%1'>New Case</a> to add a case record for this contact."
+msgstr "Non sono registrate iscrizioni per il tuo utente."
 
 #: templates/CRM/Contact/Page/View/Case.tpl
 msgid "There are no case records for this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Case.tpl
-msgid "You can <a href=\"%1\">enter one now</a>."
+msgid "You can <a href='%1'>enter one now</a>."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
@@ -11810,13 +11895,13 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid ""
-"Click <a href=\"%1\">Record Offline Contribution</a> to record a new offline "
+"Click <a href='%1'>Record Offline Contribution</a> to record a new offline "
 "contribution received from this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Contribution.tpl
 msgid ""
-"Click <a href=\"%1\">Submit Credit Card Contribution</a> to process a new "
+"Click <a href='%1'>Submit Credit Card Contribution</a> to process a new "
 "contribution on behalf of the contributor using their credit or debit card."
 msgstr ""
 
@@ -11846,7 +11931,7 @@ msgstr "Ricerca"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
-msgstr ""
+msgstr "Trova e amministra"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
@@ -11882,8 +11967,7 @@ msgid "This page lists all grant registrations for %1 since inception."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
-msgid ""
-"Click <a href=\"%1\">New Grant</a> to register this contact for a Grant."
+msgid "Click <a href='%1'>New Grant</a> to register this contact for a Grant."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Grant.tpl
@@ -11895,8 +11979,8 @@ msgstr "Permetti"
 #: templates/CRM/Contact/Page/View/Grant.tpl
 #, fuzzy
 msgid ""
-"There are no grant recorded for this contact. You can <a href=\"%1\">enter "
-"one now</a>."
+"There are no grant recorded for this contact. You can <a href='%1'>enter one "
+"now</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
@@ -12003,16 +12087,18 @@ msgid "No modifications have been logged for this contact."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
-msgid "Click <a href=\"%1\">New Membership</a> to record a new membership."
+#, fuzzy
+msgid "Click <a href='%1'>New Membership</a> to record a new membership."
 msgstr ""
+"Clicca <a href=\"%1\">Nuova Iscrizione</a> per inserire una nuova iscrizione."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
-msgstr ""
+msgstr "Iscrizioni attive"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Inactive Memberships"
-msgstr ""
+msgstr "Iscrizioni non attive"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #, fuzzy
@@ -12046,23 +12132,27 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #, fuzzy
-msgid "Are you sure you want to delete the note \"%1\"?"
+msgid "Are you sure you want to delete the note '%1'?"
 msgstr "Vuoi davvero rimuovere questo Smart Group?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
-msgid ""
-"There are no Notes for this contact. You can <a href=\"%1\">add one</a>."
+#, fuzzy
+msgid "There are no Notes for this contact. You can <a href='%1'>add one</a>."
 msgstr ""
+"Non esistono tipi di recapito per questo contatto. Se ne può <a href=\"%1"
+"\">aggiungere uno</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "This page lists all event registrations for %1 since inception."
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
+#, fuzzy
 msgid ""
-"Click <a href=\"%1\">New Event Registration</a> to register this contact for "
+"Click <a href='%1'>New Event Registration</a> to register this contact for "
 "an event."
 msgstr ""
+"Clicca <a href=\"%1\">Nuova Iscrizione</a> per inserire una nuova iscrizione."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "New Event Registration"
@@ -12071,8 +12161,8 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Participant.tpl
 #, fuzzy
 msgid ""
-"There are no event registrations recorded for this contact. You can <a href="
-"\"%1\">enter one now</a>."
+"There are no event registrations recorded for this contact. You can <a "
+"href='%1'>enter one now</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
@@ -12096,10 +12186,13 @@ msgid "State/Prov"
 msgstr ""
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
+#, fuzzy
 msgid ""
-"There are no Relationships entered for this contact. You can <a href=\"%1"
-"\">add one</a>."
+"There are no Relationships entered for this contact. You can <a href='%"
+"1'>add one</a>."
 msgstr ""
+"Non esistono tipi di recapito per questo contatto. Se ne può <a href=\"%1"
+"\">aggiungere uno</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #, fuzzy
@@ -12273,7 +12366,7 @@ msgstr "Rinnova ora"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Expired / Inactive Memberships"
-msgstr "Membri del gruppo scaduti/non attivi"
+msgstr "Iscrizioni scadute/non attive"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "There are no memberships on record for you."
@@ -12329,9 +12422,10 @@ msgid "Where"
 msgstr "Altro"
 
 #: templates/CRM/Custom/Form/DeleteField.tpl
+#, fuzzy
 msgid ""
-"WARNING: Deleting this custom field will result in the loss of all \"%1\" "
-"data. Any Profile form and listings field(s) linked with \"%1\" will also be "
+"WARNING: Deleting this custom field will result in the loss of all '%1' "
+"data. Any Profile form and listings field(s) linked with '%1' will also be "
 "deleted."
 msgstr ""
 "ATTENZIONE: Cancellare questo campo personalizzato provocherà la perdita di "
@@ -12557,10 +12651,12 @@ msgid "New Custom Field"
 msgstr "Nuovo Campo Personalizzato"
 
 #: templates/CRM/Custom/Page/Field.tpl
+#, fuzzy
 msgid ""
-"There are no custom fields for custom group \"%1\", <a href=\"%2\">add one</"
-"a>."
+"There are no custom fields for custom group '%1', <a href='%2'>add one</a>."
 msgstr ""
+"Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
+"\">aggiungine uno ora</a>."
 
 #: templates/CRM/Custom/Page/Group.tpl
 msgid ""
@@ -12568,7 +12664,7 @@ msgid ""
 "logically related custom data groups (e.g. Volunteer Info). Use custom "
 "fields to collect and store custom data which is not included in the "
 "standard CiviCRM forms. You can create one or many groups of custom fields "
-"(<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
+"(<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Custom/Page/Group.tpl
@@ -12585,10 +12681,11 @@ msgid "New Group of Custom Fields"
 msgstr "Cancella Campo Pers."
 
 #: templates/CRM/Custom/Page/Group.tpl
+#, fuzzy
 msgid ""
-"No custom data groups have been created yet. You can <a href=\"%1\">add one</"
+"No custom data groups have been created yet. You can <a href='%1'>add one</"
 "a>."
-msgstr ""
+msgstr "Non sono presenti Tag. Ne potete <a href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Custom/Page/Option.tpl
 msgid ""
@@ -12596,14 +12693,18 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Custom/Page/Option.tpl templates/CRM/Price/Page/Option.tpl
-msgid "New Option for \"%1\""
-msgstr ""
+#, fuzzy
+msgid "New Option for '%1'"
+msgstr "Nuovo gruppo opzioni"
 
 #: templates/CRM/Custom/Page/Option.tpl
+#, fuzzy
 msgid ""
-"There are no multiple choice options for the custom field \"%1\", <a href=\"%"
-"2\">add one</a>."
+"There are no multiple choice options for the custom field '%1', <a href='%"
+"2'>add one</a>."
 msgstr ""
+"Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
+"\">aggiungine uno ora</a>."
 
 #: templates/CRM/error.tpl
 msgid "unrecoverable error"
@@ -12640,31 +12741,25 @@ msgstr ""
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Tell a Friend gives your contributors an easy way to spread the word about "
-"this fundraising\n"
-"            campaign. The contribution thank-you page will include a link to "
-"a form where they can enter\n"
-"            their friends' email addresses, along with a personalized "
-"message. CiviCRM will record these\n"
-"            solicitation activities, and will add the friends to your "
-"database."
+"this fundraising campaign. The contribution thank-you page will include a "
+"link to a form where they can enter their friends' email addresses, along "
+"with a personalized message. CiviCRM will record these solicitation "
+"activities, and will add the friends to your database."
 msgstr ""
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Tell a Friend gives registering participants an easy way to spread the word "
-"about this event.\n"
-"            The registration thank-you page will include a link to a form "
-"where they can enter\n"
-"            their friends' email addresses, along with a personalized "
-"message. CiviCRM will record these\n"
-"            solicitation activities, and will add the friends to your "
-"database."
+"about this event. The registration thank-you page will include a link to a "
+"form where they can enter their friends' email addresses, along with a "
+"personalized message. CiviCRM will record these solicitation activities, and "
+"will add the friends to your database."
 msgstr ""
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
-"This message is displayed to the %1 at the top of the Tell a Friend form.\n"
-"            You may include HTML tags to add formatting or links."
+"This message is displayed to the %1 at the top of the Tell a Friend form. "
+"You may include HTML tags to add formatting or links."
 msgstr ""
 
 #: templates/CRM/Friend/Form/Friend.tpl
@@ -12675,11 +12770,9 @@ msgstr ""
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
-"A link to this %1 is automatically included in the email sent to friends. "
-"If\n"
-"            you ALSO want to include a link providing general information "
-"about your organization, enter that link here (e.g <em>http://www.example."
-"org</em>)"
+"A link to this %1 is automatically included in the email sent to friends. If "
+"you ALSO want to include a link providing general information about your "
+"organization, enter that link here (e.g <em>http://www.example.org/</em>)"
 msgstr ""
 
 #: templates/CRM/Friend/Form/Friend.tpl
@@ -12689,7 +12782,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Friend/Form/SubjectTemplate.tpl
-msgid "wants you to know about "
+msgid "%1 wants you to know about %2"
 msgstr ""
 
 #: templates/CRM/Friend/Form.tpl
@@ -12702,37 +12795,39 @@ msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
 #, fuzzy
-msgid "Select the appropriate type of the Grant "
+msgid "Select the appropriate type of the Grant"
 msgstr "Seleziona il tipo di dati su cui la ACL opera."
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Amount requested for grant  "
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
 #, fuzzy
-msgid "Actual amount granted  "
+msgid "Amount requested for grant"
 msgstr "Importo"
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Total amount of the grant  "
+#, fuzzy
+msgid "Actual amount granted"
+msgstr "Importo"
+
+#: templates/CRM/Grant/Form/Grant.tpl
+#, fuzzy
+msgid "Total amount of the grant"
+msgstr "Importo"
+
+#: templates/CRM/Grant/Form/Grant.tpl
+msgid "Date on which application for the Grant recieved"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which application for the Grant recieved "
+msgid "Date on which the Grant decided"
 msgstr ""
 
 #: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the Grant decided "
-msgstr ""
-
-#: templates/CRM/Grant/Form/Grant.tpl
-msgid "Date on which the Grant money transferred "
+msgid "Date on which the Grant money transferred"
 msgstr ""
 
 #: templates/CRM/Grant/Form/GrantView.tpl
 #, fuzzy
-msgid "Application Recieved "
+msgid "Application Recieved"
 msgstr "Ricevuto"
 
 #: templates/CRM/Grant/Form/Search/Common.tpl
@@ -12809,7 +12904,7 @@ msgstr[1] ""
 
 #: templates/CRM/Grant/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
+"You can <a href='%1'>Download Mismatched Participantss</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
 
@@ -12858,14 +12953,13 @@ msgstr ""
 msgid ""
 "Files to be imported must be in the 'comma-separated-values' format (CSV) "
 "and must contain data needed to match the participant data to an existing "
-"contact\n"
-"    in your CiviCRM database."
+"contact in your CiviCRM database."
 msgstr ""
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
-"(Example: \"Contact ID\", \"Participant Role\")."
+"(Example: 'Contact ID', 'Participant Role')."
 msgstr ""
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
@@ -12883,12 +12977,11 @@ msgstr ""
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
 "CiviGrant allows you to input and track grants to Organizations, Individuals "
-"or Households. The grantee must first be entered as a contact in CiviCRM.\n"
-"    Use <a href=\"%1\">Find Contacts</a> to see if there's already a record "
-"for the grantee. Once you've located\n"
-"    or created the contact record, click <strong>View</strong> to go to "
-"their summary page, select the <strong>Grants</strong> tab and click "
-"<strong>New Grant</strong>."
+"or Households. The grantee must first be entered as a contact in CiviCRM. "
+"Use <a href='%1'>Find Contacts</a> to see if there's already a record for "
+"the grantee. Once you've located or created the contact record, click "
+"<strong>View</strong> to go to their summary page, select the "
+"<strong>Grants</strong> tab and click <strong>New Grant</strong>."
 msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
@@ -12901,7 +12994,7 @@ msgid ""
 "This table provides a summary of <strong>Grant Totals</strong>, and includes "
 "shortcuts to view the Grant details for these commonly used search periods. "
 "Click the Grant Status to see a list of Contacts for that grant status. To "
-"run your own customized searches - click <a href=\"%1\">Find Grants</a>. You "
+"run your own customized searches - click <a href='%1'>Find Grants</a>. You "
 "can search by Contact Name, Amount, Grant type and a variety of other "
 "criteria."
 msgstr ""
@@ -12915,6 +13008,10 @@ msgstr "Stato Gruppo"
 #, fuzzy
 msgid "Number of grants"
 msgstr "Numero località"
+
+#: templates/CRM/Grant/Page/DashBoard.tpl
+msgid "You have no Grants registered in your database."
+msgstr ""
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 #, fuzzy
@@ -12943,8 +13040,8 @@ msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
-"You can edit the Name and Description for this group here. Click <a href=\"%1"
-"\">Show Group Members</a> to view, add or remove contacts in this group."
+"You can edit the Name and Description for this group here. Click <a href='%"
+"1'>Show Group Members</a> to view, add or remove contacts in this group."
 msgstr ""
 
 #: templates/CRM/Group/Form/Edit.tpl
@@ -12960,9 +13057,9 @@ msgstr ""
 #: templates/CRM/Group/Form/Edit.tpl
 msgid ""
 "Check 'Access Control' you want to use this group to assign access "
-"permissions to a set of contacts (<a href=\"%1\" target=\"_blank\" title=\"%3"
-"\">more info...</a>). Check 'Mailing List' if you are using this group as a "
-"mailing list in the <a href=\"%2\" target=\"_blank\" title=\"%3\">CiviMail "
+"permissions to a set of contacts (<a href='%1' target='_blank' title='%"
+"3'>more info...</a>). Check 'Mailing List' if you are using this group as a "
+"mailing list in the <a href='%2' target='_blank' title='%3'>CiviMail "
 "component</a>."
 msgstr ""
 
@@ -13040,14 +13137,17 @@ msgid "No Groups have been created for this site."
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
-msgid "You can <a href=\"%1\">add one</a> now."
+#, fuzzy
+msgid "You can <a href='%1'>add one</a> now."
 msgstr ""
+"Non ci sono assegnazioni di ruolo. Se ne può <a href=\"%1\">aggiungendo una</"
+"a> ora."
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
 "CiviCRM has detected %1 records with conflicting email addresses within this "
 "data file. If you continue, these records will be skipped. OR, you can "
-"download a file with just these problem records - <a href=\"%2\">Download "
+"download a file with just these problem records - <a href='%2'>Download "
 "Conflicts</a>. Then correct them in the original import file, cancel this "
 "import and begin again at step 1."
 msgstr ""
@@ -13069,12 +13169,13 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid "&raquo; <label> Create a new group from imported records</label>"
-msgstr ""
+#, fuzzy
+msgid "Create a new group from imported records"
+msgstr "Assegna un tag ai record importati"
 
 #: templates/CRM/Import/Form/Preview.tpl
-msgid ""
-"&raquo; <label> Create a new tag and assign it to imported records</label>"
+#, fuzzy
+msgid "Create a new tag and assign it to imported records"
 msgstr ""
 "&raquo; <label> Crea un nuovo tag e lo assegna ai record importati</label>"
 
@@ -13094,8 +13195,8 @@ msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Contacts</a>. You may then "
-"correct them, and import the new file with the corrected data."
+"You can <a href='%1'>Download Mismatched Contacts</a>. You may then correct "
+"them, and import the new file with the corrected data."
 msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
@@ -13118,7 +13219,7 @@ msgstr ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
+"You can <a href='%1'>Download Conflicts</a>. You may then review these "
 "records to determine if they are actually conflicts, and correct the email "
 "addresses for those that are not."
 msgstr ""
@@ -13135,7 +13236,7 @@ msgstr[1] ""
 
 #: templates/CRM/Import/Form/Summary.tpl
 msgid ""
-"You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
+"You can <a href='%1'>Download Duplicates</a>. You may then review these "
 "records to determine if they are actually duplicates, and correct the email "
 "address for those that are not."
 msgstr ""
@@ -13211,13 +13312,13 @@ msgstr ""
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "Check this box if the first row of your file consists of field names "
-"(Example: \"First Name\",\"Last Name\",\"Email\")"
+"(Example: 'First Name','Last Name','Email')"
 msgstr ""
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
 "This option is not recommended for large imports. Use the command-line "
-"geocoding script instead (<a href=\"%1\" target=\"_blank\" title=\"%2\">read "
+"geocoding script instead (<a href='%1' target='_blank' title='%2'>read "
 "more...</a>)."
 msgstr ""
 
@@ -13228,8 +13329,7 @@ msgstr ""
 #: templates/CRM/Price/Form/DeleteField.tpl
 #, fuzzy
 msgid ""
-"WARNING: Deleting this price field will result in the loss of all \"%1\" "
-"data."
+"WARNING: Deleting this price field will result in the loss of all '%1' data."
 msgstr ""
 "ATTENZIONE: Cancellare questo gruppo personalizzato provocherà la perdita di "
 "tutti i dati di %1."
@@ -13256,7 +13356,7 @@ msgstr ""
 
 #: templates/CRM/Price/Form/Field.tpl
 msgid ""
-"Display amount next to each option?  If no, then the amount should be in the "
+"Display amount next to each option? If no, then the amount should be in the "
 "option description."
 msgstr ""
 
@@ -13307,7 +13407,7 @@ msgstr ""
 
 #: templates/CRM/Price/Page/Field.tpl
 msgid ""
-"Unable to delete the \"%1\" Price Field - it is currently in use by one or "
+"Unable to delete the '%1' Price Field - it is currently in use by one or "
 "more active events."
 msgstr ""
 
@@ -13335,15 +13435,15 @@ msgstr "Nuovo Campo Profilo CiviCRM"
 
 #: templates/CRM/Price/Page/Field.tpl
 #, fuzzy
-msgid "There are no fields for price set \"%1\", <a href=\"%2\">add one</a>."
+msgid "There are no fields for price set '%1', <a href='%2'>add one</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
 
 #: templates/CRM/Price/Page/Option.tpl
 msgid ""
-"Unable to delete the \"%1\" Price Field Option - it is currently in use by "
-"one or more active events."
+"Unable to delete the '%1' Price Field Option - it is currently in use by one "
+"or more active events."
 msgstr ""
 
 #: templates/CRM/Price/Page/Option.tpl
@@ -13355,7 +13455,7 @@ msgstr ""
 #: templates/CRM/Price/Page/Option.tpl
 #, fuzzy
 msgid ""
-"There are no options for the price field \"%1\", <a href=\"%2\">add one</a>."
+"There are no options for the price field '%1', <a href='%2'>add one</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
@@ -13370,14 +13470,14 @@ msgstr ""
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
-"Unable to delete the \"%1\" price set - it is currently in use by one or "
-"more active events."
+"Unable to delete the '%1' price set - it is currently in use by one or more "
+"active events."
 msgstr ""
 
 #: templates/CRM/Price/Page/Set.tpl
 msgid ""
-"Unable to disable the \"%1\" price set - it is currently in use by one or "
-"more active events."
+"Unable to disable the '%1' price set - it is currently in use by one or more "
+"active events."
 msgstr ""
 
 #: templates/CRM/Price/Page/Set.tpl
@@ -13397,9 +13497,9 @@ msgid "New Set of Price Fields"
 msgstr "Nuovo Campo Profilo CiviCRM"
 
 #: templates/CRM/Price/Page/Set.tpl
-msgid ""
-"No price sets have been created yet. You can <a href=\"%1\">add one</a>."
-msgstr ""
+#, fuzzy
+msgid "No price sets have been created yet. You can <a href='%1'>add one</a>."
+msgstr "Non sono presenti Tag. Ne potete <a href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Profile/Form/Dynamic.tpl templates/CRM/UF/Form/Preview.tpl
 msgid "Please enter the phrase as displayed in the image"
@@ -13455,9 +13555,10 @@ msgid "Standalone Registration Form"
 msgstr "Modulo standalone"
 
 #: templates/CRM/Tag/Form/Tag.tpl
+#, fuzzy
 msgid ""
 "Current tags for <strong>%1</strong> are highlighted. You can add or remove "
-"tags from <a href=\"%2\">Edit Tags</a>."
+"tags from <a href='%2'>Edit Tags</a>."
 msgstr ""
 "I tag correnti per <strong>%1</strong> sono evidenziati. Si possono "
 "aggiungere o togliere tag da <a href=\"%2\">Modifica Tag</a>."
@@ -13616,7 +13717,7 @@ msgstr ""
 msgid ""
 "Check this box if you want only the profile title to be displayed when the "
 "page is initially loaded (form fields are hidden until the user expands the "
-"form by clicking on the \"plus\" icon)."
+"form by clicking on the 'plus' icon)."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -13645,15 +13746,15 @@ msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA "
-"requires dynamic page generation. Submitting a stand-alone form with CAPTCHA "
-"included will always result in a CAPTCHA validation error.</strong>"
+"Do not enable this feature for stand-alone profile forms. CAPTCHA requires "
+"dynamic page generation. Submitting a stand-alone form with CAPTCHA included "
+"will always result in a CAPTCHA validation error."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
-"<strong>CAPTCHA is also not available when a profile is used inside the User "
-"Registration and My Account screens.</strong>"
+"CAPTCHA is also not available when a profile is used inside the User "
+"Registration and My Account screens."
 msgstr ""
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -13669,6 +13770,9 @@ msgid ""
 "screens for any contacts whose records include sufficient location data for "
 "your mapping provider."
 msgstr ""
+"Se abilitato, nelle righe dell'elenco del profilo viene incluso un link "
+"Mappa e delle schermate di dettaglkio per i contatti i cui record "
+"comprendono dati sui recapiti sufficienti al provider di mappe."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13722,9 +13826,10 @@ msgid "New CiviCRM Profile Field"
 msgstr "Nuovo Campo Profilo CiviCRM"
 
 #: templates/CRM/UF/Page/Field.tpl
+#, fuzzy
 msgid ""
-"There are no CiviCRM Profile Fields for \"%1\", you can <a href=\"%2\">add "
-"one now</a>."
+"There are no CiviCRM Profile Fields for '%1', you can <a href='%2'>add one "
+"now</a>."
 msgstr ""
 "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
 "\">aggiungine uno ora</a>."
@@ -13757,10 +13862,13 @@ msgid "Get HTML for All Active Profiles"
 msgstr ""
 
 #: templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid ""
-"No CiviCRM Profiles have been created yet. You can <a href=\"%1\">add one "
-"now</a>."
+"No CiviCRM Profiles have been created yet. You can <a href='%1'>add one now</"
+"a>."
 msgstr ""
+"Il profilo di CiviCRM \"%1\" è stato aggiunto. Potete <a href='%"
+"2'>aggiungere campi</a> al profilo."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Home"
@@ -13776,7 +13884,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
-msgstr ""
+msgstr "Recapito di lavoro"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main"
@@ -13784,17 +13892,15 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Recapito ufficio principale"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Other location"
-msgstr "Luogo"
+msgstr "Altro recapito"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Indirizzo Email"
+msgstr "Indirizzo di fatturazione"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"
@@ -13870,7 +13976,7 @@ msgstr "Membro della famiglia"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household membership."
-msgstr "Relazione di familiarità"
+msgstr "Iscrizione ad una famiglia"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"
@@ -14403,441 +14509,82 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
 
-#, fuzzy
-#~ msgid "Child Groups"
-#~ msgstr "Gruppi"
+#~ msgid "State %2 \"%1\""
+#~ msgstr "Stato %2 \"%1\""
 
-#~ msgid ""
-#~ "This profile is not configured for the requested action. Contact the site "
-#~ "administrator if you need assistance."
-#~ msgstr ""
-#~ "Questo profilo non è configurato per l'azione richiesta. Contattare "
-#~ "l'amministratore del sito se hai bisogno di assistenza."
+#~ msgid "State (%2) %3 \"%1\""
+#~ msgstr "Stato (%2) %3 \"%1\""
 
-#, fuzzy
-#~ msgid "Case subject already exists in Database."
-#~ msgstr "Il Nome specificato è già presente nel database"
+#~ msgid "Country %2 \"%1\""
+#~ msgstr "Paese %2 \"%1\""
 
-#, fuzzy
-#~ msgid "or Member of 1 or more Subgroups %1"
-#~ msgstr "Membro del gruppo %1"
+#~ msgid "Country (%2) %3 \"%1\""
+#~ msgstr "Paese (%2) %3 \"%1\""
 
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "Informazioni sul dominio CiviCRM"
+#~ msgid "County %2 \"%1\""
+#~ msgstr "Paese %2 \"%1\""
 
-#, fuzzy
-#~ msgid "Search Subgroups"
-#~ msgstr "Ricerca Gruppi"
+#~ msgid "County (%2) %3 \"%1\""
+#~ msgstr "Paese (%2) %3 \"%1\""
 
-#~ msgid "- Contribution Fields -"
-#~ msgstr " - Campi per i contributi -"
+#~ msgid "Gender %2 \"%1\""
+#~ msgstr "Sesso %2 \"%1\""
 
-#, fuzzy
-#~ msgid "Add Subgroup"
-#~ msgstr "Aggiungi al Gruppo"
+#~ msgid "Contact Type -"
+#~ msgstr "Tipologia di contatto - "
 
-#, fuzzy
-#~ msgid "There is an entry with the same label"
-#~ msgstr "Esiste già una voce con la stessa etichetta."
+#~ msgid "Group Status -"
+#~ msgstr "Stato del gruppo - "
 
-#, fuzzy
-#~ msgid "There is an entry with the same value"
-#~ msgstr "Esiste già una voce con lo stesso valore."
+#~ msgid "Note %2 - \"%1\""
+#~ msgstr "Nota %2 - \"%1\""
 
-#~ msgid "You do not have permission to edit this contact"
-#~ msgstr "Non si hanno i permessi per modificare questo contatto"
+#~ msgid "Email %2 - \"%1\""
+#~ msgstr "Email %2 - \"%1\""
 
-#~ msgid "Could not find required parameter: id"
-#~ msgstr "Non è possibile trovare un parametro richiesto: id"
+#~ msgid "Postal code - \"%1\""
+#~ msgstr "CAP - \"%1\""
 
-#, fuzzy
-#~ msgid "There are no Activites recorded for this contact."
-#~ msgstr "Indirizzo principale di questo contatto"
-
-#, fuzzy
-#~ msgid "New Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Edit Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Remove Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Detach this case from Activity?"
-#~ msgstr "Siete sicuri di voler cancellare questo record di attività?"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Remove this case?"
-#~ msgstr "Sei sicuro di voler cancellare questo tag?"
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Note Contatto"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no case records for this contact. You can <a href=\"%1\">enter "
-#~ "one now</a>."
-#~ msgstr ""
-#~ "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
-#~ "\">aggiungine uno ora</a>."
-
-#~ msgid " -select- "
-#~ msgstr "- seleziona -"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Data e ora in calendario"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Durata in ore"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Durata in minuti"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Elimina Storico Attività"
-
-#~ msgid "Sent Date"
-#~ msgstr "Data di Spedizione"
-
-#~ msgid "Record Number"
-#~ msgstr "Numero Record"
-
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "\"%1\" è stata riportata nello Storico Attività."
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Seleziona Numero Telefonico"
-
-#~ msgid "OR New Phone"
-#~ msgstr "O Nuovo Telefono"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "La chiamata telefonica selezionata è stata eliminata con successo."
+#~ msgid "Location type -"
+#~ msgstr "Tipologia di recapito - "
 
 #~ msgid "Location name %1 '%2'"
-#~ msgstr "Nome dell'indirizzo %1 '%2'"
+#~ msgstr "Nome del recapito %1 '%2'"
 
-#~ msgid "Contact Meetings"
-#~ msgstr "Riunioni contatto"
+#~ msgid "Activity Type %2 '%1'"
+#~ msgstr "Tipo di attività %2 '%1'"
 
-#~ msgid "Contact Calls"
-#~ msgstr "Chiamate del Contatto"
+#~ msgid "%1 %2 %3"
+#~ msgstr "%1 %2 %3"
 
-#~ msgid "From: %1; Subject: %2"
-#~ msgstr "Da: %1; Oggetto: %2"
+#~ msgid "Task: %1"
+#~ msgstr "Compito: %1"
 
-#~ msgid "To: %1; Subject: %2"
-#~ msgstr "A: %1; Oggetto: %2"
+#~ msgid "Task Status: %1"
+#~ msgstr "Stato del compito: %1"
 
-#~ msgid "CiviContribute Progress Meter"
-#~ msgstr "Misuratore Progresso di CiviContribute"
+#, fuzzy
+#~ msgid "Amount Granted "
+#~ msgstr "Importo"
 
-#~ msgid "Callback Method"
-#~ msgstr "Metodo di Callback"
+#~ msgid "Your Set \"%1\" has been saved."
+#~ msgstr "L'insieme \"%1\" è stato salvato."
 
-#~ msgid "Activity Summary"
-#~ msgstr "Riassunto attività"
+#, fuzzy
+#~ msgid "Price "
+#~ msgstr "Prezzo"
 
-#~ msgid "Phonecall"
-#~ msgstr "Telefonata"
+#~ msgid "Your civicrm profile field \"%1\" has been saved."
+#~ msgstr "Il campo di profilo di CiviCRM \"%1\" è stato salvato."
 
-#~ msgid "Int Data"
-#~ msgstr "Dati int"
-
-#~ msgid "Float Data"
-#~ msgstr "Dati Float"
-
-#~ msgid "Decimal Data"
-#~ msgstr "Dati decimali"
-
-#~ msgid "Char Data"
-#~ msgstr "Dati char"
-
-#~ msgid "Date Data"
-#~ msgstr "Dati date"
-
-#~ msgid "Memo Data"
-#~ msgstr "Dati Memo"
-
-#~ msgid "Config Frontend"
-#~ msgstr "Frontend di configurazione"
-
-#~ msgid "Coord Units"
-#~ msgstr "Unità delle coordinate"
-
-#~ msgid "Coord Ogc Wkt String"
-#~ msgstr "Stringa Coord Ogc Wkt"
-
-#~ msgid "LatLong"
-#~ msgstr "LatLong"
-
-#~ msgid "Degree"
-#~ msgstr "Grado"
-
-#~ msgid "Grad"
-#~ msgstr "Grad"
-
-#~ msgid "Foot"
-#~ msgstr "Piede"
-
-#~ msgid "Meter"
-#~ msgstr "Metro"
-
-#~ msgid "Unhandled transaction type: %1"
-#~ msgstr "Tipo di ransazione non gestita: %1"
-
-#~ msgid "Parameters"
-#~ msgstr "Parametri"
-
-#~ msgid "Function Name"
-#~ msgstr "Nome funzione"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Positive Integer"
-#~ msgstr "Intero positivo"
-
-#~ msgid "Range"
-#~ msgstr "Intervallo"
-
-#~ msgid "Regular Expression Match"
-#~ msgstr "Corrispondenza espressione regolare"
-
-#~ msgid "Regular Expression No Match"
-#~ msgstr "Non corrispondenza espressione regolare"
-
-#~ msgid "Could not find callback %1"
-#~ msgstr "Impossibile trovare la callback %1"
-
-#~ msgid "Are you sure you want to delete this Activity History record?"
-#~ msgstr "Sicuri di voler cancellare questo record di Storico Attività?"
-
-#~ msgid "View Activity Details"
-#~ msgstr "Visualizza Dettagli Attività"
-
-#~ msgid "History %%StatusMessage%%"
-#~ msgstr "Storico %%StatusMessage%%"
-
-#~ msgid "Confirm Price Set Delete"
-#~ msgstr "Conferma Cancellazione Insieme Prezzi"
-
-#~ msgid "Log a Meeting"
-#~ msgstr "Registra una Riunione"
-
-#~ msgid "Schedule a Meeting"
-#~ msgstr "Metti in calendario una Riunione"
-
-#~ msgid "Edit Scheduled Meeting"
-#~ msgstr "Modifica Riunione in calendario"
-
-#~ msgid "Delete Meeting"
-#~ msgstr "Cancella Riunione"
-
-#~ msgid "View Scheduled Meeting"
-#~ msgstr "Visualizza Riunione in calendario"
+#, fuzzy
+#~ msgid "Added By "
+#~ msgstr "Aggiunto"
 
 #~ msgid ""
-#~ "Meeting will be moved to Activity History when status is 'Completed'."
+#~ "Subject for email message. Tokens may be included (<a href=\"%1\" target="
+#~ "\"_blank\" title=\"%2\">token documentation</a>)."
 #~ msgstr ""
-#~ "La Riunione verrà spostata nello Storico Attività quando lo stato sarà "
-#~ "impostato a 'Completo'"
-
-#~ msgid "Schedule an Activity"
-#~ msgstr "Pianifica una attività"
-
-#~ msgid "Edit Scheduled Activity"
-#~ msgstr "Modifica l'attività pianificata"
-
-#~ msgid "View Completed Activity"
-#~ msgstr "Visualizza l'attività completata"
-
-#~ msgid "View Scheduled Activity"
-#~ msgstr "Visualizza l'attività pianificata"
-
-#~ msgid ""
-#~ "Activity will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "L'attività verrà spostata nello Storico Attività quando lo stato sarà "
-#~ "\"Completata\"."
-
-#~ msgid ""
-#~ "Cannot display Activity History details since activity type for this "
-#~ "activity has been deleted."
-#~ msgstr ""
-#~ "Impossibile visualizzare i dettagli dello Storico Attività dato che il "
-#~ "tipo di questa attività è stato cancellato."
-
-#~ msgid "Log a Phone Call"
-#~ msgstr "Registra una telefonata"
-
-#~ msgid "Schedule a Phone Call"
-#~ msgstr "Pianifica una telefonata"
-
-#~ msgid "Edit Scheduled Call"
-#~ msgstr "Modifica una chiamata pianificata"
-
-#~ msgid "Delete Phone Call"
-#~ msgstr "Cancella telefonata"
-
-#~ msgid "View Scheduled Call"
-#~ msgstr "Visualizza chiamata pianificata"
-
-#~ msgid "Call will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "La chiamata sarà spostata nello Storico Attività quando lo stato sarà "
-#~ "\"Completata\""
-
-#~ msgid ""
-#~ "NOTE: This template feature is not yet integrated with the CiviMail "
-#~ "component. CiviMail message templates must be saved as local text files "
-#~ "and uploaded."
-#~ msgstr ""
-#~ "NOTA: Questa caratteristica dei modelli non è ancora integrata con "
-#~ "CiviMail. I modelli di messaggi di CiviMail devono venire salvati come "
-#~ "file di testo locali e poi uploadati."
-
-#, fuzzy
-#~ msgid "Duplicate Contact"
-#~ msgstr "Salva contatto duplicato"
-
-#, fuzzy
-#~ msgid "move?"
-#~ msgstr "Rimosso"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "Mappa dei Contatti"
-
-#~ msgid "Schedule Meeting"
-#~ msgstr "Metti in calendario una Riunione"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr "Vuoi davvero rimuovere questo Smart Group?"
-
-#~ msgid ""
-#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-#~ "href=\"%2\">call</a>."
-#~ msgstr ""
-#~ "Nessuna attività aperta. Puoi mettere in calendario una <a href=\"%1"
-#~ "\">Riunione</a> o una <a href=\"%2\">Telefonata</a>"
-
-#, fuzzy
-#~ msgid "(test)"
-#~ msgstr "Nota(e)"
-
-#~ msgid "Schedule a meeting"
-#~ msgstr "Metti in calendario una riunione"
-
-#, fuzzy
-#~ msgid "Summary Report"
-#~ msgstr "Riassunto"
-
-#, fuzzy
-#~ msgid "Activity Entity Table"
-#~ msgstr "Tabella Entità"
-
-#~ msgid "Contact Name:"
-#~ msgstr "Nome del contatto:"
-
-#~ msgid "Email Domain:"
-#~ msgstr "Dominio di posta:"
-
-#, fuzzy
-#~ msgid "Contact Name"
-#~ msgstr "Modulo per Contatto"
-
-#, fuzzy
-#~ msgid "Text Body of Header"
-#~ msgstr "Testo"
-
-#, fuzzy
-#~ msgid "This is the Footer"
-#~ msgstr "Nascondi questo merito"
-
-#, fuzzy
-#~ msgid "Text Body of Footer"
-#~ msgstr "Testo"
-
-#, fuzzy
-#~ msgid "Unsubscribe results"
-#~ msgstr "Cancella sottoscrizione"
-
-#, fuzzy
-#~ msgid ""
-#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
-#~ msgstr ""
-#~ "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
-#~ "&raquo; Modalità di pagamento"
-
-#~ msgid "Save Duplicate Contact"
-#~ msgstr "Salva contatto duplicato"
-
-#~ msgid "Setup"
-#~ msgstr "Installa"
-
-#~ msgid "Duplicate Matching"
-#~ msgstr "Riscontro duplicato"
-
-#~ msgid "%1 is not set in the config file."
-#~ msgstr "%1 non è settato nel file config."
-
-#~ msgid "Include County?"
-#~ msgstr "Includi Contea(e)"
-
-#~ msgid "Settings - Date Formatting"
-#~ msgstr "Impostazioni - Formato Date"
-
-#~ msgid "PayPal Express Button"
-#~ msgstr "Tasto PayPal Express"
-
-#~ msgid "Username - TEST"
-#~ msgstr "Utente - TEST"
-
-#~ msgid "Certificate Path - TEST"
-#~ msgstr "Percorso Certificato - TEST"
-
-#~ msgid "Paypal Url - TEST"
-#~ msgstr "Url Paypal - TEST"
-
-#~ msgid "Certificate Path - LIVE"
-#~ msgstr "Percorso Certificato - LIVE"
-
-#~ msgid "Paypal Url - LIVE"
-#~ msgstr "Url Paypal - LIVE"
-
-#~ msgid "Checkout Button - TEST"
-#~ msgstr "Pulsante di checkout - TEST"
-
-#~ msgid "Checkout Button - LIVE"
-#~ msgstr "Pulsante di checkout - REALE"
-
-#~ msgid "Merchant ID  - TEST"
-#~ msgstr "ID venditore - TEST"
-
-#~ msgid "Checkout URL - TEST"
-#~ msgstr "URL di checkout - TEST"
-
-#~ msgid "Checkout URL - LIVE"
-#~ msgstr "URL di checkout - REALE"
-
-#~ msgid "Authorize.Net API Login"
-#~ msgstr "Login dell'API Authorize.Net"
-
-#~ msgid "Send Emails RETURN-PATH:"
-#~ msgstr "RETURN-PATH delle email inviate:"
-
-#, fuzzy
-#~ msgid "Add Members to Organization"
-#~ msgstr "Nuova Organizzazione"
-
-#~ msgid "Delete %1"
-#~ msgstr "Elimina %1"
+#~ "Oggetto dei messaggi di email. Si possono includere dei segnaposto (si "
+#~ "veda la <a href=\"%1\" target=\"_blank\" title=\"%2\">documentazione sui "
+#~ "segnaposto</a>)."

@@ -253,9 +253,10 @@ class CRM_Utils_Array {
                 $ret = crmInArray( $value, $item, $caseInsensitive );
             } else {
                 $ret = ($caseInsensitive) ? strtolower($item) == strtolower($value) : $item == $value;
+                if ( $ret ) {
+                    return $ret; 
+                }
             }
-            
-            return $ret;
         }
         return false;
     }

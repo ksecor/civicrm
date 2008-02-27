@@ -5,7 +5,7 @@
     {if $action eq 16}
         {if $permission EQ 'edit'}
             {capture assign=crmURL}{crmURL p='civicrm/contact/view/tag' q='action=update'}{/capture}
-            {ts 1=$displayName 2=$crmURL}Current tags for <strong>%1</strong> are highlighted. You can add or remove tags from <a href="%2">Edit Tags</a>.{/ts}
+            {ts 1=$displayName 2=$crmURL}Current tags for <strong>%1</strong> are highlighted. You can add or remove tags from <a href='%2'>Edit Tags</a>.{/ts}
         {else}
             {ts}Current tags are highlighted.{/ts}
         {/if}

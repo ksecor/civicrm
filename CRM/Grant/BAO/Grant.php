@@ -489,60 +489,6 @@ WHERE civicrm_event.is_active = 1
         return $all;
     }
 
-    /**
-     * This function is to make a copy of a Grant, including
-     * all the fields in the event Wizard
-     *
-     * @param int $id the event id to copy
-     *
-     * @return void
-     * @access public
-     */
-    static function copy( $id )
-    {
-        $fieldsToPrefix = array( 'title' => ts( 'Copy of ' ) );
-                
-        $copyGrant      =& CRM_Core_DAO::copyGeneric( 'CRM_Grant_DAO_Grant', array( 'id' => $id ), null, $fieldsToPrefix );
-        $copyGrantPage  =& CRM_Core_DAO::copyGeneric( 'CRM_Grant_DAO_GrantPage', 
-                                                      array( 'event_id'    => $id),
-                                                      array( 'event_id'    => $copyGrant->id ));
-        $copyCustom     =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomOption',  
-                                                      array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event_page'),
-                                                      array( 'entity_id'    => $copyGrant->id ));
-        $copyUF         =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_UFJoin',
-                                                      array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event'),
-                                                      array( 'entity_id'    => $copyGrant->id ));
-        $copyCustomData =& CRM_Core_DAO::copyGeneric( 'CRM_Core_DAO_CustomValue',
-                                                      array( 'entity_id'    => $id,
-                                                             'entity_table' => 'civicrm_event'),
-                                                      array( 'entity_id'    => $copyGrant->id ));
-
-             
-        require_once 'CRM/Core/BAO/Location.php';
-        require_once 'CRM/Grant/Form/ManageGrant/Location.php';
-        $params  = array( 'entity_id' => $id ,'entity_table' => 'civicrm_event');
-        $location = CRM_Core_BAO_Location::getValues($params, $values, $ids, 1);
-        
-        $values['entity_id']    = $copyGrant->id ;
-        $values['entity_table'] = 'civicrm_event';
-        
-        $values['location'][1]['id'] = null;
-        $values['location'][1]['contact_id'] = null;
-        unset($values['location'][1]['address']['id']);
-        unset($values['location'][1]['address']['location_id']);
-        $values['location'][1]['phone'][1]['id'] = null;
-        $values['location'][1]['phone'][1]['location_id'] = null;
-        $values['location'][1]['email'][1]['id'] = null;
-        $values['location'][1]['email'][1]['location_id'] = null;
-        $values['location'][1]['im'][1]['id'] = null;
-        $values['location'][1]['im'][1]['location_id'] = null;
-        
-        $ids = array();
-        
-        CRM_Core_BAO_Location::add( $values, $ids, 1, false );
-    }
-
 }
+
 ?>

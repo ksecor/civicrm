@@ -410,14 +410,14 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
      */
     static function &create(&$params, $fixAddress = true, $invokeHooks = true ) 
     {
-        if (!$params['contact_type'] ) {
+        if ( ! $params['contact_type'] ) {
             return;
         }
-        
+
         if ( $invokeHooks ) {
             require_once 'CRM/Utils/Hook.php';
-            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
-                CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $ids['contact'], $params );
+            if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
+                CRM_Utils_Hook::pre( 'edit', $params['contact_type'], $params['contact_id'], $params );
             } else {
                 CRM_Utils_Hook::pre( 'create', $params['contact_type'], null, $params ); 
             }
@@ -472,8 +472,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
 
         // update the UF user_unique_id if that has changed
         require_once 'CRM/Core/BAO/UFMatch.php';
-        //DO TO: comment because of schema changes
-        //CRM_Core_BAO_UFMatch::updateUFUserUniqueId( $contact->id );
+        CRM_Core_BAO_UFMatch::updateUFName( $contact->id );
 
         if ( CRM_Utils_Array::value( 'custom', $params ) &&
              is_array( $params['custom'] ) ) {
@@ -482,7 +481,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         }
 
         // make a civicrm_subscription_history entry only on contact create (CRM-777)
-        if ( ! CRM_Utils_Array::value( 'contact', $ids ) ) {
+        if ( ! CRM_Utils_Array::value( 'contact_id', $params ) ) {
             $subscriptionParams = array('contact_id' => $contact->id,
                                         'status' => 'Added',
                                         'method' => 'Admin');
@@ -494,7 +493,7 @@ INNER JOIN civicrm_email    ON ( civicrm_contact.id = civicrm_email.contact_id )
         $contact->contact_type_display = CRM_Contact_DAO_Contact::tsEnum('contact_type', $contact->contact_type);
 
         if ( $invokeHooks ) {
-            if ( CRM_Utils_Array::value( 'contact', $ids ) ) {
+            if ( CRM_Utils_Array::value( 'contact_id', $params ) ) {
                 CRM_Utils_Hook::post( 'edit', $params['contact_type'], $contact->id, $contact );
             } else {
                 CRM_Utils_Hook::post( 'create', $params['contact_type'], $contact->id, $contact );
@@ -1453,7 +1452,8 @@ WHERE civicrm_contact.id IN $idString ";
      */
     static function createProfileContact( &$params, &$fields, $contactID = null,
                                           $addToGroupID = null, $ufGroupId = null,
-                                          $ctype = null ) 
+                                          $ctype = null,
+                                          $visibility = false ) 
     {
         // add ufGroupID to params array ( CRM-2012 )
         if ( $ufGroupId ) {
@@ -1784,8 +1784,14 @@ WHERE civicrm_contact.id IN $idString ";
         }
 
         // Process group and tag  
-        if ( CRM_Utils_Array::value('group', $fields )) {
-            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID );
+        if ( CRM_Utils_Array::value('group', $fields ) ) {
+            $method = 'Admin';
+            // this for sure means we are coming in via profile since i added it to fix
+            // removing contacts from user groups -- lobo
+            if ( $visibility ) {
+                $method = 'Web';
+            }
+            CRM_Contact_BAO_GroupContact::create( $params['group'], $contactID, $visibility, $method );
         }
         
         if ( CRM_Utils_Array::value('tag', $fields )) {

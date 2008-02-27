@@ -9,7 +9,7 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" Price Field Option - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' Price Field Option - it is currently in use by one or more active events.{/ts}
        	{/if}
         {ts}If you no longer want to use this Price Option Field, click the event title below, and modify the fees for that event.{/ts}<br />
         
@@ -67,7 +67,7 @@
         {/strip}
         
         <div class="action-link">
-            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for "%1"{/ts}</a>
+            <a href="{crmURL q="reset=1&action=add&fid=$fid"}">&raquo; {ts 1=$fieldTitle}New Option for '%1'{/ts}</a>
         </div>
 
         </div>
@@ -78,7 +78,7 @@
         <div class="messages status">
         <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/price/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no options for the price field "%1", <a href="%2">add one</a>.{/ts}</dd>
+        <dd>{capture assign=crmURL}{crmURL p='civicrm/admin/price/field/option' q="action=add&fid=$fid"}{/capture}{ts 1=$fieldTitle 2=$crmURL}There are no options for the price field '%1', <a href='%2'>add one</a>.{/ts}</dd>
         </dl>
         </div>
     {/if}

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-01-25 02:52-0800\n"
+"PO-Revision-Date: 2008-02-23 12:07-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1263,49 +1263,49 @@ msgid "Southern"
 msgstr "Zuidelijk"
 
 msgid "Wan Chai"
-msgstr ""
+msgstr "Wan Chai"
 
 msgid "Kowloon City"
-msgstr ""
+msgstr "Kowloon City"
 
 msgid "Kwun Tong"
-msgstr ""
+msgstr "Kwun Tong"
 
 msgid "Sham Shui Po"
-msgstr ""
+msgstr "Sham Shui Po"
 
 msgid "Wong Tai Sin"
-msgstr ""
+msgstr "Wong Tai Sin"
 
 msgid "Yau Tsim Mong"
-msgstr ""
+msgstr "Yau Tsim Mong"
 
 msgid "Islands"
-msgstr ""
+msgstr "Islands"
 
 msgid "Kwai Tsing"
-msgstr ""
+msgstr "Kwai Tsing"
 
 msgid "North"
 msgstr "Noord"
 
 msgid "Sai Kung"
-msgstr ""
+msgstr "Sai Kung"
 
 msgid "Sha Tin"
-msgstr ""
+msgstr "Sha Tin"
 
 msgid "Tai Po"
-msgstr ""
+msgstr "Tai Po"
 
 msgid "Tsuen Wan"
-msgstr ""
+msgstr "Tsuen Wan"
 
 msgid "Tuen Mun"
-msgstr ""
+msgstr "Tuen Mun"
 
 msgid "Yuen Long"
-msgstr ""
+msgstr "Yuen Long"
 
 msgid "Luxembourg"
 msgstr "Luxemburg"
@@ -4311,7 +4311,7 @@ msgid "Torbay"
 msgstr "Torbay"
 
 msgid "Torfaen"
-msgstr ""
+msgstr "Torfaen"
 
 msgid "Tower Hamlets"
 msgstr "Tower Hamlets"

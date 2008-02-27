@@ -88,19 +88,16 @@ class CRM_Contact_Form_GroupTag
             foreach ($group as $id => $name) {
 		        if ( $visibility ) {
 		            // make sure that this group has public visibility. not very efficient
-		            $dao =& new CRM_Contact_DAO_Group( );
-                    $dao->id = $id;
-		    
-		            if ( $dao->find( true ) ) {
-		                if ( $dao->visibility == 'User and User Admin Only' ) {
+                    $visibilityValue = CRM_Core_DAO::getFieldValue( 'CRM_Contact_DAO_Group',
+                                                               $id,
+                                                               'visibility' );
+                    if ( $visibilityValue == 'User and User Admin Only' ) {
 			                continue;
-			            }
-		            } else {
-		                continue;
-		            }
+                    }
 		        }
 		        $elements[] =& HTML_QuickForm::createElement('checkbox', $id, null, $name );
 		    }
+
 	        if ( ! empty( $elements ) ) {
                 $form->addGroup( $elements, $fName, $groupName, '<br />' );
                 if ( $isRequired ) {

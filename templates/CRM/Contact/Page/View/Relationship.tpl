@@ -56,7 +56,7 @@
            {capture assign=crmURL}{crmURL p='civicrm/contact/view/rel' q="action=add"}{/capture}
            <dd>
                 {if $permission EQ 'edit'}
-                    {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a href="%1">add one</a>.{/ts}
+                    {ts 1=$crmURL}There are no Relationships entered for this contact. You can <a href='%1'>add one</a>.{/ts}
                 {else}
                     {ts}There are no Relationships entered for this contact.{/ts}
                 {/if}

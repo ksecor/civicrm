@@ -36,12 +36,9 @@ ALTER TABLE `civicrm_activity`
 
 
 ALTER TABLE `civicrm_activity`
-    ADD CONSTRAINT `FK_civicrm_activity_activity_type_id`  FOREIGN KEY (`activity_type_id`)  REFERENCES `civicrm_option_value` (`id`),
     ADD CONSTRAINT `FK_civicrm_activity_parent_id`         FOREIGN KEY (`parent_id`)         REFERENCES `civicrm_activity` (`id`) ON DELETE CASCADE,
     ADD CONSTRAINT `FK_civicrm_activity_phone_id`          FOREIGN KEY (`phone_id`)          REFERENCES `civicrm_phone` (`id`) ON DELETE SET NULL,
-    ADD CONSTRAINT `FK_civicrm_activity_priority_id`       FOREIGN KEY (`priority_id`)       REFERENCES `civicrm_option_value` (`id`) ON DELETE SET NULL,
-    ADD CONSTRAINT `FK_civicrm_activity_source_contact_id` FOREIGN KEY (`source_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE,
-    ADD CONSTRAINT `FK_civicrm_activity_status_id`         FOREIGN KEY (`status_id`)         REFERENCES `civicrm_option_value` (`id`) ON DELETE SET NULL;
+    ADD CONSTRAINT `FK_civicrm_activity_source_contact_id` FOREIGN KEY (`source_contact_id`) REFERENCES `civicrm_contact` (`id`) ON DELETE CASCADE;
 
 
 
@@ -140,6 +137,11 @@ SELECT @event_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_
 UPDATE `civicrm_option_value` ov SET label = 'Event Registration', name = 'Event Registration', filter=1, 
 description = 'Online or offline event registration.' 
 WHERE id = @event_id;
+
+
+SELECT @email_id := id FROM civicrm_option_value WHERE option_group_id = @og_id_at AND label like 'Email';
+UPDATE `civicrm_option_value` ov SET filter=1
+WHERE id = @email_id;
 
 
 INSERT INTO `civicrm_option_value` (`option_group_id`, `label`, `value`, `name`, `grouping`, `filter`, `is_default`, `weight`, `description`, `is_optgroup`, `is_reserved`, `is_active`) VALUES 

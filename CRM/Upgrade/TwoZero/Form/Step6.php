@@ -125,7 +125,7 @@ WHERE id={$res->id}
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>This step will upgrade the remaining data in your database.</p>' );
+        return '<p>' . ts( 'This step will upgrade the remaining data in your database.' ) . '</p>';
     }
 
     function getButtonTitle( ) {

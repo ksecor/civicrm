@@ -9,8 +9,7 @@
     {ts}The Event Import Wizard allows you to easily upload event participation data such as event registrations from other applications into CiviCRM.{/ts}
     </p>
     <p>
-    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the participant data to an existing contact
-    in your CiviCRM database.{/ts} {help id='upload'}
+    {ts}Files to be imported must be in the 'comma-separated-values' format (CSV) and must contain data needed to match the participant data to an existing contact in your CiviCRM database.{/ts} {help id='upload'}
     </p>
  </div>    
 
@@ -25,7 +24,7 @@
         <dt> </dt><dd>{$form.skipColumnHeader.html} {$form.skipColumnHeader.label}</dd>
         <dt>&nbsp;</dt>
         <dd class="description">
-            {ts}Check this box if the first row of your file consists of field names (Example: "Contact ID", "Participant Role").{/ts}
+            {ts}Check this box if the first row of your file consists of field names (Example: 'Contact ID', 'Participant Role').{/ts}
         </dd>
         <dt>{$form.contactType.label}</dt><dd>{$form.contactType.html}</dd>
         <dt>&nbsp;</dt>

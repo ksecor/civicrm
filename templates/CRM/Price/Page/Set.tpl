@@ -16,9 +16,9 @@
       <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /></dt>      
       <dd>
         {if $action eq 8}
-            {ts 1=$usedPriceSetTitle}Unable to delete the "%1" price set - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to delete the '%1' price set - it is currently in use by one or more active events.{/ts}
         {elseif $action eq 64}
-            {ts 1=$usedPriceSetTitle}Unable to disable the "%1" price set - it is currently in use by one or more active events.{/ts}
+            {ts 1=$usedPriceSetTitle}Unable to disable the '%1' price set - it is currently in use by one or more active events.{/ts}
         {/if}
         {ts}If you no longer want to use this price set, click the event title below, and modify the fees for that event.{/ts}<br />
         
@@ -81,7 +81,7 @@
        <div class="messages status">
        <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/> &nbsp;
          {capture assign=crmURL}{crmURL p='civicrm/admin/price' q='action=add&reset=1'}{/capture}
-         {ts 1=$crmURL}No price sets have been created yet. You can <a href="%1">add one</a>.{/ts}
+         {ts 1=$crmURL}No price sets have been created yet. You can <a href='%1'>add one</a>.{/ts}
        </div>
        {/if}
     {/if}

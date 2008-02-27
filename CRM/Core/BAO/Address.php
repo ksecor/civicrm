@@ -59,6 +59,11 @@ class CRM_Core_BAO_Address extends CRM_Core_DAO_Address
      */
     static function create( &$params, $fixAddress, $entity = null ) 
     {
+        if ( ! isset( $params['address'] ) ||
+             ! is_array( $params['address'] ) ) {
+            return;
+        }
+
         $addresses = array( );
         if ( ! $entity ) {
             $contactId = $params['address']['contact_id'];

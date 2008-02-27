@@ -36,8 +36,25 @@
 require_once 'CRM/Contact/BAO/Group.php';
 require_once 'api/v2/utils.php';
 
+/**
+ * create/update group
+ * 
+ * This API is used to create new group or update any of the existing
+ * In case of updating existing group, id of that particular grop must
+ * be in $params array. Either id or name is required field in the
+ * $params array
+ * 
+ * @param array $params  (referance) Associative array of property
+ *                       name/value pairs to insert in new 'group'
+ * 
+ * @return array   returns id of the group created if success,
+ *                 error message otherwise
+ * 
+ * @access public
+ */
 function &civicrm_group_add( &$params )
 {
+    _civicrm_initialize( );
     if ( is_null( $params ) || !is_array( $params ) ||  empty ( $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }
@@ -62,8 +79,19 @@ function &civicrm_group_add( &$params )
     }
 }
 
+/**
+ * Returns array of groups  matching a set of one or more group properties
+ * 
+ * @param array $params  (referance) Array of one or more valid
+ *                       property_name=>value pairs. If $params is set
+ *                       as null, all groups will be returned
+ * 
+ * @return array  (referance) Array of matching groups
+ * @access public
+ */
 function &civicrm_groups_get( &$params )
 {
+    _civicrm_initialize( );
     if ( !is_null( $params ) && !is_array( $params ) ) {
         return civicrm_create_error( 'Params should be array' );
     }
@@ -82,8 +110,23 @@ function &civicrm_groups_get( &$params )
     return $groups;
 }
 
+/**
+ * delete an existing group
+ *
+ * This method is used to delete any existing group. id of the group
+ * to be deleted is required field in $params array
+ *
+ * @param array $params  (referance) array containing id of the group
+ *                       to be deleted
+ * 
+ * @return array  (referance) returns flag true if successfull, error
+ *                message otherwise 
+ * 
+ * @access public
+ */
 function &civicrm_group_delete( &$params )
 {
+    _civicrm_initialize( );
     if ( is_null( $params ) || !is_array( $params ) || !CRM_Utils_Array::value( 'id', $params ) ) {
         return civicrm_create_error( 'Required parameter missing' );
     }

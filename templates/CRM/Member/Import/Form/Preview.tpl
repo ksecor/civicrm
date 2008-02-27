@@ -37,7 +37,7 @@
         <td class="data">{$invalidRowCount}</td>
         <td class="explanation">{ts}Rows with invalid data in one or more fields. These rows will be skipped (not imported).{/ts}
             {if $invalidRowCount}
-                <p><a href="{$downloadErrorRecordsUrl}">{ts}Download Errors{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadErrorRecordsUrl}">&raquo; {ts}Download Errors{/ts}</a></div>
             {/if}
         </td>
     </tr>
@@ -46,9 +46,9 @@
     {if $conflictRowCount}
     <tr class="error"><td class="label">{ts}Conflicting Rows{/ts}</td>
         <td class="data">{$conflictRowCount}</td>
-        <td class="explanation">{ts}Rows with conflicting transaciton ids within this file. These rows will be skipped (not imported).{/ts}
+        <td class="explanation">{ts}Rows with conflicting transaction ids within this file. These rows will be skipped (not imported).{/ts}
             {if $conflictRowCount}
-                <p><a href="{$downloadConflictRecordsUrl}">{ts}Download Conflicts{/ts}</a></p>
+                <div class="action-link"><a href="{$downloadConflictRecordsUrl}">&raquo; {ts}Download Conflicts{/ts}</a></div>
             {/if}
         </td>
     </tr>

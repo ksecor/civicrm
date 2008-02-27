@@ -375,17 +375,17 @@ class CRM_Grant_Selector_Search extends CRM_Core_Selector_Base implements CRM_Co
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested (orig. currency) '),
+                                                'name'      => ts('Amount Requested') . ' ' . ts('(orig. currency)'),
                                                 'sort'      => 'grant_amount_requested',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Requested '),
+                                                'name'      => ts('Amount Requested'),
                                                 'sort'      => 'grant_amount_total',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),
                                           array(
-                                                'name'      => ts('Amount Granted '),
+                                                'name'      => ts('Amount Granted'),
                                                 'sort'      => 'grant_amount_granted',
                                                 'direction' => CRM_Utils_Sort::DONTCARE,
                                                 ),

@@ -173,8 +173,9 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         $this->_dataValues = $this->get( 'dataValues' );
         $this->assign( 'dataValues'  , $this->_dataValues );
 
-        $skipColumnHeader = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
-
+        $skipColumnHeader   = $this->controller->exportValue( 'UploadFile', 'skipColumnHeader' );
+        $this->_onDuplicate = $this->get('onDuplicate');
+    
         if ( $skipColumnHeader ) {
             $this->assign( 'skipColumnHeader' , $skipColumnHeader );
             $this->assign( 'rowDisplayCount', 3 );
@@ -182,6 +183,14 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
             $this->_columnHeaders = $this->_dataValues[0];
         } else {
             $this->assign( 'rowDisplayCount', 2 );
+        }
+        if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_UPDATE ) {
+            $remove = array('participant_contact_id','email','first_name','last_name');
+            foreach( $remove as $value ) {
+                unset( $this->_mapperFields[$value] );
+            }
+        } else if ( $this->_onDuplicate == CRM_Event_Import_Parser::DUPLICATE_SKIP ) {
+            unset( $this->_mapperFields['participant_id'] );
         }
     }
 
@@ -427,11 +436,11 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
                     if( $field == 'participant_contact_id' &&  $defaultFlag ) {
                         if ( in_array('email', $importKeys) || in_array('external_identifier', $importKeys) ||
                              ( in_array('first_name', $importKeys) && in_array('last_name', $importKeys)) || 
-                             in_array('household_name', $importKeys) ||
+                             in_array('household_name', $importKeys) || in_array('participant_id', $importKeys) ||
                              in_array('organization_name', $importKeys)) {
                             continue;    
                         } else {
-                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.)') . '<br />';
+                            $errors['_qf_default'] .= ts('Missing required contact matching fields. (Should be First AND Last Name or Primary Email or First Name, Last Name AND Primary Email.) (OR Participant ID if update mode.)') . '<br />';
                         }
                         
                     } else if ( $field == 'participant_contact_id' &&  ! $defaultFlag ) {

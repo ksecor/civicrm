@@ -5,15 +5,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-05 08:31-0800\n"
-"Last-Translator: G. Kurt <weltweitleben@yahoo.de>\n"
+"POT-Creation-Date: 2008-02-27 13:35+0100\n"
+"PO-Revision-Date: 2008-02-27 02:52-0800\n"
+"Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 1.0.2\n"
+
+#: CRM/Contribute/BAO/ContributionPage.php CRM/Event/BAO/Event.php
+msgid "Copy of "
+msgstr ""
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -33,7 +37,7 @@ msgstr "Spendenseite"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/DAO/ContributionRecur.php
-#: CRM/Contribute/Form/Contribution.php
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #: templates/CRM/Contribute/Form/Message.tpl
 msgid "Transaction ID"
@@ -177,7 +181,7 @@ msgstr "Bitte geben Sie eine gültige Kreditkartennummer ein. "
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Bitte geben Sie eine gültige Kreditkarten-Verifizierungs-Nummer ein."
+msgstr "Bitte geben Sie eine gültige Kreditkarten-Verifizierungsnummer ein."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
@@ -192,9 +196,8 @@ msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Include Profile"
-msgstr "Gruppen einbinden"
+msgstr "Profil inkludieren"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
@@ -237,7 +240,7 @@ msgstr "Enddatum"
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
 msgid "Receipt Message"
-msgstr "Bestätigungs-Nachricht"
+msgstr "Bestätigungsnachricht"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
@@ -261,6 +264,12 @@ msgstr "\"Dankeschön\" gesendet"
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Send Receipt?"
 msgstr "Quittung gesendet?"
+
+#: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Task/Status.php
+msgid ""
+"This Transaction ID already exists in the database. Include the account "
+"number for checks."
+msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
 msgid "Contribution Receipt"
@@ -329,7 +338,7 @@ msgstr "Quelle/ Grund für die Teilnahme"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
 msgid "Event ID"
-msgstr "Nummer der Veranstaltung"
+msgstr "Veranstaltungs-ID"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Confirm From Name"
@@ -350,11 +359,11 @@ msgstr "Zusammenfassung der Veranstaltung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration Start Date"
-msgstr "Registrierung: Startdatum"
+msgstr "Startdatum der Anmeldung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 msgid "Registration End Date"
-msgstr "Registrierung: Enddatum"
+msgstr "Enddatum der Anmeldung"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Fee.php
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -372,30 +381,29 @@ msgstr "Veranstaltung löschen"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid end date."
-msgstr "Bitte geben Sie einen gültigen Betrag ein."
+msgstr "Bitte gültiges End-Datum eingeben."
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr "Teilnahmebeitrag"
+msgstr "Teilnahmegebühr"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Configure Event"
-msgstr "Konfigurieren"
+msgstr "Veranstaltung konfigurieren"
 
+# Strittig: Registrierung vs. Anmeldung. Ich finde Anmeldung (für eine Veranstaltung) passender bzw. intuitiver.
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Online Registration"
-msgstr "Online Registrierung"
+msgstr "Online-Anmeldung"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Payment Status"
-msgstr ""
+msgstr "Bezahl-Status"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
 msgid "Export Participants"
@@ -403,7 +411,7 @@ msgstr "Teilnehmer exportieren"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
 msgid "Manage Events"
-msgstr "Event organisieren"
+msgstr "Veranstaltung verwalten"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"
@@ -461,7 +469,7 @@ msgstr "Erneut abonnieren"
 #: CRM/Mailing/Event/BAO/Confirm.php CRM/Mailing/Event/BAO/Reply.php
 #: CRM/Mailing/Event/BAO/Resubscribe.php CRM/Mailing/Event/BAO/Unsubscribe.php
 #, fuzzy
-msgid "\"%1\" <do-not-reply@%2>"
+msgid "'%1' <do-not-reply@%2>"
 msgstr "\"%1 Administrator\" <do-not-reply@%2>"
 
 #: CRM/Mailing/Event/DAO/Bounce.php CRM/Mailing/Selector/Event.php
@@ -579,8 +587,9 @@ msgstr ""
 "wenn sie ihn nicht mehr verwenden wollen."
 
 #: CRM/Contribute/BAO/ManagePremiums.php
+#, fuzzy
 msgid ""
-"This Premium is being linked to <a href=\"%1\">Online Contribution page</a>. "
+"This Premium is being linked to <a href='%1'>Online Contribution page</a>. "
 "Please remove it in order to delete this Premium."
 msgstr ""
 "Dieser Premium ist verknüpft mit <a href=\"%1\">Onlinespendenseite</a>. "
@@ -596,7 +605,7 @@ msgstr "Spendenbetrag %1 %2"
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Thank-you date is null"
-msgstr "Das Datum der \"Danke\"-Notiz ist leer."
+msgstr "Das Datum der \"Dankeschön\"-Notiz ist leer."
 
 #: CRM/Contribute/BAO/Query.php
 msgid "Contribution Receipt date is null"
@@ -615,7 +624,8 @@ msgid "Paid By - %1"
 msgstr "Zahlung per - %1"
 
 #: CRM/Contribute/BAO/Query.php
-msgid "Honor name like - \"%1\""
+#, fuzzy
+msgid "Honor name like - '%1'"
 msgstr "Ehrenname wie - \"%1\""
 
 #: CRM/Contribute/BAO/Query.php
@@ -871,9 +881,10 @@ msgstr ""
 "Sie Ihre Anfrage erneut."
 
 #: CRM/Contribute/Form/ContributionBase.php
+#, fuzzy
 msgid ""
-"This contribution has already been submitted. Click <a href=\"%1\">here</a> "
-"if you want to make another contribution."
+"This contribution has already been submitted. Click <a href='%1'>here</a> if "
+"you want to make another contribution."
 msgstr ""
 "Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</"
 "a> wenn Sie einen weitere Spende tätigen möchten. "
@@ -893,9 +904,7 @@ msgstr "Bitte wählen Sie einen Payment Prozessor auf der Spenden-Seite aus"
 #: CRM/Contribute/Form/ContributionBase.php
 msgid ""
 "This page includes a Profile with Membership fields - but the Membership "
-"Block is NOT enabled.\n"
-"                                            Please notify the site "
-"administrator."
+"Block is NOT enabled. Please notify the site administrator."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionBase.php
@@ -1124,14 +1133,14 @@ msgstr "Der Minimalbetrag sollte geringer sein als der Maximalbetrag"
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
-"Please enter the text for the \"pay later\" checkbox displayed on the "
+"Please enter the text for the 'pay later' checkbox displayed on the "
 "contribution form."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 msgid ""
 "Please enter the instructions to be sent to the contributor when they choose "
-"to \"pay later\"."
+"to 'pay later'."
 msgstr ""
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
@@ -1139,16 +1148,14 @@ msgid "Amounts"
 msgstr "Beträge"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
-#, fuzzy
 msgid "Include Profiles (%1)"
-msgstr "Gruppen einbinden"
+msgstr "Profil inkludieren (%1)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
-#, fuzzy
 msgid "Include Profiles"
-msgstr "Gruppen einbinden"
+msgstr "Profile inkludieren"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 msgid ""
@@ -1161,7 +1168,8 @@ msgid "Delete Contribution Page"
 msgstr "Spendenseite löschen"
 
 #: CRM/Contribute/Form/ContributionPage/Delete.php
-msgid "The contribution page \"%1\" has been deleted."
+#, fuzzy
+msgid "The contribution page '%1' has been deleted."
 msgstr "Die Spendenseite \"%1\" wurde gelöscht."
 
 #: CRM/Contribute/Form/ContributionPage.php
@@ -1227,7 +1235,7 @@ msgstr "Ist diese Online-Spendenseite aktiv?"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #, fuzzy
-msgid "Honoree Section Enabled "
+msgid "Honoree Section Enabled"
 msgstr "Spendenbetrag - %1"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -1350,6 +1358,16 @@ msgid "Widget Settings"
 msgstr ""
 
 #: CRM/Contribute/Form/Contribution.php
+msgid ""
+"If you have received payment for this Pending online contribution, record it "
+"using <strong>Update Pending Contribution Status</strong> from <strong><a "
+"href='%1'>CiviContribute &raquo; Find Contributions</a></strong>. If you "
+"update the status from here the contributor may not got complete information "
+"on their receipt. Also, if there is an associated membership or event "
+"registration record - it's status will not be updated."
+msgstr ""
+
+#: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
 #, fuzzy
 msgid "Cancelled Date"
@@ -1371,8 +1389,9 @@ msgid "The contribution record has been saved."
 msgstr "Die Zuwendung wurde gespeichert."
 
 #: CRM/Contribute/Form/Contribution.php
-msgid " A receipt has been emailed to the contributor."
-msgstr ""
+#, fuzzy
+msgid "A receipt has been emailed to the contributor."
+msgstr "Standortsart deaktivieren"
 
 #: CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -1396,7 +1415,8 @@ msgid "Selected contribution type has been deleted."
 msgstr "Die ausgewählte Zuwendungsart wurde gelöscht."
 
 #: CRM/Contribute/Form/ContributionType.php
-msgid "The contribution type \"%1\" has been saved."
+#, fuzzy
+msgid "The contribution type '%1' has been saved."
 msgstr "Die Zuwendungsart \"%1\" wurde gespeichert."
 
 #: CRM/Contribute/Form/ManagePremiums.php
@@ -1515,12 +1535,12 @@ msgstr ""
 
 #: CRM/Contribute/Form/ManagePremiums.php
 #, fuzzy
-msgid "The Premium \"%1\" has been saved."
+msgid "The Premium '%1' has been saved."
 msgstr "Das Etikett \"%1\" wurde gespeichert."
 
 #: CRM/Contribute/Form/Offline.php
 #, fuzzy
-msgid "You do not have any  payment processors that support this feature"
+msgid "You do not have any payment processors that support this feature"
 msgstr ""
 "Sie haben nicht die notwendigen Berechtigungen, um diesen Kontakt zu "
 "bearbeiten."
@@ -1576,19 +1596,15 @@ msgid "Print Contributions"
 msgstr "Zuwendungen drucken"
 
 #: CRM/Contribute/Form/Task/Status.php
-msgid "Check Identifier"
-msgstr ""
-
-#: CRM/Contribute/Form/Task/Status.php
-msgid "Transaction ID already exists in Database."
-msgstr ""
-
-#: CRM/Contribute/Form/Task/Status.php
 msgid "Update Pending Status"
 msgstr ""
 
 #: CRM/Contribute/Form/Task/Status.php
-msgid "Contribution status updated."
+msgid "Transaction ID's must be unique. Include the account number for checks."
+msgstr ""
+
+#: CRM/Contribute/Form/Task/Status.php
+msgid "Contribution status has been updated for selected record(s)."
 msgstr ""
 
 #: CRM/Contribute/Import/Form/MapField.php
@@ -1761,7 +1777,7 @@ msgstr ""
 
 #: CRM/Event/BAO/Participant.php
 msgid "This event is full !!!"
-msgstr ""
+msgstr "Maximale Teilnehmergrenze erreicht!"
 
 #: CRM/Event/BAO/Participant.php
 #, fuzzy
@@ -1769,19 +1785,16 @@ msgid "- Participant Fields -"
 msgstr "- Kontaktfelder -"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event %2 %1"
-msgstr "Land wie - \"%1\""
+msgstr "Veranstaltung %2 %1"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Type - %1"
-msgstr "Komponententyp"
+msgstr "Veranstaltungstyp - %1"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Test Participants Only"
-msgstr "Zuwendungen finden"
+msgstr "Nur Test-Teilnehmer"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1794,39 +1807,32 @@ msgid "Participant Role %1"
 msgstr "Kontaktsuche"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Name"
-msgstr "Straßenname"
+msgstr "Veranstaltungsname"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Event Date - From"
-msgstr "Enddatum"
+msgstr "Veranstaltungsdatum - von"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Find Test Participants Only?"
-msgstr "Zuwendungen finden"
+msgstr "Nur nach Test-Teilnehmer suchen?"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirmation Title"
-msgstr "Aktion bestätigen"
+msgstr "Bestätigungstitel"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirm Text"
-msgstr "Konfigurieren"
+msgstr "Bestätigungstext"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Is confirm email"
-msgstr "Name oder Emailadresse"
+msgstr "Ist eine Bestätigungsemail"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Confirmation Email Text"
-msgstr "Aktion bestätigen"
+msgstr "Text der Bestätigungsemail"
 
 #: CRM/Event/DAO/EventPage.php
 #, fuzzy
@@ -1839,7 +1845,6 @@ msgid "Bcc Confirm"
 msgstr "Konfigurieren"
 
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "ThankYou Title"
 msgstr "\"Dankeschön\"-Titel"
 
@@ -1849,45 +1854,40 @@ msgid "ThankYou Text"
 msgstr "\"Dankeschön\"-Text"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Description"
-msgstr "Einführungsbeschreibung"
+msgstr "Veranstaltungsbeschreibung"
 
 #: CRM/Event/DAO/Event.php
 msgid "Event Type ID"
-msgstr ""
+msgstr "Veranstaltungstyp-ID"
 
 #: CRM/Event/DAO/Event.php
 msgid "Participant Listing ID"
-msgstr ""
+msgstr "Teilnehmerlisten-ID"
 
 #: CRM/Event/DAO/Event.php
 msgid "Is Event Public"
-msgstr ""
+msgstr "Ist die Veranstaltungs öffentlich?"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Start Date"
-msgstr "Startdatum"
+msgstr "Startdatum der Veranstaltung"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event End Date"
-msgstr "Enddatum"
+msgstr "Enddatum der Veranstaltung"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Is Online Registration"
-msgstr "Registrieren"
+msgstr "Ist eine Online-Anmeldung"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "Event Registration Link Text"
-msgstr "Registrieren"
+msgstr "Text des Online-Anmeldelinks"
 
 #: CRM/Event/DAO/Event.php
 msgid "Max Participants"
-msgstr ""
+msgstr "Maximale Teilnehmeranzahl"
 
 #: CRM/Event/DAO/Event.php
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
@@ -1895,12 +1895,11 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/Confirm.tpl
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid "Event Information"
-msgstr "Veranstaltungshinweis"
+msgstr "Veranstaltungsinformation"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "show location"
-msgstr "Primärer Standort"
+msgstr "Zeige Veranstaltungsort"
 
 #: CRM/Event/DAO/ParticipantPayment.php
 #, fuzzy
@@ -1908,45 +1907,46 @@ msgid "Payment ID"
 msgstr "Zahlungsweg"
 
 #: CRM/Event/DAO/Participant.php
-#, fuzzy
 msgid "Register date"
-msgstr "Enddatum"
+msgstr "Anmeldedatum"
 
 #: CRM/Event/DAO/Participant.php
 msgid "Fee level"
-msgstr ""
+msgstr "Gebühr"
 
 #: CRM/Event/Form/ManageEvent/Delete.php
+#, fuzzy
 msgid ""
 "This event can not be deleted because there are participant records linked "
 "to it. If you want to delete this event, you must first find the "
-"participants linked to this event and delete them. You can use use <a href="
-"\"%1\"> CiviEvent >> Find Participants page </a>."
+"participants linked to this event and delete them. You can use use <a href='%"
+"1'> CiviEvent >> Find Participants page </a>."
 msgstr ""
+"Diese Veranstaltung kann nicht gelöscht werden, weil noch angemeldete "
+"Teilnehmer gespeichert sind. Um diese Veranstaltung zu löschen, müssen "
+"zuerst alle Teilnehmer gelöscht werden. Sie können dazu die <a href=\"%1\"> "
+"CiviEvent >> Finde Teilnhemer Seite </a> verwenden."
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 #, fuzzy
-msgid "The event \"%1\" has been deleted."
-msgstr "Die Gruppe \"%1\" wurde gelöscht."
+msgid "The event '%1' has been deleted."
+msgstr "Die Veranstaltung \"%1\" wurde gelöscht."
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Complete Description"
-msgstr "Beschreibung"
+msgstr "Ausführliche Beschreibung"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Public Event?"
-msgstr ""
+msgstr "Öffentliche Veranstaltung?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Include Map Link?"
-msgstr "Mailing(s) einbinden"
+msgstr "Karten-Link einfügen?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Max Number of Participants"
-msgstr "Zahl ausgewählter Zuwendungen: %1"
+msgstr "Maximale Teilnehmeranzahl:"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "is a positive field"
@@ -1954,12 +1954,11 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 msgid "Message if Event is Full"
-msgstr ""
+msgstr "Text wenn voll belegt"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Is this Event Active?"
-msgstr "Ist dieses CiviCRMprofil aktiv?"
+msgstr "Ist diese Veranstaltung aktiv?"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #, fuzzy
@@ -1972,14 +1971,12 @@ msgstr ""
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Event Information and Settings"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Veranstaltung - Info und Einstellungen "
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#, fuzzy
 msgid "Paid Event"
-msgstr "Startdatum"
+msgstr "Teilnahmegebühr?"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Enable Pay Later option?"
@@ -1999,9 +1996,8 @@ msgid "Please select contribution type."
 msgstr "Standortsart deaktivieren"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
-#, fuzzy
 msgid "Please enter the fee label for the paid event."
-msgstr "Bitte geben Sie den Marktwert für dieses Produkt ein."
+msgstr "Geben Sie die Gebührbezeichnungen für die Veranstaltung ein."
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter the text displayed to the user"
@@ -2016,63 +2012,51 @@ msgstr ""
 #: templates/CRM/Event/Form/ParticipantView.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Event Fees"
-msgstr ""
+msgstr "Teilnahmegebühren"
 
 #: CRM/Event/Form/ManageEvent/Location.php
-#, fuzzy
 msgid "Show Location?"
-msgstr "Primärer Standort"
+msgstr "Soll der Veranstaltungsort gezeigt werden?"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Event Location"
-msgstr "Standortsart löschen"
+msgstr "Veranstaltungsort"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Allow Online Registration?"
-msgstr "Formular für die Registrierung anzeigen?"
+msgstr "Online-Anmeldung erlauben?"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Registration Link Text"
-msgstr "Registrieren"
+msgstr "Text des Anmeldelinks"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Introductory Text"
-msgstr "Einführungsnachricht"
+msgstr "Einleitungstext"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
-msgid "Title "
-msgstr "Titel"
-
-#: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Send Confirmation Email?"
-msgstr "Eine Email versenden"
+msgstr "Eine Bestätigungsemail versenden?"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
-msgid "CC Confirmation To "
-msgstr "Aktion bestätigen"
+msgid "CC Confirmation To"
+msgstr "CC Bestätigung An"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
-msgid "BCC Confirmation To "
-msgstr "Aktion bestätigen"
+msgid "BCC Confirmation To"
+msgstr "BCC Bestätigung An"
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please enter a Title for the registration Confirmation Page"
-msgstr "Bitte geben Sie einen Betrag für die minimale Beitragshöhe ein."
+msgstr "Bitte geben Sie einen Titel für die Anmeldebestätigungsseite an."
 
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please enter a Title for the registration Thank-you Page"
-msgstr "Bitte geben Sie einen Betrag für die minimale Beitragshöhe ein."
+msgstr ""
+"Bitte geben Sie einen Titel für die \"Dankeschön\"-Seite der Anmeldung an."
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -2081,7 +2065,7 @@ msgstr "Bitte geben Sie einen gültigen Namen ein."
 
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "Please enter Confirmation Email FROM Email Address."
-msgstr ""
+msgstr "Bitte geben Sie die ABSENDER-Adresse für die Bestätigungsemail an."
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
 #, fuzzy
@@ -2089,9 +2073,8 @@ msgid "Registration Date and Time"
 msgstr "Datum und Uhrzeit"
 
 #: CRM/Event/Form/Participant.php templates/CRM/Event/Form/ParticipantView.tpl
-#, fuzzy
 msgid "Event Source"
-msgstr "Kontaktsuche"
+msgstr "Veranstaltungsquelle"
 
 #: CRM/Event/Form/Participant.php
 msgid "Record Payment?"
@@ -2107,52 +2090,57 @@ msgstr ""
 
 #: CRM/Event/Form/Participant.php
 msgid "Event Confirmation"
-msgstr ""
+msgstr "Veranstaltungsbestätigung"
 
 #: CRM/Event/Form/Participant.php
 msgid "Event registration information for %1 has been updated."
-msgstr ""
+msgstr "Anmeldeinformation zur Veranstaltung für %1 wurde aktualisiert."
 
 #: CRM/Event/Form/Participant.php
 msgid "A confirmation email has been sent to %1"
 msgstr ""
 
 #: CRM/Event/Form/Participant.php
-msgid "Event registration for %1 has been added. "
-msgstr ""
+#, fuzzy
+msgid "Event registration for %1 has been added."
+msgstr "Veranstaltungsanmeldung für %1 wurde hinzugefügt."
 
 #: CRM/Event/Form/Participant.php
 msgid "A confirmation email has been sent to %1."
 msgstr ""
 
 #: CRM/Event/Form/Participant.php
-#, fuzzy
 msgid "Total Participant(s) added to event: %1"
-msgstr "Insgesamt ausgewählte Zuwendung(en): %1"
+msgstr "Gesamtanzahl der zur Veranstaltung hinzugefügten Teilnehmer: %1"
 
 #: CRM/Event/Form/Registration.php
 msgid "You do not have permission to register for this event"
 msgstr ""
+"Sie haben nicht die Berechtigung um sich für diese Veranstaltung anzumelden"
 
 #: CRM/Event/Form/Registration.php
 msgid "Registration for this event begins on %1"
-msgstr ""
+msgstr "Anmeldung für diese Veranstaltung beginnt am %1"
 
 #: CRM/Event/Form/Registration.php
 msgid "Registration for this event ended on %1"
-msgstr ""
+msgstr "Anmeldung für diese Veranstaltung endet am %1"
 
 #: CRM/Event/Form/Registration.php
 msgid ""
 "A payment processor must be selected for this event registration page "
 "(contact the site administrator for assistance)."
 msgstr ""
+"Ein Payment Processor muss für diese Seite der Veranstaltungsanmeldung "
+"konfiguriert sein (Kontaktieren Sie den Administrator ihrer Seite)."
 
 #: CRM/Event/Form/Registration.php
 msgid ""
 "The site administrator must set a Payment Processor for this event in order "
 "to use online registration."
 msgstr ""
+"Der Administrator muss einen Payment Processor für diese Veranstaltung "
+"konfigurieren um die Online-Anmeldung zu ermöglichen."
 
 #: CRM/Event/Form/Registration/Register.php
 #, fuzzy
@@ -2166,7 +2154,7 @@ msgstr "Wählen Sie ein gültiges Datum aus."
 
 #: CRM/Event/Form/Registration/Register.php
 msgid "Select atleast one option from Event Fee(s)"
-msgstr ""
+msgstr "Wählen Sie zumindest eine eine Teilnahmegebühr aus"
 
 #: CRM/Event/Form/Registration/ThankYou.php
 #, fuzzy
@@ -2175,109 +2163,100 @@ msgstr "\"Dankschön\"Datum"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Show Current and Upcoming Events"
-msgstr ""
+msgstr "Liste der laufenden und anstehenden Veranstaltungen"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Search by Date Range"
-msgstr ""
+msgstr "Suche im Zeitraum"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Events by Dates"
-msgstr ""
+msgstr "Veranstaltungen nach Datum"
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event FROM date."
-msgstr ""
+msgstr "Wählen Sie eine gültiges VON Datum aus."
 
 #: CRM/Event/Form/SearchEvent.php
 msgid "Select a valid Event TO date."
-msgstr ""
+msgstr "Wählen Sie ein gültiges BIS Datum aus."
 
 #: CRM/Event/Form/Task/Batch.php
-#, fuzzy
 msgid "Batch Update for Events"
-msgstr "Exportiere Zuwendungen"
+msgstr "Stapelweise Aktualisierung für Veranstaltungen"
 
 #: CRM/Event/Form/Task/Batch.php
-#, fuzzy
 msgid "Update Participant(s)"
-msgstr "Kontakte markieren"
+msgstr "Teilnehmer aktualisieren"
 
 #: CRM/Event/Form/Task/Cancel.php
 msgid "Cancel Registration for Event Participation"
-msgstr ""
+msgstr "Anmeldungsabbruch für Veranstaltungsteilnahmen"
 
 #: CRM/Event/Form/Task/Delete.php
-#, fuzzy
 msgid "Delete Participations"
-msgstr "Ausgewählte Option"
+msgstr "Teilnahmen löschen"
 
 #: CRM/Event/Form/Task/Delete.php
-#, fuzzy
 msgid "Deleted Participation(s): %1"
-msgstr "Gelöschte Zuwendung: %1"
+msgstr "Gelöschte Teilnahmen: %1"
 
 #: CRM/Event/Form/Task/Delete.php
-#, fuzzy
 msgid "Total Selected Participation(s): %1"
-msgstr "Insgesamt ausgewählte Zuwendung(en): %1"
+msgstr "Insgesamt ausgewählte Teilnahme(n): %1"
 
 #: CRM/Event/Form/Task/Export.php
-#, fuzzy
 msgid "CiviCRM Participants"
-msgstr "CiviCRM Tastenkürzel"
+msgstr "CiviCRM Teilnehmer"
 
 #: CRM/Event/Form/Task/PickProfile.php
-#, fuzzy
 msgid "Batch Update for Event Participants"
-msgstr "Exportiere Zuwendungen"
+msgstr "Stapelweise Aktualisierung von Veranstaltungsteilnahmen"
 
 #: CRM/Event/Form/Task/Print.php
-#, fuzzy
 msgid "Print Participant List"
-msgstr "Kontaktliste ausdrucken"
+msgstr "Teilnehmerliste ausdrucken"
 
+# In EN und DE Unverständlich...
 #: CRM/Event/Import/Form/MapField.php
-#, fuzzy
 msgid "Duplicate Import Participant Mapping Name"
-msgstr "Doppeltes Import-Mapping-Feld"
+msgstr "Dubliziere Import-Teilnahme-Mapping"
 
 #: CRM/Event/Import/Parser/Participant.php
 msgid "Invalid value for Event ID"
-msgstr ""
+msgstr "Ungültiger Wert als Veranstaltungs-ID"
 
 #: CRM/Event/Info.php
 msgid "CiviCRM Event Engine"
-msgstr ""
+msgstr "CiviCRM Veranstaltungs Komponente"
 
 #: CRM/Event/Invoke.php
-#, fuzzy
 msgid "Manage Event"
-msgstr "Organisieren"
+msgstr "Veranstaltung verwalten"
 
 #: CRM/Event/Invoke.php
 msgid "CiviEvent DashBoard"
 msgstr ""
 
 #: CRM/Event/Menu.php
-#, fuzzy
 msgid "Event Listings"
-msgstr "Standortsart löschen"
+msgstr "Veranstaltungsliste"
 
 #: CRM/Event/Menu.php
 msgid "Event Participants List"
-msgstr ""
+msgstr "Liste der Veranstaltungsteilnehmer"
 
 #: CRM/Event/Menu.php
 msgid ""
 "Create and edit event configuration including times, locations, online "
 "registration forms, and fees. Links for iCal and RSS syndication."
 msgstr ""
+"Erstellen und Bearbeiten von Veranstaltungen, wie z.B.: Zeiten, Orte, Online-"
+"Anmeldungen und Gebühren. Links für iCal und RSS Verbreitung."
 
 #: CRM/Event/Menu.php
-#, fuzzy
 msgid "Event Types"
-msgstr "Komponententyp"
+msgstr "Veranstaltungstypen"
 
 #: CRM/Event/Menu.php
 msgid ""
@@ -2287,121 +2266,107 @@ msgid ""
 msgstr ""
 
 #: CRM/Event/Menu.php templates/CRM/Event/Form/Search.tpl
-#, fuzzy
 msgid "Find Participants"
-msgstr "Kontakte finden"
+msgstr "Teilnehmer finden"
 
 #: CRM/Event/Menu.php templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "New Event"
-msgstr "Neue Markierung"
+msgstr "Neue Veranstaltung"
 
 #: CRM/Event/Page/DashBoard.php
-#, fuzzy
 msgid "events"
-msgstr "Empfänger"
+msgstr "Veranstaltungen"
 
 #: CRM/Event/Page/EventInfo.php
 msgid "You do not have permission to view this event"
-msgstr ""
+msgstr "Sie haben nicht die Berechtigung diese Veranstaltung zu betrachten."
 
 #: CRM/Event/Page/EventInfo.php
 msgid "Register Now"
-msgstr ""
+msgstr "Jetzt Anmelden"
 
 #: CRM/Event/Page/ManageEventEdit.php
-#, fuzzy
 msgid "Configure Event - %1"
-msgstr "Weiter"
+msgstr "Veranstaltung bearbeiten - %1"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to disable this Event?"
-msgstr "Sind Sie sicher, dass Sie dieses Geschlecht deaktivieren möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Veranstaltung deaktivieren möchten?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to delete this Event?"
-msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie die Veranstaltung löschen möchten?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Are you sure you want to make a copy of this Event?"
-msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie die Veranstaltung duplizieren wollen?"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Disable Event"
-msgstr "Geschlecht deaktivieren"
+msgstr "Veranstaltung deaktivieren"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Enable Event"
-msgstr "Mailingkomponente aktivieren"
+msgstr "Veranstaltung aktivieren"
 
 #: CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Copy Event"
-msgstr "Kommentar"
+msgstr "Veranstaltung kopieren"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Search Events"
-msgstr ""
+msgstr "Veranstaltung suchen"
 
 #: CRM/Event/Page/ManageEvent.php
 msgid "Event %%StatusMessage%%"
-msgstr ""
+msgstr "Veranstaltung %%StatusMessage%%"
 
 #: CRM/Event/Page/ParticipantListing.php
 msgid ""
 "The Participant Listing feature is not currently enabled for this event."
 msgstr ""
+"Das Auflisten der Veranstaltungsteilnehmer für diese Veranstaltung ist "
+"momentan nicht konfiguriert."
 
 #: CRM/Event/Page/ParticipantListing.php
 msgid "%1 - Participants"
-msgstr ""
+msgstr "%1 - Teilnehmer"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "View Participation"
-msgstr "Gruppen ansehen"
+msgstr "Teilnahme betrachten"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Edit Participation"
-msgstr "Option bearbeiten"
+msgstr "Teilnahme bearbeiten"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "Delete Participation"
-msgstr "Ausgewählte Option"
+msgstr "Teilnahme löschen"
 
 #: CRM/Event/Selector/Search.php templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Fee Level"
-msgstr "Feldname"
+msgstr "Gebühr"
 
 #: CRM/Event/Selector/Search.php
-#, fuzzy
 msgid "CiviCRM Event Search"
-msgstr "CiviCRM Suche"
+msgstr "CiviCRM Veranstaltungs Suche"
 
 #: CRM/Event/Task.php
-#, fuzzy
 msgid "Delete Participants"
-msgstr "Treffen löschen"
+msgstr "Teilnehmer löschen"
 
 #: CRM/Event/Task.php
 msgid "Batch Update Participants Via Profile"
-msgstr ""
+msgstr "Stapelweise Aktualisierung der Teilnehmer über das Profil-Formular"
 
 #: CRM/Event/Task.php
-#, fuzzy
 msgid "Cancel Registration"
-msgstr "Registrieren"
+msgstr "Abbruch der Anmeldung"
 
 #: CRM/Mailing/BAO/Component.php
-msgid "The mailing component \"%1\" has been saved."
+#, fuzzy
+msgid "The mailing component '%1' has been saved."
 msgstr "The Mailingkomponente \"%1\" wurde gespeichert."
 
 #: CRM/Mailing/BAO/Job.php
@@ -2902,7 +2867,7 @@ msgstr ""
 
 #: CRM/Mailing/Selector/Browse.php
 #, fuzzy
-msgid "Re-Send Mailing "
+msgid "Re-Send Mailing"
 msgstr "Mailing senden"
 
 #: CRM/Mailing/Selector/Browse.php
@@ -2980,10 +2945,14 @@ msgid "Tracked Opens"
 msgstr "Öffnen nachverfolgen?"
 
 #: CRM/Member/BAO/Membership.php
-msgid ""
-"The membership can not be saved.<br/> No valid membership status for given "
-"dates."
-msgstr ""
+#, fuzzy
+msgid "The membership can not be saved."
+msgstr "Ihr %1 Kontakt wurde gespeichert."
+
+#: CRM/Member/BAO/Membership.php
+#, fuzzy
+msgid "No valid membership status for given dates."
+msgstr "Ausgewähltes Geschlecht wurde gelöscht."
 
 #: CRM/Member/BAO/Membership.php
 msgid ""
@@ -3004,6 +2973,11 @@ msgstr "Letzte Mitgliedschaften"
 msgid "There are no status present, You can not add membership."
 msgstr ""
 
+#: CRM/Member/BAO/Membership.php
+#, fuzzy
+msgid "Online Contribution:"
+msgstr "Kontakte finden"
+
 #: CRM/Member/BAO/MembershipStatus.php
 #, fuzzy
 msgid "This membership status can not be deleted"
@@ -3016,20 +2990,21 @@ msgstr "Ausgewähltes Geschlecht wurde nicht gelöscht."
 
 #: CRM/Member/BAO/MembershipType.php
 msgid ""
-"<br>%2. There are some contacts who have this membership type assigned to "
-"them. Search for contacts with this membership type on the <a href=\"%1"
-"\">CiviMember >> Find Members</a> page. If you delete all memberships of "
-"this type, you will then be able to delete the membership type on this page. "
-"To delete the membership type, all memberships of this type should be "
-"deleted."
+"%2. There are some contacts who have this membership type assigned to them. "
+"Search for contacts with this membership type on the <a href='%1'>CiviMember "
+">> Find Members</a> page. If you delete all memberships of this type, you "
+"will then be able to delete the membership type on this page. To delete the "
+"membership type, all memberships of this type should be deleted."
 msgstr ""
 
 #: CRM/Member/BAO/MembershipType.php
+#, fuzzy
 msgid ""
-"<br>%2. This Membership Type is being link to <a href=\"%1\">Online "
-"Contribution page</a>. Please change/delete it in order to delete this "
-"Membership Type."
+"%2. This Membership Type is being link to <a href='%1'>Online Contribution "
+"page</a>. Please change/delete it in order to delete this Membership Type."
 msgstr ""
+"Dieser Premium ist verknüpft mit <a href=\"%1\">Onlinespendenseite</a>. "
+"Bitte entferne die Verknüpfung, um diesen Premium zu löschen."
 
 #: CRM/Member/BAO/Query.php
 msgid "Member Since %2 %1"
@@ -3070,9 +3045,8 @@ msgid "Display Min Fee"
 msgstr "Darstellung"
 
 #: CRM/Member/DAO/MembershipBlock.php
-#, fuzzy
 msgid "New Title"
-msgstr "Titel"
+msgstr "Neuer Titel"
 
 #: CRM/Member/DAO/MembershipBlock.php
 #, fuzzy
@@ -3211,12 +3185,6 @@ msgstr ""
 #, fuzzy
 msgid "Separate Membership Payment"
 msgstr "Letzte Mitgliedschaften"
-
-#: CRM/Member/Form/MembershipBlock.php
-msgid ""
-"You need to have at least one <a href=\"%1\">Membership Type</a> to enable "
-"Member Signup"
-msgstr ""
 
 #: CRM/Member/Form/MembershipBlock.php
 msgid "Membership Types Default"
@@ -3371,7 +3339,7 @@ msgstr "Ausgewähltes Geschlecht wurde gelöscht."
 
 #: CRM/Member/Form/MembershipStatus.php
 #, fuzzy
-msgid "The membership status \"%1\" has been saved."
+msgid "The membership status '%1' has been saved."
 msgstr "Das Etikett \"%1\" wurde gespeichert."
 
 #: CRM/Member/Form/MembershipType.php
@@ -3424,7 +3392,7 @@ msgstr "Ausgewähltes Geschlecht wurde gelöscht."
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
-msgid "The membership type \"%1\" has been saved."
+msgid "The membership type '%1' has been saved."
 msgstr "Der Standortstyp \"%1\" wurde gespeichert."
 
 #: CRM/Member/Form/Task/Delete.php
@@ -3467,7 +3435,7 @@ msgstr "Neue Gruppenmitgliedschaft"
 #: CRM/Member/Menu.php
 msgid ""
 "Define the types of memberships you want to offer. For each type, you can "
-"specify a \"name\" (Gold Member, Honor Society Member...), a description, "
+"specify a 'name' (Gold Member, Honor Society Member...), a description, "
 "duration, and a minimum fee."
 msgstr ""
 
@@ -3477,7 +3445,7 @@ msgstr ""
 
 #: CRM/Member/Menu.php
 msgid ""
-"Status \"rules\" define the current status for a membership based on that "
+"Status 'rules' define the current status for a membership based on that "
 "membership's start and end dates. You can adjust the default status options "
 "and rules as needed to meet your needs."
 msgstr ""
@@ -3803,9 +3771,8 @@ msgstr "Sind Sie sicher, dass sie die Notiz löschen möchten?"
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
 msgid ""
-"Pick a premium to include on this Contribution Page. Use <a href=\"%1"
-"\">Manage Premiums</a> to create or enable additional premium choices for "
-"your site."
+"Pick a premium to include on this Contribution Page. Use <a href='%1'>Manage "
+"Premiums</a> to create or enable additional premium choices for your site."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/AddProduct.tpl
@@ -3822,8 +3789,8 @@ msgid ""
 "for each 'level' of contribution (e.g. Friend, Sustainer, etc.). If you "
 "allow people to enter their own dollar amounts, you can also set minimum and "
 "maximum values. Depending on your choice of Payment Processor, you may be "
-"able to offer a recurring contribution option (<a href=\"%1\" target=\"_blank"
-"\" title=\"%2\">more info...</a>)."
+"able to offer a recurring contribution option (<a href='%1' target='_blank' "
+"title='%2'>more info...</a>)."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3855,7 +3822,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
-"Text displayed next to the checkbox for the \"pay later\" option on the "
+"Text displayed next to the checkbox for the 'pay later' option on the "
 "contribution form."
 msgstr ""
 
@@ -3863,8 +3830,8 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
 "Instructions added to Confirmation and Thank-you pages when the user selects "
-"the \"pay later\" option (e.g. \"Mail your check to ... within 3 business "
-"days.\")."
+"the 'pay later' option (e.g. 'Mail your check to ... within 3 business "
+"days.')."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Amount.tpl
@@ -3917,8 +3884,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Custom.tpl
 msgid ""
 "You can use existing CiviCRM Profiles on your page - OR create profile(s) "
-"specifically for use in Online Contribution pages. Go to <a href=\"%1"
-"\">Administer CiviCRM Profiles</a> if you need to review, modify or create "
+"specifically for use in Online Contribution pages. Go to <a href='%"
+"1'>Administer CiviCRM Profiles</a> if you need to review, modify or create "
 "profiles (you can come back at any time to select or update the Profile(s) "
 "used for this page)."
 msgstr ""
@@ -4032,14 +3999,20 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
+#, fuzzy
 msgid ""
 "No Payment Processor has been configured / enabled for your site. Unless you "
 "are only using CiviContribute to solicit non-monetary / in-kind "
-"contributions, you will need to <a href=\"%1\">configure a Payment "
-"Processor</a>. Then return to this screen and assign the processor to this "
-"Contribution Page. (<a href=\"%3\" target=\"_blank\" title=\"%2\">read "
-"more...</a>)"
+"contributions, you will need to <a href='%1'>configure a Payment Processor</"
+"a>. Then return to this screen and assign the processor to this Contribution "
+"Page. (<a href='%3' target='_blank' title='%2'>read more...</a>)"
 msgstr ""
+"Es wurde kein Payment Processor für diese Seite konfiguriert/aktiviert. "
+"Sofern Sie CiviContribute nicht nur für die Verwaltung von nicht monetäre "
+"Zuwendungen/Sachmittel einsetzen, muss ein <a href=\"%1\">Payment Processor "
+"eingerichtet werden</a>. Danach können Sie auf diese Seite zurückkehren und "
+"den Payment Processor dieser Zuwendungseite zuweisen. (<a href=\"%3\" target="
+"\"_blank\" title=\"%2\">weiterlesen...</a>)"
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid "This title will be displayed at the top of the page."
@@ -4057,8 +4030,8 @@ msgstr ""
 msgid ""
 "Select the payment processor to be used for contributions submitted from "
 "this contribution page (unless you are soliciting non-monetary / in-kind "
-"contributions only). (<a href=\"%1\" target=\"_blank\" title=\"%2\">read "
-"more...</a>)"
+"contributions only). (<a href='%1' target='_blank' title='%2'>read more...</"
+"a>)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -4080,9 +4053,9 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
 msgid ""
 "Enter an optional goal amount for this contribution page (e.g. for this "
-"\"campaign\"). If you enable a contribution widget for this page, the widget "
+"'campaign'). If you enable a contribution widget for this page, the widget "
 "will track progress against this goal. Otherwise, the goal will display as "
-"\"no limit\"."
+"'no limit'."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Settings.tpl
@@ -4195,9 +4168,9 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
 "CiviContribute widgets allow you and your supporters to easily promote this "
-"fund-raising campaign. Widget code can be added to\n"
-"        any web page - and will provide a real-time display of current "
-"contribution results, and a direct link to this contribution page."
+"fund-raising campaign. Widget code can be added to any web page - and will "
+"provide a real-time display of current contribution results, and a direct "
+"link to this contribution page."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
@@ -4237,8 +4210,8 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid ""
 "Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: "
-"<em>0xFF0000</em> = Red. You can do a web search\n"
-"            on \"hexadecimal colors\" to find a chart of color codes."
+"<em>0xFF0000</em> = Red. You can do a web search on 'hexadecimal colors' to "
+"find a chart of color codes."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
@@ -4250,6 +4223,7 @@ msgid "(Contribute at least %1 to be eligible for this gift.)"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/PremiumBlock.tpl
+#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
 "The value of this premium is %1. This may affect the amount of the tax "
 "deduction you can claim. Consult your tax advisor for more information."
@@ -4320,8 +4294,8 @@ msgstr "Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
-"This is a recurring contribution. You can modify or cancel\n"
-"future contributions by logging in to your account at:"
+"This is a recurring contribution. You can modify or cancel future "
+"contributions by logging in to your account at:"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -4342,20 +4316,14 @@ msgstr "Kontakte zu Organisation hinzufügen"
 msgid "For information about this premium, contact:"
 msgstr ""
 
-#: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
-msgid ""
-"The value of this premium is %1. This may affect the amount of the\n"
-"tax deduction you can claim. Consult your tax advisor for more information."
-msgstr ""
-
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid "Test-drive Transaction Receipt"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptPreviewHeader.tpl
 msgid ""
-"This is a test-drive transaction receipt. No live financial\n"
-"transaction has occurred."
+"This is a test-drive transaction receipt. No live financial transaction has "
+"occurred."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptSubject.tpl
@@ -4392,8 +4360,8 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 msgid ""
-"You can modify or cancel future contributions at any time by <a href=\"%1"
-"\">logging in to your account</a>."
+"You can modify or cancel future contributions at any time by <a href='%"
+"1'>logging in to your account</a>."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
@@ -4821,7 +4789,19 @@ msgid "Batch Update Contribution via Profile"
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid ""
+"Use this form to record received payments for 'pay later' online "
+"contributions, membership signups and event registrations. You can use the "
+"Transaction ID field to record account+check number, bank transfer "
+"identifier, or other unique payment identifier."
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Status.tpl
 msgid "Update Contribution Status"
+msgstr ""
+
+#: templates/CRM/Contribute/Form/Task/Status.tpl
+msgid "Assign the selected status to all contributions listed below."
 msgstr ""
 
 #: templates/CRM/Contribute/Form/Task.tpl
@@ -4852,7 +4832,7 @@ msgstr[1] ""
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Contributions</a>. You may then "
+"You can <a href='%1'>Download Mismatched Contributions</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
 "Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
@@ -4872,6 +4852,17 @@ msgstr[0] ""
 msgstr[1] ""
 "CiviCRM hat %1 ungültige Datensätze gefunden. Diese Daten werden nicht "
 "importiert."
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Member/Import/Form/Summary.tpl
+#, fuzzy
+msgid ""
+"You can <a href=\"%1\">Download Errors</a>. You may then correct them, and "
+"import the new file with the corrected data."
+msgstr ""
+"Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
+"korrigieren, und die neue Datei mit den korrigierten Daten importieren."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 #, fuzzy
@@ -4895,6 +4886,15 @@ msgstr[1] ""
 "Emailadresse zu speichern."
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Member/Import/Form/Summary.tpl
+msgid ""
+"You can <a href=\"%1\">Download Conflicts</a>. You may then review these "
+"records to determine if they are actually conflicts, and correct the "
+"transaction IDs for those that are not."
+msgstr ""
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
 "CiviCRM has detected one record which is a duplicate of existing CiviCRM "
@@ -4908,6 +4908,15 @@ msgstr[0] ""
 msgstr[1] ""
 "CiviCRM hat %1 Datensätze gefunden die schon als CiviCRM-Kontakt gespeichert "
 "sind."
+
+#: templates/CRM/Contribute/Import/Form/Summary.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#: templates/CRM/Member/Import/Form/Summary.tpl
+msgid ""
+"You can <a href=\"%1\">Download Duplicates</a>. You may then review these "
+"records to determine if they are actually duplicates, and correct the "
+"transaction IDs for those that are not."
+msgstr ""
 
 #: templates/CRM/Contribute/Import/Form/Summary.tpl
 msgid ""
@@ -4947,7 +4956,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Check this box if the first row of your file consists of field names "
-"(Example: \"Contact ID\", \"Amount\")."
+"(Example: 'Contact ID', 'Amount')."
 msgstr ""
 "Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
 "beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
@@ -4968,7 +4977,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "There are currently no accepted credit cards configured for this site. You "
-"can <a href=\"%1\">add one now</a>."
+"can <a href='%1'>add one now</a>."
 msgstr ""
 "Es sind keine Marken für diesen Kontakt eingegeben. Sie können aber <a href="
 "\"%1\">eine hinzufügen</a>."
@@ -4999,18 +5008,23 @@ msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
-"When you are ready to make this page live, click <a href=\"%1\">Title and "
+"When you are ready to make this page live, click <a href='%1'>Title and "
 "Settings</a> and update the <strong>Active?</strong> checkbox."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+#, fuzzy
 msgid ""
 "Use the links below to update features and content for this Online "
 "Contribution Page, as well as to run through the contribution process in "
-"<strong>test mode</strong>. Refer to the <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">CiviContribute Administration Documentation</a> for more "
+"<strong>test mode</strong>. Refer to the <a href='%1' target='_blank' "
+"title='%2'>CiviContribute Administration Documentation</a> for more "
 "information."
 msgstr ""
+"Benutzen Sie die untenstehenden Links um Features und Inhalte für eine "
+"Veranstaltung zu aktualisieren. In der <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Dokumentation der Veranstaltungsadministration</a> finden Sie "
+"mehr Information."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -5029,6 +5043,12 @@ msgstr ""
 #, fuzzy
 msgid "Enable recurring contributions."
 msgstr "%count Kontakt gefunden"
+
+#: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
+msgid ""
+"Give contributors the option to 'pay later' (e.g. mail in a check, call in a "
+"credit card, etc.)."
+msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 #, fuzzy
@@ -5118,10 +5138,13 @@ msgid "Or you can <a href='%1'>browse all available Contribution Pages</a>."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ContributionPage.tpl
+#, fuzzy
 msgid ""
-"No contribution pages have been created yet. Click <a href=\"%1\">here</a> "
-"to create a new contribution page using the step-by-step wizard."
+"No contribution pages have been created yet. Click <a href='%1'>here</a> to "
+"create a new contribution page using the step-by-step wizard."
 msgstr ""
+"Diese Zuwendung wurde bereits übermittelt. Klicken Sie<a href=\"%1\">hier</"
+"a> wenn Sie einen weitere Spende tätigen möchten. "
 
 #: templates/CRM/Contribute/Page/ContributionTotals.tpl
 #, fuzzy
@@ -5159,27 +5182,38 @@ msgstr ""
 #: templates/CRM/Contribute/Page/ContributionType.tpl
 #, fuzzy
 msgid ""
-"There are no Contribution Types entered. You can <a href=\"%1\">add one</a>."
+"There are no Contribution Types entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
 "contributions. Administrators can create or modify your Online Contribution "
-"Pages from <a href=\"%1\">here</a>."
+"Pages from <a href='%1'>here</a>."
 msgstr ""
+"CiviEvent ermöglicht es benutzerdefinierte Seiten zur Erstellung und "
+"Anmeldung an Veranstaltungen zu erstellen. Administratoren können <a href=\"%"
+"1\"><strong>neue Veranstaltungen erstellen</strong></a> und <a href=\"%2"
+"\"><strong>existierende Veranstaltungen verwalten</strong></a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "You can also input and track offline contributions. To enter contributions "
-"manually for individual contacts, use <a href=\"%1\">Find Contacts</a> to "
+"manually for individual contacts, use <a href='%1'>Find Contacts</a> to "
 "locate the contact. Then click <strong>View</strong> to go to their summary "
 "page and click on the <strong>New Contribution</strong> link. You can also "
-"<a href=\"%2\">import batches of offline contributions</a> from other "
-"sources."
+"<a href='%2'>import batches of offline contributions</a> from other sources."
 msgstr ""
+"Sie können auch Veranstaltungen offline verwalten und eingeben. Um "
+"Veranstaltungen manuell einzufügen suchen Sie mittels <a href=\"%1\">Finde "
+"Kontakte</a> den Kontakt. Danach klicken Sie auf <strong>Betrachten</strong> "
+"um zur Übersichtsseite zu gelanden und klicken Sie dort auf den Link: "
+"<strong>neue Veranstaltung</strong>. Sie können zudem von anderen Quellen "
+"eine <a href=\"%2\"><strong>Reihe von Teilnehmern importieren</strong></a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
@@ -5187,13 +5221,21 @@ msgid "Contributions Summary"
 msgstr "Kontaktzusammenfassung"
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Contribution Totals</strong>, and "
 "includes shortcuts to view the contribution details for these commonly used "
-"search periods. To run your own customized searches - click <a href=\"%1"
-"\">Find Contributions</a>. You can search by Contributor Name, Amount Range, "
+"search periods. To run your own customized searches - click <a href='%"
+"1'>Find Contributions</a>. You can search by Contributor Name, Amount Range, "
 "and a variety of other criteria."
 msgstr ""
+"Diese Tabelle fasst bis zu zehn geplante und kürzlich durchgeführte "
+"<strong>Veranstaltungen</strong> zusammen. Klicken Sie auf "
+"<strong>Veranstaltungsname</strong> um zur Veranstaltungsansicht (wie für "
+"Webseiten-Besucher) zu gelangen. Durch klicken auf <strong>Teilnehmerzahl</"
+"strong> werden die Teilnehmer aufgelistet. Um individuell definierte Suchen "
+"durchzuführen, klicken Sie auf <a href=\"%1\">Teilnehmer finden</a>. Es kann "
+"nach Teilnehmer-Name, Veranstaltung, Zeitraum und Status gesucht werden."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5236,9 +5278,8 @@ msgstr ""
 msgid ""
 "Use this section to enter and update all premiums that you want to offer on "
 "any of your Online Contribution pages. Then you can assign one or more "
-"premiums to a specific Contribution page from <a href=\"%1\">Configure "
-"Online Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</"
-"strong>."
+"premiums to a specific Contribution page from <a href='%1'>Configure Online "
+"Contribution Pages</a> <strong>&raquo; Configure &raquo; Premiums</strong>."
 msgstr ""
 
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
@@ -5250,8 +5291,8 @@ msgstr "Kontakte finden"
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #, fuzzy
 msgid ""
-"No premium products have been created for your site. You can <a href=\"%1"
-"\">add one</a>."
+"No premium products have been created for your site. You can <a href='%"
+"1'>add one</a>."
 msgstr ""
 "Es wurden noch keine eigenen Datengruppen erstellt. Sie können <a href=\"%1"
 "\">eine hinzufügen</a>."
@@ -5259,7 +5300,7 @@ msgstr ""
 #: templates/CRM/Contribute/Page/PaymentInstrument.tpl
 #, fuzzy
 msgid ""
-"There are no custom Payment Instruments entered. You can <a href=\"%1\">add "
+"There are no custom Payment Instruments entered. You can <a href='%1'>add "
 "one</a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
@@ -5269,8 +5310,8 @@ msgstr ""
 msgid ""
 "The premiums listed below are currently offered on this Contribution Page. "
 "If you have other premiums which are not already being offered on this page, "
-"you will see a link below to offer another premium. Use <a href=\"%1"
-"\">Administer CiviCRM &raquo; Manage Premiums</a> to create or enable "
+"you will see a link below to offer another premium. Use <a href='%"
+"1'>Administer CiviCRM &raquo; Manage Premiums</a> to create or enable "
 "additional premium choices which can be used on any Contribution page."
 msgstr ""
 
@@ -5282,8 +5323,8 @@ msgstr "Neue Spendenseite"
 #: templates/CRM/Contribute/Page/Premium.tpl
 #, fuzzy
 msgid ""
-"There are no premiums offered on this contribution page yet. You can <a href="
-"\"%1\">add one</a>."
+"There are no premiums offered on this contribution page yet. You can <a "
+"href='%1'>add one</a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
@@ -5291,8 +5332,8 @@ msgstr ""
 #: templates/CRM/Contribute/Page/Premium.tpl
 #, fuzzy
 msgid ""
-"There are no active premiums for your site. You can <a href=\"%1\">create "
-"and/or enable premiums here</a>."
+"There are no active premiums for your site. You can <a href='%1'>create and/"
+"or enable premiums here</a>."
 msgstr ""
 "Der Kontakt hat keine Beziehungen. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
@@ -5302,25 +5343,40 @@ msgid ""
 "After selecting an Event Type, this page will display any custom event "
 "fields for that type."
 msgstr ""
+"Nachdem ein Veranstaltungstyp ausgewählt wurde, zeigt diese Seite "
+"benutzerdefinierte Felder für diesen Typ an."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
 "The Role you select here is automatically assigned to people when they "
-"register online for this event (usually the default \"Attendee\" role)."
+"register online for this event (usually the default 'Attendee' role)."
 msgstr ""
+"Die hier ausgewählte Teilnehmerrolle wird automatisch Personen zugewiesen, "
+"die sich für diese Veranstaltung anmelden (Üblicherweise ist der Standard: "
+"\"Teilnehmer\")."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
-"To allow users to see a listing of participants, set this field to \"Name"
-"\" (list names only), or \"Name and Email\" (list names and emails)."
+"To allow users to see a listing of participants, set this field to "
+"'Name' (list names only), or 'Name and Email' (list names and emails)."
 msgstr ""
+"Um eine Teilnehmerliste Benutzern zugänglich zu machen, wählen Sie in diesem "
+"Feld \"Name\" (Nur Namen listen) oder \"Name und Email\" (Namen und Emails "
+"listen)."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
 "Optionally set a maximum number of participants for this event. The "
 "registration link is hidden, and the text below is displayed when the "
-"maximum number of registrations is reached."
+"maximum number of registrations is reached. Participants with Pending or "
+"Cancelled status are NOT included when checking if the event is full."
 msgstr ""
+"Alternativ können Sie eine maximale Teilnehmeranzahl für die Veranstaltung "
+"angeben. Sobald die maximal Teilnehmeranzahl erreicht wurde, verschwindet "
+"der Anmelde-Link und der Text unterhalb wird angezeigt."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -5328,22 +5384,32 @@ msgid ""
 "registrations is reached. If online registration is enabled, this message "
 "will also be displayed if users attempt to register."
 msgstr ""
+"Text der auf der Informationseite zur Veranstaltung angezeigt werden soll, "
+"wenn die maximale Teilnehmeranzahl erreicht wurde. Wenn die Online-Anmeldung "
+"aktiviert ist, wird dieser Text auch Benutzern gezeigt, die sich anmelden "
+"wollen."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
+#, fuzzy
 msgid ""
 "Include a link to map the event location? (A map provider must be configured "
-"under <a href=\"%1\">Global Settings &raquo; Mapping</a>"
+"under <a href='%1'>Global Settings &raquo; Mapping</a>"
 msgstr ""
+"Soll ein Karten-Link zum Veranstaltungsort erstellt werden? (Ein Online-"
+"Karten Provider muss unter <a href=\"%1\">Globale Einstellungen &raquo; "
+"Zuordnung und Länderspezifisches</a> konfiguriert sein."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid "Include this event in iCalendar feeds?"
-msgstr ""
+msgstr "Soll diese Veranstaltung in den iCalender-feed eingebunden werden?"
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
 "When this Event is active, create links to the Event Information page by "
 "copying and pasting the following URL:"
 msgstr ""
+"Wenn diese Veranstaltung aktiv ist, können Links durch copy und paste der "
+"folgenden URL zur Seite der Veranstaltungsinformation erstellt werden:"
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.tpl
 msgid ""
@@ -5351,22 +5417,33 @@ msgid ""
 "page using the Menu Manager. Select <strong>Event Info Page</strong> and "
 "enter <strong>%1</strong> for the Event ID."
 msgstr ""
+"Wenn diese Veranstaltung aktiv ist, können Links mit Hilfe des Menü Manager "
+"zur Seite der Veranstaltungsinformation erstellt werden. Wählen Sie "
+"<strong>Veranstaltungsinformations-Seite</strong> und geben Sie <strong>%1</"
+"strong> als Veranstaltungs-ID ein."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
+#, fuzzy
 msgid ""
 "No Payment Processor has been configured / enabled for your site. If this is "
 "a <strong>paid event</strong> AND you want users to be able to "
-"<strong>register online</strong>, you will need to <a href=\"%1\">configure "
-"a Payment Processor</a> first. Then return to this screen and assign the "
-"processor to this event. (<a href=\"%3\" target=\"_blank\" title=\"%2\">read "
+"<strong>register online</strong>, you will need to <a href='%1'>configure a "
+"Payment Processor</a> first. Then return to this screen and assign the "
+"processor to this event. (<a href='%3' target='_blank' title='%2'>read "
 "more...</a>)"
 msgstr ""
+"Es wurde kein Payment Processor für diese Seite konfiguriert/aktiviert. "
+"Sofern Sie CiviContribute nicht nur für die Verwaltung von nicht monetären "
+"Zuwendungen/Sachmittel einsetzen, muss ein <a href=\"%1\">Payment Processor "
+"eingerichtet werden</a>. Danach können Sie auf diese Seite zurückkehren und "
+"den Payment Processor dieser Veranstaltung zuweisen. (<a href=\"%3\" target="
+"\"_blank\" title=\"%2\">read more...</a>)"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
 "If you want users to be able to register online for this event, select a "
-"payment processor to use. (<a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">read more...</a>)"
+"payment processor to use. (<a href='%1' target='_blank' title='%2'>read "
+"more...</a>)"
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -5384,7 +5461,7 @@ msgid ""
 "Select a pre-configured Price Set to offer multiple individually priced "
 "options for event registrants. Otherwise, select &quot;-none-&quot, and "
 "enter one or more fee levels in the table below. Create or edit Price Sets "
-"<a href=\"%1\">here</a>."
+"<a href='%1'>here</a>."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
@@ -5400,9 +5477,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
-#, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Kontakte zu Organisation hinzufügen"
+msgstr "Veranstaltungsort und Kontaktinformation"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -5411,40 +5487,57 @@ msgid ""
 "It will also be included in online registration pages and confirmation "
 "emails if these features are enabled."
 msgstr ""
+"Benutzen Sie dieses Formular um den Ort und eventuelle Kontaktinformation "
+"für die Veranstaltung festzulegen. Diese Information wird auf der Seite der "
+"Veranstaltungsinformation dargestellt. Sie wird auch in der Online-Anmeldung "
+"und den Bestätigungs-Emails eingebunden, sofern diese Features eingerichtet "
+"sind."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
+#, fuzzy
 msgid ""
 "If you want to provide an Online Registration page for this event, check the "
 "first box below and then complete the fields on this form. You can offer "
 "online registration for both Paid and Free events. Paid events require that "
-"you have configured a <a href=\"%1\" target=\"_blank\" title=\"Opens "
-"documentation in a new window\">Payment Processor</a> for your site."
+"you have configured a <a href='%1' target='_blank' title='Opens "
+"documentation in a new window'>Payment Processor</a> for your site."
 msgstr ""
+"Um eine Online-Anmeldungsseite zur Verfügung stellen, aktivieren Sie die "
+"folgende Check-Box und füllen Sie die restlichen Felder des Formulars aus. "
+"Sie können eine Online-Anmeldung für gebührenpflichtige und freie "
+"Veranstaltungen erstellen. Gebührenpflichtige Veranstaltungen benötigen "
+"einen konfigurierten <a href=\"%1\" target=\"_blank\" title=\"Öffnet die "
+"Beschreibung in einem neuen Fenster\">Payment Processor</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Enable or disable online registration for this event."
 msgstr ""
-
-#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-msgid ""
-"Display text for link from Event Information to Event Registration pages (e."
-"g. \"Register Now!\")."
-msgstr ""
+"Aktivieren oder Deaktivieren der Online-Anmeldung für diese Veranstaltung."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #, fuzzy
+msgid ""
+"Display text for link from Event Information to Event Registration pages (e."
+"g. 'Register Now!')."
+msgstr ""
+"Der Text des Links von der Veranstaltungsinformationseite zur "
+"Veranstaltungsanmeldeseite (z.B.: \"Jetzt Anmelden!\")."
+
+#: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Registration Screen"
-msgstr "Registrieren"
+msgstr "Anmeldeseite"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "Introductory message / instructions for online event registration page (may "
 "include HTML formatting tags)."
 msgstr ""
+"Einleitungstext / Beschreibung für die Online-Anmeldungseite (diese kann "
+"HTML tags enthalten)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional footer text for registration screen."
-msgstr ""
+msgstr "Optionaler Fußzeilentext für die Anmeldeseite"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
@@ -5452,50 +5545,58 @@ msgid ""
 "selecting a CiviCRM Profile to be included at the top of the page "
 "(immediately after the introductory message)."
 msgstr ""
+"Fügen Sie zusätzliche Felder auf der Anmeldeseite der Veranstaltung hinzu, "
+"indem Sie ein CiviCRM Profil auswählen, das am Begin der Seite eingebunden "
+"wird (unter dem Einleitungstext). "
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "Include additional fields on this registration form by configuring and "
 "selecting a CiviCRM Profile to be included at the bottom of the page."
 msgstr ""
+"Fügen Sie zusätzliche Felder auf der Anmeldeseite der Veranstaltung hinzu, "
+"indem Sie ein CiviCRM Profil auswählen, das am Ende der Seite eingebunden "
+"wird."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Confirmation Screen"
-msgstr "Aktion bestätigen"
+msgstr "Bestätigungsseite"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "Page title for screen where user reviews and confirms their registration "
 "information."
 msgstr ""
+"Titel für die Seite an der der Benutzer seine Anmeldedaten kontrolliert und "
+"bestätigt."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional instructions / message for Confirmation screen."
-msgstr ""
+msgstr "Optionaler Text/Nachricht für die Bestätigungsseite."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional page footer text for Confirmation screen."
-msgstr ""
+msgstr "Optionaler Fußzeilentext für die Bestätigungsseite."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "Thank-you Screen"
-msgstr "\"Dankeschön\" gesendet"
+msgstr "\"Dankeschön\"-Seite"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Page title for registration Thank-you screen."
-msgstr ""
+msgstr "Titel für die \"Dankeschön\"-Seite."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Optional message for Thank-you screen (may include HTML formatting)."
-msgstr ""
+msgstr "Optionaler Text für die \"Dankeschön\"-Seite (kann HTML enthalten)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "Optional footer text for Thank-you screen (often used to include links to "
 "other pages/activities on your site)."
 msgstr ""
+"Optionaler Fußzeilentext für die \"Dankeschön\"-Seite (z.B.: Links auf "
+"andere Seiten/Aktivitäten der Website)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #, fuzzy
@@ -5508,33 +5609,43 @@ msgid ""
 "user? This email includes event date(s), location and contact information. "
 "For paid events, this email is also a receipt for their payment."
 msgstr ""
+"Soll eine Bestätigungsemail automatisch an den Benutzer geschickt werden? "
+"Diese Email enthält Veranstaltungsdatum, Ort und die Kontaktinformation. Für "
+"gebührenpflichtige Veranstaltungen ist diese Email eine Empfangsbestätigung "
+"für die Bezahlung."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid "Additional message or instructions to include in confirmation email."
 msgstr ""
+"Zusätzlicher Text, der in der Bestätigungsemail eingebunden werden soll."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
-#, fuzzy
 msgid "FROM name for email."
-msgstr "Name oder Emailadresse"
+msgstr "ABSENDER-Name für die Email."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "FROM email address (this must be a valid email account wiht your SMTP email "
 "service provider)."
 msgstr ""
+"ABSENDER-Emailadresse (Diese muss eine gültige Emailadresse bei ihrem SMTP-"
+"Anbieter sein)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "You can notify event organizers of each online registration by specifying an "
 "email address to receive a cc (carbon copy)."
 msgstr ""
+"Sie können die Veranstalter über jede durchgeführte Online-Anmeldung "
+"benachrichtigen indem Sie eine Email-Adresse angeben (wird als CC versandt)."
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 msgid ""
 "You may specify an email address to receive a blind carbon copy (bcc) of the "
 "confirmation email."
 msgstr ""
+"Sie können die Veranstalter über jede durchgeführte Online-Anmeldung "
+"benachrichtigen indem Sie eine Email-Adresse angeben (wird als BCC versandt)."
 
 #: templates/CRM/Event/Form/Participant.tpl
 #, fuzzy
@@ -5584,6 +5695,17 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
+#, fuzzy
+msgid "Payment Information"
+msgstr "Veranstaltungsinformation"
+
+#: templates/CRM/Event/Form/Participant.tpl
+#: templates/CRM/Member/Form/MembershipRenewal.tpl
+#: templates/CRM/Member/Form/Membership.tpl
+msgid "Select the appropriate contribution type for this payment."
+msgstr ""
+
+#: templates/CRM/Event/Form/Participant.tpl
 msgid "Registration Confirmation and Receipt"
 msgstr ""
 
@@ -5592,12 +5714,6 @@ msgstr ""
 #, fuzzy
 msgid "Registration Confirmation"
 msgstr "Kontakte zu Organisation hinzufügen"
-
-#: templates/CRM/Event/Form/Participant.tpl
-#: templates/CRM/Member/Form/MembershipRenewal.tpl
-#: templates/CRM/Member/Form/Membership.tpl
-msgid "Select the appropriate contribution type for this payment."
-msgstr ""
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Send Confirmation and Receipt"
@@ -5610,7 +5726,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
 "Enter a message you want included at the beginning of the confirmation "
-"email. EXAMPLE: \"Thanks for registering for this event.\""
+"email. EXAMPLE: 'Thanks for registering for this event.'"
 msgstr ""
 
 #: templates/CRM/Event/Form/ParticipantView.tpl
@@ -5711,8 +5827,8 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid ""
-"This is a test-drive registration. No live financial\n"
-"transaction has occurred."
+"This is a test-drive registration. No live financial transaction has "
+"occurred."
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
@@ -5749,11 +5865,11 @@ msgstr ""
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Find Events"
-msgstr ""
+msgstr "Veranstaltung Suchen"
 
 #: templates/CRM/Event/Form/SearchEvent.tpl
 msgid "Complete OR partial Event name."
-msgstr ""
+msgstr "Teil des oder ganzen Namen der Veranstaltung."
 
 #: templates/CRM/Event/Form/Search/ResultTasks.tpl
 #, fuzzy
@@ -5767,6 +5883,8 @@ msgid ""
 "Use this form to find participant(s) by participant name, event name, event "
 "start and end dates."
 msgstr ""
+"Benutzen Sie dieses Formular um Teilnehmer nach Name, Veranstaltungsname "
+"sowie Start- und Enddatum zu suchen."
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "(no fee)"
@@ -5836,39 +5954,70 @@ msgstr "Absendedatum"
 msgid "Participation Status"
 msgstr "Status?"
 
-#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#: templates/CRM/Event/Import/Form/Summary.tpl
+#, fuzzy
 msgid ""
-"Files to be imported must be in the 'comma-separated-values' format (CSV) "
-"and must contain data needed to match the participant data to an existing "
-"contact in your CiviCRM database."
+"You can <a href=\"%1\">Download Mismatched Participantss</a>. You may then "
+"correct them, and import the new file with the corrected data."
 msgstr ""
+"Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
+"korrigieren, und die neue Datei mit den korrigierten Daten importieren."
+
+#: templates/CRM/Event/Import/Form/UploadFile.tpl
+#, fuzzy
+msgid ""
+"Check this box if the first row of your file consists of field names "
+"(Example: \"Contact ID\", \"Participant Role\")."
+msgstr ""
+"Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
+"beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "CiviEvent allows you to create customized page(s) for creating and "
-"registering online events. Administrators can create <a href=\"%1"
-"\"><strong>new events</strong></a> and <a href=\"%2\"><strong>manage "
-"existing events</strong></a>."
+"registering online events. Administrators can create <a href='%"
+"1'><strong>new events</strong></a> and <a href='%2'><strong>manage existing "
+"events</strong></a>."
 msgstr ""
+"CiviEvent ermöglicht es benutzerdefinierte Seiten zur Erstellung und "
+"Anmeldung an Veranstaltungen zu erstellen. Administratoren können <a href=\"%"
+"1\"><strong>neue Veranstaltungen erstellen</strong></a> und <a href=\"%2"
+"\"><strong>existierende Veranstaltungen verwalten</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "You can also input and track offline Events. To enter events manually for "
-"individual contacts, use <a href=\"%1\">Find Contacts</a> to locate the "
+"individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
 "contact. Then click <strong>View</strong> to go to their summary page and "
-"click on the <strong>New Event</strong> link. You can also <a href=\"%2"
-"\"><strong>import batches of participants</strong></a> from other sources."
+"click on the <strong>New Event</strong> link. You can also <a href='%"
+"2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
+"Sie können auch Veranstaltungen offline verwalten und eingeben. Um "
+"Veranstaltungen manuell einzufügen suchen Sie mittels <a href=\"%1\">Finde "
+"Kontakte</a> den Kontakt. Danach klicken Sie auf <strong>Betrachten</strong> "
+"um zur Übersichtsseite zu gelanden und klicken Sie dort auf den Link: "
+"<strong>neue Veranstaltung</strong>. Sie können zudem von anderen Quellen "
+"eine <a href=\"%2\"><strong>Reihe von Teilnehmern importieren</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "This table provides a summary of up to ten scheduled and recent "
 "<strong>Events</strong>. Click the <strong>Event name</strong> to view the "
 "event as it will be displayed to site visitors. Click the "
 "<strong>Participants count</strong> to see a list of participants. To run "
-"your own customized searches - click <a href=\"%1\">Find Participants</a>. "
-"You can search by Participant Name, Event, Date Range and Status."
+"your own customized searches - click <a href='%1'>Find Participants</a>. You "
+"can search by Participant Name, Event, Date Range and Status."
 msgstr ""
+"Diese Tabelle fasst bis zu zehn geplante und kürzlich durchgeführte "
+"<strong>Veranstaltungen</strong> zusammen. Klicken Sie auf "
+"<strong>Veranstaltungsname</strong> um zur Veranstaltungsansicht (wie für "
+"Webseiten-Besucher) zu gelangen. Durch klicken auf <strong>Teilnehmerzahl</"
+"strong> werden die Teilnehmer aufgelistet. Um individuell definierte Suchen "
+"durchzuführen, klicken Sie auf <a href=\"%1\">Teilnehmer finden</a>. Es kann "
+"nach Teilnehmer-Name, Veranstaltung, Zeitraum und Status gesucht werden."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 #, fuzzy
@@ -5885,61 +6034,82 @@ msgid "Recent Registrations"
 msgstr "Registrieren"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
+#, fuzzy
 msgid ""
 "Use the links below to update features and content for this Event. Refer to "
-"the <a href=\"%1\" target=\"_blank\" title=\"%2\">Event Administration "
+"the <a href='%1' target='_blank' title='%2'>Event Administration "
 "documentation</a> for more information."
 msgstr ""
+"Benutzen Sie die untenstehenden Links um Features und Inhalte für eine "
+"Veranstaltung zu aktualisieren. In der <a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Dokumentation der Veranstaltungsadministration</a> finden Sie "
+"mehr Information."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
+#, fuzzy
 msgid ""
 "Set event title, type (conference, performance etc.), description, start and "
-"end dates, maximum number of participants, and activate the event."
+"end dates, maximum number of participants, and activate the event. Enable "
+"the public participant listing feature."
 msgstr ""
+"Legen Sie Titel, Typ (Konferenz, Meeting...), Beschreibung, Begin- und "
+"Enddatum, Maximale Teilnehmeranzahl fest und aktivieren Sie die Veranstaltung"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "Set event location and event contact information (email and phone)."
 msgstr ""
+"Legen Sie den Veranstaltungsort und Kontaktinformation zur Veranstaltung "
+"(Email und Telefon) fest."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
+#, fuzzy
 msgid ""
 "Determine if the event is free or paid. For paid events, set the fee level"
-"(s) and contribution type assigned to fees."
+"(s) and contribution type assigned to fees. Give online registrants the "
+"option to 'pay later' (e.g. mail in a check, call in a credit card, etc.)."
 msgstr ""
+"Bestimmen Sie ob die Veranstaltung gebührenpflichtig ist oder nicht. Für "
+"gebührenpflichtige Veranstaltungen können die Gebühren festgelegt sowie  "
+"Zuwendungstypen Gebühren zugeordnet werden."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Determine whether an online registration page is available. If so, configure "
 "registration page elements."
 msgstr ""
+"Bestimmen Sie ob eine Online-Anmeldungsseite existieren soll. Wenn sie "
+"existiert, müssen die Elemente des Anmeldeformulars konfiguriert werden."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Make it easy for participants to spread the word about this event to friends "
 "and colleagues."
 msgstr ""
+"Machen Sie es den Teilnehmern einfach die Veranstaltung and Freunde und "
+"Bekannte weiterzusagen."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-msgid ""
-"You can view the participant listing for this event <a href=\"%1\">here</a>"
-msgstr ""
+#, fuzzy
+msgid "Public Participant Listing"
+msgstr "Teilnehmerlisten-ID"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
 "Participant Listing is not enabled for this event. You can enable it from"
 msgstr ""
+"Das Auflisten der Teilnehmer ist für diese Veranstaltung nicht aktiviert. "
+"Hier können Sie die Funktion aktivieren:"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid "View Event Info"
-msgstr ""
+msgstr "Veranstaltungsseite betrachten"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid ""
 "View the Event Information page as it will be displayed to site visitors."
 msgstr ""
-"Eine Vorschau des eigenen Feldes wie sie beim bearbeiten eines Kontakts "
-"aussehen wird."
+"Betrachten Sie die Veranstaltungsseite, wie sie sich dem Webbenutzer "
+"darstellt."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 #, fuzzy
@@ -5978,14 +6148,12 @@ msgid "Public?"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "Starts"
-msgstr "Status"
+msgstr "Beginn"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "Ends"
-msgstr "Ausweiten"
+msgstr "Ende"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "ID:"
@@ -6001,7 +6169,7 @@ msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 #, fuzzy
-msgid "There are no events created yet. You can <a href=\"%1\">add one</a>."
+msgid "There are no events created yet. You can <a href='%1'>add one</a>."
 msgstr ""
 "Dieser Kontakt befindet sich in keiner Gruppe. Sie können Ihn einer <a href="
 "\"%1\">hinzufügen</a>."
@@ -6206,12 +6374,14 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "Are you sure you want to delete the mailing \"%1\"?"
-msgstr ""
+#, fuzzy
+msgid "Are you sure you want to delete the mailing '%1'?"
+msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "Are you sure you want to cancel the mailing \"%1\"?"
-msgstr ""
+#, fuzzy
+msgid "Are you sure you want to cancel the mailing '%1'?"
+msgstr "Sind Sie sicher, dass sie das Etikett löschen möchten?"
 
 #: templates/CRM/Mailing/Page/Browse.tpl
 #, fuzzy
@@ -6223,7 +6393,7 @@ msgid "No Sent Mailings match your search criteria. Suggestions:"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
-msgid "Or you can <a href=\"%1\">browse all Sent Mailings</a>."
+msgid "Or you can <a href='%1'>browse all Sent Mailings</a>."
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Browse.tpl
@@ -6315,9 +6485,8 @@ msgid "Content / Components"
 msgstr ""
 
 #: templates/CRM/Mailing/Page/Report.tpl
-#, fuzzy
 msgid "View complete message"
-msgstr "Bestätigungs-Nachricht"
+msgstr "Zeige ganze Nachricht"
 
 #: templates/CRM/Mailing/Page/Report.tpl
 #, fuzzy
@@ -6376,7 +6545,7 @@ msgid ""
 "Use this form to enable and configure a Membership Signup and Renewal "
 "section for this Online Contribution Page. If you're not using this page for "
 "membership signup, leave the <strong>Enabled</strong> box un-checked (<a "
-"href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
+"href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -6413,8 +6582,7 @@ msgstr ""
 msgid ""
 "Check this box if you are including both Membership Signup/Renewal AND a "
 "Contribution Amount section, AND you want the membership fee to be charged "
-"separately from any\n"
-"        additional contribution amount."
+"separately from any additional contribution amount."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipBlock.tpl
@@ -6426,11 +6594,10 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 msgid ""
 "Renewing will add the normal membership period to the End Date of the "
-"previous period for members whose status is Current or Grace.\n"
-"        For Expired memberships, renewing will create a membership period "
-"commencing from the \"Date Renewal Entered\". This date can be adjusted -\n"
-"        including being set to the day after the previous End Date - if "
-"continuous membership is required."
+"previous period for members whose status is Current or Grace. For Expired "
+"memberships, renewing will create a membership period commencing from the "
+"'Date Renewal Entered'. This date can be adjusted including being set to the "
+"day after the previous End Date - if continuous membership is required."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -6452,7 +6619,7 @@ msgstr ""
 #: templates/CRM/Member/Form/Membership.tpl
 msgid ""
 "Enter a message you want included at the beginning of the emailed receipt. "
-"EXAMPLE: \"Thanks for supporting our organization with your membership.\""
+"EXAMPLE: 'Thanks for supporting our organization with your membership.'"
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -6475,32 +6642,32 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status begin? EXAMPLE: <strong>New</strong> status begins at "
-"the membership \"join date\"."
+"the membership 'join date'."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Optional adjustment period added or subtracted from the Start Event. "
-"EXAMPLE: <strong>Current</strong> status might begin at \"join date\" PLUS 3 "
+"EXAMPLE: <strong>Current</strong> status might begin at 'join date' PLUS 3 "
 "months (to distinguish Current from New members)."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "When does this status end? EXAMPLE: <strong>Current</strong> status ends at "
-"the membership \"end date\"."
+"the membership 'end date'."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Optional adjustment period added or subtracted from the End Event. EXAMPLE: "
-"<strong>Grace</strong> status might end at \"end date\" PLUS 1 month."
+"<strong>Grace</strong> status might end at 'end date' PLUS 1 month."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Should this status be considered a current membership in good standing. "
-"EXAMPLE: New, Current and Grace could all be considered \"current\"."
+"EXAMPLE: New, Current and Grace could all be considered 'current'."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -6510,17 +6677,16 @@ msgid ""
 "assigned to a contact's Membership by checking the <strong>Status Override</"
 "strong> flag when adding or editing the Membership record. Start and End "
 "Event settings are ignored for Administrator statuses. EXAMPLE: This setting "
-"can be useful for special case statuses like \"Non-expiring\", \"Barred\" or "
-"\"Expelled\", etc."
+"can be useful for special case statuses like 'Non-expiring', 'Barred' or "
+"'Expelled', etc."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 msgid ""
 "Weight sets the order of precedence for automatic assignment of status to a "
 "membership. It also sets the order for status displays. EXAMPLE: The default "
-"\"New\" and \"Current\" statuses have overlapping ranges.  Memberships that "
-"meet both status range criteria are assigned the status with the lower "
-"weight."
+"'New' and 'Current' statuses have overlapping ranges. Memberships that meet "
+"both status range criteria are assigned the status with the lower weight."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
@@ -6590,7 +6756,8 @@ msgstr ""
 "MitgliedschaftsDatensätze von diesem Typ."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
-msgid "e.g. \"Student\", \"Senior\", \"Honor Society\"..."
+#, fuzzy
+msgid "e.g. 'Student', 'Senior', 'Honor Society'..."
 msgstr "z.B.\"Student\", \"Senior\", \"Ehrenmitglied\",..."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -6602,9 +6769,8 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Members assigned this membership type belong to which organization (e.g. "
-"this is for membership in \"Save the Whales - Northwest Chapter\"). NOTE: "
-"This organization/group/chapter must exist as a CiviCRM Organization type "
-"contact."
+"this is for membership in 'Save the Whales - Northwest Chapter'). NOTE: This "
+"organization/group/chapter must exist as a CiviCRM Organization type contact."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -6626,6 +6792,12 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
+"No matching results for <ul><li>Name like: %1</li><li>Contact type: %2</li></"
+"ul>Check your spelling, or try fewer letters for the target contact name."
+msgstr ""
+
+#: templates/CRM/Member/Form/MembershipType.tpl
+msgid ""
 "Minimum fee required for this membership type. For free/complimentary "
 "memberships - set minimum fee to zero (0)."
 msgstr ""
@@ -6633,7 +6805,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "Select the contribution type assigned to fees for this membership type (for "
-"example \"Membership Fees\"). This is required for all membership types - "
+"example 'Membership Fees'). This is required for all membership types - "
 "including free or complimentary memberships."
 msgstr ""
 
@@ -6644,8 +6816,8 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
-"Select \"rolling\" if membership periods begin at date of signup. Select "
-"\"fixed\" if membership periods begin on a set calendar date."
+"Select 'rolling' if membership periods begin at date of signup. Select "
+"'fixed' if membership periods begin on a set calendar date."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -6675,8 +6847,8 @@ msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
-"Is this membership type available for self-service signups (\"Public\") or "
-"assigned by CiviCRM \"staff\" users only (\"Admin\")"
+"Is this membership type available for self-service signups ('Public') or "
+"assigned by CiviCRM 'staff' users only ('Admin')"
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
@@ -6687,14 +6859,14 @@ msgstr "Erneuerte Erinnerung"
 msgid ""
 "If you would like Membership Renewal Reminder emails sent to members "
 "automatically, you need to create a reminder message template and you need "
-"to configure and periodically run a \"cron\" job on your server (<a href=\"%1"
-"\" target=\"_blank\" title=\"%2\">more info...</a>)."
+"to configure and periodically run a 'cron' job on your server (<a href='%1' "
+"target='_blank' title='%2'>more info...</a>)."
 msgstr ""
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid ""
 "No message templates have been created yet. If you want renewal reminders to "
-"be sent, <a href=\"%1\">click here</a> to create a reminder email template. "
+"be sent, <a href='%1'>click here</a> to create a reminder email template. "
 "Then return to this screen to assign the renewal reminder message, and set "
 "reminder date."
 msgstr ""
@@ -6749,10 +6921,10 @@ msgid ""
 "Use this form to find member(s) by member name or email address, membership "
 "type, status, source, and/or membership period start and end dates. Multiple "
 "selections for Membership Type and Status are combined as OR criteria (e.g. "
-"checking \"Membership Type A\" and \"Membership Type B\" will find contacts "
-"who have either membership). All other search fields are combined as AND "
-"criteria (e.g. selecting Status is \"Expired\" AND Source is \"Phone-banking"
-"\" returns only those contacts who meet both criteria)."
+"checking 'Membership Type A' and 'Membership Type B' will find contacts who "
+"have either membership). All other search fields are combined as AND "
+"criteria (e.g. selecting Status is 'Expired' AND Source is 'Phone-banking' "
+"returns only those contacts who meet both criteria)."
 msgstr ""
 
 #: templates/CRM/Member/Form/Selector.tpl
@@ -6799,6 +6971,12 @@ msgstr "Anzahl der ausgewählten Mitglieder: %1"
 msgid "Total rows (membership records) in uploaded file."
 msgstr "Anzahl der Zeilen (Kontaktdatensätze) in der hochgeladenen Datei."
 
+#: templates/CRM/Member/Import/Form/Preview.tpl
+msgid ""
+"Rows with conflicting transaction ids within this file. These rows will be "
+"skipped (not imported)."
+msgstr ""
+
 #: templates/CRM/Member/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
@@ -6817,7 +6995,7 @@ msgstr[1] ""
 #: templates/CRM/Member/Import/Form/Summary.tpl
 #, fuzzy
 msgid ""
-"You can <a href=\"%1\">Download Mismatched Memberships</a>. You may then "
+"You can <a href='%1'>Download Mismatched Memberships</a>. You may then "
 "correct them, and import the new file with the corrected data."
 msgstr ""
 "Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese dann "
@@ -6905,33 +7083,48 @@ msgstr ""
 msgid ""
 "CiviMember allows you to create customized membership types as well as page"
 "(s) for online membership sign-up and renewal. Administrators can create or "
-"modify Membership Types <a href=\"%2\">here</a>, and configure Online "
-"Contribution Pages which include membership sign-up <a href=\"%1\">here</a>."
+"modify Membership Types <a href='%2'>here</a>, and configure Online "
+"Contribution Pages which include membership sign-up <a href='%1'>here</a>."
 msgstr ""
 
 #: templates/CRM/Member/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "You can also input and track membership sign-ups offline. To record "
-"memberships manually for individual contacts, use <a href=\"%1\">Find "
+"memberships manually for individual contacts, use <a href='%1'>Find "
 "Contacts</a> to locate the contact. Then click <strong>View</strong> to go "
 "to their summary page and click on the <strong>New Membership</strong> link. "
-"You can also <a href=\"%3\">import batches of membership records</a> from "
-"other sources. Refer to the <a href=\"%2\" target=\"_blank\" title=\"%4"
-"\">CiviMember Guide</a> for more information."
+"You can also <a href='%3'>import batches of membership records</a> from "
+"other sources. Refer to the <a href='%2' target='_blank' title='%"
+"4'>CiviMember Guide</a> for more information."
 msgstr ""
+"Sie können auch Veranstaltungen offline verwalten und eingeben. Um "
+"Veranstaltungen manuell einzufügen suchen Sie mittels <a href=\"%1\">Finde "
+"Kontakte</a> den Kontakt. Danach klicken Sie auf <strong>Betrachten</strong> "
+"um zur Übersichtsseite zu gelanden und klicken Sie dort auf den Link: "
+"<strong>neue Veranstaltung</strong>. Sie können zudem von anderen Quellen "
+"eine <a href=\"%2\"><strong>Reihe von Teilnehmern importieren</strong></a>."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Membership Summary"
 msgstr "Übersicht der Mitgliedschaften"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
+#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Membership Signup and Renewal "
 "Activity</strong>, and includes shortcuts to view the details for these "
 "commonly used search criteria. To run your own customized searches - click "
-"<a href=\"%1\">Find Members</a>. You can search by Member Name, Membership "
+"<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
 msgstr ""
+"Diese Tabelle fasst bis zu zehn geplante und kürzlich durchgeführte "
+"<strong>Veranstaltungen</strong> zusammen. Klicken Sie auf "
+"<strong>Veranstaltungsname</strong> um zur Veranstaltungsansicht (wie für "
+"Webseiten-Besucher) zu gelangen. Durch klicken auf <strong>Teilnehmerzahl</"
+"strong> werden die Teilnehmer aufgelistet. Um individuell definierte Suchen "
+"durchzuführen, klicken Sie auf <a href=\"%1\">Teilnehmer finden</a>. Es kann "
+"nach Teilnehmer-Name, Veranstaltung, Zeitraum und Status gesucht werden."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Members by Type"
@@ -6954,26 +7147,26 @@ msgstr "Letzte Mitgliedschaften"
 msgid ""
 "CiviMember automatically calculates the current status of each contact's "
 "membership based on the status names and rules configured here. The status "
-"\"rule\" tells CiviMember what status to assign based on the start and end "
+"'rule' tells CiviMember what status to assign based on the start and end "
 "dates of a given membership. For example, the default <strong>Grace</strong> "
-"status rule says...\"assign Grace status if the membership period ended "
-"sometime within the past month.\" (<a href=\"%1\" target=\"_blank\" title=\"%"
-"2\">read more...</a>)"
+"status rule says: 'assign Grace status if the membership period ended "
+"sometime within the past month.' (<a href='%1' target='_blank' title='%"
+"2'>read more...</a>)"
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 msgid ""
 "The status rules provided by default may be sufficient for your "
 "organization. However, you can easily change the status names and/or adjust "
-"the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
+"the rules by clicking the Edit links below. Or you can <a href='%1'>add a "
 "new status and rule</a>."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #, fuzzy
 msgid ""
-"There are no custom membership status entered. You can <a href=\"%1\">add "
-"one</a>."
+"There are no custom membership status entered. You can <a href='%1'>add one</"
+"a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
@@ -6981,20 +7174,30 @@ msgstr ""
 #: templates/CRM/Member/Page/MembershipType.tpl
 msgid ""
 "Membership types are used to categorize memberships. You can define an "
-"unlimited number of types. Each type incorporates a \"name\" (Gold Member, "
+"unlimited number of types. Each type incorporates a 'name' (Gold Member, "
 "Honor Society Member...), a description, a minimum fee (can be $0), and a "
-"duration (can be \"lifetime\"). Each member type is specifically linked to "
-"the membership entity (organization) - e.g. Bay Area Chapter (<a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">read more...</a>)."
+"duration (can be 'lifetime'). Each member type is specifically linked to the "
+"membership entity (organization) - e.g. Bay Area Chapter (<a href='%1' "
+"target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 #, fuzzy
 msgid ""
-"There are no membership types entered. You can <a href=\"%1\">add one</a>."
+"There are no membership types entered. You can <a href='%1'>add one</a>."
 msgstr ""
 "Es gibt keine eigenen Aktivitätsarten. Sie können <a href=\"%1\">eine "
 "hinzufügen</a>."
+
+#~ msgid "Title "
+#~ msgstr "Titel"
+
+#~ msgid ""
+#~ "You can view the participant listing for this event <a href=\"%1\">here</"
+#~ "a>"
+#~ msgstr ""
+#~ "Sie können die Teilnehmerliste für diese Veranstaltung <a href=\"%1"
+#~ "\">hier</a> betrachten."
 
 #~ msgid "Profile Fields"
 #~ msgstr "Profilfelder"
@@ -7144,10 +7347,6 @@ msgstr ""
 #~ msgid "Start Date - From"
 #~ msgstr "Startdatum"
 
-#, fuzzy
-#~ msgid "The membership information has been saved."
-#~ msgstr "Ihr %1 Kontakt wurde gespeichert."
-
 #~ msgid "Duplicate Import Membership Mapping Name"
 #~ msgstr "Dupliziere Import-Mitglieds-Mapping-Namen"
 
@@ -7198,15 +7397,6 @@ msgstr ""
 
 #, fuzzy
 #~ msgid ""
-#~ "You can <a href=\"%1\">Download Mismatched Participantss</a>. You may "
-#~ "then correct them, and import the new file with the corrected data."
-#~ msgstr ""
-#~ "Sie können <a href=\"%1\">Fehler herrunterladen</a>. Sie können diese "
-#~ "dann korrigieren, und die neue Datei mit den korrigierten Daten "
-#~ "importieren."
-
-#, fuzzy
-#~ msgid ""
 #~ "CiviCRM has detected one record with conflicting transaction ID within "
 #~ "this data file or relative to existing particpant records. This record "
 #~ "have not been imported."
@@ -7250,14 +7440,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Rows which are duplicates of existing CiviCRM participant records."
 #~ msgstr "Zeilen die doppelt schon als CiviCRM Kontakt gespeichert sind."
-
-#, fuzzy
-#~ msgid ""
-#~ "Check this box if the first row of your file consists of field names "
-#~ "(Example: \"Contact ID\", \"Participant Role\")."
-#~ msgstr ""
-#~ "Wählen Sie diese Box aus, wenn die erste Zeile Ihrer Datei die Feldnamen "
-#~ "beinhaltet (Beispielsweise: \"Vorname\", \"Nachname\", \"Email\")."
 
 #, fuzzy
 #~ msgid "Show Past Events"

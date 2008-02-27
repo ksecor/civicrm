@@ -46,7 +46,7 @@
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
         {capture assign=crmURL}{crmURL p='civicrm/admin/paymentProcessor' q="action=add&reset=1&pp=PayPal"}{/capture}
-        <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$crmURL}There are no Payment Processors entered. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
 {/if}

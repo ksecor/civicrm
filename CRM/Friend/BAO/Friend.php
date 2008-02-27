@@ -110,8 +110,8 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
             if ( $details["first_name"] ) {
                 $contactParams[$key] = array( 'first_name'     => $details["first_name"],
                                               'last_name'      => $details["last_name"], 
-                                              'contact_source' => ts( 'Tell a Friend: ' ) . $params['title'],
-                                              'email-Primary'  => $details["email"] );  
+                                              'contact_source' => ts( 'Tell a Friend' ) . ": {$params['title']}",
+                                              'email-Primary'  => $details["email"] );
                 
                 $displayName = $details["first_name"] ." ". $details["last_name"];
                 $mailParams['email'][$displayName] = $details["email"];
@@ -133,7 +133,7 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
                                   'activity_type_id'   => $activityTypeId,
                                   'title'              => $params['title'],
                                   'activity_date_time' => date("YmdHis"), 
-                                  'subject'            => ts( 'Tell a Friend: ' ) .$params['title'],
+                                  'subject'            => ts( 'Tell a Friend' ) . ": {$params['title']}",
                                   'details'            => $params['suggested_message'],
                                   'status_id'          => 2,
                                   'is_test'            => $params['is_test'] );

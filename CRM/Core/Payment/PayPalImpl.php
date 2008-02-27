@@ -297,7 +297,7 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
                    'no_note'            => 1,
                    'no_shipping'        => 1,
                    'return'             => $returnURL,
-                   'rm'                 => 1,
+                   'rm'                 => 2,
                    'currency_code'      => $params['currencyID'],
                    'invoice'            => $params['invoiceID'] );
 

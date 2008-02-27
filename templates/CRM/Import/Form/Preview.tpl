@@ -220,11 +220,11 @@ function verify( )
  {* Group options *}
  {* New Group *}
     <div id="newGroup_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}{*$form.newGroup.label*}</a>
+        <a href="#" onclick="hide('newGroup_show'); show('newGroup'); return false;">&raquo; <label>{ts}Create a new group from imported records{/ts}</label>{*$form.newGroup.label*}</a>
     </div>
 
     <div id="newGroup" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">{ts}&raquo; <label> Create a new group from imported records</label>{/ts}</a>
+        <a href="#" onclick="hide('newGroup'); show('newGroup_show'); return false;">&raquo; <label>{ts}Create a new group from imported records{/ts}</label></a>
         <div class="form-item">
             <dl>
             <dt class="description">{$form.newGroupName.label}</dt><dd>{$form.newGroupName.html}</dd>
@@ -251,10 +251,10 @@ function verify( )
     {* Tag options *}
     {* New Tag *}
     <div id="newTag_show" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newTag_show'); show('newTag'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
+        <a href="#" onclick="hide('newTag_show'); show('newTag'); return false;">&raquo; <label>{ts}Create a new tag and assign it to imported records{/ts}</label></a>
     </div> 
     <div id="newTag" class="section-hidden section-hidden-border">
-        <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">{ts}&raquo; <label> Create a new tag and assign it to imported records</label>{/ts}</a>
+        <a href="#" onclick="hide('newTag'); show('newTag_show'); return false;">&raquo; <label>{ts}Create a new tag and assign it to imported records{/ts}</label></a>
             <div class="form-item">
             <dl>
             <dt class="description">{$form.newTagName.label}</dt><dd>{$form.newTagName.html}</dd>

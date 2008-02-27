@@ -55,17 +55,27 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
 
     function preProcess()
     {
-        require_once 'api/Contact.php';
-        require_once 'api/Search.php';
+        require_once 'api/v2/Contact.php';
         require_once 'CRM/Core/BAO/CustomGroup.php';
         require_once 'CRM/Core/OptionGroup.php';
         require_once 'CRM/Core/OptionValue.php';
-        if (!CRM_Core_Permission::check('administer CiviCRM')) {
-            CRM_Core_Error::fatal('You do not have access to this page');
+        if ( ! CRM_Core_Permission::check( 'administer CiviCRM' ) ) {
+            CRM_Core_Error::fatal( ts( 'You do not have access to this page' ) );
         }
 
         $cid   = CRM_Utils_Request::retrieve('cid', 'Positive', $this, false);
         $oid   = CRM_Utils_Request::retrieve('oid', 'Positive', $this, false);
+
+        // ensure that oid is not the current user, if so refuse to do the merge
+        $session =& CRM_Core_Session::singleton( );
+        if ( $session->get( 'userID' ) == $oid ) {
+            require_once 'CRM/Contact/BAO/Contact.php';
+            $display_name = CRM_Contact_BAO_Contact::displayName( $oid );
+            $message = ts( 'The contact record which is linked to the currently logged in user account - \'%1\' - can not be deleted.',
+                           array( 1 => $display_name ) );
+            CRM_Core_Error::statusBounce( $message );
+        }
+
         $diffs = CRM_Dedupe_Merger::findDifferences($cid, $oid);
 
         $mainParams  = array('contact_id' => $cid, 'return.display_name' => 1);
@@ -316,56 +326,44 @@ class CRM_Contact_Form_Merge extends CRM_Core_Form
             CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid, $moveTables);
         }
 
-        // move other's belongings and delete the other contact
-        CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
-        $otherParams = array('contact_id' => $this->_oid);
-        civicrm_contact_delete($otherParams);
-
         // move file custom fields
         // FIXME: move this someplace else (one of the BAOs) after discussing
         // where to, and whether CRM_Core_BAO_File::delete() shouldn't actually,
         // like, delete a file...
         require_once 'CRM/Core/BAO/File.php';
+        require_once 'CRM/Core/DAO/CustomField.php';
+        require_once 'CRM/Core/DAO/CustomGroup.php';
         require_once 'CRM/Core/DAO/EntityFile.php';
+        require_once 'CRM/Core/Config.php';
+        $domainId = CRM_Core_Config::domainID();
+
         if (!isset($customFiles)) $customFiles = array();
         foreach ($customFiles as $customId) {
-            // get the duplicate contact's file's id
-            $otherCVDao =& new CRM_Core_DAO_CustomValue();
-            $otherCVDao->custom_field_id = $customId;
-            $otherCVDao->entity_table    = 'civicrm_contact';
-            $otherCVDao->entity_id       = $this->_oid;
-            $otherCVDao->find(true);
-            $otherFileId = $otherCVDao->file_id;
+            list($tableName, $columnName) = CRM_Core_BAO_CustomField::getTableColumnName($customId);
 
-            // get the main contact's file's id
-            $mainCVDao =& new CRM_Core_DAO_CustomValue();
-            $mainCVDao->custom_field_id = $customId;
-            $mainCVDao->entity_table    = 'civicrm_contact';
-            $mainCVDao->entity_id       = $this->_cid;
-            $mainCVDao->find(true);
-            $mainFileId = $mainCVDao->file_id;
-            $mainCVDao->free();
+            // get the contact_id -> file_id mapping
+            $fileIds = array();
+            $sql = "SELECT entity_id, {$columnName} AS file_id FROM {$tableName} WHERE domain_id = {$domainId} AND entity_id IN ({$this->_cid}, {$this->_oid})";
+            $dao =& CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
+            while ($dao->fetch()) {
+                $fileIds[$dao->entity_id] = $dao->file_id;
+            }
+            $dao->free();
 
             // delete the main contact's file
-            CRM_Core_BAO_File::delete($mainFileId, $this->_cid, 'civicrm_contact');
+            CRM_Core_BAO_File::delete($fileIds[$this->_cid], $this->_cid, $customId);
 
-            // reassign the duplicate's contact file to the
-            // main contact in the civicrm_custom_value table
-            $otherCVDao->entity_id = $this->_cid;
-            $otherCVDao->save();
-            $otherCVDao->free();
-
-            // reassign the duplicate contact's file to the
-            // main contact in the civicrm_entity_file table
-            $evDao =& new CRM_Core_DAO_EntityFile();
-            $evDao->entity_id    = $this->_oid;
-            $evDao->entity_table = 'civicrm_contact';
-            $evDao->file_id      = $otherFileId;
-            $evDao->find(true);
-            $evDao->entity_id = $this->_cid;
-            $evDao->save();
-            $evDao->free();
+            // move the other contact's file to main contact
+            $sql = "UPDATE {$tableName} SET {$columnName} = {$fileIds[$this->_oid]} WHERE entity_id = {$this->_cid} AND domain_id = {$domainId}";
+            CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
+            $sql = "UPDATE civicrm_entity_file SET entity_id = {$this->_cid} WHERE entity_table = '{$tableName}' AND file_id = {$fileIds[$this->_oid]}";
+            CRM_Core_DAO::executeQuery($sql, CRM_Core_DAO::$_nullArray);
         }
+
+        // move other's belongings and delete the other contact
+        CRM_Dedupe_Merger::moveContactBelongings($this->_cid, $this->_oid);
+        $otherParams = array('contact_id' => $this->_oid);
+        civicrm_contact_delete($otherParams);
 
         if (isset($submitted)) {
             $submitted['contact_id'] = $this->_cid;
