@@ -425,7 +425,7 @@ class CRM_Custom_Form_Field extends CRM_Core_Form
         $errors  = array( );
 
         // ensure that the label is not 'id'
-        if ( $fields['label'] == 'id' ) {
+        if ( strtolower($fields['label']) == 'id' ) {
             $errors['label'] = ts( "You can not use 'id' as a field label." );
         }
 
