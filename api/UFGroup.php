@@ -331,13 +331,13 @@ function crm_update_uf_field( $params , $ufField) {
     $UFField = &new CRM_core_BAO_UFField();
     $UFField->id = $fieldId;
     
-    if ( !( CRM_Utils_Array::value('group_id', $params)  && $UFField->find(true) ) {
+    if ( !( CRM_Utils_Array::value('group_id', $params)  && $UFField->find(true) ) ) {
         $params['group_id'] =  $UFField->uf_group_id;
     }
 
     $ids = array();
 
-    if ( $UFField->find(true) ){ 
+    if ( $UFField->find(true) ) { 
         $ids['uf_group'] =  $UFField->uf_group_id;
     } else {
         return _crm_error("there is no field for this fieldId");
