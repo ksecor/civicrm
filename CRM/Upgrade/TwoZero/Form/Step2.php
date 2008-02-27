@@ -72,7 +72,7 @@ class CRM_Upgrade_TwoZero_Form_Step2 extends CRM_Upgrade_Form {
     }
 
     function getTemplateMessage( ) {
-        return ts( '<p>Step Two will upgrade the contact records in your database.</p>');
+        return '<p>' . ts( 'Step Two will upgrade the contact records in your database.') . '</p>';
     }
             
     function getButtonTitle( ) {

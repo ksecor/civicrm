@@ -64,9 +64,9 @@
     <dt>&nbsp;</dt><dd class="description">{ts}If you are using this profile as a contact signup or edit form, and want to redirect the user to a static URL if they click the Cancel button - enter the complete URL here. If this field is left blank, the built-in Profile form will be redisplayed.{/ts}</dd>
     <dt></dt><dd>{$form.add_captcha.html} {$form.add_captcha.label}</dd>
     <dt>&nbsp;</dt><dd class="description">{ts}When CAPTCHA is included in an add / edit profile form, users are required to read an image with letters and numbers and enter the value in a field. This helps prevent abuse by automated scripts.{/ts}</dd>
-    <dt>&nbsp;</dt><dd class="description">{ts}<strong>Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.</strong>{/ts}</dd>
+    <dt>&nbsp;</dt><dd class="description"><strong>{ts}Do not enable this feature for stand-alone profile forms. CAPTCHA requires dynamic page generation. Submitting a stand-alone form with CAPTCHA included will always result in a CAPTCHA validation error.{/ts}</strong></dd>
     {if $config->userFramework EQ 'Drupal'} 
-        <dt>&nbsp;</dt><dd class="description">{ts}<strong>CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.</strong>{/ts}</dd>
+        <dt>&nbsp;</dt><dd class="description"><strong>{ts}CAPTCHA is also not available when a profile is used inside the User Registration and My Account screens.{/ts}</strong></dd>
     {/if}
     {if ($config->userFramework == 'Drupal') OR ($config->userFramework == 'Joomla') } {* Create CMS user only available for Drupal/Joomla installs. *}
         <dt></dt><dd>{$form.is_cms_user.html} {$form.is_cms_user.label}</dd>

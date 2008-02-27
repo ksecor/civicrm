@@ -25,7 +25,7 @@
     <dt class="extra-long-sixty">{$form.suggested_message.label}</dt><dd>{$form.suggested_message.html}<br />
         <span class="description">{ts 1=$enduser}Provides the %1 with suggested text for their personalized message to their friends.{/ts}</span></dd>     
     <dt class="extra-long-fourty">{$form.general_link.label}</dt><dd>{$form.general_link.html}<br />
-        <span class="description">{ts 1=$pageType}A link to this %1 is automatically included in the email sent to friends. If you ALSO want to include a link providing general information about your organization, enter that link here (e.g <em>http://www.example.org</em>){/ts}</span></dd>     
+        <span class="description">{ts 1=$pageType}A link to this %1 is automatically included in the email sent to friends. If you ALSO want to include a link providing general information about your organization, enter that link here (e.g <em>http://www.example.org/</em>){/ts}</span></dd>     
     <dt>{$form.thankyou_title.label}</dt><dd>{$form.thankyou_title.html}</dd>            
     <dt class="extra-long-eighty">{$form.thankyou_text.label}</dt><dd>{$form.thankyou_text.html}<br />
         <span class="description">{ts 1=$enduser}Your message thanking the %1 for helping to spread the word. You may include HTML tags to add formatting or links.{/ts}</span></dd>     
