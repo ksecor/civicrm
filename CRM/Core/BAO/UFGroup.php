@@ -1718,7 +1718,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
             require_once "CRM/Core/BAO/Note.php";
             require_once "CRM/Event/BAO/Participant.php";
             CRM_Event_BAO_Participant::getValues( $params, $values,  $ids );
-            
+
             foreach ($fields as $name => $field ) {
                 $fldName = "field[$componentId][$name]";
                 if ( array_key_exists($name,$values[$componentId]) ) {
@@ -1728,7 +1728,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                     $noteDetails = CRM_Core_BAO_Note::getNote( $componentId, 'civicrm_participant' );
                     $defaults[$fldName] = array_pop($noteDetails);
                 } else if ( substr( $name, 0, 7 ) == 'custom_') {               
-                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $componentId, 0, null); 
+                    $groupTrees[] =& CRM_Core_BAO_CustomGroup::getTree( 'Participant', $componentId, 0, $values[$componentId]['role_id']); 
                     foreach ( $groupTrees as $groupTree ) {
                         CRM_Core_BAO_CustomGroup::setDefaults( $groupTree, $defaults, false, false );
                         $defaults[$fldName] = $defaults[$name];
