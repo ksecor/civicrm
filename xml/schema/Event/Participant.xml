@@ -7,11 +7,13 @@
   <add>1.7</add> 
   <field> 
       <name>id</name> 
+      <uniqueName>participant_id</uniqueName> 
       <title>Participant ID</title>
       <type>int unsigned</type> 
       <required>true</required> 
       <comment>Participant Id</comment> 
-       <add>1.7</add> 
+      <import>true</import>
+      <add>1.7</add> 
   </field> 
   <primaryKey> 
        <name>id</name> 

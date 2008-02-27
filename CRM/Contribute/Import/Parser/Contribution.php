@@ -322,10 +322,10 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
 
         //fix for CRM-2219 - Update Contribution
         if ( $onDuplicate == CRM_Contribute_Import_Parser::DUPLICATE_UPDATE ) {
-            if ( $values['invoice_id'] || $values['trxn_id'] || $values['id'] ) {
+            if ( $values['invoice_id'] || $values['trxn_id'] || $values['contribution_id'] ) {
                 require_once 'CRM/Contribute/BAO/Contribution.php';
                 $dupeIds = array(
-                                 'id'         => CRM_Utils_Array::value('id',        $values),
+                                 'id'         => CRM_Utils_Array::value('contribution_id', $values),
                                  'trxn_id'    => CRM_Utils_Array::value('trxn_id',   $values),
                                  'invoice_id' => CRM_Utils_Array::value('invoice_id',$values)
                                  );              
