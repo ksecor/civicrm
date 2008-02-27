@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-27 02:26-0800\n"
+"PO-Revision-Date: 2008-02-27 04:03-0800\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -2181,13 +2181,12 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
-#, fuzzy
 msgid "Suggested Message"
-msgstr "Nachricht bei Abbestellung"
+msgstr "Vorgeschlagener Text"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Danke für die Verbreitung"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -7159,17 +7158,15 @@ msgstr "Einleitung"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Info Page Link"
-msgstr ""
+msgstr "Link zur Informationsseite"
 
 #: CRM/Friend/BAO/Friend.php
-#, fuzzy
 msgid "Thank-you Title"
-msgstr "Titel der Gruppe"
+msgstr "\"Dankeschön\"-Titel"
 
 #: CRM/Friend/BAO/Friend.php
-#, fuzzy
 msgid "Thank-you Message"
-msgstr "Opt-Out Nachricht"
+msgstr "\"Dankeschön\"-Nachricht"
 
 #: CRM/Friend/DAO/Friend.php
 #, fuzzy
@@ -7220,12 +7217,18 @@ msgid ""
 "your email message - let your friends know why you're attending. Then fill "
 "in the name(s) and email address(es) and click \"Send Your Message\"."
 msgstr ""
+"Helfen Sie mit die Veranstaltung zu verbreiten. Benutzen Sie den Platz "
+"unterhalb um eine personalisierte Email zu erstellen: Erklären Sie ihren "
+"Freunden den Grund ihrer Teilnahme. Nach dem Einfüllen der Namen und Email-"
+"Adressen klicken Sie \"Sende die Nachricht\"."
 
 #: CRM/Friend/Form/Event.php
 msgid ""
 "Thought you might be interested in checking out this event. I'm planning on "
 "attending."
 msgstr ""
+"Eventuell bist du an dieser Veranstaltung interessiert. Ich habe vor "
+"teilzunehmen."
 
 #: CRM/Friend/Form/Event.php
 msgid "Thanks for spreading the word about this event to your friends."
@@ -13009,22 +13012,26 @@ msgid ""
 msgstr ""
 "\"Tell a Friend\" ermöglicht es auf einfache Art und Weise Teilnehmern die "
 "Veranstaltung zu verbreiten.\n"
-" Die \"Dankeschön\"-Seite der Anmeldung wird einen Link auf ein Formular "
-"enthalten, in welches die Email-Adressen der Bekannten/Freunde mit einer "
-"personalisierten Nachricht eintragen können. CiviCRM speichert diese "
-"Anfragen und wird die Bekannten/Freunde zur Datenbank hinzufügen."
+"Die \"Dankeschön\"-Seite der Anmeldung wird einen Link auf ein Formular "
+"enthalten, in welches die Email-Adressen der Freunde mit einer "
+"personalisierten Nachricht eintragen werden können. CiviCRM speichert diese "
+"Anfragen und wird die Freunde zur Datenbank hinzufügen."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "This message is displayed to the %1 at the top of the Tell a Friend form.\n"
 "            You may include HTML tags to add formatting or links."
 msgstr ""
+"Dieser Text wird dem %1 am Begin des \"Tell a Friend\"-Formulars angezeigt.\n"
+" Sie können HTML zur Formatierung und zur Erstellung von Links verwenden."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Provides the %1 with suggested text for their personalized message to their "
 "friends."
 msgstr ""
+"Stellt dem %1 einen vorgeschlagenen Text für die personalisierte Nachricht "
+"an die Freunde zur Verfügung."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -13034,12 +13041,18 @@ msgid ""
 "about your organization, enter that link here (e.g <em>http://www.example."
 "org</em>)"
 msgstr ""
+"Ein Link zu dieser %1 wird automatisch in die Email an die Freunde "
+"eingebunden. Wenn Sie ZUSÄTZLICH einen Link mit allgemeiner Information über "
+"ihre Organisation hinzufügen wollen, kann dieser hier eingegeben werden "
+"(z.B.: <em>http://www.example.org</em>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
 "Your message thanking the %1 for helping to spread the word. You may include "
 "HTML tags to add formatting or links."
 msgstr ""
+"Die \"Dankeschön\"-Nachricht an den %1 für die Verbreitung. HTML kann zur "
+"Formatierung und zur Erstellung von Links verwendet werden."
 
 #: templates/CRM/Friend/Form/SubjectTemplate.tpl
 msgid "wants you to know about "
@@ -13151,7 +13164,6 @@ msgstr "Eingangsdatum"
 
 #: templates/CRM/Grant/Import/Form/Preview.tpl
 #: templates/CRM/Grant/Import/Form/Summary.tpl
-#, fuzzy
 msgid "Total rows (participant records) in uploaded file."
 msgstr "Anzahl der Zeilen (Kontaktdatensätze) in der hochgeladenen Datei."
 
