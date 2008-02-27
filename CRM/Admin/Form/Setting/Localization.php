@@ -50,6 +50,7 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
     public function buildQuickForm( ) {
 
         $config =& CRM_Core_Config::singleton();
+        $i18n   =& CRM_Core_I18n::singleton();
         CRM_Utils_System::setTitle(ts('Settings - Localization'));
 
         $locales = array();
@@ -70,6 +71,8 @@ class CRM_Admin_Form_Setting_Localization extends  CRM_Admin_Form_Setting
 
         $country = array( ) ;
         CRM_Core_PseudoConstant::populate( $country, 'CRM_Core_DAO_Country', true, 'name', 'is_active' );
+        $i18n->localizeArray($country);
+        asort($country);
         
         $includeCountry =& $this->addElement('advmultiselect', 'countryLimit', 
                                              ts('Available Countries') . ' ', $country,
