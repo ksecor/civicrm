@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 1.9\n"
 "POT-Creation-Date: 2007-10-25 15:07+0200\n"
-"PO-Revision-Date: 2008-02-04 09:48-0800\n"
-"Last-Translator: Daniele Pedercini <dpedercini@libero.it>\n"
+"PO-Revision-Date: 2008-02-25 08:17-0800\n"
+"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -164,7 +164,7 @@ msgstr "La pagina richiesta non è disponibile al momento"
 #: CRM/Contribute/Form/ContributionBase.php CRM/Contribute/Form/Offline.php
 #: CRM/Event/Form/Registration.php
 msgid "Please set a location type of %1"
-msgstr "Impostare la tipologia di indirizzo %1"
+msgstr "Impostare la tipologia di recapito %1"
 
 #: CRM/Contribute/Form/Contribution/Confirm.php
 #: CRM/Event/Form/Registration/Confirm.php
@@ -1582,9 +1582,8 @@ msgid "Participant Status %1"
 msgstr "Stato Civile"
 
 #: CRM/Event/BAO/Query.php
-#, fuzzy
 msgid "Participant Role %1"
-msgstr "Note Contatto"
+msgstr "Ruolo partecipante %1"
 
 #: CRM/Event/BAO/Query.php
 #, fuzzy
@@ -1684,9 +1683,8 @@ msgid "Event Information"
 msgstr "Note Evento"
 
 #: CRM/Event/DAO/Event.php
-#, fuzzy
 msgid "show location"
-msgstr "Località Massimo"
+msgstr "mostra recapito"
 
 #: CRM/Event/DAO/ParticipantPayment.php
 #, fuzzy
@@ -1801,9 +1799,8 @@ msgid "Event Fees"
 msgstr ""
 
 #: CRM/Event/Form/ManageEvent/Location.php
-#, fuzzy
 msgid "Show Location?"
-msgstr "Località Massimo"
+msgstr "Mostra recapito?"
 
 #: CRM/Event/Form/ManageEvent/Location.php
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
@@ -4409,7 +4406,7 @@ msgstr ""
 msgid ""
 "Select 'Individual' if you are importing contributions made by individual "
 "persons."
-msgstr ""
+msgstr "Seleziona \"Individuo\" se stai importando dei contributi di singoli."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 msgid ""
@@ -5073,7 +5070,7 @@ msgstr ""
 #: templates/CRM/Event/Page/EventInfo.tpl
 #, fuzzy
 msgid "Map this Location"
-msgstr "Località Massimo"
+msgstr "Mappa questo recapito"
 
 #: templates/CRM/Event/Form/Registration/LineItem.tpl
 #, fuzzy
@@ -5135,9 +5132,8 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Note Contatto"
+msgstr "Conferma registrazione"
 
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 msgid ""
@@ -5485,13 +5481,12 @@ msgid "ID:"
 msgstr ""
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
-#, fuzzy
 msgid "Show Past Events"
-msgstr "Inizio Evento"
+msgstr "Visualizza eventi passati"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 msgid "Show Current and Upcoming Events"
-msgstr ""
+msgstr "Visualizza eventi correnti e futuri"
 
 #: templates/CRM/Event/Page/ManageEvent.tpl
 #, fuzzy
