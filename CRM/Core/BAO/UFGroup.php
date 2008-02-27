@@ -724,20 +724,27 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                         } else {
                             require_once 'CRM/Core/BAO/CustomField.php';
                             if ( $cfID = CRM_Core_BAO_CustomField::getKeyID($name)) {
-                                $htmlType  = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomField', $cfID, 'html_type', 'id'  );
+                                $query  = "
+SELECT html_type, data_type
+FROM   civicrm_custom_field
+WHERE  id = $cfID
+";
+                                $dao = CRM_Core_DAO::executeQuery( $query,
+                                                                   CRM_Core_DAO::$_nullArray );
+                                $dao->fetch( );
+                                $htmlType  = $dao->html_type;
+                                $dataType  = $dao->data_type;
 
                                 if ( $htmlType == 'File') {
                                     $fileURL = CRM_Core_BAO_CustomField::getFileURL( $cid,
                                                                                      $cfID );
                                     $params[$index] = $values[$index] = $fileURL['file_url'];
                                 } else {
-                                    if (is_numeric( $details->{$name} ) ) {
-                                        // check if there is a . and hence a float
-                                        if ( strpos( $details->{$name}, '.' ) ) {
-                                            $customVal = (float )($details->{$name});
-                                        } else {
-                                            $customVal = (int ) ($details->{$name});
-                                        }
+                                    if ( $dao->data_type == 'Int' ||
+                                         $dao->data_type == 'Boolean' ) {
+                                        $customVal = (int ) ($details->{$name});
+                                    } else if ( $dao->data_type == 'Float' ) {
+                                        $customVal = (float ) ($details->{$name});
                                     } else {
                                         $customVal = $details->{$name};
                                     }
