@@ -282,6 +282,7 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
         
         if ( !$this->get('onDuplicate') ) {
             unset($sel1['id']);
+            unset($sel1['contribution_id']);
         }
         
         $sel2[''] = null;
