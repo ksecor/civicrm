@@ -60,7 +60,7 @@
     {else}
     <div class="messages status">
         <img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}" /> &nbsp;
-        {ts 1=$newPageURL}No contribution pages have been created yet. Click <a href="%1">here</a> to create a new contribution page using the step-by-step wizard.{/ts}
+        {ts 1=$newPageURL}No contribution pages have been created yet. Click <a href='%1'>here</a> to create a new contribution page using the step-by-step wizard.{/ts}
     </div>
     {/if}
 {/if}

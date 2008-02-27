@@ -139,7 +139,7 @@ class CRM_Import_Form_UploadFile extends CRM_Core_Form {
         $this->set('dateFormats', $dateFormats);
 
         $session =& CRM_Core_Session::singleton();
-        $session->set("dateType",$dateFormats);
+        $session->set("dateTypes",$dateFormats);
 
         $seperator = ',';
         $mapper = array( );

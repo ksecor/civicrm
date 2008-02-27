@@ -141,14 +141,14 @@ class CRM_Contact_Form_Search_Custom_Base {
 
         foreach ( $includeStrings as $string ) {
             if ( stripos( $sql, $string ) === false ) {
-                CRM_Core_Error::fatal( ts( 'Could not find "%1" string in SQL clause',
+                CRM_Core_Error::fatal( ts( 'Could not find \'%1\' string in SQL clause.',
                                            array( 1 => $string ) ) );
             }
         }
 
         foreach ( $excludeStrings as $string ) {
             if ( stripos( $sql, $string ) !== false ) {
-                CRM_Core_Error::fatal( ts( 'Found illegal "%1" string in SQL clause',
+                CRM_Core_Error::fatal( ts( 'Found illegal \'%1\' string in SQL clause.',
                                            array( 1 => $string ) ) );
             }
         }

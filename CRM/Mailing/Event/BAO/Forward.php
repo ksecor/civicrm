@@ -94,7 +94,6 @@ class CRM_Mailing_Event_BAO_Forward extends CRM_Mailing_Event_DAO_Forward {
             return false;
         }
 
-        require_once 'api/Search.php';
         require_once 'api/v2/Contact.php';
         
         $contact_params = array('email' => $forward_email);

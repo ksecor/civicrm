@@ -29,19 +29,13 @@
 
 {htxt id="period-type"}
 <p>
-{ts}Select "rolling" if membership periods begin at date of signup. Select "fixed" if membership periods begin on a set calendar
-date. If membership duration is specified in years, you will be able to specify the exact month and day for memberships to start.
-If membership duration is specified in months, memberships will start on the 1st of the current month and run for the number of
-specified months.{/ts}
+{ts}Select 'rolling' if membership periods begin at date of signup. Select 'fixed' if membership periods begin on a set calendar date. If membership duration is specified in years, you will be able to specify the exact month and day for memberships to start. If membership duration is specified in months, memberships will start on the 1st of the current month and run for the number of specified months.{/ts}
 </p>
 <p>
 <strong>{ts}EXAMPLES{/ts}</strong><br />
 <ul>
-<li>{ts}<strong>Fixed Membership Period - 1 Year Duration:</strong> Fixed period start date is set to January 1. A person signs up for membership
-on February 15th, 2008. Their membership start date is set to January 1, 2008 - and the end date is December 31, 2008.{/ts}</li>
-<li>{ts}<strong>Fixed Membership - 3 Months Duration:</strong> A person signs up on February 15th, 2008. Their membership start date is set
-to February 1, 2008 - and the end date is April 30, 2008.{/ts}</li>
-<li>{ts}<strong>Rolling Membership Period - 1 Year Duration:</strong> A person signs up on February 15th, 2008. Their membership start
-date is February 15th, 2008 - and the end date is February 14th, 2009.{/ts}</li>
+<li>{ts}<strong>Fixed Membership Period - 1 Year Duration:</strong> Fixed period start date is set to January 1. A person signs up for membership on February 15th, 2008. Their membership start date is set to January 1, 2008 - and the end date is December 31, 2008.{/ts}</li>
+<li>{ts}<strong>Fixed Membership - 3 Months Duration:</strong> A person signs up on February 15th, 2008. Their membership start date is set to February 1, 2008 - and the end date is April 30, 2008.{/ts}</li>
+<li>{ts}<strong>Rolling Membership Period - 1 Year Duration:</strong> A person signs up on February 15th, 2008. Their membership start date is February 15th, 2008 - and the end date is February 14th, 2009.{/ts}</li>
 </ul>
 {/htxt}

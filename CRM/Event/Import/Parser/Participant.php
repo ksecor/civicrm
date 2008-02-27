@@ -35,8 +35,6 @@
 
 require_once 'CRM/Event/Import/Parser.php';
 
-require_once 'api/crm.php';
-
 /**
  * class to parse membership csv files
  */
@@ -259,6 +257,9 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $params =& $this->getActiveFieldParams( );
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get( 'dateTypes' );
+        $formatted = array();
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
+        
         foreach ($params as $key => $val) {
             if( $val ) {
                 if ( $key == 'participant_register_date' ) {
@@ -268,6 +269,12 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                         }
                     } else {
                         CRM_Import_Parser_Contact::addToErrorMsg('Register Date', $errorMessage);
+                    }
+                }
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    if ( $customFields[$customFieldID][2] == 'Date' ) {
+                        CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
+                        unset( $params[$key] );
                     }
                 }
             }
@@ -280,7 +287,6 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         }
         
         $values    = array();
-        $formatted = array();
         
         foreach ($params as $key => $field) {
             if ($field == null || $field === '') {

@@ -17,8 +17,7 @@
 <div id="form" class="form-item">
     <fieldset><legend>{ts}Configure Widget{/ts}</legend>
     <div id="help">
-        {ts}CiviContribute widgets allow you and your supporters to easily promote this fund-raising campaign. Widget code can be added to
-        any web page - and will provide a real-time display of current contribution results, and a direct link to this contribution page.{/ts} {help id="id-intro"}
+        {ts}CiviContribute widgets allow you and your supporters to easily promote this fund-raising campaign. Widget code can be added to any web page - and will provide a real-time display of current contribution results, and a direct link to this contribution page.{/ts} {help id="id-intro"}
     </div>
     <table class="form-layout-compressed">
     	<tr><td style="width: 12em;">&nbsp;</td><td class="font-size11pt">{$form.is_active.html}&nbsp;{$form.is_active.label}</dd>
@@ -74,8 +73,7 @@
         <fieldset>
         <legend><a href="#" onclick="hide('id-colors'); show('id-colors-show'); return false;"><img src="{$config->resourceBase}i/TreeMinus.gif" class="action-icon" alt="{ts}close section{/ts}"/></a>{ts}Widget Colors{/ts}</legend>
         <div class="description">
-            {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search
-            on "hexadecimal colors" to find a chart of color codes.{/ts}
+            {ts}Enter colors in hexadecimal format prefixed with <em>0x</em>. EXAMPLE: <em>0xFF0000</em> = Red. You can do a web search on 'hexadecimal colors' to find a chart of color codes.{/ts}
         </div>
         <table class="form-layout-compressed">
         {foreach from=$colorFields item=field key=name}

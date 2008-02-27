@@ -218,7 +218,7 @@ class CRM_Contribute_BAO_Query
             }
             
             $query->_where[$grouping][] = ' ( ' . implode( '  OR ', $sub ) . ' ) '; 
-            $query->_qill[$grouping][]  = ts( 'Honor name like - "%1"', array( 1 => $name ) );
+            $query->_qill[$grouping][]  = ts( 'Honor name like - \'%1\'', array( 1 => $name ) );
             $query->_tables['civicrm_contact_b'] = $query->_whereTables['civicrm_contact_b'] = 1;
             $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = 1;
             return;

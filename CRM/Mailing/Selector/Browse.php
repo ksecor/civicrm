@@ -208,7 +208,7 @@ SELECT count(civicrm_mailing.id)
                     'name'  => ts('Re-Use'),
                     'url'   => 'civicrm/mailing/send',
                     'qs'    => 'mid=%%mid%%&reset=1',
-                    'title' => ts('Re-Send Mailing ')
+                    'title' => ts('Re-Send Mailing')
                     ),
                 CRM_Core_Action::DISABLE => array(
                     'name'  => ts('Cancel'),

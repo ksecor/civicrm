@@ -81,7 +81,7 @@ AND    {$this->_contributionClause}";
         $count = CRM_Core_DAO::singleValueQuery( $query,
                                                  CRM_Core_DAO::$_nullArray );
         if ( $count != 0 ) {
-            CRM_Core_Error::statusBounce( "You can only select contributions with Pending status" ); 
+            CRM_Core_Error::statusBounce( "Please select only online contributions with Pending status." ); 
         }
 
         // ensure that all contributions are generated online by pay later
@@ -94,7 +94,7 @@ WHERE  {$this->_contributionClause}";
         while ( $dao->fetch( ) ) {
             if ( strpos( $dao->source, ts( 'Online Contribution' ) ) === false &&
                  strpos( $dao->source, ts( 'Online Event Registration' ) ) === false ) {
-                CRM_Core_Error::statusBounce( "You can only select Pay Later contributions with Pending status. These contributions will start with Online in the source field" );
+                CRM_Core_Error::statusBounce( "<strong>Update Pending Contribution Status</strong> can only be used for pending online contributions (made using the 'Pay Later' option). The Source for these contributions starts with 'Online ...'. Please de-select any offline contributions and try again." );
             }
         }
 
@@ -124,7 +124,9 @@ WHERE  {$this->_contributionClause}";
 SELECT c.id            as contact_id,
        co.id           as contribution_id,
        c.display_name  as display_name,
-       co.total_amount as amount
+       co.total_amount as amount,
+       co.receive_date as receive_date,
+       co.source       as source
 FROM   civicrm_contact c,
        civicrm_contribution co
 WHERE  co.contact_id = c.id
@@ -142,9 +144,10 @@ AND    co.id IN ( $contribIDs )";
             $row['contribution_id'] =  $dao->contribution_id;
             $row['display_name']    =  $dao->display_name;
             $row['amount']          =  $dao->amount;
-            $row['trxn_id']         =& $this->addElement( 'text', "trxn_id_{$row['contribution_id']}", ts( 'Check Identifier' ) );
+            $row['source']          =  $dao->source;
+            $row['trxn_id']         =& $this->addElement( 'text', "trxn_id_{$row['contribution_id']}", ts( 'Transaction ID' ) );
             $this->addRule( "trxn_id_{$row['contribution_id']}",
-                            ts( 'Transaction ID already exists in Database.' ),
+                           ts( 'This Transaction ID already exists in the database. Include the account number for checks.' ),
                             'objectExists', 
                             array( 'CRM_Contribute_DAO_Contribution', $dao->contribution_id, 'trxn_id' ) );
                             
@@ -169,9 +172,35 @@ AND    co.id IN ( $contribIDs )";
                                          'name'      => ts('Update Pending Status'),
                                          'isDefault' => true   ),
                                  array ( 'type'      => 'back',
-                                         'name'      => ts('Done') ),
+                                         'name'      => ts('Cancel') ),
                                  )
                            );
+        
+        $this->addFormRule( array( 'CRM_Contribute_Form_Task_Status', 'formRule' ) );
+    }
+
+
+    /**
+     * global validation rules for the form
+     *
+     * @param array $fields posted values of the form
+     *
+     * @return array list of errors to be posted back to the form
+     * @static
+     * @access public
+     */
+    static function formRule( &$fields ) 
+    {
+        $seen = $errors = array( );
+        foreach ( $fields as $name => $value ) {
+            if ( strpos( $name, 'trxn_id_' ) !== false ) {
+                if ( array_key_exists( $value, $seen ) ) {
+                    $errors[$name] = ts( 'Transaction ID\'s must be unique. Include the account number for checks.' );
+                }
+                $seen[$value] = 1;
+            }
+        }
+        return empty( $errors ) ? true : $errors;
     }
 
     /**
@@ -245,7 +274,7 @@ AND    co.id IN ( $contribIDs )";
             $baseIPN->completeTransaction( $input, $ids, $objects, $transaction, false );
         }
 
-        CRM_Core_Session::setStatus( ts('Contribution status updated.') );
+        CRM_Core_Session::setStatus( ts('Contribution status has been updated for selected record(s).') );
     }
 
     function &getDetails( $contributionIDs ) {

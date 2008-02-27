@@ -61,7 +61,7 @@ class CRM_Contribute_Form_Offline extends CRM_Core_Form {
         $this->_processors = CRM_Core_PseudoConstant::paymentProcessor( false, false,
                                                                         "billing_mode IN ( 1, 3 )" );
         if ( count( $this->_processors ) == 0 ) {
-            CRM_Core_Error::fatal( ts( 'You do not have any  payment processors that support this feature' ) );
+            CRM_Core_Error::fatal( ts( 'You do not have any payment processors that support this feature' ) );
         }
 
         $this->_mode       = $this->_action & CRM_Core_Action::PREVIEW ? 'test' : 'live';

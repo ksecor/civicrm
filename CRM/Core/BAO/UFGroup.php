@@ -385,7 +385,7 @@ class CRM_Core_BAO_UFGroup extends CRM_Core_DAO_UFGroup
                 }
             }
         } else {
-            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled, OR it is not configured to be used for "Profile" listings in it\'s Settings, or there is no Profile with that ID. Contact the site administrator if you need assistance.',
+            CRM_Core_Error::fatal( ts( 'The requested Profile (gid=%1) is disabled, OR it is not configured to be used for \'Profile\' listings in its Settings, or there is no Profile with that ID. Contact the site administrator if you need assistance.',
                                       array( 1 => $id )) );        
         }
 

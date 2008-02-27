@@ -97,7 +97,7 @@ class CRM_Contribute_Form_ContributionPage_Settings extends CRM_Contribute_Form_
         $this->addElement('checkbox', 'is_active', ts('Is this Online Contribution Page Active?') );
 
         // should the honor be enabled
-        $this->addElement('checkbox', 'honor_block_is_active', ts( 'Honoree Section Enabled ' ),null,array('onclick' =>"showHonor()") );
+        $this->addElement('checkbox', 'honor_block_is_active', ts( 'Honoree Section Enabled' ),null,array('onclick' =>"showHonor()") );
         
         $this->add('text', 'honor_block_title', ts('Honoree Section Title'), CRM_Core_DAO::getAttribute('CRM_Contribute_DAO_ContributionPage', 'honor_block_title') );
 

@@ -185,7 +185,7 @@ showHideSharedOptions();
                           array_merge( CRM_Core_DAO::getAttribute('CRM_Contact_DAO_Contact', 'home_URL'),
                                        array('onfocus' => "if (!this.value) this.value='http://'; else return false")
                                        ));
-        $form->addRule('home_URL', ts('Enter a valid web location beginning with "http://" or "https://". EXAMPLE: http://www.mysite.org'), 'url');
+        $form->addRule('home_URL', ts('Enter a valid web location beginning with \'http://\' or \'https://\'. EXAMPLE: http://www.mysite.org/'), 'url');
         
         $form->addElement('text', 'current_employer', ts('Current Employer'), array( 'maxlength' => 128 ) );
 

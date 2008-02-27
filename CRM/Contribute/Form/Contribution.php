@@ -199,7 +199,8 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
             if ( $defaults['contribution_status_id'] == 2 &&
                  ( strpos( $defaults['contribution_source'], ts( 'Online Contribution' ) ) !== false ||
                    strpos( $defaults['contribution_source'], ts( 'Online Event Registration' ) ) !== false ) ) {
-                $message = ts( 'Pending online contributions should be updated to Completed status using the "Update Pending Contribution Status" action from the CiviContribute &raquo; Find Contributions menu. If you update the status from here - the contributor may not got complete information in their receipt and associated membership or event records will not be updated.' );
+                $message = ts( 'If you have received payment for this Pending online contribution, record it using <strong>Update Pending Contribution Status</strong> from <strong><a href=\'%1\'>CiviContribute &raquo; Find Contributions</a></strong>. If you update the status from here the contributor may not got complete information on their receipt. Also, if there is an associated membership or event registration record - it\'s status will not be updated.',
+                              array( 1 => CRM_Utils_System::url( 'civicrm/contribute/search', "reset=1" )) );
                 CRM_Core_Session::setStatus( $message );
             }
 
@@ -447,7 +448,12 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
                                 $attributes['trxn_id'] );
         if ( $this->_online ) {
             $element->freeze( );
-        }
+        } else {
+            $this->addRule( 'trxn_id',
+                           ts( 'This Transaction ID already exists in the database. Include the account number for checks.' ),
+                           'objectExists', 
+                           array( 'CRM_Contribute_DAO_Contribution', $this->_id, 'trxn_id' ) );
+        }            
 
         $element =& $this->add( 'text', 'invoice_id', ts('Invoice ID'), 
                                 $attributes['invoice_id'] );
@@ -843,7 +849,7 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
 
         $statusMsg = ts('The contribution record has been saved.');
         if ( $formValues['is_email_receipt'] ) {
-            $statusMsg .= ts(' A receipt has been emailed to the contributor.');
+            $statusMsg .= ts('A receipt has been emailed to the contributor.');
         }
         CRM_Core_Session::setStatus( $statusMsg );
 

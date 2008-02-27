@@ -521,7 +521,7 @@ class CRM_UF_Form_Field extends CRM_Core_Form
         } else {
             $ufField = CRM_Core_BAO_UFField::add($params,$ids);
             $name = $this->_selectFields[$ufField->field_name];
-            CRM_Core_Session::setStatus(ts('Your civicrm profile field "%1" has been saved.', array(1 => $name)));
+            CRM_Core_Session::setStatus(ts('Your CiviCRM Profile Field \'%1\' has been saved.', array(1 => $name)));
         }
     }
 

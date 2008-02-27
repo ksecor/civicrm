@@ -6,7 +6,7 @@
     {ts}Membership import requires that each person, household or organization already exists as a contact record in your CiviCRM database. If you need to import memberships for contact records which haven't been added to CiviCRM yet - you will do this in 2 steps. First, use <strong>Import Contacts</strong> to add the contact records. If possible, include a unique 'External ID' for each new contact which you can then use to match memberships to contacts. Then return to this screen and import the membership records.{/ts}
 </p>
 <p><h1>{ts}Matching Memberships to Contacts{/ts}</h1>
-    {ts}Membership import files must  contain data needed to <strong>match the membership to the contact record</strong>. This 'matching' can be handled in several different ways:{/ts}
+    {ts}Membership import files must contain data needed to <strong>match the membership to the contact record</strong>. This 'matching' can be handled in several different ways:{/ts}
     <ul>
     <li>{ts}Include the data fields used for contact 'matching' based on your configured <strong>Duplicate Matching</strong> rules. For the default duplicate matching rules, you would include 3 columns in each row with the members' First Name, Last Name and Email Address.{/ts}</li>
     <li>{ts}If you've stored a unique <strong>External Identifier</strong> for each contact in CiviCRM, you can include that value as a column in your import file. Memberships will then be matched to contact records using their External ID.{/ts}</li>

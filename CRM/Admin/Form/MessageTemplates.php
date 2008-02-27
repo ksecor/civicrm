@@ -108,7 +108,7 @@ class CRM_Admin_Form_MessageTemplates extends CRM_Admin_Form
             }
             
             $messageTemplate = CRM_Core_BAO_MessageTemplates::add( $params );
-            CRM_Core_Session::setStatus( ts('The Message Template "%1" has been saved.', array( 1 => $messageTemplate->msg_title ) ) );
+            CRM_Core_Session::setStatus( ts('The Message Template \'%1\' has been saved.', array( 1 => $messageTemplate->msg_title ) ) );
         }
     }
 }

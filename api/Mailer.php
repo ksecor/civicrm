@@ -43,7 +43,6 @@
 require_once 'api/utils.php';
 
 require_once 'api/Contact.php';
-require_once 'api/Group.php';
 
 require_once 'CRM/Contact/BAO/Group.php';
 

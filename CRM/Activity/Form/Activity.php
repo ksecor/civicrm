@@ -565,7 +565,7 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
         }
 
         // set status message
-        CRM_Core_Session::setStatus( ts('Activity "%1"  has been saved.', array( 1 => $params['subject'] ) ) );
+        CRM_Core_Session::setStatus( ts('Activity \'%1\' has been saved.', array( 1 => $params['subject'] ) ) );
     }
 }
 

@@ -72,7 +72,7 @@
     <div class="messages status">
     <dl>
         <dt><img src="{$config->resourceBase}i/Inform.gif" alt="{ts}status{/ts}"/></dt>
-        <dd>{ts 1=$newEventURL}There are no events created yet. You can <a href="%1">add one</a>.{/ts}</dd>
+        <dd>{ts 1=$newEventURL}There are no events created yet. You can <a href='%1'>add one</a>.{/ts}</dd>
         </dl>
     </div>    
    {/if}

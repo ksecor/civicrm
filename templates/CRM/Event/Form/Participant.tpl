@@ -112,21 +112,29 @@
            </td>
        </tr>
     {/if}
-   
-    {if ($email OR $paid ) AND $form.contribution_type_id }
-    <tr>
+
+    {if $paid AND $form.contribution_type_id }
+    <tr id="payment_information">
        <td class ='html-adjust' colspan=2>
-           <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
+           <fieldset><legend>{ts}Payment Information{/ts}</legend>
              <div class="form-item">
-               {if $paid}
                  <dl id="recordContribution">	        
                     <dt class="label">{$form.contribution_type_id.label}</dt>
                     <dd>{$form.contribution_type_id.html}<br /><span class="description">{ts}Select the appropriate contribution type for this payment.{/ts}</span></dd>
                     <dt class="label">{$form.payment_instrument_id.label}</dt><dd>{$form.payment_instrument_id.html}</dd>
                     <dt class="label">{$form.contribution_status_id.label}</dt><dd>{$form.contribution_status_id.html}</dd>      
   	             </dl>
-               {/if}
-               {if $email}
+             </div>
+           </fieldset>
+       </td>
+    </tr> 
+    {/if}
+
+    {if $email}
+    <tr id="send_confirmation">
+       <td class ='html-adjust' colspan=2>
+           <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
+             <div class="form-item">
                  <dl>
                     <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
                     <dd>{$form.send_receipt.html}<br />
@@ -135,15 +143,13 @@
                  <div id='notice' class="form-item">
                     <dl>
                       <dt class="label">{$form.receipt_text.label}</dt>
-                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: "Thanks for registering for this event."{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
+                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
                    </dl>
                 </div>
-               {/if}
              </div>
            </fieldset>
        </td>
     </tr> 
-
     {/if}
     
     <tr><td colspan=2>
@@ -167,7 +173,7 @@
 {include file="CRM/common/showHideByFieldValue.tpl" 
     trigger_field_id    ="record_contribution"
     trigger_value       =""
-    target_element_id   ="recordContribution" 
+    target_element_id   ="payment_information" 
     target_element_type ="table-row"
     field_type          ="radio"
     invert              = 0

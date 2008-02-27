@@ -244,7 +244,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
                                                   'label', 'id' );
             require_once 'CRM/Core/BAO/OptionValue.php';
             CRM_Core_BAO_OptionValue::del( $this->_oid );
-            CRM_Core_Session::setStatus( ts( '%1 option has been deleted', 
+            CRM_Core_Session::setStatus( ts( '%1 option has been deleted.', 
                                              array( 1 => $label ) ) );
             return;
         }
@@ -256,7 +256,7 @@ class CRM_Price_Form_Option extends CRM_Core_Form {
         
         require_once 'CRM/Core/BAO/OptionValue.php';
         $optoinValue = CRM_Core_BAO_OptionValue::add( $params, $ids );
-        CRM_Core_Session::setStatus( ts( 'The option "%1" has been saved', 
+        CRM_Core_Session::setStatus( ts( 'The option \'%1\' has been saved.', 
                                          array( 1 => $optoinValue->label ) ) );
     }
 }

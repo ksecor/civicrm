@@ -96,10 +96,10 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
     public function postProcess( ) 
     {
         if (CRM_Core_BAO_PriceSet::deleteSet( $this->_sid)) {
-            CRM_Core_Session::setStatus( ts( 'The Price Set "%1" has been deleted.', 
+            CRM_Core_Session::setStatus( ts( 'The Price Set \'%1\' has been deleted.', 
                                              array( 1 => $this->_title ) ) );        
         } else {
-            CRM_Core_Session::setStatus( ts( 'The Price Set "%1" has not been deleted! You must Delete all price fields in this set prior to deleting the set', 
+            CRM_Core_Session::setStatus( ts( 'The Price Set \'%1\' has not been deleted! You must delete all price fields in this set prior to deleting the set.', 
                                              array( 1 => $this->_title ) ) );        
         }
     }

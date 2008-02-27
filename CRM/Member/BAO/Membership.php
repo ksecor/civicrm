@@ -184,7 +184,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             if ( empty( $calcStatus ) ) {
                 if ( ! $callFromAPI ) {
                     // Redirect the form in case of error
-                    CRM_Core_Session::setStatus( ts('The membership can not be saved.<br/> No valid membership status for given dates.') );
+                    CRM_Core_Session::setStatus( ts('The membership can not be saved.') . '<br/>' . ts('No valid membership status for given dates.')) );
                     return CRM_Utils_System::redirect( CRM_Utils_System::url( 'civicrm/contact/view', "reset=1&force=1&cid={$params['contact_id']}&selectedChild=member"));
                 }
                 // Return the error message to the api
@@ -616,6 +616,7 @@ class CRM_Member_BAO_Membership extends CRM_Member_DAO_Membership
             }
             
             $tmpFields     = CRM_Member_DAO_Membership::import( );
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contactType, null );
             if ($contactType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';

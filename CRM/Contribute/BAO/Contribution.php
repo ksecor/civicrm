@@ -325,7 +325,7 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             unset($tmpFields['option_value']);
             require_once 'CRM/Core/OptionValue.php';
             $optionFields = CRM_Core_OptionValue::getFields($mode ='contribute' );
-            //$contactFields = CRM_Contact_BAO_Contact::importableFields('Individual', null );
+            require_once 'CRM/Contact/BAO/Contact.php';
             $contactFields = CRM_Contact_BAO_Contact::importableFields( $contacType, null );
             if ($contacType == 'Individual') {
                 require_once 'CRM/Core/DAO/DupeMatch.php';

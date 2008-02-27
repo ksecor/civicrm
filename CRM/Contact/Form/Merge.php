@@ -35,7 +35,6 @@
 
 require_once 'CRM/Core/Form.php';
 require_once 'CRM/Dedupe/Merger.php';
-require_once 'api/Location.php';
 
 class CRM_Contact_Form_Merge extends CRM_Core_Form
 {

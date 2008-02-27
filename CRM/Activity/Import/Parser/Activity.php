@@ -256,6 +256,9 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
         $params['source_contact_id'] = $session->get( 'userID' );
+        $formatted = array();
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
+        
         foreach ($params as $key => $val) {
             if ( $key ==  'activity_date_time' ) {
                 if ( $val ) {
@@ -272,10 +275,14 @@ class CRM_Activity_Import_Parser_Activity extends CRM_Activity_Import_Parser
                 $params['duration_minutes'] = $params['duration'];
                 unset($params['duration']);
             }
+            if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                if ( $customFields[$customFieldID][2] == 'Date' ) {
+                    CRM_Import_Parser_Contact::formatCustomDate( $params, $params, $dateType, $key );
+                }
+            }
         }
         //date-Format part ends
 
-        $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Activity/DAO/Activity.php');

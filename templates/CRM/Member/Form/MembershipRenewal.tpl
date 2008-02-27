@@ -2,9 +2,7 @@
 <div class="form-item">
 <fieldset><legend>{if $action eq 32768}{ts}Renew Membership{/ts}{/if}</legend>
     <div id="help" class="description">
-        {ts}Renewing will add the normal membership period to the End Date of the previous period for members whose status is Current or Grace.
-        For Expired memberships, renewing will create a membership period commencing from the "Date Renewal Entered". This date can be adjusted -
-        including being set to the day after the previous End Date - if continuous membership is required.{/ts}
+        {ts}Renewing will add the normal membership period to the End Date of the previous period for members whose status is Current or Grace. For Expired memberships, renewing will create a membership period commencing from the 'Date Renewal Entered'. This date can be adjusted including being set to the day after the previous End Date - if continuous membership is required.{/ts}
     </div>
     <dl>
  	<dt>{ts}Membership Organization and Type{/ts}</dt><dd class="html-adjust">{$orgName}&nbsp;&nbsp;-&nbsp;&nbsp;{$memType}
@@ -43,7 +41,7 @@
 	    <div id='notice'>
 		<dl>		
     	   	<dt class="label">{$form.receipt_text_renewal.label}</dt>
-            <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: "Thanks for supporting our organization with your membership."{/ts}</span>
+            <dd class="html-adjust"><span class="description">{ts}Enter a message you want included at the beginning of the emailed receipt. EXAMPLE: 'Thanks for supporting our organization with your membership.'{/ts}</span>
 		     {$form.receipt_text_renewal.html|crmReplace:class:huge}</dd> 
 		</dl>
 	    </div>

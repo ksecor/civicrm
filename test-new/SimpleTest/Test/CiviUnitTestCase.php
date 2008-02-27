@@ -541,7 +541,36 @@ class CiviUnitTestCase extends UnitTestCase {
         
         return $result;
     }
-    
+    /** 
+     * Function to add a Group
+     * 
+     */ 
+    function groupCreate( $params = null ) {
+        if ( $params === null ) { 
+            $params = array(
+                            'name'        => 'Test Group 1',
+                            'domain_id'   => 1,
+                            'title'       => 'New Test Group Created',
+                            'description' => 'New Test Group Created',
+                            'is_active'   => 1,
+                            'visibility'  => 'Public User Pages and Listings',
+                            );
+        }
+        
+        $result = civicrm_group_add( $params );
+        
+        return $result['result'];
+    }    
+    /** 
+     * Function to delete a Group
+     *
+     * @param int $id 
+     */ 
+    function groupDelete( $gid ) {
+        $params['id'] = $gid;
+        civicrm_group_delete( $params );
+    }
+
     /**
      * Function to create Group for a contact
      * 

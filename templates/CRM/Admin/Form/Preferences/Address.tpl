@@ -23,7 +23,7 @@
 </fieldset>
 <fieldset><legend>{ts}Address Standardization{/ts}</legend>
     <div class="description">
-        {ts}CiviCRM includes an optional plugin for interfacing the the United States Postal Services (USPS) Address Standardization web service. You must register to use the USPS service at <a href="http://www.usps.com/webtools/address.htm">http://www.usps.com/webtools/address.htm</a>. If you are approved, they will provide you with a User ID and the URL for the service.{/ts}
+        {ts 1=http://www.usps.com/webtools/address.htm}CiviCRM includes an optional plugin for interfacing the the United States Postal Services (USPS) Address Standardization web service. You must register to use the USPS service at <a href='%1'>%1</a>. If you are approved, they will provide you with a User ID and the URL for the service.{/ts}
     </div>
       <table class="form-layout">
         <tr><td class="label">{$form.address_standardization_provider.label}</td><td>{$form.address_standardization_provider.html}</td></tr>    

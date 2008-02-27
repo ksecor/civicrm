@@ -351,7 +351,7 @@ class CRM_Group_Form_Edit extends CRM_Core_Form {
                 CRM_Contact_BAO_GroupNesting::addChildGroup( $group->id, $params['add_child_group']);
             }
 
-            CRM_Core_Session::setStatus( ts('The Group "%1" has been saved.', array(1 => $group->title)) );        
+            CRM_Core_Session::setStatus( ts('The Group \'%1\' has been saved.', array(1 => $group->title)) );        
             
             /*
              * Add context to the session, in case we are adding members to the group

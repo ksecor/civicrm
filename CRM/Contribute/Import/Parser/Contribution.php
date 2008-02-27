@@ -35,7 +35,6 @@
 
 require_once 'CRM/Contribute/Import/Parser.php';
 require_once 'api/v2/Contribute.php';
-require_once 'api/crm.php';
 
 /**
  * class to parse contribution csv files
@@ -183,7 +182,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'receive_date': 
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
-                            //return _crm_error('Invalid value for field  : Receive Date');
                             CRM_Import_Parser_Contact::addToErrorMsg('Receive Date', $errorMessage);
                         }
                     } else {
@@ -193,7 +191,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'cancel_date': 
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
-                            //return _crm_error('Invalid value for field  : Cancel Date');
                             CRM_Import_Parser_Contact::addToErrorMsg('Cancel Date', $errorMessage);
                         }
                     } else {
@@ -203,7 +200,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'receipt_date': 
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
-                            //return _crm_error('Invalid value for field  : Activity Date');
                             CRM_Import_Parser_Contact::addToErrorMsg('Receipt date', $errorMessage);
                         }
                     } else {
@@ -213,7 +209,6 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                 case  'thankyou_date': 
                     if( CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key )) {
                         if (! CRM_Utils_Rule::date($params[$key])) {
-                            //return _crm_error('Invalid value for field  : Thankyou Date');
                             CRM_Import_Parser_Contact::addToErrorMsg('Thankyou Date', $errorMessage);
                         }
                     } else {
@@ -264,6 +259,8 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
         $dateType = $session->get("dateTypes");
+        $formatted = array();
+        $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',$params ) );
         
         foreach ($params as $key => $val) {
             if( $val ) {
@@ -281,11 +278,16 @@ class CRM_Contribute_Import_Parser_Contribution extends CRM_Contribute_Import_Pa
                     CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key );
                     break;
                 }
+                if ( $customFieldID = CRM_Core_BAO_CustomField::getKeyID( $key ) ) {
+                    if ( $customFields[$customFieldID][2] == 'Date' ) {
+                        CRM_Import_Parser_Contact::formatCustomDate( $params, $formatted, $dateType, $key );
+                        unset( $params[$key] );
+                    }
+                }
             }
         }
         //date-Format part ends
 
-        $formatted = array();
         static $indieFields = null;
         if ($indieFields == null) {
             require_once('CRM/Contribute/DAO/Contribution.php');

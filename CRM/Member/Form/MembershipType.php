@@ -353,7 +353,7 @@ class CRM_Member_Form_MembershipType extends CRM_Member_Form
                 CRM_Utils_Weight::updateOtherWeights('CRM_Member_DAO_MembershipType', $oldWeight, $params['weight']);
             
             $membershipType = CRM_Member_BAO_MembershipType::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The membership type "%1" has been saved.', array( 1 => $membershipType->name )) );
+            CRM_Core_Session::setStatus( ts('The membership type \'%1\' has been saved.', array( 1 => $membershipType->name )) );
         } 
     }
 

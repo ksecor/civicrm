@@ -299,7 +299,7 @@ class CRM_Mailing_Event_BAO_Unsubscribe extends CRM_Mailing_Event_DAO_Unsubscrib
         }
         $headers = array(
             'Subject'       => $component->subject,
-            'From'          => ts('"%1" <do-not-reply@%2>',
+            'From'          => ts('\'%1\' <do-not-reply@%2>',
                                    array(  1 => $domain->email_name,
                                            2 => $domain->email_domain) ),
             'To'            => $eq->email,

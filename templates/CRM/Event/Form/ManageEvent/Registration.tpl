@@ -1,7 +1,7 @@
 {include file="CRM/common/WizardHeader.tpl"}
 <fieldset><legend>{ts}Online Registration{/ts}</legend>
 <div id="help">
-{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href="%1" target="_blank" title="Opens documentation in a new window">Payment Processor</a> for your site.{/ts}
+{ts 1="http://wiki.civicrm.org/confluence//x/ihk"}If you want to provide an Online Registration page for this event, check the first box below and then complete the fields on this form. You can offer online registration for both Paid and Free events. Paid events require that you have configured a <a href='%1' target='_blank' title='Opens documentation in a new window'>Payment Processor</a> for your site.{/ts}
 </div>
 <div class="form-item">
    <div id="register">
@@ -14,7 +14,7 @@
     <div id="registrationLink">
         <dl>
             <dt>{$form.registration_link_text.label}</dt><dd>{$form.registration_link_text.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. "Register Now!").{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts}Display text for link from Event Information to Event Registration pages (e.g. 'Register Now!').{/ts}</dd>
         </dl>
     </div>
     <dl>

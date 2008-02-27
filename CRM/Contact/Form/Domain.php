@@ -149,10 +149,10 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         $this->add('text', 'email_name', ts('FROM Name'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
 
         $this->add('text', 'email_address', ts('FROM Email Address'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->addRule( "email_address", ts('Domain Email Address must use a valid email address format (e.g. "info@example.org").'), 'email' );
+        $this->addRule( "email_address", ts('Domain Email Address must use a valid email address format (e.g. \'info@example.org\').'), 'email' );
 
         $this->add('text', 'email_domain', ts('Email Domain'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'), true);
-        $this->addRule( "email_domain", ts('Email domain must use a valid internet domain format (e.g. "example.org").'), 'domain' );
+        $this->addRule( "email_domain", ts('Email domain must use a valid internet domain format (e.g. \'example.org\').'), 'domain' );
 
         $this->add('text', 'email_return_path', ts('Return-Path'), CRM_Core_DAO::getAttribute('CRM_Core_DAO_Email','email'));
         $this->addRule( "email_return_path", ts('Return-Path must use a valid email address format.'), 'email' );
@@ -251,7 +251,7 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
         require_once 'CRM/Core/BAO/Domain.php';
         CRM_Core_BAO_Domain::edit($params, $this->_id);
             
-        CRM_Core_Session::setStatus( ts('Domain information for "%1" has been saved.', array( 1 => $domain->name )) );
+        CRM_Core_Session::setStatus( ts('Domain information for \'%1\' has been saved.', array( 1 => $domain->name )) );
         $session =& CRM_Core_Session::singleton( );
         $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
 

@@ -95,7 +95,7 @@ class CRM_Contribute_Form_ContributionType extends CRM_Contribute_Form
             }
             
             $contributionType = CRM_Contribute_BAO_ContributionType::add($params, $ids);
-            CRM_Core_Session::setStatus( ts('The contribution type "%1" has been saved.', array( 1 => $contributionType->name )) );
+            CRM_Core_Session::setStatus( ts('The contribution type \'%1\' has been saved.', array( 1 => $contributionType->name )) );
         }
     }
 }

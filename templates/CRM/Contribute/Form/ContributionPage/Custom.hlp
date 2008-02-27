@@ -13,6 +13,6 @@
         <li>{ts}Return to this screen (<strong>Administer CiviCRM &raquo; Manage Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and select your profile.{/ts}</li>
         </ol>
         
-        {ts 1="http://wiki.civicrm.org/confluence//x/WyQ" 2="http://wiki.civicrm.org/confluence//x/NiQ" 3=$docURLTitle}Refer to the online documentation for more details on creating <a href="%1" title="%3" target="_blank">custom fields</a> and <a href="%2" title="%3" target='_blank'>profiles</a>.{/ts}
+        {ts 1="http://wiki.civicrm.org/confluence//x/WyQ" 2="http://wiki.civicrm.org/confluence//x/NiQ" 3=$docURLTitle}Refer to the online documentation for more details on creating <a href='%1' title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' target='_blank'>profiles</a>.{/ts}
 </p>
 {/htxt}        

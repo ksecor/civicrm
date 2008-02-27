@@ -16,13 +16,13 @@
         <dt><img src="{$config->resourceBase}i/traffic_red.gif" alt="{ts}status{/ts}"/></dt>
         <dd><p>{ts}This page is currently <strong>inactive</strong> (not accessible to visitors).{/ts}</p>
         {capture assign=crmURL}{crmURL q="reset=1&action=update&id=`$id`&subPage=Settings"}{/capture}
-        <p>{ts 1=$crmURL}When you are ready to make this page live, click <a href="%1">Title and Settings</a> and update the <strong>Active?</strong> checkbox.{/ts}</p></dd>
+        <p>{ts 1=$crmURL}When you are ready to make this page live, click <a href='%1'>Title and Settings</a> and update the <strong>Active?</strong> checkbox.{/ts}</p></dd>
     {/if}
     </dl>
 </div>
 
 <div id="help">
-    {ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>. Refer to the <a href="%1" target="_blank" title="%2">CiviContribute Administration Documentation</a> for more information.{/ts}
+    {ts 1="http://wiki.civicrm.org/confluence//x/1Cs" 2=$docURLTitle}Use the links below to update features and content for this Online Contribution Page, as well as to run through the contribution process in <strong>test mode</strong>. Refer to the <a href='%1' target='_blank' title='%2'>CiviContribute Administration Documentation</a> for more information.{/ts}
 </div>
 <table class="report"> 
 <tr>
@@ -34,7 +34,7 @@
     <td>
         {ts}Configure contribution amount options and labels, minimum and maximum amounts.{/ts}
         {ts}Enable recurring contributions.{/ts}
-        {ts}Give contributors the option to "pay later" (e.g. mail in a check, call in a credit card, etc.).{/ts}
+        {ts}Give contributors the option to 'pay later' (e.g. mail in a check, call in a credit card, etc.).{/ts}
     </td>
 </tr>
 {if $CiviMember}

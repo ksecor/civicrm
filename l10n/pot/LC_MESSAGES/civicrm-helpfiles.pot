@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
-"POT-Creation-Date: 2008-02-20 10:49+0100\n"
+"POT-Creation-Date: 2008-02-23 13:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -13,107 +13,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +0
 msgid ""
 "The following tokens are available to format Mailing Labels. Address fields "
 "are taken from the contact's <strong>primary</strong> location."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +1
 msgid ""
 "Used for mailing labels only. Replaced by the configurable Individual Name "
 "format for individuals and the display name for Organizations and Households."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +2 +13
 msgid "Full street address (e.g. 110 Main Street)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +3 +14
 msgid "Supplemental address 1 (line is skipped if empty)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +4 +15
 msgid "Supplemental address 2 (line is skipped if empty)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +5 +16
 msgid "City."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +6
 msgid ""
 "County name. If you want to include the county in your mailing labels, the "
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +7 +18
 msgid "State or province <strong>abbreviation</strong>."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +8 +19
 msgid "State or province <strong>full name</strong>."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +9 +20
 msgid "Postal code."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +10 +21
 msgid "Country name (e.g. Canada)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +11 +22 +29
 msgid "Add spaces or punctuation to layout by surrounding them with brackets."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +12
 msgid ""
 "The following tokens are available to format Address display on Contact and "
 "Event screens."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +17
 msgid ""
 "County name. If you want to include the county in your screen displays, the "
 "<strong>Include Counties</strong> setting must be enabled on this screen, "
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +23
 msgid ""
 "The following tokens are available to control the format of individuals' "
 "contact names when they are included in <strong>mailing labels</strong>."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +24
 msgid "Assigned name prefix, if any (e.g. 'Ms.', 'Dr.', 'Hon.' etc.)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +25
 msgid "Assigned name suffix, if any (e.g. 'II', 'Jr.', 'Sr.' etc.)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +26
 msgid "Contact's first name."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +27
 msgid "Contact's middle name."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Preferences/Address.hlp
+#: templates/CRM/Admin/Form/Preferences/Address.hlp +28
 msgid "Contact's last name."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Component.hlp
+#: templates/CRM/Admin/Form/Setting/Component.hlp +0
 msgid ""
 "These optional components give you more tools to connect with and engage "
 "your supporters."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Component.hlp
+#: templates/CRM/Admin/Form/Setting/Component.hlp +1
 msgid ""
 "<strong>CiviContribute</strong> - An online fundraising and donor management "
 "component which enables you to track and manage contributions to your "
@@ -122,7 +122,7 @@ msgid ""
 "\">CiviContribute Guide</a> for more info."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Component.hlp
+#: templates/CRM/Admin/Form/Setting/Component.hlp +2
 msgid ""
 "<strong>CiviMail</strong> - A robust mass-mailing component which allows you "
 "to engage your constituents with personalized email blasts and newsletters. "
@@ -130,14 +130,14 @@ msgid ""
 "info."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Component.hlp
+#: templates/CRM/Admin/Form/Setting/Component.hlp +3
 msgid ""
 "<strong>CiviMember</strong> -  A flexible membership management component "
 "which includes convenient online signup and renewal. Refer to the <a href=\"%"
 "1\" target=\"_blank\">CiviMember Guide</a> for more info."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Date.hlp
+#: templates/CRM/Admin/Form/Setting/Date.hlp +0
 msgid ""
 "Use this screen to configure formats for date display and date input fields. "
 "Defaults are provided for standard United States formats. Settings use "
@@ -145,31 +145,31 @@ msgid ""
 "vary based on your operating system and locale."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Date.hlp
+#: templates/CRM/Admin/Form/Setting/Date.hlp +1
 msgid "Commonly Used Specifiers"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +0
 msgid ""
 "Set this value to <strong>Yes</strong> if you want to use one of CiviCRM's "
 "debugging tools."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +1
 msgid "This feature should NOT be enabled for production sites."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +2
 msgid ""
 "Debug output is triggered by adding specific name-value pairs to the CiviCRM "
 "query string:"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +3
 msgid "Smarty Debug Window"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +4
 msgid ""
 "Loads all variables available to the current page template into a pop-up "
 "window. To trigger, add <em>&smartyDebug=1</em> to any CiviCRM URL query "
@@ -177,79 +177,79 @@ msgid ""
 "CiviCRM site URL."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +5
 msgid "Session Reset"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +6
 msgid "Resets all values in your client session. To trigger, add <em>%1</em>"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +7
 msgid "Directory Cleanup"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +8
 msgid "Empties template cache and/or temporary upload file folders."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +9
 msgid "To empty template cache (civicrm/templates_c folder), add <em>%1</em>"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +10
 msgid ""
 "To remove temporary upload files (civicrm/upload folder), add <em>%1</em>"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +11
 msgid "To cleanup both, add <em>%1</em>"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +12
 msgid "Stack Trace"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Debugging.hlp
+#: templates/CRM/Admin/Form/Setting/Debugging.hlp +13
 msgid "To display a stack trace listing at the top of a page, add <em>%1</em>"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Mapping.hlp
+#: templates/CRM/Admin/Form/Setting/Mapping.hlp +0 +4
 msgid ""
 "<strong>For GOOGLE mapping</strong> - request an API key for your site at %1"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Mapping.hlp
+#: templates/CRM/Admin/Form/Setting/Mapping.hlp +1
 msgid ""
 "When prompted for 'My Web Site URL' - enter the base URL for your site "
 "followed by the path '/civicrm'. Your API Key will be generated and "
 "displayed on the next page."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Mapping.hlp
+#: templates/CRM/Admin/Form/Setting/Mapping.hlp +2 +6
 msgid "EXAMPLE: if your Drupal site url is %1 you would enter"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Mapping.hlp
+#: templates/CRM/Admin/Form/Setting/Mapping.hlp +3 +7
 msgid ""
 "<strong>For YAHOO mapping</strong> - request an Application ID for your site "
 "at %1"
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Mapping.hlp
+#: templates/CRM/Admin/Form/Setting/Mapping.hlp +5
 msgid ""
 "When prompted for 'My Web Site URL' - enter the base URL for your site "
 "followed by the path '%1'. Your API Key will be generated and displayed on "
 "the next page."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Url.hlp
+#: templates/CRM/Admin/Form/Setting/Url.hlp +0
 msgid ""
 "This setting forces a redirect of all online contribution / member / event "
 "and CiviCRM administrator page requests to SSL secured URLs (https)."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Url.hlp
+#: templates/CRM/Admin/Form/Setting/Url.hlp +1
 msgid ""
 "If you use a payment processor service where credit card and billing "
 "information is collected ON YOUR SITE (PayPal Website Payments Pro or "
@@ -260,7 +260,7 @@ msgid ""
 "certificates."
 msgstr ""
 
-#: templates/CRM/Admin/Form/Setting/Url.hlp
+#: templates/CRM/Admin/Form/Setting/Url.hlp +2
 msgid ""
 "Once you have your certificate installed, test that is working by navigating "
 "to one of your online contribution pages and changing the URL prefix from "
@@ -271,20 +271,20 @@ msgid ""
 "SSL secured URLs."
 msgstr ""
 
-#: templates/CRM/Admin/Page/DedupeRules.hlp
+#: templates/CRM/Admin/Page/DedupeRules.hlp +1
 msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records. For each field, set a numeric <strong>Weight</"
 "strong> which determines the relative importance of a match on that field."
 msgstr ""
 
-#: templates/CRM/Admin/Page/DedupeRules.hlp
+#: templates/CRM/Admin/Page/DedupeRules.hlp +2
 msgid ""
 "You can also set a <strong>Length</strong> value which determines how many "
 "characters in the field should be compared."
 msgstr ""
 
-#: templates/CRM/Admin/Page/DedupeRules.hlp
+#: templates/CRM/Admin/Page/DedupeRules.hlp +3
 msgid ""
 "EXAMPLE: If you set a length of 8 on 'Street Address', then '101 Delaplane "
 "Ave.' would match '101 Delaplain St.' because the first 8 characters are the "
@@ -292,7 +292,7 @@ msgid ""
 "field value (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +0
 msgid ""
 "Review the <a href='%1' target='_blank' title='%2'>configuration procedures "
 "for each Payment Processor here</a>. If you're not sure which processor to "
@@ -301,26 +301,26 @@ msgid ""
 "the list, consider partnering with a developer and contributing a plugin."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +1
 msgid "API Login (LIVE account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +2 +4 +10 +12
 msgid ""
 "Generate your API Login and Transaction Key by logging in to your Merchant "
 "Account and navigating to <strong>Settings &raquo; General Security "
 "Settings</strong>."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +3
 msgid "Transaction Key (LIVE account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +5
 msgid "MD5-Hash (LIVE account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +6 +14
 msgid ""
 "You may also optionally set an MD5 Hash Key to verify that responses come "
 "directly from Authorize.Net. Login to your merchant account and navigate to "
@@ -329,41 +329,41 @@ msgid ""
 "the exact same value here."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +7
 msgid ""
 "The URL for Authorize.net's LIVE Payment server. Use the default value "
 "unless otherwise advised by the processor."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +8 +16
 msgid ""
 "The URL for recurring payments. Use the default value unless otherwise "
 "advised by the processor."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +9
 msgid "API Login (TEST account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +11
 msgid "Transaction Key (TEST account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +13
 msgid "MD5-Hash (TEST account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +15
 msgid ""
 "The URL for Authorize.net's TEST Payment server. Use the default value "
 "unless otherwise advised by the processor."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +17 +33
 msgid "LIVE Account API Username:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +18 +34
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
@@ -371,11 +371,11 @@ msgid ""
 "strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +19 +35
 msgid "LIVE Account API Password:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +20 +36
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
@@ -383,11 +383,11 @@ msgid ""
 "strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +21 +37
 msgid "LIVE Account API Signature:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +22 +38
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
@@ -395,23 +395,23 @@ msgid ""
 "Signature</strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +23 +39
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise advised by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +24 +32
 msgid ""
 "The URL for displaying PayPal's \"Pay with PayPal\" payment button image. "
 "Use the default value unless otherwise advised by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +25 +40
 msgid "TEST Account API Username:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +26 +41
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
@@ -419,11 +419,11 @@ msgid ""
 "Signature</strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +27 +42
 msgid "TEST Account API Password:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +28 +43
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
@@ -431,11 +431,11 @@ msgid ""
 "Signature</strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +29 +44
 msgid "TEST Account API Signature:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +30 +45
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
@@ -443,109 +443,109 @@ msgid ""
 "API Signature</strong> screen."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +31 +46
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise advised by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +47
 msgid "LIVE Merchant Account Email Address:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +48
 msgid ""
 "Enter the Merchant Account Email Address linked to your LIVE PayPal Merchant "
 "Account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +49
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +50 +54
 msgid ""
 "The URL for PayPal Standard recurring payments. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +51
 msgid "TEST Merchant Account Email Address:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +52
 msgid ""
 "Enter the Merchant Account Email Address linked to your PayPal Sandbox "
 "merchant account (NOT your Developer Central login - unless it's the same)."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +53
 msgid ""
 "The URL for PayPal's TEST Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +55
 msgid "User Name (TEST account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +56
 msgid ""
 "Enter <strong>pj-ql-01</strong>. This is the User Name associated with the "
 "shared PayJunction test account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +57
 msgid "Password (TEST account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +58
 msgid ""
 "Enter <strong>pj-ql-01p</strong>. This is the Password associated with the "
 "shared PayJunction test account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +59 +65
 msgid ""
 "The URL for PayJunction's Payment server. This is the same for TEST and LIVE "
 "transactions. Use the default value unless otherwise advised by PayPal."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +60 +66
 msgid "The Recurring Payments URL is not currently used."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +61
 msgid "User Name (LIVE account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +62
 msgid "Enter the User Name associated with your LIVE merchant account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +63
 msgid "Password (LIVE account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +64
 msgid "Enter the Password associated with your LIVE merchant account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +67
 msgid "LIVE Account Merchant ID:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +68
 msgid "Enter the Merchant ID from your Live account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +69 +77
 msgid "How do I Find my Merchant-ID?"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +70 +74 +78 +82
 msgid ""
 "After signing in to your account, click on the Settings tab. Then click on "
 "the Integration link on the left side of the page. Your 10- or 15-digit "
@@ -553,180 +553,180 @@ msgid ""
 "information header."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +71
 msgid "LIVE Account Merchant Key:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +72
 msgid "Enter the Merchant Key from your Live account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +73 +81
 msgid "How do I Find my Merchant Key?"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +75
 msgid "TEST/Sandbox Account Merchant ID:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +76
 msgid "Enter the Merchant ID from your Sandbox account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +79
 msgid "TEST/Sandbox Account Merchant Key:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +80
 msgid "Enter the Merchant Key from your Sandbox account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +83
 msgid ""
 "The URL for Google Checkout's TEST Payment server. Use the default value "
 "unless otherwise indicated by Google."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +84
 msgid ""
 "The URL for Google Checkout's LIVE Payment server. Use the default value "
 "unless otherwise indicated by Google."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +85 +101
 msgid "Google Checkout Button:"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +86
 msgid "The base URL for the <strong>TEST - Image</strong> is: %1"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +87 +103
 msgid ""
 "To display an image, you must add several parameters to this URL as "
 "name=value pairs."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +88 +104
 msgid "Parameters"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +89 +105
 msgid "Values"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +91 +93 +107 +109
 msgid "large/medium/small"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +92 +108
 msgid "width of the button in pixels"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +94 +110
 msgid "height of the button in pixels"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +95 +111
 msgid "background color for the button"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +96 +112
 msgid "whether the button is clickable or disabled"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +97 +113
 msgid "a locale associated with the transaction (optional)"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +98 +114
 msgid "(e.g %1)"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +100
 msgid ""
 "Example of a large Google Checkout button on a white background (For TEST "
 "Account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +102
 msgid "The base URL for the <strong>LIVE - Image</strong> is: %1"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +116
 msgid ""
 "Example of a large Google Checkout button on a white background (For LIVE "
 "Account):"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +117 +124
 msgid ""
 "Moneris doesn't currently use the Username field. Enter 'ignoreme' as a "
 "placeholder since the field can't be left blank."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +118 +125
 msgid "API Token (TEST account)"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +119
 msgid "Enter the API Token from your live merchant account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +120
 msgid "Store ID (LIVE account)"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +121
 msgid "Enter your live merchant account Store ID."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +122
 msgid ""
 "The URL for the Moneris LIVE Payment server. Use the default value unless "
 "otherwise advised by the processor."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +123 +130
 msgid "The Recurring Payments URL is not currently used for Moneris."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +126
 msgid ""
 "All Moneris test transactions are submitted to a shared test merchant "
 "account. Enter <strong>%1</strong> here, which is the API Token for this "
 "test account."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +127
 msgid "Store ID (TEST account)"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +128
 msgid ""
 "All Moneris test transactions are submitted to a shared merchant account. "
 "You can use <strong>%1</strong> as your test store ID. '%2' and '%3' also "
 "work, but only '%1' accepts recurring payments."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +129
 msgid ""
 "The URL for the Moneris TEST Payment server. Use the default value unless "
 "otherwise advised by the processor."
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +131 +133 +135 +137
 msgid "Dummy Processor"
 msgstr ""
 
-#: templates/CRM/Admin/Page/PaymentProcessor.hlp
+#: templates/CRM/Admin/Page/PaymentProcessor.hlp +132 +134 +136 +138
 msgid ""
 "Set up a 'Dummy' Processor if you want to test Online Contribution pages or "
 "Event Registration pages prior to selecting and configuring a real payment "
 "processor. You can enter any values for User Name and Site URL."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Domain.hlp
+#: templates/CRM/Contact/Form/Domain.hlp +0 +1
 msgid ""
 "The FROM Name and Email Address are used when automated emails are sent from "
 "this domain (e.g. subscribe and unsubscribe confirmations...). This Name and "
@@ -734,7 +734,7 @@ msgid ""
 "a new CiviMail Mailing."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Domain.hlp
+#: templates/CRM/Contact/Form/Domain.hlp +2
 msgid ""
 "The Email Domain is the internet domain (e.g., <code>example.org</code>) to "
 "be used in the address of \"action\" mailings (e.g. the reply-to address "
@@ -744,15 +744,15 @@ msgid ""
 "emails (so it can process the \"actions\" like subscribe, optOut, etc.)."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Domain.hlp
+#: templates/CRM/Contact/Form/Domain.hlp +3
 msgid "Opens documentation in a new window."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Domain.hlp
+#: templates/CRM/Contact/Form/Domain.hlp +4
 msgid "Read more"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Domain.hlp
+#: templates/CRM/Contact/Form/Domain.hlp +5
 msgid ""
 "Use the Return Path field if you need to populate the <code>Return-Path</"
 "code> mail header element with a fixed value (e.g., <code>myuser@example."
@@ -764,7 +764,7 @@ msgid ""
 "<code>Return-Path</code>."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Edit.hlp
+#: templates/CRM/Contact/Form/Edit.hlp +0
 msgid ""
 "If you are using the CiviMail component to send mailings to contacts, this "
 "field provides additional control over which email address is used. By "
@@ -775,7 +775,7 @@ msgid ""
 "Mailings' box next to that email address."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Merge.hlp
+#: templates/CRM/Contact/Form/Merge.hlp +0
 msgid ""
 "<p>Click <strong>Merge</strong> to move data from the Duplicate Contact on "
 "the left into the Main Contact. In addition to the contact data (address, "
@@ -792,14 +792,14 @@ msgid ""
 "DELETED after the Merge is complete.</strong></p>\n"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Advanced.hlp
+#: templates/CRM/Contact/Form/Search/Advanced.hlp +0
 msgid ""
 "Use <strong>%</strong> wildcard(s) for partial matches. EXAMPLE: Enter "
 "'Volunteer%' as your Activity Type to match any activity whose type is "
 "'Volunteer' + any other words (e.g. Volunteer for Open House)."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Advanced.hlp
+#: templates/CRM/Contact/Form/Search/Advanced.hlp +1
 msgid ""
 "If multiple boxes are checked for Contact Types, Groups, Tags and Location "
 "Types, the selections are combined as <strong>OR</strong> criteria (e.g. "
@@ -809,14 +809,14 @@ msgid ""
 "'Mexico' returns only those contacts who meet both criteria)."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Builder.hlp
+#: templates/CRM/Contact/Form/Search/Builder.hlp +1
 msgid ""
 "IMPORTANT: Search Builder requires you to use specific formats for your "
 "search values. Review the <a href=\"%1\" target=\"_blank\" title=\"%2"
 "\">Search Builder documentation</a> before building your first search..."
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Builder.hlp
+#: templates/CRM/Contact/Form/Search/Builder.hlp +2
 msgid ""
 "Create your search by selecting the criteria (record type and field), the "
 "comparison operator, and entering the value you want to search for. You can "
@@ -825,14 +825,14 @@ msgid ""
 "em>"
 msgstr ""
 
-#: templates/CRM/Contact/Form/Search/Builder.hlp
+#: templates/CRM/Contact/Form/Search/Builder.hlp +3
 msgid ""
 "You can also create additional sets of criteria: <em>Also include contacts "
 "where... State IS California AND City IS Los Angeles AND Birth Date is later "
 "than (>) Jan 1, 1985</em>"
 msgstr ""
 
-#: templates/CRM/Contact/Page/View/Membership.hlp
+#: templates/CRM/Contact/Page/View/Membership.hlp +0
 msgid ""
 "\n"
 "<p>Membership status is normally assigned and updated automatically based on "
@@ -848,7 +848,7 @@ msgid ""
 "NOT update this membership record.</p>\n"
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +1
 msgid ""
 "If you want collect additional information from contributors, you will need "
 "to configure one or two CiviCRM Profiles - which are collections of standard "
@@ -859,7 +859,7 @@ msgid ""
 "or several projects or funds to support with this contribution)."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +2
 msgid ""
 "If you haven't already configured custom fields and a profile for this, you "
 "can save this screen without selecting a Profile, complete the steps below "
@@ -867,42 +867,42 @@ msgid ""
 "new profile."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +3
 msgid ""
 "Create a custom field group which is 'Used for' <strong>Contacts</strong> or "
 "<strong>Contributions</strong> depending on what type of information you're "
 "collecting."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +4
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your field(s) this custom field group."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +5
 msgid "Create a profile (e.g. 'Contribution Information')."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +6
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Add your custom field(s) to this profile as profile fields."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +7
 msgid ""
 "Return to this screen (<strong>Administer CiviCRM &raquo; Manage "
 "Contribution Page &raquo; Configure &raquo; Custom Elements</strong>) and "
 "select your profile."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Custom.hlp +8
 msgid ""
 "Refer to the online documentation for more details on creating <a href=\"%1"
 "\" title=\"%3\" target=\"_blank\">custom fields</a> and <a href=\"%2\" title="
 "\"%3\" target='_blank'>profiles</a>."
 msgstr ""
 
-#: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp
+#: templates/CRM/Contribute/Form/ContributionPage/Widget.hlp +0
 msgid ""
 "\n"
 "<p>Enabling a widget for this contribution page allows you and your "
@@ -925,14 +925,14 @@ msgid ""
 "once the campaign is over.</p>\n"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +0
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid "Import File Format"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +1
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Member/Import/Form/UploadFile.hlp
 msgid ""
@@ -941,11 +941,11 @@ msgid ""
 "the documentation for your application if you're not sure how to do this."
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +2
 msgid "Contact Records for Contributors"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +3
 msgid ""
 "Contribution import requires that the Contributors already exist as contact "
 "records in your CiviCRM database. If you need to import contributions for "
@@ -956,18 +956,18 @@ msgid ""
 "to this screen and import the contribution records."
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +4
 msgid "Matching Contributions to Contributors"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +5
 msgid ""
 "Contribution import files must  contain data needed to <strong>match the "
 "contribution to the contributor</strong>. This 'matching' can be handled in "
 "several different ways:"
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +6
 msgid ""
 "Include the data fields used for contact 'matching' based on your configured "
 "<strong>Duplicate Matching</strong> rules. For the default duplicate "
@@ -975,7 +975,7 @@ msgid ""
 "contributors' First Name, Last Name and Email Address."
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +7
 msgid ""
 "If you've stored a unique <strong>External Identifier</strong> for each "
 "contact in CiviCRM, you can include that value as a column in your import "
@@ -983,54 +983,54 @@ msgid ""
 "External ID."
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +8
 msgid ""
 "You can include a column with each contributor's <strong>Internal Contact "
 "ID</strong>. This is the unique ID assigned by CiviCRM which is displayed at "
 "the bottom of the Contact Summary screen - and can be exported."
 msgstr ""
 
-#: templates/CRM/Contribute/Import/Form/UploadFile.hlp
+#: templates/CRM/Contribute/Import/Form/UploadFile.hlp +9
 msgid ""
 "Save the CSV file with your contributions and 'contact matching' data to "
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +2
 msgid "For existing pages"
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +3
 msgid ""
 "Click <strong>Configure</strong> to view and modify settings, amounts, and "
 "text for existing pages."
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +4
 msgid ""
 "Click <strong>Test-drive</strong> to try out the page in <strong>test mode</"
 "strong>. This allows you to go through the full contribution process using a "
 "dummy credit card on a test server."
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +5
 msgid ""
 "If your page is enabled, click <strong>Live Page</strong> to view to the "
 "page in <strong>live mode</strong>."
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +6
 msgid ""
 "Click <a href=\"%1\">New Contribution Page</a> to create and configure a new "
 "online contribution page using the step-by-step wizard."
 msgstr ""
 
-#: templates/CRM/Contribute/Page/ContributionPage.hlp
+#: templates/CRM/Contribute/Page/ContributionPage.hlp +7
 msgid "<a href=\"%1\" target=\"_blank\" title=\"%2\">Read more...</a>"
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp +0
 msgid ""
 "<p>The Role you select here is automatically assigned to people when they "
 "register online for this event (usually the default \"Attendee\" role).</p>\n"
@@ -1040,27 +1040,27 @@ msgid ""
 "    Online Registration page for this event.</p>"
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp +2
 msgid ""
 "You will need to set Drupal Access Control permissions to include \"view "
 "event participants\" for any Roles you want to access this listing."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp +3
 msgid ""
 "Create links to the listing page by copying the following URL, and adding it "
 "to the Event Description below and / or as a menu item or links elsewhere on "
 "your site:"
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
+#: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp +4
 msgid ""
 "Then create front-end links to the Participant Listing page using the Menu "
 "Manager. Select <strong>Participant Listing Page</strong> and enter <strong>%"
 "1</strong> for the Event ID."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +1
 msgid ""
 "If you want collect additional information during event registration, you "
 "will need to configure one or two CiviCRM Profiles - which are collections "
@@ -1069,7 +1069,7 @@ msgid ""
 "strong> in an Event. Examples include meal and/or volunteer preferences."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +2
 msgid ""
 "If you haven't already configured custom fields and a profile for this, you "
 "can save this screen without selecting a Profile, complete the steps below "
@@ -1077,66 +1077,66 @@ msgid ""
 "profile."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +3
 msgid ""
 "Create a custom field group which is 'Used for' <strong>Participants</"
 "strong>."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +5
 msgid "Create a profile (e.g. 'Participant Information')."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +7
 msgid ""
 "Return to this screen (<strong>Administer CiviCRM &raquo; Manage Events "
 "&raquo; Configure &raquo; Online Registration</strong>) and select your "
 "profile."
 msgstr ""
 
-#: templates/CRM/Event/Form/ManageEvent/Registration.hlp
+#: templates/CRM/Event/Form/ManageEvent/Registration.hlp +8
 msgid ""
 "Refer to the online documentation for more details on creating <a href='%1' "
 "title='%3' target='_blank'>custom fields</a> and <a href='%2' title='%3' "
 "target='_blank'>profiles</a>."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +2
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 msgid "Required Participant Data"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +3
 msgid "Participant import data MUST include the following columns:"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +4
 msgid ""
 "Event Title OR Event ID (a unique integer assigned by CiviEvent, displayed "
 "in the Manage Events listing)"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +5
 msgid "Participant Status (ie. Registered, Attended, Cancelled, etc.)"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +6
 msgid "Participant Role (ie. Attendee, Volunteer, Host, etc.)"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +7
 msgid ""
 "Valid values for Status and Role can be found in the CiviEvent section of "
 "the Administer CiviCRM screen. You can also import Fee Level, Registration "
 "Date and any other standard or custom Participant fields."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +8
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +4
 msgid "Contact Records for Event Participants"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +9
 msgid ""
 "Participant import requires that each person, household or organization "
 "already exists as a contact record in your CiviCRM database. If you need to "
@@ -1148,19 +1148,19 @@ msgid ""
 "record. Then return to this screen and import the participant records."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +10
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +6
 msgid "Matching Participant Data to Contacts"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +11
 msgid ""
 "Participant import files must  contain data needed to <strong>match the "
 "participant to a contact record in your CiviCRM database</strong>. This "
 "'matching' can be handled in several different ways:"
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +12
 msgid ""
 "Include the data fields used for contact 'matching' based on your configured "
 "<strong>Duplicate Matching</strong> rules. For the default duplicate "
@@ -1168,7 +1168,7 @@ msgid ""
 "participants' First Name, Last Name and Email Address."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +13
 msgid ""
 "If you've stored a unique <strong>External Identifier</strong> for each "
 "contact in CiviCRM, you can include that value as a column in your import "
@@ -1176,26 +1176,26 @@ msgid ""
 "External ID."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +14
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +8
 msgid ""
 "You can include a column with each contact's <strong>Internal Contact ID</"
 "strong>. This is the unique ID assigned by CiviCRM which is displayed at the "
 "bottom of the Contact Summary screen - and can be exported."
 msgstr ""
 
-#: templates/CRM/Event/Import/Form/UploadFile.hlp
+#: templates/CRM/Event/Import/Form/UploadFile.hlp +15
 msgid ""
 "Save the CSV file with your participant data and 'contact matching' data to "
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +0
 msgid "ICalendar Downloads and Feeds"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +1
 msgid ""
 "iCalendar is a standard format for representing information about "
 "calendaring and scheduling. CiviEvent allows you to output your current and "
@@ -1203,70 +1203,70 @@ msgid ""
 "be shared with other iCalendar-enabled applications."
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +2
 msgid "Depending on how you want to use the iCalendar data - you can:"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +3
 msgid ""
 "Download an iCalendar file (with a *.ics extension) to your local computer."
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +4
 msgid ""
 "Access the data using an HTTP GET request from a specific URL. (This is the "
 "'ICAL' icon on the Manage Events page.)"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +5
 msgid "The iCalendar Feed URL for CiviEvent on this site:"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +6
 msgid ""
 "By default, both methods get all events whose starting date is greater than "
 "or equal to the current date. However, you can modify this by passing "
 "additional parameters in the URL:"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +7
 msgid ""
 "start=YYYYMMDD - Specify a different starting date range for the events to "
 "be listed."
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +8
 msgid ""
 "type=N - Specify a particular Event Type using the event_type_id value. (You "
 "can find these values by browsing the listing at Administer CiviCRM &raquo; "
 "Event Types.)"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +9
 msgid ""
 "EXAMPLE: Given the default event types, this URL will retrieve all events "
 "with start dates on or after January 1, 2007 whose event type is "
 "'Fundraiser':"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +10
 msgid "RSS 2.0 Feeds"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +11
 msgid ""
 "CiviEvent also creates an RSS 2.0 formatted feed which can be subscribed to "
 "people using RSS readers and can be displayed in most modern browsers. The "
 "RSS Feed URL for CiviEvent on this site:"
 msgstr ""
 
-#: templates/CRM/Event/Page/ManageEvent.hlp
+#: templates/CRM/Event/Page/ManageEvent.hlp +12
 msgid ""
 "You can also use the additional parameters shown above to filter the events "
 "included in the RSS feed."
 msgstr ""
 
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +1
 msgid ""
 "Files to be imported must be in the 'comma-separated-values' format (CSV). "
 "Most applications will allow you to export records in CSV format.\n"
@@ -1274,7 +1274,7 @@ msgid ""
 "do this."
 msgstr ""
 
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +3
 msgid ""
 "Participant import data MUST include the following columns:\n"
 "    <ul><li>Event Title OR Event ID (a unique integer assigned by CiviEvent, "
@@ -1287,7 +1287,7 @@ msgid ""
 "    Participant fields."
 msgstr ""
 
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +5
 msgid ""
 "Participant import requires that each person, household or organization "
 "already exists as a contact record in your CiviCRM database.\n"
@@ -1301,7 +1301,7 @@ msgid ""
 "to this screen and import the participant records."
 msgstr ""
 
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +7
 msgid ""
 "Participant import files must  contain data needed to <strong>match the "
 "participant to a contact record in your CiviCRM database</strong>.\n"
@@ -1323,7 +1323,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: templates/CRM/Grant/Import/Form/UploadFile.hlp
+#: templates/CRM/Grant/Import/Form/UploadFile.hlp +8
 msgid ""
 "Save the CSV file with your participant data and \"contact matching\" data "
 "to your local hard drive (or an accessible drive on your network) - and you "
@@ -1331,7 +1331,7 @@ msgid ""
 "    for step 1 (Upload Data)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.hlp
+#: templates/CRM/Group/Page/Group.hlp +0
 msgid ""
 "Use Groups to organize contacts (e.g. these contacts are members of our "
 "'Steering Committee'). You can also create <strong>smart groups</strong> "
@@ -1339,11 +1339,12 @@ msgid ""
 "consists of all people in our database who live in a specific locality)."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.hlp templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/Group/Page/Group.hlp +2 +5 +8 templates/CRM/UF/Page/Group.hlp
+#: +9 +15
 msgid "more info"
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.hlp
+#: templates/CRM/Group/Page/Group.hlp +3
 msgid ""
 "You can add contacts to a group from any set of search results (or when "
 "viewing an individual contact). You can also allow contacts to sign "
@@ -1352,14 +1353,14 @@ msgid ""
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.hlp
+#: templates/CRM/Group/Page/Group.hlp +6
 msgid ""
 "Groups which are using as mailing lists should be assigned the 'Mailing "
 "List' type. Groups of contacts which are used for <strong>access control</"
 "strong> must be assigned that type."
 msgstr ""
 
-#: templates/CRM/Group/Page/Group.hlp
+#: templates/CRM/Group/Page/Group.hlp +9
 msgid ""
 "Use <strong>Find Groups</strong> to search by group name, type and "
 "visibility. Group type filtering uses <strong>AND</strong> logic. If you "
@@ -1369,7 +1370,7 @@ msgid ""
 "that letter."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +1
 msgid ""
 "Files to be imported must be in the <strong>comma-separated-values format "
 "(CSV)</strong>. Most applications will allow you to export records in this "
@@ -1378,7 +1379,7 @@ msgid ""
 "drive on your network) - and you are now ready for step 1 (Upload Data)."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +2
 msgid ""
 "After importing contacts, you may also want to import <strong>contributions, "
 "membership info and/or event participation</strong> data for these contacts. "
@@ -1389,51 +1390,51 @@ msgid ""
 "Import Contributions)."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +3
 msgid ""
 "Select <strong>Individual</strong> for Contact Type if each record in your "
 "file represents and individual person - even if the file also contains "
 "related Organization data (e.g. Employer Name, Employer Address, etc.)."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +4
 msgid ""
 "Select <strong>Organization</strong> or <strong>Household</strong> if each "
 "record in your file represents a contact of that type."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +5
 msgid ""
 "If a contact in the import file appears to be a duplicate of an existing "
 "CiviCRM contact..."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +6
 msgid ""
 "<strong>Skip:</strong> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +7
 msgid ""
 "<strong>Update:</strong> Updates database fields with available import data. "
 "Fields in the database which are NOT included in the import row are left as-"
 "is."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +8
 msgid ""
 "<strong>Fill:</strong> Fills in additional contact data only. Database "
 "fields which currently have values are left as-is."
 msgstr ""
 
-#: templates/CRM/Import/Form/UploadFile.hlp
+#: templates/CRM/Import/Form/UploadFile.hlp +9
 msgid ""
 "<strong>No Duplicate Checking:</strong> Inserts all valid records without "
 "comparing them to existing contact records for possible duplicates."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +0
 msgid ""
 "Assign a unique name to each of your mailings. Select a naming convention "
 "that will help keep your mailings organized and easy to find when you want "
@@ -1441,11 +1442,11 @@ msgid ""
 "general-interest newsletter - you might use the following naming convention:"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +1
 msgid "General Monthly Newsletter: 200709"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +2
 msgid ""
 "Determine the contacts in your database who should receive this mailing by "
 "first selecting one or more <strong>Included Groups</strong>. (Groups must "
@@ -1454,7 +1455,7 @@ msgid ""
 "Groups &raquo; Settings</strong>.)"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +3
 msgid ""
 "You also have the option to <strong>Exclude</strong> some contacts from your "
 "included groups by selecting one or more <strong>Excluded Groups</strong>. "
@@ -1462,7 +1463,7 @@ msgid ""
 "'excluded')."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +4 +7 +8
 msgid ""
 "If you have sent other mailings - you can additionally Include (or Exclude) "
 "contacts who received those mailings. CiviCRM will eliminate any "
@@ -1470,7 +1471,7 @@ msgid ""
 "recipients of an Included Mailing will only be sent one copy of this mailing."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +5
 msgid ""
 "After you click <strong>Next</strong> - the total number of selected "
 "recipients will be displayed on the next screen. Use this as a 'reality-"
@@ -1478,7 +1479,7 @@ msgid ""
 "recipients."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Group.hlp
+#: templates/CRM/Mailing/Form/Group.hlp +6
 msgid ""
 "You also have the option to <strong>Exclude</strong> some contacts in your "
 "included groups by selecting on or more <strong>Excluded Groups</strong>. "
@@ -1486,25 +1487,25 @@ msgid ""
 "'excluded')."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.hlp
+#: templates/CRM/Mailing/Form/Schedule.hlp +1
 msgid "Scheduling and Sending Mailings"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.hlp
+#: templates/CRM/Mailing/Form/Schedule.hlp +2
 msgid ""
 "You can schedule mailings to be sent starting at a specific date and time, "
 "OR you can request that they be sent as soon as possible by checking &quot;"
 "Send Immediately&quot;."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.hlp
+#: templates/CRM/Mailing/Form/Schedule.hlp +3
 msgid ""
 "Clicking <strong>Done</strong> adds this mailing to the mailing queue. An "
 "automated task which runs periodically on your server processes mailings in "
 "the queue, and starts actually sending out your mail."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Schedule.hlp
+#: templates/CRM/Mailing/Form/Schedule.hlp +4
 msgid ""
 "<strong>Trouble-shooting Tip</strong> - If you find that your mailings are "
 "not being sent, ask the system administrator or technical support contact "
@@ -1513,58 +1514,58 @@ msgid ""
 "info...</a>)"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Test.hlp
+#: templates/CRM/Mailing/Form/Test.hlp +1
 msgid ""
 "Verify the test email address and/or test recipient group. Then click "
 "<strong>Next</strong> with 'Send Test Mailing' checked to generate the test "
 "mailing. Once you receive the test mailing:"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Test.hlp
+#: templates/CRM/Mailing/Form/Test.hlp +2
 msgid "Verify the content and formattting."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Test.hlp
+#: templates/CRM/Mailing/Form/Test.hlp +3
 msgid ""
 "If you are using mail-merge tokens, check that they have been replaced with "
 "expected values."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Test.hlp
+#: templates/CRM/Mailing/Form/Test.hlp +4
 msgid ""
 "Click on each included link to make sure they go to the expected web pages."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Test.hlp
+#: templates/CRM/Mailing/Form/Test.hlp +5
 msgid ""
 "If you need to make changes, you can click <strong>Previous</strong> from "
 "the next screen, and again from this screen to return to step 3. After "
 "making your changes, you can send another test and repeat as needed."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +0
 msgid "Message Formats"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +1
 msgid ""
 "You can choose to send BOTH an <strong>HTML</strong> and a plain "
 "<strong>TEXT</strong> version of your mailing, OR you can send a "
 "<strong>TEXT</strong> version only."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +2
 msgid ""
 "If you create only an <strong>HTML</strong> version, CiviMail will "
 "automatically create a <strong>TEXT</strong> version for your recipients who "
 "have chosen NOT to receive HTML email."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +3
 msgid "Required Elements"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +4
 msgid ""
 "CiviMail email messages must include an <strong>unsubscribe</strong> link, "
 "an <strong>opt-out</strong> link, and the <strong>postal address</strong> of "
@@ -1576,18 +1577,18 @@ msgid ""
 "information as well as sample messages....</a>"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +5
 msgid "Upload or Compose On-screen"
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +6
 msgid ""
 "You can use your favorite editor to create content on your local computer "
 "and then <strong>Upload</strong> the files. OR you can <strong>Compose</"
 "strong> content directly on the screen."
 msgstr ""
 
-#: templates/CRM/Mailing/Form/Upload.hlp
+#: templates/CRM/Mailing/Form/Upload.hlp +7
 msgid ""
 "If you choose to compose on the screen, a basic WYSIWYG (what-you-see-is-"
 "what-you-get) editor is provided which you can use create simple HTML "
@@ -1597,7 +1598,7 @@ msgid ""
 "strong> button."
 msgstr ""
 
-#: templates/CRM/Member/Form/MembershipBlock.hlp
+#: templates/CRM/Member/Form/MembershipBlock.hlp +0
 msgid ""
 "\n"
 "<p>Check this box if you are including both Membership Signup/Renewal AND a "
@@ -1618,7 +1619,7 @@ msgid ""
 "Standard and Google Checkout.</strong></p>\n"
 msgstr ""
 
-#: templates/CRM/Member/Form/MembershipBlock.hlp
+#: templates/CRM/Member/Form/MembershipBlock.hlp +1
 msgid ""
 "\n"
 "<p>When this box is checked, the membership fee is included in the listing "
@@ -1636,11 +1637,11 @@ msgid ""
 "eligible for this membership)</strong></p>\n"
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +2
 msgid "Contact Records for Members"
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +3
 msgid ""
 "Membership import requires that each person, household or organization "
 "already exists as a contact record in your CiviCRM database. If you need to "
@@ -1651,18 +1652,18 @@ msgid ""
 "contacts. Then return to this screen and import the membership records."
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +4
 msgid "Matching Memberships to Contacts"
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +5
 msgid ""
 "Membership import files must  contain data needed to <strong>match the "
 "membership to the contact record</strong>. This 'matching' can be handled in "
 "several different ways:"
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +6
 msgid ""
 "Include the data fields used for contact 'matching' based on your configured "
 "<strong>Duplicate Matching</strong> rules. For the default duplicate "
@@ -1670,7 +1671,7 @@ msgid ""
 "First Name, Last Name and Email Address."
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +7
 msgid ""
 "If you've stored a unique <strong>External Identifier</strong> for each "
 "contact in CiviCRM, you can include that value as a column in your import "
@@ -1678,53 +1679,53 @@ msgid ""
 "External ID."
 msgstr ""
 
-#: templates/CRM/Member/Import/Form/UploadFile.hlp
+#: templates/CRM/Member/Import/Form/UploadFile.hlp +9
 msgid ""
 "Save the CSV file with your membership data and 'contact matching' data to "
 "your local hard drive (or an accessible drive on your network) - and you are "
 "now ready for step 1 (Upload Data)."
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +0
 msgid ""
 "Use the <strong>Relationship Type</strong> field to configure Membership "
 "Types where memberships are automatically granted to related contacts. "
 "Examples are listed below:"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +2
 msgid "Direct member is:"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +3
 msgid "Membership is automatically granted to:"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +5
 msgid "a household"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +6
 msgid "'Household Members' of that household"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +8
 msgid "an organization"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +9
 msgid "'Employees' of that organization"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +11
 msgid "an individual"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +12
 msgid "'Children' of that individual"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +13
 msgid ""
 "Select \"rolling\" if membership periods begin at date of signup. Select "
 "\"fixed\" if membership periods begin on a set calendar\n"
@@ -1735,11 +1736,11 @@ msgid ""
 "specified months."
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +14
 msgid "EXAMPLES"
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +15
 msgid ""
 "<strong>Fixed Membership Period - 1 Year Duration:</strong> Fixed period "
 "start date is set to January 1. A person signs up for membership\n"
@@ -1747,34 +1748,34 @@ msgid ""
 "2008 - and the end date is December 31, 2008."
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +16
 msgid ""
 "<strong>Fixed Membership - 3 Months Duration:</strong> A person signs up on "
 "February 15th, 2008. Their membership start date is set\n"
 "to February 1, 2008 - and the end date is April 30, 2008."
 msgstr ""
 
-#: templates/CRM/Member/Page/MembershipType.hlp
+#: templates/CRM/Member/Page/MembershipType.hlp +17
 msgid ""
 "<strong>Rolling Membership Period - 1 Year Duration:</strong> A person signs "
 "up on February 15th, 2008. Their membership start\n"
 "date is February 15th, 2008 - and the end date is February 14th, 2009."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +0
 msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +1
 msgid ""
 "<strong>User Screens</strong> - One or several profiles can be linked to "
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +2
 msgid ""
 "<strong>CiviContribute</strong> - When you want to collect information from "
 "Contributors via online contribution pages, you can create a profile and "
@@ -1782,11 +1783,11 @@ msgid ""
 "\"%1\">Configure Online Contribution Pages</a>)."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +3
 msgid "site root"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +4
 msgid ""
 "<strong>Contact Search and Listings</strong> - When you want to provide a "
 "search form and search result listings for some or all of your contacts you "
@@ -1797,21 +1798,21 @@ msgid ""
 "listings page for a Profile with ID = 3 would be:"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +5
 msgid ""
 "<strong>Contact Signup Forms</strong> - Create link(s) to \"new contact\" "
 "input form(s) for your Profiles using the following path: <em>%1/%2</em>. "
 "(This example links to an input form for Profile ID 3.)"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +6
 msgid ""
 "<strong>Contact Edit Forms</strong> - Allow <strong>authenticated users</"
 "strong> to edit their own contact info with a Profile using the following "
 "path: <em>%1/%2</em>. (This example links to an edit form for Profile ID 3.)"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +7
 msgid ""
 "<strong>Standalone Forms</strong> - If you want more control over form "
 "layout, or want to add Profile input forms to non-CiviCRM blocks, pages and/"
@@ -1819,7 +1820,7 @@ msgid ""
 "copy and paste the HTML form code into any web page."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +10
 msgid ""
 "The Standalone HTML code will display a form consisting of the active "
 "CiviCRM Profile fields for the selected profile. You can copy this HTML code "
@@ -1827,7 +1828,7 @@ msgid ""
 "contact information."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +11
 msgid ""
 "You can control the web page that someone is directed to AFTER completing "
 "the form by modifying the contents of the hidden <strong>postURL</strong> "
@@ -1835,11 +1836,11 @@ msgid ""
 "saving the form code to the desired page(s)."
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +12
 msgid "EXAMPLE:"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +13
 msgid ""
 "If the form is submitted with errors (i.e. required field not completed...) "
 "- the default behavior is to display the errors within the \"built-in\" "
@@ -1847,7 +1848,7 @@ msgid ""
 "page - by adding a hidden <strong>errorURL</strong> input field"
 msgstr ""
 
-#: templates/CRM/UF/Page/Group.hlp
+#: templates/CRM/UF/Page/Group.hlp +16
 msgid ""
 "Make sure the CAPTCHA feature is NOT enabled for this profile when you are "
 "grabbing the HTML code for a stand-alone form. CAPTCHA requires dynamic page "

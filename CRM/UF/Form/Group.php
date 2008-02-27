@@ -75,7 +75,7 @@ class CRM_UF_Form_Group extends CRM_Core_Form {
         // setting title for html page
         if ( $this->_action & CRM_Core_Action::UPDATE ) {
             $title = CRM_Core_BAO_UFGroup::getTitle($this->_id);
-            CRM_Utils_System::setTitle( ts( 'Profile Settings - %1', array(1 => $title ) ) );
+            CRM_Utils_System::setTitle( ts( 'Profile Settings' ) . " - $title" );
         } elseif ( $this->_action & (CRM_Core_Action::DISABLE | CRM_Core_Action::DELETE) ) { 
             $ufGroup[$id]['module'] = implode( ' , ', CRM_Core_BAO_UFGroup::getUFJoinRecord( $this->_id, true ));
             $status = 0;

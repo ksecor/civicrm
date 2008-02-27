@@ -7,7 +7,7 @@
     {if !$paymentProcessor}
         {capture assign=ppUrl}{crmURL p='civicrm/admin/paymentProcessor' q="reset=1"}{/capture}
         <div class="status message">
-                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register online</strong>, you will need to <a href="%1">configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event. (<a href="%3" target="_blank" title="%2">read more...</a>){/ts}
+                {ts 1=$ppUrl 2=$docURLTitle 3="http://wiki.civicrm.org/confluence//x/ihk"}No Payment Processor has been configured / enabled for your site. If this is a <strong>paid event</strong> AND you want users to be able to <strong>register online</strong>, you will need to <a href='%1'>configure a Payment Processor</a> first. Then return to this screen and assign the processor to this event. (<a href='%3' target='_blank' title='%2'>read more...</a>){/ts}
         </div>
     {/if}
     <dl>
@@ -20,7 +20,7 @@
         <div id="paymentProcessor">
             <dl>
               <dt>{$form.payment_processor_id.label}</dt><dd>{$form.payment_processor_id.html}</dd>
-              <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}If you want users to be able to register online for this event, select a payment processor to use. (<a href="%1" target="_blank" title="%2">read more...</a>){/ts}</dd>
+              <dt>&nbsp;</dt><dd class="description">{ts 1="http://wiki.civicrm.org/confluence//x/ihk" 2=$docURLTitle}If you want users to be able to register online for this event, select a payment processor to use. (<a href='%1' target='_blank' title='%2'>read more...</a>){/ts}</dd>
             </dl>
         </div>
         {/if}
@@ -44,16 +44,16 @@
         <div id="payLaterOptions">
           <dl>
              <dt>{$form.pay_later_text.label}</dt><dd>{$form.pay_later_text.html|crmReplace:class:big}</dd>
-             <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the "pay later" option on the contribution form.{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Text displayed next to the checkbox for the 'pay later' option on the contribution form.{/ts}</dd>
              <dt>{$form.pay_later_receipt.label}</dt><dd>{$form.pay_later_receipt.html|crmReplace:class:big}</dd>
-             <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the "pay later" option (e.g. "Mail your check to ... within 3 business days.").{/ts}</dd>
+             <dt>&nbsp;</dt><dd class="description">{ts}Instructions added to Confirmation and Thank-you pages when the user selects the 'pay later' option (e.g. 'Mail your check to ... within 3 business days.').{/ts}</dd>
           </dl>
         </div>
 
         <div id="priceSet">
             <dl>
             <dt>{$form.price_set_id.label}</dt><dd>{$form.price_set_id.html}</dd>
-            <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for event registrants. Otherwise, select &quot;-none-&quot, and enter one or more fee levels in the table below. Create or edit Price Sets <a href="%1">here</a>.{/ts}</dd>
+            <dt>&nbsp;</dt><dd class="description">{ts 1=$adminPriceSets}Select a pre-configured Price Set to offer multiple individually priced options for event registrants. Otherwise, select &quot;-none-&quot, and enter one or more fee levels in the table below. Create or edit Price Sets <a href='%1'>here</a>.{/ts}</dd>
             </dl>
         </div>
         

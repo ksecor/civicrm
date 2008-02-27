@@ -345,18 +345,14 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         
         //for date-Formats
         $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateType");
+        $dateType = $session->get("dateTypes");
         $customFields = CRM_Core_BAO_CustomField::getFields( CRM_Utils_Array::value( 'contact_type',
                                                                                      $params ) );
         foreach ( $params  as $key => $val ) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
-                if ($customFields[$customFieldID][2] == 'Date') {
-                    CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $key);
-                    
-                    //fix for CRM-2687
-                    $formatted['custom_'.$customFieldID] = 
-                        CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params['custom_'.$customFieldID] ) );
-                    unset( $params['custom_'.$customFieldID] );
+                if ( $customFields[$customFieldID][2] == 'Date' ) {
+                    self::formatCustomDate( $params, $formatted, $dateType, $key );
+                    unset( $params[$key] );
                 }
             }
             if ( $key == 'birth_date' ) {
@@ -835,7 +831,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
     function isErrorInCustomData($params, &$errorMessage) 
     {
         $session =& CRM_Core_Session::singleton();
-        $dateType = $session->get("dateType");
+        $dateType = $session->get("dateTypes");
         $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
         foreach ($params as $key => $value) {
             if ($customFieldID = CRM_Core_BAO_CustomField::getKeyID($key)) {
@@ -913,7 +909,7 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
         foreach ($params as $key => $value) {
             if ( $value ) {
                 $session =& CRM_Core_Session::singleton();
-                $dateType = $session->get("dateType");
+                $dateType = $session->get("dateTypes");
                 
                 switch( $key ) {
                 case 'birth_date': 
@@ -1230,6 +1226,32 @@ class CRM_Import_Parser_Contact extends CRM_Import_Parser
             }              
         }
     }
+    
+    /**
+     * convert any given date string to default date array.
+     *
+     * @param array  $params     has given date-format
+     * @param array  $formatted  store formatted date in this array
+     * @param int    $dateType   type of date  
+     * @param string $dateParam  index of params
+     * @static
+     */
+    function formatCustomDate( &$params, &$formatted, $dateType, $dateParam ) 
+    {
+        //fix for CRM-2687
+        CRM_Utils_Date::convertToDefaultDate( $params, $dateType, $dateParam );
+        
+        if ( $dateType == 1 ) {
+            if ( strstr( $params[$dateParam], '-' ) ) { 
+                $formatted[$dateParam] = CRM_Utils_Date::unformat( $params[$dateParam] ); 
+            } else {
+                $formatted[$dateParam] = CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params[$dateParam] ) );   
+            }
+        } else {
+            $formatted[$dateParam] = CRM_Utils_Date::unformat( CRM_Utils_Date::mysqlToIso( $params[$dateParam] ) ); 
+        }
+    }
+    
 }
 
 ?>
