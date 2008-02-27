@@ -121,8 +121,8 @@ msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"!1\">Find Contacts</a>."
 msgstr ""
-"cercare contatti per nome, per indirizzo di email, per gruppo di "
-"appertenenza o per tag in <a href=\"!1\">CiviCRM &gt;&gt; trova contatti</a>."
+"cercare contatti per nome, per indirizzo di email, per iscrizione di gruppo "
+"o per tag in <a href=\"!1\">CiviCRM &gt;&gt; trova contatti</a>."
 
 #: drupal/civicrm.module
 msgid ""

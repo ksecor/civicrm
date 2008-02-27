@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-18 08:04-0800\n"
+"PO-Revision-Date: 2008-02-26 09:06-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 "Naam streek, regio, graafschap (county). Als u een streek wilt invoegen in "
 "uw mailing labels dient u, hieronder op dit scherm, het adres veld "
-"strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn "
+"<strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn "
 "aangemaakt in de civicrm_county tabel van uw database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
@@ -95,9 +95,9 @@ msgid ""
 "and county names must be added to the civicrm_county table in your database."
 msgstr ""
 "Naam streek, regio, graafschap (county). Als u  een streek wilt invoegen in "
-"uw schermen dient u, hieronder op dit scherm, het adres veld strong>Streek</"
-"strong> aan te zetten. Tevens dienen de streeknamen te zijn aangemaakt in de "
-"civicrm_county tabel van uw database."
+"uw schermen dient u, hieronder op dit scherm, het adres veld "
+"<strong>Streek</strong> aan te zetten. Tevens dienen de streeknamen te zijn "
+"aangemaakt in de civicrm_county tabel van uw database."
 
 #: templates/CRM/Admin/Form/Preferences/Address.hlp
 msgid ""
@@ -132,9 +132,9 @@ msgid ""
 "These optional components give you more tools to connect with and engage "
 "your supporters."
 msgstr ""
-"Deze optioneel te gebruiken komponenten geven u meer middelen om in contact "
+"Deze optioneel te gebruiken componenten geven u meer middelen om in contact "
 "te komen met uw relaties en de betrokkenheid van uw relaties met uw "
-"organisatie te vergroten"
+"organisatie te vergroten."
 
 #: templates/CRM/Admin/Form/Setting/Component.hlp
 msgid ""
@@ -200,7 +200,8 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "This feature should NOT be enabled for production sites."
 msgstr ""
-"Deze optie mag uit veiligheidsredenen NIET AAN staan in operationele website!"
+"Deze optie moet uit veiligheidsredenen op Nee staan in een operationele "
+"website!"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid ""
@@ -362,12 +363,17 @@ msgid ""
 "duplicate contact records. For each field, set a numeric <strong>Weight</"
 "strong> which determines the relative importance of a match on that field."
 msgstr ""
+"Gebruik maximaal 5 velden om te zoeken op verdachte dubbele contacten. "
+"Gebruik voor elk veld een numerieke  <strong>Gewicht</strong> dat aangeeft "
+"de relatieve zwaarte van een vondst op dat veld."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
 "You can also set a <strong>Length</strong> value which determines how many "
 "characters in the field should be compared."
 msgstr ""
+"U kunt met een <strong>Length</strong> waarde aangeven hoeveel tekens in het "
+"veld gebruikt worden om mee te vergelijken."
 
 #: templates/CRM/Admin/Page/DedupeRules.hlp
 msgid ""
@@ -376,6 +382,10 @@ msgid ""
 "same. If Length is left blank, then the comparison is done on the entire "
 "field value (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
+"Voorbeeld: met een length 8 op 'Street Address', zou '101 Delaplane Ave.' "
+"matchen met '101 Delaplain St.' omdat de eerste 8 tekens overeenkomen. "
+"Default wordt vergeleken op de waarde van het hele veld (<a href='%1' "
+"target='_blank' title='%2'>lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -394,7 +404,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "API Login (LIVE account):"
-msgstr ""
+msgstr "API Login (LIVE account):"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -452,54 +462,48 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Username:"
-msgstr ""
+msgstr "LIVE Account API Username:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
 "as displayed in your LIVE account's <strong>Profile - View API Signature</"
 "strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de aanbevolen <strong>Signature-based API Credentials</strong> voor "
+"PayPal Pro en Express. Voer uw <strong>API Username </strong> in, deze wordt "
+"weergegeven in uw account <strong>Profiel - API Signature </strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Password:"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
 "as displayed in your LIVE account's <strong>Profile - View API Signature</"
 "strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de <strong>Signature-based API Credentials</strong> voor PayPal Pro "
+"en Express. Voer uw  <strong>API Password</strong> in, deze wordt "
+"weergegeven in uw account <strong>Profile - View API Signature</strong>. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "LIVE Account API Signature:"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
 "strong> as displayed in your LIVE account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de <strong>Signature-based API Credentials</strong> voor PayPal Pro "
+"en  Express. Voer uw <strong>API Signature</strong> in, deze wordt "
+"weergegeven in uw account  <strong>Profile - View API Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -514,56 +518,52 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "TEST Account API Username:"
-msgstr "TEST account gebruikersnaam en e-mailadres:"
+msgstr "TEST account API Username:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Username</strong> "
 "as displayed in your TEST (sandbox) account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de <strong>Signature-based API Credentials</strong> voor PayPal Pro "
+"en Express. Voer uw <strong>API Username</strong> in, deze wordt weergegeven "
+"in uw  TEST (sandbox) account  <strong>Profile - View API "
+"Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Password:"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Password</strong> "
 "as displayed in your TEST (sandbox) account's <strong>Profile - View API "
 "Signature</strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de <strong>Signature-based API Credentials</strong> voor PayPal Pro "
+"en Express. Voer uw  <strong>API Password</strong> in, dez wordt weergegeven "
+"in uw TEST (sandbox) account  <strong>Profile - View API "
+"Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "TEST Account API Signature:"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid ""
 "CiviCRM requires that you use the <strong>Signature-based API Credentials</"
 "strong> for PayPal Pro and Express. Enter your <strong>API Signature</"
 "strong> as displayed in your TEST (sandbox) account's <strong>Profile - View "
 "API Signature</strong> screen."
 msgstr ""
-"<strong>PayPal Website Payments Pro of Express</strong> - Als u de "
-"aanbevolen <strong>Signature-based API Credentials</strong> - gebruikt, voer "
-"uw \"API Username value\" in, zoals deze wordt weergegeven in uw account "
-"profiel - zie \"API Signature scherm\"."
+"Gebruik de <strong>Signature-based API Credentials</strong> voor PayPal Pro "
+"en Express. Voer uw  <strong>API Signature</strong> in, deze wordt "
+"weergegeven in uw TEST (sandbox) account  <strong>Profile - View API "
+"Signature</strong>."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -572,32 +572,36 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "LIVE Merchant Account Email Address:"
-msgstr "TEST account gebruikersnaam en e-mailadres:"
+msgstr "LIVE Email-adres klantaccount:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "Enter the Merchant Account Email Address linked to your LIVE PayPal Merchant "
 "Account."
 msgstr ""
+"Voer het email-adres in van het gebruikersaccount van uw LIVE PayPal "
+"Merchant Account."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal's LIVE Payment server. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
+"De URL van de PayPal's LIVE server. Gebruik als PayPal geen waarde opgeeft "
+"de defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayPal Standard recurring payments. Use the default value unless "
 "otherwise indicated by PayPal."
 msgstr ""
+"De URL van de PayPal Standard periodieke betalingen. Gebruik als PayPal geen "
+"waarde opgeeft de defaultwaarde."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "TEST Merchant Account Email Address:"
-msgstr "TEST account gebruikersnaam en e-mailadres:"
+msgstr "TEST email-adres van gebruikersaccount:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -620,6 +624,8 @@ msgid ""
 "Enter <strong>pj-ql-01</strong>. This is the User Name associated with the "
 "shared PayJunction test account."
 msgstr ""
+"Voer als User Name in: <strong>pj-ql-01</strong>. Dit is een gedeeld "
+"testaccount."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Password (TEST account):"
@@ -630,12 +636,17 @@ msgid ""
 "Enter <strong>pj-ql-01p</strong>. This is the Password associated with the "
 "shared PayJunction test account."
 msgstr ""
+"Voer als Password in:  <strong>pj-ql-01p</strong>. Dit is een gedeeld "
+"testaccount."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for PayJunction's Payment server. This is the same for TEST and LIVE "
 "transactions. Use the default value unless otherwise advised by PayPal."
 msgstr ""
+"De URL van de PayJunction's Payment server. Deze is gelijk voor TEST en LIVE "
+"transacties. Gebruik de defaultwaarde als PayPal geen andere waarde "
+"bepaald."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The Recurring Payments URL is not currently used."
@@ -647,7 +658,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the User Name associated with your LIVE merchant account."
-msgstr ""
+msgstr "Vul de User Name behorend bij uw LIVE merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Password (LIVE account):"
@@ -655,21 +666,19 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter the Password associated with your LIVE merchant account."
-msgstr ""
+msgstr "Vul het Password behorend bij uw LIVE merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "LIVE Account Merchant ID:"
-msgstr "TEST/Sandbox Account Merchant-ID:"
+msgstr "LIVE Account Merchant ID:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Enter the Merchant ID from your Live account."
-msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
+msgstr "Voer het Merchant ID van uw LIVE account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "How do I Find my Merchant-ID?"
-msgstr ""
+msgstr "Wat is mijn Merchant-ID?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -684,65 +693,62 @@ msgstr ""
 "worden beide getoond onder Account informatie.. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "LIVE Account Merchant Key:"
-msgstr "TEST/Sandbox Account Merchant-ID:"
+msgstr "LIVE Account Merchant Key:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Enter the Merchant Key from your Live account."
-msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
+msgstr "Voer de Merchant Key van uw LIVE account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "How do I Find my Merchant Key?"
-msgstr "How to obtain Merchant-ID?"
+msgstr "Hoe krijg ik een Merchant Key?"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "TEST/Sandbox Account Merchant ID:"
-msgstr "TEST/Sandbox Account Merchant-ID:"
+msgstr "TEST/Sandbox Account Merchant ID:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Enter the Merchant ID from your Sandbox account."
-msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
+msgstr "Voer de Merchant ID  van uw testaccount  (Sandbox) in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "TEST/Sandbox Account Merchant Key:"
-msgstr "TEST/Sandbox Account Merchant-ID:"
+msgstr "TEST/Sandbox Account Merchant Key:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Enter the Merchant Key from your Sandbox account."
-msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
+msgstr "Voer de Merchant Key  van uw testaccount (Sandbox) in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for Google Checkout's TEST Payment server. Use the default value "
 "unless otherwise indicated by Google."
 msgstr ""
+"De URL van de Google Checkout's TEST server. Gebruik de defaultwaarde als "
+"Google geen waarde opgeeft."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "The URL for Google Checkout's LIVE Payment server. Use the default value "
 "unless otherwise indicated by Google."
-msgstr ""
+msgstr "De URL van de Google Checkout's LIVE server. "
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Google Checkout Button:"
-msgstr ""
+msgstr "Google Checkout Button:"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "The base URL for the <strong>TEST - Image</strong> is: %1"
-msgstr ""
+msgstr "Base URL voor de <strong>TEST - Image</strong> is: %1"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
 "To display an image, you must add several parameters to this URL as "
 "name=value pairs."
 msgstr ""
+"Om een plaatje te tonen moet U meerdere parameters bij deze URL opgeven met "
+"name=value."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Parameters"
@@ -750,27 +756,27 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Values"
-msgstr ""
+msgstr "Waarden"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "large/medium/small"
-msgstr ""
+msgstr "groot/normaal/klein"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "width of the button in pixels"
-msgstr ""
+msgstr "breedte van de knop in pixels"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "height of the button in pixels"
-msgstr ""
+msgstr "hoogte van de knop in pixels"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "background color for the button"
-msgstr ""
+msgstr "achtergrondkleur van de knop"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "whether the button is clickable or disabled"
-msgstr ""
+msgstr "is de knop actief of uitgeschakeld"
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "a locale associated with the transaction (optional)"
@@ -807,9 +813,8 @@ msgid "API Token (TEST account)"
 msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
-#, fuzzy
 msgid "Enter the API Token from your live merchant account."
-msgstr "Voer uw Merchant (handelaars) ID van uw Sandbox (test) account in."
+msgstr "Vul de API Token van uw live merchant account in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Store ID (LIVE account)"
@@ -817,7 +822,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid "Enter your live merchant account Store ID."
-msgstr ""
+msgstr "Vul uw live merchant account Store ID in."
 
 #: templates/CRM/Admin/Page/PaymentProcessor.hlp
 msgid ""
@@ -874,6 +879,10 @@ msgid ""
 "Email Address are also used as the default \"sender\" values when you create "
 "a new CiviMail Mailing."
 msgstr ""
+"De VAN Naam en e-mailadress die gebruikt worden bij het automatisch "
+"versturen van e-mails in dit domein (bijv. aanmelden en "
+"afmeldbevestigingen). Deze gegevens worden ook gebruikt bij een nieuwe "
+"CiviMail Mailing."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid ""
@@ -884,6 +893,13 @@ msgid ""
 "domain's MX record points to) must be configured to handle incoming CiviMail "
 "emails (so it can process the \"actions\" like subscribe, optOut, etc.)."
 msgstr ""
+"Het E-mail domein is het internet domein (bijv. <code>example.org</code>) "
+"dat gebruikt wordt in het adres van \"action\" mailings (bijv. het "
+"antwoordadres bij een bevestiging van een aanmelding: "
+"<code>subscribe.*@<strong>example.org</strong></code>). Het domein (of "
+"juister gezegd, de machine waar dat domein MX record naar verwijst) moet "
+"ingesteld zijn om inkomende mails van CiviMail af te handelen (het moet "
+"acties als aanmelden en afmelden afhandelen)."
 
 #: templates/CRM/Contact/Form/Domain.hlp
 msgid "Opens documentation in a new window."
@@ -904,6 +920,12 @@ msgid ""
 "is left blank, the <code>From</code> email address will be used as the "
 "<code>Return-Path</code>."
 msgstr ""
+"Gebruik het Retour Pad om het <code>Return-Path</code> mail header element "
+"te vullen met een constante waarde  (bijv. <code>myuser@example.org</code>). "
+"Geef een volledig e-mailadres op met een geldig SMTP account in uw domein. "
+"Het adres wordt niet getoond aan email clients. Raadpleeg uw SMTP provider "
+"welk adres gebruikt moet worden  zodat de SMTP server uitgaande mail van "
+"CiviMail toestaat. Defaultwaarde: <code>From</code> e-mailadres."
 
 #: templates/CRM/Contact/Form/Edit.hlp
 msgid ""
@@ -1521,10 +1543,10 @@ msgid ""
 "<strong>Groups</strong> element in your CiviCRM Profile."
 msgstr ""
 "U kunt na het zoeken of raadplegen van een contact dat contact aan een groep "
-"toevoegen. U kunt ook toestaan dat contacten zichzelf in een groep aanmelden "
-"door de zichtbaarheid van die groep op 'Public User Pages' te zetten. "
-"(gebruik de <strong>Settings</strong> link), en gebruik de <strong>Groups</"
-"strong> element in CiviCRM ."
+"toevoegen. U kunt ook toestaan dat contacten zichzelf in een groep "
+"aanmelden door de zichtbaarheid van die groep op 'Openbare "
+"gebruikerspagina's' te zetten. (gebruik de <strong>Settings</strong> link), "
+"en gebruik de <strong>Groups</strong> element in CiviCRM ."
 
 #: templates/CRM/Group/Page/Group.hlp
 msgid ""
@@ -1597,6 +1619,9 @@ msgid ""
 "<strong>Skip:</strong> Reports and then Skips duplicate import file rows - "
 "leaving the matching record in the database as-is (default)."
 msgstr ""
+"<strong>Overslaan:</strong> Verslagen en sla dan de dubbel geimporteerde "
+"rijen over - het overeenkomende record in de database wordt niet gewijzigd "
+"(default)."
 
 #: templates/CRM/Import/Form/UploadFile.hlp
 msgid ""
@@ -1950,6 +1975,9 @@ msgid ""
 "Profiles may be linked to specific modules, accessed via built-in CiviCRM "
 "URLs, or used as standalone forms on any web page. Examples include:"
 msgstr ""
+"Profielen kunnen aan specifieke modules gelinkt worden, benaderd worden via "
+"CiviCRM URL's of gebruikt in standalone schermen op een webpagina. "
+"Voorbeelden:"
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""
@@ -1957,6 +1985,9 @@ msgid ""
 "either the <strong>new user registration</strong> and/or view and edit "
 "screens for <strong>existing user accounts</strong>."
 msgstr ""
+"<strong>User Screens</strong> - Een of meerdere profielen kunnen gebruikt "
+"worden bij het <strong>registreren van nieuwe gebruikers</strong> en/of "
+"tonen en wijzigen van <strong>bestaande gebruikersaccounts</strong>."
 
 #: templates/CRM/UF/Page/Group.hlp
 msgid ""

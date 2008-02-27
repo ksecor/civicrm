@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-27 01:26-0800\n"
-"Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
+"PO-Revision-Date: 2008-02-26 04:57-0800\n"
+"Last-Translator: margherita fabbri <margherita.fabbri@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Gruppo"
 #: CRM/ACL/BAO/ACL.php CRM/Core/Block.php CRM/Core/DAO/Mapping.php
 #: CRM/Core/Menu.php
 msgid "Import"
-msgstr "Importa"
+msgstr "Importa contatti"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/DAO/ACL.php CRM/Activity/Selector/Activity.php
 #: CRM/Admin/Page/RelationshipType.php CRM/Contact/Page/View/Contribution.php
@@ -1443,7 +1443,7 @@ msgstr "Contributi"
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships"
-msgstr "Gruppi di Appartenenza"
+msgstr "Iscrizioni"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
@@ -1770,11 +1770,11 @@ msgstr "Non è stato possibile individuare il tuo user ID"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
-msgstr "Tipologia di membro"
+msgstr "Tipologia di iscrizione"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Status"
-msgstr "Stato del membro"
+msgstr "Stato di iscrizione"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Paid By"
@@ -3550,6 +3550,10 @@ msgid "Location type -"
 msgstr "Tipologia di recapito - "
 
 #: CRM/Contact/BAO/Query.php
+msgid "Location name %1 '%2'"
+msgstr "Nome del recapito %1 '%2'"
+
+#: CRM/Contact/BAO/Query.php
 msgid "Activity Type %2 '%1'"
 msgstr "Tipo di attività %2 '%1'"
 
@@ -3820,7 +3824,7 @@ msgstr "Formato e-mail"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
-msgstr "Deiscrizione utente"
+msgstr "Revoca autorizzazione uso mail"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
@@ -4400,6 +4404,9 @@ msgid ""
 "will need to edit the Membership Type and change the Membership Organization "
 "before you can delete this contact."
 msgstr ""
+"Il contatto può essere l'organizzazione iscritta con un tipo di iscrizione. "
+"Si deve modificare il tipo di iscrizione e cambiare l'organizzazione "
+"iscritta prima di poter cancellare questo contatto."
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Selected contact(s) do not have a valid email address"
@@ -4646,11 +4653,11 @@ msgstr "Elimina Appartenenza"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "View Membership"
-msgstr "Visualizza Gruppi di Appartenenza"
+msgstr "Visualizza Iscrizioni"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Edit Membership"
-msgstr "Modifica Membri"
+msgstr "Modifica Iscrizione"
 
 #: CRM/Contact/Page/View/Membership.php
 #, fuzzy
@@ -4659,7 +4666,7 @@ msgstr "Rinnova ora"
 
 #: CRM/Contact/Page/View/Membership.php
 msgid "Delete Membership"
-msgstr "Elimina Appartenenza"
+msgstr "Elimina Iscrizione"
 
 #: CRM/Contact/Page/View/Membership.php
 #, fuzzy
@@ -4668,7 +4675,7 @@ msgstr "Tipologia di membro"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
-msgstr "Note Contatto"
+msgstr "Note"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
@@ -5363,9 +5370,8 @@ msgstr "Relazione"
 
 #: CRM/Core/DAO/CustomGroup.php templates/CRM/Contact/Page/View/Membership.tpl
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
-#, fuzzy
 msgid "Membership"
-msgstr "Membri del Gruppo"
+msgstr "Iscrizione"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Participant"
@@ -5526,7 +5532,7 @@ msgstr "Importa Contributi"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Import Memberships"
-msgstr "Importa Membri"
+msgstr "Importa Iscrizioni"
 
 #: CRM/Core/DAO/Mapping.php
 msgid "Import Participants"
@@ -9588,7 +9594,7 @@ msgstr ""
 "Selezionate le <strong>schede</strong> da mostrare quando si visualizza il "
 "record di un contatto. AD ESEMPIO: se l'organizzazione non tiene traccia di "
 "'Relazioni', togliete la spunta a questa opzione per semplificare la "
-"visualizzazione su schermo. Le tab dei Contributi, Membership e Eventi sono "
+"visualizzazione su schermo. Le tab dei Contributi, Iscrizioni e Eventi sono "
 "anch'esse nascoste se la componente corrispondente non è abilitata (<a href="
 "\"%1\" target=\"_blank\" title=\"%2\">leggi tutto...</a>)."
 
@@ -10569,6 +10575,8 @@ msgid ""
 "Select and configure one or more payment processing services for online "
 "contributions, events and / or membership fees."
 msgstr ""
+"Seleziona e configura uno o più servizi di pagamento per i contributi "
+"online. gli eventi e/o le quote di iscrizione."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10904,7 +10912,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
-msgstr ""
+msgstr "Dati personali"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -11094,6 +11102,11 @@ msgid ""
 "with any combination of letters'). To search by email address, use <a href="
 "\"%1\">Advanced Search</a>."
 msgstr ""
+"Per cercare un contatto di cui si conosce sia il nome che il cognome, è "
+"necessario inserire cognome e nome, separati da una virgola (ad esempio: "
+"“Verdi, Gino”). Per una ricerca parziale, invece, inserire il nome, o il "
+"cognome accompagnato dal simbolo “%”: “%Ver” fornirà l'elenco di tutti i "
+"nominativi che si avvicinano alla voce digitata."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 msgid ""
@@ -11244,6 +11257,9 @@ msgid ""
 "\"Volunteer%\" as your Activity Type to match any activity whose type is "
 "\"Volunteer\" + any other words (e.g. Volunteer for Open House)."
 msgstr ""
+"Per una ricerca parziale utilizzare il metadarattere “%”. Ad esempio "
+"“Istituto%” fornirà l'elenco di tutte le organizzazioni che contengono la "
+"parola “Istituto” nel loro nome."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11254,11 +11270,10 @@ msgid ""
 "spreadsheet, etc."
 msgstr ""
 "Usate il form di Criteri di Ricerca per cercare contatti per nome, tipo di "
-"contatto, appartenenza ad un gruppo, tag ecc. Si possono poi visualizzare o "
-"modificare i dettagli del contatto, stampare un elenco di contatti o usare "
-"la tendina Altre Azioni per assegnare tag, aggiungere i contatti ad un "
-"gruppo, creare Smart Group, esportare i dati dei contatti in un foglio di "
-"calcolo ecc."
+"contatto, iscrizione, tag ecc. Si possono poi visualizzare o modificare i "
+"dettagli del contatto, stampare un elenco di contatti o usare la tendina "
+"Altre Azioni per assegnare tag, aggiungere i contatti ad un gruppo, creare "
+"Smart Group, esportare i dati dei contatti in un foglio di calcolo ecc."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 msgid ""
@@ -11641,20 +11656,22 @@ msgid ""
 "There are no memberships recorded for this contact. You can <a href=\"%1"
 "\">enter one now</a>."
 msgstr ""
+"Non ci sono iscrizioni per questo contatto. Se ne può <a href=\"%1\">inserire "
+"una ora</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "There are no memberships recorded for this contact."
-msgstr ""
+msgstr "Non ci sono iscrizioni memorizzate per questo contatto."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships (3 of %1)"
-msgstr ""
+msgstr "Iscrizioni (3 di %1)."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "New Membership"
-msgstr ""
+msgstr "Nuova iscrizione"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Scheduled Activities"
@@ -11734,11 +11751,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships (3 of %1)"
-msgstr ""
+msgstr "Iscrizioni di gruppo (3 di %1)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Group Memberships"
-msgstr ""
+msgstr "Iscrizioni di gruppo"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
@@ -11847,7 +11864,7 @@ msgstr "Ricerca"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Menu"
-msgstr ""
+msgstr "Trova e amministra"
 
 #: templates/CRM/Contact/Page/View/DashBoard.tpl
 msgid "Shortcuts"
@@ -12006,14 +12023,15 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Click <a href=\"%1\">New Membership</a> to record a new membership."
 msgstr ""
+"Clicca <a href=\"%1\">Nuova Iscrizione</a> per inserire una nuova iscrizione."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
-msgstr ""
+msgstr "Iscrizioni attive"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Inactive Memberships"
-msgstr ""
+msgstr "Iscrizioni non attive"
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 #, fuzzy
@@ -12274,7 +12292,7 @@ msgstr "Rinnova ora"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Expired / Inactive Memberships"
-msgstr "Membri del gruppo scaduti/non attivi"
+msgstr "Iscrizioni scadute/non attive"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "There are no memberships on record for you."
@@ -13872,7 +13890,7 @@ msgstr "Membro della famiglia"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Household membership."
-msgstr "Relazione di familiarità"
+msgstr "Iscrizione ad una famiglia"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Non-profit"
@@ -14404,442 +14422,3 @@ msgstr "Messaggio intercettato da un filtro di contenuto"
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Errore nella transazione SMTP"
-
-#, fuzzy
-#~ msgid "Child Groups"
-#~ msgstr "Gruppi"
-
-#~ msgid ""
-#~ "This profile is not configured for the requested action. Contact the site "
-#~ "administrator if you need assistance."
-#~ msgstr ""
-#~ "Questo profilo non è configurato per l'azione richiesta. Contattare "
-#~ "l'amministratore del sito se hai bisogno di assistenza."
-
-#, fuzzy
-#~ msgid "Case subject already exists in Database."
-#~ msgstr "Il Nome specificato è già presente nel database"
-
-#, fuzzy
-#~ msgid "or Member of 1 or more Subgroups %1"
-#~ msgstr "Membro del gruppo %1"
-
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "Informazioni sul dominio CiviCRM"
-
-#, fuzzy
-#~ msgid "Search Subgroups"
-#~ msgstr "Ricerca Gruppi"
-
-#~ msgid "- Contribution Fields -"
-#~ msgstr " - Campi per i contributi -"
-
-#, fuzzy
-#~ msgid "Add Subgroup"
-#~ msgstr "Aggiungi al Gruppo"
-
-#, fuzzy
-#~ msgid "There is an entry with the same label"
-#~ msgstr "Esiste già una voce con la stessa etichetta."
-
-#, fuzzy
-#~ msgid "There is an entry with the same value"
-#~ msgstr "Esiste già una voce con lo stesso valore."
-
-#~ msgid "You do not have permission to edit this contact"
-#~ msgstr "Non si hanno i permessi per modificare questo contatto"
-
-#~ msgid "Could not find required parameter: id"
-#~ msgstr "Non è possibile trovare un parametro richiesto: id"
-
-#, fuzzy
-#~ msgid "There are no Activites recorded for this contact."
-#~ msgstr "Indirizzo principale di questo contatto"
-
-#, fuzzy
-#~ msgid "New Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Edit Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Remove Case Registration"
-#~ msgstr "Registrazione Utente"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Detach this case from Activity?"
-#~ msgstr "Siete sicuri di voler cancellare questo record di attività?"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Remove this case?"
-#~ msgstr "Sei sicuro di voler cancellare questo tag?"
-
-#, fuzzy
-#~ msgid "Additional Contact Information"
-#~ msgstr "Note Contatto"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no case records for this contact. You can <a href=\"%1\">enter "
-#~ "one now</a>."
-#~ msgstr ""
-#~ "Non ci sono campi profilo CiviCRM per \"%1\", you can <a href=\"%2"
-#~ "\">aggiungine uno ora</a>."
-
-#~ msgid " -select- "
-#~ msgstr "- seleziona -"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Data e ora in calendario"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Durata in ore"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Durata in minuti"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Elimina Storico Attività"
-
-#~ msgid "Sent Date"
-#~ msgstr "Data di Spedizione"
-
-#~ msgid "Record Number"
-#~ msgstr "Numero Record"
-
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "\"%1\" è stata riportata nello Storico Attività."
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Seleziona Numero Telefonico"
-
-#~ msgid "OR New Phone"
-#~ msgstr "O Nuovo Telefono"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "La chiamata telefonica selezionata è stata eliminata con successo."
-
-#~ msgid "Location name %1 '%2'"
-#~ msgstr "Nome dell'indirizzo %1 '%2'"
-
-#~ msgid "Contact Meetings"
-#~ msgstr "Riunioni contatto"
-
-#~ msgid "Contact Calls"
-#~ msgstr "Chiamate del Contatto"
-
-#~ msgid "From: %1; Subject: %2"
-#~ msgstr "Da: %1; Oggetto: %2"
-
-#~ msgid "To: %1; Subject: %2"
-#~ msgstr "A: %1; Oggetto: %2"
-
-#~ msgid "CiviContribute Progress Meter"
-#~ msgstr "Misuratore Progresso di CiviContribute"
-
-#~ msgid "Callback Method"
-#~ msgstr "Metodo di Callback"
-
-#~ msgid "Activity Summary"
-#~ msgstr "Riassunto attività"
-
-#~ msgid "Phonecall"
-#~ msgstr "Telefonata"
-
-#~ msgid "Int Data"
-#~ msgstr "Dati int"
-
-#~ msgid "Float Data"
-#~ msgstr "Dati Float"
-
-#~ msgid "Decimal Data"
-#~ msgstr "Dati decimali"
-
-#~ msgid "Char Data"
-#~ msgstr "Dati char"
-
-#~ msgid "Date Data"
-#~ msgstr "Dati date"
-
-#~ msgid "Memo Data"
-#~ msgstr "Dati Memo"
-
-#~ msgid "Config Frontend"
-#~ msgstr "Frontend di configurazione"
-
-#~ msgid "Coord Units"
-#~ msgstr "Unità delle coordinate"
-
-#~ msgid "Coord Ogc Wkt String"
-#~ msgstr "Stringa Coord Ogc Wkt"
-
-#~ msgid "LatLong"
-#~ msgstr "LatLong"
-
-#~ msgid "Degree"
-#~ msgstr "Grado"
-
-#~ msgid "Grad"
-#~ msgstr "Grad"
-
-#~ msgid "Foot"
-#~ msgstr "Piede"
-
-#~ msgid "Meter"
-#~ msgstr "Metro"
-
-#~ msgid "Unhandled transaction type: %1"
-#~ msgstr "Tipo di ransazione non gestita: %1"
-
-#~ msgid "Parameters"
-#~ msgstr "Parametri"
-
-#~ msgid "Function Name"
-#~ msgstr "Nome funzione"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Positive Integer"
-#~ msgstr "Intero positivo"
-
-#~ msgid "Range"
-#~ msgstr "Intervallo"
-
-#~ msgid "Regular Expression Match"
-#~ msgstr "Corrispondenza espressione regolare"
-
-#~ msgid "Regular Expression No Match"
-#~ msgstr "Non corrispondenza espressione regolare"
-
-#~ msgid "Could not find callback %1"
-#~ msgstr "Impossibile trovare la callback %1"
-
-#~ msgid "Are you sure you want to delete this Activity History record?"
-#~ msgstr "Sicuri di voler cancellare questo record di Storico Attività?"
-
-#~ msgid "View Activity Details"
-#~ msgstr "Visualizza Dettagli Attività"
-
-#~ msgid "History %%StatusMessage%%"
-#~ msgstr "Storico %%StatusMessage%%"
-
-#~ msgid "Confirm Price Set Delete"
-#~ msgstr "Conferma Cancellazione Insieme Prezzi"
-
-#~ msgid "Log a Meeting"
-#~ msgstr "Registra una Riunione"
-
-#~ msgid "Schedule a Meeting"
-#~ msgstr "Metti in calendario una Riunione"
-
-#~ msgid "Edit Scheduled Meeting"
-#~ msgstr "Modifica Riunione in calendario"
-
-#~ msgid "Delete Meeting"
-#~ msgstr "Cancella Riunione"
-
-#~ msgid "View Scheduled Meeting"
-#~ msgstr "Visualizza Riunione in calendario"
-
-#~ msgid ""
-#~ "Meeting will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "La Riunione verrà spostata nello Storico Attività quando lo stato sarà "
-#~ "impostato a 'Completo'"
-
-#~ msgid "Schedule an Activity"
-#~ msgstr "Pianifica una attività"
-
-#~ msgid "Edit Scheduled Activity"
-#~ msgstr "Modifica l'attività pianificata"
-
-#~ msgid "View Completed Activity"
-#~ msgstr "Visualizza l'attività completata"
-
-#~ msgid "View Scheduled Activity"
-#~ msgstr "Visualizza l'attività pianificata"
-
-#~ msgid ""
-#~ "Activity will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "L'attività verrà spostata nello Storico Attività quando lo stato sarà "
-#~ "\"Completata\"."
-
-#~ msgid ""
-#~ "Cannot display Activity History details since activity type for this "
-#~ "activity has been deleted."
-#~ msgstr ""
-#~ "Impossibile visualizzare i dettagli dello Storico Attività dato che il "
-#~ "tipo di questa attività è stato cancellato."
-
-#~ msgid "Log a Phone Call"
-#~ msgstr "Registra una telefonata"
-
-#~ msgid "Schedule a Phone Call"
-#~ msgstr "Pianifica una telefonata"
-
-#~ msgid "Edit Scheduled Call"
-#~ msgstr "Modifica una chiamata pianificata"
-
-#~ msgid "Delete Phone Call"
-#~ msgstr "Cancella telefonata"
-
-#~ msgid "View Scheduled Call"
-#~ msgstr "Visualizza chiamata pianificata"
-
-#~ msgid "Call will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "La chiamata sarà spostata nello Storico Attività quando lo stato sarà "
-#~ "\"Completata\""
-
-#~ msgid ""
-#~ "NOTE: This template feature is not yet integrated with the CiviMail "
-#~ "component. CiviMail message templates must be saved as local text files "
-#~ "and uploaded."
-#~ msgstr ""
-#~ "NOTA: Questa caratteristica dei modelli non è ancora integrata con "
-#~ "CiviMail. I modelli di messaggi di CiviMail devono venire salvati come "
-#~ "file di testo locali e poi uploadati."
-
-#, fuzzy
-#~ msgid "Duplicate Contact"
-#~ msgstr "Salva contatto duplicato"
-
-#, fuzzy
-#~ msgid "move?"
-#~ msgstr "Rimosso"
-
-#, fuzzy
-#~ msgid "Main Contact"
-#~ msgstr "Mappa dei Contatti"
-
-#~ msgid "Schedule Meeting"
-#~ msgstr "Metti in calendario una Riunione"
-
-#, fuzzy
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr "Vuoi davvero rimuovere questo Smart Group?"
-
-#~ msgid ""
-#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-#~ "href=\"%2\">call</a>."
-#~ msgstr ""
-#~ "Nessuna attività aperta. Puoi mettere in calendario una <a href=\"%1"
-#~ "\">Riunione</a> o una <a href=\"%2\">Telefonata</a>"
-
-#, fuzzy
-#~ msgid "(test)"
-#~ msgstr "Nota(e)"
-
-#~ msgid "Schedule a meeting"
-#~ msgstr "Metti in calendario una riunione"
-
-#, fuzzy
-#~ msgid "Summary Report"
-#~ msgstr "Riassunto"
-
-#, fuzzy
-#~ msgid "Activity Entity Table"
-#~ msgstr "Tabella Entità"
-
-#~ msgid "Contact Name:"
-#~ msgstr "Nome del contatto:"
-
-#~ msgid "Email Domain:"
-#~ msgstr "Dominio di posta:"
-
-#, fuzzy
-#~ msgid "Contact Name"
-#~ msgstr "Modulo per Contatto"
-
-#, fuzzy
-#~ msgid "Text Body of Header"
-#~ msgstr "Testo"
-
-#, fuzzy
-#~ msgid "This is the Footer"
-#~ msgstr "Nascondi questo merito"
-
-#, fuzzy
-#~ msgid "Text Body of Footer"
-#~ msgstr "Testo"
-
-#, fuzzy
-#~ msgid "Unsubscribe results"
-#~ msgstr "Cancella sottoscrizione"
-
-#, fuzzy
-#~ msgid ""
-#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
-#~ msgstr ""
-#~ "%1 non è impostato in Amministra CiviCRM &raquo; Impostazioni globali "
-#~ "&raquo; Modalità di pagamento"
-
-#~ msgid "Save Duplicate Contact"
-#~ msgstr "Salva contatto duplicato"
-
-#~ msgid "Setup"
-#~ msgstr "Installa"
-
-#~ msgid "Duplicate Matching"
-#~ msgstr "Riscontro duplicato"
-
-#~ msgid "%1 is not set in the config file."
-#~ msgstr "%1 non è settato nel file config."
-
-#~ msgid "Include County?"
-#~ msgstr "Includi Contea(e)"
-
-#~ msgid "Settings - Date Formatting"
-#~ msgstr "Impostazioni - Formato Date"
-
-#~ msgid "PayPal Express Button"
-#~ msgstr "Tasto PayPal Express"
-
-#~ msgid "Username - TEST"
-#~ msgstr "Utente - TEST"
-
-#~ msgid "Certificate Path - TEST"
-#~ msgstr "Percorso Certificato - TEST"
-
-#~ msgid "Paypal Url - TEST"
-#~ msgstr "Url Paypal - TEST"
-
-#~ msgid "Certificate Path - LIVE"
-#~ msgstr "Percorso Certificato - LIVE"
-
-#~ msgid "Paypal Url - LIVE"
-#~ msgstr "Url Paypal - LIVE"
-
-#~ msgid "Checkout Button - TEST"
-#~ msgstr "Pulsante di checkout - TEST"
-
-#~ msgid "Checkout Button - LIVE"
-#~ msgstr "Pulsante di checkout - REALE"
-
-#~ msgid "Merchant ID  - TEST"
-#~ msgstr "ID venditore - TEST"
-
-#~ msgid "Checkout URL - TEST"
-#~ msgstr "URL di checkout - TEST"
-
-#~ msgid "Checkout URL - LIVE"
-#~ msgstr "URL di checkout - REALE"
-
-#~ msgid "Authorize.Net API Login"
-#~ msgstr "Login dell'API Authorize.Net"
-
-#~ msgid "Send Emails RETURN-PATH:"
-#~ msgstr "RETURN-PATH delle email inviate:"
-
-#, fuzzy
-#~ msgid "Add Members to Organization"
-#~ msgstr "Nuova Organizzazione"
-
-#~ msgid "Delete %1"
-#~ msgstr "Elimina %1"

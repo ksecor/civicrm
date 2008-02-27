@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-08 15:55-0800\n"
+"PO-Revision-Date: 2008-02-26 09:58-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1327,7 +1327,6 @@ msgstr "Externe ID bestaat al in de database."
 
 #: CRM/Contact/Form/Household.php CRM/Contact/Form/Individual.php
 #: CRM/Contact/Form/Organization.php
-#, fuzzy
 msgid ""
 "One matching contact was found. You can edit it here: %1, or click Save "
 "Matching Contact button below."
@@ -1336,10 +1335,10 @@ msgid_plural ""
 "Save Matching Contact button below."
 msgstr[0] ""
 "Er is één overeenkomstig contact gevonden. Je kunt het hier bewerken: %1 of "
-"klik op de 'bewaar dubbel contact' knop onderaan."
+"klik op de 'bewaar gevonden contact' knop onderaan."
 msgstr[1] ""
 "Er zijn meerdere overeenkomstige contacten gevonden. Je kunt ze hier "
-"bewerken: %1 of klik op de 'bewaar dubbel contact' knop onderaan."
+"bewerken: %1 of klik op de 'bewaar gevonden contact' knop onderaan."
 
 #: CRM/Contact/Form/Individual.php CRM/Core/BAO/UFGroup.php
 #: CRM/UF/Form/Preview.php xml/templates/civicrm_add_domain.tpl
@@ -2059,7 +2058,7 @@ msgstr "Groepsleden"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 msgid "The attached file has been deleted."
-msgstr "Het toegevoegde bestand is verwijderd."
+msgstr "Het bijgevoegde bestand is verwijderd."
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
@@ -2077,12 +2076,11 @@ msgstr ""
 
 #: CRM/Custom/Form/DeleteField.php CRM/Custom/Page/Field.php
 msgid "Delete Custom Field"
-msgstr "Verwijder specifiek veld"
+msgstr "Verwijder Specifiek veld"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group '%1' has been deleted."
-msgstr "Groep \"%1\" is verwijderd."
+msgstr "Groep '%1' is verwijderd."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
@@ -2335,7 +2333,7 @@ msgstr "Card type"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
-msgstr "A contacten groep"
+msgstr "Contact groep"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A profile"
@@ -2414,6 +2412,10 @@ msgstr "- Contact Velden -"
 #, fuzzy
 msgid "Case Activity %2 %1"
 msgstr "Activiteit type %2 '%1'"
+
+#: CRM/Activity/BAO/Activity.php
+msgid "\"%1\" has been saved."
+msgstr "\"%1\" is bewaard."
 
 #: CRM/Activity/BAO/Query.php
 #, fuzzy
@@ -2741,7 +2743,7 @@ msgstr "Label Gebruikersnaam"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Password Label"
-msgstr "Wachtwoord identificator"
+msgstr "Wachtwoord Label"
 
 #: CRM/Admin/Form/PaymentProcessorType.php
 msgid "Signature Label"
@@ -2893,7 +2895,7 @@ msgstr "Het Relatietype is bewaard."
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Settings - Enable Components"
-msgstr "Instellingen - Inschakelen Komponenten"
+msgstr "Instellingen - Inschakelen Componenten"
 
 #: CRM/Admin/Form/Setting/Component.php
 msgid "Enable >>"
@@ -2994,7 +2996,7 @@ msgstr "Instellingen - CiviMail"
 
 #: CRM/Admin/Form/Setting/Mail.php
 msgid "Mailer Spool Period"
-msgstr "Mail Spool periode"
+msgstr "Mail Spool Periode"
 
 #: CRM/Admin/Form/Setting/Mail.php
 #, fuzzy
@@ -3006,9 +3008,8 @@ msgid "Mailer Batch Limit"
 msgstr "Mail Batch limiet"
 
 #: CRM/Admin/Form/Setting/Mail.php
-#, fuzzy
 msgid "Mailer Spool Limit"
-msgstr "Mail Spool periode"
+msgstr "Mail Spool Limiet"
 
 #: CRM/Admin/Form/Setting/Mapping.php
 msgid "Settings - Mapping Provider"
@@ -3760,9 +3761,8 @@ msgid "The location has been deleted."
 msgstr "De locatie is verwijderd."
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Domain Name"
-msgstr "Lokatie naam"
+msgstr "Domein Naam"
 
 #: CRM/Contact/Form/Domain.php
 msgid "FROM Name"
@@ -3786,14 +3786,12 @@ msgid ""
 msgstr "E-mail host moet geldig zijn (bijv. \"gmail.com\")."
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Return-Path"
-msgstr "Retour pad:"
+msgstr "Retour Pad"
 
 #: CRM/Contact/Form/Domain.php
-#, fuzzy
 msgid "Return-Path must use a valid email address format."
-msgstr "Voer een geldige e-mail adresl in."
+msgstr "Retour Pad moet een geldig e-mail adres zijn."
 
 #: CRM/Contact/Form/Domain.php
 msgid "Domain information for \"%1\" has been saved."
@@ -3816,9 +3814,8 @@ msgid "Check for Matching Contact(s)"
 msgstr "Controleer op overeenkomstige contacten"
 
 #: CRM/Contact/Form/Edit.php
-#, fuzzy
 msgid "Save Matching Contact"
-msgstr "Hoofd contact"
+msgstr "Bewaar Gevonden Contact"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Save With Duplicate Household"
@@ -3872,7 +3869,7 @@ msgstr "verberg deze email"
 
 #: CRM/Contact/Form/Email.php
 msgid "Use for Bulk Mailings"
-msgstr ""
+msgstr "Gebruik voor Bulk Mailings"
 
 #: CRM/Contact/Form/GroupContact.php
 msgid "Add"
@@ -4143,7 +4140,7 @@ msgstr "De einddatum van de relatie kan niet voor de begindatum liggen"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Custom Fields"
-msgstr "Aangepaste velden"
+msgstr "Specifieke Velden"
 
 #: CRM/Contact/Form/Search/Advanced.php
 msgid "Quest"
@@ -4463,7 +4460,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Enter name to save message template"
-msgstr "Toets een naam in om de template van het bericht te bewaren"
+msgstr "Geef de naam van het te bewaren bericht sjabloon"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Email was not sent to %1 because primary email address (%2) is On Hold."
@@ -4977,7 +4974,7 @@ msgid ""
 "We could not find the backup sql script. Check %1 exists and is readable by "
 "the webserver."
 msgstr ""
-"Het sql backup script is niet gevonden. Kontroleer of %1 bestaat en kan "
+"Het sql backup script is niet gevonden. Controleer of %1 bestaat en kan "
 "worden gelezen door de webserver."
 
 #: CRM/Core/BAO/DomainDump.php
@@ -4985,8 +4982,8 @@ msgid ""
 "We could not find the mysqldump program. Check the configuration variable "
 "CIVICRM_MYSQL_PATH in your CiviCRM config file."
 msgstr ""
-"Het mysql dump programma is niet gevonden. Kontroleer de configuratie "
-"variabele CIVICRM_MYSQL_PATH in het CiviCRM config bestand."
+"Het mysql dump programma is niet gevonden. Controleer de variabele "
+"CIVICRM_MYSQL_PATH in het CiviCRM config bestand."
 
 #: CRM/Core/BAO/Location.php
 msgid "Please contact CiviCRM support for help"
@@ -5047,7 +5044,7 @@ msgstr "Markering \"%1\" is opgeslagen."
 
 #: CRM/Core/BAO/UFField.php
 msgid "Cannot enable this UF field since the used custom field is disabled."
-msgstr "Kan dit UF veld niet aanzetten omdat een specifiek deld is uitgezet."
+msgstr "Kan dit UF veld niet aanzetten omdat een specifiek veld is uitgezet."
 
 #: CRM/Core/BAO/UFGroup.php
 msgid ""
@@ -5145,9 +5142,8 @@ msgid "List Participants"
 msgstr "Deelnemersoverzicht"
 
 #: CRM/Core/Block.php
-#, fuzzy
 msgid "Reports"
-msgstr "Importeer"
+msgstr "Verslagen"
 
 #: CRM/Core/Block.php
 msgid "List Option Groups"
@@ -5293,14 +5289,12 @@ msgid "Symbol"
 msgstr "Symbool"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Numeric Code"
-msgstr "SIC code"
+msgstr "Numerieke Code"
 
 #: CRM/Core/DAO/Currency.php
-#, fuzzy
 msgid "Full Name"
-msgstr "Veldnaam"
+msgstr "Volledige Naam"
 
 #: CRM/Core/DAO/CustomField.php templates/CRM/Custom/Page/Field.tpl
 msgid "Data Type"
@@ -5395,9 +5389,8 @@ msgid "Participant"
 msgstr "Deelnemer"
 
 #: CRM/Core/DAO/Domain.php
-#, fuzzy
 msgid "Email Name"
-msgstr "Wettelijke naam"
+msgstr "Email naam"
 
 #: CRM/Core/DAO/Domain.php templates/CRM/Friend/Form.tpl
 msgid "Email Address"
@@ -5422,7 +5415,7 @@ msgstr "Regel"
 
 #: CRM/Core/DAO/Email.php
 msgid "Use for Bulk Mail"
-msgstr ""
+msgstr "Gebruik voor for Bulk Mail"
 
 #: CRM/Core/DAO/Email.php
 msgid "Hold Date"
@@ -5836,11 +5829,11 @@ msgstr "Vul het straatadres in van %1."
 
 #: CRM/Core/Form.php
 msgid "Additional Address 1"
-msgstr "Aditioneel adres 1"
+msgstr "Toegevoegd Adres 1"
 
 #: CRM/Core/Form.php
 msgid "Additional Address 2"
-msgstr "Aditioneel adres 2"
+msgstr "Toegevoegd Adres 2"
 
 #: CRM/Core/Form.php
 msgid "Please enter the City for %1."
@@ -5992,7 +5985,7 @@ msgstr "Overige instellingen."
 
 #: CRM/Core/Invoke.php
 msgid "Date Formatting"
-msgstr "Datum gegevens"
+msgstr "Datum Opmaak"
 
 #: CRM/Core/Invoke.php
 #: templates/CRM/Admin/Form/Setting/UpdateConfigBackend.tpl
@@ -6091,8 +6084,8 @@ msgid ""
 "Use configured duplicate matching rules to identify suspected duplicate "
 "contact records in your database."
 msgstr ""
-"Gebruik vooraf ingestelde vergelijkingsregels om verdachte dubbels bij "
-"contacten te herkennen in uw database."
+"Gebruik vooraf ingestelde vergelijkingsregels om verdachte dubbele contacten "
+"te vinden."
 
 #: CRM/Core/Menu.php
 msgid "Synchronize Users to Contacts"
@@ -6118,7 +6111,7 @@ msgid ""
 "Rules used to identify potentially duplicate contact records, and to match "
 "imported data to existing contact records."
 msgstr ""
-"Regels die potentiële duplikaten van contacten identificeerd en "
+"Regels die potentiële duplicaten van contacten identificeert en "
 "geimporteerde gegevens vergelijkt met de bestaande contacten."
 
 #: CRM/Core/Menu.php
@@ -6160,12 +6153,12 @@ msgid ""
 "here."
 msgstr ""
 "In CiviCRM zijn een aantal activiteiten ingebouwd (afspraak, "
-"telefoongesprek, e-mail). Volg andere activiteittypes door hier uw eigen "
+"telefoongesprek, e-mail). Voeg andere activiteittypes toe door hier uw eigen "
 "activiteit aan te maken."
 
 #: CRM/Core/Menu.php
 msgid "Gender Options"
-msgstr "Geslacht"
+msgstr "Geslacht Opties"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6185,7 +6178,7 @@ msgstr "Opties voor voorvoegsels van personen (De heer, Mevrouw)."
 
 #: CRM/Core/Menu.php
 msgid "Individual Suffixes (Jr, Sr...)"
-msgstr "Persoonlijk achtervoegsels (jr,sr,..)"
+msgstr "Persoonlijke achtervoegsels"
 
 #: CRM/Core/Menu.php
 msgid "Options for individual contact suffixes (e.g. Jr., Sr. etc.)."
@@ -6274,8 +6267,8 @@ msgstr "Betaalmethode type informatie"
 msgid ""
 "Grant or deny access to actions (view, edit...), features and components."
 msgstr ""
-"Toegang tot acties ( toon, wijzigen, ..) toestaan of verbieden, "
-"eigenschappen en komponenten."
+"Toegang tot acties ( toon, wijzig, ..) toestaan of verbieden, eigenschappen "
+"en componenten."
 
 #: CRM/Core/Menu.php
 msgid "Quick Registration"
@@ -6449,7 +6442,7 @@ msgstr "Beste [titel] [achter]"
 
 #: CRM/Core/SelectValues.php
 msgid "Customized"
-msgstr "Specifiek"
+msgstr "Aangepast"
 
 #: CRM/Core/SelectValues.php
 msgid "Do not phone"
@@ -6574,7 +6567,7 @@ msgstr "Gebruikers registratie"
 
 #: CRM/Core/SelectValues.php
 msgid "View/Edit User Account"
-msgstr "Toon/wijzig gebruikers account"
+msgstr "Toon/Wijzig gebruikersaccount"
 
 #: CRM/Core/SelectValues.php
 msgid "Dynamic"
@@ -6601,9 +6594,8 @@ msgid "Opt-out Message"
 msgstr "Opt-out bericht"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Subscription Confirmation Request"
-msgstr "Bevestiging bij aanmelding vragen"
+msgstr "Verzoek Bevestiging Aanmelding"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Welcome Message"
@@ -6614,9 +6606,8 @@ msgid "Unsubscribe Message"
 msgstr "Bericht bij opzegging"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Resubscribe Message"
-msgstr "Bericht bij opzegging"
+msgstr "Bericht Heraanmelden"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "PayPal - Website Payments Pro"
@@ -6681,7 +6672,6 @@ msgid "Delete Custom Group"
 msgstr "Verwijder specifieke groep"
 
 #: CRM/Custom/Form/DeleteGroup.php
-#, fuzzy
 msgid ""
 "The Group '%1' has not been deleted! You must Delete all custom fields in "
 "this group prior to deleting the group"
@@ -7452,14 +7442,12 @@ msgid "Description:"
 msgstr "Beschrijving:"
 
 #: CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group \"%1\" has been saved."
-msgstr "Groep \"%1\" is bewaard"
+msgstr "Groep '%1' is bewaard."
 
 #: CRM/Group/Form/Search.php
-#, fuzzy
 msgid "Find"
-msgstr "Zoek..."
+msgstr "Zoek"
 
 #: CRM/Group/Form/Search.php
 msgid "- any visibility -"
@@ -7487,14 +7475,12 @@ msgid "Smart Group"
 msgstr "Smart groep"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Search Groups"
-msgstr "Smart groep"
+msgstr "Zoek groepen"
 
 #: CRM/Group/Page/Group.php
-#, fuzzy
 msgid "Group %%StatusMessage%%"
-msgstr "Contact %%StatusMessage%%"
+msgstr "Groep %%StatusMessage%%"
 
 #: CRM/Import/Form/Preview.php
 msgid "Name for new group"
@@ -8098,7 +8084,7 @@ msgstr ""
 
 #: CRM/UF/Form/Field.php
 msgid "Your civicrm profile field \"%1\" has been saved."
-msgstr "Uw CiciCRM profiel \"%1\" is bewaard."
+msgstr "Uw CiviCRM profiel \"%1\" is bewaard."
 
 #: CRM/UF/Form/Group.php
 msgid "Profile Settings - %1"
@@ -8142,7 +8128,7 @@ msgstr "Beperk overzichten tot een specifieke groep?"
 
 #: CRM/UF/Form/Group.php
 msgid "Notify when profile form is submitted?"
-msgstr "Notify als een profiel formulier wordt ingediend?"
+msgstr "Bericht sturen als een profiel formulier wordt ingediend?"
 
 #: CRM/UF/Form/Group.php
 msgid "Add new contacts to a Group?"
@@ -8169,23 +8155,20 @@ msgid "%1 user account registration option?"
 msgstr "%1 gebruikersaccount registratie optie?"
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Your CiviCRM Profile '%1' has been deleted."
-msgstr "Uw CiviCRM profielgroep \"%1\" is verwijderd."
+msgstr "Uw CiviCRM Profiel '%1' is verwijderd."
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "Your CiviCRM Profile '%1' has been saved."
-msgstr "Uw CiviCRM profielgroep \"%1\" is bewaard."
+msgstr "Uw CiviCRM Profiel '%1' is opgeslagen."
 
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid ""
 "Your CiviCRM Profile '%1' has been added. You can <a href='%2'>add fields</"
 "a> to this Profile now."
 msgstr ""
-"Uw CiviCRM profielgroep \"%1\" is toegevoegd. U kunt nu <a href=\"%2"
-"\">velden toevoegen</a> aan deze groep."
+"Uw CiviCRM Profiel '%1' is toegevoegd. U kunt nu <a href='%2'>velden "
+"toevoegen</a>."
 
 #: CRM/UF/Page/Field.php
 msgid "Are you sure you want to disable this CiviCRM Profile field?"
@@ -8407,9 +8390,8 @@ msgstr ""
 "Hernieuw de afbeelding en voer de tekenreek opnieuw in."
 
 #: CRM/Utils/Date.php
-#, fuzzy
 msgid "Please contact CiviCRM support"
-msgstr "Neem contact op met CiviCRM support voor ondersteuning."
+msgstr "Neem contact op met CiviCRM support"
 
 #: CRM/Utils/Pager.php
 msgid "Contacts %%StatusMessage%%"
@@ -8638,11 +8620,11 @@ msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "What type of operation (action) is being permitted?"
-msgstr "Welk type operatie (actie) is toegestaan?"
+msgstr "Welk type bewerking (actie) is toegestaan?"
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid "Select the type of data this ACL operates on."
-msgstr "Selecteer het gegevenstype waaronder deze ACL werkt."
+msgstr "Selecteer het gegevenstype waarop deze ACL werkt."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -8713,7 +8695,7 @@ msgstr "Verbind een ACL rol"
 msgid "WARNING: Deleting this option will remove this ACL Role Assignment."
 msgstr ""
 "PAS OP: Het verwijderen van deze optie resulteert in verlies van ACL rol "
-"verbindingen."
+"koppelingen."
 
 #: templates/CRM/ACL/Form/EntityRole.tpl
 msgid "Select an ACL Role to assign."
@@ -8725,6 +8707,9 @@ msgid ""
 "site. Groups must be assigned the 'Access Control' type (Manage Groups "
 "&raquo; Settings) to be included in this list."
 msgstr ""
+"Kies de groep contacten die deze rol krijgt als ze inloggen op uw site. "
+"Groepen moeten gekoppeld zijn met het 'Access Control' type (Groepsbeheer "
+"&raquo; Instellingen) om in deze lijst te staan."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 #: templates/CRM/ACL/Page/EntityRole.tpl
@@ -8755,11 +8740,11 @@ msgid ""
 "\" title=\"%2\">Access Control Documentation</a> for more info."
 msgstr ""
 "ACL's geven toegangsbeheer tot CiviCRM gegevens. Een ACL bevat een "
-"<strong>Operator</strong> (b.v. 'View' of 'Edit'), een <strong>aantal "
-"gegevens</strong> waarmee de operator werkt (b.v. een contactgroep, een "
-"profiel of een set specifieke velden), en een strong>Rol</strong> die "
-"toegang heeft tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">Access Control Documentation</a> voor meer informatie."
+"<strong>Bewerking</strong> (b.v. 'Toon' of 'Wijzig'), een <strong>aantal "
+"gegevens</strong> waarmee wordt gewerkt (b.v. een contactgroep, een profiel "
+"of een set specifieke velden) en een <strong>Rol</strong> die toegang heeft "
+"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
+"Control Documentation</a> voor meer informatie."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid ""
@@ -8768,8 +8753,8 @@ msgid ""
 "are users of your site <a href=\"%1\">here</a>."
 msgstr ""
 "ACL's kunnen hieronder worden aangemaakt en gewijzigd. U kunt ACL's "
-"toevoegen. Rollen <a href=\"%2\">hier</a>... en u kunt rollen koppelen aan "
-"CiviCRM contacten, gebruikers van uw site <a href=\"%1\">hier</a>."
+"toevoegen. <a href=\"%2\">Rollen</a> en u kunt rollen aan CiviCRM contacten <a "
+"href=\"%1\">koppelen</a>."
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl
 #, fuzzy
@@ -8778,8 +8763,7 @@ msgstr "Contact type(n)"
 
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
 msgid "There are no ACL&rsquo;s entered. You can <a href=\"%1\">add one</a>."
-msgstr ""
-"Er zijn geen ACL&rsquo;s toegevoegd. Toevoegen <a href=\"%1\">hier</a>."
+msgstr "Er zijn geen ACL&rsquo;s toegevoegd. <a href=\"%1\">ACL toevoegen</a>"
 
 #: templates/CRM/ACL/Page/ACL.tpl
 msgid "Which Data"
@@ -8795,11 +8779,11 @@ msgid ""
 "Documentation</a> for more info."
 msgstr ""
 "ACL's geven toegangsbeheer tot CiviCRM gegevens. Een  ACL bevat een "
-"<strong>Operator</strong> (b.v. 'View' of 'Edit'), een <strong>aantal "
-"gegevens</strong> waarmee de operator werkt (b.v. een contactgroep, een "
-"profiel of een set specifieke velden), en een strong>Rol</strong> die "
-"toegang heeft tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" "
-"title=\"%2\">Access Control Documentation</a> voor meer informatie."
+"<strong>Bewerking</strong> (b.v. 'Toon' of 'Wijzig'), een <strong>aantal "
+"gegevens</strong> waarmee wordt gewerkt (b.v. een contactgroep, een profiel "
+"of een set specifieke velden) en een <strong>Rol</strong> die toegang heeft "
+"tot dit commando. Zie de <a href=\"%1\" target=\"_blank\" title=\"%2\">Access "
+"Control Documentation</a> voor meer informatie."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid ""
@@ -8809,9 +8793,9 @@ msgid ""
 "additional ACL Roles <a href=\"%2\">here</a>."
 msgstr ""
 "Een ACL Rol vertegenwoordigd een collectie ACL&rsquo;s (bevoegdheden). U "
-"kunt rollen koppelen aan groepen CiviCRM contacten die gebruikers zijn van "
-"uw site. U kunt <a href=\"%1\">hier</a> ACL's toevoegen en wijzigen. U kunt "
-"<a href=\"%2\">hier</a> nieuwe ACL rollen aanmaken."
+"kunt rollen koppelen aan groepen CiviCRM contacten. U kunt <a "
+"href=\"%1\">ACL's toevoegen en wijzigen</a>. U kunt <a href=\"%2\">nieuwe ACL "
+"rollen </a> aanmaken."
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "New Role Assignment"
@@ -8819,8 +8803,7 @@ msgstr "Nieuwe rol verbinding"
 
 #: templates/CRM/ACL/Page/EntityRole.tpl
 msgid "There are no Role Assignments. You can <a href=\"%1\">add one</a> now."
-msgstr ""
-"Er zijn geen rol verbindingen. U kunt nu één<a href=\"%1\">toevoegen</a>."
+msgstr "Er zijn geen rol koppelingen. U kunt nu een <a href=\"%1\">toevoegen</a>."
 
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 #: templates/CRM/Contact/Form/Task/Email.tpl
@@ -9392,13 +9375,11 @@ msgid "Matching Rules for %1 Contacts"
 msgstr "Overeenkomsten voor %1 contacten"
 
 #: templates/CRM/Admin/Form/DedupeRules.tpl
-#, fuzzy
 msgid ""
 "Configure up to five fields to evaluate when searching for 'suspected' "
 "duplicate contact records."
 msgstr ""
-"Gebruik vooraf ingestelde vergelijkingsregels om verdachte dubbels bij "
-"contacten te herkennen in uw database."
+"Gebruik maximaal 5 velden om te zoeken naar verdachte dubbele contacten."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Duplicate Matching Rule"
@@ -9436,11 +9417,11 @@ msgid ""
 "and leaves the first and last name blank. The new contact will be flagged as "
 "a potential duplicate."
 msgstr ""
-"bv, de overeenkomstregel voor <strong>email AND voornaam AND achternaam</"
-"strong>.Jane Doe jane.doe@examle.org bestaat al in de gegevens. Nu probeert "
-"iemand een nieuwe persoon toe te voegen met hetzelfde emailadres, maar laat "
-"de velden voor voornaam en achternaam leeg. Het nieuwe contact zal nu "
-"gemarkeerd worden, als een mogelijke dubbele."
+"Vb: de overeenkomstregel voor <strong>email AND voornaam AND "
+"achternaam</strong>. Jane Doe jane.doe@examle.org bestaat al in de gegevens. "
+"Nu probeert iemand een nieuwe persoon toe te voegen met hetzelfde "
+"emailadres, maar laat de velden voor voornaam en achternaam leeg. Het nieuwe "
+"contact zal nu gemarkeerd worden, als een mogelijk dubbel contact."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Advanced Configuration"
@@ -9489,9 +9470,8 @@ msgid "Delete Message Template"
 msgstr "Bericht sjabloon verwijderen"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
-#, fuzzy
 msgid "Do you want to delete this message template?"
-msgstr "Weet je zeker dat je deze bericht sjabloon wilt verwijderen?"
+msgstr "Weet je zeker dat je dit bericht sjabloon wilt verwijderen?"
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "Descriptive title of message - used for template selection."
@@ -9672,9 +9652,9 @@ msgstr ""
 "Selecteer de <strong>tabs</strong> die moeten worden getoond op het "
 "contacten scherm. VB: als uw organisatie geen 'relaties' bijhoud dan haalt u "
 "het betreffende vinkje weg om het scherm eenvoudig te houden. Tab's voor "
-"Bijdragen, Lidmaatschappen en Evenementen zijn verborgen als het betreffende "
-"module niet is ingeschakeld. (<a href=\"%1\" target=\"_blank\" title=\"%2"
-"\">Lees meer...</a>)."
+"Bijdragen, Lidmaatschappen en Evenementen zijn verborgen als de betreffende "
+"module niet is ingeschakeld. (<a href=\"%1\" target=\"_blank\" title=\"%2\">Lees "
+"meer...</a>)."
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -9754,7 +9734,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Enable Components"
-msgstr "Functies aanzetten."
+msgstr "Functies aanzetten"
 
 #: templates/CRM/Admin/Form/Setting/Component.tpl
 msgid ""
@@ -9807,9 +9787,9 @@ msgid ""
 "debugging tools. <strong>This feature should NOT be enabled for production "
 "sites</strong>"
 msgstr ""
-"Zet deze waarde <strong>Aan</strong> als je één van CiviCRM's herstel- en "
-"foutzoekmogelijkheden wilt gebruiken. <strong>Deze optie moet UIT staan voor "
-"operationele websites</strong>"
+"Zet deze waarde op <strong>Ja</strong> als je één van CiviCRM's herstel- en "
+"foutzoekmogelijkheden wilt gebruiken. <strong>Deze optie moet op Nee staan "
+"voor operationele websites</strong>"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -9817,16 +9797,16 @@ msgid ""
 "listing when a fatal error is encountered. <strong>This feature should NOT "
 "be enabled for production sites</strong>"
 msgstr ""
-"Zet deze waarde <strong>Aan</strong> als je, na een fatale fout,  een "
-"'backtrace' overzicht wilt zien. <strong>Deze optie moet UIT staan voor "
-"operationele websites</strong>"
+"Zet deze waarde op <strong>Ja</strong> als je, na een fatale fout,  een "
+"'backtrace' overzicht wilt zien. <strong>Deze optie moet op Nee staan voor "
+"een operationele website</strong>."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
 "Enter the path and filename for a custom Smarty template if you want to "
 "define your own screen for displaying fatal errors."
 msgstr ""
-"Als je je eigen fout pagina's wilt aanmaken, die worden getoond bij fatale "
+"Als je je eigen fout pagina's wilt maken, die worden getoond bij fatale "
 "fouten, dien je hier het pad en de bestandsnaam aan te geven van de "
 "betreffende Smarty template."
 
@@ -9835,7 +9815,7 @@ msgid ""
 "Enter the path and class for a custom PHP error-handling function if you "
 "want to override built-in CiviCRM error handling for your site."
 msgstr ""
-"Als je je eigen foutafhandeling wilt aanmaken, die de ingebouwde CiviCRM "
+"Als je je eigen foutafhandeling wilt maken, die de ingebouwde CiviCRM "
 "foutafhandeling vervangt, dien je hier het pad en de class aan te geven van "
 "de betreffende PHP foutafhandeling."
 
@@ -9944,13 +9924,15 @@ msgid ""
 "Set the limit of emails sent via smtp mailer, for more than limit send them "
 "in Spool table."
 msgstr ""
+"Het maximum aantal emails dat via smtp verstuurd mag worden, een hoger "
+"aantal wordt via de Spool tabel verstuurd."
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid ""
 "Separator character used when CiviMail generates VERP (variable envelope "
 "return path) Mail-From addresses."
 msgstr ""
-"Scheidingsteken die CiviCRM gebruikt voor VERP (variable envelope return "
+"Scheidingsteken dat CiviCRM gebruikt voor VERP (variable envelope return "
 "path) e-mail adressen."
 
 #: templates/CRM/Admin/Form/Setting/Mapping.tpl
@@ -10058,9 +10040,7 @@ msgstr ""
 msgid ""
 "Path where site specific templates are stored if any. This directory is "
 "searched first if set."
-msgstr ""
-"Directory waar de eventueel te gebruiken templates worden bewaard. Indien "
-"gebruikt wordt deze directory het eerst gezocht."
+msgstr "Directory waar de eventueel te gebruiken templates worden bewaard."
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid ""
@@ -10150,8 +10130,8 @@ msgid ""
 "Redirect online contribution / member / event page requests to a secure "
 "(https) URL?"
 msgstr ""
-"Sluis online bijdrage-, contributie-, lidmaatschap- en evenementen bladzijde "
-"door naar een veilge (https) URL?"
+"Gebruik een veilige URL (https) voor online bijdrage-, contributie-, "
+"lidmaatschap- en evenementen pagina's?"
 
 #: templates/CRM/Admin/Form/Tag.tpl
 msgid "Are you sure you want to delete <b>%1</b> Tag?"
@@ -10167,13 +10147,12 @@ msgid ""
 "\">Access Control Documentation</a> for more info. Note that a CiviCRM ACL "
 "Role is not related to the Drupal Role."
 msgstr ""
-"ACL's (Access Control Lists) beheerdt de toegang tot CiviCRM gegevens. Een "
-"ACL bestaat uit een <strong>Operator</strong> (vb.: 'View' of 'Edit'), de "
-"<strong>gegevens</strong> die de operator kan bewerken (vb.: een "
-"contactgroep) en een <strong>Rol</strong> die de bevoegdheid vastlegd. Zie "
-"de <a href=\"%1\" target=\"_blank\" title=\"%2\">Access Control "
-"Documentation</a> voor meer informatie. Merk op dat een CiviCRM ACL Rol geen "
-"relatie heeft tot een Drupal Rol."
+"ACL's (Access Control Lists) beheert de toegang tot CiviCRM gegevens. Een "
+"ACL bestaat uit een <strong>Bewerking</strong> (vb.: 'Toon' of 'Wijzig'), de "
+"<strong>gegevens</strong> die   kan worden bewerkt (vb.: een contactgroep) "
+"en een <strong>Rol</strong> die de bevoegdheid vastlegd. Zie de <a href=\"%1\" "
+"target=\"_blank\" title=\"%2\">Access Control Documentation</a> voor meer "
+"informatie. Een CiviCRM ACL Rol heeft geen relatie met een Drupal Rol."
 
 #: templates/CRM/Admin/Page/Access.tpl
 msgid ""
@@ -10181,8 +10160,8 @@ msgid ""
 "\" (<em>Operation</em>) all contacts in the \"Active Volunteers Group"
 "\" (<em>Data</em>)."
 msgstr ""
-"<strong>Voorbeeld:</strong> \"\" Team leiders\" (<em>ACL Rol</em>) kunnen "
-"\"Wijzigen\" (<em>Operator</em>) alle contacten in de \"Groep actieve "
+"<strong>Voorbeeld:</strong> \"Team leiders\" (<em>ACL Rol</em>) kunnen "
+"\"Wijzig\" (<em>Bewerking</em>) alle contacten in de \"Groep actieve "
 "vrijwilligers\"  (<em>Gegevens</em>)."
 
 #: templates/CRM/Admin/Page/Access.tpl
@@ -10311,12 +10290,18 @@ msgid ""
 "href='%3'>Duplicate Contact Rules</a></strong> which you've configured for "
 "your site (<a href='%1' target='_blank' title='%2'>read more...</a>)"
 msgstr ""
+"<strong>Zoek Contact duplicaten</strong> zoekt in de bestaande contacten "
+"naar 'verdachte' dubbele records - gebruik de <strong><a href='%3'>Contact "
+"Duplicaten vergelijkingsregels</a></strong> die ingesteld zijn voor uw "
+"website (<a href='%1' target='_blank' title='%2'>lees meer...</a>)"
 
 #: templates/CRM/Admin/Page/DedupeFind.tpl
 msgid ""
 "Click <strong>Use Rule</strong> next to the type of contact for which you "
 "want to look for duplicates."
 msgstr ""
+"Klik op <strong>Gebruik regel</strong> naast het contactype waarvoor U naar "
+"duplicaten wilt zoeken."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -10332,6 +10317,9 @@ msgid ""
 "NOTE: These rules are NOT used for matching and synchronizing %1 users to "
 "CiviCRM contacts. This process uses <a href='%2'>Contact Matching Rules</a>."
 msgstr ""
+"Nb: deze regels dienen niet om %1 gebruikers te vergelijken en af te stemmen "
+"met CiviCRM contacten. Dit proces gebruikt <a href='%2'>Contact Duplicaat "
+"vergelijkingsregels</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -10345,6 +10333,15 @@ msgid ""
 "contact fields used for matching (<a href='%3' target='_blank' title='%"
 "4'>read more...</a>)."
 msgstr ""
+"De <strong>Contact vergelijkingsregel</strong> bepaalt of een nieuw %2 "
+"gebruikersrecord overeenkomt met en gelinkt moet worden aan een bestaand "
+"CiviCRM contact. Het wordt ook gebruikt om u te waarschuwen als er een  "
+"overeenkomend Persoonlijk contactrecord is als u een nieuwe Persoonsrecord "
+"aanmaakt. Ook bij het <strong>importeren</strong>   van contacten wordt de "
+"regel gebruikt om te bepalen of een rij in de invoer een duplicaat is. De  "
+"default regel vergelijkt email adres EN voornaam EN  achternaam. Klik <a "
+"href='%1'>Wijzig Regel</a> om een set vergelijkingsregels te wijzigen (<a "
+"href='%3' target='_blank' title='%4'>lees meer...</a>)."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 msgid ""
@@ -10352,6 +10349,10 @@ msgid ""
 "That feature searches your existing contact records, and identifies "
 "'suspected' duplicates. It uses <a href='%1'>Duplicate Contact Rules</a>."
 msgstr ""
+"Nb: Deze regels worden niet gebruikt om <strong>Find Duplicate "
+"Contacts</strong>. Deze functie zoekt in de bestaande contactrecords naar "
+"'verdachte' duplicaten. Het gebruikt <a href='%1'>Contact duplicaten "
+"vergelijkingsregels</a>."
 
 #: templates/CRM/Admin/Page/DupeMatch.tpl
 #, fuzzy
@@ -10417,8 +10418,7 @@ msgstr "Nieuw bericht sjabloon"
 msgid ""
 "There are no Message Templates  entered. You can <a href=\"%1\">add one</a>."
 msgstr ""
-"Er zijn geen bericht sjablonen aanwezig. U kunt <a href\"%1\">hier</a> één "
-"aanmaken."
+"Er is nog geen berichtsjabloon. U kunt er <a href=\"%1\">een aanmaken</a>."
 
 #: templates/CRM/Admin/Page/OptionGroup.tpl
 msgid ""
@@ -10510,8 +10510,8 @@ msgstr ""
 "Activiteiten zijn 'interacties met contacten' die u op wilt bewaren en "
 "volgen. CiviCRM heeft diverse ingebouwde typen van activiteiten "
 "(bijeenkomsten, telefoongesprekken, verstuurde e-mails). Het is mogelijk om "
-"aanvullende activiteitstypes aan te maken als u andere activiteiten wilt "
-"bewaren zoals bv een intake gesprek."
+"activiteitstypes aan te maken als u andere activiteiten wilt bewaren zoals "
+"bijv. een intake gesprek."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10520,8 +10520,8 @@ msgid ""
 "information about activities <a href=\"%1\">here</a>."
 msgstr ""
 "Onderwerp, locatie, datum/tijd en beschrijvende velden zijn onderdeel van "
-"alle activiteiten types. U kunt <a href=\"%1\">hier</a>. eigen velden "
-"aanmaken om meer informatie bij te houden over activiteiten."
+"alle activiteiten types. U kunt <a href=\"%1\">eigen velden</a>   aanmaken om "
+"meer informatie bij te houden over activiteiten."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10542,9 +10542,9 @@ msgid ""
 "(e.g. Check, Cash, Credit Card...). If your site requires additional payment "
 "methods, you can add them here."
 msgstr ""
-"U kunt elke betaling registreren. Er zijn standaard betaalwijzen ( cheque, "
-"contact, creditcard, etc.). Deze dienen niet gewijzigd te worden. Er kunnen "
-"betaalmethoden worden toegevoegd."
+"U kunt elke betalingswijze registreren. Er zijn standaard betaalwijzen ( "
+"cheque, contant, creditcard, etc.). Deze dienen niet gewijzigd te worden. Er "
+"kunnen betaalmethoden worden toegevoegd."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10575,17 +10575,16 @@ msgid ""
 "(s) to CiviCRM contacts who are users of your site <a href=\"%2\">here</a>."
 msgstr ""
 "U kunt hieronder uw ACL rollen toevoegen en aanpassen. U kunt ACL&rsquo;s "
-"aanmaken en <a href=\"%1\">hier</a> rolbevoegdheden geven.  U kunt <a href="
-"\"%2\">hier</a> rollen koppelen aan CiviCRM contacten, die gebruikers van uw "
-"site zijn."
+"aanmaken en <a href=\"%1\">rolbevoegdheden</a>  geven. U kunt <a "
+"href=\"%2\">rollen koppelen</a> aan CiviCRM contacten."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
 "Use Event Types to categorize your events. Event feeds can be filtered by "
 "Event Type and participant searches can use Event Type as a criteria."
 msgstr ""
-"Gebruik evenement types om uw evenementen te catagorizeren. Evenementen "
-"feeds kunnen worden gefilterd op evenement type en met de zoek optie kan het "
+"Gebruik evenement types om uw evenementen te categorizeren. Evenementen "
+"kunnen worden gefilterd op evenement type en met de zoek-optie kan het "
 "evenement type als criteria worden opgegeven."
 
 #: templates/CRM/Admin/Page/Options.tpl
@@ -10609,7 +10608,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid "Reserved"
-msgstr "Gereserveerd."
+msgstr "Gereserveerd"
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid "There are no option values entered. You can <a href=\"%1\">add one</a>."
@@ -10687,7 +10686,7 @@ msgstr ""
 "organisaties. Relatietype labels beschrijven de relatie vanuit het "
 "perspectief van de identiteiten (vb.: Ouder <-> Kind, Werkgever <-> "
 "Werknemer). Een aantal relatietype labels zijn identiek voor beide "
-"richtingen (vb.: famililid <-> famililid). (<a href=\"%1\" target=\"_blank\" "
+"richtingen (vb.: familielid <-> familielid). (<a href=\"%1\" target=\"_blank\" "
 "title=\"%2\">Lees meer...</a>)"
 
 #: templates/CRM/Admin/Page/RelationshipType.tpl
@@ -10698,7 +10697,7 @@ msgid ""
 "information for that type from <a href=\"%1\">Administer CiviCRM &raquo; "
 "Custom Data</a>."
 msgstr ""
-"U kunt zoveel realtietypen aanmaken als noodzakelijk. Als een relatietype is "
+"U kunt zoveel relatietypen aanmaken als noodzakelijk. Als een relatietype is "
 "aangemaakt kunt u eigen velden aanmaken om de benodigde informatie die u "
 "wilt bijhouden uit te breiden in <a href=\"%1\">Beheer CiviCRM >> Specifieke "
 "gegevens</a>."
@@ -10805,7 +10804,7 @@ msgid ""
 "Localization settings include user language, default currency and available "
 "countries for address input."
 msgstr ""
-"Locale settings, inclusief gebruikerstaal, standaard valuta en de "
+"Locale instellingen, inclusief gebruikerstaal, standaard valuta en de "
 "beschikbare landen t.b.v. de adressering."
 
 #: templates/CRM/Admin/Page/Setting.tpl
@@ -10824,6 +10823,9 @@ msgstr ""
 #, fuzzy
 msgid "Date Formats"
 msgstr "Datum opmaak"
+
+msgid "Format date input and display."
+msgstr "Formaat datum voor invoer en tonen."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid "Configure input and display formats for Date fields."
@@ -10862,10 +10864,10 @@ msgid ""
 "contacts. You can create as many tags as needed to organize and segment your "
 "records (<a href=\"%1\" target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
-"Markeringen kunnen worden gekoppeld aan elk contact record en zijn een "
-"eenvoudige manier om contacten te vinden. U kunt onbeperkt markeringen "
-"aanmaken om uw contacten te organiseren en in te delen. (<a href=\"%1\" "
-"target=\"_blank\" title=\"%2\">Lees meer...</a>)."
+"Markeringen kunnen worden gekoppeld aan elk contact en zijn een eenvoudige "
+"manier om contacten te vinden. U kunt onbeperkt markeringen aanmaken om uw "
+"contacten te organiseren en in te delen. (<a href=\"%1\" target=\"_blank\" "
+"title=\"%2\">Lees meer...</a>)"
 
 #: templates/CRM/Admin/Page/Tag.tpl
 msgid "There are no Tags present. You can <a href=\"%1\">add one</a>."
@@ -11008,6 +11010,10 @@ msgid ""
 "source</a>. <a href=\"%4\">View issues and report bugs</a>. <a href=\"%5"
 "\">Online documentation</a>."
 msgstr ""
+"Gemaakt door CiviCRM %1. CiviCRM is beschikbaar met de <a href=\"%2\">Affero "
+"General Public License (AGPL)</a>. <a href=\"%3\">Download source</a>. <a "
+"href=\"%4\">Bekijk onderwerpen, fouten melden</a>. <a href=\"%5\">Online "
+"documentatie</a>."
 
 #: templates/CRM/common/pager.tpl
 msgid "Rows per page:"
@@ -11123,12 +11129,14 @@ msgstr "Verwijder bijgevoegd bestand."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "The name of the organization or entity which owns this CiviCRM domain."
-msgstr ""
+msgstr "De eigenaar van dit CiviCRM domein."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
 "Optional description of this domain (useful for sites with multiple domains)."
 msgstr ""
+"Optionele beschrijving van dit domein (bedoeld voorsites met meerdere "
+"domeinen)."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "System-generated Mail Settings"
@@ -11150,7 +11158,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "Edit Domain Information"
-msgstr "Domein informatie"
+msgstr "Wijzig Domein Informatie"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -11208,6 +11216,9 @@ msgid ""
 "email...), you may choose to move all or some of the related activity "
 "records (groups, contributions, memberships, etc.)."
 msgstr ""
+
+msgid "Duplicate Contact"
+msgstr "Kopieer Contact"
 
 #: templates/CRM/Contact/Form/Merge.tpl
 msgid "Mark All"
@@ -11359,7 +11370,7 @@ msgid ""
 msgstr ""
 "Om op voornaam EN achternaam te zoeken dient u 'achternaam, voornaam' in te "
 "voeren (Vb.: 'Smit,Jan'). Zoekt u op een gedeelte van een naam, gebruik dan "
-"het wildcard '%' teken om een willekeurige letterkombinatie aan te geven. "
+"het wildcard '%' teken om een willekeurige lettercombinatie aan te geven. "
 "Zoeken op e-mail adressen doet u via <a href=\"%1\">Geavanceerd zoeken</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
@@ -11543,15 +11554,14 @@ msgstr ""
 "exporteren naar een spreadsheet enz."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
-#, fuzzy
 msgid ""
 "If you've changed search criteria for this 'smart group' and want to save "
 "your changes, select <strong>Update Smart Group</strong> from the '- more "
 "actions -' drop-down menu, and then click Go."
 msgstr ""
 "Als u de zoekcriteria voor deze Smart groep heeft gewijzigd kunt u deze "
-"opslaan middels <strong>Opslaan Smart Groep</strong> in het -meer acties- "
-"uitrol menu."
+"wijzigingen bewaren met <strong>Opslaan Smart Groep</strong> in het -meer "
+"acties- uitrol menu."
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 #: templates/CRM/Grant/Form/Search/ResultTasks.tpl
@@ -11730,7 +11740,6 @@ msgstr ""
 "velden voor export, zoals primair adres, telefoonnummer en emailadres."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
-#, fuzzy
 msgid ""
 "Click <strong>Select fields for export</strong> and then <strong>Continue</"
 "strong> to choose a subset of fields for export. This option allows you to "
@@ -11740,9 +11749,9 @@ msgid ""
 msgstr ""
 "Klik op <strong> Selecteer velden voor export</strong> en daarna op "
 "<strong>Ga door</strong> om een andere selectie te maken voor export. "
-"Hiermee is het mogelijk, om meerdere specifieke lokaties te exporteren naar "
-"een bestand. Eveneens is het mogelijk, om deze veld-selectie op te slaan "
-"voor later gebruik."
+"Hiermee is het mogelijk om meerdere specifieke lokaties als specifieke "
+"gegevens te exporteren naar een bestand. Eveneens is het mogelijk om deze "
+"selectie (mapping) op te slaan voor later gebruik."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
@@ -12468,7 +12477,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "View Contact Dashboard"
-msgstr "Toon contact overzicht"
+msgstr "Toon Contact Overzicht"
 
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "User_Unique_Id:"
@@ -12510,7 +12519,7 @@ msgstr "Ontvangstdatum"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Receipt Sent"
-msgstr "Kwitantie is verzonden"
+msgstr "Ontvangstbewijs Verzonden"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "(Recurring Contribution)"
@@ -12673,7 +12682,6 @@ msgid "This action cannot be undone."
 msgstr "Deze actie kan niet hersteld worden."
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
-#, fuzzy
 msgid "WARNING: Are you sure you want to delete the attached file?"
 msgstr ""
 "WAARSCHUWING: Weet u zeker dat u het bijgevoegde bestand wilt verwijderen?"
@@ -12692,8 +12700,8 @@ msgid ""
 "type of data being collected)."
 msgstr ""
 "Selecteer het de gegevens dat u wilt verzamelen en opslaan voor dit contact. "
-"Kies daarna uit de beschikbare HTML ivoervelden (de keuzes zijn afhankelijk "
-"van de gekozen gegevens)."
+"Kies daarna uit de beschikbare HTML invoervelden (de keuzes zijn "
+"afhankelijk van de gekozen gegevens)."
 
 #: templates/CRM/Custom/Form/Field.tpl
 msgid "years prior to current date."
@@ -12762,7 +12770,7 @@ msgid ""
 "for the navigation tab."
 msgstr ""
 "Om 'Inline' specifieke groepen te tonen, zal deze naam als legenda gebruikt "
-"worden.Als de groep een 'Tab\" stijl gebruikt, zal deze naam voor de "
+"worden. Als de groep een 'Tab\" stijl gebruikt, zal deze naam voor de "
 "navigatie-tab gebruikt worden."
 
 #: templates/CRM/Custom/Form/Group.tpl
@@ -13400,7 +13408,7 @@ msgstr ""
 "Kies 'Alleen de gebruiker en de gebruikersbeheerder' als het lidmaatschap "
 "van deze groep door deze gebruikers beheerd dient te worden. Als u toestaat, "
 "dat contacten zichzelf aanmelden en uitschrijven (middels de registratie en "
-"verander profiel formulieren) kies dan voor 'openbare gebruikerspagina's. "
+"verander profiel formulieren) kies dan voor 'openbare gebruikerspagina's'. "
 "Als u ook toestaat dat er gezocht kan worden op groepslidmaatschap en de "
 "profielschermen gedeeld kunnen worden, kies dan voor 'openbare "
 "gebruikerspagina's en overzichten'."
@@ -13419,9 +13427,8 @@ msgid "Find Groups"
 msgstr "Zoek groepen"
 
 #: templates/CRM/Group/Form/Search.tpl
-#, fuzzy
 msgid "Complete OR partial group name."
-msgstr "Volledig of gedeelte van een contactnaam."
+msgstr "Volledig of gedeelte van een groepsnaam."
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by group type(s)."
@@ -13452,19 +13459,16 @@ msgid "No available Groups match your search criteria. Suggestions:"
 msgstr ""
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Check your spelling."
-msgstr "controleer uw spelling"
+msgstr "Controleer uw spelling"
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Try a different spelling or use fewer letters."
-msgstr "probeer een andere spelling of gebruik minder karakters"
+msgstr "Probeer een andere spelling of gebruik minder karakters"
 
 #: templates/CRM/Group/Page/Group.tpl
-#, fuzzy
 msgid "Make sure you have enough privileges in the access control system."
-msgstr "overtuig u dat u de goede rechten heeft voor het toegangssysteem"
+msgstr "Controleer of u de goede rechten heeft voor het toegangssysteem"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Or you can <a href='%1'>browse all available Groups</a>."
@@ -13477,6 +13481,135 @@ msgstr "Er zijn geen groepen gecreëerd voor deze website."
 #: templates/CRM/Group/Page/Group.tpl
 msgid "You can <a href=\"%1\">add one</a> now."
 msgstr "U kunt <a href=\"%1\">hier</a> één aanmaken."
+
+#: templates/CRM/History/Form/Activity.tpl
+msgid "New Activity History"
+msgstr "Nieuwe activiteiten geschiedenis"
+
+#: templates/CRM/History/Form/Activity.tpl
+msgid "Edit Activity History"
+msgstr "Wijzig activiteiten geschiedenis"
+
+#: templates/CRM/History/Form/Activity.tpl
+msgid ""
+"Are you sure you want to delete the Activity History dated \"%2\" of type \"%"
+"1\" with description \"%3\"?"
+msgstr ""
+"Wilt u de activiteiten geschiedenis van \"%2\" van het type \"%1\" met "
+"omschrijving \"%3\" verwijderen ?"
+
+#: templates/CRM/History/Import/Form/Preview.tpl
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid "Total rows (activity history records) in uploaded file."
+msgstr ""
+"Totaal aantal rijen (records activiteiten geschiedenis) in de geimporteerde "
+"file."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected mismatched activity history ID. This record have not "
+"been updated."
+msgid_plural ""
+"CiviCRM has detected mismatched activity history IDs. These records have not "
+"been Updated."
+msgstr[0] ""
+"CiviCRM detecteert een logfile ID dat niet overeenkomt. Het betreffende "
+"record is niet bijgewerkt."
+msgstr[1] ""
+"CiviCRM detecteert meerdere logfile ID's die niet overeenkomen. De "
+"betreffende records zijn niet bijgewerkt."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid ""
+"You can <a href=\"%1\">Download Mismatched Activity History records</a>. You "
+"may then correct them, and import the new file with the corrected data."
+msgstr ""
+"U kunt de <a href=\"%1\">Niet overeenkomede activiteiten records</a> "
+"downloaden. Corrigeer deze en importeer het nieuwe bestand met de juiste "
+"gegevens. "
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record with conflicting transaction ID within this "
+"data file or relative to existing activity history records. This record have "
+"not been imported."
+msgid_plural ""
+"CiviCRM has detected %count records with conflicting transaction IDs within "
+"this data file or relative to existing activity history records. These "
+"records have not been imported."
+msgstr[0] ""
+"CiviCRM detecteert één record met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. Het betreffende "
+"record is niet bijgewerkt. Er is een record met een conflict in het "
+"transactie ID gevonden. Dit kan aan het bestand liggen, of aan een reeds "
+"bestaand record. Het record is niet geimporteerd."
+msgstr[1] ""
+"CiviCRM detecteert meerdere records met een conficterende transactie ID ten "
+"opzichte van een bestaand activiteiten geschiedenis record. De betreffende "
+"records zijn niet bijgewerkt."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid ""
+"CiviCRM has detected one record which is a duplicate of existing CiviCRM "
+"activity history record."
+msgid_plural ""
+"CiviCRM has detected %count records which are duplicates of existing CiviCRM "
+"activity history records."
+msgstr[0] ""
+"CiviCRM detecteert één record die gelijk is aan een bestaand CiviCRM logfile "
+"record."
+msgstr[1] ""
+"CiviCRM detecteert meerdere records die gelijk zijn aan bestaande CiviCRM "
+"logfile records."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid "Rows with mismatched activity history IDs (NOT updated)."
+msgstr "Rijen met niet-overeenkomstige logfile IDs (NIET bijgewerkt)."
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid "Download Mismatched Activity History records"
+msgstr "Download niet-overeenkomstige activiteiten geschiedenis records"
+
+#: templates/CRM/History/Import/Form/Summary.tpl
+msgid "Rows which are duplicates of existing CiviCRM activity history records."
+msgstr ""
+"Rijen die identiek zijn aan bestaande CiviCRM activiteiten geschiedenis "
+"records."
+
+#: templates/CRM/History/Import/Form/UploadFile.tpl
+msgid ""
+"The Activity History Import Wizard allows you to easily upload activity "
+"history from other applications into CiviCRM. Contacts must already exist in "
+"your CiviCRM database prior to importing activity history. Use Import "
+"Contacts to create contact records first, if necessary. Then you can match "
+"activities to contacts by Name and Email, or by Contact ID."
+msgstr ""
+"De logfile import wizard geeft u de mogelijkheid op eenvoudige wijze "
+"activiteiten vanuit andere bronnen toe te voegen aan CiviCRM. Voordat u "
+"activiteiten importeert moeten de CiviCRM contacten zijn aangemaakt. Indien "
+"noodzakelijk dient u eerst contacten te importeren om deze contact records "
+"aan te maken. Daarna kunt u activiteiten koppelen aan contacten met behulp "
+"van de naam en e-mail of het contact Id."
+
+#: templates/CRM/History/Selector/Activity.tpl
+msgid ""
+"No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
+"href=\"%2\">call</a>."
+msgstr ""
+"Geen openstaande activiteiten. U kunt een <a href=\"%1\">bijeenkomst</a> of "
+"een <a href=\"%2\"> telefoongesprek</a> plannen."
+
+#: templates/CRM/History/Selector/Activity.tpl
+msgid "There are no open activities for this contact."
+msgstr "Er zijn geen openstaande activiteiten voor dit contact."
+
+#: templates/CRM/History/Selector/Activity.tpl
+msgid "No activity history for this contact."
+msgstr "Er bestaat geen activiteiten geschiedenis voor dit contact"
+
+#: templates/CRM/History/Selector/Activity.tpl
+msgid "(test)"
+msgstr "(test)"
 
 #: templates/CRM/Import/Form/Preview.tpl
 msgid ""
@@ -13501,8 +13634,8 @@ msgid ""
 "Rows with invalid data in one or more fields (for example, invalid email "
 "address formatting). These rows will be skipped (not imported)."
 msgstr ""
-"Rijen met ongeldige gegevens in een of meer velden ( bv een niet correcte "
-"opmaak van het emailadres).Deze rijen worden overgeslagen (niet "
+"Rijen met ongeldige gegevens in een of meer velden (bv een niet correcte "
+"opmaak van het emailadres). Deze rijen worden overgeslagen (niet "
 "geimporteerd)."
 
 #: templates/CRM/Import/Form/Preview.tpl
@@ -14043,9 +14176,9 @@ msgid ""
 "the same value(s) (i.e. other contacts who live in Poland)."
 msgstr ""
 "Moet dit veld verborgen worden voor andere gebruikers dan deze huidige "
-"gebruiker (en de gebruikersbeheerder), of is dit eld ook zichtbaar voor "
+"gebruiker (en de gebruikersbeheerder), of is dit veld ook zichtbaar voor "
 "andere gebruikers (Publieke Gebruikerspagina's). Kies 'Publieke "
-"gebruikerspagina's en overzichten om het veld te laten gebruiken door "
+"gebruikerspagina's en overzichten' om het veld te laten gebruiken door "
 "zoekacties. Als deze laatste instelling actief is, kunnen gebruikers ook op "
 "de waarde in het veld klikken, om hiermee andere contacten te zoeken met "
 "dezelfde waarde. ( Bijv. klikken op Amsterdam levert dan andere contacten in "
@@ -14091,7 +14224,7 @@ msgid ""
 "Check <strong>User Registration</strong> if you want this Profile to be "
 "included in the New Account registration form."
 msgstr ""
-"Vink <strong>Gebruikersregistratie</strong> aan, als dit profiel opgenomen "
+"Vink <strong>Gebruikers registratie</strong> aan, als dit profiel opgenomen "
 "moet worden bij een Nieuw Account registratie formulier."
 
 #: templates/CRM/UF/Form/Group.tpl
@@ -14099,8 +14232,8 @@ msgid ""
 "Check <strong>View/Edit User Account</strong> to include it in the view and "
 "edit screens for existing user accounts."
 msgstr ""
-"Vink <strong>Toon/Wijzig Gebruiker</strong> aan, om het op te nemen in de "
-"Toon/Wijzig schermen van de bestaande gebruikeraccounts."
+"Vink <strong>Toon/Wijzig gebruikersaccount</strong> aan, om het op te nemen "
+"in de Toon/Wijzig schermen van de bestaande gebruikeraccounts."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -14177,8 +14310,8 @@ msgid ""
 "form by clicking on the \"plus\" icon)."
 msgstr ""
 "Vink deze box aan als alleen de profielnaam getoond moet worden nadat de "
-"pagina geladen is. De velden zelf worden niet getoond totdat de gebruiker "
-"het formulier uitbreid door op het plus (+)teken te klikken."
+"pagina geladen is. De velden zelf worden niet getoond totdat de gebruiker  "
+"op het plusteken (+) klikt."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -14189,7 +14322,7 @@ msgid ""
 "information has been saved.'"
 msgstr ""
 "Als u dit profiel als inschrijf- of wijzigingsformulier voor contacten "
-"gebruikt en u wilt de gebruker, nadat deze het formulier heeft ingedient, "
+"gebruikt en u wilt de gebruiker, nadat deze het formulier heeft ingedient, "
 "doorlinken naar een statische URL, dient u hier de volledige URL in te "
 "voeren. Als dit veld leeg gelaten wordt zal na het indienen van het "
 "formulier door de gebruiker de standaard melding worden getoond: 'Uw contact "
@@ -14203,7 +14336,7 @@ msgid ""
 "form will be redisplayed."
 msgstr ""
 "Als u dit profiel als inschrijf- of wijzigingsformulier voor contacten "
-"gebruikt en u wilt de gebruker, nadat deze de cancel/afbreek knop heeft "
+"gebruikt en u wilt de gebruiker, nadat deze de cancel/afbreek knop heeft "
 "ingedrukt, doorlinken naar een statische URL, dient u hier de volledige URL "
 "in te voeren. Als dit veld leeg gelaten wordt zal het formulier opnieuw "
 "worden getoond. "
@@ -14225,7 +14358,7 @@ msgid ""
 "requires dynamic page generation. Submitting a stand-alone form with CAPTCHA "
 "included will always result in a CAPTCHA validation error.</strong>"
 msgstr ""
-"<strong>Zet deze optied niet aan voor stand-alone profiel formulieren. "
+"<strong>Zet deze optie niet aan voor stand-alone profiel formulieren. "
 "CAPTCHA vereist het genereren van dynamische pagina's. Een stand-alone "
 "formulier met CAPTCHA zal altijd een validatie fout geven.</strong>"
 
@@ -14236,6 +14369,21 @@ msgid ""
 msgstr ""
 "<strong>CAPTCHA is ook niet beschikbaar als een profiel wordt gebruikt als "
 "gebruikersregistratie en bij 'Mijn account' schermen.</strong>"
+
+#: templates/CRM/UF/Form/Group.tpl
+msgid ""
+"If you are using this profile as a contact signup form OR using it in an "
+"online contribution page, anonymous users will be given the option to create "
+"a Drupal User Account as part of completing the form. This feature requires "
+"the 'Email Verification' option to be checked (Drupal User Settings). In "
+"addition, you must include a Primary Email Address field in the profile."
+msgstr ""
+"Als u dit profiel gebruikt als een contact inschrijvingsformulier OF als u "
+"het gebruikt in een online bijdrage pagina, wordt aan anonieme gebruikers de "
+"gelegenheid gegeven om een Drupal account aan te maken. Voor deze optie "
+"dient de 'e-mail verificatie' te zijn ingeschakeld (Drupal gebruikers "
+"instelling). Tevens dient u het veld 'primair e-mail adres' in dit profiel "
+"in te voegen. "
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -14561,9 +14709,8 @@ msgid "Re-subscribe Confirmation"
 msgstr "Bevestiging opnieuw aanmelden"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Opt-out Confirmation"
-msgstr "Systeem configuratie"
+msgstr "Bevestiging Opt-out"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"
@@ -14952,7 +15099,7 @@ msgstr "MD5 Hash Key (versleutelingscode)"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "PayJunction"
-msgstr ""
+msgstr "PayJunction"
 
 #: xml/templates/civicrm_data.tpl
 msgid "AOL Terms of Service complaint"
@@ -14998,873 +15145,3 @@ msgstr "Bericht is onderschept door een contentfilter."
 #: xml/templates/civicrm_data.tpl
 msgid "Error in SMTP transaction"
 msgstr "Fout in SMTP transactie"
-
-#~ msgid "Duplicate Matching Rule"
-#~ msgstr "Vergelijkingsregel"
-
-#, fuzzy
-#~ msgid "Child Groups"
-#~ msgstr "Zoek groepen"
-
-#~ msgid ""
-#~ "This profile is not configured for the requested action. Contact the site "
-#~ "administrator if you need assistance."
-#~ msgstr ""
-#~ "Dit profiel is niet aangemaakt voor de gevraagde aktie. Neem kontakt op "
-#~ "met de site beheerder als u hulp nodig heeft."
-
-#, fuzzy
-#~ msgid "Case subject already exists in Database."
-#~ msgstr "De naam bestaat al in de database."
-
-#, fuzzy
-#~ msgid "or Member of 1 or more Subgroups %1"
-#~ msgstr "Lid van groep %1"
-
-#~ msgid "CiviMail Domain Information"
-#~ msgstr "CiviMail Domein informatie"
-
-#, fuzzy
-#~ msgid "Search Subgroups"
-#~ msgstr "Smart groep"
-
-#~ msgid "- Contribution Fields -"
-#~ msgstr "- Bijdrage velden -"
-
-#, fuzzy
-#~ msgid "Amount Requested(EUR) "
-#~ msgstr "Aangevraagd bedrag"
-
-#, fuzzy
-#~ msgid "Add Subgroup"
-#~ msgstr "Voeg aan een groep toe"
-
-#~ msgid "You do not have permission to edit this contact"
-#~ msgstr "U heeft geen toegangsrechten om dit contact te bewerken."
-
-#~ msgid "Could not find required parameter: id"
-#~ msgstr "Benodigde ID niet gevonden"
-
-#, fuzzy
-#~ msgid "There are no Activites recorded for this contact."
-#~ msgstr "Er zijn geen bijdragen opgeslagen voor dit contact."
-
-#, fuzzy
-#~ msgid "New Case Registration"
-#~ msgstr "Nieuwe evenement aanmelding"
-
-#, fuzzy
-#~ msgid "Edit Case Registration"
-#~ msgstr "Gebruikers registratie"
-
-#, fuzzy
-#~ msgid "Remove Case Registration"
-#~ msgstr "Gebruikers registratie"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Detach this case from Activity?"
-#~ msgstr "Weet u zeker dat u deze activiteit wilt verwijderen?"
-
-#, fuzzy
-#~ msgid "Are you sure you want to Remove this case?"
-#~ msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
-
-#~ msgid "Additional Contact Information"
-#~ msgstr "Aanvullende contact informatie"
-
-#, fuzzy
-#~ msgid ""
-#~ "There are no case records for this contact. You can <a href=\"%1\">enter "
-#~ "one now</a>."
-#~ msgstr ""
-#~ "Er zijn geen bijdragen opgeslagen voor dit contact. U kunt <a href=\"%1"
-#~ "\">nu één invoeren</a>."
-
-#~ msgid ""
-#~ "Select 'Inline' to include this group of fields in the main contact Add/"
-#~ "Edit form and Contact Summary screens. Select 'Tab' to create a separate "
-#~ "navigation tab for display and editing these values (generally for less "
-#~ "frequently accessed and/or larger sets of fields)."
-#~ msgstr ""
-#~ "Kies 'Inline' om deze groep van velden toe te voegen aan het contact "
-#~ "toevoegen/wijzig formulier, en het contact overzicht scherm. Selecteer "
-#~ "'Tab' om een separate tab aan te maken om te tonen en eventueel te "
-#~ "wijzigen. ( normaliter de keuze om minder frequente, of juist uitgebreide "
-#~ "gegevens te tonen/wijzigen)"
-
-#~ msgid " -select- "
-#~ msgstr "- selecteer -"
-
-#~ msgid "Scheduled Date Time"
-#~ msgstr "Geplande datum en tijd"
-
-#~ msgid "Duration Hours"
-#~ msgstr "Tijdsduur in uren"
-
-#~ msgid "Duration Minutes"
-#~ msgstr "Tijdsduur in minuten"
-
-#~ msgid "Delete Activity History"
-#~ msgstr "Verwijder activiteitenlogfile"
-
-#~ msgid "Sent Date"
-#~ msgstr "Verzenddatum"
-
-#~ msgid "Record Number"
-#~ msgstr "Gegevensnummer"
-
-#~ msgid "\"%1\" has been logged to Activity History."
-#~ msgstr "\"%1\" is toegevoegd aan de logfile"
-
-#~ msgid "Select Phone Number"
-#~ msgstr "Selecteer telefoonnummer."
-
-#~ msgid "OR New Phone"
-#~ msgstr "OF nieuwe telefoon"
-
-#~ msgid "Selected Phone Call is deleted sucessfully."
-#~ msgstr "Geselecteerde Telefoonoproep is succesvol verwijderd."
-
-#~ msgid "Location name %1 '%2'"
-#~ msgstr "Locatie naam %1 '%2'"
-
-#~ msgid "Contact Meetings"
-#~ msgstr "Contact bijeenkomsten"
-
-#~ msgid "Contact Calls"
-#~ msgstr "Contact telefoongesprekken"
-
-#~ msgid "From: %1; Subject: %2"
-#~ msgstr "Van: %1; Onderwerp: %2"
-
-#~ msgid "To: %1; Subject: %2"
-#~ msgstr "Aan: %1; Onderwerp: %2"
-
-#~ msgid "CiviContribute Progress Meter"
-#~ msgstr "CiviContribute voortgangsmeter"
-
-#~ msgid "Callback Method"
-#~ msgstr "Reactie methode"
-
-#~ msgid "Activity Summary"
-#~ msgstr "Activiteiten overzicht"
-
-#~ msgid "Phonecall"
-#~ msgstr "Telefoongesprek"
-
-#~ msgid "Int Data"
-#~ msgstr "int data"
-
-#~ msgid "Float Data"
-#~ msgstr "Float gegevens"
-
-#~ msgid "Decimal Data"
-#~ msgstr "Decimale gegevens"
-
-#~ msgid "Char Data"
-#~ msgstr "Char gegevens"
-
-#~ msgid "Date Data"
-#~ msgstr "Datum gegevens"
-
-#~ msgid "Memo Data"
-#~ msgstr "Memo gegevens"
-
-#~ msgid "Config Frontend"
-#~ msgstr "Configureer voorkant"
-
-#~ msgid "Coord Units"
-#~ msgstr "Coördinaten eenheden"
-
-#~ msgid "Coord Ogc Wkt String"
-#~ msgstr "Coördinaten OGC WKT string"
-
-#~ msgid "LatLong"
-#~ msgstr "Latitude Longitude"
-
-#~ msgid "Degree"
-#~ msgstr "graden"
-
-#~ msgid "Grad"
-#~ msgstr "grads"
-
-#~ msgid "Foot"
-#~ msgstr "voet"
-
-#~ msgid "Meter"
-#~ msgstr "meter"
-
-#~ msgid "Unhandled transaction type: %1"
-#~ msgstr "Onverwerkt transactie type: %1"
-
-#~ msgid "Parameters"
-#~ msgstr "Parameters"
-
-#~ msgid "Function Name"
-#~ msgstr "Functienaam"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Positive Integer"
-#~ msgstr "Positief geheel getal"
-
-#~ msgid "Range"
-#~ msgstr "Bereik"
-
-#~ msgid "Regular Expression Match"
-#~ msgstr "Geen overeenkomst regulaire expressie"
-
-#~ msgid "Regular Expression No Match"
-#~ msgstr "Overeenkomst regulaire expressie"
-
-#~ msgid "Could not find callback %1"
-#~ msgstr "Kan reactie %1 niet vinden"
-
-#~ msgid "Are you sure you want to delete this Activity History record?"
-#~ msgstr "Weet u zeker dat u dit logfile item wilt verwijderen?"
-
-#~ msgid "View Activity Details"
-#~ msgstr "Toon activiteiten details"
-
-#~ msgid "History %%StatusMessage%%"
-#~ msgstr "Geschiedenis %%StatusMessage%%"
-
-#~ msgid "Confirm Price Set Delete"
-#~ msgstr "Bevestig Prijs-set verwijderen"
-
-#~ msgid "Log a Meeting"
-#~ msgstr "Bijeenkomst registreren"
-
-#~ msgid "Schedule a Meeting"
-#~ msgstr "Bijeenkomst plannen"
-
-#~ msgid "Edit Scheduled Meeting"
-#~ msgstr "Wijzig een geplande bijeenkomst"
-
-#~ msgid "Delete Meeting"
-#~ msgstr "Verwijder een bijeenkomst"
-
-#~ msgid "View Scheduled Meeting"
-#~ msgstr "Toon een geplande bijeenkomst"
-
-#~ msgid ""
-#~ "Meeting will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "De bijeenkomst wordt naar de logfile verplaatst als de status 'Afgerond' "
-#~ "is."
-
-#~ msgid "Schedule an Activity"
-#~ msgstr "Activiteit plannen"
-
-#~ msgid "Edit Scheduled Activity"
-#~ msgstr "Wijzig een geplande activiteit"
-
-#~ msgid "View Completed Activity"
-#~ msgstr "Toon afgeronde activiteiten"
-
-#~ msgid "View Scheduled Activity"
-#~ msgstr "Toon geplande activiteit"
-
-#~ msgid ""
-#~ "Activity will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "De activiteit wordt naar de logfile verplaatst als de status 'Afgerond' "
-#~ "is."
-
-#~ msgid ""
-#~ "Cannot display Activity History details since activity type for this "
-#~ "activity has been deleted."
-#~ msgstr ""
-#~ "Kan de logfile niet tonen omdat het type activiteit voor deze activiteit "
-#~ "is verwijderd."
-
-#~ msgid "Log a Phone Call"
-#~ msgstr "Telefoongesprek registreren"
-
-#~ msgid "Schedule a Phone Call"
-#~ msgstr "Telefoongesprek plannen"
-
-#~ msgid "Edit Scheduled Call"
-#~ msgstr "Wijzig een gepland telefoongesprek"
-
-#~ msgid "Delete Phone Call"
-#~ msgstr "Verwijder een telefoongesprek"
-
-#~ msgid "View Scheduled Call"
-#~ msgstr "Toon een gepland telefoongesprek"
-
-#~ msgid "Call will be moved to Activity History when status is 'Completed'."
-#~ msgstr ""
-#~ "Het telefoongesprek wordt naar de logfile verplaatst als de status "
-#~ "'Afgerond' is"
-
-#~ msgid ""
-#~ "If your SMTP server requires authentication, enter your Username here. "
-#~ "You must also enter you SMTP password in the CiviCRM settings file "
-#~ "(civicrm.settings.php)."
-#~ msgstr ""
-#~ "Als authentificatie voor uw SMTP server is vereist dan vult u hier uw "
-#~ "gebruikersnaam in.  Uw SMTP wachtwoord dient u in het settingsbestand te "
-#~ "plaatsen (civicrm.settings.php)."
-
-#~ msgid ""
-#~ "NOTE: This template feature is not yet integrated with the CiviMail "
-#~ "component. CiviMail message templates must be saved as local text files "
-#~ "and uploaded."
-#~ msgstr ""
-#~ "OPMERKING: Deze sjabloon optie is nog niet in CiviMail geintegreerd. "
-#~ "CiviMail bericht sjablonen moeten als locale tekst bestanden worden "
-#~ "bewaard an ge-upload."
-
-#~ msgid "Format date input and display."
-#~ msgstr "Opmaken van datum gegevens voor invoer en tonen."
-
-#~ msgid " <a href=\"%1\">Delete</a>"
-#~ msgstr " <a href=\"%1\">Verwijderen</a>"
-
-#~ msgid "Duplicate Contact"
-#~ msgstr "Dubbel contact"
-
-#~ msgid "move?"
-#~ msgstr "verplaatsen?"
-
-#~ msgid "Main Contact"
-#~ msgstr "Hoofd contact"
-
-#~ msgid "WARNING: The Duplicate Contact will be deleted!"
-#~ msgstr "aarschuwing: "
-
-#~ msgid "Schedule Meeting"
-#~ msgstr "Afspraak plannen"
-
-#~ msgid "Schedule Call"
-#~ msgstr "Plan telefoongesprek"
-
-#~ msgid "Schedule a Call"
-#~ msgstr "Telefoongesprek plannen"
-
-#~ msgid "Log a Call"
-#~ msgstr "Telefoongesprek registreren"
-
-#~ msgid "No activities are currently scheduled."
-#~ msgstr "Er zijn momenteel geen activiteiten gepland."
-
-#~ msgid "Past Relationships"
-#~ msgstr "Voormalige relaties"
-
-#~ msgid "Disabled Relationships"
-#~ msgstr "Relaties uitzetten"
-
-#~ msgid "These relationships have been marked as disabled (no longer active)."
-#~ msgstr "Deze relaties zijn uitgezet (niet langer actief)."
-
-#~ msgid "New Activity History"
-#~ msgstr "Nieuwe activiteiten geschiedenis"
-
-#~ msgid "Edit Activity History"
-#~ msgstr "Wijzig activiteiten geschiedenis"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the Activity History dated \"%2\" of type "
-#~ "\"%1\" with description \"%3\"?"
-#~ msgstr ""
-#~ "Wilt u de activiteiten geschiedenis van \"%2\" van het type \"%1\" met "
-#~ "omschrijving \"%3\" verwijderen ?"
-
-#~ msgid ""
-#~ "No open activities. You can schedule a <a href=\"%1\">meeting</a> or a <a "
-#~ "href=\"%2\">call</a>."
-#~ msgstr ""
-#~ "Geen openstaande activiteiten. U kunt een <a href=\"%1\">bijeenkomst</a> "
-#~ "of een <a href=\"%2\"> telefoongesprek</a> plannen."
-
-#~ msgid "No activity history for this contact."
-#~ msgstr "Er bestaat geen activiteiten geschiedenis voor dit contact"
-
-#~ msgid "(test)"
-#~ msgstr "(test)"
-
-#~ msgid ""
-#~ "If you are using this profile as a contact signup form OR using it in an "
-#~ "online contribution page, anonymous users will be given the option to "
-#~ "create a Drupal User Account as part of completing the form. This feature "
-#~ "requires the 'Email Verification' option to be checked (Drupal User "
-#~ "Settings). In addition, you must include a Primary Email Address field in "
-#~ "the profile."
-#~ msgstr ""
-#~ "Als u dit profiel gebruikt als een contact inschrijvingsformulier OF als "
-#~ "u het gebruikt in een online bijdrage pagina, wordt aan anonieme "
-#~ "gebruikers de gelegenheid gegeven om een Drupal gebruikers account aan te "
-#~ "maken. Voor deze optie dient de 'e-mail verificatie' te zijn ingeschakeld "
-#~ "(Drupal gebruikers instelling). Tevens dient u het veld 'primair e-mail "
-#~ "adres' in dit profiel in te voegen "
-
-#~ msgid "Schedule a meeting"
-#~ msgstr "Vergadering plannen"
-
-#~ msgid "Summary Report"
-#~ msgstr "Overzichtsrapport"
-
-#~ msgid "Activity Entity Table"
-#~ msgstr "Activiteiten entiteitentabel"
-
-#~ msgid "Contact Name:"
-#~ msgstr "Contact Naam:"
-
-#~ msgid "Email Domain:"
-#~ msgstr "E-mail Domein:"
-
-#~ msgid "Contact Name"
-#~ msgstr "Contact naam"
-
-#~ msgid "Subscription Message to organization"
-#~ msgstr "Inschrijvingsbericht naar organisaties"
-
-#~ msgid "Farewell Message"
-#~ msgstr "Tot-ziens bericht"
-
-#~ msgid "New CiviCRM Profile Group"
-#~ msgstr "Nieuwe CiviCRM profielgroep"
-
-#~ msgid "re-subscribe"
-#~ msgstr "her-inschrijven"
-
-#~ msgid "(re-subscribe: %1)"
-#~ msgstr "(her-inschrijven: %1)"
-
-#~ msgid ""
-#~ "Select a group of contacts who should have this role when logged in to "
-#~ "your site."
-#~ msgstr "Selecteer een contactgroep die deze rol na inloggen verkrijgen. "
-
-#~ msgid ""
-#~ "Set this to the domain (e.g., <code>example.org</code>) that should be "
-#~ "seen in your mailings' \"action\" email addressess (like <code>subscribe."
-#~ "*@example.org</code>). This domain (or, more properly, the machine that "
-#~ "this domain's MX record points to) has to know how to handle incoming "
-#~ "CiviMail emails (so it can process the \"actions\" like subscribe, "
-#~ "optOut, etc.)."
-#~ msgstr ""
-#~ "Vul hier uw domeinnaam in (vb.: <code>voorbeeld.org</code>) welke door uw "
-#~ "mailing wordt gebruikt als  \"re-aktie\"  e-mail adres (zoals "
-#~ "<code>subscribe.*@voorbeeld.org</code>). Dit domein, of beter gezegd de "
-#~ "machine waar de MX gegevens van dit domein naar verwijst, moet zijn "
-#~ "ingesteld om inkomende CiviCRM e-mail te verwerken (zodat de \"re-akties"
-#~ "\" zoals subscribe, optOut, etc worden uitgevoerd en verwerkt)."
-
-#~ msgid ""
-#~ "Use this field to populate the <code>Return-Path</code> mail header "
-#~ "element with a fixed value (e.g., <code>myuser@example.org</code>). Enter "
-#~ "a fully qualified email address which belongs to a valid SMTP account in "
-#~ "your domain. This address will not be seen by \"typical\" email clients. "
-#~ "Consult with your SMTP provider what address to put in here so that the "
-#~ "SMTP server accepts outgoing mail from CiviMail. If this field is left "
-#~ "blank, the <code>From</code> email address will be used as the "
-#~ "<code>Return-Path</code>."
-#~ msgstr ""
-#~ "Gebruik dit veld om de <code>RETURN-PATH</code> van een e-mail in te "
-#~ "stellen met een vast e-mail adres (vb.: <code>mijngebruiker@voorbeeld."
-#~ "org</code>). Gebruik een werkend e-mail adres van uw SMTP account in uw "
-#~ "domein. Dit adres wordt genegeerd door \"normale\" e-mail clients. "
-#~ "Overleg met uw SMPT provider over het hier te gebruiken adres, zodat de "
-#~ "SMTP server uitgaande e-mail van CiviCRM accepteerd. Als dit veld leeg is "
-#~ "wordt de <code>Van</code> e-mailadres gebruikt als <code>RETURN-PATH</"
-#~ "code>."
-
-#~ msgid "Domain Contact Information"
-#~ msgstr "Domein contact informatie"
-
-#~ msgid ""
-#~ "You can add contacts to a group from any set of search results (or when "
-#~ "viewing an individual contact). You can also allow contacts to sign "
-#~ "themselves up for certain groups by setting the group visibility to "
-#~ "'Public User Pages' (use the <strong>Settings</strong> link), and "
-#~ "including the <strong>Groups</strong> element in your CiviCRM Profile."
-#~ msgstr ""
-#~ "Contacten kunnen aan een groep worden toegevoegd vanuit zoekresultaten "
-#~ "(of tijdens het tonen van een contact). U kunt toestaan dat contacten "
-#~ "zichzelf toevoegen aan een groep door deze groep op \"publieke gebruikers "
-#~ "pagina's\" in te stellen. Gebruik hiervoor de <strong> Instellingen</"
-#~ "strong> link naar CiviCRM profielen en voeg het <strong>Groepen</strong> "
-#~ "element toe."
-
-#~ msgid "This is the Header"
-#~ msgstr "Dit is de koptekst"
-
-#~ msgid "HTML Body of Header"
-#~ msgstr "HTML inhoud van de koptekst"
-
-#~ msgid "Text Body of Header"
-#~ msgstr "Inhoud van de koptekst"
-
-#~ msgid "This is the Footer"
-#~ msgstr "Dit is de voettekst"
-
-#~ msgid "HTML Body of Footer"
-#~ msgstr "HTML inhoud van de voettekst"
-
-#~ msgid "Text Body of Footer"
-#~ msgstr "Inhoud van de voettekst"
-
-#~ msgid "Welcome"
-#~ msgstr "Welkom"
-
-#~ msgid "Unsubscribe results"
-#~ msgstr "Resultaten bij opzegging"
-
-#~ msgid "Goodbye"
-#~ msgstr "Tot ziens"
-
-#~ msgid "Automated response"
-#~ msgstr "Automatisch antwoord"
-
-#~ msgid "Thank you for your reply."
-#~ msgstr "Dank u voor uw reactie."
-
-#~ msgid ""
-#~ "password is not set in the Administer CiviCRM &raquo; Payment Processor."
-#~ msgstr ""
-#~ "Wachtwoord is niet ingesteld in het Beheer CiviCRM &raquo; Payment "
-#~ "Processor."
-
-#~ msgid "Save Duplicate Contact"
-#~ msgstr "Bewaar dubbel contact"
-
-#~ msgid "Email address conflicts with record %1"
-#~ msgstr "E-mail adres is strijdig met record %1"
-
-#~ msgid "Contact's Profile"
-#~ msgstr "Contacten profiel"
-
-#~ msgid ""
-#~ "CiviCRM uses a configurable Duplicate Matching Rule to determine when a "
-#~ "new Individual contact should be flagged as a potential duplicate of an "
-#~ "existing record. The default configuration compares email address AND "
-#~ "first name AND last name. This rule is used when entering a new "
-#~ "individual contact, updating an existing contact, and importing contacts "
-#~ "with the Import Wizard. Click <a href=\"%1\">Edit Rule</a> to modify the "
-#~ "set of contact fields used for identifying duplicate contacts."
-#~ msgstr ""
-#~ "CiviCRM gebruikt een configureerbare vergelijkingsregel om "
-#~ "contactduplicaten te herkennen om te bepalen of een nieuw individueel "
-#~ "contact gemarkeerd moet worden als een mogelijk duplicaat van een "
-#~ "bestaand record. Standaard vergelijkt de configuratie het e-mailadres En "
-#~ "de voornaam EN de achternaam. Deze regel wordt gehanteerd bij elk nieuw "
-#~ "contact, het bijwerken van contacten en bij het importeren van contacten "
-#~ "middels de Import Wizard. Ga naar <a href=\"%1\"Wijzig Regel</a> om de "
-#~ "lijst van contactvelden, die gebruikt worden voor het zoeken naar "
-#~ "duplicaten, te wijzigen."
-
-#~ msgid "Setup"
-#~ msgstr "Instelling"
-
-#~ msgid "Duplicate Matching"
-#~ msgstr "Duplicaten controle"
-
-#~ msgid "%1 is not set in the config file."
-#~ msgstr "%1 is niet ingesteld in de config file."
-
-#~ msgid "Include County?"
-#~ msgstr "Inclusief County?"
-
-#~ msgid "Settings - Date Formatting"
-#~ msgstr "Instellingen - Datum opmaak"
-
-#~ msgid "PayPal Express Button"
-#~ msgstr "PayPal Express Button"
-
-#~ msgid "Username - TEST"
-#~ msgstr "Gebruikersnaam - TEST"
-
-#~ msgid "Certificate Path - TEST"
-#~ msgstr "Certificaat Pad - TEST"
-
-#~ msgid "Paypal Url - TEST"
-#~ msgstr "Paypal Url - TEST"
-
-#~ msgid "Certificate Path - LIVE"
-#~ msgstr "Certificaat Pad - LIVE"
-
-#~ msgid "Paypal Url - LIVE"
-#~ msgstr "Paypal Url - LIVE"
-
-#~ msgid "Checkout Button - TEST"
-#~ msgstr "Controle knop - TEST"
-
-#~ msgid "Checkout Button - LIVE"
-#~ msgstr "Controle knop - LIVE"
-
-#~ msgid "Merchant ID  - TEST"
-#~ msgstr "Merchant ID  - TEST"
-
-#~ msgid "Checkout URL - TEST"
-#~ msgstr "Controle URL - TEST"
-
-#~ msgid "Checkout URL - LIVE"
-#~ msgstr "Controle URL - LIVE"
-
-#~ msgid "Authorize.Net API Login"
-#~ msgstr "Authorize.Net API Login"
-
-#~ msgid "Send Emails RETURN-PATH:"
-#~ msgstr "Verzonden E-mails RETURN-PATH:"
-
-#~ msgid "Please select at least one membership status."
-#~ msgstr "Selecteer minimaal één lidmaatschap status"
-
-#~ msgid "Add Members to A Group"
-#~ msgstr "Voeg leden toe aan een groep"
-
-#~ msgid "Add Members to Organization"
-#~ msgstr "Voeg leden toe aan organisatie"
-
-#~ msgid "Remove Members from Group"
-#~ msgstr "Verwijder leden uit de groep"
-
-#~ msgid "Zip/Postal Code not valid for %1."
-#~ msgstr "Postcode niet geldige voor %1."
-
-#~ msgid "Online Payments"
-#~ msgstr "Online betalingen"
-
-#~ msgid "Synchronize Users-to-Contacts"
-#~ msgstr "Synchroniseer gebruikers met contacten"
-
-#~ msgid "Gender Options (Male, Female...)"
-#~ msgstr "Geslacht (mannelijk, vrouwelijk...)"
-
-#~ msgid "Preferred Communication Options"
-#~ msgstr "Voorkeur Communicatiemethode"
-
-#~ msgid "Delete %1"
-#~ msgstr "Verwijder %1"
-
-#~ msgid "Delete Profile Group"
-#~ msgstr "Verwijder profielgroep"
-
-#~ msgid "This profile cannot be deleted since it is used for other modules."
-#~ msgstr ""
-#~ "Het profiel kan niet worden verwijderd omdat het in andere modules "
-#~ "gebruikt wordt."
-
-#~ msgid ""
-#~ "You must delete all profile fields for \"%1\" prior to deleting the "
-#~ "profile."
-#~ msgstr ""
-#~ "U dient eerst alle profielvelden van \"%1\" te verwijderen, voordat u het "
-#~ "profiel zelf kunt verwijderen."
-
-#~ msgid "Synchronize Drupal Users"
-#~ msgstr "Synchroniseer Drupal gebruikers"
-
-#~ msgid ""
-#~ "Do you want a County select field to be included in contact address input "
-#~ "forms? This feature requires that you populate the civicrm_county table "
-#~ "in your database."
-#~ msgstr ""
-#~ "Wilt u een graafschap selectieveld toevoegen aan het invoerformulier van "
-#~ "het contactadres? Deze functie vereist dat u de civicrm_county tabel in "
-#~ "de database van gegevens heeft voorzien/"
-
-#~ msgid ""
-#~ "Which countries' states and/or provinces are available in the State / "
-#~ "Province selection field."
-#~ msgstr ""
-#~ "Welke landen, staten en/of  provincies zijn beschikbaar in de staat / "
-#~ "provincie selectie."
-
-#~ msgid ""
-#~ "CiviCRM can be configured to automatically GeoCode lookup and insert "
-#~ "latitude & longitude for contact addresses."
-#~ msgstr ""
-#~ "CiviCRM kan ingestelt worden om automatisch  de GeoCode te zoeken en "
-#~ "lengte- & breedtegraden in de contactadressen te plaatsen. "
-
-#~ msgid ""
-#~ "If you want accept contributions or membership fees online you must "
-#~ "select a Payment Processing Service, register for the applicable type of "
-#~ "account with that processor, and configure\n"
-#~ "CiviCRM with your account information."
-#~ msgstr ""
-#~ "Als u geldelijke bijdragen of contributies online wilt innen moet u een "
-#~ "Payment Processing Service selecteren, u registreren coor een passend "
-#~ "accounttype\n"
-#~ " en CiviCRM instellen met uw account gegevens."
-
-#~ msgid ""
-#~ "<strong>For security reasons, some of the required payment processor "
-#~ "settings are stored in your CiviCRM settings file (civicrm.settings.php). "
-#~ "You\n"
-#~ "must input these values before your can process TEST or LIVE "
-#~ "transactions. Refer to the <a href=\"%1\" target=\"_blank\" title=\"%2"
-#~ "\">Payment Processor Configuration Guide</a> for more information.</"
-#~ "strong>"
-#~ msgstr ""
-#~ "<strong>Om reden van veiligheid worden een aantal noodzakelijke Payment "
-#~ "Processor instellingen ingesteld in uw CiviCRM settings bestand (civicrm."
-#~ "settings.php).\n"
-#~ " Deze gegevens moeten aanwezig zijn voordat u TEST op LIVE tansacties "
-#~ "kunt uitvoeren.Zie ook de <a href=\"%1\" target=\"_blank\" title=\"%2"
-#~ "\">Payment Processor Configuration Guide</a> voor meer informatie.</"
-#~ "strong>"
-
-#~ msgid ""
-#~ "Select the Processing Service you will be using for online contributions."
-#~ msgstr ""
-#~ "Selecteer de Payment Processing service die u voor online bijdragen wilt "
-#~ "gebruiken."
-
-#~ msgid "PayPal TEST account - username OR merchant email."
-#~ msgstr "PayPal TEST account - gebruikersnaam OF handelaars e-mail."
-
-#~ msgid "PayPal LIVE account - username OR merchant email."
-#~ msgstr "PayPal LIVE account - gebruikersnaam OF handelaars e-mail."
-
-#~ msgid ""
-#~ "This setting is only used for PayPal Website Payments Pro/Express with "
-#~ "Certificate authentication method. If you are using the recommended "
-#~ "Signature authentication, leave this field blank."
-#~ msgstr ""
-#~ "Deze instelling wordt gebruikt voor PayPal Website Payments Pro/Express "
-#~ "met \"Certificate\" authentificatie. Laat dit veld leeg als u de "
-#~ "\"Signature\" autentificatie gebruikt."
-
-#~ msgid ""
-#~ "URL to the button image used for the PayPal Express service. Keep the "
-#~ "default value, unless you want to use a different button image."
-#~ msgstr ""
-#~ "URL naar de knopafbeelding van PayPal Express. Behoud de standaard tenzij "
-#~ "u een andere knopafbeelding wilt gebruiken"
-
-#~ msgid ""
-#~ "TEST URL for the PayPal processing service gateway. Keep the default "
-#~ "value, unless you need to connect to a specific international PayPal "
-#~ "processing host."
-#~ msgstr ""
-#~ "TEST URL van de PayPal processing service gateway. Behoud de "
-#~ "standaardwaarde tenzij u met een unieke internationale prosessing host "
-#~ "wilt worden verbonden."
-
-#~ msgid ""
-#~ "LIVE URL for PayPal processing service gateway. Keep the default value, "
-#~ "unless you need to connect to a specific international PayPal processing "
-#~ "host."
-#~ msgstr ""
-#~ "LIVE URL van de PayPal processing service gateway. Behoud de "
-#~ "standaardwaarde tenzij u met een unieke internationale prosessing host "
-#~ "wilt worden verbonden."
-
-#~ msgid ""
-#~ "Google Checkout  <strong>TEST</strong> account -  Merchant ID (e.g. "
-#~ "123456789012345)."
-#~ msgstr ""
-#~ "Google Checkout <strong>TEST</strong> account -  handelaars ID (vb. "
-#~ "123456789012345)."
-
-#~ msgid ""
-#~ "Google Checkout <strong>LIVE</strong> account -  Merchant ID (e.g. "
-#~ "123456789012345)."
-#~ msgstr ""
-#~ "Google Checkout <strong>LIVE</strong> account -  handelaars ID (vb. "
-#~ "123456789012345)."
-
-#~ msgid ""
-#~ "TEST URL of Google Checkout Button Image. Replace <strong>[MerchantID]</"
-#~ "strong> with your MerchantID (e.g. 123456789012345)."
-#~ msgstr ""
-#~ "TEST URL van Google's Checkout afbeeldingsknop. Vervang <strong>"
-#~ "[handelaars ID]</strong> met uw eigen handelaars ID (vb. 123456789012345)."
-
-#~ msgid ""
-#~ "LIVE URL of Google Checkout Button Image. Replace <strong>[MerchantID]</"
-#~ "strong> with your MerchantID (e.g. 123456789012345)."
-#~ msgstr ""
-#~ "LIVE URL van Google's Checkout afbeeldingsknop. Vervang <strong>"
-#~ "[handelaars ID]</strong> met uw eigen handelaars ID (vb. 123456789012345)."
-
-#~ msgid ""
-#~ "TEST URL for the Google Checkout processing service gateway ( sandbox."
-#~ "google.com/checkout )."
-#~ msgstr ""
-#~ "TEST URL avn Google's Checkout processing service gateway (sandbox.google."
-#~ "com/checkout)."
-
-#~ msgid ""
-#~ "LIVE URL for Google Checkout processing service gateway ( checkout.google."
-#~ "com )."
-#~ msgstr ""
-#~ "LIVE URL avn Google's Checkout processing service gateway (checkout."
-#~ "google.com/checkout)."
-
-#~ msgid ""
-#~ "Authorize.Net API login ID.  This is used for both live and test sites."
-#~ msgstr ""
-#~ "Authorize.Net API login ID. Wordt gebruikt voor zowel LIVE and TEST sites."
-
-#~ msgid ""
-#~ "MD5 hash key for verification of payment gateway response.  Must be the "
-#~ "same as is set in the Authorize.Net merchant settings.  Leave blank if "
-#~ "you do not want to use MD5 verification"
-#~ msgstr ""
-#~ "MD5 hash key ter verificatie van een payment gateway reactie. Moet gelijk "
-#~ "zijn aan de Authorize.Net handelaars instelling. Laat leeg als u de MD5 "
-#~ "verificatie niet wilt gebruiken."
-
-#~ msgid ""
-#~ "Check if you want Authorize.Net to send email to the payer.  This is in "
-#~ "addition to any email that CiviCRM sends out."
-#~ msgstr ""
-#~ "Vink aan als u wilt dat Authorize.Net de betaler een e-mail wilt laten "
-#~ "sturen. Deze e-mail wordt toegevoegd aan eventueel door CiviCRM te sturen "
-#~ "e-mail berichten."
-
-#~ msgid ""
-#~ "\n"
-#~ "            <strong>Drupal Example</strong><br />\n"
-#~ "            If your site's home url is http://www.example.com/ ... then "
-#~ "your CiviCRM Resource URL would be:\n"
-#~ "            <div class=\"font-italic description\">\n"
-#~ "             &nbsp;&nbsp; http://www.example.com/modules/civicrm/\n"
-#~ "            </div>\n"
-#~ "            \n"
-#~ "            <strong>Joomla Example</strong><br />\n"
-#~ "            If your site's home url is http://www.example.com/ ... then "
-#~ "your CiviCRM Resource URL would be:\n"
-#~ "            <div class=\"font-italic description\">\n"
-#~ "             &nbsp;&nbsp; http://www.example.com/administrator/components/"
-#~ "com_civicrm/civicrm/\n"
-#~ "            </div>\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "<strong>Drupal voorbeeld </strong><br />Als uw site's home URL http://www."
-#~ "example.com/ is dan is uw CiviCRM URL: <div class=\"font-italic "
-#~ "description\"> &nbsp;&nbsp; http://www.example.com/sites/all/modules/"
-#~ "civicrm/...</div>\n"
-#~ "<strong>Joomla voorbeeld</strong><br />Als uw site's home URL http://www."
-#~ "example.com/ is dan is uw CiviCRM URL: <div class=\"font-italic "
-#~ "description\"> &nbsp;&nbsp; http://www.example.com/administrator/"
-#~ "components/com_civicrm/civicrm/</div>"
-
-#~ msgid "2. Manage ACL&rsquo;s"
-#~ msgstr "2. Beheer ACL&rsquo;s"
-
-#~ msgid ""
-#~ "Settings for the optional CiviMail component (spool period, batch "
-#~ "throttling, etc.)."
-#~ msgstr ""
-#~ "Instellingen voor de CiviMail module (spool tijd, batch trottling, enz.)."
-
-#~ msgid "Add Members to a Group"
-#~ msgstr "Voeg leden aan een groep toe"
-
-#~ msgid ""
-#~ "There are no contributions recorded from this contact. You can <a href=\"%"
-#~ "1\">enter one now</a>."
-#~ msgstr ""
-#~ "Er zijn geen bijdragen opgeslagen voor dit contact. U kunt <a href=\"%1"
-#~ "\">nu één invoeren</a>."
-
-#~ msgid "Defaults"
-#~ msgstr "Standaard"
