@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2007-11-30 08:12-0800\n"
+"PO-Revision-Date: 2008-02-25 18:23-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
 msgid "No thank you"
-msgstr ""
+msgstr "Non merci"
 
 #: CRM/Contribute/BAO/Query.php CRM/Contribute/DAO/Contribution.php
 #: CRM/Contribute/Form/Offline.php
@@ -42,11 +42,11 @@ msgstr "référence de transaction"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
-msgstr ""
+msgstr "Texte pour «Payer plus tard»"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Receipt"
-msgstr ""
+msgstr "Le reçu pour «Payer plus tard»"
 
 #: CRM/Contribute/DAO/ContributionPage.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
@@ -70,9 +70,8 @@ msgstr "Texte du reçu"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Footer Text"
-msgstr "Pied de page"
+msgstr "Texte de pied de page"
 
 #: CRM/Contribute/DAO/Contribution.php CRM/Contribute/Form/Contribution.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -111,15 +110,15 @@ msgstr "Date du reçu"
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 #: CRM/Contribute/Form/ManagePremiums.php
 msgid "Frequency Unit"
-msgstr ""
+msgstr "Unité de fréquence"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "Frequency Interval"
-msgstr ""
+msgstr "Intervalle de la fréquence"
 
 #: CRM/Contribute/DAO/ContributionRecur.php CRM/Contribute/DAO/Product.php
 msgid "week"
-msgstr ""
+msgstr "semaine"
 
 #: CRM/Contribute/DAO/ContributionType.php
 #: CRM/Contribute/Form/ContributionType.php
@@ -130,40 +129,38 @@ msgstr "Code de comptabilité"
 #: templates/CRM/Contribute/Page/ManagePremiums.tpl
 #: templates/CRM/Contribute/Page/Premium.tpl
 msgid "SKU"
-msgstr ""
+msgstr "SKU"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Period Type"
-msgstr "Période"
+msgstr "Type de période"
 
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php CRM/Member/Form/MembershipType.php
 msgid "Fixed Period Start Day"
 msgstr ""
 
+# à vérifier
 #: CRM/Contribute/DAO/Product.php CRM/Contribute/Form/ManagePremiums.php
 #: CRM/Member/DAO/MembershipType.php
-#, fuzzy
 msgid "Duration Unit"
-msgstr "Durée"
+msgstr "Unité de la période"
 
 #: CRM/Contribute/DAO/Product.php CRM/Member/DAO/MembershipType.php
 #: CRM/Member/Form/MembershipType.php
-#, fuzzy
 msgid "Duration Interval"
-msgstr "Durée"
+msgstr "Intervalle de la période"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "Button Title"
-msgstr ""
+msgstr "Titre du bouton"
 
 #: CRM/Contribute/DAO/Widget.php
 #: CRM/Contribute/Form/ContributionPage/Widget.php
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: CRM/Contribute/Form/ContributionBase.php CRM/Event/Form/Registration.php
 #: CRM/Event/Page/EventInfo.php
@@ -177,83 +174,76 @@ msgstr "<< Revenir"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
-#, fuzzy
 msgid "Please enter a valid Credit Card Number"
-msgstr "Entrez un nom valide"
+msgstr "Veuillez entrer un numéro de carte de crédit valide"
 
 #: CRM/Contribute/Form/Contribution/Main.php
 #: CRM/Event/Form/Registration/Register.php
-#, fuzzy
 msgid "Please enter a valid Credit Card Verification Number"
-msgstr "Entrez un nom valide"
+msgstr "Veuillez entrer un numéro de vérification de carte de crédit valide"
 
+# Peut-on entrer 99,99 ?
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "Please enter a valid money value for this field (e.g. 99.99)."
-msgstr ""
+msgstr "Veuillez entrer un montant d'argent avec le format 99.99."
 
 #: CRM/Contribute/Form/ContributionPage/Amount.php
 #: CRM/Event/Form/ManageEvent/Fee.php
 msgid "I will send payment by check"
-msgstr ""
+msgstr "Je vais envoyer un paiement par chèque"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Include Profile"
-msgstr "Inclure les groupes"
+msgstr "Inclure un profile"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(top of page)"
-msgstr ""
+msgstr "(haut de page)"
 
 #: CRM/Contribute/Form/ContributionPage/Custom.php
 #: CRM/Event/Form/ManageEvent/Registration.php
 msgid "(bottom of page)"
-msgstr ""
+msgstr "(bas de page)"
 
 #: CRM/Contribute/Form/ContributionPage.php
 #: CRM/Contribute/Page/ContributionPageEdit.php
 msgid "Configure Contribution Page"
-msgstr ""
+msgstr "Configurer la page de contribution"
 
 #: CRM/Contribute/Form/ContributionPage/Premium.php
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
 msgid "Introductory Message"
-msgstr ""
+msgstr "Message d'introduction"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/DAO/EventPage.php
-#, fuzzy
 msgid "Footer Message"
-msgstr "A laissé un message"
+msgstr "Message en pied de page"
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid start date."
-msgstr "Veuillez entrer un montant valide."
+msgstr "Veuillez entrer une date de début valide."
 
 #: CRM/Contribute/Form/ContributionPage/Settings.php
 #: CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "End Date / Time"
-msgstr "Date de fin"
+msgstr "Date / heure de fin"
 
 #: CRM/Contribute/Form/ContributionPage/ThankYou.php
 #: CRM/Member/Form/Membership.php
-#, fuzzy
 msgid "Receipt Message"
-msgstr "Message"
+msgstr "Message du reçu"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Event/Form/Participant.php
 #: CRM/Member/Form/Membership.php CRM/Member/Form/MembershipRenewal.php
-#, fuzzy
 msgid "You do not have permission to access this page"
-msgstr "Vous n'avez pas la permission nécessaire pour modifier ce contact."
+msgstr "Vous n'avez pas les droits nécessaires pour accéder à cette page."
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -269,14 +259,12 @@ msgid "Thank-you Sent"
 msgstr "Remerciement envoyé"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Send Receipt?"
-msgstr "Date du reçu"
+msgstr "Envoyer un reçu?"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/Offline.php
-#, fuzzy
 msgid "Contribution Receipt"
-msgstr "Source de la contribution"
+msgstr "Reçu de contribution"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Selector/Search.php
 #: templates/CRM/Contribute/Form/ContributionView.tpl
@@ -285,9 +273,8 @@ msgid "Premium"
 msgstr "Préfixe"
 
 #: CRM/Contribute/Form/Contribution.php CRM/Contribute/Form/ManagePremiums.php
-#, fuzzy
 msgid "Minimum Contribution Amount"
-msgstr "Montant de la contribution annulée"
+msgstr "Montant minimum d'une contribution"
 
 #: CRM/Contribute/Form/Task/Delete.php CRM/Contribute/Task.php
 msgid "Delete Contributions"
@@ -307,9 +294,8 @@ msgid "DashBoard"
 msgstr "Tableau de bord"
 
 #: CRM/Contribute/Menu.php CRM/Contribute/Page/ContributionPage.php
-#, fuzzy
 msgid "Manage Contribution Pages"
-msgstr "Page de donation"
+msgstr "Gérer les pages de contributions"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 #: templates/CRM/Contribute/Form/Contribution/PreviewHeader.tpl
@@ -325,7 +311,7 @@ msgstr "Domicile"
 
 #: CRM/Contribute/Page/ContributionPage.php CRM/Event/Page/ManageEvent.php
 msgid "FollowUp"
-msgstr ""
+msgstr "Suivi"
 
 #: CRM/Contribute/Page/ManagePremiums.php CRM/Contribute/Page/Premium.php
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
@@ -349,9 +335,8 @@ msgid "Participant Source"
 msgstr "Recherche de contacts"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/Task/Export.php
-#, fuzzy
 msgid "Event ID"
-msgstr "Repérer le contact"
+msgstr "ID d'événement"
 
 #: CRM/Event/DAO/EventPage.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -364,15 +349,13 @@ msgid "Confirm From Email"
 msgstr "Ne pas envoyer de courriel"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
-#, fuzzy
 msgid "Event Title"
-msgstr "Titre"
+msgstr "Titre de l'événement"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/EventInfo.php
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Event Summary"
-msgstr "Sommaire"
+msgstr "Sommaire de l'événement"
 
 #: CRM/Event/DAO/Event.php CRM/Event/Form/ManageEvent/Registration.php
 #, fuzzy
@@ -393,50 +376,44 @@ msgstr "Étiquette du champ"
 #: CRM/Event/DAO/ParticipantPayment.php CRM/Event/DAO/Participant.php
 #: CRM/Event/Form/Task/Export.php
 msgid "Participant ID"
-msgstr ""
+msgstr "ID de participant"
 
 #: CRM/Event/Form/ManageEvent/Delete.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Delete Event"
-msgstr "Supprimer la note"
+msgstr "Supprimer l'événement"
 
 #: CRM/Event/Form/ManageEvent/EventInfo.php
 #: CRM/Event/Form/ManageEvent/Registration.php
-#, fuzzy
 msgid "Please select a valid end date."
-msgstr "Veuillez entrer un montant valide."
+msgstr "Veuillez entrer une date de fin valide."
 
 #: CRM/Event/Form/ManageEvent/Fee.php CRM/Event/Form/Participant.php
 #: CRM/Event/Form/Registration/Register.php
 msgid "Event Fee(s)"
-msgstr ""
+msgstr "Frais de l'événement"
 
 #: CRM/Event/Form/ManageEvent.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Configure Event"
-msgstr "Configurer"
+msgstr "Configurer l'événement"
 
 #: CRM/Event/Form/ManageEvent/Registration.php CRM/Event/Invoke.php
 #: templates/CRM/Event/Form/ManageEvent/Registration.tpl
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
-#, fuzzy
 msgid "Online Registration"
-msgstr "Enregistrement rapide"
+msgstr "Enregistrement en ligne"
 
 #: CRM/Event/Form/Participant.php CRM/Member/Form/Membership.php
 #: CRM/Member/Form/MembershipRenewal.php
 msgid "Payment Status"
-msgstr ""
+msgstr "État du paiement"
 
 #: CRM/Event/Form/Task/Export.php CRM/Event/Task.php
-#, fuzzy
 msgid "Export Participants"
-msgstr "Exporter les contacts"
+msgstr "Exporter la liste des participants"
 
 #: CRM/Event/Menu.php CRM/Event/Page/ManageEvent.php
-#, fuzzy
 msgid "Manage Events"
-msgstr "Gérer"
+msgstr "Gérer les événements"
 
 #: CRM/Mailing/BAO/Job.php CRM/Mailing/DAO/Job.php
 msgid "Running"

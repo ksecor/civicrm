@@ -6,13 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2006-09-22 05:21-0700\n"
-"Last-Translator: Damien Flasse <dflasse@etuc.org>\n"
+"PO-Revision-Date: 2008-02-23 18:29-0800\n"
+"Last-Translator: Michael Knight <jedimike@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/Contribute/BAO/Premium.php CRM/Contribute/Form/Contribution/Main.php
 #: templates/CRM/Contribute/Form/Contribution/MembershipBlock.tpl
@@ -39,7 +40,7 @@ msgstr "Donation Page"
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Transaction ID"
-msgstr "Organization"
+msgstr "Organisation"
 
 #: CRM/Contribute/DAO/ContributionPage.php CRM/Event/DAO/EventPage.php
 msgid "Pay Later Text"
@@ -648,7 +649,7 @@ msgstr "Activity Date - %1"
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
 msgid "Contribution Thank-you date is null"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Contribute/BAO/Query.php
 #, fuzzy
@@ -826,7 +827,7 @@ msgstr "Canceled"
 #: CRM/Contribute/DAO/ContributionRecur.php
 #, fuzzy
 msgid "Next Sched Contribution"
-msgstr "New Organization"
+msgstr "New Organisation"
 
 #: CRM/Contribute/DAO/ContributionRecur.php
 msgid "Failure Count"
@@ -2011,7 +2012,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
 msgid "Event Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Event/DAO/Event.php
 #, fuzzy
@@ -2090,7 +2091,7 @@ msgstr ""
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 #, fuzzy
 msgid "Event Information and Settings"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Event/Form/ManageEvent/Fee.php
 #, fuzzy
@@ -3350,7 +3351,7 @@ msgstr ""
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
 #, fuzzy
 msgid "Membership Organization and Type"
-msgstr "Add Members To Organization"
+msgstr "Add Members To Organisation"
 
 #: CRM/Member/Form/Membership.php
 #, fuzzy
@@ -3489,7 +3490,7 @@ msgstr "Please enter a name for the new group."
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
 msgid "Membership Organization"
-msgstr "Add Members To Organization"
+msgstr "Add Members To Organisation"
 
 #: CRM/Member/Form/MembershipType.php
 #, fuzzy
@@ -3759,7 +3760,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
 msgid "Credit or Debit Card Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/Confirm.tpl
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
@@ -4285,6 +4286,10 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"If you want member(s) of your organisation to receive a carbon copy of each "
+"emailed receipt, enter one or more email addresses here. Multiple email "
+"addresses should be separated by a comma (e.g. jane@example.org, "
+"paula@example.org)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/ThankYou.tpl
 msgid ""
@@ -4293,6 +4298,10 @@ msgid ""
 "addresses should be separated by a comma (e.g. jane@example.org, "
 "paula@example.org)."
 msgstr ""
+"If you want member(s) of your organisation to receive a BLIND carbon copy of "
+"each emailed receipt, enter one or more email addresses here. Multiple "
+"email addresses should be separated by a comma (e.g. jane@example.org, "
+"paula@example.org)."
 
 #: templates/CRM/Contribute/Form/ContributionPage/Widget.tpl
 msgid "Configure Widget"
@@ -4389,7 +4398,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
 #, fuzzy
 msgid "Membership Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/ReceiptMessageOffline.tpl
@@ -4403,7 +4412,7 @@ msgstr "Start Date"
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Contribution Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #, fuzzy
@@ -4416,13 +4425,13 @@ msgstr "Past Memberships"
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
 msgid "Transaction #"
-msgstr "Organization"
+msgstr "Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 #: templates/CRM/Contribute/Form/Contribution/ThankYou.tpl
 #, fuzzy
 msgid "Membership Transaction #"
-msgstr "Organization"
+msgstr "Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid ""
@@ -4442,7 +4451,7 @@ msgstr "Do not mail"
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Premium Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution/ReceiptMessage.tpl
 msgid "For information about this premium, contact:"
@@ -4553,7 +4562,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/Contribution.tpl
 #, fuzzy
 msgid "Cancellation Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Contribution.tpl
 msgid ""
@@ -4721,6 +4730,9 @@ msgid ""
 "organization. This may be useful when evaluating net return for this "
 "incentive."
 msgstr ""
+"You may optionally record the actual cost of this premium to your "
+"organisation. This may be useful when evaluating net return for this "
+"incentive."
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4732,7 +4744,7 @@ msgstr ""
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 #, fuzzy
 msgid "Subscription or Service Settings"
-msgstr "Find Target Organization"
+msgstr "Find Target Organisation"
 
 #: templates/CRM/Contribute/Form/ManagePremiums.tpl
 msgid ""
@@ -4773,7 +4785,7 @@ msgstr "Reset Date"
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
 msgid "Additional Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Contribute/Form/Message.tpl
 #, fuzzy
@@ -5068,6 +5080,8 @@ msgid ""
 "Select 'Organization' or 'Household' if you are importing contributions made "
 "by contacts of that type."
 msgstr ""
+"Select 'Organisation' or 'Household' if you are importing contributions made "
+"by contacts of that type."
 
 #: templates/CRM/Contribute/Page/AcceptCreditCard.tpl
 #, fuzzy
@@ -5507,7 +5521,7 @@ msgstr ""
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 #, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -5696,7 +5710,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
 #, fuzzy
 msgid "Registration Confirmation"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -5789,7 +5803,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #, fuzzy
 msgid "Event Information and Location"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Event/Form/Registration/ReceiptMessage.tpl
 #, fuzzy
@@ -5808,7 +5822,7 @@ msgstr ""
 #: templates/CRM/Event/Form/Registration/ThankYou.tpl
 #, fuzzy
 msgid "Transaction Date"
-msgstr "Organization"
+msgstr "Organisation"
 
 #: templates/CRM/Event/Form/Registration/ReceiptPreviewHeader.tpl
 msgid "Event Registration - Test-drive Confirmation / Receipt"
@@ -6231,6 +6245,9 @@ msgid ""
 "selected group of people in your organization. You can also view your "
 "content by clicking (+) Preview Mailing."
 msgstr ""
+"It's a good idea to test your mailing by sending it to yourself and/or a "
+"selected group of people in your organisation. You can also view your "
+"content by clicking (+) Preview Mailing."
 
 #: templates/CRM/Mailing/Form/Test.tpl
 msgid "(filled with your contact's token values)"
@@ -6554,6 +6571,8 @@ msgid ""
 "Enter a message you want included at the beginning of the emailed receipt. "
 "EXAMPLE: \"Thanks for supporting our organization with your membership.\""
 msgstr ""
+"Enter a message you want included at the beginning of the emailed receipt. "
+"EXAMPLE: \"Thanks for supporting our organisation with your membership.\""
 
 #: templates/CRM/Member/Form/MembershipStatus.tpl
 #: templates/CRM/Member/Page/MembershipStatus.tpl
@@ -6644,7 +6663,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Select Membership Organization and then Membership Type."
-msgstr ""
+msgstr "Select Membership Organisation and then Membership Type."
 
 #: templates/CRM/Member/Form/Membership.tpl
 msgid "Source of this membership. This value is searchable."
@@ -6706,14 +6725,18 @@ msgid ""
 "This organization/group/chapter must exist as a CiviCRM Organization type "
 "contact."
 msgstr ""
+"Members assigned this membership type belong to which organisation (e.g. "
+"this is for membership in \"Save the Whales - Northwest Chapter\"). NOTE: This "
+"organization/group/chapter must exist as a CiviCRM Organization type "
+"contact."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Select Target Contact for the Membership-Organization"
-msgstr ""
+msgstr "Select Target Contact for the Membership-Organisation"
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 msgid "Organization, who is the owner for this membership type."
-msgstr ""
+msgstr "Organisation, who is the owner for this membership type."
 
 #: templates/CRM/Member/Form/MembershipType.tpl
 #, fuzzy
@@ -7009,6 +7032,8 @@ msgid ""
 "Select 'Organization' or 'Household' if you are importing memberships made "
 "by contacts of that type."
 msgstr ""
+"Select 'Organisation' or 'Household' if you are importing memberships made "
+"by contacts of that type."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid ""
@@ -7079,6 +7104,10 @@ msgid ""
 "the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
 "new status and rule</a>."
 msgstr ""
+"The status rules provided by default may be sufficient for your "
+"organisation. However, you can easily change the status names and/or adjust "
+"the rules by clicking the Edit links below. Or you can <a href=\"%1\">add a "
+"new status and rule</a>."
 
 #: templates/CRM/Member/Page/MembershipStatus.tpl
 #, fuzzy
@@ -7098,6 +7127,12 @@ msgid ""
 "the membership entity (organization) - e.g. Bay Area Chapter (<a href=\"%1\" "
 "target=\"_blank\" title=\"%2\">read more...</a>)."
 msgstr ""
+"Membership types are used to categorize memberships. You can define an "
+"unlimited number of types. Each type incorporates a \"name\" (Gold Member, "
+"Honor Society Member...), a description, a minimum fee (can be $0), and a "
+"duration (can be \"lifetime\"). Each member type is specifically linked to the "
+"membership entity (organisation) - e.g. Bay Area Chapter (<a href=\"%1\" "
+"target=\"_blank\" title=\"%2\">read more...</a>)."
 
 #: templates/CRM/Member/Page/MembershipType.tpl
 #, fuzzy

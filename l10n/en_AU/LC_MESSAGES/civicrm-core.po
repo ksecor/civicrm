@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2007-10-01 11:07+1100\n"
-"Last-Translator: davemac<dave@macs.id.au>\n"
+"PO-Revision-Date: 2008-02-23 18:42-0800\n"
+"Last-Translator: Michael Knight <jedimike@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n == 1 ? 0 : 1);\n"
-"X-Generator: Pootle 1.0.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.0.2\n"
 
 #: CRM/ACL/BAO/ACL.php CRM/ACL/BAO/EntityRole.php
 #: CRM/Contact/Form/Task/Map.php CRM/Core/DAO/CustomGroup.php
@@ -1273,7 +1273,7 @@ msgstr "Delete Location"
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
 #, fuzzy
 msgid "Domain Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1613,7 +1613,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/AddToOrganization.php CRM/Contact/Task.php
 msgid "Add Contacts to Organization"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Contact/Form/Task/Delete.php CRM/Contact/Task.php
 msgid "Delete Contacts"
@@ -3397,7 +3397,7 @@ msgstr "Delete Relationship"
 #: CRM/Admin/Page/Setting.php
 #, fuzzy
 msgid "System Configuration"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Admin/Page/Setting.php
 msgid "Online Payment"
@@ -4412,16 +4412,15 @@ msgstr "Added Contact(s) to Household"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Find Target Organization"
-msgstr "Find Target Organization"
+msgstr "Find Target Organisation"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
-#, fuzzy
 msgid "Add to Organization"
-msgstr "Add To Organization"
+msgstr "Add to Organisation"
 
 #: CRM/Contact/Form/Task/AddToOrganization.php
 msgid "Added Contact(s) to Organization"
-msgstr "Added Contact(s) to Organization"
+msgstr "Added Contact(s) to Organisation"
 
 #: CRM/Contact/Form/Task/AddToTag.php
 msgid "Tag Contacts"
@@ -5231,7 +5230,7 @@ msgstr "CiviCRM Shortcuts"
 
 #: CRM/Core/Block.php
 msgid "New Organization"
-msgstr "New Organization"
+msgstr "New Organisation"
 
 #: CRM/Core/Block.php
 msgid "New Household"
@@ -5856,17 +5855,17 @@ msgstr "Preferred Mail Format"
 #: CRM/Core/DAO/Preferences.php
 #, fuzzy
 msgid "Address Standardization Provider"
-msgstr "Add To Organization"
+msgstr "Add To Organisation"
 
 #: CRM/Core/DAO/Preferences.php
 #, fuzzy
 msgid "Address Standardization Userid"
-msgstr "Add To Organization"
+msgstr "Add To Organisation"
 
 #: CRM/Core/DAO/Preferences.php
 #, fuzzy
 msgid "Address Standardization Url"
-msgstr "Add To Organization"
+msgstr "Add To Organisation"
 
 #: CRM/Core/DAO/StateProvince.php
 msgid "State Abbreviation"
@@ -6188,7 +6187,7 @@ msgstr "Browse Uploaded files"
 #: CRM/Core/Menu.php
 #, fuzzy
 msgid "Contact Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Core/Menu.php templates/CRM/Admin/Form/CMSUser.tpl
 msgid "Synchronize Users to Contacts:"
@@ -6332,6 +6331,8 @@ msgid ""
 "Configure primary contact name, email, return-path and address information. "
 "This information is used by CiviMail to identify the sending organization."
 msgstr ""
+"Configure primary contact name, email, return-path and address information. "
+"This information is used by CiviMail to identify the sending organisation."
 
 #: CRM/Core/Menu.php
 msgid "Activity Types"
@@ -6492,7 +6493,7 @@ msgstr "Create New Group"
 #: CRM/Core/Menu.php
 #, fuzzy
 msgid "Add Contact Information"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: CRM/Core/Menu.php
 msgid "Notes about the Person"
@@ -6686,7 +6687,7 @@ msgstr "Households"
 
 #: CRM/Core/SelectValues.php
 msgid "Organizations"
-msgstr "Organizations"
+msgstr "Organisations"
 
 #: CRM/Core/SelectValues.php
 #, fuzzy
@@ -7342,6 +7343,8 @@ msgid ""
 "Thought you might be interested in learning about and helping this "
 "organization. I think they do important work."
 msgstr ""
+"Thought you might be interested in learning about and helping this "
+"organisation. I think they do important work."
 
 #: CRM/Friend/Form/Contribute.php
 msgid ""
@@ -8621,7 +8624,7 @@ msgstr ""
 
 #: CRM/Utils/Address/USPS.php
 msgid "Your API Authorization is Failed."
-msgstr ""
+msgstr "Your API Authorisation is Failed."
 
 #: CRM/Utils/Address/USPS.php
 msgid "Address not found in USPS database."
@@ -8723,16 +8726,16 @@ msgid "This feature requires PHP Version %1 or greater"
 msgstr "This feature requires PHP Version %1 or greater"
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid "Displays your organization's postal address."
-msgstr "Your organization's postal address"
+msgstr "Displays your organisation's postal address."
 
 #: CRM/Utils/Token.php
-#, fuzzy
 msgid ""
 "Creates a link for recipients to opt out of receiving emails from your "
 "organization."
-msgstr "Link to allow contacts to opt out of your organization"
+msgstr ""
+"Creates a link for recipients to opt out of receiving emails from your "
+"organisation."
 
 #: CRM/Utils/Token.php
 #, fuzzy
@@ -9665,7 +9668,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 #, fuzzy
 msgid "Advanced Configuration"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
@@ -9825,7 +9828,7 @@ msgstr "Disable Location Type"
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 #, fuzzy
 msgid "Address Display"
-msgstr "Add To Organization"
+msgstr "Add To Organisation"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 #, fuzzy
@@ -9849,7 +9852,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 #, fuzzy
 msgid "Address Standardization"
-msgstr "Add To Organization"
+msgstr "Add To Organisation"
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9860,9 +9863,9 @@ msgid ""
 "approved, they will provide you with a User ID and the URL for the service."
 msgstr ""
 "CiviCRM includes an optional plugin for interfacing the the United States "
-"Postal Services (USPS) Address Standardization web service. You must "
-"register to use the USPS service at <a href=\"http://www.usps.com/webtools/"
-"address.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
+"Postal Services (USPS) Address Standardisation web service. You must "
+"register to use the USPS service at <a href=\"http://www.usps.com/webtools/ad"
+"dress.htm\">http://www.usps.com/webtools/address.htm</a>. If you are "
 "approved, they will provide you with a User ID and the URL for the service."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -10160,7 +10163,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 #, fuzzy
 msgid "CiviMail Configuration"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Admin/Form/Setting/Mail.tpl
 msgid "Number of seconds between delivery attempts for new outgoing mailings."
@@ -10312,7 +10315,7 @@ msgstr ""
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 #, fuzzy
 msgid "SMTP Configuration"
-msgstr "Add Contacts to Organization"
+msgstr "Add Contacts to Organisation"
 
 #: templates/CRM/Admin/Form/Setting/Smtp.tpl
 msgid "Enter the SMTP server (machine) name. EXAMPLE: smtp.example.com "
@@ -11400,7 +11403,7 @@ msgstr "Disable Custom Field"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "The name of the organization or entity which owns this CiviCRM domain."
-msgstr ""
+msgstr "The name of the organisation or entity which owns this CiviCRM domain."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid ""
@@ -11428,7 +11431,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Domain.tpl
 #, fuzzy
 msgid "Edit Domain Information"
-msgstr "Add Contacts to Organization"
+msgstr "Edit Domain Information"
 
 #: templates/CRM/Contact/Form/Edit.tpl
 msgid "Name and Greeting"
@@ -11666,7 +11669,7 @@ msgstr "Does the contact have a %1 Account?"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Organization(s)"
-msgstr ""
+msgstr "Organisation(s)"
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "<strong>EXCLUDE</strong> contacts who have these privacy option(s)."
@@ -11754,8 +11757,8 @@ msgid ""
 "add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
 "<a href=\"%3\">Household</a>"
 msgstr ""
-"add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organization</a> or "
-"<a href=\"%3\">Household</a>"
+"add a <a href=\"%1\">New Individual</a>, <a href=\"%2\">Organisation</a> or <a "
+"href=\"%3\">Household</a>"
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 #, fuzzy
@@ -11894,7 +11897,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Task/AddToOrganization.tpl
 msgid "Choose Relationship Type and Target Organization"
-msgstr "Choose Relationship Type and Target Organization"
+msgstr "Choose Relationship Type and Target Organisation"
 
 #: templates/CRM/Contact/Form/Task/AddToTag.tpl
 msgid "Tag Contact(s)"
@@ -12246,7 +12249,7 @@ msgstr "Notes (3 of %1)"
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #, fuzzy
 msgid "New Contribution"
-msgstr "New Organization"
+msgstr "New Contribution"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -12674,6 +12677,10 @@ msgid ""
 "of that type. Click <strong>Edit</strong> to modify the settings for that "
 "type."
 msgstr ""
+"The following Membership Types are associated with this organisation. Click "
+"<strong>Members</strong> for a listing of all contacts who have memberships "
+"of that type. Click <strong>Edit</strong> to modify the settings for that "
+"type."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Period"
@@ -13406,6 +13413,10 @@ msgid ""
 "about your organization, enter that link here (e.g <em>http://www.example."
 "org</em>)"
 msgstr ""
+"A link to this %1 is automatically included in the email sent to friends. If\n"
+"            you ALSO want to include a link providing general information "
+"about your organisation, enter that link here (e.g "
+"<em>http://www.example.org</em>)"
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -13590,6 +13601,8 @@ msgid ""
 "Select 'Organization' or 'Household' if you are importing event "
 "participation data for contacts of that type."
 msgstr ""
+"Select 'Organisation' or 'Household' if you are importing event "
+"participation data for contacts of that type."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid ""
@@ -13601,6 +13614,12 @@ msgid ""
 "their summary page, select the <strong>Grants</strong> tab and click "
 "<strong>New Grant</strong>."
 msgstr ""
+"CiviGrant allows you to input and track grants to Organisations, Individuals "
+"or Households. The grantee must first be entered as a contact in CiviCRM.\n"
+"    Use <a href=\"%1\">Find Contacts</a> to see if there's already a record "
+"for the grantee. Once you've located    or created the contact record, click "
+"<strong>View</strong> to go to their summary page, select the "
+"<strong>Grants</strong> tab and click <strong>New Grant</strong>."
 
 #: templates/CRM/Grant/Page/DashBoard.tpl
 msgid "Grants Summary"
@@ -13987,9 +14006,9 @@ msgid ""
 "these contacts, you can 'import' them here."
 msgstr ""
 "The Import Wizard allows you to easily upload contact records from other "
-"applications into CiviCRM. For example, if your organization has contacts in "
-"MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to store "
-"these contacts, you can 'import' them here."
+"applications into CiviCRM. For example, if your organisation has contacts in "
+"MS Access&copy; or Excel&copy;, and you want to start using CiviCRM to "
+"store these contacts, you can 'import' them here."
 
 #: templates/CRM/Import/Form/UploadFile.tpl
 msgid ""
@@ -14465,7 +14484,6 @@ msgstr ""
 "you want the new contacts to be automatically assigned to a group."
 
 #: templates/CRM/UF/Form/Group.tpl
-#, fuzzy
 msgid ""
 "If you want member(s) of your organization to receive a notification email "
 "whenever this Profile form is used to enter or update contact information, "
@@ -14473,10 +14491,11 @@ msgid ""
 "separated by a comma (e.g. jane@example.org, paula@example.org). The first "
 "email address listed will be used as the FROM address in the notifications."
 msgstr ""
-"If you want member(s) of your organization to receive a notification email "
+"If you want member(s) of your organisation to receive a notification email "
 "whenever this Profile form is used to enter or update contact information, "
 "enter one or more email addresses here. Multiple email addresses should be "
-"separated by a comma (e.g. jane@example.org.au, paula@example.org.au)."
+"separated by a comma (e.g. jane@example.org, paula@example.org). The first "
+"email address listed will be used as the FROM address in the notifications."
 
 #: templates/CRM/UF/Form/Group.tpl
 #, fuzzy
@@ -14789,7 +14808,7 @@ msgstr "Non-profit"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Any not-for-profit organization."
-msgstr "Any not-for-profit organization."
+msgstr "Any not-for-profit organisation."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Company"
@@ -14797,7 +14816,7 @@ msgstr "Company"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "For-profit organization."
-msgstr "For-profit organization."
+msgstr "For-profit organisation."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Government Entity"
@@ -14813,7 +14832,7 @@ msgstr "Major Donor"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "High-value supporter of our organization."
-msgstr "High-value supporter of our organization."
+msgstr "High-value supporter of our organisation."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Volunteer"
@@ -14866,19 +14885,16 @@ msgid "Your Subscription has been Activated"
 msgstr "Your multiple choice option \"%1\" has been saved"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Un-subscribe Confirmation"
-msgstr "Add Contacts to Organization"
+msgstr "Un-subscribe Confirmation"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Re-subscribe Confirmation"
-msgstr "Add Contacts to Organization"
+msgstr "Re-subscribe Confirmation"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Opt-out Confirmation"
-msgstr "Add Contacts to Organization"
+msgstr "Opt-out Confirmation"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Auto-responder"

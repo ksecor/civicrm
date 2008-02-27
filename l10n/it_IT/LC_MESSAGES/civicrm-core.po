@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-09 10:07-0800\n"
+"PO-Revision-Date: 2008-02-27 01:26-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -126,7 +126,6 @@ msgid "Role"
 msgstr "Ruolo"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "-select role-"
 msgstr "- seleziona ruolo -"
 
@@ -208,16 +207,15 @@ msgstr "Tutti i Gruppi"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Custom Groups"
-msgstr "Tutti i Gruppi  Personalizzati"
+msgstr "Tutti i Gruppi Personalizzati"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Profiles"
 msgstr "Tutti i Profili"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
-#, fuzzy
 msgid "All Events"
-msgstr "Eventi"
+msgstr "Tutti gli Eventi"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -324,9 +322,8 @@ msgid "Subject"
 msgstr "Oggetto"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Start Date - From"
-msgstr "Data inizio"
+msgstr "Data inizio - Da"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -356,7 +353,7 @@ msgstr "Durata"
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Contact/Form/Task/Record.php CRM/Core/DAO/CustomGroup.php
 msgid "Location"
-msgstr "Luogo"
+msgstr "Recapito"
 
 #: CRM/Activity/DAO/Activity.php CRM/Activity/Form/Activity.php
 #: CRM/Case/DAO/Case.php CRM/Contact/Form/Task/Record.php
@@ -379,9 +376,8 @@ msgstr "- seleziona -"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
-#, fuzzy
 msgid "Detach"
-msgstr "Ricerca"
+msgstr "Scollega"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -415,7 +411,7 @@ msgstr "Annulla"
 #: CRM/Activity/Form/Activity.php CRM/Contact/Form/Task/Record.php
 #: templates/CRM/Activity/Form/ActivityView.tpl
 msgid "Date and Time"
-msgstr "Date e ora"
+msgstr "Data e ora"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Contact/DAO/GroupContact.php CRM/Contact/DAO/SubscriptionHistory.php
@@ -431,12 +427,11 @@ msgstr "Date e ora"
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Status"
-msgstr "Status"
+msgstr "Stato"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "Added By"
-msgstr "Aggiunto"
+msgstr "Aggiunto da"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -785,7 +780,6 @@ msgstr "Etichetta"
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "is a numeric field"
 msgstr "è un campo numerico"
 
@@ -825,9 +819,8 @@ msgid "Enter a valid URL"
 msgstr "Prego inserire un URL valido."
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
-#, fuzzy
 msgid "API URL"
-msgstr "API"
+msgstr "URL dell'API"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -877,9 +870,8 @@ msgstr ""
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
-#, fuzzy
 msgid "Format"
-msgstr "Formale"
+msgstr "Formato"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -936,9 +928,8 @@ msgid "Settings - Resource URLs"
 msgstr "Impostazioni - URL delle Risorse"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Customize"
-msgstr "Personalizzato"
+msgstr "Personalizza"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -1272,15 +1263,15 @@ msgstr "Paese"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- digita prima lettera/e -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 msgid "Delete Location"
-msgstr "Elimina indirizzo"
+msgstr "Elimina recapito"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
 msgid "Domain Information"
-msgstr ""
+msgstr "Informazioni dominio"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1511,7 +1502,7 @@ msgstr "Codice Postale"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Regione del mondo"
 
 #: CRM/Contact/Form/Search/Criteria.php CRM/Core/BAO/CustomQuery.php
 msgid "and"
@@ -1552,21 +1543,18 @@ msgstr "ID Contatto"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Count"
-msgstr "Conteggio località:"
+msgstr "Conteggio donazioni:"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
-#, fuzzy
 msgid "Donation Amount"
-msgstr "Conteggio località:"
+msgstr "Ammontare donazioni:"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Custom Search"
-msgstr "Ricerca"
+msgstr "Ricerca avanzata"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1810,18 +1798,16 @@ msgid "CiviCRM"
 msgstr "Menu completo CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New Activity"
-msgstr "Visualizza Attività"
+msgstr "Nuova Attività"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
 msgstr "Logout"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
-#, fuzzy
 msgid "CiviGrant"
-msgstr "Permetti"
+msgstr "CiviGrant"
 
 #: CRM/Core/DAO/CustomField.php CRM/Core/DAO/PriceField.php
 msgid "Html Type"
@@ -1918,9 +1904,8 @@ msgid "Phone Type"
 msgstr "Tipo Telefono"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "Import Activity"
-msgstr "Importa Storico Attività "
+msgstr "Importa Attività "
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -2637,11 +2622,11 @@ msgstr "Default?"
 
 #: CRM/Admin/Form/LocationType.php
 msgid "Selected Location type has been deleted."
-msgstr "Il tipo di Località selezionato è stato cancellato."
+msgstr "Il tipo di recapito selezionato è stato cancellato."
 
 #: CRM/Admin/Form/LocationType.php
 msgid "The location type \"%1\" has been saved."
-msgstr "Il tipo di località \"%1\" è stato salvato."
+msgstr "Il tipo di recapito \"%1\" è stato salvato."
 
 #: CRM/Admin/Form/MessageTemplates.php
 #: templates/CRM/Admin/Page/MessageTemplates.tpl
@@ -2808,11 +2793,11 @@ msgstr "Impostazioni - Indirizzi"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Number of Locations"
-msgstr "Numero località"
+msgstr "Numero di recapiti"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Location count must be a positive integer (e.g. 1 or 2 or ...)."
-msgstr "Il conteggio delle località deve essere un intero positivo (1, 2 o...)"
+msgstr "Il conteggio dei recapiti deve essere un intero positivo (1, 2 o...)"
 
 #: CRM/Admin/Form/Preferences/Address.php
 msgid "Mailing Label Format"
@@ -3154,7 +3139,7 @@ msgstr "Modifica DupeMatch"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Are you sure you want to disable this location type?"
-msgstr "Sei sicuro di voler disabilitare questo tipo di località?"
+msgstr "Sei sicuro di voler disabilitare questo tipo di recapito?"
 
 #: CRM/Admin/Page/LocationType.php
 msgid ""
@@ -3162,23 +3147,23 @@ msgid ""
 "contact locations."
 msgstr ""
 "Gli utenti non possono più selezionare questo valore quando aggiungono o "
-"modificano le località di contatto."
+"modificano i recapiti dei contatti."
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Edit Location Type"
-msgstr "Modifica Tipo Località"
+msgstr "Modifica Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Disable Location Type"
-msgstr "Disabilita Tipo Località"
+msgstr "Disabilita Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php
 msgid "Enable Location Type"
-msgstr "Abilita Tipo Località"
+msgstr "Abilita Tipo Recapito"
 
 #: CRM/Admin/Page/LocationType.php templates/CRM/Admin/Form/LocationType.tpl
 msgid "Delete Location Type"
-msgstr "Cancella Tipo Località"
+msgstr "Cancella Tipo Recapito"
 
 #: CRM/Admin/Page/Mapping.php
 msgid ""
@@ -3456,9 +3441,8 @@ msgid "Note(s)"
 msgstr "Nota/e"
 
 #: CRM/Contact/BAO/Contact.php
-#, fuzzy
 msgid "Could not find location type id"
-msgstr "Non è possibile trovare un id località"
+msgstr "Non è possibile trovare un id per il tipo di recapito"
 
 #: CRM/Contact/BAO/Query.php
 msgid "State %2 \"%1\""
@@ -3563,7 +3547,7 @@ msgstr "CAP minore di \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "Location type -"
-msgstr "Tipologia di indirizzo - "
+msgstr "Tipologia di recapito - "
 
 #: CRM/Contact/BAO/Query.php
 msgid "Activity Type %2 '%1'"
@@ -3758,7 +3742,7 @@ msgstr "Prego inserire Sito Web valido."
 
 #: CRM/Contact/Form/DeleteLocation.php
 msgid "The location has been deleted."
-msgstr "La Località  è stata cancellata."
+msgstr "Il recapito è stato cancellato."
 
 #: CRM/Contact/Form/Domain.php
 msgid "Domain Name"
@@ -3840,19 +3824,19 @@ msgstr "Deiscrizione utente"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Only one location can be marked as primary."
-msgstr "Può essere indicato solo un indirizzo principale."
+msgstr "Può essere indicato solo un recapito principale."
 
 #: CRM/Contact/Form/Edit.php
 msgid "The Location Type should be set if there is any location information"
-msgstr "Se ci sono indirizzi si deve impostare la Tipologia di indirizzo"
+msgstr "Se ci sono recapiti se ne deve impostare la tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr "Non si possono avere due indirizzi della stessa tipologia"
+msgstr "Non si possono avere due recapiti della stessa tipologia"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
-msgstr "Si deve impostare un indirizzo principale"
+msgstr "Si deve impostare un recapito principale"
 
 #: CRM/Contact/Form/Email.php
 msgid "Email (preferred)"
@@ -3967,11 +3951,12 @@ msgid "Current Employer"
 msgstr "Attuale datore di lavoro"
 
 #: CRM/Contact/Form/Individual.php
-#, fuzzy
 msgid ""
 "First Name and Last Name OR an email OR an OpenID in the Primary Location "
 "should be set."
-msgstr "Nell'indirizzo principale si deve impostare nome e cognome O una email"
+msgstr ""
+"Nel recapito principale si deve impostare nome e cognome O una email O un "
+"OpenID"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
@@ -4005,12 +3990,11 @@ msgstr "ID della famiglia condivisa non trovato."
 
 #: CRM/Contact/Form/Location.php
 msgid "Primary location for this contact"
-msgstr "Indirizzo principale di questo contatto"
+msgstr "Recapito principale di questo contatto"
 
 #: CRM/Contact/Form/Location.php
-#, fuzzy
 msgid "Billing location for this contact"
-msgstr "Indirizzo principale di questo contatto"
+msgstr "Recapito di fatturazione di questo contatto"
 
 #: CRM/Contact/Form/Merge.php
 msgid "EMPTY"
@@ -4018,7 +4002,7 @@ msgstr "VUOTO"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Location: %1"
-msgstr "Località: %1"
+msgstr "Recapito: %1"
 
 #: CRM/Contact/Form/Merge.php
 msgid "Merge Contacts"
@@ -4204,7 +4188,7 @@ msgstr "- qualsiasi gruppo -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Location Types"
-msgstr "Tipi di Località"
+msgstr "Tipi di Recapito"
 
 #: CRM/Contact/Form/Search/Criteria.php
 msgid "Activity Dates - From"
@@ -4519,11 +4503,11 @@ msgstr "- seleziona etichetta -"
 
 #: CRM/Contact/Form/Task/Label.php
 msgid "Select Location"
-msgstr "Seleziona Località"
+msgstr "Seleziona Recapito"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Map Location(s)"
-msgstr "Mappa Località"
+msgstr "Mappa Recapito/i"
 
 #: CRM/Contact/Form/Task/Map.php
 msgid ""
@@ -5458,15 +5442,15 @@ msgstr "Totale di linea"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "Location Type"
-msgstr "Tipo di località"
+msgstr "Tipo di recapito"
 
 #: CRM/Core/DAO/LocationType.php
 msgid "vCard Location Type"
-msgstr "Tipo di località vCard"
+msgstr "Tipo di recapito vCard"
 
 #: CRM/Core/DAO/LocBlock.php
 msgid "Location Name"
-msgstr "Nome Indirizzo"
+msgstr "Nome recapito"
 
 #: CRM/Core/DAO/Log.php
 msgid "Data"
@@ -5662,7 +5646,7 @@ msgstr "e"
 
 #: CRM/Core/DAO/Preferences.php
 msgid "Location Count"
-msgstr "Conteggio località:"
+msgstr "Conteggio recapiti:"
 
 #: CRM/Core/DAO/Preferences.php xml/templates/civicrm_add_domain.tpl
 msgid "Contact View Options"
@@ -5897,7 +5881,7 @@ msgstr "Ricerca semplice"
 
 #: CRM/Core/Invoke.php
 msgid "View Location Types"
-msgstr "Visualizza Tipologie Località"
+msgstr "Visualizza Tipologie Recapiti"
 
 #: CRM/Core/Invoke.php
 msgid "View Payment Processors"
@@ -6202,7 +6186,7 @@ msgstr ""
 
 #: CRM/Core/Menu.php
 msgid "Location Types (Home, Work...)"
-msgstr "Tipi di Località (Casa, Lavoro, ...)"
+msgstr "Tipi di Recapito (Casa, Lavoro, ...)"
 
 #: CRM/Core/Menu.php
 msgid ""
@@ -6324,9 +6308,8 @@ msgid "Online Event Registration:"
 msgstr "Registrazione Evento Online:"
 
 #: CRM/Core/Payment/BaseIPN.php
-#, fuzzy
 msgid "Please set a location type of %1"
-msgstr "Prego selezionare una tipologia di relazione."
+msgstr "Si prega di impostare un tipo di recapito di %1."
 
 #: CRM/Core/Payment/Dummy.php
 msgid "Dummy payment processor can not be used for live transactions"
@@ -8319,10 +8302,11 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "CiviCRM 2.0 Upgrade: Step Three (Location Data Upgrade)"
 msgstr ""
+"Aggiornamento a CiviCRM 2.0: Passo 3 (Aggiornamento dei dati dei recapiti)"
 
 #: CRM/Upgrade/TwoZero/Form/Step3.php
 msgid "<p>This step will upgrade the location data in your database.</p>"
-msgstr ""
+msgstr "<p>Questo passo aggiornerà i dati dei recapiti nel database.</p>"
 
 #: CRM/Upgrade/TwoZero/Form/Step4.php
 msgid ""
@@ -9378,7 +9362,7 @@ msgstr "Configurazione avanzata"
 #: templates/CRM/Admin/Form/LocationType.tpl
 #: templates/CRM/Admin/Page/LocationType.tpl
 msgid "New Location Type"
-msgstr "Nuovo tipo di luogo"
+msgstr "Nuovo tipo di recapito"
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid ""
@@ -9386,11 +9370,11 @@ msgid ""
 "records which use the option."
 msgstr ""
 "ATTENZIONE: cancellare questa opzione provocherà la perdita di tutti i "
-"record di tipo di luogo che la usano."
+"record di tipo di recapito che la usano."
 
 #: templates/CRM/Admin/Form/LocationType.tpl
 msgid "WARNING: Do NOT use spaces in the Location Name."
-msgstr "ATTENZIONE: non usare spazi nel nome del luogo"
+msgstr "ATTENZIONE: non usare spazi nel nome del recapito"
 
 #: templates/CRM/Admin/Form/Mapping.tpl templates/CRM/Admin/Form/Tag.tpl
 #: templates/CRM/Admin/Page/Tag.tpl
@@ -9543,7 +9527,7 @@ msgid ""
 "Enter the maximum number of different locations/addresses that can be "
 "entered for a contact."
 msgstr ""
-"Inserisci il numero massimo di luoghi/indirizzi diversi che possono essere "
+"Inserisci il numero massimo di recapiti/indirizzi diversi che possono essere "
 "inseriti per un singolo contatto."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
@@ -10007,6 +9991,8 @@ msgid ""
 "Absolute or relative URL of the location where the civicrm module or "
 "component has been installed."
 msgstr ""
+"L'URL relativo o assoluto in cui è stato installato il modulo o il "
+"componente di civicrm."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "Drupal Example"
@@ -10023,7 +10009,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid "URL of the location for uploaded image files."
-msgstr ""
+msgstr "L'URL della posizione dei file di immagine caricati."
 
 #: templates/CRM/Admin/Form/Setting/Url.tpl
 msgid ""
@@ -10218,6 +10204,10 @@ msgid ""
 "(s). Administrators may define as many additional types as appropriate for "
 "your constituents (examples might be Main Office, School, Vacation Home...)."
 msgstr ""
+"I tipi di recapito forniscono delle utili etichette per differenziare i "
+"recapiti dei contatti. Gli amministratori possono definire quanti tipi "
+"aggiuntivi vogliono (ad esempio Ufficio principale, Scuola, Casa vacanza "
+"ecc.)"
 
 #: templates/CRM/Admin/Page/LocationType.tpl
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -10230,6 +10220,8 @@ msgid ""
 "There are no Location Types entered for this Contact. You can <a href=\"%1"
 "\">add one</a>."
 msgstr ""
+"Non esistono tipi di recapito per questo contatto. Se ne può <a "
+"href=\"%1\">aggiungere uno</a>."
 
 #: templates/CRM/Admin/Page/Mapping.tpl
 msgid ""
@@ -10931,11 +10923,11 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Primary Location"
-msgstr ""
+msgstr "Recapito principale"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid "Additional Location"
-msgstr ""
+msgstr "Recapito secondario"
 
 #: templates/CRM/Contact/Form/Location.tpl
 msgid ""
@@ -11141,6 +11133,9 @@ msgid ""
 "search by specific location types (e.g. Home, Work...), check one or more "
 "boxes above."
 msgstr ""
+"La ricerca di recapiti usa per default il recapito PRINCIPALE di ciascun "
+"contatto. Per ricercare recapiti specifici (casa, lavoro etc..) spuntate le "
+"caselle qui sopra."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Relationship.tpl
 msgid "Complete OR partial contact name."
@@ -11426,6 +11421,7 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
+#, fuzzy
 msgid ""
 "Click <strong>Select fields for export</strong> and then <strong>Continue</"
 "strong> to choose a subset of fields for export. This option allows you to "
@@ -11433,6 +11429,11 @@ msgid ""
 "data. You can also save your selections as a 'field mapping' so you can use "
 "it again later."
 msgstr ""
+"Cliccate <strong>Select fields for export</strong> e poi "
+"<strong>Continue</strong> per scegliere di esportare un sottoinsieme dei "
+"campi. Questa opzione permette di esportare più recapiti specifici (casa, "
+"lavoro, ...) insieme ai dati personalizzati. Si possono anche salvare le "
+"selezioni come \"mappatura di campo\" e riusarle successivamente."
 
 #: templates/CRM/Contact/Form/Task/Export/Select.tpl
 msgid "One record selected for export."
@@ -11530,7 +11531,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "(primary location)"
-msgstr ""
+msgstr "(recapito principale)"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -13669,6 +13670,9 @@ msgid ""
 "screens for any contacts whose records include sufficient location data for "
 "your mapping provider."
 msgstr ""
+"Se abilitato, nelle righe dell'elenco del profilo viene incluso un link "
+"Mappa e delle schermate di dettaglkio per i contatti i cui record "
+"comprendono dati sui recapiti sufficienti al provider di mappe."
 
 #: templates/CRM/UF/Form/Group.tpl
 msgid ""
@@ -13776,7 +13780,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Work location"
-msgstr ""
+msgstr "Recapito di lavoro"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main"
@@ -13784,17 +13788,15 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Main office location"
-msgstr ""
+msgstr "Recapito ufficio principale"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Other location"
-msgstr "Luogo"
+msgstr "Altro recapito"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Billing Address location"
-msgstr "Indirizzo Email"
+msgstr "Indirizzo di fatturazione"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Child of"

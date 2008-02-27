@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-02-06 14:39-0800\n"
-"Last-Translator: jens bemme <jens.bemme@gmx.net>\n"
+"PO-Revision-Date: 2008-02-27 02:26-0800\n"
+"Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,12 +195,13 @@ msgstr "Beschreibung"
 msgid "-select-"
 msgstr "-auswählen-"
 
+# Vormals "Ereignisse" -> CiviEvent ist aber sicher keine "Ereignis"-Verwaltung.
 #: CRM/ACL/Form/ACL.php CRM/Contact/Form/Search/Advanced.php
 #: CRM/Contact/Page/View/Participant.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Contact/Page/View/UserDashBoard/Participant.php
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 msgid "Events"
-msgstr "Ereignisse"
+msgstr "Veranstaltungen"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Groups"
@@ -217,7 +218,7 @@ msgstr "Alle Profile"
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 #, fuzzy
 msgid "All Events"
-msgstr "Ereignisse"
+msgstr "Alle Veranstaltungen"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -326,7 +327,6 @@ msgid "Subject"
 msgstr "Thema"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
-#, fuzzy
 msgid "Start Date - From"
 msgstr "Startdatum"
 
@@ -436,9 +436,8 @@ msgid "Status"
 msgstr "Status"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
-#, fuzzy
 msgid "Added By"
-msgstr "Hinzugefügt"
+msgstr "Hinzugefügt von"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -789,9 +788,8 @@ msgstr "Label"
 #: CRM/Custom/Form/Group.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
-#, fuzzy
 msgid "is a numeric field"
-msgstr "ist ein Zahlenfeld"
+msgstr "ist ein numerisches feld"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -1791,7 +1789,7 @@ msgstr "Wir können Ihre Benutzernummer nicht finden."
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
-msgstr "Mitglieds-Art"
+msgstr "Mitgliedsart"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Status"
@@ -1819,9 +1817,8 @@ msgid "CiviCRM"
 msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
-#, fuzzy
 msgid "New Activity"
-msgstr "Aktivität ansehen"
+msgstr "Neue Aktivität"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
@@ -1997,7 +1994,7 @@ msgstr "Domänen Informations Seite"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Map Event Location"
-msgstr "Ort des Ereignises Zuordnen"
+msgstr "Ort der Veranstaltung zuordnen"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -3511,11 +3508,11 @@ msgstr "Land (%2) %3 wie - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County %2 \"%1\""
-msgstr "Land %2 wie - \"%1\""
+msgstr "Gemeinde %2 wie - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "County (%2) %3 \"%1\""
-msgstr "Land (%2) %3 wie - \"%1\""
+msgstr "Gemeinde (%2) %3 wie - \"%1\""
 
 #: CRM/Contact/BAO/Query.php
 msgid "World region %2 \"%1\""
@@ -4582,6 +4579,8 @@ msgstr ""
 "Längengradinformationen. Deshalb kann er nicht auf der Karte dargestellt "
 "werden."
 
+# 
+# 
 #: CRM/Contact/Form/Task/Map.php
 msgid "Event Info"
 msgstr "Informationen zu einer Veranstaltung"
@@ -4727,9 +4726,8 @@ msgid "Delete Membership"
 msgstr "Mitgliedschaften löschen"
 
 #: CRM/Contact/Page/View/Membership.php
-#, fuzzy
 msgid "Edit Membership Type"
-msgstr "Mitglieds-Art"
+msgstr "Mitgliedsart bearbeiten"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Form/Edit.tpl
 msgid "Contact Notes"
@@ -5418,7 +5416,7 @@ msgstr "Ausweiten"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Name"
-msgstr "Erweitert die Namens-Spalte"
+msgstr "Erweitert die Namensspalte"
 
 #: CRM/Core/DAO/CustomGroup.php
 msgid "Extends Entity Column Value"
@@ -6382,7 +6380,7 @@ msgstr "Beiträge ansehen"
 
 #: CRM/Core/Payment/BaseIPN.php
 msgid "Online Event Registration:"
-msgstr "Online-Registrierung:"
+msgstr "Online-Anmeldung zur Veranstaltung:"
 
 #: CRM/Core/Payment/BaseIPN.php
 #, fuzzy
@@ -7153,12 +7151,11 @@ msgstr ""
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Tell A Friend enabled?"
-msgstr ""
+msgstr "\"Tell A Friend\" aktivieren?"
 
 #: CRM/Friend/BAO/Friend.php
-#, fuzzy
 msgid "Introduction"
-msgstr "Zuwendung"
+msgstr "Einleitung"
 
 #: CRM/Friend/BAO/Friend.php
 msgid "Info Page Link"
@@ -7442,7 +7439,7 @@ msgstr "Bei doppelten Einträgen"
 
 #: CRM/Grant/Import/Parser/Participant.php
 msgid "Select either EventID OR Event Title"
-msgstr ""
+msgstr "Veranstaltungs-ID ODER Veranstaltungstitel wählen"
 
 #: CRM/Grant/Import/Parser.php
 #, fuzzy
@@ -7551,9 +7548,8 @@ msgid "The Group \"%1\" has been saved."
 msgstr "Die Gruppe \"%1\" wurde gespeichert."
 
 #: CRM/Group/Form/Search.php
-#, fuzzy
 msgid "Find"
-msgstr "Finden..."
+msgstr "Suche"
 
 #: CRM/Group/Form/Search.php
 #, fuzzy
@@ -8812,9 +8808,9 @@ msgid ""
 msgstr ""
 
 #: templates/CRM/ACL/Form/ACL.tpl
-#, fuzzy
 msgid "Select a event, OR apply this permission to ALL events."
-msgstr "Bitte weisen Sie diese Befugnis einer Rolle zu."
+msgstr ""
+"Veranstaltung wählen oder diese Befugnis ALLEN Veranstaltungen zuweisen."
 
 #: templates/CRM/ACL/Form/ACL.tpl
 msgid ""
@@ -9715,6 +9711,8 @@ msgstr "Einstellungen"
 msgid ""
 "Select the fields to be included when editing a contact or event address."
 msgstr ""
+"Auswahl der Felder, die beim Editieren einer Kontakt- oder "
+"Veranstaltungsadresse verwendet werden können."
 
 #: templates/CRM/Admin/Form/Preferences/Address.tpl
 msgid ""
@@ -9773,6 +9771,12 @@ msgid ""
 "corresponding component is not enabled (<a href=\"%1\" target=\"_blank\" "
 "title=\"%2\">read more...</a>)."
 msgstr ""
+"Auswahl der <strong>Reiter</strong> die angezeigt werdne sollen wenn ein "
+"Kontakt bearbeitet wird. Z.B.: Wenn ihre Organisation \"Beziehungen\" nicht "
+"verwaltet kann diese deaktiviert werden um die Oberfläche einfacher zu "
+"gestalten. Die Reiter für Mitgliedschaften, Veranstaltungen und Zuwendungen "
+"sind versteckt sofern die zugehörige Komponente deaktiviert ist (<a "
+"href=\"%1\" target=\"_blank\" title=\"%2\">weiterlesen...</a>). "
 
 #: templates/CRM/Admin/Form/Preferences/Display.tpl
 msgid ""
@@ -10162,6 +10166,8 @@ msgid ""
 "Redirect online contribution / member / event page requests to a secure "
 "(https) URL?"
 msgstr ""
+"Weiterleiten von Anfragen an Online-Zuwendungs-, Mitglieds-, "
+"Veranstaltungsseiten an eine sichere (https) URL?"
 
 #: templates/CRM/Admin/Form/Tag.tpl
 msgid "Are you sure you want to delete <b>%1</b> Tag?"
@@ -10531,12 +10537,18 @@ msgid ""
 "Use Event Types to categorize your events. Event feeds can be filtered by "
 "Event Type and participant searches can use Event Type as a criteria."
 msgstr ""
+"Veranstaltungen werden durch Veranstaltungstypen kategorisiert. "
+"Veranstaltungs-feeds können durch den Typ gefiltert werden und bei der "
+"Teilnehmersuche kann der Typ als Suchkriterium dienen."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
 "Define participant roles for events here (e.g. Attendee, Host, Speaker...). "
 "You can then assign roles and search for participants by role."
 msgstr ""
+"Berarbeitung von Teilnehmerrollen für Veranstaltungen (z.B.: Teilnehmer, "
+"Veranstalter, Speaker...). Danach können diese Rollen zugewiesen werden und "
+"Teilnehmer nach Rollen gesucht werden."
 
 #: templates/CRM/Admin/Page/Options.tpl
 msgid ""
@@ -10544,6 +10556,9 @@ msgid ""
 "Cancelled...). You can then assign statuses and search for participants by "
 "status."
 msgstr ""
+"Bearbeitung von Stati für Veranstaltungsteilnehmer (z.B.: Angemeldet, "
+"Besuchend, Abgebrochen...). Danach können diese Stati zugewiesen werden und "
+"Teilnehmer nach Stati gesucht werden."
 
 #: templates/CRM/Admin/Page/Options.tpl
 #, fuzzy
@@ -10663,6 +10678,8 @@ msgid ""
 "Enable CiviContribute, CiviEvent, CiviMember, CiviGrant and/or CiviMail "
 "components."
 msgstr ""
+"Aktivieren der CiviContribute, CiviEvent, CiviMember, CiviGrant und/oder "
+"CiviMail Komponenten."
 
 #: templates/CRM/Admin/Page/Setting.tpl
 msgid ""
@@ -10855,11 +10872,11 @@ msgstr "Geschlecht"
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date from calendar."
-msgstr ""
+msgstr "Klicken um das Datum aus einem Kalender zu wählen."
 
 #: templates/CRM/common/calendar/desc.tpl
 msgid "Click to select date/time from calendar."
-msgstr ""
+msgstr "Klicken um das Datum/Uhrzeit aus einem Kalender zu wählen."
 
 #: templates/CRM/common/CMSUser.tpl
 msgid ""
@@ -12312,35 +12329,35 @@ msgstr ""
 "Es liegen keine Notizen für diesen Kontakt vor. Sie können <a href=\"%1"
 "\">eine hinzufügen</a>."
 
+# eventuell: "seit dem Anfang" ändern
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid "This page lists all event registrations for %1 since inception."
-msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
+msgstr ""
+"Diese Seite listet alle Veranstaltungsteilnahmen für %1 seit dem Anfang."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid ""
 "Click <a href=\"%1\">New Event Registration</a> to register this contact for "
 "an event."
 msgstr ""
+"Auf <a href=\"%1\">Neue Veranstaltungsteilnahme</a> klicken um diesen Kontakt "
+"an der Veranstaltung anzumelden."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid "New Event Registration"
-msgstr "Registrieren"
+msgstr "Neue Veranstaltungsteilnahme"
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid ""
 "There are no event registrations recorded for this contact. You can <a href="
 "\"%1\">enter one now</a>."
 msgstr ""
-"Der Kontakt hat keine Beziehungen. Sie können <a href=\"%1\">eine "
-"hinzufügen</a>."
+"Für diesen Kontakt sind keine Veranstaltungsteilnahmen gespeichert. Sie "
+"können <a href=\"%1\">eine neue hinzufügen</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
-#, fuzzy
 msgid "There are no event registrations recorded for this contact."
-msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
+msgstr "Es sind keine Veranstaltungsteilnahmen für diesen Kontakt gespeichert."
 
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
@@ -12560,15 +12577,15 @@ msgstr "Es wurden keine Beziehungen für diesen Kontakt eingegeben."
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "Click on the event name for more information."
 msgstr ""
+"Klicken Sie auf den Veranstaltungsnamen um mehr Information zu erhalten."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
-#, fuzzy
 msgid "Event Date(s)"
-msgstr "Absendedatum"
+msgstr "Veranstaltungstermin(e)"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "You are not registered for any current or upcoming Events."
-msgstr ""
+msgstr "Sie nehmen an keiner laufenden oder kommenden Veranstaltung teil."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 #, fuzzy
@@ -12587,15 +12604,15 @@ msgstr "Gruppenmitgliedschaften"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard.tpl
 msgid "Your Event(s)"
-msgstr ""
+msgstr "Ihre Veranstaltung(en)"
 
 #: templates/CRM/Core/Calendar/GData.tpl templates/CRM/Core/Calendar/Rss.tpl
 msgid "CiviEvent Public Calendar"
-msgstr ""
+msgstr "CiviEvent Öffentlicher Kalender"
 
 #: templates/CRM/Core/Calendar/GData.tpl templates/CRM/Core/Calendar/Rss.tpl
 msgid "Listing of current and upcoming public events."
-msgstr ""
+msgstr "Auflistung aller laufenden und kommenden öffentlichen Veranstaltungen."
 
 #: templates/CRM/Core/Calendar/Rss.tpl
 msgid "When"
@@ -12684,6 +12701,11 @@ msgid ""
 "strong>,<strong>Contributions</strong>, <strong>Memberships</strong>, and "
 "<strong>Event Participants</strong> at this time."
 msgstr ""
+"Ist dieses Feld in den Formularen der Erweiterten und Komponenten Suche "
+"enthalten? NOTIZ: Diese Eigenschaft ist zur Zeit nur für benutzerdefinierte "
+"Felder für <strong>Kontakte</strong>, <strong>Zuwendungen</strong>, "
+"<strong>Mitgliedschaften</strong> und "
+"<strong>Veranstaltungsteilnahmen</strong> verfügbar."
 
 #: templates/CRM/Custom/Form/Field.tpl templates/CRM/Price/Form/Field.tpl
 #, fuzzy
@@ -12985,6 +13007,12 @@ msgid ""
 "            solicitation activities, and will add the friends to your "
 "database."
 msgstr ""
+"\"Tell a Friend\" ermöglicht es auf einfache Art und Weise Teilnehmern die "
+"Veranstaltung zu verbreiten.\n"
+" Die \"Dankeschön\"-Seite der Anmeldung wird einen Link auf ein Formular "
+"enthalten, in welches die Email-Adressen der Bekannten/Freunde mit einer "
+"personalisierten Nachricht eintragen können. CiviCRM speichert diese "
+"Anfragen und wird die Bekannten/Freunde zur Datenbank hinzufügen."
 
 #: templates/CRM/Friend/Form/Friend.tpl
 msgid ""
@@ -13207,6 +13235,8 @@ msgid ""
 "The Event Import Wizard allows you to easily upload event participation data "
 "such as event registrations from other applications into CiviCRM."
 msgstr ""
+"Der Veranstaltungs-Import-Wizard erlaubt es Veranstaltungsteilnahmen von "
+"anderen Programmen in CiviCRM hochzuladen."
 
 #: templates/CRM/Grant/Import/Form/UploadFile.tpl
 msgid ""
@@ -14519,7 +14549,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Event Fee"
-msgstr "Veranstaltungsgebühr"
+msgstr "Teilnahmegebühr"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14544,9 +14574,8 @@ msgstr "Zahlungswege"
 
 # War vorher: Komponententyp
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Event Type"
-msgstr "Art der Veranstaltung"
+msgstr "Veranstaltungstyp"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -14564,9 +14593,8 @@ msgid "Activity Status"
 msgstr "Aktivitätsdatum"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Participant Listing"
-msgstr "Teilnehmer"
+msgstr "Teilnehmerliste"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Safe File Extension"
@@ -14826,14 +14854,12 @@ msgid "Resolved"
 msgstr "Entfernt"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Name Only"
-msgstr "Nur Jahr"
+msgstr "Nur Name"
 
 #: xml/templates/civicrm_add_domain.tpl
-#, fuzzy
 msgid "Name and Email"
-msgstr "Email senden"
+msgstr "Name und Email"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy

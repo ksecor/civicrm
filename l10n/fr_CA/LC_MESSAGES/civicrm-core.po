@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-20 10:49+0100\n"
-"PO-Revision-Date: 2008-01-24 20:09-0800\n"
-"Last-Translator: Gab <adq@yamba.ca>\n"
+"PO-Revision-Date: 2008-02-25 19:05-0800\n"
+"Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -122,18 +122,18 @@ msgstr "Date de modification"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Role"
-msgstr "Modifier la règle"
+msgstr "Rôle"
 
+# "un" ou "le" rôle?
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
 msgid "-select role-"
-msgstr ""
+msgstr "- choisir un rôle -"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 #, fuzzy
 msgid "Everyone"
-msgstr "Événement"
+msgstr "Tout le monde"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php CRM/ACL/Form/EntityRole.php
 #: CRM/Admin/Form/LocationType.php CRM/Admin/Form/MessageTemplates.php
@@ -152,9 +152,8 @@ msgid "Enabled?"
 msgstr "Activé?"
 
 #: CRM/ACL/Form/ACLBasic.php CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Selected ACL has been deleted."
-msgstr "Le type d'activité a été supprimé."
+msgstr "Le ACL choisi a été supprimé."
 
 #: CRM/ACL/Form/ACL.php CRM/Activity/Form/Activity.php
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
@@ -218,7 +217,7 @@ msgstr "Tous les profils"
 
 #: CRM/ACL/Form/ACL.php CRM/ACL/Page/ACL.php
 msgid "All Events"
-msgstr ""
+msgstr "Tous les événements"
 
 #: CRM/ACL/Form/ACL.php CRM/Contact/Page/View/CustomData.php CRM/Core/Menu.php
 msgid "Custom Data"
@@ -380,7 +379,7 @@ msgstr "- choisir -"
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/Activity.tpl
 msgid "Detach"
-msgstr ""
+msgstr "Détacher"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Import/Form/MapField.php
 #: CRM/Activity/Import/Form/Preview.php
@@ -434,7 +433,7 @@ msgstr "Statut"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 msgid "Added By"
-msgstr ""
+msgstr "Ajouté par"
 
 #: CRM/Activity/Form/Activity.php CRM/Activity/Selector/Activity.php
 #: CRM/Core/Menu.php templates/CRM/Case/Form/CaseActivity.tpl
@@ -567,7 +566,7 @@ msgstr "Continuer >>"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 msgid "Contact ID"
-msgstr ""
+msgstr "ID de contact"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -685,7 +684,7 @@ msgstr "Des champs obligatoires sont manquants"
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
 msgid "Line Number"
-msgstr ""
+msgstr "Numéro de ligne"
 
 #: CRM/Activity/Import/Parser.php CRM/Grant/Import/Parser.php
 #: CRM/Import/Parser.php
@@ -779,7 +778,7 @@ msgstr "Libellé"
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php CRM/UF/Form/Field.php
 #: CRM/UF/Form/Group.php
 msgid "is a numeric field"
-msgstr ""
+msgstr "est un champ numérique"
 
 #: CRM/Admin/Form/OptionValue.php CRM/Admin/Form/PaymentProcessorType.php
 #: CRM/Contact/DAO/Group.php CRM/Core/DAO/CustomGroup.php
@@ -819,7 +818,7 @@ msgstr "Entrez une adresse URL valide."
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "API URL"
-msgstr ""
+msgstr "URL de l'API"
 
 #: CRM/Admin/Form/PaymentProcessor.php CRM/Core/DAO/PaymentProcessor.php
 msgid "Recurring Payments URL"
@@ -870,7 +869,7 @@ msgstr ""
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Custom/Form/Field.php
 msgid "Value should be a positive number"
@@ -911,12 +910,12 @@ msgstr "Composantes"
 #: CRM/Admin/Form/Setting/Localization.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "Add >>"
-msgstr ""
+msgstr "Ajouter >>"
 
 #: CRM/Admin/Form/Setting/Localization.php
 #: CRM/Contact/Form/Search/Custom/Group.php
 msgid "<< Remove"
-msgstr ""
+msgstr "<< Supprimer"
 
 #: CRM/Admin/Form/Setting/Smtp.php CRM/Admin/Page/Setting.php
 msgid "SMTP Server"
@@ -924,11 +923,11 @@ msgstr "Serveur SMTP"
 
 #: CRM/Admin/Form/Setting/UF.php CRM/Admin/Form/Setting/Url.php
 msgid "Settings - Resource URLs"
-msgstr ""
+msgstr "Configurations - URLs de ressources"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Customize"
-msgstr ""
+msgstr "Personnaliser"
 
 #: CRM/Admin/Page/Admin.php CRM/Core/Menu.php
 msgid "Configure"
@@ -1263,7 +1262,7 @@ msgstr "Pays"
 #: CRM/Contact/Form/Address.php CRM/Contact/Form/Edit.php
 #: CRM/Core/BAO/Address.php templates/CRM/Contact/Form/Address/country.tpl
 msgid "- type first letter(s) -"
-msgstr ""
+msgstr "- entrer les premières lettres -"
 
 #: CRM/Contact/Form/DeleteLocation.php CRM/Core/Invoke.php
 #, fuzzy
@@ -1271,9 +1270,8 @@ msgid "Delete Location"
 msgstr "Supprimer le lieu"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Menu.php
-#, fuzzy
 msgid "Domain Information"
-msgstr "Détails de la contribution"
+msgstr "Information du domaine"
 
 #: CRM/Contact/Form/Domain.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Administer CiviCRM"
@@ -1380,7 +1378,7 @@ msgstr "Oui"
 
 #: CRM/Contact/Form/OpenID.php CRM/Standalone/Form/Register.php
 msgid "OpenID"
-msgstr ""
+msgstr "OpenID"
 
 #: CRM/Contact/Form/Organization.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/UFGroup.php
@@ -1545,18 +1543,19 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
+#, fuzzy
 msgid "Donation Count"
-msgstr ""
+msgstr "Nombre de contributions"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
 msgid "Donation Amount"
-msgstr ""
+msgstr "Montant de la contribution"
 
 #: CRM/Contact/Form/Search/Custom.php CRM/Core/Invoke.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Custom Search"
-msgstr ""
+msgstr "Recherche personnalisée"
 
 #: CRM/Contact/Form/Search.php CRM/Grant/Form/Search.php
 msgid "- more actions -"
@@ -1653,7 +1652,7 @@ msgstr "Souhaitez-vous vraiment éliminer ce groupe intelligent?"
 
 #: CRM/Contact/Page/View/Activity.php CRM/Core/Invoke.php
 msgid "Email a Contact"
-msgstr ""
+msgstr "Envoyer un courriel à un contact"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
@@ -1723,7 +1722,7 @@ msgstr "Exporter les contacts"
 
 #: CRM/Core/BAO/CMSUser.php CRM/Profile/Form.php
 msgid "An account already exists with the same information."
-msgstr ""
+msgstr "Un compte existe déjà avec les mêmes informations."
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/SelectValues.php
 msgid "Integer"
@@ -1795,7 +1794,7 @@ msgstr "Veuillez entrer un montant valide."
 
 #: CRM/Core/BAO/UFGroup.php CRM/Grant/BAO/Grant.php
 msgid "Copy of "
-msgstr ""
+msgstr "Copie de "
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "CiviCRM"
@@ -1803,11 +1802,11 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "Nouvelle activité"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
-msgstr ""
+msgstr "Se déconnecter"
 
 #: CRM/Core/Block.php CRM/Grant/Info.php CRM/Grant/Menu.php
 msgid "CiviGrant"
@@ -2105,7 +2104,7 @@ msgstr "Obligatoire?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "doit être un champ numérique"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2173,7 +2172,7 @@ msgstr ""
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Merci d'avoir passé le mot"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
@@ -2230,7 +2229,7 @@ msgstr ""
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Appliquer la mise à jour et continuer"
 
 #: CRM/ACL/BAO/ACL.php
 #, fuzzy
@@ -2272,23 +2271,23 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "consulter tous les contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "modifier tous les contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "importer des contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "modifier des groupes"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administrer CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
@@ -2300,11 +2299,11 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "accéder aux champs personnalisés"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "accéder à CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access Contact Dashboard"
@@ -2449,9 +2448,8 @@ msgid "Activity Status Label"
 msgstr ""
 
 #: CRM/Activity/DAO/Activity.php
-#, fuzzy
 msgid "Test"
-msgstr "Texte"
+msgstr "Test"
 
 #: CRM/Activity/DAO/ActivityTarget.php
 msgid "Contact ID (match to contact)"
