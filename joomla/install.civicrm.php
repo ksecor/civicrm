@@ -6,10 +6,8 @@ function com_install() {
         // bad code, but easier to debug on remote machines
         require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'configure.php';
     }
-}
 
-# Show installation result to user
-
+    // Show installation result to user
 ?>
 
 <center>
@@ -28,3 +26,7 @@ function com_install() {
     </tr>
   </table>
 </center>
+
+<?php
+}
+?>

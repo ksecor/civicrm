@@ -79,13 +79,24 @@ echo "$DM_VERSION Joomla PHP5" > $TRG/civicrm-version.txt
 cd $DM_TMPDIR;
 
 mkdir com_civicrm
-mkdir com_civicrm/civicrm
+mkdir com_civicrm/admin
+mkdir com_civicrm/admin/civicrm
 
-cp -r -p civicrm/* com_civicrm/civicrm
+cp -r -p civicrm/* com_civicrm/admin/civicrm
 
 $DM_PHP $DM_SOURCEDIR/distmaker/utils/joomlaxml.php
 
-cp -r com_civicrm/civicrm/joomla/* com_civicrm
+# copying back end code to admin folder
+cp com_civicrm/admin/civicrm/joomla/admin.civicrm.php     com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/configure.php         com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/install.civicrm.php   com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/toolbar.civicrm.php   com_civicrm/admin
+cp com_civicrm/admin/civicrm/joomla/uninstall.civicrm.php com_civicrm/admin
+
+# copying front end code
+cp com_civicrm/admin/civicrm/joomla/civicrm.html.php      com_civicrm
+cp com_civicrm/admin/civicrm/joomla/civicrm.php           com_civicrm
+cp com_civicrm/admin/civicrm/joomla/civicrm.xml           com_civicrm
 
 $DM_ZIP -r -9 $DM_TARGETDIR/civicrm-$DM_VERSION-joomla.zip com_civicrm -x '*/l10n/*'
 

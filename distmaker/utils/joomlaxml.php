@@ -8,7 +8,7 @@ if( isset( $GLOBALS['_SERVER']['DM_SOURCEDIR'] ) ) {
 $sourceCheckoutDirLength = strlen( $sourceCheckoutDir );
 
 if( isset( $GLOBALS['_SERVER']['DM_TMPDIR'] ) ) {
-    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/civicrm';
+    $targetDir = $GLOBALS['_SERVER']['DM_TMPDIR'] . '/com_civicrm/admin/civicrm';
 } else {
     $targetDir = $argv[2];
 }
