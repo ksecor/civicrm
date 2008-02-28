@@ -122,6 +122,22 @@ function _crm_update_from_object(&$object, &$values, $empty = false, $zeroMoney 
     }
 }
 
+function _crm_object_to_array( &$dao, &$values )
+{
+    $tmpFields = $dao->fields();
+    $fields = array();
+    //rebuild $fields array to fix unique name of the fields
+    foreach( $tmpFields as $key => $val ) {
+        $fields[$val["name"]]  = $val;
+    }
+    
+    foreach( $fields as $key => $value ) {
+        if (array_key_exists($key, $dao)) {
+            $values[$key] = $dao->$key;
+        }
+    }
+}
+
 /**
  * This function ensures that we have the right input contribution parameters
  *
