@@ -701,20 +701,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults );
         unset($params['id']);
         
-        //DO TO: commented because of schema change
-
-//         $locParams = $params + array('entity_id' => $params['contact_id'],
-//                                      'entity_table' => self::getTableName());
-       
-//         $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $params['contact_id'] ); 
-
-//         require_once "CRM/Core/BAO/Preferences.php";
-//         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
-//                                                                     $defaults, 
-//                                                                     $ids, 
-//                                                                     $locationCount, 
-//                                                                     $microformat );
-
         //get the block information for this contact
         $entityBlock = array( 'contact_id' => $params['contact_id'] );
         $contact->location  =& CRM_Core_BAO_Location::getValues( $entityBlock, 
@@ -725,19 +711,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
         
-        //DO TO: commented because of schema change
-//         $activityParam         =  array('entity_id' => $params['contact_id']);
-//         require_once 'CRM/Core/BAO/History.php';
-//         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
-
-//         $activityParam            =  array('contact_id' => $params['contact_id']);
-//         $defaults['openActivity'] = array(
-//                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
-//                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
-//                                           );
-
-//	DRAFTING: this should be the proper way to get open activities
-//        $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
+        // don't know why we want to retrieve contact activities
+        // DRAFTING: this should be the proper way to get open activities
+        // $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
         
         return $contact;
     }
@@ -1006,15 +982,6 @@ WHERE civicrm_contact.id IN $idString ";
         // start a new transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        // need to remove them from email, meeting , phonecall and other activities
-        // FIX ME: Schema Change
-        
-        // CRM_Activity_BAO_Activity::deleteContact($id);
-
-        // location shld be deleted after phonecall, since fields in phonecall are
-        // fkeyed into location/phone.
-        // CRM_Core_BAO_Location::deleteContact( $id );
 
         $contact->delete( );
 
