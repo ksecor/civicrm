@@ -34,6 +34,8 @@
  */
 
 require_once 'CRM/Admin/Form/Setting.php';
+require_once 'CRM/Utils/Mail.php';
+require_once 'Mail.php';
 
 /**
  * This class generates form components for Smtp Server
@@ -55,8 +57,98 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
         $this->addElement('password','smtpPassword', ts('SMTP Password')); 
-       
+        $this->add('submit','sendEmail', ts('Save and send test email') ); 
+        $this->addFormRule( array( 'CRM_Admin_Form_Setting_Smtp', 'formRule' ));
         parent::buildQuickForm();
+    }
+
+    /**
+     * Function to process the form
+     *
+     * @access public
+     * @return None
+     */
+    public function postProcess() {
+        $formValues   = $this->controller->exportValues($this->_name);
+
+        if ( $formValues['sendEmail'] ) {
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting/smtp', 'reset=1') );
+            $userID  =  $session->get( 'userID' );
+            require_once 'CRM/Contact/BAO/Contact.php';
+            list( $fromDisplayName, $fromEmail, $fromDoNotEmail ) = CRM_Contact_BAO_Contact::getContactDetails( $userID );
+            
+            if ( ! $fromEmail ) {
+                CRM_Core_Error::statusBounce( ts('Your user record does not have a valid email address' ));
+            }
+            
+            if ( ! trim($fromDisplayName) ) {
+                $fromDisplayName = $fromEmail;
+            }
+            
+            $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
+            
+            $subject = "Test for SMTP settings";
+            $message = "SMTP settings are correct.";
+      
+            $headers = array( );  
+            $headers['From']                      = $from;
+            $headers['To']                        = $from;
+            $headers['Cc']                        = null;
+            $headers['Bcc']                       = null;
+            $headers['Subject']                   = CRM_Utils_Mail::encodeSubjectHeader($subject);  
+            $headers['Content-Type']              = 'text/plain; charset=utf-8';  
+            $headers['Content-Disposition']       = 'inline';  
+            $headers['Content-Transfer-Encoding'] = '8bit';  
+            $headers['Return-Path']               = $fromEmail;
+            $headers['Reply-To']                  = $from;
+            $headers['Date']                      = date('r');
+            
+            require_once 'Mail.php';
+            $params['host'] = $formValues['smtpServer'];
+            $params['port'] = $formValues['smtpPort'];
+            
+            if ( $formValues['smtpAuth'] ) {
+                $params['username'] = $formValues['smtpUsername'];
+                $params['password'] = $formValues['smtpPassword'];
+                $params['auth']     = true;
+            } else {
+                $params['auth']     = false;
+            }
+            
+            $mailer =& Mail::factory( 'smtp', $params );
+            CRM_Core_Error::ignoreException( );
+            $result = $mailer->send( $fromEmail, $headers, $message );
+            if ( !is_a( $result, 'PEAR_Error' ) ) {
+                CRM_Core_Session::setStatus( ts('Your SMTP server settings are correct. A test email has been sent to your email address.') ); 
+            } else {
+                CRM_Core_Session::setStatus( ts('Your SMTP server settings are incorrect. No test mail has been sent.') );
+            }
+            
+        } 
+        parent::postProcess();
+    }
+    
+    /**
+     * global validation rules for the form
+     *
+     * @param   array  $fields   posted values of the form
+     *
+     * @return  array  list of errors to be posted back to the form
+     * @static
+     * @access  public
+     */
+    static function formRule( &$fields ) 
+    {
+        if ( $fields['smtpAuth'] ) {
+            if (!$fields['smtpUsername']){
+                $errors['smtpUsername'] = 'If your SMTP server require authentication please provide user name.';
+            }
+            if (!$fields['smtpPassword']) {
+                $errors['smtpPassword'] = 'If your SMTP server require authentication please provide password.';
+            }
+        }
+        return empty($errors) ? true : $errors;
     }
 }
 
