@@ -122,6 +122,12 @@ class CRM_Core_Config_Defaults
             $path = CRM_Utils_File::addTrailingSlash( $path );
         }
 
+        // this is a super gross hack for CRM-2756
+        if ( $config->userFramework == 'Joomla' ) {
+            $defaults['userFrameworkVersion']        = '1.0';
+            $defaults['userFrameworkUsersTableName'] = 'jos_users';
+        }
+
         //set defaults if not set in db
         if ( ! isset( $defaults['userFrameworkResourceURL'] ) ) {
             $testIMG = "i/tracker.gif";

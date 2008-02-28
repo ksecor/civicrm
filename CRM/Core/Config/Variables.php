@@ -253,14 +253,8 @@ class CRM_Core_Config_Variables extends CRM_Core_Config_Defaults
      * Default user framework
      */
     public $userFramework               = 'Drupal';
-    // this is a super gross hack for CRM-2756
-    if ( CIVICRM_UF == 'Joomla' ) {
-        public $userFrameworkVersion        = 1.0;
-        public $userFrameworkUsersTableName = 'jos_users';
-    } else {
-        public $userFrameworkVersion        = 5.7;
-        public $userFrameworkUsersTableName = 'users';
-    }
+    public $userFrameworkVersion        = 5.7;
+    public $userFrameworkUsersTableName = 'users';
     public $userFrameworkClass          = 'CRM_Utils_System_Drupal';
     public $userHookClass               = 'CRM_Utils_Hook_Drupal';
     public $userPermissionClass         = 'CRM_Core_Permission_Drupal';
