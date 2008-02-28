@@ -97,7 +97,7 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         $this->_participantRoleIndex   = -1;
         $this->_eventTitleIndex        = -1;
         
-        $index = 0;
+        $index = 1;
         foreach ( $this->_mapperKeys as $key ) {
              
             switch ($key) {
@@ -158,10 +158,11 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
     function summary( &$values )
     {
         $erroneousField = null;
+      
         $response = $this->setActiveFieldValues( $values, $erroneousField );
         $errorRequired = false;
         $index = -1;
-        
+
         if ( $this->_eventIndex > 0 && $this->_eventTitleIndex > 0 ) {
             array_unshift($values, ts('Select either EventID OR Event Title'));
             return CRM_Event_Import_Parser::ERROR;
@@ -170,14 +171,25 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
         } elseif ( $this->_eventIndex > 0 ) {
             $index = $this->_eventIndex;
         }
-        
+        $params =& $this->getActiveFieldParams( );
+
         require_once 'CRM/Import/Parser/Contact.php';
         if (!(($index < 0) || ($this->_participantStatusIndex < 0) || ($this->_participantRoleIndex < 0))) {
             $errorRequired = ! CRM_Utils_Array::value($index, $values) ||
                 ! CRM_Utils_Array::value($this->_participantStatusIndex, $values) ||
                 ! CRM_Utils_Array::value($this->_participantRoleIndex, $values);
+            if ((!$params['event_id'] && !$params['event_title'])) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Event', $missingField);
+            } 
+            if (!$params['participant_status_id']) {
+                CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
+            } 
+            if (!$params['participant_role_id']) {
+             
+                CRM_Import_Parser_Contact::addToErrorMsg('Participant Role', $missingField);
+            } 
             
-        } else {
+        } else { 
             $errorRequired = true;  
             $missingField  = null;
             if ($index < 0) {
@@ -187,16 +199,16 @@ class CRM_Event_Import_Parser_Participant extends CRM_Event_Import_Parser
                 CRM_Import_Parser_Contact::addToErrorMsg('Participant Status', $missingField);
             } 
             if ($this->_participantRoleIndex < 0) {
+             
                 CRM_Import_Parser_Contact::addToErrorMsg('Participant Role', $missingField);
             } 
         }
-        
+     
         if ($errorRequired) {
             array_unshift($values, ts('Missing required field(s) :') . $missingField );
             return CRM_Event_Import_Parser::ERROR;
         }
         
-        $params =& $this->getActiveFieldParams( );
         $errorMessage = null;
         
         //for date-Formats
