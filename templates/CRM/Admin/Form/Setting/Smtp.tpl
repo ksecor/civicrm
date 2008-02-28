@@ -15,7 +15,7 @@
             <dt>&nbsp;</dt><dd class="description">{ts}If your SMTP server requires authentication, enter your Username and Password here.{/ts}</dd>
         </dl>
         <dl>
-            <dt></dt><dd>{$form.buttons.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.sendEmail.html}</dd>
+            <dt></dt><dd>{$form.buttons.html}&nbsp;&nbsp;&nbsp;&nbsp;{$form.sendTestEmail.html}</dd>
         </dl>
 <div class="spacer"></div>
 </fieldset>

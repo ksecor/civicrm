@@ -35,7 +35,6 @@
 
 require_once 'CRM/Admin/Form/Setting.php';
 require_once 'CRM/Utils/Mail.php';
-require_once 'Mail.php';
 
 /**
  * This class generates form components for Smtp Server
@@ -57,7 +56,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
         $this->addYesNo( 'smtpAuth', ts( 'Authentication?' ));
         $this->addElement('text','smtpUsername', ts('SMTP Username')); 
         $this->addElement('password','smtpPassword', ts('SMTP Password')); 
-        $this->add('submit','sendEmail', ts('Save and send test email') ); 
+        $this->add('submit','sendTestEmail', ts('Save & Send Test Email') ); 
         $this->addFormRule( array( 'CRM_Admin_Form_Setting_Smtp', 'formRule' ));
         parent::buildQuickForm();
     }
@@ -71,7 +70,7 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
     public function postProcess() {
         $formValues   = $this->controller->exportValues($this->_name);
 
-        if ( $formValues['sendEmail'] ) {
+        if ( $formValues['sendTestEmail'] ) {
             $session =& CRM_Core_Session::singleton( );
             $session->pushUserContext( CRM_Utils_System::url('civicrm/admin/setting/smtp', 'reset=1') );
             $userID  =  $session->get( 'userID' );
@@ -91,20 +90,11 @@ class CRM_Admin_Form_Setting_Smtp extends CRM_Admin_Form_Setting
             $subject = "Test for SMTP settings";
             $message = "SMTP settings are correct.";
       
-            $headers = array( );  
-            $headers['From']                      = $from;
-            $headers['To']                        = $from;
-            $headers['Cc']                        = null;
-            $headers['Bcc']                       = null;
-            $headers['Subject']                   = CRM_Utils_Mail::encodeSubjectHeader($subject);  
-            $headers['Content-Type']              = 'text/plain; charset=utf-8';  
-            $headers['Content-Disposition']       = 'inline';  
-            $headers['Content-Transfer-Encoding'] = '8bit';  
-            $headers['Return-Path']               = $fromEmail;
-            $headers['Reply-To']                  = $from;
-            $headers['Date']                      = date('r');
-            
-            require_once 'Mail.php';
+            $headers = array(   
+                             'From'                      => $from,
+                             'To'                        => $from,
+                             'Subject'                   => CRM_Utils_Mail::encodeSubjectHeader($subject),  
+                             );
             $params['host'] = $formValues['smtpServer'];
             $params['port'] = $formValues['smtpPort'];
             
