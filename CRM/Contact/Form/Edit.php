@@ -615,7 +615,7 @@ WHERE civicrm_address.contact_id = civicrm_contact.id
         }
     
         //special case to handle if all checkboxes are unchecked
-        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'] );
+        $customFields = CRM_Core_BAO_CustomField::getFields( $params['contact_type'], false, true );
         
         if ( !empty($customFields) ) {
             foreach ( $customFields as $k => $val ) {
