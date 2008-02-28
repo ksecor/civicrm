@@ -259,6 +259,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;            
+        } else {
+            CRM_Core_Error::fatal( ts( 'You need to define CIVICRM_UF in civicrm.settings.php' ) );
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
