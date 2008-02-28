@@ -7,37 +7,37 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
     function setUp() 
     {
         $this->_contactId = $this->individualCreate();
-      
+        
     }
     
     function tearDown() 
     {
         $this->contactGroupDelete( $this->_contactId );
+        $this->contactDelete($this->_contactId);
         if (  $this->_contactId1 ){
+            $this->contactDelete($this->_contactId1);
             $this->contactGroupDelete( $this->_contactId1 );
         }
-        $this->contactDelete($this->_contactId);
-        
+            
     }
     
     function testCreateGroupContactsWithEmptyParams( ) 
     {
         $params = array( );
         $groups = civicrm_group_contact_add( $params );
-       
+        
         $this->assertEqual( $groups['is_error'], 1 );
         $this->assertEqual( $groups['error_message'], 'contact_id is a required field' );
     }
 
     function testCreateGroupContactsWithoutGroupIdParams( ) 
     {
-        $params = array( );
         $params = array(
                         'contact_id.1' => $contactId,
                         );
         
         $groups = civicrm_group_contact_add( $params );
-              
+        
         $this->assertEqual( $groups['is_error'], 1 );
         $this->assertEqual( $groups['error_message'], 'group_id is a required field' );
     }
@@ -58,16 +58,16 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
                         'contact_id.1' => $this->_contactId,
                         'contact_id.2' => $this->_contactId1,
                         'group_id'     => 1 );
-       
+        
         $groups = civicrm_group_contact_add( $params );
-              
+        
         $this->assertEqual( $groups['is_error'], 0 );
         $this->assertEqual( $groups['not_added'], 0 );
         $this->assertEqual( $groups['added'], 2 );
         $this->assertEqual( $groups['total_count'], 2 );
-
+        
     }
-
+    
   
 }
 
