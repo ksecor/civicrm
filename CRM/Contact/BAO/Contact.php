@@ -1371,19 +1371,35 @@ WHERE civicrm_contact.id IN $idString ";
      * @access public
      * @static
      */
-    static function getPrimaryLocationType($contactId) 
+    static function getPrimaryLocationType( $contactId ) 
     {
-//         require_once 'CRM/Core/BAO/Location.php';
-//         $location =& new CRM_Core_DAO_Location( ); 
-//         $location->entity_table = 'civicrm_contact';
-//         $location->entity_id    = $contactId;
-//         $location->is_primary   = 1;
-//         $location->find(true);
-        
-        //return $location->location_type_id;
-        return 1;
-    }
+        $query = "
+SELECT
+ IF ( civicrm_email.location_type_id IS NULL,
+    IF ( civicrm_address.location_type_id IS NULL, 
+        IF ( civicrm_phone.location_type_id IS NULL,
+           IF ( civicrm_im.location_type_id IS NULL, 
+               IF ( civicrm_openid.location_type_id IS NULL, null, civicrm_openid.location_type_id)
+           ,civicrm_im.location_type_id)
+        ,civicrm_phone.location_type_id)
+     ,civicrm_address.location_type_id)
+  ,civicrm_email.location_type_id)  as locationType
+FROM civicrm_contact
+     LEFT JOIN civicrm_email   ON ( civicrm_email.is_primary   = 1 AND civicrm_email.contact_id = civicrm_contact.id )
+     LEFT JOIN civicrm_address ON ( civicrm_address.is_primary = 1 AND civicrm_address.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_phone   ON ( civicrm_phone.is_primary   = 1 AND civicrm_phone.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_im      ON ( civicrm_im.is_primary      = 1 AND civicrm_im.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_openid  ON ( civicrm_openid.is_primary  = 1 AND civicrm_openid.contact_id = civicrm_contact.id)
+WHERE  civicrm_contact.id = %1 ";
 
+        $params = array( 1 => array( $contactId, 'Integer' ) );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+
+        if ( $dao->fetch() ) {
+            return $dao->locationType;
+        }
+    }
 
     /**
      * function to get the display name, primary email and location type of a contact
