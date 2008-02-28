@@ -91,7 +91,8 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 $recur->$name = CRM_Utils_Date::isoToMysql( $recur->$name );
             }
         }
-
+        //set transaction type
+        $txnType = $_POST['txn_type'];
         switch ( $txnType ) {
 
         case 'subscr_signup':
@@ -258,7 +259,7 @@ class CRM_Core_Payment_PayPalIPN extends CRM_Core_Payment_BaseIPN {
                 }
                 return $this->recur( $input, $ids, $objects, $first );
             } else {
-                return $this->single( $input, $ids, $objects, true, false );
+                return $this->single( $input, $ids, $objects, false, false );
             }
         } else {
             return $this->single( $input, $ids, $objects, false, false );
