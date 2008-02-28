@@ -13,14 +13,14 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $this->_participantID = $this->participantCreate( $this->_contactID );
     }
     
-    function testParticipantPaymentCreateWithEmptyParams( )
+    function BROKEN_testParticipantPaymentCreateWithEmptyParams( )
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
     
-    function testParticipantPaymentCreateMissingParticipantId( )
+    function BROKEN_testParticipantPaymentCreateMissingParticipantId( )
     {        
         //Create contribution type & get contribution Type ID
         $contributionTypeID = $this->contributionTypeCreate();
@@ -42,7 +42,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }
     
-    function testParticipantPaymentCreateMissingContributionId( )
+    function BROKEN_testParticipantPaymentCreateMissingContributionId( )
     {
         //Without Payment EntityID
         $params = array(
@@ -52,7 +52,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
     
-    function testParticipantPaymentCreate( )
+    function BROKEN_testParticipantPaymentCreate( )
     {  
         
         //Create contribution type & get contribution Type ID
