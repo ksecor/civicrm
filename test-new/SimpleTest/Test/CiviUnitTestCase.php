@@ -549,7 +549,8 @@ class CiviUnitTestCase extends UnitTestCase {
      *@return int groupId of created group
      * 
      */ 
-    function groupCreate( $params = null ) {
+    function groupCreate( $params = null )
+    {
         if ( $params === null ) { 
             $params = array(
                             'name'        => 'Test Group 1',
@@ -560,8 +561,8 @@ class CiviUnitTestCase extends UnitTestCase {
                             'visibility'  => 'Public User Pages and Listings',
                             );
         }
-        
-        $result = civicrm_group_add( $params );
+        require_once 'api/v2/Group.php';
+        $result = &civicrm_group_add( $params );
         
         return $result['result'];
     }    
@@ -570,9 +571,11 @@ class CiviUnitTestCase extends UnitTestCase {
      *
      * @param int $id 
      */ 
-    function groupDelete( $gid ) {
+    function groupDelete( $gid )
+    {
         $params['id'] = $gid;
-        civicrm_group_delete( $params );
+        require_once 'api/v2/Group.php';
+        $result = &civicrm_group_delete( $params );
     }
 
     /** 
