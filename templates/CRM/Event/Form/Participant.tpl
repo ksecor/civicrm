@@ -134,19 +134,17 @@
     <tr id="send_confirmation">
        <td class ='html-adjust' colspan=2>
            <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
-             <div class="form-item">
-                 <dl>
-                    <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
-                    <dd>{$form.send_receipt.html}<br />
-                    <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
-                 </dl>
-                 <div id='notice' class="form-item">
-                    <dl>
-                      <dt class="label">{$form.receipt_text.label}</dt>
-                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
-                   </dl>
-                </div>
-             </div>
+             <table class="form-layout">
+                 <tr>
+                    <td class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</td>
+                    <td>{$form.send_receipt.html}<br />
+                    <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></td>
+                 </tr>
+                 <tr id='notice'>
+                      <td class="label">{$form.receipt_text.label}</td>
+                      <td><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</td>
+                </tr>
+             </table>
            </fieldset>
        </td>
     </tr> 
