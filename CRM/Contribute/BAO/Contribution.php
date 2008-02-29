@@ -445,6 +445,9 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
      */ 
     static function deleteContribution( $id ) 
     {
+
+        CRM_Utils_Hook::pre( 'delete', 'Contribution', $id, CRM_Core_DAO::$_nullArray );
+
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
         
@@ -461,6 +464,9 @@ WHERE  domain_id = $domainID AND $whereCond AND is_test=0
         $results = $dao->delete( );
         
         $transaction->commit( );
+
+        CRM_Utils_Hook::post( 'delete', 'Contribution', $dao->id, $dao );
+
         return $results;
     }
     
