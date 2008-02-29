@@ -141,7 +141,7 @@ class CRM_Contribute_BAO_Query
     {
  
         list( $name, $op, $value, $grouping, $wildcard ) = $values;
-       
+
         $fields = array( );
         $fields = self::getFields();
         switch ( $name ) {
@@ -293,6 +293,18 @@ class CRM_Contribute_BAO_Query
             
             return;
 
+        case 'contribution_note':
+            $value = strtolower( addslashes( $value ) );
+            if ( $wildcard ) {
+                $value = "%$value%"; 
+                $op    = 'LIKE';
+            }
+            $query->_where[$grouping][] = "LOWER( civicrm_note.note ) $op '$value'";
+            $query->_qill[$grouping][]  = "Contribution Note $op \"$value\"";
+            $query->_tables['civicrm_contribution'] = $query->_whereTables['civicrm_contribution'] = $query->_whereTables['contribution_note'] = 1;
+            
+            return;
+
         default :
             //all other elements are handle in this case
             $fldName = substr($name, 13 );
@@ -301,7 +313,7 @@ class CRM_Contribute_BAO_Query
 
             //contribution fields (decimal fields) which don't require a quote in where clause.
             $noQuotes = array('non_deductible_amount', 'fee_amount', 'net_amount', 'invoice_id');
-            
+
             //date fields
             $dateFields = array ( 'receive_date', 'cancel_date', 'receipt_date', 'thankyou_date', 'fulfilled_date' ) ;
             if ( in_array($fldName, $dateFields) ) {
