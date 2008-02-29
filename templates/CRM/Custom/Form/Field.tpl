@@ -109,6 +109,10 @@
 	      document.getElementById("noteRowsDef").style.display="none";
 	}
 			 
+    if ( data_type_id > 3) {
+         document.getElementById("optionsPerLine").style.display="none";
+         document.getElementById("optionsPerLineDef").style.display="none";
+    }
 
     }
 </script>
