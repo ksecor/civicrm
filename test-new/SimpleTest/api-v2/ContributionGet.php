@@ -17,7 +17,7 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         
     function setUp() 
     {
-        $this->_contributionTypeId = $this->contributionTypeCreate();  
+        $this->_contributionTypeId = $this->contributionTypeCreate();
         $this->_individualId = $this->individualCreate();
         $this->_contributionId = $this->contributionCreate($this->_individualId,$this->_contributionTypeId);
        
@@ -65,12 +65,12 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
                         'invoice_id'             => 78910,
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1,
-                        'note'                   => 'Donating for Nobel Cause'
+                        //    'note'                   => 'Donating for Nobel Cause'#FIXME#
                         );
         
         $this->_contribution =& civicrm_contribution_add($params);
         $params = array('contribution_id'=>$this->_contribution['id']);        
-        $contribution =& civicrm_contribution_get($params); 
+        $contribution =& civicrm_contribution_get($params);
         $this->assertEqual($contribution['contact_id'],$this->_individualId); 
         $this->assertEqual($contribution['total_amount'],100.00);
         $this->assertEqual($contribution['contribution_type_id'],$this->_contributionTypeId);        
@@ -80,10 +80,10 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $this->assertEqual($contribution['trxn_id'],23456);
         $this->assertEqual($contribution['invoice_id'],78910);
         $this->assertEqual($contribution['contribution_source'],'SSF');
-        $this->assertEqual($contribution['contribution_status_id'],  1);
+        $this->assertEqual($contribution['contribution_status_id'], 'Completed' );
        
         $params1 = array('contribution_id' =>$this->_contributionId);
-        $contribution1 =& civicrm_contribution_get($params1);         
+        $contribution1 =& civicrm_contribution_get($params1);
         $this->assertEqual($contribution1['contact_id'],$this->_individualId); 
         $this->assertEqual($contribution1['total_amount'],100.00);
         $this->assertEqual($contribution1['contribution_type_id'],$this->_contributionTypeId);        
@@ -93,7 +93,7 @@ class TestOfContributionGet_1APIV2 extends CiviUnitTestCase
         $this->assertEqual($contribution1['trxn_id'],12345);
         $this->assertEqual($contribution1['invoice_id'],67890);
         $this->assertEqual($contribution1['contribution_source'],'SSF');
-        $this->assertEqual($contribution1['contribution_status_id'],  1);  
+        $this->assertEqual($contribution1['contribution_status_id'], 'Completed' );  
         
         $params2 = array( 'contribution_id' => $this->_contribution['id'] );
         $contribution2 =& civicrm_contribution_delete( $params2 );
