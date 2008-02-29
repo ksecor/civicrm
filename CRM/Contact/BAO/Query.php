@@ -466,7 +466,7 @@ class CRM_Contact_BAO_Query
                             $this->_element['address_id']     = 1;
                         }
                         
-                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix' || $tableName == 'im_provider' || $tableName == 'payment_instrument') {
+                        if ($tableName == 'gender' || $tableName == 'individual_prefix' || $tableName == 'individual_suffix' || $tableName == 'im_provider' ) {
                             require_once 'CRM/Core/OptionValue.php';
                             CRM_Core_OptionValue::select($this);
                             
@@ -1547,10 +1547,6 @@ class CRM_Contact_BAO_Query
                 
             case 'civicrm_openid':
                 $from .= " $side JOIN civicrm_openid ON ( civicrm_openid.contact_id = contact_a.id AND civicrm_openid.is_primary = 1 )";
-                continue;
-            case 'payment_instrument':
-                $from .= " $side JOIN civicrm_option_group option_group_paymentInstrument ON (option_group_paymentInstrument.name = 'payment_instrument')";
-                $from .= " $side JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value AND option_group_paymentInstrument.id = payment_instrument.option_group_id)";
                 continue;
                 
             case 'civicrm_state_province':

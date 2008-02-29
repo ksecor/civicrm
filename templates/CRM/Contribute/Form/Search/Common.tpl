@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td class="label">{ts}Status{/ts}</td> 
-            <td>{$form.contribution_status.html}</td>
+            <td>{$form.contribution_status_id.html}</td>
             <td colspan="2">{$form.contribution_thankyou_date_isnull.html}&nbsp;{$form.contribution_thankyou_date_isnull.label}</td>
         </tr>
         <tr>
