@@ -259,15 +259,15 @@ class CiviUnitTestCase extends UnitTestCase {
     /** 
      * Function to create Participant 
      *
-     * @param int $contactID
+     * @param array $params  array of contact id and event id values
      *
      * @return int $id of participant created
      */    
-    function participantCreate( $contactID ) 
+    function participantCreate( $params ) 
     { 
         $params = array(
-                        'contact_id'    => $contactID,
-                        'event_id'      => 1,
+                        'contact_id'    => $params['contactID'],
+                        'event_id'      => ( $eid = CRM_Utils_Array::value( 'eventID', $params ) ) ? $eid : 1,
                         'status_id'     => 2,
                         'role_id'       => 1,
                         'register_date' => 20070219,
