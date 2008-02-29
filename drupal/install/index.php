@@ -305,6 +305,7 @@ class InstallRequirements {
 	}
 	
 	function requirePHPVersion($version, $testDetails) {
+
 		$this->testing($testDetails);
 		
 		list($reqA, $reqB, $reqC) = explode('.', $version);
