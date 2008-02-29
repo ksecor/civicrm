@@ -136,7 +136,7 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
     /**          
      *Case for Editing UFField
      */ 
-    function BROKEN_testUpdateUFField( )
+    function testUpdateUFField( )
     {
         $params = array(
                         'title'     => 'New Profile Group G07',

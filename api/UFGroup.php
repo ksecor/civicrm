@@ -331,7 +331,7 @@ function crm_update_uf_field( $params , $ufField) {
     $UFField = &new CRM_core_BAO_UFField();
     $UFField->id = $fieldId;
     
-    if ( !( CRM_Utils_Array::value('group_id', $params)  && $UFField->find(true) ) ) {
+    if ( !( CRM_Utils_Array::value('group_id', $params) ) && $UFField->find(true) ) {
         $params['group_id'] =  $UFField->uf_group_id;
     }
 
