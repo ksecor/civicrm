@@ -389,7 +389,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         'invoice_id'             => 67890,
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1,
-                        'note'                   => 'Donating for Nobel Cause',
+                        //   'note'                   => 'Donating for Nobel Cause',#FIXME#
                         );
         
         $contribution =& civicrm_contribution_add($params);
