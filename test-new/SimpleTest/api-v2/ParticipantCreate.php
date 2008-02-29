@@ -7,10 +7,14 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
     protected $_contactID;
     protected $_createdParticipants;
     protected $_participantID;
+    protected $_eventID;
 
     
     function setUp() 
     {
+        $event = $this->eventCreate();
+        $this->_eventID = $event['event_id'];
+        
         $this->_contactID = $this->individualCreate( ) ;
         $this->_createdParticipants = array( );
     }
@@ -29,7 +33,7 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
     function testParticipantCreateMissingContactID()
     {
         $params = array(
-                        'event_id'      => 2,
+                        'event_id'      => $this->_eventID,
                         );
         $participant = & civicrm_participant_create($params);
         if ( CRM_Utils_Array::value('id', $participant) ) {
@@ -52,11 +56,11 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         $this->assertNotNull($participant['error_message']);
     }
     
-    function BROKEN_testParticipantCreateEventIdOnly()
+    function testParticipantCreateEventIdOnly()
     {
         $params = array(
                         'contact_id'    => $this->_contactID,
-                        'event_id'      => 1,
+                        'event_id'      => $this->_eventID,
                         );
         $participant = & civicrm_participant_create($params);
         $this->assertNotEqual( $participant['is_error'],1 );
@@ -73,11 +77,11 @@ class TestOfParticipantCreateAPIV2 extends CiviUnitTestCase
         }
     }
     
-    function BROKEN_testParticipantCreateAllParams()
+    function testParticipantCreateAllParams()
     {  
         $params = array(
                         'contact_id'    => $this->_contactID,
-                        'event_id'      => 2,
+                        'event_id'      => $this->_eventID,
                         'status_id'     => 1,
                         'role_id'       => 1,
                         'register_date' => '2007-07-21',

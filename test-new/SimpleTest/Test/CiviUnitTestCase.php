@@ -267,7 +267,7 @@ class CiviUnitTestCase extends UnitTestCase {
     { 
         $params = array(
                         'contact_id'    => $params['contactID'],
-                        'event_id'      => ( $eid = CRM_Utils_Array::value( 'eventID', $params ) ) ? $eid : 1,
+                        'event_id'      => $params['eventID'],
                         'status_id'     => 2,
                         'role_id'       => 1,
                         'register_date' => 20070219,
@@ -389,7 +389,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         'invoice_id'             => 67890,
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1,
-                        //   'note'                   => 'Donating for Nobel Cause',#FIXME#
+                     // 'note'                   => 'Donating for Nobel Cause', *Fixme
                         );
         
         $contribution =& civicrm_contribution_add($params);
@@ -437,7 +437,7 @@ class CiviUnitTestCase extends UnitTestCase {
                             'is_show_location'        => 0,
                             );
         }
-        
+        require_once 'api/v2/Event.php';
         $event =& civicrm_event_create( $params );
         
         return $event;
@@ -791,7 +791,6 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         
         $note =& civicrm_note_create( $params );
-        
         return $note;
     }
     
@@ -806,10 +805,11 @@ class CiviUnitTestCase extends UnitTestCase {
 
         require_once 'api/v2/Note.php';
         $result = & civicrm_note_delete( $params );
+
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete note' );
         }
-        
+    
         return;
     }    
      

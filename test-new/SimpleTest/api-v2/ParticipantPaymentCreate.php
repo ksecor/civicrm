@@ -6,21 +6,25 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_participantID;
+    protected $_eventID;
     
     function setUp( ) 
     { 
+        $event = $this->eventCreate();
+        $this->_eventID = $event['event_id'];
+
         $this->_contactID     = $this->organizationCreate( );
-        $this->_participantID = $this->participantCreate( $this->_contactID );
+        $this->_participantID = $this->participantCreate( array ('contactID' => $this->_contactID, 'eventID' => $this->_eventID) );
     }
     
-    function BROKEN_testParticipantPaymentCreateWithEmptyParams( )
+    function testParticipantPaymentCreateWithEmptyParams( )
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
     
-    function BROKEN_testParticipantPaymentCreateMissingParticipantId( )
+    function testParticipantPaymentCreateMissingParticipantId( )
     {        
         //Create contribution type & get contribution Type ID
         $contributionTypeID = $this->contributionTypeCreate();
@@ -42,7 +46,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $this->contributionTypeDelete( $contributionTypeID );
     }
     
-    function BROKEN_testParticipantPaymentCreateMissingContributionId( )
+    function testParticipantPaymentCreateMissingContributionId( )
     {
         //Without Payment EntityID
         $params = array(
@@ -52,7 +56,7 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
     
-    function BROKEN_testParticipantPaymentCreate( )
+    function testParticipantPaymentCreate( )
     {  
         
         //Create contribution type & get contribution Type ID
@@ -81,6 +85,10 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
     {
         $this->participantDelete( $this->_participantID );
         $this->contactDelete( $this->_contactID );
+
+        // Cleanup test event.
+        $result = $this->eventDelete($this->_eventID);
+
     }
 }    
 ?>

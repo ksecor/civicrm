@@ -8,21 +8,25 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     protected $_contactID;
     protected $_participantID;
     protected $_participantPaymentID;
+    protected $_eventID;
 
     function setUp() 
     {
+        $event = $this->eventCreate();
+        $this->_eventID = $event['event_id'];
+
         $this->_contactID       = $this->organizationCreate( );
-        $this->_participantID   = $this->participantCreate( $this->_contactID );
+        $this->_participantID   = $this->participantCreate( array ('contactID' => $this->_contactID,'eventID' =>$this->_eventID ) );
     }
     
-    function BROKEN_testParticipantPaymentUpdateEmpty()
+    function testParticipantPaymentUpdateEmpty()
     {
         $params = array();        
         $participantPayment = & civicrm_participant_payment_create( $params );
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
 
-    function BROKEN_testParticipantPaymentUpdateMissingParticipantId()
+    function testParticipantPaymentUpdateMissingParticipantId()
     {
         //WithoutParticipantId
         $params = array(
@@ -32,7 +36,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
 
-    function BROKEN_testParticipantPaymentUpdateMissingContributionId()
+    function testParticipantPaymentUpdateMissingContributionId()
     {
         $params = array(
                         'participant_id'       => $this->_participantID,
@@ -41,7 +45,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $participantPayment['is_error'], 1 );
     }
     
-    function BROKEN_testParticipantPaymentUpdate()
+    function testParticipantPaymentUpdate()
     {
         //create contribution type 
         
@@ -50,7 +54,7 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
         // create contribution
         $contributionID     = $this->contributionCreate( $this->_contactID , $contributionTypeID );
         
-        $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID, 5 );
+        $this->_participantPaymentID = $this->participantPaymentCreate( $this->_participantID, $contributionID );
         $params = array(
                         'id'              => $this->_participantPaymentID,
                         'participant_id'  => $this->_participantID,
@@ -75,6 +79,9 @@ class TestOfParticipantPaymentUpdateAPIV2 extends CiviUnitTestCase
     {
         $this->participantDelete( $this->_participantID );
         $this->contactDelete( $this->_contactID );
+
+        // Cleanup test event.
+        $result = $this->eventDelete($this->_eventID);
     }
 }
 ?>
