@@ -75,9 +75,9 @@ function civicrm_check_permission( $args ) {
         return false;
     }
 
-    // all profile and file urls are valid
+    // all profile and file urls, as well as user dashboard and tell-a-friend are valid
     $arg1 = CRM_Utils_Array::value( 1, $args );
-    $validPaths = array( 'profile', 'user', 'dashboard' );
+    $validPaths = array( 'profile', 'user', 'dashboard', 'friend' );
     if ( in_array( $arg1 , $validPaths ) ) {
         return true;
     }
