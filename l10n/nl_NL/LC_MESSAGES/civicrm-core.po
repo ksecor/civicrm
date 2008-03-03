@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-02-26 09:58-0800\n"
+"PO-Revision-Date: 2008-03-03 03:51-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -871,7 +871,7 @@ msgstr "Adres velden"
 
 #: CRM/Admin/Form/Preferences/Address.php CRM/Core/DAO/Preferences.php
 msgid "Individual Name Format"
-msgstr "Opmaak persoonsnaam"
+msgstr "Formaat persoonsnaam"
 
 #: CRM/Admin/Form/PreferencesDate.php CRM/Core/DAO/PreferencesDate.php
 #: templates/CRM/Admin/Page/PreferencesDate.tpl
@@ -2035,7 +2035,7 @@ msgstr "Zoekresultaten"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "New Contact"
-msgstr "Nieuwe persoon"
+msgstr "Nieuw Contact"
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Custom Data Fields"
@@ -3233,9 +3233,7 @@ msgstr "Locatietype verwijderen"
 msgid ""
 "Are you sure you want to delete this mapping? This operation can not be "
 "undone"
-msgstr ""
-"Weet u zeker dat u deze mapping wilt verwijderen? Deze actie kan niet worden "
-"hersteld."
+msgstr "Wilt U deze mapping verwijderen? Deze actie kan niet worden hersteld."
 
 #: CRM/Admin/Page/Mapping.php templates/CRM/Admin/Form/Mapping.tpl
 msgid "Edit Mapping"
@@ -3449,7 +3447,7 @@ msgstr "Adres opmaak"
 
 #: CRM/Admin/Page/Tag.php
 msgid "Are you sure you want to delete this tag?"
-msgstr "Weet je zeker dat je deze markering wilt verwijderen?"
+msgstr "Wilt U deze markering verwijderen?"
 
 #: CRM/Admin/Page/Tag.php
 msgid ""
@@ -3764,7 +3762,7 @@ msgid ""
 "Domain Email Address must use a valid email address format (e.g. "
 "'info@example.org')."
 msgstr ""
-"Lokatie naam E-mailadres moet een geldig e-mailadres zijn (bijv. "
+"Domein E-mailadres moet een geldig e-mailadres zijn (bijv. "
 "ïnfo@example.org)."
 
 #: CRM/Contact/Form/Domain.php
@@ -3820,7 +3818,7 @@ msgstr "Je %1 contact gegeven is bewaard."
 
 #: CRM/Contact/Form/Edit.php
 msgid "Email Format"
-msgstr "E-mail opmaak"
+msgstr "E-mail Formaat"
 
 #: CRM/Contact/Form/Edit.php
 msgid "User Opt Out"
@@ -3838,7 +3836,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Edit.php
 msgid "Two locations cannot have same location type"
-msgstr "Twee locaties kunnen niet dezelfde locatie type hebben"
+msgstr "Twee locaties kunnen niet hetzelfde locatie type hebben"
 
 #: CRM/Contact/Form/Edit.php
 msgid "One location should be marked as primary."
@@ -3968,7 +3966,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please select a household from the 'Select Household' list"
-msgstr "Selecteer een huishouden van het huishoudens overzicht"
+msgstr "Selecteer een huishouden uit het  overzicht"
 
 #: CRM/Contact/Form/Individual.php
 msgid "Please specify a new household"
@@ -3984,13 +3982,13 @@ msgid_plural ""
 "'Select existing household' option or click 'Save With Duplicate Household' "
 "button below."
 msgstr[0] ""
-"lEr werd één overeenkomstig huishouden gevonden: %1. Je kan het in detail "
-"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar "
-"met geselecteerde huishouden\" knop onderaan."
+"Er werd één overeenkomstig huishouden gevonden: %1. Je kan het in detail "
+"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar met "
+"geselecteerde huishouden\" knop onderaan."
 msgstr[1] ""
 "%count overeenkomstige huishoudens gevonden: %1. Je kan het in detail "
-"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar "
-"met geselecteerde huishouden\" knop onderaan."
+"bekijken met de \"selecteer bestaand huishouden\" optie of klik \"'bewaar met "
+"geselecteerde huishouden\" knop onderaan."
 
 #: CRM/Contact/Form/Individual.php
 msgid "Shared Household-ID not found."
@@ -4317,7 +4315,7 @@ msgstr "Selecteer minimaal een waarde voor de status van de groep."
 
 #: CRM/Contact/Form/Search.php
 msgid "Group Members: %1"
-msgstr "Groepsleden : %1"
+msgstr "Groepsleden: %1"
 
 #: CRM/Contact/Form/Search.php
 msgid "Add Members: %1"
@@ -4413,8 +4411,8 @@ msgid ""
 "This contact record is linked to the currently logged in user account - '%1' "
 "- and can not be deleted."
 msgstr ""
-"Dit contact record is gekoppeld aan het huidig ingelogde gebruikersaccount -"
-"\"%1\" -en kan niet worden verwijderd. "
+"Dit contact record is gekoppeld aan het huidig ingelogde gebruikersaccount - "
+"\"%1\" - en kan niet worden verwijderd. "
 
 #: CRM/Contact/Form/Task/Delete.php
 msgid ""
@@ -4428,7 +4426,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Selected contact(s) do not have a valid email address"
-msgstr "Geselecteerde contacten hebben geen geldig e-mail adres"
+msgstr "Geselecteerde contacten hebben geen geldig e-mailadres"
 
 #: CRM/Contact/Form/Task/EmailCommon.php
 msgid "Select Template"
@@ -4699,7 +4697,7 @@ msgstr "Contact notities"
 
 #: CRM/Contact/Page/View/Note.php
 msgid "Are you sure you want to delete this note?"
-msgstr "Weet u zeker dat u deze notitie wilt verwijderen?"
+msgstr "Wilt U deze notitie verwijderen?"
 
 #: CRM/Contact/Page/View/Note.php templates/CRM/Contact/Page/View/Note.tpl
 msgid "View Note"
@@ -4723,7 +4721,7 @@ msgstr "Contact relaties"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to delete this relationship?"
-msgstr "Weet u zeker dat u deze relatie wilt verwijderen?"
+msgstr "Wilt U deze relatie verwijderen?"
 
 #: CRM/Contact/Page/View/Relationship.php
 msgid "Are you sure you want to disable this relationship?"
@@ -4959,7 +4957,7 @@ msgstr ""
 
 #: CRM/Core/BAO/CustomGroup.php
 msgid "Are you sure you want to delete attached file."
-msgstr "Weet u zeker dat u het bijgevoegde bestand wilt verwijderen?"
+msgstr "Wilt U het bijgevoegde bestand verwijderen?"
 
 #: CRM/Core/BAO/CustomGroup.php templates/CRM/Custom/Form/DeleteFile.tpl
 msgid "Delete Attached File"
@@ -5175,7 +5173,7 @@ msgstr "Verstuur mailing"
 
 #: CRM/Core/Block.php
 msgid "Browse Sent Mailings"
-msgstr "Doorblader verstuurde mailings"
+msgstr "Bekijk verzonden mailings"
 
 #: CRM/Core/Block.php
 msgid "CiviContribute"
@@ -5572,7 +5570,7 @@ msgstr "Bericht tekst"
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Msg Html"
-msgstr "Html bericht"
+msgstr "Bericht Html"
 
 #: CRM/Core/DAO/MessageTemplates.php
 msgid "Is Active"
@@ -6369,8 +6367,8 @@ msgid ""
 "Please enter a valid value for your card security code. This is usually the "
 "last 3-4 digits on the card's signature panel."
 msgstr ""
-"Voer de geldige veiligheidscode in van uw kaart. Meestal zijn dit de laatste "
-"3-4 cijfers van het kenmerk op uw kaart."
+"Voer de veiligheidscode in van uw kaart. Meestal zijn dit de laatste 3-4 "
+"cijfers van het kenmerk op uw kaart."
 
 #: CRM/Core/Payment/Form.php
 msgid "Credit card expiration date can not be a past date."
@@ -6505,7 +6503,7 @@ msgstr "levensduur"
 
 #: CRM/Core/SelectValues.php
 msgid "rolling"
-msgstr "Vanaf - tot"
+msgstr "vandaag"
 
 #: CRM/Core/SelectValues.php
 msgid "fixed"
@@ -6614,7 +6612,7 @@ msgstr "Welkomsbericht"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Unsubscribe Message"
-msgstr "Bericht bij opzegging"
+msgstr "Bericht bij afmelding"
 
 #: CRM/Core/SelectValues.php xml/templates/civicrm_add_domain.tpl
 msgid "Resubscribe Message"
@@ -6903,11 +6901,11 @@ msgstr "Standaard"
 
 #: CRM/Custom/Form/Option.php
 msgid "There is an entry with the same label."
-msgstr ""
+msgstr "Er is een entry met hetzelfde label."
 
 #: CRM/Custom/Form/Option.php
 msgid "There is an entry with the same value."
-msgstr ""
+msgstr "Er is een entry met dezelfde waarde."
 
 #: CRM/Custom/Form/Option.php
 msgid "Please enter a valid integer value."
@@ -6945,7 +6943,7 @@ msgstr "Weet U zeker dat u dit specifieke gegevensveld wilt uitzetten?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Are you sure you want to delete this custom data field?"
-msgstr "Weet u zeker, dat u dit specifieke gegevensveld wilt verwijderen?"
+msgstr "Wilt U dit specifieke gegevensveld verwijderen?"
 
 #: CRM/Custom/Page/Field.php
 msgid "Edit Field"
@@ -7702,7 +7700,7 @@ msgstr "Weet u zeker, dat u dit prijs veld wilt uitzetten?"
 
 #: CRM/Price/Page/Field.php
 msgid "Are you sure you want to delete this price field?"
-msgstr "Weet u zeker, dat u dit prijs veld wilt verwijderen?"
+msgstr "Wilt U dit prijs-veld verwijderen?"
 
 #: CRM/Price/Page/Field.php
 msgid "Edit Price Field"
@@ -7775,7 +7773,7 @@ msgstr "%1 prijs Opties"
 
 #: CRM/Price/Page/Set.php
 msgid "Are you sure you want to delete this price set?"
-msgstr "Weet je zeker dat je deze Prijs-set wilt verwijderen?"
+msgstr "Wilt U deze Prijs-set verwijderen?"
 
 #: CRM/Price/Page/Set.php
 msgid "View and Edit Price Fields"
@@ -8123,7 +8121,7 @@ msgstr "Profiel wijzigen link toevoegen aan zoekresultaten?"
 
 #: CRM/UF/Form/Group.php
 msgid "Include %1 user account information links in search results?"
-msgstr "%1 gebruikersaccount informatie links invoegen bij zoekreultaten?"
+msgstr "%1 gebruikersaccount informatie links invoegen bij zoekresultaten?"
 
 #: CRM/UF/Form/Group.php
 msgid "%1 user account registration option?"
@@ -9411,7 +9409,7 @@ msgstr "Vergelijkingsregel configureren."
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid "Are you sure you want to delete this Duplicate Matching Rule?"
-msgstr "Weet u zeker dat u deze vergelijkingsregel wilt verwijderen?"
+msgstr "Wilt U deze vergelijkingsregel verwijderen?"
 
 #: templates/CRM/Admin/Form/DupeMatch.tpl
 msgid ""
@@ -9470,8 +9468,8 @@ msgid ""
 "WARNING: Are you sure you want to delete mapping '<b>%1</b>'? This action "
 "can not be undone."
 msgstr ""
-"PAS OP: Weet u zeker dat u '<b>%1</b>' Mapping wilt verwijderen? Deze actie "
-"kan niet worden hersteld."
+"PAS OP: Wilt U '<b>%1</b>' Mapping verwijderen? Deze actie kan niet worden "
+"hersteld."
 
 #: templates/CRM/Admin/Form/MessageTemplates.tpl
 msgid "New Message Template"
@@ -9800,7 +9798,7 @@ msgstr "Uitgebreide instellingen"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid "Debugging and Error Handling"
-msgstr "Foutzoeken en herstellen."
+msgstr "Foutzoeken en foutafhandeling"
 
 #: templates/CRM/Admin/Form/Setting/Debugging.tpl
 msgid ""
@@ -10047,7 +10045,7 @@ msgid ""
 "used for images associated with premiums (CiviContribute thank-you gifts)."
 msgstr ""
 "Directory waar afbeeldingsbestanden worden geplaatst zoals afbeeldingen van "
-"premiums (CiviContribute)."
+"relatiegeschenken (CiviContribute)."
 
 #: templates/CRM/Admin/Form/Setting/Path.tpl
 #, fuzzy
@@ -10160,7 +10158,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Form/Tag.tpl
 msgid "Are you sure you want to delete <b>%1</b> Tag?"
-msgstr "Weet u zeker dat u de markering <b>%1</b> wilt verwijderen?"
+msgstr "Wilt U de markering <b>%1</b> verwijderen?"
 
 #: templates/CRM/Admin/Page/Access.tpl
 #, fuzzy
@@ -10303,7 +10301,7 @@ msgstr ""
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid "plus sign"
-msgstr ""
+msgstr "plusteken"
 
 #: templates/CRM/Admin/Page/Admin.tpl
 msgid ""
@@ -10341,6 +10339,12 @@ msgid ""
 "Click <strong>Edit Rule</strong> to review or modify the rules for each type "
 "of contact (<a href='%1' target='_blank' title='%2'>read more...</a>)."
 msgstr ""
+"<strong>Contact Duplicaten Regels</strong> worden gebruikt door het "
+"<strong><a href='%3'>Zoek contact duplicaten</a></strong> proces - dit "
+"doorzoekt uw bestaande contacten en herkent 'verdachte' dubbele contacten. "
+"Klik <strong>Bewerk Regel</strong> om de regels te bekijken of te wijzigen "
+"voor elk contacttype (<a href='%1' target='_blank' title='%2'>lees "
+"meer...</a>)."
 
 #: templates/CRM/Admin/Page/DedupeRules.tpl
 msgid ""
@@ -11187,7 +11191,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "System-generated Mail Settings"
-msgstr ""
+msgstr "Mail instellingen door systeem"
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "CiviMail Domain Address"
@@ -11202,6 +11206,8 @@ msgid ""
 "You can also include general email and/or phone contact information in "
 "mailings."
 msgstr ""
+"U kunt ook algemene e-mail en/of telefoon contactinformatie in mailings "
+"opnemen."
 
 #: templates/CRM/Contact/Form/Domain.tpl
 msgid "Edit Domain Information"
@@ -11331,8 +11337,8 @@ msgid ""
 "Mark the target contact(s) for this relationship if it appears below. "
 "Otherwise you may modify the search name above and click Search again."
 msgstr ""
-"Markeer het contact voor dee relatie, als deze hieronder wordt getoond.U "
-"kunt de zoeknaam aanpassen en opnieuw laten zoeken."
+"Markeer het contact voor deze relatie, als deze hieronder wordt getoond. U "
+"kunt de zoeknaam aanpassen en 'Zoek opnieuw'."
 
 #: templates/CRM/Contact/Form/Relationship.tpl
 msgid "Duplicate relationship."
@@ -11387,7 +11393,7 @@ msgstr ""
 #: templates/CRM/Contact/Form/Relationship.tpl
 #, fuzzy
 msgid "Are you sure you want to delete the Relationship '%1'?"
-msgstr "Weet u zeker dat u relatie \"%1\" wilt verwijderen?"
+msgstr "Wilt U de relatie \"%1\" verwijderen?"
 
 #: templates/CRM/Contact/Form/Search/AdvancedCriteria.tpl
 #: templates/CRM/Contact/Form/Search/BasicCriteria.tpl
@@ -11437,9 +11443,10 @@ msgid ""
 "1'>Advanced Search</a>."
 msgstr ""
 "Om op voornaam EN achternaam te zoeken dient u 'achternaam, voornaam' in te "
-"voeren (Vb.: 'Smit,Jan'). Zoekt u op een gedeelte van een naam, gebruik dan "
-"het wildcard '%' teken om een willekeurige lettercombinatie aan te geven. "
-"Zoeken op e-mail adressen doet u via <a href=\"%1\">Geavanceerd zoeken</a>."
+"voeren. (Vb.: 'Smit, Jan'). Zoekt u op een gedeelte van een naam, gebruik "
+"dan het wildcard '%' teken om een willekeurige lettercombinatie aan te "
+"geven. Zoeken op e-mail adressen doet u via <a href=\"%1\">Geavanceerd "
+"zoeken</a>."
 
 #: templates/CRM/Contact/Form/Search/Builder.tpl
 #, fuzzy
@@ -11563,10 +11570,10 @@ msgid ""
 "Status...' checkboxes to view members with 'Pending' status and/or members "
 "who have been 'Removed' from this group."
 msgstr ""
-"Hieronder staan de leden van groep <strong>%1</strong>. Gebruik 'Vind "
-"Leden', om naar specifieke leden te zoeken. Gebruik 'Groep Status' om naar "
-"in verwerking zijnde leden te zoeken, of naar leden te zoeken die "
-"'verwijderd' zijn uit deze groep."
+"Hieronder staan de leden van groep <strong>%1</strong>. Gebruik 'Zoek Leden "
+"in deze groep' om naar specifieke leden te zoeken. Gebruik 'Groep Status' om "
+"te zoeken naar in verwerking zijnde leden of  leden die 'verwijderd' zijn "
+"uit deze groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 #, fuzzy
@@ -11574,8 +11581,8 @@ msgid ""
 "Use the <a href='%1'>Add Members...</a> screen if you want to add new "
 "members to this group."
 msgstr ""
-"Gebruik het <a href=\"%1> Voeg leden toe</a> scherm als u leden wilt "
-"toevoegen aan deze groep."
+"Gebruik <a href=\"%1\"> Voeg leden toe</a> als u leden wilt toevoegen aan deze "
+"groep."
 
 #: templates/CRM/Contact/Form/Search/Intro.tpl
 #, fuzzy
@@ -11645,8 +11652,8 @@ msgstr "Smart groep"
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count group member"
 msgid_plural "Found %count group members"
-msgstr[0] "%count groepslid gevonden"
-msgstr[1] "%count groepsleden gevonden"
+msgstr[0] "Gevonden %count groepslid"
+msgstr[1] "Gevonden %count groepsleden"
 
 #: templates/CRM/Contact/Form/Search/ResultTasks.tpl
 msgid "Found %count contact"
@@ -11664,7 +11671,7 @@ msgstr "alleen geselecteerde records"
 msgid "the found record"
 msgid_plural "all %count records"
 msgstr[0] "het gevonden record"
-msgstr[1] "alle %count gevonden records"
+msgstr[1] "alle %count records"
 
 #: templates/CRM/Contact/Form/Search/table.tpl
 msgid "Include contacts where"
@@ -11711,8 +11718,8 @@ msgid ""
 "Are you sure you want to Delete the selected contacts? A Delete operation "
 "cannot be undone."
 msgstr ""
-"Weet u zeker dat u deze geselecteerde contacten wilt verwijderen? Deze actie "
-"kan niet hersteld woden."
+"Wilt U de geselecteerde contacten verwijderen? Deze actie kan niet hersteld "
+"worden."
 
 #: templates/CRM/Contact/Form/Task/Email.tpl
 msgid ""
@@ -11759,7 +11766,7 @@ msgid ""
 "(e.g. <strong>Last Name</strong> will not be populated for an Organization "
 "record)."
 msgstr ""
-"Selecteer de velden, die geexporteerd moeten worden. Eerst kiest u het "
+"Selecteer de velden die geexporteerd moeten worden. Eerst kiest u het "
 "contacttype, waar het veld onder valt, (bv. <strong>Personen</strong> als "
 "u   de <strong>Achternamen</strong> wilt exporteren.Daarna kiest u het "
 "betreffende veld, door dit te selecteren in het uitrolmenu, die dan "
@@ -11780,7 +11787,7 @@ msgid ""
 "Click 'Load Saved Field Mapping' to retrieve an export setup that you have "
 "previously saved."
 msgstr ""
-"Klik \"laad opgeslagen veldoverzicht' om een opgeslagen export setup te "
+"Klik 'laad opgeslagen veldoverzicht' om een opgeslagen export setup te "
 "laden."
 
 #: templates/CRM/Contact/Form/Task/Export/Map.tpl
@@ -11935,7 +11942,7 @@ msgstr "Voorkeur telefoon:"
 #: templates/CRM/Contact/Page/View/Print.tpl
 #: templates/CRM/Contact/Page/View/Tabbed.tpl
 msgid "Instant Messenger:"
-msgstr ""
+msgstr "Instant Messenger:"
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Print.tpl
@@ -12030,8 +12037,8 @@ msgid ""
 "There are no memberships recorded for this contact. You can <a href='%"
 "1'>enter one now</a>."
 msgstr ""
-"Er zijn geen deelnemersgegevens opgeslagen voor dit contact. U kunt <a href="
-"\"%1\">nu één invoeren</a>."
+"Er zijn geen lidmaatschapgegevens opgeslagen voor dit contact. U kunt <a "
+"href=\"%1\">nu een iaanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Basic.tpl
 #: templates/CRM/Contact/Page/View/Membership.tpl
@@ -12261,8 +12268,8 @@ msgid ""
 "Are you sure you want to delete the contact record and all related "
 "information for <strong>%1</strong>?"
 msgstr ""
-"Weet u zeker dat u de gegevens van dit contact (<strong>%1</strong>) en alle "
-"gerelateerde informatie wilt verwijderen?"
+"Wilt U de gegevens van dit contact (<strong>%1</strong>) en alle "
+"gerelateerde informatie verwijderen?"
 
 #: templates/CRM/Contact/Page/View/Delete.tpl
 #: templates/CRM/Group/Form/Delete.tpl
@@ -12322,7 +12329,7 @@ msgstr "Dit contact is momenteel geen lid van een groep."
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Current Groups"
-msgstr "Huidige groepslidmaatschappen"
+msgstr "Huidige groepen"
 
 #: templates/CRM/Contact/Page/View/GroupContact.tpl
 msgid "Are you sure you want to remove %1 from %2?"
@@ -12414,8 +12421,8 @@ msgstr "Er zijn geen veranderingen bijgehouden voor dit contact."
 #, fuzzy
 msgid "Click <a href='%1'>New Membership</a> to record a new membership."
 msgstr ""
-"Klik op<a href=\"%1\">Nieuw lidmaatschap</a> om een nieuw lidmaatschap aan "
-"te maken."
+"Klik op <a href=\"%1\">Nieuw lidmaatschap</a> om een nieuw lidmaatschap aan te "
+"maken."
 
 #: templates/CRM/Contact/Page/View/Membership.tpl
 msgid "Active Memberships"
@@ -12458,19 +12465,20 @@ msgstr "Datum:"
 #: templates/CRM/Contact/Page/View/Note.tpl
 #, fuzzy
 msgid "Are you sure you want to delete the note '%1'?"
-msgstr "Weet u zeker dat u notitie \"%1\" wilt verwijderen?"
+msgstr "Wilt U de notitie \"%1\" verwijderen?"
 
 #: templates/CRM/Contact/Page/View/Note.tpl
 #, fuzzy
 msgid "There are no Notes for this contact. You can <a href='%1'>add one</a>."
 msgstr ""
-"Er zijn geen notities opgeslagen voor dit contact. U kunt er één  <a href=\"%"
-"1\">aanmaken</a>."
+"Er zijn geen notities bij dit contact. U kunt er een  <a "
+"href=\"%1\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "This page lists all event registrations for %1 since inception."
 msgstr ""
-"Deze bladzijde toont alle evenement registraties van %1 sinds aanvangsdatum."
+"Deze bladzijde toont alle evenement registraties van %1 sinds de "
+"aanvangsdatum."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 #, fuzzy
@@ -12478,8 +12486,8 @@ msgid ""
 "Click <a href='%1'>New Event Registration</a> to register this contact for "
 "an event."
 msgstr ""
-"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan "
-"te melden voor een nieuw evenement."
+"Klik op <a href=\"%1'\">Nieuwe evenement aanmelding</a> om dit contact aan te "
+"melden voor een evenement."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "New Event Registration"
@@ -12491,8 +12499,8 @@ msgid ""
 "There are no event registrations recorded for this contact. You can <a "
 "href='%1'>enter one now</a>."
 msgstr ""
-"Er zijn geen evenement aanmeldingen geregistreerd voor dit contact. U "
-"kuntkan <a href=\"%1\">nu een invoeren</a>."
+"Er zijn geen evenement aanmeldingen geregistreerd voor dit contact. U kunt "
+"er <a href=\"%1\">nu een invoeren</a>."
 
 #: templates/CRM/Contact/Page/View/Participant.tpl
 msgid "There are no event registrations recorded for this contact."
@@ -12518,8 +12526,8 @@ msgid ""
 "There are no Relationships entered for this contact. You can <a href='%"
 "1'>add one</a>."
 msgstr ""
-"Er zijn geen relaties opgeslagen voor dit contact. U kunt er één <a href=\"%1"
-"\">aanmaken</a>."
+"Er zijn geen relaties van dit contact. U kunt er een <a "
+"href=\"%1\">aanmaken</a>."
 
 #: templates/CRM/Contact/Page/View/Relationship.tpl
 #, fuzzy
@@ -12611,7 +12619,7 @@ msgstr ""
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "There are no contributions on record for you."
-msgstr "Er zijn geen bijdragen voor u opgeslagen."
+msgstr "Er zijn geen bijdragen van u."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Contributions made in your honor."
@@ -12687,11 +12695,11 @@ msgstr "Nu vernieuwen"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "Expired / Inactive Memberships"
-msgstr "Verlopen/inactieve lidmaatschappen"
+msgstr "Vervallen / inactieve lidmaatschappen"
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Membership.tpl
 msgid "There are no memberships on record for you."
-msgstr "Er zijn geen lidmaatschappen voor u opgeslagen."
+msgstr "Er zijn geen lidmaatschappen van u."
 
 #: templates/CRM/Contact/Page/View/UserDashBoard/Participant.tpl
 msgid "Click on the event name for more information."
@@ -12762,8 +12770,7 @@ msgstr "Deze actie kan niet hersteld worden."
 
 #: templates/CRM/Custom/Form/DeleteFile.tpl
 msgid "WARNING: Are you sure you want to delete the attached file?"
-msgstr ""
-"WAARSCHUWING: Weet u zeker dat u het bijgevoegde bestand wilt verwijderen?"
+msgstr "WAARSCHUWING: Wilt U het bijgevoegde bestand verwijderen?"
 
 #: templates/CRM/Custom/Form/DeleteGroup.tpl
 msgid ""
@@ -13417,7 +13424,7 @@ msgstr "Kwitantie is verzonden"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "Are you sure you want to delete the group %1?"
-msgstr "Wilt u de groep %1 verwijderen ?"
+msgstr "Wilt U de groep %1 verwijderen ?"
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "This group currently has one member in it."
@@ -13430,9 +13437,9 @@ msgid ""
 "Deleting this group will NOT delete the member contact records. However, all "
 "contact subscription information and history for this group will be deleted."
 msgstr ""
-"Alle abonnements gegevens en de geschiedeniss van deze groep wordt "
-"verwijderd.Het verwijderen van deze groep resulteert NIET in het verwijderen "
-"van gegevens van leden. "
+"Het verwijderen van deze groep resulteert NIET in het verwijderen van "
+"contactgegevens. Alle abonnements gegevens en de geschiedenis van deze groep "
+"worden verwijderd."
 
 #: templates/CRM/Group/Form/Delete.tpl
 msgid "If this group is used in CiviCRM profiles, those fields will be reset."
@@ -13536,7 +13543,7 @@ msgstr "ID"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No available Groups match your search criteria. Suggestions:"
-msgstr ""
+msgstr "Er voldoen geen groepen aan de zoekcriteria. Suggesties:"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Check your spelling."
@@ -13552,7 +13559,7 @@ msgstr "Controleer of u de goede rechten heeft voor het toegangssysteem"
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "Or you can <a href='%1'>browse all available Groups</a>."
-msgstr ""
+msgstr "Of <a href='%1'>bekijk alle beschikbare groepen</a>."
 
 #: templates/CRM/Group/Page/Group.tpl
 msgid "No Groups have been created for this site."
@@ -13663,8 +13670,8 @@ msgid ""
 "CiviCRM does not allow multiple contact records to have the same primary "
 "email address."
 msgstr ""
-"CiviCRM laat niet toe, dat een emailadres gedeeld wordt door meerdere "
-"contact records."
+"CiviCRM laat niet toe, dat een primair emailadres gedeeld wordt door "
+"meerdere contacten."
 
 #: templates/CRM/Import/Form/Summary.tpl
 #, fuzzy
@@ -14074,7 +14081,7 @@ msgid ""
 "tags from <a href='%2'>Edit Tags</a>."
 msgstr ""
 "De huidige markeringen voor <strong>%1</strong> zijn versterkt weergegeven. "
-"U kunt <a href=\"%2\">hier </a> markeringen aanmaken en wijzigen."
+"U kunt <a href=\"%2\">markeringen aanmaken en wijzigen </a>."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Current tags are highlighted."
@@ -14083,8 +14090,8 @@ msgstr "De huidige markeringen zijn versterkt weergegeven."
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Mark or unmark the checkboxes, and click 'Update Tags' to modify tags."
 msgstr ""
-"Vink markering aan of uit in de boxen, of klik op \"Bijwerken markeringen\" "
-"om markeringen te wijzigen."
+"Vink de markeringen aan of uit, en klik op \"Markeringen bijwerken\" om de "
+"markeringen te wijzigen."
 
 #: templates/CRM/Tag/Form/Tag.tpl
 msgid "Edit Tags"
@@ -14621,31 +14628,31 @@ msgstr "Kop mailing"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Header"
-msgstr ""
+msgstr "Beschrijvende Titel van deze Kop"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for HTML formatted content."
-msgstr ""
+msgstr "Voorbeeld Kop met HTML inhoud."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Header for TEXT formatted content."
-msgstr ""
+msgstr "Voorbeeld Kop met TEKST inhoud."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Mailing Footer"
-msgstr "Mailing voettekst"
+msgstr "Voettekst Mailing"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Descriptive Title for this Footer."
-msgstr ""
+msgstr "Beschrijvende Titel van deze Voettekst."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for HTML formatted content."
-msgstr ""
+msgstr "Voorbeeld Voettekst met HTML inhoud."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Sample Footer for TEXT formatted content."
-msgstr ""
+msgstr "Voorbeeld Voettekst met TEKST inhoud."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Subscribe Message"
@@ -14653,7 +14660,7 @@ msgstr "Bericht bij aanmelding"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Your Subscription has been Activated"
-msgstr "Uw aanmelding is geactiveerd."
+msgstr "Uw aanmelding is geactiveerd"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Un-subscribe Confirmation"
@@ -14673,13 +14680,15 @@ msgstr "Automatische beantwoorder"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Please Send Inquiries to Our Contact Email Address"
-msgstr ""
+msgstr "Stuur vragen a.u.b. naar ons contact e-mailsadres"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid ""
 "This is an automated reply from an un-attended mailbox. Please send any "
 "inquiries to the contact email address listed on our web-site."
 msgstr ""
+"Dit is een automatisch antwoord van een mailbox. Stuur vragen a.u.b. naar "
+"het contact e-mailadres van onze website."
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Donation"
@@ -14746,7 +14755,7 @@ msgstr ""
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Postal Mail"
-msgstr "Per post"
+msgstr "Post"
 
 #: xml/templates/civicrm_add_domain.tpl
 #, fuzzy
@@ -15009,11 +15018,11 @@ msgstr "Stuur e-mail"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Current"
-msgstr "Huidig"
+msgstr "Geldig"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grace"
-msgstr "Gunst"
+msgstr "Net beeindigd"
 
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Expired"
