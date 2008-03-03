@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfDeleteTagAPI extends UnitTestCase 
 {
     protected $_tag;

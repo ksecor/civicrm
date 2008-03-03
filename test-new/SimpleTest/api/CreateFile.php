@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestofCreateFile extends UnitTestCase
 {
     function setUp()

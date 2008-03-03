@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfGetMembershipTypes extends UnitTestCase 
 {
     protected $_membershiptype   = array();

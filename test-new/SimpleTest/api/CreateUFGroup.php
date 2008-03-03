@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfCreateUFGroupAPI extends UnitTestCase 
 {
     function tearDown( ) 

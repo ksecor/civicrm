@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfGetRelationshipTypeAPI extends UnitTestCase 
 {
     private $rel ="";

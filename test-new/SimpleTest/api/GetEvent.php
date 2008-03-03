@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfGetEvent extends UnitTestCase 
 {
     protected $_event   = array();

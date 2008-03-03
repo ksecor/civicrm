@@ -1,7 +1,5 @@
 <?php
 
-require_once 'api/crm.php';
-
 class TestOfDeleteMembershipType extends UnitTestCase 
 {
     protected $_membershiptype   = array();
