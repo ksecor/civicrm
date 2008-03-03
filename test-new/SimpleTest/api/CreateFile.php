@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/File.php';
 class TestofCreateFile extends UnitTestCase
 {
     function setUp()

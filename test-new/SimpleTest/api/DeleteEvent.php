@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/Event.php';
 class TestOfDeleteEvent extends UnitTestCase 
 {
     protected $_event   = array();

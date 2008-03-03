@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/Membership.php';
 class TestOfCreateMembershipType extends UnitTestCase 
 {
     protected $_membershiptype   = array();

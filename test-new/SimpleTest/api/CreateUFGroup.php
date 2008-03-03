@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/UFGroup.php';
 class TestOfCreateUFGroupAPI extends UnitTestCase 
 {
     function tearDown( ) 

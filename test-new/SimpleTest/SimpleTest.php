@@ -62,8 +62,8 @@ function module_list( ) {
 if ( TEST == __FILE__ ) {
 
     require_once 'CRM/Core/Config.php';
-    $test =& new ApiTests( );
-//    $test2 =& new ApiV2Tests( );
+    //        $test =& new ApiTests( );
+       $test2 =& new ApiV2Tests( );
 //    $test3 =& new IssueTests( );
 //    $test4 =& new SnippetsTests( );
 
@@ -76,8 +76,8 @@ if ( TEST == __FILE__ ) {
 //        $test4->run(new CiviTextReporter());                
         exit();
     }
-    $test->run(new HtmlReporter());
-//    $test2->run(new CiviHtmlReporter());    
+    //   $test->run(new HtmlReporter());
+       $test2->run(new CiviHtmlReporter());    
 //    $test3->run(new HtmlReporter());    
 //    $test4->run(new HtmlReporter());
 }
