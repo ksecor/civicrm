@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-05-07 11:19+0200\n"
-"PO-Revision-Date: 2008-01-21 21:30-0800\n"
-"Last-Translator: Piotr Szotkowski <shot@civicrm.org>\n"
+"PO-Revision-Date: 2008-02-27 04:50-0800\n"
+"Last-Translator: Lukasz Zawadzki <lucas.zaw@gmail.com>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,8 +35,9 @@ msgstr "zarządzanie CiviCRM-em"
 msgid "access uploaded files"
 msgstr "dostęp do wgranych plików"
 
+#, fuzzy
 msgid "profile listings and forms"
-msgstr ""
+msgstr "listingi profilu"
 
 msgid "access all custom data"
 msgstr "dostęp do danych dodatkowych"
@@ -45,7 +46,7 @@ msgid "access CiviCRM"
 msgstr "dostęp do CiviCRM-a"
 
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "dostęo do tablicy kontaktów"
 
 #: drupal/civicrm.module
 msgid ""
@@ -107,7 +108,6 @@ msgid "You can:"
 msgstr "Możesz:"
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid "read the <a href=\"!1\">CiviCRM Administrator Guide</a>."
 msgstr "przeczytaj <a href=\"%1\">Przewodnik administratora CiviCRM</a>."
 
@@ -119,7 +119,6 @@ msgid ""
 msgstr "włącz blok CiviCRM: <a href=\"%1\">zarządzaj &gt;&gt; bloki</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "read about <a href=\"!1\">CiviCRM access permissions</a> and set access "
 "permissions at <a href=\"!2\">Administer CiviCRM &raquo; Access Control</a>."
@@ -128,38 +127,33 @@ msgstr ""
 "\"%2\">zarządzaj &gt;&gt; kontrola dostępu</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "find contacts by name, email address, group membership and or tagging at <a "
 "href=\"!1\">Find Contacts</a>."
 msgstr ""
-"szukać kontaktów według nazwy, emaila, adresu, przynależności do grupy i/lub "
+"znaleźć kontakty według nazwy, emaila, adresu, przynależności do grupy i/lub "
 "kategorii pod <a href=\"%1\">Szukanie kontaktów</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "do complex searches based on tags, group membership, location, activities "
 "and custom fields at <a href=\"!1\">Advanced Search</a>."
 msgstr ""
-"robić złożone wyszukiwania oparte o kategorie, przynależność do grup, "
-"lokalizację, zdarzenia i pola danych dodatkowych: <a href=\"%1\">szukanie "
-"zaawansowane</a>."
+"przeprowadzić złożone wyszukiwania oparte o kategorie, przynależność do "
+"grup, lokalizację, zdarzenia i pola danych dodatkowych: <a "
+"href=\"%1\">Szukanie zaawansowane</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid "create or manage groups at <a href=\"!1\">Manage Groups</a>."
-msgstr "tworzyć i zarządzać grupami: <a href=\"%1\">zarządzanie grupami</a>."
+msgstr "utworzyc i zarządzać grupami: <a href=\"%1\">Ząrzdzanie grupami</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "import contacts from other sources at <a href=\"!1\">Import Contacts</a>."
 msgstr ""
 "importować kontakty z innych źródeł: <a href=\"%1\">Import kontaktów</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer tags (e.g. organizer, foundation, environment...) at <a "
 "href=\"!1\">CiviCRM &raquo; Administer &raquo; Tags</a>."
@@ -168,7 +162,6 @@ msgstr ""
 "href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; kategorie</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer relationship types (e.g. household member, board "
 "member, spouse...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; "
@@ -179,46 +172,42 @@ msgstr ""
 "rodzaje powiązań</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer location types (e.g. home, work, school...) <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; Location Types</a>."
 msgstr ""
-"tworzyć i zarządzać rodzajami lokalizacji (np. dom, praca, szkoła…): <a href="
-"\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; rodzaje lokalizacji</a>."
+"tworzyć i zarządzać rodzajami lokalizacji (np. dom, praca, szkoła…): <a "
+"href=\"%1\">CiviCRM &raquo; zarządzanie &raquo; rodzaje lokalizacji</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer activity types (e.g. house meeting, intake "
 "interview...) at <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Activity "
 "Types</a>."
 msgstr ""
 "tworzyć i zarządzać rodzajami aktywności (np. spotkanie domowe, spotkanie "
-"rekrutacyjne…): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;&gt; rodzaje "
+"rekrutacyjne…): <a href=\"%1\">CiviCRM &raquo; zarządzanie &raquo; Rodzaje "
 "zdarzeń</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer custom data fields (e.g. volunteer skills, emergency "
 "contact info...) <a href=\"!1\">CiviCRM &raquo; Administer &raquo; Custom "
 "Data</a>."
 msgstr ""
 "tworzyć i zarządzać polami danych dodatkowych (np. umiejętności "
-"wolontariusza, kontakt w nagłych przypadkach…): <a href=\"%1\">CiviCRM &gt;"
-"&gt; zarządzanie &gt;&gt; dane dodatkowe</a>."
+"wolontariusza, kontakt w nagłych przypadkach…): <a href=\"%1\">CiviCRM &raquo; "
+"zarządzanie &raquo; Dane dodatkowe</a>."
 
 #: drupal/civicrm.module
-#, fuzzy
 msgid ""
 "create or administer CiviCRM profiles (i.e. what contact data is collected "
 "during user registration and included in My Account) at <a href=\"!1"
 "\">CiviCRM &raquo; Administer &raquo; CiviCRM Profiles</a>."
 msgstr ""
 "tworzyć i zarządzać profilami CiviCRM (danymi zbieranymi podczas "
-"rejestrowania użytkowników): <a href=\"%1\">CiviCRM &gt;&gt; zarządzanie &gt;"
-"&gt; profile CiviCRM</a>."
+"rejestrowania użytkowników): <a href=\"%1\">CiviCRM &raquo; zarządzanie "
+"&raquo; Profile CiviCRM</a>."
 
 #: drupal/civicrm.module
 msgid ""
@@ -226,6 +215,8 @@ msgid ""
 "which includes project information, documentation and support resources and "
 "more."
 msgstr ""
+"Więcej informacji <a href=\"!1\"> na stronie CiviCRM</a> - informacje o "
+"projekcie, dokumentacja, pomoc i wiele więcej."
 
 #: drupal/civicrm.module
 msgid ""
@@ -235,14 +226,18 @@ msgid ""
 "the <a href=\"!2\">CiviCRM web-site</a> which includes project information, "
 "documentation and support resources and more."
 msgstr ""
+"Komponent Zarządzania Relacjami (CiviCRM !1) pozwala zarządzać kontaktami, "
+"relacjami i grupami oraz śledzić zdarzenia związane z kontaktami, udziały, "
+"członków i zdarzenia. Więcej informacjina stronie <a href=\"!2\">CiviCRM</a>, "
+"która zawiera informacje o projekcie, dokumentację, wsparcie i wiele więcej."
 
 #: drupal/civicrm.module
 msgid "View Contact Record"
-msgstr ""
+msgstr "Zobacz wpisy kontaktów"
 
 #: drupal/civicrm.module
 msgid "View Contact Dashboard"
-msgstr ""
+msgstr "Zobacz tablicę kontaktów"
 
 #~ msgid ""
 #~ "For more information please read the configuration and customization "

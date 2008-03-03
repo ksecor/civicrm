@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-02-25 08:17-0800\n"
+"PO-Revision-Date: 2008-02-28 13:17-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1937,7 +1937,7 @@ msgstr "Data fine"
 
 #: CRM/Event/DAO/Participant.php
 msgid "Fee level"
-msgstr ""
+msgstr "Tipo di costo"
 
 #: CRM/Event/Form/ManageEvent/Delete.php
 msgid ""
@@ -2180,9 +2180,8 @@ msgid ""
 msgstr ""
 
 #: CRM/Event/Form/Registration/Register.php
-#, fuzzy
 msgid "Fee Level is a required field."
-msgstr "%1 è un campo obbligatorio."
+msgstr "Il tipo di costo è un campo obbligatorio."
 
 #: CRM/Event/Form/Registration/Register.php
 #, fuzzy
@@ -2315,6 +2314,10 @@ msgid ""
 "pre-conference workshops, additional meals, etc.). Configure Price Sets for "
 "events which need more than a single set of fee levels."
 msgstr ""
+"Gli insiemi di prezzi permettono di offrire più opzioni per i costi "
+"associati (workshop prima della conferenza, pasti aggiuntivi etc). "
+"Configurate gli Insiemi di prezzi per gli eventi per cui serve più di un "
+"insieme di livelli di costo."
 
 #: CRM/Event/Menu.php templates/CRM/Event/Form/Search.tpl
 #, fuzzy
@@ -2410,9 +2413,8 @@ msgid "Delete Participation"
 msgstr "Elimina Opzione"
 
 #: CRM/Event/Selector/Search.php templates/CRM/Event/Form/Task/Print.tpl
-#, fuzzy
 msgid "Fee Level"
-msgstr "Etichetta del campo"
+msgstr "Livello di costo"
 
 #: CRM/Event/Selector/Search.php
 #, fuzzy
@@ -4774,6 +4776,11 @@ msgid ""
 "'Doe, Jane'. For partial name search, use '%partialname' ('%' equals 'begins "
 "with any combination of letters')."
 msgstr ""
+"Per cercare un contatto di cui si conosce sia il nome che il cognome, è "
+"necessario inserire prima il cognome e poi il nome, separati da una virgola "
+"(ad esempio: “Verdi, Gino”). Per una ricerca parziale, invece, inserire "
+"parte del  nome o del cognome usando il simbolo “%” per identificare la "
+"parte non nota: “Ver%” darà tutti i cognomi che cominciano per \"Ver\"."
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "View all contributions from this contact"
@@ -4781,7 +4788,7 @@ msgstr ""
 
 #: templates/CRM/Contribute/Form/Selector.tpl
 msgid "List more contributions"
-msgstr ""
+msgstr "Visualizza altri contributi"
 
 #: templates/CRM/Contribute/Form/Task/Batch.tpl
 msgid ""
@@ -4811,6 +4818,9 @@ msgid ""
 "contributor contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
+"Cliccate su <strong>Esporta contributi</strong> per scaricare un file CSV di "
+"dati. Ciascuna riga conterrà anche le informazioni per contattare il "
+"contribuente (nome, indirizzo, email, telefono etc) disponibili."
 
 #: templates/CRM/Contribute/Form/Task/PickProfile.tpl
 msgid "Batch Update Contribution via Profile"
@@ -4957,6 +4967,10 @@ msgid ""
 "and must contain data needed to match the contribution to an existing "
 "contact in your CiviCRM database."
 msgstr ""
+"I file da importare devono essere in formato CSV (comma-separated values, "
+"esportabile dai fogli di calcolo) e devono contenere i dati necessari per "
+"corrispondere ai contributi di un contatto esistente nel database di "
+"CiviCRM."
 
 #: templates/CRM/Contribute/Import/Form/UploadFile.tpl
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
@@ -5115,6 +5129,7 @@ msgstr "Tipo di contributo"
 msgid ""
 "Review your customized <strong>LIVE</strong> online contribution page here."
 msgstr ""
+"Rivedi la tua pagina di contributi <strong>LIVE</strong> personalizzata qui."
 
 #: templates/CRM/Contribute/Page/ContributionPageEdit.tpl
 msgid ""
@@ -5188,17 +5203,14 @@ msgstr ""
 "\">aggiungine uno ora</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "CiviContribute allows you to create customized page(s) for collecting online "
 "contributions. Administrators can create or modify your Online Contribution "
 "Pages from <a href='%1'>here</a>."
 msgstr ""
-"CiviMember ti permette di creare tipologie di iscrizioni personalizzate, "
-"nonchè una o più pagine per l'iscrizione ed il rinnovo online. Gli "
-"Amministratori possono creare o modificare le Tipologie di Iscrizione <a "
-"href=\"%2\">here</a>, e configurare le pagine del Contributo Online che "
-"include la procedura d'iscrizione<a href=\"%1\">here</a>."
+"CiviContribute ti permette di creare pagine personalizzate per raccogliere i "
+"contributi online. Gli amministratori possono creare o modificare le pagine "
+"di contributi online  <a href=\"%2\">here</a>."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 #, fuzzy
@@ -5221,7 +5233,6 @@ msgid "Contributions Summary"
 msgstr ""
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Contribution Totals</strong>, and "
 "includes shortcuts to view the contribution details for these commonly used "
@@ -5229,11 +5240,11 @@ msgid ""
 "1'>Find Contributions</a>. You can search by Contributor Name, Amount Range, "
 "and a variety of other criteria."
 msgstr ""
-"Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo, "
+"Questa tabella fornisce un riassunto dei <strong>contributi totali</strong>, "
 "ed include collegamenti diretti ai dettagli per i criteri di ricerca più "
-"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1"
-"\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di Iscrizione, "
-"Stato, e Data di iscrizione."
+"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a "
+"href=\"%1\">Trova Contributi</a>. Puoi cercare per Nome Contribuente, "
+"Intervallo di ammontare e molti altri criteri."
 
 #: templates/CRM/Contribute/Page/DashBoard.tpl
 msgid "Current Month-To-Date"
@@ -5429,11 +5440,14 @@ msgid ""
 "enter one or more fee levels in the table below. Create or edit Price Sets "
 "<a href='%1'>here</a>."
 msgstr ""
+"Seleziona un Insieme di prezzi preconfigurato per offrire più opzioni "
+"singole per i partecipanti all'evento. Altrimenti seleziona "
+"&quot;-nessuno-&quot; ed inserisci uno o pià livelli di costo nella tabella "
+"qui sotto. Crea o modifica gli Insiemi di prezzi <a href=\"%1\">qui</a>."
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
-#, fuzzy
 msgid "Fee Levels"
-msgstr "Etichetta del campo"
+msgstr "Livelli di costo"
 
 #: templates/CRM/Event/Form/ManageEvent/Fee.tpl
 msgid ""
@@ -5441,11 +5455,14 @@ msgid ""
 "event fee levels. These will be presented as a list of radio button options. "
 "Both the label and dollar amount will be displayed."
 msgstr ""
+"Usa la tabella qui sotto per inserire delle etichette descrittive e degli "
+"importi per un massimo di dieci livelli di costo. Questi verranno presentati "
+"sotto forma di opzioni radio. Verranno mostrate le etichette e l'importo in "
+"dollari."
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
-#, fuzzy
 msgid "Event Location and Contact Information"
-msgstr "Note Contatto"
+msgstr "Luogo evento e informazioni di contatto"
 
 #: templates/CRM/Event/Form/ManageEvent/Location.tpl
 msgid ""
@@ -5615,7 +5632,7 @@ msgstr "Fonte registrazione (se applicabile)"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid "Event Fee Level (if applicable)."
-msgstr ""
+msgstr "Livello di costo dell'evento (se applicabile)"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Member/Form/MembershipRenewal.tpl
@@ -5638,25 +5655,21 @@ msgid "Select the appropriate contribution type for this payment."
 msgstr "Il tipo di contributo selezionato è stato cancellato."
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Registration Confirmation and Receipt"
-msgstr "Note Contatto"
+msgstr "Conferma registrazione e ricevuta"
 
 #: templates/CRM/Event/Form/Participant.tpl
 #: templates/CRM/Event/Form/Registration/ReceiptSubject.tpl
-#, fuzzy
 msgid "Registration Confirmation"
-msgstr "Note Contatto"
+msgstr "Conferma registrazione"
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Send Confirmation and Receipt"
-msgstr "Cod. Contabilità"
+msgstr "Invia conferma e ricevuta"
 
 #: templates/CRM/Event/Form/Participant.tpl
-#, fuzzy
 msgid "Send Confirmation"
-msgstr "Cod. Contabilità"
+msgstr "Invia conferma"
 
 #: templates/CRM/Event/Form/Participant.tpl
 msgid ""
@@ -5818,7 +5831,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "(no fee)"
-msgstr ""
+msgstr "(gratuito)"
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "View all events for this contact"
@@ -5826,7 +5839,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/Selector.tpl
 msgid "List more Event Participants"
-msgstr ""
+msgstr "Visualizza altri partecipanti all'evento"
 
 #: templates/CRM/Event/Form/Task/Batch.tpl
 msgid ""
@@ -5863,6 +5876,9 @@ msgid ""
 "participant contact information (name, address, email, phone...) as "
 "available."
 msgstr ""
+"Cliccate su <strong>Esporta partecipanti</strong> per scaricare un file CSV "
+"di dati. Ciascuna riga conterrà anche le informazioni per contattare il "
+"partecipante (nome, indirizzo, email, telefono) disponibili."
 
 #: templates/CRM/Event/Form/Task/PickProfile.tpl
 msgid "Batch Update Event via Profile"
@@ -5900,9 +5916,13 @@ msgid ""
 "1'><strong>new events</strong></a> and <a href='%2'><strong>manage existing "
 "events</strong></a>."
 msgstr ""
+"CiviEvent permette di creare pagine personalizzate per la creazione di "
+"eventi e per l'iscrizione online da parte degli utenti. Gli amministratori "
+"hanno la possibilità di creare <a href=\"%1\"><strong>nuovi "
+"eventi</strong></a> e <a href=\"%2\"><strong>gestire quelli già "
+"inseriti</strong></a>."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "You can also input and track offline Events. To enter events manually for "
 "individual contacts, use <a href='%1'>Find Contacts</a> to locate the "
@@ -5910,15 +5930,14 @@ msgid ""
 "click on the <strong>New Event</strong> link. You can also <a href='%"
 "2'><strong>import batches of participants</strong></a> from other sources."
 msgstr ""
-"Potete anche immettere e tracciare gli Eventi off-line. Per registrare gli "
-"eventi manualmente per contatti individuo, usate <a href=\"%1\">Trova "
-"Contatti</a> per localizzare il contatto. Poi cliccate <strong>Visualizza</"
-"strong> per andare alla pagina con il riassunto e cliccate sul link "
-"<strong>Nuovo evento</strong>Potete anche <a href=\"%3\"> importare un "
-"gruppo di partecipanti</a> da altre fonti. "
+"Potete anche immettere e tracciare gli Eventi off-line. Per inserire "
+"manualmente dei contatti in un evento, usate <a href=\"%1\">Trova Contatti</a> "
+"per localizzare i contatti. Poi cliccate <strong>Visualizza</strong> per "
+"andare alla pagina del riassunto e cliccate sul link <strong>Nuovo "
+"evento</strong>. Potete anche <a href=\"%3\"> importare un gruppo di "
+"partecipanti</a> da altre fonti. "
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "This table provides a summary of up to ten scheduled and recent "
 "<strong>Events</strong>. Click the <strong>Event name</strong> to view the "
@@ -5927,11 +5946,14 @@ msgid ""
 "your own customized searches - click <a href='%1'>Find Participants</a>. You "
 "can search by Participant Name, Event, Date Range and Status."
 msgstr ""
-"Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo, "
-"ed include collegamenti diretti ai dettagli per i criteri di ricerca più "
-"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1"
-"\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di Iscrizione, "
-"Stato, e Data di iscrizione."
+"Questa tabella fornisce un riassunto degli ultimi dieci "
+"<strong>Eventi</strong> registrati. Cliccando sul <strong>Nome "
+"dell'evento</strong> è possibile avere un'anteprima di come sarà "
+"visualizzato dai visitatori del sito. Cliccate sul <strong>conteggio dei "
+"partecipanti</strong> per visualizzare l'elenco dei partecipanti. Per "
+"eseguire le vostre ricerche personalizzate cliccate si <a href=\"%1\">Trova "
+"Partecipanti</a>. Potete cercare per Nome Partecipante, Evento, intervallo "
+"di date e stato."
 
 #: templates/CRM/Event/Page/DashBoard.tpl
 msgid "(max %1)"
@@ -5942,9 +5964,8 @@ msgid "Browse more events"
 msgstr ""
 
 #: templates/CRM/Event/Page/DashBoard.tpl
-#, fuzzy
 msgid "Recent Registrations"
-msgstr "Raccomandazioni"
+msgstr "Registrazioni recenti"
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -5970,6 +5991,10 @@ msgid ""
 "(s) and contribution type assigned to fees. Give online registrants the "
 "option to 'pay later' (e.g. mail in a check, call in a credit card, etc.)."
 msgstr ""
+"Determinate se questo evento è a pagamento o gratuito. Per gli eventi a "
+"pagamento, impostate il livello di costo e il tipo di contributo assegnato "
+"ai costi. Date a chi si registra l'opzione di \"pagare più tardi\" (con un "
+"assegno nella posta, un bonifico etc)."
 
 #: templates/CRM/Event/Page/ManageEventEdit.tpl
 msgid ""
@@ -6882,7 +6907,7 @@ msgstr ""
 
 #: templates/CRM/Member/Form/Selector.tpl
 msgid "List more Memberships"
-msgstr ""
+msgstr "Visualizza altre iscrizioni"
 
 #: templates/CRM/Member/Form/Task/Delete.tpl
 msgid ""
@@ -6905,8 +6930,8 @@ msgid ""
 msgstr ""
 "Clicca <strong>Esporta Iscrizioni</strong> per scaricare file con valori "
 "separati da virgole (CSV) dei dati iscrizione. Ogni riga includerà inoltre "
-"le informazioni disponibili sui contatti del membro (nome, indirizzo, email, "
-"telefono...)."
+"le informazioni disponibili per contattare l'iscritto  (nome, indirizzo, "
+"email, telefono...)."
 
 #: templates/CRM/Member/Form/Task/Print.tpl
 msgid "Start/Renew Date"
@@ -7008,6 +7033,10 @@ msgid ""
 "and must contain data needed to match the membership data to an existing "
 "contact in your CiviCRM database."
 msgstr ""
+"I file da importare devono essere in formato CSV (comma-separated values, "
+"esportabile dai fogli di calcolo) e devono contenere i dati necessari per "
+"corrispondere ai dati di iscrizione di un contatto esistente nel database di "
+"CiviCRM."
 
 #: templates/CRM/Member/Import/Form/UploadFile.tpl
 msgid ""
@@ -7058,7 +7087,6 @@ msgid "Membership Summary"
 msgstr "Riassunto iscrizione"
 
 #: templates/CRM/Member/Page/DashBoard.tpl
-#, fuzzy
 msgid ""
 "This table provides a summary of <strong>Membership Signup and Renewal "
 "Activity</strong>, and includes shortcuts to view the details for these "
@@ -7066,11 +7094,11 @@ msgid ""
 "<a href='%1'>Find Members</a>. You can search by Member Name, Membership "
 "Type, Status, and Signup Date Ranges."
 msgstr ""
-"Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo, "
-"ed include collegamenti diretti ai dettagli per i criteri di ricerca più "
-"utilizzati. Per eseguire le tue ricerche personalizzate clicca <a href=\"%1"
-"\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di Iscrizione, "
-"Stato, e Data di iscrizione."
+"Questa tabella fornisce un riassunto dell'attività di iscrizione e rinnovo "
+"dei membri, ed include collegamenti diretti ai dettagli per i criteri di "
+"ricerca più utilizzati. Per eseguire le tue ricerche personalizzate clicca "
+"<a href=\"%1\">Trova Membri</a>. Puoi cercare per Nome Membro, Tipologia di "
+"Iscrizione, Stato, e intervallo di date di iscrizione."
 
 #: templates/CRM/Member/Page/DashBoard.tpl
 msgid "Members by Type"

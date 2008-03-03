@@ -2082,7 +2082,7 @@ msgstr "Edytuj pole"
 
 #: CRM/Core/Invoke.php CRM/Price/Page/Set.php templates/CRM/Price/Form/Set.tpl
 msgid "Price Set"
-msgstr ""
+msgstr "Ustaw cenę"
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
@@ -2091,7 +2091,7 @@ msgstr "Zarządzanie grupami"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Powiedz znajomym"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2139,8 +2139,9 @@ msgstr "Etykieta pola"
 #: templates/CRM/Admin/Page/Options.tpl templates/CRM/Custom/Page/Field.tpl
 #: templates/CRM/Custom/Page/Group.tpl templates/CRM/Price/Page/Field.tpl
 #: templates/CRM/UF/Page/Field.tpl templates/CRM/UF/Page/Group.tpl
+#, fuzzy
 msgid "Order"
-msgstr ""
+msgstr "Uporządkowane"
 
 #: CRM/Custom/Form/Field.php CRM/Custom/Form/Option.php
 #: CRM/Price/Form/Field.php CRM/Price/Form/Option.php
@@ -2156,7 +2157,7 @@ msgstr "Wymagane?"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
 msgid "must be a numeric value"
-msgstr ""
+msgstr "musi być wartością numeryczną"
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 msgid "Field Help"
@@ -2220,24 +2221,25 @@ msgstr "Ustawienia"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Sugerowana wiadomość"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
+#, fuzzy
 msgid "Thanks for Spreading the Word"
-msgstr ""
+msgstr "Dziękujemy za rozpowszechnienie słowa"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 #: xml/templates/civicrm_add_domain.tpl
 msgid "Grant Type"
-msgstr ""
+msgstr "Typ stypendium"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant Status"
-msgstr ""
+msgstr "Status stypendium"
 
 #: CRM/Grant/BAO/Query.php CRM/Grant/Form/Grant.php
 msgid "Grant report received?"
-msgstr ""
+msgstr "Przyjęto raport stypendium?"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
@@ -2256,7 +2258,7 @@ msgstr "Wartość opcji"
 
 #: CRM/Grant/Form/Task/Delete.php CRM/Grant/Task.php
 msgid "Delete Grants"
-msgstr ""
+msgstr "Usuń stypendia"
 
 #: CRM/Grant/Import/Form/UploadFile.php CRM/Import/Form/UploadFile.php
 msgid "No Duplicate Checking"
@@ -2288,12 +2290,12 @@ msgstr "Tablica bytu rodzicielskiego"
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "Serwer URL"
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
 msgid "Upgrade & Continue"
-msgstr ""
+msgstr "Uaktualnij i kontynuuj"
 
 #: CRM/ACL/BAO/ACL.php
 msgid "Contact Group"
@@ -2329,51 +2331,53 @@ msgstr "Cofnij"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "dodaj kontakty"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "pokaż wszystkie kontakty"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "edytuj wszystkie kontakty"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
-msgstr ""
+msgstr "importuj kontakty"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "edytuj grupy"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
-msgstr ""
+msgstr "administruj CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access uploaded files"
-msgstr ""
+msgstr "udostępnij wgrane pliki"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "profile listings and forms"
-msgstr ""
+msgstr "listing profilu i formy"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access all custom data"
-msgstr ""
+msgstr "udostępnij wszystkie dopasowane dane"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "access CiviCRM"
-msgstr ""
+msgstr "dostęp CiviCRM"
 
 #: CRM/ACL/Form/ACLBasic.php
+#, fuzzy
 msgid "access Contact Dashboard"
-msgstr ""
+msgstr "udostępnij tablicę kontaktów"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
-msgstr ""
+msgstr "Typ ACL"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A group of contacts"
@@ -2449,7 +2453,7 @@ msgstr "Przypisz użytkowników do ról"
 
 #: CRM/Activity/BAO/Activity.php
 msgid "- Activity Fields -"
-msgstr ""
+msgstr "- Aktywne pola -"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity %2 %1"
@@ -2461,7 +2465,7 @@ msgstr ""
 
 #: CRM/Activity/BAO/Query.php
 msgid "Violation Type %2 %1"
-msgstr ""
+msgstr "Typ naruszeń %2 %1"
 
 #: CRM/Activity/BAO/Query.php
 msgid "Case Activity Subject %2 %1"
@@ -2477,7 +2481,7 @@ msgstr ""
 
 #: CRM/Activity/BAO/Query.php
 msgid "Content"
-msgstr ""
+msgstr "Zawartość"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity ID"
@@ -2485,15 +2489,15 @@ msgstr "Identyfikator zdarzenia"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Type ID"
-msgstr ""
+msgstr "Typ identyfikatora zdarzenia"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Date Time"
-msgstr ""
+msgstr "Czas zdarzenia"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Due Date Time"
-msgstr ""
+msgstr "Data płatności"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Phone Number"
@@ -2501,7 +2505,7 @@ msgstr "Numer telefonu"
 
 #: CRM/Activity/DAO/Activity.php
 msgid "Activity Status Label"
-msgstr ""
+msgstr "Status zdarzenia"
 
 #: CRM/Activity/DAO/Activity.php
 #, fuzzy
@@ -2519,7 +2523,7 @@ msgstr "Inne zdarzenia"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "- wybierz zdarzenie -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
@@ -2527,27 +2531,28 @@ msgstr "Z kontaktem"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Source Contact non-existant!"
-msgstr ""
+msgstr "Źródło konatktu nie istnieje!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Target Contact non-existant!"
-msgstr ""
+msgstr "Kontakt docelowy nie istnieje!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Assignee Contact non-existant!"
-msgstr ""
+msgstr "Przypisany kontakt nie istnieje!"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Invalid Case"
-msgstr ""
+msgstr "Nieprawidłowe zdarzenie"
 
 #: CRM/Activity/Form/Activity.php
 msgid "Selected Activity is deleted sucessfully."
-msgstr ""
+msgstr "Wybrane zdarzenie zostało pomyślnie usunięte."
 
 #: CRM/Activity/Form/Activity.php
+#, fuzzy
 msgid "Selected Activity has been sucessfully detached from a case."
-msgstr ""
+msgstr "Wybrane zdarzenie zostało zostało pomyślnie oddzielone od pozostałych."
 
 #: CRM/Activity/Form/Activity.php
 #, fuzzy
@@ -2559,8 +2564,9 @@ msgid "On duplicate entries"
 msgstr "W powtórzonych wpisach"
 
 #: CRM/Activity/Import/Parser/Activity.php
+#, fuzzy
 msgid "Please select either Activity Type ID OR Activity Type Label."
-msgstr ""
+msgstr "Proszę wybrać ID zdarzenia bądź typ etykiety"
 
 #: CRM/Activity/Import/Parser.php
 msgid "View Activity History URL"
@@ -2568,7 +2574,7 @@ msgstr "Zobacz URL historii zdarzeń"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Update Activity"
-msgstr ""
+msgstr "Uaktualnij zdarzenie"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Delete Activity"
@@ -2576,11 +2582,11 @@ msgstr "Usuń zdarzenie"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Detach Activity"
-msgstr ""
+msgstr "Oddziel zdarzenie"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Activities %%StatusMessage%%"
-msgstr ""
+msgstr "Zdarzenia %%menadżer statusu%%"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
@@ -2600,7 +2606,7 @@ msgstr "SMS"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "CiviCRM Activity"
-msgstr ""
+msgstr "Zdarzenia CiviCRM"
 
 #: CRM/Activity/Selector/Activity.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
@@ -2619,11 +2625,12 @@ msgstr "- dowolny -"
 
 #: CRM/Admin/Form/DedupeRules.php templates/CRM/Admin/Form/DedupeRules.tpl
 msgid "Length"
-msgstr ""
+msgstr "Długość"
 
 #: CRM/Admin/Form/DedupeRules.php
+#, fuzzy
 msgid "Weight Threshold to Consider Contacts 'Matching':"
-msgstr ""
+msgstr "Wysokość progu dla rozpatrywanych kontaktów 'Dopasowana':"
 
 #: CRM/Admin/Form/DupeMatch.php
 msgid "Match On:"
@@ -8364,8 +8371,11 @@ msgid "Title not Set"
 msgstr ""
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
+#: CRM/Upgrade/TwoZero/Form/Step2.php
 msgid "Database check failed - the current database is not v1.9."
 msgstr ""
+"Sprawdzanie pazy danych nie powiodło się - aktualna baza nie jest w wersji "
+"1.9."
 
 #: CRM/Upgrade/TwoZero/Form/Step1.php
 msgid ""

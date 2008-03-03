@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-02-18 20:34-0800\n"
+"PO-Revision-Date: 2008-03-03 01:46-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgid "Austria"
 msgstr "आँस्ट्रीया"
 
 msgid "Azerbaijan"
-msgstr ""
+msgstr "अझेरबैजान"
 
 msgid "Bahrain"
 msgstr "बहरीन"
@@ -153,7 +153,7 @@ msgid "Christmas Island"
 msgstr "क्रिसमस आइसलँन्ड"
 
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "काकाेस ( किलींग )आइसलँन्ड"
 
 msgid "Colombia"
 msgstr "काेलंबिया"
@@ -204,7 +204,7 @@ msgid "Timor-Leste"
 msgstr ""
 
 msgid "Ecuador"
-msgstr ""
+msgstr "इक्वाडाेर"
 
 msgid "Egypt"
 msgstr "इजिप्त"
@@ -213,19 +213,19 @@ msgid "El Salvador"
 msgstr ""
 
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "इक्वाेटाेरियल गुनिया"
 
 msgid "Eritrea"
-msgstr ""
+msgstr "इरिट्रा"
 
 msgid "Estonia"
-msgstr ""
+msgstr "इस्टाेनिआ"
 
 msgid "Ethiopia"
 msgstr "इथाेपिया"
 
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "फाल्कलँन्ड आइसलँन्डस्( मालविनाज)"
 
 msgid "Faroe Islands"
 msgstr ""
@@ -246,13 +246,13 @@ msgid "French Polynesia"
 msgstr "फ्रेंच पाेलीनेशिया"
 
 msgid "French Southern Territories"
-msgstr ""
+msgstr "फ्रेंच साउर्थन टेरिटरी"
 
 msgid "Gabon"
-msgstr ""
+msgstr "गँबान"
 
 msgid "Georgia"
-msgstr ""
+msgstr "जँाेरजिया"
 
 msgid "Germany"
 msgstr "जर्मनी"
@@ -261,7 +261,7 @@ msgid "Ghana"
 msgstr "घाना"
 
 msgid "Gibraltar"
-msgstr ""
+msgstr "गिब्रालटर"
 
 msgid "Greece"
 msgstr "ग्रीस"
@@ -360,7 +360,7 @@ msgid "Kuwait"
 msgstr "कुवैत"
 
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "क्रिगीजस्थान"
 
 msgid "Lao People's Democratic Republic"
 msgstr ""
@@ -372,7 +372,7 @@ msgid "Lebanon"
 msgstr "लेबनान"
 
 msgid "Lesotho"
-msgstr ""
+msgstr "लेसाेथाे"
 
 msgid "Liberia"
 msgstr "लिबेरिया"
@@ -549,19 +549,19 @@ msgid "Reunion"
 msgstr "रियुनिअन"
 
 msgid "Saint Helena"
-msgstr ""
+msgstr "सेंट हेलेना"
 
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "सेंट किट्स आेैर नेवीस्"
 
 msgid "Saint Lucia"
-msgstr ""
+msgstr "सेणट लुसिया"
 
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "सेंट पिइरे आैर मिक्युलाँन"
 
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "सेंट विंसेट आैर ग्रेनाडिज"
 
 msgid "Samoa"
 msgstr ""
