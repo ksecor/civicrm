@@ -259,15 +259,15 @@ class CiviUnitTestCase extends UnitTestCase {
     /** 
      * Function to create Participant 
      *
-     * @param int $contactID
+     * @param array $params  array of contact id and event id values
      *
      * @return int $id of participant created
      */    
-    function participantCreate( $contactID ) 
+    function participantCreate( $params ) 
     { 
         $params = array(
-                        'contact_id'    => $contactID,
-                        'event_id'      => 1,
+                        'contact_id'    => $params['contactID'],
+                        'event_id'      => $params['eventID'],
                         'status_id'     => 2,
                         'role_id'       => 1,
                         'register_date' => 20070219,
@@ -389,7 +389,7 @@ class CiviUnitTestCase extends UnitTestCase {
                         'invoice_id'             => 67890,
                         'source'                 => 'SSF',
                         'contribution_status_id' => 1,
-                        'note'                   => 'Donating for Nobel Cause',
+                     // 'note'                   => 'Donating for Nobel Cause', *Fixme
                         );
         
         $contribution =& civicrm_contribution_add($params);
@@ -437,7 +437,7 @@ class CiviUnitTestCase extends UnitTestCase {
                             'is_show_location'        => 0,
                             );
         }
-        
+        require_once 'api/v2/Event.php';
         $event =& civicrm_event_create( $params );
         
         return $event;
@@ -549,7 +549,8 @@ class CiviUnitTestCase extends UnitTestCase {
      *@return int groupId of created group
      * 
      */ 
-    function groupCreate( $params = null ) {
+    function groupCreate( $params = null )
+    {
         if ( $params === null ) { 
             $params = array(
                             'name'        => 'Test Group 1',
@@ -560,8 +561,8 @@ class CiviUnitTestCase extends UnitTestCase {
                             'visibility'  => 'Public User Pages and Listings',
                             );
         }
-        
-        $result = civicrm_group_add( $params );
+        require_once 'api/v2/Group.php';
+        $result = &civicrm_group_add( $params );
         
         return $result['result'];
     }    
@@ -570,9 +571,11 @@ class CiviUnitTestCase extends UnitTestCase {
      *
      * @param int $id 
      */ 
-    function groupDelete( $gid ) {
+    function groupDelete( $gid )
+    {
         $params['id'] = $gid;
-        civicrm_group_delete( $params );
+        require_once 'api/v2/Group.php';
+        $result = &civicrm_group_delete( $params );
     }
 
     /** 
@@ -788,7 +791,6 @@ class CiviUnitTestCase extends UnitTestCase {
         }
         
         $note =& civicrm_note_create( $params );
-        
         return $note;
     }
     
@@ -803,10 +805,11 @@ class CiviUnitTestCase extends UnitTestCase {
 
         require_once 'api/v2/Note.php';
         $result = & civicrm_note_delete( $params );
+
         if ( CRM_Utils_Array::value( 'is_error', $result ) ) {
             CRM_Core_Error::fatal( 'Could not delete note' );
         }
-        
+    
         return;
     }    
      

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-02-27 01:17-0800\n"
+"PO-Revision-Date: 2008-03-03 01:18-0800\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -818,6 +818,11 @@ msgid ""
 "The Duplicate Contact record and all related information WILL BE DELETED "
 "after the Merge is complete."
 msgstr ""
+"Verwenden Sie <strong>%</strong>-Platzhalter um eine teilweise "
+"Übereinstimmungen der Suchkriterien zu ermöglichen. BEISPIEL: Das eingeben "
+"von \"Freiwilliger%\" als Aktivitätstyp würde auf alle Aktivitätstypen "
+"zutreffen die aus \"Freiwilliger\" + ein beliebiges Wort (z.B.: \"Helfer\") "
+"bestehen."
 
 #: templates/CRM/Contact/Form/Search/Advanced.hlp
 msgid ""
@@ -1062,18 +1067,14 @@ msgid "Read more..."
 msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
-#, fuzzy
 msgid ""
 "You can also allow people to choose a Role by creating a Profile with the "
 "Participant Role field. Then include that Profile when you configure the "
 "Online Registration page for this event."
 msgstr ""
-"<p>Die hier ausgewählte Teilnehmerrolle wird automatisch Personen zugewiesen "
-"die sich für die Veranstaltung anmelden (Überlicherweise die Standard "
-"\"Besucher\"-Rolle).</p>\n"
-" <p>Sie können die Teilnehmerrollenauswahl auch den Personen überlassen, "
-"indem Sie ein Profil mit dem Teilnehmerrollenfeld erstellen und dieses "
-"Profil in der Online-Anmeldungsseite für diese Veranstaltung einbinden.</p>"
+"Sie können die Teilnehmerrollenauswahl auch den Personen überlassen, indem "
+"Sie ein Profil mit dem Teilnehmerrollenfeld erstellen und dieses Profil in "
+"der Online-Anmeldungsseite für diese Veranstaltung einbinden."
 
 #: templates/CRM/Event/Form/ManageEvent/EventInfo.hlp
 msgid ""
@@ -1120,7 +1121,7 @@ msgstr ""
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid "Create a profile (e.g. 'Participant Information')."
-msgstr ""
+msgstr "Erstellen eines Profils (z.B.: \"Teilnehmer Information\")"
 
 #: templates/CRM/Event/Form/ManageEvent/Registration.hlp
 msgid ""
@@ -1132,7 +1133,7 @@ msgstr ""
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp
 msgid "Required Participant Data"
-msgstr ""
+msgstr "Benötigte Teilnehmerdaten"
 
 #: templates/CRM/Event/Import/Form/UploadFile.hlp
 #: templates/CRM/Grant/Import/Form/UploadFile.hlp

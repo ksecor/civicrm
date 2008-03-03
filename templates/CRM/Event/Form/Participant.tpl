@@ -45,63 +45,63 @@
 
         <tr><td class="label">{$form.status_id.label}</td><td>{$form.status_id.html}{if $event_is_test} {ts}(test){/ts}{/if}</td></tr>
 
-        <tr><td class="label">{$form.source.label}</td><td>{$form.source.html}</td></tr>
+        <tr><td class="label">{$form.source.label}</td><td>{$form.source.html|crmReplace:class:huge}</td></tr>
 
         <tr><td class="label">&nbsp;</td><td class="description">{ts}Source for this registration (if applicable).{/ts}</td></tr>
 
         {if $priceSet}
-        <tr><td class="label">{$form.amount.label}</td></tr>
-   	  {foreach from=$priceSet.fields item=element key=field_id}
-             {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
-                {assign var="element_name" value=price_$field_id}
-                {assign var="count" value="1"}
-                <tr><td class="label"> {$form.$element_name.label}</td>
-                  <td>
-                    <table class="form-layout-compressed">
-                    {foreach name=outer key=key item=item from=$form.$element_name}
-                        <tr>	
-                            {if is_numeric($key) }
-                                <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
-                                {if $count == $element.options_per_line}
-                                    {assign var="count" value="1"}
-                                    </tr>
-                                    <tr>			
-                                {else}
-                                    {assign var="count" value=`$count+1`}
+         <tr><td class="label">{$form.amount.label}</td>
+             <td><table class="form-layout-compressed">
+              {foreach from=$priceSet.fields item=element key=field_id}
+                 {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
+                    {assign var="element_name" value=price_$field_id}
+                    {assign var="count" value="1"}
+                    <tr><td class="label"> {$form.$element_name.label}</td>
+                        <td class="view-value">
+                        <table class="form-layout-compressed">
+                        {foreach name=outer key=key item=item from=$form.$element_name}
+                            <tr>	
+                                {if is_numeric($key) }
+                                    <td class="labels font-light"><td>{$form.$element_name.$key.html}</td>
+                                    {if $count == $element.options_per_line}
+                                        {assign var="count" value="1"}
+                                        </tr>
+                                        <tr>			
+                                    {else}
+                                        {assign var="count" value=`$count+1`}
+                                    {/if}
                                 {/if}
-                            {/if}
-                        </tr>
-                    {/foreach}
-                    {if $element.help_post}
-                        <tr><td></td><td class="description">{$element.help_post}</td></tr>
-                    {/if}
-                    </table>
-                  </td>
-                </tr>
-              {else}	
-                {assign var="name" value=`$element.name`}
-            	{assign var="element_name" value="price_"|cat:$field_id}
-                <tr><td class="label"> {$form.$element_name.label}</td>
-                  <td>
-                    <table class="form-layout-compressed">
-                        <tr>{$form.$element_name.html}</tr>
-                        {if $element.help_post}
-                            <tr><td class="description">{$element.help_post}</td></tr>
+                            </tr>
+                        {/foreach}
+                        {if $element.help_post AND $action eq 1}
+                            <tr><td></td><td class="description">{$element.help_post}</td></tr>
                         {/if}
-                    </table>	
-                  </td>
-                </tr>
-              {/if}
-           {/foreach}
-
+                        </table>
+                      </td>
+                    </tr>
+                  {else}	
+                    {assign var="name" value=`$element.name`}
+                    {assign var="element_name" value="price_"|cat:$field_id}
+                    <tr><td class="label"> {$form.$element_name.label}</td>
+                        <td class="view-value">{$form.$element_name.html}
+                            {if $element.help_post AND $action eq 1}
+                                <br /><span class="description">{$element.help_post}</span>
+                            {/if}
+                       </td>
+                    </tr>
+                  {/if}
+               {/foreach}
+              </table>
+            </td>
+       </tr>
     {else} {* NOT Price Set *}
-	{if $paid}       
-	    <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}</td>
-	{/if}
-    {/if}
-
-    {if $paid}
-    	<tr><td class="label">&nbsp;</td><td class="description">{ts}Event Fee Level (if applicable).{/ts}</td></tr>
+        {if $paid}
+            <tr><td class="label">{$form.amount.label}<span class="marker"> *</span></td><td>{$form.amount.html}
+            {if $action EQ 1}
+                <br /><span class="description">{ts}Event Fee Level (if applicable).{/ts}</span>
+            {/if}
+                </td></tr>
+        {/if}
     {/if}
 
     <tr><td class="label" style="vertical-align:top;">{$form.note.label}</td><td>{$form.note.html}</td></tr>
@@ -134,19 +134,17 @@
     <tr id="send_confirmation">
        <td class ='html-adjust' colspan=2>
            <fieldset><legend>{if $paid}{ts}Registration Confirmation and Receipt{/ts}{else}{ts}Registration Confirmation{/ts}{/if}</legend>
-             <div class="form-item">
-                 <dl>
-                    <dt class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</dt>
-                    <dd>{$form.send_receipt.html}<br />
-                    <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></dd>
-                 </dl>
-                 <div id='notice' class="form-item">
-                    <dl>
-                      <dt class="label">{$form.receipt_text.label}</dt>
-                      <dd><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</dd>
-                   </dl>
-                </div>
-             </div>
+             <table class="form-layout">
+                 <tr>
+                    <td class="label">{if $paid}{ts}Send Confirmation and Receipt{/ts}{else}{ts}Send Confirmation{/ts}{/if}</td>
+                    <td>{$form.send_receipt.html}<br />
+                    <span class="description">{ts}Automatically email a confirmation {if $paid} and receipt {/if} to {$email}?{/ts}</span></td>
+                 </tr>
+                 <tr id='notice'>
+                      <td class="label">{$form.receipt_text.label}</td>
+                      <td><span class="description">{ts}Enter a message you want included at the beginning of the confirmation email. EXAMPLE: 'Thanks for registering for this event.'{/ts}</span><br/>{$form.receipt_text.html|crmReplace:class:huge}</td>
+                </tr>
+             </table>
            </fieldset>
        </td>
     </tr> 

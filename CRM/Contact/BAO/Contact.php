@@ -701,20 +701,6 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact = CRM_Contact_BAO_Contact::getValues( $params, $defaults );
         unset($params['id']);
         
-        //DO TO: commented because of schema change
-
-//         $locParams = $params + array('entity_id' => $params['contact_id'],
-//                                      'entity_table' => self::getTableName());
-       
-//         $locationCount = CRM_Contact_BAO_Contact::getContactLocations( $params['contact_id'] ); 
-
-//         require_once "CRM/Core/BAO/Preferences.php";
-//         $contact->location     =& CRM_Core_BAO_Location::getValues( $locParams, 
-//                                                                     $defaults, 
-//                                                                     $ids, 
-//                                                                     $locationCount, 
-//                                                                     $microformat );
-
         //get the block information for this contact
         $entityBlock = array( 'contact_id' => $params['contact_id'] );
         $contact->location  =& CRM_Core_BAO_Location::getValues( $entityBlock, 
@@ -725,19 +711,9 @@ WHERE     civicrm_contact.id = " . CRM_Utils_Type::escape($id, 'Integer');
         $contact->relationship =& CRM_Contact_BAO_Relationship::getValues( $params, $defaults );
         $contact->groupContact =& CRM_Contact_BAO_GroupContact::getValues( $params, $defaults );
         
-        //DO TO: commented because of schema change
-//         $activityParam         =  array('entity_id' => $params['contact_id']);
-//         require_once 'CRM/Core/BAO/History.php';
-//         $contact->activity     =& CRM_Core_BAO_History::getValues($activityParam, $defaults, 'Activity');
-
-//         $activityParam            =  array('contact_id' => $params['contact_id']);
-//         $defaults['openActivity'] = array(
-//                                           'data'       => self::getOpenActivities( $activityParam, 0, 3 ),
-//                                           'totalCount' => self::getNumOpenActivity( $params['contact_id'] ),
-//                                           );
-
-//	DRAFTING: this should be the proper way to get open activities
-//        $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
+        // don't know why we want to retrieve contact activities
+        // DRAFTING: this should be the proper way to get open activities
+        // $contact->activity     =& CRM_Activity_BAO_Activity::getValues( $params, $defaults, $ids );
         
         return $contact;
     }
@@ -1006,15 +982,6 @@ WHERE civicrm_contact.id IN $idString ";
         // start a new transaction
         require_once 'CRM/Core/Transaction.php';
         $transaction = new CRM_Core_Transaction( );
-
-        // need to remove them from email, meeting , phonecall and other activities
-        // FIX ME: Schema Change
-        
-        // CRM_Activity_BAO_Activity::deleteContact($id);
-
-        // location shld be deleted after phonecall, since fields in phonecall are
-        // fkeyed into location/phone.
-        // CRM_Core_BAO_Location::deleteContact( $id );
 
         $contact->delete( );
 
@@ -1371,19 +1338,35 @@ WHERE civicrm_contact.id IN $idString ";
      * @access public
      * @static
      */
-    static function getPrimaryLocationType($contactId) 
+    static function getPrimaryLocationType( $contactId ) 
     {
-//         require_once 'CRM/Core/BAO/Location.php';
-//         $location =& new CRM_Core_DAO_Location( ); 
-//         $location->entity_table = 'civicrm_contact';
-//         $location->entity_id    = $contactId;
-//         $location->is_primary   = 1;
-//         $location->find(true);
-        
-        //return $location->location_type_id;
-        return 1;
-    }
+        $query = "
+SELECT
+ IF ( civicrm_email.location_type_id IS NULL,
+    IF ( civicrm_address.location_type_id IS NULL, 
+        IF ( civicrm_phone.location_type_id IS NULL,
+           IF ( civicrm_im.location_type_id IS NULL, 
+               IF ( civicrm_openid.location_type_id IS NULL, null, civicrm_openid.location_type_id)
+           ,civicrm_im.location_type_id)
+        ,civicrm_phone.location_type_id)
+     ,civicrm_address.location_type_id)
+  ,civicrm_email.location_type_id)  as locationType
+FROM civicrm_contact
+     LEFT JOIN civicrm_email   ON ( civicrm_email.is_primary   = 1 AND civicrm_email.contact_id = civicrm_contact.id )
+     LEFT JOIN civicrm_address ON ( civicrm_address.is_primary = 1 AND civicrm_address.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_phone   ON ( civicrm_phone.is_primary   = 1 AND civicrm_phone.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_im      ON ( civicrm_im.is_primary      = 1 AND civicrm_im.contact_id = civicrm_contact.id)
+     LEFT JOIN civicrm_openid  ON ( civicrm_openid.is_primary  = 1 AND civicrm_openid.contact_id = civicrm_contact.id)
+WHERE  civicrm_contact.id = %1 ";
 
+        $params = array( 1 => array( $contactId, 'Integer' ) );
+
+        $dao =& CRM_Core_DAO::executeQuery( $query, $params );
+
+        if ( $dao->fetch() ) {
+            return $dao->locationType;
+        }
+    }
 
     /**
      * function to get the display name, primary email and location type of a contact

@@ -17,8 +17,8 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
     function testNoteDeleteWithEmptyParams( )
     {
         $params     = array();        
-        $deleteNote = & civicrm_note_delete( $params ); 
-        
+        $deleteNote = & civicrm_note_delete( $params );
+               
         $this->assertEqual( $deleteNote['is_error'], 1 );
         $this->assertEqual( $deleteNote['error_message'], 'Invalid or no value for Note ID');
     }
@@ -38,15 +38,23 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
                          'entity_id' => $this->_note['entity_id']
                          );
                         
-        $deleteNote  =& civicrm_note_delete( $params );   
-        
+        $deleteNote  =& civicrm_note_delete( $params );
+             
         $this->assertEqual( $deleteNote['is_error'], 0 );
         $this->assertEqual( $deleteNote['result'], 1 );
     }
 
     function tearDown( ) 
-    {
+    { 
+        if ( $this->_noteID ) {
+            $params = array( 'id'        => $this->_noteID,
+                             'entity_id' => $this->_note['entity_id']
+                             );
+            
+            $deleteNote = civicrm_note_delete( $params );
+        }
         $this->contactDelete( $this->_contactID );
+
     }
 }
 ?>

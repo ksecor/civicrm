@@ -35,7 +35,7 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         $this->assertEqual( $group[$this->_groupID]['visibility'], 'Public User Pages and Listings' );
     }
     
-    function testGetGroupWithoutEmptyParams( ) 
+    function testGetGroupParamsWithGroupId( ) 
     {
         $params = array( );
         $params['id'] = $this->_groupID;
@@ -53,8 +53,39 @@ class TestOfGroupGetAPIV2 extends CiviUnitTestCase
         
     }
 
-    
+    function testGetGroupParamsWithGroupName( ) 
+    {
+        $params         = array( );
+        $params['name'] = 'Test Group 1'; 
+        $group =&civicrm_groups_get( &$params );
  
+        foreach( $group as $v){
+            $this->assertEqual( $v['id'], $this->_groupID );
+            $this->assertEqual( $v['title'],'New Test Group Created' );
+            $this->assertEqual( $v['description'], 'New Test Group Created');
+            $this->assertEqual( $v['is_active'], 1 );
+            $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
+        }
+        
+        
+    }
+ 
+    function testGetGroupParamsWithGroupTitle( ) 
+    {
+        $params          = array( );
+        $params['title'] = 'New Test Group Created'; 
+        $group =&civicrm_groups_get( &$params );
+       
+        foreach( $group as $v){
+            $this->assertEqual( $v['id'], $this->_groupID );
+            $this->assertEqual( $v['name'],'Test Group 1' );
+            $this->assertEqual( $v['description'], 'New Test Group Created' );
+            $this->assertEqual( $v['is_active'], 1 );
+            $this->assertEqual( $v['visibility'], 'Public User Pages and Listings' );
+        }
+        
+    }
+    
 }
 
 ?>

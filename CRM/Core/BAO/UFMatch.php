@@ -368,22 +368,6 @@ WHERE openid = %1";
     }
     
     /**
-     * Delete the object records that are associated with this contact
-     *
-     * @param  int  $contactID id of the contact to delete
-     *
-     * @return void
-     * @access public
-     * @static
-     */
-    static function deleteContact( $contactID ) {
-        $ufmatch =& new CRM_Core_DAO_UFMatch( );
-
-        $ufmatch->contact_id = $contactID;
-        $ufmatch->delete( );
-    }
-
-    /**
      * Delete the object records that are associated with this cms user
      *
      * @param  int  $ufID id of the user to delete

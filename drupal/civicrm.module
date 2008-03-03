@@ -214,13 +214,10 @@ function civicrm_menu($may_cache)
  * Initialize CiviCRM. Call this function from other modules too if 
  * they use the CiviCRM API.
  *
- * @param boolean $requireAPI should we also load the civicrm api functions
- *
  */
-function civicrm_initialize( $requireAPI = false ) 
+function civicrm_initialize( )
 {
-    static $initialized    = null;
-    static $initializedAPI = null;
+    static $initialized    = false;
     static $failure        = false;
 
     if ( $failure ) {
@@ -255,11 +252,6 @@ function civicrm_initialize( $requireAPI = false )
         
         // Add module-specific header elements
         drupal_set_html_head(civicrm_html_head());
-    }
-
-    if ( $requireAPI && ! $initializedAPI ) {
-        $initializedAPI = true;
-        require_once 'api/crm.php';
     }
 
     return true;

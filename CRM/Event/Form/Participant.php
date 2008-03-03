@@ -712,12 +712,16 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             }
             unset($params['note']);
 
+            $eventTitle = CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
+                                                       $params['event_id'],
+                                                       'title' );
+            
             //building contribution params 
             
             $config =& CRM_Core_Config::singleton();
             $contributionParams['currency'             ] = $config->defaultCurrency;
             $contributionParams['contact_id'           ] = $params['contact_id'];
-            $contributionParams['source'               ] = "Offline registration (by {$userName})";
+            $contributionParams['source'               ] = "{$eventTitle}: Offline registration (by {$userName})";
             $contributionParams['non_deductible_amount'] = 'null';
             $contributionParams['receive_date'         ] = date( 'Y-m-d H:i:s' );
             $contributionParams['receipt_date'         ] = $params['send_receipt'] ? 
@@ -768,9 +772,7 @@ class CRM_Event_Form_Participant extends CRM_Contact_Form_Task
             $receiptFrom = '"' . $userName . '" <' . $userEmail . '>';
             
             $this->assign( 'module', 'Event Registration' );
-            $this->assign( 'event', CRM_Core_DAO::getFieldValue( 'CRM_Event_DAO_Event',
-                                                                 $params['event_id'],
-                                                                 'title') );
+            $this->assign( 'event' , $eventTitle );
             $this->assign( 'receipt_text', $params['receipt_text'] );
             $role = CRM_Event_PseudoConstant::participantRole();
             $this->assign( 'role', $role[$params['role_id']] );

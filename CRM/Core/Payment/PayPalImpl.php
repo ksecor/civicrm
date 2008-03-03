@@ -158,15 +158,15 @@ class CRM_Core_Payment_PayPalImpl extends CRM_Core_Payment {
         }
 
         /* Success */
-        $params['trxn_id']        = $params['transactionid'];
-        $params['gross_amount'  ] = $params['amt'];
-        $params['fee_amount'    ] = $params['feeamt'];
-        $params['net_amount'    ] = $params['settleamt'];
+        $params['trxn_id']        = $result['transactionid'];
+        $params['gross_amount'  ] = $result['amt'];
+        $params['fee_amount'    ] = $result['feeamt'];
+        $params['net_amount'    ] = $result['settleamt'];
         if ( $params['net_amount'] == 0 && $params['fee_amount'] != 0 ) {
             $params['net_amount'] = $params['gross_amount'] - $params['fee_amount'];
         }
-        $params['payment_status'] = $params['paymentstatus'];
-        $params['pending_reason'] = $params['pendingreason'];
+        $params['payment_status'] = $result['paymentstatus'];
+        $params['pending_reason'] = $result['pendingreason'];
         
         return $params;
     }

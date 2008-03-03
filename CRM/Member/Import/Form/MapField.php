@@ -283,6 +283,7 @@ class CRM_Member_Import_Form_MapField extends CRM_Core_Form {
         $sel1 = $this->_mapperFields;
         if ( !$this->get('onDuplicate') ) {
             unset($sel1['id']);
+            unset($sel1['membership_id']);
         }
 
         $sel2[''] = null;

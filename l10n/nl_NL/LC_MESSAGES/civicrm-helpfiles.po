@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:05+0100\n"
-"PO-Revision-Date: 2008-02-26 09:06-0800\n"
+"PO-Revision-Date: 2008-03-02 15:17-0800\n"
 "Last-Translator: Han Velthuis <han.velthuis@tiscali.nl>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -224,10 +224,10 @@ msgid ""
 "string. Make sure you have pop-up blocking disabled in your browser for the "
 "CiviCRM site URL."
 msgstr ""
-"Genereerd een pop-up venster met daarin alle variabelen behorend bij het "
-"huidige scherm. Voeg <em>&smartyDebug=1</em> toe aan een willekeurige "
-"CiviCRM URL om het te activeren. Zorg dat er geen pop-up blockers voor uw "
-"CiviCRM site aan staan in uw browser."
+"Maakt een pop-up venster met daarin alle variabelen behorend bij het huidige "
+"scherm. Voeg <em>&smartyDebug=1</em> toe aan een willekeurige CiviCRM URL "
+"om het te activeren. Zorg dat er geen pop-up blockers voor uw CiviCRM site "
+"aan staan in uw browser."
 
 #: templates/CRM/Admin/Form/Setting/Debugging.hlp
 msgid "Session Reset"
@@ -1590,10 +1590,14 @@ msgid ""
 "to review and compare mailing results. For example, if you do a monthly "
 "general-interest newsletter - you might use the following naming convention:"
 msgstr ""
+"Geef de mailing een unieke naam. Bedenk een naam die de mailings "
+"overzichtellijk houdt zodat u een mailing terug kan vinden om de resultaten "
+"in te zien en onderling te vergelijken. Voorbeeld: als U elke maand een "
+"algemene nieuwsbrief verstuurd - kies dan iets als:"
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid "General Monthly Newsletter: 200709"
-msgstr ""
+msgstr "Algemene Nieuwsbrief: 200709"
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1603,6 +1607,11 @@ msgid ""
 "screen - you can update this for an existing group from <strong>Manage "
 "Groups &raquo; Settings</strong>.)"
 msgstr ""
+"Geef aan welke contacten de mailing moeten ontvangen door eerst een of meer "
+"groepen te selecteren in <strong>Toegevoegde Groepen</strong>. (De groep "
+"moet ook het <strong>Mailing List</strong> type hebben om hier gekozen te "
+"kunnen worden - Voor een bestaande groep kunt u dit wijzigen "
+"<strong>Groepsbeheer &raquo; Instellingen</strong>.)"
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1611,6 +1620,8 @@ msgid ""
 "Contacts who are in both groups will NOT receive the mailing (they are "
 "'excluded')."
 msgstr ""
+"U kunt ook groepen  <strong>Overslaan</strong> door deze hier te selecteren. "
+"Contacten die in beide groepen zitten ontvangen dan GEEN mailing."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1619,6 +1630,10 @@ msgid ""
 "duplications so that contacts who are in an Included Group AND were "
 "recipients of an Included Mailing will only be sent one copy of this mailing."
 msgstr ""
+"Als U andere mailings heeft verstuurd - U kunt deze contacten toevoegen of "
+"overslaan. CiviCRM voorkomt dat contacten in een toegevoegde groep zitten EN "
+"een toegevoegde mailing ontvangen hebben, zij ontvangen maar een kopie van "
+"deze mailing."
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1627,6 +1642,9 @@ msgid ""
 "check' to help you confirm that you've targeted (and excluded) the desired "
 "recipients."
 msgstr ""
+"Nadat U op <strong>volgende</strong> klikt wordt het aantal geselecteerde "
+"ontvangers getoond. Controleer of dit overeenkomt met het aantal wat u in "
+"gedachten had. "
 
 #: templates/CRM/Mailing/Form/Group.hlp
 msgid ""
@@ -1635,10 +1653,13 @@ msgid ""
 "Contacts who are in both groups will NOT receive the mailing (they are "
 "'excluded')."
 msgstr ""
+"U kunt contacten in de toegevoegde groepen  <strong>Overslaan</strong> door "
+"een of meer groepen te kiezen <strong>Overslaan groep</strong>. Contacten "
+"die in beide groepen zitten ontvangen GEEN mailing."
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid "Scheduling and Sending Mailings"
-msgstr ""
+msgstr "Inplannen en Versturen Mailings"
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1646,6 +1667,9 @@ msgid ""
 "OR you can request that they be sent as soon as possible by checking &quot;"
 "Send Immediately&quot;."
 msgstr ""
+"U kunt de mailing inplannen om verzonden te worden op een bepaalde datum en "
+"tijd, OF U kunt verzoeken de mailing zo spoedig mogelijk te verzenden door "
+"&quot;Verstuur onmiddellijk&quot; aan te vinken."
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1653,6 +1677,9 @@ msgid ""
 "automated task which runs periodically on your server processes mailings in "
 "the queue, and starts actually sending out your mail."
 msgstr ""
+"Klik op <strong>Gedaan</strong> om de mailing in de mailwachtrij te zetten. "
+"Een taak die automatisch periodiek wordt gestart op uw server verwerkt deze "
+"wachtrij, en verzend daadwerkelijk de mail."
 
 #: templates/CRM/Mailing/Form/Schedule.hlp
 msgid ""
@@ -1662,6 +1689,11 @@ msgid ""
 "running - and how frequently. (<a href='%1' title='%2' target='_blank'>more "
 "info...</a>)"
 msgstr ""
+"<strong>Probleemoplossing</strong> - Als blijkt dat de mailing niet "
+"verzonden wordt, neem dan contact op met de systeemadministator of de "
+"technische ondersteuning om te controleren of de automatische taak "
+"(&quot;cron job&quot;) loopt - en met welke frequentie. (<a href='%1' "
+"title='%2' target='_blank'>meer info...</a>)"
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid ""
@@ -1669,6 +1701,9 @@ msgid ""
 "<strong>Next</strong> with 'Send Test Mailing' checked to generate the test "
 "mailing. Once you receive the test mailing:"
 msgstr ""
+"Controleer het test e-mailadres  en/of de test groep ontvangers.  Klik op "
+"<strong>volgende</strong> met 'Verzend Test Mailing' aangevinkt om de "
+"testmailing te maken. Na het ontvangen van de testmailing:"
 
 #: templates/CRM/Mailing/Form/Test.hlp
 msgid "Verify the content and formattting."
@@ -1694,7 +1729,7 @@ msgstr ""
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Message Formats"
-msgstr ""
+msgstr "Bericht Formaten"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1702,6 +1737,9 @@ msgid ""
 "<strong>TEXT</strong> version of your mailing, OR you can send a "
 "<strong>TEXT</strong> version only."
 msgstr ""
+"U kunt kiezen voor het sturen van zowel een <strong>HTML</strong> en een  "
+"platte<strong>TEKST</strong> versie van de mailing, OF voor alleen een "
+"<strong>TEKST</strong> versie."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1709,10 +1747,13 @@ msgid ""
 "automatically create a <strong>TEXT</strong> version for your recipients who "
 "have chosen NOT to receive HTML email."
 msgstr ""
+"Als U alleen een <strong>HTML</strong> versie maakt, zal CiviMail "
+"automatisch een <strong>TEKST</strong> versie maken voor de ontvangers die "
+"gekozen hebben om GEEN HTML e-mail te ontvangen."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Required Elements"
-msgstr ""
+msgstr "Benodigdheden"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1725,10 +1766,18 @@ msgid ""
 "messages. Opens a new window.'>how to include required links and contact "
 "information as well as sample messages....</a>"
 msgstr ""
+"CiviMail berichten moeten een  <strong>afmeld</strong> link, een <strong"
+">opt-out</strong> link en een <strong>post adres</strong> van uw organisatie "
+"bevatten.  Hierdoor zal uw email minder snel als SPAM gezien worden. De "
+"velden kunnen opgenomen worden in de berichttekst OF in een herbruikbare "
+"<strong>voettekst</strong>. Lees de online documentatie voor de details <a "
+"href='%1' target='_blank' title='Help on messages. Opens a new window.'>Hoe "
+"verplichte links en contactinormatie te gebruiken, voorbeeld "
+"berichten...</a>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid "Upload or Compose On-screen"
-msgstr ""
+msgstr "Upload of Opbouwen op scherm"
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1736,6 +1785,9 @@ msgid ""
 "and then <strong>Upload</strong> the files. OR you can <strong>Compose</"
 "strong> content directly on the screen."
 msgstr ""
+"U kunt de inhoud aanmaken op uw PC met uw editor en dan "
+"<strong>Uploaden</strong>. Of U kunt de inhoud <strong>Opbouwen op "
+"scherm</strong>."
 
 #: templates/CRM/Mailing/Form/Upload.hlp
 msgid ""
@@ -1746,6 +1798,10 @@ msgid ""
 "Then locate and upload the saved file(s) by clicking the <strong>Browse</"
 "strong> button."
 msgstr ""
+"Als U de inhoud opbouwt op dit scherm kunt U met een eenvoudige editor "
+"simplele HTML-berichten maken. Als U ingewikkelde HTML-berichten wilt maken, "
+"kunt U beter een eigen HTML-editor gebruiken en de aangemaakte bestanden "
+"uploaden met de strong>Bladeren...</strong> knop."
 
 #: templates/CRM/Member/Form/MembershipBlock.hlp
 msgid ""
@@ -1878,7 +1934,7 @@ msgstr "Leden van dit huishouden"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "an organization"
-msgstr ""
+msgstr "een organisatie"
 
 #: templates/CRM/Member/Page/MembershipType.hlp
 msgid "'Employees' of that organization"

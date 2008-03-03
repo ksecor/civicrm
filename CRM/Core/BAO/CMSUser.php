@@ -68,7 +68,7 @@ class CRM_Core_BAO_CMSUser
         } else if ( $config->userFramework == 'Joomla' ) { 
             $id   = 'id'; 
             $mail = 'email'; 
-            $name = 'username';
+            $name = 'name';
         } else { 
             die( "Unknown user framework" ); 
         } 

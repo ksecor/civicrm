@@ -109,6 +109,10 @@
 	      document.getElementById("noteRowsDef").style.display="none";
 	}
 			 
+    if ( data_type_id > 3) {
+         document.getElementById("optionsPerLine").style.display="none";
+         document.getElementById("optionsPerLineDef").style.display="none";
+    }
 
     }
 </script>
@@ -118,11 +122,12 @@
     <div class="form-item">
         <dl>
         <dt>{$form.label.label}</dt><dd>{$form.label.html}</dd>
-        <dt>{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
+        <dt class="extra-long-twenty">{$form.data_type.label}</dt><dd>{$form.data_type.html}</dd>
         {if $action neq 4 and $action neq 2}
             <dt>&nbsp;</dt><dd class="description">{ts}Select the type of data you want to collect and store for this contact. Then select from the available HTML input field types (choices are based on the type of data being collected).{/ts}</dd>
         {/if}
         </dl>
+        <div class="spacer"></div>
 
     {if $action eq 1 or $action eq 2 }
         {* Conditionally show table for setting up selection options - for field types = radio, checkbox or select *}

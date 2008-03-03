@@ -67,7 +67,6 @@ class CRM_Admin_Page_CMSUser extends CRM_Core_Page
         $session =& CRM_Core_Session::singleton();
         $session->pushUserContext( CRM_Utils_System::url( 'civicrm/admin') );
         
-        // $controller->setEmbedded( true );
         $controller->process( );
         $controller->run( );
         

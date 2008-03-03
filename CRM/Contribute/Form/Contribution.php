@@ -724,16 +724,16 @@ class CRM_Contribute_Form_Contribution extends CRM_Core_Form
         //process note
         require_once 'CRM/Core/BAO/Note.php';
         $noteParams = array('entity_table' => 'civicrm_contribution', 
-                            'note'         => $formValues['note'], 
+                            'note'         => $formValues['note'],
                             'entity_id'    => $contribution->id,
                             'contact_id'   => $this->_contactID);
         $noteID = array();
         if( $this->_noteId ) {
-            $noteID = array("id" => $this->_noteId);
-            CRM_Core_BAO_Note::add($noteParams, $noteID);
-        } else {
-            CRM_Core_BAO_Note::add($noteParams, $noteID);
+            $noteID['id'] = $this->_noteId;
+            $noteParams['note'] = $noteParams['note'] ? $noteParams['note'] : "null";
         }
+        CRM_Core_BAO_Note::add( $noteParams, $noteID );
+
         //process premium
         if ( $formValues['product_name'][0] ) {
             require_once 'CRM/Contribute/DAO/ContributionProduct.php';

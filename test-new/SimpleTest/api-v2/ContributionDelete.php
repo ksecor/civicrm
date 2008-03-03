@@ -13,7 +13,7 @@ class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase
     
     function setUp() 
     {
-        $this->_contributionTypeId = $this->contributionTypeCreate();  
+        $this->_contributionTypeId = $this->contributionTypeCreate();
         $this->_individualId       = $this->individualCreate();
              
     }
@@ -21,8 +21,8 @@ class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase
     
     function testDeleteEmptyParamsContribution()
     {
-        $params = array();
-        $contribution =& civicrm_contribution_delete($params);
+        $params = array( );
+        $contribution = civicrm_contribution_delete($params);
         $this->assertEqual( $contribution['is_error'], 1 );
         $this->assertEqual( $contribution['error_message'], 'Could not find contribution_id in input parameters' );
     }
@@ -31,7 +31,7 @@ class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase
     function testDeleteParamsNotArrayContribution()
     {
         $params = 'contribution_id= 1';                            
-        $contribution =& civicrm_contribution_delete($params);
+        $contribution = civicrm_contribution_delete($params);
         $this->assertEqual( $contribution['is_error'], 1 );
         $this->assertEqual( $contribution['error_message'], 'Could not find contribution_id in input parameters' );
     }
@@ -49,18 +49,18 @@ class TestOfContributionDeleteAPIV2 extends CiviUnitTestCase
     function testDeleteContribution()
     {
         $contributionID = $this->contributionCreate( $this->_individualId , $this->_contributionTypeId );
+             
         $params         = array( 'contribution_id' => $contributionID );                            
-        $contribution   =& civicrm_contribution_delete($params);
+        $contribution   = civicrm_contribution_delete( $params );
         $this->assertEqual( $contribution['is_error'], 0 );
         $this->assertEqual( $contribution['result'], 1 );
     }
     
     function tearDown() 
     {
-        
-        $this->contactDelete($this->_individualId);
         $this->contributionTypeDelete($this->_contributionTypeId);
-        
+        $this->contactDelete($this->_individualId);
+            
     }    
 }
 ?>

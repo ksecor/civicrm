@@ -259,6 +259,8 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkClass  = 'CRM_Utils_System_'    . $this->userFramework;
             $this->userHookClass       = 'CRM_Utils_Hook_'      . $this->userFramework;
             $this->userPermissionClass = 'CRM_Core_Permission_' . $this->userFramework;            
+        } else {
+            CRM_Core_Error::fatal( ts( 'You need to define CIVICRM_UF in civicrm.settings.php' ) );
         }
 
         if ( defined( 'CIVICRM_UF_BASEURL' ) ) {
@@ -274,15 +276,20 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
             $this->userFrameworkDSN = CIVICRM_UF_DSN;
         }
 
-         if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
-             $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
-         }
+        if ( defined( 'CIVICRM_SMTP_PASSWORD' ) ) {
+            $this->smtpPassword = CIVICRM_SMTP_PASSWORD;
+        }
 
         // this is dynamically figured out in the civicrm.settings.php file
         if ( defined( 'CIVICRM_CLEANURL' ) ) {        
             $this->cleanURL = CIVICRM_CLEANURL;
         } else {
             $this->cleanURL = 0;
+        }
+
+        if ( $this->userFramework == 'Joomla' ) {
+            $this->userFrameworkVersion        = '1.0';
+            $this->userFrameworkUsersTableName = 'jos_users';
         }
 
         $this->_initDAO();

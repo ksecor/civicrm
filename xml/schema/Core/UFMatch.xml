@@ -42,7 +42,7 @@
        <table>civicrm_contact</table>
        <key>id</key>
        <add>1.1</add>
-       <onDelete>SET NULL</onDelete>
+       <onDelete>CASCADE</onDelete>
   </foreignKey>
   <field>
       <name>domain_id</name>

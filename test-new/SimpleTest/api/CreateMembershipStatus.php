@@ -1,7 +1,5 @@
 <?php
-
-require_once 'api/crm.php';
-
+require_once 'api/Membership.php';
 class TestOfCreateMembershipStatus extends UnitTestCase 
 {
     protected $_membershipstatus   = array();

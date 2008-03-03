@@ -6,11 +6,15 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
 {
     protected $_contactID;
     protected $_participantID;
+    protected $_eventID;
     
     function setUp( ) 
     { 
+        $event = $this->eventCreate();
+        $this->_eventID = $event['event_id'];
+
         $this->_contactID     = $this->organizationCreate( );
-        $this->_participantID = $this->participantCreate( $this->_contactID );
+        $this->_participantID = $this->participantCreate( array ('contactID' => $this->_contactID, 'eventID' => $this->_eventID) );
     }
     
     function testParticipantPaymentCreateWithEmptyParams( )
@@ -81,6 +85,10 @@ class TestOfParticipantPaymentCreateAPIV2 extends CiviUnitTestCase
     {
         $this->participantDelete( $this->_participantID );
         $this->contactDelete( $this->_contactID );
+
+        // Cleanup test event.
+        $result = $this->eventDelete($this->_eventID);
+
     }
 }    
 ?>

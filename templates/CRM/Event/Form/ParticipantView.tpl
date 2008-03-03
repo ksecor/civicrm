@@ -1,3 +1,4 @@
+{* View existing event registration record. *}
 <div class="form-item">  
 <fieldset>
         <legend>{ts}View Participant{/ts}</legend>
@@ -13,32 +14,32 @@
         {if $event_level}
             {if $line_items}
                 {assign var="total_price" value=0}
-        <dt>{ts}Event Fees{/ts}</dt>
-        <dd>
-            <table>
-                <tr>
-                    <th>{ts}Item{/ts}</th>
-                    <th>{ts}Qty{/ts}</th>
-                    <th>{ts}Unit Price{/ts}</th>
-                    <th>{ts}Total{/ts}</th>
-                </tr>
-                {foreach from=$line_items item=line}
-                    {assign var="total_price" value=`$total_price+$line.line_total`}
-                <tr>
-                    <td>{$line.label}</td>
-                    <td>{$line.qty}</td>
-                    <td>{$line.unit_price}</td>
-                    <td>{$line.line_total}</td>
-                </tr>
-                {/foreach}
-                <tr>
-                    <td colspan="3"><strong>{ts}Total{/ts}</strong>:</td>
-                    <td><strong>{$total_price|string_format:"$%.2f"}</strong></td>
-                </tr>
-            </table>
-        </dd>
+                <dt>{ts}Event Fees{/ts}</dt>
+                <dd>
+                    <table class="report">
+                        <tr class="columnheader">
+                            <th>{ts}Item{/ts}</th>
+                            <th>{ts}Qty{/ts}</th>
+                            <th>{ts}Unit Price{/ts}</th>
+                            <th>{ts}Total{/ts}</th>
+                        </tr>
+                        {foreach from=$line_items item=line}
+                            {assign var="total_price" value=`$total_price+$line.line_total`}
+                        <tr>
+                            <td>{$line.label}</td>
+                            <td>{$line.qty}</td>
+                            <td class="right">{$line.unit_price|crmMoney}</td>
+                            <td class="right">{$line.line_total|crmMoney}</td>
+                        </tr>
+                        {/foreach}
+                        <tr>
+                            <td colspan="3"><strong>{ts}Total{/ts}</strong>:</td>
+                            <td class="right"><strong>{$total_price|crmMoney}</strong></td>
+                        </tr>
+                    </table>
+                </dd>
             {else}
-        <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
+                <dt>{ts}Event Level{/ts}</dt><dd>{$event_level}&nbsp;</dd>
             {/if}
         {/if}
         {foreach from=$note item="rec"}

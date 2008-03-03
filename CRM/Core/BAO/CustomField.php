@@ -167,10 +167,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
      * @access public
      * @static
      */
-    public static function &getFields($contactType = 'Individual', $showAll = false ) 
+    public static function &getFields($contactType = 'Individual', $showAll = false, $inline = false ) 
     {
-        if ( ! self::$_importFields || ! CRM_Utils_Array::value( $contactType, self::$_importFields ) ) { 
-            
+        $cacheKey = $inline ? "{$contactType}_1" : "{$contactType}_0";
+        if ( ! self::$_importFields || ! CRM_Utils_Array::value( $cacheKey, self::$_importFields ) ) { 
             if ( ! self::$_importFields ) {
                 self::$_importFields = array( );
             }
@@ -202,8 +202,12 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $query .= " AND $cfTable.is_active = 1 AND $cgTable.is_active = 1 ";
             }
 
+            if ( $inline ) {
+                $query .= " AND $cgTable.style = 'Inline' ";
+            }
+            
             // also get the permission stuff here
-	    require_once 'CRM/Core/Permission.php';
+                require_once 'CRM/Core/Permission.php';
             $permissionClause = CRM_Core_Permission::customGroupClause( CRM_Core_Permission::VIEW,
                                                                         "{$cgTable}." );
 
@@ -220,10 +224,10 @@ class CRM_Core_BAO_CustomField extends CRM_Core_DAO_CustomField
                 $fields[$id] = $row;
             }
 
-            self::$_importFields[$contactType] = $fields;
+            self::$_importFields[$cacheKey] = $fields;
         }
         
-        return self::$_importFields[$contactType];
+        return self::$_importFields[$cacheKey];
     }
 
     /**

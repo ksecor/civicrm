@@ -137,7 +137,7 @@
 	   return;
 	}
 
-	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' q='id='}"{literal} + fieldId;
+	var dataUrl = {/literal}"{crmURL p='civicrm/ajax/custom' h=0 q='id='}"{literal} + fieldId;
 
         var result = dojo.xhrGet({
         url: dataUrl,

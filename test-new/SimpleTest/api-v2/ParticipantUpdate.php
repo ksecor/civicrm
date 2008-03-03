@@ -6,9 +6,12 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
 {
     protected $_participant;
     protected $_individualId; 
-    
+    protected $_eventID;
+
     function setUp() 
     {
+        $event = $this->eventCreate();
+        $this->_eventID = $event['event_id'];
         // Create test contacts.
         $this->_individualId = $this->individualCreate();
     }
@@ -23,7 +26,7 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
 
     function testParticipantUpdateWithoutEventId()
     {  
-        $participantId = $this->participantCreate( $this->_individualId );
+        $participantId = $this->participantCreate( array ('contactID' => $this->_individualId, 'eventID' => $this->_eventID  ) );
         $params = array(
                         'contact_id'    => $this->_individualId,
                         'status_id'     => 3,
@@ -41,11 +44,11 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
 
     function testParticipantUpdate()
     {  
-        $participantId = $this->participantCreate( $this->_individualId );
+        $participantId = $this->participantCreate( array ('contactID' => $this->_individualId,'eventID' => $this->_eventID ) );
         $params = array(
                         'id'            => $participantId,
                         'contact_id'    => $this->_individualId,
-                        'event_id'      => 2,
+                        'event_id'      => $this->_eventID,
                         'status_id'     => 3,
                         'role_id'       => 3,
                         'register_date' => '2006-01-21',
@@ -73,6 +76,9 @@ class TestOfParticipantUpdateAPIV2 extends CiviUnitTestCase
     {
         // Cleanup test contacts.
         $this->contactDelete( $this->_individualId );
+
+        // Cleanup test event.
+        $result = $this->eventDelete($this->_eventID);
     }
     
 }

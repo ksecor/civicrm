@@ -891,7 +891,7 @@ function _civicrm_contribute_formatted_param( &$params, &$values, $create=false 
             break;
         case 'contribution_type':            
             require_once 'CRM/Contribute/PseudoConstant.php';
-            $values['contribution_type_id'] = CRM_Utils_Array::key( ucwords( $value ),
+            $values['contribution_type_id'] = CRM_Utils_Array::key( ucfirst( $value ),
                                                                     CRM_Contribute_PseudoConstant::contributionType( )
                                                                     );          
             break;

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2007-12-03 08:03-0800\n"
+"PO-Revision-Date: 2008-02-27 10:29-0800\n"
 "Last-Translator: Eugenia Franzoni <eugenia@catnic.it>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -339,7 +339,7 @@ msgid "mazowieckie"
 msgstr "mazowieckie"
 
 msgid "pomorskie"
-msgstr ""
+msgstr "pomorskie"
 
 msgid "dolnośląskie"
 msgstr ""
@@ -420,28 +420,28 @@ msgid "Balkh"
 msgstr ""
 
 msgid "Bamian"
-msgstr ""
+msgstr "Bamian"
 
 msgid "Farah"
-msgstr ""
+msgstr "Farah"
 
 msgid "Faryab"
-msgstr ""
+msgstr "Faryab"
 
 msgid "Ghazni"
-msgstr ""
+msgstr "Ghazni"
 
 msgid "Ghowr"
-msgstr ""
+msgstr "Ghowr"
 
 msgid "Helmand"
-msgstr ""
+msgstr "Helmand"
 
 msgid "Herat"
-msgstr ""
+msgstr "Herat"
 
 msgid "Jowzjan"
-msgstr ""
+msgstr "Jowzjan"
 
 msgid "Kabul"
 msgstr ""
@@ -3837,13 +3837,13 @@ msgid "Croydon"
 msgstr ""
 
 msgid "Cumbria"
-msgstr ""
+msgstr "Cumbria"
 
 msgid "Darlington"
-msgstr ""
+msgstr "Darlington"
 
 msgid "Denbighshire"
-msgstr ""
+msgstr "Denbigshire"
 
 msgid "Derby"
 msgstr ""
