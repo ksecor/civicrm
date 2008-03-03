@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/Relationship.php';
 class TestOfGetRelationshipTypeAPI extends UnitTestCase 
 {
     private $rel ="";

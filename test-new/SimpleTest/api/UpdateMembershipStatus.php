@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/Membership.php';
 class TestOfUpdateMembershipStatus extends UnitTestCase 
 {
     protected $_membershipstatus   = array();

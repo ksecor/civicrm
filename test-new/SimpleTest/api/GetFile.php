@@ -1,5 +1,5 @@
 <?php
-
+require_once 'api/File.php';
 class TestofGetFile extends UnitTestCase
 {
     protected $_file = array();   

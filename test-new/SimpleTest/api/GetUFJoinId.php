@@ -1,5 +1,6 @@
 <?php
 require_once 'api/UFJoin.php';
+require_once 'api/Event.php';
 
 class TestOfGetUFJoinIdAPIV1 extends CiviUnitTestCase 
 {
