@@ -55,10 +55,16 @@ class CRM_Core_BAO_CMSUser
     {
         //start of schronization code
         $config =& CRM_Core_Config::singleton( );
-        
+
+        CRM_Core_Error::ignoreException( );
         $db_uf = DB::connect($config->userFrameworkDSN);
-        if ( DB::isError( $db_uf ) ) { 
-            die( "Cannot connect to UF db via $dsn, " . $db_uf->getMessage( ) ); 
+        CRM_Core_Error::setCallback();
+        if ( ! $db_uf ||
+             DB::isError( $db_uf ) ) { 
+            $session =& CRM_Core_Session::singleton( );
+            $session->pushUserContext( CRM_Utils_System::url('civicrm/admin', 'reset=1' ) );
+            CRM_Core_Error::statusBounce( ts( "Cannot connect to UF db via %1. Please check the CIVICRM_UF_DSN value in your civicrm.settings.php file",
+                                              array( 1 => $db_uf->getMessage( ) ) ) );
         } 
  
         if ( $config->userFramework == 'Drupal' ) { 

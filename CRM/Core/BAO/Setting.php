@@ -66,9 +66,10 @@ class CRM_Core_BAO_Setting
         // the username and certpath are stored flat with _test and _live
         // check CRM-1470
         $skipVars = array( 'dsn', 'templateCompileDir',
+                           'userFrameworkDSN', 
                            'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
                            'userPermissionClass', 'userFrameworkURLVar',
-                           'qfKey', 'gettextResourceDir' );
+                           'qfKey', 'gettextResourceDir', 'cleanURL' );
         foreach ( $skipVars as $var ) {
             unset( $params[$var] );
         }
@@ -162,6 +163,7 @@ class CRM_Core_BAO_Setting
             $defaults['datetimeformatHourVar'] =  strstr($defaults['dateformatQfDatetime'], '%I') ?'h' : (strstr($defaults['dateformatQfDatetime'], '%l') ? 'g' : null);
 
             $skipVars = array( 'dsn', 'templateCompileDir',
+                               'userFrameworkDSN', 
                                'userFrameworkBaseURL', 'userFrameworkClass', 'userHookClass',
                                'userPermissionClass', 'userFrameworkURLVar',
                                'qfKey', 'gettextResourceDir', 'cleanURL' );
