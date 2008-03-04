@@ -108,4 +108,4 @@ class CRM_Activity_BAO_ActivityTarget extends CRM_Activity_DAO_ActivityTarget
 
 }
 
-?>
+

@@ -238,4 +238,4 @@ WHERE co.entity_table='$entityTable'";
         return ts( 'Upgrade & Continue' );
     }
 }
-?>
+

@@ -93,4 +93,4 @@ class TestOfAddGroupContactAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

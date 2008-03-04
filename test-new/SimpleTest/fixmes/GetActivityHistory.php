@@ -49,4 +49,4 @@ class TestOfGetActivityHistoryAPI extends UnitTestCase
         }
     }
 }
-?>
+

@@ -83,4 +83,4 @@ class TestOfCRM1657 extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

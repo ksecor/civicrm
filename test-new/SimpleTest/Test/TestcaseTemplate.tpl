@@ -30,4 +30,4 @@ class {$testcaseName} extends UnitTestCase
     // Put test functions below. Each function's name
     // needs to start with "test", e.g. testCreateEmptyContact
 
-?>
+

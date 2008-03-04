@@ -451,4 +451,4 @@ class CRM_Core_Error extends PEAR_ErrorStack {
 
 PEAR_ErrorStack::singleton('CRM', false, null, 'CRM_Core_Error');
 
-?>
+

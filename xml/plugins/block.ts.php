@@ -18,4 +18,4 @@ function smarty_block_ts($params, $text, &$smarty)
     return $i18n->crm_translate($text, $params);
 }
 
-?>
+

@@ -164,4 +164,4 @@ class CRM_Event_Page_ManageEventEdit extends CRM_Core_Page {
         $this->assign('rows', $event);
     }
 }
-?>
+

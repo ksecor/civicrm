@@ -264,4 +264,4 @@ class test_RSTest_DelContact
     }
     
 }
-?>
+

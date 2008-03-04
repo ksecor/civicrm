@@ -144,4 +144,4 @@ class CRM_Core_BAO_Preferences extends CRM_Core_DAO_Preferences {
 
 }
 
-?>
+

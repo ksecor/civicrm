@@ -57,4 +57,4 @@ class TestOfNoteDeleteAPIV2 extends CiviUnitTestCase
 
     }
 }
-?>
+

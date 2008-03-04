@@ -134,4 +134,4 @@ UPDATE civicrm_log
     }
 }
 
-?>
+

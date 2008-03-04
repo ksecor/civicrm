@@ -312,4 +312,4 @@ class CRM_Custom_Page_Group extends CRM_Core_Page {
         $this->assign('rows', $customGroup);
     }
 }
-?>
+

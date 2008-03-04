@@ -220,4 +220,3 @@ $t->setTemplatePath('/home/mover/Work/CiviCRM/trunk/test-new/SimpleTest/Test/Tes
 $t->buildTests();
 
 
-?>

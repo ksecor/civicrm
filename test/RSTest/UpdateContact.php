@@ -296,4 +296,4 @@ class test_RSTest_UpdateContact
         $this->updateLocation(0,$this->_contactArray);
     }
 }
-?>
+

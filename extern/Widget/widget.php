@@ -19,4 +19,3 @@ $template->assign( 'flashVars', $flashVars );
 
 echo $template->fetch( 'CRM/Widget/widget.tpl' );
 
-?>

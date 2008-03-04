@@ -508,4 +508,4 @@ class CRM_Core_Config extends CRM_Core_Config_Variables
 
 } // end CRM_Core_Config
 
-?>
+

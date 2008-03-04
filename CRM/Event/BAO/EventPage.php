@@ -234,4 +234,4 @@ class CRM_Event_BAO_EventPage extends CRM_Event_DAO_EventPage
     }    
 }
 
-?>
+

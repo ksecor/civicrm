@@ -70,4 +70,4 @@ class CRM_Member_Controller_Search extends CRM_Core_Controller
 
 }
 
-?>
+

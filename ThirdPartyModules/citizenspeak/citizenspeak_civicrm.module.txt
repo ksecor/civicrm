@@ -306,4 +306,4 @@ function citizenspeak_page() {
   }
   print theme('page', $output);
 }
-?>
+

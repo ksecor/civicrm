@@ -89,4 +89,4 @@ class CRM_Contribute_Payment_Google extends CRM_Core_Payment_Google {
 
 }
 
-?>
+

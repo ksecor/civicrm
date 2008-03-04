@@ -56,4 +56,4 @@ class CRM_Event_Controller_ManageEvent extends CRM_Core_Controller {
 
 }
 
-?>
+

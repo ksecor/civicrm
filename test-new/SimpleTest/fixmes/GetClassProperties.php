@@ -173,4 +173,4 @@ class TestOfGetClassProperties extends UnitTestCase
         $this->assertNotA($prop,'CRM_Core_Error');
     }
 }
-?>
+

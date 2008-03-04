@@ -530,4 +530,4 @@ function _crm_check_required_fields(&$params, $daoName)
 function _crm_initialize( ) {
     $config =& CRM_Core_Config::singleton( );
 }
-?>
+

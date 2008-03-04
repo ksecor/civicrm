@@ -125,4 +125,4 @@ class CRM_Contact_Page_View_Vcard extends CRM_Contact_Page_View {
 
 }
 
-?>
+

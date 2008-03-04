@@ -166,4 +166,4 @@ class TestOfCRM645 extends UnitTestCase
         $this->assertNull($option);
     }
 }
-?>
+

@@ -75,4 +75,4 @@ class TestOfNoteCreateAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>
+

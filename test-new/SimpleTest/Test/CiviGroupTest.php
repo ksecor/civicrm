@@ -18,4 +18,4 @@ abstract class CiviGroupTest extends GroupTest {
     }
 }
 
-?>
+

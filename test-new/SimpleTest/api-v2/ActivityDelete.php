@@ -82,4 +82,4 @@ class TestOfActivityDeleteAPIV2 extends CiviUnitTestCase
       $this->contactDelete( $this->_individualSourceID );
     }
 }
-?>
+

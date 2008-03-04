@@ -84,4 +84,3 @@ class TestOfUFJoinEditAPIV1 extends CiviUnitTestCase
 
 
 
-?>

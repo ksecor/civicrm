@@ -109,4 +109,3 @@ class CiviTextReporter extends TextReporter {
 }
 
 
-?>

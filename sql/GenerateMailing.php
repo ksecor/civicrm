@@ -66,4 +66,4 @@ function generateRandomDate( ) {
     return $date;
 }
 
-?>
+

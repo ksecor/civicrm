@@ -278,4 +278,4 @@ class CRM_Utils_Sort {
     }
 }
 
-?>
+

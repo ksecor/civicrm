@@ -47,4 +47,3 @@ $server->setPersistence(SOAP_PERSISTENCE_SESSION);
 
 $server->handle();
 
-?>

@@ -152,4 +152,4 @@ class CRM_Event_Form_Task_PickProfile extends CRM_Event_Form_Task
         $this->set( 'ufGroupId', $params['uf_group_id'] );
     }//end of function
 }
-?>
+

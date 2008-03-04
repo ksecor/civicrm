@@ -491,4 +491,4 @@ WHERE openid = %1";
         return $ufId;
     }
 }
-?>
+

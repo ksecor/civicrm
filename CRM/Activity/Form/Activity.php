@@ -569,4 +569,4 @@ class CRM_Activity_Form_Activity extends CRM_Core_Form
     }
 }
 
-?>
+

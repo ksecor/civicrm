@@ -662,4 +662,4 @@ SELECT start_date, end_date, join_date
     return $result;
 }
 
-?>
+

@@ -199,4 +199,4 @@ class CRM_Mailing_Event_BAO_Opened extends CRM_Mailing_Event_DAO_Opened {
     
 }
 
-?>
+

@@ -31,4 +31,4 @@ class TestOfEmailHistoryAPIV2 extends UnitTestCase
     }
 }
 
-?>
+

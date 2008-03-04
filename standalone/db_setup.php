@@ -132,4 +132,4 @@ foreach ( $dbFilesToLoad as $file ) {
 
 header( "Location: new_install.php" );
 
-?>
+

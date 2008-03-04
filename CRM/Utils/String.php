@@ -289,4 +289,3 @@ class CRM_Utils_String {
     
 }
 
-?>

@@ -572,4 +572,4 @@ class CRM_Core_Block {
 
 }
 
-?>
+

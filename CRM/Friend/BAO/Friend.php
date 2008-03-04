@@ -304,4 +304,4 @@ class CRM_Friend_BAO_Friend extends CRM_Friend_DAO_Friend
     }
 }
 
-?>
+

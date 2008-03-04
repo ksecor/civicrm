@@ -89,4 +89,4 @@ class TestOfGetContactHierachical extends UnitTestCase
     
 } 
 
-?>
+

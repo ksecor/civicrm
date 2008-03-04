@@ -431,4 +431,4 @@ function civicrm_participant_check_params( &$params )
 }
 
 
-?>
+

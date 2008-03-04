@@ -1225,4 +1225,4 @@ class test_RSTest_GenDataset
         $this->addActivityHistory();
     }
 }
-?>
+

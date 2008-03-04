@@ -19,4 +19,4 @@ class TestOfCRM847 extends UnitTestCase
     }
 
 }
-?>
+

@@ -42,5 +42,5 @@ class TestOfCustomFieldDeleteAPIV2 extends CiviUnitTestCase
     } 
     
 }
-?>
+
 

@@ -477,4 +477,4 @@ class CRM_Event_BAO_Query
   
 }
 
-?>
+

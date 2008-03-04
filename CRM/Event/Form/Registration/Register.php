@@ -646,4 +646,4 @@ class CRM_Event_Form_Registration_Register extends CRM_Event_Form_Registration
         }
     }
 }
-?>
+

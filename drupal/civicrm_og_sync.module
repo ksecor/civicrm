@@ -196,4 +196,4 @@ function _civicrm_og_sync_set_context( $currentContext ) {
     return $_context == $currentContext;
 }
 
-?>
+

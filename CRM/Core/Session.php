@@ -402,4 +402,4 @@ class CRM_Core_Session {
 
 }
 
-?>
+

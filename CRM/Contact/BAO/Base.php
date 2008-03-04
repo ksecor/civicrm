@@ -43,4 +43,4 @@ class CRM_Contacts_BAO_Base extends CRM_Core_Base {
 
 }
 
-?>
+

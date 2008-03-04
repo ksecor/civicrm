@@ -273,4 +273,4 @@ class CRM_Event_Form_ManageEvent_Location extends CRM_Event_Form_ManageEvent
         return ts('Event Location');
     }
 }
-?>
+

@@ -236,4 +236,4 @@ function crm_delete_entity_tag(&$entity_tag)
     return CRM_Core_BAO_EntityTag::del($params);
 }
 
-?>
+

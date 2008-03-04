@@ -79,4 +79,4 @@ class CRM_Core_Joomla {
 
 }
 
-?>
+

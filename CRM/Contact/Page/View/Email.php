@@ -111,4 +111,4 @@ class CRM_Contact_Page_View_Email extends CRM_Core_Page
         parent::run();
     }
 }
-?>
+

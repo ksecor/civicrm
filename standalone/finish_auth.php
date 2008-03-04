@@ -78,4 +78,3 @@ if ( $response->status == Auth_OpenID_CANCEL ) {
     exit(0);
 }
 
-?>

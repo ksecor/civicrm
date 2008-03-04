@@ -236,4 +236,3 @@ while ( $dao->fetch( ) ) {
 
 run( $contactIDs );
 
-?>

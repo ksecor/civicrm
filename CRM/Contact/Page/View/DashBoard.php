@@ -174,4 +174,4 @@ class CRM_Contact_Page_View_DashBoard extends CRM_Contact_Page_View
         return parent::run( );
     }
 }
-?>
+

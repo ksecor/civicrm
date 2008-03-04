@@ -82,4 +82,4 @@ class CRM_Core_QuickForm_Action_Refresh extends CRM_Core_QuickForm_Action {
 
 }
 
-?>
+

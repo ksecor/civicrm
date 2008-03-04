@@ -115,4 +115,4 @@ class CRM_Contact_BAO_SearchCustom {
 
 }
 
-?>
+

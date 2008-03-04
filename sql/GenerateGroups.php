@@ -36,4 +36,4 @@ for ( $i = 1; $i <= $numGroups; $i++ ) {
     $group->save( );
 }
 
-?>
+

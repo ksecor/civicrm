@@ -76,4 +76,4 @@ class TestOfCreateParticipant extends UnitTestCase
         $this->assertNull($delete);
     }
 }
-?>
+

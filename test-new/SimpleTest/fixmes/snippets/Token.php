@@ -27,4 +27,4 @@ class TestOfCRM560 extends UnitTestCase
     }
 }
 
-?>
+

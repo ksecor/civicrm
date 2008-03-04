@@ -217,4 +217,3 @@ class test_MembershipRenewal_MembershipValues
         $membership->free( );
     }
 }
-?>

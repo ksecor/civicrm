@@ -107,4 +107,4 @@ class CRM_Contribute_Form_Task_Print extends CRM_Contribute_Form_Task {
     }
 }
 
-?>
+

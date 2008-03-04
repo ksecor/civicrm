@@ -60,4 +60,4 @@ class TestOfTagCreateAPIV2 extends CiviUnitTestCase
     {  
     }
 }
-?>
+

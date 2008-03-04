@@ -156,4 +156,4 @@ function crm_find_uf_join_UFGroupId(&$params)
     
     return CRM_Core_BAO_UFJoin::findUFGroupId($params);
 }
-?>
+

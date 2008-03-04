@@ -61,4 +61,4 @@ class TestOfParticipantPaymentDeleteAPIV2 extends CiviUnitTestCase
         $result = $this->eventDelete($this->_eventID);
     }
 }
-?>
+

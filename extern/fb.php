@@ -100,4 +100,3 @@ class CRM_Facebook {
 $civicrmFace = new CRM_Facebook( );
 $civicrmFace->process( );
 
-?>

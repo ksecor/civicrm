@@ -184,4 +184,4 @@ class CRM_Contribute_Form_ContributionPage_Custom extends CRM_Contribute_Form_Co
     }
 }
 
-?>
+

@@ -53,4 +53,4 @@ function smarty_block_edit($params, $text, &$smarty)
     return ( $action & 3 ) ? $text : null;
 }
 
-?>
+

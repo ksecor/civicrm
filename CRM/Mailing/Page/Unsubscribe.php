@@ -43,4 +43,4 @@ class CRM_Mailing_Page_Unsubscribe extends CRM_Mailing_Page_Common
         parent::run( );
     }
 }
-?>
+

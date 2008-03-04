@@ -28,4 +28,4 @@ class TestOfFixAddressAPI extends UnitTestCase
     }
 
 }
-?>
+

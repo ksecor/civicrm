@@ -160,4 +160,4 @@ class CRM_SMS_BAO_History extends CRM_SMS_DAO_History {
     }
 }
 
-?>
+

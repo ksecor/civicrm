@@ -669,4 +669,4 @@ function _civicrm_membership_format_params( &$params, &$values, $create=false)
 
 
 
-?>
+

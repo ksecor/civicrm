@@ -60,4 +60,3 @@ class CRM_Utils_JSON
         return $jsonObject;
     }
 }
-?>

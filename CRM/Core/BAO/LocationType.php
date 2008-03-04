@@ -138,4 +138,4 @@ class CRM_Core_BAO_LocationType extends CRM_Core_DAO_LocationType {
         $locationType->delete();
     }
 }
-?>
+

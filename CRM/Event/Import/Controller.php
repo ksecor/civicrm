@@ -60,4 +60,4 @@ class CRM_Event_Import_Controller extends CRM_Core_Controller
         $this->addActions( $config->uploadDir, array( 'uploadFile' ) );
     }
 }
-?>
+

@@ -73,4 +73,4 @@ class TestOfUpdateHistoryAPI extends UnitTestCase
         $this->assertEqual($dao5->entity_id, 23);
     }
 }
-?>
+

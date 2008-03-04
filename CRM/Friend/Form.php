@@ -245,4 +245,4 @@ class CRM_Friend_Form extends CRM_Core_Form
         $this->assign( 'thankYouText'  , $defaults['thankyou_text'] );
    }
 }
-?>
+

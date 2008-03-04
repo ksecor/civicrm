@@ -9,4 +9,4 @@ if( ! defined( '_VALID_MOS' ) && ! defined( '_JEXEC' ) ) {
 
 // PUT ALL YOUR FRONT-END HTML CODE HERE...PRESENTATION
 
-?>
+

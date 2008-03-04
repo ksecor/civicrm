@@ -107,4 +107,4 @@ class TestOfGetParticipants extends UnitTestCase
         $this->assertNull($delete2);        
     }
 }
-?>
+

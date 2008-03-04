@@ -747,4 +747,4 @@ class CRM_Contact_Selector extends CRM_Core_Selector_Base implements CRM_Core_Se
 
 }//end of class
 
-?>
+

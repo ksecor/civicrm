@@ -554,4 +554,4 @@ $s2 = ts('%3 – a plural test, %count frog', array('count' => 7, "plural" => 'a
 //$s4 = ts('a test – no plural', array('count' => 42));
 $s5 = ts('a test for multitoken element value', array(1 => $c . $d));
 
-?>
+

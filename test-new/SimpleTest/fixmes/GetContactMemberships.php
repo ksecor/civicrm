@@ -101,4 +101,4 @@ class TestOfGetContactMemberships extends UnitTestCase
     }
     
 }
-?>
+

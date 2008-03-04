@@ -34,4 +34,4 @@ class TestOfI1573 extends UnitTestCase
     }
 }
 
-?>
+

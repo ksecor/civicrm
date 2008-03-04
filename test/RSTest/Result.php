@@ -418,4 +418,4 @@ class test_RSTest_Result
         }        
     }
 }
-?>
+

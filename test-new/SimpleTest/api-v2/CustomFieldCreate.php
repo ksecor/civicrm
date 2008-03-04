@@ -332,5 +332,5 @@ class TestOfCustomFieldCreateAPIV2 extends CiviUnitTestCase
     }     
     
 }
-?>
+
  

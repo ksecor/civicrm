@@ -191,4 +191,4 @@ class TestOfCreateEntityTagAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

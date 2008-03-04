@@ -28,4 +28,4 @@ $session->set('new_install', true);
 
 header("Location:try_auth.php?openid_url=$openid");
 exit(0);
-?>
+

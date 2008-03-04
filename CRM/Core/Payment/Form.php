@@ -191,4 +191,3 @@ class CRM_Core_Payment_Form {
 
 }
 
-?>

@@ -192,4 +192,4 @@ class CRM_Contact_Form_Task_BatchUpdateProfile extends CRM_Contact_Form_Task {
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }
-?>
+

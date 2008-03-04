@@ -99,4 +99,3 @@ function civicrm_tag_delete( &$params )
     return CRM_Core_BAO_Tag::del( $tagID ) ? civicrm_create_success( ) : civicrm_create_error(  ts( 'Could not delete tag' )  );
 }
 
-?>

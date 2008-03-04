@@ -27,5 +27,5 @@ class TestOfCustomGroupDeleteAPIV2 extends CiviUnitTestCase
         $this->assertEqual($customGruup['is_error'], 0);
     } 
 }
-?>
+
  

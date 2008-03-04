@@ -462,4 +462,3 @@ function _civicrm_location_check_params( &$params ) {
     
     return array();
 }
-?>

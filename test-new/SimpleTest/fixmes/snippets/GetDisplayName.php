@@ -30,4 +30,4 @@ class TestOfGetDisplayName extends UnitTestCase
         return $contact['display_name'];
     }
 }
-?>
+

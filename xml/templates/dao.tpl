@@ -344,4 +344,4 @@ class {$table.className} extends CRM_Core_DAO {ldelim}
 
 {rdelim}
 
-?>
+

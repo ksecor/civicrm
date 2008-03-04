@@ -151,4 +151,4 @@ class CRM_Core_BAO_Tag extends CRM_Core_DAO_Tag {
     }
 }
 
-?>
+

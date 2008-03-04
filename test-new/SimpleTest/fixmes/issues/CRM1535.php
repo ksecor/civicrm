@@ -39,4 +39,4 @@ class TestOfCRM1535 extends UnitTestCase
     }
 }
 
-?>
+

@@ -556,4 +556,4 @@ class CRM_Core_Controller extends HTML_QuickForm_Controller {
 
 }
 
-?>
+

@@ -223,4 +223,4 @@ class CRM_Contribute_BAO_Premium extends CRM_Contribute_DAO_Premium
         $form->assign( 'preview' , true);
     }
 }
-?>
+

@@ -207,4 +207,4 @@ function crm_mailer_event_forward($job_id, $queue_id, $hash, $email) {
                                                     $email);
 }
 
-?>
+

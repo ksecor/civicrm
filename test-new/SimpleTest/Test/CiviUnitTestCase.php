@@ -862,4 +862,4 @@ class CiviUnitTestCase extends UnitTestCase {
     }      
 }
 
-?>
+

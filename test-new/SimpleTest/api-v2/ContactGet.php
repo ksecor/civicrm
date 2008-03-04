@@ -30,4 +30,3 @@ class testPublicCivicrmContactGet extends CiviUnitTestCase
 
 }
 
-?>

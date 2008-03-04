@@ -226,4 +226,4 @@ class CRM_Contribute_Form_Task_Batch extends CRM_Contribute_Form_Task {
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 } 
-?>
+

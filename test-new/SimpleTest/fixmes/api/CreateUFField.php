@@ -92,4 +92,4 @@ class TestOfCreateUFFieldAPI extends UnitTestCase
         $this->assertEqual($UFGroup,true);
     }
 }
-?>
+

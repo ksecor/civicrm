@@ -390,4 +390,3 @@ function _civicrm_contribute_format_params( &$params, &$values, $create=false ) 
     return array();
 }
 
-?>

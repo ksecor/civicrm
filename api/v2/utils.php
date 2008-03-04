@@ -1127,4 +1127,4 @@ function _civicrm_activity_formatted_param( &$params, &$values, $create=false)
     }
     return null;
 }
-?>
+

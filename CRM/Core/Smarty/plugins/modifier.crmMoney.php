@@ -49,4 +49,4 @@ function smarty_modifier_crmMoney($amount, $currency = null, $format = null)
     return CRM_Utils_Money::format($amount, $currency, $format);
 }
 
-?>
+

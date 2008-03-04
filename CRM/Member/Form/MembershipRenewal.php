@@ -355,4 +355,4 @@ class CRM_Member_Form_MembershipRenewal extends CRM_Member_Form
         CRM_Core_Session::setStatus($statusMsg);
     }
 }
-?>
+

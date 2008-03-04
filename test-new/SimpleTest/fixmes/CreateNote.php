@@ -89,4 +89,4 @@ class TestOfCreateNote extends UnitTestCase
         $this->assertNull($deleteContact);
     }
 }
-?>
+

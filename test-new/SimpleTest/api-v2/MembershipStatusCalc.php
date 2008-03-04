@@ -69,4 +69,3 @@ class TestOfMembershipStatusCalcAPIV2 extends CiviUnitTestCase {
     
 }
 
-?>

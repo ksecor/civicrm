@@ -53,4 +53,3 @@ class CRM_Core_QuickForm_NestedAdvMultiSelect extends HTML_QuickForm_advmultisel
     }
 }
 
-?>

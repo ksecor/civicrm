@@ -116,4 +116,4 @@ class TestOfDeleteLocationAPI extends UnitTestCase
     }
 }
 
-?>
+

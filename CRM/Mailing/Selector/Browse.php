@@ -352,4 +352,4 @@ SELECT count(civicrm_mailing.id)
     
 }//end of class
 
-?>
+

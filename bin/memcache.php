@@ -13,4 +13,4 @@ $cache =& CRM_Utils_Cache::singleton( );
 $cache->set( 'CRM_Core_Config', $config );
 CRM_Core_Error::debug( 'get', $cache->get( 'CRM_Core_Config' ) );
 
-?>
+

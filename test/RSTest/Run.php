@@ -594,4 +594,4 @@ $objRun =& new test_RSTest_Run();
 
 $objRun->run();
 
-?>
+

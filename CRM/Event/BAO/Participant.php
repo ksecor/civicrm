@@ -626,4 +626,4 @@ WHERE  civicrm_participant.id = {$participantId}
         }
     }
 }
-?>
+

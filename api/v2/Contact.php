@@ -442,4 +442,4 @@ function civicrm_contact_search_count( &$params ) {
     return $query->searchQuery( 0, 0, null, true );
 }
 
-?>
+

@@ -29,4 +29,4 @@ class TestOfCRM2474 extends UnitTestCase
 
 }
 
-?>
+

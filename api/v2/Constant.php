@@ -52,4 +52,4 @@ function civicrm_constant_get( $name ) {
     }
 }
 
-?>
+

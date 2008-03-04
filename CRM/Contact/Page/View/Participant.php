@@ -172,4 +172,4 @@ class CRM_Contact_Page_View_Participant extends CRM_Contact_Page_View
     }
 }
 
-?>
+

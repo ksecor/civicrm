@@ -267,4 +267,4 @@ class CRM_Contact_Page_View_Contribution extends CRM_Contact_Page_View
         $session->pushUserContext( $url );
     }
 }
-?>
+

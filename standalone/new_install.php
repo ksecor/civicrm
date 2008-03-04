@@ -11,7 +11,7 @@ if ( count( $contactIds ) > 0 ) {
 }
 $session =& CRM_Core_Session::singleton( );
 $session->set( 'new_install', true );
-?>
+
 <html>
 <head>
   <title>CiviCRM Installation - Admin Login</title>

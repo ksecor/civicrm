@@ -138,4 +138,4 @@ function crm_confirm_group_contacts(&$group, $contacts)
     return null;    
 }
 
-?>
+

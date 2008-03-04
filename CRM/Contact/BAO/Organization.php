@@ -46,4 +46,4 @@ class CRM_Contact_BAO_Organization extends CRM_Contact_DAO_Contact
     }
     
 }
-?>
+

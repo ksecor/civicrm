@@ -34,4 +34,4 @@ $store = new Auth_OpenID_MySQLStore($connection,
  */
 $consumer = new Auth_OpenID_Consumer($store);
 
-?>
+

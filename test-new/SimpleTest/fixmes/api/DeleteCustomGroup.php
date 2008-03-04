@@ -146,4 +146,4 @@ class TestOfDeleteCustomGroup extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

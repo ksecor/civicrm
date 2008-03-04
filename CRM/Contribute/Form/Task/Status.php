@@ -303,4 +303,4 @@ WHERE     c.id IN ( $contributionIDs )";
 
 }
 
-?>
+

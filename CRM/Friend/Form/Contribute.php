@@ -129,4 +129,4 @@ class CRM_Friend_Form_Contribute extends CRM_Contribute_Form_ContributionPage
         return ts( 'Tell a Friend' );
     }
 }
-?>
+

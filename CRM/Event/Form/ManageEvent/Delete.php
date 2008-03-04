@@ -114,4 +114,3 @@ class CRM_Event_Form_ManageEvent_Delete extends CRM_Event_Form_ManageEvent
         CRM_Core_Session::setStatus( ts('The event \'%1\' has been deleted.', array( 1 => $this->_title ) ) );
     }
 }
-?>

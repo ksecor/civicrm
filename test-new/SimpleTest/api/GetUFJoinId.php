@@ -62,4 +62,3 @@ class TestOfGetUFJoinIdAPIV1 extends CiviUnitTestCase
 
 
 
-?>

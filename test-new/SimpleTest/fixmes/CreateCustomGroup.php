@@ -266,4 +266,4 @@ class TestOfCreateCustomGroupAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

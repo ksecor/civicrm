@@ -23,4 +23,4 @@ class TestOfCRM531 extends UnitTestCase
         $this->assertIsA($contact, 'CRM_Contact_DAO_Contact');
     }
 }
-?>
+

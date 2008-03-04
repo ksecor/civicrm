@@ -105,4 +105,4 @@ class TestOfSubscribeGroupContact extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

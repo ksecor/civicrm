@@ -58,4 +58,3 @@ class TestOfMembershipTypeGetAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>

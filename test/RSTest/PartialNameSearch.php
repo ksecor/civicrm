@@ -81,4 +81,4 @@ class test_RSTest_PartialNameSearch
         return $result;
     }
 }
-?>
+

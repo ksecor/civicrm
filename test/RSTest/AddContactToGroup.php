@@ -114,4 +114,4 @@ class test_RSTest_AddContactToGroup
     }
     
 }
-?>
+

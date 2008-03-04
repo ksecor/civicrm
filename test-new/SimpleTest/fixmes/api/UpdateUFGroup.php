@@ -42,4 +42,4 @@ class TestOfUpdateUFGroupAPI extends UnitTestCase
          $this->assertEqual($UFGroup,true);
     }
 }
-?>
+

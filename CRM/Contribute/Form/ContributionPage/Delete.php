@@ -149,4 +149,4 @@ class CRM_Contribute_Form_ContributionPage_Delete extends CRM_Contribute_Form_Co
     }
 }
 
-?>
+

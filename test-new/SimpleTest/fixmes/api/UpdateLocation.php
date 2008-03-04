@@ -403,4 +403,4 @@ class TestOfUpdateLocationAPI extends UnitTestCase
     }
 }
 
-?>
+

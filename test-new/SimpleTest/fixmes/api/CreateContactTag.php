@@ -36,4 +36,4 @@ class TestOfCreateContactTag extends UnitTestCase {
 
 }
 
-?>
+

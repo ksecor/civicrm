@@ -77,4 +77,4 @@ class CRM_Contact_Page_View_Delete extends CRM_Contact_Page_View {
 
 }
 
-?>
+

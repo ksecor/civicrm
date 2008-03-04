@@ -46,4 +46,4 @@ class TestOfEntityTag extends UnitTestCase
 
 }
 
-?>
+

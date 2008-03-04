@@ -42,4 +42,4 @@ $config->userHookClass          = 'CRM_Utils_Hook_Soap';
 
 echo $rest->run( $config );
 
-?>
+

@@ -39,4 +39,4 @@ if ( TEST == __FILE__ ) {
     $test->run(new HtmlReporter());
 }
 
-?>
+

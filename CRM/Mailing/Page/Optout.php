@@ -43,4 +43,4 @@ class CRM_Mailing_Page_Optout extends CRM_Mailing_Page_Common
     }
 }
 
-?>
+

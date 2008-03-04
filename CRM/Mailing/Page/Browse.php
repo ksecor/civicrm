@@ -212,4 +212,4 @@ class CRM_Mailing_Page_Browse extends CRM_Core_Page {
 
 }
 
-?>
+

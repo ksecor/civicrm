@@ -154,4 +154,4 @@ class CRM_Contribute_Form_Task_PickProfile extends CRM_Contribute_Form_Task {
         $this->set( 'ufGroupId', $params['uf_group_id'] );
     }//end of function
 }
-?>
+

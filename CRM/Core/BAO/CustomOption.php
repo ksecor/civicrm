@@ -277,4 +277,4 @@ SET    {$dao->columnName} = REPLACE( {$dao->columnName}, %1, %2 )";
     }
 
 }
-?>
+

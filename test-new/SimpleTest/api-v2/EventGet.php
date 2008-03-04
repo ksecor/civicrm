@@ -46,4 +46,3 @@ class TestOfEventGetAPIV2 extends CiviUnitTestCase
         $this->eventDelete( $this->_event['event_id'] );
     }
 }
-?>

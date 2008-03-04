@@ -55,4 +55,4 @@ function smarty_modifier_crmDelete( $string, $attribute ) {
     return preg_replace( $pattern, '', $string );
 }
 
-?>
+

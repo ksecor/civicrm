@@ -50,4 +50,3 @@ class TestOfMembershipDelete extends CiviUnitTestCase {
 
 }
 
-?>

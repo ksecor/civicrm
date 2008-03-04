@@ -151,4 +151,4 @@ class CRM_Contribute_Form_ContributionPage_ThankYou extends CRM_Contribute_Form_
         return ts( 'Thanks and Receipt' );
     }
 }
-?>
+

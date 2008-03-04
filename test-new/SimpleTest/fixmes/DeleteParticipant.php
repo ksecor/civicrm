@@ -60,4 +60,4 @@ class TestOfDeleteParticipant extends UnitTestCase
         $this->assertNull($delete);
     }
 }
-?>
+

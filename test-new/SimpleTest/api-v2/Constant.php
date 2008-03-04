@@ -42,4 +42,4 @@ class TestOfConstantAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>
+

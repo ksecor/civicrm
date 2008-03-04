@@ -249,4 +249,3 @@ class TestOfLocationAddAPIV2 extends CiviUnitTestCase
     
 }
  
-?>

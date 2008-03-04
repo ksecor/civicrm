@@ -643,4 +643,4 @@ function civicrm_key_disable( ) {
     $config->formKeyDisable = true;
 }
 
-?>
+

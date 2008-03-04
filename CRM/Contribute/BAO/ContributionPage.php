@@ -326,4 +326,4 @@ WHERE entity_table = 'civicrm_contribution_page'
         return false;
     }
 }
-?>
+

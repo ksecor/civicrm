@@ -140,4 +140,4 @@ class CRM_Admin_Page_Tag extends CRM_Core_Page_Basic
    }
 }
 
-?>
+

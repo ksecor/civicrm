@@ -244,4 +244,4 @@ class CRM_Contact_Page_View_Basic extends CRM_Contact_Page_View {
 
 }
 
-?>
+

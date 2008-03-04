@@ -67,4 +67,3 @@ class TestOfActivityGetContactAPIV2 extends CiviUnitTestCase
       $this->contactDelete( $this->_individualTargetId );
     }
 }
-?>

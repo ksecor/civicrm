@@ -76,4 +76,4 @@ class CRM_Event_Payment_PayJunction extends CRM_Core_Payment_PayJunction
    } 
 
 } // end class CRM_Event_Payment_PayJunction
-?>
+

@@ -83,4 +83,4 @@ class CRM_Core_Standalone {
 
 }
 
-?>
+

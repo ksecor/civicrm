@@ -84,4 +84,4 @@ class CRM_Upgrade_TwoZero_Form_Step7 extends CRM_Upgrade_Form {
         return '<p><strong>' . ts('Your CiviCRM database has been successfully upgraded to v2.0.') . '</strong></p><p>' . ts('Please be sure to follow the remaining steps in the <a href=\'%1\' target=\'_blank\'><strong>Upgrade Instructions</strong></a>.', array( 1 => $upgradeDoc )) . '</p><p>' . ts('Thank you for using CiviCRM.') . '</p>';
     }
 }
-?>
+

@@ -162,4 +162,4 @@ foreach ($msgidArray as $msgid => $commentsArray) {
 // output the $resultArray to STDOUT
 fwrite(STDOUT, implode("\n", $resultArray));
 
-?>
+

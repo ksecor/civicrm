@@ -52,4 +52,4 @@ class TestOfLocationGetAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>
+

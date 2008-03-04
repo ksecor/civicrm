@@ -412,4 +412,4 @@ class CRM_Mailing_Selector_Event    extends CRM_Core_Selector_Base
     }
 }//end of class
 
-?>
+

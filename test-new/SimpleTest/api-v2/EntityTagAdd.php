@@ -148,6 +148,6 @@ class TestOfEntityTagAdd extends CiviUnitTestCase
     }
     
 }
-?>
+
 
 

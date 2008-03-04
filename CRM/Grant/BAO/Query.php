@@ -320,4 +320,4 @@ class CRM_Grant_BAO_Query
     }  
 }
 
-?>
+

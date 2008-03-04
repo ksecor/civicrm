@@ -357,4 +357,4 @@ class TestOfGetContactAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

@@ -80,7 +80,7 @@ function civicrm_main( ) {
 
 require_once '$configFile';
 
-?>
+
 ";
     $string = trim( $string );
     civicrm_write_file( CRM_PATH . DIRECTORY_SEPARATOR . 'civicrm.config.php',
@@ -161,4 +161,4 @@ function civicrm_config( $frontend = false ) {
 
 civicrm_main( );
 
-?>
+

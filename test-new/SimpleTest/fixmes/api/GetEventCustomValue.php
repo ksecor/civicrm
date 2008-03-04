@@ -101,4 +101,3 @@ class TestOfGetEventCustomValue extends UnitTestCase
             crm_create_custom_value('civicrm_event', $this->_event['id'], $this->_customField, $value);
     }
 }
-?>

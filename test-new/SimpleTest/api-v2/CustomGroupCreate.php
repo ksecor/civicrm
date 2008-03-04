@@ -150,4 +150,4 @@ class TestOfCustomGroupCreateAPIV2 extends CiviUnitTestCase
     }
     
 }
-?>
+

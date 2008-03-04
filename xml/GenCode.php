@@ -852,5 +852,5 @@ function getSize( $maxLength ) {
     return 'CRM_Utils_Type::HUGE';
 }
 
-?>
+
 

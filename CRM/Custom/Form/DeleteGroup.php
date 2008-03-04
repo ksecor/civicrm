@@ -112,4 +112,4 @@ class CRM_Custom_Form_DeleteGroup extends CRM_Core_Form {
    }
 }
 
-?>
+

@@ -44,4 +44,4 @@ class TestOfGetGroupContacts extends UnitTestCase
         }
     }
 }
-?>
+

@@ -59,4 +59,4 @@ class CRM_Admin_Form_Setting_Path extends CRM_Admin_Form_Setting
     }
 }
 
-?>
+

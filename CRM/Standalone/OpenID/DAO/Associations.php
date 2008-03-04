@@ -244,4 +244,3 @@ class CRM_Standalone_OpenID_DAO_Associations extends CRM_Core_DAO
         return self::$_export;
     }
 }
-?>

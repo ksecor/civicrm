@@ -27,4 +27,4 @@ class TestOfCreateProfileContactAPI extends UnitTestCase
         crm_create_profile_contact( $params, $fields, null );       
     }
 }
-?>
+

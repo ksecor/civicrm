@@ -93,4 +93,4 @@ class TestMultiValuedCheckBox extends UnitTestCase
         $this->assertIsA($customValue2, 'CRM_Core_BAO_CustomValue');
     }
 }
-?>
+

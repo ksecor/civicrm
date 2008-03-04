@@ -43,4 +43,4 @@ class TestOfGetGroupsAPI extends UnitTestCase
         }
     }
 }
-?>
+

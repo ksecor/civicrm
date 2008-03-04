@@ -89,4 +89,4 @@ class CRM_Core_Permission_Standalone {
 
 }
 
-?>
+

@@ -473,4 +473,4 @@ class TestOfFetchContactAPI extends UnitTestCase
     }
     
 }
-?>
+

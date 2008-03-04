@@ -30,4 +30,4 @@ class TestOfCRM522 extends UnitTestCase
         
     }
 }
-?>
+

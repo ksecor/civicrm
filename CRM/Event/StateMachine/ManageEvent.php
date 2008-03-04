@@ -65,4 +65,4 @@ class CRM_Event_StateMachine_ManageEvent extends CRM_Core_StateMachine {
 
 }
 
-?>
+

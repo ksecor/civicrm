@@ -183,4 +183,4 @@ function &crm_delete_event( $eventID ) {
     require_once 'CRM/Event/BAO/Event.php';
     return CRM_Event_BAO_Event::del($eventID);
 }
-?>
+

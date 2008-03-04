@@ -309,4 +309,4 @@ class CRM_UF_Page_Group extends CRM_Core_Page
       $controller->run();
     }
 }
-?>
+

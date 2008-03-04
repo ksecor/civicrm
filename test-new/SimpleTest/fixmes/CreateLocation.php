@@ -349,4 +349,4 @@ class TestOfCreateLocationAPI extends UnitTestCase
         $this->assertNull($result);
         }
 }
-?>
+

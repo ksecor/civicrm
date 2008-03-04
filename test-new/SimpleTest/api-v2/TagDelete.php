@@ -38,4 +38,4 @@ class TestOfTagDeleteAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>
+

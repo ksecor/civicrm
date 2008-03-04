@@ -56,4 +56,3 @@ class TestOfMembershipCreateAPIV2 extends CiviUnitTestCase {
     
 }
 
-?>

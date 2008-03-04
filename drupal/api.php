@@ -180,4 +180,4 @@ function civicrm_drupal_user_update_and_redirect ($params) {
 } //end func civicrm_drupal_user_update_and_redirect
 
 
-?>
+

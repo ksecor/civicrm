@@ -520,4 +520,4 @@ SELECT count( civicrm_location.id )
     }
 }
 
-?>
+

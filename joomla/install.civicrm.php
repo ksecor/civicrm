@@ -8,7 +8,7 @@ function com_install() {
     }
 
     // Show installation result to user
-?>
+
 
 <center>
   <table width="100%" border="0">
@@ -29,4 +29,4 @@ function com_install() {
 
 <?php
 }
-?>
+

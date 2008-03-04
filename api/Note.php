@@ -200,4 +200,4 @@ function &crm_update_note( &$params ) {
     _crm_object_to_array( $noteBAO, $note);
     return $note;
 }
-?>
+

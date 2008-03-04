@@ -118,4 +118,4 @@ function civicrm_check_permission( $args ) {
     return false;
 }
 
-?>
+

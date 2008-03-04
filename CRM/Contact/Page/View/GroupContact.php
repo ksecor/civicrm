@@ -159,4 +159,4 @@ class CRM_Contact_Page_View_GroupContact extends CRM_Contact_Page_View {
     }
 }
 
-?>
+

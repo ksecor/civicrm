@@ -205,4 +205,4 @@ function &civicrm_event_delete( &$params )
     
     return CRM_Event_BAO_Event::del( $eventID ) ?  civicrm_create_success( ) : civicrm_create_error( ts( 'Error while deleting event' ) );
 }
-?>
+

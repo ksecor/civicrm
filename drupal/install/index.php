@@ -596,4 +596,4 @@ function errorDisplayPage( $errorTitle, $errorMsg ) {
     exit();
 }
 
-?>
+

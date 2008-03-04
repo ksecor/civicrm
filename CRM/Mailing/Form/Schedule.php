@@ -156,4 +156,4 @@ class CRM_Mailing_Form_Schedule extends CRM_Core_Form
 
 }
 
-?>
+

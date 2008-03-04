@@ -134,4 +134,4 @@ class CRM_Contact_Page_View_Grant extends CRM_Contact_Page_View
     }
 }
 
-?>
+

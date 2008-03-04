@@ -81,4 +81,4 @@ function walkDirectory( $iter, &$files, $length ) {
         $iter->next( );
     }
 }
-?>
+

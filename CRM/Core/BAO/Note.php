@@ -257,4 +257,4 @@ ORDER BY modified_date desc";
         return $viewNote;
     }
 }
-?>
+

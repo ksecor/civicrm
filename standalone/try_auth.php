@@ -63,4 +63,4 @@ $redirect_url = $auth_request->redirectURL($trust_root,
 
 header("Location: ".$redirect_url);
 
-?>
+

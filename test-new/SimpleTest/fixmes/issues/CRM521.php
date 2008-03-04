@@ -65,4 +65,4 @@ class TestOfCRM521 extends UnitTestCase
         $this->assertIsA($customValue2, 'CRM_Core_BAO_CustomValue');
     }
 }
-?>
+

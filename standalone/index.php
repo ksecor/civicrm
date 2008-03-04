@@ -41,4 +41,4 @@ if ($session->get('goahead') == "yes") {
     header("Location: login.php");
 }
 
-?>
+

@@ -127,4 +127,4 @@ class TestOfDeleteEntityTagAPI extends UnitTestCase
     }
     
 }
-?>
+

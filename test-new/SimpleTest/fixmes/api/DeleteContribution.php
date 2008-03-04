@@ -66,4 +66,4 @@ class TestOfDeleteContributionAPI extends UnitTestCase
     }
 }
 
-?>
+

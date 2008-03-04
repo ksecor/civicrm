@@ -201,4 +201,4 @@ class TestOfCreateUFGroupAPI extends UnitTestCase
         $this->assertEqual( $dUFGroup, true );
     }
 }
-?>
+

@@ -52,4 +52,4 @@ class TestOfGetContactGroups extends UnitTestCase
     }
 }
 
-?>
+

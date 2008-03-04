@@ -152,4 +152,4 @@ LEFT JOIN civicrm_state_province state_province ON state_province.id = address.s
 
 }
 
-?>
+

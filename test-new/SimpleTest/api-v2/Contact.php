@@ -311,4 +311,4 @@ class TestOfContactAPIV2 extends CiviUnitTestCase
     
 }
 
-?>
+

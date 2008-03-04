@@ -64,4 +64,4 @@ class TestOfGetContributions extends UnitTestCase
     }
 }
 
-?>
+

@@ -29,4 +29,4 @@ class TestOfUpdateContactAPI extends UnitTestCase
     }
 }
 
-?>
+

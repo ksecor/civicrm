@@ -48,4 +48,3 @@ class TestOfCRM2187 extends UnitTestCase
         $this->_membership = $membership ;
     }
 }
-?>

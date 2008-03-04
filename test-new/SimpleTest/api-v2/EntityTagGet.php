@@ -107,4 +107,4 @@ class TestOfGetEntitiesByTagAPIV2 extends CiviUnitTestCase
     }
     
 }
-?>
+

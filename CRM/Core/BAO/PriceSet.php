@@ -483,4 +483,4 @@ class CRM_Core_BAO_PriceSet extends CRM_Core_DAO_PriceSet {
 
 }
 
-?>
+

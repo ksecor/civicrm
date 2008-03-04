@@ -219,4 +219,4 @@ class CRM_Event_Menu {
 
 }
 
-?>
+

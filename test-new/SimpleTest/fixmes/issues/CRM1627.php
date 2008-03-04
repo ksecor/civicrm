@@ -37,4 +37,4 @@ class TestOfCRM1627 extends UnitTestCase
 
 }
 
-?>
+

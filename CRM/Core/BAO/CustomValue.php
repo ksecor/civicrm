@@ -368,4 +368,4 @@ class CRM_Core_BAO_CustomValue extends CRM_Core_DAO
 
 }
 
-?>
+

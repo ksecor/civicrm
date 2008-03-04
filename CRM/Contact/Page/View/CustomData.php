@@ -116,4 +116,4 @@ class CRM_Contact_Page_View_CustomData extends CRM_Contact_Page_View {
         return parent::run();
     }
 }
-?>
+

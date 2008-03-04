@@ -476,4 +476,4 @@ SELECT DISTINCT(civicrm_mailing_event_queue.contact_id) as contact_id,
     }
 }
 
-?>
+

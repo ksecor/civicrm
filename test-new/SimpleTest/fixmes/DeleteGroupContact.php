@@ -131,4 +131,4 @@ class TestOfDeleteGroupContactAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

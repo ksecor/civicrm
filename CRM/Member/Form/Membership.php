@@ -575,4 +575,4 @@ class CRM_Member_Form_Membership extends CRM_Member_Form
         CRM_Core_Session::setStatus($statusMsg);
     }
 }
-?>
+

@@ -78,4 +78,3 @@ class TestOfUFJoinCreateAPIV1 extends CiviUnitTestCase
 
 
 
-?>

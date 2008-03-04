@@ -71,4 +71,4 @@ class TestOfGroupContactCreateAPIV2 extends CiviUnitTestCase
   
 }
 
-?>
+

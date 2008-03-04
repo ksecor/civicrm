@@ -128,4 +128,4 @@ class CRM_Admin_Form_LocationType extends CRM_Admin_Form
 
 }
 
-?>
+

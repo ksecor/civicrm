@@ -154,4 +154,4 @@ class CRM_Core_Smarty extends Smarty {
 
 }
 
-?>
+

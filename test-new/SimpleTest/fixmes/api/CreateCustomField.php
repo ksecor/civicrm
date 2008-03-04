@@ -264,4 +264,4 @@ class TestOfCreateCustomFieldAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

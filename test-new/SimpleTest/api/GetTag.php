@@ -86,4 +86,4 @@ class TestOfGetTagAPI extends UnitTestCase
         $this->assertNull($tag);
     }
 }
-?>
+

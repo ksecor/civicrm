@@ -23,4 +23,4 @@ class TestOfCRM980 extends UnitTestCase
         $this->assertEqual($tag->name, $params['name']);
     }
 }
-?>
+

@@ -204,4 +204,4 @@ class TestOfCRM1012 extends UnitTestCase
         CRM_Core_Error::debug('Membership', $status);
     }
 }
-?>
+

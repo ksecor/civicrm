@@ -417,4 +417,4 @@ function crm_validate_profile_html($userID, $title, $action = null, $register = 
     return CRM_Core_BAO_UFGroup::isValid( $userID, $title, $register, $action );
 }
 
-?>
+

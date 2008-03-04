@@ -82,4 +82,4 @@ if ( TEST == __FILE__ ) {
     $test4->run(new CiviHtmlReporter());
 }
 
-?>
+

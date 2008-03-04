@@ -81,4 +81,4 @@ class TestOfGroupCreateAPIV2 extends CiviUnitTestCase
     }
 }
 
-?>
+

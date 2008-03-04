@@ -93,4 +93,3 @@ class TestOfCRM2542 extends UnitTestCase
         civicrm_contact_delete( $delete );
     }
 }
-?>

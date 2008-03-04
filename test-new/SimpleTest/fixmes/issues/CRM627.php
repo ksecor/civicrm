@@ -38,4 +38,4 @@ class TestOfCRM627 extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

@@ -20,4 +20,4 @@ switch ($task) {
 		mosMenuBar::endTable();
     break;
 }
-?>
+

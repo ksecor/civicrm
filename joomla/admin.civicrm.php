@@ -41,4 +41,4 @@ function civicrm_invoke( ) {
     }
 }
 
-?>
+

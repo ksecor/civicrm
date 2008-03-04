@@ -149,4 +149,4 @@ class CRM_Event_Form_Registration_ThankYou extends CRM_Event_Form_Registration
     }
     
 }
-?>
+

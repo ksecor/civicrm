@@ -132,4 +132,4 @@ class test_RSTest_InsertRel
         $this->_insertRel();
     }
 }
-?>
+

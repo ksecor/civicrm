@@ -580,4 +580,4 @@ class CRM_Contribute_BAO_Query
         }
     }
 }
-?>
+

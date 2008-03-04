@@ -94,4 +94,3 @@ class CRM_Mailing_BAO_Spool extends CRM_Mailing_DAO_Spool {
     }
     
 }
-?>

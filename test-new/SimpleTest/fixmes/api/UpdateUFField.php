@@ -94,4 +94,4 @@ class TestOfUpdateUFFieldAPI extends UnitTestCase
         $this->assertEqual($UFGroup,true);
     }
 }
-?>
+

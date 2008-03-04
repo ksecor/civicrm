@@ -48,4 +48,4 @@ class TestOfDeleteParticipantPayment extends UnitTestCase
         $this->assertNull($delete);
     }
 }
-?>
+

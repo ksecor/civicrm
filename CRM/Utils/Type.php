@@ -245,4 +245,4 @@ class CRM_Utils_Type
     }
 }
 
-?>
+

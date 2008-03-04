@@ -46,4 +46,4 @@ class TestOfCreateHistoryAPI extends UnitTestCase {
         $this->assertIsA($history, 'CRM_Core_DAO_ActivityHistory');
     }
 }
-?>
+

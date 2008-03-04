@@ -491,4 +491,4 @@ WHERE civicrm_event.is_active = 1
 
 }
 
-?>
+

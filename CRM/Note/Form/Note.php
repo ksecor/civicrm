@@ -172,4 +172,4 @@ class CRM_Note_Form_Note extends CRM_Core_Form
     }//end of function
 }
 
-?>
+

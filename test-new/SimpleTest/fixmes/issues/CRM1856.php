@@ -21,4 +21,4 @@ class TestOfCRM1856 extends UnitTestCase
     }
 }
 
-?>
+

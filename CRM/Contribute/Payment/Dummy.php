@@ -54,4 +54,4 @@ class CRM_Contribute_Payment_Dummy extends CRM_Core_Payment_Dummy {
 
 }
 
-?>
+

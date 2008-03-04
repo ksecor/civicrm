@@ -527,4 +527,4 @@ class CRM_Utils_Rule
     }
 }
 
-?>
+

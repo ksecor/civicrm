@@ -124,4 +124,4 @@ class CRM_Event_Import_Form_Summary extends CRM_Core_Form {
         return ts('Summary');
     }
 }
-?>
+

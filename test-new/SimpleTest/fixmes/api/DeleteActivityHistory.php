@@ -91,4 +91,4 @@ class TestOfDeleteHistoryAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

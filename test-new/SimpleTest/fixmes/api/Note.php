@@ -101,4 +101,4 @@ class TestOfNoteAPI extends UnitTestCase
         $note =& crm_update_note($noteParams);
     }       
 }
-?>
+

@@ -29,4 +29,4 @@ class TestOfCRM878 extends UnitTestCase
     }
 
 }
-?>
+

@@ -29,4 +29,3 @@ class testPublicCivicrmContactDelete extends CiviUnitTestCase
     // needs to start with "test", e.g. testCreateEmptyContact
 
 }
-?>

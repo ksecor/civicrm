@@ -31,4 +31,3 @@ class TestOfMembershipStatusCreate extends CiviUnitTestCase {
 
 }
 
-?>

@@ -601,4 +601,4 @@ class CRM_Event_Import_Form_MapField extends CRM_Core_Form
         return ts('Match Fields');
     }
 }
-?>
+

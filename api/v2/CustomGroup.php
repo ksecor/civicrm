@@ -267,4 +267,4 @@ function civicrm_custom_field_delete( $params )
         civicrm_create_success( );
 }
 
-?>
+

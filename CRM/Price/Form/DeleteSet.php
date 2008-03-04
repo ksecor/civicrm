@@ -105,4 +105,4 @@ class CRM_Price_Form_DeleteSet extends CRM_Core_Form {
     }
 }
 
-?>
+

@@ -168,4 +168,4 @@ class TestOfGetEntitiesByTagAPI extends UnitTestCase
         $this->assertNull($val);
     }
 }
-?>
+

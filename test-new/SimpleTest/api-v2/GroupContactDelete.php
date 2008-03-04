@@ -59,4 +59,4 @@ class TestOfGroupContactDeleteAPIV2 extends CiviUnitTestCase
   
 }
 
-?>
+

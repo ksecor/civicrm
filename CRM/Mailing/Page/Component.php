@@ -128,4 +128,4 @@ class CRM_Mailing_Page_Component extends CRM_Core_Page_Basic {
 
 }
 
-?>
+

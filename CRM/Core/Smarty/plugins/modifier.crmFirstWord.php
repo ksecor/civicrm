@@ -52,4 +52,4 @@ function smarty_modifier_crmFirstWord( $string ) {
     return $words[0];
 }
 
-?>
+

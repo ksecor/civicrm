@@ -483,4 +483,4 @@ ORDER BY civicrm_address.is_primary DESC, civicrm_address.location_type_id DESC,
 
 }
 
-?>
+

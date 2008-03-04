@@ -94,4 +94,4 @@ class CRM_Mailing_Page_Event extends CRM_Core_Page {
 
 }
 
-?>
+

@@ -25,4 +25,4 @@ class TestOfGetContactFlat extends UnitTestCase
  
 } 
  
-?>
+

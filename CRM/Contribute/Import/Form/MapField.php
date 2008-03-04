@@ -626,4 +626,4 @@ class CRM_Contribute_Import_Form_MapField extends CRM_Core_Form {
     
 }
 
-?>
+

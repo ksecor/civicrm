@@ -170,4 +170,4 @@ class CRM_Admin_Page_DedupeRules extends CRM_Core_Page_Basic
     }
 }
 
-?>
+

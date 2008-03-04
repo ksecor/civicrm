@@ -115,4 +115,4 @@ class CRM_Admin_Form_RelationshipType extends CRM_Admin_Form
     }//end of function
 }
 
-?>
+

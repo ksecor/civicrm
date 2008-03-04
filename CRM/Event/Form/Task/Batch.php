@@ -218,4 +218,4 @@ class CRM_Event_Form_Task_Batch extends CRM_Event_Form_Task
         CRM_Core_Session::setStatus("Your updates have been saved.");
     }//end of function
 }
-?>
+

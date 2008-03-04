@@ -682,4 +682,4 @@ AND civicrm_group_contact.group_id = %2";
 
 
 
-?>
+

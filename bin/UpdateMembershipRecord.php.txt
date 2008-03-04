@@ -171,4 +171,4 @@ echo "\n Updating ";
 $obj->updateMembershipStatus( $domainId );
 echo "\n\n Membership records updated. (Done) \n";
 
-?>
+

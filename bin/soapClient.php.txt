@@ -13,4 +13,4 @@ $result =& $client->get_contact( $key, $params );
 
 print_r($result);
 
-?>
+

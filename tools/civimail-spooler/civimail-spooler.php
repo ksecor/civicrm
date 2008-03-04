@@ -40,4 +40,4 @@ if (isset($options['b'])) {
     CRM_Mailing_BAO_Job::runJobs();
 }
 
-?>
+

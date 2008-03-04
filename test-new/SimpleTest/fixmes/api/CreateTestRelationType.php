@@ -44,4 +44,4 @@ class TestOfCreateRelationshipTypeAPI extends UnitTestCase
 
     
 }
-?>
+

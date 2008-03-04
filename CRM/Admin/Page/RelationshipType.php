@@ -139,4 +139,4 @@ class CRM_Admin_Page_RelationshipType extends CRM_Core_Page_Basic
 
 }
 
-?>
+

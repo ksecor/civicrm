@@ -73,4 +73,4 @@ class TestOfDeleteContactAPI extends UnitTestCase
         $this->assertNull($val);
     }    
 }
-?>
+

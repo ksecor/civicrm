@@ -119,4 +119,3 @@ class TestOfEntityTagRemoveAPIV2 extends CiviUnitTestCase
         $this->tagDelete(     $this->tagID        );
     }
 }
-?>

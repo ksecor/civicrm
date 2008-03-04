@@ -56,4 +56,4 @@ class TestOfGroupDeleteAPIV2 extends CiviUnitTestCase
         
     }
 }
-?>
+

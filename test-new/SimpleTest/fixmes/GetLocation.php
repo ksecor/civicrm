@@ -372,4 +372,4 @@ class TestOfGetLocationAPI extends UnitTestCase
         $this->assertNull($result);
     }
 }
-?>
+

@@ -39,4 +39,3 @@ class TestOfMembershipStatusUpdateAPIV2 extends CiviUnitTestCase {
     
 }
 
-?>

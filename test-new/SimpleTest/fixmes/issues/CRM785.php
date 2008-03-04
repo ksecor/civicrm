@@ -76,4 +76,4 @@ class TestOfCRM785 extends UnitTestCase
         CRM_Core_Error::debug( 'C 02', $contact );
     }
 }
-?>
+

@@ -122,4 +122,4 @@ WHERE  civicrm_contact.sort_name LIKE '%{$string}%'";
 
 }
 
-?>
+

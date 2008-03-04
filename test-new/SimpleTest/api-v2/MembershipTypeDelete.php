@@ -32,4 +32,3 @@ class TestOfMembershipTypeDelete extends CiviUnitTestCase {
 
 }
 
-?>

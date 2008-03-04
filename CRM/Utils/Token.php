@@ -660,4 +660,4 @@ class CRM_Utils_Token
     }
 }
 
-?>
+

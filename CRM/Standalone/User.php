@@ -36,4 +36,3 @@ class CRM_Standalone_User {
   }
 }
 
-?>

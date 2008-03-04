@@ -24,4 +24,4 @@ class TestOfCRMQuest extends UnitTestCase
     }
 }
 
-?>
+

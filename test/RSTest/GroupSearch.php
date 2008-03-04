@@ -109,4 +109,4 @@ class test_RSTest_GroupSearch
         return $result;
     }
 }
-?>
+

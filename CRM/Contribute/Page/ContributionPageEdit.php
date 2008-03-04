@@ -181,4 +181,4 @@ class CRM_Contribute_Page_ContributionPageEdit extends CRM_Core_Page {
         $this->assign('rows', $donation);
     }
 }
-?>
+

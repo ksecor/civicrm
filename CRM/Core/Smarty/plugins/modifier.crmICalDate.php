@@ -49,4 +49,4 @@ function smarty_modifier_crmICalDate( $str, $gdata = false )
     return CRM_Utils_ICalendar::formatDate( $str, $gdata );
 }
 
-?>
+

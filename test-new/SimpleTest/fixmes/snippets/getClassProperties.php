@@ -167,4 +167,4 @@ class TestOfGetClassPropertiesSnippet extends UnitTestCase
         
     }
 }
-?>
+

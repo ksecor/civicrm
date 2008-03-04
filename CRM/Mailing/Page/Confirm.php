@@ -68,4 +68,4 @@ class CRM_Mailing_Page_Confirm extends CRM_Core_Page
         parent::run();
     }
 }
-?>
+

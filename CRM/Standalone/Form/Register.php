@@ -137,4 +137,4 @@ class CRM_Standalone_Form_Register extends CRM_Core_Form {
 
 }
 
-?>
+

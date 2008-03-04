@@ -50,4 +50,3 @@ class TestOfEventDeleteAPIV2 extends CiviUnitTestCase
     {
     }
 }
-?>

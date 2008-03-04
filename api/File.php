@@ -327,4 +327,4 @@ function crm_delete_entity_file(&$params)
     
     return $entityFileDAO->delete() ? null : _crm_error('Error while deleting');
 }
-?>
+

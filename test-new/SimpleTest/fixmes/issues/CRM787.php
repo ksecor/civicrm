@@ -70,4 +70,4 @@ class TestOfCRM787 extends UnitTestCase
 
 }
 
-?>
+

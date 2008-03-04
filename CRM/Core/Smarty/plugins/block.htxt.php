@@ -53,4 +53,4 @@ function smarty_block_htxt($params, $text, &$smarty)
     }
 }
 
-?>
+

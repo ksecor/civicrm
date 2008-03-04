@@ -486,4 +486,4 @@ class CRM_Price_Form_Field extends CRM_Core_Form {
         }
     }
 }
-?>
+

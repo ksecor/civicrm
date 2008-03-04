@@ -110,4 +110,3 @@ class CRM_Contact_Form_DeleteLocation extends CRM_Core_Form
         CRM_Core_Session::setStatus( ts( 'The location has been deleted.' ) );
     }
 }
-?>

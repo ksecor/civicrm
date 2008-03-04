@@ -87,4 +87,4 @@ class test_RSTest_InsertContact extends test_RSTest_GenDataset
     }
 }
 
-?>
+

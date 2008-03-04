@@ -77,4 +77,4 @@ class CRM_Event_Form_Task_Result extends CRM_Event_Form_Task {
     }
 
 }
-?>
+
