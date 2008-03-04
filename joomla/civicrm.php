@@ -97,7 +97,7 @@ function civicrm_check_permission( $args ) {
     // an event registration page is valid
     if ( in_array( 'CiviEvent', $config->enableComponents ) ) {
         if ( $arg1 == 'event' &&
-             in_array( $arg2, array( 'register', 'info', 'participant' ) ) ) {
+             in_array( $arg2, array( 'register', 'info', 'participant', 'ical' ) ) ) {
             return true;
         }
 
