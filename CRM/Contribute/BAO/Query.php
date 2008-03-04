@@ -398,7 +398,8 @@ class CRM_Contribute_BAO_Query
             break;
             
         case 'contribution_payment_instrument':
-            $from = " $side JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument')";
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_payment_instrument ON ( option_group_payment_instrument.name = 'payment_instrument' AND option_group_payment_instrument.domain_id = $domainID )";
             $from .= " $side JOIN civicrm_option_value payment_instrument ON (civicrm_contribution.payment_instrument_id = payment_instrument.value
                                AND option_group_payment_instrument.id = payment_instrument.option_group_id ) ";
             break;
@@ -409,7 +410,8 @@ class CRM_Contribute_BAO_Query
             break;
 
         case 'contribution_status':
-            $from = " $side JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status')";
+            $domainID = CRM_Core_Config::domainID( );
+            $from = " $side JOIN civicrm_option_group option_group_contribution_status ON (option_group_contribution_status.name = 'contribution_status' AND option_group_contribution_status.domain_id = $domainID )";
             $from .= " $side JOIN civicrm_option_value contribution_status ON (civicrm_contribution.contribution_status_id = contribution_status.value 
                                AND option_group_contribution_status.id = contribution_status.option_group_id ) ";
             break;
