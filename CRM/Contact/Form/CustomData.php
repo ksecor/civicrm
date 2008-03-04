@@ -132,7 +132,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
         $this->_entitySubType = null;
         
         $groupDetails = CRM_Core_BAO_CustomGroup::getGroupDetail($this->_groupId);
-
         if ( $groupDetails[$this->_groupId]['extends'] == 'Contact') {
             $this->_entitySubType = $this->get('entitySubType');
         }
@@ -145,40 +144,6 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
     }
     
     /**
-     * Fix what blocks to show/hide based on the default values set
-     *
-     * @param    array    array of Group Titles
-     * @param    array    array of Group Collapse Display 
-     *
-     * @return   
-     *
-     * @access   protected
-     */
-    
-    protected function setShowHide(&$groupTitle, &$groupCollapseDisplay)
-    {
-        if ( empty( $groupTitle ) ) {
-            return;
-        }
-
-        $this->_showHide =& new CRM_Core_ShowHideBlocks('','');
-        
-        foreach ($groupTitle as $key => $title) {
-          $showBlocks = $title . '_show' ;
-          $hideBlocks = $title;
-           
-          if ($groupCollapseDisplay[$key]) {
-              $this->_showHide->addShow($showBlocks);
-              $this->_showHide->addHide($hideBlocks);
-          } else {
-              $this->_showHide->addShow($hideBlocks);
-              $this->_showHide->addHide($showBlocks);
-          }
-        }
-        $this->_showHide->addToTemplate();
-    }
-    
-    /**
      * Function to actually build the form
      *
      * @return void
@@ -186,7 +151,10 @@ class CRM_Contact_Form_CustomData extends CRM_Core_Form
      */
     public function buildQuickForm()
     {
-        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree, 'showBlocks', 'hideBlocks' );
+        CRM_Core_BAO_CustomGroup::buildQuickForm( $this, $this->_groupTree,
+                                                  'showBlocks', 'hideBlocks',
+                                                  false, true );
+
         $session = & CRM_Core_Session::singleton( );
         $uploadNames = $session->get( 'uploadNames' );
         if ( is_array( $uploadNames ) && ! empty ( $uploadNames ) ) {
