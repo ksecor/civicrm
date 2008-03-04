@@ -327,7 +327,7 @@ function markerError($file, $line, $marker, $tokens)
 function writeHeader($file)
 {
     $output = array();
-    $output[] = '# Copyright CiviCRM LLC (c) 2004-2007';
+    $output[] = '# Copyright CiviCRM LLC (c) 2004-2008';
     $output[] = '# This file is distributed under the same license as the CiviCRM package.';
     $output[] = '# If you contribute heavily to a translation and deem your work copyrightable,';
     $output[] = '# make sure you license it to CiviCRM LLC under Academic Free License 3.0.';
