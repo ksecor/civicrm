@@ -39,13 +39,15 @@
       {/foreach}
     </div>
     {/if}
-    {if $displayRecent and $recentlyViewed}
-        {include file="CRM/common/recentlyViewed.tpl"}
-    {/if}
-    
+
     {if $pageTitle}
         <h1 class="title">{$pageTitle}</h1>
     {/if}
+
+    {if $displayRecent and $recentlyViewed}
+        {include file="CRM/common/recentlyViewed.tpl"}
+    {/if}
+   
     
     {* Printer friendly link/icon. *}
     <div id="printer-friendly"><a href="{$printerFriendly}" title="{ts}Printer-friendly view of this page.{/ts}"><img src="{$config->resourceBase}i/print_preview.gif" alt="{ts}Printer-friendly view of this page.{/ts}" /></a></div>
