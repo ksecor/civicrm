@@ -42,7 +42,7 @@
 {ts}Event{/ts}: {$event}
 {if $role neq 'Attendee'}{ts}Role{/ts}: {$role}
 {/if}
-{ts}Registration Date{/ts}: {$register_date}
+{ts}Registration Date{/ts}: {$register_date|crmDate}
 {ts}Participant Status{/ts}: {$status}
 
 {if $paid}
