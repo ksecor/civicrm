@@ -141,7 +141,8 @@ VALUES
    (@domain_id, 'case_type'                     , '{ts escape="sql"}Case Type{/ts}'                          , 0, 1),
    (@domain_id, 'case_status'                   , '{ts escape="sql"}Case Status{/ts}'                        , 0, 1),
    (@domain_id, 'participant_listing'           , '{ts escape="sql"}Participant Listing{/ts}'                , 0, 1),
-   (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1);
+   (@domain_id, 'safe_file_extension'           , '{ts escape="sql"}Safe File Extension{/ts}'                , 0, 1),
+   (@domain_id, 'from_email_address'            , '{ts escape="sql"}From Email Address{/ts}'                 , 0, 1);
 
    
 SELECT @option_group_id_pcm            := max(id) from civicrm_option_group where name = 'preferred_communication_method';

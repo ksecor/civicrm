@@ -774,6 +774,18 @@ class CRM_Core_Menu
                            ),
 
                        array(
+                           'path'    => 'civicrm/admin/options',
+                           'title'   => ts('From Email Address'),
+                           'desc'    => ts('List of Email Addresses which can be used when sending emails to contacts.'), 
+                           'query'  => 'group=from_email_address&reset=1',
+                           'type'    => self::CALLBACK,
+                           'crmType' => self::LOCAL_TASK,
+                           'adminGroup' => ts('Option Lists'),
+                           'icon'    => 'admin/small/07.png',
+                           'weight'  => 355
+                           ),
+
+                       array(
                              'path'    => 'civicrm/admin/locationType',
                              'title'   => ts('Location Types (Home, Work...)'),
                              'desc'    => ts('Options for categorizing contact addresses and phone numbers (e.g. Home, Work, Billing, etc.).'), 

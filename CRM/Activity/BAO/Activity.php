@@ -497,7 +497,7 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
      * @access public
      * @static
      */
-    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null ) 
+    static function sendEmail( &$contactIds, &$subject, &$message, $emailAddress, $userID = null, $from = null ) 
     {
         if ( $userID == null ) {
             $session =& CRM_Core_Session::singleton( );
@@ -547,8 +547,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity
             }
         }
         require_once 'CRM/Utils/Mail.php';
-        $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
-        
+        if (!$from ) {
+            $from = CRM_Utils_Mail::encodeAddressHeader($fromDisplayName, $fromEmail);
+        }
         // create the meta level record first
         //         TO DO
         //         $params =  array( 'subject'    => $subject,

@@ -163,8 +163,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         $form->assign('totalSelectedContacts',count($form->_contactIds));
         
-        $from = '"' . $fromDisplayName . '"' . "<$fromEmail>";
-        $form->assign( 'from', $from );
+        $from = $fromDisplayName . "<$fromEmail>";
         
         require_once 'CRM/Core/BAO/MessageTemplates.php';
         $form->_templates = CRM_Core_BAO_MessageTemplates::getMessageTemplates();
@@ -177,8 +176,12 @@ class CRM_Contact_Form_Task_EmailCommon
             
             $form->add('checkbox','updateTemplate',ts('Update Template'), null);
         }
+        $form->_fromEmails = array('0' => $from) +CRM_Core_PseudoConstant::fromEmailAddress();
 
         //insert message Text by selecting "Select Template option"
+
+        $form->addElement('select', 'fromEmailAddress', 'From', $form->_fromEmails );
+
         $form->add( 'textarea', 
                     'message', 
                     ts('Message'),
@@ -250,9 +253,11 @@ class CRM_Contact_Form_Task_EmailCommon
         if ( $form->_single ) {
             $emailAddress = $form->controller->exportValue( 'Email', 'to' );
         }
+        $fromEmail = $form->controller->exportValue( 'Email', 'fromEmailAddress' );
+        $from = CRM_Utils_Array::value( $fromEmail, $form->_fromEmails );
         
         $cid = CRM_Utils_Request::retrieve( 'cid', 'Positive', $form, false );
-         
+        
         if ( $form->_noEmails ) {
             $emailAddress = $form->controller->exportValue( 'Email', 'emailAddress' );
 
@@ -331,7 +336,7 @@ class CRM_Contact_Form_Task_EmailCommon
         
         // send the mail
         require_once 'CRM/Activity/BAO/Activity.php';
-        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $emailAddress );
+        list( $total, $sent, $notSent ) = CRM_Activity_BAO_Activity::sendEmail( $form->_contactIds, $subject, $text, $emailAddress, null, $from );
         
         if ( $sent ) {
             $status[] = ts('Email sent to Contact(s): %1', array(1 => count($sent)));

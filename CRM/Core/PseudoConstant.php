@@ -96,6 +96,13 @@ class CRM_Core_PseudoConstant
     private static $imProvider;
 
     /**
+     * im protocols
+     * @var array
+     * @static
+     */
+    private static $fromEmailAddress;
+
+    /**
      * states, provinces
      * @var array
      * @static
@@ -461,6 +468,30 @@ class CRM_Core_PseudoConstant
             self::$imProvider = CRM_Core_OptionGroup::values('instant_messenger_service');
         }        
         return self::$imProvider;
+    }
+
+    /**
+     * Get all the From Email Address from database.
+     *
+     * The static array imProvider is returned, and if it's
+     * called the first time, the <b>IM DAO</b> is used 
+     * to get all the IM Providers.
+     *
+     * Note: any database errors will be trapped by the DAO.
+     *
+     * @access public
+     * @static
+     *
+     * @return array - array reference of all IM providers.
+     *
+     */
+    public static function &fromEmailAddress( ) 
+    {
+        if ( ! self::$fromEmailAddress ) {
+            require_once 'CRM/Core/OptionGroup.php';
+            self::$fromEmailAddress = CRM_Core_OptionGroup::values('from_email_address');
+        }        
+        return self::$fromEmailAddress;
     }
 
     /**

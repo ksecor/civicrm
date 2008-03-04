@@ -12,7 +12,7 @@
     </div>
 {/if}
 <dl>
-<dt>{ts}From{/ts}</dt><dd>{$from|escape}</dd>
+<dt>{$form.fromEmailAddress.label}</dt><dd>{$form.fromEmailAddress.html}</dd>
 {if $single eq false}
 <dt>{ts}Recipient(s){/ts}</dt><dd>{$to|escape}</dd>
 {else}
