@@ -1097,13 +1097,15 @@ class CRM_Contact_BAO_Query
                     $activity = true;
                 }
             }
-            
+
             require_once 'CRM/Core/Component.php';
             CRM_Core_Component::alterQuery( $this, 'where' );
+
             if ( $case ) {
                 require_once 'CRM/Case/BAO/Query.php';
                 CRM_Case_BAO_Query::where( $this );
             }
+
             if ( $activity ) {
                 require_once 'CRM/Activity/BAO/Query.php';
                 CRM_Activity_BAO_Query::where( $this );
@@ -2547,9 +2549,9 @@ class CRM_Contact_BAO_Query
         list( $select, $from, $where ) = $this->query( $count, $sortByChar, $groupContacts );
         
         if ( empty( $where ) ) {
-            $where = 'WHERE ' . $permission;
+            $where = "WHERE $permission";
         } else {
-            $where = $where . ' AND ' . $permission;
+            $where = "$where AND $permission";
         }
 
         if ( $additionalWhereClause ) {
