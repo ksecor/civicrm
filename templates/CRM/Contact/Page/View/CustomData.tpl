@@ -8,6 +8,12 @@
         {if $groupTree}
             <div class="form-item">
                 
+            {if $editCustomData and $groupId}
+                <div class="action-link">
+                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
+                </div>
+            {/if}
+
             {foreach from=$groupTree item=cd key=group_id}
                 {if $group_id ne 'info'}
                 <div id="{$cd.name}_show" class="section-hidden section-hidden-border">
@@ -82,11 +88,9 @@
                 {/if}
             {/foreach}
             
-            {if $editCustomData}
+            {if $editCustomData and $groupId}
                 <div class="action-link">
-                {if $groupId}
-                &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
-                {/if}
+                  &nbsp; <a href="{crmURL p="civicrm/contact/view/cd" q="cid=`$contactId`&gid=`$groupId`&action=update&reset=1"}">&raquo; {ts 1=$groupTree.$groupId.title}Edit %1{/ts}</a>
                 </div>
             {/if}
             </div>
