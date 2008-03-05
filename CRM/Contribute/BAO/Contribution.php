@@ -83,7 +83,6 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             return;
         } 
 
-        require_once 'CRM/Utils/Hook.php';
         $duplicates = array( );
         if ( self::checkDuplicate( $params, $duplicates,
                                    CRM_Utils_Array::value( 'contribution', $ids ) ) ) {
@@ -93,6 +92,18 @@ class CRM_Contribute_BAO_Contribution extends CRM_Contribute_DAO_Contribution
             return $error;
         }
 
+        // first clean up all the money fields
+        $moneyFields = array( 'total_amount',
+                              'net_amount',
+                              'fee_amount',
+                              'non_deductible_amount' );
+        foreach ( $moneyFields as $field ) {
+            if ( isset( $params[$field] ) ) {
+                $params[$field] = CRM_Utils_Rule::cleanMoney( $params[$field] );
+            }
+        }
+
+        require_once 'CRM/Utils/Hook.php';
         if ( CRM_Utils_Array::value( 'contribution', $ids ) ) {
             CRM_Utils_Hook::pre( 'edit', 'Contribution', $ids['contribution'], $params );
         } else {
