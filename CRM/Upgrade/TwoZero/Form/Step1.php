@@ -79,7 +79,7 @@ class CRM_Upgrade_TwoZero_Form_Step1 extends CRM_Upgrade_Form {
     }
     
     function verifyPostDBState( &$errorMessage ) {
-        $errorMessage = 'post-condition failed for upgrade step 1';
+        $errorMessage = ts('Post-condition failed for upgrade step %1.', array(1 => '1'));
         
         if (! CRM_Core_DAO::checkFieldExists( 'civicrm_domain', 'version' )) {
             return false;
