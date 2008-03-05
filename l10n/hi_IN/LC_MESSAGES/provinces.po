@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2007-04-18 07:35+0200\n"
-"PO-Revision-Date: 2008-02-18 05:48-0800\n"
+"PO-Revision-Date: 2008-03-04 06:34-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,70 +27,70 @@ msgid "Arkansas"
 msgstr "अर्केंसस"
 
 msgid "California"
-msgstr "कैलिफ़ोर्निया"
+msgstr "केलिफोर्निया"
 
 msgid "Colorado"
-msgstr "कोलोराडो"
+msgstr "कालरेडो"
 
 msgid "Connecticut"
-msgstr "कन्नेक्टिकट"
+msgstr "कनेक्टिकट"
 
 msgid "Delaware"
-msgstr "डेल्वारे"
+msgstr "डेलावेयर"
 
 msgid "Florida"
 msgstr "फ्लोरिडा"
 
 msgid "Georgia"
-msgstr "जोर्जिया  "
+msgstr "जार्जिया"
 
 msgid "Hawaii"
 msgstr "हवाई"
 
 msgid "Idaho"
-msgstr "इदाहाे"
+msgstr "आयडाहो"
 
 msgid "Illinois"
-msgstr ""
+msgstr "इलिनाय"
 
 msgid "Indiana"
 msgstr "इंडियाना"
 
 msgid "Iowa"
-msgstr "लाेवा"
+msgstr "आयोवा"
 
 msgid "Kansas"
-msgstr "कन्सास"
+msgstr "केन्सास"
 
 msgid "Kentucky"
-msgstr "केंटूकी"
+msgstr "केन्टकी"
 
 msgid "Louisiana"
-msgstr "लुइझिना"
+msgstr "लुईज़ियाना"
 
 msgid "Maine"
-msgstr ""
+msgstr "मेन"
 
 msgid "Maryland"
-msgstr "मेरीलँन्ड"
+msgstr "मेरिलैंड"
 
 msgid "Massachusetts"
-msgstr ""
+msgstr "मासेचुसेट्स"
 
 msgid "Michigan"
-msgstr "मिसिगन"
+msgstr "मिशिगन"
 
 msgid "Minnesota"
-msgstr ""
+msgstr "मिनेसोटा"
 
 msgid "Mississippi"
-msgstr "मिसिसीप्पी"
+msgstr "मिसिसिपी"
 
 msgid "Missouri"
-msgstr "मिसाैरि"
+msgstr "मिज़ूरी"
 
 msgid "Montana"
-msgstr "माेंटाना"
+msgstr "मोन्टाना"
 
 msgid "Nebraska"
 msgstr "नेब्रास्का"
@@ -99,70 +99,70 @@ msgid "Nevada"
 msgstr "नेवाडा"
 
 msgid "New Hampshire"
-msgstr "न्यु हँम्पशिर"
+msgstr "न्यू हेम्पशायर"
 
 msgid "New Jersey"
-msgstr "न्यु जर्सी"
+msgstr "न्यू जर्सी"
 
 msgid "New Mexico"
-msgstr "न्यु मेक्सिकाे"
+msgstr "न्यू मेक्सिको"
 
 msgid "New York"
-msgstr "न्यु यार्क"
+msgstr "न्यू यार्क"
 
 msgid "North Carolina"
-msgstr "उत्तर कराेलिना"
+msgstr "नार्थ केरोलाइना"
 
 msgid "North Dakota"
-msgstr "उत्तर डकाेटा"
+msgstr "नार्थ डेकोटा"
 
 msgid "Ohio"
-msgstr "आेहीआे"
+msgstr "ओहायो"
 
 msgid "Oklahoma"
-msgstr ""
+msgstr "ओक्लाहोमा"
 
 msgid "Oregon"
-msgstr "आँरगाँन"
+msgstr "ओरेगान"
 
 msgid "Pennsylvania"
-msgstr "पेनेसिलव्हीया"
+msgstr "पेन्सिलवेनिया"
 
 msgid "Rhode Island"
-msgstr ""
+msgstr "रोड आइलैंड"
 
 msgid "South Carolina"
-msgstr "दक्षिण कराेलिना"
+msgstr "साउथ केरोलाइना"
 
 msgid "South Dakota"
-msgstr "दक्षिण डकाेटा"
+msgstr "साउथ डेकोटा"
 
 msgid "Tennessee"
-msgstr ""
+msgstr "टेनेसी"
 
 msgid "Texas"
-msgstr "टेक्सास"
+msgstr "टेक्सस"
 
 msgid "Utah"
-msgstr "ऊताह"
+msgstr "यूटा"
 
 msgid "Vermont"
-msgstr "व्हरमँान्ट"
+msgstr "वर्मांट"
 
 msgid "Virginia"
-msgstr "व्हरजीनिया"
+msgstr "वर्जिनिया"
 
 msgid "Washington"
 msgstr "वाशिंगटन"
 
 msgid "West Virginia"
-msgstr "पश्चिम व्हरजीनिया"
+msgstr "वेस्ट वर्जिनिया"
 
 msgid "Wisconsin"
-msgstr ""
+msgstr "विस्कान्सिन"
 
 msgid "Wyoming"
-msgstr ""
+msgstr "वायोमिंग"
 
 msgid "District of Columbia"
 msgstr "डिस्ट्रीक आँफ काेलंबिया"
@@ -180,13 +180,13 @@ msgid "Puerto Rico"
 msgstr ""
 
 msgid "Virgin Islands"
-msgstr "व्ह्रजीन  आइसलँड"
+msgstr "व्ह्रजीन आइसलँड"
 
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
 msgid "Armed Forces Europe"
-msgstr "आर्मड फाेर्सेस  युराेप"
+msgstr "आर्मड फाेर्सेस युराेप"
 
 msgid "Armed Forces Americas"
 msgstr "आर्मड फाेर्स अमेरिकास्"
@@ -3639,7 +3639,7 @@ msgid "Seine-et-Marne"
 msgstr ""
 
 msgid "Seine-Maritime"
-msgstr ""
+msgstr " सेंट मार्टिन"
 
 msgid "Seine-Saint-Denis"
 msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-02-18 06:32-0800\n"
+"PO-Revision-Date: 2008-03-04 07:19-0800\n"
 "Last-Translator: sunil pawar <sunil.pawar@webaccess.co.in>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -1469,7 +1469,7 @@ msgstr "खोजे"
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Activity/Selector/Activity.tpl
 msgid "Activities"
-msgstr ""
+msgstr "घटनाएँ"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
@@ -1479,7 +1479,7 @@ msgstr "संबंध"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Tabbed.php
 msgid "Change Log"
-msgstr ""
+msgstr "हाल में हुए परिवर्तन"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Contribution.php CRM/Contact/Page/View/Tabbed.php
@@ -1487,13 +1487,13 @@ msgstr ""
 #: CRM/Core/SelectValues.php CRM/Dedupe/Merger.php
 #: templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Contributions"
-msgstr ""
+msgstr "दान"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Basic.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
 #: CRM/Dedupe/Merger.php templates/CRM/Contact/Page/View/Basic.tpl
 msgid "Memberships"
-msgstr ""
+msgstr "सदस्यता"
 
 #: CRM/Contact/Form/Search/Advanced.php CRM/Contact/Page/View/Grant.php
 #: CRM/Contact/Page/View/Tabbed.php CRM/Core/SelectValues.php
@@ -1527,13 +1527,13 @@ msgstr ""
 
 #: CRM/Contact/Form/Search/Basic.php CRM/Core/Menu.php
 msgid "Find Contacts"
-msgstr ""
+msgstr "सदस्य काे खाेजे"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/EmployerListing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php
 msgid "- any state/province -"
-msgstr ""
+msgstr "- काेई राज्य -"
 
 #: CRM/Contact/Form/Search/Criteria.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Core/BAO/CustomField.php
@@ -1569,7 +1569,7 @@ msgstr ""
 #: CRM/Contact/Form/Search/Custom/PostalMailing.php
 #: CRM/Contact/Form/Search/Custom/Sample.php CRM/Contact/Selector.php
 msgid "Contact Id"
-msgstr ""
+msgstr "सदस्य नंबर"
 
 #: CRM/Contact/Form/Search/Custom/ContribSYBNT.php
 #: CRM/Contact/Form/Search/Custom/ContributionAggregate.php
@@ -1667,7 +1667,7 @@ msgstr ""
 
 #: CRM/Contact/Form/Task/RemoveFromGroup.php CRM/Contact/Task.php
 msgid "Remove Contacts from Group"
-msgstr ""
+msgstr "सदस्य काे समूह से बाहर निकाले"
 
 #: CRM/Contact/Form/Task/SaveSearch.php CRM/Contact/Task.php
 msgid "Update Smart Group"
@@ -1683,12 +1683,12 @@ msgstr "संर्पक काे ईमेल भेजे"
 
 #: CRM/Contact/Page/View/Basic.php CRM/Contact/Page/View/Tabbed.php
 msgid "Contact Page"
-msgstr ""
+msgstr "सदस्य का पन्ना"
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Contact/Page/View.php
 #: CRM/Contact/Page/View/UserDashBoard.php
 msgid "We could not find a contact id."
-msgstr ""
+msgstr "सदस्य का नंबर मिला नही।"
 
 #: CRM/Contact/Page/View/DashBoard.php CRM/Core/Menu.php
 msgid "CiviCRM Home"
@@ -1697,7 +1697,7 @@ msgstr "CiviCRM होम"
 #: CRM/Contact/Page/View/GroupContact.php
 #: CRM/Contact/Page/View/UserDashBoard/GroupContact.php
 msgid "Contact's Groups"
-msgstr "संर्पक समुह"
+msgstr "सदस्य समुह"
 
 #: CRM/Contact/Page/View/Membership.php CRM/Group/Page/Group.php
 msgid "Members"
@@ -1722,11 +1722,11 @@ msgstr ""
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "View Contact Details"
-msgstr ""
+msgstr "सदस्य की पूरी जानकारी देखिये"
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 msgid "Edit Contact Details"
-msgstr "संर्पक संपादन "
+msgstr "सदस्य की जानकारी संपादन "
 
 #: CRM/Contact/Selector/Custom.php CRM/Contact/Selector.php
 #: CRM/Profile/Selector/Listings.php
@@ -1768,7 +1768,7 @@ msgstr ""
 #: CRM/Core/BAO/CustomField.php CRM/Core/DAO/CustomField.php
 #: CRM/Core/SelectValues.php CRM/Custom/Form/Field.php
 msgid "Link"
-msgstr ""
+msgstr "जुड़ना"
 
 #: CRM/Core/BAO/CustomField.php CRM/Friend/Form.php
 #: templates/CRM/Case/Form/CaseActivity.tpl
@@ -1776,7 +1776,7 @@ msgstr ""
 #: templates/CRM/Contact/Page/View/Email.tpl
 #: templates/CRM/Contact/Page/View/SMS.tpl templates/CRM/SMS/Form/Task/SMS.tpl
 msgid "From"
-msgstr ""
+msgstr "इनसे"
 
 #: CRM/Core/BAO/CustomField.php CRM/Core/BAO/PriceField.php
 msgid "%1 must be an integer (whole number)."
@@ -1792,7 +1792,7 @@ msgstr ""
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Type"
-msgstr ""
+msgstr "सदस्यता का प्रकार"
 
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 msgid "Membership Status"
@@ -1805,7 +1805,7 @@ msgstr ""
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
 #: templates/CRM/Contact/Page/View/UserDashBoard/Contribution.tpl
 msgid "Contribution Type"
-msgstr ""
+msgstr "दान का प्रकार"
 
 #: CRM/Core/BAO/UFGroup.php CRM/Grant/Form/Grant.php
 msgid "Please enter a valid amount."
@@ -1817,7 +1817,7 @@ msgstr "CiviCRM"
 
 #: CRM/Core/Block.php CRM/Core/Invoke.php
 msgid "New Activity"
-msgstr ""
+msgstr "नयी घटना"
 
 #: CRM/Core/Block.php CRM/Core/Menu.php
 msgid "Log out"
@@ -1906,7 +1906,7 @@ msgstr ""
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/Menu.php
 msgid "Activity"
-msgstr ""
+msgstr "घटना"
 
 #: CRM/Core/DAO/CustomGroup.php CRM/Core/SelectValues.php
 msgid "Tab"
@@ -1919,11 +1919,11 @@ msgstr ""
 #: CRM/Core/DAO/MappingField.php CRM/Core/DAO/Phone.php
 #: CRM/Core/DAO/UFField.php
 msgid "Phone Type"
-msgstr ""
+msgstr "फाेन का प्रकार"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php
 msgid "Import Activity"
-msgstr ""
+msgstr "घटना बाहर से मंगवाएे"
 
 #: CRM/Core/DAO/Mapping.php CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Search Builder"
@@ -1983,7 +1983,7 @@ msgstr ""
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "दाेस्त काे बतायिएे"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 msgid "Domain Information Page"
@@ -1991,7 +1991,7 @@ msgstr ""
 
 #: CRM/Core/Invoke.php CRM/Core/Menu.php
 msgid "Map Event Location"
-msgstr ""
+msgstr "कार्यक्रम जगह काे मानचित्र से देखिये"
 
 #: CRM/Core/Invoke.php CRM/Core/SelectValues.php
 msgid "Search Results"
@@ -2044,24 +2044,24 @@ msgstr ""
 
 #: CRM/Core/Menu.php CRM/Group/Form/Edit.php
 msgid "Manage Groups"
-msgstr ""
+msgstr "समूह काे संभालिये"
 
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "दाेस्त काे बतायिएे"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
-msgstr ""
+msgstr "सदस्य"
 
 #: CRM/Core/Menu.php CRM/Group/Page/Group.php
 msgid "Group Members"
-msgstr ""
+msgstr "समूह के सदस्य"
 
 #: CRM/Core/Page/File.php CRM/Custom/Form/DeleteFile.php
 msgid "The attached file has been deleted."
-msgstr ""
+msgstr "जूडी हुई फ़ाइल निकाली है।"
 
 #: CRM/Core/Payment/Google.php CRM/Core/Payment/PayPalImpl.php
 msgid ""
@@ -2214,11 +2214,11 @@ msgstr ""
 
 #: CRM/Group/Form/Edit.php CRM/Group/Page/Group.php
 msgid "Delete Group"
-msgstr ""
+msgstr "समूह काे मिटाये"
 
 #: CRM/Group/Form/Edit.php CRM/Upgrade/Form.php
 msgid "Continue"
-msgstr ""
+msgstr "क्रमश"
 
 #: CRM/Price/Form/DeleteSet.php CRM/Price/Page/Set.php
 msgid "Delete Price Set"
@@ -2227,7 +2227,7 @@ msgstr ""
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
 msgid "Price"
-msgstr ""
+msgstr "किमत"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 msgid "Owner Entity Table"
@@ -2269,7 +2269,7 @@ msgstr ""
 
 #: CRM/ACL/DAO/ACL.php
 msgid "All"
-msgstr ""
+msgstr "सब"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Revoke"
@@ -2277,15 +2277,15 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "सदस्य बनाईये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
-msgstr ""
+msgstr "सब सदस्य काे देखिईये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit all contacts"
-msgstr ""
+msgstr "सब सदस्य का संपादन किजिये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "import contacts"
@@ -2293,7 +2293,7 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "edit groups"
-msgstr ""
+msgstr "समूह का संपादन किजिये"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "administer CiviCRM"
@@ -2462,11 +2462,11 @@ msgstr ""
 #: CRM/Activity/Form/ActivityLinks.php
 #: templates/CRM/Activity/Form/ActivityLinks.tpl
 msgid "Other Activities"
-msgstr ""
+msgstr "इतर घटनाएँ"
 
 #: CRM/Activity/Form/Activity.php
 msgid "- select activity -"
-msgstr ""
+msgstr "- घटना चुनीये -"
 
 #: CRM/Activity/Form/Activity.php templates/CRM/Activity/Form/ActivityView.tpl
 msgid "With Contact"
@@ -2518,11 +2518,11 @@ msgstr ""
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Delete Activity"
-msgstr ""
+msgstr "घटनाएँ मिटाएँ"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Detach Activity"
-msgstr ""
+msgstr "घटनाएँ काे दूर किजिएँ"
 
 #: CRM/Activity/Selector/Activity.php
 msgid "Activities %%StatusMessage%%"

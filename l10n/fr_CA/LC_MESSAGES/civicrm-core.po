@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-02-25 19:05-0800\n"
+"PO-Revision-Date: 2008-03-04 17:57-0800\n"
 "Last-Translator: Mathieu Lutfy <mlutfy@koumbit.org>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -326,7 +326,7 @@ msgstr "Sujet"
 
 #: CRM/Activity/BAO/Query.php CRM/Case/BAO/Query.php
 msgid "Start Date - From"
-msgstr ""
+msgstr "Date de début - De"
 
 #: CRM/Activity/BAO/Query.php CRM/Activity/Form/Activity.php
 #: CRM/Case/BAO/Query.php CRM/Case/Form/Case.php
@@ -588,7 +588,7 @@ msgstr ""
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 msgid "Missing required field: %1"
-msgstr ""
+msgstr "Un champ obligatoire est absent: %1"
 
 #: CRM/Activity/Import/Form/MapField.php CRM/Grant/Import/Form/MapField.php
 #: CRM/Import/Form/MapField.php
@@ -1113,7 +1113,7 @@ msgstr "Région"
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Search/Criteria.php
 #: CRM/Core/DAO/Worldregion.php
 msgid "World Region"
-msgstr ""
+msgstr "Région du monde"
 
 #: CRM/Contact/BAO/Query.php CRM/Contact/Form/Individual.php
 #: CRM/Core/BAO/UFGroup.php CRM/UF/Form/Preview.php
@@ -1398,13 +1398,15 @@ msgstr "Site web"
 
 #: CRM/Contact/Form/Merge.php CRM/Grant/Invoke.php
 msgid "You do not have access to this page"
-msgstr ""
+msgstr "Vous n'avez pas le droit d'accéder à cette page."
 
 #: CRM/Contact/Form/Merge.php CRM/Contact/Form/Task/Delete.php
 msgid ""
 "The contact record which is linked to the currently logged in user account - "
 "'%1' - can not be deleted."
 msgstr ""
+"La fiche du contact est reliée à l'utilisateur présentement connecté - %1 - "
+"et donc ne peut être supprimée."
 
 #: CRM/Contact/Form/Merge.php CRM/Core/BAO/CustomField.php
 #: CRM/Core/BAO/CustomOption.php CRM/Core/BAO/CustomQuery.php
@@ -2007,7 +2009,7 @@ msgstr "Profil CiviCRM"
 #: CRM/Core/Invoke.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php templates/CRM/Friend/Form/Friend.tpl
 msgid "Tell A Friend"
-msgstr ""
+msgstr "Envoyer à un ami"
 
 #: CRM/Core/Invoke.php CRM/Core/Page/File.php
 #, fuzzy
@@ -2076,7 +2078,7 @@ msgstr "Gérer les groupes"
 #: CRM/Core/Menu.php CRM/Friend/BAO/Friend.php CRM/Friend/Form/Contribute.php
 #: CRM/Friend/Form/Event.php xml/templates/civicrm_add_domain.tpl
 msgid "Tell a Friend"
-msgstr ""
+msgstr "Envoyer à un ami"
 
 #: CRM/Core/Menu.php CRM/Core/SelectValues.php
 msgid "Contacts"
@@ -2110,9 +2112,8 @@ msgid "Delete Custom Field"
 msgstr "Supprimer le champ personnalisé"
 
 #: CRM/Custom/Form/DeleteGroup.php CRM/Group/Form/Edit.php
-#, fuzzy
 msgid "The Group '%1' has been deleted."
-msgstr "Le groupe \"%1\" a été supprimé."
+msgstr "Le groupe «%1» a été supprimé."
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php CRM/UF/Form/Field.php
 #: templates/CRM/Custom/Page/Field.tpl templates/CRM/Price/Page/Field.tpl
@@ -2168,9 +2169,8 @@ msgid "Option value cannot be empty"
 msgstr ""
 
 #: CRM/Custom/Form/Field.php CRM/Price/Form/Field.php
-#, fuzzy
 msgid "Please enter a valid money value."
-msgstr "Entrez un nom valide"
+msgstr "Veuillez entrer une valeur monétaire valide."
 
 #: CRM/Custom/Form/Group.php CRM/Price/Form/Set.php
 msgid "Preview %1"
@@ -2205,7 +2205,7 @@ msgstr "Réglages"
 
 #: CRM/Friend/BAO/Friend.php CRM/Friend/DAO/Friend.php
 msgid "Suggested Message"
-msgstr ""
+msgstr "Message suggéré"
 
 #: CRM/Friend/Form/Contribute.php CRM/Friend/Form/Event.php
 msgid "Thanks for Spreading the Word"
@@ -2227,12 +2227,11 @@ msgstr ""
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
 #: templates/CRM/Grant/Form/Task/Print.tpl
 msgid "Amount Requested"
-msgstr ""
+msgstr "Montant demandé"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Selector/Search.php
-#, fuzzy
 msgid "Amount Granted"
-msgstr "Montant"
+msgstr "Montant accordé"
 
 #: CRM/Grant/DAO/Grant.php CRM/Grant/Form/Grant.php
 #, fuzzy
@@ -2261,19 +2260,18 @@ msgstr "Supprimer la grille de prix"
 
 #: CRM/Price/Form/Field.php CRM/Price/Page/Field.php
 #: templates/CRM/Price/Page/Field.tpl
-#, fuzzy
 msgid "Price"
-msgstr "Profil"
+msgstr "Prix"
 
 #: CRM/Project/DAO/Project.php CRM/Project/DAO/Task.php
 #, fuzzy
 msgid "Owner Entity Table"
-msgstr "Activer"
+msgstr "Table de l'entité du propriétaire"
 
 #: CRM/Standalone/OpenID/DAO/Associations.php
 #: CRM/Standalone/OpenID/DAO/Nonce.php
 msgid "Server Url"
-msgstr ""
+msgstr "URL du serveur"
 
 #: CRM/Upgrade/TwoZero/Form/Step2.php CRM/Upgrade/TwoZero/Form/Step3.php
 #: CRM/Upgrade/TwoZero/Form/Step4.php CRM/Upgrade/TwoZero/Form/Step5.php
@@ -2297,9 +2295,11 @@ msgstr "Nom de l'ACL"
 msgid "Deny"
 msgstr "Bloquer"
 
+# [ml] pas sûr
 #: CRM/ACL/DAO/ACL.php
+#, fuzzy
 msgid "Object Table"
-msgstr ""
+msgstr "Table de l'objet"
 
 #: CRM/ACL/DAO/ACL.php
 msgid "Acl Table"
@@ -2316,7 +2316,7 @@ msgstr "Retirer"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "add contacts"
-msgstr ""
+msgstr "ajouter des contacts"
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "view all contacts"
@@ -2360,44 +2360,42 @@ msgstr ""
 
 #: CRM/ACL/Form/ACLBasic.php
 msgid "ACL Type"
-msgstr ""
+msgstr "Type d'ACL"
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "A group of contacts"
-msgstr "%count contact trouvé"
+msgstr "Un groupe de contacts"
 
 #: CRM/ACL/Form/ACL.php
 #, fuzzy
 msgid "A profile"
-msgstr "Profil"
+msgstr "Un profil"
 
 #: CRM/ACL/Form/ACL.php
 msgid "A set of custom data fields"
 msgstr "Un ensemble de champs personnalisés"
 
 #: CRM/ACL/Form/ACL.php templates/CRM/ACL/Page/ACL.tpl
-#, fuzzy
 msgid "Type of Data"
-msgstr "Note"
+msgstr "Type de donnée"
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please assign this permission to a Role."
-msgstr ""
+msgstr "Veuillez assigner ce droit à un rôle."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Group (or ALL Groups)."
-msgstr "Type de relation"
+msgstr "Veuillez sélectionner un groupe (ou tous les groupes)."
 
 #: CRM/ACL/Form/ACL.php
-#, fuzzy
 msgid "Please select a Profile (or ALL Profiles)."
-msgstr "Type de relation"
+msgstr "Veuillez sélectionner un profil (ou tous les profils)."
 
 #: CRM/ACL/Form/ACL.php
 msgid "Please select a set of Custom Data (or ALL Custom Data)."
 msgstr ""
+"Veuillez sélectionner un ensemble de champs personnalisés (ou tous les "
+"champs personnalisés)."
 
 #: CRM/ACL/Form/EntityRole.php
 #, fuzzy

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM 2.0\n"
 "POT-Creation-Date: 2008-02-27 13:35+0100\n"
-"PO-Revision-Date: 2008-03-03 02:57-0800\n"
+"PO-Revision-Date: 2008-03-05 06:43-0800\n"
 "Last-Translator: Gerhard Aigner <gerhard.aigner@arcsmed.at>\n"
 "Language-Team: CiviCRM Translators <civicrm-translators@lists.civicrm.org>\n"
 "MIME-Version: 1.0\n"
@@ -8649,31 +8649,31 @@ msgstr ""
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day of week-"
-msgstr "-wochentag-"
+msgstr "-Wochentag-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-day-"
-msgstr "-tag-"
+msgstr "-Tag-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-month-"
-msgstr "-monat-"
+msgstr "-Monat-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-year-"
-msgstr "-jahr-"
+msgstr "-Jahr-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-hour-"
-msgstr "-stunde-"
+msgstr "-Stunde-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-min-"
-msgstr "-minute-"
+msgstr "-Minute-"
 
 #: packages/HTML/QuickForm/date.php
 msgid "-sec-"
-msgstr "-sekunde-"
+msgstr "-Sekunde-"
 
 #: templates/CRM/ACL/Form/ACLBasic.tpl templates/CRM/ACL/Form/ACL.tpl
 #: templates/CRM/ACL/Page/ACLBasic.tpl templates/CRM/ACL/Page/ACL.tpl
@@ -11328,9 +11328,8 @@ msgid "Complete OR partial Contact Name."
 msgstr "Kompletter oder teilweiser Kontaktname."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
-#, fuzzy
 msgid "Complete OR partial Email Address."
-msgstr "Komplette oder teilweise E-mail-Adresse."
+msgstr "Komplette oder teilweise Email-Adresse."
 
 #: templates/CRM/Contact/Form/Search/Criteria/Basic.tpl
 msgid "Does the contact have a %1 Account?"
@@ -13442,7 +13441,7 @@ msgstr "ganzer ODER teilweiser Gruppenname."
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by group type(s)."
-msgstr ""
+msgstr "Filter Suche nach Gruppentyp(en)"
 
 #: templates/CRM/Group/Form/Search.tpl
 msgid "Filter search by visibility."
